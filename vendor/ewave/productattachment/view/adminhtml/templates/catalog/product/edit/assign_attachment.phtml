@@ -1,0 +1,23 @@
+<?php 
+/** @var \Ewave\ProductAttachment\Block\Adminhtml\Product\Edit\AssignAttachments $block */
+
+/** @var \Magento\Catalog\Block\Adminhtml\Category\Tab\Product $blockGrid */
+$blockGrid = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+<?php  echo $block->getGridHtml(); ?>
+<input type="hidden" name="product_attachments" id="in_product_attachments" data-form-part="product_form" value="" />
+<input type="hidden" name="unchecked_product_attachments" id="unchecked_product_attachments" data-form-part="product_form" value="" />
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Ewave_ProductAttachment/js/catalog/product/assign-attachment": {
+                "selectedProducts": <?php /* @escapeNotVerified */ echo $block->getProductsJson(); ?>,
+                "gridJsObjectName": <?php /* @escapeNotVerified */ echo '"' . $gridJsObjectName . '"' ?: '{}'; ?>
+            }
+        }
+    }
+</script>
+<script>
+    require('mage/apply/main').apply();
+</script>

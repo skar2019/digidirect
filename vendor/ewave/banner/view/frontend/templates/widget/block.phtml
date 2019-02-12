@@ -1,0 +1,100 @@
+<?php
+/**
+ * @var $block \Ewave\Banner\Block\Widget\Banner
+ */
+?>
+<?php
+    $autoPlay = $block->isAutoplay() ? 'true' : 'false';
+    $breadcrumbsType = $block->getBreadcrumbsType();
+    $isLoop = $block->isLoop() ? 'true' : 'false';
+    $getDelaySpeedValue = $block->getDelaySpeedValue() * 1000;
+    $navigationTitles = 'false';
+
+    if ($breadcrumbsType == 'no'):
+        $dots = 'false';
+    else :
+        $dots = 'true';
+    endif;
+
+    if ($breadcrumbsType == 'content'):
+        $navigationTitles = 'true';
+    endif;
+?>
+<div class="widget block block-banners" data-testid="bannerRotator-widget" data-bind="scope: 'banner'" <?php /* @escapeNotVerified */ echo $block->getWidgetAttributes()?>
+     data-options='{
+            "autoplay": <?php /* @escapeNotVerified */ echo $autoPlay; ?>,
+            "autoplaySpeed": <?php echo (float)$getDelaySpeedValue; ?>,
+            "dots": <?php /* @escapeNotVerified */ echo $dots; ?>,
+            "prevArrow": "<span class=\"slick-prev\">&larr;</span>",
+            "nextArrow": "<span class=\"slick-next\">&rarr;</span>",
+            "infinite": <?php /* @escapeNotVerified */ echo $isLoop; ?>,
+            "pauseOnHover": false,
+            "pauseOnFocus": false
+        }'>
+    <div class="banner-items" data-role="banner-rotator">
+        <!-- ko foreach: {data: getItems<?php /* @escapeNotVerified */ echo $block->getUniqueId() ?>() } -->
+        <div class="banner-item" data-testid="bannerRotator-banner" data-bind='attr: { "data-banner-id": $data.bannerId, "data-banner-navigation-title": $data.navigationTitle, "data-banner-navigation-image": $data.navigationImage, afterRender: $parent.initializeItems( "<?php /* @escapeNotVerified */ echo $block->getUniqueId() ?>", $parent.getItems<?php /* @escapeNotVerified */ echo $block->getUniqueId() ?>().length, $data, <?php /* @escapeNotVerified */ echo $navigationTitles; ?>)}'>
+            <!-- ko if: $data.isLink && $data.linkUrl -->
+                <a class="link" data-bind="attr: {href: $data.linkUrl, title: $data.title }">
+                    <!-- ko template: $parent.getTemplate() --><!-- /ko -->
+                </a>
+            <!-- /ko -->
+
+            <!-- ko ifnot: ($data.isLink && $data.linkUrl) -->
+                <!-- ko template: $parent.getTemplate() --><!-- /ko -->
+            <!-- /ko -->
+        </div>
+        <!-- /ko -->
+    </div>
+    <!-- ko if: $data.getItems<?php /* @escapeNotVerified */ echo $block->getUniqueId() ?>().length -->
+        <img class="loader" src="<?php /* @escapeNotVerified */ echo $this->helper(\Ewave\Banner\Helper\DefaultLoader::class)->getImage() ?>"
+         alt=""/>
+    <!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "banner": {
+                        "component": "Magento_Banner/js/view/banner",
+                        "config": {
+                            "template": "Ewave_Banner/items"
+                        },
+                        "children": {
+                            "media.container": {
+                                "component": "uiComponent",
+                                "config": {
+                                    "displayArea": "mediaContainer",
+                                    "template": "Ewave_Banner/item/media"
+                                }
+                            },
+                            "video.container": {
+                                "component": "uiComponent",
+                                "config": {
+                                    "displayArea": "videoContainer",
+                                    "template": "Ewave_Banner/item/video"
+                                }
+                            },
+                            "image.container": {
+                                "component": "uiComponent",
+                                "config": {
+                                    "displayArea": "imageContainer",
+                                    "template": "Ewave_Banner/item/image"
+                                }
+                            },
+                            "default.container": {
+                                "component": "uiComponent",
+                                "config": {
+                                    "displayArea": "defaultContainer",
+                                    "template": "Ewave_Banner/item/default"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>

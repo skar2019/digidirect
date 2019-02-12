@@ -1,0 +1,299 @@
+//
+//  Grids
+//  _____________________________________________
+
+// Mixin for adding classes
+.ewave-lib-grid-classes(
+    @_total-columns: @grid-row__total-columns,
+    @_default-float: @grid-row__default__float,
+    @_last-child-float: @grid-row__last-child__float,
+    @_column-gutter
+) {
+    .grid-row {
+        ._grid-row(@_column-gutter: @_column-gutter);
+
+        &.-collapse {
+            margin-left: 0;
+            margin-right: 0;
+
+            > .column {
+                ._grid-column(@_collapse: true, @_float: false, @_column-gutter: @_column-gutter);
+            }
+        }
+
+        &.-expanded {
+            ._grid-row(@_behavior:expanded, @_column-gutter: @_column-gutter);
+        }
+
+        & & {
+            ._grid-row(@_behavior:nest, @_column-gutter: @_column-gutter);
+            &.-collapse {
+                ._grid-row(@_behavior:nest-collapse, @_column-gutter: @_column-gutter);
+            }
+        }
+    }
+
+    .column {
+        ._grid-column(@_columns: @_total-columns, @_position: true, @_column-gutter:@_column-gutter);
+
+        & + &:last-child {
+            .lib-css(float, @_last-child-float);
+        }
+
+        & + &.-end {
+            .lib-css(float, @_default-float);
+        }
+    }
+}
+
+// For creating container, nested, and collapsed rows.
+//
+// @_behavior - Any special behavior for this row? Default: false. Options: nest, collapse, nest-collapse, false.
+// @column-gutter - padding for each columns
+._grid-row(
+    @_behavior: false,
+    @_row-width: @grid-row__max-width,
+    @_column-gutter
+) {
+    // use ._grid-row(nest); to include a nested row
+    & when (@_behavior = nest) {
+        .lib-css(margin-left, (-(@_column-gutter/2)));
+        .lib-css(margin-right, (-(@_column-gutter/2)));
+        max-width: none;
+        width: auto;
+    }
+
+    // use ._grid-row(collapse); to collapsed a container row margins
+    & when (@_behavior = collapse) {
+        margin-left: 0;
+        margin-right: 0;
+        .lib-css(max-width, @_row-width);
+        width: 100%;
+    }
+
+    // use ._grid-row(expanded); to include full width row
+    & when (@_behavior = expanded) {
+        max-width: none;
+    }
+
+    // use ._grid-row(nest-collapse); to collapse outer margins on a nested row
+    & when (@_behavior = nest-collapse) {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    // use ._grid-row; to use a container row
+    & when (@_behavior = false) {
+        margin-left: auto;
+        margin-right: auto;
+        .lib-css(max-width, @_row-width);
+        width: 100%;
+
+        // Clearfix for all rows
+        .lib-clearfix();
+    }
+}
+
+// Creates a column, should be used inside of a media query to control layouts
+//
+// @_columns - The number of columns this should be
+// @_last-column - Is this the last column? Default: false.
+// @_center - Center these columns? Default: false.
+// @_offset - # of columns to offset. Default: false.
+// @_push - # of columns to push. Default: false.
+// @_pull - # of columns to pull. Default: false.
+// @_collapse - Get rid of gutter padding on column? Default: false.
+// @_float - Should this float? Default: true. Options: true, false, left, right.
+// @column-gutter - padding for each columns
+._grid-column(
+    @_columns: false,
+    @_last-column: false,
+    @_center: false,
+    @_offset: false,
+    @_push: false,
+    @_pull: false,
+    @_collapse: false,
+    @_float: true,
+    @_position: false,
+    @_total-columns: @grid-row__total-columns,
+    @_default-float: @grid-row__default__float,
+    @_opposite-direction: @grid-row__opposite-direction,
+    @_column-gutter
+) {
+    // If positioned for default .column, include relative position
+    & when (@_position) {
+        position: relative;
+    }
+
+    // If collapsed, get grid of gutter padding
+    & when (@_collapse) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    // Gutter padding whenever a column isn't set to collapse
+    // (use @_collapse:null to do nothing)
+    & when (@_collapse = false) {
+        .lib-css(padding-left, @_column-gutter/2);
+        .lib-css(padding-right, @_column-gutter/2);
+    }
+
+    // If a column number is given, calculate width
+    & when (isnumber(@_columns)) {
+        .lib-css(width, percentage(@_columns/@_total-columns));
+
+        // If last column, float naturally instead of to the right
+        & when (@_last-column) {
+            .lib-css(float, @_opposite-direction);
+        }
+    }
+
+    // Source Ordering, adds left/right depending on which you use.
+    & when (isnumber(@_push)) {
+        @{_default-float}: percentage(@_push/@_total-columns);
+        @{_opposite-direction}: auto;
+    }
+
+    & when (isnumber(@_pull)) {
+        @{_opposite-direction}: percentage(@_pull/@_total-columns);
+        @{_default-float}: auto;
+    }
+
+    & when not (isstring(@_float)) and not (isstring(@_last-column)) and (@_center = false) {
+        & when (@_float = left), (@_float = true) {
+            .lib-css(float, @_default-float);
+        }
+
+        & when (@_float = right) {
+            .lib-css(float, @_opposite-direction);
+        }
+
+        & when not (@_float = right) and not (@_float = left) and not (@_float = true) and not (@_float = false) {
+            float: none;
+        }
+    }
+
+    // If centered, get rid of float and add appropriate margins
+    & when (@_center) {
+        float: none;
+        margin-@{_default-float}: auto;
+        margin-@{_opposite-direction}: auto;
+    }
+
+    // If offset, calculate appropriate margins
+    & when (isnumber(@_offset)) {
+        margin-@{_default-float}: percentage(@_offset/@_total-columns) !important;
+    }
+}
+
+// Create presentational classes for grid
+//
+// @size - Name of class to use, i.e. "large" will generate .large-1, .large-2, etc.
+// @column-gutter - padding for each columns
+.ewave-lib-grid-size(
+    @_size,
+    @_column-gutter,
+    @_total-columns: @grid-row__total-columns,
+    @_default-float: @grid-row__default__float,
+    @_opposite-direction: @grid-row__opposite-direction
+) {
+    // Columns sizes loop
+    ._each-column-size(@i) when (@i > 0) {
+        ._each-column-size(@i - 1);
+
+        .@{_size}-@{i} {
+            ._grid-column(@_columns: @i, @_collapse: null, @_float: false, @_column-gutter: @_column-gutter);
+        }
+    }
+    ._each-column-size(@_total-columns);
+
+    // Columns push, pull loop
+    & when (@grid-row__render__push-pull = true) {
+        ._each-column-push(@i) when (@i > 0) {
+            ._each-column-push ((@i - 1));
+
+            .@{_size}-push-@{i} {
+                ._grid-column(@_push: @i, @_collapse: null, @_float: false, @_column-gutter: @_column-gutter);
+            }
+
+            .@{_size}-pull-@{i} {
+                ._grid-column(@_pull: @i, @_collapse: null, @_float: false, @_column-gutter: @_column-gutter);
+            }
+        }
+        ._each-column-push(@_total-columns - 1);
+    }
+
+    // Columns offset loop
+    & when (@grid-row__render__offset = true) {
+        ._each-column-offset(@i) when (@i > 0) {
+            ._each-column-offset(@i - 1);
+
+            .@{_size}-offset-@{i} {
+                ._grid-column(@_offset: @i, @_collapse: null, @_float: false, @_column-gutter: @_column-gutter);
+            }
+        }
+        ._each-column-offset(@_total-columns - 1);
+    }
+
+    // Columns centered/uncentered
+    & when (@grid-row__render__centered-uncentered = true) {
+        .column.-@{_size}-centered {
+            ._grid-column(@_center: true, @_collapse: null, @_float: false, @_column-gutter: @_column-gutter);
+        }
+
+        .column.-@{_size}-uncentered {
+            .lib-css(float, @_default-float);
+            margin-@{_default-float}: 0;
+            margin-@{_opposite-direction}: 0;
+        }
+
+        // Fighting [class*="column"] + [class*="column"]:last-child
+        .column.-@{_size}-centered:last-child {
+            float: none;
+        }
+
+        // Fighting .column.<previous-size>-centered:last-child
+        .column.-@{_size}-uncentered:last-child {
+            .lib-css(float, @_default-float);
+        }
+
+        .column.-@{_size}-uncentered.-opposite {
+            .lib-css(float, @_opposite-direction);
+        }
+    }
+
+    // Collapse/uncollapse rows
+    & when (@grid-row__render__collapse-uncollapse = true) {
+        .grid-row {
+            &.-@{_size}-collapse {
+                > .column {
+                    ._grid-column(@_collapse: true, @_float: false, @_column-gutter: @_column-gutter);
+                }
+
+                .grid-row {
+                    margin-left: 0;
+                    margin-right: 0;
+                }
+            }
+
+            &.-@{_size}-uncollapse {
+                .grid-row & {
+                    .lib-css(margin-left, (-(@_column-gutter/2)));
+                    .lib-css(margin-right, (-(@_column-gutter/2)));
+                }
+
+                > .column {
+                    ._grid-column(@_column-gutter: @_column-gutter);
+                }
+            }
+        }
+    }
+
+    .@{_size}-reset-order {
+        .lib-css(float, @_default-float);
+        margin-@{_default-float}: 0;
+        margin-@{_opposite-direction}: 0;
+        left: auto;
+        right: auto;
+    }
+}

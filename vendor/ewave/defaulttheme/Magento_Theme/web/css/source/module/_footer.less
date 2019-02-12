@@ -1,0 +1,108 @@
+//
+//  Theme: Footer
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@footer__is-enabled: true; // Enable/disable styles
+
+@footer__margin: false;
+@footer__padding: false;
+@footer__background-color: false;
+
+//  Content
+@footer-content__margin: 25px 0 0;
+@footer-content__padding-top: 25px;
+@footer-content__padding-bottom: 25px;
+@footer-content__border-top: 1px solid @border-color__base;
+
+//  Content links
+@footer-content-links__margin: 0 0 20px;
+@footer-content-links__padding: 0;
+@footer-content-links__list-style: none;
+@footer-content-links__display__m: inline-block;
+@footer-content-links__margin__m: false;
+@footer-content-links__padding__m: 0 50px 0 0;
+@footer-content-links__vertical-align__m: top;
+
+@footer-content-links-item__margin: 0 0 8px;
+
+//  Copyright
+@footer-copyright__display: block;
+@footer-copyright__margin: 20px 0 0;
+@footer-copyright__padding: false;
+@footer-copyright__clear__m: both;
+
+//  Block/Widget
+@footer-block__float__m: right;
+@footer-widget-block__margin: @indent__base 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@footer__is-enabled = true) {
+        .page-footer {
+            & {
+                .lib-css(margin, @footer__margin);
+                .lib-css(padding, @footer__padding);
+                .lib-css(background-color, @footer__background-color);
+            }
+
+            > .content {
+                .lib-css(margin, @footer-content__margin);
+                .lib-css(padding-top, @footer-content__padding-top);
+                .lib-css(padding-bottom, @footer-content__padding-bottom);
+                .lib-css(border-top, @footer-content__border-top);
+            }
+
+            > .content .links {
+                .lib-css(margin, @footer-content-links__margin);
+                .lib-css(padding, @footer-content-links__padding);
+                .lib-css(list-style, @footer-content-links__list-style);
+            }
+
+            > .content .links li {
+                .lib-css(margin, @footer-content-links-item__margin);
+            }
+
+            .copyright {
+                .lib-css(display, @footer-copyright__display);
+                .lib-css(margin, @footer-copyright__margin);
+                .lib-css(padding, @footer-copyright__padding);
+            }
+
+            .widget.block {
+                .lib-css(margin, @footer-widget-block__margin);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@footer__is-enabled = true) {
+        .page-footer {
+            .block {
+                .lib-css(float, @footer-block__float__m);
+            }
+
+            > .content .links {
+                .lib-css(display, @footer-content-links__display__m);
+                .lib-css(margin, @footer-content-links__margin__m);
+                .lib-css(padding, @footer-content-links__padding__m);
+                .lib-css(vertical-align, @footer-content-links__vertical-align__m);
+            }
+
+            .copyright {
+                .lib-css(clear, @footer-copyright__clear__m);
+            }
+        }
+    }
+}

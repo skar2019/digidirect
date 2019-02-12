@@ -1,0 +1,385 @@
+//  # Form
+
+//  ##  Input group
+//
+//  The <code>.lib-form-input-group()</code> mixin is used to customize input group.
+//
+//  ```html
+//    <div class="input-group">
+//        <div class="control">
+//            <input type="text" name="keyword" id="keyword" class="input">
+//        </div>
+//        <button class="button" title="Search">Search</button>
+//    </div>
+//  ```
+
+.input-group {
+    .lib-form-input-group();
+}
+
+//  # Input group customization variables
+//
+//  The <code>.lib-form-input-group()</code> mixin variables
+//
+//  <pre>
+//    <table>
+//        <tr>
+//            <th class="vars_head">Mixin variable</th>
+//            <th class="vars_head">Global variable</th>
+//            <th class="vars_head">Default value</th>
+//            <th class="vars_head">Comment</th>
+//        </tr>
+//        <tr>
+//            <th>@_input-group__position</th>
+//            <td class="vars_value">@form-input-group__position</td>
+//            <td class="vars_value">false</td>
+//            <td>Input group position</td>
+//        </tr>
+//        <tr>
+//            <th>@_input-group-button__margin</th>
+//            <td class="vars_value">@form-input-group-button__margin</td>
+//            <td class="vars_value">0 0 0 10px</td>
+//            <td>Input group button margin</td>
+//        </tr>
+//    </table>
+// </pre>
+
+//  ##  Checkbox
+//
+//  The <code>.lib-form-element-checkbox()</code> mixin is used to customize checkbox.
+//
+//  ```html
+//      <div class="field">
+//          <input id="input-checkbox" type="checkbox">
+//          <label class="label" for="input-checkbox">Input checkbox</label>
+//      </div>
+//  ```
+
+input[type='checkbox'] {
+    .lib-form-element-checkbox();
+}
+
+//  # Checkbox
+//
+//  The <code>.lib-form-element-checkbox()</code> mixin variables
+//
+//  <pre>
+//    <table>
+//        <tr>
+//            <th class="vars_head">Mixin variable</th>
+//            <th class="vars_head">Global variable</th>
+//            <th class="vars_head">Default value</th>
+//            <th class="vars_head">Comment</th>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__width</th>
+//            <td class="vars_value">@form-element-checkbox__width</td>
+//            <td class="vars_value">25px</td>
+//            <td>Checkbox width</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__height</th>
+//            <td class="vars_value">@form-element-checkbox__height</td>
+//            <td class="vars_value">25px</td>
+//            <td>Checkbox height</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__border</th>
+//            <td class="vars_value">@form-element-checkbox__border</td>
+//            <td class="vars_value">@form-element-checkbox__border-width solid @color-black</td>
+//            <td>Border for pseudo element of checkbox</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__background-image</th>
+//            <td class="vars_value">@form-element-checkbox__background-image</td>
+//            <td class="vars_value">@base64-icon__checkbox-checked</td>
+//            <td>Checkbox background image</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__background-position</th>
+//            <td class="vars_value">@form-element-checkbox__background-position</td>
+//            <td class="vars_value">50% 50%</td>
+//            <td>Checkbox background image position</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__background-repeat</th>
+//            <td class="vars_value">@form-element-checkbox__background-repeat</td>
+//            <td class="vars_value">no-repeat</td>
+//            <td>Checkbox background image repeat</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__label__font-family</th>
+//            <td class="vars_value">@form-element-checkbox-label__font-family</td>
+//            <td class="vars_value">false</td>
+//            <td>Checkbox label font family</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__label__font-size</th>
+//            <td class="vars_value">@form-element-checkbox-label__font-size</td>
+//            <td class="vars_value">false</td>
+//            <td>Checkbox label font size</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__label__color</th>
+//            <td class="vars_value">@form-element-checkbox-label__color</td>
+//            <td class="vars_value">false</td>
+//            <td>Checkbox label color</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__label__position</th>
+//            <td class="vars_value">@form-element-checkbox-label__position</td>
+//            <td class="vars_value">relative</td>
+//            <td>Checkbox label position</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__label__padding-left</th>
+//            <td class="vars_value">@form-element-checkbox-label__padding-left</td>
+//            <td class="vars_value">@form-element-checkbox__width + @form-element-checkbox__left-indent</td>
+//            <td>Checkbox label padding left</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__pseudo-element__position</th>
+//            <td class="vars_value">@form-element-checkbox-pseudo-element__position</td>
+//            <td class="vars_value">absolute</td>
+//            <td>Checkbox psuedo elements position</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__pseudo-element__left</th>
+//            <td class="vars_value">@form-element-checkbox-pseudo-element__left</td>
+//            <td class="vars_value">0</td>
+//            <td>Checkbox psuedo elements position left</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__pseudo-element__top</th>
+//            <td class="vars_value">@form-element-checkbox-pseudo-element__top</td>
+//            <td class="vars_value">round(@form-element-checkbox__height/2)</td>
+//            <td>Checkbox psuedo elements position top</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__pseudo-element__margin-top</th>
+//            <td class="vars_value">@form-element-checkbox-pseudo-element__margin-top</td>
+//            <td class="vars_value">-(round(@form-element-checkbox__height/2))</td>
+//            <td>Checkbox psuedo elements margin-top</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__pseudo-element__background-size</th>
+//            <td class="vars_value">@form-element-checkbox-pseudo-element__background-size</td>
+//            <td class="vars_value">@form-element-checkbox__width - (@form-element-checkbox__inner-spacing + @form-element-checkbox__border-width)*2/td>
+//            <td>Checkbox psuedo elements background image size</td>
+//        </tr>
+//    </table>
+// </pre>
+
+//  ##  Radio
+//
+//  The <code>.lib-form-element-radio()</code> mixin is used to customize radio.
+//
+//  ```html
+//      <div class="field">
+//          <input id="input-radio" type="radio">
+//          <label class="label" for="input-radio">Input radio</label>
+//      </div>
+//  ```
+
+input[type='radio'] {
+    .lib-form-element-radio();
+}
+
+//  # Radio
+//
+//  The <code>.lib-form-element-radio()</code> mixin variables
+//
+//  <pre>
+//    <table>
+//        <tr>
+//            <th class="vars_head">Mixin variable</th>
+//            <th class="vars_head">Global variable</th>
+//            <th class="vars_head">Default value</th>
+//            <th class="vars_head">Comment</th>
+//        </tr>
+//        <tr>
+//            <th>@_radio__width</th>
+//            <td class="vars_value">@form-element-radio__width</td>
+//            <td class="vars_value">25px</td>
+//            <td>Radio width</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__height</th>
+//            <td class="vars_value">@form-element-radio__height</td>
+//            <td class="vars_value">25px</td>
+//            <td>Radio height</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__border-width</th>
+//            <td class="vars_value">@form-element-radio__border-width</td>
+//            <td class="vars_value">@form-element-radio__border-width solid @color-black</td>
+//            <td>Border for pseudo element of radio</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__background-color</th>
+//            <td class="vars_value">@form-element-radio__background-color</td>
+//            <td class="vars_value">@color-black</td>
+//            <td>Pseudo element background for radio:selected</td>
+//        </tr>
+//        <tr>
+//            <th>@_checkbox__background-position</th>
+//            <td class="vars_value">@form-element-checkbox__background-position</td>
+//            <td class="vars_value">50% 50%</td>
+//            <td>Checkbox background image position</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__label__position</th>
+//            <td class="vars_value">@form-element-checkbox-label__position</td>
+//            <td class="vars_value">relative</td>
+//            <td>Radio label position</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__label__padding-left</th>
+//            <td class="vars_value">@form-element-radio-label__padding-left</td>
+//            <td class="vars_value">@form-element-radio__width + @form-element-radio__left-indent</td>
+//            <td>Radio label padding-left</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__label__font-family</th>
+//            <td class="vars_value">@form-element-radio-label__font-family</td>
+//            <td class="vars_value">false</td>
+//            <td>Radio label font family</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__label__font-size</th>
+//            <td class="vars_value">@form-element-radio-label__font-size</td>
+//            <td class="vars_value">false</td>
+//            <td>Radio label font-size</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__label__color</th>
+//            <td class="vars_value">@form-element-radio-label__color</td>
+//            <td class="vars_value">false</td>
+//            <td>Checkbox label color</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__pseudo-element__position</th>
+//            <td class="vars_value">@form-element-checkbox-pseudo-element__position</td>
+//            <td class="vars_value">absolute</td>
+//            <td>Radio pseudo elements position</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__pseudo-element__left</th>
+//            <td class="vars_value">@form-element-checkbox-pseudo-element__left</td>
+//            <td class="vars_value">0</td>
+//            <td>Radio pseudo elements position left</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__pseudo-element__top</th>
+//            <td class="vars_value">@form-element-radio-pseudo-element__top</td>
+//            <td class="vars_value">round(@form-element-radio__height/2)</td>
+//            <td>Radio pseudo elements position top</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__pseudo-element__margin-top</th>
+//            <td class="vars_value">@form-element-radio-pseudo-element__margin-top</td>
+//            <td class="vars_value">-(round(@form-element-radio__height/2))</td>
+//            <td>Checkbox psuedo elements margin-top</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__pseudo-element__border-radius</th>
+//            <td class="vars_value">@form-element-radio-pseudo-element__border-radius</td>
+//            <td class="vars_value">50%</td>
+//            <td>Radio psuedo elements border-radius</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__central-circle__width</th>
+//            <td class="vars_value">@form-element-radio-central-circlet__width</td>
+//            <td class="vars_value">@form-element-radio__width - (@form-element-radio__inner-spacing + @form-element-radio__border-width)*2</td>
+//            <td>Radio central circle width</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__central-circle__height</th>
+//            <td class="vars_value">@form-element-radio-central-circlet__height</td>
+//            <td class="vars_value">@form-element-radio__height - (@form-element-radio__inner-spacing + @form-element-radio__border-width)*2</td>
+//            <td>Radio central circle height</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__central-circle__top</th>
+//            <td class="vars_value">@form-element-radio-central-circlet__top</td>
+//            <td class="vars_value">round(@form-element-radio__height/2) + @form-element-radio__inner-spacing + @form-element-radio__border-width</td>
+//            <td>Radio central circle position top</td>
+//        </tr>
+//        <tr>
+//            <th>@_radio__central-circle__left</th>
+//            <td class="vars_value">@form-element-radio-central-circlet__left</td>
+//            <td class="vars_value">@form-element-radio__inner-spacing + @form-element-radio__border-width</td>
+//            <td>Radio central circle position left</td>
+//        </tr>
+//    </table>
+// </pre>
+
+//  ##  Select
+//
+//  The <code>.lib-form-element-select()</code> mixin is used to customize select.
+//
+//  ```html
+//      <div class="field choice">
+//          <select>
+//              <option value="0">Choose an Option...</option>
+//              <option value="179">XS</option>
+//              <option value="180">S</option>
+//              <option value="181">M</option>
+//          </select>
+//      </div>
+//  ```
+
+select {
+    .lib-form-element-select();
+}
+
+//  # Select
+//
+//  The <code>.lib-form-element-select()</code> mixin variables
+//
+//  <pre>
+//    <table>
+//        <tr>
+//            <th class="vars_head">Mixin variable</th>
+//            <th class="vars_head">Global variable</th>
+//            <th class="vars_head">Default value</th>
+//            <th class="vars_head">Comment</th>
+//        </tr>
+//        <tr>
+//            <th>@_select__border-color</th>
+//            <td class="vars_value">@form-element-select__border-color</td>
+//            <td class="vars_value">@color-black</td>
+//            <td>Select border color</td>
+//        </tr>
+//        <tr>
+//            <th>@_select__background-image</th>
+//            <td class="vars_value">@form-element-select__background-image</td>
+//            <td class="vars_value">@base64-icon__background-select</td>
+//            <td>Select background image</td>
+//        </tr>
+//        <tr>
+//            <th>@_select__background-position</th>
+//            <td class="vars_value">@form-element-select__background-position</td>
+//            <td class="vars_value">right @indent__s center</td>
+//            <td>Select background position</td>
+//        </tr>
+//        <tr>
+//            <th>@_select__background-size</th>
+//            <td class="vars_value">@form-element-select__background-size</td>
+//            <td class="vars_value">15px</td>
+//            <td>Select background size</td>
+//        </tr>
+//        <tr>
+//            <th>@_select__background-repeat</th>
+//            <td class="vars_value">@form-element-select__background-repeat</td>
+//            <td class="vars_value">no-repeat</td>
+//            <td>Select background repeat</td>
+//        </tr>
+//        <tr>
+//            <th>@_select__padding-right</th>
+//            <td class="vars_value">@form-element-select__padding-right</td>
+//            <td class="vars_value">@form-element-select__background-position*2 + @form-element-select__background-size</td>
+//            <td>Select padding right</td>
+//        </tr>
+//    </table>
+// </pre>

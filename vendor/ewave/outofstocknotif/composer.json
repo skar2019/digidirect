@@ -1,0 +1,14 @@
+{
+  "name": "ewave/outofstocknotif",
+  "description": "Out Of Stock Notification",
+  "type": "magento2-module",
+  "version": "2.1.0.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ewave\\OutOfStockNotif\\": ""
+    }
+  }
+}

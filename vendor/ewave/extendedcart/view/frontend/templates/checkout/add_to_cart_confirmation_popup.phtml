@@ -1,0 +1,32 @@
+<?php
+/**
+ * @var $this \Magento\Framework\View\TemplateEngine\Php
+ * @var $block \Ewave\ExtendedCart\Block\Checkout\AddToCartConfirmationPopup
+ * @var $imageHelper \Magento\Catalog\Helper\Image
+ * @var $confirmationPopupHelper \Ewave\ExtendedCart\Helper\AddToCartConfirmationPopup
+ * @var $checkoutHelper \Magento\Checkout\Helper\Data
+ */
+$product = $block->getProduct();
+$imageHelper = $this->helper(\Magento\Catalog\Helper\Image::class);
+$confirmationPopupHelper = $this->helper(\Ewave\ExtendedCart\Helper\AddToCartConfirmationPopup::class);
+$checkoutHelper = $this->helper(\Magento\Checkout\Helper\Data::class);
+$cart = $block->getCart();
+
+$totals = $cart->getQuote()->getTotals();
+$subtotalAmount = $totals['subtotal']->getValue();
+
+?>
+
+<div class="confirmation-item">
+    <h3 class="title"><?php echo $block->escapeHtml($product->getName()) ?></h3>
+    <div class="text"><?php /* @escapeNotVerified */ echo __('Has been added to your cart.') ?></div>
+    <img class="image" src="<?php /* @escapeNotVerified */ echo $imageHelper->init($product, 'add_to_cart_confirmation_popup_image')->getUrl() ?>" alt="<?php /* @escapeNotVerified */ echo $block->stripTags($product->getName(), null, true) ?>"/>
+    <div class="text"><?php /* @escapeNotVerified */ echo __('There are <span>%1 items</span> in your cart', $cart->getSummaryQty()) ?></div>
+    <div><?php /* @escapeNotVerified */ echo __('Subtotal %1', $checkoutHelper->formatPrice($subtotalAmount)) ?></div>
+    <div class="action-toolbar">
+        <button data-role="continue-button" type="button" class="button primary" title="<?php /* @escapeNotVerified */ echo __('Continue') ?>"><?php /* @escapeNotVerified */ echo __('Continue') ?></button>
+        <a class="button secondary" href="<?php /* @escapeNotVerified */ echo $block->getUrl('checkout/cart') ?>" title="<?php /* @escapeNotVerified */ echo __('View Cart') ?>"><?php /* @escapeNotVerified */ echo __('View Cart') ?></a>
+    </div>
+</div>
+
+<?php echo $block->getChildHtml('promotion_products') ?>

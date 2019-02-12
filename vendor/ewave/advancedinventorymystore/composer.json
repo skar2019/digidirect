@@ -1,0 +1,14 @@
+{
+  "name": "ewave/advancedinventorymystore",
+  "description": "Advanced Inventory + My Store Widget Add-on",
+  "type": "magento2-module",
+  "version": "2.0.0.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ewave\\AdvancedInventoryMyStore\\": ""
+    }
+  }
+}

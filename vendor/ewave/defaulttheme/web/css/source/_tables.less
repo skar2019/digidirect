@@ -1,0 +1,185 @@
+//
+//  Tables
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@table__is-enabled: true; // Enable/disable styles
+
+@table-wrapper__margin-bottom: @indent__base;
+
+@table__use-table: true;
+@table__use-table-caption: true;
+@table__use-table-bordered: true;
+@table__use-table-bordered-type: light;
+@table__use-table-bordered-border-width: @table__border-width;
+
+//  TFoot
+@table-tfoot-mark__font-weight: @font-weight__regular;
+@table-tfoot-mark__text-align: right;
+
+//  Table Wrapper (max @screen__s)
+@table-wrapper__use-table-overflow__s-only: true;
+@table-wrapper__position: relative;
+
+//  Table Type 1
+@table-wrapper-table-type1-selector__s-only: ~'.table:not(.cart):not(.totals):not(.table-comparison)';
+@table-wrapper-table-type1__use-table-responsive__s-only: true;
+@table-wrapper-table-type1-tbody-tr-td__first-child__padding-top__s-only: @indent__base;
+@table-wrapper-table-type1-tbody-tr-td__last-child__padding-bottom__s-only: @indent__base;
+@table-wrapper-table-type1-additional-attributes-tbody-th__use-no-display-s__s-only: true;
+@table-wrapper-table-type1-additional-attributes-tbody-td__last-child__padding__s-only: 0 0 @indent__xs;
+@table-wrapper-table-type1-additional-attributes-tbody-td__last-child__border__s-only: none;
+
+//  Table Type 2
+@table-wrapper-table-type2-selector__s-only: ~'.table:not(.totals):not(.table-comparison)';
+@table-wrapper-table-type2-tfoot__display__s-only: block;
+@table-wrapper-table-type2-tfoot-tr__display__s-only: block;
+@table-wrapper-table-type2-tfoot-tr__use-add-clearfix-mobile__s-only: true;
+@table-wrapper-table-type2-tfoot-th__float__s-only: left;
+@table-wrapper-table-type2-tfoot-th__width__s-only: 70%;
+@table-wrapper-table-type2-tfoot-th__padding-right__s-only: 0;
+@table-wrapper-table-type2-tfoot-th__padding-left__s-only: 0;
+@table-wrapper-table-type2-tfoot-th__text-align__s-only: left;
+@table-wrapper-table-type2-tfoot-td__float__s-only: left;
+@table-wrapper-table-type2-tfoot-td__width__s-only: 30%;
+@table-wrapper-table-type2-tfoot-td__padding-right__s-only: 0;
+@table-wrapper-table-type2-tfoot-td__padding-left__s-only: 0;
+@table-wrapper-table-type2-tfoot-td__text-align__s-only: right;
+
+//  Table Definition List
+@table-definition-list-thead__display__s-only: none;
+@table-definition-list-tbody-th__padding-bottom__s-only: 0;
+@table-definition-list-tbody-cell__display__s-only: block;
+@table-definition-list-tbody-cell__padding-right__s-only: 0;
+@table-definition-list-tbody-cell__padding-left__s-only: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@table__is-enabled = true) {
+        .table-wrapper {
+            .lib-css(margin-bottom, @table-wrapper__margin-bottom);
+        }
+
+        table {
+            & when (@table__use-table= true) {
+                .lib-table();
+            }
+
+            & when (@table__use-table-caption = true) {
+                .lib-table-caption();
+            }
+        }
+
+        table {
+            & when (@table__use-table-bordered = true) {
+                .lib-table-bordered(
+                    @_table_type: @table__use-table-bordered-type,
+                    @_table_border-width: @table__use-table-bordered-border-width
+                );
+            }
+
+            tfoot .mark {
+                .lib-css(font-weight, @table-tfoot-mark__font-weight);
+                .lib-css(text-align, @table-tfoot-mark__text-align);
+            }
+        }
+    }
+}
+
+//
+//  Mobile s only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    & when (@table__is-enabled = true) {
+        .table-wrapper {
+            & when (@table-wrapper__use-table-overflow__s-only = true) {
+                .lib-table-overflow();
+            }
+            .lib-css(position, @table-wrapper__position); // To hide unnecessary horizontal scrollbar in Safari
+
+            @{table-wrapper-table-type1-selector__s-only} {
+                & when (@table-wrapper-table-type1__use-table-responsive__s-only = true) {
+                    .lib-table-responsive();
+                }
+
+                tbody > tr {
+                    > td:first-child {
+                        .lib-css(padding-top, @table-wrapper-table-type1-tbody-tr-td__first-child__padding-top__s-only);
+                    }
+
+                    > td:last-child {
+                        .lib-css(padding-bottom, @table-wrapper-table-type1-tbody-tr-td__last-child__padding-bottom__s-only);
+                    }
+                }
+
+                &.additional-attributes {
+                    tbody th {
+                        & when (@table-wrapper-table-type1-additional-attributes-tbody-th__use-no-display-s__s-only = true) {
+                            &:extend(.abs-no-display-s all);
+                        }
+                    }
+
+                    tbody td {
+                        &:last-child {
+                            .lib-css(padding, @table-wrapper-table-type1-additional-attributes-tbody-td__last-child__padding__s-only);
+                            .lib-css(border, @table-wrapper-table-type1-additional-attributes-tbody-td__last-child__border__s-only);
+                        }
+                    }
+                }
+            }
+
+            @{table-wrapper-table-type2-selector__s-only} {
+                tfoot {
+                    .lib-css(display, @table-wrapper-table-type2-tfoot__display__s-only);
+
+                    tr {
+                        .lib-css(display, @table-wrapper-table-type2-tfoot-tr__display__s-only);
+                        & when (@table-wrapper-table-type2-tfoot-tr__use-add-clearfix-mobile__s-only = true) {
+                            &:extend(.abs-add-clearfix-mobile all);
+                        }
+                    }
+
+                    th {
+                        .lib-css(float, @table-wrapper-table-type2-tfoot-th__float__s-only);
+                        .lib-css(width, @table-wrapper-table-type2-tfoot-th__width__s-only);
+                        .lib-css(padding-right, @table-wrapper-table-type2-tfoot-th__padding-right__s-only);
+                        .lib-css(padding-left, @table-wrapper-table-type2-tfoot-th__padding-left__s-only);
+                        .lib-css(text-align, @table-wrapper-table-type2-tfoot-th__text-align__s-only);
+                    }
+
+                    td {
+                        .lib-css(float, @table-wrapper-table-type2-tfoot-td__float__s-only);
+                        .lib-css(width, @table-wrapper-table-type2-tfoot-td__width__s-only);
+                        .lib-css(padding-right, @table-wrapper-table-type2-tfoot-td__padding-right__s-only);
+                        .lib-css(padding-left, @table-wrapper-table-type2-tfoot-td__padding-left__s-only);
+                        .lib-css(text-align, @table-wrapper-table-type2-tfoot-td__text-align__s-only);
+                    }
+                }
+            }
+        }
+
+        .data-table-definition-list {
+            thead {
+                .lib-css(display, @table-definition-list-thead__display__s-only);
+            }
+
+            tbody th {
+                .lib-css(padding-bottom, @table-definition-list-tbody-th__padding-bottom__s-only);
+            }
+
+            tbody th,
+            tbody td {
+                .lib-css(display, @table-definition-list-tbody-cell__display__s-only);
+                .lib-css(padding-right, @table-definition-list-tbody-cell__padding-right__s-only);
+                .lib-css(padding-left, @table-definition-list-tbody-cell__padding-left__s-only);
+            }
+        }
+    }
+}

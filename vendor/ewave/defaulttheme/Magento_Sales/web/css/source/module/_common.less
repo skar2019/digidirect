@@ -1,0 +1,77 @@
+//
+//  Sales: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@sales__is-enabled: true; // Enable/disable styles
+
+@sales-page-title__margin-right: @indent__m;
+@sales-form-orders-search-email-zip__margin-bottom: 0;
+
+//  Sales Guest
+@sales-guest-block__use-account-blocks: true;
+@sales-guest-block-content__use-add-clearfix-desktop: true;
+@sales-guest-block-content-box__use-blocks-2columns: true;
+@sales-guest-block-content-box__margin-bottom: @indent__base;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@sales__is-enabled = true) {
+        .account,
+        [class^='sales-guest-'],
+        .sales-guest-view {
+            .page-title-wrapper .page-title {
+                .lib-css(margin-right, @sales-page-title__margin-right);
+            }
+        }
+
+        .form-orders-search {
+            .field.email,
+            .field.zip {
+                .lib-css(margin-bottom, @sales-form-orders-search-email-zip__margin-bottom);
+            }
+        }
+
+        //  Guest order view page
+        [class^='sales-guest-'],
+        .sales-guest-view {
+            .column.main .block:not(.widget) {
+                & when (@sales-guest-block__use-account-blocks = true) {
+                    &:extend(.abs-account-blocks all);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@sales__is-enabled = true) {
+        //  Guest order view page
+        [class^='sales-guest-'],
+        .sales-guest-view {
+            .column.main {
+                .block:not(.widget) .block-content {
+                    & when (@sales-guest-block-content__use-add-clearfix-desktop = true) {
+                        &:extend(.abs-add-clearfix-desktop all);
+                    }
+                }
+                .block:not(.widget) .block-content .box {
+                    & when (@sales-guest-block-content-box__use-blocks-2columns = true) {
+                        &:extend(.abs-blocks-2columns all);
+                    }
+                    .lib-css(margin-bottom, @sales-guest-block-content-box__margin-bottom);
+                }
+            }
+        }
+    }
+}

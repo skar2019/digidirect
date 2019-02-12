@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceBlock name="styleguide">
+        <arguments>
+            <argument name="jsLayout" xsi:type="array">
+                <item name="components" xsi:type="array">
+                    <item name="styleguide" xsi:type="array">
+                        <item name="config" xsi:type="array" />
+                        <item name="children" xsi:type="array">
+                            <item name="collapsible" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">Collapsible block with fancy icon</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/collapsible</item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </referenceBlock>
+</page>

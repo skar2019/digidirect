@@ -1,0 +1,32 @@
+//
+//  Gift Registry: Result
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-registry-result__is-enabled: true;  //  Enable/disable style
+
+@gift-registry-result-block-title__use-block-title: true;
+@gift-registry-result-toolbar-giftregistry-results__text-align: center;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@gift-registry-result__is-enabled) {
+        .block-giftregistry-results {
+            & when (@gift-registry-result-block-title__use-block-title) {
+                .block-title {
+                    &:extend(.abs-block-title all);
+                }
+            }
+
+            .toolbar-giftregistry-results {
+                .lib-css(text-align, @gift-registry-result-toolbar-giftregistry-results__text-align);
+            }
+        }
+    }
+}

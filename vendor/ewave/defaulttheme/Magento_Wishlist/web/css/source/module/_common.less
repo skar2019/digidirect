@@ -1,0 +1,47 @@
+//
+//  Wishlist: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@wishlist__is-enabled: true; // Enable/disable styles
+
+@wishlist-product-blocks-action-towishlist__use-action-addto-product: true;
+@wishlist-product-items-action-towishlist__use-actions-addto-gridlist: true;
+@wishlist-product-items-action-towishlist__use-base64-symbol: true;
+@wishlist-product-items-action-towishlist__background-image: @base64-icon__heart;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@wishlist__is-enabled = true) {
+        .product-info-main,
+        .product-options-bottom,
+        .block-bundle-summary {
+            .action.towishlist {
+                & when (@wishlist-product-blocks-action-towishlist__use-action-addto-product = true) {
+                    &:extend(.abs-action-addto-product all);
+                }
+            }
+        }
+
+        .product-items,
+        .products.list.items,
+        .table-comparison {
+            .action.towishlist {
+                & when (@wishlist-product-items-action-towishlist__use-actions-addto-gridlist = true) {
+                    &:extend(.abs-actions-addto-gridlist all);
+                }
+                & when (@wishlist-product-items-action-towishlist__use-base64-symbol = true) {
+                    .lib-base64-symbol(
+                        @wishlist-product-items-action-towishlist__background-image
+                    );
+                }
+            }
+        }
+    }
+}

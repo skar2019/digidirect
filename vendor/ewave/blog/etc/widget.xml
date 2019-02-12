@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="blog_popular" class="Ewave\Blog\Block\Widget\Popular" is_email_compatible="true" ttl="86400">
+        <label translate="true">Popular Blog Posts</label>
+        <description translate="true">Add popular blog post widget anywhere in site</description>
+        <parameters>
+            <parameter name="count" xsi:type="text" visible="true">
+                <label translate="true">Post Count</label>
+            </parameter>
+        </parameters>
+    </widget>
+    <widget id="blog_latest" class="Ewave\Blog\Block\Widget\Latest" is_email_compatible="true" ttl="86400">
+        <label translate="true">Latest Blog Posts</label>
+        <description translate="true">Add latest blog post widget anywhere in site</description>
+        <parameters>
+
+            <parameter name="posts_display_type" xsi:type="select" required="true" visible="true"
+                       source_model="Ewave\Blog\Model\Post\Source\DisplayType">
+                <label translate="true">Show blog posts</label>
+            </parameter>
+
+            <parameter name="count" xsi:type="text" visible="true">
+                <label translate="true">Post Count</label>
+                <description translate="true">The number of Recently Added posts to be displayed</description>
+                <depends>
+                    <parameter name="posts_display_type" value="recent_posts" />
+                </depends>
+            </parameter>
+
+            <parameter name="post_ids" xsi:type="block" visible="true">
+                <label translate="true">Specify Posts</label>
+                <depends>
+                    <parameter name="posts_display_type" value="specified_posts" />
+                </depends>
+                <block class="Ewave\Blog\Block\Adminhtml\Post\Widget\Chooser" />
+            </parameter>
+
+            <parameter name="show_category_name" xsi:type="select" required="true" visible="true"
+                       source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Show Post's Category Name</label>
+                <description translate="true">Show/hide Post's category name</description>
+            </parameter>
+
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="list" value="Ewave_Blog::widget/list.phtml" selected="true">
+                        <label translate="true">List template</label>
+                    </option>
+                    <option name="default" value="Ewave_Blog::widget/latest.phtml">
+                        <label translate="true">Default template</label>
+                    </option>
+                </options>
+            </parameter>
+
+        </parameters>
+    </widget>
+    <widget id="blog_categories" class="Ewave\Blog\Block\Widget\Categories" is_email_compatible="true" ttl="86400">
+        <label translate="true">Blog Categories</label>
+        <description translate="true">Add blog categories widget anywhere in site</description>
+    </widget>
+</widgets>

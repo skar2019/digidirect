@@ -1,0 +1,32 @@
+//
+//  Captcha
+//  __________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@captcha-image__is-enabled: true; // Enable/disable styles
+
+@captcha-image__margin-top: @indent__s;
+@captcha-image-img__display: block;
+@captcha-image-img__margin: 0 @indent__s @indent__s 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@captcha-image__is-enabled = true) {
+        .control.captcha-image {
+            & {
+                .lib-css(margin-top, @captcha-image__margin-top);
+            }
+
+            .captcha-img {
+                .lib-css(display, @captcha-image-img__display);
+                .lib-css(margin, @captcha-image-img__margin);
+            }
+        }
+    }
+}

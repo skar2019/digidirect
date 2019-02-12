@@ -1,0 +1,121 @@
+//
+//  Layered Navigation: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@layered-navigation__is-enabled: true; // Enable/disable styles
+
+//  Filter Current
+@layered-navigation-filter-current-item__margin-bottom: @indent__s;
+@layered-navigation-filter-current-filter-label__display: block;
+@layered-navigation-filter-current-filter-label__font-weight: @font-weight__bold;
+@layered-navigation-filter-current-filter-label__after__content: ':';
+@layered-navigation-filter-current-filter-actions__margin-bottom: @indent__l;
+
+//  Filter Options
+@layered-navigation-filter-options__margin: 0;
+@layered-navigation-filter-options-count__color: @text__color__muted;
+@layered-navigation-filter-options-count__before__content: '(';
+@layered-navigation-filter-options-count__after__content: ')';
+
+//  Filter Options Title
+@layered-navigation-filter-options-title__use-heading: true;
+@layered-navigation-filter-options-title-heading: h4;
+@layered-navigation-filter-options-title__margin: 0 0 @indent__s;
+@layered-navigation-filter-options-title__word-break: break-all;
+
+//  Filter Options Content
+@layered-navigation-filter-options-content__margin: 0 0 @indent__m;
+@layered-navigation-filter-options-content-item__margin-bottom: 3px;
+@layered-navigation-filter-options-content-item-count-label__use-visually-hidden: true;
+
+@layered-navigation-sidebar-main__use-vendor-prefix-order__m-only: true;
+@layered-navigation-sidebar-main__order__m-only: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@layered-navigation__is-enabled = true) {
+        .filter-current {
+            .item {
+                .lib-css(margin-bottom, @layered-navigation-filter-current-item__margin-bottom);
+            }
+
+            .filter-label {
+                .lib-css(display, @layered-navigation-filter-current-filter-label__display);
+                .lib-css(font-weight, @layered-navigation-filter-current-filter-label__font-weight);
+
+                &::after {
+                    .lib-css(content, @layered-navigation-filter-current-filter-label__after__content);
+                }
+            }
+
+            + .filter-actions {
+                .lib-css(margin-bottom, @layered-navigation-filter-current-filter-actions__margin-bottom);
+            }
+        }
+
+        .filter-options {
+            & {
+                .lib-css(margin, @layered-navigation-filter-options__margin);
+            }
+
+            .count {
+                .lib-css(color, @layered-navigation-filter-options-count__color);
+
+                &::before {
+                    .lib-css(content, @layered-navigation-filter-options-count__before__content);
+                }
+
+                &::after {
+                    .lib-css(content, @layered-navigation-filter-options-count__after__content);
+                }
+            }
+        }
+
+        .filter-options-title {
+            & when (@layered-navigation-filter-options-title__use-heading = true) {
+                .lib-heading(@layered-navigation-filter-options-title-heading);
+            }
+            .lib-css(margin, @layered-navigation-filter-options-title__margin);
+            .lib-css(word-break, @layered-navigation-filter-options-title__word-break);
+        }
+
+        .filter-options-content {
+            & {
+                .lib-css(margin, @layered-navigation-filter-options-content__margin);
+            }
+
+            .item {
+                .lib-css(margin-bottom, @layered-navigation-filter-options-content-item__margin-bottom);
+            }
+
+            .filter-count-label {
+                & when (@layered-navigation-filter-options-content-item-count-label__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    & when (@layered-navigation__is-enabled = true) {
+        .page-with-filter {
+            .columns .sidebar-main {
+                & when (@layered-navigation-sidebar-main__use-vendor-prefix-order__m-only = true) {
+                    .lib-vendor-prefix-order(@layered-navigation-sidebar-main__order__m-only);
+                }
+            }
+        }
+    }
+}

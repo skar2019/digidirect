@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\PreOrder\Api\Data\OrderPreorderInterface" type="Ewave\PreOrder\Model\OrderPreorder"/>
+    <preference for="Ewave\PreOrder\Api\Data\OrderItemPreorderInterface" type="Ewave\PreOrder\Model\OrderItemPreorder"/>
+    <preference for="Ewave\PreOrder\Api\Data\PreorderModelInterface" type="Ewave\PreOrder\Model\Preorder\PreorderModel"/>
+    <preference for="Ewave\PreOrder\Api\OrderPreorderRepositoryInterface" type="Ewave\PreOrder\Model\OrderPreorderRepository"/>
+    <preference for="Ewave\PreOrder\Api\OrderItemPreorderRepositoryInterface" type="Ewave\PreOrder\Model\OrderItemPreorderRepository"/>
+    <preference for="Ewave\PreOrder\Api\OrderPreorderManagementInterface" type="Ewave\PreOrder\Model\OrderPreorderService"/>
+
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">sales_order_grid</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Sales\Model\ResourceModel\Order</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="orderPreOrderMetadata" type="Magento\Sales\Model\ResourceModel\Metadata">
+        <arguments>
+            <argument name="resourceClassName" xsi:type="string">Ewave\PreOrder\Model\ResourceModel\OrderPreorder</argument>
+            <argument name="modelClassName" xsi:type="string">Ewave\PreOrder\Model\OrderPreorder</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="orderItemPreOrderMetadata" type="Magento\Sales\Model\ResourceModel\Metadata">
+        <arguments>
+            <argument name="resourceClassName" xsi:type="string">Ewave\PreOrder\Model\ResourceModel\OrderItemPreorder</argument>
+            <argument name="modelClassName" xsi:type="string">Ewave\PreOrder\Model\OrderItemPreorder</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="SimplePreOrderModel" type="Ewave\PreOrder\Model\Preorder\PreorderModel">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="const">Magento\Catalog\Model\Product\Type::TYPE_SIMPLE</item>
+                <item name="model" xsi:type="string">Ewave\PreOrder\Model\Preorder\Product\Simple</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GroupedPreOrderModel" type="Ewave\PreOrder\Model\Preorder\PreorderModel">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="const">Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</item>
+                <item name="model" xsi:type="string">Ewave\PreOrder\Model\Preorder\Product\Grouped</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ConfigurablePreOrderModel" type="Ewave\PreOrder\Model\Preorder\PreorderModel">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="const">Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE</item>
+                <item name="model" xsi:type="string">Ewave\PreOrder\Model\Preorder\Product\Configurable</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BundlePreOrderModel" type="Ewave\PreOrder\Model\Preorder\PreorderModel">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="const">Magento\Catalog\Model\Product\Type::TYPE_BUNDLE</item>
+                <item name="model" xsi:type="string">Ewave\PreOrder\Model\Preorder\Product\Bundle</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Ewave\PreOrder\Model\OrderPreorderRepository">
+        <arguments>
+            <argument name="metadata" xsi:type="object">orderPreOrderMetadata</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\PreOrder\Model\OrderItemPreorderRepository">
+        <arguments>
+            <argument name="metadata" xsi:type="object">orderItemPreOrderMetadata</argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\PreOrder\Model\Preorder\Mapper">
+        <arguments>
+            <argument name="preorders" xsi:type="array">
+                <item name="simple" xsi:type="object">SimplePreOrderModel</item>
+                <item name="grouped" xsi:type="object">GroupedPreOrderModel</item>
+                <item name="configurable" xsi:type="object">ConfigurablePreOrderModel</item>
+                <item name="bundle" xsi:type="object">BundlePreOrderModel</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\CatalogInventory\Model\Source\Backorders">
+        <plugin name="Ewave_PreOrder::toOptionArray" type="Ewave\PreOrder\Plugin\CatalogInventoryBackorders"/>
+    </type>
+    <type name="Magento\CatalogInventory\Model\StockStateProvider">
+        <plugin name="Ewave_PreOrder::stockState" type="Ewave\PreOrder\Plugin\StockStateProvider"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <plugin name="Ewave_PreOrder::injectCollection" type="Ewave\PreOrder\Plugin\UiSearchResult"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Item">
+        <plugin name="Ewave_PreOrder::addPreorderLabel" type="Ewave\PreOrder\Plugin\SalesOrderItem"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ListProduct">
+        <plugin name="Ewave_PreOrder::addPreorderLabelToList" type="Ewave\PreOrder\Plugin\ListProduct"/>
+    </type>
+    <type name="Magento\CatalogSearch\Block\SearchResult\ListProduct">
+        <plugin name="Ewave_PreOrder::addPreorderLabelToSearchList" type="Ewave\PreOrder\Plugin\ListProduct"/>
+    </type>
+    <type name="Magento\Sales\Model\Service\OrderService">
+        <plugin name="Ewave_PreOrder::processNewOrderPreorder" type="Ewave\PreOrder\Plugin\SalesOrderService"/>
+    </type>
+    <type name="Magento\CatalogWidget\Block\Product\ProductsList">
+        <plugin name="Ewave_PreOrder::addPreorderLabelToWidgetProductsList" type="Ewave\PreOrder\Plugin\ProductsList"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\AbstractProduct">
+        <plugin name="Ewave_PreOrder::addPreorderLabelToRelatedProducts" type="Ewave\PreOrder\Plugin\ProductsList"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
+        <plugin name="Ewave_PreOrder::addPreorderButtonIfProductOutOfStock"
+                type="Ewave\PreOrder\Plugin\Magento\Catalog\Model\Product\Type\AbstractType"/>
+    </type>
+</config>

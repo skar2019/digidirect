@@ -1,0 +1,41 @@
+//
+//  Cms: main banner
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .banner-main-wrapper {
+        & {
+            &:extend(._negative-gutter);
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .banner-main-wrapper {
+        & {
+            display: flex;
+            width: calc(~'100% + 170px');
+            .lib-css(margin-left, -(@layout-columns__padding__l + 30px));
+            .lib-css(margin-right, -(@layout-columns__padding__l + 30px));
+        }
+
+        > .banner-items {
+            width: 70%;
+        }
+
+        > .additional-banner {
+            width: 30%;
+        }
+    }
+}

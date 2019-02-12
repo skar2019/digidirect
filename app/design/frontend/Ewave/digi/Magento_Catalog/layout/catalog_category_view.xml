@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="breadcrumbs" remove="false"/>
+
+        <referenceBlock name="category.products.list">
+            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
+        <referenceContainer name="div.sidebar.additional" remove="true" />
+           
+        <block class="Magento\Cms\Block\Block" name="category.promotion.banner">
+            <arguments>
+                <argument name="block_id" xsi:type="string">category-promotion-banner</argument>
+            </arguments>
+        </block>
+
+        <referenceContainer name="category.view.container">
+            <block class="Magento\Framework\View\Element\Template" name="category.view.bg"
+                   after="-"
+                   template="Magento_Catalog::category/category-bg.phtml">
+            </block>
+        </referenceContainer>
+
+        <move element="category.promotion.banner" destination="main.content" after="-" />
+        <move element="breadcrumbs" destination="category.view.container" before="-"/>
+    </body>
+</page>

@@ -1,0 +1,65 @@
+//
+//  Vault: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@vault__is-enabled: true; // Enable/disable styles
+
+@vault-my-credit-cards-action-delete__use-button-reset: true;
+@vault-my-credit-cards-action-delete__use-button-as-link: true;
+@vault-my-credit-cards-card-type-img__vertical-align: middle;
+@vault-my-credit-cards-card-type-img__display__m: block;
+
+//  Popup
+@vault-my-credit-cards-popup-modal-footer__text-align: right;
+@vault-my-credit-cards-popup-action-secondary__margin-right: @indent__base;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@vault__is-enabled = true) {
+        .my-credit-cards {
+            .action.delete {
+                & when (@vault-my-credit-cards-action-delete__use-button-reset = true) {
+                    .lib-button-reset();
+                }
+                & when (@vault-my-credit-cards-action-delete__use-button-as-link = true) {
+                    .lib-button-as-link();
+                }
+            }
+
+            .card-type img {
+                .lib-css(vertical-align, @vault-my-credit-cards-card-type-img__vertical-align);
+            }
+        }
+
+        .my-credit-cards-popup {
+            .modal-footer {
+                .lib-css(text-align, @vault-my-credit-cards-popup-modal-footer__text-align);
+            }
+
+            .action.secondary {
+                .lib-css(margin-right, @vault-my-credit-cards-popup-action-secondary__margin-right);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@vault__is-enabled = true) {
+        .my-credit-cards {
+            .card-type img {
+                .lib-css(display, @vault-my-credit-cards-card-type-img__display__m);
+            }
+        }
+    }
+}

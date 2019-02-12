@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\CheckoutFields\Model\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">Ewave\CheckoutFields\Model\Config\Reader</argument>
+            <argument name="cacheId" xsi:type="string">checkout_fields</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\CheckoutFields\Model\Config\Reader">
+        <arguments>
+            <argument name="converter" xsi:type="object">Ewave\CheckoutFields\Model\Config\Converter</argument>
+            <argument name="schemaLocator" xsi:type="object">Ewave\CheckoutFields\Model\Config\SchemaLocator</argument>
+            <argument name="fileName" xsi:type="string">checkout_fields.xml</argument>
+        </arguments>
+    </type>
+    <preference for="Ewave\CheckoutFields\Api\PdpFieldValueInterface"
+                type="Ewave\CheckoutFields\Model\PdpFieldValue"/>
+    <preference for="Ewave\CheckoutFields\Api\PdpFieldValueRepositoryInterface"
+                type="Ewave\CheckoutFields\Model\PdpFieldValueRepository"/>
+    <type name="Magento\Customer\Model\Customer\NotificationStorage">
+        <plugin name="Ewave_CheckoutFields::ModelNotificationStorage" type="Ewave\CheckoutFields\Plugin\Customer\Model\NotificationStorage"/>
+    </type>
+</config>

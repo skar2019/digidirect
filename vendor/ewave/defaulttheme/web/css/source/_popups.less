@@ -1,0 +1,101 @@
+//
+//  Popups
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@popups__is-enabled: true; // Enable/disable styles
+@popup__width__s-only: 420px;
+
+@popup-marker__size: 7px;
+
+//  Close
+@popup-action-close__position: @popup-button-close__position;
+@popup-action-close__top: 0;
+@popup-action-close__right: 0;
+@popup-action-close__bottom: @popup-button-close__position-bottom;
+@popup-action-close__left: @popup-button-close__position-left;
+@popup-action-close__z-index: 1001;
+@popup-action-close__width: 40px;
+@popup-action-close__height: 40px;
+
+//  Pointer
+@popup-pointer__position: absolute;
+@popup-pointer__top: -@popup-marker__size * 2;
+@popup-pointer__margin-left: -@popup-marker__size * 2;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@popups__is-enabled = true) {
+        //  Popup working with dropdown dialog
+        .ui-dialog {
+            &.popup .action.close {
+                .lib-css(position, @popup-action-close__position);
+                .lib-css(top, @popup-action-close__top);
+                .lib-css(right, @popup-action-close__right);
+                .lib-css(bottom, @popup-action-close__bottom);
+                .lib-css(left, @popup-action-close__left);
+                .lib-css(z-index, @popup-action-close__z-index);
+                .lib-css(width, @popup-action-close__width);
+                .lib-css(height, @popup-action-close__height);
+
+                .lib-popup-button-close-base64(
+                    @popup-base64__display,
+                    @popup-base64__position,
+                    @popup-base64__top,
+                    @popup-base64__right,
+                    @popup-base64__bottom,
+                    @popup-base64__left,
+                    @popup-base64__width,
+                    @popup-base64__height,
+                    @popup-base64__margin,
+                    @popup-base64__padding,
+                    @popup-base64__vertical-align,
+                    @popup-base64__background-image,
+                    @popup-base64__background-position,
+                    @popup-base64__background-repeat,
+                    @popup-base64__background-size,
+                    @popup-base64__hover__background-image,
+                    @popup-base64__active__background-image,
+                    @popup-base64__text-hide,
+                    @popup-base64__pseudo-type
+                );
+                ._lib-popup-button-close-reset(
+                    @popup-button-close__reset
+                );
+            }
+        }
+
+        .popup-pointer {
+            .lib-pointer(
+                @_size: @popup-marker__size,
+                @_background-color: @popup__background,
+                @_border-color: @popup__border-color,
+                @_position__vertical__value: 2px,
+                @_position__horizontal__value: 2px
+            );
+            .lib-css(position, @popup-pointer__position);
+            .lib-css(top, @popup-pointer__top);
+            .lib-css(margin-left, @popup-pointer__margin-left);
+        }
+    }
+}
+
+//
+//  Mobile s +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    & when (@popups__is-enabled = true) {
+        .ui-dialog {
+            &.popup {
+                .lib-css(width, @popup__width__s-only);
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "ewave/styleguide",
+  "type": "magento2-module",
+  "description": "Style Guide",
+  "version": "1.0.0.0",
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Ewave\\StyleGuide\\": ""
+    }
+  }
+}

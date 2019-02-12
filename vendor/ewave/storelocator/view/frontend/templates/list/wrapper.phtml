@@ -1,0 +1,21 @@
+<?php
+/** @var \Ewave\Storelocator\Block\Wrapper $block */
+$isInPopup = $block->getOpenInPopup();
+?>
+<div class="store-locator">
+    <?php echo $block->getChildHtml('storelocator.search'); ?>
+    <div class="grid-row">
+        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'medium-4 column'; ?>">
+            <?php echo $block->getChildHtml('storelocator.list'); ?>
+        </div>
+        <?php if ($isInPopup): ?>
+            <?php echo $block->getChildHtml('storelocator.popup'); ?>
+        <?php else: ?>
+            <div class="medium-8 column">
+                <?php echo $block->getChildHtml('storelocator.map'); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<?php echo $block->getChildHtml('storelocator.list.after'); ?>

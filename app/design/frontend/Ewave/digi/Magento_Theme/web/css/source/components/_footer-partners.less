@@ -1,0 +1,112 @@
+//
+//  Theme: Footer Partners
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .footer-partners {
+        & {
+            text-align: center;
+        }
+
+        .item {
+            display: inline;
+            vertical-align: middle;
+
+            &:nth-child(2n)::after {
+                content: '';
+                display: table;
+            }
+        }
+
+        img {
+            margin: 0 12px 27px;
+            max-width: 129px;
+            max-height: 68px;
+            vertical-align: middle;
+        }
+
+        .item.-zip img {
+            max-width: 101px;
+        }
+
+        .item.-flexirent img {
+            max-width: 78px;
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .footer-partners {
+        .item {
+            padding-right: 23px;
+            padding-left: 23px;
+
+            &:first-child {
+                padding-left: 10px;
+            }
+
+            &:last-child {
+                padding-right: 10px;
+            }
+
+            &:nth-child(2n)::after {
+                content: none;
+            }
+        }
+
+        .item img {
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .footer-partners {
+        & {
+            float: right;
+            clear: right;
+            width: 30.72%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .item {
+            width: 19.5%;
+
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+
+        .item.-zip {
+            width: 27.7%;
+        }
+
+        .item.-studio19 {
+            width: 33.3%;
+        }
+
+        .item img {
+            max-width: 100%;
+        }
+    }
+    .page-footer {
+        .footer-partners .item img {
+            max-width: 100%;
+        }
+    }
+}

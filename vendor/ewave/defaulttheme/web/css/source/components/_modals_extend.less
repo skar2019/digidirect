@@ -1,0 +1,212 @@
+//
+//  Modals: Extend
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@modal-extend__is-enabled: true; // Enable/disable styles
+
+@modal-extend-action-close__use-button-reset: true;
+@modal-extend-action-close__position: absolute;
+@modal-extend-action-close__top: 0;
+@modal-extend-action-close__right: 0;
+@modal-extend-action-close__padding: 10px;
+
+@modal-extend-action-close-icon__use-base64: true;
+@modal-extend-action-close-icon__width: 14px;
+@modal-extend-action-close-icon__height: 14px;
+@modal-extend-action-close-icon__margin: 0 5px;
+@modal-extend-action-close-icon__background-image: @base64-icon__close;
+@modal-extend-action-close-icon__text-hide: true;
+
+//  Title
+@modal-title__margin: 0;
+@modal-title__font-size: 20px;
+@modal-title__line-height: 1.2;
+@modal-title__color: @text__color;
+
+//  Modal Popup
+@modal-popup__pointer-events: none;
+
+//  Modal Slide
+@modal-slide-page-main-actions__margin-top: @modal-sections__padding-vertical;
+@modal-slide-page-main-actions__margin-bottom: @modal-sections__padding-vertical - (@indent__l/2);
+
+//  Header
+@modal-header__border-bottom: 1px solid @color-gray-light5;
+
+//  Footer
+@modal-footer__border-top: @modal-header__border-bottom;
+@modal-footer__text-align: right;
+
+@modal-slide-mobile__background-color: @color-gray-light01;
+
+//  Modal Custom
+@modal-has-modal-custom-modal-custom-overlay__position: fixed;
+@modal-has-modal-custom-modal-custom-overlay__top: 0;
+@modal-has-modal-custom-modal-custom-overlay__left: 0;
+@modal-has-modal-custom-modal-custom-overlay__z-index: @overlay__z-index;
+@modal-has-modal-custom-modal-custom-overlay__width: 100vw;
+@modal-has-modal-custom-modal-custom-overlay__height: 100vh;
+@modal-body-has-modal-custom__width__m-only: 100vw;
+@modal-body-has-modal-custom__height__m-only: 100vh;
+@modal-body-has-modal-custom__overflow__m-only: hidden;
+@modal-body-has-modal-custom-modal-custom-overlay__background-color__m-only: @modal-overlay__background-color;
+@modal-custom-slide__use-modal__m-only: true;
+@modal-custom-slide__use-modal-slide__m-only: true;
+@modal-custom-slide__show__webkit-overflow-scrolling__m-only: touch;
+@modal-custom-slide__show__overflow-x__m-only: hidden;
+@modal-custom-slide__show__overflow-y__m-only: auto;
+@modal-custom-slide-modal-inner-wrap__height__m-only: auto;
+@modal-custom-slide-modal-inner-wrap__min-height__m-only: 100%;
+@modal-custom-slide-modal-inner-wrap__background-color__m-only: @modal-slide-mobile__background-color;
+
+//  breakpoint-screen__m
+@modal-popup-breakpoint-screen__m: @screen__m;
+@modal-popup-slide-modal-inner-wrap__background-color__m-custom-only: @modal-slide-mobile__background-color;
+@modal-popup-slide-inner-scroll__show__webkit-overflow-scrolling__m-custom-only: touch;
+@modal-popup-slide-inner-scroll__show__overflow-y__m-custom-only: auto;
+@modal-popup-slide-inner-scroll-modal-inner-wrap__height__m-custom-only: auto;
+@modal-popup-slide-inner-scroll-modal-inner-wrap__min-height__m-custom-only: 100%;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@modal-extend__is-enabled = true) {
+        .modal-custom,
+        .modal-popup,
+        .modal-slide {
+            .action-close {
+                & when (@modal-extend-action-close__use-button-reset = true) {
+                    .lib-button-reset();
+                }
+                & when (@modal-extend-action-close-icon__use-base64 = true) {
+                    .lib-base64(
+                        @_base64-width: @modal-extend-action-close-icon__width,
+                        @_base64-height: @modal-extend-action-close-icon__height,
+                        @_base64-margin: @modal-extend-action-close-icon__margin,
+                        @_base64-background-image: @modal-extend-action-close-icon__background-image,
+                        @_base64-text-hide: @modal-extend-action-close-icon__text-hide
+                    );
+                }
+                .lib-css(position, @modal-extend-action-close__position);
+                .lib-css(top, @modal-extend-action-close__top);
+                .lib-css(right, @modal-extend-action-close__right);
+                .lib-css(padding, @modal-extend-action-close__padding);
+            }
+        }
+
+        .modal-popup {
+            .lib-css(pointer-events, @modal-popup__pointer-events);
+        }
+
+        .modal-slide {
+            .page-main-actions {
+                .lib-css(margin-top, @modal-slide-page-main-actions__margin-top);
+                .lib-css(margin-bottom, @modal-slide-page-main-actions__margin-bottom);
+            }
+        }
+
+        .modal-header {
+            .lib-css(border-bottom, @modal-header__border-bottom);
+        }
+
+        .modal-title {
+            .lib-css(margin, @modal-title__margin);
+            .lib-css(font-size, @modal-title__font-size);
+            .lib-css(line-height, @modal-title__line-height);
+            .lib-css(color, @modal-title__color);
+        }
+
+        .modal-footer {
+            .lib-css(border-top, @modal-footer__border-top);
+            .lib-css(text-align, @modal-footer__text-align);
+        }
+
+        body {
+            &._has-modal-custom {
+                .modal-custom-overlay {
+                    .lib-css(position, @modal-has-modal-custom-modal-custom-overlay__position);
+                    .lib-css(top, @modal-has-modal-custom-modal-custom-overlay__top);
+                    .lib-css(left, @modal-has-modal-custom-modal-custom-overlay__left);
+                    .lib-css(z-index, @modal-has-modal-custom-modal-custom-overlay__z-index);
+                    .lib-css(width, @modal-has-modal-custom-modal-custom-overlay__width);
+                    .lib-css(height, @modal-has-modal-custom-modal-custom-overlay__height);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    & when (@modal-extend__is-enabled = true) {
+        body {
+            &._has-modal-custom {
+                .lib-css(width, @modal-body-has-modal-custom__width__m-only);
+                .lib-css(height, @modal-body-has-modal-custom__height__m-only);
+                .lib-css(overflow, @modal-body-has-modal-custom__overflow__m-only);
+
+                .modal-custom-overlay {
+                    .lib-css(background-color, @modal-body-has-modal-custom-modal-custom-overlay__background-color__m-only);
+                }
+            }
+        }
+
+        .custom-slide {
+            & when (@modal-custom-slide__use-modal__m-only = true) {
+                .lib-modal();
+            }
+            & when (@modal-custom-slide__use-modal-slide__m-only = true) {
+                .lib-modal-slide();
+            }
+
+            &._show {
+                .lib-css(-webkit-overflow-scrolling, @modal-custom-slide__show__webkit-overflow-scrolling__m-only);
+                .lib-css(overflow-x, @modal-custom-slide__show__overflow-x__m-only);
+                .lib-css(overflow-y, @modal-custom-slide__show__overflow-y__m-only);
+            }
+
+            .modal-inner-wrap {
+                .lib-css(height, @modal-custom-slide-modal-inner-wrap__height__m-only);
+                .lib-css(min-height, @modal-custom-slide-modal-inner-wrap__min-height__m-only);
+                .lib-css(background-color, @modal-custom-slide-modal-inner-wrap__background-color__m-only);
+            }
+        }
+    }
+}
+
+//
+//  Custom Breakpoint @modal-popup-breakpoint-screen__m -
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @modal-popup-breakpoint-screen__m) {
+    & when (@modal-extend__is-enabled = true) {
+        .modal-popup {
+            &.modal-slide {
+                .modal-inner-wrap[class] {
+                    .lib-css(background-color, @modal-popup-slide-modal-inner-wrap__background-color__m-custom-only);
+                }
+
+                &._inner-scroll {
+                    &._show {
+                        .lib-css(-webkit-overflow-scrolling, @modal-popup-slide-inner-scroll__show__webkit-overflow-scrolling__m-custom-only);
+                        .lib-css(overflow-y, @modal-popup-slide-inner-scroll__show__overflow-y__m-custom-only);
+                    }
+
+                    .modal-inner-wrap {
+                        .lib-css(height, @modal-popup-slide-inner-scroll-modal-inner-wrap__height__m-custom-only);
+                        .lib-css(min-height, @modal-popup-slide-inner-scroll-modal-inner-wrap__min-height__m-custom-only);
+                    }
+                }
+            }
+        }
+    }
+}

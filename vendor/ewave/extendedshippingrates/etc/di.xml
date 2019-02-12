@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\ExtendedShippingRates\Api\MethodRepositoryInterface" type="Ewave\ExtendedShippingRates\Model\MethodRepository"/>
+    <preference for="Ewave\ExtendedShippingRates\Api\CarrierRepositoryInterface" type="Ewave\ExtendedShippingRates\Model\CarrierRepository"/>
+    <preference for="Ewave\ExtendedShippingRates\Api\RateRepositoryInterface" type="Ewave\ExtendedShippingRates\Model\RateRepository"/>
+    <preference for="Ewave\ExtendedShippingRates\Api\ZoneRepositoryInterface" type="Ewave\ExtendedShippingRates\Model\ZoneRepository"/>
+    <preference for="Ewave\ExtendedShippingRates\Api\RuleRepositoryInterface" type="Ewave\ExtendedShippingRates\Model\RuleRepository"/>
+    <preference for="Ewave\ExtendedShippingRates\Api\RateManagementInterface" type="Ewave\ExtendedShippingRates\Model\RateManagement"/>
+
+    <type name="Magento\Shipping\Model\Rate\Result">
+        <plugin name="ewave_extendedshippingrates_update_rate_result"
+                type="Ewave\ExtendedShippingRates\Model\Plugin\Shipping\Rate\Result\Append"
+                sortOrder="10"
+                disabled="false"/>
+        <plugin name="ewave_extendedshippingrates_update_disabled_or_enabled_rates"
+                type="Ewave\ExtendedShippingRates\Model\Plugin\Shipping\Rate\Result\GetAllRates"
+                sortOrder="11"
+                disabled="false"/>
+    </type>
+    <type name="Magento\Framework\App\Config">
+        <plugin name="ewave_extendedshippingrates_add_shipping_methods"
+                type="Ewave\ExtendedShippingRates\Model\Plugin\AddMethods"
+                sortOrder="10"
+                disabled="false"/>
+    </type>
+    <type name="Ewave\ExtendedShippingRates\Model\Rule\Action\RateFactory">
+        <arguments>
+            <argument name="map" xsi:type="array">
+                <item name="amount" xsi:type="string">Ewave\ExtendedShippingRates\Model\Rule\Action\Rate\Amount</item>
+                <item name="item" xsi:type="string">Ewave\ExtendedShippingRates\Model\Rule\Action\Rate\PerItem</item>
+                <item name="product" xsi:type="string">Ewave\ExtendedShippingRates\Model\Rule\Action\Rate\PerProduct</item>
+                <item name="weight" xsi:type="string">Ewave\ExtendedShippingRates\Model\Rule\Action\Rate\PerUnitOfWeight</item>
+                <item name="selected" xsi:type="string">Ewave\ExtendedShippingRates\Model\Rule\Action\Rate\PerSelectedItem</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Listing start -->
+    <virtualType name="EwaveExtendedShippingRatesCarrierGridDataProvider"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">EwaveExtendedShippingRatesCarrierGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="EwaveExtendedShippingRatesCarrierGridFilterPool"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_extendedshippingrates_carrier</argument>
+            <argument name="eventPrefix" xsi:type="string">ewave_extendedshippingrates_carrier_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">carrier_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ewave_extendedshippingrates_carrier_listing_data_source" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\Grid\Collection</item>
+                <item name="ewave_extendedshippingrates_method_listing_data_source" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Method\Grid\Collection</item>
+                <item name="ewave_extendedshippingrates_quote_listing_data_source" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Rule\Grid\Collection</item>
+                <item name="ewave_extendedshippingrates_zone_listing_data_source" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Zone\Grid\Collection</item>
+                <item name="ewave_extendedshippingrates_rates_listing_data_source" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Rate\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <!-- Methods listing -->
+    <virtualType name="EwaveExtendedShippingRatesMethodGridDataProvider"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Ewave\ExtendedShippingRates\Model\ResourceModel\Method\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">EwaveExtendedShippingRatesMethodGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="EwaveExtendedShippingRatesMethodGridFilterPool"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\ExtendedShippingRates\Model\ResourceModel\Method\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_extendedshippingrates_methods</argument>
+            <argument name="eventPrefix" xsi:type="string">ewave_extendedshippingrates_method_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">method_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Method</argument>
+        </arguments>
+    </type>
+    <!-- Rates listing -->
+    <virtualType name="EwaveExtendedShippingRatesRateGridDataProvider"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Ewave\ExtendedShippingRates\Model\ResourceModel\Rate\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">EwaveExtendedShippingRatesRateGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="EwaveExtendedShippingRatesRateGridFilterPool"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\ExtendedShippingRates\Model\ResourceModel\Rate\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_extendedshippingrates_rates</argument>
+            <argument name="eventPrefix" xsi:type="string">ewave_extendedshippingrates_rate_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">rate_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Rate</argument>
+        </arguments>
+    </type>
+    <!-- Rules listing -->
+    <virtualType name="EwaveExtendedShippingRatesRuleGridDataProvider"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Ewave\ExtendedShippingRates\Model\ResourceModel\Rule\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">EwaveExtendedShippingRatesRuleGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="EwaveExtendedShippingRatesRuleGridFilterPool"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\ExtendedShippingRates\Model\ResourceModel\Rule\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_extendedshippingrates</argument>
+            <argument name="eventPrefix" xsi:type="string">ewave_extendedshippingrates_rule_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">rule_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Rule</argument>
+        </arguments>
+    </type>
+    <!-- Zones listing -->
+    <virtualType name="EwaveExtendedShippingRatesZoneGridDataProvider"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Ewave\ExtendedShippingRates\Model\ResourceModel\Zone\Grid\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">EwaveExtendedShippingRatesZoneGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="EwaveExtendedShippingRatesZoneGridFilterPool"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\ExtendedShippingRates\Model\ResourceModel\Zone\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_extendedshippingrates_zone</argument>
+            <argument name="eventPrefix" xsi:type="string">ewave_extendedshippingrates_zone_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">zone_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\ExtendedShippingRates\Model\ResourceModel\Zone</argument>
+        </arguments>
+    </type>
+    <!-- Import -->
+    <type name="Ewave\ExtendedShippingRates\Model\CsvUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">tmp</argument>
+            <argument name="basePath" xsi:type="string">tmp</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="csv" xsi:type="string">csv</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\ExtendedShippingRates\Model\Rate\Import">
+        <arguments>
+            <argument name="defaultRateValues" xsi:type="array">
+                <item name="active" xsi:type="string">1</item>
+                <item name="priority" xsi:type="string">1</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\SalesRule\Model\Rule\Condition\Combine">
+        <plugin name="Ewave_ExtendedShippingRates::MagentoSalesRuleModelRuleConditionCombine"
+                type="Ewave\ExtendedShippingRates\Plugin\Magento\SalesRule\Model\Rule\Condition\Combine"/>
+    </type>
+
+    <type name="Ewave\ExtendedShippingRates\Model\Zone\Import">
+        <arguments>
+            <argument name="defaultZoneValues" xsi:type="array">
+                <item name="is_active" xsi:type="string">0</item>
+                <item name="attribute_set" xsi:type="string">1</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\ExtendedShippingRates\Model\Zone">
+        <arguments>
+            <argument name="dataProcessors" xsi:type="array">
+                <item name="country_id" xsi:type="object">Ewave\ExtendedShippingRates\Model\Zone\Processors\CountryIdDataProcessor</item>
+                <item name="region_id" xsi:type="object">Ewave\ExtendedShippingRates\Model\Zone\Processors\RegionIdDataProcessor</item>
+                <item name="postcode" xsi:type="object">Ewave\ExtendedShippingRates\Model\Zone\Processors\PostcodeDataProcessor</item>
+            </argument>
+            <argument name="defaultAggregator" xsi:type="array">
+                <item name="aggregator" xsi:type="string">all</item>
+                <item name="new_child" xsi:type="string"></item>
+                <item name="type" xsi:type="string">Ewave\ExtendedShippingRates\Model\Zone\Condition\Combine</item>
+                <item name="value" xsi:type="string">1</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\ExtendedShippingRates\Model\Validator">
+        <arguments>
+            <argument name="actionMethodFields" xsi:type="array">
+                <item name="overwrite_cost" xsi:type="array">
+                    <item name="action" xsi:type="const">\Ewave\ExtendedShippingRates\Model\Rule::ACTION_OVERWRITE_COST</item>
+                    <item name="fields" xsi:type="const">\Ewave\ExtendedShippingRates\Api\Data\RuleInterface::SHIPPING_METHODS</item>
+                </item>
+                <item name="disable_sm" xsi:type="array">
+                    <item name="action" xsi:type="const">\Ewave\ExtendedShippingRates\Model\Rule::ACTION_DISABLE_SM</item>
+                    <item name="fields" xsi:type="const">\Ewave\ExtendedShippingRates\Api\Data\RuleInterface::DISABLED_SHIPPING_METHODS</item>
+                </item>
+                <item name="use_alt_title" xsi:type="array">
+                    <item name="action" xsi:type="const">\Ewave\ExtendedShippingRates\Model\Rule::ACTION_USE_ALT_TITLE</item>
+                    <item name="fields" xsi:type="const">\Ewave\ExtendedShippingRates\Api\Data\RuleAlternativeTitleInterface::USED_ALT_TITLE_SHIPPING_METHODS</item>
+                </item>
+                <item name="use_alt_code" xsi:type="array">
+                    <item name="action" xsi:type="const">\Ewave\ExtendedShippingRates\Model\Rule::ACTION_USE_ALT_CODE</item>
+                    <item name="fields" xsi:type="const">\Ewave\ExtendedShippingRates\Api\Data\RuleAlternativeCodeInterface::USED_ALT_CODE_SHIPPING_METHODS</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

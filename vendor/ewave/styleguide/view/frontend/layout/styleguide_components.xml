@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceBlock name="styleguide">
+        <arguments>
+            <argument name="jsLayout" xsi:type="array">
+                <item name="components" xsi:type="array">
+                    <item name="styleguide" xsi:type="array">
+                        <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                        <item name="config" xsi:type="array" />
+                        <item name="children" xsi:type="array">
+                            <item name="actions-toolbar" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">actions toolbar</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/actions-toolbar</item>
+                                </item>
+                            </item>
+
+                            <item name="block-title" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">block title</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/block-title</item>
+                                </item>
+                            </item>
+
+                            <item name="breadcrumbs" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">breadcrumbs</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/breadcrumbs</item>
+                                </item>
+                            </item>
+
+                            <item name="button" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">button</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/button</item>
+                                </item>
+                            </item>
+
+                            <item name="field-checkbox" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">field checkbox</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/field-checkbox</item>
+                                </item>
+                            </item>
+
+                            <item name="field-input-text" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">field input text</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/field-input-text</item>
+                                </item>
+                            </item>
+
+                            <item name="field-radio" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">field radio</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/field-radio</item>
+                                </item>
+                            </item>
+
+                            <item name="field-select" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">field select</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/field-select</item>
+                                </item>
+                            </item>
+
+                            <item name="field-textarea" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">field textarea</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/field-textarea</item>
+                                </item>
+                            </item>
+
+                            <item name="form" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">form</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/form</item>
+                                </item>
+                            </item>
+
+                            <item name="headings" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">headings</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/headings</item>
+                                </item>
+                            </item>
+
+                            <item name="link" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">link</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/link</item>
+                                </item>
+                            </item>
+
+                            <item name="list" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">list</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/list</item>
+                                </item>
+                            </item>
+
+                            <item name="loader" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">loader</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/loader</item>
+                                </item>
+                            </item>
+
+                            <item name="messages" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">messages</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/messages</item>
+                                </item>
+                            </item>
+
+                            <item name="modals" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">modals</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/modals</item>
+                                </item>
+                            </item>
+
+                            <item name="product-listing-toolbar" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">product listing toolbar</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/product-listing-toolbar</item>
+                                </item>
+                            </item>
+
+                            <item name="rating" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">rating</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/rating</item>
+                                </item>
+                            </item>
+
+                            <item name="table" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">table</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/table</item>
+                                </item>
+                            </item>
+
+                            <item name="tabs" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">tabs</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/tabs</item>
+                                </item>
+                            </item>
+
+                            <item name="tooltip" xsi:type="array">
+                                <item name="component" xsi:type="string">Ewave_StyleGuide/js/styleguide</item>
+                                <item name="config" xsi:type="array">
+                                    <item name="title" xsi:type="string">tooltip</item>
+                                    <item name="template" xsi:type="string">Ewave_StyleGuide/tooltip</item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </referenceBlock>
+</page>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <referenceBlock name="promotion_products">
+        <action method="setBlockTypes">
+            <argument name="value" xsi:type="array">
+                <item name="related" xsi:type="string">Magento\TargetRule\Block\Catalog\Product\ProductList\Related</item>
+                <item name="upsell" xsi:type="string">Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell</item>
+            </argument>
+        </action>
+        <action method="setListingTypes">
+            <argument name="value" xsi:type="array">
+                <item name="related" xsi:type="string">related-rule</item>
+                <item name="upsell" xsi:type="string">upsell-rule</item>
+            </argument>
+        </action>
+    </referenceBlock>
+</layout>

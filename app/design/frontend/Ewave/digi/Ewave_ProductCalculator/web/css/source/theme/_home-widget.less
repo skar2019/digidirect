@@ -1,0 +1,176 @@
+//
+//  Home page widget
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@home-calculator-widget__background: @color-3-4;
+@product-calculator__padding: false;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .product-calculator.-home {
+        & {
+            .lib-css(background-color, @home-calculator-widget__background);
+            
+            margin-bottom: 0;
+        }
+    }
+    
+    .step-widget {
+        > .info {
+            text-align: center;
+            max-width: 280px;
+            margin: auto;
+        }
+        
+        .info > .heading {
+            .lib-font-size(18);
+    
+            display: block;
+            margin-bottom: 18px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+    
+        .info > .text {
+            .lib-font-size(16);
+            .lib-css(color, @color-4-4);
+            
+            line-height: 1.7;
+        }
+        
+        .field-group-category {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .calculator-group {
+            display: flex;
+            width: 100%;
+        }
+    
+        .calculator-group > .field {
+            flex-basis: 33%;
+            margin-bottom: 0;
+        }
+        
+        .calculator-group > .field + .field {
+            margin-left: 25px;
+        }
+    
+        .calculator-group > .choice.-icon label {
+            width: 100%;
+            height: 100%;
+        }
+    
+        .actions-toolbar .button {
+            width: 100%;
+            max-width: 280px;
+        }
+    }
+}
+
+//
+//  Mobile and Tablet Only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xm) {
+    .product-calculator.-home {
+        padding: 32px 40px 38px;
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .step-widget {
+        .actions-toolbar .primary {
+            float: none;
+            display: block;
+            max-width: 280px;
+            margin: 0 auto;
+        }
+
+        > .info {
+            max-width: 100%;
+        }
+    }
+    
+    .product-calculator.-home {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+}
+
+//
+//  Desktop small
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = (@screen__xm + 1)) {
+    .step-widget {
+        .actions-toolbar .button.submit {
+            margin-top: 25px;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .step-widget {
+        & {
+            display: flex;
+            align-items: center;
+        }
+        
+        .field-group-category {
+            flex-grow: 1;
+        }
+        
+        > .info {
+            text-align: left;
+            margin-right: 3%;
+        }
+    
+        > .info > .heading {
+            margin-bottom: 6px;
+            .lib-font-size(24);
+        }
+        
+        > .info > :last-child {
+            margin-bottom: 0;
+        }
+    
+        .actions-toolbar {
+            margin-left: 3.5%;
+        }
+        
+        .actions-toolbar .button.submit {
+            width: 14.6vw;
+            margin: 0;
+        }
+    }
+}
+
+//
+//  Large Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    .step-widget {
+        > .info {
+            text-align: left;
+            margin-right: 8.1%;
+        }
+    }
+}

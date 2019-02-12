@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="ai_logs_backup" instance="Ewave\AI\Cron\LogBackup" method="execute">
+            <config_path>ewave_ai/logs/cron_expr</config_path>
+        </job>
+        <job name="ai_logs_db_cleanup" instance="Ewave\AI\Cron\CleanupDbLogs" method="execute">
+            <config_path>ewave_ai/logs/remove_logs_cron_expr</config_path>
+        </job>
+    </group>
+    <group id="ewave_ai">
+        <job name="ai_run_by_schedule" instance="Ewave\AI\Cron\RunProcessBySchedule" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="ai_run_queue" instance="Ewave\AI\Cron\Queue" method="execute">
+            <config_path>ewave_ai/queue/cron_expr</config_path>
+        </job>
+    </group>
+</config>

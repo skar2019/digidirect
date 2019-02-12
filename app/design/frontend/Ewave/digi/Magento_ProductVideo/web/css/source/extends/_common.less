@@ -1,0 +1,73 @@
+//
+//  Extend: Product Video: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+//@product-video__is-enabled: true; // Enable/disable styles
+//
+//@product-video__position: absolute;
+//@product-video__top: 0;
+//@product-video__right: 0;
+//@product-video__bottom: 0;
+//@product-video__left: 0;
+//@product-video__width: 100%;
+//@product-video__height: 75%;
+//@product-video__margin: auto;
+//@product-video__width__custom: 81%;
+//@product-video__height__custom: 100%;
+
+//  Iframe
+//@product-video-iframe__position: absolute;
+//@product-video-iframe__top: 0;
+//@product-video-iframe__left: 0;
+//@product-video-iframe__z-index: 9999;
+//@product-video-iframe__width: 100%;
+//@product-video-iframe__height: 100%;
+
+//  Thumb Icon
+//@product-video-thumb-icon__after__content: ' ';
+//@product-video-thumb-icon__after__position: absolute;
+@product-video-thumb-icon__after__top: 0;
+//@product-video-thumb-icon__after__right: 0;
+//@product-video-thumb-icon__after__bottom: 0;
+//@product-video-thumb-icon__after__left: 0;
+@product-video-thumb-icon__after__width: 36px;
+@product-video-thumb-icon__after__height: 36px;
+//@product-video-thumb-icon__after__margin: auto;
+@product-video-thumb-icon__after__background: false;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .video-thumb-icon {
+        &::after {
+            content: none;
+        }
+    }
+
+    .video-thumb-icon {
+        .fotorama__thumb::before {
+            .lib-css(content, @product-video-thumb-icon__after__content);
+            .lib-css(position, @product-video-thumb-icon__after__position);
+            z-index: 1;
+            .lib-css(top, @product-video-thumb-icon__after__top);
+            .lib-css(right, @product-video-thumb-icon__after__right);
+            .lib-css(bottom, @product-video-thumb-icon__after__bottom);
+            .lib-css(left, @product-video-thumb-icon__after__left);
+            .lib-css(width, @product-video-thumb-icon__after__width);
+            .lib-css(height, @product-video-thumb-icon__after__height);
+            .lib-css(margin, @product-video-thumb-icon__after__margin);
+        }
+    }
+
+    .video-thumb-icon .fotorama__thumb::before,
+    .fotorama-video-container::after {
+        .lib-css(background, @base64-icon__play 0 0);
+        background-size: 100% auto;
+    }
+}

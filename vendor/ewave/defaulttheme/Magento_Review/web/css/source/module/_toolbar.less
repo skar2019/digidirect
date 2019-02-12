@@ -1,0 +1,56 @@
+//
+//  Reviews: Toolbar
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@review-toolbar__is-enabled: true; // Enable/disable styles
+
+@review-toolbar__margin: 0 0 @indent__base;
+@review-toolbar__border-top: 1px solid @color-gray79;
+@review-toolbar__text-align: center;
+
+//  Top Toolbar
+@review-toolbar-top__display: none;
+
+//  Pages
+@review-toolbar-pages__display: block;
+@review-toolbar-pages__padding: @indent__base 0;
+@review-toolbar-pages__border-bottom: 1px solid @color-gray79;
+@review-toolbar-pages__text-align: center;
+
+//  Limiter
+@review-toolbar-limiter__display: none;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@review-toolbar__is-enabled = true) {
+        .review-toolbar {
+            & {
+                .lib-css(margin, @review-toolbar__margin);
+                .lib-css(border-top, @review-toolbar__border-top);
+                .lib-css(text-align, @review-toolbar__text-align);
+            }
+
+            &:first-child {
+                .lib-css(display, @review-toolbar-top__display);
+            }
+
+            .pages {
+                .lib-css(display, @review-toolbar-pages__display);
+                .lib-css(padding, @review-toolbar-pages__padding);
+                .lib-css(border-bottom, @review-toolbar-pages__border-bottom);
+                .lib-css(text-align, @review-toolbar-pages__text-align);
+            }
+
+            .limiter {
+                .lib-css(display, @review-toolbar-limiter__display);
+            }
+        }
+    }
+}

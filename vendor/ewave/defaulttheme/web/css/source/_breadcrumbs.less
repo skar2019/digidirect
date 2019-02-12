@@ -1,0 +1,21 @@
+//
+//  Breadcrumbs
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@breadcrumbs__is-enabled: true; // Enable/disable styles
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@breadcrumbs__is-enabled = true) {
+        .breadcrumbs {
+            .lib-breadcrumbs();
+        }
+    }
+}

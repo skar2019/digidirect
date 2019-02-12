@@ -1,0 +1,121 @@
+//
+//  Modals: Extend component
+//  _____________________________________________
+
+@modal-title__font-size__m: 20px;
+@modal-sections__padding-horizontal__m: 28px;
+@modal-header__padding-top__m: 28px;
+@modal-header__padding-bottom__m: 27px;
+
+@modal-title__font-size__l: 24px;
+@modal-sections__padding-horizontal__l: 40px;
+@modal-header__padding-top__l: 36px;
+@modal-header__padding-bottom__l: 35px;
+@modal-content__padding-top__l: 40px;
+@modal-footer__padding-top__l: 40px;
+@modal-footer__padding-bottom__l: 40px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@modal-extend__is-enabled = true) {
+        .modal-title {
+            .lib-css(font-weight, @font-weight__heavier);
+        }
+
+        .modal-custom,
+        .modal-popup,
+        .modal-slide {
+            .action-close::before {
+                background-size: 100% auto;
+            }
+        }
+
+        .modal-footer {
+            button + button {
+                margin-left: 20px;
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@modal-extend__is-enabled = true) {
+        .modal-custom,
+        .modal-popup,
+        .modal-slide {
+            .action-close {
+                top: 18px;
+                right: 18px;
+            }
+            .action-close::before {
+                width: 23px;
+                height: 23px;
+            }
+        }
+
+        .modal-header,
+        .modal-content,
+        .modal-footer {
+            .lib-css(padding-right, @modal-sections__padding-horizontal__m);
+            .lib-css(padding-left, @modal-sections__padding-horizontal__m);
+        }
+
+        .modal-header {
+            .lib-css(padding-top, @modal-header__padding-top__m);
+            .lib-css(padding-bottom, @modal-header__padding-bottom__m);
+        }
+
+        .modal-title {
+            .lib-css(font-size, @modal-title__font-size__m);
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    & when (@modal-extend__is-enabled = true) {
+        .modal-custom,
+        .modal-popup,
+        .modal-slide {
+            .action-close {
+                top: 28px;
+                right: 28px;
+            }
+        }
+
+        .modal-header,
+        .modal-content,
+        .modal-footer {
+            .lib-css(padding-right, @modal-sections__padding-horizontal__l);
+            .lib-css(padding-left, @modal-sections__padding-horizontal__l);
+        }
+
+        .modal-header {
+            .lib-css(padding-top, @modal-header__padding-top__l);
+            .lib-css(padding-bottom, @modal-header__padding-bottom__l);
+        }
+
+        .modal-title {
+            .lib-css(font-size, @modal-title__font-size__l);
+        }
+
+        .modal-content {
+            .lib-css(padding-top, @modal-content__padding-top__l);
+        }
+
+        .modal-footer {
+            .lib-css(padding-top, @modal-footer__padding-top__l);
+            .lib-css(padding-bottom, @modal-footer__padding-bottom__l);
+        }
+    }
+}

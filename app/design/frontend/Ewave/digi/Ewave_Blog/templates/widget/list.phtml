@@ -1,0 +1,63 @@
+<?php
+/**
+ * @var \Ewave\Blog\Block\Widget\Latest $block
+ * @var \Ewave\Blog\Model\Post $post
+ */
+?>
+
+<?php $latestPosts = $block->getCollection(); ?>
+<div class="blog-latest blog-widget widget _negative-gutter _full-width-background">
+    <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-blog-widget">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-logo-digi-life"></use>
+        </svg>
+    </div>
+        <div class="blog-categories-list">
+            <div class="categories-wrapper">
+            <?php foreach ($block->getCollection() as $post): ?>
+                <?php $categoriesArray = $block->getCategoriesTitlesAsArray($post); ?>
+                <?php $categoriesTitlesCount = count($categoriesArray); ?>
+                <?php if ($categoriesTitlesCount) : ?>
+                    <div class="category">
+                        <?php /** @var $category \Ewave\Blog\Model\Category*/ ?>
+                        <?php $i=1; foreach ($categoriesArray as $key => $category): ?>
+                            <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link" title="<?php echo /* @escapeNotVerified */  $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?>,<?php endif; ?>
+                            <?php $i++; ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                <div class="category view-all">
+                    <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link" title="<?php echo /* @escapeNotVerified */   __('View all')?>">
+                        <?php /* @escapeNotVerified */  echo  __('View all'); ?>
+                    </a>
+                </div>
+            </div>
+            <div class="category">
+                <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link" title="<?php echo /* @escapeNotVerified */   __('View all')?>">
+                    <?php /* @escapeNotVerified */  echo  __('View all'); ?>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-arrow"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    <div class="blog-list">
+        <?php foreach ($latestPosts as $post): ?>
+            <?php $postTitle = $block->escapeHtml($post->getTitle()); ?>
+            <?php $mainImage = $post->getMainImage(); ?>
+            <a class="post-card item" href="<?php echo $block->escapeUrl($post->getViewUrl()) ?>" title="<?php /* @escapeNotVerified */ echo $postTitle; ?>">
+                <?php if (!empty($mainImage)): ?>
+                    <img class="image" src="<?php echo $block->escapeHtml($mainImage); ?>" alt="<?php /* @escapeNotVerified */ echo $postTitle; ?>" />
+                <?php endif; ?>
+                <div class="container">
+                    <h3 class="title"><?php /* @escapeNotVerified */ echo $postTitle; ?></h3>
+                    <p class="content"><?php /* @escapeNotVerified */ echo $post->getShortContent(); ?></p>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-arrow"></use>
+                    </svg>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    </div>
+</div>

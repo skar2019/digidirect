@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="navigation.sections" remove="true" />
+
+        <referenceContainer name="page.top">
+            <container name="main.menu.section" label="Main Menu Section" htmlTag="div" htmlClass="menu-section">
+                <container name="main.menu.off.canvas.section" label="Main Menu Off-Canvas Section" htmlTag="div" htmlClass="offcanvas-items">
+                    <block class="Magento\Framework\View\Element\Template" name="shop.by.department"
+                           template="Ewave_Navigation::link/shop-by-department.phtml">
+                        <arguments>
+                            <argument name="label" xsi:type="string" translate="true">Shop By Department</argument>
+                            <argument name="back_title" xsi:type="string" translate="true">Main Menu</argument>
+                        </arguments>
+                    </block>
+                    <block class="Ewave\Navigation\Block\Menu" name="off.canvas.menu" template="menu_static.phtml">
+                        <arguments>
+                            <argument name="set_code" xsi:type="string">off_canvas_menu</argument>
+                            <argument name="area_selector" xsi:type="string">nav-offcanvas</argument>
+                            <argument name="wrapper_class" xsi:type="string">menu</argument>
+                            <argument name="cms_block_class_name" xsi:type="string">cms</argument>
+                            <argument name="extra_content_class_name" xsi:type="string">extra</argument>
+                            <argument name="expanded" xsi:type="string">false</argument>
+                            <argument name="place" xsi:type="string">main</argument>
+                            <argument name="sub_menu_block_class" xsi:type="string">sub-menu -clear</argument>
+                            <argument name="item_class" xsi:type="string">item</argument>
+                            <argument name="item_label_class" xsi:type="string">link</argument>
+                            <argument name="inner_lists_class" xsi:type="string">menu</argument>
+                            <argument name="responsive" xsi:type="boolean">false</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <move element="ewave.menu.header" destination="main.menu.section" after="main.menu.off.canvas.section"/>
+        <referenceBlock name="ewave.menu.header">
+            <arguments>
+                <argument name="action" xsi:type="string">click</argument>
+                <argument name="breakpoint" xsi:type="string">1280px</argument>
+                <argument name="add_link_to_top" xsi:type="boolean">false</argument>
+                <argument name="view_custom" xsi:type="string">Ewave_Navigation/js/dist/extend/views/index</argument>
+                <argument name="link_string" xsi:type="string" translate="true">View All</argument>
+            </arguments>
+            <container  name="main.menu.bottom" label="Main Menu Bottom">
+                <block class="Magento\Cms\Block\Block" name="main.menu.cms.helpful.info">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">cms-helpful-info</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceBlock>
+
+        <referenceContainer name="footer-bottom">
+            <block class="Ewave\Navigation\Block\Menu" name="ewave.menu.footer.bottom" as="ewave_menu_footer_bottom" template="footer_bottom.phtml">
+                <arguments>
+                    <argument name="set_code" xsi:type="string">footer_bottom</argument>
+                    <argument name="area_selector" xsi:type="string">nav-extra</argument>
+                    <argument name="wrapper_class" xsi:type="string">menu</argument>
+                    <argument name="cms_block_class_name" xsi:type="string">cms</argument>
+                    <argument name="extra_content_class_name" xsi:type="string">extra</argument>
+                    <argument name="expanded" xsi:type="string">false</argument>
+                    <argument name="place" xsi:type="string">main</argument>
+                    <argument name="sub_menu_block_class" xsi:type="string">sub-menu</argument>
+                    <argument name="item_class" xsi:type="string">item</argument>
+                    <argument name="item_label_class" xsi:type="string">link</argument>
+                    <argument name="inner_lists_class" xsi:type="string">menu</argument>
+                    <argument name="responsive" xsi:type="boolean">false</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <move element="ewave.menu.footer" destination="footer" after="form.subscribe" />
+        <referenceBlock name="ewave.menu.footer">
+            <arguments>
+                <argument name="static" xsi:type="boolean">true</argument>
+                <argument name="action" xsi:type="string">click</argument>
+                <argument name="set_code" xsi:type="string">footer</argument>
+                <argument name="area_selector" xsi:type="string">footer-nav</argument>
+                <argument name="wrapper_class" xsi:type="string">footer-menu</argument>
+                <argument name="horizontal" xsi:type="string">false</argument>
+                <argument name="cms_block_class_name" xsi:type="string">cms</argument>
+                <argument name="extra_content_class_name" xsi:type="string">extra</argument>
+                <argument name="expanded" xsi:type="string">false</argument>
+                <argument name="place" xsi:type="string">main</argument>
+                <argument name="sub_menu_block_class" xsi:type="string">sub-items</argument>
+                <argument name="item_class" xsi:type="string">item</argument>
+                <argument name="item_label_class" xsi:type="string">link</argument>
+                <argument name="inner_lists_class" xsi:type="string">menu</argument>
+                <argument name="responsive" xsi:type="boolean">false</argument>
+                <argument name="add_link_to_top" xsi:type="string">false</argument>
+                <argument name="wcag_behavior_enabled" xsi:type="boolean">false</argument>
+            </arguments>
+        </referenceBlock>
+    </body>
+</page>

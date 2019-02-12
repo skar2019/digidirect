@@ -1,0 +1,46 @@
+//
+//  PayPal: Billing
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@paypal-billing__is-enabled: true; // Enable/disable styles
+
+@paypal-form-new-agreement-actions-toolbar__use-reset-left-margin: true;
+@paypal-form-new-agreement-actions-toolbar__use-reset-left-margin__m: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@paypal-billing__is-enabled = true) {
+        //  PayPal billing agreement
+        .form-new-agreement {
+            .actions-toolbar {
+                & when (@paypal-form-new-agreement-actions-toolbar__use-reset-left-margin = true) {
+                    &:extend(.abs-reset-left-margin all);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@paypal-billing__is-enabled = true) {
+        .form-new-agreement {
+            .fieldset .legend,
+            .actions-toolbar {
+                & when (@paypal-form-new-agreement-actions-toolbar__use-reset-left-margin__m = true) {
+                    &:extend(.abs-reset-left-margin-desktop all);
+                }
+            }
+        }
+    }
+}

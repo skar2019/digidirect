@@ -1,0 +1,121 @@
+//
+//  Theme: Switcher
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@switcher__is-enabled: true; // Enable/disable styles
+
+@switcher__margin: 0 0 0 10px;
+@switcher-label__use-visually-hidden: true;
+@switcher-strong__font-weight: @font-weight__regular;
+
+//  Options
+@switcher-options__use-dropdown: true;
+@switcher-options__min-width: 160px;
+
+//  Options Icon
+@switcher-options-icon__use-base64: true;
+@switcher-options-icon__width: 8px;
+@switcher-options-icon__height: 5px;
+@switcher-options-icon__margin: 0 5px;
+@switcher-options-icon__background-image: @base64-icon__down;
+@switcher-options-icon__active__background-image: @base64-icon__up;
+@switcher-options-icon__pseudo-type: after;
+
+@switcher-header__display__m: inline-block;
+
+//  Dropdown
+@switcher-dropdown-item__margin: 0;
+@switcher-dropdown-item__font-size: @font-size__s;
+@switcher-dropdown-link__display: block;
+@switcher-dropdown-link__padding: 8px;
+@switcher-dropdown-link__hover__text-decoration: none;
+
+//  Store Switcher Specific
+@switcher-store__margin: 0 0 30px;
+@switcher-footer-store__display__m: inline-block;
+@switcher-footer-store__padding-right__m: 50px;
+@switcher-footer-store__vertical-align__m: top;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@switcher__is-enabled = true) {
+        .page-header,
+        .page-footer {
+            .switcher {
+                .lib-css(margin, @switcher__margin);
+            }
+
+            & when (@switcher-options__use-dropdown = true) {
+                .switcher .options {
+                    .lib-dropdown(
+                        @_dropdown-list-min-width: @switcher-options__min-width,
+                        @_base64-is-enabled: @switcher-options-icon__use-base64,
+                        @_base64-width: @switcher-options-icon__width,
+                        @_base64-height: @switcher-options-icon__height,
+                        @_base64-margin: @switcher-options-icon__margin,
+                        @_base64-background-image: @switcher-options-icon__background-image,
+                        @_base64-active_background-image: @switcher-options-icon__active__background-image,
+                        @_base64-pseudo-type: @switcher-options-icon__pseudo-type
+                    );
+                }
+            }
+
+            .switcher .label {
+                & when (@switcher-label__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+
+            .switcher strong {
+                .lib-css(font-weight, @switcher-strong__font-weight);
+            }
+
+            .switcher-dropdown li {
+                .lib-css(margin, @switcher-dropdown-item__margin);
+                .lib-css(font-size, @switcher-dropdown-item__font-size);
+            }
+
+            .switcher-dropdown a {
+                .lib-css(display, @switcher-dropdown-link__display);
+                .lib-css(padding, @switcher-dropdown-link__padding);
+
+                &:hover {
+                    .lib-css(text-decoration, @switcher-dropdown-link__hover__text-decoration);
+                }
+            }
+
+            .switcher-store {
+                .lib-css(margin, @switcher-store__margin);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@switcher__is-enabled = true) {
+        .page-header {
+            .switcher {
+                .lib-css(display, @switcher-header__display__m);
+            }
+        }
+
+        .page-footer {
+            .switcher-store {
+                .lib-css(display, @switcher-footer-store__display__m);
+                .lib-css(padding-right, @switcher-footer-store__padding-right__m);
+                .lib-css(vertical-align, @switcher-footer-store__vertical-align__m);
+            }
+        }
+    }
+}

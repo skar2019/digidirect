@@ -1,0 +1,87 @@
+//
+//  Modals
+//  _____________________________________________
+
+.lib-modal() {
+    .lib-css(position, @modal__position);
+    .lib-css(top, @modal__top);
+    .lib-css(right, @modal__right);
+    .lib-css(bottom, @modal__bottom);
+    .lib-css(left, @modal__left);
+    .lib-css(min-width, @modal__min-width);
+    .lib-css(visibility, @modal__visibility);
+    .lib-css(opacity, @modal__opacity);
+    .lib-css(transition, @modal__transition);
+
+    &._show {
+        .lib-css(visibility, @modal__show__visibility);
+        .lib-css(opacity, @modal__show__opacity);
+        .lib-css(transition, @modal__show__transition);
+
+        .modal-inner-wrap {
+            .lib-css(transform, @modal-inner-wrap__show__transform);
+        }
+    }
+
+    .modal-inner-wrap {
+        .lib-css(background-color, @modal-inner-wrap__background-color);
+        .lib-css(box-shadow, @modal-inner-wrap__box-shadow);
+        .lib-css(opacity, @modal-inner-wrap__opacity);
+        .lib-css(pointer-events, @modal-inner-wrap__pointer-events);
+    }
+}
+
+.lib-modal-slide() {
+    .lib-css(left, @modal-slide__left);
+    .lib-css(z-index, @modal-slide__z-index);
+
+    &._show {
+        .modal-inner-wrap {
+            .lib-css(transform, @modal-slide-inner-wrap__show__transform);
+        }
+    }
+
+    .modal-inner-wrap {
+        .lib-css(position, @modal-slide-inner-wrap__position);
+        .lib-css(width, @modal-slide-inner-wrap__width);
+        .lib-css(height, @modal-slide-inner-wrap__height);
+        .lib-css(overflow-y, @modal-slide-inner-wrap__overflow-y);
+        .lib-css(transform, @modal-slide-inner-wrap__transform);
+        .lib-css(transition, @modal-slide-inner-wrap__transition);
+    }
+}
+
+.lib-modal-popup() {
+    .lib-css(left, @modal-popup__left);
+    .lib-css(z-index, @modal-popup__z-index);
+    .lib-css(overflow-y, @modal-popup__overflow-y);
+
+    &.confirm {
+        .modal-inner-wrap {
+            .lib-css(width, @modal-popup-confirm-inner-wrap__width);
+        }
+    }
+
+    &._show {
+        .modal-inner-wrap {
+            .lib-css(transform, @modal-popup-inner-wrap__show__transform);
+        }
+    }
+
+    .modal-inner-wrap {
+        .lib-css(position, @modal-popup-inner-wrap__position);
+        .lib-css(left, @modal-popup-inner-wrap__left);
+        .lib-css(right, @modal-popup-inner-wrap__right);
+        & when (@modal-popup-inner-wrap__use-vendor-prefix-display = true) {
+            .lib-vendor-prefix-display(flex);
+        }
+        & when (@modal-popup-inner-wrap__use-vendor-prefix-flex-direction = true) {
+            .lib-vendor-prefix-flex-direction(column);
+        }
+        .lib-css(width, @modal-popup-inner-wrap__width);
+        .lib-css(height, @modal-popup-inner-wrap__height);
+        .lib-css(margin, @modal-popup-inner-wrap__margin);
+        .lib-css(transform, @modal-popup-inner-wrap__transform);
+        .lib-css(transition, @modal-popup-inner-wrap__transition);
+    }
+}

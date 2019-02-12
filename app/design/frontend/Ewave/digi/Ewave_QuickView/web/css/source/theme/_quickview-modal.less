@@ -1,0 +1,116 @@
+//
+//  Quick View Modal
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+@quickview-moda-inner__width__s: calc(~'100% - @{layout-elements__padding-right}*2');
+@quickview-modal-inner__show__transform: translateY(50px);
+@quickview-modal-inner__show__transform__l: translateY(6%);
+
+//
+//  Common
+//  ---------------------------------------------
+& when (@media-common = true) {
+    .quickView-modal {
+        .modal-header {
+            padding: 0;
+        }
+
+        .modal-content {
+            padding: 0;
+        }
+
+        &._show .modal-inner-wrap {
+            .lib-css(width, @quickview-moda-inner__width__s);
+            .lib-css(transform, @quickview-modal-inner__show__transform);
+        }
+
+        .action-close {
+            top: 20px;
+            padding: 5px 10px;
+
+            &::before {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    }
+
+    .catalog-product-view.quickview-main {
+        .page-main {
+            height: 80vh;
+        }
+
+        .columns.mCustomScrollbar {
+            height: 100%;
+        }
+
+        .mCSB_1_container {
+            margin-right: 0;
+        }
+
+        .mCSB_draggerContainer {
+            display: none;
+        }
+    }
+}
+
+
+//
+//  Tablet
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .quickView-modal {
+        .action-close {
+            padding: 5px 10px;
+
+            &::before {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+}
+
+//
+//  Desktop small
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
+    .quickView-modal {
+        &._show .modal-inner-wrap {
+            .lib-css(transform, @quickview-modal-inner__show__transform__l);
+            max-width: 1200px;
+        }
+
+        .modal-content {
+            padding-right: 0;
+        }
+    }
+
+    .catalog-product-view.quickview-main {
+        .mCSB_draggerContainer {
+            display: block;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .quickView-modal {
+        .action-close {
+            top: 33px;
+
+            &::before {
+                width: 22px;
+                height: 22px;
+            }
+        }
+    }
+}

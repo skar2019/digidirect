@@ -1,0 +1,26 @@
+//
+//  Customer: Not Account Pages (password reset, password confirmation, password forget, create account)
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@not-account__is-enabled: true; // Enable/disable styles
+
+@not-account-form-selectors: ~'.form.password.reset, .form.send.confirmation, .form.password.forget, .form.create.account, .form.-account-centered';
+@not-account-form__width__m: 50%;
+@not-account-form__min-width__m: 600px;
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@not-account__is-enabled = true) {
+        @{not-account-form-selectors} {
+            .lib-css(width, @not-account-form__width__m);
+            .lib-css(min-width, @not-account-form__min-width__m);
+        }
+    }
+}

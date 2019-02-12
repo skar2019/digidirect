@@ -1,0 +1,35 @@
+//
+//  Product Calculator
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@product-calculator__margin: false;
+@product-calculator__padding: 10px 0 0;
+
+@product-calculator-field-mage-error__float: left;
+@product-calculator-field-mage-error__width: @form-field-type-label-inline__width;
+@product-calculator-field-mage-error__height: 1px;
+@product-calculator-field-mage-error__padding: @form-field-type-label-inline__padding;
+@product-calculator-field-mage-error__content: ' ';
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .product-calculator {
+        & {
+            .lib-css(padding, @product-calculator__padding);
+        }
+        .field.choice div.mage-error[generated]::before {
+            .lib-css(content, @product-calculator-field-mage-error__content);
+            .lib-css(float, @product-calculator-field-mage-error__float);
+            .lib-css(width, @form-field-type-label-inline__width);
+            .lib-css(height, @product-calculator-field-mage-error__height);
+            .lib-css(padding, @form-field-type-label-inline__padding);
+        }
+    }
+}

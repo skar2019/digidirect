@@ -1,0 +1,47 @@
+//
+//  Checkout order review
+//  _____________________________________________
+
+//
+//  Mobile s only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .abs-checkout-order-review {
+        tbody tr {
+            &:not(:last-child) {
+                .lib-css(border-bottom, @border-width__base solid @border-color__base);
+            }
+
+            &:extend(.abs-add-clearfix-mobile all);
+
+            .col {
+                &.item {
+                    &::before {
+                        .lib-css(display, none);
+                    }
+                }
+
+                &.qty,
+                &.price,
+                &.subtotal {
+                    .lib-css(float, left);
+                    .lib-css(text-align, center);
+                    .lib-css(white-space, nowrap);
+                    .lib-css(width, 33%);
+
+                    &::before {
+                        .lib-css(content, attr(data-th) ':');
+                        .lib-css(display, block);
+                        .lib-css(font-weight, @font-weight__bold);
+                        .lib-css(padding-bottom, @indent__s);
+                    }
+                }
+            }
+
+            .product-item-name {
+                .lib-css(margin, 0);
+            }
+        }
+    }
+}

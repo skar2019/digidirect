@@ -1,0 +1,53 @@
+//
+//  Customer: Address Book
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@account-address-book__is-enabled: true; // Enable/disable styles
+
+@account-address-book-list-addresses__use-add-clearfix-desktop: true;
+@account-address-book-list-addresses-item__margin-bottom: @indent__base;
+@account-address-book-list-addresses-item__float__m: left;
+@account-address-book-list-addresses-item__width__m: 48.8%;
+@account-address-book-list-addresses-item__even__margin-left__m: 2.4%;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@account-address-book__is-enabled = true) {
+        .block-addresses-list {
+            .items.addresses > .item {
+                .lib-css(margin-bottom, @account-address-book-list-addresses-item__margin-bottom);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@account-address-book__is-enabled = true) {
+        .block-addresses-list {
+            .items.addresses {
+                & when (@account-address-book-list-addresses__use-add-clearfix-desktop = true) {
+                    &:extend(.abs-add-clearfix-desktop all);
+                }
+            }
+            .items.addresses > .item {
+                .lib-css(float, @account-address-book-list-addresses-item__float__m);
+                .lib-css(width, @account-address-book-list-addresses-item__width__m);
+
+                &:nth-child(even) {
+                    .lib-css(margin-left, @account-address-book-list-addresses-item__even__margin-left__m);
+                }
+            }
+        }
+    }
+}

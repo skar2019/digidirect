@@ -1,0 +1,237 @@
+//
+//  Forms
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@form__is-enabled: true; // Enable/disable styles
+
+@form__use-form-element-all: true;
+
+@form-field__vertical-indent__desktop: 29px;
+@form-field__margin__m: 0 0 @form-field__vertical-indent__desktop;
+@form-calendar-icon__color: @primary__color;
+
+//  Fieldset
+@form-fieldset__use-form-fieldset: true;
+@form-fieldset__last-child__margin-bottom: 0;
+@form-fieldset__use-form-hasrequired: true;
+
+//  Fieldset as Field
+@form-fieldset-as-field__padding: 0;
+@form-fieldset-as-field__border: 0;
+
+//  Field
+@form-field__use-form-field: true;
+
+//  Label
+@form-field-choice-label__display: inline;
+@form-field-choice-label__font-weight: normal;
+@form-field-label-not-column-main__font-weight: normal;
+
+//  Field Choice
+@form-field-field-choice__margin-bottom: false;
+
+//  Input File
+@form-field-input-file__margin: @indent__xs 0;
+
+//  Field Date
+@form-field-date__use-field-date: true;
+@form-field-date-time-picker__display: inline-block;
+@form-field-date-time-picker__margin-top: @indent__s;
+@form-field-date-time-picker__white-space: nowrap;
+
+//  Field Message
+@form-field-message-warning__margin-top: @indent__s;
+
+//  No Label
+@form-no-label-label__use-visually-hidden: true;
+
+//  Legend + Element
+@form-legend-plus-element__clear: both;
+
+//  Legend Strong
+@form-legend-strong__margin-left: @indent__xs;
+
+//  Error
+@form-field-error__margin-top: 7px;
+@form-field-error__use-form-validation-note: true;
+
+//  Tooltip
+@form-field-tooltip__use-tooltip: true;
+@form-field-tooltip__tooltip-position: right;
+@form-field-tooltip-content__min-width: 200px;
+@form-field-tooltip-content__white-space: normal;
+@form-field-focus-tooltip-content__display: block;
+
+//  Datepicker Trigger
+@form-ui-datepicker-trigger__use-button-reset: true;
+@form-ui-datepicker-trigger__display: inline-block;
+@form-ui-datepicker-trigger__vertical-align: middle;
+@form-ui-datepicker-trigger__focus__box-shadow: none;
+@form-ui-datepicker-trigger__focus__outline: 0;
+@form-ui-datepicker-trigger-icon__use-base64: true;
+@form-ui-datepicker-trigger-icon__width: 20px;
+@form-ui-datepicker-trigger-icon__height: 40px;
+@form-ui-datepicker-trigger-icon__margin: false;
+@form-ui-datepicker-trigger-icon__background-image: @base64-icon__calendar;
+@form-ui-datepicker-trigger-icon__text-hide: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@form__is-enabled = true) {
+        & when (@form__use-form-element-all = true) {
+            .lib-form-element-all();
+        }
+
+        .fieldset {
+            & when (@form-fieldset__use-form-fieldset = true) {
+                .lib-form-fieldset();
+            }
+
+            &:last-child {
+                .lib-css(margin-bottom, @form-fieldset__last-child__margin-bottom);
+            }
+
+            &[data-hasrequired] {
+                & when (@form-fieldset__use-form-hasrequired = true) {
+                    .lib-form-hasrequired(bottom);
+                }
+            }
+        }
+
+        .field {
+            & when (@form-field__use-form-field = true) {
+                .lib-form-field();
+            }
+
+            &.choice .label {
+                .lib-css(display, @form-field-choice-label__display);
+                .lib-css(font-weight, @form-field-choice-label__font-weight);
+            }
+
+            .label {
+                .column:not(.main) & {
+                    .lib-css(font-weight, @form-field-label-not-column-main__font-weight);
+                }
+            }
+
+            .field.choice {
+                .lib-css(margin-bottom, @form-field-field-choice__margin-bottom);
+            }
+
+            input[type=file] {
+                .lib-css(margin, @form-field-input-file__margin);
+            }
+
+            &.date {
+                & when (@form-field-date__use-field-date = true) {
+                    &:extend(.abs-field-date all);
+                }
+            }
+
+            &.date .time-picker {
+                .lib-css(display, @form-field-date-time-picker__display);
+                .lib-css(margin-top, @form-field-date-time-picker__margin-top);
+                .lib-css(white-space, @form-field-date-time-picker__white-space);
+            }
+
+            .message.warning {
+                .lib-css(margin-top, @form-field-message-warning__margin-top);
+            }
+        }
+
+        fieldset.field {
+            .lib-css(padding, @form-fieldset-as-field__padding);
+            .lib-css(border, @form-fieldset-as-field__border);
+        }
+
+        .no-label {
+            > .label {
+                & when (@form-no-label-label__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+        }
+
+        .legend + .fieldset,
+        .legend + div {
+            .lib-css(clear, @form-legend-plus-element__clear);
+        }
+
+        .legend {
+            strong {
+                .lib-css(margin-left, @form-legend-strong__margin-left);
+            }
+        }
+
+        .field-error,
+        div.mage-error[generated] {
+            .lib-css(margin-top, @form-field-error__margin-top);
+        }
+
+        .field-error {
+            & when (@form-field-error__use-form-validation-note = true) {
+                .lib-form-validation-note();
+            }
+        }
+
+        .field .tooltip {
+            & when (@form-field-tooltip__use-tooltip = true) {
+                .lib-tooltip(@form-field-tooltip__tooltip-position);
+            }
+
+            .tooltip-content {
+                .lib-css(min-width, @form-field-tooltip-content__min-width);
+                .lib-css(white-space, @form-field-tooltip-content__white-space);
+            }
+        }
+
+        input:focus ~ .tooltip .tooltip-content,
+        select:focus ~ .tooltip .tooltip-content {
+            .lib-css(display, @form-field-focus-tooltip-content__display);
+        }
+
+        ._has-datepicker {
+            ~ .ui-datepicker-trigger {
+                & when (@form-ui-datepicker-trigger__use-button-reset = true) {
+                    .lib-button-reset();
+                }
+                .lib-css(display, @form-ui-datepicker-trigger__display);
+                .lib-css(vertical-align, @form-ui-datepicker-trigger__vertical-align);
+
+                &:focus {
+                    .lib-css(box-shadow, @form-ui-datepicker-trigger__focus__box-shadow);
+                    .lib-css(outline, @form-ui-datepicker-trigger__focus__outline);
+                }
+
+                & when (@form-ui-datepicker-trigger-icon__use-base64 = true) {
+                    .lib-base64(
+                        @_base64-width: @form-ui-datepicker-trigger-icon__width,
+                        @_base64-height: @form-ui-datepicker-trigger-icon__height,
+                        @_base64-margin: @form-ui-datepicker-trigger-icon__margin,
+                        @_base64-background-image: @form-ui-datepicker-trigger-icon__background-image,
+                        @_base64-text-hide: @form-ui-datepicker-trigger-icon__text-hide
+                    );
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@form__is-enabled = true) {
+        .field {
+            .lib-css(margin, @form-field__margin__m);
+        }
+    }
+}

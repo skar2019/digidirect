@@ -1,0 +1,53 @@
+//
+//  Loader
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@ewaveloader__is-enabled = true) {
+        .load.indicator {
+            & {
+                position: absolute;
+                .lib-loader();
+            }
+
+            & > span {
+                display: none;
+            }
+        }
+
+        .loading-mask {
+            & {
+                .lib-css(background, @ewaveloader-mask__background);
+                .lib-loading-mask();
+            }
+
+            .loader {
+                .loader();
+            }
+        }
+
+        ._block-content-loading {
+            & {
+                .lib-css(position, @ewaveloader-block__position);
+            }
+
+            > .loading-mask {
+                .lib-css(position, @ewaveloader-block-loading-mask__position);
+                .lib-css(width, @ewaveloader-block-loading-mask__width);
+                .lib-css(height, @ewaveloader-block-loading-mask__height);
+            }
+
+            > .loading-mask > .loader {
+                .lib-css(position, @ewaveloader-block-loader__position);
+            }
+
+            > .loading-mask > .loader > p {
+                .lib-css(display, @ewaveloader-block-loader-text__display);
+            }
+        }
+    }
+}

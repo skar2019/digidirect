@@ -1,0 +1,33 @@
+//
+//  Gift Registry: Pagination
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-registry-pagination__is-enabled: true;  //  Enable/disable style
+
+//
+//  Mobile s only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    & when (@gift-registry-pagination__is-enabled = true) {
+        .toolbar-giftregistry-results {
+            &:extend(.abs-pager-toolbar-mobile-s all);
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@gift-registry-pagination__is-enabled = true) {
+        .toolbar-giftregistry-results {
+            &:extend(.abs-pager-toolbar all);
+        }
+    }
+}

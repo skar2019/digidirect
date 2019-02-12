@@ -1,0 +1,45 @@
+//
+//  Sales: Order Tracking
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@sales-order-tracking__is-enabled: true; // Enable/disable styles
+
+@sales-order-tracking__margin: 0;
+@sales-order-tracking__padding: 20px 0;
+@sales-order-tracking__border-bottom: @border-width__base solid @border-color__base;
+
+//  Title
+@sales-order-tracking-title__display: inline-block;
+
+//  Content
+@sales-order-tracking-content__display: inline-block;
+@sales-order-tracking-content__margin: 0 0 0 5px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@sales-order-tracking__is-enabled = true) {
+        .order-tracking {
+            & {
+                .lib-css(margin, @sales-order-tracking__margin);
+                .lib-css(padding, @sales-order-tracking__padding);
+                .lib-css(border-bottom, @sales-order-tracking__border-bottom);
+            }
+
+            .tracking-title {
+                .lib-css(display, @sales-order-tracking-title__display);
+            }
+
+            .tracking-content {
+                .lib-css(display, @sales-order-tracking-content__display);
+                .lib-css(margin, @sales-order-tracking-content__margin);
+            }
+        }
+    }
+}

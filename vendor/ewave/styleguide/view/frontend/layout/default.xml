@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="styleguide_components" />
+    <body>
+        <referenceContainer name="before.body.end">
+            <block name="offcanvas" template="Ewave_StyleGuide::offcanvas.phtml" after="-">
+                <block name="styleguide" template="Ewave_StyleGuide::styleguide.phtml" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

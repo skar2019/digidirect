@@ -1,0 +1,21 @@
+//
+//  Helpers: General
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@helper-no-display__use-no-display: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .no-display {
+        & when (@helper-no-display__use-no-display = true) {
+            &:extend(.abs-no-display all);
+        }
+    }
+}

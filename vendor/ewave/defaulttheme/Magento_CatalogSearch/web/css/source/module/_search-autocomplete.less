@@ -1,0 +1,107 @@
+//
+//  Search: Autocomplete
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@search-autocomplete__is-enabled: true; // Enable/disable styles
+
+@search-autocomplete__position: absolute;
+@search-autocomplete__z-index: 3;
+@search-autocomplete__display: none;
+@search-autocomplete__margin-top: -15px;
+@search-autocomplete__overflow: hidden;
+@search-autocomplete__margin-top__m: 0;
+
+//  List
+@search-autocomplete-list__use-list-reset-styles: true;
+
+//  Item
+@search-autocomplete-item__position: relative;
+@search-autocomplete-item__margin: 0;
+@search-autocomplete-item__padding: @indent__xs @indent__xl @indent__xs @indent__s;
+@search-autocomplete-item__border-top: 1px solid @color-gray90;
+@search-autocomplete-item__text-align: left;
+@search-autocomplete-item__white-space: normal;
+@search-autocomplete-item__cursor: pointer;
+@search-autocomplete-item__not-empty__border: 1px solid @form-element-input__border-color;
+@search-autocomplete-item__not-empty__border-top: 0;
+@search-autocomplete-item__not-empty__background: @color-white;
+@search-autocomplete-item__first-child__border-top: 0;
+@search-autocomplete-item__hover__background: @color-gray91;
+
+//  Amount
+@search-autocomplete-item-amount__position: absolute;
+@search-autocomplete-item-amount__top: @indent__xs;
+@search-autocomplete-item-amount__right: 7px;
+@search-autocomplete-item-amount__color: @color-gray60;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@search-autocomplete__is-enabled = true) {
+        .search-autocomplete {
+            & {
+                .lib-css(position, @search-autocomplete__position);
+                .lib-css(z-index, @search-autocomplete__z-index);
+                .lib-css(display, @search-autocomplete__display);
+                .lib-css(margin-top, @search-autocomplete__margin-top);
+                .lib-css(overflow, @search-autocomplete__overflow);
+            }
+
+            ul {
+                & when (@search-autocomplete-list__use-list-reset-styles = true) {
+                    .lib-list-reset-styles();
+                }
+            }
+
+            li {
+                .lib-css(position, @search-autocomplete-item__position);
+                .lib-css(margin, @search-autocomplete-item__margin);
+                .lib-css(padding, @search-autocomplete-item__padding);
+                .lib-css(border-top, @search-autocomplete-item__border-top);
+                .lib-css(text-align, @search-autocomplete-item__text-align);
+                .lib-css(white-space, @search-autocomplete-item__white-space);
+                .lib-css(cursor, @search-autocomplete-item__cursor);
+
+                &:not(:empty) {
+                    .lib-css(border, @search-autocomplete-item__not-empty__border);
+                    .lib-css(border-top, @search-autocomplete-item__not-empty__border-top);
+                    .lib-css(background, @search-autocomplete-item__not-empty__background);
+                }
+
+                &:first-child {
+                    .lib-css(border-top, @search-autocomplete-item__first-child__border-top);
+                }
+
+                &:hover,
+                &.selected {
+                    .lib-css(background, @search-autocomplete-item__hover__background);
+                }
+            }
+
+            .amount {
+                .lib-css(position, @search-autocomplete-item-amount__position);
+                .lib-css(top, @search-autocomplete-item-amount__top);
+                .lib-css(right, @search-autocomplete-item-amount__right);
+                .lib-css(color, @search-autocomplete-item-amount__color);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@search-autocomplete__is-enabled = true) {
+        .search-autocomplete {
+            .lib-css(margin-top, @search-autocomplete__margin-top__m);
+        }
+    }
+}

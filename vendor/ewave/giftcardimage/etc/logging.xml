@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Logging:etc/logging.xsd">
+    <groups>
+        <group name="ewave_giftcardimage">
+            <label translate="true">Ewave Gift Card Images</label>
+            <expected_models>
+                <expected_model class="Ewave\GiftCardImage\Model\GiftCardImage" />
+            </expected_models>
+            <events>
+                <event controller_action="ewave_giftcardimage_index_edit" action_alias="view" />
+                <event controller_action="ewave_giftcardimage_index_save" action_alias="save" />
+                <event controller_action="ewave_giftcardimage_index_delete" action_alias="delete" />
+                <event controller_action="ewave_giftcardimage_index_massDelete" action_alias="massDelete" />
+            </events>
+        </group>
+    </groups>
+</logging>

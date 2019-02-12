@@ -1,0 +1,37 @@
+//
+//  Block Title
+//  _____________________________________________
+
+.ewave-lib-block-title(
+    @_margin: @block-title__margin,
+    @_padding: @block-title__padding,
+    @_is-bordered: @block-title__is-bordered,
+    @_border-bottom: @block-title__border-bottom,
+    @_font-size: @block-title__font-size,
+    @_background: @block-title__background,
+    @_strong__font-weight: @block-title-strong__font-weight,
+    @_is-counter: @block-title__is-counter,
+    @_counter__font-size: @block-title-counter__font-size,
+    @_counter__white-space: @block-title-counter__white-space,
+    @_counter__color: @block-title-counter__color
+) {
+    & {
+        .lib-css(margin, @_margin);
+        .lib-css(padding, @_padding);
+        & when (@_is-bordered = true) {
+            .lib-css(border-bottom, @_border-bottom);
+        }
+        .lib-font-size(@_font-size);
+        .lib-css(background, @_background);
+    }
+    strong {
+        .lib-css(font-weight, @_strong__font-weight);
+    }
+    .counter {
+        & when (@_is-counter = true) {
+            .lib-font-size(@_counter__font-size);
+            .lib-css(white-space, @_counter__white-space);
+            .lib-css(color, @_counter__color);
+        }
+    }
+}

@@ -1,0 +1,22 @@
+<?php
+/**
+ * @var $this \Magento\Framework\View\TemplateEngine\Php
+ * @var $block \Magento\Framework\View\Element\Template
+ * @var $cartPageHelper \Ewave\ExtendedCart\Helper\CartPage
+ */
+$cartPageHelper = $this->helper(\Ewave\ExtendedCart\Helper\CartPage::class);
+?>
+<script type="text/x-magento-init">
+{
+    ".cart-container": {
+        "ajaxCartQty": {
+            "loaderConfig": {
+                "icon": "<?php echo $block->escapeUrl($this->helper('Ewave\Utilities\Helper\Animation')->getImage()); ?>",
+                "texts": {
+                    "loaderText": "<?php echo $block->escapeHtml($this->helper('Ewave\Utilities\Helper\Animation')->getText()); ?>"
+                }
+            }
+        }
+    }
+}
+</script>

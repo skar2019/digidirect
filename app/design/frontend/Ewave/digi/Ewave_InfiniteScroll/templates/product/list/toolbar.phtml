@@ -1,0 +1,27 @@
+<?php
+/**
+ * Product list toolbar
+ *
+ * @var $block \Ewave\InfiniteScroll\Block\Product\ProductList\Toolbar
+ */
+?>
+
+<?php if ($block->getCollection()->getSize()): ?>
+    <div class="toolbar toolbar-products" data-mage-init='<?php /* @escapeNotVerified */ echo $block->getWidgetOptionsJson(); ?>'>
+        <div class="mobile-row">
+            <?= $block->getChildHtml('page.main.title');?>
+            <?php if ($block->isExpanded()): ?>
+                <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/viewmode.phtml')) ?>
+            <?php endif; ?>
+        </div>
+        <div class="desktop-row">
+            <div class="filter filter-trigger -mobile" data-container="#catalogSidebar" data-mage-init='{ "offcanvas": {"addOn":
+            "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Filter');?></div>
+            <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/amount.phtml')) ?>
+            <?php if ($block->isExpanded()): ?>
+                <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/sorter.phtml')) ?>
+                <div class="sorter -mobile"><?=  __('Sort By');?></div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif ?>

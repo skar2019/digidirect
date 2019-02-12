@@ -1,0 +1,309 @@
+//
+//  Catalog: Price
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@catalog-price__is-enabled: true; // Enable/disable styles
+
+@catalog-price-old__text-decoration: line-through;
+@catalog-price-actual__font-weight: @font-weight__bold;
+
+//  Price Container
+@catalog-price-price-container-price__font-size: 14;
+@catalog-price-price-container-price-tax-weee__margin-top: @indent__xs;
+@catalog-price-price-container-price-tax-weee-price__font-size: 11;
+@catalog-price-price-container-weee-excluding-tax__before__content: attr(data-label) ': ';
+
+//  Prices Tier
+@catalog-prices-tier__is-enabled: true;
+@catalog-prices-tier__use-reset-list: true;
+@catalog-prices-tier__margin: @indent__s 0;
+@catalog-prices-tier__padding: @indent__s (.75 * @indent__base);
+@catalog-prices-tier__background: @sidebar__background-color;
+@catalog-prices-tier-tax-weee__display: inline-block;
+@catalog-prices-tier-tax-weee-price__font-size: 14;
+@catalog-prices-tier-tax-weee-price__font-weight: @font-weight__bold;
+//  Prices Tier - Price Container
+@catalog-prices-tier-price-container__display: inline-block;
+@catalog-prices-tier-price-container-tax__before__content: '(' attr(data-label) ': ';
+@catalog-prices-tier-price-container-tax__last-child-after__content: ')';
+
+//  Listing - Price Box
+@catalog-price-listing-product-item-price-box__margin: @indent__s 0 @indent__m;
+@catalog-price-listing-product-item-price-box-price__font-size: 14;
+@catalog-price-listing-product-item-price-box-price__font-weight: @font-weight__bold;
+@catalog-price-listing-product-item-price-box-price__white-space: nowrap;
+@catalog-price-listing-product-item-price-box-price-label__font-size: @font-size__s;
+@catalog-price-listing-product-item-price-box-price-label__after__content: ':';
+//  Listing - minimal/special
+@catalog-price-listing-product-item-special-minimal-price__font-size: 14;
+@catalog-price-listing-product-item-special-minimal-price__font-weight: @font-weight__bold;
+@catalog-price-listing-product-item-special-minimal-price-wrapper__display: inline-block;
+@catalog-price-listing-product-item-special-minimal-price-tax__display: block;
+@catalog-price-listing-product-item-special-price__display: block;
+//  Listing - old price
+@catalog-price-listing-product-item-old-price-price__font-weight: @font-weight__regular;
+//  Listing - regular price
+@catalog-price-listing-product-item-regular-price-price-label__display: none;
+//  Listing - minimal price link
+@catalog-price-listing-product-item-minimal-price-price-container__display: block;
+@catalog-price-listing-product-item-minimal-price-link__margin-top: 5px;
+@catalog-price-listing-product-item-minimal-price-link-price-label__font-size: 14;
+@catalog-price-listing-product-item-minimal-price-link-price-label__color: @link__color;
+@catalog-price-listing-product-item-minimal-price-link-price__font-weight: @font-weight__regular;
+//  Listing - minimal price link + taxes
+@catalog-price-listing-product-item-minimal-price-link-tax__display: block;
+@catalog-price-listing-product-item-minimal-price-link-tax__white-space: nowrap;
+//  Listing -  price from / price to
+@catalog-price-listing-product-item-price-from-to__margin: 0;
+
+//  Product Page
+@catalog-price-product-info-main-price-box__margin-top: @indent__s;
+@catalog-price-product-info-main-options-bottom-price-box-tax-weee__margin-bottom: @indent__xs;
+@catalog-price-product-info-main-options-bottom-price-box-tax-weee__font-size: 12;
+@catalog-price-product-info-main-options-bottom-price-box-tax-weee__line-height: 14px;
+@catalog-price-product-info-main-options-bottom-price-box-tax-weee-price__font-size: 12;
+@catalog-price-product-info-main-options-bottom-price-box-tax-weee-price__font-weight: @font-weight__bold;
+@catalog-price-product-info-main-options-bottom-price-box-price-wrapper-price__font-size: 18;
+@catalog-price-product-info-main-options-bottom-price-box-price-wrapper-price__font-weight: @font-weight__bold;
+@catalog-price-product-info-main-options-bottom-price-box-price__white-space: nowrap;
+@catalog-price-product-info-main-options-bottom-special-price__display: block;
+@catalog-price-product-info-main-options-bottom-special-price__margin: @indent__s 0;
+@catalog-price-product-info-main-options-bottom-special-price-price-container__font-size: 14;
+@catalog-price-product-info-main-options-bottom-special-price-price-label-price-wrapper__display: inline-block;
+@catalog-price-product-info-main-options-bottom-old-price-special-price-price-label__after__content: ': ';
+
+//  Sidebar
+@catalog-price-sidebar-product-items-price-box__display: block;
+@catalog-price-sidebar-product-items-price-box__margin: 7px 0;
+@catalog-price-sidebar-product-items-minilist-price__display: inline;
+@catalog-price-sidebar-product-items-minilist-price__padding: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@catalog-price__is-enabled = true) {
+        .old-price,
+        .old.price {
+            .lib-css(text-decoration, @catalog-price-old__text-decoration);
+        }
+
+        .actual-price {
+            .lib-css(font-weight, @catalog-price-actual__font-weight);
+        }
+
+        .price-container {
+            .price {
+                .lib-font-size(@catalog-price-price-container-price__font-size);
+            }
+
+            .price-including-tax + .price-excluding-tax,
+            .weee {
+                .lib-css(margin-top, @catalog-price-price-container-price-tax-weee__margin-top);
+            }
+
+            .price-including-tax + .price-excluding-tax,
+            .weee,
+            .price-including-tax + .price-excluding-tax .price,
+            .weee .price,
+            .weee + .price-excluding-tax::before,
+            .weee + .price-excluding-tax .price {
+                .lib-font-size(@catalog-price-price-container-price-tax-weee-price__font-size);
+            }
+
+            .weee + .price-excluding-tax {
+                &::before {
+                    .lib-css(content, @catalog-price-price-container-weee-excluding-tax__before__content);
+                }
+            }
+        }
+
+        .prices-tier {
+            & when (@catalog-prices-tier__is-enabled = true) {
+                & {
+                    & when (@catalog-prices-tier__use-reset-list = true) {
+                        &:extend(.abs-reset-list all);
+                    }
+                    .lib-css(margin, @catalog-prices-tier__margin);
+                    .lib-css(padding, @catalog-prices-tier__padding);
+                    .lib-css(background, @sidebar__background-color);
+                }
+
+                .price-including-tax,
+                .price-excluding-tax,
+                .weee {
+                    .lib-css(display, @catalog-prices-tier-tax-weee__display);
+
+                    .price {
+                        .lib-font-size(@catalog-prices-tier-tax-weee-price__font-size);
+                        .lib-css(font-weight, @catalog-prices-tier-tax-weee-price__font-weight);
+                    }
+                }
+
+                .price-container {
+                    .lib-css(display, @catalog-prices-tier-price-container__display);
+                    .price-including-tax {
+                        + .price-excluding-tax {
+                            &::before {
+                                .lib-css(content, @catalog-prices-tier-price-container-tax__before__content);
+                            }
+
+                            &:last-child::after {
+                                .lib-css(content, @catalog-prices-tier-price-container-tax__last-child-after__content);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //  Listing Only
+        .product-item {
+            .price-box {
+                .lib-css(margin, @catalog-price-listing-product-item-price-box__margin);
+            }
+            .price-box .price {
+                .lib-font-size(@catalog-price-listing-product-item-price-box-price__font-size);
+                .lib-css(font-weight, @catalog-price-listing-product-item-price-box-price__font-weight);
+                .lib-css(white-space, @catalog-price-listing-product-item-price-box-price__white-space);
+            }
+
+            .price-box .price-label {
+                .lib-css(font-size, @catalog-price-listing-product-item-price-box-price-label__font-size);
+
+                &::after {
+                    .lib-css(content, @catalog-price-listing-product-item-price-box-price-label__after__content);
+                }
+            }
+
+            .special-price,
+            .minimal-price {
+                .price {
+                    .lib-font-size(@catalog-price-listing-product-item-special-minimal-price__font-size);
+                    .lib-css(font-weight, @catalog-price-listing-product-item-special-minimal-price__font-weight);
+                }
+
+                .price-wrapper {
+                    .lib-css(display, @catalog-price-listing-product-item-special-minimal-price-wrapper__display);
+                }
+
+                .price-including-tax + .price-excluding-tax {
+                    .lib-css(display, @catalog-price-listing-product-item-special-minimal-price-tax__display);
+                }
+            }
+
+            .special-price {
+                .lib-css(display, @catalog-price-listing-product-item-special-price__display);
+            }
+
+            .old-price .price {
+                .lib-css(font-weight, @catalog-price-listing-product-item-old-price-price__font-weight);
+            }
+
+            .regular-price .price-label {
+                .lib-css(display, @catalog-price-listing-product-item-regular-price-price-label__display);
+            }
+
+            .minimal-price .price-container {
+                .lib-css(display, @catalog-price-listing-product-item-minimal-price-price-container__display);
+            }
+
+            .minimal-price-link {
+                .lib-css(margin-top, @catalog-price-listing-product-item-minimal-price-link__margin-top);
+
+                .price-label {
+                    .lib-font-size(@catalog-price-listing-product-item-minimal-price-link-price-label__font-size);
+                    .lib-css(color, @catalog-price-listing-product-item-minimal-price-link-price-label__color);
+                }
+
+                .price {
+                    .lib-css(font-weight, @catalog-price-listing-product-item-minimal-price-link-price__font-weight);
+                }
+            }
+
+            .minimal-price-link,
+            .price-excluding-tax,
+            .price-including-tax {
+                .lib-css(display, @catalog-price-listing-product-item-minimal-price-link-tax__display);
+                .lib-css(white-space, @catalog-price-listing-product-item-minimal-price-link-tax__white-space);
+            }
+
+            .price-from,
+            .price-to {
+                .lib-css(margin, @catalog-price-listing-product-item-price-from-to__margin);
+            }
+        }
+
+        //  Product Page Only
+        .product-info-main {
+            .price-box {
+                .lib-css(margin-top, @catalog-price-product-info-main-price-box__margin-top);
+            }
+        }
+        .product-info-main,
+        .product-options-bottom {
+            .price-box {
+                .price-including-tax + .price-excluding-tax,
+                .weee + .price-excluding-tax,
+                .weee {
+                    .lib-css(margin-bottom, @catalog-price-product-info-main-options-bottom-price-box-tax-weee__margin-bottom);
+                    .lib-font-size(@catalog-price-product-info-main-options-bottom-price-box-tax-weee__font-size);
+                    .lib-css(line-height, @catalog-price-product-info-main-options-bottom-price-box-tax-weee__line-height);
+
+                    .price {
+                        .lib-font-size(@catalog-price-product-info-main-options-bottom-price-box-tax-weee-price__font-size);
+                        .lib-css(font-weight, @catalog-price-product-info-main-options-bottom-price-box-tax-weee-price__font-weight);
+                    }
+                }
+
+                .price-wrapper .price {
+                    .lib-font-size(@catalog-price-product-info-main-options-bottom-price-box-price-wrapper-price__font-size);
+                    .lib-css(font-weight, @catalog-price-product-info-main-options-bottom-price-box-price-wrapper-price__font-weight);
+                }
+
+                .price {
+                    .lib-css(white-space, @catalog-price-product-info-main-options-bottom-price-box-price__white-space);
+                }
+            }
+
+            .special-price {
+                .lib-css(display, @catalog-price-product-info-main-options-bottom-special-price__display);
+                .lib-css(margin, @catalog-price-product-info-main-options-bottom-special-price__margin);
+
+                .price-container {
+                    .lib-font-size(@catalog-price-product-info-main-options-bottom-special-price-price-container__font-size);
+                }
+
+                .price-label + .price-wrapper {
+                    .lib-css(display, @catalog-price-product-info-main-options-bottom-special-price-price-label-price-wrapper__display);
+                }
+            }
+
+            .old-price,
+            .special-price {
+                .price-label {
+                    &::after {
+                        .lib-css(content, @catalog-price-product-info-main-options-bottom-old-price-special-price-price-label__after__content);
+                    }
+                }
+            }
+        }
+
+        //  Sidebar
+        .sidebar {
+            .product-items .price-box {
+                .lib-css(display, @catalog-price-sidebar-product-items-price-box__display);
+                .lib-css(margin, @catalog-price-sidebar-product-items-price-box__margin);
+            }
+            .product-items .minilist .price {
+                .lib-css(display, @catalog-price-sidebar-product-items-minilist-price__display);
+                .lib-css(padding, @catalog-price-sidebar-product-items-minilist-price__padding);
+            }
+        }
+    }
+}

@@ -1,0 +1,100 @@
+//
+//  Blog widget post-card
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .post-card {
+        & {
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+        }
+
+        > .container {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            padding: 10px 20px;
+        }
+
+        > .container > .title {
+            width: 100%;
+            font-size: 12px;
+            line-height: 2;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        > .container > .content {
+            text-transform: capitalize;
+            max-width: 80%;
+            margin: 0 10px 0 0;
+            font-weight: 300;
+            font-size: 20px;
+        }
+
+        > .image {
+            min-height: 1px; // IE11 fix
+        }
+
+        > .container > .svgi-arrow {
+            height: 17px;
+            width: 30px;
+            .lib-css(fill, @color-2-1);
+            padding-left: 5px;
+            margin-top: 2px;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .post-card {
+        > .container {
+            padding: 10px 20px 20px;
+            background: transparent;
+        }
+
+        > .container > .title {
+            .lib-css(color, @color-white);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        > .container > .content {
+            .lib-css(color, @color-white);
+            font-size: 17px;
+            line-height: 1;
+        }
+
+        > .container > .svgi-arrow {
+            margin: auto 0;
+        }
+    }
+}
+
+//
+//  Desktop Large
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .post-card {
+        > .container > .content {
+            .lib-css(color, @color-white);
+            font-size: 30px;
+        }
+
+        > .container {
+            padding: 10px 20px 50px 50px;
+        }
+    }
+}

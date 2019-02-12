@@ -1,0 +1,48 @@
+//
+//  Gift Registry: Shared
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-registry-shared__is-enabled: true;  //  Enable/disable style
+
+@gift-registry-shared-item-options-item-value__margin: 0 0 @indent__m;
+
+@gift-registry-shared-item-options__use-product-options-list-desktop__m: true;
+@gift-registry-shared-item-options__use-add-clearfix-desktop__m: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@gift-registry-shared__is-enabled = true) {
+        .block-giftregistry-shared {
+            .item-options .item-value {
+                .lib-css(margin, @gift-registry-shared-item-options-item-value__margin);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@gift-registry-shared__is-enabled = true) {
+        .block-giftregistry-shared {
+            .item-options {
+                & when (@gift-registry-shared-item-options__use-product-options-list-desktop__m = true) {
+                    &:extend(.abs-product-options-list-desktop all);
+                }
+
+                & when (@gift-registry-shared-item-options__use-add-clearfix-desktop__m = true) {
+                    &:extend(.abs-add-clearfix-desktop all);
+                }
+            }
+        }
+    }
+}

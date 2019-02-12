@@ -1,0 +1,114 @@
+//
+//  Price
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@price__is-enabled: true; // Enable/disable styles
+
+//  Styles
+@price__use-price-style-1: true;
+@price__use-price-style-2: false;
+@price__use-price-style-3: true;
+
+//  Style 1
+@price-style-1-tier-price-tax__display: inline;
+
+//  Style 2
+@price-style-2-tax__display: ~'inline !important';
+@price-style-2-including-tax__before__content: ' / ';
+@price-style-2-including-tax__after__content: '('attr(data-label)')';
+
+//  Style 3
+@price-style-3-tax__display: block;
+@price-style-3-tax__font-size: 18;
+@price-style-3-tax__line-height: 1;
+@price-style-3-tax-price__font-weight: @font-weight__bold;
+@price-style-3-tax-cart-tax-total__use-tax-total: true;
+@price-style-3-tax-cart-tax-total-expanded__use-tax-total-expanded: true;
+@price-style-3-tax-weee__display: block;
+@price-style-3-tax-weee__font-size: 18;
+@price-style-3-tax-weee__before__content: attr(data-label) ': ';
+@price-style-3-tax-weee__before__font-size: 11;
+@price-style-3-tax-weee-price__font-size: 11;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@price__is-enabled = true) {
+        .price-style-1() {
+            .price-tier_price .price-excluding-tax,
+            .price-tier_price .price-including-tax {
+                .lib-css(display, @price-style-1-tier-price-tax__display);
+            }
+        }
+
+        .price-style-2() {
+            .price-including-tax,
+            .price-excluding-tax {
+                .lib-css(display, @price-style-2-tax__display);
+            }
+
+            .price-including-tax::before {
+                .lib-css(content, @price-style-2-including-tax__before__content);
+            }
+
+            .price-including-tax::after {
+                .lib-css(content, @price-style-2-including-tax__after__content);
+            }
+        }
+
+        .price-style-3() {
+            .price-including-tax,
+            .price-excluding-tax {
+                .lib-css(display, @price-style-3-tax__display);
+                .lib-font-size(@price-style-3-tax__font-size);
+                .lib-css(line-height, @price-style-3-tax__line-height);
+
+                .price {
+                    .lib-css(font-weight, @price-style-3-tax-price__font-weight);
+                }
+
+                .cart-tax-total {
+                    & when (@price-style-3-tax-cart-tax-total__use-tax-total = true) {
+                        &:extend(.abs-tax-total all);
+                    }
+                }
+                .cart-tax-total-expanded {
+                    & when (@price-style-3-tax-cart-tax-total-expanded__use-tax-total-expanded = true) {
+                        &:extend(.abs-tax-total-expanded all);
+                    }
+                }
+            }
+
+            .price-including-tax + .price-excluding-tax,
+            .weee[data-label] {
+                .lib-css(display, @price-style-3-tax-weee__display);
+                .lib-font-size(@price-style-3-tax-weee__font-size);
+
+                &::before {
+                    .lib-css(content, @price-style-3-tax-weee__before__content);
+                    .lib-font-size(@price-style-3-tax-weee__before__font-size);
+                }
+
+                .price {
+                    .lib-font-size(@price-style-3-tax-weee-price__font-size);
+                }
+            }
+        }
+
+        & when (@price__use-price-style-1 = true) {
+            .price-style-1();
+        }
+        & when (@price__use-price-style-2 = true) {
+            .price-style-2();
+        }
+        & when (@price__use-price-style-3 = true) {
+            .price-style-3();
+        }
+    }
+}

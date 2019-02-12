@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="feed_export" instance="\Ewave\Feed\Cron\Export" method="execute">
+            <config_path>ewave_feed/schedule/cron_expr</config_path>
+        </job>
+
+        <job name="feed_history_clean" instance="\Ewave\Feed\Cron\CleanHistory" method="execute">
+            <schedule>5 1 * * *</schedule>
+        </job>
+    </group>
+</config>

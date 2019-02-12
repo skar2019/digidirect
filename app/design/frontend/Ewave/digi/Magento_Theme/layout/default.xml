@@ -1,0 +1,87 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="breadcrumbs" remove="true"/>
+        <referenceBlock name="back-to-top" remove="true"/>
+
+        <referenceBlock name="logo">
+            <arguments>
+                <argument name="logo_img_width" xsi:type="number">180</argument>
+                <argument name="logo_img_height" xsi:type="number">42</argument>
+            </arguments>
+        </referenceBlock>
+
+        <!-- Fonts -->
+        <referenceBlock name="js_fonts">
+                <arguments>
+                    <argument name="fonts_revision" xsi:type="string">1.0.1</argument>
+                </arguments>
+        </referenceBlock>
+        
+        <!-- SVG -->
+        <referenceBlock name="svg_sprite">
+            <arguments>
+                <argument name="svg_is_inline" xsi:type="boolean">true</argument>
+                <argument name="svg_revision" xsi:type="string">1.2.0</argument>
+            </arguments>
+        </referenceBlock>
+
+        <!-- FOOTER -->
+        <referenceBlock name="footer_links" remove="true"/>
+        <move element="copyright" destination="footer-bottom" after="-"/>
+        <referenceContainer name="footer">
+            <container name="footer-partners" as="footer-partners" label="Page Footer Partners" htmlTag="div" htmlClass="footer-partners" after="-">
+                <block class="Magento\Cms\Block\Block" name="footer-partners-block">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">footer_partners</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+        <referenceContainer name="footer-container">
+            <container name="footer-line" as="footer-line" label="Page Footer Line" htmlTag="div" htmlClass="footer-line">
+                <container name="footer-bottom" as="footer-bottom" label="Page Footer Bottom" htmlTag="div" htmlClass="footer-bottom">
+                    <container name="footer-social" as="footer-social" label="Page Footer Social" htmlTag="div" htmlClass="footer-social" before="-">
+                        <block class="Magento\Cms\Block\Block" name="footer-social-links">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">footer_social_links</argument>
+                            </arguments>
+                        </block>
+                    </container>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <!-- HEADER -->
+        <referenceContainer  name="header.panel">
+            <block class="Magento\Cms\Block\Block" name="cms.top.learn">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">header-learn-more</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="cms.top.shipping">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">header-free-shipping</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="cms.top.links">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">header-top-links</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="header-wrapper">
+            <container name="header.wrapper.links" htmlTag="div" htmlClass="wrap-links" after="top.search">
+                <block class="Magento\Cms\Block\Block" name="header.content.links">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">header-content-links</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+        <move element="authorization-link" destination="header.wrapper.links"/>
+        <move element="my-account-link" destination="authorization-link"/>
+
+        <referenceBlock name="top.links" remove="true"/>
+    </body>
+</page>

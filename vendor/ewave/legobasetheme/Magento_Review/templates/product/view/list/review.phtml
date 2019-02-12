@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var $block \Magento\Framework\View\Element\Template
+ */
+?>
+<?php
+$name = $block->getNameInLayout();
+foreach ($block->getChildNames($name) as $childName) {
+    $childBlock = $block->getChildBlock($childName);
+    echo $childBlock
+        ->setReview($block->getReview())
+        ->toHtml();
+}
+?>

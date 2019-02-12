@@ -1,0 +1,21 @@
+//
+//  Pages
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@pages__is-enabled: true; // Enable/disable styles
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@pages__is-enabled = true) {
+        .pages {
+            .lib-pager();
+        }
+    }
+}

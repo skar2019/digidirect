@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="additional.product.info">
+            <block class="Ewave\CartSuggestions\Block\Cart\Additional\Suggestion"
+                   name="cart.suggestion"
+                   template="Ewave_CartSuggestions::cart/additional/suggestion.phtml">
+                <arguments>
+                    <argument name="related_block_name" xsi:type="string">cart.suggestion.related</argument>
+                    <argument name="target_related_block_name" xsi:type="string">cart.suggestion.target.related</argument>
+                    <argument name="suggestions_link_text" xsi:type="helper" helper="Ewave\CartSuggestions\Helper\Data::getSuggestionsLinkText"/>
+                </arguments>
+                <block class="Ewave\CartSuggestions\Block\Product\ProductList\Related"
+                       name="cart.suggestion.related"
+                       template="Magento_Catalog::product/list/items.phtml">
+                    <arguments>
+                        <argument name="type" xsi:type="string">related</argument>
+                        <argument name="product_number" xsi:type="helper" helper="Ewave\CartSuggestions\Helper\Data::getProductNumber"/>
+                    </arguments>
+                </block>
+                <block class="Ewave\CartSuggestions\Block\Product\Target\ProductList\Related" name="cart.suggestion.target.related" template="Magento_Catalog::product/list/items.phtml">
+                    <arguments>
+                        <argument name="type" xsi:type="string">related-rule</argument>
+                        <argument name="product_number" xsi:type="helper" helper="Ewave\CartSuggestions\Helper\Data::getProductNumber"/>
+                    </arguments>
+                </block>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

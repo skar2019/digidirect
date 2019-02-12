@@ -1,0 +1,32 @@
+//
+//  Sales Rules
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@sales-rules__is-enabled: true; // Enable/disable styles
+
+@sales-rules-checkout-form-discount__max-width: false;
+@sales-rules-checkout-form-discount-label__use-visually-hidden: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@sales-rules__is-enabled = true) {
+        .opc-wrapper {
+            .form-discount {
+                .lib-css(max-width, @sales-rules-checkout-form-discount__max-width);
+            }
+
+            .form-discount .field .label {
+                & when (@sales-rules-checkout-form-discount-label__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+        }
+    }
+}

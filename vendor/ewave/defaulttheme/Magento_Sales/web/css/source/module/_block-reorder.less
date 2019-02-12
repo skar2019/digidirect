@@ -1,0 +1,48 @@
+//
+//  Sales: Block ReOrder
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@sales-block-reorder__is-enabled: true; // Enable/disable styles
+
+@sales-block-reorder-product-item-label__use-visually-hidden: true;
+
+@sales-block-reorder-product-item-field-item__float: left;
+@sales-block-reorder-product-item-field-item__display: false;
+@sales-block-reorder-product-item-field-item__margin: 0;
+
+//  Product Name
+@sales-block-reorder-product-item-name__display: block;
+@sales-block-reorder-product-item-name__margin: 0 0 6px;
+@sales-block-reorder-product-item-name__overflow: hidden;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@sales-block-reorder__is-enabled = true) {
+        .block-reorder {
+            .product-item .label {
+                & when (@sales-block-reorder-product-item-label__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+
+            .product-item .field.item {
+                .lib-css(float, @sales-block-reorder-product-item-field-item__float);
+                .lib-css(display, @sales-block-reorder-product-item-field-item__display);
+                .lib-css(margin, @sales-block-reorder-product-item-field-item__margin);
+            }
+
+            .product-item-name {
+                .lib-css(display, @sales-block-reorder-product-item-name__display);
+                .lib-css(margin, @sales-block-reorder-product-item-name__margin);
+                .lib-css(overflow, @sales-block-reorder-product-item-name__overflow);
+            }
+        }
+    }
+}

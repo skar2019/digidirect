@@ -1,0 +1,9 @@
+<?php /** @var Ewave\CheckoutFields\Block\Checkout\Custom\Fields $block */ ?>
+
+<script>
+window.customCheckoutFieldConfig = {
+    "ajaxUrl": "<?php echo /* @escapeNotVerified */ $block->getAjaxUrl(); ?>",
+    "fields": <?php echo /* @escapeNotVerified */ $block->getFields(); ?>,
+    "provider": "<?php echo $block->escapeHtml($block->getProvider()); ?>"
+};
+</script>

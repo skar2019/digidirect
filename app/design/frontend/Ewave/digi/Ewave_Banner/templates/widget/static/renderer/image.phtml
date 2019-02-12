@@ -1,0 +1,52 @@
+<?php
+/**
+ * @var $block \Ewave\Banner\Block\Widget\StaticWidget\Renderer\Image
+ *
+ * Available useful methods:
+ * 1) current banner  - $block->getBanner()
+ * 2) widget itself -> $block->getWidget()
+ * 3) If you wanna get some value from banner use $block->getRootSetting(string $key, $defaultValueToBeReturned)
+ * 4) banner content - $block->getContent()
+ * 5) get banner images -  $block->getImages()
+ * 6) when you iterate images you can use $image[$key] but also it will be easier to use $block->getImageAttribute(array $image, string $key)
+ *
+ */
+$banner = $block->getBanner();
+$mediaQuery = $block->getMediaQuery();
+$images = $block->getImages();
+$navigationTitle = $block->getCustomSetting('navigation_title');
+$navigationImage = $block->getCustomSetting('navigation_image');
+$link = $block->getCustomSetting('target_id');
+$title = $block->getCustomSetting('title');
+$alt = $block->getCustomSetting('alt');
+$content = $banner['content'];
+$isLazyLoad = $block->getWidget()->getIsLazyLoad();
+?>
+<div class="banner-item -type-image"
+     data-testid="bannerRotator-banner"
+     data-banner-id="<?= /* @noEscape */ $banner['id']; ?>"
+     data-format="image"
+     data-banner-navigation-title="<?= $block->escapeHtml($navigationTitle); ?>"
+    <?php if ($navigationImage) : ?> data-banner-navigation-image="<?= /* @noEscape */ $navigationImage; ?>"<?php endif; ?>>
+    <?php if ($link) : ?><a class="link" href="<?= $block->escapeUrl($link); ?>" title="<?= $block->escapeHtml($title); ?>"><?php endif; ?>
+    <picture class="picture" data-testid="bannerRotator-banner-image">
+        <?php foreach ($images as $image): ?>
+            <?php $srcSetValue = $block->getByKey($image, 'src_set_value',"100vw"); ?>
+            <?php $srcSetImage = $block->getByKey($image, 'src_set_image',""); ?>
+            <?php $media = $block->getByKey($image, 'media', "");?>
+            <source media="<?= /* @noEscape */ $media; ?>" <?php if ($isLazyLoad) : ?>data-<?php endif; ?>srcset="<?= /* @noEscape */ $srcSetImage; ?>" size="<?= /* @noEscape */ $srcSetValue; ?>"/>
+        <?php endforeach; ?>
+        <?php if ($isLazyLoad) : ?>
+            <img class="lazyload" data-src="<?= /* @noEscape */ $images[0]['src_set_image']; ?>" alt="<?= /* @noEscape */ $alt; ?>"/>
+        <?php else : ?>
+            <img src="<?= /* @noEscape */ $images[0]['src_set_image']; ?>" alt="<?= /* @noEscape */ $alt; ?>"/>
+        <?php endif; ?>
+    </picture>
+    <?php if ($content) : ?>
+        <div class="content -image" data-testid="bannerRotator-banner-content">
+            <?= /* @noEscape */ $content; ?>
+        </div>
+    <?php endif; ?>
+        <?php if ($link) : ?></a><?php endif; ?>
+</div>
+

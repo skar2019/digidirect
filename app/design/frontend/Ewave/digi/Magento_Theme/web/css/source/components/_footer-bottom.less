@@ -1,0 +1,155 @@
+//
+//  Theme: Footer Bottom
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .page-footer {
+        .copyright {
+            color: #9b9b9b;
+        }
+    }
+    .page-footer .copyright,
+    .footer-bottom {
+        font-size: 12px;
+    }
+
+    .footer-line {
+        .lib-css(background-color, @color-black);
+    }
+
+    .footer-bottom {
+        & {
+            padding-top: 31px;
+            padding-bottom: 32px;
+            line-height: 14px;
+            text-align: center;
+            .lib-css(color, @color-white);
+        }
+
+        .menu {
+            margin: 0 0 16px;
+            padding: 0;
+        }
+        .menu > .item {
+            display: inline;
+            margin: 0;
+            padding: 0 10px;
+        }
+        .menu > .item + .item {
+            border-left: 1px solid @color-white;
+        }
+
+        .link {
+            text-decoration: none;
+            .lib-css(color, @color-white);
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .footer-social {
+        & {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-prefix-flex-direction(row);
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        a {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-prefix-flex-direction(row);
+            justify-content: center;
+            align-items: center;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin: 0 6px;
+            vertical-align: top;
+            .lib-css(background-color, @color-4-5);
+            .lib-css(color, @color-white);
+            .lib-hover-out();
+
+            &:hover {
+                .lib-css(color, @link__hover__color);
+            }
+        }
+
+        svg {
+            width: 18px;
+            height: 20px;
+            vertical-align: top;
+            fill: currentColor;
+        }
+
+        a:hover {
+            .lib-social-hover();
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .page-footer {
+        .copyright {
+            float: left;
+            margin: 10px 5px 0 0;
+        }
+    }
+
+    .page-footer .copyright,
+    .footer-bottom {
+        font-size: 13px;
+    }
+
+    .footer-bottom {
+        & {
+            padding-top: 21px;
+            padding-bottom: 29px;
+            line-height: 25px;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .menu {
+            margin: 0;
+        }
+    }
+
+    .footer-social {
+        & {
+            float: right;
+            margin-bottom: 0;
+        }
+
+        a:last-child {
+            margin-right: 0;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .page-footer .copyright,
+    .footer-bottom {
+        font-size: 14px;
+    }
+
+    .footer-social {
+        a {
+            margin-right: 10px;
+            margin-left: 11px;
+        }
+    }
+}

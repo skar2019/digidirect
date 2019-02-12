@@ -1,0 +1,100 @@
+<?php
+namespace Ewave\AbstractAttributes\Controller\Adminhtml\Option;
+
+use Ewave\AbstractAttributes\Api\Data\OptionInterfaceFactory;
+use Ewave\AbstractAttributes\Api\OptionRepositoryInterface;
+use Ewave\AbstractAttributes\Helper\Image as ImageHelper;
+use Ewave\AbstractAttributes\Model\ResourceModel\Option as ResourceOption;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Registry;
+use Magento\UrlRewrite\Model\UrlRewriteFactory;
+
+/**
+ * Class Save
+ * @package Ewave\AbstractAttributes\Controller\Adminhtml\Option
+ */
+class Save extends \Magento\Backend\App\Action
+{
+    use BackTrait;
+
+    /**
+     * @var OptionInterfaceFactory
+     */
+    protected $_optionFactory;
+
+    /**
+     * @var OptionRepositoryInterface
+     */
+    protected $_optionRepository;
+
+    /**
+     * Save constructor.
+     * @param Context $context
+     * @param Registry $coreRegistry
+     * @param OptionInterfaceFactory $optionFactory
+     * @param OptionRepositoryInterface $optionRepository
+     */
+    public function __construct(
+        Context $context,
+        Registry $coreRegistry,
+        OptionInterfaceFactory $optionFactory,
+        OptionRepositoryInterface $optionRepository
+    ) {
+        $this->_optionFactory = $optionFactory;
+        $this->_optionRepository = $optionRepository;
+
+        parent::__construct($context);
+    }
+
+    /**
+     * Save action
+     * @return \Magento\Framework\Controller\ResultInterface
+     */
+    public function execute()
+    {
+        if ($data = $this->getRequest()->getPostValue()) {
+            $hasError = false;
+            /** @var \Ewave\AbstractAttributes\Model\Option $option */
+            $option = $this->_optionFactory->create($data);
+            $option->setData($data);
+
+            try {
+                $this->_optionRepository->save($option);
+                $this->messageManager->addSuccessMessage(__('You saved Advanced Option'));
+            } catch (\Exception $e) {
+                $hasError = true;
+                $this->messageManager->addErrorMessage($e->getMessage());
+            }
+
+            $id = $option->getOptionId();
+            if (($hasError || $this->getRequest()->getParam('back')) && $id) {
+                $params = [
+                    'option_id' => $id,
+                    '_current'  => true,
+                    'store'     => $this->getRequest()->getParam('store_id'),
+                ];
+                if ($backId = $this->getRequest()->getParam('back_to_edit_attribute_id')) {
+                    $params['attribute_id'] = $backId;
+                }
+                return $this->resultRedirectFactory->create()->setPath('*/*/edit', $params);
+            }
+
+            if ($hasError) {
+                $this->_getSession()->setEaaOptionData($data);
+                return $this->resultRedirectFactory->create()->setPath('*/*/edit');
+            }
+        }
+
+        return $this->_resultRedirect();
+    }
+
+    /**
+     * Check if Is allowed to save
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Ewave_AbstractAttributes::aa_menu_option_save');
+    }
+}

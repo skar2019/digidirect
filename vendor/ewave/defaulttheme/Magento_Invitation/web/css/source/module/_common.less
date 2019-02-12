@@ -1,0 +1,43 @@
+//
+//  Invitation: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@invitation__is-enabled: true; // Enable/disable styles
+
+//  Table of Invitations
+@invitation-table-col__width__m: 50%;
+
+//  Form Add Invitations
+@invitation-form-add-fieldset-actions-toolbar__margin: 10px 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@invitation__is-enabled = true) {
+        .form-add-invitations {
+            .fieldset .actions-toolbar {
+                .lib-css(margin, @invitation-form-add-fieldset-actions-toolbar__margin);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@invitation__is-enabled = true) {
+        .table-invitations {
+            .col {
+                .lib-css(width, @invitation-table-col__width__m);
+            }
+        }
+    }
+}

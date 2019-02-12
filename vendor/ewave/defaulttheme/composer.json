@@ -1,0 +1,17 @@
+{
+    "name": "ewave/defaulttheme",
+    "description": "Default theme",
+    "require": {
+        "ewave/legobasetheme": "*"
+    },
+    "type": "magento2-theme",
+    "version": "1.3.0.0",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ]
+    }
+}

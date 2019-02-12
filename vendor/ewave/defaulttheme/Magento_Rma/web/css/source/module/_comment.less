@@ -1,0 +1,42 @@
+//
+//  Rma: Comment
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@rma-comment__is-enabled: true; // Enable/disable styles
+
+@rma-comment-returns-comment-date__font-wight: @font-weight__regular;
+@rma-comment-returns-comment-text__margin-bottom: 15px;
+@rma-comment-returns-comment-text__last-child__margin-bottom: 0;
+@rma-comment-fieldset__margin-bottom: 20px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@rma-comment__is-enabled = true) {
+        .returns-comments {
+            & > .returns-comment-date {
+                .lib-css(font-weight, @rma-comment-returns-comment-date__font-wight);
+            }
+
+            & > .returns-comment-text {
+                .lib-css(margin-bottom, @rma-comment-returns-comment-text__margin-bottom);
+
+                &:last-child {
+                    .lib-css(margin-bottom, @rma-comment-returns-comment-text__last-child__margin-bottom);
+                }
+            }
+        }
+
+        .block-returns-comments {
+            .fieldset {
+                .lib-css(margin-bottom, @rma-comment-fieldset__margin-bottom);
+            }
+        }
+    }
+}

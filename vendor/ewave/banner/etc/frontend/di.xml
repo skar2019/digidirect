@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\Banner\Block\Widget\Banner">
+        <arguments>
+            <argument name="rendererConfiguration" xsi:type="array">
+                <item name="custom" xsi:type="array">
+                    <item name="template" xsi:type="string">Ewave_Banner::widget/static/renderer/custom.phtml</item>
+                    <item name="class" xsi:type="string">Ewave\Banner\Block\Widget\StaticWidget\Renderer\Custom</item>
+                </item>
+                <item name="content" xsi:type="array">
+                    <item name="template" xsi:type="string">Ewave_Banner::widget/static/renderer/content.phtml</item>
+                    <item name="class" xsi:type="string">Ewave\Banner\Block\Widget\StaticWidget\Renderer\Content</item>
+                </item>
+                <item name="image" xsi:type="array">
+                    <item name="template" xsi:type="string">Ewave_Banner::widget/static/renderer/image.phtml</item>
+                    <item name="class" xsi:type="string">Ewave\Banner\Block\Widget\StaticWidget\Renderer\Image</item>
+                </item>
+                <item name="media" xsi:type="array">
+                    <item name="template" xsi:type="string">Ewave_Banner::widget/static/renderer/media.phtml</item>
+                    <item name="class" xsi:type="string">Ewave\Banner\Block\Widget\StaticWidget\Renderer\Media</item>
+                </item>
+                <item name="video" xsi:type="array">
+                    <item name="template" xsi:type="string">Ewave_Banner::widget/static/renderer/video.phtml</item>
+                    <item name="class" xsi:type="string">Ewave\Banner\Block\Widget\StaticWidget\Renderer\Video</item>
+                </item>
+            </argument>
+            <argument name="callbacks" xsi:type="array">
+                <item name="media" xsi:type="string">isMediaBannerItem</item>
+                <item name="video" xsi:type="string">isVideoBannerItem</item>
+                <item name="content" xsi:type="string">isContentBanner</item>
+                <item name="image" xsi:type="string">isImageBanner</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Ewave\Banner\Block\Widget\Helper\MediaHelperInterface" type="Ewave\Banner\Block\Widget\Helper\MediaQueryHelper" />
+    <type name="Ewave\Banner\Block\Widget\StaticWidget\Renderer\Renderer">
+        <arguments>
+            <argument name="customAttributesHelper" xsi:type="object">Ewave\Banner\Block\Widget\Helper\CustomAttributesHelper</argument>
+        </arguments>
+    </type>
+</config>

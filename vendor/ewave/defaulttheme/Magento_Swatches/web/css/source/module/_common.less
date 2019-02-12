@@ -1,0 +1,485 @@
+//
+//  Swatches: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@swatch__is-enabled: true; // Enable/disable styles
+
+@swatch__clearfix: true;
+
+//  Attribute Label
+@swatch-attribute-label__position: relative;
+@swatch-attribute-label__font-weight: @font-weight__bold;
+@swatch-attribute-label-required__padding-right: @indent__s;
+@swatch-attribute-label-required__after__content: '*';
+@swatch-attribute-label-required__after__position: absolute;
+@swatch-attribute-label-required__after__top: -2px;
+@swatch-attribute-label-required__after__right: -11px;
+@swatch-attribute-label-required__after__font-size: @font-size__base;
+@swatch-attribute-label-required__after__font-weight: @font-weight__bold;
+@swatch-attribute-label-required__after__color: @form-field-label-asterisk__color;
+
+//  Attribute Option (selected)
+@swatch-attribute-option__selected__padding-left: 17px;
+@swatch-attribute-option__selected__color: #646464;
+
+//  Attribute Options
+@swatch-attribute-options__margin-top: @indent__s;
+
+//  Option
+@swatch-option__position: relative;
+@swatch-option__float: left;
+@swatch-option__height: 20px;
+@swatch-option__max-width: 90px;
+@swatch-option__min-width: 30px;
+@swatch-option__margin: 0 @indent__s @indent__xs 0;
+@swatch-option__padding: 1px 2px;
+@swatch-option__border: @border-width__base solid #dadada;
+@swatch-option__overflow: hidden;
+@swatch-option__text-align: center;
+@swatch-option__text-overflow: ellipsis;
+@swatch-option__cursor: pointer;
+@swatch-option__background: @color-gray94;
+
+@swatch-option__hover__border: @border-width__base solid @color-white;
+@swatch-option__hover__color: @color-gray20;
+@swatch-option__hover__outline: 1px solid @color-gray60;
+
+//  Option (selected)
+@swatch-option__selected__border: @swatch-option__hover__border;
+@swatch-option__selected__color: @swatch-option__hover__color;
+@swatch-option__selected__outline: 2px solid @color-orange-red1;
+
+//  Text attributes
+@swatch-option-text__font-size: @font-size__s;
+@swatch-option-text__font-weight: @font-weight__bold;
+@swatch-option-text__line-height: 20px;
+@swatch-option-text__color: #686868;
+@swatch-option-text__background: @swatch-option__background;
+
+@swatch-option-text__selected__background-color: @color-white;
+
+//  Size and Manufacturer attributes
+@attr-swatch-option__background: @swatch-option__background;
+@attr-swatch-option__color: #949494;
+
+@attr-swatch-option__selected__background: @color-white;
+@attr-swatch-option__selected__border: @border-width__base solid @color-white;
+@attr-swatch-option__selected__color: @color-black;
+
+//  Image and Color swatch
+@img-color-swatch-option__hover__border: @swatch-option__hover__border;
+@img-color-swatch-option__hover__outline: 2px solid #e00;
+
+@swatch-option__disabled__cursor: default;
+@swatch-option__disabled-after__content: ' ';
+@swatch-option__disabled-after__position: absolute;
+@swatch-option__disabled-after__top: 0;
+@swatch-option__disabled-after__right: 0;
+@swatch-option__disabled-after__bottom: 0;
+@swatch-option__disabled-after__left: 0;
+@swatch-option__disabled-after__background: linear-gradient(to left top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 42%, rgba(255, 255, 255, 1) 43%, rgba(255, 255, 255, 1) 46%, rgba(255, 82, 22, 1) 47%, rgba(255, 82, 22, 1) 53%, rgba(255, 255, 255, 1) 54%, rgba(255, 255, 255, 1) 57%, rgba(255, 255, 255, 0) 58%, rgba(255, 255, 255, 0) 100%);
+
+@swatch-option-disabled__border: 0;
+@swatch-option-disabled__cursor: default;
+@swatch-option-disabled__outline: ~'none !important';
+@swatch-option-disabled__after__content: ' ';
+@swatch-option-disabled__after__position: absolute;
+@swatch-option-disabled__after__top: 10px;
+@swatch-option-disabled__after__left: -4px;
+@swatch-option-disabled__after__z-index: 995;
+@swatch-option-disabled__after__width: 42px;
+@swatch-option-disabled__after__height: 2px;
+@swatch-option-disabled__after__background: @color-red10;
+@swatch-option-disabled__after__use-rotate: true;
+@swatch-option-disabled__after__rotate: -30deg;
+
+@swatch-option-loading__content: @loading__background-image;
+
+//  Tooltip
+@swatch-option-tooltip__display: none;
+@swatch-option-tooltip__position: absolute;
+@swatch-option-tooltip__z-index: 999;
+@swatch-option-tooltip__max-width: 140px;
+@swatch-option-tooltip__min-width: 20px;
+@swatch-option-tooltip__max-height: 100%;
+@swatch-option-tooltip__min-height: 20px;
+@swatch-option-tooltip__padding: @indent__xs;
+@swatch-option-tooltip__border: @swatch-option__border;
+@swatch-option-tooltip__text-align: center;
+@swatch-option-tooltip__color: #949494;
+@swatch-option-tooltip__background: @color-white;
+
+@swatch-option-tooltip-title__display: block;
+@swatch-option-tooltip-title__max-width: 140px;
+@swatch-option-tooltip-title__max-height: 200px;
+@swatch-option-tooltip-title__min-height: 20px;
+@swatch-option-tooltip-title__overflow: hidden;
+@swatch-option-tooltip-title__text-align: center;
+@swatch-option-tooltip-title__color: #282828;
+
+@swatch-option-tooltip-corner__position: absolute;
+@swatch-option-tooltip-corner__bottom: 0;
+@swatch-option-tooltip-corner__left: 40%;
+@swatch-option-tooltip-corner__height: 8px;
+@swatch-option-tooltip-corner__pseudo__use-content-var: false;
+@swatch-option-tooltip-corner__pseudo__content: '';
+@swatch-option-tooltip-corner__pseudo__position: relative;
+@swatch-option-tooltip-corner__pseudo__width: 0;
+@swatch-option-tooltip-corner__pseudo__height: 0;
+@swatch-option-tooltip-corner__pseudo__border-style: solid;
+@swatch-option-tooltip-corner__pseudo__font-size: 1px;
+@swatch-option-tooltip-corner__before__top: 2px;
+@swatch-option-tooltip-corner__before__left: 0;
+@swatch-option-tooltip-corner__before__border-color: @color-gray68 transparent transparent;
+@swatch-option-tooltip-corner__before__border-width: 8px 9px 0;
+@swatch-option-tooltip-corner__after__top: 1px;
+@swatch-option-tooltip-corner__after__left: -17px;
+@swatch-option-tooltip-corner__after__border-color: @color-white transparent transparent;
+@swatch-option-tooltip-corner__after__border-width: 7px 8px 0;
+
+@swatch-option-tooltip-image__display: block;
+@swatch-option-tooltip-image__width: 130px;
+@swatch-option-tooltip-image__height: 130px;
+@swatch-option-tooltip-image__margin: 0 auto;
+
+@swatch-option-tooltip-layered__display: none;
+@swatch-option-tooltip-layered__position: absolute;
+@swatch-option-tooltip-layered__left: -47px;
+@swatch-option-tooltip-layered__z-index: 999;
+@swatch-option-tooltip-layered__width: 140px;
+@swatch-option-tooltip-layered__border: @swatch-option__border;
+@swatch-option-tooltip-layered__color: @swatch-option-tooltip__color;
+@swatch-option-tooltip-layered__background: @swatch-option-tooltip__background;
+
+@swatch-option-tooltip-layered-title__position: absolute;
+@swatch-option-tooltip-layered-title__left: 0;
+@swatch-option-tooltip-layered-title__bottom: -5px;
+@swatch-option-tooltip-layered-title__width: 100%;
+@swatch-option-tooltip-layered-title__height: 20px;
+@swatch-option-tooltip-layered-title__margin-bottom: @indent__s;
+@swatch-option-tooltip-layered-title__text-align: center;
+@swatch-option-tooltip-layered-title__color: @swatch-option-tooltip-title__color;
+
+//  Layered Features
+@swatch-option-link-layered__position: relative;
+@swatch-option-link-layered__margin: ~'0 !important';
+@swatch-option-link-layered__padding: ~'0 !important';
+@swatch-option-link-layered__focus__box-shadow: 0 0 3px 1px @color-sky-blue1;
+@swatch-option-link-layered-tooltip__hover__display: block;
+
+@swatch-opt__margin: @indent__base 0;
+@swatch-opt-listing__margin-bottom: @indent__s;
+
+@swatch-more__position: static;
+@swatch-more__z-index: 1;
+@swatch-more__display: inline-block;
+@swatch-more__margin: 2px 0;
+@swatch-more__text-decoration: ~'none !important';
+
+@swatch-visual-tooltip-layered__top: -170px;
+@swatch-visual-tooltip-layered__height: 160px;
+
+@swatch-textual-tooltip-layered__top: -40px;
+@swatch-textual-tooltip-layered__height: 30px;
+
+@swatch-input__position: absolute;
+@swatch-input__left: -1000px;
+@swatch-input__visibility: hidden;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@swatch__is-enabled = true) {
+        .swatch-attribute-label {
+            & {
+                .lib-css(position, @swatch-attribute-label__position);
+                .lib-css(font-weight, @swatch-attribute-label__font-weight);
+            }
+
+            &.required {
+                .lib-css(padding-right, @swatch-attribute-label-required__padding-right);
+            }
+
+            &[data-required='1']::after {
+                .lib-css(content, @swatch-attribute-label-required__after__position);
+                .lib-css(position, @swatch-attribute-label-required__after__position);
+                .lib-css(top, @swatch-attribute-label-required__after__top);
+                .lib-css(right, @swatch-attribute-label-required__after__right);
+                .lib-css(font-size, @swatch-attribute-label-required__after__font-size);
+                .lib-css(font-weight, @swatch-attribute-label-required__after__font-weight);
+                .lib-css(color, @swatch-attribute-label-required__after__color);
+            }
+        }
+
+        .swatch-attribute-selected-option {
+            .lib-css(padding-left, @swatch-attribute-option__selected__padding-left);
+            .lib-css(color, @swatch-attribute-option__selected__color);
+        }
+
+        .swatch-attribute-options {
+            & {
+                .lib-css(margin-top, @swatch-attribute-options__margin-top);
+            }
+
+            .swatch-option-tooltip-layered .title {
+                .lib-css(position, @swatch-option-tooltip-layered-title__position);
+                .lib-css(left, @swatch-option-tooltip-layered-title__left);
+                .lib-css(bottom, @swatch-option-tooltip-layered-title__bottom);
+                .lib-css(width, @swatch-option-tooltip-layered-title__width);
+                .lib-css(height, @swatch-option-tooltip-layered-title__height);
+                .lib-css(margin-bottom, @swatch-option-tooltip-layered-title__margin-bottom);
+                .lib-css(text-align, @swatch-option-tooltip-layered-title__text-align);
+                .lib-css(color, @swatch-option-tooltip-layered-title__color);
+            }
+        }
+
+        .swatch-attribute.size,
+        .swatch-attribute.manufacturer {
+            .swatch-option {
+                .lib-css(color, @attr-swatch-option__color);
+                .lib-css(background, @attr-swatch-option__background);
+            }
+            .swatch-option.selected {
+                .lib-css(blackground, @attr-swatch-option__selected__background);
+                .lib-css(border, @attr-swatch-option__selected__border);
+                .lib-css(color, @attr-swatch-option__selected__color);
+            }
+        }
+
+        .swatch-option {
+            & {
+                .lib-css(position, @swatch-option__position);
+                .lib-css(float, @swatch-option__float);
+                .lib-css(height, @swatch-option__height);
+                .lib-css(max-width, @swatch-option__max-width);
+                .lib-css(min-width, @swatch-option__min-width);
+                .lib-css(margin, @swatch-option__margin);
+                .lib-css(padding, @swatch-option__padding);
+                .lib-css(border, @swatch-option__border);
+                .lib-css(overflow, @swatch-option__overflow);
+                .lib-css(text-align, @swatch-option__text-align);
+                .lib-css(text-overflow, @swatch-option__text-overflow);
+                .lib-css(cursor, @swatch-option__cursor);
+            }
+
+            &.text {
+                .lib-css(font-size, @swatch-option-text__font-size);
+                .lib-css(font-weight, @swatch-option-text__font-weight);
+                .lib-css(line-height, @swatch-option-text__line-height);
+                .lib-css(color, @swatch-option-text__color);
+                .lib-css(background, @swatch-option-text__background);
+            }
+
+            &.text.selected {
+                .lib-css(background-color, @swatch-option-text__selected__background-color) !important;
+            }
+
+            &.selected {
+                .lib-css(border, @swatch-option__selected__border);
+                .lib-css(color, @swatch-option__selected__color);
+                .lib-css(outline, @swatch-option__selected__outline);
+            }
+
+            &:not(.disabled):hover {
+                .lib-css(border, @swatch-option__hover__border);
+                .lib-css(color, @swatch-option__hover__color);
+                .lib-css(outline, @swatch-option__hover__outline);
+            }
+
+            &.image,
+            &.color {
+                &:not(.disabled):hover {
+                    .lib-css(border, @img-color-swatch-option__hover__border);
+                    .lib-css(outline, @img-color-swatch-option__hover__outline);
+                }
+            }
+
+            &.disabled {
+                .lib-css(cursor, @swatch-option__disabled__cursor);
+
+                &::after {
+                    .lib-css(content, @swatch-option__disabled-after__content);
+                    .lib-css(position, @swatch-option__disabled-after__position);
+                    .lib-css(top, @swatch-option__disabled-after__top);
+                    .lib-css(right, @swatch-option__disabled-after__right);
+                    .lib-css(bottom, @swatch-option__disabled-after__bottom);
+                    .lib-css(left, @swatch-option__disabled-after__left);
+                    .lib-css(background, @swatch-option__disabled-after__background);
+                }
+            }
+        }
+
+        .swatch-option-disabled {
+            .lib-css(border, @swatch-option-disabled__border);
+            .lib-css(cursor, @swatch-option-disabled__cursor);
+            .lib-css(outline, @swatch-option-disabled__outline);
+
+            &::after {
+                .lib-css(content, @swatch-option-disabled__after__content);
+                .lib-css(position, @swatch-option-disabled__after__position);
+                .lib-css(top, @swatch-option-disabled__after__top);
+                .lib-css(left, @swatch-option-disabled__after__left);
+                .lib-css(z-index, @swatch-option-disabled__after__z-index);
+                .lib-css(width, @swatch-option-disabled__after__width);
+                .lib-css(height, @swatch-option-disabled__after__height);
+                .lib-css(background, @swatch-option-disabled__after__background);
+
+                & when (@swatch-option-disabled__after__use-rotate = true) {
+                    .lib-rotate(@swatch-option-disabled__after__rotate);
+                }
+            }
+        }
+
+        .swatch-option-loading {
+            .lib-css(content, @swatch-option-loading__content);
+        }
+
+        .swatch-option-tooltip {
+            & {
+                .lib-css(display, @swatch-option-tooltip__display);
+                .lib-css(position, @swatch-option-tooltip__position);
+                .lib-css(z-index, @swatch-option-tooltip__z-index);
+                .lib-css(max-width, @swatch-option-tooltip__max-width);
+                .lib-css(min-width, @swatch-option-tooltip__min-width);
+                .lib-css(max-height, @swatch-option-tooltip__max-height);
+                .lib-css(min-height, @swatch-option-tooltip__min-height);
+                .lib-css(padding, @swatch-option-tooltip__padding);
+                .lib-css(border, @swatch-option-tooltip__border);
+                .lib-css(text-align, @swatch-option-tooltip__text-align);
+                .lib-css(color, @swatch-option-tooltip__color);
+                .lib-css(background, @swatch-option-tooltip__background);
+            }
+
+            .title {
+                .lib-css(display, @swatch-option-tooltip-title__display);
+                .lib-css(max-width, @swatch-option-tooltip-title__max-width);
+                .lib-css(max-height, @swatch-option-tooltip-title__max-height);
+                .lib-css(min-height, @swatch-option-tooltip-title__min-height);
+                .lib-css(overflow, @swatch-option-tooltip-title__overflow);
+                .lib-css(text-align, @swatch-option-tooltip-title__text-align);
+                .lib-css(color, @swatch-option-tooltip-title__color);
+            }
+        }
+
+        .swatch-option-tooltip,
+        .swatch-option-tooltip-layered {
+            .corner {
+                .lib-css(position, @swatch-option-tooltip-corner__position);
+                .lib-css(bottom, @swatch-option-tooltip-corner__bottom);
+                .lib-css(left, @swatch-option-tooltip-corner__left);
+                .lib-css(height, @swatch-option-tooltip-corner__height);
+
+                &::before,
+                &::after {
+                    & when (@swatch-option-tooltip-corner__pseudo__use-content-var = true) {
+                        .lib-css(content, @swatch-option-tooltip-corner__pseudo__content);
+                    }
+                    & when (@swatch-option-tooltip-corner__pseudo__use-content-var = false) {
+                        content: '';
+                    }
+                    .lib-css(position, @swatch-option-tooltip-corner__pseudo__position);
+                    .lib-css(width, @swatch-option-tooltip-corner__pseudo__width);
+                    .lib-css(height, @swatch-option-tooltip-corner__pseudo__height);
+                    .lib-css(border-style, @swatch-option-tooltip-corner__pseudo__border-style);
+                    .lib-css(font-size, @swatch-option-tooltip-corner__pseudo__font-size);
+                }
+
+                &::before {
+                    .lib-css(top, @swatch-option-tooltip-corner__before__top);
+                    .lib-css(left, @swatch-option-tooltip-corner__before__left);
+                    .lib-css(border-color, @swatch-option-tooltip-corner__before__border-color);
+                    .lib-css(border-width, @swatch-option-tooltip-corner__before__border-width);
+                }
+
+                &::after {
+                    .lib-css(top, @swatch-option-tooltip-corner__after__top);
+                    .lib-css(left, @swatch-option-tooltip-corner__after__left);
+                    .lib-css(border-color, @swatch-option-tooltip-corner__after__border-color);
+                    .lib-css(border-width, @swatch-option-tooltip-corner__after__border-width);
+                }
+            }
+
+            .image {
+                .lib-css(display, @swatch-option-tooltip-image__display);
+                .lib-css(width, @swatch-option-tooltip-image__width);
+                .lib-css(height, @swatch-option-tooltip-image__height);
+                .lib-css(margin, @swatch-option-tooltip-image__margin);
+            }
+        }
+
+        .swatch-option-tooltip-layered {
+            .lib-css(display, @swatch-option-tooltip-layered__display);
+            .lib-css(position, @swatch-option-tooltip-layered__position);
+            .lib-css(left, @swatch-option-tooltip-layered__left);
+            .lib-css(z-index, @swatch-option-tooltip-layered__z-index);
+            .lib-css(width, @swatch-option-tooltip-layered__width);
+            .lib-css(border, @swatch-option-tooltip-layered__border);
+            .lib-css(color, @swatch-option-tooltip-layered__color);
+            .lib-css(background, @swatch-option-tooltip-layered__background);
+        }
+
+        .swatch-option-link-layered {
+            & {
+                .lib-css(position, @swatch-option-link-layered__position);
+                .lib-css(margin, @swatch-option-link-layered__margin);
+                .lib-css(padding, @swatch-option-link-layered__padding);
+            }
+
+            &:focus > div {
+                .lib-css(box-shadow, @swatch-option-link-layered__focus__box-shadow);
+            }
+
+            &:hover > .swatch-option-tooltip-layered {
+                .lib-css(display, @swatch-option-link-layered-tooltip__hover__display);
+            }
+        }
+
+        .swatch-opt {
+            .lib-css(margin, @swatch-opt__margin);
+        }
+
+        .swatch-opt-listing {
+            .lib-css(margin-bottom, @swatch-opt-listing__margin-bottom);
+        }
+
+        .swatch-more {
+            .lib-css(position, @swatch-more__position);
+            .lib-css(z-index, @swatch-more__z-index);
+            .lib-css(display, @swatch-more__display);
+            .lib-css(margin, @swatch-more__margin);
+            .lib-css(text-decoration, @swatch-more__text-decoration);
+        }
+
+        .swatch-visual-tooltip-layered {
+            .lib-css(top, @swatch-visual-tooltip-layered__top);
+            .lib-css(height, @swatch-visual-tooltip-layered__height);
+        }
+
+        .swatch-textual-tooltip-layered {
+            .lib-css(top, @swatch-textual-tooltip-layered__top);
+            .lib-css(height, @swatch-textual-tooltip-layered__height);
+        }
+
+        .swatch-input {
+            .lib-css(position, @swatch-input__position);
+            .lib-css(left, @swatch-input__left);
+            .lib-css(visibility, @swatch-input__visibility);
+        }
+
+        & when (@swatch__clearfix = true) {
+            .clearfix::after {
+                clear: both;
+                content: '';
+                display: block;
+                height: 0;
+                visibility: hidden;
+            }
+        }
+    }
+}

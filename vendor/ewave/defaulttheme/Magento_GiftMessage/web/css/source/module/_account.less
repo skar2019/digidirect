@@ -1,0 +1,109 @@
+//
+//  Gift Message: Account
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-message-account__is-enabled: true;  //  Enable/disable style
+
+@gift-message-account-order-gift-message__use-add-clearfix: true;
+
+@gift-message-account-gift-message__use-hidden: true;
+@gift-message-account-gift-message-action__close__use-no-display: true;
+
+@gift-message-account-action-show-icon__use-base64: true;
+@gift-message-account-action-show-icon__background-image: @base64-icon__down;
+@gift-message-account-action-show-icon__active__background-image: @base64-icon__up;
+@gift-message-account-action-show-icon__pseudo-type: after;
+@gift-message-account-action-show-icon__width: 12px;
+@gift-message-account-action-show-icon__height: 8px;
+
+@gift-message-account-item-options-dt__font-weight: @font-weight__regular;
+@gift-message-account-item-options-dt__margin: @indent__s 0;
+@gift-message-account-gift-message-dt-after__content: '';
+
+@gift-message-account-gift-message-label__use-colon: true;
+
+@gift-message-account-item-message__clear: left;
+
+@gift-message-account-block-order-details-gift-message__border-top: @border-width__base solid @border-color__base;
+@gift-message-account-block-order-details-gift-message__padding-top: @indent__s;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@gift-message-account__is-enabled = true ) {
+        .order-items {
+            .order-gift-message {
+                & when (@gift-message-account-gift-message__use-hidden = true) {
+                    &:not(.expanded-content) {
+                        &:extend(.abs-hidden);
+                    }
+                }
+
+                & when (@gift-message-account-gift-message-action__close__use-no-display = true) {
+                    .action.close {
+                        &:extend(.abs-no-display all);
+                    }
+                }
+            }
+
+            & when (@gift-message-account-action-show-icon__use-base64 = true) {
+                .action.show {
+                    .lib-base64(
+                        @_base64-background-image: @gift-message-account-action-show-icon__background-image,
+                        @_base64-width: @gift-message-account-action-show-icon__width,
+                        @_base64-height: @gift-message-account-action-show-icon__height,
+                        @_base64-pseudo-type: @gift-message-account-action-show-icon__pseudo-type
+                    );
+
+                    &.expanded {
+                        .lib-base64-symbol(
+                            @_base64-background-image: @gift-message-account-action-show-icon__active__background-image,
+                            @_base64-pseudo-type: @gift-message-account-action-show-icon__pseudo-type
+                        );
+                    }
+                }
+            }
+        }
+
+        .order-gift-message,
+        .block-order-details-gift-message {
+            & when (@gift-message-account-order-gift-message__use-add-clearfix = true) {
+                &:extend(.abs-add-clearfix all);
+            }
+
+            .item-options {
+                dt {
+                    .lib-css(font-weight, @gift-message-account-item-options-dt__font-weight);
+                    .lib-css(mrgin, @gift-message-account-item-options-dt__margin);
+                }
+            }
+
+            dt {
+                &::after {
+                    .lib-css(content, @gift-message-account-gift-message-dt-after__content);
+                }
+            }
+
+            & when (@gift-message-account-gift-message-label__use-colon) {
+                .label {
+                    &:extend(.abs-colon all);
+                }
+            }
+
+            .item-message {
+                .lib-css(clear, @gift-message-account-item-message__clear);
+            }
+        }
+
+        .block-order-details-gift-message {
+            .lib-css(border-top, @gift-message-account-block-order-details-gift-message__border-top);
+            .lib-css(padding-top, @gift-message-account-block-order-details-gift-message__padding-top);
+        }
+    }
+}

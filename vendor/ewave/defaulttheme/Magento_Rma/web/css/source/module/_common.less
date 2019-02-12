@@ -1,0 +1,28 @@
+//
+//  Rma: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@rma-common__is-enabled: true; // Enable/disable styles
+
+//  Page Title
+@rma-common-page-title__margin-right: 25px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@rma-common__is-enabled = true) {
+        .magento-rma-returns-returns,
+        .magento-rma-guest-returns,
+        .magento-rma-returns-view {
+            .page-title {
+                .lib-css(margin-right, @rma-common-page-title__margin-right);
+            }
+        }
+    }
+}

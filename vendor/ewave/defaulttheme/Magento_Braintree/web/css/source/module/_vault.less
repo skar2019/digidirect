@@ -1,0 +1,45 @@
+//
+//  My Account > Stored Payment Methods
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@braintree-vault__is-enabled: true; // Enable/disable styles
+
+@braintree-vault-account-col-paypal-account-img__vertical-align: middle;
+@braintree-vault-account-col-paypal-account-actions__vertical-align: middle;
+@braintree-vault-account-table-credit-cards-col-actions__width__m: 100px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@braintree-vault__is-enabled = true) {
+        .account {
+            .table .col.paypal-account img {
+                .lib-css(vertical-align, @braintree-vault-account-col-paypal-account-img__vertical-align);
+            }
+
+            .table .col.paypal-account + .actions {
+                .lib-css(vertical-align, @braintree-vault-account-col-paypal-account-actions__vertical-align);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@braintree-vault__is-enabled = true) {
+        .account {
+            .table-credit-cards .col.actions {
+                .lib-css(width, @braintree-vault-account-table-credit-cards-col-actions__width__m);
+            }
+        }
+    }
+}

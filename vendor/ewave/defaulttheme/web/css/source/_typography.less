@@ -1,0 +1,45 @@
+//
+//  Typography
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@typography__is-enabled: true; // Enable/disable styles
+
+@typography__use-typography-all: true;
+@typography-items__use-list-reset-styles: true;
+
+@typography-h1__margin-bottom__m: @indent__xl;
+@typography-h1__font-size__m: @h1__font-size-desktop;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@typography__is-enabled = true) {
+        & when (@typography__use-typography-all = true) {
+            .lib-typography-all();
+        }
+        & when (@typography-items__use-list-reset-styles = true) {
+            .items {
+                .lib-list-reset-styles();
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@typography__is-enabled = true) {
+        h1 {
+            .lib-css(margin-bottom, @typography-h1__margin-bottom__m);
+            .lib-css(font-size, @typography-h1__font-size__m);
+        }
+    }
+}

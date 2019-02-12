@@ -1,0 +1,24 @@
+//
+//  Icons
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@icons__is-enabled: false; // Enable/disable styles
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@icons__is-enabled = true) {
+        .lib-font-face(
+            @family-name: @icons__font-name,
+            @font-path: @icons__font-path,
+            @font-weight: normal,
+            @font-style: normal
+        );
+    }
+}

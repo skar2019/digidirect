@@ -1,0 +1,52 @@
+//
+//  Extend: Reviews: Summary
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+//@review-summary__is-enabled: true; // Enable/disable styles
+
+//@review-summary__use-rating-summary: true;
+
+//@review-summary-product-reviews-summary-rating-summary-table-reviews__use-rating-summary-label-hide: true;
+
+//  Product Reviews Summary
+@review-summary-product-reviews-summary__display: flex;
+//@review-summary-product-reviews-summary__margin: @indent__s 0 12px;
+//@review-summary-product-reviews-summary__empty__margin-left: 0;
+
+//  Rating Summary
+//@review-summary-product-reviews-summary-rating-summary__position: relative;
+//@review-summary-product-reviews-summary-rating-summary__left: 0;
+@review-summary-product-reviews-summary-rating-summary__display: false;
+//@review-summary-product-reviews-summary-rating-summary__text-align: left;
+@review-summary-product-reviews-summary-rating-summary__vertical-align: false;
+
+//  Reviews Actions
+@review-summary-product-reviews-summary-reviews-actions__display: false;
+//@review-summary-product-reviews-summary-reviews-actions__padding: 0 0 0 5px;
+//@review-summary-product-reviews-summary-reviews-actions__line-height: @rating-icon__font-size;
+@review-summary-product-reviews-summary-reviews-actions__vertical-align: top;
+//@review-summary-product-reviews-summary-reviews-actions-link__margin-right: @indent__xs;
+
+//  Product Reviews Summary (product list)
+//@review-summary-products-wrapper-list-product-reviews-summary__margin: 0 auto;
+//@review-summary-products-wrapper-list-product-reviews-summary__margin__m: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .product-reviews-summary {
+        & {
+            flex-wrap: wrap;
+        }
+
+        .reviews-actions {
+            white-space: nowrap;
+        }
+    }
+}

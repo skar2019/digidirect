@@ -1,0 +1,17 @@
+{
+  "name": "ewave/banner",
+  "description": "Banner extended with attributes",
+  "type": "magento2-module",
+  "suggest": {
+    "ewave/utilities": "Ewave Banner extension may use ewave/utilities methods"
+  },
+  "version": "4.0.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ewave\\Banner\\": ""
+    }
+  }
+}

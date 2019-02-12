@@ -1,0 +1,21 @@
+//
+//  Gift Registry: Wish List
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-registry-wishlist__is-enabled: true;  //  Enable/disable style
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@gift-registry-wishlist__is-enabled = true) {
+        .giftregisty-dropdown {
+            &:extend(.abs-dropdown-simple all);
+        }
+    }
+}

@@ -1,0 +1,76 @@
+//
+//  Grouped Product: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@grouped-product__is-enabled: true; // Enable/disable styles
+
+@grouped-product-table__use-table-bordered: true;
+@grouped-product-table-type: horizontal;
+@grouped-product-table-thead-th__border-bottom: 0;
+
+@grouped-product-table-product-item-name__font-weight: false;
+@grouped-product-table-price-box-price__font-size: @font-size__base;
+@grouped-product-table-control-qty__use-input-qty: true;
+
+//  Stock (unavailable)
+@grouped-product-table-stock-unavailable__margin: 0;
+@grouped-product-table-stock-unavailable__font-weight: normal;
+@grouped-product-table-stock-unavailable__text-transform: none;
+@grouped-product-table-stock-unavailable__white-space: nowrap;
+
+//  Row Tier Price
+@grouped-product-table-row-tier-price-td__border-top: 0;
+@grouped-product-table-row-tier-price-prices-tier__margin: 0 -10px 10px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@grouped-product__is-enabled = true) {
+        .table.grouped {
+            & when (@grouped-product-table__use-table-bordered = true) {
+                .lib-table-bordered(
+                    @_table_type: @grouped-product-table-type
+                );
+            }
+
+            > thead th {
+                .lib-css(border-bottom, @grouped-product-table-thead-th__border-bottom);
+            }
+
+            .product-item-name {
+                .lib-css(font-weight, @grouped-product-table-product-item-name__font-weight);
+            }
+
+            .price-box .price {
+                .lib-css(font-size, @grouped-product-table-price-box-price__font-size);
+            }
+
+            .control .qty {
+                & when (@grouped-product-table-control-qty__use-input-qty = true) {
+                    &:extend(.abs-input-qty all);
+                }
+            }
+
+            .stock.unavailable {
+                .lib-css(margin, @grouped-product-table-stock-unavailable__margin);
+                .lib-css(font-weight, @grouped-product-table-stock-unavailable__font-weight);
+                .lib-css(text-transform, @grouped-product-table-stock-unavailable__text-transform);
+                .lib-css(white-space, @grouped-product-table-stock-unavailable__white-space);
+            }
+
+            .row-tier-price td {
+                .lib-css(border-top, @grouped-product-table-row-tier-price-td__border-top);
+            }
+
+            .row-tier-price .prices-tier {
+                .lib-css(margin, @grouped-product-table-row-tier-price-prices-tier__margin);
+            }
+        }
+    }
+}

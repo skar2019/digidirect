@@ -1,0 +1,158 @@
+//
+//  Customer: Account Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@account-common__is-enabled: true; // Enable/disable styles
+
+//  Layout
+@account-layout-2columns-left-sidebar__width: 22.3%;
+@account-layout-2columns-left-column-main__width: 77.7%;
+
+//  Sidebars
+@account-sidebar-additional__margin-top: false;
+
+//  Column Main
+@account-column-main-block__use-account-blocks: true;
+@account-column-main-block-content__use-add-clearfix-desktop__m: true;
+@account-column-main-block-content-box__use-blocks-2columns__m: true;
+
+//  Table Wrapper
+@account-table-wrapper__last-child__margin-bottom: 0;
+@account-table-wrapper-action__margin-right: 15px;
+@account-table-wrapper-action__last-child__margin-right: 0;
+
+//  Table Return Items
+@account-table-return-items-qty-input-text__use-input-qty: true;
+
+//  Toolbar
+@account-toolbar__position__m: relative;
+@account-toolbar-limiter__position__m: relative;
+@account-toolbar-limiter__z-index__m: 1;
+@account-toolbar-limiter__float__m: right;
+@account-toolbar-amount__position__m: relative;
+@account-toolbar-amount__z-index__m: 1;
+@account-toolbar-pages__position__m: absolute;
+@account-toolbar-pages__z-index__m: 0;
+@account-toolbar-pages__width__m: 100%;
+
+//  Other
+@account-street-address-2-label__use-visually-hidden: true;
+@account-form-address-edit-region-id__display: none;
+@account-form-edit-account-fieldset-password__display: none;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@account-common__is-enabled = true) {
+        .account.page-layout-2columns-left {
+            .sidebar-main,
+            .sidebar-additional {
+                .lib-css(width, @account-layout-2columns-left-sidebar__width);
+            }
+
+            .column.main {
+                .lib-css(width, @account-layout-2columns-left-column-main__width);
+            }
+        }
+
+        .account {
+            .sidebar-additional {
+                .lib-css(margin-top, @account-sidebar-additional__margin-top);
+            }
+        }
+
+        .account {
+            .column.main .block:not(.widget) {
+                & when (@account-column-main-block__use-account-blocks = true) {
+                    &:extend(.abs-account-blocks all);
+                }
+            }
+            .table-wrapper {
+                &:last-child {
+                    .lib-css(margin-bottom, @account-table-wrapper__last-child__margin-bottom);
+                }
+            }
+            .table-wrapper .action {
+                .lib-css(margin-right, @account-table-wrapper-action__margin-right);
+
+                &:last-child {
+                    .lib-css(margin-right, @account-table-wrapper-action__last-child__margin-right);
+                }
+            }
+
+            .table-return-items .qty .input-text {
+                & when (@account-table-return-items-qty-input-text__use-input-qty = true) {
+                    &:extend(.abs-input-qty all);
+                }
+            }
+        }
+
+        //  Field Label of Street address 2
+        .field.street {
+            .field.additional .label {
+                & when (@account-street-address-2-label__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+        }
+
+        .form-address-edit {
+            #region_id {
+                .lib-css(display, @account-form-address-edit-region-id__display);
+            }
+        }
+
+        .form-edit-account {
+            .fieldset.password {
+                .lib-css(display, @account-form-edit-account-fieldset-password__display);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .account {
+        .toolbar {
+            .lib-css(position, @account-toolbar__position__m);
+        }
+        .limiter {
+            .lib-css(position, @account-toolbar-limiter__position__m);
+            .lib-css(z-index, @account-toolbar-limiter__z-index__m);
+            .lib-css(float, @account-toolbar-limiter__float__m);
+        }
+
+        .toolbar-amount {
+            .lib-css(position, @account-toolbar-amount__position__m);
+            .lib-css(z-index, @account-toolbar-amount__z-index__m);
+        }
+
+        .pages {
+            .lib-css(position, @account-toolbar-pages__position__m);
+            .lib-css(z-index, @account-toolbar-pages__z-index__m);
+            .lib-css(width, @account-toolbar-pages__width__m);
+        }
+    }
+
+    .account {
+        .column.main .block:not(.widget) .block-content {
+            & when (@account-column-main-block-content__use-add-clearfix-desktop__m = true) {
+                &:extend(.abs-add-clearfix-desktop all);
+            }
+        }
+        .column.main .block:not(.widget) .block-content .box {
+            & when (@account-column-main-block-content-box__use-blocks-2columns__m = true) {
+                &:extend(.abs-blocks-2columns all);
+            }
+        }
+    }
+}

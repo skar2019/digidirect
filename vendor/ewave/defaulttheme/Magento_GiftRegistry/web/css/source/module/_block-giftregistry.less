@@ -1,0 +1,25 @@
+//
+//  Gift Registry: Block Giftregistry
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-registry-block-giftregistry__is-enabled: true;  //  Enable/disable style
+
+@gift-registry-block-giftregistry-actions-toolbar__margin: 17px 0 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@gift-registry-block-giftregistry__is-enabled = true) {
+        .block-giftregistry {
+            .actions-toolbar {
+                .lib-css(margin, @gift-registry-block-giftregistry-actions-toolbar__margin);
+            }
+        }
+    }
+}

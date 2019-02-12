@@ -1,0 +1,106 @@
+<?php
+/**
+ * @var $block \Ewave\ProductCalculator\Block\Widget\Calculator
+ */
+
+$calculator = $block->getCalculator();
+if (!$calculator) {
+    return;
+}
+?>
+<?php if ($calculator->isActive()) : ?>
+<div class="product-calculator widget block">
+    <div class="block-title"><strong><?php echo $block->escapeHtml(__($calculator->getName())); ?></strong></div>
+    <div class="block-content">
+        <form id="form-calculator-<?php echo (int)$calculator->getId(); ?>" action="<?php echo $block->escapeUrl($block->getCalculateUrl()); ?>" method="post" data-mage-init='{"validation": {}, "productCalculator": {"redirectToResult": <?php echo (int)$calculator->isResultLoadActionRedirect()?>,"resultContainer": "[data-role=calculator-<?php echo $block->escapeHtml($block->getNameInLayout()); ?>]"}}' class="form-calculator form">
+            <input type="hidden" name="calculator_id" value="<?php echo (int)$calculator->getId(); ?>"/>
+        <?php
+        /** @var \Ewave\ProductCalculator\Api\Data\FieldGroupCategoryInterface $fieldGroupCategory */
+        foreach ($calculator->getFieldGroupCategories() as $fieldGroupCategory): ?>
+            <?php if ($fieldGroupCategory->isActive() && count($fieldGroupCategory->getFieldGroups())) : ?>
+            <div class="field-group-category">
+                <?php if ($fieldGroupCategory->getLabel()):?>
+                    <h3><?php /* @escapeNotVerified */ echo $fieldGroupCategory->getLabel()?></h3>
+                <?php endif; ?>
+                <?php if ($fieldGroupCategory->getDescription()):?>
+                    <p><?php echo /* @escapeNotVerified */ $fieldGroupCategory->getDescription()?></p>
+                <?php endif; ?>
+                <?php /** @var \Ewave\ProductCalculator\Api\Data\FieldGroupInterface $fieldGroup */
+                foreach ($fieldGroupCategory->getFieldGroups() as $fieldGroup): ?>
+                    <?php if ($fieldGroup->isActive() && count($fieldGroup->getRelatedFields())) :
+                        $inputName = $fieldGroup->getCustomInputName() ?: "input_groups[{$fieldGroup->getId()}][]";
+                        ?>
+                        <fieldset class="calculator-group fieldset <?php echo /* @escapeNotVerified */ $fieldGroup->getCssClass()?>">
+                            <legend class="legend"><?php echo $block->escapeHtml(__($fieldGroup->getLabel())); ?></legend><br>
+                            <?php if ($fieldGroup->getDescription()):?>
+                                <p><?php echo /* @escapeNotVerified */ $fieldGroup->getDescription()?></p>
+                            <?php endif; ?>
+                            <?php
+                            /** @var \Ewave\ProductCalculator\Api\Data\FieldInterface $field */
+                            foreach ($fieldGroup->getRelatedFields() as $field): ?>
+                                <?php
+                                if (!$field->isActive()) {
+                                    continue;
+                                }
+                                $id = $fieldGroup->getId() . '-' . $field->getId();
+                                ?>
+                                <div class="field choice <?php echo /* @escapeNotVerified */ $field->getCssClass()?>">
+                                    <?php if ($field->getImage()):?>
+                                        <img src="<?php echo /* @escapeNotVerified */ $block->getImageUrl($field)?>" align="" />
+                                    <?php endif; ?>
+                                    <input type="<?php /* @escapeNotVerified */ echo $fieldGroup->getType(); ?>"
+                                           id="calculator-<?php /* @escapeNotVerified */ echo $id; ?>"
+                                           name="<?php /* @escapeNotVerified */ echo $inputName; ?>"
+
+                                           value="<?php echo /* @escapeNotVerified */ $field->getData($fieldGroup->getValueField()); ?>"
+                                        <?php if ($fieldGroup->isMandatory() == '1') : ?> data-validate='{required: true<?php if ($fieldGroup->getMandatoryUserNotice()) : ?>, messages:{required: "<?php /* @escapeNotVerified */ echo __($fieldGroup->getMandatoryUserNotice()); ?>"}<?php endif; ?>}'
+                                        <?php endif; ?>
+                                    >
+                                    <label for="calculator-<?php /* @escapeNotVerified */ echo $id; ?>"><?php echo $block->escapeHtml(__($field->getLabel())); ?></label>
+                                </div>
+                            <?php endforeach; ?>
+                        </fieldset>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <?php echo $block->getAdditionalFieldsHtml(); ?>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action submit primary" title="<?php echo $block->escapeHtml(__($calculator->getButtonLabel())); ?>">
+                    <?php echo $block->escapeHtml(__($calculator->getButtonLabel())); ?>
+                </button>
+            </div>
+            <button type="reset" value="<?php /* @escapeNotVerified */ echo __('Clear'); ?>">
+                <?php /* @escapeNotVerified */ echo __('Clear'); ?>
+            </button>
+        </div>
+        </form>
+    </div>
+</div>
+<script>
+    require([
+        'jquery',
+        'mage/mage',
+        'mage/validation'
+    ], function ($) {
+        $('#form-calculator-<?php echo (int)$calculator->getId(); ?>').mage('validation', {
+            errorPlacement: function (error, element) {
+                var errorPlacement = element,
+                    group;
+                if (element.is(':checkbox') || element.is(':radio')) {
+                    group = element.closest('.calculator-group');
+                    if (group.length) {
+                        errorPlacement = group.find('label').last();
+                    } else {
+                        errorPlacement = element.siblings('label').last();
+                    }
+                }
+                errorPlacement.after(error);
+            }
+        });
+    });
+</script>
+<div data-role="calculator-<?php echo $block->escapeHtml($block->getNameInLayout()); ?>" class="calculator-result"></div>
+<?php endif; ?>

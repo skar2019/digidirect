@@ -1,0 +1,66 @@
+//
+//  Catalog: Image
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@catalog-image__is-enabled: true; // Enable/disable styles
+
+//  Container
+@catalog-image-container__display: inline-block;
+@catalog-image-container__max-width: 100%;
+@catalog-image-container__vertical-align: top;
+
+//  Wrapper
+@catalog-image-wrapper__display: block;
+@catalog-image-wrapper__position: relative;
+@catalog-image-wrapper__z-index: 1;
+@catalog-image-wrapper__height: 0;
+@catalog-image-wrapper__overflow: hidden;
+
+//  Photo
+@catalog-image-photo__position: absolute;
+@catalog-image-photo__top: 0;
+@catalog-image-photo__right: 0;
+@catalog-image-photo__bottom: 0;
+@catalog-image-photo__left: 0;
+@catalog-image-photo__display: block;
+@catalog-image-photo__max-width: 100%;
+@catalog-image-photo__height: auto;
+@catalog-image-photo__margin: auto;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@catalog-image__is-enabled = true) {
+        .product-image-container {
+            .lib-css(display, @catalog-image-container__display);
+            .lib-css(max-width, @catalog-image-container__max-width);
+            .lib-css(vertical-align, @catalog-image-container__vertical-align);
+        }
+
+        .product-image-wrapper {
+            .lib-css(display, @catalog-image-wrapper__display);
+            .lib-css(position, @catalog-image-wrapper__position);
+            .lib-css(z-index, @catalog-image-wrapper__z-index);
+            .lib-css(height, @catalog-image-wrapper__height);
+            .lib-css(overflow, @catalog-image-wrapper__overflow);
+        }
+
+        .product-image-photo {
+            .lib-css(position, @catalog-image-photo__position);
+            .lib-css(top, @catalog-image-photo__top);
+            .lib-css(right, @catalog-image-photo__right);
+            .lib-css(bottom, @catalog-image-photo__bottom);
+            .lib-css(left, @catalog-image-photo__left);
+            .lib-css(display, @catalog-image-photo__display);
+            .lib-css(max-width, @catalog-image-photo__max-width);
+            .lib-css(height, @catalog-image-photo__height);
+            .lib-css(margin, @catalog-image-photo__margin);
+        }
+    }
+}

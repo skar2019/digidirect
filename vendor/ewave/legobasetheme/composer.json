@@ -1,0 +1,14 @@
+{
+    "name": "ewave/legobasetheme",
+    "description": "Lego Base theme",
+    "type": "magento2-theme",
+    "version": "1.19.0.0",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ]
+    }
+}

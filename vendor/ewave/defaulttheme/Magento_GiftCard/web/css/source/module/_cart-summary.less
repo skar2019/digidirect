@@ -1,0 +1,37 @@
+//
+//  Gift Card: Cart Summary
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-card-cart-summary__is-enabled: true;  //  Enable/disable style
+
+@gift-card-cart-summary-action-check__use-lib-button-s: true;
+@gift-card-cart-summary-action-check__use-action-button-as-link: true;
+@gift-card-cart-summary-action-check__margin-top: @indent__base;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@gift-card-cart-summary__is-enabled = true) {
+        .cart-summary {
+            .giftcard {
+                .action.check {
+                    & when (@gift-card-cart-summary-action-check__use-lib-button-s = true) {
+                        .lib-button-s();
+                    }
+
+                    & when (@gift-card-cart-summary-action-check__use-action-button-as-link = true) {
+                        &:extend(.abs-action-button-as-link all);
+                    }
+
+                    .lib-css(margin-top, @gift-card-cart-summary-action-check__margin-top);
+                }
+            }
+        }
+    }
+}

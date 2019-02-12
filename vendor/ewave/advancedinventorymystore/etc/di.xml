@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\AdvancedInventory\Model\StockResolver">
+        <arguments>
+            <argument name="assignmentRules" xsi:type="array">
+                <item name="mystore" xsi:type="object">Ewave\AdvancedInventoryMyStore\Model\StockResolver\AssignmentRule\MyStore</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\AdvancedInventory\Model\Source\AssignmentRule">
+        <arguments>
+            <argument name="assignmentRules" xsi:type="array">
+                <item name="mystore" xsi:type="string">My Store</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\MyStoreWidget\Model\ResourceModel\MyStoreIndex">
+        <plugin name="Ewave_AdvancedInventoryMyStore:MyStoreWidgetModelResourceModelMyStoreIndex" type="Ewave\AdvancedInventoryMyStore\Plugin\MyStoreWidget\Model\ResourceModel\MyStoreIndex" sortOrder="10"/>
+    </type>
+</config>

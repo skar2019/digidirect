@@ -1,0 +1,84 @@
+//
+//  Reviews: List (PDP tab)
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@reviews-list__is-enabled: true; // Enable/disable styles
+
+@reviews-list__margin-bottom: @indent__l;
+
+//  Item
+@reviews-list-item__use-clearer: true;
+@reviews-list-item__margin: 0;
+@reviews-list-item__padding: @indent__base 0;
+@reviews-list-item__border-bottom: 1px solid @color-gray79;
+@reviews-list-item__last-child__border-width: 0;
+
+//  Item Ratings
+@reviews-list-item-ratings__use-rating-summary: true;
+@reviews-list-item-ratings__display: table;
+@reviews-list-item-ratings__max-width: 100%;
+@reviews-list-item-ratings__margin-bottom: @indent__s;
+
+//  Author
+@reviews-list-item-author__display: inline;
+
+//  Title
+@reviews-list-item-title__use-heading: true;
+@reviews-list-item-title__heading: h3;
+@reviews-list-item-title__margin: 0 0 @indent__base;
+
+//  Content
+@reviews-list-item-content__margin-bottom: @indent__base;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@reviews-list__is-enabled = true) {
+        .review-list {
+            .lib-css(margin-bottom, @reviews-list__margin-bottom);
+        }
+
+        .review-item {
+            & when (@reviews-list-item__use-clearer = true) {
+                .lib-clearer();
+            }
+            .lib-css(margin, @reviews-list-item__margin);
+            .lib-css(padding, @reviews-list-item__padding);
+            .lib-css(border-bottom, @reviews-list-item__border-bottom);
+
+            &:last-child {
+                .lib-css(border-width, @reviews-list-item__last-child__border-width);
+            }
+        }
+
+        .review-ratings {
+            & when (@reviews-list-item-ratings__use-rating-summary = true) {
+                &:extend(.abs-rating-summary all);
+            }
+            .lib-css(display, @reviews-list-item-ratings__display);
+            .lib-css(max-width, @reviews-list-item-ratings__max-width);
+            .lib-css(margin-bottom, @reviews-list-item-ratings__margin-bottom);
+        }
+
+        .review-author {
+            .lib-css(display, @reviews-list-item-author__display);
+        }
+
+        .review-title {
+            & when (@reviews-list-item-title__use-heading = true) {
+                .lib-heading(@reviews-list-item-title__heading);
+            }
+            .lib-css(margin, @reviews-list-item-title__margin);
+        }
+
+        .review-content {
+            .lib-css(margin-bottom, @reviews-list-item-content__margin-bottom);
+        }
+    }
+}

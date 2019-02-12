@@ -1,0 +1,41 @@
+//
+//  Theme: Page Title
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@page-title-action_margin-top: @indent__l;
+@page-title__display__m: inline-block;
+@page-title-action__float__m: right;
+@page-title-action__margin-top__m: @indent__base;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .page-main {
+        > .page-title-wrapper .page-title + .action {
+            .lib-css(margin-top, @page-title-action_margin-top);
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .page-main {
+        > .page-title-wrapper .page-title {
+            .lib-css(display, @page-title__display__m);
+        }
+
+        > .page-title-wrapper.page-title + .action {
+            .lib-css(float, @page-title-action__float__m);
+            .lib-css(margin-top, @page-title-action__margin-top__m);
+        }
+    }
+}

@@ -1,0 +1,91 @@
+//
+//  PayPal: Button
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@paypal-button__is-enabled: true; // Enable/disable styles
+
+//  After Position
+@paypal-button-after__before__content: '- ' attr(data-label) ' -';
+@paypal-button-after__before__display: block;
+@paypal-button-after__before__margin: @indent__xs @indent__xs @indent__s;
+@paypal-button-after__before__text-transform: uppercase;
+
+//  Before Position
+@paypal-button-before__before__content: '- ' attr(data-label) ' -';
+@paypal-button-before__before__display: block;
+@paypal-button-before__before__margin: @indent__s @indent__xs;
+@paypal-button-before__before__text-align: center;
+@paypal-button-before__before__text-transform: uppercase;
+
+//  Acceptance
+@paypal-button-acceptance__display: block;
+@paypal-button-acceptance__margin: 0 0 @indent__base;
+@paypal-button-acceptance-img__max-width: 100%;
+
+//  Box to Cart and Block MiniCart
+@paypal-button-tocart-and-minicart-paypal-img__display: block;
+@paypal-button-tocart-and-minicart-paypal-img__max-height: 40px;
+@paypal-button-tocart-and-minicart-paypal-img__margin: 0 auto;
+
+//  Button Widget
+@paypal-button-widget-button__use-action-button-as-link: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@paypal-button__is-enabled = true) {
+        .paypal {
+            &.after {
+                &::before {
+                    .lib-css(content, @paypal-button-after__before__content);
+                    .lib-css(display, @paypal-button-after__before__display);
+                    .lib-css(margin, @paypal-button-after__before__margin);
+                    .lib-css(text-transform, @paypal-button-after__before__text-transform);
+                }
+            }
+
+            &.before {
+                &::before {
+                    .lib-css(content, @paypal-button-before__before__content);
+                    .lib-css(display, @paypal-button-before__before__display);
+                    .lib-css(margin, @paypal-button-before__before__margin);
+                    .lib-css(text-align, @paypal-button-before__before__text-align);
+                    .lib-css(text-transform, @paypal-button-before__before__text-transform);
+                }
+            }
+
+            &.acceptance {
+                .lib-css(display, @paypal-button-acceptance__display);
+                .lib-css(margin, @paypal-button-acceptance__margin);
+            }
+
+            &.acceptance img {
+                .lib-css(max-width, @paypal-button-acceptance-img__max-width);
+            }
+        }
+
+        .box-tocart,
+        .block-minicart,
+        .checkout-methods-items {
+            .paypal img {
+                .lib-css(display, @paypal-button-tocart-and-minicart-paypal-img__display);
+                .lib-css(max-height, @paypal-button-tocart-and-minicart-paypal-img__max-height);
+                .lib-css(margin, @paypal-button-tocart-and-minicart-paypal-img__margin);
+            }
+        }
+
+        .paypal-button-widget {
+            .paypal-button {
+                & when (@paypal-button-widget-button__use-action-button-as-link = true) {
+                    &:extend(.abs-action-button-as-link all);
+                }
+            }
+        }
+    }
+}

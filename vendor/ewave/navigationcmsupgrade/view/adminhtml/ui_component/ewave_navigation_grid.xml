@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <container name="listing_top">
+        <massaction name="listing_massaction">
+            <action name="generate_upgrade_script">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">Generate Upgrade Script</item>
+                        <item name="label" xsi:type="string" translate="true">Generate Upgrade Script</item>
+                        <item name="url" xsi:type="url" path="navigationcmsupgrade/menu/generate"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Generate Upgrade Script</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you want to generate Upgrade Script?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+    </container>
+</listing>

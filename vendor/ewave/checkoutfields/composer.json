@@ -1,0 +1,14 @@
+{
+  "name": "ewave/checkoutfields",
+  "type": "magento2-module",
+  "description": "",
+  "version": "1.6.3.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ewave\\CheckoutFields\\": ""
+    }
+  }
+}

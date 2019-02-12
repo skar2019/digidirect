@@ -1,0 +1,97 @@
+//
+//  Product Video: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@product-video__is-enabled: true; // Enable/disable styles
+
+@product-video__position: absolute;
+@product-video__top: 0;
+@product-video__right: 0;
+@product-video__bottom: 0;
+@product-video__left: 0;
+@product-video__width: 100%;
+@product-video__height: 75%;
+@product-video__margin: auto;
+@product-video__width__custom: 81%;
+@product-video__height__custom: 100%;
+
+//  Iframe
+@product-video-iframe__position: absolute;
+@product-video-iframe__top: 0;
+@product-video-iframe__left: 0;
+@product-video-iframe__z-index: 9999;
+@product-video-iframe__width: 100%;
+@product-video-iframe__height: 100%;
+
+//  Thumb Icon
+@product-video-thumb-icon__after__content: ' ';
+@product-video-thumb-icon__after__position: absolute;
+@product-video-thumb-icon__after__top: 10px;
+@product-video-thumb-icon__after__right: 0;
+@product-video-thumb-icon__after__bottom: 0;
+@product-video-thumb-icon__after__left: 0;
+@product-video-thumb-icon__after__width: 49px;
+@product-video-thumb-icon__after__height: 40px;
+@product-video-thumb-icon__after__margin: auto;
+@product-video-thumb-icon__after__background: url('../Magento_ProductVideo/img/gallery-sprite.png') bottom left;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@product-video__is-enabled = true) {
+        .product-video {
+            & {
+                .lib-css(position, @product-video__position);
+                .lib-css(top, @product-video__top);
+                .lib-css(right, @product-video__right);
+                .lib-css(bottom, @product-video__bottom);
+                .lib-css(left, @product-video__left);
+                .lib-css(width, @product-video__width);
+                .lib-css(height, @product-video__height);
+                .lib-css(margin, @product-video__margin);
+            }
+
+            iframe {
+                .lib-css(position, @product-video-iframe__position);
+                .lib-css(top, @product-video-iframe__top);
+                .lib-css(left, @product-video-iframe__left);
+                .lib-css(z-index, @product-video-iframe__z-index);
+                .lib-css(width, @product-video-iframe__width);
+                .lib-css(height, @product-video-iframe__height);
+            }
+        }
+
+        .video-thumb-icon {
+            &::after {
+                .lib-css(content, @product-video-thumb-icon__after__content);
+                .lib-css(position, @product-video-thumb-icon__after__position);
+                .lib-css(top, @product-video-thumb-icon__after__top);
+                .lib-css(right, @product-video-thumb-icon__after__right);
+                .lib-css(bottom, @product-video-thumb-icon__after__bottom);
+                .lib-css(left, @product-video-thumb-icon__after__left);
+                .lib-css(width, @product-video-thumb-icon__after__width);
+                .lib-css(height, @product-video-thumb-icon__after__height);
+                .lib-css(margin, @product-video-thumb-icon__after__margin);
+                .lib-css(background, @product-video-thumb-icon__after__background);
+            }
+        }
+    }
+}
+
+//
+//  Custom Media Query
+//  ---------------------------------------------
+
+//  @TODO UI, check possibility to use .media-width() mixin
+@media only screen and (min-device-width: 320px) and (max-device-width: 780px) and (orientation: landscape) {
+    .product-video {
+        .lib-css(width, @product-video__width__custom);
+        .lib-css(height, @product-video__height__custom);
+    }
+}

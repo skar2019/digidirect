@@ -1,0 +1,132 @@
+//
+//  Cart: Summary Block
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@cart-summary__is-enabled: true; // Enable/disable style
+
+@cart-summary__margin-bottom: @indent__m;
+@cart-summary__padding: 1px 15px @indent__m;
+@cart-summary__background: @sidebar__background-color;
+@cart-summary__use-adjustment-incl-excl-tax: true;
+@cart-summary__position__m: relative;
+@cart-summary__float__m: right;
+@cart-summary__width__m: 23%;
+@cart-summary-title__use-heading: true;
+@cart-summary-title-heading: h3;
+@cart-summary-title__display: block;
+@cart-summary-block__use-discount-block: true;
+@cart-summary-block__margin-bottom: 0;
+@cart-summary-item-options__margin-left: 0;
+@cart-summary-fieldset__margin: 15px 0 @indent__m @indent__xs;
+@cart-summary-fieldset-field__margin: 0 0 @indent__s;
+@cart-summary-fieldset-field__margin__m: 0 0 @indent__s;
+@cart-summary-fieldset-field-note__font-size: @font-size__s;
+@cart-summary-fieldset-field-label__display: inline;
+@cart-summary-fieldset-estimate-legend__use-no-display: true;
+@cart-summary-actions-toolbar-primary-button__use-revert-secondary-color: true;
+
+//  Totals Block
+@cart-totals__padding-top: @indent__s;
+@cart-totals__border-top: 1px solid @border-color__base;
+@cart-totals-table-wrapper__margin-bottom: 0;
+@cart-totals-table-wrapper__overflow: inherit;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@cart-summary__is-enabled = true) {
+        .cart-summary {
+            & {
+                .lib-css(margin-bottom, @cart-summary__margin-bottom);
+                .lib-css(padding, @cart-summary__padding);
+                .lib-css(background, @cart-summary__background);
+            }
+
+            > .title {
+                & when (@cart-summary-title__use-heading = true) {
+                    .lib-heading(@cart-summary-title-heading);
+                }
+                .lib-css(display, @cart-summary-title__display);
+            }
+
+            .block {
+                & when (@cart-summary-block__use-discount-block = true) {
+                    &:extend(.abs-discount-block all);
+                }
+                .lib-css(margin-bottom, @cart-summary-block__margin-bottom);
+
+                .item-options {
+                    .lib-css(margin-left, @cart-summary-item-options__margin-left);
+                }
+
+                .fieldset {
+                    .lib-css(margin, @cart-summary-fieldset__margin);
+                }
+                .fieldset .field {
+                    .lib-css(margin, @cart-summary-fieldset-field__margin);
+                }
+                .fieldset .field .field.note {
+                    .lib-css(font-size, @cart-summary-fieldset-field-note__font-size);
+                }
+
+                .fieldset .methods .field > .label {
+                    .lib-css(display, @cart-summary-fieldset-field-label__display);
+                }
+
+                .fieldset.estimate > .legend,
+                .fieldset.estimate > .legend + br {
+                    & when (@cart-summary-fieldset-estimate-legend__use-no-display = true) {
+                        &:extend(.abs-no-display all);
+                    }
+                }
+            }
+            .actions-toolbar > .primary button {
+                & when (@cart-summary-actions-toolbar-primary-button__use-revert-secondary-color = true) {
+                    &:extend(.abs-revert-secondary-color all);
+                }
+            }
+            & when (@cart-summary__use-adjustment-incl-excl-tax = true) {
+                &:extend(.abs-adjustment-incl-excl-tax all);
+            }
+        }
+
+        //  Totals Block
+        .cart-totals {
+            & {
+                .lib-css(padding-top, @cart-totals__padding-top);
+                .lib-css(border-top, @cart-totals__border-top);
+            }
+
+            .table-wrapper {
+                .lib-css(margin-bottom, @cart-totals-table-wrapper__margin-bottom);
+                .lib-css(overflow, @cart-totals-table-wrapper__overflow);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@cart-summary__is-enabled = true) {
+        .cart-summary {
+            & {
+                .lib-css(position, @cart-summary__position__m);
+                .lib-css(float, @cart-summary__float__m);
+                .lib-css(width, @cart-summary__width__m);
+            }
+
+            .block .fieldset .field {
+                .lib-css(margin, @cart-summary-fieldset-field__margin__m);
+            }
+        }
+    }
+}

@@ -1,0 +1,108 @@
+//
+//  Reviews: Summary
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@review-summary__is-enabled: true; // Enable/disable styles
+
+@review-summary__use-rating-summary: true;
+
+@review-summary-product-reviews-summary-rating-summary-table-reviews__use-rating-summary-label-hide: true;
+
+//  Product Reviews Summary
+@review-summary-product-reviews-summary__display: table;
+@review-summary-product-reviews-summary__margin: @indent__s 0 12px;
+@review-summary-product-reviews-summary__empty__margin-left: 0;
+
+//  Rating Summary
+@review-summary-product-reviews-summary-rating-summary__position: relative;
+@review-summary-product-reviews-summary-rating-summary__left: 0;
+@review-summary-product-reviews-summary-rating-summary__display: table-cell;
+@review-summary-product-reviews-summary-rating-summary__text-align: left;
+@review-summary-product-reviews-summary-rating-summary__vertical-align: middle;
+
+//  Reviews Actions
+@review-summary-product-reviews-summary-reviews-actions__display: table-cell;
+@review-summary-product-reviews-summary-reviews-actions__padding: 0 0 0 5px;
+@review-summary-product-reviews-summary-reviews-actions__line-height: @rating-icon__font-size;
+@review-summary-product-reviews-summary-reviews-actions__vertical-align: middle;
+@review-summary-product-reviews-summary-reviews-actions-link__margin-right: @indent__xs;
+
+//  Product Reviews Summary (product list)
+@review-summary-products-wrapper-list-product-reviews-summary__margin: 0 auto;
+@review-summary-products-wrapper-list-product-reviews-summary__margin__m: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@review-summary__is-enabled = true) {
+        .rating-summary {
+            & when (@review-summary__use-rating-summary = true) {
+                .lib-rating-summary-base64();
+            }
+        }
+
+        .product-reviews-summary,
+        .table-reviews {
+            .rating-summary {
+                & when (@review-summary-product-reviews-summary-rating-summary-table-reviews__use-rating-summary-label-hide = true) {
+                    .lib-rating-summary-label-hide();
+                }
+            }
+        }
+
+        .product-reviews-summary {
+            & {
+                .lib-css(display, @review-summary-product-reviews-summary__display);
+                .lib-css(margin, @review-summary-product-reviews-summary__margin);
+            }
+
+            &.empty {
+                .lib-css(margin-left, @review-summary-product-reviews-summary__empty__margin-left);
+            }
+
+            .rating-summary {
+                .lib-css(position, @review-summary-product-reviews-summary-rating-summary__position);
+                .lib-css(left, @review-summary-product-reviews-summary-rating-summary__left);
+                .lib-css(display, @review-summary-product-reviews-summary-rating-summary__display);
+                .lib-css(text-align, @review-summary-product-reviews-summary-rating-summary__text-align);
+                .lib-css(vertical-align, @review-summary-product-reviews-summary-rating-summary__vertical-align);
+            }
+
+            .reviews-actions {
+                .lib-css(display, @review-summary-product-reviews-summary-reviews-actions__display);
+                .lib-css(padding, @review-summary-product-reviews-summary-reviews-actions__padding);
+                .lib-css(line-height, @review-summary-product-reviews-summary-reviews-actions__line-height);
+                .lib-css(vertical-align, @review-summary-product-reviews-summary-reviews-actions__vertical-align);
+            }
+
+            .reviews-actions a {
+                .lib-css(margin-right, @review-summary-product-reviews-summary-reviews-actions-link__margin-right);
+            }
+        }
+        //  Listing (list mode)
+        .products {
+            &.wrapper.list .product-reviews-summary {
+                .lib-css(margin, @review-summary-products-wrapper-list-product-reviews-summary__margin);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    //  Listing (list mode)
+    .products.wrapper.list {
+        .product-reviews-summary {
+            .lib-css(margin, @review-summary-products-wrapper-list-product-reviews-summary__margin__m);
+        }
+    }
+}

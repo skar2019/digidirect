@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="ewave_product_calculator" class="Ewave\ProductCalculator\Block\Widget\Calculator">
+        <label translate="true">Calculator Widget</label>
+        <description translate="true">Displays specified product calculator</description>
+        <parameters>
+            <parameter name="calculator_id" xsi:type="select" visible="true" required="true" sort_order="10"
+                       source_model="Ewave\ProductCalculator\Model\ResourceModel\Calculator\Collection">
+                <label translate="true">Calculator To Display</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="20">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/calculator.phtml" selected="true">
+                        <label translate="true">Calculator Widget Template</label>
+                    </option>
+                    <option name="homewidget" value="widget/calculator-home.phtml">
+                        <label translate="true">Homepage Widget Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

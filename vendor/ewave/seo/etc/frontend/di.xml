@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\SEO\Model\CategoryMetadata">
+        <arguments>
+            <argument name="metadataConfig" xsi:type="array">
+                <item name="meta_description" xsi:type="string">description</item>
+                <item name="meta_title" xsi:type="string">name</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\UrlInterface">
+        <plugin name="ewave_trailing_slash_url" type="Ewave\SEO\Plugin\Magento\Framework\UrlInterfacePlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Customer\Block\Address\Book">
+        <plugin name="add_trailing_slash" type="Ewave\SEO\Plugin\Magento\Customer\Block\Address\Book" sortOrder="100"/>
+    </type>
+    <type name="Magento\Customer\Block\SectionConfig">
+        <plugin name="add_trailing_slash_section_config" type="Ewave\SEO\Plugin\Magento\Customer\Block\SectionConfig" sortOrder="100"/>
+    </type>
+</config>

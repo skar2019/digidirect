@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.price">
+            <block class="Ewave\CheckoutFields\Block\Pdp\Custom\Fields"
+                   name="ewave.checkoutfields.product.custom.fields"
+                   template="Ewave_CheckoutFields::product/custom/fields.phtml"
+                   before="product.price.final">
+            </block>
+        </referenceContainer>
+    </body>
+</page>

@@ -1,0 +1,296 @@
+//
+//  Multiple Wishlist: Management
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@multiple-wishlist-management__is-enabled: true; // Enable/disable styles
+
+@multiple-wishlist-management__position: relative;
+@multiple-wishlist-management__clear__m-only: both;
+@multiple-wishlist-management__margin-top__m-only: false;
+@multiple-wishlist-management__use-add-clearfix-desktop__m: true;
+@multiple-wishlist-management__margin-bottom__m: @indent__base;
+
+//  Name
+@multiple-wishlist-management-name-label__use-colon: true;
+@multiple-wishlist-management-name-label__font-weight: @font-weight__semibold;
+
+//  Select
+@multiple-wishlist-management-select__margin__m-only: 0 -@layout__width-xs-indent 20px;
+@multiple-wishlist-management-select__display__m: table;
+@multiple-wishlist-management-select__width__m: 100%;
+@multiple-wishlist-management-select__margin-bottom__m: 15px;
+@multiple-wishlist-management-select__border-bottom__m: 1px solid @secondary__color;
+
+//  Select Name
+@multiple-wishlist-management-select-name__use-toggling-title-mobile__m-only: true;
+@multiple-wishlist-management-select-name__display__m: table-cell;
+@multiple-wishlist-management-select-name__width__m: 5%;
+@multiple-wishlist-management-select-name__margin-right__m: @indent__s;
+@multiple-wishlist-management-select-name__padding__m: @indent__xs @indent__s @indent__s;
+@multiple-wishlist-management-select-name__vertical-align__m: top;
+@multiple-wishlist-management-select-name__white-space__m: nowrap;
+
+//  Items
+@multiple-wishlist-management-select-items__use-reset-list: true;
+@multiple-wishlist-management-select-items__display__m-only: none;
+@multiple-wishlist-management-select-items__padding__m-only: 15px 0;
+@multiple-wishlist-management-select-items__border-bottom__m-only: @border-width__base solid @border-color__base;
+@multiple-wishlist-management-select-items__background__m-only: @sidebar__background-color;
+@multiple-wishlist-management-select-items__active__display__m-only: block;
+@multiple-wishlist-management-select-items__display__m: table-cell;
+@multiple-wishlist-management-select-items__padding-right__m: 160px;
+@multiple-wishlist-management-select-items__vertical-align__m: top;
+
+//  Item
+@multiple-wishlist-management-select-items-item__margin__m-only: 3px 0 0;
+@multiple-wishlist-management-select-items-item__first-child__margin-top__m-only: 0;
+@multiple-wishlist-management-select-items-item__display__m: inline-block;
+@multiple-wishlist-management-select-items-item__margin-right__m: @indent__s;
+@multiple-wishlist-management-select-items-item__padding-right__m: @indent__xs @indent__s @indent__s;
+@multiple-wishlist-management-select-items-item__last-child__margin-right__m: 0;
+//  Item (current)
+@multiple-wishlist-management-select-items-item__current__display__m-only: none;
+@multiple-wishlist-management-select-items-item__current__border-bottom__m: 3px solid @active__color;
+@multiple-wishlist-management-select-items-item__current__font-weight__m: @font-weight__semibold;
+//  Item Link
+@multiple-wishlist-management-select-items-item-link__display__m-only: block;
+@multiple-wishlist-management-select-items-item-link__padding__m-only: @indent__xs 18px;
+@multiple-wishlist-management-select-items-item-link__text-decoration__m-only: none;
+@multiple-wishlist-management-select-items-item-link__hover__background__m-only: @color-gray91;
+
+//  Name (current)
+@multiple-wishlist-management-name-current__display__m: none;
+
+//  Add Item
+@multiple-wishlist-management-add-item__position__m: absolute;
+@multiple-wishlist-management-add-item__top__m: 0;
+@multiple-wishlist-management-add-item__right__m: 0;
+
+//  Title
+@multiple-wishlist-management-title__margin-bottom: @indent__s;
+@multiple-wishlist-management-title-strong__margin-right: @indent__s;
+@multiple-wishlist-management-title-strong__font-weight: @font-weight__light;
+@multiple-wishlist-management-title-strong__font-size__m-only: 26;
+@multiple-wishlist-management-title-strong__font-size__m: 40;
+
+//  Info
+@multiple-wishlist-management-info__margin-bottom__m-only: 15px;
+@multiple-wishlist-management-info__float__m: left;
+
+//  Notice
+@multiple-wishlist-management-notice__display: inline-block;
+@multiple-wishlist-management-notice__margin-right: @indent__base;
+@multiple-wishlist-management-notice__color: @text__color__muted;
+
+//  Toolbars
+@multiple-wishlist-management-toolbars__display: inline-block;
+@multiple-wishlist-management-toolbars__margin-bottom__m-only: 15px;
+@multiple-wishlist-management-toolbar-select__margin-right: @indent__base;
+@multiple-wishlist-management-toolbar__float__m: right;
+
+@multiple-wishlist-management-dropdown-move__margin-right: @indent__base;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@multiple-wishlist-management__is-enabled = true) {
+        .block-wishlist-management {
+            & {
+                .lib-css(position, @multiple-wishlist-management__position);
+            }
+
+            .wishlist-name-label {
+                & when (@multiple-wishlist-management-name-label__use-colon = true) {
+                    &:extend(.abs-colon all);
+                }
+                .lib-css(font-weight, @multiple-wishlist-management-name-label__font-weight);
+            }
+
+            .wishlist-select-items {
+                & when (@multiple-wishlist-management-select-items__use-reset-list = true) {
+                    &:extend(.abs-reset-list all);
+                }
+            }
+
+            .wishlist-title {
+                .lib-css(margin-bottom, @multiple-wishlist-management-title__margin-bottom);
+            }
+
+            .wishlist-title strong {
+                .lib-css(margin-right, @multiple-wishlist-management-title-strong__margin-right);
+                .lib-css(font-weight, @multiple-wishlist-management-title-strong__font-weight);
+            }
+
+            .wishlist-notice {
+                .lib-css(display, @multiple-wishlist-management-notice__display);
+                .lib-css(margin-right, @multiple-wishlist-management-notice__margin-right);
+                .lib-css(color, @multiple-wishlist-management-notice__color);
+            }
+
+            .wishlist-toolbar-select,
+            .wishlist-toolbar-actions {
+                .lib-css(display, @multiple-wishlist-management-toolbars__display);
+            }
+
+            .wishlist-toolbar-select {
+                .lib-css(margin-right, @multiple-wishlist-management-toolbar-select__margin-right);
+            }
+
+            .wishlist-dropdown.move {
+                .lib-css(margin-right, @multiple-wishlist-management-dropdown-move__margin-right);
+            }
+        }
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    & when (@multiple-wishlist-management__is-enabled = true) {
+        .block-wishlist-management {
+            & {
+                .lib-css(clear, @multiple-wishlist-management__clear__m-only);
+                .lib-css(margin-top, @multiple-wishlist-management__margin-top__m-only);
+            }
+
+            .wishlist-select {
+                .lib-css(margin, @multiple-wishlist-management-select__margin__m-only);
+            }
+
+            .wishlist-select .wishlist-name {
+                & when (@multiple-wishlist-management-select-name__use-toggling-title-mobile__m-only = true) {
+                    &:extend(.abs-toggling-title-mobile all);
+                }
+            }
+
+            .wishlist-select-items {
+                .lib-css(display, @multiple-wishlist-management-select-items__display__m-only);
+                .lib-css(padding, @multiple-wishlist-management-select-items__padding__m-only);
+                .lib-css(border-bottom, @multiple-wishlist-management-select-items__border-bottom__m-only);
+                .lib-css(background, @multiple-wishlist-management-select-items__background__m-only);
+            }
+
+            .wishlist-select-items.active {
+                .lib-css(display, @multiple-wishlist-management-select-items__active__display__m-only);
+            }
+
+            .wishlist-select-items .item {
+                .lib-css(margin, @multiple-wishlist-management-select-items-item__margin__m-only);
+
+                &:first-child {
+                    .lib-css(margin-top, @multiple-wishlist-management-select-items-item__first-child__margin-top__m-only);
+                }
+            }
+            .wishlist-select-items .item.current {
+                .lib-css(display, @multiple-wishlist-management-select-items-item__current__display__m-only);
+            }
+
+            .wishlist-select-items .item a {
+                .lib-css(display, @multiple-wishlist-management-select-items-item-link__display__m-only);
+                .lib-css(padding, @multiple-wishlist-management-select-items-item-link__padding__m-only);
+                .lib-css(text-decoration, @multiple-wishlist-management-select-items-item-link__text-decoration__m-only);
+
+                &:hover {
+                    .lib-css(background, @multiple-wishlist-management-select-items-item-link__hover__background__m-only);
+                }
+            }
+
+            .wishlist-title strong {
+                .lib-font-size(@multiple-wishlist-management-title-strong__font-size__m-only);
+            }
+
+            .wishlist-info {
+                .lib-css(margin-bottom, @multiple-wishlist-management-info__margin-bottom__m-only);
+            }
+
+            .wishlist-toolbar-select,
+            .wishlist-toolbar-actions {
+                .lib-css(margin-bottom, @multiple-wishlist-management-toolbars__margin-bottom__m-only);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@multiple-wishlist-management__is-enabled = true) {
+        .block-wishlist-management {
+            & {
+                & when (@multiple-wishlist-management__use-add-clearfix-desktop__m = true) {
+                    &:extend(.abs-add-clearfix-desktop all);
+                }
+                .lib-css(margin-bottom, @multiple-wishlist-management__margin-bottom__m);
+            }
+
+            .wishlist-select {
+                .lib-css(display, @multiple-wishlist-management-select__display__m);
+                .lib-css(width, @multiple-wishlist-management-select__width__m);
+                .lib-css(margin-bottom, @multiple-wishlist-management-select__margin-bottom__m);
+                .lib-css(border-bottom, @multiple-wishlist-management-select__border-bottom__m);
+            }
+
+            .wishlist-select .wishlist-name {
+                .lib-css(display, @multiple-wishlist-management-select-name__display__m);
+                .lib-css(width, @multiple-wishlist-management-select-name__width__m);
+                .lib-css(margin-right, @multiple-wishlist-management-select-name__margin-right__m);
+                .lib-css(padding, @multiple-wishlist-management-select-name__padding__m);
+                .lib-css(vertical-align, @multiple-wishlist-management-select-name__vertical-align__m);
+                .lib-css(white-space, @multiple-wishlist-management-select-name__white-space__m);
+            }
+
+            .wishlist-select-items {
+                .lib-css(display, @multiple-wishlist-management-select-items__display__m);
+                .lib-css(padding-right, @multiple-wishlist-management-select-items__padding-right__m);
+                .lib-css(vertical-align, @multiple-wishlist-management-select-items__vertical-align__m);
+            }
+
+            .wishlist-select-items .item {
+                .lib-css(display, @multiple-wishlist-management-select-items-item__display__m);
+                .lib-css(margin-right, @multiple-wishlist-management-select-items-item__margin-right__m);
+                .lib-css(padding, @multiple-wishlist-management-select-items-item__padding-right__m);
+
+                &:last-child {
+                    .lib-css(margin-right, @multiple-wishlist-management-select-items-item__last-child__margin-right__m);
+                }
+            }
+
+            .wishlist-select-items .current {
+                .lib-css(border-bottom, @multiple-wishlist-management-select-items-item__current__border-bottom__m);
+                .lib-css(font-weight, @multiple-wishlist-management-select-items-item__current__font-weight__m);
+            }
+
+            .wishlist-name-current {
+                .lib-css(display, @multiple-wishlist-management-name-current__display__m);
+            }
+
+            .wishlist-add.item {
+                .lib-css(position, @multiple-wishlist-management-add-item__position__m);
+                .lib-css(top, @multiple-wishlist-management-add-item__top__m);
+                .lib-css(right, @multiple-wishlist-management-add-item__right__m);
+            }
+
+            .wishlist-title strong {
+                .lib-font-size(@multiple-wishlist-management-title-strong__font-size__m);
+            }
+
+            .wishlist-info {
+                .lib-css(float, @multiple-wishlist-management-info__float__m);
+            }
+
+            .wishlist-toolbar {
+                .lib-css(float, @multiple-wishlist-management-toolbar__float__m);
+            }
+        }
+    }
+}

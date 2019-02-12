@@ -1,0 +1,18 @@
+<?php
+$locatorName = $block->getData('locatorName');
+?>
+
+<div class="locator-search">
+    <form action="<?php echo $block->escapeUrl($block->getSearchUrl()); ?>" class="form" data-mage-init='{"validation": {}}'>
+        <input type="hidden" name="blockName" value="<?php /* @escapeNotVerified */ echo $locatorName ?>">
+        <input type="hidden" name="isAjax" value="1">
+        <div class="input-group">
+            <div class="control">
+                <input type="text" name="search" class="input-text input-search" data-validate="{required:true}" placeholder="<?php /* @escapeNotVerified */ echo __('Enter search word')?>" value=""/>
+            </div>
+            <button type="submit" id="btn-search" class="button action primary" title="<?php /* @escapeNotVerified */ echo __('Search')?>">
+                <span><?php /* @escapeNotVerified */ echo __('Search')?></span>
+            </button>
+        </div>
+    </form>
+</div>

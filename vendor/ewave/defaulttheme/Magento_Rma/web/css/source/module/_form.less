@@ -1,0 +1,87 @@
+//
+//  Rma Form
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@rma-form-create-return__is-enabled: true; // Enable/disable styles
+
+//  Absolute Fields
+@rma-form-create-return__use-abs-add-fields: true;
+@rma-form-create-return__use-abs-add-fields-desktop: true;
+
+//  Fields
+@rma-form-create-return-address__display: inline-block;
+@rma-form-create-return-address__padding-top: @form-field-type-label-inline__padding-top;
+@rma-form-create-return-additional-field__first-child__margin-top: @rma-form-create-return__additional__first-child__margin-top;
+@rma-form-create-return-additional-field__last-child__margin-top: @form-field__vertical-indent;
+@rma-form-create-return-additional-field__last-child__margin-top__m: @form-field__vertical-indent__desktop;
+@rma-form-create-return-additional-field__nth-last-child__margin-bottom: @form-field__vertical-indent;
+@rma-form-create-return-field-comment__margin-top: 55px;
+
+//  Additional
+@rma-form-create-return__additional__first-child__margin-top: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@rma-form-create-return__is-enabled = true) {
+        .form-create-return {
+            & when (@rma-form-create-return__use-abs-add-fields = true) {
+                &:extend(.abs-add-fields all);
+            }
+
+            .field {
+                .control > span,
+                address {
+                    .lib-css(display, @rma-form-create-return-address__display);
+                    .lib-css(padding-top, @rma-form-create-return-address__padding-top);
+                }
+            }
+
+            .additional {
+                &:first-child {
+                    .lib-css(margin-top, @rma-form-create-return-additional-field__first-child__margin-top);
+                }
+
+                .field {
+                    &:nth-last-child(2) {
+                        .lib-css(margin-bottom, @rma-form-create-return-additional-field__nth-last-child__margin-bottom);
+                    }
+
+                    &:last-child {
+                        .lib-css(margin-top, @rma-form-create-return-additional-field__last-child__margin-top);
+                    }
+                }
+            }
+
+            .field.comment {
+                .lib-css(margin-top, @rma-form-create-return-field-comment__margin-top);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@rma-form-create-return__is-enabled = true) {
+        .form-create-return {
+            & when (@rma-form-create-return__use-abs-add-fields-desktop = true) {
+                &:extend(.abs-add-fields-desktop all);
+            }
+
+            .additional {
+                .field:last-child {
+                    .lib-css(margin-top, @rma-form-create-return-additional-field__last-child__margin-top__m);
+                }
+            }
+        }
+    }
+}

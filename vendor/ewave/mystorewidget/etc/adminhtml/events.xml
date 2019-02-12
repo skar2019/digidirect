@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="adminhtml_ewave_abstractentity_save_after">
+        <observer name="Ewave_MyStoreWidget::store_data_save_after" instance="Ewave\MyStoreWidget\Observer\Admin\MyStoreSaveAfterObserver" />
+    </event>
+    <event name="admin_system_config_changed_section_ewave_mystorewidget">
+        <observer name="Ewave_MyStoreWidget::reindex_store_data_config" instance="Ewave\MyStoreWidget\Observer\Admin\ReindexStoreDataObserver" />
+    </event>
+</config>

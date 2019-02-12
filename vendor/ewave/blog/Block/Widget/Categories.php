@@ -1,0 +1,59 @@
+<?php
+
+namespace Ewave\Blog\Block\Widget;
+
+use Ewave\Blog\Model\Config\Provider\Status;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+
+class Categories extends AbstractWidget
+{
+    const ITEM_RENDERER = 'Ewave\Blog\Block\Widget\Categories\Renderer';
+
+    /**
+     * @return string
+     */
+    public function renderTree()
+    {
+        $collection = $this->categoryRepository->getCategories(Status::STATUS_ENABLED);
+        $tree = $this->buildTree($collection);
+        return $this->getTreeRenderer()->render($tree);
+    }
+
+    /**
+     * @param AbstractCollection $collection
+     * @param string $parentIdField
+     * @return array
+     */
+    protected function buildTree(AbstractCollection $collection, $parentIdField = 'parent_id')
+    {
+        $data = [];
+        $tree = [];
+
+        /** @var AbstractModel $item */
+        foreach ($collection as $item) {
+            if ($item->hasData($parentIdField)) {
+                $item->setData($parentIdField, (int)$item->getData($parentIdField));
+                $data[$item->getId()] = $item->getData();
+            }
+        }
+
+        foreach ($data as $id => &$node) {
+            if (isset($node[$parentIdField]) && !$node[$parentIdField]) {
+                $tree[$id] = &$node;
+            } else {
+                $data[$node[$parentIdField]]['children'][$id] = &$node;
+            }
+        }
+        return $tree;
+    }
+
+    /**
+     * @return \Ewave\Blog\Block\Widget\Categories\Renderer
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function getTreeRenderer()
+    {
+        return $this->getLayout()->createBlock(self::ITEM_RENDERER);
+    }
+}

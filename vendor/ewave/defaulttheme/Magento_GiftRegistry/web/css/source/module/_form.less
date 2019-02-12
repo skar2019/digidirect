@@ -1,0 +1,158 @@
+//
+//  Gift Registry: Form
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-registry-form__is-enabled: true;  //  Enable/disable style
+
+@gift-registry-form-form__use-add-field: true;
+@gift-registry-form-form__use-add-fields-desktop__m: true;
+
+@gift-registry-form-actions-toolbar__margin-bottom: @indent__xl;
+@gift-registry-form-actions-toolbar__use-reset-left-margin: true;
+
+@gift-registry-form-table-giftregistry-items-qty__use-input-qty: true;
+@gift-registry-form-table-giftregistry-items-product-image__float: left;
+@gift-registry-form-table-giftregistry-items-product-image__margin-right: @indent__s;
+
+@gift-registry-form-table-giftregistry-items-col-product__use-add-clearfix-mobile__s-only: true;
+@gift-registry-form-table-giftregistry-items-col-product-before__use-visually-hidden-mobile__s-only: true;
+@gift-registry-form-table-giftregistry-items-field-choice-qty__display__s-only: inline-block;
+
+@gift-registry-form-form-giftregistry-search__margin-bottom: @indent__l*2;
+@gift-registry-form-form-giftregistry-search-legend__use-account-title: true;
+@gift-registry-form-fields-specific-options-field__nth-last-of-type__margin-bottom: 0;
+@gift-registry-form-fields-specific-options-datetime-picker__use-field-date-input: true;
+@gift-registry-form-form-giftregistry-search-fieldset__margin-bottom__s-only: 15px;
+@gift-registry-form-form-giftregistry-search-fieldset__margin-bottom__m: @form-field__vertical-indent__desktop;
+
+@gift-registry-form-fields-specific-options-field__use-lib-form-field-type-revert__m: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@gift-registry-form__is-enabled) {
+        .form-giftregistry-share,
+        .form-giftregistry-edit {
+            & when (@gift-registry-form-form__use-add-field = true) {
+                &:extend(.abs-add-fields all);
+            }
+
+            .actions-toolbar:not(:last-child) {
+                .lib-css(margin-bottom, @gift-registry-form-actions-toolbar__margin-bottom);
+            }
+        }
+
+        & when (@gift-registry-form-actions-toolbar__use-reset-left-margin = true) {
+            .form {
+                &.giftregistry.items .actions-toolbar {
+                    &:extend(.abs-reset-left-margin all);
+                }
+            }
+        }
+
+        .table-giftregistry-items {
+            & when (@gift-registry-form-table-giftregistry-items-qty__use-input-qty) {
+                .field.qty .qty {
+                    &:extend(.abs-input-qty all);
+                }
+            }
+
+            .product-image {
+                .lib-css(float, @gift-registry-form-table-giftregistry-items-product-image__float);
+                .lib-css(margin-right, @gift-registry-form-table-giftregistry-items-product-image__margin-right);
+            }
+        }
+
+        .form-giftregistry-search {
+            & {
+                .lib-css(margin-bottom, @gift-registry-form-form-giftregistry-search__margin-bottom);
+            }
+
+            &  when (@gift-registry-form-form-giftregistry-search-legend__use-account-title = true) {
+                .legend {
+                    &:extend(.abs-account-title all);
+                }
+            }
+
+            .fields-specific-options .field {
+                &:nth-last-of-type(1) {
+                    .lib-css(margin-bottom, @gift-registry-form-fields-specific-options-field__nth-last-of-type__margin-bottom);
+                }
+            }
+
+            & when (@gift-registry-form-fields-specific-options-datetime-picker__use-field-date-input = true) {
+                .fields-specific-options .datetime-picker {
+                    &:extend(.abs-field-date-input all);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile s only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    & when (@gift-registry-form__is-enabled = true) {
+        .table-giftregistry-items {
+            & when (@gift-registry-form-table-giftregistry-items-col-product__use-add-clearfix-mobile__s-only = true) {
+                .col.product {
+                    &:extend(.abs-add-clearfix-mobile all);
+                }
+            }
+
+            & when (@gift-registry-form-table-giftregistry-items-col-product-before__use-visually-hidden-mobile__s-only = true) {
+                .col-product::before {
+                    &:extend(.abs-visually-hidden-mobile all);
+                }
+            }
+
+            .field.choice,
+            .field.qty {
+                .lib-css(display, @gift-registry-form-table-giftregistry-items-field-choice-qty__display__s-only);
+            }
+        }
+
+        .form-giftregistry-search {
+            .fieldset {
+                .lib-css(margin-bottom, @gift-registry-form-form-giftregistry-search-fieldset__margin-bottom__s-only);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@gift-registry-form__is-enabled = true) {
+        & when (@gift-registry-form-form__use-add-fields-desktop__m = true) {
+            .form-giftregistry-share,
+            .form-giftregistry-edit {
+                &:extend(.abs-add-fields-desktop all);
+            }
+        }
+
+        .form-giftregistry-search {
+            .fieldset {
+                & {
+                    .lib-css(margin-bottm, @gift-registry-form-form-giftregistry-search-fieldset__margin-bottom__m);
+                }
+
+                & when (@gift-registry-form-fields-specific-options-field__use-lib-form-field-type-revert__m = true) {
+                    > .fields-specific-options > .field {
+                        .lib-form-field-type-revert();
+                    }
+                }
+            }
+        }
+    }
+}

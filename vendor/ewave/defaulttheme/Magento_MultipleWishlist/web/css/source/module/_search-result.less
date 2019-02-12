@@ -1,0 +1,39 @@
+//
+//  Multiple Wishlist: Search Results
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@multiple-wishlist-search-results__is-enabled: true; // Enable/disable styles
+
+@multiple-wishlist-search-results-split__clear: both;
+@multiple-wishlist-search-results-split__padding: @indent__s 0;
+@multiple-wishlist-search-results-input-text-qty__use-input-qty: true;
+@multiple-wishlist-search-results-product-item-info-hover-split__visibility: visible;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@multiple-wishlist-search-results__is-enabled = true) {
+        .block-wishlist-info-items {
+            .split {
+                .lib-css(clear, @multiple-wishlist-search-results-split__clear);
+                .lib-css(padding, @multiple-wishlist-search-results-split__padding);
+            }
+
+            .input-text.qty {
+                & when  (@multiple-wishlist-search-results-input-text-qty__use-input-qty = true) {
+                    &:extend(.abs-input-qty all);
+                }
+            }
+
+            .product-item-info:hover .split {
+                .lib-css(visibility, @multiple-wishlist-search-results-product-item-info-hover-split__visibility);
+            }
+        }
+    }
+}

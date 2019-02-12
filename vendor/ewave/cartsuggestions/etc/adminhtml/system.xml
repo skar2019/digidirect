@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ewave_cartsuggestions" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Cart Out of Stock Suggestions</label>
+            <tab>ewave</tab>
+            <resource>Ewave_CartSuggestions::config_ewave_cartsuggestions</resource>
+            <group id="general" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="cartsuggestions_enabled" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Cart Out of Stock Suggestions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="product_number" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>The Number of Products</label>
+                    <comment>5 will be used if value is not specified.</comment>
+                    <depends>
+                        <field id="*/*/cartsuggestions_enabled">1</field>
+                    </depends>
+                </field>
+                <field id="suggestions_link" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Out of Stock Suggestions Link on Cart</label>
+                    <depends>
+                        <field id="*/*/cartsuggestions_enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

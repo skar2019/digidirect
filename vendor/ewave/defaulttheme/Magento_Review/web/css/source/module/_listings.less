@@ -1,0 +1,29 @@
+//
+//  Reviews: Listing
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@review-listing__is-enabled: true; // Enable/disable styles
+
+@review-listing-product-item-reviews-actions__padding-left: 5px;
+@review-listing-product-item-reviews-actions__font-size: @font-size__s;
+@review-listing-product-item-reviews-actions__text-transform: lowercase;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@review-listing__is-enabled = true) {
+        .product-item {
+            .reviews-actions {
+                .lib-css(padding-left, @review-listing-product-item-reviews-actions__padding-left);
+                .lib-css(font-size, @review-listing-product-item-reviews-actions__font-size);
+                .lib-css(text-transform, @review-listing-product-item-reviews-actions__text-transform);
+            }
+        }
+    }
+}

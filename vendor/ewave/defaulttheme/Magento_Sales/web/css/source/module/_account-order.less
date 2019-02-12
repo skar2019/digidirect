@@ -1,0 +1,267 @@
+//
+//  Sales: Account Order Page + Account Orders
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@sales-account-order__is-enabled: true; // Enable/disable styles
+
+@sales-account-order-status__use-status: true;
+@sales-account-order-title-wrapper-order-date__margin: 0 0 @indent__base;
+
+//  Order Actions Toolbar
+@sales-account-order-actions-toolbar__margin-bottom: 25px;
+@sales-account-order-actions-toolbar-action__margin-right: 30px;
+@sales-account-order-actions-toolbar-action-print__margin: 0;
+@sales-account-order-actions-toolbar-action-print__float__m: right;
+@sales-account-order-actions-toolbar-action-print__display__m: block;
+
+//  Order Links
+@sales-account-order-links__margin-bottom: 10px;
+@sales-account-order-links__border-bottom: @border-width__base solid @border-color__base;
+@sales-account-order-links-item__display: inline-block;
+@sales-account-order-links-item__margin-right: 20px;
+
+//  Details Items
+@sales-account-order-details-items__margin-bottom: 20px;
+@sales-account-order-details-items__padding-bottom: 10px;
+@sales-account-order-details-items__border-bottom: @border-width__base solid @border-color__base;
+@sales-account-order-details-items-order-title-strong__use-heading: true;
+@sales-account-order-details-items-order-title-strong__heading: h3;
+@sales-account-order-details-items-order-title-strong__display: inline-block;
+@sales-account-order-details-items-items-qty__use-reset-list: true;
+@sales-account-order-details-items-items-qty-item__white-space: nowrap;
+@sales-account-order-details-items-items-qty-title__after__content: ': ';
+@sales-account-order-details-items-table-order-items-product-item-name__margin-top: 0;
+@sales-account-order-details-items-table-order-items-tbody-plus-tbody__border-top: @border-width__base solid @border-color__base;
+@sales-account-order-details-items-table-order-items-elements__display__s-only: inline-block;
+@sales-account-order-details-items-table-order-items-elements__vertical-align__s-only: top;
+@sales-account-order-details-items-thead__display__s-only: block;
+@sales-account-order-details-items-thead-row-td__display__s-only: block;
+@sales-account-order-table-order-items-td-order-pager-wrapper__width__s-only: 100%;
+@sales-account-order-table-order-items-subtotal-amount__text-align__m: right;
+@sales-account-order-table-order-items-creditmemo-price-col__text-align__m: center;
+@sales-account-order-table-order-items-creditmemo-total-col__text-align__m: right;
+
+//  Details Items: Options
+@sales-account-order-details-items-item-options__use-product-options-list: true;
+@sales-account-order-details-items-item-options__use-add-clearfix: true;
+@sales-account-order-details-items-item-options__margin: 0;
+
+//  Order Pager Wrapper
+@sales-account-order-pager-wrapper__text-align: center;
+
+//  Block Order Details Comments
+@sales-account-order-block-order-details-comments__margin: 0 0 40px;
+@sales-account-order-block-order-details-comments-date__font-weight: @font-weight__semibold;
+@sales-account-order-block-order-details-comments-content__margin: 0 0 20px;
+@sales-account-order-block-order-details-comments-content__line-height: 1.6;
+
+//  Block Order Details View
+@sales-account-order-block-order-details-view-payment-method-title__font-weight: @font-weight__regular;
+@sales-account-order-block-order-details-view-payment-method-content__margin: 0;
+@sales-account-order-block-order-details-view-payment-method-content-strong__font-weight: @font-weight__regular;
+@sales-account-order-block-order-details-view-payment-method-content-strong__after__content: ': ';
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@sales-account-order__is-enabled = true) {
+        .order-status {
+            & when (@sales-account-order-status__use-status = true) {
+                &:extend(.abs-status all);
+            }
+        }
+
+        .page-title-wrapper {
+            .order-date {
+                .lib-css(margin, @sales-account-order-title-wrapper-order-date__margin);
+            }
+        }
+
+        .order-actions-toolbar {
+            & {
+                .lib-css(margin-bottom, @sales-account-order-actions-toolbar__margin-bottom);
+            }
+
+            .action {
+                .lib-css(margin-right, @sales-account-order-actions-toolbar-action__margin-right);
+            }
+
+            .action.print {
+                .lib-css(margin, @sales-account-order-actions-toolbar-action-print__margin);
+            }
+        }
+
+        .order-links {
+            & {
+                .lib-css(margin-bottom, @sales-account-order-links__margin-bottom);
+                .lib-css(border-bottom, @sales-account-order-links__border-bottom);
+            }
+
+            .item {
+                .lib-css(display, @sales-account-order-links-item__display);
+                .lib-css(margin-right, @sales-account-order-links-item__margin-right);
+            }
+        }
+
+        .order-details-items {
+            & {
+                .lib-css(margin-bottom, @sales-account-order-details-items__margin-bottom);
+                .lib-css(padding-bottom, @sales-account-order-details-items__padding-bottom);
+                .lib-css(border-bottom, @sales-account-order-details-items__border-bottom);
+            }
+
+            .order-title > strong {
+                & when (@sales-account-order-details-items-order-title-strong__use-heading = true) {
+                    .lib-heading(@sales-account-order-details-items-order-title-strong__heading);
+                }
+                .lib-css(display, @sales-account-order-details-items-order-title-strong__display);
+            }
+
+            .items-qty {
+                & when (@sales-account-order-details-items-items-qty__use-reset-list = true) {
+                    &:extend(.abs-reset-list all);
+                }
+            }
+
+            .items-qty .item {
+                .lib-css(white-space, @sales-account-order-details-items-items-qty-item__white-space);
+            }
+
+            .items-qty .title {
+                &::after {
+                    .lib-css(content, @sales-account-order-details-items-items-qty-title__after__content);
+                }
+            }
+
+            .table-order-items .product-item-name {
+                .lib-css(margin-top, @sales-account-order-details-items-table-order-items-product-item-name__margin-top);
+            }
+
+            .table-order-items tbody + tbody {
+                .lib-css(border-top, @sales-account-order-details-items-table-order-items-tbody-plus-tbody__border-top);
+            }
+
+            .item-options,
+            .item.options {
+                & when (@sales-account-order-details-items-item-options__use-product-options-list = true) {
+                    &:extend(.abs-product-options-list all);
+                }
+                & when (@sales-account-order-details-items-item-options__use-add-clearfix = true) {
+                    &:extend(.abs-add-clearfix all);
+                }
+                .lib-css(margin, @sales-account-order-details-items-item-options__margin);
+            }
+        }
+
+        .order-pager-wrapper {
+            .lib-css(text-align, @sales-account-order-pager-wrapper__text-align);
+        }
+
+        .block-order-details-comments {
+            & {
+                .lib-css(margin, @sales-account-order-block-order-details-comments__margin);
+            }
+
+            .comment-date {
+                .lib-css(font-weight, @sales-account-order-block-order-details-comments-date__font-weight);
+            }
+
+            .comment-content {
+                .lib-css(margin, @sales-account-order-block-order-details-comments-content__margin);
+                .lib-css(line-height, @sales-account-order-block-order-details-comments-content__line-height);
+            }
+        }
+
+        .block-order-details-view {
+            .box-content .payment-method .title {
+                .lib-css(font-weight, @sales-account-order-block-order-details-view-payment-method-title__font-weight);
+            }
+
+            .box-content .payment-method .content {
+                .lib-css(margin, @sales-account-order-block-order-details-view-payment-method-content__margin);
+            }
+
+            .box-content .payment-method .content > strong {
+                .lib-css(font-weight, @font-weight__regular);
+
+                &::after {
+                    .lib-css(content, @sales-account-order-block-order-details-view-payment-method-content-strong__after__content);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile s only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    & when (@sales-account-order__is-enabled = true) {
+        .account {
+            .order-details-items .table-order-items {
+                .product-item-name,
+                .price-including-tax,
+                .price-excluding-tax,
+                .items-qty {
+                    .lib-css(display, @sales-account-order-details-items-table-order-items-elements__display__s-only);
+                    .lib-css(vertical-align, @sales-account-order-details-items-table-order-items-elements__vertical-align__s-only);
+                }
+            }
+        }
+
+        .order-details-items {
+            thead {
+                .lib-css(display, @sales-account-order-details-items-thead__display__s-only);
+            }
+            thead tr,
+            thead td {
+                .lib-css(display, @sales-account-order-details-items-thead-row-td__display__s-only);
+            }
+        }
+
+        .table-wrapper {
+            .table.table-order-items tfoot td.order-pager-wrapper {
+                .lib-css(width, @sales-account-order-table-order-items-td-order-pager-wrapper__width__s-only);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@sales-account-order__is-enabled = true) {
+        .table-order-items {
+            .subtotal,
+            .amount {
+                .lib-css(text-align, @sales-account-order-table-order-items-subtotal-amount__text-align__m);
+            }
+
+            &.creditmemo .col.qty,
+            &.creditmemo .col.discount,
+            &.creditmemo .col.subtotal {
+                .lib-css(text-align, @sales-account-order-table-order-items-creditmemo-price-col__text-align__m);
+            }
+
+            &.creditmemo .col.total {
+                .lib-css(text-align, @sales-account-order-table-order-items-creditmemo-total-col__text-align__m);
+            }
+        }
+
+        .order-actions-toolbar {
+            .action.print {
+                .lib-css(float, @sales-account-order-actions-toolbar-action-print__float__m);
+                .lib-css(display, @sales-account-order-actions-toolbar-action-print__display__m);
+            }
+        }
+    }
+}

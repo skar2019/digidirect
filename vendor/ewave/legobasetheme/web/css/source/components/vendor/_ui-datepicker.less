@@ -1,0 +1,36 @@
+//
+//  UI Datepicker Component
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@ui-datepicker__is-enabled: true; // Enable/disable styles
+
+@ui-datepicker-control__position: relative;
+
+//  Trigger
+@ui-datepicker-control-trigger__position: absolute;
+@ui-datepicker-control-trigger__top: -5px;
+@ui-datepicker-control-trigger__right: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@ui-datepicker__is-enabled = true) {
+        .ui-datepicker-control {
+            & {
+                .lib-css(position, @ui-datepicker-control__position);
+            }
+
+            > .ui-datepicker-trigger {
+                .lib-css(position, @ui-datepicker-control-trigger__position);
+                .lib-css(top, @ui-datepicker-control-trigger__top);
+                .lib-css(right, @ui-datepicker-control-trigger__right);
+            }
+        }
+    }
+}

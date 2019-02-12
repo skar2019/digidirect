@@ -1,0 +1,50 @@
+//
+//  Banner
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@banner__is-enabled: true; // Enable/disable styles
+
+@banner-block__use-margin-for-blocks-and-widgets: true;
+@banner-items__use-reset-list: true;
+
+@banner-item__display: block;
+@banner-item-content__margin-bottom: @indent__base;
+@banner-item-content-img__display: block;
+@banner-item-content-img__margin: 0 auto;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@banner__is-enabled = true) {
+        .block-banners,
+        .block-banners-inline {
+            & when (@banner-block__use-margin-for-blocks-and-widgets = true) {
+                &:extend(.abs-margin-for-blocks-and-widgets);
+            }
+
+            .banner-items {
+                & when (@banner-items__use-reset-list = true) {
+                    &:extend(.abs-reset-list all);
+                }
+            }
+
+            .banner-item {
+                .lib-css(display, @banner-item__display);
+            }
+
+            .banner-item-content {
+                .lib-css(margin-bottom, @banner-item-content__margin-bottom);
+            }
+            .banner-item-content img {
+                .lib-css(display, @banner-item-content-img__display);
+                .lib-css(margin, @banner-item-content-img__margin);
+            }
+        }
+    }
+}

@@ -1,0 +1,115 @@
+//
+//  Bundle: Block Summary
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@bundle-block-summary__is-enabled: true; // Enable/disable styles
+
+@bundle-block-summary__padding: @indent__s @indent__base;
+@bundle-block-summary__background: @secondary__color;
+@bundle-block-summary__position__m: relative;
+@bundle-block-summary__float__m: right;
+@bundle-block-summary__width__m: 40%;
+
+//  Title
+@bundle-block-summary-title-strong__use-heading: true;
+@bundle-block-summary-title-strong-heading: h2;
+
+//  Summary
+@bundle-block-summary-summary__margin-top: @indent__l;
+@bundle-block-summary-summary__empty__display: none;
+@bundle-block-summary-summary-subtitle__display: block;
+@bundle-block-summary-summary-subtitle__use-heading: true;
+@bundle-block-summary-summary-subtitle-heading: h3;
+
+//  Summary Items
+@bundle-block-summary-items__use-reset-list: true;
+@bundle-block-summary-items-item__margin-bottom: @indent__s;
+
+//  Box to Cart
+@bundle-block-summary-box-tocart-actions__display: inline-block;
+@bundle-block-summary-box-tocart-actions__margin-bottom: @indent__s;
+@bundle-block-summary-box-tocart-action-primary__use-button-l: true;
+
+//  Product Add to Link
+@bundle-block-summary-product-addto-link-action__use-action-addto-product: true;
+@bundle-block-summary-product-addto-link-action__vertical-align: top;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@bundle-block-summary__is-enabled = true) {
+        .block-bundle-summary {
+            & {
+                .lib-css(padding, @bundle-block-summary__padding);
+                .lib-css(background, @bundle-block-summary__background);
+            }
+
+            > .title > strong {
+                & when (@bundle-block-summary-title-strong__use-heading = true) {
+                    .lib-heading(@bundle-block-summary-title-strong-heading);
+                }
+            }
+
+            .bundle-summary {
+                .lib-css(margin-top, @bundle-block-summary-summary__margin-top);
+            }
+            .bundle-summary.empty {
+                .lib-css(display, @bundle-block-summary-summary__empty__display);
+            }
+
+            .bundle-summary > .subtitle {
+                .lib-css(display, @bundle-block-summary-summary-subtitle__display);
+                & when (@bundle-block-summary-summary-subtitle__use-heading = true) {
+                    .lib-heading(@bundle-block-summary-summary-subtitle-heading);
+                }
+            }
+
+            .bundle.items {
+                & when (@bundle-block-summary-items__use-reset-list = true) {
+                    &:extend(.abs-reset-list all);
+                }
+            }
+            .bundle.items > li {
+                .lib-css(margin-bottom, @bundle-block-summary-items-item__margin-bottom);
+            }
+
+            .box-tocart .actions {
+                .lib-css(display, @bundle-block-summary-box-tocart-actions__display);
+                .lib-css(margin-bottom, @bundle-block-summary-box-tocart-actions__margin-bottom);
+            }
+
+            .box-tocart .action.primary {
+                & when (@bundle-block-summary-box-tocart-action-primary__use-button-l = true) {
+                    &:extend(.abs-button-l all);
+                }
+            }
+
+            .product-addto-links > .action {
+                & when (@bundle-block-summary-product-addto-link-action__use-action-addto-product = true) {
+                    &:extend(.abs-action-addto-product all);
+                }
+                .lib-css(vertical-align, @bundle-block-summary-product-addto-link-action__vertical-align);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@bundle-block-summary__is-enabled = true) {
+        .block-bundle-summary {
+            .lib-css(position, @bundle-block-summary__position__m);
+            .lib-css(float, @bundle-block-summary__float__m);
+            .lib-css(width, @bundle-block-summary__width__m);
+        }
+    }
+}

@@ -1,0 +1,34 @@
+//
+//  Customer: Full Name
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@account-fullname__is-enabled: true; // Enable/disable styles
+
+@account-fullname-field__use-clearfix: true;
+@account-fullname-field-label__use-visually-hidden: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@account-fullname__is-enabled = true) {
+        .fieldset {
+            .fullname .field {
+                & when (@account-fullname-field__use-clearfix = true) {
+                    &:extend(.abs-add-clearfix all);
+                }
+            }
+
+            .fullname.field > .label {
+                & when (@account-fullname-field-label__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+        }
+    }
+}

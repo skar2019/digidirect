@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+
+    <container name="root">
+        <block class="Magento\Framework\View\Element\FormKey" name="formkey"/>
+        <block class="Magento\Framework\View\Element\Template" name="calculator_product_list_wrapper"
+               template="Ewave_ProductCalculator::calculator/wrapper.phtml">
+            <block class="Ewave\ProductCalculator\Block\Calculator\ProductList" name="calculator_product_list"
+                   template="Ewave_ProductCalculator::calculator/product_list.phtml">
+                <block class="Magento\Framework\View\Element\RendererList" name="category.product.type.details.renderers"
+                       as="details.renderers">
+                    <block class="Magento\Framework\View\Element\Template" name="category.product.type.details.renderers.default" as="default"/>
+                    <block class="Ewave\ProductCalculator\Block\Product\Renderer\Listing\Configurable" as="configurable"
+                           template="Ewave_ProductCalculator::product/listing/renderer.phtml"
+                           ifconfig="catalog/frontend/show_swatches_in_product_list"/>
+                </block>
+            </block>
+        </block>
+        <block class="Magento\Framework\Pricing\Render" name="product.price.render.default">
+            <arguments>
+                <argument name="price_render_handle" xsi:type="string">catalog_product_prices</argument>
+                <argument name="use_link_for_as_low_as" xsi:type="boolean">true</argument>
+            </arguments>
+        </block>
+    </container>
+</layout>

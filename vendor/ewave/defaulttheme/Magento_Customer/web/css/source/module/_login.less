@@ -1,0 +1,32 @@
+//
+//  Customer: Login Block
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@customer-login__is-enabled: true; // Enable/disable styles
+
+@customer-login-container__use-add-clearfix-desktop: true;
+@customer-login-container-block__use-blocks-2columns: true;
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@customer-login__is-enabled = true) {
+        .login-container {
+            & when (@customer-login-container__use-add-clearfix-desktop = true) {
+                &:extend(.abs-add-clearfix-desktop all);
+            }
+
+            .block {
+                & when (@customer-login-container-block__use-blocks-2columns = true) {
+                    &:extend(.abs-blocks-2columns all);
+                }
+            }
+        }
+    }
+}

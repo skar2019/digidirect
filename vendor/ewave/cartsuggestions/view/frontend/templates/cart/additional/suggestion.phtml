@@ -1,0 +1,18 @@
+<?php
+/**
+ * Shopping cart additional info
+ * @var $block Ewave\CartSuggestions\Block\Cart\Additional\Suggestion
+ */
+?>
+
+<?php if (!$block->isProductInStock()) : ?>
+    <?php $relatedProductBlock = $block->getRelatedProductBlock(); ?>
+    <?php if ($relatedProductBlock->hasProducts()) : ?>
+        <div class="out-of-stock-suggestions">
+            <span><?php echo $block->escapeHtml($block->getSuggestionsLinkText()); ?></span>
+            <div>
+                <?php echo $relatedProductBlock->toHtml(); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

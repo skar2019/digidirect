@@ -1,0 +1,83 @@
+//
+//  Wishlist: Shared
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@wishlist-shared__is-enabled: true; // Enable/disable styles
+
+@wishlist-shared-table__use-lib-table-bordered__m: true;
+@wishlist-shared-table-type: horizontal;
+@wishlist-shared-table-thead-th__border-bottom__m: 0;
+@wishlist-shared-table-tbody-tr-last-child-td__border-bottom__m: 1px solid @table__border-color;
+
+//  Photo
+@wishlist-shared-table-product-photo__float: left;
+@wishlist-shared-table-product-photo__margin: 0 10px 0 0;
+
+//  Price
+@wishlist-shared-table-price__font-weight: @font-weight__bold;
+
+//  To Cart
+@wishlist-shared-table-tocart__margin-right: 10px;
+
+//  Columns
+@wishlist-shared-table-col-product__width__m: 50%;
+@wishlist-shared-table-col-comment__max-width__m: 150px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@wishlist-shared__is-enabled = true) {
+        .shared.wishlist .table.wishlist {
+            .product.photo {
+                .lib-css(float, @wishlist-shared-table-product-photo__float);
+                .lib-css(margin, @wishlist-shared-table-product-photo__margin);
+            }
+
+            .price {
+                .lib-css(font-weight, @wishlist-shared-table-price__font-weight);
+            }
+
+            .tocart {
+                .lib-css(margin-right, @wishlist-shared-table-tocart__margin-right);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@wishlist-shared__is-enabled = true) {
+        .shared.wishlist .table.wishlist {
+            & when (@wishlist-shared-table__use-lib-table-bordered__m = true) {
+                .lib-table-bordered(
+                    @_table_type: @wishlist-shared-table-type
+                );
+            }
+
+            thead th {
+                .lib-css(border-bottom, @wishlist-shared-table-thead-th__border-bottom__m);
+            }
+
+            tbody > tr:last-child > td {
+                .lib-css(border-bottom, @wishlist-shared-table-tbody-tr-last-child-td__border-bottom__m);
+            }
+
+            .col.product {
+                .lib-css(width, @wishlist-shared-table-col-product__width__m);
+            }
+
+            .col.comment {
+                .lib-css(max-width, @wishlist-shared-table-col-comment__max-width__m);
+            }
+        }
+    }
+}

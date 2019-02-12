@@ -1,0 +1,66 @@
+//
+//  Theme: Bundle: Block Summary
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .block-bundle-summary {
+        > .title {
+            .lib-css(margin, 0 -@layout__width-xs-indent 19px);
+            .lib-css(padding, 0 @layout__width-xs-indent 20px);
+            .lib-css(border-bottom, 1px solid @color-gray-middle1);
+            .lib-font-size(22);
+            line-height: 30px;
+        }
+
+        .price-as-configured {
+            margin: 0 0 20px;
+        }
+
+        .price-as-configured .price {
+            line-height: 32px;
+            vertical-align: top;
+        }
+
+        .subtitle {
+            &::before {
+                content: attr(data-count);
+            }
+        }
+    }
+}
+
+//
+//  XM +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
+    .block-bundle-summary {
+        width: 360px;
+        margin-left: 30px;
+    }
+}
+
+//
+//  L +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .block-bundle-summary {
+        width: 396px;
+    }
+}
+
+//
+//  XL +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    .block-bundle-summary {
+        width: 520px;
+        margin-left: 80px;
+    }
+}

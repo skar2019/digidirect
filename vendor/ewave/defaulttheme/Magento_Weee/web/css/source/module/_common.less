@@ -1,0 +1,85 @@
+//
+//  Weee: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@weee__is-enabled: true; // Enable/disable styles
+
+//  Minilist
+@weee-minilist__display: table-row;
+@weee-minilist__font-size: 11;
+@weee-minilist__before__display: none;
+
+//  Price Container
+@weee-price-container-weee__before__display: none;
+@weee-price-container__before__content: '('attr(data-label) ': ';
+@weee-price-container__after__content: ')';
+
+@weee-prices-tier-price-container-data-label__display: inline;
+@weee-prices-tier-price-container-data-label__before__content: ' +' attr(data-label) ': ';
+@weee-prices-tier-price-container-data-label-price__font-size: 11;
+
+//  Sidebar
+@weee-sidebar-product-items-minilist__before__display: inline-block;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@weee__is-enabled = true) {
+        .minilist {
+            .weee {
+                .lib-css(display, @weee-minilist__display);
+                .lib-font-size(@weee-minilist__font-size);
+
+                &::before {
+                    .lib-css(display, @weee-minilist__before__display);
+                }
+            }
+        }
+
+        .price-container {
+            &.weee {
+                &::before {
+                    .lib-css(display, @weee-price-container-weee__before__display);
+                }
+            }
+
+            .weee {
+                &::before {
+                    .lib-css(content, @weee-price-container__before__content);
+                }
+
+                &::after {
+                    .lib-css(content, @weee-price-container__after__content);
+                }
+            }
+        }
+
+        .prices-tier {
+            .price-container {
+                .weee[data-label] {
+                    .lib-css(display, @weee-prices-tier-price-container-data-label__display);
+
+                    &::before {
+                        .lib-css(content, @weee-prices-tier-price-container-data-label__before__content);
+                    }
+
+                    .price {
+                        .lib-font-size(@weee-prices-tier-price-container-data-label-price__font-size);
+                    }
+                }
+            }
+        }
+
+        .sidebar {
+            .product-items .minilist .weee::before {
+                .lib-css(display, @weee-sidebar-product-items-minilist__before__display);
+            }
+        }
+    }
+}

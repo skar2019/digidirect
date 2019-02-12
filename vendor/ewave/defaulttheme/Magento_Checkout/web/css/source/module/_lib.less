@@ -1,0 +1,311 @@
+//
+//  Checkout Tooltip Content (position: top)
+//  ---------------------------------------------
+
+@extend-checkout-tooltip-content-position-top__top: 40px;
+@extend-checkout-tooltip-content-position-top__right: -11px;
+@extend-checkout-tooltip-content-position-top__left: auto;
+@extend-checkout-tooltip-content-position-top__pseudo__use-arrow: true;
+@extend-checkout-tooltip-content-position-top__pseudo-arrow__position: top;
+@extend-checkout-tooltip-content-position-top__pseudo-arrow__size: 11px;
+@extend-checkout-tooltip-content-position-top__pseudo-arrow__color: @checkout-field-tooltip-content__background-color;
+@extend-checkout-tooltip-content-position-top__pseudo__top: 0;
+@extend-checkout-tooltip-content-position-top__pseudo__right: 10px;
+@extend-checkout-tooltip-content-position-top__pseudo__left: auto;
+@extend-checkout-tooltip-content-position-top__pseudo__margin-top: -22px;
+@extend-checkout-tooltip-content-position-top__before__border-bottom-color: @checkout-field-tooltip-content__border-color;
+@extend-checkout-tooltip-content-position-top__after__top: 1px;
+@extend-checkout-tooltip-content-position-top__after__border-bottom-color: @checkout-field-tooltip-content__background-color;
+
+@abs-checkout-tooltip-content-position-top: {
+    .lib-css(top, @extend-checkout-tooltip-content-position-top__top);
+    .lib-css(right, @extend-checkout-tooltip-content-position-top__right);
+    .lib-css(left, @extend-checkout-tooltip-content-position-top__left);
+
+    &::before,
+    &::after {
+        & when (@extend-checkout-tooltip-content-position-top__pseudo__use-arrow = true) {
+            .lib-arrow(
+                @_position: @extend-checkout-tooltip-content-position-top__pseudo-arrow__position,
+                @_size: @extend-checkout-tooltip-content-position-top__pseudo-arrow__size,
+                @_color: @extend-checkout-tooltip-content-position-top__pseudo-arrow__color
+            );
+        }
+        .lib-css(top, @extend-checkout-tooltip-content-position-top__pseudo__top);
+        .lib-css(right, @extend-checkout-tooltip-content-position-top__pseudo__right);
+        .lib-css(left, @extend-checkout-tooltip-content-position-top__pseudo__left);
+        .lib-css(margin-top, @extend-checkout-tooltip-content-position-top__pseudo__margin-top);
+    }
+
+    &::before {
+        .lib-css(border-bottom-color, @extend-checkout-tooltip-content-position-top__before__border-bottom-color);
+    }
+
+    &::after {
+        .lib-css(top, @extend-checkout-tooltip-content-position-top__after__top);
+        .lib-css(border-bottom-color, @extend-checkout-tooltip-content-position-top__after__border-bottom-color);
+    }
+};
+
+& when (@media-common = true) {
+    .abs-checkout-tooltip-content-position-top {
+        @abs-checkout-tooltip-content-position-top();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .abs-checkout-tooltip-content-position-top-mobile {
+        @abs-checkout-tooltip-content-position-top();
+    }
+}
+
+//
+//  Checkout title
+//  ---------------------------------------------
+
+@extend-checkout-step-title__padding: @indent__s;
+@extend-checkout-step-title__border: @border-width__base solid @color-gray80;
+@extend-checkout-step-title__font-size: 18px;
+@extend-checkout-step-title__font-weight: @font-weight__light;
+@extend-checkout-step-title__font-family: false;
+@extend-checkout-step-title__font-style: false;
+@extend-checkout-step-title__line-height: false;
+
+& when (@media-common = true) {
+    .abs-checkout-title {
+        .lib-css(padding-bottom, @extend-checkout-step-title__padding);
+        .lib-css(border-bottom, @extend-checkout-step-title__border);
+        .lib-typography(
+            @_font-size: @extend-checkout-step-title__font-size,
+            @_font-weight: @extend-checkout-step-title__font-weight,
+            @_font-family: @extend-checkout-step-title__font-family,
+            @_font-style: @extend-checkout-step-title__font-style,
+            @_line-height: @extend-checkout-step-title__line-height
+        );
+    }
+}
+
+//
+//  Shopping cart sidebar and checkout sidebar totals
+//  ---------------------------------------------
+
+@extend-sidebar-totals-mark__padding-left: 4px;
+@extend-sidebar-totals-mark__font-weight: @font-weight__regular;
+@extend-sidebar-totals-mark-strong__font-weight: @font-weight__regular;
+@extend-sidebar-totals-amount__padding-right: 4px;
+@extend-sidebar-totals-amount__text-align: right;
+@extend-sidebar-totals-amount__white-space: nowrap;
+@extend-sidebar-totals-amount-strong__font-weight: @font-weight__regular;
+@extend-sidebar-totals-grand-mark-amount__padding-top: @indent__base;
+@extend-sidebar-totals-grand-amount__padding-right: 4px;
+@extend-sidebar-totals-grand-amount__text-align: right;
+@extend-sidebar-totals-grand-amount-strong__font-weight: @font-weight__bold;
+@extend-sidebar-totals-msrp__margin-bottom: @indent__s;
+@extend-sidebar-totals-tax-summary-mark-amount__border-top: @border-width__base solid @border-color__base;
+@extend-sidebar-totals-tax-summary-mark-amount__border-bottom: @border-width__base solid @border-color__base;
+@extend-sidebar-totals-tax-summary-mark-amount__cursor: pointer;
+@extend-sidebar-totals-tax-summary-amount-price__position: relative;
+@extend-sidebar-totals-tax-summary-amount-price__padding-right: @indent__m;
+@extend-sidebar-totals-tax-summary-amount-price-icon__use-base64: true;
+@extend-sidebar-totals-tax-summary-amount-price-icon__width: 10px;
+@extend-sidebar-totals-tax-summary-amount-price-icon__height: 30px;
+@extend-sidebar-totals-tax-summary-amount-price-icon__margin: false;
+@extend-sidebar-totals-tax-summary-amount-price-icon__background-image: @base64-icon__down;
+@extend-sidebar-totals-tax-summary-amount-price-icon__text-hide: true;
+@extend-sidebar-totals-tax-summary-amount-price-icon__pseudo-type: after;
+@extend-sidebar-totals-tax-summary-amount-price__after__position: absolute;
+@extend-sidebar-totals-tax-summary-amount-price__after__top: -12px;
+@extend-sidebar-totals-tax-summary-amount-price__after__right: -5px;
+@extend-sidebar-totals-tax-summary-expanded-mark-amount__border-bottom: 0;
+@extend-sidebar-totals-tax-summary-expanded-amount-price-icon__use-base64-symbol: true;
+@extend-sidebar-totals-tax-summary-expanded-amount-price-icon__background-image: @base64-icon__up;
+@extend-sidebar-totals-tax-summary-expanded-amount-price-icon__pseudo-type: after;
+@extend-sidebar-totals-tax-details__display: none;
+@extend-sidebar-totals-tax-details__border-bottom: @border-width__base solid @border-color__base;
+@extend-sidebar-totals-tax-details-shown__display: table-row;
+@extend-sidebar-totals-table-caption__use-no-display: true;
+
+& when (@media-common = true) {
+    .abs-sidebar-totals {
+        .mark {
+            .lib-css(padding-left, @extend-sidebar-totals-mark__padding-left);
+            .lib-css(font-weight, @extend-sidebar-totals-mark__font-weight);
+
+            strong {
+                .lib-css(font-weight, @extend-sidebar-totals-mark-strong__font-weight);
+            }
+        }
+
+        .amount {
+            .lib-css(padding-right, @extend-sidebar-totals-amount__padding-right);
+            .lib-css(text-align, @extend-sidebar-totals-amount__text-align);
+            .lib-css(white-space, @extend-sidebar-totals-amount__white-space);
+
+            strong {
+                .lib-css(font-weight, @extend-sidebar-totals-amount-strong__font-weight);
+            }
+        }
+
+        .grand {
+            .mark,
+            .amount {
+                .lib-css(padding-top, @extend-sidebar-totals-grand-mark-amount__padding-top);
+            }
+
+            .amount {
+                .lib-css(padding-right, @extend-sidebar-totals-grand-amount__padding-right);
+                .lib-css(text-align, @extend-sidebar-totals-grand-amount__text-align);
+
+                strong {
+                    .lib-css(font-weight, @extend-sidebar-totals-grand-amount-strong__font-weight);
+                }
+            }
+        }
+
+        .msrp {
+            .lib-css(margin-bottom, @extend-sidebar-totals-msrp__margin-bottom);
+        }
+
+        .totals-tax-summary {
+            .mark,
+            .amount {
+                .lib-css(border-top, @extend-sidebar-totals-tax-summary-mark-amount__border-top);
+                .lib-css(border-bottom, @extend-sidebar-totals-tax-summary-mark-amount__border-bottom);
+                .lib-css(cursor, @extend-sidebar-totals-tax-summary-mark-amount__cursor);
+            }
+
+            .amount .price {
+                .lib-css(position, @extend-sidebar-totals-tax-summary-amount-price__position);
+                .lib-css(padding-right, @extend-sidebar-totals-tax-summary-amount-price__padding-right);
+
+                & when (@extend-sidebar-totals-tax-summary-amount-price-icon__use-base64 = true) {
+                    .lib-base64(
+                        @_base64-width: @extend-sidebar-totals-tax-summary-amount-price-icon__width,
+                        @_base64-height: @extend-sidebar-totals-tax-summary-amount-price-icon__height,
+                        @_base64-margin: @extend-sidebar-totals-tax-summary-amount-price-icon__margin,
+                        @_base64-background-image: @extend-sidebar-totals-tax-summary-amount-price-icon__background-image,
+                        @_base64-text-hide: @extend-sidebar-totals-tax-summary-amount-price-icon__text-hide,
+                        @_base64-pseudo-type: @extend-sidebar-totals-tax-summary-amount-price-icon__pseudo-type
+                    );
+                }
+
+                &::after {
+                    .lib-css(position, @extend-sidebar-totals-tax-summary-amount-price__after__position);
+                    .lib-css(top, @extend-sidebar-totals-tax-summary-amount-price__after__top);
+                    .lib-css(right, @extend-sidebar-totals-tax-summary-amount-price__after__right);
+                }
+            }
+
+            &.expanded {
+                .mark,
+                .amount {
+                    .lib-css(border-bottom, @extend-sidebar-totals-tax-summary-expanded-mark-amount__border-bottom);
+                }
+
+                .amount .price {
+                    & when (@extend-sidebar-totals-tax-summary-expanded-amount-price-icon__use-base64-symbol = true) {
+                        .lib-base64-symbol(
+                            @_base64-background-image: @extend-sidebar-totals-tax-summary-expanded-amount-price-icon__background-image,
+                            @_base64-pseudo-type: @extend-sidebar-totals-tax-summary-expanded-amount-price-icon__pseudo-type
+                        );
+                    }
+                }
+            }
+        }
+
+        .totals-tax-details {
+            .lib-css(display, @extend-sidebar-totals-tax-details__display);
+            .lib-css(border-bottom, @extend-sidebar-totals-tax-details__border-bottom);
+
+            &.shown {
+                .lib-css(display, @extend-sidebar-totals-tax-details-shown__display);
+            }
+        }
+
+        .table-caption {
+            & when (@extend-sidebar-totals-table-caption__use-no-display = true) {
+                &:extend(.abs-no-display all);
+            }
+        }
+    }
+}
+
+//
+//  Shopping cart and payment discount codes block
+//  ---------------------------------------------
+
+@extend-discount-block-title__position: relative;
+@extend-discount-block-title__margin-bottom: 0;
+@extend-discount-block-title__padding: 7px @indent__l 7px @indent__xs;
+@extend-discount-block-title__border-top: @border-width__base solid @border-color__base;
+@extend-discount-block-title__overflow: hidden;
+@extend-discount-block-title__font-weight: @font-weight__semibold;
+@extend-discount-block-title__cursor: pointer;
+@extend-discount-block-title-icon__use-base64: true;
+@extend-discount-block-title-icon__width: 10px;
+@extend-discount-block-title-icon__height: 6px;
+@extend-discount-block-title-icon__background-image: @base64-icon__down;
+@extend-discount-block-title-icon__pseudo-type: after;
+@extend-discount-block-title__after__position: absolute;
+@extend-discount-block-title__after__top: 16px;
+@extend-discount-block-title__after__right: 0;
+@extend-discount-block-title-strong__font-size: 18;
+@extend-discount-block-title-strong__font-weight: @font-weight__regular;
+@extend-discount-block-content__display: none;
+@extend-discount-block-active-title-icon__use-base64-symbol: true;
+@extend-discount-block-active-title-icon__background-image: @base64-icon__up;
+@extend-discount-block-active-title-icon__pseudo-type: after;
+@extend-discount-block-active-content__display: block;
+
+& when (@media-common = true) {
+    .abs-discount-block {
+        > .title {
+            .lib-css(position, @extend-discount-block-title__position);
+            .lib-css(margin-bottom, @extend-discount-block-title__margin-bottom);
+            .lib-css(padding, @extend-discount-block-title__padding);
+            .lib-css(border-top, @extend-discount-block-title__border-top);
+            .lib-css(overflow, @extend-discount-block-title__overflow);
+            .lib-css(font-weight, @extend-discount-block-title__font-weight);
+            .lib-css(cursor, @extend-discount-block-title__cursor);
+            & when (@extend-discount-block-title-icon__use-base64 = true) {
+                .lib-base64(
+                    @_base64-width: @extend-discount-block-title-icon__width,
+                    @_base64-height: @extend-discount-block-title-icon__height,
+                    @_base64-background-image: @extend-discount-block-title-icon__background-image,
+                    @_base64-pseudo-type: @extend-discount-block-title-icon__pseudo-type
+                );
+            }
+
+            &::after {
+                .lib-css(position, @extend-discount-block-title__after__position);
+                .lib-css(top, @extend-discount-block-title__after__top);
+                .lib-css(right, @extend-discount-block-title__after__right);
+            }
+
+            strong,
+            span {
+                .lib-font-size(@extend-discount-block-title-strong__font-size);
+                .lib-css(font-weight, @extend-discount-block-title-strong__font-weight);
+            }
+        }
+
+        > .content {
+            .lib-css(display, @extend-discount-block-content__display);
+        }
+
+        &.active > .title,
+        &._active > .title {
+            & when (@extend-discount-block-active-title-icon__use-base64-symbol = true) {
+                .lib-base64-symbol(
+                    @_base64-background-image: @extend-discount-block-active-title-icon__background-image,
+                    @_base64-pseudo-type: @extend-discount-block-active-title-icon__pseudo-type
+                );
+            }
+        }
+
+        &.active > .content,
+        &._active > .content {
+            .lib-css(display, @extend-discount-block-active-content__display);
+        }
+    }
+}

@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\AdvancedInventory\Api\AdvancedInventoryRepositoryInterface" type="Ewave\AdvancedInventory\Model\AdvancedInventoryRepository" />
+    <preference for="Ewave\AdvancedInventory\Api\StockResolverInterface" type="Ewave\AdvancedInventory\Model\StockResolver" />
+
+    <type name="Ewave\AdvancedInventory\Helper\Config">
+        <arguments>
+            <argument name="allowedProductTypes" xsi:type="array">
+                <item name="simple" xsi:type="const">Magento\Catalog\Model\Product\Type::TYPE_SIMPLE</item>
+                <item name="virtual" xsi:type="const">Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\AdvancedInventory\Model\StockResolver">
+        <arguments>
+            <argument name="assignmentRules" xsi:type="array">
+                <item name="website" xsi:type="object">Ewave\AdvancedInventory\Model\StockResolver\AssignmentRule\Website</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\AdvancedInventory\Model\Source\AssignmentRule">
+        <arguments>
+            <argument name="assignmentRules" xsi:type="array">
+                <item name="website" xsi:type="string">Website</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Ewave\AbstractEntity\Api\Data\AbstractEntityInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="stockReader" xsi:type="string">Ewave\AdvancedInventory\Model\ResourceModel\AbstractEntity\Relation\Stock\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="stockCreator" xsi:type="string">Ewave\AdvancedInventory\Model\ResourceModel\AbstractEntity\Relation\Stock\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="stockUpdater" xsi:type="string">Ewave\AdvancedInventory\Model\ResourceModel\AbstractEntity\Relation\Stock\SaveHandler</item>
+                    </item>
+                    <item name="delete" xsi:type="array">
+                        <item name="stockDeleter" xsi:type="string">Ewave\AdvancedInventory\Model\ResourceModel\AbstractEntity\Relation\Stock\DeleteHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\AdvancedInventory\Model\ResourceModel\AdvancedInventory\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_advanced_inventory</argument>
+            <argument name="eventPrefix" xsi:type="string">ewave_advancedinventory_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">advancedinventory_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\AdvancedInventory\Model\ResourceModel\AdvancedInventory\Collection</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="ewave_advancedinventory_index_data_source" xsi:type="string">Ewave\AdvancedInventory\Model\ResourceModel\AdvancedInventory\Grid\Collection</item>
+                <item name="ewave_abstractentity_advancedinventory_data_source" xsi:type="string">Ewave\AdvancedInventory\Model\ResourceModel\StockItem\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Overrides hardcoded DEFAULT_STOCK_ID: -->
+    <type name="Magento\CatalogInventory\Model\ResourceModel\Stock\Status">
+        <plugin name="Ewave_AdvancedInventory::magentoCatalogInventoryModelResourceModelStockStatus" type="Ewave\AdvancedInventory\Plugin\Magento\CatalogInventory\Model\ResourceModel\Stock\StatusPlugin" />
+    </type>
+    <type name="Magento\CatalogInventory\Model\ResourceModel\Stock\Status\StockStatusCriteria">
+        <arguments>
+            <argument name="mapper" xsi:type="string">\Ewave\AdvancedInventory\Model\ResourceModel\Stock\Status\StockStatusCriteriaMapper</argument>
+        </arguments>
+    </type>
+    <!--type name="Magento\CatalogInventory\Model\ResourceModel\Stock\Item\StockItemCriteria">
+        <arguments>
+            <argument name="mapper" xsi:type="string">\Ewave\AdvancedInventory\Model\ResourceModel\Stock\Item\StockItemCriteriaMapper</argument>
+        </arguments>
+    </type-->
+
+    <type name="Magento\CatalogInventory\Model\ResourceModel\Stock">
+        <plugin name="Ewave_AdvancedInventory::magentoCatalogInventoryModelResourceModelStock" type="Ewave\AdvancedInventory\Plugin\Magento\CatalogInventory\Model\ResourceModel\StockPlugin" />
+    </type>
+
+    <type name="Magento\CatalogInventory\Model\ResourceModel\Indexer\Stock\DefaultStock">
+        <plugin name="Ewave_AdvancedInventory::magentoCatalogInventoryModelResourceModelIndexerStockDefaultStock" type="Ewave\AdvancedInventory\Plugin\Magento\CatalogInventory\Model\ResourceModel\Indexer\Stock\DefaultStockPlugin" />
+    </type>
+</config>

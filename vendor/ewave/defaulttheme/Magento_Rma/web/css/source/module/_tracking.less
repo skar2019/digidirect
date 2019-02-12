@@ -1,0 +1,32 @@
+//
+//  Rma: Tracking
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@rma-tracking__is-enabled: true; // Enable/disable styles
+
+@rma-tracking-action__margin: 0 0 0 30px;
+@rma-tracking-action-track__float: right;
+@rma-tracking-action-track__margin-top: 12px;
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@rma-tracking__is-enabled = true) {
+        .block-returns-tracking {
+            .block-title .action {
+                .lib-css(margin, @rma-tracking-action__margin);
+            }
+
+            .block-title .actions-track {
+                .lib-css(float, @rma-tracking-action-track__float);
+                .lib-css(margin-top, @rma-tracking-action-track__margin-top);
+            }
+        }
+    }
+}

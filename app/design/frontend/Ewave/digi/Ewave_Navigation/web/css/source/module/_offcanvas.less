@@ -1,0 +1,95 @@
+//
+//  Off Canvas Logic
+//  _____________________________________________
+
+//
+//  Off Canvas Variables
+//  ---------------------------------------------
+
+@offcanvas-menu-indent: 50px;
+@navigation-wrapper-offcanvas__width: 308px;
+@navigation-wrapper-offcanvas__background-color: @color-white;
+
+@offcanvas-toggler__left: 15px;
+@offcanvas-toggler__top: 15px;
+@offcanvas-toggler__background-color: @color-white;
+@offcanvas-toggler__width: 30px;
+@offcanvas-toggler__height: 30px;
+@offcanvas-toggler__font-size: 0;
+@offcanvas-toggler__z-index: 14;
+@offcanvas-toggler__after__background-color: rgba(0, 0, 0, .5);
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    [data-action='toggle-nav'] {
+        display: none;
+    }
+}
+
+//
+//  L -
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
+    .menu-section {
+        position: fixed;
+        .lib-css(top, 0);
+        .lib-css(left, -@navigation-wrapper-offcanvas__width);
+        z-index: 100;
+        .lib-css(width, @navigation-wrapper-offcanvas__width);
+        .lib-css(height, 100%);
+        overflow-x: hidden;
+        overflow-y: auto;
+        .lib-css(background-color, @navigation-wrapper-offcanvas__background-color);
+        .lib-transition(left);
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-toggle {
+        display: block;
+        position: absolute;
+        .lib-css(left, @offcanvas-toggler__left);
+        .lib-css(top, @offcanvas-toggler__top);
+        .lib-css(z-index, @offcanvas-toggler__z-index);
+        .lib-css(width, @offcanvas-toggler__width);
+        .lib-css(height, @offcanvas-toggler__height);
+        .lib-css(font-size, @offcanvas-toggler__font-size);
+        .lib-css(background-color, @offcanvas-toggler__background-color);
+        cursor: pointer;
+    }
+
+    .offcanvas-open {
+        &,
+        body,
+        .page-wrapper {
+            position: relative;
+            overflow: hidden;
+            max-height: 100%;
+        }
+        .menu-section {
+            left: 0;
+        }
+
+        .nav-toggle::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            height: 100%;
+            width: 100%;
+            .lib-css(background-color, @offcanvas-toggler__after__background-color);
+        }
+
+        .nav-toggle::before {
+            content: '';
+        }
+
+        .path-account {
+            .lib-css(stroke, @color-white);
+        }
+    }
+}

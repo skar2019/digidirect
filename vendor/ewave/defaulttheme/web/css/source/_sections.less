@@ -1,0 +1,41 @@
+//
+//  Sections
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@sections__is-enabled: true; // Enable/disable styles
+
+@sections-selector: ~'.product.data.items';
+@sections__use-data-accordion: true;
+@sections__use-data-tabs__m: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@sections__is-enabled = true) {
+        @{sections-selector} {
+            & when (@sections__use-data-accordion = true) {
+                .lib-data-accordion();
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@sections__is-enabled = true) {
+        @{sections-selector} {
+            & when (@sections__use-data-tabs__m = true) {
+                .lib-data-tabs();
+            }
+        }
+    }
+}

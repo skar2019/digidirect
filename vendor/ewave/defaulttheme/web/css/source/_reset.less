@@ -1,0 +1,20 @@
+//
+//  Resets
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@resets__is-enabled: true; // Enable/disable styles
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@resets__is-enabled = true) {
+        .lib-set-default-border-box();
+        .lib-magento-reset(); // Reset default styles with magento-reset
+    }
+}

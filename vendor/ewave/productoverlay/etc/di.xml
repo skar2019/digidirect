@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\ProductOverlay\Data\PageSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Ewave\ProductOverlay\Api\Data\PageInterface"
+                type="Ewave\ProductOverlay\Model\Overlays"/>
+    <preference for="Ewave\ProductOverlay\Api\PageRepositoryInterface"
+                type="Ewave\ProductOverlay\Model\OverlaysRepository"/>
+    <preference for="Ewave\ProductOverlay\Api\Data\ProductRender\OverlaysInterface"
+                type="Ewave\ProductOverlay\Model\ProductRender\Overlays"/>
+
+    <type name="Ewave\ProductOverlay\Model\Overlays">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="processors_factory" xsi:type="array">
+                    <item name="private_sales" xsi:type="object">Ewave\ProductOverlay\Model\Rule\CatalogRule\Proxy</item>
+                    <item name="stock" xsi:type="object">Ewave\ProductOverlay\Model\Rule\Stock\Proxy</item>
+                    <item name="customer_group" xsi:type="object">Ewave\ProductOverlay\Model\Rule\CustomerGroup\Proxy</item>
+                </item>
+                <item name="parameters_to_convert" xsi:type="array">
+                    <item name="catalog_price_rules_ids" xsi:type="string">catalog_price_rules_ids</item>
+                </item>
+                <item name="validator" xsi:type="object">Ewave\ProductOverlay\Model\Overlay\Validator\OverlayValidator\Proxy</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\ProductOverlay\Model\Overlay\Validator\OverlayValidator">
+        <arguments>
+            <argument name="validatorsFactory" xsi:type="array">
+                <item name="stock" xsi:type="object">Ewave\ProductOverlay\Model\Overlay\Validator\Stock\Proxy</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Block\Product\Image">
+        <plugin name="Ewave_ProductOverlay::AddOverlay"
+                type="Ewave\ProductOverlay\Plugin\Catalog\Product\Overlay"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\View\Gallery">
+        <plugin name="Ewave_ProductOverlay::AddOverlay"
+                type="Ewave\ProductOverlay\Plugin\Catalog\Product\View\Overlay"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ImageBuilder">
+        <plugin name="Ewave_ProductOverlay::AddProductToData"
+                type="Ewave\ProductOverlay\Plugin\Catalog\Product\ImageBuilder"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="overlay_listing_data_source" xsi:type="string">
+                    Ewave\ProductOverlay\Model\ResourceModel\Overlays\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Ewave\ProductOverlay\Model\ResourceModel\Overlays\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_product_overlay</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\ProductOverlay\Model\ResourceModel\Overlays
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="OverlayGridDataProvider"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object"
+                      shared="false">Ewave\ProductOverlay\Model\ResourceModel\Overlays\Collection
+            </argument>
+            <argument name="filterPool" xsi:type="object" shared="false">OverlayGirdFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="OverlayGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular"
+                      xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter
+                </item>
+                <item name="fulltext"
+                      xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\ProductOverlay\Plugin\Catalog\Product\Overlay">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="instances" xsi:type="array">
+                    <item name="productvideo" xsi:type="string">Magento\ProductVideo\Block\Product\View\Gallery</item>
+                    <item name="productimage" xsi:type="string">Magento\Catalog\Block\Product\View\Gallery</item>
+                    <item name="wishlist" xsi:type="string">Magento\Wishlist\Block\Customer\Wishlist</item>
+                </item>
+                <item name="exclude_handles" xsi:type="array">
+                    <item name="wishlist_index_index" xsi:type="string">wishlist_index_index</item>
+                    <item name="checkout_cart_index" xsi:type="string">checkout_cart_index</item>
+                    <item name="catalog_product_compare_index" xsi:type="string">catalog_product_compare_index</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\ProductOverlay\Model\Rule\Stock">
+        <arguments>
+            <argument name="mapping" xsi:type="array">
+                <item name="1" xsi:type="string">checkIsInStock</item>
+                <item name="2" xsi:type="string">checkIsInStock</item>
+                <item name="3" xsi:type="string">checkQuantity</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Ui\DataProvider\Product\ProductRenderCollectorComposite">
+        <arguments>
+            <argument name="productProviders" xsi:type="array">
+                <item name="overlay" xsi:type="object">\Ewave\ProductOverlay\Ui\DataProvider\Product\Listing\Collector\Overlay</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

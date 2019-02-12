@@ -1,0 +1,75 @@
+//
+//  Bundle: Images
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@bundle-images__is-enabled: true; // Enable/disable styles
+
+//  Bundle Item
+@bundle-images-item__use-clearfix: true;
+@bundle-images-item__margin: 0 0 10px;
+@bundle-images-item__padding: false;
+
+//  Bundle Item Image
+@bundle-images-item-img__margin: 0 10px 0 0;
+@bundle-images-item-img__vertical-align: middle;
+
+//  Bundle Item Content
+@bundle-images-item-content__display: inline-block;
+@bundle-images-item-content__width: false;
+@bundle-images-item-content__height: false;
+@bundle-images-item-content__margin: false;
+@bundle-images-item-content__padding: false;
+@bundle-images-item-content__vertical-align: middle;
+
+//  Image
+@bundle-images-img__display: inline-block;
+@bundle-images-img__width: 90px;
+@bundle-images-img__height: false;
+@bundle-images-img__margin: 0 20px 10px 0;
+@bundle-images-img__padding: false;
+@bundle-images-img__vertical-align: top;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@bundle-images__is-enabled = true) {
+        .bundle-item {
+            & {
+                & when (@bundle-images-item__use-clearfix = true) {
+                    .lib-clearfix();
+                }
+                .lib-css(margin, @bundle-images-item__margin);
+                .lib-css(padding, @bundle-images-item__padding);
+            }
+
+            > .img {
+                .lib-css(margin, @bundle-images-item-img__margin);
+                .lib-css(vertical-align, @bundle-images-item-img__vertical-align);
+            }
+
+            > .content {
+                .lib-css(display, @bundle-images-item-content__display);
+                .lib-css(width, @bundle-images-item-content__width);
+                .lib-css(height, @bundle-images-item-content__height);
+                .lib-css(margin, @bundle-images-item-content__margin);
+                .lib-css(padding, @bundle-images-item-content__padding);
+                .lib-css(vertical-align, @bundle-images-item-content__vertical-align);
+            }
+        }
+
+        .bundle-img {
+            .lib-css(display, @bundle-images-img__display);
+            .lib-css(width, @bundle-images-img__width);
+            .lib-css(height, @bundle-images-img__height);
+            .lib-css(margin, @bundle-images-img__margin);
+            .lib-css(padding, @bundle-images-img__padding);
+            .lib-css(vertical-align, @bundle-images-img__vertical-align);
+        }
+    }
+}

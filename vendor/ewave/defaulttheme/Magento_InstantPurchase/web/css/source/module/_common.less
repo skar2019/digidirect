@@ -1,0 +1,25 @@
+//
+//  Instant Purchase: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@instant-purchase__is-enabled: true; // Enable/disable styles
+
+@instant-purchase-box-to-cart-action-instant-purchase__margin: 15px 0 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@instant-purchase__is-enabled = true) {
+        .box-tocart {
+            .action.instant-purchase {
+                .lib-css(margin, @instant-purchase-box-to-cart-action-instant-purchase__margin);
+            }
+        }
+    }
+}

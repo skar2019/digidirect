@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var $block \Ewave\SocialSharing\Block\Sharing
+ * @var $sharingHelper \Ewave\SocialSharing\Helper\Config\Facebook
+ */
+?>
+<?php
+$sharingHelper = $this->helper('Ewave\SocialSharing\Helper\Config\Facebook');
+$product = $block->getProduct();
+
+$facebookID = $sharingHelper->getFacebookId();
+$countButton = ($sharingHelper->isDisplayCountSettings()) ? 'button_count' : 'button';
+$likeButton = !$sharingHelper->isDisplayLikeSettings();
+?>
+<div class="facebook_button social_button">
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=<?php echo $block->escapeHtml($facebookID); ?>";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
+    <div class="fb-like" data-layout="<?php echo $block->escapeHtml($countButton); ?>" data-width="400" data-show-faces="false"
+         data-href="<?php echo $block->escapeUrl($product->getProductUrl()); ?>"
+         data-send="<?php echo (int)$likeButton; ?>"></div>
+</div>

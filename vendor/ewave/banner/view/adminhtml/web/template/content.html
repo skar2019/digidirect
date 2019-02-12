@@ -1,0 +1,13 @@
+<div html="content"
+     afterRender="function(){jQuery('body').trigger('contentUpdated')}"
+     css="$data.additionalClasses"
+     visible="visible"></div>
+
+<div data-role="spinner"
+     class="admin__data-grid-loading-mask"
+     visible="loading"
+     if="showSpinner">
+    <div class="spinner">
+        <span repeat="8"/>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="breadcrumbs" remove="false"/>
+        <referenceBlock name="view.addto.compare" remove="true" />
+        <referenceBlock name="product.info.mailto" remove="true" />
+
+        <move element="breadcrumbs" destination="product.section" before="-"/>
+        <move element="page.messages" destination="product.section" before="-" />
+
+        <move element="page.main.title" destination="product.info.holder" before="-" />
+        <move element="product.info.sku" destination="page.main.title" />
+        <move element="product.info.review" destination="product.info.holder" after="page.main.title" />
+        <move element="product.info.stock.sku" destination="product.info.price" after="-" />
+        <move element="product.info.addto" destination="product.info.bottom" />
+        <move element="product.info.main" destination="product.view.top" after="-" />
+        <move element="product.info.media" destination="product.view.media.overview" before="-" />
+
+        <move element="catalog.product.related" destination="content" before="-"/>
+        <move element="product.info.upsell" destination="content" after="-"/>
+
+        <referenceContainer name="page.wrapper">
+            <!-- htmlClass "column main" added special for JS swatches logic -->
+            <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
+                <container name="product.section" htmlTag="div" htmlClass="section-center">
+                    <container name="product.info.holder" htmlTag="div" htmlClass="product-holder">
+                        <block class="Magento\Framework\View\Element\Template" name="product.view.bg"
+                               after="-"
+                               template="Magento_Catalog::product/view/product-bg.phtml">
+                        </block>
+                    </container>
+
+                    <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
+                        <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area">
+                            <container name="product.view.overview" htmlTag="div" htmlClass="product-overview" after="product.info.media">
+                                <!-- @TODO: TEST BLOCK -->
+                                <block class="Magento\Cms\Block\Block" name="tessssssssssssssst">
+                                    <arguments>
+                                        <argument name="block_id" xsi:type="string">product_detail_content_zip_money</argument>
+                                    </arguments>
+                                </block>
+                            </container>
+                        </container>
+                    </container>
+                </container>
+            </container>
+        </referenceContainer>
+
+        <referenceContainer name="product.info.media">
+            <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
+                   template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
+            </block>
+        </referenceContainer>
+
+        <referenceContainer name="product.info.extrahint">
+            <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div" htmlClass="product-extra" before="-">
+                <block class="Magento\Cms\Block\Block" name="pdp.cms.zip" before="-">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">product_detail_content_zip_money</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+        <referenceBlock name="product.info.upsell">
+            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>
+ 

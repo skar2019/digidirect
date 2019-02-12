@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\FreeGift\Api\RuleRepositoryInterface" type="Ewave\FreeGift\Model\RuleRepository"/>
+    <preference for="Ewave\FreeGift\Api\Data\RuleInterface" type="Ewave\FreeGift\Model\Rule"/>
+
+    <type name="Magento\Quote\Model\Quote\Item">
+        <plugin name="Ewave_FreeGift::QuoteItem" type="Ewave\FreeGift\Plugin\Quote\Item"/>
+    </type>
+    <type name="Magento\OfflineShipping\Model\SalesRule\Calculator">
+        <plugin name="Ewave_FreeGift::Magento\OfflineShipping\Model\SalesRule\Calculator"
+                type="Ewave\FreeGift\Plugin\Magento\OfflineShipping\Model\SalesRule\Calculator"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address\Total\Subtotal">
+        <plugin name="Ewave_FreeGift::Magento\Quote\Model\Quote\Address\Total\Subtotal"
+                type="Ewave\FreeGift\Plugin\Magento\Quote\Model\Quote\Address\Total\Subtotal"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Item">
+        <plugin name="Ewave_FreeGift::Magento\Sales\Model\Order\Item"
+                type="Ewave\FreeGift\Plugin\Magento\Sales\Model\Order\Item"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Email\SenderBuilder">
+        <plugin name="Ewave_FreeGift::Magento\Sales\Model\Order\Email\SenderBuilder"
+                type="Ewave\FreeGift\Plugin\Magento\Sales\Model\Order\Email\SenderBuilder"/>
+    </type>
+    <type name="Magento\GiftCard\Model\Catalog\Product\Type\Giftcard">
+        <plugin name="Ewave_FreeGift::Magento\GiftCard\Model\Catalog\Product\Type\Giftcard"
+                type="Ewave\FreeGift\Plugin\Magento\GiftCard\Model\Catalog\Product\Type\Giftcard"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="Ewave_FreeGift::Magento\Quote\Model\Quote\Item\ToOrderItem"
+                type="Ewave\FreeGift\Plugin\Magento\Quote\Model\Quote\Item\ToOrderItem"/>
+    </type>
+    <type name="Magento\GiftCard\Observer\GenerateGiftCardAccounts">
+        <plugin name="Ewave_FreeGift::Magento\GiftCard\Observer\GenerateGiftCardAccounts"
+                type="Ewave\FreeGift\Plugin\Magento\GiftCard\Observer\GenerateGiftCardAccounts"/>
+    </type>
+    <type name="Magento\Catalog\Helper\Product\Configuration">
+        <plugin name="Ewave_FreeGift::Magento\Catalog\Helper\Product\Configuration"
+                type="Ewave\FreeGift\Plugin\Magento\Catalog\Helper\Product\Configuration"/>
+    </type>
+    <type name="Magento\Checkout\CustomerData\Cart">
+        <plugin name="Ewave_FreeGift::Magento\Checkout\CustomerData\Cart"
+                type="Ewave\FreeGift\Plugin\Magento\Checkout\CustomerData\Cart"/>
+    </type>
+    <type name="Magento\SalesRule\Model\Rule\Action\Discount\CalculatorFactory">
+        <arguments>
+            <argument name="discountRules" xsi:type="array">
+                <item name="freegift_product" xsi:type="string">Ewave\FreeGift\Model\Rule\Action\Discount\SameProduct</item>
+                <item name="freegift_items" xsi:type="string">Ewave\FreeGift\Model\Rule\Action\Discount\Product</item>
+                <item name="freegift_cart" xsi:type="string">Ewave\FreeGift\Model\Rule\Action\Discount\Cart</item>
+                <item name="freegift_spent" xsi:type="string">Ewave\FreeGift\Model\Rule\Action\Discount\Spent</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

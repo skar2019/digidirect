@@ -1,0 +1,55 @@
+//
+//  Rma: Guest
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@rma-guest__is-enabled: true; // Enable/disable styles
+
+//  Absolute Block
+@rma-guest__use-account-blocks: true;
+@rma-guest__use-account-blocks-desktop: true;
+@rma-guest__use-blocks-2columns: true;
+
+@rma-guest-block__margin-bottom: @indent__base;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@rma-guest__is-enabled = true) {
+        .magento-rma-guest-returns {
+            .column.main .block:not(.widget) {
+                & when (@rma-guest__use-account-blocks) {
+                    &:extend(.abs-account-blocks all);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@rma-guest__is-enabled = true) {
+        .magento-rma-guest-returns {
+            .column.main .block:not(.widget) .block-content {
+                & when (@rma-guest__use-account-blocks-desktop = true) {
+                    &:extend(.abs-add-clearfix-desktop all);
+                }
+
+                .box {
+                    & when (@rma-guest__use-blocks-2columns = true) {
+                        &:extend(.abs-blocks-2columns all);
+                    }
+                    .lib-css(margin-bottom, @rma-guest-block__margin-bottom);
+                }
+            }
+        }
+    }
+}

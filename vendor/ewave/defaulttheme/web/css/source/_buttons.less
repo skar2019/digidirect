@@ -1,0 +1,54 @@
+//
+//  Buttons
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@button__is-enabled: true; // Enable/disable styles
+
+@button__use-button: true;
+@button__shadow: inset 0 2px 1px rgba(0, 0, 0, .12);
+@button__active__shadow: @button__shadow;
+
+@button-selector: ~'button';
+@button-primary-selector: ~'';
+
+@button-primary-action__use-button-primary: true;
+@button-primary-action-link__use-link-as-button: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@button__is-enabled = true) {
+        @{button-selector} {
+            & when (@button__use-button = true) {
+                .lib-button();
+            }
+        }
+
+        button,
+        a.action.primary {
+            .lib-css(border-radius, @button__border-radius);
+
+            &:active {
+                .lib-css(box-shadow, @button__active__shadow);
+            }
+        }
+
+        a.action.primary {
+            & when (@button-primary-action-link__use-link-as-button = true) {
+                .lib-link-as-button();
+            }
+        }
+
+        .action.primary {
+            & when (@button-primary-action__use-button-primary = true) {
+                .lib-button-primary();
+            }
+        }
+    }
+}

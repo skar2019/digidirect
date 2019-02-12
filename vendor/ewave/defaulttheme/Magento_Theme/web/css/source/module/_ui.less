@@ -1,0 +1,33 @@
+//
+//  Theme: UI
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@theme-ui__is-enabled: true; // Enable/disable styles
+
+@theme-ui-datepicker-td__padding: 0;
+
+@theme-ui-dialog-titlebar-close__use-button-as-link: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@theme-ui__is-enabled = true) {
+        .ui-datepicker {
+            td {
+                .lib-css(padding, @theme-ui-datepicker-td__padding);
+            }
+        }
+
+        .ui-dialog-titlebar-close {
+            & when (@theme-ui-dialog-titlebar-close__use-button-as-link = true) {
+                .lib-button-as-link();
+            }
+        }
+    }
+}

@@ -1,0 +1,294 @@
+<?php
+namespace Ewave\RelatedProduct\Block\ProductList;
+
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Visibility;
+use Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection;
+
+/**
+ * @SuppressWarnings(PHPMD.LongVariable)
+ */
+class Related extends \Magento\Catalog\Block\Product\ProductList\Related
+{
+    const ALL_CATEGORY_ID = '0';
+
+    const DEFAULT_ALL_CATEGORY_LIMIT = 5;
+
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory
+     */
+    protected $_categoryCollectionFactory;
+
+    /**
+     * @var array
+     */
+    protected $_categories = [];
+
+    /**
+     * @var array
+     */
+    protected $_categoriesPositions = [];
+
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Category\Collection
+     */
+    protected $_categoriesItems;
+
+    /**
+     * @var array
+     */
+    protected $_productAttributes = ['required_options'];
+
+    /**
+     * @var \Ewave\RelatedProduct\Model\ResourceModel\RelatedProduct\CollectionFactory
+     */
+    protected $_productCollectionFactory;
+
+    /**
+     * @var \Ewave\RelatedProduct\Helper\Data
+     */
+    protected $_helper;
+
+    /**
+     * @var array
+     */
+    protected $_allCategoryProducts;
+
+    /**
+     * @param \Magento\Catalog\Block\Product\Context $context
+     * @param \Magento\Checkout\Model\ResourceModel\Cart $checkoutCart
+     * @param Visibility $catalogProductVisibility
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Framework\Module\Manager $moduleManager
+     * @param \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
+     * @param \Ewave\RelatedProduct\Model\ResourceModel\RelatedProduct\CollectionFactory $productCollectionFactory
+     * @param \Ewave\RelatedProduct\Helper\Data $helper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\Checkout\Model\ResourceModel\Cart $checkoutCart,
+        Visibility $catalogProductVisibility,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Framework\Module\Manager $moduleManager,
+        \Magento\Catalog\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory,
+        \Ewave\RelatedProduct\Model\ResourceModel\RelatedProduct\CollectionFactory $productCollectionFactory,
+        \Ewave\RelatedProduct\Helper\Data $helper,
+        array $data = []
+    ) {
+        parent::__construct(
+            $context,
+            $checkoutCart,
+            $catalogProductVisibility,
+            $checkoutSession,
+            $moduleManager,
+            $data
+        );
+
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
+        $this->_helper = $helper;
+        if ($this->hasData('product_attributes')) {
+            $this->_productAttributes = $this->getData('product_attributes');
+        }
+        $this->_productAttributes = array_merge($this->_productAttributes, $this->_helper->getShowingAttributes());
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _prepareData()
+    {
+        /* @var $product \Magento\Catalog\Model\Product */
+        $product = $this->_coreRegistry->registry('product');
+        if ($product) {
+            $this->_itemCollection = $this->getRelatedProductCollection($product)
+                ->addAttributeToSelect($this->_productAttributes)
+                ->setPositionOrder()
+                ->addStoreFilter();
+
+            if ($this->moduleManager->isEnabled('Magento_Checkout')) {
+                $this->_addProductAttributesAndPrices($this->_itemCollection);
+            }
+
+            $aVisibility = $this->_helper->getVisibilityProductsTypes();
+            if (!empty($aVisibility)) {
+                $this->_itemCollection->addAttributeToFilter(
+                    'visibility',
+                    ['in' => $aVisibility]
+                );
+            }
+            $this->_itemCollection->load();
+
+            foreach ($this->_itemCollection as $product) {
+                $this->_categories = array_merge($this->_categories, $product->getCategoryIds());
+                $product->setDoNotUseCategoryId(true);
+            }
+
+            $this->_categories = array_unique($this->_categories);
+            $this->getCategoriesAssignedRelatedProducts();
+            $this->_categoriesPositions = $this->_itemCollection->getCategoryPositions($this->_categories);
+        }
+        return $this;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return \Ewave\RelatedProduct\Model\ResourceModel\RelatedProduct\Collection
+     */
+    public function getRelatedProductCollection(\Magento\Catalog\Model\Product $product)
+    {
+        $linkModel = $product->getLinkInstance()->useRelatedLinks();
+        $collection = $this->_productCollectionFactory->create()->setLinkModel($linkModel);
+        $collection->setIsStrongMode()->setProduct($product);
+        return $collection;
+    }
+
+    /**
+     * Get category list of products
+     *
+     * @param bool $isActive
+     * @param bool|string $sortBy
+     * @return \Magento\Catalog\Model\ResourceModel\Category\Collection
+     */
+    public function getCategoriesAssignedRelatedProducts($isActive = true, $sortBy = null)
+    {
+        if (!$this->_categoriesItems) {
+            $collection = $this->_categoryCollectionFactory->create()
+                ->addFieldToFilter('entity_id', ['in' => $this->_categories])
+                ->addAttributeToSelect(['entity_id', 'name']);
+
+            $this->addCategoryAttribute($collection);
+
+            if ($isActive) {
+                $collection->addIsActiveFilter();
+            }
+            if ($sortBy !== null) {
+                $collection->addOrderField($sortBy);
+            }
+
+            $this->_categories = $collection->getAllIds();
+
+            $this->_categoriesItems = $collection;
+        }
+        return $this->_categoriesItems;
+    }
+
+    /**
+     * Retrieve featured product image
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Framework\DataObject $featuredImage
+     * @param string $imageType
+     * @param array $attributes
+     * @return \Magento\Catalog\Block\Product\Image
+     */
+    public function getFeatureImageHtml($product, $featuredImage, $imageType, $attributes = [])
+    {
+        $imageBlock = $this->getImage($product, $imageType, $attributes);
+
+        return $imageBlock->setImageUrl($featuredImage->getData($imageType))->toHtml();
+    }
+
+    /**
+     * @return array
+     */
+    public function getCategoryAttributes()
+    {
+        return $this->_helper->getShowingCategoryAttributes();
+    }
+
+    /**
+     * @param AbstractCollection $collection
+     * @return $this
+     */
+    protected function addCategoryAttribute (AbstractCollection $collection)
+    {
+        $showingAttributes = $this->_helper->getShowingCategoryAttributes();
+        if (!empty($showingAttributes)) {
+            $collection->addAttributeToSelect($showingAttributes);
+        }
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllCategoryProducts()
+    {
+        if (null === $this->_allCategoryProducts) {
+            $this->_allCategoryProducts = [];
+            $allCategoryLimit = (int)($this->getAllCategoryLimit() ?: static::DEFAULT_ALL_CATEGORY_LIMIT);
+            $allCategoryCounter = 0;
+
+            for ($i = 0; $i < $allCategoryLimit; $i++) {
+                foreach ($this->getCategoriesAssignedRelatedProducts() as $category) {
+                    if ($allCategoryLimit === $allCategoryCounter) {
+                        break(2);
+                    }
+
+                    $items = $this->_categoriesPositions[$category->getId()] ?? [];
+                    foreach ($items as $item => $position) {
+                        if (!in_array($item, $this->_allCategoryProducts)) {
+                            $this->_allCategoryProducts[] = $item;
+                            $allCategoryCounter++;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $this->_allCategoryProducts;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return bool
+     */
+    public function isProductInAllCategory(Product $product)
+    {
+        return ($this->getDisplayAllCategory() && in_array($product->getId(), $this->getAllCategoryProducts()));
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return array
+     */
+    public function getVisibleProductCategories(Product $product)
+    {
+        $productCategoryIds = [];
+        foreach ($this->getCategoriesAssignedRelatedProducts() as $category) {
+            if (!empty($this->_categoriesPositions[$category->getId()])
+                && array_key_exists($product->getId(), $this->_categoriesPositions[$category->getId()])
+            ) {
+                $productCategoryIds[] = $category->getId();
+            }
+        }
+
+        if ($this->isProductInAllCategory($product)) {
+            $productCategoryIds[] = static::ALL_CATEGORY_ID;
+        }
+
+        return $productCategoryIds;
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return array
+     */
+    public function getProductPositionsInCategories(Product $product)
+    {
+        $positions = [];
+        $productCategoryIds = $this->getVisibleProductCategories($product);
+        foreach ($productCategoryIds as $sortOrder => $productCategoryId) {
+            if (static::ALL_CATEGORY_ID == $productCategoryId) {
+                $positions[] = (int)array_search($product->getId(), $this->_allCategoryProducts);
+            } else {
+                $positions[] = $this->_categoriesPositions[$productCategoryId][$product->getId()] ?? 0;
+            }
+        }
+
+        return $positions;
+    }
+}

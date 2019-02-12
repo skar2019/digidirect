@@ -1,0 +1,98 @@
+//
+//  Customer: Account Navigation
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@account-nav__is-enabled: true; // Enable/disable styles
+
+//  Title
+@account-nav-title__use-visually-hidden: true;
+
+//  Content
+@account-nav__padding: 15px 0;
+@account-nav__background: @sidebar__background-color;
+
+//  Item
+@account-nav-item__margin: 3px 0 0;
+@account-nav-item__first-child__margin-top: 0;
+
+//  Link (strong)
+@account-nav-item-link__display: block;
+@account-nav-item-link__padding: @indent__xs 18px @indent__xs 15px;
+@account-nav-item-link__border-left: 3px solid transparent;
+@account-nav-item-link__color: false;
+
+//  Link only
+@account-nav-item-link__text-decoration: none;
+@account-nav-item-link__hover__background: @color-gray91;
+
+//  Item (current)
+@account-nav-item-current-link__border-color:  @color-orange-red1;
+@account-nav-item-current-link__font-weight: @font-weight__semibold;
+@account-nav-item-current-link__color: false;
+
+//  Delimiter
+@account-nav-delimiter__display: block;
+@account-nav-delimiter__margin: @indent__s 1.8rem;
+@account-nav-delimiter__border-top: 1px solid @color-gray82;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@account-nav__is-enabled = true) {
+        .account-nav {
+            .title {
+                & when (@account-nav-title__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+
+            .content {
+                .lib-css(padding, @account-nav__padding);
+                .lib-css(background, @account-nav__background);
+            }
+
+            .item {
+                .lib-css(margin, @account-nav-item__margin);
+
+                &:first-child {
+                    .lib-css(margin-top, @account-nav-item__first-child__margin-top);
+                }
+            }
+
+            .item a,
+            .item > strong {
+                .lib-css(display, @account-nav-item-link__display);
+                .lib-css(padding, @account-nav-item-link__padding);
+                .lib-css(border-left, @account-nav-item-link__border-left);
+                .lib-css(color, @account-nav-item-link__color);
+            }
+
+            .item a {
+                .lib-css(text-decoration, @account-nav-item-link__text-decoration);
+
+                &:hover {
+                    .lib-css(background, @account-nav-item-link__hover__background);
+                }
+            }
+
+            .item.current a,
+            .item.current strong {
+                .lib-css(border-color, @account-nav-item-current-link__border-color);
+                .lib-css(font-weight, @account-nav-item-current-link__font-weight);
+                .lib-css(color, @account-nav-item-current-link__color);
+            }
+
+            .delimiter {
+                .lib-css(display, @account-nav-delimiter__display);
+                .lib-css(margin, @account-nav-delimiter__margin);
+                .lib-css(border-top, @account-nav-delimiter__border-top);
+            }
+        }
+    }
+}

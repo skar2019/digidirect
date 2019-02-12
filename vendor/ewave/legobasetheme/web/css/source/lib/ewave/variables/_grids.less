@@ -1,0 +1,47 @@
+//
+//  Grid variables
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@grid-row__is-enabled: true; // Enable/disable styles
+
+//
+//  Connect ewave grid to magento grid
+//  ---------------------------------------------
+
+@grid-row__max-width: @layout__max-width; // max width of row
+@grid-row__total-columns: @total-columns; // total columns in row
+
+//
+// Render row-grid additional functionality
+//  ---------------------------------------------
+@grid-row__render__push-pull: true; // render push/pull classes for grid-row columns
+@grid-row__render__offset: true; // render offset classes for grid-row columns
+@grid-row__render__collapse-uncollapse: true; // render collapse/uncollapse classes for grid-row
+@grid-row__render__centered-uncentered: true; // render centered/uncentered classes for grid-row columns
+
+//
+// Gutters
+//  ---------------------------------------------
+
+@grid-row-column__mobile__gutter: 10px; // mobile left and right spacings
+@grid-row-column__tablet__gutter: 20px; // tablet left and right spacings
+@grid-row-column__desktop__gutter: 40px; // desktop left and right spacings
+@grid-row-column__xlarge__gutter: 60px; // large desktop left and right spacings
+
+//
+//  Column float direction
+//  ---------------------------------------------
+
+@grid-row__default__float: left; // floating of items
+@grid-row__opposite-direction: right; // opposite direction
+@grid-row__last-child__float: @grid-row__opposite-direction; // last child floating
+
+//
+//  Include large classes
+//  ---------------------------------------------
+
+@grid-row-include-xl-html-grid-classes: false; // render xlarge classes

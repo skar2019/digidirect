@@ -1,0 +1,50 @@
+//
+//  Gift Registry: Cart Summary
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-registry-cart-summary__is-enabled: true;  //  Enable/disable style
+
+@gift-registry-cart-summary-giftregistry-fieldset__margin: 25px 0 @indent__xs;
+@gift-registry-cart-summary-giftregistry-field__margin: 0 0 @indent__s;
+@gift-registry-cart-summary-giftregistry-field-control__float: none;
+@gift-registry-cart-summary-giftregistry-field-control__width: auto;
+@gift-registry-cart-summary-giftregistry-action-primary__margin: 0;
+@gift-registry-cart-summary-giftregistry-action-primary__use-revert-secondary-color: true;
+@gift-registry-cart-summary-giftregistry-action-primary__use-revert-secondary-size: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@gift-registry-cart-summary__is-enabled = true) {
+        .cart-summary {
+            .giftregistry .fieldset {
+                .lib-css(margin, @gift-registry-cart-summary-giftregistry-fieldset__margin);
+            }
+
+            .giftregistry .field {
+                .lib-css(margin, @gift-registry-cart-summary-giftregistry-field__margin);
+            }
+
+            .giftregistry .field .control {
+                .lib-css(float, @gift-registry-cart-summary-giftregistry-field-control__float);
+                .lib-css(width, @gift-registry-cart-summary-giftregistry-field-control__width);
+            }
+
+            .giftregistry .action.primary {
+                .lib-css(margin, @gift-registry-cart-summary-giftregistry-action-primary__margin);
+                & when (@gift-registry-cart-summary-giftregistry-action-primary__use-revert-secondary-color = true) {
+                    &:extend(.abs-revert-secondary-color all);
+                }
+                & when (@gift-registry-cart-summary-giftregistry-action-primary__use-revert-secondary-size = true) {
+                    &:extend(.abs-revert-secondary-size all);
+                }
+            }
+        }
+    }
+}

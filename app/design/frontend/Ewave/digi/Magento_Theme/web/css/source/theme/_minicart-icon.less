@@ -1,0 +1,65 @@
+//
+// Variables
+// ----------------------------------------------------------
+@minicart-wrapper-action-showcart-counter-qty__height: false;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .minicart-wrapper .action.showcart {
+        & {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-prefix-flex-direction(column);
+            .lib-vendor-box-align(center);
+        }
+
+        &::before {
+            display: none;
+        }
+
+        .text {
+            .lib-font-size(11);
+            .lib-css(font-weight, @font-weight__bold);
+            .lib-css(color, @color-black);
+            position: static;
+            height: auto;
+            width: auto;
+        }
+
+        .svg-icon {
+            width: 27px;
+            margin-bottom: 1px;
+        }
+
+        &:hover .text {
+            .lib-css(color, @header-link__color__hover);
+        }
+        
+        &:hover .counter {
+            transform: scale(1.25);
+        }
+
+        .counter.qty {
+            position: absolute;
+            top: -3px;
+            right: -4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            transition: all .3s ease-in-out;
+        }
+        
+        .counter.qty.empty {
+            display: inline-block;
+        }
+        
+        .counter-number {
+            .lib-css(font-weight, @font-weight__bold);
+            .lib-font-size(11);
+            position: relative;
+            top: -3px;
+        }
+    }
+}

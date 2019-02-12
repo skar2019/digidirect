@@ -1,0 +1,149 @@
+//
+//  Msrp: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@msrp__is-enabled: true; // Enable/disable styles
+
+@msrp-map-popup-wrapper-action-close__top: @popup-button-close__position-top;
+@msrp-map-popup__use-popup: true;
+@msrp-map-popup__margin-top: @indent__s;
+@msrp-map-popup__margin-left: false;
+@msrp-map-popup__content-margin: @indent__s 0 0;
+@msrp-map-popup__position-bottom: false;
+@msrp-map-popup__position-right: false;
+@msrp-map-popup__position: absolute;
+@msrp-map-popup__max-width__m-only: 100%;
+
+//  Map Info Price
+@msrp-map-info-price__use-add-clearfix: true;
+@msrp-map-info-price__margin-bottom: 15px;
+@msrp-map-info-price-price-box__margin: 0 0 @indent__base;
+@msrp-map-info-price-price-box-label__after__content: ': ';
+@msrp-map-popup-regular-price-price-label__display: none;
+
+//  Map Old Price
+@msrp-map-old-price__text-decoration: none;
+@msrp-map-old-price-price-wrapper__text-decoration: line-through;
+
+//  Map Form Add to Cart
+@msrp-map-form-addtocart__display: inline-block;
+@msrp-map-form-addtocart__text-align: center;
+@msrp-map-form-addtocart-img__display: block;
+@msrp-map-form-addtocart-img__margin: 0 auto;
+@msrp-map-show-info-button__use-button-reset: true;
+
+//  Show Info Map
+@msrp-map-show-info-map-old-price__not-last-child__margin-right: @indent__s;
+@msrp-map-show-info-button__use-button-as-link: true;
+@msrp-map-show-info-map-old-price__display__m-only: inline-block;
+@msrp-map-show-info-map-old-price__not-last-child__margin-bottom__m-only: @indent__s;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@msrp__is-enabled = true) {
+        .map-popup-wrapper.popup {
+            .action.close {
+                .lib-css(top, @msrp-map-popup-wrapper-action-close__top);
+            }
+        }
+
+        .map-popup {
+            & when (@msrp-map-popup__use-popup = true) {
+                .lib-popup(
+                    @_popup-margin-top: @msrp-map-popup__margin-top,
+                    @_popup-margin-left: @msrp-map-popup__margin-left,
+                    @_popup-content-margin: @msrp-map-popup__content-margin,
+                    @_popup-position-bottom: @msrp-map-popup__position-bottom,
+                    @_popup-position-right: @msrp-map-popup__position-right,
+                    @_popup-position: @msrp-map-popup__position
+                );
+            }
+
+            .map-info-price {
+                & when (@msrp-map-info-price__use-add-clearfix = true) {
+                    &:extend(.abs-add-clearfix all);
+                }
+                .lib-css(margin-bottom, @msrp-map-info-price__margin-bottom);
+            }
+
+            .map-info-price .price-box {
+                .lib-css(margin, @msrp-map-info-price-price-box__margin);
+            }
+
+            .map-info-price .price-box .label {
+                &::after {
+                    .lib-css(content, @msrp-map-info-price-price-box-label__after__content);
+                }
+            }
+
+            .regular-price .price-label {
+                .lib-css(display, @msrp-map-popup-regular-price-price-label__display);
+            }
+        }
+
+        .map-old-price,
+        .product-info-price .map-show-info {
+            &:not(:last-child) {
+                .lib-css(margin-right, @msrp-map-show-info-map-old-price__not-last-child__margin-right);
+            }
+        }
+
+        .map-old-price {
+            & {
+                .lib-css(text-decoration, @msrp-map-old-price__text-decoration);
+            }
+
+            .price-wrapper {
+                .lib-css(text-decoration, @msrp-map-old-price-price-wrapper__text-decoration);
+            }
+        }
+        .map-form-addtocart {
+            & {
+                .lib-css(display, @msrp-map-form-addtocart__display);
+                .lib-css(text-align, @msrp-map-form-addtocart__text-align);
+            }
+
+            img {
+                .lib-css(display, @msrp-map-form-addtocart-img__display);
+                .lib-css(margin, @msrp-map-form-addtocart-img__margin);
+            }
+        }
+
+        button.map-show-info {
+            & when (@msrp-map-show-info-button__use-button-reset = true) {
+                .lib-button-reset();
+            }
+            & when (@msrp-map-show-info-button__use-button-as-link = true) {
+                .lib-button-as-link();
+            }
+        }
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    & when (@msrp__is-enabled = true) {
+        .map-popup {
+            .lib-css(max-width, @msrp-map-popup__max-width__m-only);
+        }
+
+        .map-old-price,
+        .map-show-info {
+            .lib-css(display, @msrp-map-show-info-map-old-price__display__m-only);
+
+            &:not(:last-child) {
+                .lib-css(margin-bottom, @msrp-map-show-info-map-old-price__not-last-child__margin-bottom__m-only);
+            }
+        }
+    }
+}

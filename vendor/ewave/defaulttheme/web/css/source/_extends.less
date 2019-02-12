@@ -1,0 +1,830 @@
+//
+//  Styles Extends
+//  _____________________________________________
+
+//
+//  List default styles reset
+//  ---------------------------------------------
+
+@extend-reset-list-li__margin: 0;
+
+& when (@media-common = true) {
+    .abs-reset-list {
+        .lib-list-reset-styles();
+        > li {
+            .lib-css(margin, @extend-reset-list-li__margin);
+        }
+    }
+}
+
+//
+//  Link as a button
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .abs-action-link-button {
+        .lib-button();
+        .lib-link-as-button();
+        .lib-css(border-radius, @button__border-radius);
+    }
+}
+
+//
+//  Product options list
+//  ---------------------------------------------
+
+@extend-product-options-list-dt__float: left;
+@extend-product-options-list-dt__clear: left;
+@extend-product-options-list-dt__margin: 0 @indent__s @indent__xs 0;
+@extend-product-options-list-dt__after__content: ': ';
+@extend-product-options-list-dd__float: left;
+@extend-product-options-list-dd__display: inline-block;
+@extend-product-options-list-dd__margin: 0 0 @indent__xs;
+
+@abs-product-options-list: {
+    dt {
+        .lib-css(float, @extend-product-options-list-dt__float);
+        .lib-css(clear, @extend-product-options-list-dt__clear);
+        .lib-css(margin, @extend-product-options-list-dt__margin);
+
+        &::after {
+            .lib-css(content, @extend-product-options-list-dt__after__content);
+        }
+    }
+
+    dd {
+        .lib-css(float, @extend-product-options-list-dd__float);
+        .lib-css(display, @extend-product-options-list-dd__display);
+        .lib-css(margin, @extend-product-options-list-dd__margin);
+    }
+};
+
+& when (@media-common = true) {
+    .abs-product-options-list {
+        @abs-product-options-list();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .abs-product-options-list-desktop {
+        @abs-product-options-list();
+    }
+}
+
+//
+//  Button reset width, floats, margins
+//  ---------------------------------------------
+
+@extend-button-desktop__width: auto;
+
+@abs-button-responsive: {
+    .lib-button-responsive();
+};
+
+& when (@media-common = true) {
+    .abs-button-responsive {
+        @abs-button-responsive();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .abs-button-desktop {
+        .lib-css(width, @extend-button-desktop__width);
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .abs-button-responsive-smaller {
+        @abs-button-responsive();
+    }
+}
+
+//
+//  Blocks in 2 columns
+//  ---------------------------------------------
+
+@extend-blocks-2columns__width: 48.8%;
+@extend-blocks-2columns__odd__clear: left;
+@extend-blocks-2columns__odd__float: left;
+@extend-blocks-2columns__even__float: right;
+
+@abs-blocks-2columns: {
+    .lib-css(width, @extend-blocks-2columns__width);
+
+    &:nth-child(odd) {
+        .lib-css(clear, @extend-blocks-2columns__odd__clear);
+        .lib-css(float, @extend-blocks-2columns__odd__float);
+    }
+
+    &:nth-child(even) {
+        .lib-css(float, @extend-blocks-2columns__even__float);
+    }
+};
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .abs-blocks-2columns {
+        @abs-blocks-2columns();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .abs-blocks-2columns-s {
+        @abs-blocks-2columns();
+    }
+}
+
+//
+//  Reset image alignment in container
+//  ---------------------------------------------
+
+@extend-reset-image-wrapper__height: auto;
+@extend-reset-image-wrapper__padding: ~'0 !important';
+@extend-reset-image-wrapper-product-image-photo__position: static;
+
+& when (@media-common = true) {
+    .abs-reset-image-wrapper {
+        .lib-css(height, @extend-reset-image-wrapper__height);
+        .lib-css(padding, @extend-reset-image-wrapper__padding);
+
+        .product-image-photo {
+            .lib-css(position, @extend-reset-image-wrapper-product-image-photo__position);
+        }
+    }
+}
+
+//
+//  Adaptive images
+//  ---------------------------------------------
+
+@extend-adaptive-images__display: block;
+@extend-adaptive-images__max-width: 100%;
+@extend-adaptive-images__height: auto;
+@extend-adaptive-images-centered__display: block;
+@extend-adaptive-images-centered__max-width: 100%;
+@extend-adaptive-images-centered__height: auto;
+@extend-adaptive-images-centered__margin: 0 auto;
+
+& when (@media-common = true) {
+    .abs-adaptive-images {
+        .lib-css(display, @extend-adaptive-images__display);
+        .lib-css(max-width, @extend-adaptive-images__max-width);
+        .lib-css(height, @extend-adaptive-images__height);
+    }
+
+    .abs-adaptive-images-centered {
+        .lib-css(display, @extend-adaptive-images-centered__display);
+        .lib-css(max-width, @extend-adaptive-images-centered__max-width);
+        .lib-css(height, @extend-adaptive-images-centered__height);
+        .lib-css(margin, @extend-adaptive-images-centered__margin);
+    }
+}
+
+//
+//  Account blocks
+//  ---------------------------------------------
+
+@extend-account-blocks-block-title-action__margin-left: 10px;
+@extend-account-blocks-block-title-action__font-size: 12px;
+@extend-account-blocks-box-title__display: inline-block;
+@extend-account-blocks-box-title__margin: 0 0 @indent__xs;
+@extend-account-blocks-box-title-span__use-heading: true;
+@extend-account-blocks-box-title-span__heading: h4;
+@extend-account-blocks-box-title-action__margin-left: @indent__s;
+@extend-account-blocks-box-title-action__font-weight: 400;
+@extend-account-blocks-block-content-p__last-child__margin-bottom: 0;
+@extend-account-blocks-block-content-box__margin-bottom: @indent__base;
+
+
+& when (@media-common = true) {
+    .abs-account-blocks {
+        .block-title {
+            > .action {
+                .lib-css(margin-left, @extend-account-blocks-block-title-action__margin-left);
+                .lib-css(font-size, @extend-account-blocks-block-title-action__font-size);
+            }
+        }
+
+        .box-title {
+            .lib-css(display, @extend-account-blocks-box-title__display);
+            .lib-css(margin, @extend-account-blocks-box-title__margin);
+
+            > span {
+                & when (@extend-account-blocks-box-title-span__use-heading = true) {
+                    .lib-heading(@extend-account-blocks-box-title-span__heading);
+                }
+            }
+
+            > .action {
+                .lib-css(margin-left, @extend-account-blocks-box-title-action__margin-left);
+                .lib-css(font-weight, @extend-account-blocks-box-title-action__font-weight);
+            }
+        }
+
+        .block-content {
+            p:last-child {
+                .lib-css(margin-bottom, @extend-account-blocks-block-content-p__last-child__margin-bottom);
+            }
+
+            .box {
+                .lib-css(margin-bottom, @extend-account-blocks-block-content-box__margin-bottom);
+            }
+        }
+    }
+}
+
+//
+//  Input quantity
+//  ---------------------------------------------
+
+@extend-input-qty__width: 47px;
+@extend-input-qty__text-align: center;
+
+& when (@media-common = true) {
+    .abs-input-qty {
+        .lib-css(width, @extend-input-qty__width);
+        .lib-css(text-align, @extend-input-qty__text-align);
+    }
+}
+
+//
+//  Marging for blocks & widgets
+//  ---------------------------------------------
+
+@extend-margin-for-blocks-and-widgets__margin-bottom: @indent__xl;
+
+& when (@media-common = true) {
+    .abs-margin-for-blocks-and-widgets {
+        .lib-css(margin-bottom, @extend-margin-for-blocks-and-widgets__margin-bottom);
+    }
+}
+
+//
+//  Remove button for blocks
+//  ---------------------------------------------
+
+@extend-remove-button-for-blocks__use-base64: true;
+@extend-remove-button-for-blocks-icon__width: 10px;
+@extend-remove-button-for-blocks-icon__height: 10px;
+@extend-remove-button-for-blocks-icon__margin: false;
+@extend-remove-button-for-blocks-icon__background-image: @base64-icon__close;
+@extend-remove-button-for-blocks-icon__text-hide: true;
+
+& when (@media-common = true) {
+    .abs-remove-button-for-blocks {
+        & when (@extend-remove-button-for-blocks__use-base64 = true) {
+            .lib-base64(
+                @_base64-width: @extend-remove-button-for-blocks-icon__width,
+                @_base64-height: @extend-remove-button-for-blocks-icon__height,
+                @_base64-margin: @extend-remove-button-for-blocks-icon__margin,
+                @_base64-background-image: @extend-remove-button-for-blocks-icon__background-image,
+                @_base64-text-hide: @extend-remove-button-for-blocks-icon__text-hide
+            );
+        }
+    }
+}
+
+//
+//  Reset left margin
+//  ---------------------------------------------
+
+@extend-reset-left-margin__margin-left: 0;
+
+@abs-reset-left-margin: {
+    .lib-css(margin-left, @extend-reset-left-margin__margin-left);
+};
+
+& when (@media-common = true) {
+    .abs-reset-left-margin {
+        @abs-reset-left-margin();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .abs-reset-left-margin-desktop {
+        @abs-reset-left-margin();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .abs-reset-left-margin-desktop-s {
+        @abs-reset-left-margin();
+    }
+}
+
+//
+//  Add Recipient
+//  ---------------------------------------------
+
+@extend-add-fields-fieldset__margin-bottom: 30px;
+@extend-add-fields-fieldset-field-not-choice-control__width: 70%;
+@extend-add-fields-fieldset-actions-toolbar-not-first-child__use-add-clearfix: true;
+@extend-add-fields-fieldset-actions-toolbar-not-first-child-secondary__float: left;
+@extend-add-fields-fieldset-actions-toolbar-not-first-child-secondary-action-add__margin-top: 10px;
+@extend-add-fields-fieldset-fields-actions-toolbar__margin: 0;
+@extend-add-fields-message-notice__margin: @indent__l 0 0;
+@extend-add-fields-additional__position: relative;
+@extend-add-fields-additional__margin-top: 55px;
+@extend-add-fields-additionla-action-remove__use-action-button-as-link: true;
+@extend-add-fields-additionla-action-remove__position: absolute;
+@extend-add-fields-additionla-action-remove__top: 26px;
+@extend-add-fields-additionla-action-remove__right: 0;
+@extend-add-fields-additionla-action-remove__width: auto;
+
+& when (@media-common = true) {
+    .abs-add-fields {
+        .fieldset {
+            & {
+                .lib-css(margin-bottom, @extend-add-fields-fieldset__margin-bottom);
+            }
+
+            .field:not(.choice) .control {
+                .lib-css(width, @extend-add-fields-fieldset-field-not-choice-control__width);
+            }
+
+            .actions-toolbar {
+                &:not(:first-child) {
+                    & when (@extend-add-fields-fieldset-actions-toolbar-not-first-child__use-add-clearfix = true) {
+                        &:extend(.abs-add-clearfix all);
+                    }
+
+                    > .secondary {
+                        .lib-css(float, @extend-add-fields-fieldset-actions-toolbar-not-first-child-secondary__float);
+                    }
+                    > .secondary .action.add {
+                        .lib-css(margin-top, @extend-add-fields-fieldset-actions-toolbar-not-first-child-secondary-action-add__margin-top);
+                    }
+                }
+            }
+
+            .fields .actions-toolbar {
+                .lib-css(margin, @extend-add-fields-fieldset-fields-actions-toolbar__margin);
+            }
+        }
+
+        .message {
+            &.notice {
+                .lib-css(margin, @extend-add-fields-message-notice__margin);
+            }
+        }
+
+        .additional {
+            & {
+                .lib-css(position, @extend-add-fields-additional__position);
+                .lib-css(margin-top, @extend-add-fields-additional__margin-top);
+            }
+
+            .action.remove {
+                & when (@extend-add-fields-additionla-action-remove__use-action-button-as-link = true) {
+                    &:extend(.abs-action-button-as-link all);
+                }
+                .lib-css(position, @extend-add-fields-additionla-action-remove__position);
+                .lib-css(top, @extend-add-fields-additionla-action-remove__top);
+                .lib-css(left, @extend-add-fields-additionla-action-remove__right);
+                .lib-css(width, @extend-add-fields-additionla-action-remove__width);
+            }
+        }
+    }
+}
+
+//
+//  Margin for forms
+//  ---------------------------------------------
+
+@extend-margin-for-forms-desktop__margin-left: @form-field-type-label-inline__width;
+
+@abs-margin-for-forms-desktop: {
+    .lib-css(margin-left, @extend-margin-for-forms-desktop__margin-left);
+};
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .abs-margin-for-forms-desktop {
+        @abs-margin-for-forms-desktop();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .abs-margin-for-forms-desktop-s {
+        @abs-margin-for-forms-desktop();
+    }
+}
+
+//
+//  Visibility hidden / show visibility hidden
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .abs-hidden {
+        .lib-visibility-hidden();
+    }
+}
+
+//
+//  Visually hidden / show visually hidden
+//  ---------------------------------------------
+
+@abs-visually-hidden: {
+    .lib-visually-hidden();
+};
+
+& when (@media-common = true) {
+    .abs-visually-hidden {
+        @abs-visually-hidden();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .abs-visually-hidden-mobile {
+        @abs-visually-hidden();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .abs-visually-hidden-mobile-m {
+        @abs-visually-hidden();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .abs-visually-hidden-desktop-s {
+        @abs-visually-hidden();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .abs-visually-hidden-desktop {
+        @abs-visually-hidden();
+    }
+}
+
+//
+//  Visually hidden reset
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .abs-visually-hidden-reset {
+        .lib-visually-hidden-reset();
+    }
+}
+
+//
+//  Clearfix
+//  ---------------------------------------------
+
+@abs-add-clearfix: {
+    .lib-clearfix();
+};
+
+& when (@media-common = true) {
+    .abs-add-clearfix {
+        @abs-add-clearfix();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .abs-add-clearfix-desktop {
+        @abs-add-clearfix();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+    .abs-add-clearfix-desktop-s {
+        @abs-add-clearfix();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .abs-add-clearfix-mobile {
+        @abs-add-clearfix();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .abs-add-clearfix-mobile-m {
+        @abs-add-clearfix();
+    }
+}
+
+//
+//  Action addto
+//  ---------------------------------------------
+
+@extend-actions-addto-gridlist__use-base64: true;
+@extend-actions-addto-gridlist__width: 15px;
+@extend-actions-addto-gridlist__height: 15px;
+@extend-actions-addto-gridlist__margin: 0 4px;
+@extend-actions-addto-gridlist__text-hide: true;
+
+& when (@media-common = true) {
+    .abs-action-addto-product {
+        &:extend(.abs-action-link-button all);
+        .lib-button-s();
+    }
+
+    .abs-actions-addto-gridlist {
+        & when (@extend-actions-addto-gridlist__use-base64 = true) {
+            .lib-base64(
+                @_base64-width: @extend-actions-addto-gridlist__width,
+                @_base64-height: @extend-actions-addto-gridlist__height,
+                @_base64-margin: @extend-actions-addto-gridlist__margin,
+                @_base64-text-hide: @extend-actions-addto-gridlist__text-hide
+            );
+        }
+    }
+}
+
+//
+//  Large button
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .abs-button-l {
+        .lib-button-l();
+    }
+}
+
+//
+//  Button as a link
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .abs-action-button-as-link {
+        .lib-button-as-link(@_margin: false);
+        border-radius: 0;
+        font-size: inherit;
+        font-weight: @font-weight__regular;
+
+        &:active,
+        &:not(:focus) {
+            box-shadow: none;
+        }
+    }
+}
+
+//
+//  Button revert secondary color
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .abs-revert-secondary-color {
+        .lib-button-revert-secondary-color();
+    }
+}
+
+//
+//  Button revert secondary size
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .abs-revert-secondary-size {
+        .lib-button-revert-secondary-size();
+    }
+}
+
+//
+//  Box-tocart block
+//  ---------------------------------------------
+
+@box-tocart__margin: @indent__s 0;
+
+& when (@media-common = true) {
+    .abs-box-tocart {
+        .lib-css(margin, @box-tocart__margin);
+    }
+}
+
+//
+//  Excl/Incl tax
+//  ---------------------------------------------
+
+@extend-adjustment-incl-excl-tax__display: inline-block;
+@extend-adjustment-incl-excl-tax__font-size: 14;
+@extend-adjustment-incl-excl-tax__white-space: nowrap;
+@extend-adjustment-incl-excl-tax-extra__display: inline-block;
+@extend-adjustment-incl-excl-tax-extra__font-size: 11;
+@extend-adjustment-incl-excl-tax-extra__before__content: '('attr(data-label)': ';
+@extend-adjustment-incl-excl-tax-extra__after__content: ')';
+
+& when (@media-common = true) {
+    .abs-adjustment-incl-excl-tax {
+        .price-including-tax,
+        .price-excluding-tax,
+        .weee {
+            .lib-css(display, @extend-adjustment-incl-excl-tax__display);
+            .lib-font-size(@extend-adjustment-incl-excl-tax__font-size);
+            .lib-css(white-space, @extend-adjustment-incl-excl-tax__white-space);
+        }
+
+        .price-including-tax + .price-excluding-tax {
+            .lib-css(display, @extend-adjustment-incl-excl-tax-extra__display);
+            .lib-font-size(@extend-adjustment-incl-excl-tax-extra__font-size);
+
+            &::before {
+                .lib-css(content, @extend-adjustment-incl-excl-tax-extra__before__content);
+            }
+
+            &::after {
+                .lib-css(content, @extend-adjustment-incl-excl-tax-extra__after__content);
+            }
+        }
+    }
+}
+
+//
+//  Cart tax total
+//  ---------------------------------------------
+
+@extend-tax-total__position: relative;
+@extend-tax-total__padding-right: 12px;
+@extend-tax-total__cursor: pointer;
+@extend-tax-total-icon__use-base64: true;
+@extend-tax-total-icon__width: 6px;
+@extend-tax-total-icon__height: 16px;
+@extend-tax-total-icon__margin: 3px 0 0 0;
+@extend-tax-total-icon__background-image: @base64-icon__down;
+@extend-tax-total-icon__pseudo-type: after;
+@extend-tax-total__after__position: absolute;
+@extend-tax-total__after__top: 3px;
+@extend-tax-total__after__right: -@indent__s;
+
+@extend-tax-total-expanded-icon__use-base64-symbol: true;
+@extend-tax-total-expanded-icon__background-image: @base64-icon__up;
+@extend-tax-total-expanded-icon__pseudo-type: after;
+
+& when (@media-common = true) {
+    .abs-tax-total {
+        .lib-css(position, @extend-tax-total__position);
+        .lib-css(padding-right, @extend-tax-total__padding-right);
+        .lib-css(cursor, @extend-tax-total__cursor);
+        & when (@extend-tax-total-icon__use-base64 = true) {
+            .lib-base64(
+                @_base64-width: @extend-tax-total-icon__width,
+                @_base64-height: @extend-tax-total-icon__height,
+                @_base64-margin: @extend-tax-total-icon__margin,
+                @_base64-background-image: @extend-tax-total-icon__background-image,
+                @_base64-pseudo-type: @extend-tax-total-icon__pseudo-type
+            );
+        }
+
+        &::after {
+            .lib-css(position, @extend-tax-total__after__position);
+            .lib-css(top, @extend-tax-total__after__top);
+            .lib-css(right, @extend-tax-total__after__right);
+        }
+    }
+
+    .abs-tax-total-expanded {
+        & when (@extend-tax-total-expanded-icon__use-base64-symbol = true) {
+            .lib-base64-symbol(
+                @_base64-background-image: @extend-tax-total-expanded-icon__background-image,
+                @_base64-pseudo-type: @extend-tax-total-expanded-icon__pseudo-type
+            );
+        }
+    }
+}
+
+//
+//  Add colon
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .abs-colon {
+        &::after {
+            content: ': ';
+        }
+    }
+}
+
+//
+//  Abstract toggle title block
+//  ---------------------------------------------
+
+@extend-toggling-title-mobile__position: relative;
+@extend-toggling-title-mobile__display: block;
+@extend-toggling-title-mobile__margin-bottom: 0;
+@extend-toggling-title-mobile__padding: @indent__s @indent__xl @indent__s @layout__width-xs-indent;
+@extend-toggling-title-mobile__border-top: @border-width__base solid @border-color__base;
+@extend-toggling-title-mobile__border-bottom: @border-width__base solid @border-color__base;
+@extend-toggling-title-mobile__cursor: pointer;
+@extend-toggling-title-mobile__after__position: absolute;
+@extend-toggling-title-mobile__after__top: 9px;
+@extend-toggling-title-mobile__after__right: @indent__s;
+
+@extend-toggling-title-mobile-icon__use-base64: true;
+@extend-toggling-title-mobile-icon__width: 16px;
+@extend-toggling-title-mobile-icon__height: 24px;
+@extend-toggling-title-mobile-icon__background-image: @base64-icon__down;
+@extend-toggling-title-mobile-icon__pseudo-type: after;
+@extend-toggling-title-mobile-icon__active__use-base64-symbol: true;
+@extend-toggling-title-mobile-icon__active__background-image: @base64-icon__up;
+@extend-toggling-title-mobile-icon__active__pseudo-type: after;
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .abs-toggling-title-mobile {
+        .lib-css(position, @extend-toggling-title-mobile__position);
+        .lib-css(display, @extend-toggling-title-mobile__display);
+        .lib-css(margin-bottom, @extend-toggling-title-mobile__margin-bottom);
+        .lib-css(padding, @extend-toggling-title-mobile__padding);
+        .lib-css(border-top, @extend-toggling-title-mobile__border-top);
+        .lib-css(border-bottom, @extend-toggling-title-mobile__border-bottom);
+        .lib-css(cursor, @extend-toggling-title-mobile__cursor);
+
+        & when (@extend-toggling-title-mobile-icon__use-base64 = true) {
+            .lib-base64(
+                @_base64-width: @extend-toggling-title-mobile-icon__width,
+                @_base64-height: @extend-toggling-title-mobile-icon__height,
+                @_base64-background-image: @extend-toggling-title-mobile-icon__background-image,
+                @_base64-pseudo-type: @extend-toggling-title-mobile-icon__pseudo-type
+            );
+        }
+
+        &::after {
+            .lib-css(position, @extend-toggling-title-mobile__after__position);
+            .lib-css(top, @extend-toggling-title-mobile__after__top);
+            .lib-css(right, @extend-toggling-title-mobile__after__right);
+        }
+
+        &.active {
+            & when (@extend-toggling-title-mobile-icon__active__use-base64-symbol = true) {
+                .lib-base64-symbol(
+                    @_base64-background-image: @extend-toggling-title-mobile-icon__active__background-image,
+                    @_base64-pseudo-type: @extend-toggling-title-mobile-icon__active__pseudo-type
+                );
+            }
+        }
+    }
+}
+
+//
+//  Abstract no display
+//  ---------------------------------------------
+
+@abs-no-display: {
+    display: none;
+};
+
+& when (@media-common = true) {
+    .abs-no-display {
+        @abs-no-display();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .abs-no-display-s {
+        @abs-no-display();
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .abs-no-display-desktop {
+        @abs-no-display();
+    }
+}
+
+//
+//  Status
+//  ---------------------------------------------
+
+@extend-status__display: inline-block;
+@extend-status__margin-bottom: @indent__base;
+
+& when (@media-common = true) {
+    .abs-status {
+        .lib-css(display, @extend-status__display);
+        .lib-css(margin-bottom, @extend-status__margin-bottom);
+    }
+}
+
+//
+//  Form Field Date
+//  ---------------------------------------------
+
+@extend-field-date-control__position: relative;
+@extend-field-date-input__use-field-date-input: true;
+
+& when (@media-common = true) {
+    .abs-field-date {
+        .control {
+            .lib-css(position, @extend-field-date-control__position);
+        }
+
+        input {
+            & when (@extend-field-date-input__use-field-date-input = true) {
+                &:extend(.abs-field-date-input);
+            }
+        }
+    }
+}
+
+//
+//  Form Field Date Input
+//  ---------------------------------------------
+
+@extend-field-date-input__width: calc(~'100% -' @form-ui-datepicker-trigger-icon__width + @indent__s);
+@extend-field-date-input__margin-right: @indent__s;
+
+& when (@media-common = true) {
+    .abs-field-date-input {
+        .lib-css(width, @extend-field-date-input__width);
+        .lib-css(margin-right, @extend-field-date-input__margin-right);
+    }
+}

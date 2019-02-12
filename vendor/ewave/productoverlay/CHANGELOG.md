@@ -1,0 +1,129 @@
+1.0.0
+=============
+* Solution Architecture:
+    * [#129157](https://ewave.tpondemand.com/entity/129157) -- Product Overlay. Solution Architecture
+* New features:
+    * [#129231](https://ewave.tpondemand.com/entity/129231) -- DISPLAY SETTINGS. As an admin, I want to specify DOM-selectors for containers of the overlay
+    * [#129232](https://ewave.tpondemand.com/entity/129232) -- ON SALE CONDITION. As an admin, I want to be able to set up "On Sale Condition"
+    * [#129233](https://ewave.tpondemand.com/entity/129233) -- IS NEW CONDITION. As an admin, I want to be able to set up "Is New Condition"
+    * [#129239](https://ewave.tpondemand.com/entity/129239) -- MANAGE OVERLAY. As an admin, I want to be able to manage overlay for the product
+    * [#130110](https://ewave.tpondemand.com/entity/130110) -- MIME TYPES. As an admin, I want to be able to specify image types and MIME for product overlays
+    * [#129587](https://ewave.tpondemand.com/entity/129587) -- OVERLAY CONDITIONS. As an admin, I want to be able to specify conditions for overlay to be displayed
+    * [#129240](https://ewave.tpondemand.com/entity/129240) -- FRONTEND. As a user, I want to see product overlays on the store pages: product detail page / product listing page / other (see description)
+    * [#151419](https://ewave.tpondemand.com/entity/151419) -- STOCK CONDITIONS. As an admin, I want to be able to specify stock conditions for the label (see description)
+    * [#161332](https://ewave.tpondemand.com/entity/161332) -- R7.CACHE. As an admin, I want to see cache invalid message once overlay created or updated
+    * [#164357](https://ewave.tpondemand.com/entity/164357) -- R7. As am admin, I want to be able to add an overlay to the product as a private sale (see description)
+   
+1.0.1
+=============
+* Bug fixes
+    * [#178679](https://ewave.tpondemand.com/entity/178679) -- Error on di compilation
+    * [#178973](https://ewave.tpondemand.com/entity/178973) -- Overlays: After installing overlay module attributes "Product is New from date" and "Product is New to date" didn't create  
+    * [#181450](https://ewave.tpondemand.com/entity/181450) -- Product Overlay: An overlay is enlarged after resizing browser's window
+
+1.1.0
+=============
+* New features:
+    * [#151418](https://ewave.tpondemand.com/entity/151418) -- STOCK LABEL FOR OVERLAY. As an admin, I want to be able to specify stock label for the overlay (see description)
+    * [#179641](https://ewave.tpondemand.com/entity/179641) -- STOCK LABEL FRONTEND. As a user, I want to see stock label on the product detail page as an overlay (see description)
+* Bug fixes
+    * [#181450](https://ewave.tpondemand.com/entity/181450) -- Product Overlay. An overlay is enlarged after resizing browser's window
+
+1.1.1
+=============
+* Bug fixes
+    * [#183889](https://ewave.tpondemand.com/entity/183889) -- Fatal error on search result page
+    * [#183912](https://ewave.tpondemand.com/entity/183912) -- Overlays for general customer group is not displays for logged in general user, but displays for guest
+
+1.1.2
+=============
+* Bug fixes
+    * [#184809](https://ewave.tpondemand.com/entity/184809) -- On Sale: Overlay isn't displayed for product if it matches the "Min Discount Amount" condition and doesn't match the "Min Discount Percentage" condition
+    * [#184861](https://ewave.tpondemand.com/entity/184861) -- An overlay is displayed for the particular store if the "Category Page Overlay Container" and "Product Page Overlay Container" fields are empty for this store
+
+1.1.3
+=============
+* Bug fixes
+    * [#161329](https://ewave.tpondemand.com/entity/161329) -- Product Overlay. Overlays are displayed for products on Cart page
+    * [#186306](https://ewave.tpondemand.com/entity/186306) -- PROJECT: Linfox. Product Overlay - Improper image size used if it is specified only for one of the pages
+    * [#186432](https://ewave.tpondemand.com/entity/186432) -- Project: Pharmacy Online. An error occurs in the log: The element 'category.product.type.details.renderers' already has a child with alias 'configurable'
+
+1.1.4
+=============
+* Bugfixes:
+    * [#161121](https://ewave.tpondemand.com/entity/161121) -- [Product Overlay] The overlay is displayed on the page even if specified selector is not found
+    * [#163779](https://ewave.tpondemand.com/entity/163779) -- [Overlay Condition] An Overlay is displayed for all simple products of the configurable one even if only one of them match the overlay conditions
+    * [#190966](https://ewave.tpondemand.com/entity/190966) -- [Product Overlay] An overlay is displayed for a product in a widget even if "Use For Parent" = "No"
+    * [#196001](https://ewave.tpondemand.com/entity/196001) -- [Product Overlay] An error occurs in WebAPI module due to the extension
+
+1.1.5
+=============
+* Improvements:
+    * Improve JS-logic of the Configurable Swatches rendering.
+
+1.2.0
+=============
+* New features:
+    * [#204185](https://ewave.tpondemand.com/entity/204185) -- GENERAL ASSIGNMENT SETTING. As an admin, I want to be able to specify if assignment per product is enabled for the product
+    * [#204183](https://ewave.tpondemand.com/entity/204183) -- OVERLAY PER PRODUCT. As an admin, I want to be able to assign overlay to product on the product detail page
+
+2.0.0
+=============
+* Improvements:
+    * Magento 2.2 Compatibility
+* Bugfixes:
+    * [#216194](https://ewave.tpondemand.com/entity/216194) -- [PROJECT: TAF][Overlay][Back-office] Impossible to Edit overlay: (InvalidArgumentException): Unable to unserialize value.
+
+2.0.1
+=============
+* Bugfixes:
+    * [#226496](https://ewave.tpondemand.com/entity/226496) -- Improve performance
+
+2.0.2
+=============
+* Bugfixes:
+    * [#226496](https://ewave.tpondemand.com/entity/226496) -- Improve performance
+
+2.0.3
+=============
+* Bugfixes:
+    * [#229123](https://ewave.tpondemand.com/entity/229123) -- [Product Overlay] Overlay with Use for Parent =NO is not displayed for simple product
+    * [#229139](https://ewave.tpondemand.com/entity/229139) -- [Product Overlay] Overlay with "Price Range" condition is displayed incorrectly for configurable product
+    
+2.0.4
+==============
+* Bugfixes:
+    * [#254200](https://ewave.tpondemand.com/entity/254200) -- There is Null in info block for Configurable Product    
+
+2.0.5
+==============
+* Bugfixes:
+    * [#261666](https://ewave.tpondemand.com/entity/261666) -- Product overlay is displayed for all products when they don't match the overlay conditions    
+
+2.1.0
+==============
+* New features:
+    * [#264578](https://ewave.tpondemand.com/entity/264578) -- [RECENTLY VIEWED BLOCK] As a customer, I want to be able to use Overlays functionality in 'Recently Viewed' block
+* Bugfixes:
+    * [#261985](https://ewave.tpondemand.com/entity/261985) -- [Project: AUSPost][Product's overlay] An overlay is not displayed for the config sub-item when it matches the overlay's condition
+    * [#266806](https://ewave.tpondemand.com/entity/266806) -- [Product Overlay] Store view scope is not working for overlays
+
+2.1.1
+===============
+* Bugfixes:
+    * [#268103](https://ewave.tpondemand.com/entity/268103) -- "Sale" overlay is displayed on both: FIXED VALUE and RELOADABLE
+
+2.1.2
+===============
+* Improvements:
+    * Refactor JS
+
+2.1.3
+===============
+* Bugfixes:
+    * [#268103](https://ewave.tpondemand.com/entity/268103) -- [Product Overlay] Product Overlay Rule isn't applied when overlay on product level is set and disabled
+
+2.1.4
+===============
+* Bugfixes:
+    * [#284341](https://ewave.tpondemand.com/entity/284341) -- [M2.3][Product Overlays] Overlays are not shown on PLP

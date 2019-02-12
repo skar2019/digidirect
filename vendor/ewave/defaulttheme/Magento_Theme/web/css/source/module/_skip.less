@@ -1,0 +1,53 @@
+//
+//  Theme: Skip
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@page-skip_is-enabled: true; // Enable/disable styles
+
+//  Wrapper
+@page-skip-wrapper__position: relative;
+@page-skip-wrapper__height: 0;
+
+//  Action
+@page-skip__focus__position: absolute;
+@page-skip__focus__top: 0;
+@page-skip__focus__left: 0;
+@page-skip__focus__z-index: 15;
+@page-skip__focus__width: 100%;
+@page-skip__focus__padding: @indent__s;
+@page-skip__focus__text-align: center;
+@page-skip__focus__background: @color-gray94;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@page-skip_is-enabled = true) {
+        .action-skip-wrapper {
+            .lib-css(height, @page-skip-wrapper__height);
+            .lib-css(position, @page-skip-wrapper__position);
+        }
+
+        .action.skip {
+            &:not(:focus) {
+                &:extend(.abs-visually-hidden all);
+            }
+
+            &:focus {
+                .lib-css(position, @page-skip__focus__position);
+                .lib-css(top, @page-skip__focus__top);
+                .lib-css(left, @page-skip__focus__left);
+                .lib-css(z-index, @page-skip__focus__z-index);
+                .lib-css(width, @page-skip__focus__width);
+                .lib-css(padding, @page-skip__focus__padding);
+                .lib-css(text-align, @page-skip__focus__text-align);
+                .lib-css(background, @page-skip__focus__background);
+            }
+        }
+    }
+}

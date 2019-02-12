@@ -1,0 +1,156 @@
+//
+//  Downloadable: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@downloadable__is-enabled: true; // Enable/disable styles
+
+//  Samples
+@downloadable-samples__margin-bottom: @indent__base;
+@downloadable-samples-dd__margin: 0 0 @indent__s;
+
+//  Table downloadable products
+@downloadable-products-table-product-name__margin-right: 15px;
+
+//  Prices
+@downloadable-field-downloads-price-container__display: inline;
+@downloadable-field-downloads-price-container__white-space: nowrap;
+@downloadable-field-downloads-price-container__before__content: ' + ';
+@downloadable-field-downloads-price-container__before__display: inline;
+
+@downloadable-field-downloads-price-excluding-tax__display: inline;
+@downloadable-field-downloads-price-excluding-tax__before__content: ' ('attr(data-label) ': ';
+@downloadable-field-downloads-price-excluding-tax__after__content: ')';
+
+@downloadable-field-downloads-price-including-tax__display: inline;
+@downloadable-field-downloads-price-including-tax__font-size: 14;
+@downloadable-field-downloads-price-including-tax__font-weight: @font-weight__semibold;
+
+//  Sample Link
+@downloadable-field-downloads-sample-link__float: right;
+
+//  Product page
+@downloadable-product-page-product-add-form__use-add-clearfix: true;
+@downloadable-product-page-product-add-form__clear: both;
+@downloadable-product-page-product-add-form__margin-bottom: @indent__m;
+@downloadable-product-page-product-add-form__use-clearer__m: true;
+
+@downloadable-product-page-product-options-bottom-field-qty__display: ~'none !important';
+@downloadable-product-page-product-options-bottom__float__m: right;
+@downloadable-product-page-product-options-bottom__width__m: 40%;
+@downloadable-product-page-product-options-bottom-field-qty-actions__padding-top__m: 0;
+
+@downloadable-product-page-product-options-wrapper-fieldset-legend-links-title__use-visually-hidden: true;
+@downloadable-product-page-product-options-wrapper__float__m: left;
+@downloadable-product-page-product-options-wrapper__width__m: 55%;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@downloadable__is-enabled = true) {
+        .downloadable.samples {
+            & {
+                .lib-css(margin-bottom, @downloadable-samples__margin-bottom);
+            }
+
+            dd {
+                .lib-css(margin, @downloadable-samples-dd__margin);
+            }
+        }
+
+        .table-downloadable-products {
+            .product-name {
+                .lib-css(margin-right, @downloadable-products-table-product-name__margin-right);
+            }
+        }
+
+        .field.downloads {
+            .price-container {
+                .lib-css(display, @downloadable-field-downloads-price-container__display);
+                .lib-css(white-space, @downloadable-field-downloads-price-container__white-space);
+
+                &::before {
+                    .lib-css(content, @downloadable-field-downloads-price-container__before__content);
+                    .lib-css(display, @downloadable-field-downloads-price-container__before__display);
+                }
+            }
+
+            .price-excluding-tax {
+                .lib-css(display, @downloadable-field-downloads-price-excluding-tax__display);
+
+                &::before {
+                    .lib-css(content, @downloadable-field-downloads-price-excluding-tax__before__content);
+                }
+
+                &::after {
+                    .lib-css(content, @downloadable-field-downloads-price-excluding-tax__after__content);
+                }
+            }
+
+            .price-including-tax {
+                .lib-css(display, @downloadable-field-downloads-price-including-tax__display);
+                .lib-font-size(@downloadable-field-downloads-price-including-tax__font-size);
+                .lib-css(font-weight, @downloadable-field-downloads-price-including-tax__font-weight);
+            }
+
+            .sample.link {
+                .lib-css(float, @downloadable-field-downloads-sample-link__float);
+            }
+        }
+
+        .page-product-downloadable {
+            .product-add-form {
+                & when (@downloadable-product-page-product-add-form__use-add-clearfix = true) {
+                    &:extend(.abs-add-clearfix all);
+                }
+                .lib-css(clear, @downloadable-product-page-product-add-form__clear);
+                .lib-css(margin-bottom, @downloadable-product-page-product-add-form__margin-bottom);
+            }
+
+            .product-options-bottom .field.qty {
+                .lib-css(display, @downloadable-product-page-product-options-bottom-field-qty__display);
+            }
+
+            .product-options-wrapper .fieldset .legend.links-title {
+                & when (@downloadable-product-page-product-options-wrapper-fieldset-legend-links-title__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@downloadable__is-enabled = true) {
+        .page-product-downloadable {
+            .product-add-form {
+                & when (@downloadable-product-page-product-add-form__use-clearer__m = true) {
+                    &:extend(.clearer all);
+                }
+            }
+
+            .product-options-wrapper {
+                .lib-css(float, @downloadable-product-page-product-options-wrapper__float__m);
+                .lib-css(width, @downloadable-product-page-product-options-wrapper__width__m);
+            }
+
+            .product-options-bottom {
+                .lib-css(float, @downloadable-product-page-product-options-bottom__float__m);
+                .lib-css(width, @downloadable-product-page-product-options-bottom__width__m);
+            }
+
+            .product-options-bottom .field.qty + .actions {
+                .lib-css(padding-top, @downloadable-product-page-product-options-bottom-field-qty-actions__padding-top__m);
+            }
+        }
+    }
+}

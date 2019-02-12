@@ -1,0 +1,14 @@
+{
+    "name": "ewave/collect",
+    "description": "Ewave Click and Collect Module",
+    "type": "magento2-module",
+    "version": "2.9.0.0",
+        "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ewave\\Collect\\": ""
+        }
+    }
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Ewave.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Framework\View\Result\Page" type="Ewave\Utilities\Preference\Magento\Framework\View\Result\Page" />
+    <type name="Magento\Framework\View\Result\Page">
+        <arguments>
+            <argument name="template" xsi:type="string">Ewave_Utilities::root.phtml</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Message\Manager">
+        <plugin name="save_message" type="Ewave\Utilities\Plugin\Magento\Framework\Message\Manager" sortOrder="100"/>
+    </type>
+    <type name="Magento\Framework\View\Element\Message\MessageConfigurationsPool">
+        <arguments>
+            <argument name="configurationsMap" xsi:type="array">
+                <item name="addExtendedMessage" xsi:type="array">
+                    <item name="renderer" xsi:type="const">\Ewave\Utilities\Block\View\Element\Message\Renderer\ExtendedRenderer::CODE</item>
+                    <item name="data" xsi:type="array">
+                        <item name="template" xsi:type="string">Ewave_Utilities::messages/renderer.phtml</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\App\Action\Action">
+        <plugin name="redirect_action_to_ajax" type="Ewave\Utilities\Plugin\Magento\Framework\App\Action\Action" sortOrder="100"/>
+    </type>
+    <type name="Magento\Cms\Block\Block">
+        <plugin name="cache-cms-block-per-store" type="Ewave\Utilities\Plugin\Magento\Cms\Block\Block"/>
+    </type>
+</config>

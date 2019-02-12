@@ -1,0 +1,141 @@
+//
+//  Catalog: Toolbar
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@catalog-toolbar__is-enabled: true; // Enable/disable styles
+
+@catalog-toolbar__margin-bottom:  @indent__xl;
+
+//  Pages
+@catalog-toolbar-pages__display: none;
+
+//  Limiter
+@catalog-toolbar-limiter__display: none;
+@catalog-toolbar-limiter-control__display: inline-block;
+
+//  Sorter
+@catalog-toolbar-sorter__padding: 4px 0 0;
+@catalog-toolbar-sorter__float__m: right;
+@catalog-toolbar-sorter-options__width: auto;
+@catalog-toolbar-sorter-options__margin: 0 0 0 7px;
+@catalog-toolbar-sorter-action__vertical-align: top;
+
+//  Sorter Icon
+@catalog-toolbar-sorter-action__use-base64: true;
+@catalog-toolbar-sorter-action-icon__width: 16px;
+@catalog-toolbar-sorter-action-icon__height: 16px;
+@catalog-toolbar-sorter-action-icon__margin: false;
+@catalog-toolbar-sorter-action-icon__background-image: @base64-icon__arrow-up;
+@catalog-toolbar-sorter-action-icon__text-hide: true;
+@catalog-toolbar-sorter-desc-action__use-base64: true;
+@catalog-toolbar-sorter-desc-action-icon__background-image: @base64-icon__arrow-down;
+
+//  Toolbar Bottom
+@catalog-toolbar-bottom-modes__display: none;
+@catalog-toolbar-bottom-amount__display: none;
+@catalog-toolbar-bottom-pages__display: block;
+@catalog-toolbar-bottom-pages__float__m: left;
+@catalog-toolbar-bottom-sorter__display: none;
+@catalog-toolbar-bottom-limiter__display__m: block;
+@catalog-toolbar-bottom-limiter__float__m: right;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@catalog-toolbar__is-enabled = true) {
+        .toolbar-products {
+            & {
+                .lib-css(margin-bottom, @catalog-toolbar__margin-bottom);
+            }
+
+            .pages {
+                .lib-css(display, @catalog-toolbar-pages__display);
+            }
+
+            .limiter .control {
+                .lib-css(display, @catalog-toolbar-limiter-control__display);
+            }
+        }
+
+        .sorter {
+            .lib-css(padding, @catalog-toolbar-sorter__padding);
+        }
+
+        .sorter-options {
+            .lib-css(width, @catalog-toolbar-sorter-options__width);
+            .lib-css(margin, @catalog-toolbar-sorter-options__margin);
+        }
+
+        .sorter-action {
+            .lib-css(vertical-align, @catalog-toolbar-sorter-action__vertical-align);
+            & when (@catalog-toolbar-sorter-action__use-base64 = true) {
+                .lib-base64(
+                    @_base64-width: @catalog-toolbar-sorter-action-icon__width,
+                    @_base64-height: @catalog-toolbar-sorter-action-icon__height,
+                    @_base64-margin: @catalog-toolbar-sorter-action-icon__margin,
+                    @_base64-background-image: @catalog-toolbar-sorter-action-icon__background-image,
+                    @_base64-text-hide: @catalog-toolbar-sorter-action-icon__text-hide
+                );
+            }
+        }
+
+        .sorter {
+            .sort-desc {
+                & when (@catalog-toolbar-sorter-desc-action__use-base64 = true) {
+                    .lib-base64-symbol(@catalog-toolbar-sorter-desc-action-icon__background-image);
+                }
+            }
+        }
+
+        .page-products {
+            .toolbar .limiter {
+                .lib-css(display, @catalog-toolbar-limiter__display);
+            }
+        }
+
+        //  Toolbar Bottom
+        .products {
+            &.wrapper ~ .toolbar .modes {
+                .lib-css(display, @catalog-toolbar-bottom-modes__display);
+            }
+            &.wrapper ~ .toolbar .toolbar-amount {
+                .lib-css(display, @catalog-toolbar-bottom-amount__display);
+            }
+            &.wrapper ~ .toolbar-products .pages {
+                .lib-css(display, @catalog-toolbar-bottom-pages__display);
+            }
+            &.wrapper ~ .toolbar .sorter {
+                .lib-css(display, @catalog-toolbar-bottom-sorter__display);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@catalog-toolbar__is-enabled = true) {
+        .sorter {
+            .lib-css(float, @catalog-toolbar-sorter__float__m);
+        }
+
+        //  Toolbar Bottom
+        .products {
+            &.wrapper ~ .toolbar .pages {
+                .lib-css(float, @catalog-toolbar-bottom-pages__float__m);
+            }
+            &.wrapper ~ .toolbar .limiter {
+                .lib-css(display, @catalog-toolbar-bottom-limiter__display__m);
+                .lib-css(float, @catalog-toolbar-bottom-limiter__float__m);
+            }
+        }
+    }
+}

@@ -1,0 +1,148 @@
+//
+//  Braintree: Payment Method
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@braintree-payment-method__is-enabled: true; // Enable/disable styles
+
+@braintree-error__color: @color-red10;
+@braintree-success__color: @color-dark-green1;
+
+@braintree-payment-method-hosted-date-wrap__use-add-clearfix: true;
+
+//   Hosted Control
+@braintree-payment-method-hosted-control__use-form-element-input: true;
+@braintree-payment-method-hosted-control__position: relative;
+@braintree-payment-method-hosted-control__width: false;
+
+//  Hosted Control States
+@braintree-payment-method-hosted-control__focused__border-color: @color-blue2;
+@braintree-payment-method-hosted-control__invalid__border-color: @braintree-error__color;
+@braintree-payment-method-hosted-control__valid__border-color: @braintree-success__color;
+
+//  Hosted Control - Error
+@braintree-payment-method-hosted-control-error__height: auto;
+@braintree-payment-method-hosted-control-error__opacity: 1;
+
+//  Cid (CVC)
+@braintree-payment-method-hosted-control-cid__width: 5rem;
+
+//  Date
+@braintree-payment-method-hosted-control-date-distance: 2%;
+@braintree-payment-method-hosted-control-date__float: left;
+@braintree-payment-method-hosted-control-date__width: 49%;
+@braintree-payment-method-hosted-control-date__margin-bottom: 0;
+@braintree-payment-method-hosted-control-date__first-of-type__margin-right: @braintree-payment-method-hosted-control-date-distance;
+@braintree-payment-method-hosted-control-date__first-of-type-after__content: false;
+@braintree-payment-method-hosted-control-date__first-of-type-after__display: false;
+@braintree-payment-method-hosted-control-date__first-of-type-after__padding-bottom: false;
+@braintree-payment-method-hosted-control-date__first-of-type-after__padding-top: false;
+@braintree-payment-method-hosted-control-date__first-of-type-after__position: false;
+@braintree-payment-method-hosted-control-date__first-of-type-after__right: false;
+@braintree-payment-method-hosted-control-date__first-of-type-after__top: false;
+
+//  Field tooltip
+@braintree-payment-method-field-tooltip__right: false;
+@braintree-payment-method-cvv-field-tooltip__left__m: false;
+
+//  Error
+@braintree-payment-method-error__height: 0;
+@braintree-payment-method-error__margin-top: 7px;
+@braintree-payment-method-error__clear: both;
+@braintree-payment-method-error__font-size: 1.2rem;
+@braintree-payment-method-error__color: @braintree-error__color;
+@braintree-payment-method-error__opacity: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@braintree-payment-method__is-enabled = true) {
+        .payment-method-braintree {
+            .hosted-date-wrap {
+                & when (@braintree-payment-method-hosted-date-wrap__use-add-clearfix = true) {
+                    &:extend(.abs-add-clearfix all);
+                }
+            }
+
+            .hosted-control {
+                & when (@braintree-payment-method-hosted-control__use-form-element-input = true) {
+                    .lib-form-element-input(@_type: input-text);
+                }
+                .lib-css(position, @braintree-payment-method-hosted-control__position);
+                .lib-css(width, @braintree-payment-method-hosted-control__width);
+
+                &.braintree-hosted-fields-focused {
+                    .lib-css(border-color, @braintree-payment-method-hosted-control__focused__border-color);
+                }
+
+                &.braintree-hosted-fields-invalid:not(.braintree-hosted-fields-focused) {
+                    .lib-css(border-color, @braintree-payment-method-hosted-control__invalid__border-color);
+
+                    & ~ .hosted-error {
+                        .lib-css(height, @braintree-payment-method-hosted-control-error__height);
+                        .lib-css(opacity, @braintree-payment-method-hosted-control-error__opacity);
+                    }
+                }
+
+                &.braintree-hosted-fields-valid {
+                    .lib-css(border-color, @braintree-payment-method-hosted-control__valid__border-color);
+                }
+
+                &.hosted-cid {
+                    .lib-css(width, @braintree-payment-method-hosted-control-cid__width);
+                }
+
+                &.hosted-date {
+                    .lib-css(float, @braintree-payment-method-hosted-control-date__float);
+                    .lib-css(width, @braintree-payment-method-hosted-control-date__width);
+                    .lib-css(margin-bottom, @braintree-payment-method-hosted-control-date__margin-bottom);
+
+                    &:first-of-type {
+                        .lib-css(margin-right, @braintree-payment-method-hosted-control-date__first-of-type__margin-right);
+                    }
+                    &:first-of-type::after {
+                        .lib-css(content, @braintree-payment-method-hosted-control-date__first-of-type-after__content);
+                        .lib-css(display, @braintree-payment-method-hosted-control-date__first-of-type-after__display);
+                        .lib-css(position, @braintree-payment-method-hosted-control-date__first-of-type-after__position);
+                        .lib-css(right, @braintree-payment-method-hosted-control-date__first-of-type-after__right);
+                        .lib-css(top, @braintree-payment-method-hosted-control-date__first-of-type-after__top);
+                        .lib-css(padding-top, @braintree-payment-method-hosted-control-date__first-of-type-after__padding-top);
+                        .lib-css(padding-bottom, @braintree-payment-method-hosted-control-date__first-of-type-after__padding-bottom);
+                    }
+                }
+            }
+
+            .field-tooltip {
+                .lib-css(right, @braintree-payment-method-field-tooltip__right);
+            }
+
+            .hosted-error {
+                .lib-css(height, @braintree-payment-method-error__height);
+                .lib-css(margin-top, @braintree-payment-method-error__margin-top);
+                .lib-css(clear, @braintree-payment-method-error__clear);
+                .lib-css(font-size, @braintree-payment-method-error__font-size);
+                .lib-css(color, @braintree-payment-method-error__color);
+                .lib-css(opacity, @braintree-payment-method-error__opacity);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@braintree-payment-method__is-enabled = true) {
+        .payment-method-braintree {
+            .cvv .field-tooltip {
+                .lib-css(left, @braintree-payment-method-cvv-field-tooltip__left__m);
+            }
+        }
+    }
+}

@@ -1,0 +1,43 @@
+<?php
+/** @var \Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule $block */
+
+$product = $block->getParentBlock()->getProduct();
+?>
+
+<?php if ($product && $product->hasData('show_msg_extended_rule')) : ?>
+    <?php foreach ($product->getData('show_msg_extended_rule') as $rule): ?>
+        <?php $id = 'rule-' . $rule['rule_id'] . '-' . $product->getId(); ?>
+        <div class="block-extendedrule" id="<?= /* @noEscape */ $id ?>">
+            <?php if(!empty($rule['action_amount'])): ?>
+                <div class="price-box">
+                    <span class="price-container">
+                        <span class="price-label"><?= /* @escapeNotVerified */ __('After Cashback'); ?></span>
+                        <span class="price-wrapper"><span class="price"><?= /* @noEscape */ $block->formatDiscountAmount($rule['action_amount']); ?></span></span>
+                    </span>
+                </div>
+            <?php endif; ?>
+
+            <div class="name" data-mage-init='{"catalogPriceRuleModal": {"ruleId": "<?= /* @noEscape */ 'rule-' . $rule['rule_id']; ?>"}}'>
+                <?php if(!empty($rule['plp_label'])): ?>
+                    <?= $block->escapeHtml($rule['plp_label']); ?>
+                <?php else : ?>
+                    <?= /* @noEscape */ __('Special Offer'); ?>
+                <?php endif; ?>
+            </div>
+
+            <?php if(!empty($rule['pdp_description']) || !empty($rule['url_promotion'])): ?>
+                <div class="details-extendedrule no-display" data-rule="<?= /* @noEscape */ 'rule-' . $rule['rule_id']; ?>">
+                    <?php if(!empty($rule['pdp_description'])): ?>
+                        <div class="description"><?=  /* @noEscape */ $rule['pdp_description']; ?></div>
+                    <?php endif; ?>
+
+                    <?php if(!empty($rule['url_promotion'])): ?>
+                        <a class="link" href="<?= $block->escapeUrl($rule['url_promotion']); ?>" title="<?= /* @noEscape */ __('Promotion URL'); ?>">
+                            <?= /* @noEscape */ __('Promotion URL'); ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>

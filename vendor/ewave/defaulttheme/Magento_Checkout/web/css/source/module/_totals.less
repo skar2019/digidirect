@@ -1,0 +1,26 @@
+//
+//  Checkout: Totals
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@checkout-totals__is-enabled: true; // Enable/disable style
+
+@checkout-totals__use-sidebar-totals: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@checkout-totals__is-enabled = true) {
+        .cart-totals,
+        .table-totals {
+            & when (@checkout-totals__use-sidebar-totals = true) {
+                &:extend(.abs-sidebar-totals all);
+            }
+        }
+    }
+}

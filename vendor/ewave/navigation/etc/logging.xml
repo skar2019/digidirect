@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Logging:etc/logging.xsd">
+    <groups>
+        <group name="menu_items">
+            <label translate="true">Manage Menu Items</label>
+            <expected_models>
+                <expected_model class="Ewave\Navigation\Model\Menu" />
+            </expected_models>
+            <events>
+                <event controller_action="ewave_navigation_menu_edit" action_alias="view" />
+                <event controller_action="ewave_navigation_menu_save" action_alias="save">
+                    <skip_on_back>
+                        <controller_action name="ewave_navigation_menu_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="ewave_navigation_menu_delete" action_alias="delete" />
+            </events>
+        </group>
+        <group name="menu_sets">
+            <label translate="true">Manage Navigation Sets</label>
+            <expected_models>
+                <expected_model class="Ewave\Navigation\Model\Set" />
+            </expected_models>
+            <events>
+                <event controller_action="ewave_navigation_set_edit" action_alias="view" />
+                <event controller_action="ewave_navigation_set_save" action_alias="save">
+                    <skip_on_back>
+                        <controller_action name="ewave_navigation_set_edit" />
+                    </skip_on_back>
+                </event>
+                <event controller_action="ewave_navigation_set_delete" action_alias="delete" />
+            </events>
+        </group>
+    </groups>
+</logging>

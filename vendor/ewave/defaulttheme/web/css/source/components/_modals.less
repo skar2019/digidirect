@@ -1,0 +1,212 @@
+//
+//  Modals
+//  _____________________________________________
+
+//
+//  Imports
+//  ---------------------------------------------
+
+@import '../../source/_variables.less';
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@modal__is-enabled: true; // Enable/disable styles
+
+@modal-body-has-modal__width: 100%;
+@modal-body-has-modal__height: 100%;
+@modal-body-has-modal__overflow: hidden;
+
+@modal-overlay__position: fixed;
+@modal-overlay__top: 0;
+@modal-overlay__right: 0;
+@modal-overlay__bottom: 0;
+@modal-overlay__left: 0;
+@modal-overlay__z-index: @overlay__z-index;
+@modal-overlay__background-color: fade(@color-gray20, 55%);
+
+@modal-sections__padding: @modal-sections__padding-vertical @modal-sections__padding-horizontal;
+@modal-sections__padding-vertical: 2rem;
+@modal-sections__padding-horizontal: 3rem;
+
+@modal-header-footer__use-vendor-prefix-flex-grow: true;
+@modal-header-footer__use-vendor-prefix-flex-shrink: true;
+
+@modal-header__padding-vertical: 2.1rem;
+@modal-header__padding-top: @modal-header__padding-vertical;
+@modal-header__padding-bottom: @modal-header__padding-vertical;
+
+@modal-content__padding-top: @modal-sections__padding-vertical;
+@modal-content__padding-bottom: @modal-sections__padding-vertical;
+
+@modal-footer__margin-top: auto;
+@modal-footer__padding-top: @modal-sections__padding-vertical;
+@modal-footer__padding-bottom: @modal-sections__padding-vertical;
+@modal-footer-actions__text-align: right;
+
+@modal-slide-popup__use-modal: true;
+@modal-slide__use-modal-slide: true;
+@modal-slide__use-modal-slide__m: true;
+@modal-slide-inner-scroll-modal-inner-wrap__use-vendor-prefix-display: true;
+@modal-slide-inner-scroll-modal-inner-wrap__use-vendor-prefix-flex-direction: true;
+@modal-slide-inner-scroll-modal-inner-wrap__overflow-y: visible;
+
+@modal-slide-inner-scroll-content__overflow-y: auto;
+@modal-slide-inner-scroll-footer__margin-top: auto;
+@modal-slide-inner-wrap__margin__m: 0;
+@modal-slide-inner-wrap__max-height__m: none;
+
+@modal-popup__use-modal-popup: true;
+@modal-popup-inner-scroll__overflow-y: visible;
+@modal-popup-inner-scroll__overflow-y__ie: auto;
+@modal-popup-inner-scroll-modal-inner-wrap__max-height: 90%;
+@modal-popup-inner-scroll-modal-inner-wrap__max-height__ie: none;
+@modal-popup-inner-scroll-content__overflow-y: auto;
+
+@modal-popup__padding: 3rem;
+@modal-popup-sections__padding-vertical: 2rem;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@modal__is-enabled = true) {
+        body {
+            &._has-modal {
+                .lib-css(width, @modal-body-has-modal__width);
+                .lib-css(height, @modal-body-has-modal__height);
+                .lib-css(overflow, @modal-body-has-modal__overflow);
+            }
+        }
+
+        //  Modals overlay
+        .modals-overlay {
+            .lib-css(position, @modal-overlay__position);
+            .lib-css(top, @modal-overlay__top);
+            .lib-css(right, @modal-overlay__right);
+            .lib-css(bottom, @modal-overlay__bottom);
+            .lib-css(left, @modal-overlay__left);
+            .lib-css(z-index, @modal-overlay__z-index);
+            .lib-css(background-color, @modal-overlay__background-color);
+        }
+
+        .modal-header,
+        .modal-content,
+        .modal-footer {
+            .lib-css(padding, @modal-sections__padding);
+        }
+
+        .modal-header {
+            .lib-css(padding-top, @modal-header__padding-top);
+            .lib-css(padding-bottom, @modal-header__padding-bottom);
+        }
+
+        .modal-header,
+        .modal-footer {
+            & when (@modal-header-footer__use-vendor-prefix-flex-grow = true) {
+                .lib-vendor-prefix-flex-grow(0);
+            }
+            & when (@modal-header-footer__use-vendor-prefix-flex-shrink = true) {
+                .lib-vendor-prefix-flex-shrink(0);
+            }
+        }
+
+        .modal-content {
+            .lib-css(padding-top, @modal-content__padding-top);
+            .lib-css(padding-bottom, @modal-content__padding-bottom);
+        }
+
+        .modal-footer {
+            .lib-css(margin-top, @modal-footer__margin-top);
+            .lib-css(padding-top, @modal-footer__padding-top);
+            .lib-css(padding-bottom, @modal-footer__padding-bottom);
+        }
+
+        .modal-footer-actions {
+            .lib-css(text-align, @modal-footer-actions__text-align);
+        }
+
+        .modal-slide,
+        .modal-popup {
+            & when (@modal-slide-popup__use-modal = true) {
+                .lib-modal();
+            }
+        }
+
+        .modal-slide {
+            & when (@modal-slide__use-modal-slide = true) {
+                .lib-modal-slide();
+            }
+            &._inner-scroll {
+                .modal-inner-wrap {
+                    & when (@modal-slide-inner-scroll-modal-inner-wrap__use-vendor-prefix-display = true) {
+                        .lib-vendor-prefix-display(flex);
+                    }
+                    & when (@modal-slide-inner-scroll-modal-inner-wrap__use-vendor-prefix-flex-direction = true) {
+                        .lib-vendor-prefix-flex-direction(column);
+                    }
+                    .lib-css(overflow-y, @modal-slide-inner-scroll-modal-inner-wrap__overflow-y);
+                }
+
+                .modal-content {
+                    .lib-css(overflow-y, @modal-slide-inner-scroll-content__overflow-y);
+                }
+
+                .modal-footer {
+                    .lib-css(margin-top, @modal-slide-inner-scroll-footer__margin-top);
+                }
+            }
+        }
+
+        .modal-popup {
+            & when (@modal-popup__use-modal-popup = true) {
+                .lib-modal-popup();
+            }
+
+            //  If applied, switching outer popup scroll to inner
+            &._inner-scroll {
+                .lib-css(overflow-y, @modal-popup-inner-scroll__overflow-y);
+
+                .ie11 & {
+                    .lib-css(overflow-y, @modal-popup-inner-scroll__overflow-y__ie);
+                }
+
+                .modal-inner-wrap {
+                    .lib-css(max-height, @modal-popup-inner-scroll-modal-inner-wrap__max-height);
+
+                    .ie11 & {
+                        .lib-css(max-height, @modal-popup-inner-scroll-modal-inner-wrap__max-height__ie);
+                    }
+                }
+
+                .modal-content {
+                    .lib-css(overflow-y, @modal-popup-inner-scroll-content__overflow-y);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+//  Mobile transform to modal-slide
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    & when (@modal__is-enabled = true) {
+        .modal-popup {
+            &.modal-slide {
+                & when (@modal-slide__use-modal-slide__m = true) {
+                    .lib-modal-slide();
+                }
+
+                .modal-inner-wrap {
+                    .lib-css(margin, @modal-slide-inner-wrap__margin__m);
+                    .lib-css(max-height, @modal-slide-inner-wrap__max-height__m);
+                }
+            }
+        }
+    }
+}

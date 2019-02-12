@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
+    <container name="root">
+        <block name="confirmation_popup"
+               class="Ewave\ExtendedCart\Block\Checkout\AddToCartConfirmationPopup"
+               template="Ewave_ExtendedCart::checkout/add_to_cart_confirmation_popup.phtml">
+            <block name="promotion_products"
+                   class="Ewave\ExtendedCart\Block\Checkout\AddToCartConfirmationPopup\PromotionProducts"
+                   template="Magento_Catalog::product/list/items.phtml" >
+                <action method="setBlockTypes">
+                    <argument name="value" xsi:type="array">
+                        <item name="related" xsi:type="string">Magento\Catalog\Block\Product\ProductList\Related</item>
+                        <item name="upsell" xsi:type="string">Magento\Catalog\Block\Product\ProductList\Upsell</item>
+                    </argument>
+                </action>
+                <action method="setListingTypes">
+                    <argument name="value" xsi:type="array">
+                        <item name="related" xsi:type="string">related</item>
+                        <item name="upsell" xsi:type="string">upsell</item>
+                    </argument>
+                </action>
+            </block>
+            <block class="Magento\Framework\View\Element\FormKey" name="formkey"/>
+            <block class="Magento\Framework\Pricing\Render" name="product.price.render.default">
+                <arguments>
+                    <argument name="price_render_handle" xsi:type="string">catalog_product_prices</argument>
+                    <argument name="use_link_for_as_low_as" xsi:type="boolean">true</argument>
+                    <!-- set "override" configuration settings here -->
+                </arguments>
+            </block>
+        </block>
+    </container>
+</layout>

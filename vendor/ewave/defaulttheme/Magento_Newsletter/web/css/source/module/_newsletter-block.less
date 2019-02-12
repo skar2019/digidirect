@@ -1,0 +1,115 @@
+//
+//  Newsletter: Block
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@newsletter-block__is-enabled: true; // Enable/disable styles
+
+@newsletter-block__margin-bottom: @indent__xl;
+@newsletter-block__width__m: 32%;
+
+//  Title
+@newsletter-block-title__display: none;
+
+//  Form
+@newsletter-block-form__display: table;
+@newsletter-block-form__width: 100%;
+
+//  Fieldset
+@newsletter-block-fieldset__display: table-cell;
+@newsletter-block-fieldset__margin: 0;
+@newsletter-block-fieldset__padding: 0;
+@newsletter-block-fieldset__vertical-align: top;
+
+//  Field
+@newsletter-block-field__margin: 0;
+@newsletter-block-field__margin-right__m: 5px;
+
+//  Label
+@newsletter-block-label__use-visually-hidden: true;
+
+//  Control
+@newsletter-block-field-control__width__m: 100%;
+
+//  Actions
+@newsletter-block-actions__display: table-cell;
+@newsletter-block-actions__width: 1%;
+@newsletter-block-actions__vertical-align: top;
+
+//  Action
+@newsletter-block-action-subscribe__margin-left: -1px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@newsletter-block__is-enabled = true) {
+        .block.newsletter {
+            & {
+                .lib-css(margin-bottom, @newsletter-block__margin-bottom);
+            }
+
+            .title {
+                .lib-css(display, @newsletter-block-title__display);
+            }
+
+            .form {
+                .lib-css(display, @newsletter-block-form__display);
+                .lib-css(width, @newsletter-block-form__width);
+            }
+
+            .fieldset {
+                .lib-css(display, @newsletter-block-fieldset__display);
+                .lib-css(margin, @newsletter-block-fieldset__margin);
+                .lib-css(padding, @newsletter-block-fieldset__padding);
+                .lib-css(vertical-align, @newsletter-block-fieldset__vertical-align);
+            }
+
+            .field {
+                .lib-css(margin, @newsletter-block-field__margin);
+            }
+
+            .label {
+                & when (@newsletter-block-label__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+
+            .actions {
+                .lib-css(display, @newsletter-block-actions__display);
+                .lib-css(width, @newsletter-block-actions__width);
+                .lib-css(vertical-align, @newsletter-block-actions__vertical-align);
+            }
+
+            .action.subscribe {
+                .lib-css(margin-left, @newsletter-block-action-subscribe__margin-left);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@newsletter-block__is-enabled = true) {
+        .block.newsletter {
+            & {
+                .lib-css(width, @newsletter-block__width__m);
+            }
+
+            .field {
+                .lib-css(margin-right, @newsletter-block-field__margin-right__m);
+            }
+
+            .field .control {
+                .lib-css(width, @newsletter-block-field-control__width__m);
+            }
+        }
+    }
+}

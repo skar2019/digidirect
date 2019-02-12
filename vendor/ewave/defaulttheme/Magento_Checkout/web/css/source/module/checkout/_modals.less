@@ -1,0 +1,27 @@
+//
+//  Checkout: Modals
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@checkout-modals__is-enabled: true; // Enable/disable style
+
+@checkout-modals-field-tooltip-content__use-checkout-tooltip-content-position-top: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@checkout-modals__is-enabled = true) {
+        .checkout-index-index {
+            .modal-popup .field-tooltip .field-tooltip-content {
+                & when (@checkout-modals-field-tooltip-content__use-checkout-tooltip-content-position-top = true) {
+                    &:extend(.abs-checkout-tooltip-content-position-top all);
+                }
+            }
+        }
+    }
+}

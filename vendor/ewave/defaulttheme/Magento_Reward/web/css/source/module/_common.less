@@ -1,0 +1,60 @@
+//
+//  Reward: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@reward__is-enabled: true; // Enable/disable styles
+
+//  Common
+@reward__indent: @indent__m;
+
+//  Title
+@reward-title__display: inline-block;
+@reward-title__margin-bottom: @reward__indent;
+
+//  Actions Toolbar
+@reward-setting-actions-toolba__margin-top__m: -32px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@reward__is-enabled = true) {
+        .block-reward-info {
+            .reward-rates,
+            .reward-limit,
+            .reward-expiring {
+                &:not(:last-child) {
+                    .lib-css(margin-bottom, @reward__indent);
+                }
+            }
+        }
+
+        .reward-rates,
+        .reward-limit,
+        .reward-expiring {
+            & > .title {
+                .lib-css(display, @reward-title__display);
+                .lib-css(margin-bottom, @reward-title__margin-bottom);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@reward__is-enabled = true) {
+        .reward-settings {
+            + .actions-toolbar {
+                .lib-css(margin-top, @reward-setting-actions-toolba__margin-top__m);
+            }
+        }
+    }
+}

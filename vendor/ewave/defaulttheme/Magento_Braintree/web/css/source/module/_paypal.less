@@ -1,0 +1,131 @@
+//
+//  Braintree: PayPal
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@braintree-paypal__is-enabled: true; // Enable/disable styles
+
+//  Logo
+@braintree-paypal-logo__margin-top: @indent__s;
+@braintree-paypal-logo__text-align: center;
+@braintree-paypal-logo-action__use-button-reset: true;
+@braintree-paypal-logo-action-img__width: 114px;
+@braintree-paypal-logo-action-img__margin: 0;
+
+//  Account
+@braintree-paypal-icon-image: '@{baseDir}Magento_Braintree/images/paypal-small.png';
+@braintree-paypal-icon-position: before;
+@braintree-paypal-icon__height: 16px;
+@braintree-paypal-icon__width: 16px;
+@braintree-paypal-account__use-icon-image: true;
+@braintree-paypal-account__position: relative;
+@braintree-paypal-account__padding-right: 50px;
+@braintree-paypal-account__padding-vertical: 15px;
+@braintree-paypal-account__padding: @braintree-paypal-account__padding-vertical 0 @braintree-paypal-account__padding-vertical @braintree-paypal-account__padding-right;
+@braintree-paypal-account__display__m: inline-block;
+@braintree-paypal-account__width__m: 50%;
+@braintree-paypal-account__border-color__m: @color-gray80;
+@braintree-paypal-account__border-style__m: solid;
+@braintree-paypal-account__border-width__m: 1px 0;
+@braintree-paypal-account__before__position: absolute;
+@braintree-paypal-account__before__top: 50%;
+@braintree-paypal-account__before__left: @braintree-paypal-account__padding-right/2 - @braintree-paypal-icon__width/2;
+@braintree-paypal-account__before__margin-top: -@braintree-paypal-icon__height/2;
+@braintree-paypal-account-payment-method-type__font-weight: @font-weight__bold;
+@braintree-paypal-account-payment-method-description__color: @color-gray34;
+
+//  Fieldset
+@braintree-paypal-fieldset__margin: 0;
+@braintree-paypal-fieldset__padding: 0;
+@braintree-paypal-fieldset__border: 0;
+
+//  Payment Method
+@braintree-paypal-payment-method-paypal-actions__margin-left: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@braintree-paypal__is-enabled = true) {
+        .braintree-paypal-logo {
+            .lib-css(margin-top, @braintree-paypal-logo__margin-top);
+            .lib-css(text-align, @braintree-paypal-logo__text-align);
+        }
+
+        .braintree-paypal-account {
+            & {
+                .lib-css(position, @braintree-paypal-account__position);
+                .lib-css(padding, @braintree-paypal-account__padding);
+
+                & when (@braintree-paypal-account__use-icon-image = true) {
+                    .lib-icon-image(
+                        @_icon-image: @braintree-paypal-icon-image,
+                        @_icon-image-position: @braintree-paypal-icon-position,
+                        @_icon-image-width: @braintree-paypal-icon__width,
+                        @_icon-image-height: @braintree-paypal-icon__height
+                    );
+                }
+
+                &::before {
+                    .lib-css(position, @braintree-paypal-account__before__position);
+                    .lib-css(top, @braintree-paypal-account__before__top);
+                    .lib-css(left, @braintree-paypal-account__before__left);
+                    .lib-css(margin-top, @braintree-paypal-account__before__margin-top);
+                }
+            }
+
+            .payment-method-type {
+                .lib-css(font-weight, @braintree-paypal-account-payment-method-type__font-weight);
+            }
+
+            .payment-method-description {
+                .lib-css(color, @braintree-paypal-account-payment-method-description__color);
+            }
+        }
+
+        .braintree-paypal-fieldset {
+            .lib-css(margin, @braintree-paypal-fieldset__margin);
+            .lib-css(padding, @braintree-paypal-fieldset__padding);
+            .lib-css(border, @braintree-paypal-fieldset__border);
+        }
+
+        .action-braintree-paypal-logo {
+            & {
+                & when (@braintree-paypal-logo-action__use-button-reset = true) {
+                    .lib-button-reset();
+                }
+            }
+
+            .action-braintree-paypal-logo img {
+                .lib-css(width, @braintree-paypal-logo-action-img__width);
+                .lib-css(margin, @braintree-paypal-logo-action-img__margin);
+            }
+        }
+
+        .payment-method {
+            .payment-method-content .actions-toolbar.braintree-paypal-actions {
+                .lib-css(margin-left, @braintree-paypal-payment-method-paypal-actions__margin-left);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@braintree-paypal__is-enabled = true) {
+        .braintree-paypal-account {
+            .lib-css(display, @braintree-paypal-account__display__m);
+            .lib-css(width, @braintree-paypal-account__width__m);
+            .lib-css(border-color, @braintree-paypal-account__border-color__m);
+            .lib-css(border-style, @braintree-paypal-account__border-style__m);
+            .lib-css(border-width, @braintree-paypal-account__border-width__m);
+        }
+    }
+}

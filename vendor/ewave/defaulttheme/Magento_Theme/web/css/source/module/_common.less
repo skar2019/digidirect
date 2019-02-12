@@ -1,0 +1,64 @@
+//
+//  Theme: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@page-common__is-enabled: true; // Enable/disable styles
+
+@page-wrapper__use-vendor-prefix-display: true;
+@page-wrapper__min-height: 100vh;
+@page-wrapper__height__m-ie: 100%;
+@page-main__use-vendor-prefix-flex-grow: true;
+@page-main__flex-grow: 1;
+
+@page-wrapper-elements__width__m: 100%;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@page-common__is-enabled = true) {
+        body {
+            .lib-css(background-color, @page__background-color);
+        }
+
+        .page-wrapper {
+            & when (@page-wrapper__use-vendor-prefix-display = true) {
+                .lib-vendor-prefix-display(flex);
+                .lib-vendor-prefix-flex-direction(column);
+            }
+            .lib-css(min-height, @page-wrapper__min-height); // Stretch content area for sticky footer
+        }
+
+        .page-main {
+            & when (@page-main__use-vendor-prefix-flex-grow = true) {
+                .lib-vendor-prefix-flex-grow(@page-main__flex-grow);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@page-common__is-enabled = true) {
+        .page-wrapper {
+            > .breadcrumbs,
+            > .top-container,
+            > .widget {
+                .lib-css(width, @page-wrapper-elements__width__m);
+            }
+
+            .ie10 &,
+            .ie11 & {
+                .lib-css(height, @page-wrapper__height__m-ie);
+            }
+        }
+    }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="order.items.table.head.start">
+            <block class="Magento\Framework\View\Element\Template" name="order.items.table.head.image" template="Ewave_OrderImages::order/th-image.phtml"/>
+        </referenceContainer>
+
+        <referenceBlock name="order.items.table.body.start">
+            <arguments>
+                <argument name="cell_count" xsi:type="number">1</argument>
+            </arguments>
+            <block class="Ewave\OrderImages\Block\Rma\View" name="item_image" template="Ewave_OrderImages::order/image-rma.phtml">
+                <arguments>
+                    <argument name="image_type" xsi:type="string">rma_product_thumbnail_image</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

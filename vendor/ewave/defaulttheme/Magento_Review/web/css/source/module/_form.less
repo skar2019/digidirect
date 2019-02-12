@@ -1,0 +1,118 @@
+//
+//  Reviews: Form (Add Review)
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@review-form__is-enabled: true; // Enable/disable styles
+
+@review-form__max-width__m: 500px;
+
+@review-add-block-title__display: none;
+@review-form-action-submit__use-button-revert-secondary-color: true;
+
+//  Legend
+@review-form-legend__use-reset-left-margin: true;
+@review-form-legend__margin-bottom: @indent__base;
+@review-form-legend-strong__display: block;
+@review-form-legend-strong__margin-left: 0;
+
+//  Ratings
+@review-form-field-ratings-nested__display: table;
+
+//  Field Rating
+@review-form-field-rating__display: false;
+@review-form-field-rating-label-control__display: false;
+@review-form-field-rating-label-control__padding-bottom: false;
+@review-form-field-rating-label-control__vertical-align: false;
+@review-form-field-rating-label__padding-top: false;
+@review-form-field-rating-label__padding-right: false;
+@review-form-field-rating-control__margin-top: false;
+@review-form-field-rating-control__margin-bottom: false;
+@review-form-field-rating-control__padding-top: false;
+
+//  Vote Control
+@review-form-review-control-vote__use-rating-vote-base64: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@review-form__is-enabled = true) {
+        .review-add {
+            .block-title {
+                .lib-css(display, @review-add-block-title__display);
+            }
+        }
+
+        .review-form {
+            .action.submit.primary {
+                & when (@review-form-action-submit__use-button-revert-secondary-color = true) {
+                    .lib-button-revert-secondary-color();
+                }
+            }
+        }
+
+        .review-legend.legend {
+            & when (@review-form-legend__use-reset-left-margin = true) {
+                &:extend(.abs-reset-left-margin all);
+            }
+            .lib-css(margin-bottom, @review-form-legend__margin-bottom);
+        }
+
+        .review-legend.legend strong {
+            .lib-css(display, @review-form-legend-strong__display);
+            .lib-css(margin-left, @review-form-legend-strong__margin-left);
+        }
+
+        .review-field-ratings {
+            .nested {
+                .lib-css(display, @review-form-field-ratings-nested__display);
+            }
+        }
+
+        .review-field-rating {
+            & {
+                .lib-css(display, @review-form-field-rating__display);
+            }
+
+            .label,
+            .control {
+                .lib-css(display, @review-form-field-rating-label-control__display);
+                .lib-css(padding-bottom, @review-form-field-rating-label-control__padding-bottom);
+                .lib-css(vertical-align, @review-form-field-rating-label-control__vertical-align);
+            }
+
+            .label {
+                .lib-css(padding-top, @review-form-field-rating-label__padding-top);
+                .lib-css(padding-right, @review-form-field-rating-label__padding-right);
+            }
+            .control {
+                .lib-css(margin-top, @review-form-field-rating-control__margin-top);
+                .lib-css(margin-bottom, @review-form-field-rating-control__margin-bottom);
+                .lib-css(padding-top, @review-form-field-rating-control__padding-top);
+            }
+        }
+
+        .review-control-vote {
+            & when (@review-form-review-control-vote__use-rating-vote-base64 = true) {
+                .lib-rating-vote-base64();
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@review-form__is-enabled = true) {
+        .review-form {
+            .lib-css(max-width, @review-form__max-width__m);
+        }
+    }
+}

@@ -1,0 +1,26 @@
+//
+//  Gift Message: Checkout
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-message-checkout__is-enabled: true;  //  Enable/disable style
+
+@gift-message-checkout-gift-wrapping__max-width__m: 50%;
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@gift-message-checkout__is-enabled = true) {
+        .order-options,
+        .table-order-review {
+            .gift-wrapping {
+                .lib-css(max-width, @gift-message-checkout-gift-wrapping__max-width__m);
+            }
+        }
+    }
+}

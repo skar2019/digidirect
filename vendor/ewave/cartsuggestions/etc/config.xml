@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Store/etc/config.xsd">
+    <default>
+        <ewave_cartsuggestions>
+            <general>
+                <cartsuggestions_enabled>0</cartsuggestions_enabled>
+                <product_number>5</product_number>
+                <suggestions_link>WE CAN RECOMMEND...</suggestions_link>
+            </general>
+        </ewave_cartsuggestions>
+    </default>
+</config>

@@ -1,0 +1,38 @@
+//
+//  Form
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@ewave-form__is-enabled = true) {
+        //  Input Group
+        .input-group {
+            .lib-form-input-group();
+        }
+
+        select:not([multiple]) {
+            .lib-form-element-select();
+        }
+
+        input[type='checkbox'] {
+            .lib-form-element-checkbox();
+        }
+
+        input[type='radio']:not([name*='ratings']):not(.@{default-radio-class}) {
+            .lib-form-element-radio();
+        }
+
+        .input-text {
+            &.-loading {
+                .lib-css(padding-right, @form-element-input-loading__padding-right);
+                .lib-css(background-position, @form-element-input-loading__background-position);
+                .lib-css(background-repeat, @form-element-input-loading__background-repeat);
+                .lib-css(background-image, @form-element-input-loading__background-image);
+                .lib-css(background-size, @form-element-input-loading__background-size);
+            }
+        }
+    }
+}

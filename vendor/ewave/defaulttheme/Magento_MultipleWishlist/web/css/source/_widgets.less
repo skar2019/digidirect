@@ -1,0 +1,25 @@
+//
+//  Multiple Wishlist: Widgets
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@multiple-wishlist-widgets__is-enabled: true; // Enable/disable styles
+
+@multiple-wishlist-widgets-block-wishlist-search-form__margin: @form-field__vertical-indent 0 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@multiple-wishlist-widgets__is-enabled = true) {
+        .block-wishlist-search {
+            .form-wishlist-search {
+                .lib-css(margin, @multiple-wishlist-widgets-block-wishlist-search-form__margin);
+            }
+        }
+    }
+}

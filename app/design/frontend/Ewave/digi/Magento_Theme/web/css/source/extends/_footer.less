@@ -1,0 +1,198 @@
+//
+//  Theme: Footer
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+//@footer__is-enabled: true; // Enable/disable styles
+//
+//@footer__margin: false;
+//@footer__padding: false;
+@footer__background-color: @color-white;
+
+//  Content
+@footer-content__margin: false;
+@footer-content__padding-top: 41px;
+@footer-content__padding-bottom: 15px;
+@footer-content__border-top: false;
+//
+//  Content links
+//@footer-content-links__margin: 0 0 20px;
+//@footer-content-links__padding: 0;
+//@footer-content-links__list-style: none;
+//@footer-content-links__display__m: inline-block;
+//@footer-content-links__margin__m: false;
+//@footer-content-links__padding__m: 0 50px 0 0;
+//@footer-content-links__vertical-align__m: top;
+//
+//@footer-content-links-item__margin: 0 0 8px;
+
+//  Copyright
+//@footer-copyright__display: block;
+@footer-copyright__margin: 16px 0 0;
+//@footer-copyright__padding: false;
+@footer-copyright__clear__m: false;
+
+//  Block/Widget
+@footer-block__float__m: false;
+//@footer-widget-block__margin: @indent__base 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .page-footer {
+        .lib-css(border-top, 1px solid @border-color__base);
+    }
+
+    .footer {
+        &.content {
+            overflow: hidden;
+        }
+    }
+
+    .footer-menu {
+        & {
+            margin: 0;
+            padding: 0;
+        }
+
+        > .item > .link {
+            display: block;
+            font-size: 16px;
+            .lib-css(font-weight, @font-weight__heavier);
+            line-height: 18px;
+        }
+
+        .menu {
+            padding: 0;
+        }
+
+        .menu .item {
+            margin-bottom: 12px;
+        }
+
+        .menu .link {
+            font-size: 14px;
+            line-height: 1.36;
+            text-decoration: none;
+            color: #666;
+
+            &:hover {
+                text-decoration: underline;
+                .lib-css(color, @color-2-2);
+            }
+        }
+    }
+}
+
+//
+//  M +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .nav-extra {
+        display: inline-block;
+        margin-top: 10px;
+        vertical-align: top;
+    }
+}
+
+//
+//  L -
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
+    .footer-nav {
+        .lib-css(margin-right, -@layout__width-xs-indent);
+        .lib-css(margin-left, -@layout__width-xs-indent);
+        margin-bottom: 21px;
+        border-top: 1px solid #efefef;
+    }
+
+    .footer-menu {
+        > .item {
+            margin: 0;
+            border-bottom: 1px solid #efefef;
+        }
+
+        > .item > .link {
+            position: relative;
+            .lib-css(padding, 30px 60px 30px @layout__width-xs-indent);
+        }
+
+        > .item > .link::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            .lib-css(right, @layout__width-xs-indent);
+            width: 20px;
+            height: 11px;
+            speak: none;
+            .lib-css(background-image, @base64-icon__down);
+            transform: translateY(-50%);
+            .lib-transition(transform);
+        }
+
+        > .item.-open > .link::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .menu {
+            .lib-css(padding, 0 @layout__width-xs-indent 10px);
+        }
+
+        .sub-items {
+            position: absolute;
+            top: 0;
+            left: -9999px;
+            display: block;
+        }
+
+        .sub-items.-open {
+            position: static;
+            left: auto;
+            display: block;
+        }
+    }
+}
+
+//
+//  L +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .footer-nav {
+        float: left;
+        width: 48.06%;
+    }
+
+    .footer-menu {
+        & {
+            display: flex;
+        }
+
+        > .item {
+            min-width: 32.6%;
+            margin-bottom: 65px;
+            padding-right: 10px;
+
+            &:first-child {
+                flex-grow: 1;
+            }
+        }
+
+        > .item > .link {
+            margin-bottom: 21px;
+        }
+
+        .sub-items {
+            position: static;
+            left: auto;
+            display: block;
+        }
+    }
+}

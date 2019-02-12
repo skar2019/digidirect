@@ -1,0 +1,42 @@
+//
+//  Catalog: Compare Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@compare-common__is-enabled: true; // Enable/disable styles
+
+@compare-common-product-item-tocompare__use-base64-symbol: true;
+@compare-common-product-item-tocompare-icon__background-image: @base64-icon__compare;
+@compare-common-selectors__m-only: ~'.compare, .product-addto-links .action.tocompare, .product-item-actions .actions-secondary > .action.tocompare, [class*="block-compare"]';
+@compare-common__display__m-only: none;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@compare-common__is-enabled = true) {
+        .product-item {
+            .tocompare {
+                & when (@compare-common-product-item-tocompare__use-base64-symbol = true) {
+                    .lib-base64-symbol(@compare-common-product-item-tocompare-icon__background-image);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    & when (@compare-common__is-enabled = true) {
+        @{compare-common-selectors__m-only} {
+            .lib-css(display, @compare-common__display__m-only);
+        }
+    }
+}

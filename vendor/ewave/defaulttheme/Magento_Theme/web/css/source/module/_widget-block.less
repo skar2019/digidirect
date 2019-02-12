@@ -1,0 +1,42 @@
+//
+//  Theme: Widgets (Global)
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@widget__is-enabled: true; // Enable/disable styles
+
+@block__use-margin-for-blocks-and-widgets: true;
+@widget__clear: both;
+@widget-sidebar__use-margin-for-blocks-and-widgets: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@widget__is-enabled = true) {
+        .block {
+            & when (@block__use-margin-for-blocks-and-widgets = true) {
+                &:extend(.abs-margin-for-blocks-and-widgets all);
+            }
+        }
+
+        .widget {
+            .lib-css(clear, @widget__clear);
+        }
+
+        .sidebar {
+            .widget.block,
+            .widget {
+                &:not(:last-child) {
+                    & when (@widget-sidebar__use-margin-for-blocks-and-widgets = true) {
+                        &:extend(.abs-margin-for-blocks-and-widgets all);
+                    }
+                }
+            }
+        }
+    }
+}

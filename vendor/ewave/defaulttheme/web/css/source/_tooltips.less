@@ -1,0 +1,94 @@
+//
+//  Tooltips
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@tooltips__is-enabled: true; // Enable/disable styles
+
+@tooltips-wrapper__use-tooltip: true;
+@tooltips-wrapper__tooltip-position: bottom;
+
+//  Content
+@tooltips-wrapper-content__min-width__xs-only: 10rem;
+@tooltips-wrapper-content-dl__margin-bottom: 0;
+@tooltips-wrapper-content-dd__white-space: normal;
+@tooltips-wrapper-content-subtitle__display: inline-block;
+@tooltips-wrapper-content-subtitle__margin-bottom: 15px;
+@tooltips-wrapper-content-subtitle__font-size: 16px;
+@tooltips-wrapper-content-subtitle__font-weight: 500;
+@tooltips-wrapper-content-label__margin-top: @indent__s;
+@tooltips-wrapper-content-label__first-child__margin-top: 0;
+@tooltips-wrapper-content-values__margin: 0;
+
+//  UI
+@tooltips-ui__position: absolute;
+@tooltips-ui__z-index: 9999;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@tooltips__is-enabled = true) {
+        .tooltip.wrapper {
+            & when (@tooltips-wrapper__use-tooltip = true) {
+                .lib-tooltip(
+                    @_tooltip-position: @tooltips-wrapper__tooltip-position,
+                    @_tooltip-selector-content: ~'.tooltip.content',
+                    @_tooltip-selector-toggle: ~'tooltip.toggle'
+                );
+            }
+
+            .tooltip.content {
+                dl {
+                    .lib-css(margin-bottom, @tooltips-wrapper-content-dl__margin-bottom);
+                }
+
+                dd {
+                    .lib-css(white-space, @tooltips-wrapper-content-dd__white-space);
+                }
+
+                .subtitle {
+                    .lib-css(display, @tooltips-wrapper-content-subtitle__display);
+                    .lib-css(margin-bottom, @tooltips-wrapper-content-subtitle__margin-bottom);
+                    .lib-css(font-size, @tooltips-wrapper-content-subtitle__font-size);
+                    .lib-css(font-weight, @tooltips-wrapper-content-subtitle__font-weight);
+                }
+
+                .label {
+                    .lib-css(margin-top, @tooltips-wrapper-content-label__margin-top);
+
+                    &:first-child {
+                        .lib-css(margin-top, @tooltips-wrapper-content-label__first-child__margin-top);
+                    }
+                }
+
+                .values {
+                    .lib-css(margin, @tooltips-wrapper-content-values__margin);
+                }
+            }
+        }
+
+        .ui-tooltip {
+            .lib-css(position, @tooltips-ui__position);
+            .lib-css(z-index, @tooltips-ui__z-index);
+        }
+    }
+}
+
+//
+//  Mobile xs only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+    & when (@tooltips__is-enabled = true) {
+        .tooltip.wrapper {
+            .tooltip.content {
+                .lib-css(min-width, @tooltips-wrapper-content__min-width__xs-only);
+            }
+        }
+    }
+}

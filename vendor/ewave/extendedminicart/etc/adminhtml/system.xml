@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ewave_extendedminicart" translate="label" type="text" sortOrder="22222" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Extended Mini Cart</label>
+            <tab>ewave</tab>
+            <resource>Ewave_ExtendedMiniCart::config</resource>
+
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="show_line_item_subtotal" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Subtotal For Line Item</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set up to "Yes" - customer would see subtotal for the whole line item (not a single item) on Mini Cart</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

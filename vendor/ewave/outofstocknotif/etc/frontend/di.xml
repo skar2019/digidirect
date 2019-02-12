@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <arguments>
+            <argument name="catalogProduct" xsi:type="object">Ewave\OutOfStockNotif\Helper\Catalog\Product</argument>
+        </arguments>
+    </type>
+    <type name="Magento\ProductAlert\Model\Stock">
+        <plugin name="Ewave_OutOfStockNotif::stockAddData" type="Ewave\OutOfStockNotif\Plugin\ProductAlert\Model\Stock" />
+    </type>
+    <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
+        <plugin name="Ewave_OutOfStockNotif::ConfigurableProductBlock" type="Ewave\OutOfStockNotif\Plugin\ConfigurableProduct\Block\Product\View\Type\Configurable" />
+    </type>
+    <type name="Magento\ProductAlert\Model\ProductSalability">
+        <plugin name="product_alert_adapt_salability" type="Ewave\OutOfStockNotif\Plugin\Magento\ProductAlert\Model\ProductSalabilityPlugin"/>
+    </type>
+</config>

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\AbstractAttributes\Api\Data\AbstractAttributeInterface" type="Ewave\AbstractAttributes\Model\AbstractAttribute" />
+    <preference for="Ewave\AbstractAttributes\Api\AbstractAttributeRepositoryInterface" type="Ewave\AbstractAttributes\Model\AbstractAttributeRepository" />
+    <preference for="Ewave\AbstractAttributes\Api\Data\AbstractAttributeSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Ewave\AbstractAttributes\Api\Data\OptionInterface" type="Ewave\AbstractAttributes\Model\Option" />
+    <preference for="Ewave\AbstractAttributes\Api\OptionRepositoryInterface" type="Ewave\AbstractAttributes\Model\OptionRepository" />
+    <preference for="Ewave\AbstractAttributes\Api\Data\OptionSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Magento\Eav\Model\ResourceModel\Entity\Attribute" type="Ewave\AbstractAttributes\Model\ResourceModel\Entity\Attribute"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="aa_attribute_listing_data_source" xsi:type="string">Ewave\AbstractAttributes\Model\ResourceModel\Option\Grid\Collection</item>
+                <item name="aa_advanced_options_grid_data_source" xsi:type="string">Ewave\AbstractAttributes\Model\ResourceModel\Option\Grid\AttributeEditCollection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\AbstractAttributes\Model\ResourceModel\Option\Grid\Collection">
+        <arguments>
+            <argument name="eventPrefix" xsi:type="string">ewave_aa_option_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">option_grid_collection</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\AbstractAttributes\Model\Widget\Options\Template">
+        <arguments>
+            <argument name="optionsConfig" xsi:type="array">
+                <item name="default" xsi:type="array">
+                    <item name="label" xsi:type="string">Default</item>
+                    <item name="path" xsi:type="string">default.phtml</item>
+                    <item name="image_width" xsi:type="string">75</item>
+                    <item name="image_height" xsi:type="string">75</item>
+                </item>
+                <item name="custom" xsi:type="array">
+                    <item name="label" xsi:type="string">Custom</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\AbstractAttributes\Ui\Component\Attribute\Templates">
+        <arguments>
+            <argument name="optionsConfig" xsi:type="array">
+                <item name="default" xsi:type="array">
+                    <item name="label" xsi:type="string">Attribute Option List</item>
+                    <item name="path" xsi:type="string">view.phtml</item>
+                </item>
+                <item name="default_with_pager" xsi:type="array">
+                    <item name="label" xsi:type="string">Attribute Option List With Pager</item>
+                    <item name="path" xsi:type="string">view_with_pager.phtml</item>
+                </item>
+                <item name="alphabetical" xsi:type="array">
+                    <item name="label" xsi:type="string">Alphabetical Options List</item>
+                    <item name="path" xsi:type="string">alphabetical.phtml</item>
+                </item>
+                <item name="custom_template" xsi:type="array">
+                    <item name="label" xsi:type="string">Custom Template</item>
+                    <item name="path" xsi:type="string">custom_template</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\Utilities\Model\Sitemap">
+        <plugin name="eaaAddSiteMapItems" type="Ewave\AbstractAttributes\Plugin\Sitemap\Model\Sitemap"/>
+    </type>
+
+    <!-- Image Logic: -->
+    <virtualType name="aaAssetImageFactory" type="Magento\Catalog\Model\View\Asset\ImageFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">aaAssetImageModel</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="aaAssetImageModel" type="Magento\Catalog\Model\View\Asset\Image">
+        <arguments>
+            <argument name="mediaConfig" xsi:type="object">Ewave\AbstractAttributes\Model\Media\Config</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="aaImageModel" type="Magento\Catalog\Model\Product\Image">
+        <arguments>
+            <argument name="catalogProductMediaConfig" xsi:type="object">Ewave\AbstractAttributes\Model\Media\Config</argument>
+            <argument name="viewAssetImageFactory" xsi:type="object">aaAssetImageFactory</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="aaImageFactory" type="Magento\Catalog\Model\Product\ImageFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">aaImageModel</argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\AbstractAttributes\Helper\Image">
+        <arguments>
+            <argument name="productImageFactory" xsi:type="object">aaImageFactory</argument>
+        </arguments>
+    </type>
+    <!-- End Image Logic. -->
+
+    <type name="Magento\Catalog\Model\Layer\Resolver">
+        <arguments>
+            <argument name="layersPool" xsi:type="array">
+                <item name="eaa_option" xsi:type="string">Ewave\AbstractAttributes\Model\Layer\Option</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Search\Request\Config\FilesystemReader">
+        <plugin name="eaaOptionsSearchDynamicFields" type="Ewave\AbstractAttributes\Plugin\Framework\Search\Request\Config\FilesystemReader"/>
+    </type>
+    <type name="Magento\Framework\Search\Request\Builder">
+        <plugin name="eaaOptionsSetRequestName" type="Ewave\AbstractAttributes\Plugin\Framework\Search\Request\Builder"/>
+    </type>
+</config>

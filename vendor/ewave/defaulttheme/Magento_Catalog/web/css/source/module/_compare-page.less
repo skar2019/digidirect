@@ -1,0 +1,230 @@
+//
+//  Catalog: Compare Page
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@compare-page__is-enabled: true; // Enable/disable styles
+
+//  Print
+@compare-page-action-print__float: right;
+@compare-page-action-print__margin: 15px 0;
+
+//  Table Wrapper
+@compare-page-table-wrapper__max-width: 100%;
+@compare-page-table-wrapper__overflow-x: auto;
+@compare-page-table-wrapper__clear: both;
+
+//  Table Comparison
+@compare-page-table-comparison__table-layout: fixed;
+
+//  Table Cell
+@compare-page-table-comparison-cell__width: 190px;
+@compare-page-table-comparison-cell__padding: 15px;
+
+//  Cell Label
+@compare-page-table-comparison-td__last-child__border-right: @table__border-width @table__border-style @table__border-color;
+@compare-page-table-comparison-cell-label__border-right: @compare-page-table-comparison-td__last-child__border-right;
+@compare-page-table-comparison-cell-label-remove__use-visually-hidden: true;
+@compare-page-table-comparison-cell-label-product__use-visually-hidden: true;
+
+//  Cell: Attribute Value
+@compare-page-table-comparison-cell-attribute__width: 100%;
+@compare-page-table-comparison-cell-attribute__overflow: hidden;
+
+//  Cell Product Info/Product Label
+@compare-page-table-comparison-cell-product-info-and-product-label__border-bottom: @table__border-width @table__border-style @table__border-color;
+
+//  Cell Label
+@compare-page-table-comparison-cell-label-attribute-label__display: block;
+@compare-page-table-comparison-cell-label-attribute-label__width: 100%;
+@compare-page-table-comparison-cell-label-attribute-label__word-wrap: break-word;
+
+//  Cell Attribute
+@compare-page-table-comparison-cell-attribute__font-size: 13;
+@compare-page-table-comparison-cell-attribute-img__max-width: 100%;
+@compare-page-table-comparison-cell-attribute-img__height: auto;
+
+//  Item Image / Photo
+@compare-page-table-comparison-product-item-photo__display: block;
+@compare-page-table-comparison-product-item-photo__margin: 0 auto 15px;
+@compare-page-table-comparison-product-image-photo__margin-left: 0;
+
+//  Product Item Name
+@compare-page-table-comparison-product-item-name__margin: 15px 0;
+
+//  Product Rating
+@compare-page-table-comparison-product-rating__margin: 15px 0;
+
+//  Product Item Actions
+@compare-page-table-comparison-product-item-actions__margin: 15px 0;
+@compare-page-table-comparison-product-item-actions-actions__margin-top: @indent__s;
+
+//  Product Price Box
+@compare-page-table-comparison-price-box__margin: 15px 0;
+
+//  Product Add to
+@compare-page-table-comparison-product-addto-links__margin-top: 15px;
+@compare-page-table-comparison-product-addto-links-action__use-button-s: true;
+@compare-page-table-comparison-product-addto-links-action-toggle__padding: 0;
+
+//  Cell Remove
+@compare-page-table-comparison-cell-remove__padding-top: 0;
+@compare-page-table-comparison-cell-remove__padding-bottom: 0;
+@compare-page-table-comparison-cell-remove__text-align: right;
+@compare-page-table-comparison-cell-remove-action-delete__use-remove-button-for-blocks: true;
+
+//  Action to Cart
+@compare-page-table-comparison-action-tocart__white-space: nowrap;
+
+//  Comparison Headings
+@compare-page-comparison-headings__position: absolute;
+@compare-page-comparison-headings__top: 0;
+@compare-page-comparison-headings__left: 0;
+@compare-page-comparison-headings__z-index: 2;
+@compare-page-comparison-headings__width: auto;
+@compare-page-comparison-headings__background: @page__background-color;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@compare-page__is-enabled = true) {
+        .catalog-product-compare-index {
+            .action.print {
+                .lib-css(float, @compare-page-action-print__float);
+                .lib-css(margin, @compare-page-action-print__margin);
+            }
+        }
+
+        .table-wrapper {
+            &.comparison {
+                .lib-css(max-width, @compare-page-table-wrapper__max-width);
+                .lib-css(overflow-x, @compare-page-table-wrapper__overflow-x);
+                .lib-css(clear, @compare-page-table-wrapper__clear);
+            }
+        }
+
+        .table-comparison {
+            & {
+                .lib-css(table-layout, @compare-page-table-comparison__table-layout);
+            }
+
+            .cell {
+                .lib-css(width, @compare-page-table-comparison-cell__width);
+                .lib-css(padding, @compare-page-table-comparison-cell__padding);
+            }
+
+            td:last-child {
+                .lib-css(border-right, @compare-page-table-comparison-td__last-child__border-right);
+            }
+
+            .cell.label {
+                .lib-css(border-right, @compare-page-table-comparison-cell-label__border-right);
+            }
+
+            .cell.label.remove span {
+                & when (@compare-page-table-comparison-cell-label-remove__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+            .cell.label.product span {
+                & when (@compare-page-table-comparison-cell-label-product__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden all);
+                }
+            }
+
+            .cell .attribute.value {
+                .lib-css(width, @compare-page-table-comparison-cell-attribute__width);
+                .lib-css(overflow, @compare-page-table-comparison-cell-attribute__overflow);
+            }
+
+            .cell.product.info,
+            .cell.product.label {
+                .lib-css(border-bottom, @compare-page-table-comparison-cell-product-info-and-product-label__border-bottom);
+            }
+            .cell.label .attribute.label {
+                .lib-css(display, @compare-page-table-comparison-cell-label-attribute-label__display);
+                .lib-css(width, @compare-page-table-comparison-cell-label-attribute-label__width);
+                .lib-css(word-wrap, @compare-page-table-comparison-cell-label-attribute-label__word-wrap);
+            }
+
+            .cell.attribute {
+                .lib-font-size(@compare-page-table-comparison-cell-attribute__font-size);
+            }
+            .cell.attribute img {
+                .lib-css(max-width, @compare-page-table-comparison-cell-attribute-img__max-width);
+                .lib-css(height, @compare-page-table-comparison-cell-attribute-img__height);
+            }
+
+            .product-item-photo {
+                .lib-css(display, @compare-page-table-comparison-product-item-photo__display);
+                .lib-css(margin, @compare-page-table-comparison-product-item-photo__margin);
+            }
+
+            .product-image-photo {
+                .lib-css(margin-left, @compare-page-table-comparison-product-image-photo__margin-left);
+            }
+
+            .product-item-name {
+                .lib-css(margin, @compare-page-table-comparison-product-item-name__margin);
+            }
+
+            .product.rating {
+                .lib-css(margin, @compare-page-table-comparison-product-rating__margin);
+            }
+
+            .product-item-actions {
+                .lib-css(margin, @compare-page-table-comparison-product-item-actions__margin);
+            }
+
+            .product-item-actions > .actions-primary + .actions-secondary {
+                .lib-css(margin-top, @compare-page-table-comparison-product-item-actions-actions__margin-top);
+            }
+
+            .price-box {
+                .lib-css(margin, @compare-page-table-comparison-price-box__margin);
+            }
+
+            .product-addto-links {
+                .lib-css(margin-top, @compare-page-table-comparison-product-addto-links__margin-top);
+            }
+            .product-addto-links .action.split,
+            .product-addto-links .action.toggle {
+                & when (@compare-page-table-comparison-product-addto-links-action__use-button-s = true) {
+                    .lib-button-s();
+                }
+            }
+            .product-addto-links .action.toggle {
+                .lib-css(padding, @compare-page-table-comparison-product-addto-links-action-toggle__padding);
+            }
+
+            .cell.remove {
+                .lib-css(padding-top, @compare-page-table-comparison-cell-remove__padding-top);
+                .lib-css(padding-bottom, @compare-page-table-comparison-cell-remove__padding-bottom);
+                .lib-css(text-align, @compare-page-table-comparison-cell-remove__text-align);
+            }
+            .cell.remove .action.delete {
+                & when (@compare-page-table-comparison-cell-remove-action-delete__use-remove-button-for-blocks = true) {
+                    &:extend(.abs-remove-button-for-blocks all);
+                }
+            }
+
+            .action.tocart {
+                .lib-css(white-space, @compare-page-table-comparison-action-tocart__white-space);
+            }
+        }
+
+        .comparison.headings {
+            .lib-css(position, @compare-page-comparison-headings__position);
+            .lib-css(top, @compare-page-comparison-headings__top);
+            .lib-css(left, @compare-page-comparison-headings__left);
+            .lib-css(z-index, @compare-page-comparison-headings__z-index);
+            .lib-css(width, @compare-page-comparison-headings__width);
+            .lib-css(background, @compare-page-comparison-headings__background);
+        }
+    }
+}

@@ -1,0 +1,34 @@
+//
+//  Versions CMS
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@cms-versions__is-enabled: true; // Enable/disable styles
+
+@cms-versions-block-cms-hierarchy-link__display: block;
+@cms-versions-block-cms-hierarchy-link__margin-bottom: @indent__base;
+@cms-versions-block-cms-hierarchy-link-inline__margin: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@cms-versions__is-enabled = true) {
+        .block-cms-hierarchy-link {
+            &.widget {
+                .lib-css(display, @cms-versions-block-cms-hierarchy-link__display);
+                .lib-css(margin-bottom, @cms-versions-block-cms-hierarchy-link__margin-bottom);
+            }
+        }
+
+        .block-cms-hierarchy-link-inline {
+            &.widget {
+                .lib-css(margin, @cms-versions-block-cms-hierarchy-link-inline__margin);
+            }
+        }
+    }
+}

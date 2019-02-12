@@ -1,0 +1,92 @@
+//
+//  Search: Advanced
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@search-advanced__is-enabled: true; // Enable/disable styles
+
+//  Range Field
+@search-advanced-range-field__first-child__position: relative;
+@search-advanced-range-field-first-child-control__padding-right: 25px;
+@search-advanced-range-field-first-child-control__after__content: ' \2013 ';
+@search-advanced-range-field-first-child-control__after__position: absolute;
+@search-advanced-range-field-first-child-control__after__top: 6px;
+@search-advanced-range-field-first-child-control__after__right: 0;
+@search-advanced-range-field-first-child-control__after__display: inline-block;
+@search-advanced-range-field-first-child-control__after__width: 25px;
+@search-advanced-range-field-first-child-control__after__text-align: center;
+
+@search-advanced-range-field__last-child__position: relative;
+@search-advanced-range-field-last-child-mage-error__position: absolute;
+@search-advanced-range-field-last-child-mage-error__top: 32px;
+@search-advanced-range-field-last-child-mage-error__left: 0;
+@search-advanced-range-field-with-addon-control__padding-right: 45px;
+
+//  Group Price Addon Addafter
+@search-advanced-group-price-addon-addafter__position: absolute;
+@search-advanced-group-price-addon-addafter__top: 0;
+@search-advanced-group-price-addon-addafter__right: 0;
+@search-advanced-group-price-addon-addafter__padding-top: 6px;
+@search-advanced-group-price-addon-addafter__border: 0;
+@search-advanced-group-price-addon-addafter__background: none;
+
+//  Summary
+@search-advanced-summary__margin-bottom: @indent__s;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@search-advanced__is-enabled = true) {
+        .form.search.advanced {
+            .fields.range .field:first-child {
+                .lib-css(position, @search-advanced-range-field__first-child__position);
+            }
+
+            .fields.range .field:first-child .control {
+                .lib-css(padding-right, @search-advanced-range-field-first-child-control__padding-right);
+
+                &::after {
+                    .lib-css(content, @search-advanced-range-field-first-child-control__after__content);
+                    .lib-css(position, @search-advanced-range-field-first-child-control__after__position);
+                    .lib-css(top, @search-advanced-range-field-first-child-control__after__top);
+                    .lib-css(right, @search-advanced-range-field-first-child-control__after__right);
+                    .lib-css(display, @search-advanced-range-field-first-child-control__after__display);
+                    .lib-css(width, @search-advanced-range-field-first-child-control__after__width);
+                    .lib-css(text-align, @search-advanced-range-field-first-child-control__after__text-align);
+                }
+            }
+
+            .fields.range .field:last-child {
+                .lib-css(position, @search-advanced-range-field__last-child__position);
+
+                div.mage-error[generated] {
+                    .lib-css(position, @search-advanced-range-field-last-child-mage-error__position);
+                    .lib-css(top, @search-advanced-range-field-last-child-mage-error__top);
+                    .lib-css(left, @search-advanced-range-field-last-child-mage-error__left);
+                }
+            }
+
+            .fields.range .field.with-addon .control {
+                .lib-css(padding-right, @search-advanced-range-field-with-addon-control__padding-right);
+            }
+
+            .group.price .addon .addafter {
+                .lib-css(position, @search-advanced-group-price-addon-addafter__position);
+                .lib-css(top, @search-advanced-group-price-addon-addafter__top);
+                .lib-css(right, @search-advanced-group-price-addon-addafter__right);
+                .lib-css(padding-top, @search-advanced-group-price-addon-addafter__padding-top);
+                .lib-css(border, @search-advanced-group-price-addon-addafter__border);
+                .lib-css(background, @search-advanced-group-price-addon-addafter__background);
+            }
+        }
+
+        .search.summary {
+            .lib-css(margin-bottom, @search-advanced-summary__margin-bottom);
+        }
+    }
+}

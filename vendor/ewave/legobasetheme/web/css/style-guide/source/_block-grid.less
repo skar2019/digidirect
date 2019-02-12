@@ -1,0 +1,167 @@
+//  # Block Grid
+
+//  Represents the decision for creation of a block grid.
+//  Block grids give you a way to evenly split contents of a list within the grid.
+//  Use <code>.{size}-block-grid-#</code> for wrapper and <code>.item</code> for columns.
+//  Small block grids expand to large screens.
+
+//  ## Basic Block Grid
+//  ```html
+//    <div class="small-block-grid-3 large-block-grid-2">
+//        <div class="item">
+//            item #
+//        </div>
+//        <div class="item">
+//            item #
+//        </div>
+//        <div class="item">
+//            item #
+//        </div>
+//    </div>
+//  ```
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = 0) {
+  .ewave-lib-block-grid-classes(@_size: small, @_gutter: @block-grid__mobile__gutter, @_global: true);
+  .ewave-lib-block-grid-size(@_size: small, @_gutter: @block-grid__mobile__gutter);
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+  .ewave-lib-block-grid-classes(@_size: medium, @_gutter: @block-grid__tablet__gutter);
+  .ewave-lib-block-grid-size(@_size: medium, @_gutter: @block-grid__tablet__gutter);
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+  .ewave-lib-block-grid-classes(@_size: large, @_gutter: @block-grid__desktop__gutter);
+  .ewave-lib-block-grid-size(@_size: large, @_gutter: @block-grid__desktop__gutter);
+}
+
+.media-width(@extremum, @break) when (@block-grid-include-xl-html-block-grid-classes) and (@extremum = 'min') and (@break = @screen__xl) {
+  .ewave-lib-block-grid-classes(@_size: xlarge, @_gutter: @block-grid__xlarge__gutter);
+  .ewave-lib-block-grid-size(@_size: xlarge, @_gutter: @block-grid__xlarge__gutter);
+}
+
+
+//  # Mixins
+
+//  <p><strong>ewave-lib-block-grid-classes(@_size, @_gutter, @_global);</strong><br />
+//  Contains the elements common to all properties<br />
+//  <strong>@_size</strong> - name of size, ex: small, large <br />
+//  <strong>@_gutter</strong> - right and left spacings (@_gutter/2)<br />
+//  <strong>@_global</strong> - render only global style</p><br />
+//
+//  <p><strong>ewave-lib-block-grid-size(@_size, @_gutter);</strong><br />
+//  Contains the individual properties<br />
+//  <strong>@_size</strong> - name of size, ex: small, large <br />
+//  <strong>@_gutter</strong> - right and left spacings (@_gutter/2)</p>
+
+// # Default variables
+
+//  <pre>
+//    <table>
+//        <tr>
+//            <th class="vars_head">Mixin variable</th>
+//            <th class="vars_head">Global variable</th>
+//            <th class="vars_head">Default value</th>
+//            <th class="vars_head">Allowed values</th>
+//            <th class="vars_head">Comment</th>
+//        </tr>
+//        <tr>
+//            <th>@block-grid-elements</th>
+//            <td>@total-columns</td>
+//            <td>12</td>
+//            <td>X (12, 16 etc.)</td>
+//            <td>Total columns in row</td>
+//        </tr>
+//         <tr>
+//             <th>@block-grid__mobile__gutter</th>
+//             <td>-</td>
+//             <td>10px</td>
+//             <td>X.px</td>
+//             <td>Mobile left and right spacings</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid__tablet__gutter</th>
+//             <td>-</td>
+//             <td>20px</td>
+//             <td>X.px</td>
+//             <td>Tablet left and right spacings</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid__desktop__gutter</th>
+//             <td>-</td>
+//             <td>40px</td>
+//             <td>X.px</td>
+//             <td>Desktop left and right spacings</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid__xlarge__gutter</th>
+//             <td>-</td>
+//             <td>60px</td>
+//             <td>X.px</td>
+//             <td>Large desktop left and right spacings</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid__margin-bottom</th>
+//             <td>-</td>
+//             <td>10px</td>
+//             <td>X.px</td>
+//             <td>Block grid margin top</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid__margin-top</th>
+//             <td>-</td>
+//             <td>10px</td>
+//             <td>X.px</td>
+//             <td>Block grid margin bottom</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid__float</th>
+//             <td>-</td>
+//             <td>left</td>
+//             <td>left | right | none</td>
+//             <td>Floating of wrapper</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid-item__padding-top</th>
+//             <td>-</td>
+//             <td>0</td>
+//             <td>X.px</td>
+//             <td>Items padding top</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid-item__padding-bottom</th>
+//             <td>-</td>
+//             <td>0</td>
+//             <td>X.px</td>
+//             <td>Items padding bottom</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid__align__grid-to-grid</th>
+//             <td>-</td>
+//             <td>false</td>
+//             <td>false | true</td>
+//             <td>Block grid left and right margins</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid-item</th>
+//             <td>-</td>
+//             <td>> .item</td>
+//             <td>tag or class</td>
+//             <td>Items tag or class name. ONE ONLY</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid__list-style</th>
+//             <td>-</td>
+//             <td>none</td>
+//             <td>	disc | outside | none</td>
+//             <td>Items tag or class name. ONE ONLY</td>
+//         </tr>
+//         <tr>
+//             <th>@block-grid-include-xl-html-block-grid-classes</th>
+//             <td>-</td>
+//             <td>false</td>
+//             <td>false | true</td>
+//             <td>Render xlarge classes</td>
+//         </tr>
+//    </table>
+//  </pre>

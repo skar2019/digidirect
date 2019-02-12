@@ -1,0 +1,57 @@
+//
+//  Catalog: Compare Block
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@compare-block__is-enabled: true; // Enable/disable styles
+
+//  Product
+@compare-block-product-item__position: false;
+@compare-block-product-item-name__margin-left: 22px;
+
+//  Actions
+@compare-block-action-delete__use-remove-button-for-blocks: true;
+@compare-block-action-delete__position: absolute;
+@compare-block-action-delete__top: 0;
+@compare-block-action-delete__left: 0;
+@compare-block-action-compare__use-revert-secondary-color: true;
+@compare-block-actions-toolbar__margin: 17px 0 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@compare-block__is-enabled = true) {
+        .block-compare {
+            .product-item {
+                .lib-css(position, @compare-block-product-item__position);
+            }
+            .product-item .product-item-name {
+                .lib-css(margin-left, @compare-block-product-item-name__margin-left);
+            }
+
+            .action.delete {
+                & when (@compare-block-action-delete__use-remove-button-for-blocks = true) {
+                    &:extend(.abs-remove-button-for-blocks all);
+                }
+                .lib-css(position, @compare-block-action-delete__position);
+                .lib-css(top, @compare-block-action-delete__top);
+                .lib-css(left, @compare-block-action-delete__left);
+            }
+
+            .action.compare {
+                & when (@compare-block-action-compare__use-revert-secondary-color = true) {
+                    &:extend(.abs-revert-secondary-color all);
+                }
+            }
+
+            .actions-toolbar {
+                .lib-css(margin, @compare-block-actions-toolbar__margin);
+            }
+        }
+    }
+}

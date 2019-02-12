@@ -1,0 +1,61 @@
+<?php
+/**
+ * Category layered navigation
+ *
+ * @var $block \Magento\LayeredNavigation\Block\Navigation
+ */
+?>
+<?php
+    $isShowState = false; // Show/Hide filters state
+    $isShowTitleCount = false; // Show/Hide Title Count
+?>
+<?php if ($block->canShowBlock()): ?>
+    <div class="block filter">
+        <div class="sidedar-toolbar">
+            <strong class="title _hide-for-mobile-tablet-l">
+                <?php echo /* @noEscape */ __('Refine By'); ?>
+            </strong>
+            <?php echo $block->getChildHtml('ewave.layerednavigation.apply'); ?>
+            <?php echo $block->getChildHtml('catalog.leftnav.clear'); ?>
+        </div>
+        <?php //TODO: temporary solution ?>
+        <?php //echo $block->getChildHtml('ewave.categoryfilter.dropdown'); ?>
+
+        <div class="block-content filter-content">
+            <?php if ($isShowState): ?>
+                <?php echo $block->getChildHtml('state') ?>
+            <?php endif; ?>
+
+            <?php $wrapOptions = false; ?>
+            <?php foreach ($block->getFilters() as $filter): ?>
+                <?php if (!$wrapOptions): ?>
+                    <div class="filter-options" data-role="content" id="narrow-by-list" data-mage-init='{"accordion":{"openedState":
+                    "active", "collapsible": true, "active": [0,1], "multipleCollapsible": true}}'>
+                <?php $wrapOptions = true; ?>
+                <?php endif; ?>
+                <?php if ($filter->getItemsCount()): ?>
+                    <div data-role="collapsible" class="filter-options-item collapsible-section">
+                        <strong role="heading" aria-level="3"  data-role="title" class="filter-options-title title"
+                           data-testid="sln-filter-title">
+                            <?php echo $block->escapeHtml(__($filter->getName())) ?>
+                            <?php $activeCount = (int)$block->getChildBlock('renderer')->getActiveCount($filter) ?>
+                            <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
+                            <?php if ($activeCount > 0 && !empty($activeLabels)) : ?>
+                                <span class="value"><?php /* @escapeNotVerified */ echo implode(', ', $activeLabels) ?></span>
+                                <?php if ($isShowTitleCount): ?>
+                                    <span class="count"><?php echo (int)$activeCount ?></span>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </strong>
+                        <div class="filter-options-content content" data-role="content"
+                             data-testid="sln-filter-content"><?php /* @escapeNotVerified
+                             */ echo $block->getChildBlock('renderer')->render($filter); ?></div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <?php if ($wrapOptions): ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

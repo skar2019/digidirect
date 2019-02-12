@@ -1,0 +1,71 @@
+//
+//  Multiple Wishlist: Popup
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@multiple-wishlist-popup__is-enabled: true; // Enable/disable styles
+
+@multiple-wishlist-popup__use-popup: true;
+@multiple-wishlist-popup__active__display: block;
+@multiple-wishlist-popup__top__m: 20%;
+@multiple-wishlist-popup__right__m: auto;
+@multiple-wishlist-popup__bottom__m: auto;
+@multiple-wishlist-popup__left__m: 50%;
+@multiple-wishlist-popup__width__m: 380px;
+@multiple-wishlist-popup__margin-left__m: -((@multiple-wishlist-popup__width__m + (@popup__padding * 2)) / 2);
+
+//  Overlay
+@multiple-wishlist-popup-overlay__use-window-overlay: true;
+@multiple-wishlist-popup-overlay__active__display: block;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@multiple-wishlist-popup__is-enabled = true) {
+        .wishlist {
+            &.window.popup {
+                & when (@multiple-wishlist-popup__use-popup = true) {
+                    .lib-popup();
+                }
+
+                &.active {
+                    .lib-css(display, @multiple-wishlist-popup__active__display);
+                }
+            }
+
+            &.overlay {
+                & when (@multiple-wishlist-popup-overlay__use-window-overlay = true) {
+                    .lib-window-overlay();
+                }
+
+                &.active {
+                    .lib-css(display, @multiple-wishlist-popup-overlay__active__display);
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@multiple-wishlist-popup__is-enabled = true) {
+        .wishlist {
+            &.window.popup {
+                .lib-css(top, @multiple-wishlist-popup__top__m);
+                .lib-css(right, @multiple-wishlist-popup__right__m);
+                .lib-css(bottom, @multiple-wishlist-popup__bottom__m);
+                .lib-css(left, @multiple-wishlist-popup__left__m);
+                .lib-css(width, @multiple-wishlist-popup__width__m);
+                .lib-css(margin-left, @multiple-wishlist-popup__margin-left__m);
+            }
+        }
+    }
+}

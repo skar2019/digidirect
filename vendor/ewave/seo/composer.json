@@ -1,0 +1,17 @@
+{
+  "name": "ewave/seo",
+  "description": "SEO",
+  "type": "magento2-module",
+  "suggest": {
+    "ewave/utilities": "Ewave Seo may use ewave/utilities methods"
+  },
+  "version": "1.4.1.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ewave\\SEO\\": ""
+    }
+  }
+}

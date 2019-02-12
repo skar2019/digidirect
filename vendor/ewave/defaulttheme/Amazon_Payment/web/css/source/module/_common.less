@@ -1,0 +1,196 @@
+//
+//  Amazon Payment: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@amazon-payment__is-enabled: true; // Enable/disable style
+
+@amazon-payment-payment-option-title__border: @border-width__base solid @color-gray80;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@amazon-payment__is-enabled = true) {
+        /** mini cart styling **/
+        .product-social-links,
+        .amazon-minicart-container {
+            .amazon-button-container {
+                display: inline-block;
+                margin: 12px 0 4px;
+            }
+
+            .field-tooltip {
+                .field-tooltip-content {
+                    top: 38px;
+                    left: -245px;
+
+                    &::before {
+                        top: -10px;
+                        left: 244px;
+                        border: none;
+                        border-left: 10px solid transparent;
+                        border-right: 10px solid transparent;
+                        border-bottom: 10px solid #666;
+                    }
+                    &::after {
+                        top: -8px;
+                        left: 244px;
+                        border: none;
+                        border-left: 10px solid transparent;
+                        border-right: 10px solid transparent;
+                        border-bottom: 10px solid #f4f4f4;
+                    }
+                }
+            }
+        }
+
+        .amazon-addtoCart {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .revert-checkout {
+            display: block;
+            margin-top: 20px;
+        }
+
+        .centered-button {
+            display: inline-block;
+            text-align: center;
+            .catalog-product-view & {
+                display: table;
+            }
+        }
+
+        .checkout-payment-method {
+            .amazon-sandbox-simulator {
+                .lib-css(border-bottom, @amazon-payment-payment-option-title__border);
+
+                .payment-option-title {
+                    border-top: none;
+                    padding-top: 0;
+                }
+
+                .amazon-sandbox-simulator-scenario {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+
+        .checkout-methods-items {
+
+            .centered-button {
+                margin-bottom: 0;
+
+                @media all and (max-width: @screen__m) {
+                    width: auto;
+                }
+            }
+
+            .field-tooltip {
+                display: none;
+
+                .field-tooltip-content {
+                    @abs-checkout-tooltip-content-position-top();
+
+                    @media all and (max-width: @screen__m) {
+
+                        @right-shift: 56px;
+                        right: -@right-shift;
+                        top: 38px;
+                        left: auto;
+
+                        &::before,
+                        &::after {
+                            right: @right-shift;
+                        }
+                    }
+                }
+            }
+        }
+
+        .amazon-widget {
+            max-width: 400px;
+            height: 228px;
+        }
+
+        .amazon-widget--address {
+            margin-top: 20px;
+        }
+
+        .amazon-addresses {
+            margin-top: 20px;
+            .amazon-address {
+                margin-bottom: 20px;
+            }
+        }
+
+        .checkout-payment-method {
+            .amazon-payment-method {
+                .payment-method-title {
+                    padding-bottom: 0;
+                    visibility: hidden; //hide the title for Amazon Pay methods only
+                }
+            }
+        }
+
+        /** Prevent movement after a soft decline to other payment steps **/
+        .opc-progress-bar-item._complete.lock-step {
+            cursor: none;
+            pointer-events: none;
+        }
+    }
+}
+
+//
+//  Extra
+//  ---------------------------------------------
+
+@media all and (max-width: @screen__m) {
+    & when (@amazon-payment__is-enabled = true) {
+        .amazon-minicart-container {
+            .amazon-button-container {
+                width: auto;
+            }
+        }
+    }
+}
+
+//
+//  Mobile s only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    & when (@amazon-payment__is-enabled = true) {
+        .checkout-payment-method {
+            .amazon-sandbox-simulator {
+                .lib-css(border-top, @amazon-payment-payment-option-title__border);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@amazon-payment__is-enabled = true) {
+        .amazon-addresses {
+            &:extend(.abs-add-clearfix-desktop all);
+            .amazon-address {
+                &:extend(.abs-blocks-2columns all);
+                margin-bottom: 0;
+            }
+        }
+    }
+}

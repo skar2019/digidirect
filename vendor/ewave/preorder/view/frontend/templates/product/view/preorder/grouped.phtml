@@ -1,0 +1,11 @@
+<?php /* @var $block \Ewave\PreOrder\Block\Product\View\Preorder\ProductGrouped */ ?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "preOrderGrouped": {
+            "map": <?php /* @escapeNotVerified */ echo json_encode($block->getGroupPreorderMap())?>,
+            "preOrderNoteTemplate": "<div class='stock available'><span>{preorderNote}</span></div>"
+        }
+    }
+}
+</script>

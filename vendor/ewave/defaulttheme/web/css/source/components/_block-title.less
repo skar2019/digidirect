@@ -1,0 +1,38 @@
+//
+//  Block Title
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@block-title__is-enabled: true; // Enable/disable styles
+
+@block-title-selector: ~'.block-title';
+@block-title__margin: 0 0 15px;
+@block-title__padding: 0 0 12px;
+@block-title__is-bordered: true;
+@block-title__border-bottom: 1px solid @secondary__color;
+@block-title__font-size: 18;
+@block-title__background: false;
+
+//  Strong
+@block-title-strong__font-weight: 500;
+
+//  Counter
+@block-title__is-counter: true;
+@block-title-counter__font-size: 12px;
+@block-title-counter__white-space: nowrap;
+@block-title-counter__color: @primary__color__lighter;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@block-title__is-enabled = true) {
+        @{block-title-selector} {
+            .ewave-lib-block-title();
+        }
+    }
+}

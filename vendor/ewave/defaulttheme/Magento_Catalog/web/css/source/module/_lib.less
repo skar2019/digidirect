@@ -1,0 +1,41 @@
+//
+//  Catalog: Libs
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@product-name__font-weight: @font-weight__regular;
+@product-name-link__color: @text__color;
+@product-name-link__color__active: @text__color;
+@product-name-link__color__hover: @text__color;
+@product-name-link__color__visited: @text__color;
+
+@product-name-link__text-decoration: none;
+@product-name-link__text-decoration__active: @link__hover__text-decoration;
+@product-name-link__text-decoration__hover: @link__hover__text-decoration;
+@product-name-link__text-decoration__visited: @link__hover__text-decoration;
+
+//
+//  Libs
+//  ---------------------------------------------
+
+.lib-product-link() {
+    & {
+        .lib-css(font-weight, @product-name__font-weight);
+    }
+
+    > a {
+        .lib-link(
+            @_link-color: @product-name-link__color,
+            @_link-text-decoration: @product-name-link__text-decoration,
+            @_link-color-visited: @product-name-link__color__visited,
+            @_link-text-decoration-visited: @product-name-link__text-decoration__visited,
+            @_link-color-hover: @product-name-link__color__hover,
+            @_link-text-decoration-hover: @product-name-link__text-decoration__hover,
+            @_link-color-active: @product-name-link__color__active,
+            @_link-text-decoration-active: @product-name-link__text-decoration__active
+        );
+    }
+}

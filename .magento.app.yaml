@@ -65,7 +65,7 @@ web:
 
 
 # The size of the persistent disk of the application (in MB).
-disk: 2048
+disk: 4096
 
 # The mounts that will be performed when the package is deployed.
 mounts:
@@ -83,6 +83,8 @@ hooks:
     # We run deploy hook after your application has been deployed and started.
     deploy: |
         php ./vendor/bin/ece-tools deploy
+        php ./bin/magento ewave:cms_upgrade
+        php ./bin/magento cache:enable
     # We run post deploy hook to clean and warm the cache. Available with ECE-Tools 2002.0.10.
     post_deploy: |
         php ./vendor/bin/ece-tools post-deploy
@@ -99,3 +101,4 @@ variables:
         CONFIG__DEFAULT__PAYPAL_ONBOARDING__MIDDLEMAN_DOMAIN: 'payment-broker.magento.com'
         CONFIG__STORES__DEFAULT__PAYMENT__BRAINTREE__CHANNEL: 'Magento_Enterprise_Cloud_BT'
         CONFIG__STORES__DEFAULT__PAYPAL__NOTATION_CODE: 'Magento_Enterprise_Cloud'
+        ADMIN_LOCALE: 'en_AU'

@@ -1,0 +1,16 @@
+1.0.0
+=============
+* Solution Architecture:
+    * [#257195](https://ewave.tpondemand.com/entity/257195) -- Solution Architecture
+    
+* New features:
+    * [#257199](https://ewave.tpondemand.com/entity/257199) -- General Settings. As an admin, I want to be able to specify the following parameters for the extension
+    * [#257198](https://ewave.tpondemand.com/entity/257198) -- Confirmation Popup. As a customer, I want to see confirmation popup after adding product to the Cart
+
+
+1.1.0
+=============
+* New features:
+    * [#257198](https://ewave.tpondemand.com/entity/257198) -- [CONFIRMATION POPUP] As a customer, I want to see confirmation popup after adding product to the Cart
+    * [#257199](https://ewave.tpondemand.com/entity/257199) -- [GENERAL SETTINGS] As an admin, I want to be able to specify the following parameters for the extension
+    * [#258205](https://ewave.tpondemand.com/entity/258205) -- [AJAX QTY CART] As a customer, I want to be able to recalculate product's qty on Cart page without page reload

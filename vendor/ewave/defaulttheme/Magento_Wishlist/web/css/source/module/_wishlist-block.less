@@ -1,0 +1,25 @@
+//
+//  Wishlist: Block
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@wishlist-block__is-enabled: true; // Enable/disable styles
+
+@wishlist-block-product-item-name__margin-right: @indent__m;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@wishlist-block__is-enabled = true) {
+        .block-wishlist {
+            .product-item-name {
+                .lib-css(margin-right, @wishlist-block-product-item-name__margin-right);
+            }
+        }
+    }
+}

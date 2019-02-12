@@ -1,0 +1,36 @@
+//
+//  CMS
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@cms-widgets__is-enabled: true; // Enable/disable styles
+
+@cms-widgets-indent__margin-bottom: @indent__base;
+@cms-widgets-links__margin-bottom: 0;
+@cms-widgets-link-inline__margin: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@cms-widgets__is-enabled = true) {
+        .block-static-block.widget,
+        .block-cms-link.widget {
+            & {
+                .lib-css(margin-bottom, @cms-widgets-indent__margin-bottom);
+            }
+
+            .links & {
+                .lib-css(margin-bottom, @cms-widgets-links__margin-bottom);
+            }
+        }
+
+        .block-cms-link-inline.widget {
+            .lib-css(margin, @cms-widgets-link-inline__margin);
+        }
+    }
+}

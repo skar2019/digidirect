@@ -1,0 +1,32 @@
+//
+//  Multiple Wishlist: Search Form
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@multiple-wishlist-search-form__is-enabled: true; // Enable/disable styles
+
+@multiple-wishlist-search-form-form__margin-bottom: @indent__l*2;
+@multiple-wishlist-search-form-fieldset-legend__use-visually-hidden: true;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@multiple-wishlist-search-form__is-enabled = true) {
+        .block-wishlist-search-form {
+            .form-wishlist-search {
+                .lib-css(margin-bottom, @multiple-wishlist-search-form-form__margin-bottom);
+            }
+
+            .form-wishlist-search .fieldset > .legend {
+                & when (@multiple-wishlist-search-form-fieldset-legend__use-visually-hidden = true) {
+                    &:extend(.abs-visually-hidden);
+                }
+            }
+        }
+    }
+}

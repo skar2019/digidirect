@@ -1,0 +1,79 @@
+//
+//  Actions Toolbar
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@actions-toolbar__is-enabled: true; // Enable/disable styles
+
+@actions-toolbar__use-actions-toolbar__m: true;
+
+//  Primary/Secondary
+@actions-toolbar-primary-secondary__margin-bottom: @indent__s;
+@actions-toolbar-primary-secondary__text-align: center;
+@actions-toolbar-primary-secondary__last-child__margin-bottom: 0;
+@actions-toolbar-primary-secondary__margin-bottom__m: 0;
+
+//  Action: Primary/Secondary
+@actions-toolbar-primary-secondary-action__use-button-responsive: true;
+@actions-toolbar-primary-secondary-action__margin-bottom: @indent__s;
+@actions-toolbar-primary-secondary-action__width__m: auto;
+@actions-toolbar-primary-secondary-action__margin-bottom__m: 0;
+@actions-toolbar-primary-secondary-action__last-child__margin-bottom: 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@actions-toolbar__is-enabled = true) {
+        .actions-toolbar {
+            > .primary,
+            > .secondary {
+                .lib-css(margin-bottom, @actions-toolbar-primary-secondary__margin-bottom);
+                .lib-css(text-align, @actions-toolbar-primary-secondary__text-align);
+
+                &:last-child {
+                    .lib-css(margin-bottom, @actions-toolbar-primary-secondary__last-child__margin-bottom);
+                }
+
+                .action {
+                    & when (@actions-toolbar-primary-secondary-action__use-button-responsive = true) {
+                        &:extend(.abs-button-responsive all);
+                    }
+                    .lib-css(margin-bottom, @actions-toolbar-primary-secondary-action__margin-bottom);
+
+                    &:last-child {
+                        .lib-css(margin-bottom, @actions-toolbar-primary-secondary-action__last-child__margin-bottom);
+                    }
+                }
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@actions-toolbar__is-enabled = true) {
+        .actions-toolbar {
+            & when (@actions-toolbar__use-actions-toolbar__m = true) {
+                .lib-actions-toolbar();
+            }
+
+            > .primary,
+            > .secondary {
+                .lib-css(margin-bottom, @actions-toolbar-primary-secondary__margin-bottom__m);
+
+                .action {
+                    .lib-css(width, @actions-toolbar-primary-secondary-action__width__m);
+                    .lib-css(margin-bottom, @actions-toolbar-primary-secondary-action__margin-bottom__m);
+                }
+            }
+        }
+    }
+}

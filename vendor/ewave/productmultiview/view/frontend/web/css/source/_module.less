@@ -1,0 +1,51 @@
+//
+//  Product Multi View
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .multiview-container {
+        & {
+            position: relative;
+        }
+
+        .image {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: auto;
+            opacity: 0;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .product-item {
+        &:hover .multiview-container:not(.-no-multiview) .product-image-photo {
+            visibility: hidden;
+        }
+
+        &:hover .multiview-container:not(.-no-multiview) .image {
+            visibility: visible;
+            opacity: 1;
+        }
+        &:hover .multiview-container .product-image-photo.swatch-option-loading {
+            visibility: visible;
+        }
+        &:hover .multiview-container .swatch-option-loading + .image {
+            display: none;
+        }
+    }
+}

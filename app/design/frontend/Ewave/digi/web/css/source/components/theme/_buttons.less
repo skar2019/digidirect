@@ -1,0 +1,90 @@
+//
+//  Buttons Components
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    @{button-selector} {
+        &[disabled] {
+            .lib-css(background-color, @button__disabled__background-color);
+        }
+
+        &.-color-type-1 {
+            .lib-button-color-type()
+        }
+
+        &.-color-type-2 {
+            .lib-button-color-type(
+                @button__color__type2,
+                @button__background-color__type2,
+                @button__hover__background-color__type2
+            )
+        }
+
+        &.-color-type-3 {
+            .lib-button-color-type(
+                @button__color__type3,
+                @button__background-color__type3,
+                @button__hover__background-color__type3
+            )
+        }
+        
+        &.-size-xxl {
+            .lib-button-xl();
+        }
+    }
+    
+    @{button-primary-selector} {
+        .lib-button();
+    }
+    
+    a@{button-primary-selector} {
+        .lib-link-as-button();
+        
+        &:hover {
+            .lib-css(color, @color-white);
+        }
+
+        &.-size-wide {
+            .lib-css(width, @button-wide__width);
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    @{button-selector} {
+        &.-size-xxl {
+            .lib-button-xxl();
+        }
+    }
+
+    a@{button-primary-selector} {
+        &.-size-wide {
+            .lib-css(padding, @button-wide__padding__m);
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    a@{button-primary-selector} {
+        &.-size-wide {
+            .lib-css(padding, @button-wide__padding__l);
+            .lib-css(font-size, @button__font-size__xl);
+        }
+    
+        &.-size-l {
+            .lib-button-l();
+        }
+    }
+}

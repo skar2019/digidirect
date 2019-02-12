@@ -1,0 +1,146 @@
+//
+//  PayPal: Review Order Page
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@paypal-review__is-enabled: true; // Enable/disable styles
+
+@paypal-review-block__use-account-blocks: true;
+@paypal-review-block-content__use-add-clearfix-desktop__m: true;
+@paypal-review-block-content-box__float__m: left;
+@paypal-review-block-content-box__width__m: 33.3%;
+@paypal-review-block-content-box__padding-right__m: 15px;
+
+//  Items Qty
+@paypal-review-items-qty__use-reset-list: true;
+@paypal-review-items-qty-item__white-space: nowrap;
+@paypal-review-items-qty-title__after__content: ': ';
+
+//  Title for Items
+@paypal-review-title-strong__use-heading: true;
+@paypal-review-title-strong__heading: h3;
+@paypal-review-title-strong__display: inline-block;
+@paypal-review-title-strong__border-bottom__m: @border-width__base solid @border-color__base;
+
+//  Items Options
+@paypal-review-item-options__use-product-options-list: true;
+
+//  Discount (Gift Card)
+@paypal-review-discount__margin: @indent__base 0;
+@paypal-review-discount__border-bottom: @border-width__base solid @border-color__base;
+@paypal-review-discount-block__use-discount-block: true;
+@paypal-review-discount-block__margin-bottom: 0;
+@paypal-review-discount-block-fieldset__padding: @indent__s 0 @indent__base;
+
+//  Order Review Form
+@paypal-review-order-review-form-actions-toolbar__margin-top: 15px;
+
+//  Items: Price Type
+@paypal-review-price-cols__text-align__m: right;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@paypal-review__is-enabled = true) {
+        .paypal-review {
+            .block {
+                & when (@paypal-review-block__use-account-blocks = true) {
+                    &:extend(.abs-account-blocks all);
+                }
+            }
+
+            .items-qty {
+                & when (@paypal-review-items-qty__use-reset-list = true) {
+                    &:extend(.abs-reset-list all);
+                }
+            }
+
+            .items-qty .item {
+                .lib-css(white-space, @paypal-review-items-qty-item__white-space);
+            }
+
+            .items-qty .title {
+                &::after {
+                    .lib-css(content, @paypal-review-items-qty-title__after__content);
+                }
+            }
+
+            .paypal-review-title {
+                > strong {
+                    & when (@paypal-review-title-strong__use-heading = true) {
+                        .lib-heading(@paypal-review-title-strong__heading);
+                    }
+                    .lib-css(display, @paypal-review-title-strong__display);
+                }
+            }
+
+            .item-options {
+                & when (@paypal-review-item-options__use-product-options-list = true) {
+                    &:extend(.abs-product-options-list all);
+                }
+            }
+        }
+
+        //  Discounts
+        .paypal-review-discount {
+            & {
+                .lib-css(margin, @paypal-review-discount__margin);
+                .lib-css(border-bottom, @paypal-review-discount__border-bottom);
+            }
+
+            .block {
+                & when (@paypal-review-discount-block__use-discount-block = true) {
+                    &:extend(.abs-discount-block all);
+                }
+                .lib-css(margin-bottom, @paypal-review-discount-block__margin-bottom);
+            }
+
+            .block .fieldset {
+                .lib-css(padding, @paypal-review-discount-block-fieldset__padding);
+            }
+        }
+
+        .order-review-form {
+            .actions-toolbar {
+                .lib-css(margin-top, @paypal-review-order-review-form-actions-toolbar__margin-top);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@paypal-review__is-enabled = true) {
+        .paypal-review {
+            .paypal-review-title {
+                .lib-css(border-bottom, @paypal-review-title-strong__border-bottom__m);
+            }
+
+            .block-content {
+                & when (@paypal-review-block-content__use-add-clearfix-desktop__m = true) {
+                    &:extend(.abs-add-clearfix-desktop all);
+                }
+            }
+
+            .block-content .box {
+                .lib-css(float, @paypal-review-block-content-box__float__m);
+                .lib-css(width, @paypal-review-block-content-box__width__m);
+                .lib-css(padding-right, @paypal-review-block-content-box__padding-right__m);
+            }
+
+            .col.subtotal,
+            .mark,
+            .amount {
+                .lib-css(text-align, @paypal-review-price-cols__text-align__m);
+            }
+        }
+    }
+}

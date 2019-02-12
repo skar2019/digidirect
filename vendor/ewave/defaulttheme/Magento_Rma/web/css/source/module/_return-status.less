@@ -1,0 +1,21 @@
+//
+//  Rma: Return Status
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@rma-return-status__is-enabled: true; // Enable/disable styles
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@rma-return-status__is-enabled = true) {
+        .return-status {
+            &:extend(.abs-status all);
+        }
+    }
+}
