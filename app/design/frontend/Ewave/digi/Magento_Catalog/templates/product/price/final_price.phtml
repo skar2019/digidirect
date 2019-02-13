@@ -45,6 +45,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
         ->createBlock('Ewave\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage')
         ->setBlockName('digi_catalog_rule_pdp')
         ->setTemplate('Ewave_ExtendedCatalogPriceRule::product/view/price_rule.phtml')
+        ->setActualAmount($finalPriceModel->getAmount())
         ->toHtml())) : ?>
         <?php echo $catalogRulePDP; ?>
     <?php endif; ?>

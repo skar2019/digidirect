@@ -16,6 +16,7 @@ runtime:
         - redis
         - xsl
         - json
+        - sodium
         - blackfire
         - newrelic
 
