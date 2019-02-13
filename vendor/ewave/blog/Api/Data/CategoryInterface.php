@@ -16,4 +16,6 @@ interface CategoryInterface extends StoreViewSpecificInterface
     const ROOT_CATEGORY_ID = 0;
 
     const CONTENT_STORE_ID = 'content_store_id';
+
+    const FIELD_UPDATED_AT = 'updated_at';
 }

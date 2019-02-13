@@ -1,0 +1,194 @@
+//
+//  Theme: Pdp block product overview
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .product-overview {
+        & {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 0 20px;
+            align-items: center;
+        }
+
+        .entity {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 27px;
+            padding-top: 15px;
+            margin-top: 10px;
+            .lib-css(border-top, 1px solid @color-white);
+        }
+
+        .short-desc {
+            .lib-css(color, @color-white);
+            line-height: 2;
+        }
+
+        .block-description-rule {
+            .lib-css(color, @color-white);
+        }
+
+        .block-description-rule > .price-description {
+            .lib-css(color, @color-white);
+            width: 100%;
+            display: flex;
+            .lib-font-size(11);
+        }
+
+        .block-description-rule > .price-description img {
+            width: 60%;
+        }
+
+        .block-description-rule > .price-description > .title {
+            font-size: 11px;
+            text-align: left;
+            padding: 20px 0 20px 20px;
+        }
+
+        > .overview-product {
+            display: flex;
+            width: 100%;
+        }
+
+        > .overview-product > .overview-tab {
+            .lib-css(color, @color-white);
+            .lib-font-size(14);
+            text-transform: capitalize;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            cursor: pointer;
+        }
+
+        > .overview-product > .overview-tab > .arrow > .svgi-action {
+            width: 20px;
+            height: 20px;
+        }
+
+        > .overview-product > .overview-tab > .arrow {
+            transform: rotate(-90deg);
+        }
+
+        > .overview-product.active > .overview-tab > .arrow {
+            transform: rotate(90deg);
+        }
+    }
+
+    .product-overview .entity {
+        > .item {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+
+        .item > .title {
+            display: block;
+            padding: 0 0 0 10px;
+            .lib-css(color, @color-white);
+            .lib-font-size(11);
+        }
+
+        > .item.img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .head {
+            display: none;
+        }
+    }
+}
+
+//
+//  Tablet
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .product-overview {
+        .block-description-rule > .price-description img {
+            width: 12%;
+        }
+
+        .entity {
+            .lib-css(border-top, unset);
+        }
+
+        .short-desc {
+            column-count: 2;
+            padding-bottom: 35px;
+        }
+    }
+
+    .product-overview .entity {
+        > .item {
+            width: 25%;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
+    .product-overview {
+        .overview-tab > .arrow > .svgi-action {
+            display: none;
+        }
+
+        .overview-tab > .title {
+            display: none;
+        }
+
+        .block-description-rule > .price-description {
+            flex-direction: column;
+            .lib-font-size(12);
+        }
+
+        .block-description-rule > .price-description > .title {
+            font-size: 12px;
+            padding: 0;
+        }
+    }
+
+    .product-overview {
+        .block-description-rule > .price-description > img {
+            width: 100%;
+        }
+
+        .entity {
+            padding-top: 0;
+            margin-top: 0;
+        }
+
+        .short-desc {
+            column-count: unset;
+        }
+    }
+
+    .product-overview .entity {
+        > .item {
+            width: 50%;
+        }
+
+        .head {
+            display: block;
+            width: 100%;
+            padding: 15px 0;
+            .lib-css(color, @color-white);
+            .lib-font-size(16);
+            text-transform: capitalize;
+        }
+    }
+}

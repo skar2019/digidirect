@@ -103,4 +103,19 @@
             </argument>
         </arguments>
     </virtualType>
+    <type name="Ewave\Blog\Model\Widget\Options\Template">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="default" xsi:type="array">
+                    <item name="label" xsi:type="string">Default</item>
+                </item>
+                <item name="custom" xsi:type="array">
+                    <item name="label" xsi:type="string">Custom</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\Utilities\Model\Sitemap">
+        <plugin name="blogAddSiteMapItems" type="Ewave\Blog\Plugin\Sitemap\Model\Sitemap"/>
+    </type>
 </config>

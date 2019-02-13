@@ -66,6 +66,17 @@ class Category extends \Magento\Framework\Model\AbstractModel implements Categor
     }
 
     /**
+     * Get Category URL path without domain
+     *
+     * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getViewUrlPath()
+    {
+        return $this->urlModel->getCategoryUrlPath($this->getUrlKey());
+    }
+
+    /**
      * @return array
      */
     public function getIdentities()

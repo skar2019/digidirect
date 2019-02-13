@@ -5,8 +5,13 @@ namespace Ewave\Blog\Block\Widget;
 use Ewave\Blog\Model\Config\Provider\Status;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Magento\Widget\Block\BlockInterface;
 
-class Categories extends AbstractWidget
+/**
+ * Class Categories
+ * @package Ewave\Blog\Block\Widget
+ */
+class Categories extends AbstractWidget implements BlockInterface
 {
     const ITEM_RENDERER = 'Ewave\Blog\Block\Widget\Categories\Renderer';
 
@@ -27,8 +32,7 @@ class Categories extends AbstractWidget
      */
     protected function buildTree(AbstractCollection $collection, $parentIdField = 'parent_id')
     {
-        $data = [];
-        $tree = [];
+        $data = $tree = [];
 
         /** @var AbstractModel $item */
         foreach ($collection as $item) {
@@ -42,9 +46,24 @@ class Categories extends AbstractWidget
             if (isset($node[$parentIdField]) && !$node[$parentIdField]) {
                 $tree[$id] = &$node;
             } else {
+                if (!isset($data[$node[$parentIdField]])) {
+                    $parent = $this->categoryRepository->getById($node[$parentIdField]);
+                    $data[$node[$parentIdField]] = $parent->getData();
+                }
                 $data[$node[$parentIdField]]['children'][$id] = &$node;
             }
         }
+        $tree = $this->sortOrder($tree);
+        return $tree;
+    }
+
+    /**
+     * @param array $tree
+     * @return array
+     */
+    public function sortOrder($tree)
+    {
+        ksort($tree);
         return $tree;
     }
 

@@ -16,5 +16,7 @@ interface PostInterface
     
     const FIELD_PUBLISH_DATE = 'publish_date';
 
+    const FIELD_UPDATED_AT = 'updated_at';
+
     const EWAVE_BLOG_POST_TABLE = 'ewave_blog_post';
 }

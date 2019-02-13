@@ -135,6 +135,7 @@ class PostRepository implements PostRepositoryInterface
         $date = $item->getData(PostInterface::FIELD_PUBLISH_DATE);
         $date = $this->dateFilter->filter($date);
         $item->setData(PostInterface::FIELD_PUBLISH_DATE, $date);
+        $item->setData(PostInterface::FIELD_UPDATED_AT, $this->dateTime->gmtDate());
         $this->resourceModel->save($item);
         $this->resourceModel->updateCategories($item->getId(), $item->getCategoryId());
         $this->resourceModel->updateTags($item->getId(), $item->getTags());

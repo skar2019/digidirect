@@ -1,0 +1,16 @@
+<?php
+use \Ewave\ExtendedCatalogPriceRule\Api\Data\RuleDisplayMessageInterface;
+
+/** @var \Ewave\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage $block */
+?>
+<?php $rules = $block->getDisplayMessageRules(); ?>
+<?php if ($rules) : ?>
+    <?php foreach ($rules as $rule) : ?>
+        <?php if (!empty($rule['pdp_description'])) : ?>
+            <div class="block-description-rule">
+                <div class="price-description"><?= /* @noEscape */
+                    $rule['pdp_description']; ?></div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+<?php endif; ?>

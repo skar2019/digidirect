@@ -30,6 +30,8 @@ export default class View {
 
         if (state && window.location.href === state.location && window.localStorage.getItem(this.options.itemUrlKey)) {
             $(this.options.itemsContainerSelector).append(state.content).trigger('contentUpdated');
+            this.options.currentCount = state.currentCount;
+            this.options.totalCount = state.totalCount;
             this.options.nextUrl = state.nextUrl;
         } else {
             window.localStorage.removeItem(this.options.scrollStateKey);

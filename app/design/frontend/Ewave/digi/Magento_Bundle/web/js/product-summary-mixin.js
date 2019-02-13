@@ -10,7 +10,7 @@ define([
         $.widget('mage.productSummary', target, {
             _renderSummaryBox: function (event, data) {
                 this._super(event, data);
-                var $title = $('#bundleSummary').find('.subtitle');
+                var $title = $('#bundleSummary').find('.subtitle > .text');
 
                 if (this.cache.currentElementCount) {
                     $title.attr('data-count', this.cache.currentElementCount);

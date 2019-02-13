@@ -5,6 +5,10 @@
         <referenceBlock name="view.addto.compare" remove="true" />
         <referenceBlock name="product.info.mailto" remove="true" />
 
+        <!-- in case us/288107-->
+        <referenceBlock name="product.attributes" remove="true" />
+        <!-- in case us/288107-->
+
         <move element="breadcrumbs" destination="product.section" before="-"/>
         <move element="page.messages" destination="product.section" before="-" />
 
@@ -16,8 +20,37 @@
         <move element="product.info.main" destination="product.view.top" after="-" />
         <move element="product.info.media" destination="product.view.media.overview" before="-" />
 
+        <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
+        <move element="product.info.attachment" destination="product.info.media.bar" after="-"/>
+
         <move element="catalog.product.related" destination="content" before="-"/>
         <move element="product.info.upsell" destination="content" after="-"/>
+
+        <referenceContainer name="content">
+            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes _negative-gutter"
+                       after="product.info.media">
+                <container name="product.info.media.bar" htmlTag="div" htmlClass="right-bar">
+                    <block class="Magento\Catalog\Block\Product\View\Description" name="product.in.box"
+                           template="Magento_Catalog::product/view/in-box.phtml">
+                    </block>
+                    <block class="Magento\Cms\Block\Block" name="pdp-details-card" after="pdp.cms.details">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">pdp-details-card</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+            <referenceBlock name="product.info.details">
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec"
+                       as="spec" template="Magento_Catalog::product/view/specs.phtml"
+                       group="detailed_info">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Specs</argument>
+                        <argument name="css_class" xsi:type="string">specs</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+        </referenceContainer>
 
         <referenceContainer name="page.wrapper">
             <!-- htmlClass "column main" added special for JS swatches logic -->
@@ -32,12 +65,9 @@
 
                     <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
                         <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area">
-                            <container name="product.view.overview" htmlTag="div" htmlClass="product-overview" after="product.info.media">
-                                <!-- @TODO: TEST BLOCK -->
-                                <block class="Magento\Cms\Block\Block" name="tessssssssssssssst">
-                                    <arguments>
-                                        <argument name="block_id" xsi:type="string">product_detail_content_zip_money</argument>
-                                    </arguments>
+                            <container name="product.view.overview" htmlTag="div" htmlClass="product-overview" htmlId="productOverview" after="product.info.media">
+                                <block class="Magento\Catalog\Block\Product\View\Description" name="pdp.short.description" template="Magento_Catalog::product/view/product-overview.phtml" before="-" >
+                                    <block class="Ewave\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" as="block_rules" name="pdp.prod.overview.rules" template="Ewave_ExtendedCatalogPriceRule::product/view/description_rule.phtml" />
                                 </block>
                             </container>
                         </container>

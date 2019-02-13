@@ -1,0 +1,82 @@
+//
+//  Layered Navigation: price slider
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+@price-slider-handle__size: 15px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .price-slider {
+        & {
+            .lib-css(padding, 0 @price-slider-handle__size);
+        }
+        
+        .input-toolbar {
+            .lib-css(margin, 0 -@price-slider-handle__size 28px);
+
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .input-toolbar .slider-value {
+            .lib-font-size(12);
+            
+            width: 60px;
+            padding-left: 10px;
+            padding-right: 10px;
+            height: 32px;
+            text-align: left;
+        }
+    
+        .ui-slider-horizontal {
+            .lib-css(background, @color-4-3);
+            
+            height: 1px;
+            
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                .lib-css(width, @price-slider-handle__size);
+                height: inherit;
+                background: inherit;
+                top: 0;
+            }
+    
+            &::before {
+                right: 100%;
+            }
+            
+            &::after {
+                left: 100%;
+            }
+        }
+    
+        .ui-slider-handle {
+            .lib-css(background, @primary__color);
+            .lib-css(width, @price-slider-handle__size);
+            .lib-css(height, @price-slider-handle__size);
+    
+            margin: 0;
+            transform: translate(-100%, -50%);
+            border-radius: 50%;
+        }
+        
+        .ui-slider-handle + .ui-slider-handle {
+            .lib-css(margin, 0 0 0 @price-slider-handle__size);
+        }
+        
+        .ui-slider-range {
+            position: absolute;
+            height: 3px;
+            transform: translateY(-50%);
+            .lib-css(background, @primary__color);
+        }
+    }
+}

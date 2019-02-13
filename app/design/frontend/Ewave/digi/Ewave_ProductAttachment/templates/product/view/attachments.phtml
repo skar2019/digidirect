@@ -1,0 +1,23 @@
+<?php
+/**
+ * @var \Ewave\ProductAttachment\Block\Product\View\Attachment $block
+ * @var \Ewave\ProductAttachment\Model\Attachment $attachment
+ */
+?>
+<?php foreach ($block->getAttachments() as $attachment): ?>
+    <?php if ($block->canBeShown($attachment)): ?>
+        <?php $attachmentName = $attachment->getName() ?>
+        <div class="product-attachment">
+            <span class="title"><?php echo $block->escapeHtml(__('Downloads')); ?></span>
+            <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-book"></use></svg></div>
+            <div class="name"><?php echo $block->escapeHtml($attachmentName); ?></div>
+            <a class="download" href="<?php echo $block->escapeUrl($block->getDownloadLink($attachment->getId())); ?>"
+               title="<?php echo $block->escapeHtml(__($attachmentName)); ?>">
+                <div class="name">
+                <?php echo $block->escapeHtml($block->getFileFormat($attachment->getFileFormat())); ?>
+                <?php echo $block->escapeHtml($block->getFileSize($attachment->getFileSize())); ?>
+                </div>
+            </a>
+        </div>
+    <?php endif; ?>
+<?php endforeach; ?>

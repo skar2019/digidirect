@@ -38,15 +38,9 @@
 
     .bundle-options-container {
         & {
-            .lib-css(margin-left, -@layout__width-xs-indent);
-            .lib-css(margin-right, -@layout__width-xs-indent);
             .lib-css(padding, 0 @layout__width-xs-indent 12px);
             .lib-css(background, ~'linear-gradient(to bottom, @{color-3-4}, rgba(255, 255, 255, 0)) no-repeat  0 0, @{color-white} no-repeat 0 0');
             background-size: 100% 30px, 100% 100%;
-        }
-
-        .product-add-form {
-            display: block !important; // Override JS logic from Magento_Bundle/js/slide
         }
 
         .fieldset {
@@ -64,16 +58,13 @@
 
         .action.back {
             position: relative;
+            display: inline-block;
             padding: 0 0 0 40px;
             border: 0;
             font-size: 12px;
             line-height: 30px;
             background: none;
-
-            &:active {
-                .lib-css(color, @color-2-2);
-                box-shadow: none;
-            }
+            cursor: pointer;
         }
 
         .action.back > .icon {
@@ -200,6 +191,18 @@
                 left: 4px;
             }
         }
+
+        .bundle-item .radio + .label {
+            &::after {
+                margin-top: -6px;
+            }
+        }
+
+        .field.choice > .checkbox + .label {
+            &::after {
+                margin-top: -4px;
+            }
+        }
     }
 
     .bundle-item {
@@ -303,18 +306,6 @@
             height: 40px;
             .lib-font-size(14);
         }
-
-        .bundle-item .radio + .label {
-            &::after {
-                margin-top: -6px;
-            }
-        }
-
-        .field.choice > .checkbox + .label {
-            &::after {
-                margin-top: -4px;
-            }
-        }
     }
 
     .bundle-item {
@@ -361,6 +352,7 @@
         & {
             padding-top: 40px;
             padding-bottom: 40px;
+            .lib-css(background, @color-white);
         }
 
         .product-add-form > form {

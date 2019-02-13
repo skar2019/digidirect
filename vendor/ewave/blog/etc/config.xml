@@ -82,5 +82,14 @@
                 <localize_publish_date>0</localize_publish_date>
             </blog>
         </dev>
+        <sitemap>
+            <blog>
+                <changefreq>daily</changefreq>
+                <show_categories>0</show_categories>
+                <category_priority>0.5</category_priority>
+                <show_posts>0</show_posts>
+                <post_priority>0.5</post_priority>
+            </blog>
+        </sitemap>
     </default>
 </config>

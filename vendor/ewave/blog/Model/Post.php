@@ -179,6 +179,17 @@ class Post extends \Magento\Framework\Model\AbstractModel implements PostInterfa
     }
 
     /**
+     * Get Post URL path without domain
+     *
+     * @return string
+     * @throws LocalizedException
+     */
+    public function getViewUrlPath()
+    {
+        return $this->urlModel->getViewPostUrlPath($this);
+    }
+
+    /**
      * @return bool
      * @throws LocalizedException
      */
@@ -196,15 +207,16 @@ class Post extends \Magento\Framework\Model\AbstractModel implements PostInterfa
         $publishDate = $this->getPublishDate();
         $dateFormat = $this->dataHelper->getGeneralSettingsConfig('date_format');
         $localize = $this->dataHelper->isDateLocalizationRequired();
-        if($localize) {
+        if ($localize) {
             $date = $this->localeDate->date(
                 $publishDate
             );
             $formatted = $date->format($dateFormat);
+
             return $formatted;
         }
-
         $date = new \DateTime($publishDate);
+
         return $date->format($dateFormat);
     }
 

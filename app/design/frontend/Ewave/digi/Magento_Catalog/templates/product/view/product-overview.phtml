@@ -1,0 +1,39 @@
+<?php
+$productSpec = $block->getProduct()->getShortDescription();
+$_product = $block->getProduct();
+$aeHelper = $this->helper('Ewave\Digi\Helper\AbstractEntities');
+$features = $aeHelper->getProductKeyFeatures($_product);
+?>
+
+<div data-role="collapsible" class="overview-product">
+    <div data-role="trigger" class="overview-tab">
+        <span class="title"><?php echo $block->escapeHtml(__('product overview')); ?></span>
+        <div class="arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-action">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-left"></use>
+            </svg>
+        </div>
+    </div>
+</div>
+<div data-role="content">
+    <?php echo $this->getChildHtml('block_rules');?>
+    <div class="entity">
+        <span class="head"><?php echo $block->escapeHtml(__('product overview')); ?></span>
+        <?php foreach ($features as $item): ?>
+            <div class="item">
+                <img src="<?= $item->getImageUrl() ?>" alt="<?= $item->getName() ?>" class="img">
+                <span class="title"><?= $item->getName() ?></span>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <div class="short-desc">
+        <?php echo $productSpec ?>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Catalog/js/product-overview": {}
+        }
+    }
+</script>

@@ -284,4 +284,17 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     {
         return $alias . '.' . $field;
     }
+
+    /**
+     * Add filter by categories
+     *
+     * @param array $categoryIds
+     * @param bool $exclude
+     * @return $this
+     */
+    public function addCategoryIdsFilter($categoryIds, $exclude = false)
+    {
+        $this->addFieldToFilter('main_table.entity_id', [$exclude ? 'nin' : 'in' => $categoryIds]);
+        return $this;
+    }
 }

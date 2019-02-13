@@ -88,3 +88,23 @@
 ===================
 * Bugfixes:
     * [#284501](https://ewave.tpondemand.com/entity/284501) -- Mismatch between dates on front and backend for blog posts
+    
+2.1.0
+===================
+* New features:
+    * [#289240](https://ewave.tpondemand.com/entity/289240) -- As an admin, I want to be able to configure Blog pages output for XML sitemap
+
+* Bugfixes:
+    * [#290042](https://ewave.tpondemand.com/entity/290042) -- Generated url for posts and categories is incorrect    
+    
+2.2.0
+====================
+* New features:
+    * [#190342](https://ewave.tpondemand.com/entity/190342) -- [BLOG CATEGORIES WIDGET BACKEND] As an admin, I want to be able to create widget with popular blog posts
+    * [#289888](https://ewave.tpondemand.com/entity/289888) -- [BLOG CATEGORIES WIDGET FRONTEND] As a user, I want to see widget with blog categories on the frontend
+
+* Bugfixes:
+    * [#290347](https://ewave.tpondemand.com/entity/290347) -- [BLOG CATEGORIES WIDGET FRONTEND] Child category is not displayed in case parent doesn't have any posts
+    * [#290402](https://ewave.tpondemand.com/entity/290402) -- [BLOG CATEGORIES WIDGET FRONTEND] Blog Category is duplicated in case only child categories are selected
+    * [#290476](https://ewave.tpondemand.com/entity/290476) -- [BLOG CATEGORIES WIDGET FRONTEND] Parent category is not displayed in case first child has not posts
+	

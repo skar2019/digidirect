@@ -5,5 +5,7 @@
 
         <move element="customize.button" destination="product.info.main" before="product.info.extrahint" />
         <move element="product.price.render.bundle.customization" destination="bundle.summary" before="-" />
+
+        <referenceContainer name="bundle.options.container" htmlClass="bundle-options-container _full-width-background"/>
     </body>
 </page>

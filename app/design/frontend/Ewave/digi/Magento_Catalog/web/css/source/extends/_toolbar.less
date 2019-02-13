@@ -106,6 +106,49 @@
             .lib-css(border-right, 1px solid @color-4-3);
         }
 
+        .sorter-trigger {
+            .ewave-lib-offcanvas-trigger-overlay-only();
+        }
+    }
+
+    .sorter-container {
+        & {
+            padding: 0;
+        }
+
+        .heading {
+            padding: 32px 20px;
+            .lib-css(border-bottom, 1px solid @color-3-5);
+        }
+
+        .heading .label {
+            margin-right: 5px;
+            .lib-css(font-weight, @font-weight__bold);
+            text-transform: uppercase;
+        }
+
+        .sorter-options {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sorter-options .item {
+            list-style: none;
+            padding: 15px 20px;
+            margin: 0;
+            .lib-css(border-bottom, 1px solid @color-3-5);
+            .lib-font-size(12);
+            cursor: pointer;
+        }
+
+        .sorter-options .item:hover {
+            .lib-css(background-color, @color-3-9);
+        }
+
+        .sorter-options .item.active {
+            .lib-css(background-color, @color-3-9);
+            .lib-css(font-weight, @font-weight__bold);
+        }
     }
 }
 
@@ -166,5 +209,9 @@
             position: absolute;
             bottom: 22px;
         }
+    }
+    
+    .sorter-container {
+        display: none;
     }
 }

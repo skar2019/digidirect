@@ -9,6 +9,7 @@ use Ewave\Blog\Model\ResourceModel\Category;
 use Ewave\Blog\Model\ResourceModel\Category\Collection;
 use Ewave\Blog\Model\ResourceModel\Post;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Store\Model\Store;
 
 /**
@@ -33,6 +34,11 @@ class CategoryRepository implements CategoryRepositoryInterface
     protected $collectionFactory;
 
     /**
+     * @var DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @var array
      */
     protected $categoryById = [];
@@ -41,16 +47,19 @@ class CategoryRepository implements CategoryRepositoryInterface
      * CategoryRepository constructor.
      *
      * @param Category $resourceModel
-     * @param \Ewave\Blog\Model\CategoryFactory $modelFactory
+     * @param CategoryFactory $modelFactory
+     * @param DateTime $dateTime
      * @param Category\CollectionFactory $collectionFactory
      */
     public function __construct(
         Category $resourceModel,
         CategoryFactory $modelFactory,
+        DateTime $dateTime,
         Category\CollectionFactory $collectionFactory
     ) {
         $this->resourceModel = $resourceModel;
         $this->modelFactory = $modelFactory;
+        $this->dateTime = $dateTime;
         $this->collectionFactory = $collectionFactory;
     }
 
@@ -101,6 +110,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function save(\Ewave\Blog\Model\Category $item)
     {
+        $item->setData(CategoryInterface::FIELD_UPDATED_AT, $this->dateTime->gmtDate());
         $this->resourceModel->save($item);
         $this->resourceModel->updateStores($item->getId(), $item->getStoreId());
         return $item;

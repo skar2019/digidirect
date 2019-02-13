@@ -377,5 +377,34 @@
                     </field>
                 </group>
             </section>
+        <section id="sitemap">
+            <group id="blog" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Blog Pages Options</label>
+                <field id="changefreq" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Frequency</label>
+                    <source_model>Magento\Sitemap\Model\Config\Source\Frequency</source_model>
+                </field>
+                <field id="show_categories" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Blog Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Allow/disallow Blog categories to include in XML sitemap</comment>
+                </field>
+                <field id="category_priority" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Blog Categories Priority</label>
+                    <backend_model>Magento\Sitemap\Model\Config\Backend\Priority</backend_model>
+                    <comment>Valid values range from 0.0 to 1.0.</comment>
+                </field>
+                <field id="show_posts" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Blog Posts</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Allow/disallow Blog posts to include in XML sitemap</comment>
+                </field>
+                <field id="post_priority" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Blog Posts Priority</label>
+                    <backend_model>Magento\Sitemap\Model\Config\Backend\Priority</backend_model>
+                    <comment>Valid values range from 0.0 to 1.0.</comment>
+                </field>
+            </group>
+        </section>
     </system>
 </config>

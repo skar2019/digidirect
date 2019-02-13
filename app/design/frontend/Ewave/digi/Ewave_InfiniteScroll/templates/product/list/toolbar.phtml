@@ -20,8 +20,12 @@
             <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/amount.phtml')) ?>
             <?php if ($block->isExpanded()): ?>
                 <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/sorter.phtml')) ?>
-                <div class="sorter -mobile"><?=  __('Sort By');?></div>
+                <div class="sorter sorter-trigger -mobile" data-container="#sorterOffcanvas" data-mage-init='{ "offcanvas": {"addOn":
+                    "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Sort By');?></div>
             <?php endif; ?>
         </div>
+    </div>
+    <div id="sorterOffcanvas" class="sorter-container offcanvas-panel offcanvas-left -device-only -without-padding">
+        <?php include ($block->getTemplateFile('Magento_Catalog::product/list/sorter.phtml')) ?>
     </div>
 <?php endif ?>

@@ -48,9 +48,71 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->_createPostInformationTable($setup);
             $this->_upgradeBlogTableForStoreView($setup);
         }
+        if (version_compare($context->getVersion(), '1.0.6', '<')) {
+            $this->modifyCreatedAtFieldInPosts($setup);
+            $this->addDateFieldsToCategoriesAndPosts($setup);
+        }
 
         $this->process();
         $setup->endSetup();
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return void
+     */
+    protected function modifyCreatedAtFieldInPosts(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->modifyColumn(
+            $setup->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+            'created_at',
+            $this->getDateFieldparams('Created At')
+        );
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return void
+     */
+    protected function addDateFieldsToCategoriesAndPosts(SchemaSetupInterface $setup)
+    {
+        $createdAt = 'created_at';
+        $createdAtComment = 'Created At';
+        $updatedAt = 'updated_at';
+        $updatedAtComment = 'Updated At';
+        $this->addDateField($setup, Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE, $createdAt, $createdAtComment);
+        $this->addDateField($setup, Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE, $updatedAt, $updatedAtComment);
+        $this->addDateField($setup, PostInterface::EWAVE_BLOG_POST_TABLE, $updatedAt, $updatedAtComment);
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @param string $table
+     * @param string $field
+     * @param string $comment
+     * @return void
+     */
+    protected function addDateField(SchemaSetupInterface $setup, $table, $field, $comment)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable($table),
+            $field,
+            $this->getDateFieldparams($comment)
+        );
+    }
+
+    /**
+     * @param string $comment
+     * @return array
+     */
+    protected function getDateFieldparams($comment)
+    {
+        return [
+            'type'     => Table::TYPE_TIMESTAMP,
+            'nullable' => false,
+            'default'  => Table::TIMESTAMP_INIT,
+            'comment'  => $comment,
+        ];
     }
 
     /**

@@ -108,8 +108,21 @@ class UrlModel
      */
     public function getViewPostUrl(Post $post)
     {
+        return $this->getUrl($this->getViewPostUrlPath($post));
+    }
+
+    /**
+     * Get Post URL path without domain
+     *
+     * @param Post $post
+     * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getViewPostUrlPath(Post $post)
+    {
         $listUrl = $this->dataHelper->getGeneralSettingsConfig('list_url');
-        return $this->getUrl($listUrl . '/' . $post->getUrlKey());
+
+        return $listUrl . '/' . $post->getUrlKey();
     }
 
     /**
@@ -118,13 +131,25 @@ class UrlModel
      */
     public function getCategoryUrl($urlKey)
     {
+        return $this->getUrl($this->getCategoryUrlPath($urlKey));
+    }
+
+    /**
+     * Get Category URL path without domain
+     *
+     * @param string $urlKey
+     * @return string
+     */
+    public function getCategoryUrlPath($urlKey)
+    {
         $catPrefix = $this->dataHelper->getGeneralSettingsConfig('cat_prefix');
         $urlSuffixConfig = $this->dataHelper->getGeneralSettingsConfig('url_suffix');
         $urlSuffix = "";
         if (!empty($urlSuffixConfig)) {
             $urlSuffix = '.' . $urlSuffixConfig;
         }
-        return $this->getUrl($catPrefix . '/' . $urlKey . $urlSuffix);
+
+        return $catPrefix . '/' . $urlKey . $urlSuffix;
     }
 
     /**

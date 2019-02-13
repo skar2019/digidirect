@@ -66,3 +66,9 @@
     * Compatibility with Magento 2.3.0
 * Bugfixes:
     * [#284494](https://ewave.tpondemand.com/entity/284494) -- [Infinite Scroll] 500 internal server error in case Load more on PLP
+
+1.2.1
+=============
+* Bugfixes:
+    * [#288996](https://ewave.tpondemand.com/entity/288996) -- [Extended Catalog Price Rule] Wrong promotion content for PLP and PDP pages
+    * [#289291](https://ewave.tpondemand.com/entity/289291) -- [Project: DigiDirect] Load more button displayed after click "back" button on browser
