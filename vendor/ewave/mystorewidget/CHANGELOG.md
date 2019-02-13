@@ -99,3 +99,8 @@
 * Bugfixes:
     * [#224914](https://ewave.tpondemand.com/entity/224914) -- AE My store + Advanced pricing: Advanced pricing applied, but Price and total on mini-cart is NOT updated
     * [#225504](https://ewave.tpondemand.com/entity/225504) -- [Project: Neverfail][B2B][My store]: Store is not updated after user edits Default delivery address.
+
+2.0.7
+=============
+* Bugfixes:
+    * [#284859](https://ewave.tpondemand.com/entity/284859) -- [PROJECT: TAF] 'Customer Care' page is broken

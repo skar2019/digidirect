@@ -47,11 +47,9 @@ class CatalogRule extends AbstractModel implements ProcessorInterface
         }
 
         $ruleIds = $overlay->getCatalogPriceRulesIds();
-        if (!$ruleIds) {
+        if (empty($ruleIds)) {
             return false;
         }
-
-        $ruleIds = explode(',', $ruleIds);
 
         if (empty($this->productByRuleId[$product->getId()])) {
             $this->productByRuleId = $this->getResource()->getPriceRuleProductsByRule($ruleIds);

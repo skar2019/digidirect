@@ -2,6 +2,10 @@
 
 namespace Ewave\ProductCalculator\Model\Rule\Condition;
 
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\EntityManager\MetadataPool;
+use Magento\Catalog\Api\Data\ProductInterface;
+
 /**
  * Class Product
  */
@@ -22,6 +26,11 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     protected $storeManager;
 
     /**
+     * @var MetadataPool
+     */
+    protected $metadataPool;
+
+    /**
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Eav\Model\Config $config
@@ -32,6 +41,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $data
+     * @param MetadataPool $metadataPool
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -44,9 +54,11 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        array $data = []
+        array $data = [],
+        MetadataPool $metadataPool = null
     ) {
         $this->storeManager = $storeManager;
+        $this->metadataPool = $metadataPool ?: ObjectManager::getInstance()->get(MetadataPool::class);
         parent::__construct(
             $context,
             $backendData,
@@ -229,7 +241,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     ) {
         /** @var $select \Magento\Framework\DB\Select */
         $select = clone $collection->getSelect();
-        $aiField = $collection->getProductEntityMetadata()->getLinkField();
+        $aiField = $this->getProductEntityMetadata()->getLinkField();
         $select->reset()
             ->from(
                 ['cpe' => $collection->getMainTable()],
@@ -248,5 +260,15 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         }
 
         return $res;
+    }
+
+    /**
+     * Get product entity metadata
+     *
+     * @return \Magento\Framework\EntityManager\EntityMetadataInterface
+     */
+    public function getProductEntityMetadata()
+    {
+        return $this->metadataPool->getMetadata(ProductInterface::class);
     }
 }

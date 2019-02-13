@@ -120,7 +120,7 @@ class UseCustomCondition extends AbstractCondition
             $quote = $model;
         }
 
-        if ($quote instanceof Quote && !$model->hasData(self::ATTRIBUTE_NAME)) {
+        if ($quote instanceof Quote) {
             $model->setData(self::ATTRIBUTE_NAME, null);
             $selectedCustomCondition = $this->getValue();
             $availableCustomConditions = $this->availableCustomConditions->getCustomConditionsArray();

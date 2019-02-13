@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\SitemapWidget\Api\AdditionalEntityInterface" type="Ewave\SitemapWidget\Model\AdditionalEntity"/>
     <type name="Ewave\SitemapWidget\Model\Widget\Options\Template">
         <arguments>
             <argument name="optionsConfig" xsi:type="array">

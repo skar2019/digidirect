@@ -6,9 +6,21 @@ use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Store\Model\Store;
 use Magento\Widget\Block\BlockInterface;
+use Ewave\SitemapWidget\Api\AdditionalEntityInterface;
+use Ewave\SitemapWidget\Model\EntityCollectorPool;
 
 class Sitemap extends Template implements BlockInterface
 {
+    /**
+     * Should be a prefix of access widget config
+     */
+    const ACCESS_KEY_PREFIX = 'show';
+
+    /**
+     * Simple renderer for additional entities
+     */
+    const ITEM_RENDERER = 'Ewave\SitemapWidget\Block\Widget\AdditionalEntity\Renderer';
+
     /**
      * @var string
      */
@@ -40,6 +52,11 @@ class Sitemap extends Template implements BlockInterface
     protected $categoryRepository;
 
     /**
+     * @var EntityCollectorPool
+     */
+    protected $entityCollectorPool;
+
+    /**
      * Sitemap constructor.
      * @param Template\Context $context
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
@@ -47,6 +64,7 @@ class Sitemap extends Template implements BlockInterface
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Cms\Api\PageRepositoryInterface $cmsPageRepository
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param EntityCollectorPool $entityCollectorPool
      * @param array $data
      */
     public function __construct(
@@ -56,6 +74,7 @@ class Sitemap extends Template implements BlockInterface
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Cms\Api\PageRepositoryInterface $cmsPageRepository,
         \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        EntityCollectorPool $entityCollectorPool,
         array $data = []
     ) {
         $this->productRepository = $productRepository;
@@ -63,6 +82,7 @@ class Sitemap extends Template implements BlockInterface
         $this->productVisibility = $productVisibility;
         $this->cmsPageRepository = $cmsPageRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->entityCollectorPool = $entityCollectorPool;
         parent::__construct($context, $data);
     }
 
@@ -242,5 +262,66 @@ class Sitemap extends Template implements BlockInterface
         }
 
         return $data;
+    }
+
+    /**
+     * @param array $accessKeys
+     * @return array
+     */
+    public function collectAdditionalEntities(array $accessKeys)
+    {
+        $data = [];
+        $this->entityCollectorPool->collect($data, $accessKeys);
+        return $data;
+    }
+
+    /**
+     * Entry point for after plugins
+     * @param array $accessKeys
+     * @return array
+     */
+    public function getAdditionalEntities()
+    {
+        $accessKeys = $this->getAccessKeys();
+        return $this->collectAdditionalEntities($accessKeys);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAccessKeys()
+    {
+        $accessKeys = [];
+        foreach ($this->getData() as $key => $value) {
+            if (strpos($key, self::ACCESS_KEY_PREFIX, 0) !== false) {
+                $accessKeys[$key] = $value;
+            }
+        }
+        return $accessKeys;
+    }
+
+    /**
+     * @param mixed $renderer
+     * @return \Magento\Framework\View\Element\BlockInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function getTreeRenderer($renderer)
+    {
+        if (!$renderer) {
+            return $this->getLayout()->createBlock(self::ITEM_RENDERER);
+        }
+        return $this->getLayout()->createBlock($renderer);
+    }
+
+    /**
+     * @param AdditionalEntityInterface $additionalEntity
+     * @return mixed
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function entitiesTreeToHtml(AdditionalEntityInterface $additionalEntity)
+    {
+        $entities = $additionalEntity->getEntities();
+        $renderer = $additionalEntity->getRenderer();
+        return $this->getTreeRenderer($renderer)->render($entities);
     }
 }

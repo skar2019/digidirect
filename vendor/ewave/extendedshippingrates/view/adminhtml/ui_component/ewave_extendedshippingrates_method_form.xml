@@ -150,6 +150,40 @@
                     <item name="source" xsi:type="string">ewave_extendedshippingrates_method_form</item>
                 </item>
             </argument>
+            <settings>
+                <switcherConfig>
+                    <rules>
+                        <rule name="0">
+                            <value>fixed</value>
+                            <actions>
+                                <action name="0">
+                                    <target>ewave_extendedshippingrates_method_form.ewave_extendedshippingrates_method_form.general.packaging_weight_value</target>
+                                    <callback>show</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="1">
+                            <value>percentage</value>
+                            <actions>
+                                <action name="0">
+                                    <target>ewave_extendedshippingrates_method_form.ewave_extendedshippingrates_method_form.general.packaging_weight_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                        <rule name="2">
+                            <value>empty</value>
+                            <actions>
+                                <action name="0">
+                                    <target>ewave_extendedshippingrates_method_form.ewave_extendedshippingrates_method_form.general.packaging_weight_value</target>
+                                    <callback>hide</callback>
+                                </action>
+                            </actions>
+                        </rule>
+                    </rules>
+                    <enabled>true</enabled>
+                </switcherConfig>
+            </settings>
         </field>
         <field name="packaging_weight_value">
             <argument name="data" xsi:type="array">
@@ -162,6 +196,7 @@
                     <item name="validation" xsi:type="array">
                         <item name="required-entry" xsi:type="boolean">true</item>
                     </item>
+                    <item name="visible" xsi:type="boolean">false</item>
                 </item>
             </argument>
         </field>

@@ -2,7 +2,7 @@
     "name": "ewave/sitemapwidget",
     "type": "magento2-module",
     "description": "Ewave Sitemap Widget Module",
-    "version": "1.0.0.0",
+    "version": "1.1.0.0",
     "suggest": {
         "ewave/utilities": "Ewave SitemapWidget may use ewave/utilities methods"
     },

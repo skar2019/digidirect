@@ -1,5 +1,13 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\CustomerData\SectionPoolInterface">
+        <arguments>
+            <argument name="sectionSourceMap" xsi:type="array">
+                <item name="mystorewidget" xsi:type="string">Ewave\MyStoreWidget\CustomerData\MyStore</item>
+            </argument>
+        </arguments>
+    </type>
+
     <type name="Magento\Checkout\Model\ShippingInformationManagement">
         <plugin name="Ewave_MyStoreWidget::MagentoCheckoutModelShippingInformationManagement" type="Ewave\MyStoreWidget\Plugin\Magento\Checkout\Model\ShippingInformationManagementPlugin" sortOrder="20"/>
     </type>

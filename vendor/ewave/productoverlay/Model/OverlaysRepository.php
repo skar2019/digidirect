@@ -134,9 +134,10 @@ class OverlaysRepository implements OverlayRepositoryInterface
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @param \Magento\Framework\Api\SearchCriteriaInterface $criteria
-     * @return \Ewave\ProductOverlay\Model\ResourceModel\Overlays\Collection
+     * @param bool $outputDataArray
+     * @return \Ewave\ProductOverlay\Api\Data\OverlaySearchResultsInterface
      */
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $criteria)
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $criteria, $outputDataArray = true)
     {
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
@@ -167,17 +168,21 @@ class OverlaysRepository implements OverlayRepositoryInterface
         $collection->setPageSize($criteria->getPageSize());
         $overlays = [];
         /** @var Overlays $overlayModel */
-        foreach ($collection as $overlayModel) {
-            $overlayData = $this->dataOverlayFactory->create();
-            $this->dataObjectHelper->populateWithArray(
-                $overlayData,
-                $overlayModel->getData(),
-                'Ewave\ProductOverlay\Api\Data\OverlayInterface'
-            );
-            $overlays[] = $this->dataObjectProcessor->buildOutputDataArray(
-                $overlayData,
-                'Ewave\ProductOverlay\Api\Data\OverlayInterface'
-            );
+        foreach ($collection->getItems() as $overlayModel) {
+            if ($outputDataArray) {
+                $overlayData = $this->dataOverlayFactory->create();
+                $this->dataObjectHelper->populateWithArray(
+                    $overlayData,
+                    $overlayModel->getData(),
+                    'Ewave\ProductOverlay\Api\Data\OverlayInterface'
+                );
+                $overlays[] = $this->dataObjectProcessor->buildOutputDataArray(
+                    $overlayData,
+                    'Ewave\ProductOverlay\Api\Data\OverlayInterface'
+                );
+            } else {
+                $overlays[] = $overlayModel;
+            }
         }
         $searchResults->setItems($overlays);
         return $searchResults;

@@ -74,7 +74,7 @@ class Fields extends \Magento\Config\Block\System\Config\Form\Field\FieldArray\A
         );
         $this->addColumn(
             self::ALLOW_EDIT_ON_ORDER_DETAIL_PAGE,
-            ['label' => __('Allow Edit On Order Detail Page In Back-office'), 'renderer' => $this->checkboxRenderer]
+            ['label' => __('Allow Edit On Order Detail Page In Backoffice'), 'renderer' => $this->checkboxRenderer]
         );
 
         $this->addMoreColumns();

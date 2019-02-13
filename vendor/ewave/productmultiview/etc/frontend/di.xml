@@ -13,4 +13,53 @@
     <type name="Magento\Swatches\Helper\Data">
         <plugin name="Ewave_ProductMultiView::appendAlternativeToSwatches" type="Ewave\ProductMultiView\Plugin\Swatches\Helper\Data" />
     </type>
+    <type name="Magento\Catalog\Ui\DataProvider\Product\Listing\Collector\Image">
+        <plugin name="Ewave_ProductMultiView::appendAlternativeToUiComponents" type="Ewave\ProductMultiView\Plugin\Catalog\Ui\DataProvider\Product\Listing\Collector\Image" />
+    </type>
+
+    <type name="Magento\Catalog\Block\Product\ProductList\Crosssell">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ProductList\Related">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ProductList\Promotion">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ProductList\Random">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ProductList\Upsell">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\TargetRule\Block\Catalog\Product\ProductList\Related">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\TargetRule\Block\Catalog\Product\ProductList\Upsell">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\TargetRule\Block\Checkout\Cart\Crosssell">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
+    <type name="Magento\CatalogWidget\Block\Product\ProductsList">
+        <arguments>
+            <argument name="context" xsi:type="object">Ewave\ProductMultiView\Block\Product\Context</argument>
+        </arguments>
+    </type>
 </config>

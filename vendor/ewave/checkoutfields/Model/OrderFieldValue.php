@@ -8,6 +8,7 @@ use \Magento\Framework\Model\AbstractModel;
 use Magento\Sales\Model\Order;
 use Magento\Quote\Model\Quote;
 use \Magento\Checkout\Model\Session;
+use \Ewave\CheckoutFields\Api\Data\QuoteFieldValueInterface;
 
 /**
  * Class OrderFieldValue
@@ -171,10 +172,9 @@ class OrderFieldValue extends AbstractModel implements IdentityInterface, OrderF
     public function saveCustomCheckoutValuesToOrder(Quote $quote, Order $order)
     {
         /**
-         * @var $quoteCollectionFields \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection
+         * @var $items \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection
          */
-        $quoteCollectionFields = $this->_quoteFieldsCollectionFactory->create();
-        $items = $quoteCollectionFields->addFieldToFilter('quote_id', $quote->getId());
+        $items = $this->prepareQuoteCollectionFields($quote->getId());
 
         if (!$items->count()) {
             // Index controller was not fired yet
@@ -194,13 +194,32 @@ class OrderFieldValue extends AbstractModel implements IdentityInterface, OrderF
 
         if (!empty($dataToSave)) {
             $this->_getResource()->saveCustomCheckoutValuesToOrder($dataToSave);
+            $this->deleteItems($items);
+        }
+    }
 
-            /**
-             * @var $item \Ewave\CheckoutFields\Model\QuoteFieldValue
-             */
-            foreach ($items as $item) {
-                $item->getResource()->delete($item);
-            }
+    /**
+     * @param int $quoteId
+     * @return ResourceModel\QuoteFieldValue\Collection
+     */
+    public function prepareQuoteCollectionFields($quoteId)
+    {
+        /* @var $quoteCollectionFields \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection */
+        $quoteCollectionFields = $this->_quoteFieldsCollectionFactory->create();
+        return $quoteCollectionFields->addFieldToFilter(QuoteFieldValueInterface::QUOTE_ID, $quoteId);
+    }
+
+    /**
+     * @param \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection $items
+     * @throws \Exception
+     */
+    public function deleteItems($items)
+    {
+        /**
+         * @var $item \Ewave\CheckoutFields\Model\QuoteFieldValue
+         */
+        foreach ($items as $item) {
+            $item->getResource()->delete($item);
         }
     }
 
@@ -212,6 +231,6 @@ class OrderFieldValue extends AbstractModel implements IdentityInterface, OrderF
      */
     public function getCustomFields($orderId)
     {
-        return $this->getCollection()->addFieldToFilter('order_id', ['eq' => $orderId]);
+        return $this->getCollection()->addFieldToFilter(self::ORDER_ID, ['eq' => $orderId]);
     }
 }

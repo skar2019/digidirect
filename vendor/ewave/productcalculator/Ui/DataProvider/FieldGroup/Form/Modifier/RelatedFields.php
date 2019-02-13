@@ -64,7 +64,8 @@ class RelatedFields implements ModifierInterface
                 static::RELATED_FIELDS_FIELDSET => [
                     'children' => [
                         'button_set' => $this->getButtonSet(
-                            __('Add User Input Fields')
+                            __('Add User Input Fields'),
+                            __('New User Input Fields')
                         ),
                         'modal' => $this->getModal(
                             __('Add User Input Fields')
@@ -109,12 +110,11 @@ class RelatedFields implements ModifierInterface
     /**
      * Retrieve button set
      *
-     * @param Phrase $content
      * @param Phrase $buttonTitle
-     * @param string $scope
+     * @param Phrase $button2Title
      * @return array
      */
-    protected function getButtonSet(Phrase $buttonTitle)
+    protected function getButtonSet(Phrase $buttonTitle, Phrase $button2Title)
     {
         $modalTarget = static::SCOPE_NAME . '.' . static::RELATED_FIELDS_FIELDSET . '.modal';
 
@@ -152,7 +152,22 @@ class RelatedFields implements ModifierInterface
                             ],
                         ],
                     ],
-
+                ],
+                'button_add_new_fields' => [
+                    'arguments' => [
+                        'data' => [
+                            'config' => [
+                                'formElement' => 'container',
+                                'componentType' => 'container',
+                                'component' => 'Ewave_ProductCalculator/js/form/button',
+                                'title' => $button2Title,
+                                'href' => $this->urlBuilder->getUrl(
+                                    'ewave_productcalculator/field/new'
+                                ),
+                                'actions' => [],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];

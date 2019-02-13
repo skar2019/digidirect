@@ -65,7 +65,7 @@ class Save extends Calculator
             $model->setData($data);
             try {
                 $this->calculatorRepository->save($model);
-                $this->messageManager->addSuccessMessage(__('You saved the calculator.'));
+                $this->messageManager->addSuccessMessage(__('You saved the Product Finder.'));
                 $this->dataPersistor->clear(DataProvider::DATA_PERSISTOR_KEY);
 
                 if ($this->getRequest()->getParam('back')) {
@@ -75,7 +75,7 @@ class Save extends Calculator
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the calculator.'));
+                $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the Product Finder.'));
             }
 
             $this->dataPersistor->set(DataProvider::DATA_PERSISTOR_KEY, $data);

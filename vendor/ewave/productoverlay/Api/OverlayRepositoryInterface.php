@@ -24,7 +24,7 @@ interface OverlayRepositoryInterface
      * Retrieve overlay.
      *
      * @param int $overlayId
-     * @return \Ewave\ProductOverlay\Api\Data\OverlaySearchResultsInterface
+     * @return \Ewave\ProductOverlay\Api\Data\OverlayInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getById($overlayId);

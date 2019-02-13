@@ -3,7 +3,9 @@ namespace Ewave\AbstractAttributes\Controller\Adminhtml\Option;
 
 use Ewave\AbstractAttributes\Api\Data\OptionInterfaceFactory as OptionFactory;
 use Ewave\AbstractAttributes\Api\OptionRepositoryInterface;
+use Ewave\AbstractAttributes\Model\CacheInvalidator;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Controller\ResultFactory;
 
 class Delete extends \Magento\Backend\App\Action
@@ -19,18 +21,26 @@ class Delete extends \Magento\Backend\App\Action
     protected $optionFactory;
 
     /**
+     * @var CacheInvalidator
+     */
+    protected $cacheInvalidator;
+
+    /**
      * Delete constructor.
      * @param Context $context
      * @param OptionRepositoryInterface $optionRepository
      * @param OptionFactory $optionFactory
+     * @param CacheInvalidator $cacheInvalidator
      */
     public function __construct(
         Context $context,
         OptionRepositoryInterface $optionRepository,
-        OptionFactory $optionFactory
+        OptionFactory $optionFactory,
+        CacheInvalidator $cacheInvalidator = null
     ) {
         $this->optionRepository = $optionRepository;
         $this->optionFactory = $optionFactory;
+        $this->cacheInvalidator = $cacheInvalidator ?: ObjectManager::getInstance()->get(CacheInvalidator::class);
 
         parent::__construct($context);
     }
@@ -46,6 +56,7 @@ class Delete extends \Magento\Backend\App\Action
 
         try {
             $this->optionRepository->deleteById($id);
+            $this->cacheInvalidator->invalidate();
             $this->messageManager->addSuccessMessage(__('Option has been deleted.'));
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage($e->getMessage());

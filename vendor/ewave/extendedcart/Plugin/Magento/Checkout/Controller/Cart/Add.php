@@ -40,6 +40,11 @@ class Add
     protected $urlDataHelper;
 
     /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $checkoutSession;
+
+    /**
      * Add constructor.
      *
      * @param \Magento\Framework\App\Action\Context $context
@@ -49,6 +54,7 @@ class Add
      * @param \Magento\Framework\Serialize\Serializer\Json $serializerJson
      * @param \Magento\Framework\App\ProductMetadataInterface $productMetadata
      * @param \Magento\Framework\Url\Helper\Data $urlDataHelper
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -57,7 +63,8 @@ class Add
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Serialize\Serializer\Json $serializerJson,
         \Magento\Framework\App\ProductMetadataInterface $productMetadata,
-        \Magento\Framework\Url\Helper\Data $urlDataHelper
+        \Magento\Framework\Url\Helper\Data $urlDataHelper,
+        \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->context = $context;
         $this->storeManager = $storeManager;
@@ -66,6 +73,7 @@ class Add
         $this->serializerJson = $serializerJson;
         $this->productMetadata = $productMetadata;
         $this->urlDataHelper = $urlDataHelper;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
@@ -116,7 +124,7 @@ class Add
         \Closure $proceed
     ) {
         /**
-         * @var $messageManager \Ewave\ExtendedCart\Model\AddToCart\MessageManager
+         * @var $quote \Magento\Quote\Model\Quote
          * @var $view \Magento\Framework\App\View
          * @var $request \Magento\Framework\App\Request\Http
          * @var $response \Magento\Framework\App\Response\Http
@@ -127,8 +135,8 @@ class Add
             return $result;
         }
 
-        $messageManager = $this->context->getMessageManager();
-        if (!$messageManager->isAddToCartFinishedSuccessfully()) {
+        $quote = $this->checkoutSession->getQuote();
+        if ($quote->getHasError()) {
             return $result;
         }
 

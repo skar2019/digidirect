@@ -1,8 +1,10 @@
-<?php
-/** @var  $block \Ewave\OrderImages\Block\Rma\View */
-$item = $this->getParentBlock()->getItem();
-?>
-<td class="col image" data-th="<?= $block->escapeHtml(__('Image')) ?>">
-    <img class="image" src="<?= $block->escapeUrl($block->getRmaItemImage($item)) ?>"
-         alt="<?= $block->escapeHtml($item->getProductName()) ?>"/>
-</td>
+<?php if ($block->isModuleEnable()) : ?>
+    <?php
+    /** @var  $block \Ewave\OrderImages\Block\Rma\View */
+    $item = $this->getParentBlock()->getItem();
+    ?>
+    <td class="col image" data-th="<?= $block->escapeHtml(__('Image')) ?>">
+        <img class="image" src="<?= $block->escapeUrl($block->getRmaItemImage($item)) ?>"
+             alt="<?= $block->escapeHtml($item->getProductName()) ?>"/>
+    </td>
+<?php endif; ?>

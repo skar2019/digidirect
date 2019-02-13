@@ -4,9 +4,6 @@
         <referenceContainer name="after.body.start">
             <block class="Ewave\MyStoreWidget\Block\MyStore" name="header_mystore_widget" as="mystorewidget_header"
                    template="Ewave_MyStoreWidget::header/mystore.phtml" before="-">
-                <arguments>
-                    <argument name="storeNameFormat" xsi:type="string">%name (%state, %postcode)</argument>
-                </arguments>
             </block>
         </referenceContainer>
     </body>

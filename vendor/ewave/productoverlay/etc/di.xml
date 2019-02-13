@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Ewave\ProductOverlay\Data\PageSearchResultsInterface"
+    <preference for="Ewave\ProductOverlay\Api\Data\OverlaySearchResultsInterface"
                 type="Magento\Framework\Api\SearchResults"/>
-    <preference for="Ewave\ProductOverlay\Api\Data\PageInterface"
+    <preference for="Ewave\ProductOverlay\Api\Data\OverlayInterface"
                 type="Ewave\ProductOverlay\Model\Overlays"/>
-    <preference for="Ewave\ProductOverlay\Api\PageRepositoryInterface"
+    <preference for="Ewave\ProductOverlay\Api\OverlayRepositoryInterface"
                 type="Ewave\ProductOverlay\Model\OverlaysRepository"/>
     <preference for="Ewave\ProductOverlay\Api\Data\ProductRender\OverlaysInterface"
                 type="Ewave\ProductOverlay\Model\ProductRender\Overlays"/>
@@ -14,6 +14,7 @@
         <arguments>
             <argument name="config" xsi:type="array">
                 <item name="processors_factory" xsi:type="array">
+                    <item name="catalog_rule_overlays" xsi:type="object">Ewave\ProductOverlay\Model\Rule\CatalogRuleOverlays\Proxy</item>
                     <item name="private_sales" xsi:type="object">Ewave\ProductOverlay\Model\Rule\CatalogRule\Proxy</item>
                     <item name="stock" xsi:type="object">Ewave\ProductOverlay\Model\Rule\Stock\Proxy</item>
                     <item name="customer_group" xsi:type="object">Ewave\ProductOverlay\Model\Rule\CustomerGroup\Proxy</item>
@@ -119,4 +120,30 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Framework\EntityManager\Operation\AttributePool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="overlayCatalogRule" xsi:type="array">
+                    <item name="Magento\CatalogRule\Api\Data\RuleInterface" xsi:type="array">
+                        <item name="read" xsi:type="string">Ewave\ProductOverlay\Model\ResourceModel\Rule\CatalogRule\ReadHandler</item>
+                        <item name="create" xsi:type="string">Ewave\ProductOverlay\Model\ResourceModel\Rule\CatalogRule\SaveHandler</item>
+                        <item name="update" xsi:type="string">Ewave\ProductOverlay\Model\ResourceModel\Rule\CatalogRule\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Magento\CatalogRule\Model\ResourceModel\Rule\AssociatedEntityMap">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="overlay" xsi:type="array">
+                    <item name="associations_table" xsi:type="string">ewave_product_overlay_catalogrule</item>
+                    <item name="rule_id_field" xsi:type="string">row_id</item>
+                    <item name="entity_id_field" xsi:type="string">overlay_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
 </config>

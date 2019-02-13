@@ -50,8 +50,10 @@ class Add extends \Magento\Framework\View\Element\Template
         $this->_giftCart->getQuote()->collectTotals();
         $items = $this->_giftCart->getNewFreeGiftItems();
         if (count($items)) {
-            $this->_checkoutSession->setRedirectDoNotNeeded(true);
+            $this->_checkoutSession->setRedirectDoNotNeeded(false);
             return parent::_toHtml();
+        } else {
+            $this->_checkoutSession->setRedirectDoNotNeeded(true);
         }
 
         return '';

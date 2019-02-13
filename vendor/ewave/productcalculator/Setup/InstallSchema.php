@@ -88,7 +88,7 @@ class InstallSchema implements InstallSchemaInterface
             ['nullable' => false],
             'Conditions Serialized'
         )->setComment(
-            'Ewave Product Calculator'
+            'Ewave Product finder'
         );
         $setup->getConnection()->createTable($table);
         return $this;
@@ -151,7 +151,7 @@ class InstallSchema implements InstallSchemaInterface
             ['nullable' => false],
             'Type'
         )->setComment(
-            'Ewave Product Calculator Field Group'
+            'Ewave Product finder Field Group'
         );
         $setup->getConnection()->createTable($table);
         return $this;
@@ -173,7 +173,7 @@ class InstallSchema implements InstallSchemaInterface
             Table::TYPE_INTEGER,
             null,
             ['unsigned' => true, 'nullable' => false, 'primary' => true],
-            'Product Calculator Id'
+            'Product finder Id'
         )->addColumn(
             'field_group_id',
             Table::TYPE_INTEGER,
@@ -203,7 +203,7 @@ class InstallSchema implements InstallSchemaInterface
             FieldGroupInterface::ID,
             Table::ACTION_CASCADE
         )->setComment(
-            'Ewave Product Calculators To Field Groups Relations'
+            'Ewave Product finders To Field Groups Relations'
         );
         $setup->getConnection()->createTable($table);
         return $this;
@@ -254,7 +254,7 @@ class InstallSchema implements InstallSchemaInterface
             ['nullable' => false],
             'Conditions Serialized'
         )->setComment(
-            'Ewave Product Calculator Field'
+            'Ewave Product finder Field'
         );
         $setup->getConnection()->createTable($table);
         return $this;
@@ -306,7 +306,7 @@ class InstallSchema implements InstallSchemaInterface
             FieldInterface::ID,
             Table::ACTION_CASCADE
         )->setComment(
-            'Ewave Product Calculator Field Groups To Fields Relations'
+            'Ewave Product finder Field Groups To Fields Relations'
         );
         $setup->getConnection()->createTable($table);
         return $this;

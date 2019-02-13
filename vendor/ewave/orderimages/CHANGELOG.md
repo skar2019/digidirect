@@ -28,3 +28,8 @@
 * Bugfixes:
     * Remove PHP dependencies in composer.json
 
+
+1.3.0
+=============
+*Improvements
+    * Marketplace sync

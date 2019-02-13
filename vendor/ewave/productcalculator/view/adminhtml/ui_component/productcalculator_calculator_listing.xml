@@ -9,7 +9,7 @@
         <item name="buttons" xsi:type="array">
             <item name="add" xsi:type="array">
                 <item name="name" xsi:type="string">add</item>
-                <item name="label" xsi:type="string" translate="true">Add New Calculator</item>
+                <item name="label" xsi:type="string" translate="true">Add New Product Finder</item>
                 <item name="class" xsi:type="string">primary</item>
                 <item name="url" xsi:type="string">*/*/new</item>
             </item>
@@ -97,6 +97,19 @@
                     </item>
                 </argument>
             </action>
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="ewave_productcalculator/calculator/massDelete" />
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you want to delete the selected items?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
         </massaction>
     </container>
     <columns name="calculator_columns">
@@ -145,7 +158,7 @@
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Calculation Button Label</item>
+                    <item name="label" xsi:type="string" translate="true">Button Label</item>
                     <item name="sortOrder" xsi:type="number">30</item>
                 </item>
             </argument>

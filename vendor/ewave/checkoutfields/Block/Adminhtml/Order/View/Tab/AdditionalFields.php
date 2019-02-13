@@ -150,16 +150,7 @@ class AdditionalFields extends BackendTemplate implements TabInterface
             }
             $found->setData(
                 'html_classes',
-                array_reduce(
-                    $field['validation']['rule'] ?? [],
-                    function ($carry, $item) {
-                        if (empty($item['_attribute']['name']) && empty($item['name'])) {
-                            return $carry;
-                        }
-                        $name = $item['name'] ?? $item['_attribute']['name'];
-                        return $carry . ' ' . $name;
-                    }
-                )
+                $this->parser->getValidationClassesHtml($field)
             );
             $resultFields[] = $found;
         }

@@ -157,7 +157,7 @@ switch ($type = $block->getType()) {
         <?php if ($type == 'related'): ?>
             <div class="block <?= /* @escapeNotVerified */ $class ?>" data-mage-init='{"relatedProducts":{"relatedCheckbox":".related.checkbox"}}' data-limit="<?= /* @escapeNotVerified */ $limit ?>" data-shuffle="<?= /* @escapeNotVerified */ $shuffle ?>">
         <?php else: ?>
-            <div class="products-widget _full-width-background upsell-block block <?= /* @escapeNotVerified */ $class ?>" data-mage-init='{"upsellProducts":{}}' data-limit="<?= /* @escapeNotVerified */ $limit ?>" data-shuffle="<?= /* @escapeNotVerified */ $shuffle ?>">
+            <div class="products-widget _full-width-background upsell-block <?= /* @escapeNotVerified */ $class ?>" data-mage-init='{"upsellProducts":{}}' data-limit="<?= /* @escapeNotVerified */ $limit ?>" data-shuffle="<?= /* @escapeNotVerified */ $shuffle ?>">
         <?php endif; ?>
     <?php else: ?>
         <div class="block <?= /* @escapeNotVerified */ $class ?>">
@@ -172,8 +172,8 @@ switch ($type = $block->getType()) {
             <button type="button" class="action select" role="select-all"><span><?= /* @escapeNotVerified */ __('select all') ?></span></button>
         </div>
         <?php endif; ?>
-        <div class="products wrapper grid products-grid products-<?= /* @escapeNotVerified */ $type ?>">
-            <ol class="products list items product-items"
+        <div class="wrapper grid products-grid products-<?= /* @escapeNotVerified */ $type ?>">
+            <ol class="list items product-items"
             <?php if (count($items) > 2):?>   
                     data-mage-init='{
                                         "slickInit":{

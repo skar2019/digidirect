@@ -41,7 +41,6 @@ class Rule extends \Magento\CatalogRule\Model\Rule
     public function getMatchingProductIds() //skip afterGetMatchingProductIds plugin
     {
         if ($this->_productIds === null) {
-
             $this->_productIds = [];
             $this->setCollectedAttributes([]);
 
@@ -61,7 +60,6 @@ class Rule extends \Magento\CatalogRule\Model\Rule
                     'product'    => $this->_productFactory->create()
                 ]
             );
-
         }
 
         return $this->_productIds;
@@ -77,7 +75,6 @@ class Rule extends \Magento\CatalogRule\Model\Rule
         $product->setData($args['row']);
 
         $stores = $this->getStores();
-        $stores = explode(',', $stores);
         $results = [];
 
         foreach ($stores as $storeId) {

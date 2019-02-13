@@ -90,4 +90,10 @@
 ===============
 * Bugfixes:
     * [#259887](https://ewave.tpondemand.com/entity/259887) -- [PROJECT: PLATYPUS][SDD] Delivery method doesn't change after the user clicks on Confirm button to change Delivery method to Standard delivery
+	
+2.0.7
+================
+* Bugfixes:
+    * [#274468](https://ewave.tpondemand.com/entity/274468) -- [PROJECT: PLATYPUS][AddressVerification] 05/10/18 postcode length validation
+    * [#286555](https://ewave.tpondemand.com/entity/286555) -- [Project: Platypus] Address is not saved in quote for C&C	
      

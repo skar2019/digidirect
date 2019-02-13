@@ -268,4 +268,23 @@
             </area>
         </field>
     -->
+
+        <!-- EXAMPLE <DEPENDS> TAG: -->
+    <!--
+        <field id="textarea_field">
+            <frontend_name>Textarea field</frontend_name>
+            <frontend_input>textarea</frontend_input>
+            <sort_order>100</sort_order>
+            <depends>
+                <field_id>parent_field_id</field_id>
+                <action>clear_quote_values_by_depends_on_date</action>
+            </depends>
+            <area>
+                <checkout_step>shipping-step</checkout_step>
+                <custom_scope>shippingAddress</custom_scope>
+                <fieldset>address-list-additional-addresses</fieldset>
+            </area>
+        </field>
+    -->
+
 </config>

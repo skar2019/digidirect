@@ -1,19 +1,21 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Ui\DataProvider\Method\Form\Modifier;
 
+use Ewave\ExtendedShippingRates\Api\Data\MethodInterface;
+use Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Method as MethodController;
+use Ewave\ExtendedShippingRates\Model\Carrier\MethodFactory;
+use Ewave\ExtendedShippingRates\Model\Config\Source\WeightType;
+use Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory as CarrierCollectionFactory;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Registry;
+use Magento\Framework\Stdlib\ArrayManager;
+use Magento\Framework\UrlInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Ui\Component\Form\Element\DataType\Number;
 use Magento\Ui\Component\Form\Element\DataType\Text;
 use Magento\Ui\Component\Form\Element\Hidden;
 use Magento\Ui\Component\Form\Element\Select;
 use Magento\Ui\Component\Form\Field;
-use Magento\Framework\Registry;
-use Magento\Framework\Stdlib\ArrayManager;
-use Magento\Framework\UrlInterface;
-use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\App\RequestInterface;
-use Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Method as MethodController;
-use Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory as CarrierCollectionFactory;
-use Ewave\ExtendedShippingRates\Model\Carrier\MethodFactory;
 
 /**
  * Data provider for main panel
@@ -82,6 +84,14 @@ class General extends AbstractModifier
                 ]
             ]
         );
+
+        foreach ($data as &$entity) {
+            if (array_key_exists(MethodInterface::PACKAGING_WEIGHT_TYPE, $entity)
+                && empty($entity[MethodInterface::PACKAGING_WEIGHT_TYPE])
+            ) {
+                $entity[MethodInterface::PACKAGING_WEIGHT_TYPE] = WeightType::EMPTY_CODE;
+            }
+        }
 
         return $data;
     }

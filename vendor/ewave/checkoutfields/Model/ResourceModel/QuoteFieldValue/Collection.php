@@ -3,6 +3,7 @@
 namespace Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue;
 
 use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Ewave\CheckoutFields\Api\Data\QuoteFieldValueInterface;
 
 /**
  * Class Collection
@@ -20,5 +21,14 @@ class Collection extends AbstractCollection
             'Ewave\CheckoutFields\Model\QuoteFieldValue',
             'Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue'
         );
+    }
+
+    /**
+     * @param array $fieldIds
+     * @return Collection
+     */
+    public function filterByFieldIds($fieldIds)
+    {
+        return $this->addFieldToFilter(QuoteFieldValueInterface::FIELD_ID, ['in' => $fieldIds]);
     }
 }

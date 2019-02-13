@@ -6,7 +6,6 @@ $isSingleStoreEnabled = $block->isEnableSingleStoreInCartRestriction();
 <div class="collect_place_class" data-mage-init='{"<?php echo $block->escapeHtml($block->getCollectBlockWidgetTitle()) ?>": {
     "isSingleStore": "<?php /* @escapeNotVerified */ echo $isSingleStoreEnabled;?>",
     "searchUrl": "<?php echo $block->escapeUrl($block->getPlacesUrl()) ?>",
-    "cartItemEdit": "<?php echo $block->escapeHtml((int)$block->getIsCartItemEditPage()) ?>",
     "collectQty": <?php if ($block->getQuoteItem() && $block->getQuoteItem()->getQty()) : ?>"<?php echo $block->escapeHtml($block->getQuoteItem()->getQty())?>"<?php else:?>"1"<?php endif;?>}
     }'>
     <?php $presetCollectPlace = $block->getPresetCollectPlace();?>

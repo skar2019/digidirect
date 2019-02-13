@@ -40,14 +40,14 @@ class Delete extends Calculator
         if ($id) {
             try {
                 $this->calculatorRepository->deleteById($id);
-                $this->messageManager->addSuccessMessage(__('You deleted calculator.'));
+                $this->messageManager->addSuccessMessage(__('You deleted Product Finder.'));
                 return $resultRedirect->setPath('*/*/');
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
                 return $resultRedirect->setPath('*/*/edit', ['id' => $id]);
             }
         }
-        $this->messageManager->addErrorMessage(__('We can\'t find a calculator to delete.'));
+        $this->messageManager->addErrorMessage(__('We can\'t find a product finder to delete.'));
         return $resultRedirect->setPath('*/*/');
     }
 }

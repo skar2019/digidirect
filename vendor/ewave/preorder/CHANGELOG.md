@@ -1,6 +1,5 @@
 1.0.0
 =============
-
 * New features:
    * [#162869](https://ewave.tpondemand.com/entity/162869) -- Pre-Order. Solution Architecture
    * [#162870](https://ewave.tpondemand.com/entity/162870) -- GENERAL SETTINGS. As an admin, I want to be able turn on the pre-order for the storeview
@@ -17,3 +16,8 @@
 * Bugfixes:
     * [#196021](https://ewave.tpondemand.com/entity/196021) -- [Quick View+Pre Order] The button name of the available for pre-order product becomes "Add to Cart" after adding it to Cart
     * [#268614](https://ewave.tpondemand.com/entity/268614) -- [DISPLAY ALL METHODS] Exception for virtual product
+
+1.0.2
+=============
+* Bugfixes:
+    * [#283447](https://ewave.tpondemand.com/entity/283447) -- [API] 500 Internal Server Error while adding item to the cart

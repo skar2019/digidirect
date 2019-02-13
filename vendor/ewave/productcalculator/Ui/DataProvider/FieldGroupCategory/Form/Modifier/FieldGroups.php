@@ -65,7 +65,8 @@ class FieldGroups implements ModifierInterface
                 static::FIELD_GROUPS_FIELDSET => [
                     'children' => [
                         'button_set' => $this->getButtonSet(
-                            __('Add User Input Group')
+                            __('Add User Input Group'),
+                            __('New User Input Group')
                         ),
                         'modal' => $this->getModal(
                             __('Add User Input Group')
@@ -111,9 +112,10 @@ class FieldGroups implements ModifierInterface
      * Retrieve button set
      *
      * @param Phrase $buttonTitle
+     * @param Phrase $button2Title
      * @return array
      */
-    protected function getButtonSet(Phrase $buttonTitle)
+    protected function getButtonSet(Phrase $buttonTitle, Phrase $button2Title)
     {
         $modalTarget = static::SCOPE_NAME . '.' . static::FIELD_GROUPS_FIELDSET . '.modal';
 
@@ -152,6 +154,22 @@ class FieldGroups implements ModifierInterface
                         ],
                     ],
 
+                ],
+                'button_add_new_field_group' => [
+                    'arguments' => [
+                        'data' => [
+                            'config' => [
+                                'formElement' => 'container',
+                                'componentType' => 'container',
+                                'component' => 'Ewave_ProductCalculator/js/form/button',
+                                'title' => $button2Title,
+                                'href' => $this->urlBuilder->getUrl(
+                                    'ewave_productcalculator/fieldGroup/new'
+                                ),
+                                'actions' => [],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];

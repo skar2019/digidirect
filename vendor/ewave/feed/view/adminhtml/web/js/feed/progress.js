@@ -64,11 +64,14 @@ define([
         },
 
         mute: function () {
-            this.listener = false;
+            var self = this;
 
+            this.listener = false;
             if (this.request) {
-                this.request.abort();
-                this.request = null;
+                setTimeout(function () {
+                    self.request.abort();
+                    self.request = null;
+                }, 500);
             }
         },
 
@@ -102,9 +105,14 @@ define([
                             self.listen();
                         }, 200);
                     }
+                },
+
+                error: function (xhr) {
+                    if (xhr.status === 0) {
+                        console.warn('Request has been canceled because the feed was generated.');
+                    }
                 }
             });
         }
     });
 });
-

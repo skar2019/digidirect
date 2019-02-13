@@ -23,3 +23,8 @@
     * Compatibility with Magento 2.3.0
 * Bugfixes:
     * [#284341](https://ewave.tpondemand.com/entity/284341) -- [M2.3][Product Overlays] Overlays are not shown on PLP
+
+1.1.0
+===============
+* New features:
+    * [#285372](https://ewave.tpondemand.com/entity/285372) -- [MULTI-VIEW IN WIDGETS] As a customer, I want to be able to use multi-view on the following widgets

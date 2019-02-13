@@ -48,6 +48,11 @@ class QuantityValidator extends \Magento\CatalogInventory\Model\Quote\Item\Quant
         /* @var $quoteItem \Magento\Quote\Model\Quote\Item */
         $quoteItem = $observer->getEvent()->getItem();
 
+        // Check for rest api calls (situation when "product" key is not exist yet)
+        if (!$quoteItem->getData('product')) {
+            return;
+        }
+
         $qty = $quoteItem->getQty();
 
         /** @var \Magento\CatalogInventory\Model\Stock\Item $stockItem */

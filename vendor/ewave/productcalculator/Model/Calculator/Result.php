@@ -4,6 +4,7 @@ namespace Ewave\ProductCalculator\Model\Calculator;
 
 use Ewave\ProductCalculator\Api\FieldRepositoryInterface;
 use Ewave\ProductCalculator\Model\Field;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class Result
@@ -78,14 +79,18 @@ class Result
         foreach ($inputData as $fieldIdsGroup) {
             $fieldGroupFilterIds = [];
             foreach ($fieldIdsGroup as $fieldId) {
-                /** @var Field $field */
-                if ($field = $this->fieldRepository->getById($fieldId)) {
-                    $fieldFilterIds = $this->getProductIdsByConditions(
-                        $field->getRule()->getConditions(),
-                        $initialIds
-                    );
-                    $fieldGroupFilterIds = array_unique(array_merge($fieldGroupFilterIds, $fieldFilterIds));
+                try {
+                    /** @var Field $field */
+                    $field = $this->fieldRepository->getById($fieldId);
+                } catch (NoSuchEntityException $e) {
+                    continue;
                 }
+
+                $fieldFilterIds = $this->getProductIdsByConditions(
+                    $field->getRule()->getConditions(),
+                    $initialIds
+                );
+                $fieldGroupFilterIds = array_unique(array_merge($fieldGroupFilterIds, $fieldFilterIds));
             }
             $productIds = array_intersect($initialIds, $fieldGroupFilterIds);
             $initialIds = $productIds;
@@ -107,13 +112,17 @@ class Result
             $this->categoriesHash[$hashKey] = [];
             foreach ($inputData as $fieldIdsGroup) {
                 foreach ($fieldIdsGroup as $fieldId) {
-                    /** @var Field $field */
-                    if ($field = $this->fieldRepository->getById($fieldId)) {
-                        $this->categoriesHash[$hashKey] = array_merge(
-                            $this->categoriesHash[$hashKey],
-                            $field->getCategoriesToShow()
-                        );
+                    try {
+                        /** @var Field $field */
+                        $field = $this->fieldRepository->getById($fieldId);
+                    } catch (NoSuchEntityException $e) {
+                        continue;
                     }
+
+                    $this->categoriesHash[$hashKey] = array_merge(
+                        $this->categoriesHash[$hashKey],
+                        $field->getCategoriesToShow()
+                    );
                 }
             }
         }

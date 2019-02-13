@@ -204,6 +204,11 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
             }
         }
 
+        $checkCatalogRuleOverlay = $this->checkRuleWithProcessor('catalog_rule_overlays');
+        if (null !== $checkCatalogRuleOverlay) {
+            return $checkCatalogRuleOverlay;
+        }
+
         // has image for the current mode
         if (!$this->getSkipCheckImage() && !$this->getData($this->getMode() . '_img')) {
             return false;
@@ -722,11 +727,11 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
     /**
      * Get stores
      *
-     * @return string|null
+     * @return array
      */
     public function getStores()
     {
-        return $this->getData(self::STORES);
+        return $this->_getDataArray(self::STORES);
     }
 
     /**
@@ -1335,7 +1340,7 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
      */
     public function getCatalogPriceRulesIds()
     {
-        return $this->getData(self::CATALOG_PRICE_RULES_IDS);
+        return $this->_getDataArray(self::CATALOG_PRICE_RULES_IDS);
     }
 
     /**
@@ -1378,5 +1383,19 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
     public function setStockTo($stockTo)
     {
         return $this->setData(self::STOCK_TO, $stockTo);
+    }
+
+    /**
+     * @param string $key
+     * @return array
+     */
+    protected function _getDataArray($key)
+    {
+        $value = $this->getData($key);
+        if (!is_array($value)) {
+            $value = array_filter(explode(',', $value));
+            $this->setData(self::CATALOG_PRICE_RULES_IDS, $value);
+        }
+        return $value;
     }
 }

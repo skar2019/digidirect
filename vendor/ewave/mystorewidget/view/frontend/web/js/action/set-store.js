@@ -7,6 +7,6 @@ define([
         store.entityId(item.entityId);
         store.selectedStore(item.selectedStore);
         store.storeUrl(item.storeUrl);
-        store.isStoreSelected(item.isStoreSelected)
+        store.isStoreSelected(item.isStoreSelected);
     };
 });

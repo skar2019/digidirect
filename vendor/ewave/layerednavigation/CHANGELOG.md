@@ -146,3 +146,8 @@
     * Compatibility with Magento 2.3.0
 * Bugfixes:
     * [#284971](https://ewave.tpondemand.com/entity/284971) -- [M2.3][Layered Navigation] Fatal error on Category page
+
+1.5.1
+=============
+* Bugfixes:
+    * [#288273](https://ewave.tpondemand.com/entity/288273) -- [Project: Rip Curl][BO][URL Rewrites][PLP][Filters] Filters don't apply to categories whose URL rewrites were removed from BO

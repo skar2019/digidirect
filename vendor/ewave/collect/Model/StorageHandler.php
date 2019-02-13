@@ -2,9 +2,16 @@
 
 namespace Ewave\Collect\Model;
 
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\DataObject;
+use Magento\Framework\Event\ManagerInterface;
+
+/**
+ * Class StorageHandler
+ * @package Ewave\Collect\Model
+ */
 class StorageHandler
 {
-
     /**
      * StorageFactory
      *
@@ -27,20 +34,28 @@ class StorageHandler
     protected $_storageHelper;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $eventManager;
+
+    /**
      * StorageHandler constructor.
      *
      * @param \Ewave\Collect\Model\StorageFactory $storageFactory
      * @param \Ewave\Collect\Model\Config\Data $storageConfig
      * @param \Ewave\Collect\Helper\Storage\Data $storageHelper
+     * @param ManagerInterface|null $eventManager
      */
     public function __construct(
         \Ewave\Collect\Model\StorageFactory $storageFactory,
         \Ewave\Collect\Model\Config\Data $storageConfig,
-        \Ewave\Collect\Helper\Storage\Data $storageHelper
+        \Ewave\Collect\Helper\Storage\Data $storageHelper,
+        ManagerInterface $eventManager = null
     ) {
         $this->_storageFactory = $storageFactory;
         $this->_storageConfig = $storageConfig;
         $this->_storageHelper = $storageHelper;
+        $this->eventManager = $eventManager ?: ObjectManager::getInstance()->get(ManagerInterface::class);
     }
 
     /**
@@ -93,7 +108,13 @@ class StorageHandler
         $result['data'] = $data;
         $result['catch'] = $catch;
 
-        return $result;
+        $transportObject = new DataObject($result);
+        $this->eventManager->dispatch(
+            'ewave_collect_after_get_places_by_data_from_storage',
+            ['transportObject' => $transportObject]
+        );
+
+        return $transportObject->getData();
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 namespace Ewave\OrderImages\Block\Rma;
 
 /**

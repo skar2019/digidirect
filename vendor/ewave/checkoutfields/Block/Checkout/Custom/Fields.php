@@ -46,16 +46,6 @@ class Fields extends Template
     /**
      * @return string
      */
-    public function getAjaxUrl()
-    {
-        return $this->getUrl('custom_fields/index/index', [
-            'ajax' => true,
-        ]);
-    }
-
-    /**
-     * @return string
-     */
     public function getFields()
     {
         $fields = $this->parser->getFields();

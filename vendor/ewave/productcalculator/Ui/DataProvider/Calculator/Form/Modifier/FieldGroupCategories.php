@@ -68,7 +68,8 @@ class FieldGroupCategories implements ModifierInterface
                 static::FIELD_GROUP_CATEGORIES_FIELDSET => [
                     'children' => [
                         'button_set'                            => $this->getButtonSet(
-                            __('Add Field Group Category')
+                            __('Add Field Group Category'),
+                            __('New Field Group Category')
                         ),
                         'modal'                                 => $this->getModal(
                             __('Add Field Group Category')
@@ -115,9 +116,10 @@ class FieldGroupCategories implements ModifierInterface
      * Retrieve button set
      *
      * @param Phrase $buttonTitle
+     * @param Phrase $button2Title
      * @return array
      */
-    protected function getButtonSet(Phrase $buttonTitle)
+    protected function getButtonSet(Phrase $buttonTitle, Phrase $button2Title)
     {
         $modalTarget = static::SCOPE_NAME . '.' . static::FIELD_GROUP_CATEGORIES_FIELDSET . '.modal';
 
@@ -155,7 +157,22 @@ class FieldGroupCategories implements ModifierInterface
                             ],
                         ],
                     ],
-
+                ],
+                'button_new_field_group_category' => [
+                    'arguments' => [
+                        'data' => [
+                            'config' => [
+                                'formElement' => 'container',
+                                'componentType' => 'container',
+                                'component' => 'Ewave_ProductCalculator/js/form/button',
+                                'title' => $button2Title,
+                                'href' => $this->urlBuilder->getUrl(
+                                    'ewave_productcalculator/fieldGroupCategory/new'
+                                ),
+                                'actions' => [],
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];

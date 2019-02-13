@@ -1,8 +1,10 @@
 define([
     'jquery',
+    'mage/storage',
+    'Magento_Checkout/js/model/resource-url-manager',
     'uiRegistry',
     'Magento_Checkout/js/view/billing-address'
-], function ($, registry, billingAddress) {
+], function ($, storage, resourceUrlManager, registry, billingAddress) {
     'use strict';
 
     return {
@@ -42,18 +44,12 @@ define([
                     var options = {};
                     options.value = provider[values.area.custom_scope][index];
                     options.label = values.frontend_name;
-                    params[index] = options; // provider[values.area.custom_scope][index];
+                    params[index] = options;
                 }
             });
 
             if (Object.keys(params).length > 0 && passed) {
-                $.ajax({
-                    showLoader: true,
-                    url: config.ajaxUrl,
-                    data: params,
-                    type: 'POST',
-                    dataType: 'json'
-                }).done(function (data) {});
+                storage.post(resourceUrlManager.getUrl({'default': config.serviceUrl}, {}), JSON.stringify({params: params}));
             }
             return passed;
         }

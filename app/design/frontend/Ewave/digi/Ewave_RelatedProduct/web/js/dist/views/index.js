@@ -120,6 +120,7 @@ define(['module', 'exports', 'jquery', 'mage/template', 'slickFilter'], function
             key: 'getItems',
             value: function getItems() {
                 var items = this.element[0].querySelectorAll(this.options.itemSelector);
+                items = Array.from(items);
                 return items;
             }
         }, {
@@ -168,7 +169,6 @@ define(['module', 'exports', 'jquery', 'mage/template', 'slickFilter'], function
             key: 'filterItems',
             value: function filterItems(group) {
                 var self = this;
-
                 this.items.forEach(function (item) {
                     var categoties = item.getAttribute('data-groups');
                     if (categoties.indexOf(group) !== -1) {

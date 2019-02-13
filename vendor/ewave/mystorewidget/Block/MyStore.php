@@ -86,7 +86,6 @@ class MyStore extends \Magento\Framework\View\Element\Template implements Identi
         $this->configCacheType = $configCacheType;
         $this->storesSourceModel = $storesSourceModel;
         $this->myStoreRepository = $myStoreRepository;
-        $this->_isScopePrivate = true;
         parent::__construct($context, $data);
     }
 

@@ -297,7 +297,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             ['nullable' => true],
             'Label'
         )->setComment(
-            'Ewave Product Calculator Field Group Category'
+            'Ewave Product finder Field Group Category'
         );
         $setup->getConnection()->createTable($table);
     }
@@ -318,7 +318,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             Table::TYPE_INTEGER,
             null,
             ['unsigned' => true, 'nullable' => false, 'primary' => true],
-            'Product Calculator Id'
+            'Product finder Id'
         )->addColumn(
             CalculatorFieldGroupCategoryInterface::FIELD_GROUP_CATEGORY_ID,
             Table::TYPE_INTEGER,
@@ -348,7 +348,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             FieldGroupInterface::ID,
             Table::ACTION_CASCADE
         )->setComment(
-            'Ewave Product Calculators To Field Groups Category Relations'
+            'Ewave Product finders To Field Groups Category Relations'
         );
         $setup->getConnection()->createTable($table);
     }

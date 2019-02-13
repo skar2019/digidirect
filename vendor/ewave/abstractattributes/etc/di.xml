@@ -105,4 +105,14 @@
     <type name="Magento\Framework\Search\Request\Builder">
         <plugin name="eaaOptionsSetRequestName" type="Ewave\AbstractAttributes\Plugin\Framework\Search\Request\Builder"/>
     </type>
+
+    <!-- default cache types to be invalidated -->
+    <type name="Ewave\AbstractAttributes\Model\CacheInvalidator">
+        <arguments>
+            <argument name="defaultTypesToInvalidate" xsi:type="array">
+                <item name="block_html" xsi:type="string">block_html</item>
+                <item name="full_page" xsi:type="string">full_page</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -156,7 +156,7 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
      */
     public function cleanDataBeforeSave($quoteId)
     {
-        $items = $this->getCollection()->addFieldToFilter('quote_id', $quoteId);
+        $items = $this->getCollection()->addFieldToFilter(self::QUOTE_ID, $quoteId);
         /**
          * @var $item $this
          */
@@ -168,12 +168,15 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
     /**
      * @param \Magento\Quote\Model\Quote $quote
      * @param array $params
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param bool $reSave
      * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function saveCustomFieldsValuesToQuote($quote, $params = [])
+    public function saveCustomFieldsValuesToQuote($quote, $params = [], $reSave = true)
     {
-        $this->cleanDataBeforeSave($quote->getId());
+        if ($reSave) {
+            $this->cleanDataBeforeSave($quote->getId());
+        }
         $dataToSave = [];
         $fields = $this->_parser->getFields($quote->getStoreId());
         foreach ($params as $code => $values) {
@@ -188,5 +191,30 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
         if (!empty($dataToSave)) {
             $this->_getResource()->saveCustomFieldsValuesToQuote($dataToSave);
         }
+    }
+
+    /**
+     * Get custom fields quote
+     *
+     * @param int $quoteId
+     * @return \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection
+     */
+    public function getCustomFields($quoteId)
+    {
+        return $this->getCollection()->addFieldToFilter(self::QUOTE_ID, ['eq' => $quoteId]);
+    }
+
+    /**
+     * Get custom fields quote
+     *
+     * @param int $quoteId
+     * @param string $fieldId
+     * @return \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection
+     */
+    public function getCustomField($quoteId, $fieldId)
+    {
+        return $this->getCollection()
+            ->addFieldToFilter(self::QUOTE_ID, ['eq' => $quoteId])
+            ->addFieldToFilter(self::FIELD_ID, ['eq' => $fieldId]);
     }
 }

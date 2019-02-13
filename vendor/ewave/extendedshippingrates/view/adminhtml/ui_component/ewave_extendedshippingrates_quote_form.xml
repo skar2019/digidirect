@@ -301,23 +301,6 @@
                     <item name="sortOrder" xsi:type="number">10</item>
                 </item>
             </argument>
-            <field name="post_processing">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="dataType" xsi:type="string">boolean</item>
-                        <item name="formElement" xsi:type="string">checkbox</item>
-                        <item name="prefer" xsi:type="string">toggle</item>
-                        <item name="valueMap" xsi:type="array">
-                            <item name="true" xsi:type="number">1</item>
-                            <item name="false" xsi:type="number">0</item>
-                        </item>
-                        <item name="default" xsi:type="number">0</item>
-                        <item name="label" xsi:type="string" translate="true">Post Processing</item>
-                        <item name="dataScope" xsi:type="string">post_processing</item>
-                        <item name="source" xsi:type="string">ewave_extendedshippingrates_quote_form</item>
-                    </item>
-                </argument>
-            </field>
             <htmlContent name="html_content">
                 <argument name="block" xsi:type="object">Ewave\ExtendedShippingRates\Block\Adminhtml\ExtendedShippingRates\Quote\Edit\Tab\Actions</argument>
             </htmlContent>

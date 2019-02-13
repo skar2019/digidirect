@@ -92,3 +92,18 @@
     * [#268845](https://ewave.tpondemand.com/entity/268845) -- [ALL PRICES] As a system, I want JSON object to contain all ESR shipping methods prices
     * [#272519](https://ewave.tpondemand.com/entity/272519) -- [Multiple Delivery Method] As an admin, I want to be able to specify which shipping methods should be hidden if there is a specific shipping method in the cart
 
+1.3.1
+=============
+* Bugfixes:
+    * [#272976](https://ewave.tpondemand.com/entity/272976) -- [ESR] Custom condition rule is not applied if there is another rule with custom option
+    * [#284332](https://ewave.tpondemand.com/entity/284332) -- [ESR] Warning message after saving shipping rule
+
+1.3.2
+=============
+* Bugfixes:
+    * [#261997](https://ewave.tpondemand.com/entity/261997) -- [ESR] 'Post Processing' switcher must be deleted
+
+1.3.3
+=============
+* Bugfixes:
+    * [#204748](https://ewave.tpondemand.com/entity/204748) -- [ESR][Method] Incorrect behavior of 'Packaging weight, value' field

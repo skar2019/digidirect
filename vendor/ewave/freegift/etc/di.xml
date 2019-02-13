@@ -31,10 +31,22 @@
         <plugin name="Ewave_FreeGift::Magento\Quote\Model\Quote\Item\ToOrderItem"
                 type="Ewave\FreeGift\Plugin\Magento\Quote\Model\Quote\Item\ToOrderItem"/>
     </type>
-    <type name="Magento\GiftCard\Observer\GenerateGiftCardAccounts">
-        <plugin name="Ewave_FreeGift::Magento\GiftCard\Observer\GenerateGiftCardAccounts"
-                type="Ewave\FreeGift\Plugin\Magento\GiftCard\Observer\GenerateGiftCardAccounts"/>
+
+
+
+    <!-- Replace with existing classes (Magento\GiftCard\Observer\GenerateGiftCardAccounts does not exist in 2.2 ) -->
+    <type name="Magento\GiftCard\Observer\GenerateGiftCardAccountsOrder">
+        <plugin name="Ewave_FreeGift::Magento\GiftCard\Observer\GenerateGiftCardAccountsOrder"
+                type="Ewave\FreeGift\Plugin\Magento\GiftCard\Observer\GenerateGiftCardAccountsOrder"/>
     </type>
+    <type name="Magento\GiftCard\Observer\GenerateGiftCardAccountsInvoice">
+        <plugin name="Ewave_FreeGift::Magento\GiftCard\Observer\GenerateGiftCardAccountsInvoice"
+                type="Ewave\FreeGift\Plugin\Magento\GiftCard\Observer\GenerateGiftCardAccountsInvoice"/>
+    </type>
+    <!-- EOF -->
+
+
+
     <type name="Magento\Catalog\Helper\Product\Configuration">
         <plugin name="Ewave_FreeGift::Magento\Catalog\Helper\Product\Configuration"
                 type="Ewave\FreeGift\Plugin\Magento\Catalog\Helper\Product\Configuration"/>

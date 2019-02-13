@@ -43,7 +43,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             'main_table.id = field_group_field.' . FieldGroupFieldInterface::FIELD_ID
         )
             ->where('field_group_field.' . FieldGroupFieldInterface::FIELD_GROUP_ID . ' = ?', $fieldGroupId)
-            ->order('main_table.' . FieldInterface::PRIORITY . ' ' . Select::SQL_DESC);
+            ->order('main_table.' . FieldInterface::PRIORITY . ' ' . Select::SQL_ASC);
 
         return $this->getItems();
     }

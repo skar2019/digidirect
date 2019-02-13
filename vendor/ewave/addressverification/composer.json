@@ -2,7 +2,7 @@
   "name": "ewave/addressverification",
   "description": "Address suggestions with Google places API",
   "type": "magento2-module",
-  "version": "2.0.6.0",
+  "version": "2.0.7.0",
   "autoload": {
     "files": [
       "registration.php"

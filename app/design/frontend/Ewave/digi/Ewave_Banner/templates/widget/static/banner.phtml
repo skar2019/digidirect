@@ -44,7 +44,7 @@ endif;
         }
     </script>
 <?php endif; ?>
-<div class="widget block block-banners banner-main-wrapper" data-testid="bannerRotator-widget">
+<div class="widget block block-banners round-arrows banner-main-wrapper" data-testid="bannerRotator-widget">
     <div class="banner-items" id="banner-<?= /* @noEscape */ $bannerId ?>" data-role="banner-rotator">
         <?php foreach ($bannersToDisplay as $id => $bannerItem): ?>
             <?= /* @noEscape */ $block->renderBannerItem($bannerItem); ?>

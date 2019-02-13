@@ -57,13 +57,20 @@
             </argument>
         </filters>
         <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">eaa_attribute_listing.eaa_attribute_listing.aa_attribute_columns.ids</item>
+                    <item name="indexField" xsi:type="string">row_id</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                </item>
+            </argument>
             <action name="delete">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">delete</item>
                         <item name="label" xsi:type="string" translate="true">Delete</item>
                         <item name="url" xsi:type="url" path="eaa/option/massDelete"/>
-                        <item name="paramName" xsi:type="string">option_id</item>
+                        <item name="paramName" xsi:type="string">row_id</item>
                         <item name="confirm" xsi:type="array">
                             <item name="title" xsi:type="string" translate="true">Delete items</item>
                             <item name="message" xsi:type="string" translate="true">Are you sure you wan't to delete selected items?</item>
@@ -76,10 +83,24 @@
     </listingToolbar>
 
     <columns name="aa_attribute_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">eaa_attribute_listing.eaa_attribute_listing.aa_attribute_columns.actions</item>
+                        <item name="target" xsi:type="string">applyAction</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">edit</item>
+                            <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                        </item>
+                    </item>
+                </item>
+            </item>
+        </argument>
         <selectionsColumn name="ids">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="indexField" xsi:type="string">option_id</item>
+                    <item name="indexField" xsi:type="string">row_id</item>
                     <item name="sortOrder" xsi:type="number">1</item>
                 </item>
             </argument>

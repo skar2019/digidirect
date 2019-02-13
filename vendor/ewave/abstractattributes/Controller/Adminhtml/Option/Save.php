@@ -5,7 +5,9 @@ use Ewave\AbstractAttributes\Api\Data\OptionInterfaceFactory;
 use Ewave\AbstractAttributes\Api\OptionRepositoryInterface;
 use Ewave\AbstractAttributes\Helper\Image as ImageHelper;
 use Ewave\AbstractAttributes\Model\ResourceModel\Option as ResourceOption;
+use Ewave\AbstractAttributes\Model\CacheInvalidator;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Registry;
 use Magento\UrlRewrite\Model\UrlRewriteFactory;
 
@@ -28,20 +30,28 @@ class Save extends \Magento\Backend\App\Action
     protected $_optionRepository;
 
     /**
+     * @var CacheInvalidator
+     */
+    protected $_cacheInvalidator;
+
+    /**
      * Save constructor.
      * @param Context $context
      * @param Registry $coreRegistry
      * @param OptionInterfaceFactory $optionFactory
      * @param OptionRepositoryInterface $optionRepository
+     * @param CacheInvalidator $cacheInvalidator
      */
     public function __construct(
         Context $context,
         Registry $coreRegistry,
         OptionInterfaceFactory $optionFactory,
-        OptionRepositoryInterface $optionRepository
+        OptionRepositoryInterface $optionRepository,
+        CacheInvalidator $cacheInvalidator = null
     ) {
         $this->_optionFactory = $optionFactory;
         $this->_optionRepository = $optionRepository;
+        $this->_cacheInvalidator = $cacheInvalidator ?: ObjectManager::getInstance()->get(CacheInvalidator::class);
 
         parent::__construct($context);
     }
@@ -60,6 +70,7 @@ class Save extends \Magento\Backend\App\Action
 
             try {
                 $this->_optionRepository->save($option);
+                $this->_cacheInvalidator->invalidate();
                 $this->messageManager->addSuccessMessage(__('You saved Advanced Option'));
             } catch (\Exception $e) {
                 $hasError = true;

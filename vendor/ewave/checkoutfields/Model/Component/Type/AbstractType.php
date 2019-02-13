@@ -24,6 +24,7 @@ abstract class AbstractType
     const SORT_ORDER = 'sortOrder';
     const ID = 'id';
     const FRONTEND_CLASS = 'class';
+    const DEPENDS = 'depends';
 
     const XML_SORT_ORDER = 'sort_order';
     const XML_ID = 'id';
@@ -32,7 +33,9 @@ abstract class AbstractType
     const XML_CHECKOUT_STEP = 'checkout_step';
     const XML_OPTIONS = 'options';
     const XML_VALIDATION = 'validation';
-
+    const XML_DEPENDS = 'depends';
+    const XML_DEPENDS_ACTION = 'action';
+    const XML_DEPENDS_FIELD_ID = 'field_id';
     const XML_AREA = 'area';
     const XML_STEP = 'checkout_step';
     const XML_SCOPE = 'custom_scope';
@@ -89,6 +92,9 @@ abstract class AbstractType
         }
         if (isset($options[self::FRONTEND_CLASS])) {
             $resultOptions[self::ADDITIONAL_CLASSES] = $options[self::FRONTEND_CLASS];
+        }
+        if (isset($options[self::XML_DEPENDS])) {
+            $resultOptions[self::DEPENDS] = $options[self::XML_DEPENDS];
         }
 
         $this->_addOptions($options, $resultOptions);

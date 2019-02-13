@@ -153,3 +153,14 @@
 =============
 * New features:
     * [#282211](https://ewave.tpondemand.com/entity/282211) -- [2.2.7] As an extension, I should be able to work on Magento 2.2.7
+
+1.10.1
+=============
+* Bugfixes:
+    * [#284059](https://ewave.tpondemand.com/entity/284059) -- [Free Gift]: User is NOT redirected to cart, able to complete checkout (free gift is not added to cart)
+    * [#285608](https://ewave.tpondemand.com/entity/285608) -- [Free gift] Checkout page is not opened
+
+1.10.2
+=============
+* Improvements:
+    * Magento 2.2 compatibility

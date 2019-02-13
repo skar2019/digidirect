@@ -333,8 +333,9 @@ class Overlays extends AbstractOverlays
         $parametersToConvert = $this->config['parameters_to_convert'] ?? [];
         foreach ($parametersToConvert as $parameter) {
             $arrayParameter = $this->getData($parameter);
-            if (is_array($arrayParameter)) {
+            if (!is_array($arrayParameter)) {
                 $arrayParameter = explode(',', $arrayParameter);
+                $arrayParameter = array_filter($arrayParameter);
             }
             $this->setData($parameter, $arrayParameter);
         }

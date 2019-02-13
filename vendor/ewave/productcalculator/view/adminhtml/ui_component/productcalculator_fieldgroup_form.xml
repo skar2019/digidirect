@@ -222,6 +222,7 @@
                     <item name="validation" xsi:type="array">
                         <item name="required-entry" xsi:type="boolean">true</item>
                     </item>
+                    <item name="notice" xsi:type="string" translate="true">Field value used by system, invisible to the customer</item>
                 </item>
                 <item name="options" xsi:type="object">Ewave\ProductCalculator\Model\Source\FieldGroup\ValueField</item>
             </argument>

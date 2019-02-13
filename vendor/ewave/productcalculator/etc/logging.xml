@@ -3,7 +3,7 @@
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Logging:etc/logging.xsd">
     <groups>
         <group name="ewave_productcalcuator">
-            <label translate="true">Product Calculator</label>
+            <label translate="true">Product Finder</label>
             <expected_models>
                 <expected_model class="Ewave\ProductCalculator\Model\Calculator" />
             </expected_models>

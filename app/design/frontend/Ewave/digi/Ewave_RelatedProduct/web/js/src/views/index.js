@@ -48,6 +48,7 @@ export default class View {
      */
     getItems () {
         let items = this.element[0].querySelectorAll(this.options.itemSelector);
+        items = Array.from(items);
         return items;
     }
 
@@ -103,7 +104,6 @@ export default class View {
 
     filterItems(group) {
         let self = this;
-
         this.items.forEach( item => {
             let categoties = item.getAttribute('data-groups');
             if(categoties.indexOf(group) !== -1) {

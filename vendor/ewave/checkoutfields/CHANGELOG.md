@@ -118,3 +118,21 @@
 =============
 * Improvements:
     * [PHP 7.1] As a system, I want the following extensions to be compatible with PHP 7.1
+
+1.6.4
+=============
+* Improvements:
+    * Refactor to use WebAPI
+
+1.7.0
+=============
+* New features:
+    * [#283781](https://ewave.tpondemand.com/entity/283781) -- As an admin, I wand dependencies between checkout field could be made via XML file
+    * [#283571](https://ewave.tpondemand.com/entity/283571) -- [Product Subscriptions] As an admin, I want to be able to specify fields that should be editable in subscriptions
+    * [#284115](https://ewave.tpondemand.com/entity/284115) -- [Product Subscriptions] As a user, I want new checkout field value to update existing subscription after order placing
+
+1.8.0
+=============
+* New features:
+    * [#288512](https://ewave.tpondemand.com/entity/288512) -- [CHECKOUT FLAG] As a system, I want to be able to define if user's Outlet doesn't have 'outlet_id' value
+

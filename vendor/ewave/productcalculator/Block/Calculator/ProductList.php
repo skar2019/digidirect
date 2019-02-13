@@ -276,7 +276,7 @@ class ProductList extends ListProduct
 
             return $collection;
         } else {
-            throw new LocalizedException(__('Invalid calculator data'));
+            throw new LocalizedException(__('Invalid product finder data'));
         }
     }
 

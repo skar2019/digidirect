@@ -10,7 +10,7 @@ $seoUrlHelper = $this->helper('Ewave\LayeredNavigation\Helper\Url');
         "postfix": "<?php echo $block->escapeHtml($block->getData('use_postfix') ? $helper->getSuffix() : null); ?>",
         "enabledSeoUrls": <?php echo (int)$seoUrlHelper->isSeoUrlEnabled(); ?>,
         "enableAjax": <?php echo (int)$helper->isAjaxEnabled(); ?>,
-        "baseUrl": "<?php /* @escapeNotVerified */ echo $block->getUrl('*/*/*', ['_current' => false, '_use_rewrite' => true]); ?>",
+        "baseUrl": "<?php /* @escapeNotVerified */ echo $block->getBaseUrl(); ?>",
         "enableFilterRemember": <?php echo (int)$remember->isFilterRememberEnabled(); ?>,
         "viewCustom": "Ewave_LayeredNavigation/js/dist/views/catalog/index",
         "addOn": "Ewave_LayeredNavigation/js/dist/addons/catalog/index"

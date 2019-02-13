@@ -125,6 +125,7 @@
                     <item name="dataScope" xsi:type="string">label</item>
                     <item name="source" xsi:type="string">productcalculator_fieldgroupcategory_form</item>
                     <item name="sortOrder" xsi:type="number">60</item>
+                    <item name="notice" xsi:type="string" translate="true">Label, visible to the customer</item>
                 </item>
             </argument>
         </field>

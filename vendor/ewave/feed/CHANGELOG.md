@@ -66,3 +66,9 @@
     * Magento 2.3 Compatibility
 * Bugfixes:
     * [#284483](https://ewave.tpondemand.com/entity/284483) -- [Shopping Feeds] 500 Internal Server Error while edit/create feed
+
+1.1.1
+=============
+* Bugfixes:
+    * [#286547](https://ewave.tpondemand.com/entity/286547) -- [PROJECT: RipCurl][TD][Google Feed] Error is shown in Admin Panel after Manual file generation
+    * [#286613](https://ewave.tpondemand.com/entity/286613) -- [Project: RipCurl][Google Feed] Cron: Xml file is generated with errors.

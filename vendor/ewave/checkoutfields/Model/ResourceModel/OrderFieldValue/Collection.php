@@ -3,6 +3,7 @@
 namespace Ewave\CheckoutFields\Model\ResourceModel\OrderFieldValue;
 
 use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Ewave\CheckoutFields\Api\Data\OrderFieldValueInterface;
 
 /**
  * Class Collection
@@ -20,5 +21,14 @@ class Collection extends AbstractCollection
             'Ewave\CheckoutFields\Model\OrderFieldValue',
             'Ewave\CheckoutFields\Model\ResourceModel\OrderFieldValue'
         );
+    }
+
+    /**
+     * @param array $fieldIds
+     * @return Collection
+     */
+    public function filterByFieldIds($fieldIds)
+    {
+        return $this->addFieldToFilter(OrderFieldValueInterface::FIELD_ID, ['in' => $fieldIds]);
     }
 }

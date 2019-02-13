@@ -3,6 +3,7 @@
 namespace Ewave\CheckoutFields\Helper\Xml\Fields;
 
 use \Ewave\CheckoutFields\Helper\Config;
+use Ewave\CheckoutFields\Model\Component\Type\AbstractType;
 use Ewave\CheckoutFields\Model\Config\Data as FieldsConfig;
 use \Magento\Framework\Module\Dir\Reader;
 use \Magento\Framework\Xml\Parser as MagentoParser;
@@ -40,16 +41,27 @@ class Parser
     protected $conditions;
 
     /**
+     * @var array
+     */
+    protected $validationRuleMapping;
+
+    /**
      * Parser constructor.
      * @param FieldsConfig $fieldsConfig
      * @param Config $config
      * @param array $conditions
+     * @param array $validationRuleMapping
      */
-    public function __construct(FieldsConfig $fieldsConfig, Config $config, array $conditions = [])
-    {
+    public function __construct(
+        FieldsConfig $fieldsConfig,
+        Config $config,
+        array $conditions = [],
+        array $validationRuleMapping = []
+    ) {
         $this->config = $config;
         $this->fieldsConfig = $fieldsConfig;
         $this->conditions = $conditions;
+        $this->validationRuleMapping = $validationRuleMapping;
     }
 
     /**
@@ -91,6 +103,16 @@ class Parser
     }
 
     /**
+     * @param string $fieldId
+     * @return bool|array
+     */
+    public function getFieldXml($fieldId)
+    {
+        $fields = $this->getAllFields();
+        return $fields[$fieldId] ?? false;
+    }
+
+    /**
      * @param string $code
      * @param array $options
      * @return bool
@@ -109,5 +131,83 @@ class Parser
         }
 
         return true;
+    }
+
+    /**
+     * Returns a string such as 'required-entry validate-number'.
+     *
+     * @param array $field
+     * @return null|string
+     */
+    public function getValidationClassesHtml(array $field)
+    {
+        return array_reduce(
+            $field['validation']['rule'] ?? [],
+            function ($carry, $item) {
+                if (empty($item['_attribute']['name']) && empty($item['name'])) {
+                    return $carry;
+                }
+                $name = $item['name'] ?? $item['_attribute']['name'];
+                return $carry . ' ' . $name;
+            }
+        );
+    }
+
+    /**
+     * @param array $field
+     * @return bool
+     */
+    public function getDependsField(array $field)
+    {
+        return $field[AbstractType::XML_DEPENDS][AbstractType::XML_DEPENDS_FIELD_ID] ?? false;
+    }
+
+    /**
+     * @param string $fieldId
+     * @return string|bool
+     */
+    public function getDependsFieldByFieldId($fieldId)
+    {
+        $xmlArray = $this->getFieldXml($fieldId);
+        return $xmlArray ? $this->getDependsField($xmlArray) : false;
+    }
+
+    /**
+     * @param array $field
+     * @return array
+     */
+    public function getValidationClasses(array $field)
+    {
+        $config = [];
+        if (isset($field[AbstractType::XML_VALIDATION]['rule'])) {
+            $rules = $field[AbstractType::XML_VALIDATION]['rule'];
+            if (isset($rules['_value'])) {
+                $config = array_merge($config, $this->prepareValidationRuleConfig($rules));
+            } else {
+                foreach ($field[AbstractType::XML_VALIDATION]['rule'] as $rule) {
+                    if (isset($rule['_value'])) {
+                        $config = array_merge($config, $this->prepareValidationRuleConfig($rule));
+                    }
+                }
+            }
+        }
+        return $config;
+    }
+
+    /**
+     * @param array $rule
+     * @return array
+     */
+    public function prepareValidationRuleConfig($rule)
+    {
+        $config = [];
+        if (isset($rule['_attribute']['name'])) {
+            $name = ($this->validationRuleMapping[$rule['_attribute']['name']]) ?? $rule['_attribute']['name'];
+            $config[$name] = [
+                'active' => (bool)$rule['_value'],
+                'value' => $rule['_value']
+            ];
+        }
+        return $config;
     }
 }

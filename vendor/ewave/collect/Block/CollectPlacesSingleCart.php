@@ -55,22 +55,4 @@ class CollectPlacesSingleCart extends CollectPlaces
     {
         return $this->applyCollectPlaceApi->getSelectedSingleCollectPlace();
     }
-
-    /**
-     * @todo Remove if doesn't need
-     * @param int $distance
-     * @param string $postcode
-     * @return array
-     */
-    public function getCollectPlaces($distance, $postcode)
-    {
-        $skus = [];
-        $quoteItems = $this->_checkoutSession->getQuote()->getAllVisibleItems();
-        foreach ($quoteItems as $quoteItem) {
-            $skus[] = $quoteItem->getSku();
-        }
-
-        $places = $this->_storageHandler->getPlacesByData($skus, $postcode, $distance);
-        return $places;
-    }
 }

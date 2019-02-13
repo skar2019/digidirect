@@ -273,10 +273,11 @@ class Cart extends \Magento\Checkout\Model\Cart
             $options = [];
             foreach ($freeGiftAdditionalAttributes as $attribute) {
                 if ($product->hasData($attribute)) {
-
                     $value = $product->getData($attribute);
                     if (is_array($value)) {
-                        $value = implode(";", $value);
+                        $value = implode(";", array_filter($value, function ($v) {
+                            return !is_array($v);
+                        }));
                     }
 
                     $options[] = [
@@ -331,6 +332,7 @@ class Cart extends \Magento\Checkout\Model\Cart
     /**
      * @return bool|\Magento\Framework\Data\Collection\AbstractDb
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getNewFreeGiftItems()
     {
@@ -477,6 +479,8 @@ class Cart extends \Magento\Checkout\Model\Cart
      *
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function addFreeGiftsToQuote()
     {

@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="Ewave_ProductCalculator::calculator"
-             title="Product Calculator"
+             title="Product Finder"
              module="Ewave_ProductCalculator"
              parent="Ewave_Utilities::ewave"
              sortOrder="30"
@@ -13,7 +13,7 @@
              parent="Ewave_ProductCalculator::calculator"
              resource="Ewave_ProductCalculator::calculator_manage"
              sortOrder="10"
-             title="Calculators"/>
+             title="Product Finders"/>
         <add action="ewave_productcalculator/fieldGroupCategory/index"
              id="Ewave_ProductCalculator::field_group_category_manage"
              module="Ewave_ProductCalculator"

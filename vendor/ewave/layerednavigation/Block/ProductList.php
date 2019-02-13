@@ -57,6 +57,18 @@ class ProductList extends Template
     /**
      * @return string
      */
+    public function getBaseUrl()
+    {
+        if ($this->getRequest()->getControllerName() === 'category' && $this->getCurrentCategory()) {
+            return $this->getCurrentCategory()->getUrl();
+        }
+
+        return $this->getUrl('*/*/*', ['_current' => false, '_use_rewrite' => true]);
+    }
+
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         if (!$this->canShowProductList()) {

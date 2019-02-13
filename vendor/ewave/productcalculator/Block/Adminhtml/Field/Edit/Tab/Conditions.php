@@ -6,6 +6,7 @@ use Ewave\ProductCalculator\Api\Data\FieldInterface;
 use Ewave\ProductCalculator\Model\Constants;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Ui\Component\Layout\Tabs\TabInterface;
+use Magento\Rule\Model\Condition\AbstractCondition;
 
 class Conditions extends Generic implements TabInterface
 {
@@ -188,7 +189,7 @@ class Conditions extends Generic implements TabInterface
             ->setRenderer($this->rendererConditions);
 
         $form->setValues($model->getRule()->getData());
-        $this->setConditionFormName($model->getRule()->getConditions(), $formName);
+        $this->setConditionFormName($model->getRule()->getConditions(), $formName, $fieldsetId);
 
         return $form;
     }
@@ -196,15 +197,16 @@ class Conditions extends Generic implements TabInterface
     /**
      * @param \Magento\Rule\Model\Condition\AbstractCondition $conditions
      * @param string $formName
+     * @param string $fieldsetId
      * @return void
      */
-    private function setConditionFormName(\Magento\Rule\Model\Condition\AbstractCondition $conditions, $formName)
+    private function setConditionFormName(AbstractCondition $conditions, $formName, $fieldsetId)
     {
         $conditions->setFormName($formName);
-        $conditions->setJsFormObject($formName);
+        $conditions->setJsFormObject($fieldsetId);
         if ($conditions->getConditions() && is_array($conditions->getConditions())) {
             foreach ($conditions->getConditions() as $condition) {
-                $this->setConditionFormName($condition, $formName);
+                $this->setConditionFormName($condition, $formName, $fieldsetId);
             }
         }
     }

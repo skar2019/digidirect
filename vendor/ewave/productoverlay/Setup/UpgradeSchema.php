@@ -37,6 +37,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if (version_compare($context->getVersion(), '1.0.6', '<')) {
             $this->addStockLabelColumn($setup);
         }
+
+        if (version_compare($context->getVersion(), '1.0.9', '<')) {
+            $this->createCatalogruleAssociationTable($setup);
+        }
     }
 
     /**
@@ -211,5 +215,63 @@ class UpgradeSchema implements UpgradeSchemaInterface
     {
         $tableName = $setup->getTable('ewave_product_overlay');
         $setup->getConnection()->dropColumn($tableName, 'stores');
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return void
+     */
+    protected function createCatalogruleAssociationTable(SchemaSetupInterface $setup)
+    {
+        /**
+         * Create table 'catalogrule_customer_group'
+         */
+        $table = $setup->getConnection()
+            ->newTable($setup->getTable('ewave_product_overlay_catalogrule'))
+            ->addColumn(
+                'row_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false, 'primary' => true],
+                'Rule Row Id'
+            )
+            ->addColumn(
+                'overlay_id',
+                \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false, 'primary' => true],
+                'Customer Group Id'
+            )
+            ->addIndex(
+                $setup->getIdxName('ewave_product_overlay_catalogrule', ['overlay_id']),
+                ['overlay_id']
+            )
+            ->addForeignKey(
+                $setup->getFkName(
+                    'ewave_product_overlay_catalogrule',
+                    'row_id',
+                    'catalogrule',
+                    'row_id'
+                ),
+                'row_id',
+                $setup->getTable('catalogrule'),
+                'row_id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            )
+            ->addForeignKey(
+                $setup->getFkName(
+                    'ewave_product_overlay_catalogrule',
+                    'overlay_id',
+                    'ewave_product_overlay',
+                    'overlay_id'
+                ),
+                'overlay_id',
+                $setup->getTable('ewave_product_overlay'),
+                'overlay_id',
+                \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+            )
+            ->setComment('Product Overlay ro Catalog Rule Relations');
+
+        $setup->getConnection()->createTable($table);
     }
 }

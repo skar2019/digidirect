@@ -2,6 +2,9 @@
 
 namespace Ewave\OrderImages\Block\Order\Items;
 
+use Ewave\OrderImages\Helper\Data as Helper;
+use Magento\Framework\App\ObjectManager;
+
 /**
  * Class Image
  *
@@ -20,20 +23,28 @@ class Image extends \Magento\Framework\View\Element\Template
     protected $_imageHelper;
 
     /**
+     * @var \Ewave\OrderImages\Helper\Data
+     */
+    protected $helper;
+
+    /**
      * Image constructor.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param array $data
+     * @param Helper|null $helper
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Image $imageHelper,
-        array $data = []
+        array $data = [],
+        Helper $helper = null
     ) {
         $this->_imageHelper = $imageHelper;
 
         parent::__construct($context, $data);
+        $this->helper = $helper ?: ObjectManager::getInstance()->get(Helper::class);
     }
 
     /**
@@ -74,5 +85,13 @@ class Image extends \Magento\Framework\View\Element\Template
         }
 
         return $this->_imageHelper->init($product, $this->getImageType())->getUrl();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isModuleEnable()
+    {
+        return $this->helper->isModuleOrderImagesEnable();
     }
 }

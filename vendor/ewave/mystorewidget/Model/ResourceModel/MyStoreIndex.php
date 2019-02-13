@@ -98,13 +98,15 @@ class MyStoreIndex extends AbstractDb
         $connection->query("CREATE TABLE $table ENGINE=InnoDB $select");
         $tableStructure = $connection->describeTable($table);
 
+        $columns = [];
         foreach ($fulltextColumns as $fulltextColumn) {
             if (isset($tableStructure[$fulltextColumn])
                 && in_array($tableStructure[$fulltextColumn]['DATA_TYPE'], ['varchar', 'text'])
             ) {
-                $connection->query("ALTER TABLE $table ADD FULLTEXT ($fulltextColumn)");
+                $columns[] = $fulltextColumn;
             }
         }
+        $connection->query("ALTER TABLE $table ADD FULLTEXT (" . implode(', ', $columns) . ")");
 
         foreach ($this->rangeAttributes as $rangeAttribute) {
             if (isset($tableStructure[$rangeAttribute])) {

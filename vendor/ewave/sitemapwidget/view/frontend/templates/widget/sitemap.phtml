@@ -1,7 +1,9 @@
 <?php
+/**  @var \Ewave\SitemapWidget\Block\Widget\Sitemap $block */
 $products = $block->getProducts();
 $categories = $block->getCategories();
 $cmsPages = $block->getCMSPages();
+$additionalEntities = $block->getAdditionalEntities();
 ?>
 
 <h1><?= /* @escapeNotVerified */ __('Sitemap') ?></h1>
@@ -31,4 +33,13 @@ $cmsPages = $block->getCMSPages();
             </li>
         <?php endforeach; ?>
     </ul>
+<?php endif; ?>
+
+<?php if (!empty($additionalEntities)) : ?>
+    <?php foreach ($additionalEntities as $additionalEntity) : ?>
+        <h3><?= /* @escapeNotVerified */ $additionalEntity->getTitle() ?></h3>
+        <ul>
+            <?php echo $block->entitiesTreeToHtml($additionalEntity); ?>
+        </ul>
+    <?php endforeach; ?>
 <?php endif; ?>

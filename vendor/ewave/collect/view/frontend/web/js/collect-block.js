@@ -20,8 +20,7 @@ define([
             searchPlaces: '[data-role="check-collect-place"]',
             searchUrl: '',
             collectQty: '1',
-            placeContainer: '.collect_place_div_table',
-            cartItemEdit: 0
+            placeContainer: '.collect_place_div_table'
         },
 
         _create: function () {
@@ -39,38 +38,46 @@ define([
         },
 
         _setPreselectedCollect: function () {
-            var self = this,
-                cartItems = customerData.get('cart')().items;
+            var self = this;
             this.collectData = customerData.get('ewave_collect')().preselected_shipping_method;
 
             if (!this.collectData) {
                 customerData.get('ewave_collect').subscribe(function (newValue) {
                     self._setCollectType(newValue.preselected_shipping_method);
                 });
-            } else if ((cartItems && cartItems.length > 1 && this.options.cartItemEdit == 1) || this.options.cartItemEdit == 0) {
+            } else {
                 this._setCollectType(this.collectData);
             }
         },
 
         _setCollectType: function (data) {
             if (this.options.isSingleStore && data) {
+                var cartItems = customerData.get('cart')().items;
+
                 this.element.find('[value="' + data + '"]').prop('checked', true);
+                $('[data-collect-type="' + data + '"]').addClass(this.options.visibleClass);
 
-                if (data === 'delivery') {
-                    this.element.find('[value="collect"]').prop('disabled', true);
-
-                    $(this.options.deliveryMessage).show();
-                    $(this.options.collectMessage).hide();
-                } else {
-                    $(this.options.deliveryMessage).hide();
-                    $(this.options.collectMessage).show();
-                    $('[data-collect-type="' + data + '"]').addClass(this.options.visibleClass);
+                if (cartItems && cartItems.length > 1) {
+                    this.toggleTypeMessage(data);
                 }
+            }
+        },
+
+        toggleTypeMessage: function (data) {
+            if (data === 'delivery') {
+                this.element.find('[value="collect"]').prop('disabled', true);
+
+                $(this.options.deliveryMessage).show();
+                $(this.options.collectMessage).hide();
+            } else {
+                $(this.options.deliveryMessage).hide();
+                $(this.options.collectMessage).show();
             }
         },
 
         _searchPlace: function () {
             var self = this;
+
             $(this.options.searchPlaces).on('click', function (e) {
                 e.preventDefault();
                 var $form = $(this).closest('form');

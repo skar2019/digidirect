@@ -109,4 +109,18 @@ class Collection extends AbstractCollection
         $this->addFieldToFilter(Overlays::STATUS, ['eq' => $status]);
         return $this;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        foreach ($this->_items as $item) {
+            /** @var \Ewave\ProductOverlay\Model\Overlays $item */
+            $item->getResource()->afterLoad($item);
+            $item->afterLoad();
+        }
+        return $this;
+    }
 }

@@ -39,7 +39,7 @@ class Index extends Calculator
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $this->initPage($resultPage);
-        $resultPage->getConfig()->getTitle()->prepend(__('Calculators'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Product Finders'));
         return $resultPage;
     }
 }

@@ -4,7 +4,6 @@ namespace Ewave\Collect\Controller\Place;
 
 use Ewave\Collect\Controller\AbstractAction;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Webapi\Exception;
 
 /**
  * Class Getplaces
@@ -28,7 +27,6 @@ class Getplaces extends AbstractAction
 
     /**
      * Getplaces constructor.
-     * 
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Ewave\Collect\Helper\Data $collectHelper
      * @param \Ewave\Collect\Model\StorageHandler $storageHandler
@@ -50,9 +48,7 @@ class Getplaces extends AbstractAction
     }
 
     /**
-     * Execute
-     *
-     * @return $this
+     * @return \Magento\Framework\Controller\Result\Json
      */
     public function execute()
     {
@@ -64,7 +60,6 @@ class Getplaces extends AbstractAction
             $distance = $this->getRequest()->getParam('collect_distance');
             $qty = $this->getRequest()->getParam('collect_qty', 1);
             $findResult = $this->_storageHandler->getPlacesByData($productSkus, $postcode, $distance, $qty);
-
         } catch (\Exception $e) {
             $this->_collectHelper->logError($e->getMessage());
             return $resultJson->setData(

@@ -147,3 +147,9 @@ Code must be unique
 ###  VERSION 1.6.2
 
    1. Bugfixes
+
+###  VERSION 1.7.0
+
+   1. As an admin, I wand dependencies between checkout field could be made via XML file
+   2. [Custom Checkout Fields][Product Subscriptions] As an admin, I want to be able to specify fields that should be editable in subscriptions
+   3. [Custom Checkout Fields][Product Subscriptions] As a user, I want new checkout field value to update existing subscription after order placing

@@ -1,22 +1,9 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <virtualType name="EwaveExtendedCartControllerCheckoutCartAddContext" type="Magento\Framework\App\Action\Context">
-        <arguments>
-            <argument name="messageManager" xsi:type="object">Ewave\ExtendedCart\Model\AddToCart\MessageManager</argument>
-        </arguments>
-    </virtualType>
     <type name="Magento\Checkout\Controller\Cart\Add">
-        <arguments>
-            <argument name="context" xsi:type="object">EwaveExtendedCartControllerCheckoutCartAddContext</argument>
-        </arguments>
         <plugin name="Ewave_ExtendedCart::addConfirmationPopup"
                 type="Ewave\ExtendedCart\Plugin\Magento\Checkout\Controller\Cart\Add"/>
-    </type>
-    <type name="Ewave\ExtendedCart\Plugin\Magento\Checkout\Controller\Cart\Add">
-        <arguments>
-            <argument name="context" xsi:type="object">EwaveExtendedCartControllerCheckoutCartAddContext</argument>
-        </arguments>
     </type>
     <type name="Magento\Checkout\Controller\Cart\UpdatePost">
         <plugin name="Ewave_ExtendedCart::useAjax"

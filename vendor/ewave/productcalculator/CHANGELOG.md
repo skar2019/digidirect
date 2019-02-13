@@ -64,3 +64,12 @@
 =============
 * Bugfixes:
     * [#271375](https://ewave.tpondemand.com/entity/271375) -- [Project: Hartmann] No results return if Show Swatches in Product List setting is set to No
+
+1.5.0
+=============
+* New features:
+    * [#284711](https://ewave.tpondemand.com/entity/284711) -- [MARKETPLACE] As an admin, I want Product Finder grids to have 'Delete' action
+* Bugfixes:
+    * [#282161](https://ewave.tpondemand.com/entity/282161) -- [VANILLADEMO][Product Finder] Redirection to the 404 "page not found" in case page is created with widget
+    * [#283282](https://ewave.tpondemand.com/entity/283282) -- [MARKETPLACE][Product Finder][M2.1] There are no 'New Field Group' button on finder edit page
+    * [#283321](https://ewave.tpondemand.com/entity/283321) -- [MARKETPLACE][Product Finder][M2.1] 500 error is shown if user click on Product Finder Button

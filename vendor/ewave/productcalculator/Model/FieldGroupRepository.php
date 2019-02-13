@@ -43,7 +43,7 @@ class FieldGroupRepository implements FieldGroupRepositoryInterface
             $fieldGroup->getResource()->save($fieldGroup);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__(
-                'Could not save product calculator field group: %1',
+                'Could not save product finder field group: %1',
                 $exception->getMessage()
             ));
         }
@@ -72,7 +72,7 @@ class FieldGroupRepository implements FieldGroupRepositoryInterface
             $fieldGroup->getResource()->delete($fieldGroup);
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__(
-                'Could not delete product calculator field: %1',
+                'Could not delete product finder field: %1',
                 $exception->getMessage()
             ));
         }

@@ -1,6 +1,9 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Method;
 
+use Ewave\ExtendedShippingRates\Api\Data\MethodInterface;
+use Ewave\ExtendedShippingRates\Model\Config\Source\WeightType;
+
 class Save extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Method
 {
     /**
@@ -151,6 +154,10 @@ class Save extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShi
             $code = preg_replace('/[^\da-z]/i', '', $code);
             $code = 'code' . $code;
             $data['code'] = $code;
+        }
+
+        if (WeightType::EMPTY_CODE == $data[MethodInterface::PACKAGING_WEIGHT_TYPE]) {
+            $data[MethodInterface::PACKAGING_WEIGHT_TYPE] = '';
         }
 
         unset($data['created_at']);

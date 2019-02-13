@@ -35,7 +35,7 @@ class Date extends AbstractType
      */
     protected function getComponent()
     {
-        return 'Magento_Ui/js/form/element/abstract';
+        return 'Magento_Ui/js/form/element/date';
     }
 
     /**

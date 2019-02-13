@@ -3,7 +3,9 @@ namespace Ewave\AbstractAttributes\Controller\Adminhtml\Option;
 
 use Ewave\AbstractAttributes\Api\OptionRepositoryInterface;
 use Ewave\AbstractAttributes\Api\Data\OptionInterface;
+use Ewave\AbstractAttributes\Model\CacheInvalidator;
 use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Ui\Component\MassAction\Filter;
 
@@ -26,18 +28,26 @@ class MassDelete extends \Magento\Backend\App\Action
     protected $filter;
 
     /**
+     * @var CacheInvalidator
+     */
+    protected $cacheInvalidator;
+
+    /**
      * MassDelete constructor.
      * @param Context $context
      * @param OptionRepositoryInterface $optionRepository
      * @param Filter $filter
+     * @param CacheInvalidator $cacheInvalidator
      */
     public function __construct(
         Context $context,
         OptionRepositoryInterface $optionRepository,
-        Filter $filter
+        Filter $filter,
+        CacheInvalidator $cacheInvalidator = null
     ) {
         $this->optionRepository = $optionRepository;
         $this->filter = $filter;
+        $this->cacheInvalidator = $cacheInvalidator ?: ObjectManager::getInstance()->get(CacheInvalidator::class);
         parent::__construct($context);
     }
 
@@ -48,20 +58,22 @@ class MassDelete extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $ids = $this->getRequest()->getParam('selected', []);
-        if (empty($ids)) {
-            $collection = $this->filter->getCollection($this->optionRepository->getCollection());
-            $ids = $collection->getColumnValues(OptionInterface::OPTION_ID);
-        }
+        $collection = $this->filter->getCollection($this->optionRepository->getCollection());
+        $items = $collection->getItems();
 
         $counter = 0;
-        foreach ($ids as $id) {
+        foreach ($items as $item) {
             try {
-                $this->optionRepository->deleteById($id);
+                /** @var OptionInterface $item */
+                $this->optionRepository->delete($item);
                 $counter++;
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
             }
+        }
+
+        if ($counter > 0) {
+            $this->cacheInvalidator->invalidate();
         }
 
         $this->messageManager->addSuccessMessage(

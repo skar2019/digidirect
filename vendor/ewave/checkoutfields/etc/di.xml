@@ -17,7 +17,15 @@
                 type="Ewave\CheckoutFields\Model\PdpFieldValue"/>
     <preference for="Ewave\CheckoutFields\Api\PdpFieldValueRepositoryInterface"
                 type="Ewave\CheckoutFields\Model\PdpFieldValueRepository"/>
-    <type name="Magento\Customer\Model\Customer\NotificationStorage">
-        <plugin name="Ewave_CheckoutFields::ModelNotificationStorage" type="Ewave\CheckoutFields\Plugin\Customer\Model\NotificationStorage"/>
+    <preference for="Ewave\CheckoutFields\Api\CustomFieldsInterface"
+                type="Ewave\CheckoutFields\Model\Service\CustomFields"/>
+
+    <type name="Ewave\CheckoutFields\Helper\Xml\Fields\Parser">
+        <arguments>
+            <argument name="validationRuleMapping" xsi:type="array">
+                <item name="min_text_length" xsi:type="string">minlength</item>
+                <item name="max_text_length" xsi:type="string">maxlength</item>
+            </argument>
+        </arguments>
     </type>
 </config>

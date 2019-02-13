@@ -12,7 +12,7 @@ if (!$calculator) {
 <div class="product-calculator widget block">
     <div class="block-title"><strong><?php echo $block->escapeHtml(__($calculator->getName())); ?></strong></div>
     <div class="block-content">
-        <form id="form-calculator-<?php echo (int)$calculator->getId(); ?>" action="<?php echo $block->escapeUrl($block->getCalculateUrl()); ?>" method="post" data-mage-init='{"validation": {}, "productCalculator": {"redirectToResult": <?php echo (int)$calculator->isResultLoadActionRedirect()?>,"resultContainer": "[data-role=calculator-<?php echo $block->escapeHtml($block->getNameInLayout()); ?>]"}}' class="form-calculator form">
+        <form id="form-calculator-<?php echo (int)$calculator->getId(); ?>" action="<?php echo $block->escapeUrl($block->getCalculateUrl()); ?>" method="post" data-mage-init='{"validation": {}, "productCalculator": {"redirectToResult": <?php echo (int)$calculator->isResultLoadActionRedirect()?>,"resultContainer": "[data-role=calculator-<?php echo $block->escapeHtml($block->getJsId()); ?>]"}}' class="form-calculator form">
             <input type="hidden" name="calculator_id" value="<?php echo (int)$calculator->getId(); ?>"/>
         <?php
         /** @var \Ewave\ProductCalculator\Api\Data\FieldGroupCategoryInterface $fieldGroupCategory */
@@ -102,5 +102,5 @@ if (!$calculator) {
         });
     });
 </script>
-<div data-role="calculator-<?php echo $block->escapeHtml($block->getNameInLayout()); ?>" class="calculator-result"></div>
+<div data-role="calculator-<?php echo $block->escapeHtml($block->getJsId()); ?>" class="calculator-result"></div>
 <?php endif; ?>

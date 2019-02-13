@@ -10,6 +10,7 @@ use Magento\Ui\Component\MassAction\Filter;
 /**
  * Class AbstractMassStatus
  * @package Ewave\ProductCalculator\Controller\Adminhtml
+ * @deprecated Please use \Ewave\ProductCalculator\Controller\Adminhtml\AbstractMassAction instead.
  */
 abstract class AbstractMassStatus extends \Magento\Backend\App\Action
 {

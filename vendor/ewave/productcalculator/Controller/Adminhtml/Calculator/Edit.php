@@ -79,11 +79,11 @@ class Edit extends \Ewave\ProductCalculator\Controller\Adminhtml\Calculator
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $this->initPage($resultPage)->addBreadcrumb(
-            $id ? __('Edit Calculator') : __('New Calculator'),
-            $id ? __('Edit Calculator') : __('New Calculator')
+            $id ? __('Edit Product Finder') : __('New Product Finder'),
+            $id ? __('Edit Product Finder') : __('New Product Finder')
         );
-        $resultPage->getConfig()->getTitle()->prepend(__('Calculators'));
-        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getName() : __('New Calculator'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Product Finders'));
+        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getName() : __('New Product Finder'));
         return $resultPage;
     }
 }

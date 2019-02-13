@@ -105,8 +105,12 @@ class TagFor extends Block
                 $this->resetNodes();
 
                 if ($this->isMainCycle()) {
-                    if ($context->isTimeout() || $this->index == $this->length) {
+                    if ($context->isTimeout()) {
                         $context->isBreak = true;
+                        break 2;
+                    }
+
+                    if ($this->index == $this->length) {
                         break 2;
                     }
                 }

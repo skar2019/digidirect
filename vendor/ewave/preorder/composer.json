@@ -2,7 +2,7 @@
     "name": "ewave/preorder",
     "type": "magento2-module",
     "description": "Ewave PreOrder Module",
-    "version": "1.0.1.0",
+    "version": "1.0.2.0",
     "autoload": {
         "files": [
             "registration.php"

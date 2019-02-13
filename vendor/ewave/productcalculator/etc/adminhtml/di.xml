@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\ProductCalculator\Controller\Adminhtml\Calculator\Save">
+        <plugin name="Ewave_ProductCalculator::InvalidateCache" type="Ewave\ProductCalculator\Plugin\Controller\Adminhtml\CacheInvalidatePlugin"/>
+    </type>
+    <type name="Ewave\ProductCalculator\Controller\Adminhtml\Calculator\Delete">
+        <plugin name="Ewave_ProductCalculator::InvalidateCache" type="Ewave\ProductCalculator\Plugin\Controller\Adminhtml\CacheInvalidatePlugin"/>
+    </type>
+    <type name="Ewave\ProductCalculator\Controller\Adminhtml\Field\Save">
+        <plugin name="Ewave_ProductCalculator::InvalidateCache" type="Ewave\ProductCalculator\Plugin\Controller\Adminhtml\CacheInvalidatePlugin"/>
+    </type>
+    <type name="Ewave\ProductCalculator\Controller\Adminhtml\Field\Delete">
+        <plugin name="Ewave_ProductCalculator::InvalidateCache" type="Ewave\ProductCalculator\Plugin\Controller\Adminhtml\CacheInvalidatePlugin"/>
+    </type>
+    <type name="Ewave\ProductCalculator\Controller\Adminhtml\FieldGroup\Save">
+        <plugin name="Ewave_ProductCalculator::InvalidateCache" type="Ewave\ProductCalculator\Plugin\Controller\Adminhtml\CacheInvalidatePlugin"/>
+    </type>
+    <type name="Ewave\ProductCalculator\Controller\Adminhtml\FieldGroup\Delete">
+        <plugin name="Ewave_ProductCalculator::InvalidateCache" type="Ewave\ProductCalculator\Plugin\Controller\Adminhtml\CacheInvalidatePlugin"/>
+    </type>
+    <type name="Ewave\ProductCalculator\Controller\Adminhtml\FieldGroupCategory\Save">
+        <plugin name="Ewave_ProductCalculator::InvalidateCache" type="Ewave\ProductCalculator\Plugin\Controller\Adminhtml\CacheInvalidatePlugin"/>
+    </type>
+    <type name="Ewave\ProductCalculator\Controller\Adminhtml\FieldGroupCategory\Delete">
+        <plugin name="Ewave_ProductCalculator::InvalidateCache" type="Ewave\ProductCalculator\Plugin\Controller\Adminhtml\CacheInvalidatePlugin"/>
+    </type>
+</config>

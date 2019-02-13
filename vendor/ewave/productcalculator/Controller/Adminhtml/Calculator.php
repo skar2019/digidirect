@@ -20,7 +20,7 @@ abstract class Calculator extends \Magento\Backend\App\Action
     {
         $resultPage->setActiveMenu(self::ADMIN_RESOURCE)
             ->addBreadcrumb(__('Ewave'), __('Ewave'))
-            ->addBreadcrumb(__('Calculator'), __('Calculator'));
+            ->addBreadcrumb(__('Product Finder'), __('Product Finder'));
         return $resultPage;
     }
 }

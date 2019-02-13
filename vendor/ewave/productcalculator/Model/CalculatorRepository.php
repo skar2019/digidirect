@@ -43,7 +43,7 @@ class CalculatorRepository implements CalculatorRepositoryInterface
             $calculator->getResource()->save($calculator);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__(
-                'Could not save product calculator calculator: %1',
+                'Could not save product finder calculator: %1',
                 $exception->getMessage()
             ));
         }
@@ -58,7 +58,7 @@ class CalculatorRepository implements CalculatorRepositoryInterface
         $calculator = $this->calculatorFactory->create();
         $calculator->getResource()->load($calculator, $calculatorId);
         if (!$calculator->getId()) {
-            throw new NoSuchEntityException(__('Calculator with id "%1" does not exist.', $calculatorId));
+            throw new NoSuchEntityException(__('Product Finder with id "%1" does not exist.', $calculatorId));
         }
         return $calculator;
     }
@@ -72,7 +72,7 @@ class CalculatorRepository implements CalculatorRepositoryInterface
             $calculator->getResource()->delete($calculator);
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__(
-                'Could not delete product calculator: %1',
+                'Could not delete product finder: %1',
                 $exception->getMessage()
             ));
         }

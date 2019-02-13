@@ -2,7 +2,7 @@
 
 <script>
 window.customCheckoutFieldConfig = {
-    "ajaxUrl": "<?php echo /* @escapeNotVerified */ $block->getAjaxUrl(); ?>",
+    "serviceUrl": '/checkoutfields/save',
     "fields": <?php echo /* @escapeNotVerified */ $block->getFields(); ?>,
     "provider": "<?php echo $block->escapeHtml($block->getProvider()); ?>"
 };

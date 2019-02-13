@@ -2,9 +2,10 @@
 define([
     'jquery',
     'underscore',
-    './dist/common/component',
+    'Ewave_MyStoreWidget/js/dist/common/component',
     'jquery/ui',
-    'mage/translate'
+    'mage/translate',
+    'mage/validation'
 ], function ($, _, Component) {
     'use strict';
 

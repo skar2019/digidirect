@@ -242,3 +242,14 @@
 
 * Bugfixes:
     * [#273922](https://ewave.tpondemand.com/entity/273922) -- [Product edit page] Product with different stores are available for the order
+
+
+2.10.0
+=============
+* New features:
+    * [#279278](https://ewave.tpondemand.com/entity/279278) -- [C&C][Abstract Entity] As a user, I want to be able to select click and collect store
+    * [#284054](https://ewave.tpondemand.com/entity/284054) -- [CART PAGE] As a customer, I want to be able to edit product Delivery Method if there is only one product in the cart
+
+* Bugfixes:
+    * [#274931](https://ewave.tpondemand.com/entity/274931) -- [Extended Cart] After adding Up-sell product on PDP popup is not appeared
+

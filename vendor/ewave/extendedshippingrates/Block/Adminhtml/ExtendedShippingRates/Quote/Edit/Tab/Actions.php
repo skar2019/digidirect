@@ -134,11 +134,11 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         foreach ($amounts as $amountKey => $amountData) {
             $valueKey = 'amount_' . $amountKey . '_value';
-            $value = $amountData['value'] * 1;
+            $value = (double)$amountData['value'];
             $model->setData($valueKey, $value);
 
             $sortOrderKey = 'amount_' . $amountKey . '_sort';
-            $sortOrderValue = $amountData['sort'] * 1;
+            $sortOrderValue = (double)$amountData['sort'];
             $model->setData($sortOrderKey, $sortOrderValue);
         }
 
