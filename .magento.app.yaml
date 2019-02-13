@@ -17,6 +17,7 @@ runtime:
         - xsl
         - json
         - sodium
+        - libsodium
         - blackfire
         - newrelic
 
@@ -79,11 +80,15 @@ hooks:
     # We run build hooks before your application has been packaged.
     build: |
         set -e
+        npm install
+        grunt prod
         php ./vendor/bin/ece-tools build:generate
         php ./vendor/bin/ece-tools build:transfer
     # We run deploy hook after your application has been deployed and started.
     deploy: |
+        php ./bin/magento maintenance:enable
         php ./vendor/bin/ece-tools deploy
+        php ./bin/magento maintenance:disable
         php ./bin/magento ewave:cms_upgrade
         php ./bin/magento cache:enable
     # We run post deploy hook to clean and warm the cache. Available with ECE-Tools 2002.0.10.
@@ -95,6 +100,13 @@ crons:
     cronrun:
         spec: "* * * * *"
         cmd: "php bin/magento cron:run"
+
+#For FE - grunt
+dependencies:
+    ruby:
+        sass: "3.4.7"
+    nodejs:
+        grunt-cli: "~1.2.0"
 
 # Environment variables
 variables:
