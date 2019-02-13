@@ -30,7 +30,7 @@ define([
             _initSelectCustomInited: function () {
                 $(this.element).on('swatch.initialized', $.proxy(function () {
                     this.swatchSelect = $(this.element).find('.swatch-select');
-                    this.swatchSelect.customSelect();
+                    this.swatchSelect.customSelect({responsive: true});
 
                     // Adding selected attribute for original select
 

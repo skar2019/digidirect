@@ -73,8 +73,6 @@ define(['module', 'exports', 'jquery', './../index'], function (module, exports,
                         self.updateSliderData(ui.values[0], ui.values[1]);
                     },
                     change: function change(event, ui) {
-                        console.log(event);
-                        console.log(ui.values[0], ui.values[1]);
                         var linkHref = options.url.replace('layered_navigation_slider_from', ui.values[0]).replace('layered_navigation_slider_to', ui.values[1]);
 
                         if (!options.triggerApplyButton && !_index2.default.applyMode(options)) {

@@ -27,9 +27,9 @@
 
         > .item {
             width: calc(~'100%/2 - 5px');
+            min-height: 130px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             position: relative;
             margin-top: 10px;
@@ -53,12 +53,12 @@
         }
 
         .item > .image {
-            display: flex;
+            max-height: 65px;
+            max-width: 107px;
         }
 
         .item > .image > img {
-            max-height: 75px;
-            max-width: 107px;
+            max-height: 65px;
         }
 
         .item > .action {
@@ -105,7 +105,8 @@
         }
 
         .item > .image {
-            display: flex;
+            max-height: 100%;
+            max-width: 100%;
         }
 
         .item > .image > img {

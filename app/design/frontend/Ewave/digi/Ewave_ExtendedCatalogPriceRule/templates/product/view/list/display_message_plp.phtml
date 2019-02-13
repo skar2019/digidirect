@@ -1,0 +1,53 @@
+<?php
+/** @var \Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule $block */
+
+$product = $block->getParentBlock()->getProduct();
+$price = $product->getFormattedPrice();
+$productType = $product->getTypeId();
+?>
+
+<?php if ($product && $product->hasData('show_msg_extended_rule')) : ?>
+    <?php foreach ($product->getData('show_msg_extended_rule') as $rule): ?>
+        <?php $id = 'rule-' . $rule['rule_id'] . '-' . $product->getId();
+            $priceClass= (!empty($rule['action_amount']))? '-cashback':'';
+        ?>
+
+        <div class="block-extendedrule -plp <?= /* @noEscape */ $priceClass?>" id="<?= /* @noEscape */ $id ?>">
+            <div class="name" data-mage-init='{"catalogPriceRuleModal": {"ruleId": "<?= /* @noEscape */ 'rule-' . $rule['rule_id']; ?>"}}'>
+                <?php if(!empty($rule['plp_label'])): ?>
+                    <?= $block->escapeHtml($rule['plp_label']); ?>
+                <?php endif; ?>
+            </div>
+
+            <?php if(!empty($rule['action_amount']) && $rule['action_amount'] > 0): ?>
+                <div class="price-box">
+                    <div class="price-container">
+                        <span class="before-cashback">
+                            <span class="price-label"><?= /* @escapeNotVerified */ __('Before Cashback'); ?></span>
+                            <span class="price-wrapper"><span class="price"><?= /* @noEscape */ $price; ?></span></span>
+                        </span>
+                        <span class="after-cashback">
+                            <?php $cashbackPrice = $product->getPrice() - $rule['action_amount']; ?>
+                            <span class="price-label"><?= /* @escapeNotVerified */ __('After Cashback'); ?></span>
+                            <span class="price-wrapper"><span class="price"><?= /* @noEscape */  $block->formatDiscountAmount($cashbackPrice); ?></span></span>
+                        </span>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if(!empty($rule['pdp_description']) || !empty($rule['url_promotion'])): ?>
+                <div class="details-extendedrule no-display" data-rule="<?= /* @noEscape */ 'rule-' . $rule['rule_id']; ?>">
+                    <?php if(!empty($rule['pdp_description'])): ?>
+                        <div class="description"><?=  /* @noEscape */ $rule['pdp_description']; ?></div>
+                    <?php endif; ?>
+
+                    <?php if(!empty($rule['url_promotion'])): ?>
+                        <a class="link" href="<?= $block->escapeUrl($rule['url_promotion']); ?>" title="<?= /* @noEscape */ __('Promotion URL'); ?>">
+                            <?= /* @noEscape */ __('Promotion URL'); ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endforeach; ?>
+<?php endif; ?>

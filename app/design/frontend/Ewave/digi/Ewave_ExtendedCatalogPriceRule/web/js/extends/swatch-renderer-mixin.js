@@ -4,11 +4,12 @@ define([
     'mage/translate',
     'mage/template',
     'text!Ewave_ExtendedCatalogPriceRule/template/display_message.html',
+    'text!Ewave_ExtendedCatalogPriceRule/template/display_message_plp.html',
     'priceUtils',
     'catalogPriceRuleModal',
     'Ewave_ExtendedCatalogPriceRule/js/extends/swatch-renderer',
     'jquery/ui'
-], function ($, _, $t, mageTemplate, messageTemplate, priceUtils, catalogPriceRuleModal) {
+], function ($, _, $t, mageTemplate, messageTemplate, plpMessageTemplate, priceUtils, catalogPriceRuleModal) {
     'use strict';
 
     return function (target) {
@@ -22,8 +23,32 @@ define([
             },
             renderExtendedRules: function ($widget, result, selectedIndex) {
                 if ($widget.inProductList) {
-                    this._super($widget, result, selectedIndex);
+                    _.each(result, function (rule) {
+                        if (typeof rule.action_amount !== 'string') {
+                            var currentOptionPrice = this.getCurrentOptionPrice($widget.options.jsonConfig, rule.product_id);
 
+                            rule.before_cashback_label = this.options.extendedRulesTranslation.beforeCashback;
+                            rule.after_cashback_label = this.options.extendedRulesTranslation.afterCashback;
+
+                            if (currentOptionPrice) {
+                                rule.before_cashback_price = priceUtils.formatPrice(+currentOptionPrice.finalPrice.amount, $widget.options.jsonConfig.priceFormat);
+                                rule.after_cashback_price = priceUtils.formatPrice((+currentOptionPrice.finalPrice.amount - rule.action_amount), $widget.options.jsonConfig.priceFormat);
+                            } else {
+                                console.error('Can\'t find current option price');
+                                rule.before_cashback_price = 0;
+                                rule.after_cashback_price = 0;
+                            }
+                        }
+                        rule.pdp_description = this.decodeEscapedHtml(rule.pdp_description);
+
+                        $(mageTemplate(plpMessageTemplate, {
+                            data: rule,
+                            itemIndex: selectedIndex,
+                            productId: $widget.options.jsonConfig.productId, // Parent ID
+                            label: $widget.options.extendedRulesTranslation,
+                            inProductList: $widget.inProductList
+                        })).insertBefore($widget.element.parents(this.options.selectorProductTile).find(this.options.selectorProductPrice));
+                    }, this);
                 } else {
                     _.each(result, function (rule) {
                         if (typeof rule.action_amount !== 'string') {
@@ -45,11 +70,17 @@ define([
             },
             cleanExtendedRules: function ($widget) {
                 if ($widget.inProductList) {
-                    this._super($widget);
+                    $widget.element.parents(this.options.selectorProductTile).find(this.options.selectorProductPrice).prevAll(this.options.extendedRulesBlock).remove();
                 } else {
                     $('.product-info-main .product-info-price .price-box .price-container').prevAll(this.options.extendedRulesBlock).remove();
                 }
             },
+            getCurrentOptionPrice: function (jsonConfig, productId) {
+                if (!jsonConfig || !jsonConfig.optionPrices || !productId) {
+                    return false;
+                }
+                return jsonConfig.optionPrices[productId];
+            }
         });
 
         return $.mage.SwatchRenderer;

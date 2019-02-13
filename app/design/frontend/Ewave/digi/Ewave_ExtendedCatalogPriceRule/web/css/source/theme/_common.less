@@ -3,6 +3,11 @@
 //  _____________________________________________
 
 //
+// Variables
+// ----------------------------------------------------------
+@special-offer__background-position: calc(~'100% - 8px');
+
+//
 //  Common
 //  ---------------------------------------------
 
@@ -30,6 +35,29 @@
         .modal-inner-wrap {
             max-width: 600px;
         }
+    }
+
+    .product-item-info {
+        .block-extendedrule .price-box + .name {
+            display: none;
+        }
+
+        .block-extendedrule .name {
+            .lib-css(border, 1px solid @primary__color);
+            .lib-css(background-image, @base64-icon__special-offer);
+            .lib-css(background-position, @special-offer__background-position center);
+            .lib-font-size(12);
+            .lib-css(font-weight, @font-weight__bold);
+            padding: 0 8px 0 12px;
+            background-repeat: no-repeat;
+            background-size: 13px 15px;
+            line-height: 1.9;
+            cursor: pointer;
+        }
+    }
+
+    .block-extendedrule.-cashback + .price-box {
+        display: none;
     }
 }
 

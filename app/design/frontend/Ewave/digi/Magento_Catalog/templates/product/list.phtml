@@ -66,6 +66,9 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                     <?php endif;?>
                     <div class="product details product-item-details">
                         <?php if($block->getMode() == 'grid'):?>
+                            <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
+                                <?php /* @escapeNotVerified */ echo $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
+                            <?php endif; ?>
                             <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
                         <?php endif;?>
                         <?php if($block->getMode() == 'list'):?>
@@ -76,13 +79,14 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                                     <?php /* @escapeNotVerified */ echo $productName; ?>
                                 </a>
                             </strong>
+                            <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
+                                <?php /* @escapeNotVerified */ echo $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
+                            <?php endif; ?>
                             <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
                         <?php endif;?>
 
 
-                        <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
-                            <?php /* @escapeNotVerified */ echo $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
-                        <?php endif; ?>
+
 
                         <div class="product-item-inner">
                             <?php echo $block->getProductDetailsHtml($_product); ?>
