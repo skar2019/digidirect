@@ -17,7 +17,6 @@ runtime:
         - xsl
         - json
         - sodium
-        - libsodium
         - blackfire
         - newrelic
 
