@@ -80,8 +80,8 @@ hooks:
     build: |
         set -e
         npm install
-        grunt prod
         php ./vendor/bin/ece-tools build:generate
+        grunt prod
         php ./vendor/bin/ece-tools build:transfer
     # We run deploy hook after your application has been deployed and started.
     deploy: |
