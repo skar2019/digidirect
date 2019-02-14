@@ -27,6 +27,7 @@
 
 !/Gruntfile.js
 !/package.json
+!/grunt-config.json
 !/dev
 !/dev/**
 !/pub

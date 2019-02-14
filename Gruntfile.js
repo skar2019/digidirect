@@ -48,7 +48,7 @@ module.exports = function (grunt) {
          * Production preparation task.
          */
         prod: [
-            'postcss'
+            'postcss:digi'
         ],
         
         /**
