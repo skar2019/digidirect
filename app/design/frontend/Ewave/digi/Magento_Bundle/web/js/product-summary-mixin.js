@@ -20,10 +20,17 @@ define([
             },
             _renderOptionRow: function (key, optionIndex) {
                 var template,
+                    $option,
                     imgSrc;
 
                 template = this.element.closest(this.options.summaryContainer).find(this.options.templates.optionBlock).html();
-                imgSrc = $('#bundle-option-' + this.cache.currentKey + '-' + optionIndex).closest('.bundle-item').find('img').attr('src');
+                $option = $('#bundle-option-' + this.cache.currentKey + '-' + optionIndex);
+
+                if ($option.length) {
+                    imgSrc = $option.closest('.bundle-item').find('img').attr('src');
+                } else {
+                    imgSrc = $('.bundle-option-' + this.cache.currentKey + '[value="' + optionIndex + '"]').closest('.bundle-item').find('img').attr('src');
+                }
 
                 template = mageTemplate($.trim(template), {
                     data: {
