@@ -107,3 +107,8 @@
 =============
 * Bugfixes:
     * [#204748](https://ewave.tpondemand.com/entity/204748) -- [ESR][Method] Incorrect behavior of 'Packaging weight, value' field
+
+1.3.4
+=============
+* Bugfixes:
+    * [#290462](https://ewave.tpondemand.com/entity/290462) -- [Project: Digidirect] [ESR] Composer dump-autoload warning

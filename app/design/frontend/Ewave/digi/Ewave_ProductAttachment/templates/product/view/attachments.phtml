@@ -8,16 +8,17 @@
     <?php if ($block->canBeShown($attachment)): ?>
         <?php $attachmentName = $attachment->getName() ?>
         <div class="product-attachment">
-            <span class="title"><?php echo $block->escapeHtml(__('Downloads')); ?></span>
+            <span class="attachment-title title"><?php echo $block->escapeHtml(__('Downloads')); ?></span>
+        <a class="attachment-container" href="<?php echo $block->escapeUrl($block->getDownloadLink($attachment->getId())); ?>"  title="<?php echo $block->escapeHtml(__($attachmentName)); ?>">
             <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-book"></use></svg></div>
             <div class="name"><?php echo $block->escapeHtml($attachmentName); ?></div>
-            <a class="download" href="<?php echo $block->escapeUrl($block->getDownloadLink($attachment->getId())); ?>"
-               title="<?php echo $block->escapeHtml(__($attachmentName)); ?>">
+            <span class="download">
                 <div class="name">
                 <?php echo $block->escapeHtml($block->getFileFormat($attachment->getFileFormat())); ?>
                 <?php echo $block->escapeHtml($block->getFileSize($attachment->getFileSize())); ?>
                 </div>
-            </a>
+            </span>
+        </a>
         </div>
     <?php endif; ?>
 <?php endforeach; ?>

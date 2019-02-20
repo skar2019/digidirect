@@ -92,7 +92,9 @@
     @_icon-height: @rating-vote-icon-base64__height,
     @_icon-margin: @rating-vote-icon-base64__margin,
     @_icon-background-image: @rating-vote-icon-base64__background-image,
-    @_icon-active-background-image: @rating-vote-icon-base64__active__background-image
+    @_icon-background-size: @rating-vote-icon-base64__background-size,
+    @_icon-active-background-image: @rating-vote-icon-base64__active__background-image,
+    @_icon-active-background-size: @rating-vote-icon-base64__active__background-size
 ) {
     .lib-css(position, @_vote-position);
     .lib-css(display, @rating-vote__display);
@@ -111,6 +113,7 @@
         .lib-css(width, 100%);
         .lib-css(height, @_icon-height);
         .lib-css(background-image, @_icon-background-image);
+        .lib-css(background-size, @_icon-background-size);
     }
 
     input[type='radio'] {
@@ -142,6 +145,7 @@
             .lib-css(display, block);
             .lib-css(height, @_icon-height);
             .lib-css(background-image, @_icon-active-background-image);
+            .lib-css(background-size, @_icon-active-background-size);
             opacity: 0;
         }
 
@@ -231,7 +235,9 @@
     @_icon-height: @rating-icon-base64__height,
     @_icon-margin: @rating-icon-base64__margin,
     @_icon-background-image: @rating-icon-base64__background-image,
+    @_icon-background-size: @rating-icon-base64__background-size,
     @_icon-active-background-image: @rating-icon-base64__active__background-image,
+    @_icon-active-background-size: @rating-icon-base64__active__background-size,
     @_label-hide: @rating-base64-label__hide
 ) {
     .lib-css(overflow, hidden);
@@ -253,6 +259,7 @@
             .lib-css(width, 100%);
             .lib-css(height, @_icon-height);
             .lib-css(background-image, @_icon-background-image);
+            .lib-css(background-size, @_icon-background-size);
         }
 
         > span {
@@ -266,6 +273,7 @@
                 .lib-css(display, block);
                 .lib-css(height, @_icon-height);
                 .lib-css(background-image, @_icon-active-background-image);
+                .lib-css(background-size, @_icon-active-background-size);
             }
 
             span {

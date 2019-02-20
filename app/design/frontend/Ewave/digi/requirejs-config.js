@@ -6,7 +6,9 @@ var config = {
             'mousewheel': 'js/vendor/jquery.mousewheel.min',
             'mCustomScrollbar': 'js/vendor/jquery.mCustomScrollbar.min',
             'selectric' : 'js/vendor/jquery.selectric.min',
-            'customSelectInit' : 'js/selectric-init'
+            'customSelectInit' : 'js/selectric-init',
+            'truncateDotdotdot' : 'js/dist/widgets/truncate-dotdotdot',
+            'truncateCollection' : 'js/dist/widgets/truncate-collection'
         }
     }
 };

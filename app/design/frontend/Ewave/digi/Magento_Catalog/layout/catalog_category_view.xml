@@ -19,7 +19,7 @@
             </arguments>
         </block>
 
-        <referenceContainer name="category.view.container">
+        <referenceContainer name="category.view.container" htmlClass="category-view _full-width-background">
             <block class="Magento\Framework\View\Element\Template" name="category.view.bg"
                    after="-"
                    template="Magento_Catalog::category/category-bg.phtml">

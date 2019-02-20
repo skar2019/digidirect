@@ -4,6 +4,7 @@
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceBlock name="view.addto.compare" remove="true" />
         <referenceBlock name="product.info.mailto" remove="true" />
+        <referenceBlock name="product.info.overview" remove="true" />
 
         <!-- in case us/288107-->
         <referenceBlock name="product.attributes" remove="true" />
@@ -27,8 +28,7 @@
         <move element="product.info.upsell" destination="content" after="-"/>
 
         <referenceContainer name="content">
-            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes _negative-gutter"
-                       after="product.info.media">
+            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes _negative-gutter" after="product.info.media">
                 <container name="product.info.media.bar" htmlTag="div" htmlClass="right-bar">
                     <block class="Magento\Catalog\Block\Product\View\Description" name="product.in.box"
                            template="Magento_Catalog::product/view/in-box.phtml">
@@ -40,13 +40,15 @@
                     </block>
                 </container>
             </container>
-            <referenceBlock name="product.info.details">
-                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec"
-                       as="spec" template="Magento_Catalog::product/view/specs.phtml"
-                       group="detailed_info">
+            <referenceBlock name="product.info.details" >
+                <referenceBlock name="product.info.description">
+                    <arguments>
+                        <argument name="title" translate="true" xsi:type="string">Description</argument>
+                    </arguments>
+                </referenceBlock>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec" as="spec" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info" after="product.info.description">
                     <arguments>
                         <argument translate="true" name="title" xsi:type="string">Specs</argument>
-                        <argument name="css_class" xsi:type="string">specs</argument>
                     </arguments>
                 </block>
             </referenceBlock>

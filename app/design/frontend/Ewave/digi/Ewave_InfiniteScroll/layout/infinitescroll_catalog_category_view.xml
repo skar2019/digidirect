@@ -3,11 +3,5 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <move element="page.main.title" destination="infinitescroll.toolbar" before="-"/>
-
-        <referenceBlock name="ewave.infinitescroll.core">
-            <arguments>
-                <argument name="view_custom" xsi:type="string">Ewave_InfiniteScroll/js/dist/views/catalog-listing/index-extend</argument>
-            </arguments>
-        </referenceBlock>
     </body>
 </page>

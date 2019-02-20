@@ -16,7 +16,6 @@
         }
 
         > .right-bar .product-attachment {
-            .lib-css(background, @color-white);
             .lib-css(color, @color-black);
             margin: 20px 20px 40px;
             padding: 0;
@@ -24,13 +23,19 @@
             float: none;
         }
 
-        > .right-bar .product-attachment > .title {
+        > .right-bar .attachment-title {
             .lib-css(color, @color-white);
             .lib-css(background, @color-4-6);
             display: block;
         }
 
-        > .right-bar .product-attachment > .icon {
+        > .right-bar .attachment-container {
+            display: block;
+            text-decoration: none;
+            .lib-css(background, @color-white);
+        }
+
+        > .right-bar .attachment-container > .icon {
             .lib-css(background, @color-3-4);
             position: absolute;
             left: 20px;
@@ -38,26 +43,26 @@
             display: inline;
         }
 
-        > .right-bar .product-attachment .name {
+        > .right-bar .attachment-container .name {
             padding-left: 70px;
             padding-top: 20px;
             font-size: 15px;
             .lib-css(color, @color-4-1);
         }
 
-        > .right-bar .product-attachment .download {
+        > .right-bar .attachment-container .download {
             padding-left: 70px;
             padding-bottom: 20px;
-            font-size: 11px;
             text-decoration: none;
-            .lib-css(color, @color-4-6);
+            display: block;
         }
 
-        > .right-bar .product-attachment .download > .name {
+        > .right-bar .attachment-container .download > .name {
             text-align: left;
             font-size: 11px;
             padding-left: 0;
             padding-top: 0;
+            .lib-css(color, @color-4-6);
         }
 
         > .right-bar .content-middle {
@@ -77,11 +82,19 @@
             padding: 20px 20px 0;
         }
 
+        .right-bar .title {
+            margin: 0;
+        }
+
+        .right-bar img {
+            min-height: 1px; // IE fix
+        }
+
         .title {
-            padding-top: 4px;
-            padding-bottom: 17px;
+            padding: 4px 0 14px;
+            width: calc(~'100% + 5px');
             font-weight: 500;
-            .lib-font-size(18);
+            .lib-font-size(16);
         }
 
         .container {
@@ -129,10 +142,6 @@
         .data.item.title {
             .lib-hover-out();
         }
-
-        .data.item.title:hover > .data.switch {
-            .lib-color-hover();
-        }
     }
 
     .product.data.items {
@@ -147,7 +156,7 @@
         }
 
         .description h2 {
-            .lib-css(color, @primary__color);            
+            .lib-css(color, @primary__color);
         }
 
         .data.item.title > .switch {
@@ -166,6 +175,10 @@
             height: 23px;
             transform: rotate(-90deg);
             .lib-css(fill, @color-black);
+        }
+
+        .data.item.content {
+            margin-bottom: 0;
         }
     }
 
@@ -186,6 +199,10 @@
             flex-direction: row;
             flex-wrap: wrap;
             width: calc(~'100% + 40px');
+        }
+
+        > .right-bar > .mCSB_inside > .mCSB_container {
+            margin-right: 15px;
         }
 
         > .right-bar .mCSB_container {
@@ -217,15 +234,28 @@
             height: 60px;
         }
 
+        .title {
+            .lib-font-size(18);
+        }
+
+        .title > .data.switch {
+            font-weight: 500;
+        }
+
         .data.switch > .arrow > .svgi-action {
             display: none;
         }
 
-        .read-more {
+        .more .read-more {
             display: flex;
+            .lib-hover-out();
         }
 
-        .read-more > .title {
+        .more .read-more:hover {
+            .lib-color-hover();
+        }
+
+        .more .read-more > .title {
             margin: auto;
             font-weight: 700;
             text-align: center;
@@ -233,25 +263,27 @@
             font-size: 13px;
         }
 
-        .read-more > .title > a {
+        .more .read-more > .title > a {
             text-decoration: none;
         }
-
     }
 
     .product.data.items > .data.item.title.active {
         .data.switch {
             .lib-css(box-shadow, inset 0 -4px 0 0 @color-4-1);
+            .lib-css(color, @color-4-1);
         }
     }
 
     .product.data.items {
         & {
             height: 100%;
+            .lib-css(background, @color-white);
         }
 
         .value {
             padding-bottom: 60px;
+            .lib-hover-out();
         }
 
         .data.item.title {
@@ -260,21 +292,26 @@
             border: none;
         }
 
-        .data.item.title > .switch {
+        .data.item.title > .data.switch {
             justify-content: center;
+            .lib-css(color, @color-4-8);
+        }
+
+        .data.item.title:hover > .data.switch {
+            .lib-css(color, @color-2-1);
+            .lib-color-hover();
         }
 
         .data.item.content {
             margin-top: 60px;
         }
 
-        .data.item.content.spec {
+        .item.spec {
             margin-top: 0;
         }
 
         .data.item.content.more {
             & {
-                display: block;
                 height: 584px;
                 overflow: hidden;
                 position: relative;
@@ -282,6 +319,7 @@
 
             &.-closed {
                 height: calc(~'100% - 60px');
+                .lib-hover-out();
             }
         }
     }
@@ -296,12 +334,35 @@
         & {
             display: flex;
             flex-direction: row;
-            width: calc(~'100% + 140px');
+            width: 100%;
+            margin: 30px auto 0;
+        }
+
+        > .right-bar .attachment-container:hover {
+            .lib-background-hover();
+        }
+
+        > .right-bar .attachment-container:hover .name {
+            .lib-color-hover();
+        }
+
+        > .right-bar .attachment-container {
+            .lib-hover-out();
+        }
+
+        > .right-bar .attachment-container .name {
+            font-size: 18px;
+        }
+
+        > .right-bar .attachment-container .download > .name {
+            font-size: 12px;
         }
 
         > .right-bar {
             width: 25%;
-            max-height: 780px;
+            max-height: 770px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
         > .right-bar .content-middle {
@@ -310,6 +371,7 @@
 
         > .right-bar .product-attachment {
             width: 100%;
+            display: block;
         }
 
         > .product.info.detailed {
@@ -321,7 +383,7 @@
             overflow: hidden;
         }
 
-        .title {
+        .right-bar .title {
             .lib-font-size(24);
         }
     }
@@ -358,21 +420,56 @@
         }
 
         .data.item.content {
-            padding: 20px 60px;
+            padding: 20px 60px 35px;
             font-size: 14px;
         }
     }
 
-    .read-more {
+    .product.attributes .more .read-more {
         display: block;
+        cursor: pointer;
     }
 
-    .read-more > .title {
+    .product.attributes .more.-closed .read-more {
+        & {
+            display: block;
+        }
+
+        &::after {
+            content: '- hide';
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            text-transform: capitalize;
+        }
+
+        > .title {
+            display: none;
+        }
+    }
+
+    .product.attributes .more .read-more > .title {
+        margin: auto;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        padding: 20px 0;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        text-transform: capitalize;
+    }
+
+    .product.attributes .more .read-more > .title {
         margin: auto;
         font-weight: 700;
     }
 
-    .read-more > .title > a {
+    .product.attributes .more .read-more > .title > a {
         text-decoration: none;
     }
 }

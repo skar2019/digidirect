@@ -132,6 +132,32 @@
         }
     }
 
+    .product-item-info {
+        .price-box.price-final_price > .price-final_price {
+            padding-top: 0;
+        }
+
+        .price-box > .block-extendedrule {
+            order: 2;
+        }
+
+        .price-box > .block-extendedrule ~ .price-container {
+            order: 1;
+            margin-left: 0;
+            align-items: flex-start;
+        }
+
+        .price-box > .block-extendedrule ~ .price-container .price {
+            .lib-font-size(12);
+            .lib-line-height(24);
+            font-weight: 400;
+        }
+
+        .price-box > .block-extendedrule > .price-box {
+            margin: 0;
+        }
+    }
+
     .product-item-info.-list {
         .price-box {
             margin: 0 0 8px;

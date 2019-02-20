@@ -1,17 +1,19 @@
 //
-//  Quick View Modal
+//  Theme: Quick View Modal
 //  _____________________________________________
 
 //
 //  Variables
 //  ---------------------------------------------
+
 @quickview-moda-inner__width__s: calc(~'100% - @{layout-elements__padding-right}*2');
-@quickview-modal-inner__show__transform: translateY(50px);
-@quickview-modal-inner__show__transform__l: translateY(6%);
+@quickview-modal-inner__show__transform: false;
+@quickview-modal-inner__show__transform__l: false;
 
 //
 //  Common
 //  ---------------------------------------------
+
 & when (@media-common = true) {
     .quickView-modal {
         .modal-header {
@@ -39,6 +41,10 @@
     }
 
     .catalog-product-view.quickview-main {
+        & {
+            .lib-css(background-color, @color-white);
+        }
+
         .page-main {
             height: 80vh;
         }
@@ -47,16 +53,76 @@
             height: 100%;
         }
 
-        .mCSB_1_container {
+        .mCSB_container {
             margin-right: 0;
         }
 
         .mCSB_draggerContainer {
             display: none;
         }
+
+        .product-section.column.main {
+            min-height: initial;
+        }
+
+        .product-holder {
+            .lib-css(color, @primary__color);
+            padding-bottom: 29px;
+        }
+        
+        .section-center {
+            .lib-css(border-bottom, 1px solid @color-3-2);
+        }
+
+        .product-holder .page-title-wrapper {
+            padding-right: 25px;
+        }
+
+        .product-holder .page-title {
+            .lib-font-size(18);
+        }
+
+        .product-holder .sku {
+            .lib-css(color, @color-4-8);
+            top: auto;
+            padding-left: 5px;
+            vertical-align: inherit;
+        }
+
+        .product-reviews-summary {
+            .lib-vendor-prefix-flex-direction(column);
+            margin-top: 15px;
+        }
+
+        .reviews-actions {
+            padding: 10px 0 0;
+        }
+
+        .reviews-actions .action.add::before {
+            .lib-css(background-color, @primary__color);
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -18px;
+            width: 1px;
+            height: 14px;
+        }
+
+        .product-overlay.-top-left {
+            left: 0;
+        }
+
+        .product.data.items .data.item.content {
+            .lib-css(padding, @layout-elements__padding-left);
+            margin: 0;
+        }
+
+        .product.data.items > .item.title > .switch {
+            .lib-css(padding-left, @layout-elements__padding-left);
+            .lib-css(padding-right, @layout-elements__padding-right);
+        }
     }
 }
-
 
 //
 //  Tablet
@@ -71,6 +137,29 @@
                 width: 18px;
                 height: 18px;
             }
+        }
+    }
+
+    .catalog-product-view.quickview-main {
+        .product-holder {
+            padding: 20px 10px 29px;
+        }
+
+        .product-holder .page-title {
+            .lib-font-size(20);
+        }
+
+        .page-main {
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        .product-reviews-summary {
+            .lib-vendor-prefix-flex-direction(row);
+        }
+
+        .reviews-actions {
+            padding: 1px 0 0 8px;
         }
     }
 }
@@ -89,11 +178,60 @@
         .modal-content {
             padding-right: 0;
         }
+
+        .action-close {
+            top: 33px;
+            right: 28px;
+
+            &::before {
+                width: 22px;
+                height: 22px;
+            }
+        }
     }
 
     .catalog-product-view.quickview-main {
+        .page-main {
+            padding-right: 0;
+            padding-left: 0;
+        }
+
         .mCSB_draggerContainer {
             display: block;
+        }
+
+        .columns.mCustomScrollbar {
+            padding-top: 30px;
+        }
+
+        .product-holder {
+            .lib-css(background-color, @color-white);
+            padding: 32px 92px 36px 38px;
+        }
+
+        .product-holder .page-title {
+            .lib-font-size(24);
+        }
+
+        .product-reviews-summary {
+            .lib-font-size(14);
+            margin-top: 6px;
+        }
+
+        .reviews-actions {
+            padding: 1px 0 0 8px;
+        }
+
+        .product-info-main {
+            padding-right: 100px;
+        }
+
+        .bundle-options-container,
+        .product.attributes {
+            width: 100%;
+            margin: 0;
+            padding-left: 50px;
+            padding-right: 100px;
         }
     }
 }
@@ -106,11 +244,6 @@
     .quickView-modal {
         .action-close {
             top: 33px;
-
-            &::before {
-                width: 22px;
-                height: 22px;
-            }
         }
     }
 }

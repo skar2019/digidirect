@@ -45,3 +45,10 @@ Bugfix:
 Improvements:
 
 * Modals
+
+1.3.1
+=============
+
+Bugfix:
+
+* [#290367](https://ewave.tpondemand.com/entity/290367) - [Project: Rip Curl][PDP][IE] Star icons are missing in 'Reviews' section of the product

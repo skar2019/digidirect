@@ -43,14 +43,32 @@
 
 & when (@media-common = true) {
     .product-overlay {
-        .lib-css(width, @product-overlay__width);
+        & {
+            .lib-css(width, @product-overlay__width);
+        }
+
+        &.-top-left + .-top-left {
+            .lib-css(transform, translateX(100%), 1);
+        }
+
+        &.-top-left + .-top-left + .-top-left {
+            .lib-css(transform, translateX(200%), 1);
+        }
+
+        &.-top-left + .-top-left + .-top-left + .-top-left {
+            .lib-css(transform, translateX(300%), 1);
+        }
+
+        .img {
+            width: 100%;
+        }
     }
 
     .product-item-info.-list,
     .product.media {
         .product-overlay.-top-left {
-            top: -10px;
             left: -10px;
+            top: -10px;
         }
     }
 
@@ -98,7 +116,8 @@
             .lib-css(width, @product-overlay__width__l);
         }
 
-        &.-top-left {
+        &.-top-left,
+        &.-bottom-left {
             left: -7px;
         }
     }

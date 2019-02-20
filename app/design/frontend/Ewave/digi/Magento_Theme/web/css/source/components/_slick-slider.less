@@ -5,10 +5,14 @@
 //
 //  Variables
 //  ---------------------------------------------
-@slick-round-arrow__width: 24px;
-@slick-round-arrow__height: 24px;
-@slick-round-arrow__margin: 0 15px;
-@slick-round-arrow__padding: 0 10px;
+@slick-round-arrow__height: 10px;
+@slick-round-arrow__width: 10px;
+@slick-round-arrow__width__m: 24px;
+@slick-round-arrow__height__m: 24px;
+@slick-round-arrow__margin: 0 8px;
+@slick-round-arrow__padding: 0 5px;
+@slick-round-arrow__margin__m: 0 33px;
+@slick-round-arrow__padding__m: 0 10px;
 @slick-round-arrow__hover__border: @color-white;
 @slick-round-arrow__hover__color: @color-2-1;
 @slick-round-arrow__disabled__color: @color-white;
@@ -25,6 +29,7 @@
 @slick-dot-button__height: @slick-dot-button__width;
 @slick-arrow__background: none;
 @slick-arrow__hover__background: none;
+@slick-arrow__disabled__background: false;
 @slick-arrow__color: @color-black;
 @slick-arrow__hover__color: @color-2-1;
 
@@ -35,17 +40,21 @@
 & when (@media-common = true) {
     & when (@slick-theme__is-enabled = true) {
         .round-arrows {
+            & {
+                margin-bottom: 0;
+            }
+
             .slick-prev,
             .slick-next {
                 & {
                     .lib-css(width, @slick-round-arrow__width);
                     .lib-css(height, @slick-round-arrow__height);
-                    .lib-css(margin, @slick-round-arrow__margin);
-                    .lib-css(padding, @slick-round-arrow__padding);
                     border-radius: 50%;
                     .lib-css(background, @color-white);
                     opacity: 1;
                     cursor: pointer;
+                    .lib-css(margin, @slick-round-arrow__margin);
+                    .lib-css(padding, @slick-round-arrow__padding);
                 }
 
                 &.slick-disabled {
@@ -55,18 +64,20 @@
 
                 > .svgi-right,
                 .svgi-left {
-                    width: 10px;
-                    height: 12px;
+                    width: 5px;
+                    height: 6px;
                     .lib-css(fill, @color-black);
                 }
 
                 > .svgi-left {
                     margin-left: -3px;
+                    margin-top: -16px;
                 }
 
                 > .svgi-right {
                     transform: rotate(180deg);
-                    margin-top: -1px;
+                    margin-top: -16px;
+                    margin-left: -2px;
                 }
             }
 
@@ -82,48 +93,81 @@
             .slick-next:hover > .svgi-right {
                 .lib-css(fill, @color-white);
             }
-       
-        }
 
-        .slick-dots {
-            li {
-                border-radius: 50%;
+            .slick-dots {
+                li {
+                    border-radius: 50%;
+                }
             }
-        }        
-    }
-
-    .slick-slide {
-        & {
-            height: auto;
         }
 
-        > div {
-            height: 100%;
+        .slick-slide {
+            & {
+                height: auto;
+            }
+
+            > div {
+                height: 100%;
+            }
+        }
+
+        .slick-list {
+            width: 100%;
+        }
+
+        .slick-track {
+            & {
+                .lib-vendor-prefix-display(flex);
+                .lib-vendor-prefix-flex-direction(row);
+                .lib-vendor-prefix-flex-wrap(nowrap);
+                align-items: stretch;
+            }
+        }
+
+        .products-widget .slick-next {
+            right: -35px;
+        }
+
+        .products-widget .slick-prev {
+            left: -45px;
+        }
+
+        .products-widget .slick-arrow.slick-disabled {
+            opacity: .1;
         }
     }
+}
 
-    .slick-list {
-        width: 100%;
-    }
+//
+//  Tablet
+//  ---------------------------------------------
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@slick-theme__is-enabled = true) {
+        .round-arrows {
+            .slick-prev,
+            .slick-next {
+                & {
+                    .lib-css(width, @slick-round-arrow__width__m);
+                    .lib-css(height, @slick-round-arrow__height__m);
+                    .lib-css(margin, @slick-round-arrow__margin__m);
+                    .lib-css(padding, @slick-round-arrow__padding__m);
+                }
 
-    .slick-track {
-        & {
-            .lib-vendor-prefix-display(flex);
-            .lib-vendor-prefix-flex-direction(row);
-            .lib-vendor-prefix-flex-wrap(nowrap);
-            align-items: stretch;
+                > .svgi-right,
+                .svgi-left {
+                    width: 10px;
+                    height: 12px;
+                    .lib-css(fill, @color-black);
+                }
+
+                > .svgi-left {
+                    margin-top: -1px;
+                }
+
+                > .svgi-right {
+                    margin-top: -1px;
+                }
+            }
         }
-    }
-
-    .products-widget .slick-next {
-        right: -35px;
-    }
-
-    .products-widget .slick-prev {
-        left: -45px;
-    }
-
-    .products-widget .slick-arrow.slick-disabled {
-        opacity: .1;
     }
 }

@@ -17,6 +17,10 @@
             float: right;
         }
 
+        .block-extendedrule .name {
+            display: none;
+        }
+
         .block-extendedrule + .price-container {
             float: left;
             text-align: left;
@@ -43,7 +47,6 @@
         }
 
         .block-extendedrule .name {
-            .lib-css(border, 1px solid @primary__color);
             .lib-css(background-image, @base64-icon__special-offer);
             .lib-css(background-position, @special-offer__background-position center);
             .lib-font-size(12);
@@ -54,9 +57,14 @@
             line-height: 1.9;
             cursor: pointer;
         }
+
+        .block-extendedrule .name:not(:empty) {
+            .lib-css(border, 1px solid @primary__color);
+        }
     }
 
-    .block-extendedrule.-cashback + .price-box {
+    .block-extendedrule.-cashback ~ .price-box,
+    .block-extendedrule + .block-extendedrule {
         display: none;
     }
 }

@@ -25,17 +25,24 @@
     .banner-main-wrapper {
         & {
             display: flex;
-            width: calc(~'100% + 170px');
+            width: calc(~'100% + 160px');
             .lib-css(margin-left, -(@layout-columns__padding__l + 30px));
             .lib-css(margin-right, -(@layout-columns__padding__l + 30px));
         }
 
         > .banner-items {
-            width: 70%;
+            width: calc(~'70% - 3px');
+            margin: 0;
         }
+    }
+}
 
-        > .additional-banner {
-            width: 30%;
-        }
+//
+//  Desktop
+//  ---------------------------------------------
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    .banner-main-wrapper > .banner-items {
+        width: calc(~'70% - 4px');
+        margin: 0;
     }
 }

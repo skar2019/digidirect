@@ -100,6 +100,18 @@ define(['module', 'exports', 'jquery', './../index'], function (module, exports,
                         $fromValue = parseInt(inputs.filter('.-from').val()),
                         $toValue = parseInt(inputs.filter('.-to').val());
 
+                    if (isNaN($fromValue)) {
+                        $fromValue = $this.options.min;
+                        $self.val($fromValue);
+                        slider.slider('values', 0, $fromValue);
+                    }
+
+                    if (isNaN($toValue)) {
+                        $toValue = $this.options.max;
+                        $self.val($toValue);
+                        slider.slider('values', 1, $toValue);
+                    }
+
                     if ($self.is('.-from')) {
                         $fromValue = parseInt($self.val());
 

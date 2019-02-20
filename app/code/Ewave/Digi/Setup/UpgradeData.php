@@ -195,6 +195,14 @@ class UpgradeData implements UpgradeDataInterface
             $this->upgradeTo106($setup);
         }
 
+        if (version_compare($context->getVersion(), '1.0.7', '<')) {
+            $this->upgradeTo107($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.8', '<')) {
+            $this->upgradeTo108($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -506,5 +514,106 @@ class UpgradeData implements UpgradeDataInterface
                 $attrData['sort_order']
             );
         }
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo107(ModuleDataSetupInterface $setup)
+    {
+        /* @var \Magento\Framework\DB\Adapter\AdapterInterface $connection*/
+        $connection = $setup->getConnection();
+        /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+
+        $attributeId = $eavSetup->getAttributeId($entityTypeId, 'whats_in_the_box');
+
+        $eavSetup->updateAttribute(
+            $entityTypeId,
+            $attributeId,
+            [
+                'is_wysiwyg_enabled' => true,
+                'backend_type' => 'text'
+            ]
+        );
+
+        $oldValuesSelect = $connection->select();
+        $oldValuesSelect->from(
+            ['cpev' => $setup->getTable('catalog_product_entity_varchar')],
+            ['attribute_id', 'store_id', 'row_id', 'value']
+        )
+            ->where('cpev.attribute_id = ?', $attributeId);
+
+        $connection->query($connection->insertFromSelect(
+            $oldValuesSelect,
+            $setup->getTable('catalog_product_entity_text'),
+            ['attribute_id', 'store_id', 'row_id', 'value']
+        ));
+
+        $connection->delete(
+            $setup->getTable('catalog_product_entity_varchar'),
+            [
+                'attribute_id = ?' => $attributeId
+            ]
+        );
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo108(ModuleDataSetupInterface $setup)
+    {
+        /* @var \Magento\Framework\DB\Adapter\AdapterInterface $connection*/
+        $connection = $setup->getConnection();
+        /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+
+        $attributeId = $eavSetup->getAttributeId($entityTypeId, 'pronto_stock_status');
+
+        $connection->delete(
+            $setup->getTable('catalog_product_entity_int'),
+            [
+                'attribute_id = ?' => $attributeId
+            ]
+        );
+
+        $eavSetup->updateAttribute(
+            $entityTypeId,
+            $attributeId,
+            [
+                'backend_type' => 'varchar',
+                'frontend_input' => 'select',
+                'source_model' => \Ewave\Digi\Model\Source\ProntoStatus::class
+            ]
+        );
+
+
+        $attributeSetId = $eavSetup->getDefaultAttributeSetId($entityTypeId);
+        $idGroup = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General Information');
+
+        $attributeData = [
+            'type' => 'int',
+            'label' => 'Qualifies for free shipping',
+            'input' => 'boolean',
+            'source' => \Magento\Eav\Model\Entity\Attribute\Source\Boolean::class,
+            'default' => 0,
+            'required' => false,
+            'user_defined' => true,
+            'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+            'is_used_in_grid' => false,
+            'is_filterable_in_grid' => false,
+        ];
+
+        $eavSetup->addAttribute($entityTypeId, 'qualifies_for_free_shipping', $attributeData);
+        $eavSetup->addAttributeToGroup(
+            $entityTypeId,
+            $attributeSetId,
+            $idGroup,
+            'qualifies_for_free_shipping'
+        );
     }
 }

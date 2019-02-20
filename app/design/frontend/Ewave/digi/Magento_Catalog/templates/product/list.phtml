@@ -26,7 +26,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
     } else {
         $viewMode = 'list';
         $image = 'category_page_list';
-        $showDescription = true;
+        $showDescription = false;
         $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
     }
     /**
@@ -141,6 +141,11 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
         {
             "[data-role=tocart-form], .form.map.checkout": {
                 "catalogAddToCart": {}
+            },
+            ".product-items": {
+                "truncateCollection": {
+                    "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
+                }
             }
         }
         </script>

@@ -1,7 +1,8 @@
 <?php
-$letrNum = (int)2300;
 ?>
 <?php if ($detailedInfoGroup = $block->getGroupChildNames('detailed_info', 'getChildHtml')): ?>
+    <?php $childNames = $block->getChildNames();?>
+    <?php $detailedInfoGroup = array_intersect($childNames, $detailedInfoGroup); ?>
 <div class="product info detailed">
     <?php $layout = $block->getLayout(); ?>
     <div class="product data items" data-mage-init='{"tabs":{"openedState":"active","collapsible": true}}'>
@@ -13,9 +14,10 @@ $letrNum = (int)2300;
             }
             $alias = $layout->getElementAlias($name);
             $label = $block->getChildData($alias, 'title');
-            $len = strlen(strip_tags($html));
+
             ?>
-            <div class="data item title"
+            <div class="data item title tab-in"
+                 data-alias="<?= /* @escapeNotVerified */ $alias ?>"
                  aria-labeledby="tab-label-<?= /* @escapeNotVerified */ $alias ?>-title"
                  data-role="collapsible" id="tab-label-<?= /* @escapeNotVerified */ $alias ?>">
                 <a class="data switch"
@@ -31,22 +33,16 @@ $letrNum = (int)2300;
                     </div>
                 </a>
             </div>
-            <?php if ($len > $letrNum): ?>
-                <div class="data item content more" id="<?= /* @escapeNotVerified */ $alias ?>" data-role="content">
+                <div class="data item content" id="<?= /* @escapeNotVerified */ $alias ?>" data-role="content">
                     <?= /* @escapeNotVerified */ $html; ?>
                     <div class="read-more">
                         <div class="title">
-                                <span class="readmore">
-                                    <?php echo $block->escapeHtml(__('+ Read more')); ?>
-                                </span>
+                            <span class="readmore">
+                                <?php echo $block->escapeHtml(__('+ Read more')); ?>
+                            </span>
                         </div>
                     </div>
                 </div>
-            <?php else: ?>
-                <div class="data item content -closed" id="<?= /* @escapeNotVerified */ $alias ?>" data-role="content">
-                    <?= /* @escapeNotVerified */ $html; ?>
-                </div>
-            <?php endif; ?>
         <?php endforeach; ?>
     </div>
 </div>
@@ -56,6 +52,5 @@ $letrNum = (int)2300;
             "Magento_Catalog/js/read-more": {}
         }
     }
-
 </script>
 <?php endif; ?>

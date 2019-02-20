@@ -13,7 +13,7 @@
         <!-- Fonts -->
         <referenceBlock name="js_fonts">
                 <arguments>
-                    <argument name="fonts_revision" xsi:type="string">1.0.1</argument>
+                    <argument name="fonts_revision" xsi:type="string">1.0.3</argument>
                 </arguments>
         </referenceBlock>
         
@@ -21,7 +21,7 @@
         <referenceBlock name="svg_sprite">
             <arguments>
                 <argument name="svg_is_inline" xsi:type="boolean">true</argument>
-                <argument name="svg_revision" xsi:type="string">1.2.2</argument>
+                <argument name="svg_revision" xsi:type="string">1.2.3</argument>
             </arguments>
         </referenceBlock>
 

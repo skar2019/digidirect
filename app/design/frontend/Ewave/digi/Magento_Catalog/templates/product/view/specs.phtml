@@ -1,20 +1,6 @@
 <?php
-$letrNum = (int)2300;
 $productSpec = $block->getProduct()->getData('specification');
-$specLen = strlen(strip_tags($productSpec));
 ?>
-<?php if ($specLen > $letrNum): ?>
-    <div class="item content spec more"><?php echo $productSpec; ?>
-        <div class="read-more">
-            <div class="title">
-                <span class="readmore">
-                    <?php echo $block->escapeHtml(__('+ Read more')); ?>
-                </span>
-            </div>
-        </div>
-    </div>
-<?php else: ?>
-    <div class="item content spec -closed">
-        <?php echo $productSpec; ?>
-    </div>
+<?php if ($productSpec): ?>
+    <div class="item spec"><?php echo $productSpec; ?></div>
 <?php endif; ?>

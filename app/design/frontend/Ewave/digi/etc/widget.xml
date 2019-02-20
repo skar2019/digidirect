@@ -18,6 +18,9 @@
                     <option name="homewidget" value="widget/calculator-home.phtml">
                         <label translate="true">Homepage Widget Template</label>
                     </option>
+                    <option name="categorywidget" value="widget/calculator-category.phtml">
+                        <label translate="true">Category Selection Widget Template</label>
+                    </option>
                 </options>
             </parameter>
         </parameters>
