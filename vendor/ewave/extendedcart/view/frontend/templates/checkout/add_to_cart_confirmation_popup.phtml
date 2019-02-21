@@ -2,12 +2,10 @@
 /**
  * @var $this \Magento\Framework\View\TemplateEngine\Php
  * @var $block \Ewave\ExtendedCart\Block\Checkout\AddToCartConfirmationPopup
- * @var $imageHelper \Magento\Catalog\Helper\Image
  * @var $confirmationPopupHelper \Ewave\ExtendedCart\Helper\AddToCartConfirmationPopup
  * @var $checkoutHelper \Magento\Checkout\Helper\Data
  */
 $product = $block->getProduct();
-$imageHelper = $this->helper(\Magento\Catalog\Helper\Image::class);
 $confirmationPopupHelper = $this->helper(\Ewave\ExtendedCart\Helper\AddToCartConfirmationPopup::class);
 $checkoutHelper = $this->helper(\Magento\Checkout\Helper\Data::class);
 $cart = $block->getCart();
@@ -15,12 +13,15 @@ $cart = $block->getCart();
 $totals = $cart->getQuote()->getTotals();
 $subtotalAmount = $totals['subtotal']->getValue();
 
+$image = $block->getProductImage($product, 'add_to_cart_confirmation_popup_image');
 ?>
 
 <div class="confirmation-item">
     <h3 class="title"><?php echo $block->escapeHtml($product->getName()) ?></h3>
     <div class="text"><?php /* @escapeNotVerified */ echo __('Has been added to your cart.') ?></div>
-    <img class="image" src="<?php /* @escapeNotVerified */ echo $imageHelper->init($product, 'add_to_cart_confirmation_popup_image')->getUrl() ?>" alt="<?php /* @escapeNotVerified */ echo $block->stripTags($product->getName(), null, true) ?>"/>
+    <?php if ($image) : ?>
+    <img class="image" src="<?php /* @escapeNotVerified */ echo $image->getImageUrl() ?>" alt="<?php /* @escapeNotVerified */ echo $block->stripTags($product->getName(), null, true) ?>"/>
+    <?php endif; ?>
     <div class="text"><?php /* @escapeNotVerified */ echo __('There are <span>%1 items</span> in your cart', $cart->getSummaryQty()) ?></div>
     <div><?php /* @escapeNotVerified */ echo __('Subtotal %1', $checkoutHelper->formatPrice($subtotalAmount)) ?></div>
     <div class="action-toolbar">

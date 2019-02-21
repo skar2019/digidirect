@@ -29,6 +29,13 @@
                     <!-- set "override" configuration settings here -->
                 </arguments>
             </block>
+            <block class="Magento\Framework\View\Element\RendererList" name="confirmation_popup.renderers" as="renderer.list">
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer" name="confirmation_popup.renderers.default" as="default" template="Magento_Checkout::cart/item/default.phtml"/>
+                <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" name="confirmation_popup.renderers.bundle" as="bundle" template="Magento_Checkout::cart/item/default.phtml"/>
+                <block class="Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable" name="confirmation_popup.renderers.configurable" as="configurable" template="Magento_Checkout::cart/item/default.phtml"/>
+                <block class="Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped" name="confirmation_popup.renderers.grouped" as="grouped" template="Magento_Checkout::cart/item/default.phtml"/>
+                <block class="Magento\Downloadable\Block\Checkout\Cart\Item\Renderer" name="confirmation_popup.renderers.downloadable" as="downloadable" template="Magento_Checkout::cart/item/default.phtml"/>
+            </block>
         </block>
     </container>
 </layout>
