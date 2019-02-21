@@ -51,6 +51,7 @@ define([
                 $.each(inputGroups, function(i, val) {
                     $('#' + self.options.inputPrefix + i + '-' + val[0]).prop('checked', true).trigger('click');
                 });
+                window.history.replaceState(null, null, window.location.href.split('?')[0]);
             }
         }
     });

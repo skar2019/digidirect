@@ -20,6 +20,8 @@ define([
             noResultsTemplate: '[data-template="finder-no-results"]'
         },
         _create: function () {
+            this.$slider = this.element.closest(this.options.finderSlider);
+
             this.initSlider();
             this.bind();
         },
@@ -31,8 +33,9 @@ define([
                 draggable: false,
                 swipe: false,
                 dots: true,
-                appendArrows: this.element.closest(this.options.finderSlider).find('.actions-toolbar')
+                appendArrows: this.$slider.find('.actions-toolbar')
             });
+            this.setActionsVisibility(this.element.slick('getSlick'), 0, 0);
         },
         bind: function () {
             this.resetFinder();
@@ -43,7 +46,7 @@ define([
         resetFinder: function () {
             var self = this;
 
-            this.element.closest(this.options.finderSlider).find(this.options.finderSliderBack).on('click', function (e) {
+            this.$slider.find(this.options.finderSliderBack).on('click', function (e) {
                 e.preventDefault();
                 var $this = $(this),
                     $categories = $($this.attr('href')),
@@ -66,39 +69,44 @@ define([
             var self = this;
 
             this.element.on('beforeChange', function (event, slick, currentSlide, nextSlide) {
-                if (slick.slideCount > 1 && (slick.slideCount - (nextSlide + 1) === 1)) {
-                    self.element.closest(self.options.finderSlider).addClass(self.options.penultimateClassName);
-                } else {
-                    self.element.closest(self.options.finderSlider).removeClass(self.options.penultimateClassName);
-                }
-
-                // If last step
-                if (slick.slideCount === (nextSlide + 1)) {
-                    self.element.closest(self.options.finderSlider).addClass(self.options.lastStepClassName).attr('data-prev-step', currentSlide);
-                } else {
-                    self.element.closest(self.options.finderSlider).removeClass(self.options.lastStepClassName).removeAttr('data-prev-step');
-                }
+                self.setActionsVisibility(slick, currentSlide, nextSlide);
             });
+        },
+        setActionsVisibility: function (slick, currentSlide, nextSlide) {
+            if (slick.slideCount - (nextSlide + 1) === 1) {
+                this.$slider.addClass(this.options.penultimateClassName);
+            } else {
+                this.$slider.removeClass(this.options.penultimateClassName);
+            }
+
+            // If last step
+            if (slick.slideCount === (nextSlide + 1)) {
+                this.$slider.addClass(this.options.lastStepClassName).attr('data-prev-step', currentSlide);
+            } else {
+                this.$slider.removeClass(this.options.lastStepClassName).removeAttr('data-prev-step');
+                this.clearTemplates();
+            }
         },
         goToStart: function () {
             var self = this;
 
-            this.element.closest(this.options.finderSlider).find('[data-role="to-start"]').on('click', function (e) {
+            this.$slider.find('[data-role="to-start"]').on('click', function (e) {
                 self.element.slick('slickGoTo', 0);
+                self.element.closest('form')[0].reset();
                 self.clearTemplates();
             });
         },
         onRequestResults: function () {
             var self = this;
 
-            $(document).on('finder.results.error', function (e, $container) {
-                var $slider = $container.prev(self.options.finderSlider).find('.slick-slider');
+            this.$slider.on('finder.results.error', function (e, $container) {
+                var $slider = $('#' + $container.data('role')).find('.slick-slider');
                 self.renderNoResults($slider);
                 self.goToFinish($slider);
             });
 
-            $(document).on('finder.results.success', function (e, $container, data) {
-                var $slider = $container.prev(self.options.finderSlider).find('.slick-slider'),
+            this.$slider.on('finder.results.success', function (e, $container, data) {
+                var $slider = $('#' + $container.data('role')).find('.slick-slider'),
                     count;
 
                 if (data.error) {
@@ -114,7 +122,7 @@ define([
             $slider.slick('slickGoTo', $slider.slick('getSlick').slideCount - 1);
         },
         renderNoResults: function ($slider) {
-            var $template = this.element.closest(this.options.finderSlider).find(this.options.noResultsTemplate);
+            var $template = this.$slider.find(this.options.noResultsTemplate);
 
             if ($template.length) {
                 var $stepSlides = $slider.slick('getSlick').$slides;
@@ -124,10 +132,10 @@ define([
             this.renderResults(0);
         },
         renderResults: function (count) {
-            var $template = this.element.closest(this.options.finderSlider).find(this.options.resultsCount);
+            var $template = this.$slider.find(this.options.resultsCount);
 
             if ($template.length) {
-                this.element.closest(this.options.finderSlider).find('.actions-toolbar').prepend(mageTemplate($.trim($template.html()), {
+                this.$slider.find('.actions-toolbar').prepend(mageTemplate($.trim($template.html()), {
                     data: {
                         _count_: count
                     }
@@ -135,9 +143,8 @@ define([
             }
         },
         clearTemplates: function () {
-            var $slider = this.element.closest(this.options.finderSlider);
-            $slider.find('[data-role="finder-count"], [data-role="finder-no-results"]').remove();
-            $slider.next('.calculator-result').empty();
+            this.$slider.find('[data-role="finder-count"], [data-role="finder-no-results"]').remove();
+            this.$slider.next('.calculator-result').empty();
         }
     });
 

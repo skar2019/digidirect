@@ -8,11 +8,11 @@ define([
         $.widget('ewave.productCalculator', target, {
             success: function (data) {
                 this._super(data);
-                $(document).trigger('finder.results.success', [$(this.options.resultContainer), data]);
+                $('#' + $(this.options.resultContainer).data('role')).trigger('finder.results.success', [$(this.options.resultContainer), data]);
             },
             error: function () {
                 this._super();
-                $(document).trigger('finder.results.error', [$(this.options.resultContainer)]);
+                $('#' + $(this.options.resultContainer).data('role')).trigger('finder.results.error', [$(this.options.resultContainer)]);
             }
         });
 

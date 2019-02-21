@@ -23,6 +23,9 @@ use Magento\Catalog\Model\Product\ProductList\Toolbar;
 <div class="filter-options">
     <ul id="sorter" class="sorter-options">
         <?php foreach ($block->getAvailableOrders() as $_key => $_order): ?>
+            <?php if ($_order == 'Position'): //Label hardcoded in vendor/magento/module-catalog/Model/Config.php ?>
+                <?php $_order = 'Bestsellers'; //according #287685 ?>
+            <?php endif; ?>
             <li data-role="sorter" data-value="<?php /* @escapeNotVerified */ echo $_key; ?>" class="item<?php echo $_key === $this->getCurrentOrder(false) ? ' active' : '' ?>">
                 <?php echo $block->escapeHtml(__($_order)) ?>
             </li>

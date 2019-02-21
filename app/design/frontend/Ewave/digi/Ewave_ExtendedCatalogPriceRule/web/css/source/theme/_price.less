@@ -16,10 +16,12 @@
         }
 
         .price-container > .before-cashback,
-        .price-container > .after-cashback {
+        .price-container > .after-cashback,
+        .price-container > .price-from,
+        .price-container > .price-to {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-self: flex-start;
         }
 
         .price-container > .after-cashback {
@@ -30,6 +32,12 @@
             .lib-font-size(12);
             .lib-line-height(24);
             font-weight: 400;
+        }
+
+        .price-container > .price-to > .price-label {
+            .lib-font-size(14);
+            .lib-css(font-weight, @font-weight__bold);
+            text-transform: none;
         }
     }
 }

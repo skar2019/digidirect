@@ -11,9 +11,11 @@
 <?php
 $_product = $block->getProduct();
 $prontoStockStatus = $_product->getAttributeText('pronto_stock_status');
+$prontoStockStatusSpecialValue = 'I';
+
 ?>
 <?php if ($block->displayProductStockStatus()): ?>
-    <?php if ($prontoStockStatus && $prontoStockStatus == 'Yes'): ?>
+    <?php if ($prontoStockStatus && $prontoStockStatus == $prontoStockStatusSpecialValue): ?>
         <div class="stock special" title="<?= /* @escapeNotVerified */ __('Availability') ?>">
             <span><?= /* @escapeNotVerified */ __('Special Delivery') ?></span>
         </div>

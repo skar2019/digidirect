@@ -2,14 +2,13 @@
 /** @var \Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule $block */
 
 $product = $block->getParentBlock()->getProduct();
-$price = $product->getFormattedPrice();
 $productType = $product->getTypeId();
 ?>
 
 <?php if ($product && $product->hasData('show_msg_extended_rule')) : ?>
     <?php foreach ($product->getData('show_msg_extended_rule') as $rule): ?>
         <?php $id = 'rule-' . $rule['rule_id'] . '-' . $product->getId();
-            $priceClass= (!empty($rule['action_amount']))? '-cashback':'';
+            $priceClass = (!empty($rule['action_amount'])) ? '-cashback' : '';
         ?>
 
         <div class="block-extendedrule -plp <?= /* @noEscape */ $priceClass?>" id="<?= /* @noEscape */ $id ?>">
@@ -20,16 +19,42 @@ $productType = $product->getTypeId();
             </div>
 
             <?php if(!empty($rule['action_amount']) && $rule['action_amount'] > 0): ?>
+                <?php
+                    $fromLabel = __('Before Cashback');
+                    $afterLabel = __('After Cashback');
+                    $beforeClass = 'before-cashback';
+                    $afterClass = 'after-cashback';
+                    $fromPrice = $product->getPrice();
+                    $afterPrice = 0;
+                    switch ($productType) {
+                        case Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
+                            $fromLabel = __('From');
+                            $afterLabel = __('Cashback available');
+                            $fromPrice = $product->getMinimalPrice();
+                            $beforeClass = 'price-from';
+                            $afterClass = 'price-to';
+                            break;
+                        default:
+                            $afterPrice = $fromPrice - $rule['action_amount'];
+                    }
+                ?>
                 <div class="price-box">
                     <div class="price-container">
-                        <span class="before-cashback">
-                            <span class="price-label"><?= /* @escapeNotVerified */ __('Before Cashback'); ?></span>
-                            <span class="price-wrapper"><span class="price"><?= /* @noEscape */ $price; ?></span></span>
+                        <span class="<?= /* @escapeNotVerified */ $beforeClass; ?>">
+                            <?php if ($fromLabel): ?>
+                                <span class="price-label"><?= /* @noEscape */  $fromLabel; ?></span>
+                            <?php endif; ?>
+                            <?php if ($fromPrice): ?>
+                                <span class="price-wrapper"><span class="price"><?= /* @noEscape */ $block->formatDiscountAmount($fromPrice); ?></span></span>
+                            <?php endif; ?>
                         </span>
-                        <span class="after-cashback">
-                            <?php $cashbackPrice = $product->getPrice() - $rule['action_amount']; ?>
-                            <span class="price-label"><?= /* @escapeNotVerified */ __('After Cashback'); ?></span>
-                            <span class="price-wrapper"><span class="price"><?= /* @noEscape */  $block->formatDiscountAmount($cashbackPrice); ?></span></span>
+                        <span class="<?= /* @escapeNotVerified */ $afterClass; ?>">
+                            <?php if ($afterLabel): ?>
+                                <span class="price-label"><?= /* @noEscape */  $afterLabel; ?></span>
+                            <?php endif; ?>
+                            <?php if ($afterPrice): ?>
+                                <span class="price-wrapper"><span class="price"><?= /* @noEscape */  $block->formatDiscountAmount($afterPrice); ?></span></span>
+                            <?php endif; ?>
                         </span>
                     </div>
                 </div>

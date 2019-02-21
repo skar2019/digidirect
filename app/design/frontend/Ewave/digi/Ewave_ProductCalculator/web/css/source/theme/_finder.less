@@ -7,26 +7,17 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    // @TODO: actual margin, but temp solution
-    .cms-product-finder {
-        .page-main {
-            margin-top: 20px;
-        }
-
-        .column.main {
-            margin-bottom: 30px !important;
-        }
-    }
-
     .product-finder {
         & {
-            margin-bottom: 10px;
+            margin-top: 20px;
+            margin-bottom: 30px;
         }
 
         .block-title {
-            .lib-css(margin, 0 -@layout__width-xs-indent);
-            padding: 14px 20px;
-            .lib-css(border-bottom, 10px solid @page__background-color);
+            margin: 0 0 10px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+            border: 0;
             .lib-font-size(28);
             text-align: center;
             line-height: 32px;
@@ -56,6 +47,10 @@
 
         .fieldset.-no-results + .fieldset {
             display: none;
+        }
+
+        .fieldset.-no-results .link {
+            .lib-css(font-weight, @font-weight__heavier);
         }
 
         .fieldset .legend {
@@ -127,6 +122,7 @@
         .actions-toolbar {
             position: relative;
             margin-top: 10px;
+            margin-bottom: 30px;
             padding-top: 20px;
             overflow: hidden;
             .lib-css(border-top, 1px solid @color-3-2);
@@ -150,7 +146,11 @@
     }
 
     .finder-category {
-        fieldset .legend {
+        .form {
+            margin-bottom: 20px;
+        }
+
+        .fieldset .legend {
             margin-bottom: 16px;
             .lib-font-size(28);
             line-height: 34px;
@@ -178,6 +178,12 @@
             .lib-css(box-shadow, inset 0 0 0 1px @color-4-1);
         }
     }
+
+    .calculator-result {
+        &:not(:empty) {
+            margin-top: -20px;
+        }
+    }
 }
 
 //
@@ -186,6 +192,11 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .product-finder {
+        .block-title strong {
+            display: inline-block;
+            margin: 0 55px;
+        }
+
         .actions-toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -205,22 +216,15 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-    // @TODO: actual margin, but temp solution
-    .cms-product-finder {
-        .page-main {
-            margin-top: 30px;
-        }
-
-        .column.main {
-            margin-bottom: 40px !important;
-        }
-    }
-
     .product-finder {
+        & {
+            margin-bottom: 40px;
+        }
+
         .block-title {
+            margin-bottom: 20px;
             padding-top: 20px;
             padding-bottom: 20px;
-            border-bottom-width: 20px;
             .lib-font-size(30);
             line-height: 40px;
         }
@@ -289,7 +293,11 @@
     }
 
     .finder-category {
-        fieldset .legend {
+        .form {
+            margin-bottom: 10px;
+        }
+
+        .fieldset .legend {
             padding-top: 10px;
             .lib-font-size(30);
         }
@@ -300,6 +308,12 @@
             line-height: 20px;
         }
     }
+
+    .calculator-result {
+        .product-items > .product-item {
+            width: 33.3333%;
+        }
+    }
 }
 
 //
@@ -307,20 +321,10 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
-    // @TODO: actual margin, but temp solution
-    .cms-product-finder {
-        .page-main {
-            margin-top: 40px;
-        }
-
-        .column.main {
-            margin-bottom: 60px !important;
-        }
-    }
-
     .product-finder {
         & {
-            margin-bottom: 50px;
+            margin-top: 40px;
+            margin-bottom: 60px;
         }
 
         .block-title {
@@ -358,6 +362,10 @@
             .lib-font-size(14);
         }
 
+        .actions-toolbar {
+            margin-bottom: 60px;
+        }
+
         .actions-toolbar .submit {
             padding-left: 20px;
             padding-right: 20px;
@@ -370,7 +378,11 @@
     }
 
     .finder-category {
-        fieldset .legend {
+        .form {
+            margin-bottom: 40px;
+        }
+
+        .fieldset .legend {
             margin-bottom: 24px;
             padding-top: 40px;
             .lib-font-size(34);
@@ -388,5 +400,27 @@
         max-width: 1020px;
         margin-right: auto;
         margin-left: auto;
+    }
+
+    .calculator-result {
+        &:not(:empty) {
+            margin-top: -40px;
+        }
+
+        .product-items > .product-item {
+            width: 25%;
+        }
+    }
+}
+
+//
+//  XXL +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
+    .calculator-result {
+        .product-items > .product-item {
+            width: 20%;
+        }
     }
 }

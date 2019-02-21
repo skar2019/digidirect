@@ -47,15 +47,15 @@
             .lib-css(width, @product-overlay__width);
         }
 
-        &.-top-left + .-top-left {
+        &.-top-left:not(.-hide) + .-top-left {
             .lib-css(transform, translateX(100%), 1);
         }
 
-        &.-top-left + .-top-left + .-top-left {
+        &.-top-left:not(.-hide) + .-top-left:not(.-hide) + .-top-left {
             .lib-css(transform, translateX(200%), 1);
         }
 
-        &.-top-left + .-top-left + .-top-left + .-top-left {
+        &.-top-left:not(.-hide) + .-top-left:not(.-hide) + .-top-left:not(.-hide) + .-top-left {
             .lib-css(transform, translateX(300%), 1);
         }
 

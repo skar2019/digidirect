@@ -9,11 +9,11 @@ if (!$calculator) {
 }
 ?>
 <?php if ($calculator->isActive()) : ?>
-<div class="product-calculator product-finder finder-slider">
-    <div class="block-title">
+<div class="product-calculator product-finder finder-slider" id="calculator-<?php echo $block->escapeHtml($block->getJsId()); ?>">
+    <div class="block-title _simple-bg">
         <strong><?php echo $block->escapeHtml(__($calculator->getName())); ?><a class="change" href="#finder-category" title="<?= /* @escapeNotVerified */ __('Change'); ?>" data-role="to-category"><?= /* @escapeNotVerified */ __('Change'); ?></a></strong>
     </div>
-    <div class="block-content">
+    <div class="block-content _simple-bg">
         <form id="form-calculator-<?php echo (int)$calculator->getId(); ?>" action="<?php echo $block->escapeUrl($block->getCalculateUrl()); ?>" method="post" data-mage-init='{"validation": {}, "productCalculator": {"redirectToResult": <?php echo (int)$calculator->isResultLoadActionRedirect()?>,"resultContainer": "[data-role=calculator-<?php echo $block->escapeHtml($block->getJsId()); ?>]"}}' class="form-calculator form">
             <input type="hidden" name="calculator_id" value="<?php echo (int)$calculator->getId(); ?>"/>
             <div class="finder-section" data-mage-init='{"finderSlider": {}}'>
@@ -99,7 +99,7 @@ if (!$calculator) {
                 <legend class="legend"><?= /* @escapeNotVerified */ __('We found no results based on your selection'); ?></legend>
                 <p class="description">
                     <?= /* @escapeNotVerified */ __('Try other options for a wider search result. Need  assistance?'); ?>
-                    <a href="<?= $block->escapeUrl($block->getUrl('contact')); ?>" title="<?= /* @escapeNotVerified */ __('Contact Us'); ?>"><?= /* @escapeNotVerified */ __('Contact Us'); ?></a>
+                    <a class="link" href="<?= $block->escapeUrl($block->getUrl('contact')); ?>" title="<?= /* @escapeNotVerified */ __('Contact Us'); ?>"><?= /* @escapeNotVerified */ __('Contact Us'); ?></a>
                 </p>
             </fieldset>
         </script>
