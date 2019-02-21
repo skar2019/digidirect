@@ -15,7 +15,7 @@
 & when (@media-common = true) {
     .helpful-info {
         & {
-            margin-top: 30px;
+            margin: 30px 0;
             .lib-css(background-color, @helpful-block__background-color);
         }
 
@@ -131,10 +131,6 @@
 //  ---------------------------------------------
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .helpful-info {
-        & {
-            margin: 30px 0 0;
-        }
-
         .svg-icon {
             &.-free {
                 width: 74px;

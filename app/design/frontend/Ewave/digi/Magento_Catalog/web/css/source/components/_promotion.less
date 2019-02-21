@@ -66,12 +66,15 @@
             .lib-font-size(13);
         }
 
-        .banner-content  .headline {
+        .banner-content .headline {
             .lib-font-size(14);
         }
     }
 }
 
+//
+//  Desktop +
+//  ---------------------------------------------
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .category-promotion {
         & {
@@ -79,7 +82,7 @@
         }
 
         .banner-content {
-            margin-left: calc(100% / 6);
+            margin-left: calc(~'25% + 22px');
             .lib-font-size(14);
         }
 
@@ -89,8 +92,33 @@
     }
 }
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) { 
+//
+//  Desktop +
+//  ---------------------------------------------
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
     .category-promotion {
-        background-position-y: -370px;
+        & {
+            background-position-y: -370px;
+        }
+    
+        .banner-content {
+            .lib-css(margin-left, @catalog-listing-product-sidebar__max-width__xl + @layout-columns__padding__l);
+        }
+    }
+}
+
+
+//
+//  Desktop Large +
+//  ---------------------------------------------
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
+    .category-promotion {
+        & {
+            background-position-y: -370px;
+        }
+        
+        .banner-content {
+            .lib-css(margin-left, @catalog-listing-product-sidebar__max-width__xl);
+        }
     }
 }

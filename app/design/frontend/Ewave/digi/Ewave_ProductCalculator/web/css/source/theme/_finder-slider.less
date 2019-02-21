@@ -84,6 +84,10 @@
             .lib-css(background-color,  @color-white);
         }
 
+        .slick-dots li:last-child {
+            pointer-events: none; // Disable click on the last dot
+        }
+
         .slick-dots li:last-child button {
             text-indent: 100%;
 
@@ -148,8 +152,25 @@
             transform: translateY(-50%);
         }
 
-        .actions-toolbar .next {
+        .actions-toolbar .button.-fixed-sizes {
             min-width: 200px;
+        }
+
+        .actions-toolbar .start,
+        .actions-toolbar .results,
+        &.-penultimate .actions-toolbar .submit,
+        &.-last-step .actions-toolbar .submit {
+            display: none;
+        }
+
+        &.-penultimate .actions-toolbar .next,
+        &.-last-step .actions-toolbar .next {
+            display: none !important; // Override JS logic
+        }
+
+        &.-penultimate .actions-toolbar .results,
+        &.-last-step .actions-toolbar .start {
+            display: block;
         }
     }
 }
@@ -165,7 +186,7 @@
             line-height: 45px;
         }
 
-        .actions-toolbar .next {
+        .actions-toolbar .button.-fixed-sizes {
             float: right;
             min-width: 160px;
         }
@@ -182,7 +203,7 @@
             line-height: 50px;
         }
 
-        .actions-toolbar .next {
+        .actions-toolbar .button.-fixed-sizes {
             min-width: 180px;
         }
     }

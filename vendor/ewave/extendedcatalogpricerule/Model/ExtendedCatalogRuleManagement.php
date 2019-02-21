@@ -2,6 +2,7 @@
 namespace Ewave\ExtendedCatalogPriceRule\Model;
 
 use Ewave\ExtendedCatalogPriceRule\Api\Data\ExtendedCatalogRuleInterface;
+use Ewave\ExtendedCatalogPriceRule\Api\Data\RuleDisplayMessageInterface;
 use Ewave\ExtendedCatalogPriceRule\Api\ExtendedCatalogRuleManagementInterface;
 use Ewave\ExtendedCatalogPriceRule\Helper\Data;
 use Ewave\ExtendedCatalogPriceRule\Model\ExtendedCatalogRuleFactory as ExtendedCatalogRuleFactory;
@@ -85,6 +86,9 @@ class ExtendedCatalogRuleManagement implements ExtendedCatalogRuleManagementInte
         foreach ($rulesData as $row) {
             if ($formatActionAmount && ($discount = $row['action_amount'] ?? null)) {
                 $row['action_amount'] = $this->helper->formatDiscountAmount($discount);
+            }
+            if (!empty($description = $row[RuleDisplayMessageInterface::PDP_DESCRIPTION])) {
+                $row[RuleDisplayMessageInterface::PDP_DESCRIPTION] = $this->helper->prepareContent($description);
             }
             $productId = $row['product_id'];
             $result[$productId][$row['rule_id']] = $row;

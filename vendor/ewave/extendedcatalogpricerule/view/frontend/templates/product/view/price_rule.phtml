@@ -11,7 +11,7 @@ use \Ewave\ExtendedCatalogPriceRule\Api\Data\RuleDisplayMessageInterface;
                 <div class="amount"><?= /* @noEscape */ $block->formatDiscountAmount($rule['action_amount']); ?></div>
             <?php endif; ?>
             <?php if (!empty($rule[RuleDisplayMessageInterface::PDP_DESCRIPTION])) : ?>
-                <div class="description"><?= /* @noEscape */ $rule[RuleDisplayMessageInterface::PDP_DESCRIPTION]; ?></div>
+                <div class="description"><?= /* @noEscape */ $block->prepareDescription($rule[RuleDisplayMessageInterface::PDP_DESCRIPTION]); ?></div>
             <?php endif; ?>
             <?php if(!empty($rule[RuleDisplayMessageInterface::URL_PROMOTION])): ?>
                 <a class="link" href="<?= $block->escapeUrl($rule[RuleDisplayMessageInterface::URL_PROMOTION]); ?>"
@@ -22,4 +22,3 @@ use \Ewave\ExtendedCatalogPriceRule\Api\Data\RuleDisplayMessageInterface;
         </div>
     <?php endforeach; ?>
 <?php endif; ?>
-

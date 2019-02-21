@@ -8,5 +8,6 @@
         <move element="bundle.options.container" destination="content" after="product.view.top"/>
 
         <referenceBlock name="product.view.bg" remove="true"/>
+        <referenceBlock name="page.below.container" remove="true"/>
     </body>
 </page>

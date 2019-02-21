@@ -1,3 +1,4 @@
+/* global DOMParser */
 define([
     'jquery',
     'underscore',
@@ -78,9 +79,16 @@ define([
                 $widget.element.prevAll(this.options.extendedRulesBlock).remove();
             },
             decodeEscapedHtml: function (encodedString) {
-                var textArea = document.createElement('textarea');
-                textArea.innerHTML = encodedString;
-                return textArea.value;
+                var parser = new DOMParser(),
+                    dom = parser.parseFromString(
+                        '<!doctype html><body>' + this.replaceToTag(encodedString),
+                        'text/html'
+                    );
+
+                return $(dom.body).html();
+            },
+            replaceToTag: function (string) {
+                return string.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
             }
         });
 

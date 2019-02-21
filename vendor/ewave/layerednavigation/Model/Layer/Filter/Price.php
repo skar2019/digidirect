@@ -108,7 +108,7 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
     }
 
     /**
-     * @return $this|array|\Magento\Catalog\Model\Layer\Filter\AbstractFilter
+     * @return array|\Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     protected function _initItems()
     {
@@ -118,7 +118,8 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
         }
 
         if (!$this->getMinPrice()) {
-            return [];
+            $this->_items = [];
+            return $this->_items;
         }
 
         $this->_items = [

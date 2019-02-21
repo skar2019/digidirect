@@ -557,8 +557,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
     }
 
     /**
-     * @throws \Zend_Db_Select_Exception
-     * @return $this
+     * {@inheritdoc}
      */
     protected function _prepareStatisticsData()
     {
@@ -584,7 +583,31 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
             $this->getSelect()->setPart(\Zend_Db_Select::WHERE, $where);
             $this->_renderFilters();
         }
+        return parent::_prepareStatisticsData();
+    }
 
-        parent::_prepareStatisticsData();
+    /**
+     * {@inheritdoc}
+     */
+    public function getSelectCountSql()
+    {
+        return $this->_getSelectCountSqlEvent();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function _getSelectCountSqlEvent($select = null, $resetLeftJoins = true)
+    {
+        $countSelect = parent::_getSelectCountSql($select, $resetLeftJoins);
+        $this->_eventManager->dispatch(
+            'catalog_product_collection_prepare_select_count_sql_after',
+            [
+                'collection' => $this,
+                'select' => $select,
+                'count_select' => $countSelect,
+            ]
+        );
+        return $countSelect;
     }
 }

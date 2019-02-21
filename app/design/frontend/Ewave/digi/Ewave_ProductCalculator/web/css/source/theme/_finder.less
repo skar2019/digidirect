@@ -50,7 +50,12 @@
         }
 
         .fieldset {
+            margin: 0;
             text-align: center;
+        }
+
+        .fieldset.-no-results + .fieldset {
+            display: none;
         }
 
         .fieldset .legend {
@@ -120,6 +125,7 @@
         }
 
         .actions-toolbar {
+            position: relative;
             margin-top: 10px;
             padding-top: 20px;
             overflow: hidden;
@@ -130,6 +136,16 @@
         .actions-toolbar .submit {
             float: none;
             margin: 0 20px 0 0;
+        }
+
+        .actions-toolbar .count {
+            display: block;
+            width: 100%;
+            margin-bottom: 20px;
+            .lib-font-size(16);
+            .lib-css(font-weight, @font-weight__heavier);
+            line-height: 19px;
+            text-align: center;
         }
     }
 
@@ -260,6 +276,16 @@
             padding-right: 32px;
             padding-left: 32px;
         }
+
+        .actions-toolbar .count {
+            position: absolute;
+            top: 0;
+            left: 20%;
+            width: 60%;
+            margin: 30px 0 0;
+            .lib-font-size(18);
+            line-height: 45px;
+        }
     }
 
     .finder-category {
@@ -335,6 +361,11 @@
         .actions-toolbar .submit {
             padding-left: 20px;
             padding-right: 20px;
+        }
+
+        .actions-toolbar .count {
+            .lib-font-size(20);
+            line-height: 50px;
         }
     }
 

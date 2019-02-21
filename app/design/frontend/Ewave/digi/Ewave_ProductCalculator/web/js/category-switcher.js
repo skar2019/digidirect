@@ -8,7 +8,6 @@ define([
         options: {
             finderSlider: '.finder-slider',
             finderSliderActive: '-active',
-            finderSliderBack: '[data-role="to-category"]',
             categoryVisibility: 'no-display',
             inputPrefix: 'calculator-',
             inputGroups: ''
@@ -31,16 +30,6 @@ define([
             this.element.find('input:radio').on('click', function () {
                 var index = self.element.find('input:radio').index(this);
                 self.setActiveFinder(index, $(this));
-            });
-
-            $finderSlider.find(this.options.finderSliderBack).on('click', function (e) {
-                e.preventDefault();
-
-                var $this = $(this);
-
-                self.element.find('input:radio').prop('checked', false);
-                $this.closest(self.options.finderSlider).removeClass(self.options.finderSliderActive).find('form')[0].reset();
-                $($this.attr('href')).removeClass(self.options.categoryVisibility);
             });
         },
         setActiveFinder: function (index, $element) {

@@ -3,6 +3,18 @@
         <referenceBlock name="breadcrumbs" remove="true"/>
         <referenceBlock name="back-to-top" remove="true"/>
 
+        <referenceContainer name="page.wrapper">
+            <container name="page.below.container" htmlClass="page-below" htmlTag="div" before="footer-container">
+                <container htmlClass="content" htmlTag="div" name="page.below.content">
+                    <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">cms-helpful-info</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </container>
+        </referenceContainer>
+
         <referenceBlock name="logo">
             <arguments>
                 <argument name="logo_img_width" xsi:type="number">180</argument>

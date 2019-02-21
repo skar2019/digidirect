@@ -21,13 +21,13 @@
         "ewave/legobasetheme": "dev-release/1.19.0",
         "ewave/defaulttheme": "dev-release/1.3.1",
         "ewave/localization": "dev-release/1.4.0",
-        "ewave/magentofixes": "dev-develop",
+        "ewave/magentofixes": "dev-digidirect_develop",
         "ewave/navigationcmsupgrade": "dev-release/1.0.3",
         "ewave/abstractattributes": "dev-release/3.0.6",
         "ewave/abstractattributesnavigation": "dev-develop",
         "ewave/feed": "dev-release/1.1.1",
         "ewave/navigation": "dev-release/1.3.2",
-        "ewave/layerednavigation": "dev-release/1.5.1",
+        "ewave/layerednavigation": "dev-develop",
         "ewave/categoryfilter": "dev-release/1.0.1",
         "ewave/productpriority": "dev-release/1.0.3",
         "ewave/productoverlay": "dev-release/2.2.0",
@@ -69,7 +69,7 @@
         "ewave/storelocatorinfinitescroll": "dev-release/1.0.0",
         "ewave/relatedproduct": "dev-release/2.2.0",
         "ewave/banner": "dev-release/4.0.0",
-        "ewave/extendedcatalogpricerule": "dev-release/1.0.0"
+        "ewave/extendedcatalogpricerule": "dev-release/1.0.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.13.0",

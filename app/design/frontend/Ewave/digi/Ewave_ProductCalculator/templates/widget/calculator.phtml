@@ -30,7 +30,7 @@ if (!$calculator) {
                         <?php endif; ?>
                         <?php /** @var \Ewave\ProductCalculator\Api\Data\FieldGroupInterface $fieldGroup */
                         foreach ($fieldGroupCategory->getFieldGroups() as $fieldGroup): ?>
-                            <?php if ($fieldGroup->isActive() && count($fieldGroup->getRelatedFields())) :
+                            <?php if ($fieldGroup->isActive()) :
                                 $inputName = $fieldGroup->getCustomInputName() ?: "input_groups[{$fieldGroup->getId()}][]";
                                 ?>
                                 <fieldset class="calculator-group fieldset <?php echo /* @escapeNotVerified */ $fieldGroup->getCssClass()?>">
@@ -39,35 +39,37 @@ if (!$calculator) {
                                         <p class="description"><?php echo /* @escapeNotVerified */ $fieldGroup->getDescription()?></p>
                                     <?php endif; ?>
                                     <?php $relatedFields = $fieldGroup->getRelatedFields(); ?>
-                                    <?php /* @TODO: check ONLY active fields count */ ?>
-                                    <div class="field-list<?php if (count($relatedFields) >= 4) : ?> -wide<?php endif; ?>">
-                                    <?php
-                                    /** @var \Ewave\ProductCalculator\Api\Data\FieldInterface $field */
-                                    foreach ($relatedFields as $field): ?>
-                                        <?php
-                                        if (!$field->isActive()) {
-                                            continue;
-                                        }
-                                        $id = $fieldGroup->getId() . '-' . $field->getId();
-                                        ?>
-                                        <div class="field choice <?php echo /* @escapeNotVerified */ $field->getCssClass()?>">
-                                            <div class="label">
-                                                <?php if ($field->getImage()):?>
-                                                    <span><img class="img" src="<?php echo /* @escapeNotVerified */ $block->getImageUrl($field)?>" alt="<?php echo $block->escapeHtml(__($field->getLabel())); ?>" /></span>
-                                                <?php endif; ?>
-                                                <input type="<?php /* @escapeNotVerified */ echo $fieldGroup->getType(); ?>"
-                                                       id="calculator-<?php /* @escapeNotVerified */ echo $id; ?>"
-                                                       name="<?php /* @escapeNotVerified */ echo $inputName; ?>"
+                                    <?php if (count($relatedFields)) : ?>
+                                        <?php /* @TODO: check ONLY active fields count */ ?>
+                                        <div class="field-list<?php if (count($relatedFields) >= 4) : ?> -wide<?php endif; ?>">
+                                            <?php
+                                            /** @var \Ewave\ProductCalculator\Api\Data\FieldInterface $field */
+                                            foreach ($relatedFields as $field): ?>
+                                                <?php
+                                                if (!$field->isActive()) {
+                                                    continue;
+                                                }
+                                                $id = $fieldGroup->getId() . '-' . $field->getId();
+                                                ?>
+                                                <div class="field choice <?php echo /* @escapeNotVerified */ $field->getCssClass()?>">
+                                                    <div class="label">
+                                                        <?php if ($field->getImage()):?>
+                                                            <span><img class="img" src="<?php echo /* @escapeNotVerified */ $block->getImageUrl($field)?>" alt="<?php echo $block->escapeHtml(__($field->getLabel())); ?>" /></span>
+                                                        <?php endif; ?>
+                                                        <input type="<?php /* @escapeNotVerified */ echo $fieldGroup->getType(); ?>"
+                                                               id="calculator-<?php /* @escapeNotVerified */ echo $id; ?>"
+                                                               name="<?php /* @escapeNotVerified */ echo $inputName; ?>"
 
-                                                       value="<?php echo /* @escapeNotVerified */ $field->getData($fieldGroup->getValueField()); ?>"
-                                                    <?php if ($fieldGroup->isMandatory() == '1') : ?> data-validate='{required: true<?php if ($fieldGroup->getMandatoryUserNotice()) : ?>, messages:{required: "<?php /* @escapeNotVerified */ echo __($fieldGroup->getMandatoryUserNotice()); ?>"}<?php endif; ?>}'
-                                                    <?php endif; ?>
-                                                >
-                                                <label for="calculator-<?php /* @escapeNotVerified */ echo $id; ?>" class="title" title="<?php echo $block->escapeHtml(__($field->getLabel())); ?>"><?php echo $block->escapeHtml(__($field->getLabel())); ?></label>
-                                            </div>
+                                                               value="<?php echo /* @escapeNotVerified */ $field->getData($fieldGroup->getValueField()); ?>"
+                                                            <?php if ($fieldGroup->isMandatory() == '1') : ?> data-validate='{required: true<?php if ($fieldGroup->getMandatoryUserNotice()) : ?>, messages:{required: "<?php /* @escapeNotVerified */ echo __($fieldGroup->getMandatoryUserNotice()); ?>"}<?php endif; ?>}'
+                                                            <?php endif; ?>
+                                                        >
+                                                        <label for="calculator-<?php /* @escapeNotVerified */ echo $id; ?>" class="title" title="<?php echo $block->escapeHtml(__($field->getLabel())); ?>"><?php echo $block->escapeHtml(__($field->getLabel())); ?></label>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
                                         </div>
-                                    <?php endforeach; ?>
-                                    </div>
+                                    <?php endif; ?>
                                 </fieldset>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -77,12 +79,30 @@ if (!$calculator) {
             </div>
             <?php echo $block->getAdditionalFieldsHtml(); ?>
             <div class="actions-toolbar">
-                <div class="prev" data-role="prev-slide" aria-label="<?= /* @escapeNotVerified */ __('Back'); ?>" role="button"><svg class="svg-icon svg-back"><use xlink:href="#svgi-back"></use></svg><?= /* @escapeNotVerified */ __('Back'); ?></div>
+                <a class="prev" href="#finder-category" data-role="to-category" data-action="back" title="<?= /* @escapeNotVerified */ __('Back'); ?>"><svg class="svg-icon svg-back"><use xlink:href="#svgi-back"></use></svg><?= /* @escapeNotVerified */ __('Back'); ?></a>
                 <button type="submit" class="button action submit primary -responsive" title="<?php echo $block->escapeHtml(__($calculator->getButtonLabel())); ?>">
                     <?php echo $block->escapeHtml(__($calculator->getButtonLabel())); ?>
                 </button>
+                <button type="submit" class="button results -responsive -fixed-sizes" title="<?= /* @escapeNotVerified */ __('Get Results'); ?>">
+                    <?= /* @escapeNotVerified */ __('Get Results'); ?>
+                </button>
+                <button type="button" data-role="to-start" class="button start -responsive -fixed-sizes" title="<?= /* @escapeNotVerified */ __('Start Over'); ?>">
+                    <?= /* @escapeNotVerified */ __('Start Over'); ?>
+                </button>
             </div>
         </form>
+        <script data-template="finder-results" type="text/x-magento-template">
+            <span class="count" data-role="finder-count"><?= /* @escapeNotVerified */ __('Search Results: %1 Products', '<%- data._count_ %>'); ?></span>
+        </script>
+        <script data-template="finder-no-results" type="text/x-magento-template">
+            <fieldset class="calculator-group fieldset -no-results" data-role="finder-no-results">
+                <legend class="legend"><?= /* @escapeNotVerified */ __('We found no results based on your selection'); ?></legend>
+                <p class="description">
+                    <?= /* @escapeNotVerified */ __('Try other options for a wider search result. Need  assistance?'); ?>
+                    <a href="<?= $block->escapeUrl($block->getUrl('contact')); ?>" title="<?= /* @escapeNotVerified */ __('Contact Us'); ?>"><?= /* @escapeNotVerified */ __('Contact Us'); ?></a>
+                </p>
+            </fieldset>
+        </script>
     </div>
     <script>
         require([

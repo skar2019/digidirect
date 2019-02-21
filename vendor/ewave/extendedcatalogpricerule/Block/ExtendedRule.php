@@ -37,4 +37,13 @@ class ExtendedRule extends Template
     {
         return $this->helper->formatDiscountAmountAsHtml($amount);
     }
+
+    /**
+     * @param string $description
+     * @return string
+     */
+    public function prepareDescription($description)
+    {
+        return $this->helper->prepareContent($description);
+    }
 }

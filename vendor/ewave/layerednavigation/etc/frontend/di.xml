@@ -19,6 +19,12 @@
             <argument name="instanceName" xsi:type="string">Ewave\LayeredNavigation\Model\ResourceModel\Fulltext\Collection</argument>
         </arguments>
     </virtualType>
+    <virtualType name="Magento\CatalogSearch\Model\ResourceModel\Advanced\CollectionFactory" type="Magento\Catalog\Model\ResourceModel\Product\CollectionFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Ewave\LayeredNavigation\Model\ResourceModel\Advanced\Collection</argument>
+        </arguments>
+    </virtualType>
+
     <virtualType name="categoryFilterList" type="Magento\Catalog\Model\Layer\FilterList">
         <arguments>
             <argument name="filters" xsi:type="array">

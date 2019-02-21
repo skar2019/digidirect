@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd73d4282e5bb82b7fabc5f543c64fde",
+    "content-hash": "199ac09ee08537a8ac6d2e5243a51ee2",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1643,11 +1643,11 @@
         },
         {
             "name": "ewave/extendedcatalogpricerule",
-            "version": "dev-release/1.0.0",
+            "version": "dev-release/1.0.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcatalogpricerule.git",
-                "reference": "1d8c53adb84c580d8bf368facfe945460b6d084f"
+                "reference": "54326f1e515e3f9283b43d675cf094cf138a7f49"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1659,7 +1659,7 @@
                 }
             },
             "description": "Ewave Extended Catalog Price Rule",
-            "time": "2019-02-06T12:57:03+00:00"
+            "time": "2019-02-20T05:28:35+00:00"
         },
         {
             "name": "ewave/extendedminicart",
@@ -1809,11 +1809,11 @@
         },
         {
             "name": "ewave/layerednavigation",
-            "version": "dev-release/1.5.1",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_layerednavigation.git",
-                "reference": "2ad4a7a5608bba14b2be27002b53b2c1264d7f3f"
+                "reference": "a1e3c47781f56563d21e8097375347031210c756"
             },
             "require": {
                 "magento/module-layered-navigation": "*"
@@ -1831,7 +1831,7 @@
                 "Commercial"
             ],
             "description": "Layered Navigation",
-            "time": "2019-01-25T14:32:30+00:00"
+            "time": "2019-02-20T07:10:47+00:00"
         },
         {
             "name": "ewave/legobasetheme",
@@ -1902,11 +1902,11 @@
         },
         {
             "name": "ewave/magentofixes",
-            "version": "dev-develop",
+            "version": "dev-digidirect_develop",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_magentofixes.git",
-                "reference": "f680f0d2b2c670ebb7a9eae8f29d812c57af11ec"
+                "reference": "89ba95f26e26caa80203505b9871e75bb8ae320f"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1918,7 +1918,7 @@
                 }
             },
             "description": "Magento Fixes",
-            "time": "2018-12-22T07:31:43+00:00"
+            "time": "2019-02-20T14:38:14+00:00"
         },
         {
             "name": "ewave/mystorewidget",
