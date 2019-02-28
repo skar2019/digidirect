@@ -27,3 +27,9 @@
 * Bugfixes:
     * [#285254](https://ewave.tpondemand.com/entity/285254) -- [Extended Cart] Сolors of the added product and on pop up do not match when you add it to cart
     * [#291302](https://ewave.tpondemand.com/entity/291302) -- [Extended cart] PLP: Popup displays when user clicks add to cart button without selected options of config product
+
+
+1.1.3
+=============
+* Bugfixes:
+    * [#291709](https://ewave.tpondemand.com/entity/291709) -- [Project: DigiDirect] "Add to cart Confirmation" popup is displayed on the page after adding product to the cart when this functionality is disabled in admin

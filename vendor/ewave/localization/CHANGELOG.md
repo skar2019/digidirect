@@ -62,4 +62,9 @@
 ====================
 * New features:
     * [#276449](https://ewave.tpondemand.com/entity/276449) -- [Localisation] As an admin, I want 'afterGetCountryTranslation' plugin to be added
+
+1.5.0
+====================
+* New features:
+    * [#290149](https://ewave.tpondemand.com/entity/290149) -- [Localisation] As an admin, I want to be able to set up Length Unit for Country or State
     

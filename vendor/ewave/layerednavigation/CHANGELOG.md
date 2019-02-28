@@ -151,3 +151,9 @@
 =============
 * Bugfixes:
     * [#288273](https://ewave.tpondemand.com/entity/288273) -- [Project: Rip Curl][BO][URL Rewrites][PLP][Filters] Filters don't apply to categories whose URL rewrites were removed from BO
+
+1.5.2
+=============
+* Bugfixes:
+    * [#291079](https://ewave.tpondemand.com/entity/291079) -- [Project: DigiDirect] Crash page when go to category without products
+    * [#291177](https://ewave.tpondemand.com/entity/291177) -- [Master Configurable Simple] Fatal error is shown if user try to open catalog page

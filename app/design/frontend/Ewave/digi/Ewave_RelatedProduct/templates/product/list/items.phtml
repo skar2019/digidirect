@@ -14,6 +14,7 @@ if ($exist = $block->getItems()->getSize()) {
     $categoryCollection = $block->getCategoriesAssignedRelatedProducts();
     $helper = $this->helper('\Ewave\RelatedProduct\Helper\Data');
     $initialFilter = '';
+    $isShowFilterContent = false;
 }
 ?>
 
@@ -43,11 +44,13 @@ if ($exist = $block->getItems()->getSize()) {
                             <?php echo $block->escapeHtml($category->getName()); ?>
                         </span>
                     <?php $i++; endforeach; ?>
-                    <?php $i = 1; foreach ($categoryCollection as $category) : ?>
-                        <?php if ($category->getDescription()): ?>
-                            <div class="content<?php if ($i == 1): ?> -active<?php endif; ?>" data-category-id="<?php echo $block->escapeHtml($category->getId()); ?>"><?php /* @escapeNotVerified */ echo $category->getDescription(); ?></div>
-                        <?php endif; ?>
-                    <?php $i++; endforeach; ?>
+                    <?php if ($isShowFilterContent): ?>
+                        <?php $i = 1; foreach ($categoryCollection as $category) : ?>
+                            <?php if ($category->getDescription()): ?>
+                                <div class="content<?php if ($i == 1): ?> -active<?php endif; ?>" data-category-id="<?php echo $block->escapeHtml($category->getId()); ?>"><?php /* @escapeNotVerified */ echo $category->getDescription(); ?></div>
+                            <?php endif; ?>
+                        <?php $i++; endforeach; ?>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -114,9 +117,6 @@ if ($exist = $block->getItems()->getSize()) {
                                         <?php echo $rentBlock->toHtml(); ?>
                                     <?php endif; ?> 
                                 </div>
-                               
-
-
                             </div>
                         <?php echo($iterator == count($items)+1) ? '</div>' : '' ?>
                     <?php $i++; endforeach ?>

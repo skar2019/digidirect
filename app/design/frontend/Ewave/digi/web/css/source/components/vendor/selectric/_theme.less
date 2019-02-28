@@ -29,9 +29,8 @@
 
         .selectric {
             background: none;
-            .lib-form-element-select();
+            .lib-form-element-select(@_select__background-size: @form-element-select__background-size @form-element-select__background-size);
             .lib-css(border, @form-element-input__border);
-            .lib-css(background-size, @form-element-select__background-size @form-element-select__background-size);
             text-align: left;            
         }
 

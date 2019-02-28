@@ -128,6 +128,7 @@
     .product-section {
         & {
             position: relative;
+            margin-bottom: 40px;
         }
 
         .breadcrumbs {
@@ -344,6 +345,22 @@
 
     .product-extra {
         margin-bottom: 32px;
+    }
+}
+
+//
+//  L +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .product-section {
+        margin-bottom: 60px;
+    }
+
+    .catalog-product-view {
+        .products-widget {
+            padding-bottom: 60px;
+        }
     }
 }
 

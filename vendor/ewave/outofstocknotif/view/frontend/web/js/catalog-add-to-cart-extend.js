@@ -12,10 +12,17 @@ define([
                 backorderButtonClassname: '-back-order'
             },
             _create: function () {
+                this.setBackOrderButtonText();
+                this._super();
+            },
+            setBackOrderButtonText: function () {
                 if (this.element.find(this.options.addToCartButtonSelector).hasClass(this.options.backorderButtonClassname)) {
                     this.options.addToCartButtonTextDefault = this.options.backorderButtonLabel;
                 }
-                this._super();
+            },
+            enableAddToCartButton: function (form) {
+                this.setBackOrderButtonText();
+                this._super(form);
             }
         });
 

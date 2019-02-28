@@ -9,7 +9,12 @@ define([
             /**
              * Disable inline styles calculations
              */
-            setOverlayStyle: function () {}
+            setOverlayStyle: function () {
+                // hide overlay if it does not have use for parent flag
+                if (this.options.hideForConfigurable) {
+                    this.element.addClass('-hide');
+                }
+            }
         });
         return $.ewave.productOverlay;
     };

@@ -97,7 +97,7 @@ switch ($type = $block->getType()) {
             $class = $type;
 
             $image = 'cart_cross_sell_products';
-            $title = __('More Choices:');
+            $title = __('You May Also Like');
             $items = $block->getItemCollection();
 
             $showAddTo = true;
@@ -115,7 +115,7 @@ switch ($type = $block->getType()) {
             $class = $type;
 
             $image = 'cart_cross_sell_products';
-            $title = __('More Choices:');
+            $title = __('You May Also Like');
             $items = $block->getItems();
 
             $showAddTo = true;
@@ -160,7 +160,7 @@ switch ($type = $block->getType()) {
             <div class="products-widget _full-width-background upsell-block <?= /* @escapeNotVerified */ $class ?>" data-mage-init='{"upsellProducts":{}}' data-limit="<?= /* @escapeNotVerified */ $limit ?>" data-shuffle="<?= /* @escapeNotVerified */ $shuffle ?>">
         <?php endif; ?>
     <?php else: ?>
-        <div class="block <?= /* @escapeNotVerified */ $class ?>">
+        <div class="block products-widget _full-width-background <?= /* @escapeNotVerified */ $class ?>">
     <?php endif; ?>
     <div class="title">
         <strong id="block-<?= /* @escapeNotVerified */ $class ?>-heading" role="heading" aria-level="2"><?= /* @escapeNotVerified */ $title ?></strong>

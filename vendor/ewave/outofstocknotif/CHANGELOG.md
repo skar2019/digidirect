@@ -30,3 +30,9 @@
 =============
 * New features:
     * [#287016](https://ewave.tpondemand.com/entity/287016) -- [BACKORDER] As a user, I want to be able to use 'Notify Me' button if backorder is allowed for the product
+
+2.1.1
+=============
+* Bugfixes:
+    * [#290626](https://ewave.tpondemand.com/entity/290626) -- [BACKORDER] 'Back-order' button is replaced on 'Add to Cart' on PLP
+    * [#290777](https://ewave.tpondemand.com/entity/290777) -- [BACKORDER] 'Back-order' button is not displayed on the product search result page

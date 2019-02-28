@@ -2,6 +2,8 @@
 /** @var $block \Ewave\Collect\Block\CollectPlaces*/
 
 $isSingleStoreEnabled = $block->isEnableSingleStoreInCartRestriction();
+$_product = $block->getProduct();
+$isQualifiesForFreeShipping = ($_product) ? $_product->getAttributeText('qualifies_for_free_shipping') : false;
 ?>
 <div class="collect_place_class" data-mage-init='{"<?php echo $block->escapeHtml($block->getCollectBlockWidgetTitle()) ?>": {
     "isSingleStore": "<?php /* @escapeNotVerified */ echo $isSingleStoreEnabled;?>",
@@ -36,6 +38,11 @@ $isSingleStoreEnabled = $block->isEnableSingleStoreInCartRestriction();
         </div>
     <?php endif;?>
     <div class="collect-block<?php echo (!$presetCollectPlace) ? ' -visible"' : '' ?>" data-role="collect-block" data-collect-type="delivery">
+        <?php if ($isQualifiesForFreeShipping == 'Yes'): ?>
+            <div class="text">
+                <?php echo /* @noEscape */ __('This item qualifies for free shipping'); ?>
+            </div>
+        <?php endif; ?>
         <div class="message info" <?php echo ($presetCollectPlace)? '' : 'style="display: none;"' ?> data-role="collect-collect-message">
             <span><?= $block->escapeHtml(__('Adding this product to cart for delivery will convert all cart items to delivery.')) ?></span>
         </div>

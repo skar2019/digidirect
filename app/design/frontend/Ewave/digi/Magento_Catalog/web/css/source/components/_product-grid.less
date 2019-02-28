@@ -5,9 +5,8 @@
 & when (@media-common = true) {
     .products-widget {
         & {
-            .lib-css(background, @color-3-8);
-            padding-top: 30px;
             padding-bottom: 40px;
+            .lib-css(background, @color-3-8);
         }
 
         > .title {
@@ -17,8 +16,17 @@
             margin: 0 5px 33px;
         }
 
+        .products-grid {
+            margin-bottom: 0;
+        }
+
         .products-grid > .product-items {
             .lib-vendor-prefix-flex-wrap(nowrap);
+            margin-bottom: 0;
+        }
+
+        .products-grid .product-item {
+            padding-bottom: 0;
         }
 
         .product-item {
@@ -37,7 +45,7 @@
         }
     }
 
-    .upsell-block, 
+    .upsell-block,
     .related {
         & {
             background: none;
@@ -45,6 +53,18 @@
 
         .title {
             text-align: center;
+        }
+    }
+
+    .checkout-cart-index .products-widget {
+        & {
+            margin-top: 27px;
+            padding-top: 20px;
+            padding-bottom: 30px;
+        }
+
+        > .title {
+            margin: 0 0 20px;
         }
     }
 }
@@ -55,11 +75,6 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .products-widget {
-        & {
-            padding-top: 40px;
-            padding-bottom: 50px;
-        }
-
         > .title {
             .lib-font-size(24);
         }
@@ -68,6 +83,18 @@
     .upsell-block {
         .title {
             text-align: left;
+        }
+    }
+
+    .checkout-cart-index .products-widget {
+        & {
+            margin-top: 40px;
+            padding-top: 30px;
+            padding-bottom: 40px;
+        }
+
+        > .title {
+            margin: 0 0 30px;
         }
     }
 }
@@ -80,10 +107,22 @@
     .products-widget {
         > .title {
             .lib-font-size(28);
-        } 
-        
+        }
+
         .products-grid > .product-items .product-item {
             .lib-css(width, @catalog-products-grid-product-item__width__l);
+        }
+    }
+
+    .checkout-cart-index .products-widget {
+        & {
+            margin-top: 60px;
+            padding-top: 44px;
+            padding-bottom: 60px;
+        }
+
+        > .title {
+            margin: 0 0 42px;
         }
     }
 }

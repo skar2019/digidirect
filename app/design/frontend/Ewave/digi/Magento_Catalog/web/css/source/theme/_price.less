@@ -17,14 +17,6 @@
 
 & when (@media-common = true) {
     .product-info-main {
-        .price-label {
-            display: block;
-            .lib-font-size(11);
-            line-height: 16px;
-            text-transform: uppercase;
-            .lib-css(color, @color-4-7);
-        }
-
         .price-box,
         .price-box .price-container {
             line-height: 34px;
@@ -51,6 +43,29 @@
         .block-extendedrule + .price-container .price {
             .lib-font-size(13);
             .lib-css(font-weight, @font-weight__heavier);
+        }
+    }
+
+    .product-info-main,
+    .bundle-info {
+        .price-label {
+            display: block;
+            .lib-font-size(11);
+            line-height: 16px;
+            text-transform: uppercase;
+            .lib-css(color, @color-4-7);
+        }
+    }
+
+    .product-item-info {
+        .block-extendedrule.-cashback-available {
+            align-self: flex-start;
+        }
+
+        .block-extendedrule.-cashback-available .price-box .price-label {
+            .lib-font-size(14);
+            .lib-css(font-weight, @font-weight__bold);
+            text-transform: none;
         }
     }
 }

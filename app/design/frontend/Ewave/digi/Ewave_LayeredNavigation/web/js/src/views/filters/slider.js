@@ -27,11 +27,11 @@ export default class Link {
             slide: function (event, ui) {
                 $fromInput.val(ui.values[0]);
                 $toInput.val(ui.values[1]);
-
-                self.updateSliderData(ui.values[0], ui.values[1]);
             },
             change: function (event, ui) {
                 var linkHref = options.url.replace('layered_navigation_slider_from', ui.values[0]).replace('layered_navigation_slider_to', ui.values[1]);
+
+                self.updateSliderData(ui.values[0], ui.values[1]);
 
                 if (!options.triggerApplyButton && !View.applyMode(options)) {
                     View.sendRequest(options, {

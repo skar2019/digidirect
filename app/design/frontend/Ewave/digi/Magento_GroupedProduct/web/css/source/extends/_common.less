@@ -1,0 +1,52 @@
+//
+//  Grouped Product: Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+//@grouped-product__is-enabled: true; // Enable/disable styles
+
+//@grouped-product-table__use-table-bordered: true;
+//@grouped-product-table-type: horizontal;
+//@grouped-product-table-thead-th__border-bottom: 0;
+
+//@grouped-product-table-product-item-name__font-weight: false;
+//@grouped-product-table-price-box-price__font-size: @font-size__base;
+//@grouped-product-table-control-qty__use-input-qty: true;
+
+//  Stock (unavailable)
+//@grouped-product-table-stock-unavailable__margin: 0;
+//@grouped-product-table-stock-unavailable__font-weight: normal;
+//@grouped-product-table-stock-unavailable__text-transform: none;
+//@grouped-product-table-stock-unavailable__white-space: nowrap;
+
+//  Row Tier Price
+//@grouped-product-table-row-tier-price-td__border-top: 0;
+//@grouped-product-table-row-tier-price-prices-tier__margin: 0 -10px 10px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@grouped-product__is-enabled = true) {
+        .table.grouped {
+            .col.item {
+                width: 100%;
+                text-align: left;
+            }
+
+            .col.qty {
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            .product-item-name {
+                height: auto;
+                display: inline-flex;
+            }
+        }
+    }
+}

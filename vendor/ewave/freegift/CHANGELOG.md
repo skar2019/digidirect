@@ -164,3 +164,8 @@
 =============
 * Improvements:
     * Magento 2.2 compatibility
+
+1.10.3
+=============
+* Bugfixes:
+    * [#284059](https://ewave.tpondemand.com/entity/284059) -- [Free Gift]: User is NOT redirected to cart, able to complete checkout (free gift is not added to cart)

@@ -65,7 +65,9 @@ define([
                                 rule.after_cashback_price = 0;
                             }
                         }
-                        rule.pdp_description = this.decodeEscapedHtml(rule.pdp_description);
+                        if (rule.pdp_description) {
+                            rule.pdp_description = this.decodeEscapedHtml(rule.pdp_description);
+                        }
 
                         var $plpLabel,
                             $plpHtml = $(mageTemplate(plpMessageTemplate, {
@@ -105,7 +107,9 @@ define([
                         } else {
                             rule.action_amount_formated = amount || rule.action_amount;
                         }
-                        rule.pdp_description = this.decodeEscapedHtml(rule.pdp_description);
+                        if (rule.pdp_description) {
+                            rule.pdp_description = this.decodeEscapedHtml(rule.pdp_description);
+                        }
 
                         $(mageTemplate(messageTemplate, {
                             data: rule,

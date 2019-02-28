@@ -15,6 +15,7 @@ class Data extends AbstractHelper
     const XML_PATH_TIMEZONE_MATRIX = 'ewave_localization/timezone/matrix';
     const XML_PATH_HOLIDAY_MATRIX = 'ewave_localization/holiday/matrix';
     const XML_PATH_PHONE_SUGGESTION = 'ewave_localization/localization/use_phone_prefix';
+    const XML_PATH_LENGTH_UNIT = 'ewave_localization/localization/length_unit';
 
     /**
      * @var DefaultOptionModel
@@ -61,6 +62,15 @@ class Data extends AbstractHelper
             $state,
             'timezone_column'
         );
+    }
+
+    /**
+     * @param string $scope
+     * @return string
+     */
+    public function getLengthUnit($scope = ScopeInterface::SCOPE_STORE)
+    {
+        return $this->scopeConfig->getValue(self::XML_PATH_LENGTH_UNIT, $scope);
     }
 
     /**

@@ -8,5 +8,7 @@
         <move element="bundle.options.container" destination="content" before="-" />
 
         <referenceContainer name="bundle.options.container" htmlClass="bundle-options-container _full-width-background"/>
+
+        <referenceBlock name="product.info.options.wrapper" template="Magento_Bundle::product/view/options/wrapper.phtml" />
     </body>
 </page>

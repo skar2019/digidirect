@@ -72,3 +72,8 @@
 * Bugfixes:
     * [#288996](https://ewave.tpondemand.com/entity/288996) -- [Extended Catalog Price Rule] Wrong promotion content for PLP and PDP pages
     * [#289291](https://ewave.tpondemand.com/entity/289291) -- [Project: DigiDirect] Load more button displayed after click "back" button on browser
+
+1.2.2
+=============
+* Bugfixes:
+    * [#291085](https://ewave.tpondemand.com/entity/291085) -- [Project: DigiDirect] Products are duplicated on the Search result page

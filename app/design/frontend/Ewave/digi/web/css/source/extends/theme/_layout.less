@@ -27,14 +27,15 @@
     }
     
     .page-below {
-        & {
-            .lib-css(padding-right, @layout-elements__padding-right);
-            .lib-css(padding-left, @layout-elements__padding-left);
-        }
-        
         > .content {
             .lib-css(max-width, @layout__max-width);
+            
+            margin: 0 auto;
         }
+    }
+
+    .full-height {
+        height: 100%;
     }
 }
 
@@ -69,7 +70,8 @@
 
     .section-center,
     .footer.content,
-    .footer-bottom {
+    .footer-bottom,
+    .page-below > .content {
         .lib-css(padding-left, @layout-indent__width);
         .lib-css(padding-right, @layout-indent__width);
     }

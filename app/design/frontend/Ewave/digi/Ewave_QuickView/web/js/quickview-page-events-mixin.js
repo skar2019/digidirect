@@ -10,6 +10,7 @@ define([
     return function (target) {
         $.widget('ewave.quickViewPageEvents', target, {
             _create: function () {
+                $('html').addClass('full-height');
                 $('body').dataPost('disable').find('.columns').customScrollbar();
                 this._bind();
             }

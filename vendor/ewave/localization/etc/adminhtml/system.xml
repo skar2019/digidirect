@@ -24,6 +24,10 @@
                         <field id="use_phone_prefix">1</field>
                     </depends>
                 </field>
+                <field id="length_unit" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Length Unit</label>
+                    <source_model>Ewave\Localization\Model\Config\Source\Locale\LengthUnit</source_model>
+                </field>
             </group>
             <group id="timezone" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Time Zone Settings</label>

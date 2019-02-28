@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0acb50b36c3cfdef34a9bba95e4a8455",
+    "content-hash": "34278debdc4682209a6e46bd55f625c4",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1627,7 +1627,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcart.git",
-                "reference": "067a04d880004a0e356b9840c2bc6afc4bd7fb29"
+                "reference": "b3d376465b013d48cf04e2e0f3a0438d175296e2"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1639,7 +1639,7 @@
                 }
             },
             "description": "Ewave Extended Cart",
-            "time": "2019-02-21T13:39:54+00:00"
+            "time": "2019-02-21T13:42:22+00:00"
         },
         {
             "name": "ewave/extendedcatalogpricerule",
@@ -1726,11 +1726,11 @@
         },
         {
             "name": "ewave/freegift",
-            "version": "dev-release/1.10.2",
+            "version": "dev-release/1.10.3",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_freegift.git",
-                "reference": "f38a5909ee18a5663092aaf341f952d75465c365"
+                "reference": "404e59bc5ab9871e7252b89afd2e5808998e4bd3"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1742,7 +1742,7 @@
                 }
             },
             "description": "Free gift",
-            "time": "2019-02-06T12:43:34+00:00"
+            "time": "2019-02-19T10:18:07+00:00"
         },
         {
             "name": "ewave/giftcardimage",
@@ -1786,11 +1786,11 @@
         },
         {
             "name": "ewave/infinitescroll",
-            "version": "dev-release/1.2.1",
+            "version": "dev-release/1.2.2",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_infinitescroll.git",
-                "reference": "af5b92b48a204692cd2e52268cf104c7a92ef8cd"
+                "reference": "ff7e571d48aac52d3ecfcc575f88aecfa29dace6"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1805,15 +1805,15 @@
                 }
             },
             "description": "Ewave Infinite Scroll Module",
-            "time": "2019-02-06T13:05:27+00:00"
+            "time": "2019-02-21T08:07:05+00:00"
         },
         {
             "name": "ewave/layerednavigation",
-            "version": "dev-develop",
+            "version": "dev-release/1.5.2",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_layerednavigation.git",
-                "reference": "a1e3c47781f56563d21e8097375347031210c756"
+                "reference": "5dab78c8cf0d43e153432d025c229f95e58badf3"
             },
             "require": {
                 "magento/module-layered-navigation": "*"
@@ -1831,7 +1831,7 @@
                 "Commercial"
             ],
             "description": "Layered Navigation",
-            "time": "2019-02-20T07:10:47+00:00"
+            "time": "2019-02-21T07:54:23+00:00"
         },
         {
             "name": "ewave/legobasetheme",
@@ -1855,11 +1855,11 @@
         },
         {
             "name": "ewave/localization",
-            "version": "dev-release/1.4.0",
+            "version": "dev-release/1.5.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_localization.git",
-                "reference": "aafb633690300f05fb9c81cd321095a7780b69ea"
+                "reference": "bd921e3fd5a322390d6c1478e1d873cc683b4010"
             },
             "suggest": {
                 "ewave/utilities": "Ewave Localization may use ewave/utilities methods"
@@ -1874,7 +1874,7 @@
                 }
             },
             "description": "Ewave Localizations",
-            "time": "2018-11-06T11:45:57+00:00"
+            "time": "2019-02-19T07:40:11+00:00"
         },
         {
             "name": "ewave/locator",
@@ -2025,11 +2025,11 @@
         },
         {
             "name": "ewave/outofstocknotif",
-            "version": "dev-release/2.1.0",
+            "version": "dev-release/2.1.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_outofstocknotif.git",
-                "reference": "5484d381b14b91dcd7528b289eb0203dcc98c113"
+                "reference": "69c6241a36b052df4c3b2c8bf670fb5308912233"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2041,7 +2041,7 @@
                 }
             },
             "description": "Out Of Stock Notification",
-            "time": "2019-01-29T14:24:29+00:00"
+            "time": "2019-02-20T05:33:36+00:00"
         },
         {
             "name": "ewave/preorder",

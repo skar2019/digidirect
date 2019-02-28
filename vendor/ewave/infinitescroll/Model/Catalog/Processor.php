@@ -5,7 +5,8 @@ namespace Ewave\InfiniteScroll\Model\Catalog;
 use Ewave\InfiniteScroll\Helper\Data as InfiniteScrollHelper;
 use Ewave\InfiniteScroll\Model\ProcessorInterface;
 use Magento\Catalog\Block\Product\ListProduct;
-use \Magento\Framework\View\LayoutInterface;
+use Magento\Catalog\Model\Product\ProductList\Toolbar as CatalogToolbar;
+use Magento\Framework\View\LayoutInterface;
 
 class Processor implements ProcessorInterface
 {
@@ -101,6 +102,9 @@ class Processor implements ProcessorInterface
         $url = false;
         if ($pager && !$pager->isLastPage()) {
             $url = htmlspecialchars_decode($pager->getNextPageUrl());
+            if (strpos($url, CatalogToolbar::DIRECTION_PARAM_NAME) === false) {
+                $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
+            }
         }
         return $url;
     }

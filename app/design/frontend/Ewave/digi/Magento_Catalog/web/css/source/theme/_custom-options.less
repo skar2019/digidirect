@@ -64,14 +64,11 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    .product-options-wrapper .options-list {
-        .label {
+    .product-options-wrapper {
+        .options-list .label,
+        .fieldset > .field > .label,
+        .fieldset > .legend {
             .lib-font-size(14);
         }
-    }
-
-    .product-options-wrapper .field > .label,
-    .product-options-wrapper .fieldset > .legend {
-        .lib-font-size(14);
     }
 }

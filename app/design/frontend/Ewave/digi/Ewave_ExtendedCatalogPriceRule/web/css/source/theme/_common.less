@@ -7,6 +7,9 @@
 // ----------------------------------------------------------
 @special-offer__background-position: calc(~'100% - 8px');
 
+@extendedrule-price-box-with-special-offer__border-color: @color-3-5;
+@extendedrule-price-box-with-special-offer__border: 2px solid @extendedrule-price-box-with-special-offer__border-color;
+
 //
 //  Common
 //  ---------------------------------------------
@@ -24,6 +27,12 @@
         .block-extendedrule + .price-container {
             float: left;
             text-align: left;
+        }
+    }
+
+    .page-product-bundle {
+        .product-info-main .block-extendedrule {
+            padding-bottom: 20px;
         }
     }
 
@@ -63,9 +72,15 @@
         }
     }
 
-    .block-extendedrule.-cashback ~ .price-box,
+    .block-extendedrule.-cashback:not(.-special-price) ~ .price-box,
     .block-extendedrule + .block-extendedrule {
         display: none;
+    }
+
+    .block-extendedrule.-special-price .price-box {
+        .lib-css(border-bottom, @extendedrule-price-box-with-special-offer__border);
+        margin-bottom: 0;
+        padding-bottom: 9px;
     }
 }
 
