@@ -13,6 +13,14 @@
             </container>
         </referenceContainer>
 
+        <referenceBlock name="search_result_list">
+            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+
         <move element="breadcrumbs" destination="category.view.container" before="-"/>      
     </body>
 </page>

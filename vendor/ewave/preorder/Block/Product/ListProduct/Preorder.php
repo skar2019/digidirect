@@ -3,6 +3,8 @@
 namespace Ewave\PreOrder\Block\Product\ListProduct;
 
 use Magento\Framework\View\Element\Template;
+use Magento\CatalogInventory\Model\StockRegistry;
+use Magento\Framework\App\ObjectManager;
 
 /**
  * Class Preorder
@@ -24,21 +26,28 @@ class Preorder extends Template
     protected $stockItemRepository;
 
     /**
+     * @var StockRegistry
+     */
+    protected $stockRegistry;
+
+    /**
      * Preorder constructor.
-     *
-     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param Template\Context $context
      * @param \Ewave\PreOrder\Helper\Data $preOrderHelper
      * @param \Magento\CatalogInventory\Model\Stock\StockItemRepository $stockItemRepository
+     * @param StockRegistry|null $stockRegistry
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         \Ewave\PreOrder\Helper\Data $preOrderHelper,
         \Magento\CatalogInventory\Model\Stock\StockItemRepository $stockItemRepository,
+        StockRegistry $stockRegistry = null,
         array $data = []
     ) {
         $this->preOrderHelper = $preOrderHelper;
         $this->stockItemRepository = $stockItemRepository;
+        $this->stockRegistry = $stockRegistry ?: ObjectManager::getInstance()->get(StockRegistry::class);
 
         parent::__construct($context, $data);
     }
@@ -90,7 +99,10 @@ class Preorder extends Template
      */
     public function isAutoEnabled()
     {
-        $stockItem = $this->stockItemRepository->get($this->getProduct()->getId());
+        $stockItem = $this->stockRegistry->getStockItem(
+            $this->getProduct()->getId(),
+            $this->getProduct()->getStore()->getWebsiteId()
+        );
         return $this->preOrderHelper->checkStockItemQty($stockItem);
     }
 }

@@ -20,6 +20,11 @@ class ProductAbstract extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $stockItemRepository;
 
     /**
+     * @var \Magento\CatalogInventory\Api\StockRegistryInterface
+     */
+    protected $stockRegistry;
+
+    /**
      * ProductAbstract constructor.
      *
      * @param \Magento\Catalog\Block\Product\Context $context
@@ -37,6 +42,7 @@ class ProductAbstract extends \Magento\Catalog\Block\Product\View\AbstractView
     ) {
         $this->preOrderHelper = $preOrderHelper;
         $this->stockItemRepository = $stockItemRepository;
+        $this->stockRegistry = $context->getStockRegistry();
 
         parent::__construct($context, $arrayUtils, $data);
     }
@@ -76,7 +82,10 @@ class ProductAbstract extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function isAutoEnabled()
     {
-        $stockItem = $this->stockItemRepository->get($this->getProduct()->getId());
+        $stockItem = $this->stockRegistry->getStockItem(
+            $this->getProduct()->getId(),
+            $this->getProduct()->getStore()->getWebsiteId()
+        );
         return $this->preOrderHelper->checkStockItemQty($stockItem);
     }
 
