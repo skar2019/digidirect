@@ -21,50 +21,52 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
     $showWishlist = true;
     $showCompare = true;
     $showCart = true;
+    $showReview = false;
     $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
     $description = false;
 }
 ?>
 
 <?php if ($exist):?>
-    <div class="widget block-new-products products-widget _full-width-background <?= /* @escapeNotVerified */ $mode ?>">
+    <div class="widget block-new-products products-widget -new-arrivals _full-width-background <?= /* @escapeNotVerified */ $mode ?>">
         <span class="title" role="heading" aria-level="2"><?= /* @escapeNotVerified */ $title ?></span>
         <div class="block-content">
             <?= /* @escapeNotVerified */ '<!-- ' . $image . '-->' ?>
             <div class="products-<?= /* @escapeNotVerified */ $mode ?> <?= /* @escapeNotVerified */ $mode ?>">
                 <div class="product-items product-carousel <?= /* @escapeNotVerified */ $type ?>"
-                    <?php if (count($items) > 2):?>   
-                        data-mage-init='{
-                                            "slickInit":{
-                                                "infinite": false,
-                                                "slidesToShow": 2,
-                                                "slidesToScroll": 2,
-                                                "mobileFirst": true,
-                                                "arrows": false,
-                                                "responsive": [{
-                                                    "breakpoint": 1024,
-                                                    "settings": {
-                                                        "slidesToShow": 4,
-                                                        "slidesToScroll": 4
-                                                    }
-                                                }, {
-                                                    "breakpoint": 767,
-                                                    "settings": {
-                                                        "slidesToShow": 3,
-                                                        "slidesToScroll": 3
-                                                    }
-                                                },
-                                                {
-                                                    "breakpoint": 1439,
-                                                    "settings": {
-                                                        "slidesToShow": 5,
-                                                        "slidesToScroll": 5,
-                                                        "arrows": true
-                                                    }
-                                                }]
-                                            }
-                                        }'
-                        <?php endif; ?>>
+                     data-mage-init='{
+                        <?php if (count($items) > 2):?>
+                            "slickInit":{
+                                "infinite": false,
+                                "slidesToShow": 2,
+                                "slidesToScroll": 2,
+                                "mobileFirst": true,
+                                "arrows": false,
+                                "responsive": [{
+                                    "breakpoint": 1024,
+                                    "settings": {
+                                        "slidesToShow": 4,
+                                        "slidesToScroll": 4
+                                    }
+                                }, {
+                                    "breakpoint": 767,
+                                    "settings": {
+                                        "slidesToShow": 3,
+                                        "slidesToScroll": 3
+                                    }
+                                },
+                                {
+                                    "breakpoint": 1439,
+                                    "settings": {
+                                        "slidesToShow": 5,
+                                        "slidesToScroll": 5,
+                                        "arrows": true
+                                    }
+                                }]
+                            },
+                        <?php endif; ?>
+                      "truncateCollection": {}
+                     }'>
                         <?php foreach ($items as $_item): ?>
                         <div class="product-item">
                             <div class="product-item-info">
@@ -82,7 +84,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
 
                                 <div class="product details product-item-details">
 
-                                    <?php if ($templateType): ?>
+                                    <?php if ($showReview && $templateType): ?>
                                         <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
                                     <?php endif; ?>
                                     <?php echo $block->getProductPriceHtml($_item, $type); ?>

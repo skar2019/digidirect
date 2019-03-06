@@ -67,7 +67,14 @@ define(['module', 'exports', 'jquery'], function (module, exports, _jquery) {
                 if (itemUrl) {
                     $container = this.getChildItemContainer(itemUrl);
                     if ($container.length) {
-                        $container[0].scrollIntoView({ behavior: 'smooth', inline: 'end' });
+                        // controllable degradation for IE
+                        if (1 - '\0') {
+                            (0, _jquery2.default)('html, body').animate({
+                                scrollTop: $container.first().position().top
+                            }, 300);
+                        } else {
+                            $container[0].scrollIntoView({ behavior: 'smooth', inline: 'end' });
+                        }
                     }
                     window.localStorage.removeItem(this.options.itemUrlKey);
                 }

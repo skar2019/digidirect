@@ -101,6 +101,13 @@
                 </arguments>
             </block>
         </referenceBlock>
+
+        <referenceBlock name="product.info.main">
+            <block class="Ewave\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
+                   name="ewave.extended.catalog.price.rule.product.view.core"
+                   before="-"
+                   template="Ewave_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
+        </referenceBlock>
     </body>
 </page>
  

@@ -16,7 +16,7 @@
             <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="after.product.price.container" as="after.product.price.container">
                 <block class="Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule"
                        name="ewave.extended.catalog.price.rule.list.view"
-                       template="Ewave_ExtendedCatalogPriceRule::product/view/list/display_message_plp.phtml" />
+                       template="Ewave_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
             </block>
 
             <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="category.product.addto" as="addto"/>

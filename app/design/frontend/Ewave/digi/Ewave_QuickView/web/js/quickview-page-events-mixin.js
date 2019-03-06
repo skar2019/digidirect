@@ -1,17 +1,24 @@
 define([
     'jquery',
+    'matchMedia',
     'mage/template',
     'jquery/ui',
     'mage/dataPost',
     'customScrollbarInit'
-], function ($, mageTemplate) {
+], function ($, mediaCheck, mageTemplate ) {
     'use strict';
 
     return function (target) {
         $.widget('ewave.quickViewPageEvents', target, {
             _create: function () {
                 $('html').addClass('full-height');
-                $('body').dataPost('disable').find('.columns').customScrollbar();
+                $('body').dataPost('disable');
+                mediaCheck({
+                    media: '(min-width: 1024px)',
+                    entry: function () {
+                        $('body').find('.columns').customScrollbar();
+                    }
+                });
                 this._bind();
             }
         });

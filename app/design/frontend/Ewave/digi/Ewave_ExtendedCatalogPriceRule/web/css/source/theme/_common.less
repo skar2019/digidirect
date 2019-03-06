@@ -15,21 +15,6 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    .product-info-main {
-        .block-extendedrule {
-            float: right;
-        }
-
-        .block-extendedrule .name {
-            display: none;
-        }
-
-        .block-extendedrule + .price-container {
-            float: left;
-            text-align: left;
-        }
-    }
-
     .page-product-bundle {
         .product-info-main .block-extendedrule {
             padding-bottom: 20px;
@@ -50,12 +35,8 @@
         }
     }
 
-    .product-item-info {
-        .block-extendedrule .price-box + .name {
-            display: none;
-        }
-
-        .block-extendedrule .name {
+    .block-extendedrule {
+        .name {
             .lib-css(background-image, @base64-icon__special-offer);
             .lib-css(background-position, @special-offer__background-position center);
             .lib-font-size(10);
@@ -67,20 +48,25 @@
             cursor: pointer;
         }
 
-        .block-extendedrule .name:not(:empty) {
+        .name:not(:empty) {
             .lib-css(border, 1px solid @primary__color);
         }
-    }
 
-    .block-extendedrule.-cashback:not(.-special-price) ~ .price-box,
-    .block-extendedrule + .block-extendedrule {
-        display: none;
-    }
+        .price-box + .name {
+            display: none;
+        }
 
-    .block-extendedrule.-special-price .price-box {
-        .lib-css(border-bottom, @extendedrule-price-box-with-special-offer__border);
-        margin-bottom: 0;
-        padding-bottom: 9px;
+        &.-cashback:not(.-special-price) ~ .price-box,
+        &.-cashback:not(.-special-price) ~ .product-info-price .price-box,
+        & + .block-extendedrule {
+            display: none;
+        }
+
+        &.-special-price .price-box {
+            .lib-css(border-bottom, @extendedrule-price-box-with-special-offer__border);
+            margin-bottom: 0;
+            padding-bottom: 9px;
+        }
     }
 }
 
@@ -115,9 +101,7 @@
         }
     }
 
-    .product-item-info {
-        .block-extendedrule .name {
-            .lib-font-size(12);
-        }
+    .block-extendedrule .name {
+        .lib-font-size(12);
     }
 }

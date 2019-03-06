@@ -1,0 +1,22 @@
+<?php
+/**
+ * @var $block \Ewave\OutOfStockNotif\Block\Product\View\Stock
+ * @var $helper \Ewave\OutOfStockNotif\Helper\Data
+ */
+$helper = $this->helper(\Ewave\OutOfStockNotif\Helper\Data::class);
+?>
+<?php if($helper->showButton()) : ?>
+    <div data-role="outofstock-button" class="outofstock-button">
+        <button data-role="outofstock-popup-show" class="action primary"
+                title="<?php echo $block->escapeHtml(__($block->getButtonLabel())); ?>" type="button">
+            <span><?php echo $block->escapeHtml(__($block->getButtonLabel())); ?></span>
+        </button>
+    </div>
+    <script type="text/x-magento-init">
+        {
+             ".outofstock-button": {
+                "Ewave_OutOfStockNotif/js/notify-btn": {}
+             }
+        }
+</script>
+<?php endif; ?>

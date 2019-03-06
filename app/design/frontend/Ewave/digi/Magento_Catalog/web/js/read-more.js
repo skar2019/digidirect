@@ -1,8 +1,9 @@
 define([
     'jquery',
+    'matchMedia',
     'domReady!',
     'customScrollbarInit'
-], function ($) {
+], function ($, mediaCheck) {
     'use strict';
 
     var action = document.querySelectorAll('.tab-in'),
@@ -39,5 +40,13 @@ define([
         }
     });
 
-    $('.right-bar').customScrollbar();
+    mediaCheck({
+        media: '(min-width: 1024px)',
+        entry: function () {
+            $('.right-bar').customScrollbar();
+        },
+        exit: function () {
+            $('.right-bar').customScrollbar('destroy');
+        }
+    });
 });
