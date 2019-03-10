@@ -7,4 +7,5 @@ mysql:
     disk: 8192
 redis:
     type: redis:3.0
+    disk: 8192
 
