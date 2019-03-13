@@ -2,6 +2,7 @@
 /* @var $block \Ewave\RelatedProduct\Block\ProductList\Related */
 
 use Ewave\RelatedProduct\Block\ProductList\Related;
+use Magento\Framework\App\Action\Action;
 
 if ($exist = $block->getItems()->getSize()) {
     $type = 'related';
@@ -57,7 +58,20 @@ if ($exist = $block->getItems()->getSize()) {
         
         <div class="block-content content" aria-labelledby="block-<?php $block->escapeHtml($class); ?>-heading">      
             <div class="products wrapper grid products-grid -related products-<?php echo $block->escapeHtml($type); ?>">
-                <div id="related-grid" data-mage-init='{"relatedInfo": {"initialFilter": "<?php echo $block->escapeHtml($initialFilter); ?>", "itemSelector": ".product-item"}, "slickFilter": {}, "truncateCollection": {}}' class="related-grid product-items products list items">
+                <div id="related-grid"
+                     class="related-grid product-items products list items"
+                     data-mage-init='{
+                    "relatedInfo": {
+                        "initialFilter": "<?php echo $block->escapeHtml($initialFilter); ?>",
+                        "itemSelector": ".product-item"
+                    },
+                    "productTile": {
+                        <?php if ($block->isRedirectToCartEnabled()): ?>
+                        "isRedirectToCartEnabled": true,
+                        <?php endif; ?>
+                        "type":"filteredSlider"
+                    }
+                    }'>
                     <?php $iterator = 1; $i = 0; foreach ($items as $_item): ?>
                     <?php /** @var Ewave\RelatedProduct\Model\Product $_item */ ?>
                         <?php if ($iterator++ != 1) : ?></div><?php endif; ?><div data-groups='<?php /* @escapeNotVerified */ echo json_encode($block->getVisibleProductCategories($_item)); ?>' data-sort-order="<?php echo $block->escapeHtml(implode(',', $block->getProductPositionsInCategories($_item))); ?>"  class=" item product product-item">
@@ -81,25 +95,24 @@ if ($exist = $block->getItems()->getSize()) {
                                     <div class="product actions product-item-actions">
                                             <div class="actions-primary">
                                                 <?php if ($_item->isSaleable()): ?>
-                                                    <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
-                                                        <button class="action tocart" data-mage-init='{"redirectUrl": {"url": "<?= /* @escapeNotVerified */ $block->getAddToCartUrl($_item) ?>"}}' type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
-                                                            <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
-                                                        </button>
-                                                    <?php else: ?>
-                                                        <?php $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
-                                                        $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
-                                                        ?>
+                                                    <?php $addToCartUrl = $block->getAddToCartUrl($_item); ?>
+                                                    <form data-role="tocart-form" data-mage-init='{"validation": {}}' action="<?= $block->escapeUrl($addToCartUrl); ?>" method="post">
+                                                        <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
+                                                        <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
+                                                        <?php echo $block->getBlockHtml('formkey')?>
+                                                        <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                                            <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
+                                                        <?php endif; ?>
                                                         <button class="action tocart"
-                                                                data-post='<?= /* @escapeNotVerified */ $postData ?>'
-                                                                type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
-                                                            <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+                                                                type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                                            <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
                                                         </button>
-                                                    <?php endif; ?>
+                                                    </form>
                                                 <?php else: ?>
                                                     <?php if ($_item->getIsSalable()): ?>
-                                                        <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+                                                        <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
                                                     <?php else: ?>
-                                                        <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+                                                        <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
                                             </div>

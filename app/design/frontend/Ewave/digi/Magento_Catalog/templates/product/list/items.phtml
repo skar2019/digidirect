@@ -4,6 +4,8 @@
  * See COPYING.txt for license details.
  */
 
+use Magento\Framework\App\Action\Action;
+
 // @codingStandardsIgnoreFile
 
 /* @var $block \Magento\Catalog\Block\Product\AbstractProduct */
@@ -175,38 +177,13 @@ switch ($type = $block->getType()) {
         <div class="wrapper grid products-grid products-<?= /* @escapeNotVerified */ $type ?>">
             <ol class="list items product-items"
                 data-mage-init='{
-                    <?php if (count($items) > 2):?>
-                        "slickInit":{
-                            "infinite": false,
-                            "slidesToShow": 2,
-                            "slidesToScroll": 2,
-                            "mobileFirst": true,
-                            "arrows": false,
-                            "responsive": [{
-                                "breakpoint": 1024,
-                                "settings": {
-                                    "slidesToShow": 4,
-                                    "slidesToScroll": 4
-                                }
-                            }, {
-                                "breakpoint": 767,
-                                "settings": {
-                                    "slidesToShow": 3,
-                                    "slidesToScroll": 3
-                                }
-                            },
-                            {
-                                "breakpoint": 1439,
-                                "settings": {
-                                    "slidesToShow": 5,
-                                    "slidesToScroll": 5,
-                                    "arrows": true
-                                }
-                            }]
-                        },
-                    <?php endif; ?>
-                    "truncateCollection": {}
-                }'>
+                    "productTile": {
+                        <?php if ($block->isRedirectToCartEnabled()): ?>
+                        "isRedirectToCartEnabled": true,
+                        <?php endif; ?>
+                        "type":"<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>"
+                    }
+                    }'>
                 <?php foreach ($items as $_item): ?>
                 <?php $available = ''; ?>
                 <?php if (!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
@@ -227,7 +204,7 @@ switch ($type = $block->getType()) {
                     <strong class="product name product-item-name"><a class="product-item-link" title="<?= $block->escapeHtml($_item->getName()) ?>" href="<?= /* @escapeNotVerified */ $block->getProductUrl($_item) ?>">
                         <?= $block->escapeHtml($_item->getName()) ?></a>
                     </strong>
-                    <div class="product details product-item-details">                       
+                    <div class="product details product-item-details">
                         <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>
 
                             <?php if ($templateType): ?>
@@ -242,32 +219,31 @@ switch ($type = $block->getType()) {
                                     </div>
                                 <?php endif; ?>
                             <?php endif; ?>
-                            
+
                             <?php if ($showAddTo || $showCart): ?>
                                 <div class="product-item-inner">
                                     <div class="product actions product-item-actions">
                                         <?php if ($showCart): ?>
                                             <div class="actions-primary">
                                                 <?php if ($_item->isSaleable()): ?>
-                                                    <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
-                                                        <button class="action tocart" data-mage-init='{"redirectUrl": {"url": "<?= /* @escapeNotVerified */ $block->getAddToCartUrl($_item) ?>"}}' type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
-                                                            <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
-                                                        </button>
-                                                    <?php else: ?>
-                                                        <?php $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
-                                                        $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
-                                                        ?>
+                                                    <?php $addToCartUrl = $block->getAddToCartUrl($_item); ?>
+                                                    <form data-role="tocart-form" data-mage-init='{"validation": {}}' action="<?= $block->escapeUrl($addToCartUrl); ?>" method="post">
+                                                        <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
+                                                        <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
+                                                        <?php echo $block->getBlockHtml('formkey')?>
+                                                        <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                                            <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
+                                                        <?php endif; ?>
                                                         <button class="action tocart"
-                                                                data-post='<?= /* @escapeNotVerified */ $postData ?>'
-                                                                type="button" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
-                                                            <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
+                                                                type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                                            <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
                                                         </button>
-                                                    <?php endif; ?>
+                                                    </form>
                                                 <?php else: ?>
                                                     <?php if ($_item->getIsSalable()): ?>
-                                                        <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
+                                                        <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
                                                     <?php else: ?>
-                                                        <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
+                                                        <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
                                                     <?php endif; ?>
                                                 <?php endif; ?>
                                             </div>
@@ -283,7 +259,7 @@ switch ($type = $block->getType()) {
                                     </div>
                                     <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
                                         <?php echo $rentBlock->toHtml(); ?>
-                                    <?php endif; ?> 
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         </div>

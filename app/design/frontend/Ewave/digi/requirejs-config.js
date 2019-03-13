@@ -8,7 +8,8 @@ var config = {
             'selectric' : 'js/vendor/jquery.selectric.min',
             'customSelectInit' : 'js/selectric-init',
             'truncateDotdotdot' : 'js/dist/widgets/truncate-dotdotdot',
-            'truncateCollection' : 'js/dist/widgets/truncate-collection'
+            'truncateCollection' : 'js/dist/widgets/truncate-collection',
+            'productTile' : 'js/dist/widgets/product-tile'
         }
     }
 };
