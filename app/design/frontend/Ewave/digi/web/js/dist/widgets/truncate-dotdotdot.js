@@ -14,11 +14,12 @@ define(['module', 'exports', 'jquery', 'ewaveUtils', 'jquery/ui', 'domReady!'], 
     }
 
     _jquery2.default.widget('ewave.truncateDotdotdot', {
-        version: '0.0.1',
+        version: '0.0.2',
         options: {
             dotdotdot: '...',
             step: 3,
-            dataAttr: 'data-truncate-default-text'
+            dataAttr: 'data-truncate-default-text',
+            helperClass: '_truncate-clearfix'
         },
         _create: function _create() {
             var _this = this;
@@ -53,9 +54,9 @@ define(['module', 'exports', 'jquery', 'ewaveUtils', 'jquery/ui', 'domReady!'], 
             if (height <= parentHeight) {
                 return;
             }
+            $element.addClass(this.options.helperClass);
             $clone.css({
                 visibility: 'hidden',
-                position: 'absolute',
                 width: $parent.width() + 'px'
             });
             $element.after($clone);
@@ -65,7 +66,7 @@ define(['module', 'exports', 'jquery', 'ewaveUtils', 'jquery/ui', 'domReady!'], 
                 $clone.text(text.substring(0, length) + this.options.dotdotdot);
             }
 
-            $element.text($clone.text()).attr(this.options.dataAttr, defaultText);
+            $element.text($clone.text()).attr(this.options.dataAttr, defaultText).removeClass(this.options.helperClass);
             $clone.remove();
         }
     });

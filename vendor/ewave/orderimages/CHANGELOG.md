@@ -23,6 +23,7 @@
 * New features:
     * [#263410](https://tp.ewave.com/263410) -- [DIFFERENT IMAGES] As a customer, I want to be able add to cart one product with different images
 
+
 1.2.1
 =============
 * Bugfixes:
@@ -33,3 +34,9 @@
 =============
 *Improvements
     * Marketplace sync
+
+
+1.3.1
+=============
+* Bugfixes:
+    * [#294586](https://ewave.tpondemand.com/entity/294586) -- [SYNC] [Checkout demo] Order images module installed, but images are NOT shown

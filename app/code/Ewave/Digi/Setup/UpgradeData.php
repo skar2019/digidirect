@@ -21,6 +21,15 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Ewave\Store\Setup\StoreEntitySetupFactory;
+use Magento\Eav\Model\Entity\TypeFactory;
+use Ewave\AbstractEntity\Model\AbstractEntity;
+use Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface;
+use Magento\Customer\Setup\CustomerSetupFactory;
+use Magento\Customer\Setup\CustomerSetup;
+use Magento\Customer\Model\Customer as CustomerEntity;
+use Magento\Eav\Setup\EavSetup;
+use Magento\Eav\Model\Entity\Attribute\Source\Boolean;
 
 /**
  * Class UpgradeSchema
@@ -104,6 +113,26 @@ class UpgradeData implements UpgradeDataInterface
     protected $keyFeatureEntitySetup;
 
     /**
+     * @var StoreEntitySetup
+     */
+    private $storeEntitySetupFactory;
+
+    /**
+     * @var TypeFactory
+     */
+    private $typeFactory;
+
+    /**
+     * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
+     */
+    protected $_productAttributeRepository;
+
+    /**
+     * @var CustomerSetupFactory
+     */
+    private $customerSetupFactory;
+
+    /**
      * UpgradeData constructor.
      * @param AttributeSetFactory $attributeSetFactory
      * @param EavSetupFactory $eavSetupFactory
@@ -120,6 +149,10 @@ class UpgradeData implements UpgradeDataInterface
      * @param CollectionFactory $collectionFactory
      * @param CategoryCollectionFactory $categoryCollectionFactory
      * @param KeyFeatureEntitySetupFactory $keyFeatureEntitySetup
+     * @param StoreEntitySetupFactory $storeEntitySetupFactory
+     * @param TypeFactory $typeFactory
+     * @param ProductAttributeOptionManagementInterface $productAttributeOptionManagement
+     * @param CustomerSetupFactory $customerSetupFactory
      */
     public function __construct(
         AttributeSetFactory $attributeSetFactory,
@@ -136,7 +169,11 @@ class UpgradeData implements UpgradeDataInterface
         StoreManagerInterface $storeManager,
         CollectionFactory $collectionFactory,
         CategoryCollectionFactory $categoryCollectionFactory,
-        KeyFeatureEntitySetupFactory $keyFeatureEntitySetup
+        KeyFeatureEntitySetupFactory $keyFeatureEntitySetup,
+        StoreEntitySetupFactory $storeEntitySetupFactory,
+        TypeFactory $typeFactory,
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $productAttributeRepository,
+        CustomerSetupFactory $customerSetupFactory
     ) {
         $this->attributeSetFactory = $attributeSetFactory;
         $this->eavSetupFactory = $eavSetupFactory;
@@ -153,18 +190,23 @@ class UpgradeData implements UpgradeDataInterface
         $this->collectionFactory = $collectionFactory;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
         $this->keyFeatureEntitySetup = $keyFeatureEntitySetup;
+        $this->storeEntitySetupFactory = $storeEntitySetupFactory;
+        $this->typeFactory = $typeFactory;
+        $this->_productAttributeRepository = $productAttributeRepository;
+        $this->customerSetupFactory = $customerSetupFactory;
 
         try {
             $state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
         } catch (LocalizedException $e) {
 
         }
+
     }
 
     /**
      * @param ModuleDataSetupInterface $setup
      * @param ModuleContextInterface $context
-     * @throws LocalizedException
+     * @throws \Exception
      */
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
@@ -201,6 +243,35 @@ class UpgradeData implements UpgradeDataInterface
 
         if (version_compare($context->getVersion(), '1.0.8', '<')) {
             $this->upgradeTo108($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.9', '<')) {
+            $this->upgradeTo109($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.10', '<')) {
+            $this->upgradeTo110($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.11', '<')) {
+            $this->upgradeTo111($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.12', '<')) {
+            $this->upgradeTo112($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.13', '<')) {
+            $this->upgradeTo113($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.14', '<')) {
+            $this->upgradeTo114($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.15', '<')) {
+            $this->upgradeTo115($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.16', '<')) {
+            $this->upgradeTo116($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.17', '<')) {
+            $this->upgradeTo117($setup);
         }
 
         $setup->endSetup();
@@ -464,7 +535,7 @@ class UpgradeData implements UpgradeDataInterface
                 'filterable' => false,
                 'filterable_in_search' => false,
                 'visible_on_front' => false,
-                'used_in_product_listing' => false,
+                'used_in_product_listing' => true,
                 'option' => [
                     'values' => [
                         'Travel',
@@ -493,7 +564,7 @@ class UpgradeData implements UpgradeDataInterface
                 'filterable' => false,
                 'filterable_in_search' => false,
                 'visible_on_front' => false,
-                'used_in_product_listing' => false,
+                'used_in_product_listing' => true,
                 'option' => [
                     'values' => [
                         'Beginner',
@@ -591,7 +662,6 @@ class UpgradeData implements UpgradeDataInterface
             ]
         );
 
-
         $attributeSetId = $eavSetup->getDefaultAttributeSetId($entityTypeId);
         $idGroup = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General Information');
 
@@ -615,5 +685,388 @@ class UpgradeData implements UpgradeDataInterface
             $idGroup,
             'qualifies_for_free_shipping'
         );
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws \Exception
+     */
+    public function upgradeTo109(ModuleDataSetupInterface $setup)
+    {
+
+        /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+        $attributeSetId = $eavSetup->getDefaultAttributeSetId($entityTypeId);
+        $idGroup = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General Information');
+
+        $attrData = [
+            'type' => 'int',
+            'label' => 'Type',
+            'input' => 'select',
+            'required' => false,
+            'source' => \Magento\Eav\Model\Entity\Attribute\Source\Table::class,
+            'user_defined' => true,
+            'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+            'sort_order' => 100,
+            'visible' => true,
+            'searchable' => false,
+            'comparable' => false,
+            'filterable' => false,
+            'filterable_in_search' => false,
+            'visible_on_front' => false,
+            'used_in_product_listing' => true,
+            'option' => [
+                'values' => [
+                    'Full Frame DSLR',
+                    'APS-C DSLR',
+                    'Micro Four-Thirds',
+                    'Full Frame Mirrorless',
+                    'APS-C Mirrorless'
+                ]
+            ]
+        ];
+        $eavSetup->addAttribute($entityTypeId, 'type', $attrData);
+        $eavSetup->addAttributeToGroup(
+            $entityTypeId,
+            $attributeSetId,
+            $idGroup,
+            'type'
+        );
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo110(ModuleDataSetupInterface $setup)
+    {
+        /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+        $attributeSetId = $eavSetup->getDefaultAttributeSetId($entityTypeId);
+        $idGroup = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General Information');
+
+        $attrData = [
+            'type' => 'int',
+            'label' => 'Usage',
+            'input' => 'select',
+            'required' => false,
+            'source' => \Magento\Eav\Model\Entity\Attribute\Source\Table::class,
+            'user_defined' => true,
+            'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+            'sort_order' => 100,
+            'visible' => true,
+            'searchable' => false,
+            'comparable' => false,
+            'filterable' => false,
+            'filterable_in_search' => false,
+            'visible_on_front' => false,
+            'used_in_product_listing' => false,
+            'option' => [
+                'values' => [
+                    'Hobby',
+                    'Commercial shooting',
+                    'Racing',
+                ]
+            ]
+        ];
+        $eavSetup->addAttribute($entityTypeId, 'usage', $attrData);
+        $eavSetup->addAttributeToGroup(
+            $entityTypeId,
+            $attributeSetId,
+            $idGroup,
+            'usage'
+        );
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo111(ModuleDataSetupInterface $setup)
+    {
+        /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+        $attributeSetId = $eavSetup->getDefaultAttributeSetId($entityTypeId);
+        $idGroup = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General Information');
+
+        $attrData = [
+            'type' => 'int',
+            'label' => 'Photography type',
+            'input' => 'select',
+            'required' => false,
+            'source' => \Magento\Eav\Model\Entity\Attribute\Source\Table::class,
+            'user_defined' => true,
+            'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+            'sort_order' => 100,
+            'visible' => true,
+            'searchable' => false,
+            'comparable' => false,
+            'filterable' => false,
+            'filterable_in_search' => false,
+            'visible_on_front' => false,
+            'used_in_product_listing' => false,
+            'option' => [
+                'values' => [
+                    'Travel',
+                    'Street',
+                    'Landscape & Ultra-wide',
+                    'Sports & Action',
+                    'Macro',
+                    'Portrait',
+                    'General Use',
+
+                ]
+            ]
+        ];
+        $eavSetup->addAttribute($entityTypeId, 'photography_type', $attrData);
+        $eavSetup->addAttributeToGroup(
+            $entityTypeId,
+            $attributeSetId,
+            $idGroup,
+            'photography_type'
+        );
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo112(ModuleDataSetupInterface $setup)
+    {
+        $entityType = $this->typeFactory->create()->loadByCode(AbstractEntity::ENTITY_TYPE);
+
+        $attributeSet = $this->attributeSetFactory->create();
+        $setCollection = $attributeSet->getResourceCollection()
+            ->addFieldToFilter('entity_type_id', $entityType->getId())
+            ->addFieldToFilter('attribute_set_name', \Ewave\Store\Setup\StoreEntitySetup::ABSTRACT_ENTITY_NAME)
+            ->load();
+        $attributeSet = $setCollection->fetchItem();
+
+        /**
+         * \Ewave\Store\Setup\StoreEntitySetup $storeEntitySetup
+         */
+        $storeEntitySetup = $this->storeEntitySetupFactory->create(['setup' => $setup]);
+
+        $storeEntitySetup->addAttributeToStoreEntity($attributeSet, [
+            'additional_image' => [
+                'type' => 'varchar',
+                'label' => 'Additional Image',
+                'input' => 'image',
+                'backend' => 'Ewave\Store\Model\Store\Attribute\Backend\Image',
+                'required' => false,
+                'sort_order' => 55,
+                'user_defined' => true,
+                'position' => 55,
+                'is_global' => ScopedAttributeInterface::SCOPE_STORE,
+            ],
+        ]);
+
+        $storeEntitySetup->addAttributeToStoreEntity($attributeSet, [
+            'email' => [
+                'type' => 'varchar',
+                'label' => 'Email',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 130,
+                'position' => 130,
+                'user_defined' => true,
+                'is_global' => ScopedAttributeInterface::SCOPE_GLOBAL,
+            ],
+            'fax' => [
+                'type' => 'varchar',
+                'label' => 'Fax',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 140,
+                'position' => 140,
+                'user_defined' => true,
+                'is_global' => ScopedAttributeInterface::SCOPE_GLOBAL,
+            ]
+        ], 'Address');
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo113(ModuleDataSetupInterface $setup)
+    {
+        $entityType = $this->typeFactory->create()->loadByCode(AbstractEntity::ENTITY_TYPE);
+
+        $attributeSet = $this->attributeSetFactory->create();
+        $setCollection = $attributeSet->getResourceCollection()
+            ->addFieldToFilter('entity_type_id', $entityType->getId())
+            ->addFieldToFilter('attribute_set_name', \Ewave\Store\Setup\StoreEntitySetup::ABSTRACT_ENTITY_NAME)
+            ->load();
+        $attributeSet = $setCollection->fetchItem();
+
+        /**
+         * \Ewave\Store\Setup\StoreEntitySetup $storeEntitySetup
+         */
+        $storeEntitySetup = $this->storeEntitySetupFactory->create(['setup' => $setup]);
+
+        $storeEntitySetup->addAttributeToStoreEntity($attributeSet, [
+            'code' => [
+                'type' => 'varchar',
+                'label' => 'Code',
+                'input' => 'select',
+                'backend' => \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend::class,
+                'required' => false,
+                'sort_order' => 54,
+                'visible' => true,
+                'user_defined' => true,
+                'position' => 54,
+                'is_global' => ScopedAttributeInterface::SCOPE_STORE,
+                'source' => \Ewave\MSI\Model\Source\Source::class,
+            ],
+        ]);
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo114(ModuleDataSetupInterface $setup)
+    {
+        /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+        $attributeSetId = $eavSetup->getDefaultAttributeSetId($entityTypeId);
+        $idGroup = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General Information');
+
+        $attrData = [
+            'type' => 'varchar',
+            'label' => 'Model',
+            'input' => 'text',
+            'required' => false,
+            'sort_order' => 90,
+            'position' => 90,
+            'user_defined' => true,
+            'is_global' => ScopedAttributeInterface::SCOPE_GLOBAL,
+            'visible' => true,
+            'searchable' => true,
+            'comparable' => false,
+            'filterable' => false,
+            'filterable_in_search' => false,
+            'visible_on_front' => true,
+            'used_in_product_listing' => false,
+            'used_for_promo_rules' => true,
+            'is_html_allowed_on_front' => true,
+
+        ];
+        $eavSetup->addAttribute($entityTypeId, 'model', $attrData);
+        $eavSetup->addAttributeToGroup(
+            $entityTypeId,
+            $attributeSetId,
+            $idGroup,
+            'model'
+        );
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo115(ModuleDataSetupInterface $setup)
+    {
+        /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+        $attributeSetId = $eavSetup->getDefaultAttributeSetId($entityTypeId);
+        $idGroup = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General Information');
+
+        $attrData = [
+            'type' => 'int',
+            'label' => 'Available for Studio 19',
+            'input' => 'boolean',
+            'source' => \Magento\Eav\Model\Entity\Attribute\Source\Boolean::class,
+            'default' => 0,
+            'required' => false,
+            'user_defined' => true,
+            'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+            'sort_order' => 15,
+            'is_used_in_grid' => true
+        ];
+        $eavSetup->addAttribute($entityTypeId, 'available_for_studio19', $attrData);
+        $eavSetup->addAttributeToGroup(
+            $entityTypeId,
+            $attributeSetId,
+            $idGroup,
+            'available_for_studio19'
+        );
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo116(ModuleDataSetupInterface $setup)
+    {
+        try {
+            $attribute = $this->_productAttributeRepository->get('brand');
+            $attribute->setData('aa_status', \Ewave\AbstractAttributes\Helper\Attribute::STATUS_ENABLED);
+            $this->_productAttributeRepository->save($attribute);
+        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {}
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     *
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function upgradeTo117(ModuleDataSetupInterface $setup)
+    {
+        /** @var CustomerSetup $customerSetup */
+        $customerSetup = $this->customerSetupFactory->create(['setup'=> $setup]);
+        /** @var EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+
+        $attrsData = [
+            'aipp_number' => [
+                'type'      => 'varchar',
+                'label'     => 'AIPP number',
+                'input'     => 'text',
+                'required'  => false,
+                'visible'   => true,
+                'system'    => false,
+                'position'  => 0,
+                'user_defined'          => true,
+                'is_used_in_grid'       => true,
+                'is_visible_in_grid'    => true,
+                'is_filterable_in_grid' => true,
+                'is_searchable_in_grid' => true,
+                'used_in_forms'         => ['customer_account_edit'],
+            ],
+            'is_aipp_verified' => [
+                'type'      => 'int',
+                'label'     => 'AIPP verified',
+                'input'     => 'boolean',
+                'source'    => Boolean::class,
+                'default'   => 0,
+                'required'  => false,
+                'visible'   => false,
+                'system'    => false,
+                'position'  => 0,
+                'user_defined'          => true,
+                'is_used_in_grid'       => true,
+                'is_visible_in_grid'    => true,
+                'is_filterable_in_grid' => true,
+                'is_searchable_in_grid' => true,
+                'used_in_forms'         => [],
+            ],
+        ];
+
+        foreach ($attrsData as $attrCode => $attrData) {
+            $eavSetup->addAttribute(CustomerEntity::ENTITY, $attrCode, $attrData);
+            $eavSetup->updateAttribute(CustomerEntity::ENTITY, $attrCode, 'is_used_for_customer_segment', true);
+            $attribute = $customerSetup->getEavConfig()->getAttribute(CustomerEntity::ENTITY, $attrCode);
+            $attribute->setData('used_in_forms', $attrData['used_in_forms']);
+            $attribute->save();
+        }
     }
 }

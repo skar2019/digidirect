@@ -7,7 +7,8 @@
             "addToCartLabel": "<?php echo $block->escapeHtml($block->getCartLabel()) ?>",
             "isAllProductsPreorder": <?php echo (int)$block->isAllProductsPreorder() ?>,
             "map": <?php /* @escapeNotVerified */ echo json_encode($block->getProductPreorderMap()) ?>,
-            "currentAttributes": <?php /* @escapeNotVerified */ echo json_encode($block->getConfigurableAttributes()) ?>
+            "currentAttributes": <?php /* @escapeNotVerified */ echo json_encode($block->getConfigurableAttributes()) ?>,
+            "addToCartForm": "#product_addtocart_form"
         }
     }
 }

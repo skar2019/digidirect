@@ -2,6 +2,7 @@
 
 namespace Ewave\Collect\Model;
 
+use Ewave\Collect\Api\CollectPlaceRepositoryInterface;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface;
@@ -55,7 +56,8 @@ class StorageHandler
         $this->_storageFactory = $storageFactory;
         $this->_storageConfig = $storageConfig;
         $this->_storageHelper = $storageHelper;
-        $this->eventManager = $eventManager ?: ObjectManager::getInstance()->get(ManagerInterface::class);
+        $objectManager = ObjectManager::getInstance();
+        $this->eventManager = $eventManager ?: $objectManager->get(ManagerInterface::class);
     }
 
     /**
@@ -129,9 +131,15 @@ class StorageHandler
     {
         $collectPlaceResult = [];
         $i = 0;
+        $showUnavailable = $this->_storageHelper->showUnavailablePlaces();
         foreach ($places as $storageName => $collectPlaces) {
             foreach ($collectPlaces as $collectPlace) {
                 if (!$collectPlace->getLatitude() || !$collectPlace->getLongitude()) {
+                    continue;
+                }
+
+                $unavailable = (bool)$collectPlace->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
+                if ($unavailable && !$showUnavailable) {
                     continue;
                 }
 
@@ -147,6 +155,8 @@ class StorageHandler
                     $collectPlaceResult[$i]['collectplace'] = $collectPlace;
                     $collectPlaceResult[$i]['distance'] = $centralDistance;
                     $collectPlaceResult[$i]['collectplace_storage_name'] = $storageName;
+                    $collectPlaceResult[$i]['available'] = !$unavailable;
+                    $collectPlaceResult[$i]['show_availability'] = $showUnavailable;
                 }
                 $i++;
             }
@@ -199,7 +209,8 @@ class StorageHandler
                     } else {
                         $allPlaces = $placesBySku = [];
                         foreach ($skus as $sku) {
-                            $skuPlaces = $placesBySku[$sku] = $storage->getListBySku($sku, $qty);
+                            $skuQty = is_array($qty) ? $qty[$sku] : $qty;
+                            $skuPlaces = $placesBySku[$sku] = $storage->getListBySku($sku, $skuQty);
                             $allPlaces = array_merge($allPlaces, $skuPlaces);
                         }
                         if (method_exists($storage, 'mergePlacesBySku')) {

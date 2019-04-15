@@ -7,6 +7,7 @@ use Ewave\StoreLocator\Component\Serialize;
 use Magento\Store\Model\ScopeInterface;
 use Ewave\StoreLocator\Model\Config\Source\Metric;
 use Magento\Framework\App\Helper\Context;
+use Ewave\Locator\Helper\LocalizationConfig;
 
 /**
  * @since 1.4.0 it extends DefaultConfiguration Helper
@@ -54,6 +55,8 @@ class Config extends DefaultConfiguration
     const XML_PATH_ENTITY_LAYOUT_CONFIGURATION = 'ewave_storelocator_config/dev/entity_layout_mapping';
     const XML_PAT_NAME_HISTORY = 'ewave_storelocator/dev/name_history';
     const XML_PAT_LOAD_ALL_CHILDREN_FOR_PARENT = 'ewave_storelocator_config/dev/load_all_children_for_parent';
+    const XML_PATH_GUESS_STATE = 'ewave_storelocator_config/dev/guess_state';
+    const XML_PATH_GUESS_COUNTRY = 'ewave_storelocator_config/dev/guess_country';
 
     /**
      * @var array
@@ -81,22 +84,30 @@ class Config extends DefaultConfiguration
     protected $layoutById = [];
 
     /**
+     * @var LocalizationConfig
+     */
+    protected $localizationHelper;
+
+    /**
      * Config constructor.
      * @param Context $context
      * @param Metric $metric
      * @param Directory $directory
      * @param Serialize $serialize
+     * @param LocalizationConfig $localizationConfig
      */
     public function __construct(
         Context $context,
         Metric $metric,
         Directory $directory,
-        Serialize $serialize
+        Serialize $serialize,
+        LocalizationConfig $localizationConfig
     ) {
         $this->serialize = $serialize;
         $this->metric = $metric;
         $this->directoryHelper = $directory;
         parent::__construct($context);
+        $this->localizationHelper = $localizationConfig;
     }
 
     /**
@@ -279,7 +290,7 @@ class Config extends DefaultConfiguration
      */
     public function getMetric()
     {
-        return \Ewave\StoreLocator\Model\Config\Source\Metric::LABEL_KM;
+        return $this->localizationHelper->getLengthUnit();
 
         /*$defaultMetricValue = $this->scopeConfig->getValue(
             self::XML_PATH_DEFAULT_METRIC,
@@ -334,7 +345,10 @@ class Config extends DefaultConfiguration
      */
     public function isGroupSearchResultByParentEntity()
     {
-        return $this->scopeConfig->isSetFlag(self::XML_PATH_GROUP_SEARCH_RESULTS_BY_PARENT, ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_GROUP_SEARCH_RESULTS_BY_PARENT,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -408,6 +422,7 @@ class Config extends DefaultConfiguration
      * @param int $entityId
      * @param null $storeId
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getLayoutMapping($entityId, $storeId = null)
     {
@@ -436,12 +451,11 @@ class Config extends DefaultConfiguration
     /**
      * @param int $storeId
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function getMappingAsArray($storeId = null)
     {
         if (empty($this->layoutById)) {
-
-
             $mapping = $this->scopeConfig->getValue(
                 static::XML_PATH_ENTITY_LAYOUT_CONFIGURATION,
                 ScopeInterface::SCOPE_STORE,
@@ -488,5 +502,27 @@ class Config extends DefaultConfiguration
     public function isLoadAllChildrenForParent()
     {
         return $this->scopeConfig->isSetFlag(self::XML_PAT_LOAD_ALL_CHILDREN_FOR_PARENT, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * @return bool
+     */
+    public function guessState()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_GUESS_STATE,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function guessCountry()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_GUESS_COUNTRY,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 }

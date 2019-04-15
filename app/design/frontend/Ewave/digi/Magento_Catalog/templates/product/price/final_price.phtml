@@ -41,16 +41,8 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
         ]); ?>
     </span>
 <?php else: ?>
-    <?php if ($catalogRulePDP = trim($this->getLayout()
-        ->createBlock('Ewave\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage')
-        ->setBlockName('digi_catalog_rule_pdp')
-        ->setTemplate('Ewave_ExtendedCatalogPriceRule::product/view/price_rule.phtml')
-        ->setActualAmount($finalPriceModel->getAmount())
-        ->toHtml())) : ?>
-        <?php echo $catalogRulePDP; ?>
-    <?php endif; ?>
     <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
-        'display_label'     => $catalogRulePDP ? __('Before Cashback') : __(''),
+        'display_label'     => __(''),
         'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
         'price_type'        => 'finalPrice',
         'include_container' => true,

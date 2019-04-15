@@ -48,12 +48,17 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->_createPostInformationTable($setup);
             $this->_upgradeBlogTableForStoreView($setup);
         }
+        if (version_compare($context->getVersion(), '1.0.4', '<')) {
+            $this->createCategoryInformationTable();
+        }
+        if (version_compare($context->getVersion(), '1.0.5', '<')) {
+            $this->deleteColumns();
+        }
         if (version_compare($context->getVersion(), '1.0.6', '<')) {
             $this->modifyCreatedAtFieldInPosts($setup);
             $this->addDateFieldsToCategoriesAndPosts($setup);
         }
 
-        $this->process();
         $setup->endSetup();
     }
 
@@ -157,31 +162,6 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'comment' => 'Comment',
             ]
         );
-    }
-
-    /**
-     * @return UpgradeSchema
-     */
-    protected function process(): self
-    {
-        foreach ($this->callbackByVersion() as $version => $functionName) {
-            if ($this->versionCompare($version)) {
-                $this->$functionName();
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    protected function callbackByVersion()
-    {
-        return [
-            '1.0.4' => 'createCategoryInformationTable',
-            '1.0.5' => 'deleteColumns',
-        ];
     }
 
     /**

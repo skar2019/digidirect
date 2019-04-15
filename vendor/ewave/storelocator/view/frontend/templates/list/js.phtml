@@ -17,7 +17,8 @@ $currentApi = $this->helper('Ewave\StoreLocator\Helper\Config')->getApi();
                     "defaultLocations": <?php /* @escapeNotVerified */ echo $entities ?>,
                     "radius": {
                         "default": <?php echo (int)$block->getDefaultRadius() ?>,
-                        "extensible": <?php /* @escapeNotVerified */ echo $block->getExtendRadius() ?>
+                        "extensible": <?php /* @escapeNotVerified */ echo $block->getExtendRadius() ?>,
+                        "metricType": "<?php /* @escapeNotVerified */ echo $block->getMetric() ?>"
                     },
                     "openInPopup": "<?php echo /* @noEscape */ $isInPopup; ?>"
                 }

@@ -18,7 +18,7 @@
             display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
-            padding: 10px 20px;
+            padding: 19px 20px 10px;
         }
 
         > .container > .title {
@@ -32,11 +32,20 @@
         }
 
         > .container > .content {
-            text-transform: capitalize;
             max-width: 80%;
             margin: 0 10px 0 0;
             font-weight: 300;
             font-size: 20px;
+            padding: 5px 0 10px;
+        }
+
+        > .container .posted,
+        .tags,
+        .description,
+        .date,
+        .comments,
+        .more {
+            width: 100%;
         }
 
         > .image {
@@ -60,7 +69,7 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .post-card {
         > .container {
-            padding: 10px 20px 20px;
+            padding: 20px 30px 20px;
             background: transparent;
         }
 
@@ -95,6 +104,23 @@
 
         > .container {
             padding: 10px 20px 50px 50px;
+        }
+    }
+}
+
+//
+//  Desktop Large
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    .post-card {
+        > .container > .content {
+            .lib-css(color, @color-white);
+            font-size: 30px;
+        }
+
+        > .container {
+            padding: 60px 0 60px 60px;
         }
     }
 }

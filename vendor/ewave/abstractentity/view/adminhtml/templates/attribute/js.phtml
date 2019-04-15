@@ -137,13 +137,18 @@ function switchDefaultValueField()
     setRowVisibility('max_image_heght', show_max_image_heght);
 
     var panel = $('manage-options-panel');
+    var activePanelClass = 'selected-type-options';
+
     if (show_option_panel) {
         $(panel).up().show();
+        jQuery('#manage-options-panel').addClass(activePanelClass);
+
         registry.get('manage-options-panel', function () {
             jQuery('#manage-options-panel').trigger('render');
         });
     } else {
         $(panel).up().hide();
+        jQuery('#manage-options-panel').removeClass(activePanelClass);
     }
 }
 

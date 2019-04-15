@@ -114,4 +114,12 @@ class Integrations extends \Magento\Framework\Model\AbstractModel
     {
         return $this->_rulesRepository->getRulesByIntegrationName($this->getProcessCode());
     }
+
+    /**
+     * @return array
+     */
+    public function getRunOptions()
+    {
+        return (array)$this->getData('run_options');
+    }
 }

@@ -35,30 +35,36 @@ define([
                         mapId: optionId + '-' + option.selectionId,
                         optionId: optionId,
                         selectionId: option.selectionId
-                    }, $place);
+                    }, $place, true);
                 }
             }
 
-            $('.bundle-options-wrapper .radio, .bundle-options-wrapper .bundle-option-select').on('change', function (event) {
+            $('.bundle-options-wrapper .bundle-option-select').on('change', function (event) {
                 var element = event.currentTarget,
                     elementInfo = self._getElementInfo(element),
                     $place = $($(element).parents('.field.option')[0]);
                 self._enableOrDisablePreorder(elementInfo, $place);
             });
 
-            $('.bundle-options-wrapper .checkbox').on('change', function (event) {
+            $('.bundle-options-wrapper .checkbox, .bundle-options-wrapper .radio').on('change', function (event) {
                 var element = event.currentTarget,
                     $place = $($(element).parents('.field.option')[0]),
                     elementInfo = self._getElementInfo(element),
                     isSelect = $(element).is(':checked');
-                self._enableOrDisablePreorderMultiselection(elementInfo, $place, isSelect);
+                if (element.type === 'radio') {
+                    self._enableOrDisablePreorder(elementInfo, $place, isSelect);
+                } else {
+                    self._enableOrDisablePreorderMultiselection(elementInfo, $place, isSelect);
+                }
             });
+
             $('.bundle-options-wrapper .multiselect').on('change', function (event) {
                 var element = event.currentTarget,
                     $element = $(element),
                     $place = $($element.parents('.field.option')[0]),
                     elementInfo = self._getElementInfo(element),
                     isSelect;
+
                 $.each($element.find('option'), function (key, option) {
                     isSelect = false;
                     elementInfo.selectionId = $(option).val();
@@ -101,7 +107,7 @@ define([
             return elementInfo;
         },
 
-        _enableOrDisablePreorder: function (elementInfo, $place) {
+        _enableOrDisablePreorder: function (elementInfo, $place, isNeedEnable) {
             var $container = $('#bundle-option-' + elementInfo.optionId + '-preorder-note'),
                 counter = 0;
             if (this.options.map[elementInfo.mapId]) {
@@ -111,7 +117,9 @@ define([
                     $container.html(this.options.map[elementInfo.mapId].note);
                 }
                 this.options.checkedElements[elementInfo.optionId] = true;
-                this.enable();
+                if (isNeedEnable) {
+                    this.enable();
+                }
             } else {
                 if ($container.length > 0) {
                     $container.html('');

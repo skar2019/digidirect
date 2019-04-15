@@ -15,7 +15,7 @@ const PRODUCT_TILE_TYPES = [
 ];
 
 $.widget('ewave.productTile', {
-    version: '0.0.1',
+    version: '0.0.2',
     options: {
         type: 'default',
         slickConfig: {
@@ -26,17 +26,18 @@ $.widget('ewave.productTile', {
             arrows: false,
             responsive: [
                 {
+                    breakpoint: 767,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 3
+                    }
+                },
+                {
                     breakpoint: 1024,
                     settings: {
                         slidesToShow: 4,
                         slidesToScroll: 4,
                         arrows: true
-                    }
-                }, {
-                    breakpoint: 767,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
                     }
                 },
                 {
@@ -53,7 +54,8 @@ $.widget('ewave.productTile', {
         isTruncateProductsName: true,
         truncateCollectionConfig: {},
         slickFilterConfig: {},
-        addToCartFormSelector: '[data-role=tocart-form]'
+        addToCartFormSelector: '[data-role=tocart-form]',
+        catalogPriceRuleModalTriggerSelector: '[data-rule-id]'
     },
     _create() {
         if (!this._checkProductTileType()) {
@@ -76,9 +78,10 @@ $.widget('ewave.productTile', {
         return PRODUCT_TILE_TYPES.indexOf(this.options.type) !== -1;
     },
     initSlider() {
-        require(['jquery', 'jquery/ui', 'slickInit'], ($) => {
+        require(['jquery', 'jquery/ui', 'slickInit', 'catalogPriceRuleModal'], ($) => {
             $(this.element).on('init', () => {
                 this.initAsyncAddToCart()
+                    .initPriceRuleModal()
                     .truncateProductsName();
             }).slickInit(this.options.slickConfig);
         });
@@ -86,9 +89,10 @@ $.widget('ewave.productTile', {
         return this;
     },
     initFilteredSlider() {
-        require(['jquery', 'jquery/ui', 'slickFilter'], ($) => {
+        require(['jquery', 'jquery/ui', 'slickFilter', 'catalogPriceRuleModal'], ($) => {
             $(this.element).on('init', () => {
                 this.initAsyncAddToCart()
+                    .initPriceRuleModal()
                     .truncateProductsName();
             }).slickFilterInit(this.options.slickFilterConfig);
         });
@@ -100,6 +104,18 @@ $.widget('ewave.productTile', {
             return this;
         }
         this.element.find(this.options.addToCartFormSelector).catalogAddToCart();
+
+        return this;
+    },
+    initPriceRuleModal() {
+        let currentTriggerElement = this.element.find(this.options.catalogPriceRuleModalTriggerSelector).first(),
+            ruleId = currentTriggerElement.data('rule-id');
+
+        if (ruleId) {
+            currentTriggerElement.catalogPriceRuleModal({
+                'ruleId': currentTriggerElement.data('rule-id')
+            });
+        }
 
         return this;
     },

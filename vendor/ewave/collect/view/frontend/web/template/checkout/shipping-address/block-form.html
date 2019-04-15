@@ -38,8 +38,8 @@
 <!-- ko if: collectPlaceRows().length > 0 -->
     <ul class="place-rows items" data-bind="foreach: { data: collectPlaceRows, as: 'row'}">
         <li class="item">
-            <input type="radio" name="collect_place_id" data-bind="click: $parent.updateStorageName.bind($parent, row.collectplace.id), attr: {'id': row.collectplace.id, 'value': row.collectplace.id, 'data-collectplace-storage-name': row.collectplace_storage_name}"/>
-            <label data-bind="attr: {'for': row.collectplace.id}, text: row.collectplace.name + '(' + row.distance + ')'"></label>
+            <input type="radio" name="collect_place_id" data-bind="click: $parent.updateStorageName.bind($parent, row.collectplace.id), attr: {'id': row.collectplace.id, 'value': row.collectplace.id, 'data-collectplace-storage-name': row.collectplace_storage_name, 'disabled': !row.available}"/>
+            <label data-bind="attr: {'for': row.collectplace.id}, text: row.collectplace.name + ' (' + row.distance + (row.length_unit ? row.length_unit : '') + ') ' + (row.show_availability ? (row.available ? $t('Available in store') : $t('Unavailable in store')) : '')"></label>
         </li>
     </ul>
 <!-- /ko -->

@@ -251,3 +251,8 @@
     * queue. added setting `Generate Run On Error Every (for Pending Depends)`. for queue depends default interval is 900s, for other cases default interval from now is 300s.
     * queue. added setting `Number of Runs On Error (Per Integration Process)`. it will override setting `Number of Runs On Error` if specified for process.
     * queue. added method getActiveQueueItemIdByProcessCodeAndProcessData.
+
+1.15.3
+=============
+* Bugfixes:
+    * [#293198](https://ewave.tpondemand.com/entity/293198) -- Product Import. Label is not imported for the image with 'Alternative' role

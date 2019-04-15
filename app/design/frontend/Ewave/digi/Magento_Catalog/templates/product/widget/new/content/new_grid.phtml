@@ -55,11 +55,10 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                             $productUrl = $block->getProductUrl($_item);
                             if ($_productOverlayHelper) {
                                 $productOverlaysHtml = $_productOverlayHelper->renderProductOverlay($_item);
-
                             }
                         ?>
                         <div class="product-item">
-                            <div class="product-item-info">
+                            <div class="product-item-info" data-parent-product-id="<?= $_item->getId(); ?>">
                                 <a href="<?php echo $block->escapeUrl($productUrl); ?>"
                                    class="product photo product-item-photo"
                                    title="<?= /* @escapeNotVerified */ $block->escapeHtml($productName); ?>">
@@ -92,7 +91,11 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                     <div class="actions-primary">
                                                         <?php if ($_item->isSaleable()): ?>
                                                             <?php $addToCartUrl = $block->getAddToCartUrl($_item); ?>
-                                                            <form data-role="tocart-form" data-mage-init='{"validation": {}}' action="<?= $block->escapeUrl($addToCartUrl); ?>" method="post">
+                                                            <form data-role="tocart-form"
+                                                                  data-product-sku="<?=  /* @escapeNotVerified */ $_item->getSku(); ?>"
+                                                                  data-mage-init='{"validation": {}}'
+                                                                  action="<?= $block->escapeUrl($addToCartUrl); ?>"
+                                                                  method="post">
                                                                 <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
                                                                 <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
                                                                 <?php echo $block->getBlockHtml('formkey')?>
@@ -104,6 +107,26 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                                     <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
                                                                 </button>
                                                             </form>
+                                                            <?php
+                                                                $outOfStockNotifHelper = $this->helper(\Ewave\OutOfStockNotif\Helper\Data::class);
+                                                                $isNotificationForBackorder = $outOfStockNotifHelper->isEnabledForBackorder();
+                                                                $isBackOrderAllow = $outOfStockNotifHelper->isBackOrderAllow($_item);
+                                                            ?>
+                                                            <?php if ($isNotificationForBackorder && $isBackOrderAllow) : ?>
+                                                                <script type="text/x-magento-init">
+                                                                    {
+                                                                        "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']": {
+                                                                            "outstockNotification": {
+                                                                                "modal": false,
+                                                                                "notificationForBackorder": 1,
+                                                                                "isBackorderProduct": true,
+                                                                                "backorderButtonLabel": "<?= /* @escapeNotVerified */ __('Back-order'); ?>",
+                                                                                "addToCartFormSelector": "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                </script>
+                                                            <?php endif; ?>
                                                         <?php else: ?>
                                                             <?php if ($_item->getIsSalable()): ?>
                                                                 <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
@@ -143,7 +166,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
                                                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-quick"></use>
                                                         </svg>
-                                                        <?= $block->escapeHtml($quickViewLabel); ?>
+                                                        <span class="title"><?= $block->escapeHtml($quickViewLabel); ?></span>
                                                     </span>
                                                 <?php endif; ?>
                                             </div>
@@ -151,12 +174,13 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                         <?php echo $this->getLayout()
                                             ->createBlock('Magento\Cms\Block\Block')
                                             ->setBlockId('product-tile-rent')
-                                            ->toHtml(); ?>
+                                            ->toHtml();
+                                        ?>
                                     </div>
                                 </div>                        
                             </div>
                         </div>
-                    <?php endforeach ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>

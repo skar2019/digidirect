@@ -70,7 +70,7 @@ class Processor implements ProcessorInterface
                     /** @var \DOMNode $node */
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
-                            $resultHtml .= $node->C14N();
+                            $resultHtml .= $node->ownerDocument->saveHTML($node);
                         }
                     }
                 }

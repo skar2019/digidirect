@@ -119,7 +119,9 @@ class Getplaces extends AbstractAction
         if ($quoteItemId) {
             $quoteItem = $this->_checkoutSession->getQuote()->getItemById($quoteItemId);
             if ($quoteItem) {
-                $result[] = $quoteItem->getSku();
+                $skuToQty = $this->_collectHelper->getSkuToQtyByItems([$quoteItem]);
+                $result = array_keys($skuToQty);
+                $this->getRequest()->setParam('collect_qty', $skuToQty);
             }
         } elseif ($productId) {
             try {
@@ -130,9 +132,9 @@ class Getplaces extends AbstractAction
             }
         } else {
             $quoteItems = $this->_checkoutSession->getQuote()->getAllVisibleItems();
-            foreach ($quoteItems as $quoteItem) {
-                $result[] = $quoteItem->getSku();
-            }
+            $skuToQty = $this->_collectHelper->getSkuToQtyByItems($quoteItems);
+            $result = array_keys($skuToQty);
+            $this->getRequest()->setParam('collect_qty', $skuToQty);
         }
 
         if (empty($result)) {

@@ -7,6 +7,7 @@
             <module name="Magento_CatalogRule"/>
             <module name="Magento_CatalogRuleStaging"/>
             <module name="Magento_CatalogRuleConfigurable"/>
+            <module name="Magento_Catalog"/>
         </sequence>
     </module>
 </config>

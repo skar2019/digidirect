@@ -73,3 +73,8 @@
     * [#282161](https://ewave.tpondemand.com/entity/282161) -- [VANILLADEMO][Product Finder] Redirection to the 404 "page not found" in case page is created with widget
     * [#283282](https://ewave.tpondemand.com/entity/283282) -- [MARKETPLACE][Product Finder][M2.1] There are no 'New Field Group' button on finder edit page
     * [#283321](https://ewave.tpondemand.com/entity/283321) -- [MARKETPLACE][Product Finder][M2.1] 500 error is shown if user click on Product Finder Button
+
+1.6.0
+=============
+* New features:
+    * [#294069](https://ewave.tpondemand.com/entity/294069) -- [Extended Catalog Price Rule] As a customer, I want to be able to use 'Display a message' Catalog Price Rule on Product Calculator results

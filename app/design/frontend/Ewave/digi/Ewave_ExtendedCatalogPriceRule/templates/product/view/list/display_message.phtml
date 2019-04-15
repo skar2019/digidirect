@@ -1,14 +1,16 @@
 <?php
     /** @var \Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule $block */
-
-    $product = $block->getParentBlock()->getProduct();
-    $productType = $product->getTypeId();
+    $_parentBlock = $block->getParentBlock();
+    if (!($product = $block->getProduct()) && $_parentBlock) {
+        $product = $_parentBlock->getProduct();
+    }
+    $productId = $product->getId();
+    $productRules = $block->getProductRules($product);
 ?>
-
-<?php if ($product && $product->hasData('show_msg_extended_rule')) : ?>
-    <?php foreach ($product->getData('show_msg_extended_rule') as $rule): ?>
+<?php if ($product && $productRules) : ?>
+    <?php foreach ($productRules as $rule): ?>
         <?php
-        $id = 'rule-' . $rule['rule_id'] . '-' . $product->getId();
+        $id = 'rule-' . $rule['rule_id'] . '-' . $productId;
         $priceClass = (!empty($rule['action_amount'])) ? '-cashback' : '';
         $productPrice = (float) $product->getPrice();
         $productFinalPrice = (float) $product->getFinalPrice();
@@ -20,7 +22,7 @@
         ?>
 
         <div class="block-extendedrule <?= /* @noEscape */ $priceClass?>" id="<?= /* @noEscape */ $id ?>">
-            <div class="name" data-mage-init='{"catalogPriceRuleModal": {"ruleId": "<?= /* @noEscape */ 'rule-' . $rule['rule_id']; ?>"}}'>
+            <div class="name" data-rule-id="<?= /* @noEscape */ 'rule-' . $rule['rule_id']; ?>" data-mage-init='{"catalogPriceRuleModal": {"ruleId": "<?= /* @noEscape */ 'rule-' . $rule['rule_id']; ?>"}}'>
                 <?php if(!empty($rule['plp_label'])): ?>
                     <?= $block->escapeHtml($rule['plp_label']); ?>
                 <?php endif; ?>
@@ -34,6 +36,7 @@
                 $afterLabel = __('After Cashback');
                 $afterClass = 'after-cashback';
                 $afterPrice = 0;
+                $productType = $product->getTypeId();
                 switch ($productType) {
                     case Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
                         $fromLabel = __('From');
@@ -45,7 +48,10 @@
                         break;
                     case Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE:
                         $fromLabel = __('Starting at');
-                        $fromPrice = $product->getMinimalPrice();
+                        $fromPrice = 0;
+                        if ($_parentBlock && $productPrice = $_parentBlock->getProductPrice($product)) {
+                            $fromPrice = $productPrice;
+                        }
                         $fromClass = 'price-from';
                         $afterLabel = __('Cashback available');
                         $afterPrice = false;
@@ -63,6 +69,8 @@
                             <?php endif; ?>
                             <?php if (is_numeric($fromPrice)): ?>
                                 <span class="price-wrapper"><span class="price"><?= /* @noEscape */ $block->formatDiscountAmount($fromPrice); ?></span></span>
+                            <?php elseif ($fromPrice): ?>
+                                <?= /* @noEscape */ $fromPrice; ?>
                             <?php endif; ?>
                         </span>
                         <span class="<?= /* @escapeNotVerified */ $afterClass; ?>">

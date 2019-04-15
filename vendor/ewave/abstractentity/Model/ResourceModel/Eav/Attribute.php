@@ -44,4 +44,35 @@ class Attribute extends \Magento\Catalog\Model\ResourceModel\Eav\Attribute
         $model = $this->getData('source_model') ?: $model;
         return parent::setSourceModel($model);
     }
+
+    /**
+     * Resolve conflict between 'default_value' column
+     * from 'eav_attribute' and 'ewave_abstractentity_eav_attribute' tables.
+     * @return $this
+     */
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        return $this->setDefaultValue($this->loadDefaultValue());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function loadDefaultValue()
+    {
+        $attributeId = $this->getAttributeId();
+
+        if ($this->_resource && $attributeId) {
+            $connection = $this->_resource->getConnection();
+
+            $select = $connection->select()
+                ->from($connection->getTableName('eav_attribute'), ['default_value'])
+                ->where('attribute_id = ?', $attributeId);
+            $defaultValue = $connection->fetchOne($select);
+
+            return $defaultValue ?: $this->getDefaultValue();
+        }
+        return $this->getDefaultValue();
+    }
 }

@@ -5,6 +5,7 @@
         <referenceBlock name="checkout.cart.crosssell">
             <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="tocart.form"
                    as="tocart_form"/>
+            <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="product_details_before_price_crosssell"/>
         </referenceBlock>
     </body>
 </page>

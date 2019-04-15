@@ -4,6 +4,8 @@
         <carriers>
             <collect>
                 <active>0</active>
+                <active_on_pdp>1</active_on_pdp>
+                <active_on_cart>1</active_on_cart>
                 <active_on_checkout>0</active_on_checkout>
                 <title>Click and Collect</title>
                 <enable_single_store_in_cart_restriction>0</enable_single_store_in_cart_restriction>

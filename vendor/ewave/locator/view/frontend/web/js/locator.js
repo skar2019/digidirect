@@ -46,7 +46,9 @@ define([
                 default: 25,
                 extensible: false,
                 allMarkers: false,
-                settings: {}
+                settings: {},
+                conversionConstant: 1.609344,
+                metricType: 'km'
             },
             infoBox: {
                 template: infoBoxTmpl,
@@ -59,6 +61,7 @@ define([
         _create: function () {
             this.isLoad = false;
             this.isIgnoreRadius = false;
+            this.isMarkerClusterReady = false;
             this.list = [];
 
             if (window.ewaveGoogleMapsUrl || this.options.google.key) {
@@ -194,15 +197,24 @@ define([
                 search: term, // TODO: param must be searchTerm, leave for now for backward compatibility
                 latitude: location.lat(),
                 longitude: location.lng(),
-                radius: $(this.options.search.radius).val()
+                radius: this.getConvertedDistance()
             };
+        },
+
+        getConvertedDistance: function (data) {
+            var distance = data || $(this.options.search.radius).val();
+            return this.options.radius.metricType === 'km' ? distance : distance * this.options.radius.conversionConstant;
         },
 
         sendRequest: function ($form, term, location) {
             var self = this,
                 defaultParams = this._getDefaultSearchParams($form, term, location),
                 formData = $form.serializeArray().reduce(function (res, v) {
-                    res[v.name] = v.value;
+                    if (v.name === 'radius') {
+                        v.name = self.getConvertedDistance(v.value);
+                    } else {
+                        res[v.name] = v.value;
+                    }
                     return res;
                 }, defaultParams);
 
@@ -346,7 +358,7 @@ define([
          * @returns {number}
          */
         convertRadius: function (radius) {
-            return radius * 1000;
+            return this.options.radius.metricType === 'km' ? radius * 1000 : radius * 1000 * this.options.radius.conversionConstant;
         },
         extendRadius: function (markers) {
             var $radius = $(this.options.search.radius),
@@ -400,20 +412,23 @@ define([
         },
         loadMarkerClustering: function () {
             if (this.options.marker.useClustering) {
-                require(['markerClustering'], function () {
+                require(['markerClustering'], function (MarkerClusterer) {
                     this.isMarkerClusterReady = true;
-                    this.initMarkerClustering();
-                }.bind(this));
+                    this.clusterJS = MarkerClusterer;
+                    this.initMarkerClustering(this.clusterJS);
+                }.bind(this), function () {
+                    console.error('Failed to load Marker Clustering');
+                });
             }
         },
-        initMarkerClustering: function () {
+        initMarkerClustering: function (MarkerClusterer) {
             if (this.options.marker.useClustering) {
                 this.markerCluster = new MarkerClusterer(this.map, this.markers, this.options.marker.clusteringOptions);
             }
         },
         setMarkerClustering: function () {
             if (this.isMarkerClusterReady) {
-                this.initMarkerClustering();
+                this.initMarkerClustering(this.clusterJS);
             } else {
                 this.loadMarkerClustering();
             }

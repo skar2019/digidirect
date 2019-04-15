@@ -133,6 +133,16 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>If set up to "Yes" - all children will be added to child items list</comment>
                 </field>
+                <field id="guess_state" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Replace short codes in a query to full state name</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If you store short states codes(CA, NSW) - do not use this functionality</comment>
+                </field>
+                <field id="guess_country" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Replace full country name with country code</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If customer looks for Australia query will be modified to AU</comment>
+                </field>
             </group>
             <resource>Ewave_Locator::ewave_config</resource>
         </section>

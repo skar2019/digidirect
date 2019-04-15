@@ -3,8 +3,11 @@ namespace Ewave\Collect\Model;
 
 use Ewave\Collect\Api\ApplyCollectPlaceInterface;
 use Ewave\Collect\Api\Data\CollectPlaceInterface;
+use Ewave\Collect\Model\AddToCart\CollectException;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\App\ObjectManager;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -24,21 +27,30 @@ class ApplyCollectPlace extends AbstractApplyShippingVariation implements ApplyC
     protected $jsonSerializer;
 
     /**
+     * @var EventManagerInterface
+     */
+    protected $eventManager;
+
+    /**
      * ApplyCollectPlace constructor.
      * @param Session $session
      * @param StorageHandler $storageHandler
      * @param LoggerInterface $logger
      * @param Json $jsonSerializer
+     * @param EventManagerInterface|null $eventManager
      */
     public function __construct(
         Session $session,
         StorageHandler $storageHandler,
         LoggerInterface $logger,
-        Json $jsonSerializer
+        Json $jsonSerializer,
+        EventManagerInterface $eventManager = null
     ) {
         parent::__construct($session, $logger);
         $this->storageHandler = $storageHandler;
         $this->jsonSerializer = $jsonSerializer;
+        $objectManager = ObjectManager::getInstance();
+        $this->eventManager = $eventManager ?: $objectManager->get(EventManagerInterface::class);
     }
 
     /**
@@ -53,6 +65,14 @@ class ApplyCollectPlace extends AbstractApplyShippingVariation implements ApplyC
         } catch (\Exception $e) {
             return false;
         }
+
+        $this->eventManager->dispatch(
+            'ewave_collect_before_apply_collect_place_to_items',
+            [
+                'quote_items' => $this->checkoutSession->getQuote()->getAllVisibleItems(),
+                'collect_place' => $collectPlace
+            ]
+        );
 
         $items = $this->applyCollectParamsToAllItems($collectPlaceId, $storageName);
         if (!$items) {

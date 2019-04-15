@@ -169,3 +169,9 @@
 =============
 * Bugfixes:
     * [#284059](https://ewave.tpondemand.com/entity/284059) -- [Free Gift]: User is NOT redirected to cart, able to complete checkout (free gift is not added to cart)
+
+1.10.4
+=============
+* Bugfixes:
+    * [#295252](https://ewave.tpondemand.com/entity/295252) -- [Project: DigiDirect] Promo item's label and name are displayed for all products while it is applied for particular product
+

@@ -1,0 +1,36 @@
+<div class="locator-item locator-details item"
+     data-bind="css: { 'medium-4 column': $parents[2].locations.settings().open_in_popup }">
+    <div class="details">
+        <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>
+            </svg>
+        </span>
+        <span class="name"><!-- ko text: name --><!-- /ko --></span>
+    </div>
+    <div class="item -address">
+        <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-building"></use>
+            </svg>
+        </span>
+        <address class="address">
+            <!-- ko text: street --><!-- /ko -->,
+            <!-- ko text: city --><!-- /ko -->
+            <!-- ko text: state --><!-- /ko -->
+            <!-- ko text: postcode --><!-- /ko -->
+        </address>
+    </div>
+    <div class="item -hours">
+        <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-clock"></use>
+            </svg>
+        </span>
+        <div class="open-hours collapsible-table"
+             data-bind="mageInit:{'Ewave_CollectStoreLocator/js/collapsible-table':{}}, html: opening_hours"></div>
+    </div>
+    <!-- ko foreach: $parent.getRegion('itemEnd') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!-- /ko -->
+</div>

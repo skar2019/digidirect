@@ -160,3 +160,19 @@
 =============
 * Improvements:
     * [PHP 7.1] As a system, I want the following extensions to be compatible with PHP 7.1
+
+3.1.2
+=============
+* Bugfixes:
+    * [#224343](https://ewave.tpondemand.com/entity/224343) -- AE: Option list: Wrong qty in the "show per page" dropdown
+    * [#287604](https://ewave.tpondemand.com/entity/287604) -- [Project: Neverfail]External Invoice Settings not visible in Backend
+
+3.1.3
+=============
+* Bugfixes:
+    * [#292152](https://ewave.tpondemand.com/entity/292152) -- [Project: Rip Curl][Back-office][Abstract Entity Attributes] Added options are not saved for the attribute with input type 'drop-down list'
+
+3.1.4
+=============
+* Bugfixes:
+    * [#296393](https://ewave.tpondemand.com/entity/296393) -- backend_model is empty in case attribute input type is multiselect

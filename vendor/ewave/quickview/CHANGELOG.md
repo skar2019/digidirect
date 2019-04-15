@@ -39,3 +39,9 @@
 =============
 * Bugfixes:
     * [#284384](https://ewave.tpondemand.com/entity/284384) -- [Quick View] Popup opens with an error
+
+1.2.4
+=============
+* Bugfixes:
+    * [#285285](https://ewave.tpondemand.com/entity/285285) -- [Quick View] JS error when quick view popup opens
+    * [#291798](https://ewave.tpondemand.com/entity/291798) -- [PROJECT: DigiDirect][Quick view] Big empty area between products and footer content during page load

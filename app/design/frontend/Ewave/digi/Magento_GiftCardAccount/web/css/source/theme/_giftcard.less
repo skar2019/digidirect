@@ -1,0 +1,89 @@
+//
+//  Gift Card Account: Gift Card
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@gift-card-account-gift-card-button-check__width__m: 160px;
+@gift-card-account-gift-card-fieldset-code__width__l: 420px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .giftcard-account {
+        .fieldset {
+            margin-bottom: 22px;
+        }
+    }
+}
+
+//
+//  Tablet
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .giftcard-account {
+        .actions-toolbar > .secondary {
+            display: block;
+            float: none;
+        }
+
+        .action.check {
+            .lib-button-m();
+            margin-top: 25px;
+        }
+    }
+
+    .wrap-content {
+        & {
+            .lib-vendor-prefix-display();
+        }
+
+        .fieldset {
+            .lib-vendor-prefix-flex-grow(1);
+            .lib-vendor-prefix-flex-shrink();
+            .lib-vendor-prefix-flex-basis();
+            margin-bottom: 0;
+        }
+
+        .actions-toolbar {
+            .lib-vendor-prefix-flex-grow();
+            .lib-vendor-prefix-flex-shrink();
+            .lib-vendor-prefix-flex-basis(@gift-card-account-gift-card-button-check__width__m);
+            margin-left: 20px;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .giftcard-account {
+        & {
+            height: 100%;
+        }
+
+        .action.check {
+            .lib-button-xl();
+            line-height: 1.6rem;
+            margin-top: 26px;
+        }
+    }
+
+    .wrap-content {
+        .fieldset {
+            .lib-vendor-prefix-flex-grow();
+            .lib-vendor-prefix-flex-basis(@gift-card-account-gift-card-fieldset-code__width__l);
+        }
+
+        .actions-toolbar {
+            margin-left: 10px;
+        }
+    }
+}

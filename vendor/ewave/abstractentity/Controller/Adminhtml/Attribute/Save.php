@@ -4,9 +4,46 @@ namespace Ewave\AbstractEntity\Controller\Adminhtml\Attribute;
 use Ewave\AbstractEntity\Controller\Adminhtml\Attribute as AttributeController;
 use Magento\Eav\Model\Entity\Attribute\Source\Table as SourceTable;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Registry;
+use Magento\Eav\Model\Config\Proxy as EavConfigProxy;
+use Ewave\AbstractEntity\Model\ResourceModel\Eav\AttributeFactory as EavAttributeFactory;
+use Magento\CustomAttributeManagement\Helper\Data as AttributeHelper;
+use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\App\ObjectManager;
 
+/**
+ * Class Save
+ * @package Ewave\AbstractEntity\Controller\Adminhtml\Attribute
+ */
 class Save extends AttributeController
 {
+    /**
+     * @var Json
+     */
+    private $serializer;
+
+    /**
+     * Save constructor.
+     * @param Context $context
+     * @param Registry $coreRegistry
+     * @param EavConfigProxy $eavConfig
+     * @param EavAttributeFactory $eavAttributeFactory
+     * @param AttributeHelper $attributeHelper
+     * @param Json|null $serializer
+     */
+    public function __construct(
+        Context $context,
+        Registry $coreRegistry,
+        EavConfigProxy $eavConfig,
+        EavAttributeFactory $eavAttributeFactory,
+        AttributeHelper $attributeHelper,
+        Json $serializer = null
+    ) {
+        parent::__construct($context, $coreRegistry, $eavConfig, $eavAttributeFactory, $attributeHelper);
+        $this->serializer = $serializer ?: ObjectManager::getInstance()->get(Json::class);
+    }
+
     /**
      * Save attribute action
      *
@@ -18,6 +55,22 @@ class Save extends AttributeController
     public function execute()
     {
         $data = $this->getRequest()->getPostValue();
+
+        try {
+            $optionData = $this->unserializeFormData(
+                $this->getRequest()->getParam('serialized_options', '[]')
+            );
+        } catch (\InvalidArgumentException $e) {
+            $this->messageManager->addErrorMessage(
+                __('Error with Attribute Options occurred: %1', $e->getMessage())
+            );
+            $this->_redirect('*/*/edit', ['_current' => true]);
+            return;
+        }
+        if (!empty($optionData)) {
+            $data = array_replace_recursive($data, $optionData);
+        }
+
         if ($this->getRequest()->isPost() && $data) {
             $attributeObject = $this->_initAttribute();
             try {
@@ -49,21 +102,20 @@ class Save extends AttributeController
             } else {
                 if ($sourceModel = trim($data['source_model'])) {
                     $data['source_model'] = $sourceModel;
-                    $data['backend_model'] = '';
                 } else {
                     $data['source_model'] = $this->_attributeHelper->getAttributeSourceModelByInputType(
                         $data['frontend_input']
                     );
-                    $data['backend_model'] = $this->_attributeHelper->getAttributeBackendModelByInputType(
-                        $data['frontend_input']
-                    );
                 }
+                $data['backend_model'] = $this->_attributeHelper->getAttributeBackendModelByInputType(
+                    $data['frontend_input']
+                );
                 $data['backend_type'] = $this->_attributeHelper->getAttributeBackendTypeByInputType(
                     $data['frontend_input']
                 );
 
                 if ($data['frontend_input'] == 'image') {
-                    $data['backend_model'] = \Ewave\Store\Model\Store\Attribute\Backend\Image::class;
+                    $data['backend_model'] = \Ewave\AbstractEntity\Model\AbstractEntity\Attribute\Backend\Image::class;
                 }
 
                 $data['entity_type_id'] = $this->_getEntityType()->getEntityTypeId();
@@ -80,9 +132,7 @@ class Save extends AttributeController
             }
 
             $defaultValueField = $this->_attributeHelper->getAttributeDefaultValueByInput($data['frontend_input']);
-            if ($defaultValueField) {
-                $data['default_value'] = $this->getRequest()->getParam($defaultValueField);
-            }
+            $data['default_value'] = $this->getRequest()->getParam($defaultValueField);
 
             $data['validate_rules'] = $this->_attributeHelper->getAttributeValidateRules(
                 $data['frontend_input'],
@@ -135,5 +185,30 @@ class Save extends AttributeController
         }
         $this->_redirect('*/*/');
         return;
+    }
+
+    /**
+     * Provides form data from the serialized data.
+     *
+     * @param string $serializedData
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    public function unserializeFormData($serializedData)
+    {
+        $encodedFields = $this->serializer->unserialize($serializedData);
+
+        if (!is_array($encodedFields)) {
+            throw new \InvalidArgumentException('Unable to unserialize value.');
+        }
+
+        $formData = [];
+        foreach ($encodedFields as $item) {
+            $decodedFieldData = [];
+            parse_str($item, $decodedFieldData);
+            $formData = array_replace_recursive($formData, $decodedFieldData);
+        }
+
+        return $formData;
     }
 }

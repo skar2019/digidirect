@@ -93,6 +93,7 @@
             .ewave-lib-box-align(space-between);
             .lib-vendor-box-align(flex-end);
             width: 100%;
+            min-height: 33px;
         }
 
         .price-box .price {
@@ -183,6 +184,10 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .product-item {
+        .price-box {
+            min-height: 36px;
+        }
+
         .price-box .price-label {
             .lib-font-size(9);
         }
@@ -209,6 +214,10 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .product-item {
+        .price-box {
+            min-height: 37px;
+        }
+
         .price-box .price-label {
             .lib-font-size(10);
         }

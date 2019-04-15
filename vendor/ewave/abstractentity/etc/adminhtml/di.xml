@@ -78,4 +78,10 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Ewave\AbstractEntity\Model\ResourceModel\Eav\Attribute">
+        <arguments>
+            <argument name="resource" xsi:type="object">Magento\Eav\Model\ResourceModel\Entity\Attribute</argument>
+        </arguments>
+    </type>
 </config>

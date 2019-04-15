@@ -4,9 +4,11 @@
     <body>
         <referenceBlock name="catalog.product.related">
             <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="tocart.form" as="tocart_form"/>
+            <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="product_details_before_price_related"/>
         </referenceBlock>
         <referenceBlock name="product.info.upsell">
             <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="tocart.form" as="tocart_form"/>
+            <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="product_details_before_price_upsell"/>
         </referenceBlock>
     </body>
 </page>

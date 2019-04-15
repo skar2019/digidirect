@@ -7,6 +7,7 @@ module.exports = {
             'css/styles-m',
             'css/styles-l',
             'css/fonts',
+            'css/print',
             'mage/gallery/gallery'
         ],
         dsl: 'less'

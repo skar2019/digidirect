@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Ewave_Faq
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ewave_faq" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>FAQ</label>
+            <tab>ewave</tab>
+            <resource>Ewave_Faq::config_ewave_faq</resource>
+            <group id="general" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="faq_enabled" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable FAQ</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="faq_page_url" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>FAQ page URL</label>
+                    <comment>A website-relative value. Example: "faq".</comment>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="faq_per_page" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Questions per page</label>
+                    <comment>If the value is empty or 0, default will be 20.</comment>
+                </field>
+                <field id="faq_tag_enable" translate="label comment" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Tags</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="faq_search_enable" translate="label comment" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Search</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="faq_meta_title" translate="label" type="textarea" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Title</label>
+                </field>
+                <field id="faq_meta_description" translate="label" type="textarea" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Description</label>
+                </field>
+                <field id="ajax_category" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable ajax for FAQ Categories</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="customer_questions" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="100" translate="label">
+                <label>Customers Questions</label>
+                <field showInDefault="1" showInWebsite="1" showInStore="1" translate="label" sortOrder="1" id="enabled" type="select">
+                    <label>Enable Customer Question</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field showInDefault="1" showInWebsite="1" showInStore="1" translate="label" sortOrder="1" id="category_id" type="select">
+                    <label>Customers' questions category</label>
+                    <source_model>Ewave\Faq\Model\Config\Source\FaqCategory</source_model>
+                </field>
+            </group>
+            <group id="notification" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="100" translate="label">
+                <label>Notification Settings</label>
+                <field showInDefault="1" showInWebsite="1" showInStore="1" translate="label" sortOrder="1" id="receiver" type="text">
+                    <label>Receiver</label>
+                    <tooltip>Comma is a separator</tooltip>
+                </field>
+                <field id="template" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Admin Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+                <field id="sender" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Email Sender</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Identity</source_model>
+                </field>
+                <field id="customer_answer_template" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Customer Email Template</label>
+                    <source_model>Magento\Config\Model\Config\Source\Email\Template</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,10 @@
+<div data-role="paypal-newsletters" class="checkout-newsletters" <?= $block->escapeHtml(__($block->isHidden())) ?> >
+    <div class="field choice">
+        <input name="subscribe_updates" id="subscribe_updates" value="1"
+               title="<?= $block->escapeHtml(__($block->getLabel())) ?>"
+               type="checkbox">
+        <label class="label" for="subscribe_updates">
+            <span><?= $block->escapeHtml(__($block->getLabel())) ?></span>
+        </label>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<?php
+/** @var $block \Ewave\OutOfStockNotif\Block\Product\View\AvailableDate */
+
+$product = $block->getProduct();
+?>
+
+<?php if ($block->isShowMessage($product)) : ?>
+    <div class="available-date-container">
+        <?php if ($block->isAvailableDateEnable($product)) : ?>
+            <?php $avaliableDate = $block->getAvailableDate($product); ?>
+            <?php /* @escapeNotVerified */ echo __('This product will be available after %1', $avaliableDate); ?>
+        <?php elseif ($block->isSoldOutEnable($product)) : ?>
+            <?php /* @escapeNotVerified */ echo __('This item has sold out'); ?>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

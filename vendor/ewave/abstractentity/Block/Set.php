@@ -157,6 +157,7 @@ class Set extends Template
         $toolbar = $this->getLayout()->getBlock('set_list_toolbar');
         $limit = $this->getEntitiesPerPage();
         $toolbar->setLimit($limit);
+        $toolbar->setAvailableLimit([]);
         if ($toolbar) {
             $toolbar->setCollection($this->getCollection());
             $this->setChild('toolbar', $toolbar);

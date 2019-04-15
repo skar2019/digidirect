@@ -17,8 +17,8 @@
                 <height>300</height>
             </image>
             <image id="cart_page_product_thumbnail" type="small_image">
-                <width>110</width>
-                <height>160</height>
+                <width>120</width>
+                <height>120</height>
             </image>
             <image id="category_page_grid" type="small_image">
                 <width>257</width>
@@ -49,12 +49,12 @@
                 <height>100</height>
             </image>
             <image id="mini_cart_product_thumbnail" type="thumbnail">
-                <width>78</width>
-                <height>78</height>
+                <width>80</width>
+                <height>80</height>
             </image>
             <image id="new_products_content_widget_grid" type="small_image">
-                <width>240</width>
-                <height>300</height>
+                <width>257</width>
+                <height>257</height>
             </image>
             <image id="new_products_content_widget_list" type="small_image">
                 <width>270</width>
@@ -175,16 +175,16 @@
                 <height>240</height>
             </image>
             <image id="wishlist_sidebar_block" type="thumbnail">
-                <width>75</width>
-                <height>90</height>
+                <width>160</width>
+                <height>160</height>
             </image>
             <image id="wishlist_small_image" type="small_image">
                 <width>113</width>
                 <height>113</height>
             </image>
             <image id="wishlist_thumbnail" type="small_image">
-                <width>240</width>
-                <height>300</height>
+                <width>257</width>
+                <height>257</height>
             </image>
             <image id="bundle_product_image_thumbnail" type="thumbnail">
                 <width>120</width>

@@ -140,7 +140,9 @@ Bugfix. Changed column id type from smallint to int.
 9. logs. logging. error handling. log full error text instead of stacktrace only ($e->__toString() instead of $e->getTraceAsString())
 
 ### VERSION 1.15.2
-=============
 1. queue. added setting `Generate Run On Error Every (for Pending Depends)`. for queue depends default interval is 900s, for other cases default interval from now is 300s.
 2. queue. added setting `Number of Runs On Error (Per Integration Process)`. it will override setting `Number of Runs On Error` if specified for process.
 3. queue. added method getActiveQueueItemIdByProcessCodeAndProcessData.
+
+### VERSION 1.15.3
+Bugfix. Product Import. Label is not imported for the image with 'Alternative' role

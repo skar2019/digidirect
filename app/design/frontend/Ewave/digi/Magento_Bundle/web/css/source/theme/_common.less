@@ -2,6 +2,8 @@
 //  Theme: Bundle: Common
 //  _____________________________________________
 
+@bundle-price-to-label__color: @primary__color;
+
 //
 //  Common
 //  ---------------------------------------------
@@ -38,9 +40,18 @@
             margin: 0;
             line-height: 22px;
         }
-        
+
         .price-wrapper {
             display: block;
+        }
+    }
+
+    .page-product-bundle .product-info-main {
+        .price-box > .price-to > .price-label {
+            .lib-font-size(13);
+            .lib-line-height(22);
+            .lib-css(font-weight, @font-weight__heavier);
+            .lib-css(color, @bundle-price-to-label__color);
         }
     }
 
@@ -120,7 +131,7 @@
             }
         }
     }
-    
+
     .bundle-options-wrapper {
         .field {
             text-align: left;
@@ -332,6 +343,12 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xm) {
+    .page-product-bundle .product-info-main {
+        .price-box > .price-to > .price-label {
+            .lib-font-size(14);
+        }
+    }
+
     .bundle-options-wrapper {
         .field.choice > .label {
             &::before,
@@ -353,6 +370,13 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
+    .page-product-bundle .product-info-main {
+        .price-box > .price-to > .price-label {
+            .lib-font-size(16);
+            margin-bottom: 0;
+        }
+    }
+
     .bundle-options-container {
         & {
             padding-top: 40px;

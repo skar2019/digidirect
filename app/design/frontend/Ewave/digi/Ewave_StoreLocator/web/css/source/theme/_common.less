@@ -1,0 +1,57 @@
+//
+//  Locator:common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@locator-map__min-height: 500px;
+//@locator-map-img__max-width: none;
+
+@locator-items-column__width__l: 510px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .store-locator {
+        & {
+            margin-bottom: 60px;
+        }
+        
+        .grid-row {
+            display: flex;
+        }
+        
+        .grid-row > .column.-left {
+            .lib-css(flex-basis, @locator-items-column__width__l);
+        }
+        
+        .grid-row > .column.-main {
+            .lib-css(flex-basis, (@screen__xl - @locator-items-column__width__l) / @screen__xl * 100%);
+        }
+        
+        .locator-search {
+            margin-bottom: 38px;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    .store-locator {
+        .lib-css(max-width, @screen__xl);
+        
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

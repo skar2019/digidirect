@@ -1,0 +1,67 @@
+<!-- ko if: isCollectEnableOnCheckout && isSingleCartCollectVariation -->
+<div class="collect-type">
+    <input type="radio" id="collect_type_delivery" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
+attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
+    <label for="collect_type_delivery" class="label">
+        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-delivery"></use>
+        </svg>
+        <span class="text"><!-- ko i18n: 'Delivery'--><!-- /ko --></span>
+    </label>
+    <input type="radio" id="collect_type_collect" name="delivery_type" value="collect"
+           data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}}, attr:{'checked': collectPlaces().length > 0 ? 'checked' : false}"/>
+    <label for="collect_type_collect" class="label">
+        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-collect"></use>
+        </svg>
+        <span class="text"><!-- ko i18n: 'Pick up in-store'--><!-- /ko --></span>
+        </svg>
+    </label>
+</div>
+
+<div data-bind="css: 'collect-block -visible'" data-role="collect-block" data-collect-type="delivery">
+    <div data-bind="i18n: 'If your order is placed before 11am AEST on a business day (Mon-Fri), it leaves our warehouse the same day!'"></div>
+</div>
+<div data-bind="css: collectPlaces().length > 0 ? 'collect-block -visible' : 'collect-block'" data-role="collect-block"
+     data-collect-type="collect">
+    <!-- ko if: collectPlaces().length > 0 -->
+    <div class="pickup-cms" data-bind="html: window.pickUpStoreCmsBlock"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-pin">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>
+    </svg>
+    <div class="wrapper-title">
+        <div class="title" data-bind="i18n: 'Your selected Location'"></div>
+        <span data-bind="text: collectPlaces()[0].collect_place_name + ' (' + collectPlaces()[0].collect_place_address + ')'"></span>
+    </div>
+    <!-- ko if: getDeliveryPlace(collectPlaces()[0]) -->
+    <a class="link -change"
+       href="#collect-block-modal-checkout"
+       data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change'"></a>
+    <!-- /ko -->
+    <!-- ko ifnot: getDeliveryPlace(collectPlaces()[0]) -->
+    <a class="link -collect"
+       href="#collect-block-modal-checkout"
+       data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change'"></a>
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- ko ifnot: collectPlaces().length > 0 -->
+    <!-- ko ifnot: getDeliveryPlace(collectPlaces()[0]) -->
+    <div class="pickup-cms" data-bind="html: window.pickUpStoreCmsBlock"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-pin">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>
+    </svg>
+    <div class="wrapper-title">
+        <div class="title" data-bind="i18n: 'Your selected Location'"></div>
+        <div data-bind="i18n: 'No store selected'"></div>
+        <a class="link -collect"
+           href="#collect-block-modal-checkout"
+           data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change'"></a>
+    </div>
+    <!-- /ko -->
+    <!-- /ko -->
+</div>
+
+<div id="collect-block-modal-checkout" data-bind="visible: isSingleCartFormPopUpVisible()">
+    <!-- ko template: collectFormTemplate --><!-- /ko -->
+</div>
+<!-- /ko -->

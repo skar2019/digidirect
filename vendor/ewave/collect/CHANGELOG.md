@@ -253,3 +253,28 @@
 * Bugfixes:
     * [#274931](https://ewave.tpondemand.com/entity/274931) -- [Extended Cart] After adding Up-sell product on PDP popup is not appeared
 
+
+2.11.0
+=============
+* New features:
+    * [#171449](https://ewave.tpondemand.com/entity/171449) -- [SHIPPING METHOD VARIATIONS SETTINGS] As an admin I want a variation of a Click & Collect shipping method to be created
+    * [#290155](https://ewave.tpondemand.com/entity/290155) -- As an admin, I want set up Length Unit to be used in Click & Collect module
+    * [#290156](https://ewave.tpondemand.com/entity/290156) -- [ENABLE C&C CART/PDP] As an admin, I want to be able to enable/disable C&C on Cart and PDP pages
+
+* Bugfixes:
+    * [#291072](https://ewave.tpondemand.com/entity/291072) -- 'Click&Collect Variation' is displayed for store view and website but works on global scope
+
+
+2.11.1
+=============
+* Bugfixes:
+    * [#277548](https://ewave.tpondemand.com/entity/277548) -- [CHECKOUT ZONE] Label on the billing address tab disappears after reloading the page on payment page
+ 
+
+2.12.0
+=============
+* New features:
+    * [#287679](https://ewave.tpondemand.com/entity/287679) -- [CHECKOUT] As a customer, I want to be able to view collect places on checkout
+    * [#295812](https://ewave.tpondemand.com/entity/295812) -- [MSI & COLLECT] As a user, I want to be able to see availability status in cart/checkout click&collect stores
+    * [#297705](https://ewave.tpondemand.com/entity/297705) -- [Locator][Click & Collect] As a system, I want availability flag to be added
+    * [#278827](https://ewave.tpondemand.com/entity/278827) -- [Single C&C for Cart] As an admin, I want 'Single C&C for Cart' variation to be added

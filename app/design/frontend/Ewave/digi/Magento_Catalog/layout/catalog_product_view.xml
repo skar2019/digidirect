@@ -11,7 +11,7 @@
         <!-- in case us/288107-->
 
         <move element="breadcrumbs" destination="product.section" before="-"/>
-        <move element="page.messages" destination="product.section" before="-" />
+        <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
 
         <move element="page.main.title" destination="product.info.holder" before="-" />
         <move element="product.info.sku" destination="page.main.title" />
@@ -100,6 +100,9 @@
                     <argument name="block_id" xsi:type="string">product-tile-rent</argument>
                 </arguments>
             </block>
+            <block name="product.tile.extended.catalog.rule"
+                   class="Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule"
+                   template="Ewave_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
         </referenceBlock>
 
         <referenceBlock name="product.info.main">
@@ -108,6 +111,14 @@
                    before="-"
                    template="Ewave_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
         </referenceBlock>
+
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" name="quickview.init" template="Ewave_QuickView::product/list/quickview/quickview.phtml" after="-" ifconfig="ewave_quickview/general/quickview_enabled">
+                <arguments>
+                    <argument name="use_for_mobile" xsi:type="boolean">true</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
     </body>
 </page>
  

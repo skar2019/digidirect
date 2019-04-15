@@ -1,0 +1,117 @@
+define([
+    'jquery',
+    'ko',
+    'underscore',
+    'uiComponent',
+    'Magento_Checkout/js/model/step-navigator',
+    'Magento_Checkout/js/model/quote',
+    'mage/translate',
+    'Ewave_SingleCheckoutButton/js/view/error-methods'
+], function (
+    $,
+    ko,
+    _,
+    Component,
+    stepNavigator,
+    quote,
+    $t,
+    errorMethods
+) {
+    'use strict';
+
+    return Component.extend({
+        defaults: {
+            template: 'Ewave_SingleCheckoutButton/button',
+            labelButtonShippingStep: $t('Next'),
+            labelButtonPaymentStep: $t('Place order'),
+            isOnlyPaymentStep: false,
+            shippingFormSelector: '#co-shipping-method-form',
+            paymentMethodContainer: '.payment-method',
+            defaultButton: '.action.primary'           
+        },
+        activeStep: ko.observable(null),
+        label: ko.observable(null),
+        isVisible: ko.observable(false),
+        isDisabled: ko.observable(false),
+
+        initialize: function () {
+            this._super();
+            this.bind();
+
+            return this;
+        },
+
+        /**
+         * Bind
+         */
+        bind: function () {
+            stepNavigator.steps.subscribe(function (data) {
+                this.checkActiveStep(data);
+            }, this);
+
+            this.activeStep.subscribe(function (step) {
+                this.setButtonData(step);
+            }, this);
+
+            quote.billingAddress.subscribe(function (newAddress) {
+                this.isDisabled(!newAddress);
+            }, this);
+        },
+
+        /**
+         * Check active checkout step
+         * @param {array} data
+         */
+        checkActiveStep: function (data) {
+            var step = _.find(data, function (item) {
+                return item.isVisible();
+            });
+
+            if (!this.activeStep() && step || step && this.activeStep !== step.code) {
+                this.activeStep(step.code);
+            } else if (typeof step === 'undefined' && data.length) {
+                this.activeStep(data[data.length - 1].code);
+            }
+        },
+
+        /**
+         * Set button data
+         * @param {string} step
+         */
+        setButtonData: function (step) {
+            var labelButton = step === 'shipping' ? this.labelButtonShippingStep : this.labelButtonPaymentStep,
+                visible = this.isOnlyPaymentStep ? step === 'payment' : true;
+            this.label(labelButton);
+            this.isVisible(visible);
+        },
+
+        /**
+         * Button action
+         */
+        singleButtonAction: function () {
+            this.activeStep() === 'shipping' ? this.shippingStepAction() : this.paymentStepAction();
+        },
+
+        /**
+         * Shipping step action
+         */
+        shippingStepAction: function () {
+            $(this.shippingFormSelector).trigger('submit');
+        },
+
+        /**
+         * Payment step action
+         */
+        paymentStepAction: function () {
+            this.checkPaymentMethod() ? $('#' + quote.paymentMethod().method).closest(this.paymentMethodContainer).find(this.defaultButton).trigger('click') : errorMethods().isErrorPaymentMethod(true);
+        },
+
+        /**
+         * Check payment method is chosen
+         * @return {boolean}
+         */
+        checkPaymentMethod: function () {
+            return !!quote.paymentMethod();
+        }
+    });
+});

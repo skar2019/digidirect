@@ -1,5 +1,7 @@
 define([
-    'domReady!'
+    'domReady!',
+    'outstockNotification',
+    'outstockConfigurable'
 ], function () {
     'use strict';
 

@@ -2,6 +2,16 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 
-    <update handle="ewave_extended_catalog_rule_display_msg_plp"/>
+    <referenceBlock name="after.product.price.container">
+        <block class="Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule"
+               name="ewave.extended.catalog.price.rule.list.view"
+               template="Ewave_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" >
+            <arguments>
+                <argument name="disable_product_types" xsi:type="array">
+                    <item name="configurable" xsi:type="string">configurable</item>
+                </argument>
+            </arguments>
+        </block>
+    </referenceBlock>
 
 </page>

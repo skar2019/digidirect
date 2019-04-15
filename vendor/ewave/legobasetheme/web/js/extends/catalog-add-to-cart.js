@@ -1,9 +1,10 @@
 define([
     'jquery',
     'mage/translate',
+    'Magento_Catalog/js/product/view/product-ids-resolver',
     'jquery/ui',
     'Magento_Catalog/js/catalog-add-to-cart'
-], function ($, $t) {
+], function ($, $t, idsResolver) {
     'use strict';
 
     $.widget('mage.catalogAddToCart', $.mage.catalogAddToCart, {
@@ -18,19 +19,25 @@ define([
             });
         },
         /**
-         * @param {String} form
+         * @param {jQuery} form
          */
         ajaxSubmit: function (form) {
-            var self = this;
+            var self = this,
+                productIds = idsResolver(form),
+                formData;
 
             $(self.options.minicartSelector).trigger('contentLoading');
             self.disableAddToCartButton(form);
+            formData = new FormData(form[0]);
 
             $.ajax({
                 url: form.attr('action'),
-                data: form.serialize(),
+                data: formData,
                 type: 'post',
                 dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
 
                 /** @inheritdoc */
                 beforeSend: function () {
@@ -45,7 +52,12 @@ define([
 
                     self.onSuccessAjaxSubmit(res);
 
-                    $(document).trigger('ajax:addToCart', form.data().productSku);
+                    $(document).trigger('ajax:addToCart', {
+                        'sku': form.data().productSku,
+                        'productIds': productIds,
+                        'form': form,
+                        'response': res
+                    });
 
                     if (self.isLoaderEnabled()) {
                         $('body').trigger(self.options.processStop);

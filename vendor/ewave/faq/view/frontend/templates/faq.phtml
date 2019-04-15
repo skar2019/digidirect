@@ -1,0 +1,60 @@
+<?php
+/** @var \Ewave\Faq\Block\Overview $block */
+$categories = $block->getAllCategory();
+$id = $block->getRequest()->getParam('id');
+$faqType = $block->getFaqType();
+$faqId = $block->getFaqId();
+/**
+ * @var $helper Ewave\Faq\Helper\Data
+ */
+$helper = $this->helper('Ewave\Faq\Helper\Data');
+$ajaxCategoryLoading = $helper->isAjaxEnabled();
+?>
+
+<div class="faq-wrapper" data-testid="faq-wrapper-container" data-mage-init='{"faq": {"url": "<?php echo $block->escapeUrl($block->getUrl('faq/index/ajaxview')); ?>", "baseUrl": "<?php echo $block->escapeUrl($block->getUrl($helper->getFaqUrl())); ?>"}}'>
+    <?php if ($this->helper('Ewave\Faq\Helper\Data')->isSearchEnabled()) : ?>
+        <form class="faq-search form" method="post" id="faq-form" data-mage-init='{"validation":{}}'
+              action="<?php /* @escapeNotVerified */ echo $block->escapeUrl($block->getUrl('faq/index/ajaxview')) ?>">
+            <div class="input-group">
+                <div class="control">
+                    <input type="text" name="keyword" id="keyword" data-testid="faq-search-key" placeholder="<?php /* @escapeNotVerified */ echo __('Search FAQ') ?>"
+                       class="input" size="30" maxlength="150" data-validate="{required: true}"/>
+                </div>
+                <button class="button" data-testid="faq-search-button" title="<?php /* @escapeNotVerified */ echo __('Search'); ?>">
+                    <?php /* @escapeNotVerified */ echo __('Search'); ?>
+                </button>
+            </div>
+        </form>
+    <?php endif; ?>
+
+    <?php echo $block->getChildHtml('faq.tags'); ?>
+
+    <div id="faq-container" class="faq-container grid-row<?php if ($id): ?> -active<?php endif; ?>" data-mage-init='{"loader": { "icon": "<?php /* @escapeNotVerified */ echo $block->escapeUrl($this->helper('Ewave\Utilities\Helper\Animation')->getImage()); ?>"
+            <?php if($_loaderText = $this->helper('Ewave\Utilities\Helper\Animation')->getText()): ?>, "texts" : {"loaderText" : "<?php /* @escapeNotVerified */ echo $_loaderText; ?>"} <?php endif; ?>}}'>
+        <div class="column medium-3 categories">
+            <div class="faq-categories">
+                <?php $iterator = 1; foreach ($categories as $category): ?>
+                    <?php /** @var $category Ewave\Faq\Model\Category */ ?>
+                    <a class="item<?php if(!$faqType && $iterator == 1 || $faqType == 'category' && $faqId ==
+                        $category->getId()): ?> -active<?php endif; ?>" data-testid="faq-category-item"
+                        <?php if($ajaxCategoryLoading): ?> data-role="faq-item" <?php endif; ?> data-type="category" <?php if($ajaxCategoryLoading): ?> data-category-id="<?php echo $block->escapeHtml($category->getId()); ?>" <?php endif; ?> data-page="1"
+                        href="<?php echo $block->escapeHtml($block->getUrl($category->getRequestPath())); ?>"
+                        title="<?php echo $block->escapeHtml($category->getTitle()); ?>">
+                        <?php /* @escapeNotVerified */ echo $block->stripTags($category->getTitle()); ?>
+                    </a>
+                <?php $iterator++; endforeach; ?>
+            </div>
+        </div>
+        <div class="column medium-9 listing">
+            <span class="faq-back" role="button" title="<?php /* @escapeNotVerified */ echo __('Back to All'); ?>">
+                <?php /* @escapeNotVerified */ echo __('Back to All'); ?>
+            </span>
+            <div class="faq-listing" data-role="faq-listing">
+                <?php echo $block->getChildHtml('faq.listing'); ?>
+            </div>
+
+            <input type="hidden" value="most" id="faqtype" name="type"/>
+            <input type="hidden" value="" id="faqid" name="categoryId"/>
+        </div>
+    </div>
+</div>

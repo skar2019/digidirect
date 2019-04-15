@@ -16,6 +16,12 @@ define([
                 $('html, body').animate({
                     scrollTop: 0
                 }, 600);
+
+                if($('body').hasClass('quickview-main')) {
+                    $('.quickview-main .mCSB_container, .quickview-main .mCSB_dragger').animate({
+                        top: 0
+                    }, 600);
+                }
             }
         });
 

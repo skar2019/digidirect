@@ -80,28 +80,47 @@ class BlogCategories extends Categories
         if ($categoriesDisplayType &&
             $categoriesDisplayType === BlogCategoriesDisplayType::SPECIFIED_CATEGORIES_OPTION_VALUE &&
             $categoryIds = $this->getData(static::CATEGORY_IDS)) {
-            $categoryIds = explode(',', $categoryIds);
-            $sortedTree = [];
-            foreach ($tree as $id => $node) {
-                $key = array_search($id, $categoryIds);
-                if ($key !== false) {
-                    $sortedTree[$key] = $node;
-                } else {
-                    foreach ($node['children'] as $childId => $childNode) {
-                        $key = array_search($childId, $categoryIds);
-                        if ($key !== false) {
-                            $sortedTree[$key] = $node;
-                            continue 2;
-                        }
-                    }
-                }
+            $treeOrder = explode(',', $categoryIds);
+            $tree = $this->treeSorting($tree, $treeOrder);
+        }
+
+        return $tree;
+    }
+
+    /**
+     * Recursive function to blog category sorting
+     *
+     * Note: The category list can have categories that are missing in widget option "category_ids",
+     * i.e. it can be some parents categories
+     *
+     * As a result, we don't know the exact position of such categories,
+     * therefore, the position of such category will be next for the
+     * previous category with the existing position.
+     * Solution is an increase of the position by 0.1
+     *
+     * @param array $tree
+     * @param array $treeOrder
+     * @return array
+     */
+    protected function treeSorting(array $tree, array $treeOrder)
+    {
+        $sortedTree = [];
+        $lastKey = -1;
+        foreach ($tree as $id => $node) {
+            if (isset($node['children']) && !empty($node['children'])) {
+                $node['children'] = $this->treeSorting($node['children'], $treeOrder);
             }
-            if (!empty($sortedTree)) {
-                ksort($sortedTree);
-                $tree = $sortedTree;
+            $key = array_search($id, $treeOrder);
+            if ($key !== false) {
+                $sortedTree[$key] = $node;
+                $lastKey = $key;
+            } else {
+                $sortedTree[(string)($lastKey + 0.1)] = $node;
             }
         }
-        return $tree;
+        ksort($sortedTree);
+
+        return $sortedTree;
     }
 
     /**

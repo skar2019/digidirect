@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ewave_pronto">
+            <group id="api_products" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Product interface</label>
+                <field id="products_get_uri" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Products GET URI</label>
+                    <comment>URI of Products Interface</comment>
+                </field>
+            </group>
+            <group id="api_inventory" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Inventory interface</label>
+                <field id="inventory_get_uri" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Inventory GET URI</label>
+                    <comment>URI of Inventory Interface</comment>
+                </field>
+            </group>
+            <group id="api_order" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Order Settings</label>
+                <field id="order_post_uri" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order POST URI</label>
+                    <comment>URI of Order Post Interface</comment>
+                </field>
+                <field id="order_get_uri" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order GET URI</label>
+                    <comment>URI of Order Get Interface</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

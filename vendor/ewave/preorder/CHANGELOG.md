@@ -21,3 +21,15 @@
 =============
 * Bugfixes:
     * [#283447](https://ewave.tpondemand.com/entity/283447) -- [API] 500 Internal Server Error while adding item to the cart
+
+1.0.3
+=============
+* Bugfixes:
+    * [#291545](https://ewave.tpondemand.com/entity/291545) -- [Project: DigiDirect] Button and message are not updated on the PDP when product's stock less than 0 and "Preorder" option is enabled
+
+1.0.4
+=============
+* Bugfixes:
+    * [#283834](https://ewave.tpondemand.com/entity/283834) -- [M2-2-7][Pre-Order] PDP: Pre-order button is renamed to Add to Cart after adding a product to Cart
+    * [#290626](https://ewave.tpondemand.com/entity/290626) -- [BACKORDER] 'Back-order' button is replaced on 'Add to Cart' on PLP
+    * [#294343](https://ewave.tpondemand.com/entity/294343) -- [Project: DigiDirect] "Pre-order" button is replaced with "Backorder" after adding product to the cart

@@ -1,0 +1,135 @@
+body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.main-head > .line-top {
+    height: 20px;
+    background-color: #000;
+}
+
+.main-head > .line-logo {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.main-block {
+    min-height: 514px;
+    flex-grow: 1;
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-image: url("../images/background-img-mobile.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top center;
+    color: #fff;
+}
+
+.main-block > .title {
+    margin: 0 0 12px 0;
+    font-size: 30px;
+}
+
+.main-block > .text {
+    line-height: 1.36;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.main-foot {
+    height: 54px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+}
+
+.main-foot > .copy {
+    margin: 0;
+    color: #9b9b9b;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.75rem;
+}
+
+
+@media only screen and (min-width: 767px) {
+
+    .main-block {
+        padding: 0 120px;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+
+    }
+
+    .main-block > .title {
+        font-size: 36px;
+    }
+
+    .main-block > .text {
+        line-height: 1;
+        font-size: 24px;
+    }
+
+    .main-foot > .copy {
+        margin-left: 4vw;
+        font-size: 13px;
+    }
+
+    .main-foot {
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+
+    .main-head > .line-top {
+        height: 30px
+    }
+
+    .main-head > .line-logo {
+        height: 100px
+    }
+
+    .main-block {
+        background-image: url("../images/background-img-desktop.png");
+    }
+
+    .main-block > .title {
+        margin: 220px 0 20px 0;
+        font-size: 40px;
+    }
+
+    .main-block > .text {
+        max-width: 628px;
+        margin-bottom: 220px;
+        line-height: 1.2;
+        font-size: 28px;
+    }
+
+    .main-foot > .copy {
+        font-size: 13px;
+    }
+
+    .main-block {
+        padding: 0 120px;
+    }
+}

@@ -9,5 +9,7 @@
 
         <referenceBlock name="product.view.bg" remove="true"/>
         <referenceBlock name="page.below.container" remove="true"/>
+        <referenceContainer name="product.info.media.wrapper" remove="true"/>
+        <referenceContainer name="product.view.overview" remove="true"/>
     </body>
 </page>

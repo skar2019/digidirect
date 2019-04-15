@@ -25,6 +25,7 @@ define([
         },
         collectPlaces: collectPlaces.places,
         collectPlaceRows: ko.observableArray([]),
+        isVisibleMoreButton: ko.observable(false),
         initialize: function () {
             var self = this;
 
@@ -159,9 +160,8 @@ define([
                 },
                 success: function (result) {
                     self.collectPlaceRows.removeAll();
-                    _.each(result.data, function (item) {
-                        self.collectPlaceRows.push(item);
-                    });
+                    self.savedCollectPlaces = result.data;
+                    self.addCollectPlaces();
                 }
             });
         },
@@ -179,6 +179,23 @@ define([
         updateStorageName: function (id) {
             $('#collect_place_storage_name').val(id);
             return true;
+        },
+        addCollectPlaces: function () {
+            var places = this.savedCollectPlaces.slice(0);
+            _.each(this.savedCollectPlaces, function (item, i) {
+                if (this.popUpForm.options.placesOnPage) {
+                    if (i < this.popUpForm.options.placesOnPage) {
+                        places.shift();
+                    } else {
+                        return;
+                    }
+                }
+                this.collectPlaceRows.push(item);
+            }, this);
+            if (this.popUpForm.options.placesOnPage) {
+                this.isVisibleMoreButton(!!places.length);
+                this.savedCollectPlaces = places;
+            }
         }
     });
 });

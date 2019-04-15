@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_layout.xsd">
-    <referenceBlock name="checkout.cart.order.actions" remove="true"/>
-    <referenceBlock name="shopping.cart.table.after" remove="true"/>
-</layout>

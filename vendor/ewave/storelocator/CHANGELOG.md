@@ -99,3 +99,19 @@
 
 * Bugfixes:
     * [#282275](https://ewave.tpondemand.com/entity/282275) -- [VANILLADEMO][Store Locator] Search results are not displayed for store locator
+	
+1.8.0
+============
+* New features:
+    * [#291306](https://ewave.tpondemand.com/entity/291306) -- As an admin, I want set up Length Unit to be used in Locator module
+
+* Bugfixes:
+    * [#285419](https://ewave.tpondemand.com/entity/285419) -- [Locator][Click & Collect] Stores are not displayed on the 'Find collect store place' page
+    * [#285472](https://ewave.tpondemand.com/entity/285472) -- [Project: Cokevending][Storelocator]There is an error during di:compile - Extra parameters passed to parent construct
+    * [#291989](https://ewave.tpondemand.com/entity/291989) -- There is double converting from miles to the kilometers in case 'Length Unit' = 'Miles'
+
+1.9.0
+=============
+* New features:
+    * [#297705](https://ewave.tpondemand.com/entity/297705) -- [Locator][Click & Collect] As a system, I want availability flag to be added
+    	

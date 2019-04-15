@@ -16,7 +16,7 @@
 //@catalog-listing-product-item__padding: 0 0 15px;
 @catalog-listing-product-item__background-color: @color-white;
 @catalog-listing-product-item__box-shadow-color: fade(@color-black, 10%);
-@catalog-listing-product-item__transform: translateY(-10px);
+@catalog-listing-product-item__transform: translate(0,-10px);
 @catalog-listing-product-item__margin_right: 6px;
 @catalog-listing-product-item__width__l: calc(~'50% - @{catalog-listing-product-item__margin_right}');
 
@@ -88,9 +88,19 @@
         height: 100%;
     }
 
-    .product-item:hover > .product-item-info {
+    .product-items:not(.slick-slider) .product-item:hover > .product-item-info {  // IE fix
         .lib-css(box-shadow, 0 2px 8px 0 @catalog-listing-product-item__box-shadow-color);
         .lib-css(transform, @catalog-listing-product-item__transform);
+    }
+
+    .product-items.slick-slider .slick-slide:hover {
+        & {
+            .lib-block-offset-hover();
+        }
+
+        .product-item-info {
+            .lib-css(box-shadow, 0 2px 8px 0 @catalog-listing-product-item__box-shadow-color);
+        }
     }
 
     .product-item-photo {
@@ -108,8 +118,9 @@
         text-overflow: ellipsis;
         text-align: center;
         white-space: normal;
+        z-index: 10;
     }
-    
+
     .product-item-name.-list {
         text-align: left;
     }
@@ -117,7 +128,6 @@
     .product-item-details {
         .lib-vendor-prefix-display(flex);
         .lib-vendor-prefix-flex-direction(column);
-        height: 52%;
         margin-top: auto;
     }
     
@@ -268,14 +278,16 @@
         
         &.-list {
             padding: 30px 30px 24px;
+            flex-wrap: nowrap;
         }
     }
 
     .product-item-info.-list {
         .product-item-photo {
-            .lib-css(width, @catalog-listing-product-photo__width__l);
+            .lib-css(max-width, @catalog-listing-product-photo__width__l);
             padding: 0;
-            margin-right: 40px;
+            margin-right: 20px;
+            flex: 0 auto;
         }
 
         .product-item-details {
@@ -298,11 +310,7 @@
         .lib-font-size(16);
         line-height: 24px;
     }
-    
-    .product-item-details {
-        height: 45%;
-    }
-    
+
     .product-item-actions {
         .towishlist {
             .lib-vendor-prefix-display(flex);
@@ -369,5 +377,9 @@
             
             float: none;
         }
+    }
+
+    .product-item-info.-list .product-item-photo {
+        margin-right: 40px;
     }
 }

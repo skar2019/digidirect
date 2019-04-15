@@ -29,6 +29,8 @@ radius |  | object |  | Radius (circle) configurations
 - | extensible | boolean | false | Specifies automatically extensible, if there are no results found in the selected radius.
 - | allMarkers | boolean | false | Specifies the visibility of markers that are outside the radius.
 - | settings | object | {} | Google Map [circle options](https://developers.google.com/maps/documentation/javascript/reference#CircleOptions).
+- | conversionСonstant | number | 1.609344 | Сonversion rate from km to miles
+- | metricType | string| 'km' | Default metric type.
 infoBox |  | object |  | Google Map infoBox configurations.
 - | template | textResource*/string | infoBoxTmpl | Google Map infoBox template.
 - | extraData | object | {} | InfoBox template extra data.

@@ -60,5 +60,13 @@
     * [#279607](https://ewave.tpondemand.com/entity/279607) -- [Locator][Click & Collect] As a user, I want to be able to select my click and collect store on locator
     * [#281908](https://ewave.tpondemand.com/entity/281908) -- [CHILD ENTITIES] As a customer, I want to be able to view entity's Parent option on a locator	
 	
-	
-     
+1.5.0
+==================	
+* New features:
+    * [#291306](https://ewave.tpondemand.com/entity/291306) -- As an admin, I want set up Length Unit to be used in Locator module     
+
+1.5.1
+==============
+* Bugfixes:
+    * [#291813](https://tp.ewave.com/291813) -- There is an error during store searching on the store locator
+

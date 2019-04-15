@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\Faq\Api\Data\CategoryInterface" type="Ewave\Faq\Model\Category" />
+    <preference for="Ewave\Faq\Api\CategoryRepositoryInterface" type="Ewave\Faq\Model\ResourceModel\CategoryRepository" />
+    <preference for="Ewave\Faq\Api\FaqRepositoryInterface" type="Ewave\Faq\Model\ResourceModel\FaqRepository" />
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Ewave\Faq\Api\Data\CategoryInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">ewave_faq_category</item>
+                    <item name="identifierField" xsi:type="string">entity_id</item>
+                </item>
+                <item name="Ewave\Faq\Api\Data\FaqInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">ewave_faq</item>
+                    <item name="identifierField" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Ewave\Faq\Api\Data\CategoryInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="faqStoreReader" xsi:type="string">Ewave\Faq\Model\ResourceModel\Category\Relation\Store\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="faqStoreCreator" xsi:type="string">Ewave\Faq\Model\ResourceModel\Category\Relation\Store\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="faqStoreUpdater" xsi:type="string">Ewave\Faq\Model\ResourceModel\Category\Relation\Store\SaveHandler</item>
+                    </item>
+                </item>
+                <item name="Ewave\Faq\Api\Data\FaqInterface" xsi:type="array">
+                    <item name="read" xsi:type="array">
+                        <item name="faqCategoryReader" xsi:type="string">Ewave\Faq\Model\ResourceModel\Faq\Relation\Category\ReadHandler</item>
+                        <item name="faqTagReader" xsi:type="string">Ewave\Faq\Model\ResourceModel\Faq\Relation\Tag\ReadHandler</item>
+                    </item>
+                    <item name="create" xsi:type="array">
+                        <item name="faqCategoryCreator" xsi:type="string">Ewave\Faq\Model\ResourceModel\Faq\Relation\Category\SaveHandler</item>
+                        <item name="faqTagCreator" xsi:type="string">Ewave\Faq\Model\ResourceModel\Faq\Relation\Tag\SaveHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="faqCategoryUpdater" xsi:type="string">Ewave\Faq\Model\ResourceModel\Faq\Relation\Category\SaveHandler</item>
+                        <item name="faqTagUpdater" xsi:type="string">Ewave\Faq\Model\ResourceModel\Faq\Relation\Tag\SaveHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Ewave\Faq\Api\Data\CategoryInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+                <item name="Ewave\Faq\Api\Data\FaqInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="faq_category_grid_data_source" xsi:type="string">Ewave\Faq\Model\ResourceModel\Category\Grid\Collection</item>
+                <item name="faq_faq_grid_data_source" xsi:type="string">Ewave\Faq\Model\ResourceModel\Faq\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\Faq\Model\ResourceModel\Category\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_faq_category</argument>
+            <argument name="eventPrefix" xsi:type="string">ewave_faq_category_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">category_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\Faq\Model\ResourceModel\Category</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\Faq\Model\ResourceModel\Faq\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">ewave_faq</argument>
+            <argument name="eventPrefix" xsi:type="string">ewave_faq_item_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">faq_item_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Ewave\Faq\Model\ResourceModel\Faq</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\Utilities\Model\Sitemap">
+        <plugin name="faqCategoryAddSiteMapItems" type="Ewave\Faq\Plugin\Sitemap\Model\Sitemap"/>
+    </type>
+</config>

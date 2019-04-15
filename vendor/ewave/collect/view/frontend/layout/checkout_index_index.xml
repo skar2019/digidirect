@@ -54,6 +54,7 @@
                                                                                 <item name="class" xsi:type="string">action primary</item>
                                                                             </item>
                                                                         </item>
+                                                                        <item name="placesOnPage" xsi:type="helper" helper="\Ewave\Collect\Helper\Data::getPlacesOnPage"></item>
                                                                     </item>
                                                                 </item>
                                                             </item>

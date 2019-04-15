@@ -16,7 +16,6 @@
             $priceClass .= ' -special-price';
         }
         ?>
-        <?php if ($hasSpecialPrice): ?>
             <div class="block-extendedrule <?= /* @noEscape */ $priceClass?>" id="<?= /* @noEscape */ $id ?>">
                 <?php if(!empty($rule['action_amount']) && $rule['action_amount'] > 0): ?>
                     <?php
@@ -69,6 +68,5 @@
                     </div>
                 <?php endif; ?>
             </div>
-        <?php endif; ?>
     <?php endforeach; ?>
 <?php endif; ?>

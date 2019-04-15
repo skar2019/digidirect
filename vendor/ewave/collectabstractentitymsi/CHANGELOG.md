@@ -1,0 +1,5 @@
+1.0.0
+=============
+* New features:
+    * [#287679](https://ewave.tpondemand.com/entity/287679) -- [CHECKOUT] As a customer, I want to be able to view collect places on checkout
+    * [#295812](https://ewave.tpondemand.com/entity/295812) -- [MSI & COLLECT] As a user, I want to be able to see availability status in cart/checkout click&collect stores

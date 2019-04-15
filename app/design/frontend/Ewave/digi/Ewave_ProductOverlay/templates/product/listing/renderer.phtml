@@ -20,7 +20,8 @@ $products = $helper->getApplicableSimples($block->getProduct());
                 "numberToShow": <?= /* @escapeNotVerified */ $block->getNumberSwatchesPerProduct(); ?>,
                 "jsonConfig": <?= /* @escapeNotVerified */ $jsonConfig; ?>,
                 "jsonSwatchConfig": <?= /* @escapeNotVerified */ $block->getJsonSwatchConfig(); ?>,
-                "mediaCallback": "<?= /* @escapeNotVerified */ $block->getMediaCallback() ?>"
+                "mediaCallback": "<?= /* @escapeNotVerified */ $block->getMediaCallback() ?>",
+                "parentProductId": <?= /* @escapeNotVerified */ $block->getProduct()->getId(); ?>
             }
         }
     }

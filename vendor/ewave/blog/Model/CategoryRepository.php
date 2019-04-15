@@ -44,23 +44,31 @@ class CategoryRepository implements CategoryRepositoryInterface
     protected $categoryById = [];
 
     /**
+     * @var CurrentStoreFetcher
+     */
+    protected $storeFetcher;
+
+    /**
      * CategoryRepository constructor.
      *
      * @param Category $resourceModel
      * @param CategoryFactory $modelFactory
      * @param DateTime $dateTime
      * @param Category\CollectionFactory $collectionFactory
+     * @param CurrentStoreFetcher $currentStoreFetcher
      */
     public function __construct(
         Category $resourceModel,
         CategoryFactory $modelFactory,
         DateTime $dateTime,
-        Category\CollectionFactory $collectionFactory
+        Category\CollectionFactory $collectionFactory,
+        CurrentStoreFetcher $currentStoreFetcher
     ) {
         $this->resourceModel = $resourceModel;
         $this->modelFactory = $modelFactory;
         $this->dateTime = $dateTime;
         $this->collectionFactory = $collectionFactory;
+        $this->storeFetcher = $currentStoreFetcher;
     }
 
     /**
@@ -83,9 +91,12 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function getByUrlKey($ulrKey)
     {
-        $item = $this->modelFactory->create();
-        $this->resourceModel->load($item, $ulrKey, CategoryInterface::FIELD_URL_KEY);
-        return $item;
+        $storeArray = [];
+        $storeId = $this->storeFetcher->getCurrentStoreId();
+        $storeArray[] = $storeId;
+        $categoryId = $this->resourceModel->loadCategoryIdByUrlKey($ulrKey, $storeArray);
+        $category = $this->getById($categoryId);
+        return $category;
     }
 
     /**

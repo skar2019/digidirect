@@ -1,0 +1,331 @@
+//
+//  Customer: Account Common
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+//@account-common__is-enabled: true; // Enable/disable styles
+//
+////  Layout
+@account-layout-2columns-left-sidebar__width: 100%;
+@account-layout-2columns-left-column-main__width: 100%;
+@account-layout-columns__width__l: 75%;
+@account-layout-sidebar__width__l: 25%;
+//
+////  Sidebars
+//@account-sidebar-additional__margin-top: false;
+@account-sidebar__width__xl: 420px;
+@account-sidebar__padding-right__xl: 50px;
+//
+////  Column Main
+//@account-column-main-block__use-account-blocks: true;
+//@account-column-main-block-content__use-add-clearfix-desktop__m: true;
+//@account-column-main-block-content-box__use-blocks-2columns__m: true;
+@account-column-main__width__xl: calc(~'100% - @{account-sidebar__width__xl}');
+//
+////  Table Wrapper
+//@account-table-wrapper__last-child__margin-bottom: 0;
+//@account-table-wrapper-action__margin-right: 15px;
+//@account-table-wrapper-action__last-child__margin-right: 0;
+//
+////  Table Return Items
+//@account-table-return-items-qty-input-text__use-input-qty: true;
+//
+////  Toolbar
+//@account-toolbar__position__m: relative;
+@account-toolbar-limiter__position__m: false;
+@account-toolbar-limiter__z-index__m: false;
+@account-toolbar-limiter__float__m: false;
+@account-toolbar-amount__position__m: false;
+@account-toolbar-amount__z-index__m: false;
+@account-toolbar-pages__position__xxs: absolute;
+@account-toolbar-pages__position__m: static;
+@account-toolbar-pages__z-index__m: false;
+@account-toolbar-pages__width__m: false;
+@account-toolbar-pages-pseudo-background-size: 100% 100%;
+//
+////  Other
+//@account-street-address-2-label__use-visually-hidden: true;
+//@account-form-address-edit-region-id__display: none;
+//@account-form-edit-account-fieldset-password__display: none;
+@account__background-image__s: url('@{baseDir}images/account-bg-s.jpg');
+@account__background-image__m: url('@{baseDir}images/account-bg-m.jpg');
+@account__background-image__l: url('@{baseDir}images/account-bg-l.jpg');
+@account-button__width: 180px;
+@account-button__width__l: 158px;
+@account-button-save__width__l: 200px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .account {
+        .page-title-wrapper {
+            position: relative;
+            margin: 0;
+        }
+
+        .page-title {
+            .lib-css(color, @color-white);
+            margin-bottom: 20px;
+            padding: 35px 0 32px;
+            text-align: center;
+        }
+
+        .page-main {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        .page-title-wrapper .page-title {
+            .lib-css(background, @account__background-image__s no-repeat 0 0);
+            margin-right: 0;
+            background-size: 100% 100%;
+        }
+        
+        .page.messages .message:only-child {
+            margin-bottom: 0;
+        }
+
+        .columns {
+            .lib-css(padding-right, @layout-indent__width);
+            .lib-css(padding-left, @layout-indent__width);
+        }
+
+        .column.main > .block,
+        .wrapper-blocks > .block,
+        .form-edit-account {
+            .lib-css(background-color, @color-white);
+            padding: 20px 20px 30px;
+        }
+
+        .block-reviews-dashboard .items {
+            padding-top: 13px;
+        }
+
+        .block-reviews-dashboard .item {
+            margin-bottom: 20px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .block-reviews-dashboard .product-name a {
+            display: block;
+            padding-bottom: 10px;
+            padding-right: 50px;
+            word-break: break-all;
+            text-decoration: none;
+        }
+
+        .block-reviews-dashboard .rating-summary::before {
+            content: 'Rating: ';
+            position: relative;
+            top: 3px;
+            padding-right: 9px;
+        }
+
+        .limiter {
+            .lib-vendor-prefix-flex-basis(135px);
+            .lib-vendor-prefix-flex-shrink(0);
+        }
+
+        .pages {
+            .lib-css(position, @account-toolbar-pages__position__xxs);
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+        }
+
+        .pages .item,
+        .pages strong.page {
+            .lib-font-size(13);
+        }
+
+        .pages a.page {
+            padding: 0 6px;
+        }
+
+        .pages .action.next::before,
+        .pages .action.previous::before {
+            .lib-css(background-size, @account-toolbar-pages-pseudo-background-size);
+        }
+    }
+
+    .account .column.main > .block.-indentation {
+        padding-top: 5px;
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .account {
+        .page-main {
+            padding-bottom: 40px;
+        }
+
+        .sidebar-main {
+            float: none;
+            padding-right: 0;
+        }
+
+        &.@{layout-class-2columns__left} .column.main {
+            float: none;
+            width: 100%;
+        }
+
+        .page-title-wrapper .page-title {
+            .lib-css(background, @account__background-image__m no-repeat 0 0);
+            display: block;
+            padding: 53px 0 52px;
+            background-size: 100% 100%;
+        }
+
+        .actions-toolbar .action:not(.-default) {
+            .lib-css(width, @account-button__width);
+            .lib-font-size(14);
+            padding: 13px 11px 12px;
+        }
+
+        .block {
+            margin-bottom: 20px;
+        }
+
+        .block:last-child {
+            margin-bottom: 0;
+        }
+
+        .limiter {
+            .lib-vendor-prefix-flex-basis();
+        }
+
+        .pages {
+            transform: none;
+        }
+    }
+
+    .columns.-entire {
+        .column.main {
+            min-height: 0;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .account {
+        &.@{layout-class-2columns__left} .sidebar-main {
+            .lib-css(width, @account-layout-sidebar__width__l);
+            order: 2;
+            padding-right: 2%;
+        }
+
+        .page-main {
+            .lib-vendor-prefix-display(flex);
+            .lib-vendor-prefix-flex-wrap();
+            .lib-css(background, @account__background-image__l no-repeat 0 0);
+            max-width: none;
+            padding-left: 80px;
+            padding-right: 80px;
+            background-size: 100% auto;
+        }
+        
+        &.account-orders .page-main {
+            background-attachment: fixed;
+        }
+
+        &.customer-account-index .page-main,
+        &.wishlist-index-index .page-main {
+            background-size: 100% 100%;
+        }
+
+        .columns {
+            .lib-css(max-width, @layout-elements__max-width__m);
+            .lib-css(width, @account-layout-columns__width__l);
+            margin: 0 auto;
+            padding-left: 0;
+            padding-right: 0;
+            order: 3;
+        }
+
+        .page.messages {
+            width: 100%;
+        }
+
+        .page-title-wrapper {
+            position: static;
+            margin: 0;
+            width: 100%;
+        }
+
+        .page-title-wrapper .page-title {
+            padding: 40px 0;
+            background: none;
+            margin-bottom: 0;
+        }
+
+        .column.main > .block,
+        .wrapper-blocks > .block,
+        .form-edit-account {
+            margin-bottom: 20px;
+            padding: 30px 30px 40px;
+        }
+
+        .column.main > .block:last-child,
+        .wrapper-blocks > .block:last-child {
+            margin-bottom: 0;
+        }
+
+        .page-main {
+            padding-bottom: 60px;
+        }
+
+        .actions-toolbar .action:not(.-default) {
+            .lib-css(width, @account-button__width__l);
+            .lib-font-size(16);
+        }
+
+        .actions-toolbar .action.save {
+            .lib-css(width, @account-button-save__width__l);
+            padding: 16px 15px 14px;
+        }
+    }
+
+    .columns.-entire {
+        .column.main {
+            height: 100%;
+        }
+    }
+
+    .account .column.main > .block.-indentation {
+        padding-top: 30px;
+        height: 100%;
+    }
+}
+
+//
+//  Desktop ++
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    .account.@{layout-class-2columns__left} {
+        .sidebar-main {
+            .lib-css(width, @account-sidebar__width__xl);
+            .lib-css(padding-right, @account-sidebar__padding-right__xl);
+        }
+
+        .columns {
+            .lib-css(width, @account-column-main__width__xl);
+        }
+    }
+}

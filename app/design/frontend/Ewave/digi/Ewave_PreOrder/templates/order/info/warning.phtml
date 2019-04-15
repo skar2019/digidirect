@@ -1,0 +1,9 @@
+<?php /** @var $block \Ewave\PreOrder\Block\Order\Info\PreorderWarning */ ?>
+<?php $warningText = $block->getWarningText() ?>
+<?php if ($warningText) : ?>
+    <div class="note-msg message warning">
+        <span>
+            &nbsp;<?php echo $block->escapeHtml($warningText) ?>
+        </span>
+    </div>
+<?php endif; ?>

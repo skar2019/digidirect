@@ -9,5 +9,8 @@
                     <argument name="block_id" xsi:type="string">product-tile-rent</argument>
                 </arguments>
             </block>
+            <block name="product.related.extended.catalog.rule"
+                   class="Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule"
+                   template="Ewave_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
         </referenceBlock>
 </layout>

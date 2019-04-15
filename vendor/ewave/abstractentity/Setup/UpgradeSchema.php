@@ -80,6 +80,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->_addColumnsForDisplayingInGrid();
         }
 
+        if ($this->_compareVersions('1.1.2')) {
+            $this->_modifyDecimalValueLength();
+        }
+
         $this->_setup->endSetup();
     }
 
@@ -458,6 +462,22 @@ class UpgradeSchema implements UpgradeSchemaInterface
             ]
         );
 
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _modifyDecimalValueLength()
+    {
+        $this->_setup->getConnection()->modifyColumn(
+            $this->_setup->getTable('ewave_abstractentity_entity_decimal'),
+            'value',
+            [
+                'type' => Table::TYPE_DECIMAL,
+                'length' => '15,10'
+            ]
+        );
         return $this;
     }
 }

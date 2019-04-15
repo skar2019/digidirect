@@ -149,4 +149,14 @@ class Data extends AbstractHelper
             ]
         );
     }
+
+    /**
+     * Get current product
+     *
+     * @return \Magento\Catalog\Model\Product
+     */
+    public function getCurrentProduct()
+    {
+        return $this->productAlertHelper->getProduct();
+    }
 }

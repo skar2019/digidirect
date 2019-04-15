@@ -2,10 +2,18 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="additional.product.info">
-            <block class="Ewave\Collect\Block\CollectInfo" name="collect_places_cart" as="collect_places_cart" template="collect_cart_page.phtml" ttl="10" />
+            <block class="Ewave\Collect\Block\CollectInfo"
+                   name="collect_places_cart"
+                   as="collect_places_cart"
+                   template="collect_cart_page.phtml"
+                   ifconfig="carriers/collect/active_on_cart"
+                   ttl="10" />
         </referenceBlock>
         <referenceContainer name="checkout.cart.items">
-            <block name="collect_cart_modal" class="Magento\Framework\View\Element\Template" template="Ewave_Collect::collect_cart_modal.phtml">
+            <block name="collect_cart_modal"
+                   class="Magento\Framework\View\Element\Template"
+                   template="Ewave_Collect::collect_cart_modal.phtml"
+                   ifconfig="carriers/collect/active_on_cart">
                 <block class="Ewave\Collect\Block\CollectPlaces" name="collect_places_detail_cart" as="collect_places_detail_cart" template="collect_detail_page.phtml" ttl="10">
                     <arguments>
                         <argument name="is_additional_fields_needed" xsi:type="boolean">true</argument>
@@ -15,7 +23,11 @@
                 </block>
             </block>
 
-            <block class="Magento\Framework\View\Element\Template" name="collect_places_cart_single" as="collect_places_cart_single" template="Ewave_Collect::collect_cart_page_single.phtml">
+            <block class="Magento\Framework\View\Element\Template"
+                   name="collect_places_cart_single"
+                   as="collect_places_cart_single"
+                   template="Ewave_Collect::collect_cart_page_single.phtml"
+                   ifconfig="carriers/collect/active_on_cart">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">

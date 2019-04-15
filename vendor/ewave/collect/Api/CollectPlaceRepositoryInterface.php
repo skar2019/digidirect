@@ -9,6 +9,8 @@ namespace Ewave\Collect\Api;
  */
 interface CollectPlaceRepositoryInterface
 {
+    const KEY_IS_UNAVAILABLE = '__is_unavailable';
+
     /**
      * Get Collect Place by Id
      *

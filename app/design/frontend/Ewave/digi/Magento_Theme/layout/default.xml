@@ -3,6 +3,8 @@
         <referenceBlock name="breadcrumbs" remove="true"/>
         <referenceBlock name="back-to-top" remove="true"/>
 
+        <move element="page.messages" destination="page.wrapper" before="main.content" />
+
         <referenceContainer name="page.wrapper">
             <container name="page.below.container" htmlClass="page-below" htmlTag="div" before="footer-container">
                 <container htmlClass="content" htmlTag="div" name="page.below.content">
@@ -24,16 +26,16 @@
 
         <!-- Fonts -->
         <referenceBlock name="js_fonts">
-                <arguments>
-                    <argument name="fonts_revision" xsi:type="string">1.0.3</argument>
-                </arguments>
+            <arguments>
+                <argument name="fonts_revision" xsi:type="string">1.0.3</argument>
+            </arguments>
         </referenceBlock>
         
         <!-- SVG -->
         <referenceBlock name="svg_sprite">
             <arguments>
                 <argument name="svg_is_inline" xsi:type="boolean">true</argument>
-                <argument name="svg_revision" xsi:type="string">1.2.3</argument>
+                <argument name="svg_revision" xsi:type="string">1.9.1</argument>
             </arguments>
         </referenceBlock>
 
@@ -95,5 +97,9 @@
         <move element="my-account-link" destination="authorization-link"/>
 
         <referenceBlock name="top.links" remove="true"/>
+
+        <referenceBlock name="head.additional">
+            <block class="Magento\Framework\View\Element\Template" name="meta.msapplication.tile.image" template="Magento_Theme::html/header/msapplication.tile.image.phtml"/>
+        </referenceBlock>
     </body>
 </page>

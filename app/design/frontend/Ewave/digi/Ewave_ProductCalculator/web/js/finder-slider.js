@@ -113,7 +113,12 @@ define([
                     self.renderNoResults($slider);
                 } else {
                     count = $(data).find('ol.products > li').length || 0;
-                    self.renderResults(count);
+                    if (count > 0) {
+                        self.renderResults(count);
+                    } else {
+                        self.renderNoResults($slider);
+                    }
+
                 }
                 self.goToFinish($slider);
             });

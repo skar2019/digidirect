@@ -1,0 +1,613 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\ProntoDigi\Api\ApiOrderInterface" type="Ewave\ProntoDigi\Model\ApiOrder"/>
+    <!-- /products :GET -->
+    <type name="Ewave\ProntoDigi\ProntoApi\Products\Get">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\RequestBuilder</argument>
+            <argument name="responseHandler" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\ResponseHandler</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\ProntoDigi\ProntoApi\Products\Get\RequestBuilder">
+        <arguments>
+            <argument name="requestMethodUriConfigPath" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Products\Get::XML_PATH_API_PRODUCTS_INTERFACE</argument>
+            <argument name="requestMethod" xsi:type="string">GET</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\ProntoDigi\ProntoApi\Products\Get\ResponseHandler">
+        <arguments>
+            <argument name="mapper" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\Mapper</argument>
+            <argument name="validator" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\Validator</argument>
+        </arguments>
+    </type>
+    <virtualType name="Ewave\ProntoDigi\ProntoApi\Products\Get\Validator" type="Ewave\AI\Model\Lib\Validator\Validate">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="1" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\Validator\Response\Product</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Ewave\ProntoDigi\ProntoApi\Products\Get\Validator\Response\Product" type="Ewave\AI\Model\Lib\Validator\InputValidator">
+        <arguments>
+            <argument name="valitronValidatorFactory" xsi:type="object">valitronFactory</argument>
+            <argument name="inputFormat" xsi:type="array">
+                <item name="code" xsi:type="string">required</item>
+                <item name="stk-stock-status" xsi:type="string">required</item>
+                <item name="gtins" xsi:type="string">required</item>
+                <item name="web-category1" xsi:type="string">optional</item>
+                <item name="web-category2" xsi:type="string">optional</item>
+                <item name="web-category3" xsi:type="string">optional</item>
+                <item name="web-category4" xsi:type="string">optional</item>
+                <item name="desc1" xsi:type="string">required</item>
+                <item name="desc2" xsi:type="string">optional</item>
+                <item name="desc3" xsi:type="string">optional</item>
+                <item name="pricing.price-region.prc-recommend-retail-inc-tax" xsi:type="string">numeric</item>
+                <item name="gtins.gtin.*.id" xsi:type="string">optional</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Ewave\ProntoDigi\ProntoApi\Products\Get\Mapper" type="Ewave\AI\Model\Lib\Mapping\MapperTemplateFilter">
+        <arguments>
+            <argument name="keysMap" xsi:type="array">
+                <item name="product_type" xsi:type="array">
+                    <item name="key" xsi:type="string">product_type</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getProductType</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="stockStatus" xsi:type="string">{{var stk-stock-status}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="visibility" xsi:type="array">
+                    <item xsi:type="string" name="value">Catalog, Search</item>
+                </item>
+                <item name="uom" xsi:type="array">
+                    <item name="key" xsi:type="string">uom</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getUom</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="gtins" xsi:type="string">{{var gtins.gtin}}</item>
+                            <item name="value" xsi:type="string">uom</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="conversion" xsi:type="array">
+                    <item name="key" xsi:type="string">conversion</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getConversion</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="gtins" xsi:type="string">{{var gtins.gtin}}</item>
+                            <item name="value" xsi:type="string">conv</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="_attribute_set" xsi:type="string">stock-group-desc</item>
+                <item name="sources" xsi:type="array">
+                    <item name="key" xsi:type="string">sources</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getInventorySources</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="warehouse" xsi:type="string">{{var warehouse.whse}}</item>
+                            <item name="qtyField" xsi:type="string">qty_available</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="_product_websites" xsi:type="array">
+                    <item name="key" xsi:type="string">_product_websites</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getWebsite</item>
+                    </item>
+                </item>
+                <item name="manage_stock" xsi:type="array">
+                    <item xsi:type="string" name="value">1</item>
+                </item>
+                <item name="is_in_stock" xsi:type="array">
+                    <item xsi:type="string" name="value">1</item>
+                </item>
+                <item name="sku" xsi:type="string">code</item>
+                <item name="description" xsi:type="array">
+                    <item name="key" xsi:type="string">description</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getDescription</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="gtins" xsi:type="string">{{var gtins.gtin}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="price" xsi:type="string">pricing.price-region.prc-recommend-retail-inc-tax</item>
+                <item name="stock_status" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::PRODUCT_ATTRIBUTE_STOCK_STATUS</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getStockStatus</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="stockStatus" xsi:type="string">{{var stk-stock-status}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="stock_condition" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::PRODUCT_ATTRIBUTE_STOCK_CONDITION</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getStockCondition</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="stockStatus" xsi:type="string">{{var stk-condition-code}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="stock_group" xsi:type="string">stock-group</item>
+                <item name="brand" xsi:type="string">stk-brand</item>
+                <item name="apn" xsi:type="string">stk-apn-number</item>
+                <item name="category1" xsi:type="string">web-category1</item>
+                <item name="category2" xsi:type="string">web-category2</item>
+                <item name="category3" xsi:type="string">web-category3</item>
+                <item name="category4" xsi:type="string">web-category4</item>
+                <item name="name" xsi:type="array">
+                    <item name="key" xsi:type="const">Magento\Catalog\Api\Data\ProductAttributeInterface::CODE_NAME</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getName</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="description1" xsi:type="string">{{var desc1}}</item>
+                            <item name="description2" xsi:type="string">{{var desc2}}</item>
+                            <item name="description3" xsi:type="string">{{var desc3}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="barcode1" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::PRODUCT_ATTRIBUTE_BARCODE1</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getBarCode</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="offset" xsi:type="string">1</item>
+                            <item name="gtins" xsi:type="string">{{var gtins.gtin}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="barcode2" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::PRODUCT_ATTRIBUTE_BARCODE2</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getBarCode</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="offset" xsi:type="string">2</item>
+                            <item name="gtins" xsi:type="string">{{var gtins.gtin}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="barcode3" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::PRODUCT_ATTRIBUTE_BARCODE3</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getBarCode</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="offset" xsi:type="string">3</item>
+                            <item name="gtins" xsi:type="string">{{var gtins.gtin}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="barcode4" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::PRODUCT_ATTRIBUTE_BARCODE4</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getBarCode</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="offset" xsi:type="string">4</item>
+                            <item name="gtins" xsi:type="string">{{var gtins.gtin}}</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- /inventory :GET -->
+    <type name="Ewave\ProntoDigi\ProntoApi\Inventory\Get">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Inventory\Get\RequestBuilder</argument>
+            <argument name="responseHandler" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Inventory\Get\ResponseHandler</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\ProntoDigi\ProntoApi\Inventory\Get\RequestBuilder">
+        <arguments>
+            <argument name="requestMethodUriConfigPath" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Inventory\Get::XML_PATH_API_INVENTORY_INTERFACE</argument>
+            <argument name="requestMethod" xsi:type="string">GET</argument>
+        </arguments>
+    </type>
+    <virtualType name="Ewave\ProntoDigi\ProntoApi\Inventory\Get\Validator" type="Ewave\AI\Model\Lib\Validator\Validate">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="1" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Inventory\Get\Validator\Response\Product</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Ewave\ProntoDigi\ProntoApi\Inventory\Get\Validator\Response\Product" type="Ewave\AI\Model\Lib\Validator\InputValidator">
+        <arguments>
+            <argument name="valitronValidatorFactory" xsi:type="object">valitronFactory</argument>
+            <argument name="inputFormat" xsi:type="array">
+                <item name="code" xsi:type="string">required</item>
+                <item name="stk-stock-status" xsi:type="string">required</item>
+                <item name="pricing.price-region.prc-recommend-retail-inc-tax" xsi:type="string">numeric</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\ProntoDigi\ProntoApi\Inventory\Get\ResponseHandler">
+        <arguments>
+            <argument name="mapper" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Inventory\Get\Mapper</argument>
+            <argument name="validator" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Inventory\Get\Validator</argument>
+            <argument name="attributesToUpdate" xsi:type="array">
+                <item name="0" xsi:type="string">price</item>
+                <item name="1" xsi:type="string">status</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Ewave\ProntoDigi\ProntoApi\Inventory\Get\Mapper" type="Ewave\AI\Model\Lib\Mapping\MapperTemplateFilter">
+        <arguments>
+            <argument name="keysMap" xsi:type="array">
+                <item name="sources" xsi:type="array">
+                    <item name="key" xsi:type="string">sources</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getInventorySources</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="warehouse" xsi:type="string">{{var warehouse.whse}}</item>
+                            <item name="qtyField" xsi:type="string">qty_available</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="sku" xsi:type="string">code</item>
+                <item name="price" xsi:type="array">
+                    <item name="key" xsi:type="const">Magento\Catalog\Api\Data\ProductAttributeInterface::CODE_PRICE</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Inventory\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getPrice</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="price" xsi:type="string">{{var price}}</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="stock_status" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::PRODUCT_ATTRIBUTE_STOCK_STATUS</item>
+                    <item name="getter" xsi:type="array">
+                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
+                        <item name="method" xsi:type="string">getStockStatus</item>
+                        <item name="arguments" xsi:type="array">
+                            <item name="stockStatus" xsi:type="string">{{var stk-stock-status}}</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- /orders :POST -->
+    <type name="Ewave\ProntoDigi\ProntoApi\Orders\Post">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\RequestBuilder</argument>
+            <argument name="responseHandler" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\ResponseHandler</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\ProntoDigi\ProntoApi\Orders\Post\RequestBuilder">
+        <arguments>
+            <argument name="requestMethodUriConfigPath" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Orders\Post\RequestBuilder::XML_PATH_API_ORDER_INTERFACE</argument>
+            <argument name="requestMethod" xsi:type="string">POST</argument>
+            <argument name="mapper" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Order\Post\Mapper</argument>
+        </arguments>
+    </type>
+    <virtualType name="Ewave\ProntoDigi\ProntoApi\Order\Post\Mapper" type="Ewave\AI\Model\Lib\Mapping\MapperTemplateFilter">
+        <arguments>
+            <argument name="additionalVariables" xsi:type="array">
+                <item name="billingAddress" xsi:type="string">{{var order.getBillingAddress()}}</item>
+                <item name="shippingAddress" xsi:type="string">{{var order.getShippingAddress()}}</item>
+            </argument>
+            <argument name="keysMap" xsi:type="array">
+                <item name="sales-order" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::SALES_ORDER</item>
+                    <item name="value" xsi:type="array">
+                        <item name="header" xsi:type="array">
+                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::HEADER</item>
+                            <item name="value" xsi:type="array">
+                                <item name="accountname" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::ACCOUNT_NAME</item>
+                                    <item name="getter" xsi:type="array">
+                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                        <item name="method" xsi:type="string">getAccountName</item>
+                                        <item name="arguments" xsi:type="array">
+                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="account" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::ACCOUNT</item>
+                                    <item name="getter" xsi:type="array">
+                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                        <item name="method" xsi:type="string">getAccount</item>
+                                        <item name="arguments" xsi:type="array">
+                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="order-date" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::ORDER_DATE</item>
+                                    <item name="value" xsi:type="string">{{var order.created_at|formatStoreDateTime:d-M-Y}}</item>
+                                </item>
+                                <item name="warehouse" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::WAREHOUSE</item>
+                                    <item name="getter" xsi:type="array">
+                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                        <item name="method" xsi:type="string">getWarehouse</item>
+                                        <item name="arguments" xsi:type="array">
+                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="customer-type" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::CUSTOMER_TYPE</item>
+                                    <item name="value" xsi:type="string">WC</item>
+                                </item>
+                                <item name="so-part-shipment-allowed" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::SO_PART_SHIPMENT_ALLOWED</item>
+                                    <item name="value" xsi:type="string">N</item>
+                                </item>
+                                <item name="so-order-priority" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::SO_ORDER_PRIORITY</item>
+                                    <item name="value" xsi:type="string">1</item>
+                                </item>
+                                <item name="so-cust-type" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::SO_CUST_TYPE</item>
+                                    <item name="value" xsi:type="string">WC</item>
+                                </item>
+                                <item name="rep" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::REP</item>
+                                    <item name="getter" xsi:type="array">
+                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                        <item name="method" xsi:type="string">getRep</item>
+                                        <item name="arguments" xsi:type="array">
+                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="territory" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::TERRITORY</item>
+                                    <item name="value" xsi:type="string">WEBS</item>
+                                </item>
+                                <item name="reference" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::REFERENCE</item>
+                                    <item name="value" xsi:type="string">{{var order.entity_id|intval}}</item>
+                                </item>
+                                <item name="so-delivery-date" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::SO_DELIVERY_DATE</item>
+                                    <item name="value" xsi:type="string"></item>
+                                </item>
+                                <item name="contactname" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::CONTRACT_NAME</item>
+                                    <item name="getter" xsi:type="array">
+                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                        <item name="method" xsi:type="string">getContactName</item>
+                                        <item name="arguments" xsi:type="array">
+                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="email" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::EMAIL</item>
+                                    <item name="value" xsi:type="string">{{var order.customer_email}}</item>
+                                </item>
+                                <item name="order-total-inc-tax" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::ORDER_TOTAL_INC_TAX</item>
+                                    <item name="getter" xsi:type="array">
+                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                        <item name="method" xsi:type="string">getOrderTotalIncTax</item>
+                                        <item name="arguments" xsi:type="array">
+                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="set-on-status" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::SET_ON_STATUS</item>
+                                    <item name="value" xsi:type="string">B</item>
+                                </item>
+                                <item name="billing-address" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::BILLING_ADDRESS</item>
+                                    <item name="value" xsi:type="array">
+                                        <item name="line-1" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_1</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.name}}</item>
+                                        </item>
+                                        <item name="line-2" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_2</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.company}}</item>
+                                        </item>
+                                        <item name="line-3" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_3</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.getStreetLine(1)}}{{if shippingAddress.getStreetLine(2)}}{{var shippingAddress.getStreetLine(2)}}{{/if}}</item>
+                                        </item>
+                                        <item name="line-4" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_4</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.city}}</item>
+                                        </item>
+                                        <item name="line-5" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_5</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.region}}</item>
+                                        </item>
+                                        <item name="postcode" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::POSTCODE</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.postcode}}</item>
+                                        </item>
+                                        <item name="country-code" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::COUNTRY_CODE</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.country_id}}</item>
+                                        </item>
+                                        <item name="phone" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::PHONE</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.telephone}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="delivery-address" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::DELIVERY_ADDRESS</item>
+                                    <item name="value" xsi:type="array">
+                                        <item name="line-1" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_1</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.name}}</item>
+                                        </item>
+                                        <item name="line-2" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_2</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.company}}</item>
+                                        </item>
+                                        <item name="line-3" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_3</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.getStreetLine(1)}}</item>
+                                        </item>
+                                        <item name="line-4" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_4</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.getStreetLine(2)}}</item>
+                                        </item>
+                                        <item name="postcode" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::POSTCODE</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.postcode}}</item>
+                                        </item>
+                                        <item name="country-code" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::COUNTRY_CODE</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.country_id}}</item>
+                                        </item>
+                                        <item name="phone" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::PHONE</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.telephone}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="delivery-instruction" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::DELIVERY_INSTRUCTION</item>
+                                    <item name="value" xsi:type="array">
+                                        <item name="line-1" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_1</item>
+                                            <item name="getter" xsi:type="array">
+                                                <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                <item name="method" xsi:type="string">getPurchaseOrderNumber</item>
+                                                <item name="arguments" xsi:type="array">
+                                                    <item name="order" xsi:type="string">{{var order}}</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                        <item name="line-2" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_2</item>
+                                            <item name="getter" xsi:type="array">
+                                                <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                <item name="method" xsi:type="string">getOrderComment</item>
+                                                <item name="arguments" xsi:type="array">
+                                                    <item name="order" xsi:type="string">{{var order}}</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                        <item name="line-3" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_3</item>
+                                            <item name="getter" xsi:type="array">
+                                                <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                <item name="method" xsi:type="string">getOrderComment</item>
+                                                <item name="arguments" xsi:type="array">
+                                                    <item name="order" xsi:type="string">{{var order}}</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                        <item name="line-4" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_4</item>
+                                            <item name="getter" xsi:type="array">
+                                                <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                <item name="method" xsi:type="string">getDeliveryNotes</item>
+                                                <item name="arguments" xsi:type="array">
+                                                    <item name="order" xsi:type="string">{{var order}}</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                        <item name="line-5" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_5</item>
+                                            <item name="getter" xsi:type="array">
+                                                <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                <item name="method" xsi:type="string">getDeliveryNotes</item>
+                                                <item name="arguments" xsi:type="array">
+                                                    <item name="order" xsi:type="string">{{var order}}</item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                                <item name="payment-details" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::PAYMENT_DETAILS</item>
+                                    <item name="value" xsi:type="array">
+                                        <item name="payment-detail" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::PAYMENT_DETAIL</item>
+                                            <item name="value" xsi:type="array">
+                                                <item name="payment-type" xsi:type="array">
+                                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::PAYMENT_TYPE</item>
+                                                    <item name="getter" xsi:type="array">
+                                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                        <item name="method" xsi:type="string">getPaymentType</item>
+                                                        <item name="arguments" xsi:type="array">
+                                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                                <item name="payment-reference" xsi:type="array">
+                                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::PAYMENT_REFERENCE</item>
+                                                    <item name="value" xsi:type="string">{{var order.getPayment().getCcTransId()}}</item>
+                                                </item>
+                                                <item name="amount-tendered" xsi:type="array">
+                                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::AMOUNT_TENDERED</item>
+                                                    <item name="getter" xsi:type="array">
+                                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                        <item name="method" xsi:type="string">getAmountTendered</item>
+                                                        <item name="arguments" xsi:type="array">
+                                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                                        </item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                        <item name="detail" xsi:type="array">
+                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::DETAIL</item>
+                            <item name="value" xsi:type="array">
+                                <item name="line" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\OrderLine::LINE</item>
+                                    <item name="getter" xsi:type="array">
+                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                        <item name="method" xsi:type="string">getOrderLines</item>
+                                        <item name="arguments" xsi:type="array">
+                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                        </item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- /orders :GET -->
+    <type name="Ewave\ProntoDigi\ProntoApi\Orders\Get">
+        <arguments>
+            <argument name="requestBuilder" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Get\RequestBuilder</argument>
+            <argument name="responseHandler" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Get\ResponseHandler</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\ProntoDigi\ProntoApi\Orders\Get\RequestBuilder">
+        <arguments>
+            <argument name="requestMethodUriConfigPath" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Orders\Get\RequestBuilder::XML_PATH_API_ORDER_INTERFACE</argument>
+            <argument name="requestMethod" xsi:type="string">GET</argument>
+        </arguments>
+    </type>
+</config>

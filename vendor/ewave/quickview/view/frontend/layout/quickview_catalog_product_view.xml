@@ -14,6 +14,7 @@
         <referenceBlock name="back-to-top" remove="true" />
         <referenceBlock name="related_products_impression" remove="true" />
         <referenceBlock name="upsell_products_impression" remove="true" />
+        <referenceBlock name="pageCache" remove="true" />
         <referenceBlock name="product.info.addtocart" template="Ewave_QuickView::product/view/addtocart.phtml">
             <action method="setData" ifconfig="ewave_quickview/general/close_after_add_to_cart">
                 <argument name="key" xsi:type="string">close_after_add_to_cart</argument>

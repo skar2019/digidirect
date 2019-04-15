@@ -36,7 +36,7 @@ class Validator
         try {
             $result = $proceed(...$params);
         } catch (\Throwable $e) {
-            if (strpos($e->getMessage(), self::ILLEGAL_CHARACTER_SEARCH)) {
+            if (strpos($e->getMessage(), self::ILLEGAL_CHARACTER_SEARCH) !== false) {
                 $this->product->addRowError(
                     __(
                         'Attribute "%1" from Product with sku = "%2" contains illegal character',

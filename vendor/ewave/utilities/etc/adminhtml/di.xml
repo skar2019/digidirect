@@ -53,4 +53,17 @@
                 type="Ewave\Utilities\Plugin\Magento\Cms\Model\Wysiwyg\ConfigPlugin"
         />
     </type>
+
+    <!-- Allow to preview SVG files in WYSIWYG:  -->
+    <preference for="Magento\Cms\Controller\Adminhtml\Wysiwyg\Directive"
+                type="Ewave\Utilities\Preference\Magento\Cms\Controller\Adminhtml\Wysiwyg\Directive"/>
+
+    <type name="Ewave\Utilities\Preference\Magento\Cms\Controller\Adminhtml\Wysiwyg\Directive">
+        <arguments>
+            <argument name="xmlImageTypes" xsi:type="array">
+                <item name="image/svg+xml" xsi:type="string">image/svg+xml</item>
+                <item name="image/svg" xsi:type="string">image/svg</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

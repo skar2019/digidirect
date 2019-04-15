@@ -1,0 +1,128 @@
+//
+// Variables
+// ---------------------------------------------
+
+@contact-link__hover: @color-orange-red1;
+
+
+//
+// Common
+// ---------------------------------------------
+
+& when (@media-common = true) {
+
+    .cms-no-route .page-main {
+        max-width: none;
+    }
+
+    .noroute-content {
+
+        & {
+            height: 430px;
+            margin-bottom: -20px;
+            display: flex;
+            align-items: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: bottom center;
+            vertical-align: middle;
+            .lib-css(color, @color-white);
+        }
+
+        > .content-wrapper {
+            margin: 0 20px;
+        }
+
+        .content-wrapper {
+
+            > .head {
+                .lib-font-size(30);
+                font-weight: bold;
+            }
+
+            > .tohome {
+                text-decoration: none;
+                .lib-button();
+                padding: 10px 50px;
+            }
+
+            > .main {
+                margin-bottom: 37px;
+                line-height: 1.36;
+                .lib-font-size(22);
+                font-weight: bold;
+            }
+
+            > .main > .contact-us {
+                padding-bottom: 0.15vw;
+                color: inherit;
+                .lib-css(border-bottom, 1px solid @color-white);
+                text-decoration: none;
+                transition: border .2s;
+
+                &:hover{
+                    color: @contact-link__hover;
+                    .lib-css(border-bottom, 1px solid @contact-link__hover);
+                }
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+
+    .noroute-content {
+        height: 450px;
+    }
+
+    .noroute-content > .content-wrapper {
+
+        & {
+            margin: 0 60px;
+        }
+
+        > .head {
+            margin-bottom: 35px;
+            font-size: 36px;
+        }
+
+        > .main {
+            margin-bottom: 46px;
+            font-size: 24px;
+        }
+
+        > .tohome{
+            padding: 13px 50px;
+        }
+    }
+}
+
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
+
+    .noroute-content {
+        height: 600px;
+    }
+
+    .noroute-content >.content-wrapper {
+        & {
+            margin-left: 20vw;
+        }
+
+        > .head {
+            margin-bottom: 46px;
+            font-size: 40px;
+        }
+
+        > .main {
+            margin-bottom: 59px;
+            font-size: 28px;
+        }
+
+        > .tohome{
+            font-size: 18px;
+            padding: 23px 73px;
+        }
+
+    }
+}

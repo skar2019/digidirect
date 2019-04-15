@@ -31,6 +31,7 @@
                     <argument translate="true" name="button_label" xsi:type="string">Notify me when in stock</argument>
                 </arguments>
             </block>
+            <block class="Ewave\OutOfStockNotif\Block\Product\View\AvailableDate" name="outstock.info" template="Ewave_OutOfStockNotif::product/available_date.phtml" after="product.info" />
         </referenceContainer>
     </body>
 </page>

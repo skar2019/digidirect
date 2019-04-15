@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="carriers">
+            <group id="collect">
+                <field id="click_collect_entity" translate="label comment" type="select"
+                       sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Click and Collect Entity</label>
+                    <source_model>Ewave\AbstractEntity\Model\Config\Source\AttributeSetWithEmpty</source_model>
+                    <comment>The selected Abstract Entity will be used by Click and Collect extension</comment>
+                </field>
+                <field id="click_collect_fields_matrix" translate="label comment" type="select"
+                       sortOrder="82" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Click and Collect Fields to Set Up Store</label>
+                    <frontend_model>Ewave\CollectAbstractEntity\Block\Adminhtml\Form\Field\CollectFieldsMatrix</frontend_model>
+                    <backend_model>Ewave\Utilities\Model\System\Config\Backend\DefaultOptionModel</backend_model>
+                    <comment>You should re-save config to reload list of available attributes in the field below</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

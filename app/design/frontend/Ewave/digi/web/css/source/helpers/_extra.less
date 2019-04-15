@@ -23,6 +23,28 @@
         .lib-css(background, @color-white);
         .lib-css(padding, @layout-indent__width);
     }
+
+    ._unpadding {
+        padding: 0!important;
+    }
+
+    ._unmargin {
+        margin: 0!important;
+    }
+
+    ._full-width {
+        width: 100%;
+    }
+
+    ._text-center {
+        text-align: center;
+    }
+
+    ._truncate-clearfix::after {
+        content: '';
+        clear: both;
+        display: table;
+    }
 }
 
 //
@@ -88,6 +110,10 @@
 
     ._full-width-background {
         &:extend(._negative-gutter);
+    }
+    
+    ._hide-for-desktop {
+        display: none !important;
     }
 }
 

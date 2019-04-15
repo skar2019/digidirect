@@ -54,7 +54,7 @@ if (!$calculator) {
                                                 <div class="field choice <?php echo /* @escapeNotVerified */ $field->getCssClass()?>">
                                                     <div class="label">
                                                         <?php if ($field->getImage()):?>
-                                                            <span><img class="img" src="<?php echo /* @escapeNotVerified */ $block->getImageUrl($field)?>" alt="<?php echo $block->escapeHtml(__($field->getLabel())); ?>" /></span>
+                                                            <span class="image-wrap"><img class="img" src="<?php echo /* @escapeNotVerified */ $block->getImageUrl($field)?>" alt="<?php echo $block->escapeHtml(__($field->getLabel())); ?>" /></span>
                                                         <?php endif; ?>
                                                         <input type="<?php /* @escapeNotVerified */ echo $fieldGroup->getType(); ?>"
                                                                id="calculator-<?php /* @escapeNotVerified */ echo $id; ?>"
@@ -64,7 +64,8 @@ if (!$calculator) {
                                                             <?php if ($fieldGroup->isMandatory() == '1') : ?> data-validate='{required: true<?php if ($fieldGroup->getMandatoryUserNotice()) : ?>, messages:{required: "<?php /* @escapeNotVerified */ echo __($fieldGroup->getMandatoryUserNotice()); ?>"}<?php endif; ?>}'
                                                             <?php endif; ?>
                                                         >
-                                                        <label for="calculator-<?php /* @escapeNotVerified */ echo $id; ?>" class="title" title="<?php echo $block->escapeHtml(__($field->getLabel())); ?>"><?php echo $block->escapeHtml(__($field->getLabel())); ?></label>
+                                                        <label for="calculator-<?php /* @escapeNotVerified */ echo $id; ?>" class="label title" title="<?php echo $block->escapeHtml(__($field->getLabel())); ?>"></label>
+                                                        <div class="title"><?php echo $block->escapeHtml(__($field->getLabel())); ?></div>
                                                     </div>
                                                 </div>
                                             <?php endforeach; ?>

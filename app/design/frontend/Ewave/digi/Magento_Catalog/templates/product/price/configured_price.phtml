@@ -17,27 +17,27 @@ $configuredRegularPrice = $block->getPriceType(
 ?>
 <?php if ($configuredPrice->getAmount()->getValue() < $configuredRegularPrice->getAmount()->getValue()) : ?>
     <p class="price-as-configured">
-        <span class="special-price">
-            <?= /* @noEscape */ $block->renderAmount(
-                $configuredPrice->getAmount(),
-                [
-                    'display_label'     => $block->escapeHtml(__('Special Price')),
-                    'price_id'          => $block->escapeHtml($block->getPriceId('product-price-' . $idSuffix)),
-                    'price_type'        => 'finalPrice',
-                    'include_container' => true,
-                    'schema' => $schema,
-                ]
-            ); ?>
-        </span>
         <span class="old-price">
             <?= /* @noEscape */ $block->renderAmount(
                 $configuredRegularPrice->getAmount(),
                 [
-                    'display_label'     => $block->escapeHtml(__('Regular Price')),
+                    'display_label'     => $block->escapeHtml(__('')),
                     'price_id'          => $block->escapeHtml($block->getPriceId('old-price-' . $idSuffix)),
                     'price_type'        => 'oldPrice',
                     'include_container' => true,
                     'skip_adjustments'  => true,
+                ]
+            ); ?>
+        </span>
+        <span class="special-price">
+            <?= /* @noEscape */ $block->renderAmount(
+                $configuredPrice->getAmount(),
+                [
+                    'display_label'     => $block->escapeHtml(__('Promotional Pricing')),
+                    'price_id'          => $block->escapeHtml($block->getPriceId('product-price-' . $idSuffix)),
+                    'price_type'        => 'finalPrice',
+                    'include_container' => true,
+                    'schema' => $schema,
                 ]
             ); ?>
         </span>

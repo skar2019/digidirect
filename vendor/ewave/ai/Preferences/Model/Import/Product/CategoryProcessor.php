@@ -132,6 +132,7 @@ class CategoryProcessor extends \Magento\CatalogImportExport\Model\Import\Produc
      */
     public function upsertCategories($categoriesString, $categoriesSeparator, $storeId = null)
     {
+        $this->initCategories($storeId);
         $categoriesIds = [];
         $categories = explode($categoriesSeparator, $categoriesString);
 

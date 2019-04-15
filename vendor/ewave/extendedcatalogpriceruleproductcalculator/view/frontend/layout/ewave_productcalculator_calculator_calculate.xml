@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <body>
+        <referenceBlock name="ewave_product_calculator_product_details_before_add_to">
+            <block name="ewave_catalog_price_rule_product_calculator_product_message"
+                   class="Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule"
+                   template="Ewave_ExtendedCatalogPriceRule::product/view/list/display_message.phtml">
+                <arguments>
+                    <argument name="disable_product_types" xsi:type="array">
+                        <item name="configurable" xsi:type="string">configurable</item>
+                    </argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</layout>

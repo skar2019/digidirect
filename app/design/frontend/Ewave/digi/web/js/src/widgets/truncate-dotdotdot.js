@@ -4,11 +4,12 @@ import 'jquery/ui';
 import 'domReady!';
 
 $.widget('ewave.truncateDotdotdot', {
-    version: '0.0.1',
+    version: '0.0.2',
     options: {
         dotdotdot: '...',
         step: 3,
-        dataAttr: 'data-truncate-default-text'
+        dataAttr: 'data-truncate-default-text',
+        helperClass: '_truncate-clearfix'
     },
     _create() {
         this.$element = $(this.element);
@@ -41,9 +42,9 @@ $.widget('ewave.truncateDotdotdot', {
         if (height <= parentHeight) {
             return;
         }
+        $element.addClass(this.options.helperClass);
         $clone.css({
             visibility: 'hidden',
-            position: 'absolute',
             width: $parent.width() + 'px',
         });
         $element.after($clone);
@@ -53,7 +54,7 @@ $.widget('ewave.truncateDotdotdot', {
             $clone.text(text.substring(0, length) + this.options.dotdotdot);
         }
 
-        $element.text($clone.text()).attr(this.options.dataAttr, defaultText);
+        $element.text($clone.text()).attr(this.options.dataAttr, defaultText).removeClass(this.options.helperClass);
         $clone.remove();
     }
 });

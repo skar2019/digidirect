@@ -1,13 +1,16 @@
 define([
     'jquery',
     'matchMedia',
+    'tabs',
     'domReady!',
-    'customScrollbarInit'
+    'mousewheel',
+    'mCustomScrollbar'
 ], function ($, mediaCheck) {
     'use strict';
 
     var action = document.querySelectorAll('.tab-in'),
-        maxHeight = 715;
+        maxHeight = 715,
+        tabElement = document.getElementById('details-tab');
 
     Array.prototype.forEach.call(action, function (el) {
         var control = el.getAttribute('data-alias'),
@@ -43,10 +46,29 @@ define([
     mediaCheck({
         media: '(min-width: 1024px)',
         entry: function () {
-            $('.right-bar').customScrollbar();
+            $('.right-bar').mCustomScrollbar({
+                theme: 'dark-3'
+            });
         },
         exit: function () {
-            $('.right-bar').customScrollbar('destroy');
+            $('.right-bar').mCustomScrollbar('destroy');
+        }
+    });
+
+    mediaCheck({
+        media: '(min-width: 768px)',
+        entry: function () {
+            $(tabElement).tabs({
+                "openedState": "active",
+                "active": 0,
+                "collapsible": false
+            });
+        },
+        exit: function () {
+            $(tabElement).tabs({
+                "active": false,
+                "collapsible": true
+            });
         }
     });
 });

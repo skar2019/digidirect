@@ -68,6 +68,11 @@ $helper = $this->helper('Magento\Catalog\Helper\Output');
                             echo $variationsBlock ? $variationsBlock->setProduct($_product)->toHtml() : $block->getProductDetailsHtml($_product);
                         }
                         ?>
+
+                        <?php if ($productDetailsBeforeAddTo = $block->getChildBlock('ewave_product_calculator_product_details_before_add_to')): ?>
+                            <?php echo $productDetailsBeforeAddTo->setProduct($_product)->getChildHtml(); ?>
+                        <?php endif; ?>
+
                         <div class="product-item-inner">
                             <div class="product actions product-item-actions"<?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
                                 <div class="actions-primary"<?php echo strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>

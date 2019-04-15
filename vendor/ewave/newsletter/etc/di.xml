@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Ewave\Newsletter\Api\Data\PostInterface" type="Ewave\Newsletter\Model\Subscriber" />
+    <preference for="Ewave\Newsletter\Api\SubscriberRepositoryInterface" type="Ewave\Newsletter\Model\SubscriberRepository" />
+
+    <type name="Magento\Quote\Api\PaymentMethodManagementInterface">
+        <plugin name="checkout_newsletter_subscribe" type="Ewave\Newsletter\Plugin\Quote\Model\PaymentMethodManagementPlugin"/>
+    </type>
+
+    <type name="Magento\Newsletter\Model\Subscriber">
+        <plugin name="ewave_newsletter_subscriber" type="Ewave\Newsletter\Plugin\Newsletter\Model\SubscriberPlugin"/>
+    </type>
+
+    <type name="Magento\Newsletter\Model\ResourceModel\Subscriber\Collection">
+        <plugin name="ewave_newsletter_subscriber_grid" type="Ewave\Newsletter\Plugin\Newsletter\Model\ResourceModel\Subscriber\CollectionPlugin"/>
+    </type>
+
+    <type name="Ewave\Utilities\Preference\Magento\Framework\Mail\Template\TransportBuilder">
+        <arguments>
+            <argument name="customTemplateVars" xsi:type="array">
+                <item name="subscriber" xsi:type="object">Ewave\Newsletter\Model\MailTemplateCustomVar</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\Newsletter\Model\Config\StoreFrontFields">
+        <arguments>
+            <argument name="fields" xsi:type="array">
+                <item name="first_name" xsi:type="array">
+                    <item name="label" xsi:type="string">First Name</item>
+                    <item name="value" xsi:type="const">Ewave\Newsletter\Api\Data\SubscriberInterface::FIRSTNAME</item>
+                </item>
+                <item name="last_name" xsi:type="array">
+                    <item name="label" xsi:type="string">Last Name</item>
+                    <item name="value" xsi:type="const">Ewave\Newsletter\Api\Data\SubscriberInterface::LASTNAME</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Paypal\Controller\Express\PlaceOrder">
+        <plugin name="ewave_newsletter_paypal_express_placeorder" type="Ewave\Newsletter\Plugin\Paypal\Controller\Express\PlaceOrderPlugin"/>
+    </type>
+</config>

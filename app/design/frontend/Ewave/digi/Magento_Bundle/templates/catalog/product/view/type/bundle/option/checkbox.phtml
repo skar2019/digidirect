@@ -14,7 +14,11 @@
             <?php if ($block->showSingle()): ?>
                 <?php if ($isEnableImages): ?>
                     <?php $imageUrl = $this->helper('Magento\Catalog\Helper\Image')->init($_selections[0], 'bundle_product_image_thumbnail')->getUrl(); ?>
-                    <div class="bundle-item">
+                    <div class="bundle-item"
+                         data-role="bundle-simple"
+                         data-product-id="<?=$_selections[0]->getProductId() ?>"
+                         data-product-url="<?= $block->escapeUrl($_selections[0]->getProductUrl()); ?>"
+                    >
                         <img class="img" src="<?php echo $block->escapeUrl($imageUrl); ?>" alt="<?php echo $block->escapeHtml($_selections[0]->getName()) ?>">
                         <div class="content">
                         <?php /* @escapeNotVerified */ echo $block->getSelectionQtyTitlePrice($_selections[0]) ?>
@@ -44,6 +48,9 @@
                                 <input class="bundle-option-<?php /* @escapeNotVerified */ echo $_option->getId() ?> checkbox product bundle option change-container-classname"
                                        id="bundle-option-<?php /* @escapeNotVerified */ echo $_option->getId() ?>-<?php /* @escapeNotVerified */ echo $_selection->getSelectionId() ?>"
                                        type="checkbox"
+                                       data-role="bundle-simple"
+                                       data-product-id="<?=$_selection->getProductId() ?>"
+                                       data-product-url="<?= $block->escapeUrl($_selection->getProductUrl()); ?>"
                                        <?php if ($_option->getRequired()) echo 'data-validate="{\'validate-one-required-by-name\':\'input[name^=&quot;bundle_option[' . $_option->getId() . ']&quot;]:checked\'}"'?>
                                        name="bundle_option[<?php /* @escapeNotVerified */ echo $_option->getId() ?>][<?php /* @escapeNotVerified */ echo $_selection->getId() ?>]"
                                        data-selector="bundle_option[<?php /* @escapeNotVerified */ echo $_option->getId() ?>][<?php /* @escapeNotVerified */ echo $_selection->getId() ?>]"
@@ -65,6 +72,9 @@
                             <input class="bundle-option-<?php /* @escapeNotVerified */ echo $_option->getId() ?> checkbox product bundle option change-container-classname"
                                    id="bundle-option-<?php /* @escapeNotVerified */ echo $_option->getId() ?>-<?php /* @escapeNotVerified */ echo $_selection->getSelectionId() ?>"
                                    type="checkbox"
+                                   data-role="bundle-simple"
+                                   data-product-id="<?=$_selection->getProductId() ?>"
+                                   data-product-url="<?= $block->escapeUrl($_selection->getProductUrl()); ?>"
                                 <?php if ($_option->getRequired()) echo 'data-validate="{\'validate-one-required-by-name\':\'input[name^=&quot;bundle_option[' . $_option->getId() . ']&quot;]:checked\'}"'?>
                                    name="bundle_option[<?php /* @escapeNotVerified */ echo $_option->getId() ?>][<?php /* @escapeNotVerified */ echo $_selection->getId() ?>]"
                                    data-selector="bundle_option[<?php /* @escapeNotVerified */ echo $_option->getId() ?>][<?php /* @escapeNotVerified */ echo $_selection->getId() ?>]"

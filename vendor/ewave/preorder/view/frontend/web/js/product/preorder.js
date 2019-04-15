@@ -12,7 +12,8 @@ define([
             addToCartButton: $('#product-addtocart-button'),
             preOrderNote: '',
             addToCartLabel: '',
-            addToCartForm: ''
+            addToCartForm: '',
+            preOrderButtonClass: '-pre-order'
         },
 
         _original: {
@@ -21,19 +22,22 @@ define([
         },
 
         _enabled: false,
+        _isPreOrderEvent: false,
+        _addToCartWidgetIsInited: false,
 
         _create: function () {
             this.isAvailability = false;
             if (this.options.availabilityElement.length) {
                 this.isAvailability = true;
             }
+            this.options.addToCartForm = this.options.addToCartForm ? $(this.options.addToCartForm) : this.element.closest('[data-role="tocart-form"]');
             this._saveOriginal();
-
             if (this.options.autoEnable) {
                 this.enable();
             }
-            this.options.addToCartForm = this.options.addToCartForm ? $(this.options.addToCartForm) : this.element.closest('[data-role="tocart-form"]');
-            this.options.addToCartButton.on('click', $.proxy(this._setDefaultLabel, this));
+            $(document).on('ajax:addToCart', $.proxy(function () {
+                this._setDefaultLabel();
+            }, this));
         },
 
         _saveOriginal: function () {
@@ -61,11 +65,20 @@ define([
             } else {
                 this.options.addToCartButton.html(label);
             }
+            this.isPreOrderLabel = label !== this._original.addToCartLabel;
+            if (!this.isPreOrderLabel && this._addToCartWidgetIsInited) {
+                this._setDefaultLabel(true);
+            }
         },
 
         enable: function () {
+            var self = this;
             this._enabled = true;
             this._changeLabels();
+            this.options.addToCartButton.addClass(this.options.preOrderButtonClass);
+            this.options.addToCartForm.on('click', '.' + this.options.preOrderButtonClass, function () {
+                self._isPreOrderEvent = true;
+            });
         },
 
         disable: function () {
@@ -74,11 +87,19 @@ define([
                 this.options.availabilityElement.html(this._original.availabilityText);
             }
             this._setButtonLabel(this._original.addToCartLabel);
-            this._setDefaultLabel(null, this._original.addToCartLabel);
+            this.options.addToCartForm.off('click', '.' + this.options.preOrderButtonClass);
+            this.options.addToCartButton.removeClass(this.options.preOrderButtonClass);
+            if (this._addToCartWidgetIsInited) {
+                this._setDefaultLabel(true);
+            }
         },
 
-        _setDefaultLabel: function (e, data) {
-            this.options.addToCartForm.catalogAddToCart('setDefaultOptins', 'addToCartButtonTextDefault', data || this.options.addToCartLabel);
+        _setDefaultLabel: function (toClear) {
+            if (this._isPreOrderEvent || toClear) {
+                this.options.addToCartForm.catalogAddToCart('setDefaultOptins', 'addToCartButtonTextDefault', this.isPreOrderLabel ? this.options.addToCartLabel : null);
+            }
+            this._isPreOrderEvent = false;
+            this._addToCartWidgetIsInited = true;
         }
     });
 

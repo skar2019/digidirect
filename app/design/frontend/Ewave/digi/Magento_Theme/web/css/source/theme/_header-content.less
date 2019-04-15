@@ -31,12 +31,12 @@
             padding-top: 17px;
         }
 
-        .wrap-links .svg-icon {
+        .wrap-links .link > .svg-icon {
             width: 30px;
             height: 29px;
         }
 
-        .wrap-links .svg-icon.-digi {
+        .wrap-links .link > .svg-icon.-digi {
             width: 44px;
             height: 44px;
             margin-top: -1px;
@@ -73,7 +73,7 @@
             box-sizing: content-box;
 
             &::before {
-               display: none;
+                display: none;
             }
         }
 
@@ -89,20 +89,23 @@
         .logo img {
             width: 126px;
             height: 30px;
-        }
-    }
-}
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-    .header.content {
-        .nav-toggle {
-            display: inline-block;
+            vertical-align: top;
         }
     }
 }
 
 //
-//  Tablet +
+//  M +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .nav-toggle {
+        display: inline-block;
+    }
+}
+
+//
+//  L +
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {

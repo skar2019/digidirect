@@ -33,7 +33,7 @@ class AeIndex extends \Magento\Framework\App\Helper\AbstractHelper
     protected $attributeSetCollectionFactory;
 
     /**
-     * @var AeHelper 
+     * @var AeHelper
      */
     protected $aeHelper;
 

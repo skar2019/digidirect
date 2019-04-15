@@ -17,8 +17,15 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $customTemplateVars;
 
-    /** @var EmailCollectionFactory */
+    /**
+     * @var EmailCollectionFactory
+     */
     protected $emailCollectionFactory;
+
+    /**
+     * @var array
+     */
+    protected $recipients;
 
     /**
      * TransportBuilder constructor.
@@ -54,7 +61,7 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
      */
     public function getTo()
     {
-        $recipients = $this->message->getRecipients();
+        $recipients = $this->recipients;
         return reset($recipients);
     }
 
@@ -168,5 +175,14 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
         $this->prepareCustomTemplateVars();
 
         return parent::prepareMessage();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addTo($address, $name = '')
+    {
+        $this->recipients[] = $address;
+        return parent::addTo($address, $name);
     }
 }

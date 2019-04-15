@@ -12,64 +12,74 @@
         "sort-packages": true
     },
     "require": {
-        "magento/magento-cloud-metapackage": ">=2.3.0 <2.3.1",
-        "livechat/module-magento-livechat": "dev-master",
-        "ewave/cms-upgrade": "dev-release/1.2.7",
-        "ewave/emailblocker": "dev-release/1.0.5",
-        "ewave/security": "dev-release/1.0.6",
-        "ewave/utilities": "dev-release/1.19.1",
-        "ewave/legobasetheme": "dev-release/1.19.0",
-        "ewave/defaulttheme": "dev-release/1.3.1",
-        "ewave/localization": "dev-release/1.5.0",
-        "ewave/magentofixes": "dev-digidirect_develop",
-        "ewave/navigationcmsupgrade": "dev-release/1.0.3",
         "ewave/abstractattributes": "dev-release/3.0.6",
         "ewave/abstractattributesnavigation": "dev-develop",
-        "ewave/feed": "dev-release/1.1.1",
-        "ewave/navigation": "dev-release/1.3.2",
-        "ewave/layerednavigation": "dev-release/1.5.2",
-        "ewave/categoryfilter": "dev-release/1.0.1",
-        "ewave/productpriority": "dev-release/1.0.3",
-        "ewave/productoverlay": "dev-release/2.2.0",
-        "ewave/productattachment": "dev-release/1.1.2",
-        "ewave/socialsharing": "dev-release/1.1.1",
-        "ewave/locator": "dev-release/1.4.0",
-        "ewave/abstractentity": "dev-release/3.1.1",
-        "ewave/advancedinventory": "dev-release/1.2.0",
+        "ewave/abstractentity": "dev-release/3.1.4",
         "ewave/addressverification": "dev-release/2.0.7",
+        "ewave/ai": "dev-develop",
+        "ewave/banner": "dev-release/4.0.0",
+        "ewave/blog": "dev-release/2.2.0",
+        "ewave/bloginfinitescroll": "dev-release/1.0.0",
+        "ewave/cartsuggestions": "dev-release/1.0.0",
+        "ewave/categoryfilter": "dev-release/1.0.1",
         "ewave/checkoutfields": "dev-release/1.8.0",
-        "ewave/collect": "dev-release/2.10.0",
-        "ewave/seo": "dev-release/1.4.1",
-        "ewave/ai": "dev-release/1.15.2",
-        "ewave/infinitescroll": "dev-release/1.2.2",
-        "ewave/outofstocknotif": "dev-release/2.1.1",
+        "ewave/cms-upgrade": "dev-release/1.2.7",
+        "ewave/collect": "dev-release/2.12.0",
+        "ewave/collect-staging": "dev-develop",
+        "ewave/collectabstractentity": "dev-release/1.1.0",
+        "ewave/collectabstractentitymsi": "dev-release/1.0.0",
+        "ewave/collectstorelocator": "dev-release/1.1.0",
+        "ewave/defaulttheme": "dev-release/1.3.1",
+        "ewave/email": "dev-release/1.0.0",
+        "ewave/emailblocker": "dev-release/1.0.5",
+        "ewave/extendedcatalogpricerule": "dev-release/1.1.0",
+        "ewave/extendedcatalogpriceruleproductcalculator": "dev-release/1.0.0",
         "ewave/extendedminicart": "dev-release/1.0.1",
         "ewave/extendedshippingrates": "dev-release/1.3.4",
-        "ewave/preorder": "dev-develop",
-        "ewave/sitemapwidget": "dev-release/1.1.0",
-        "ewave/productmultiview": "dev-release/1.1.0",
-        "ewave/blog": "dev-release/2.2.0",
-        "ewave/freegift": "dev-release/1.10.3",
-        "ewave/quickview": "dev-release/1.2.3",
-        "ewave/productcalculator": "dev-release/1.5.0",
-        "ewave/cartsuggestions": "dev-release/1.0.0",
+        "ewave/faq": "dev-release/1.2.6",
+        "ewave/feed": "dev-release/1.1.1",
+        "ewave/freegift": "dev-release/1.10.4",
         "ewave/giftcardimage": "dev-release/1.1.0",
-        "ewave/orderimages": "dev-release/1.3.0",
-        "ewave/extendedcart": "dev-release/1.1.3",
-        "ewave/styleguide": "dev-develop",
-        "ewave/advancedinventorymystore": "dev-release/2.0.0",
-        "ewave/bloginfinitescroll": "dev-release/1.0.0",
-        "ewave/collect-staging": "dev-develop",
-        "ewave/email": "dev-release/1.0.0",
         "ewave/googleapi": "dev-release/1.0.0",
+        "ewave/infinitescroll": "dev-release/1.2.3",
+        "ewave/layerednavigation": "dev-release/1.5.2",
+        "ewave/legobasetheme": "dev-release/1.20.0",
+        "ewave/localization": "dev-release/1.5.0",
+        "ewave/locator": "dev-release/1.5.1",
+        "ewave/magentofixes": "dev-digidirect_develop",
+        "ewave/msi": "dev-release/1.0.0",
         "ewave/mystorewidget": "dev-release/2.0.7",
         "ewave/mystorewidgetcollect": "dev-release/1.0.0",
-        "ewave/store": "dev-release/1.2.0",
-        "ewave/storelocator": "dev-release/1.7.0",
-        "ewave/storelocatorinfinitescroll": "dev-release/1.0.0",
+        "ewave/navigation": "dev-release/1.3.2",
+        "ewave/navigationcmsupgrade": "dev-release/1.0.3",
+        "ewave/newsletter": "dev-release/1.3.0",
+        "ewave/orderimages": "dev-release/1.3.1",
+        "ewave/outofstocknotif": "dev-release/2.3.0",
+        "ewave/outofstocknotifpreorder": "dev-release/1.0.0",
+        "ewave/preorder": "dev-develop",
+        "ewave/productattachment": "dev-release/1.1.2",
+        "ewave/productcalculator": "dev-release/1.6.0",
+        "ewave/productmultiview": "dev-release/1.1.0",
+        "ewave/productoverlay": "dev-release/2.2.0",
+        "ewave/productpriority": "dev-release/1.0.3",
+        "ewave/pronto": "dev-develop",
+        "ewave/prontodigi": "dev-develop",
+        "ewave/quickview": "dev-release/1.2.4",
         "ewave/relatedproduct": "dev-release/2.2.0",
-        "ewave/banner": "dev-release/4.0.0",
-        "ewave/extendedcatalogpricerule": "dev-release/1.0.1"
+        "ewave/security": "dev-release/1.0.6",
+        "ewave/seo": "dev-release/1.4.1",
+        "ewave/singlecheckoutbutton": "dev-release/1.0.1",
+        "ewave/sitemapwidget": "dev-release/1.1.0",
+        "ewave/socialsharing": "dev-release/1.1.1",
+        "ewave/store": "dev-release/1.2.0",
+        "ewave/storelocator": "dev-release/1.9.0",
+        "ewave/storelocatorinfinitescroll": "dev-release/1.0.0",
+        "ewave/styleguide": "dev-develop",
+        "ewave/utilities": "dev-release/1.19.3",
+        "klevu/module-search": "^2.2",
+        "livechat/module-magento-livechat": "dev-master",
+        "magento/magento-cloud-metapackage": "2.3.1",
+        "zipmoney/magento2": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "~2.13.0",
@@ -346,6 +356,54 @@
         {
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_relatedproduct.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_singlecheckoutbutton.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_pronto.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectstorelocator.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_faq.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_newsletter.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectabstractentity.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectabstractentitymsi.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_msi.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_outofstocknotifpreorder.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcatalogpriceruleproductcalculator.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_outofstocknotif.git"
         }
     ],
     "extra": {

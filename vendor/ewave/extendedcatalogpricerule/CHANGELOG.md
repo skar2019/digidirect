@@ -8,3 +8,10 @@
 =============
 * Bugfixes:
     * [#290435](https://ewave.tpondemand.com/entity/290435) -- [Extended Catalog Price Rule] Image is not displayed in Promotion area
+
+1.1.0
+=============
+* New features:
+    * [#294065](https://ewave.tpondemand.com/entity/294065) -- [Extended Catalog Price Rule] As a customer, I want to be able to use 'Display a message' Catalog Price Rule on widgets
+* Bugfixes:
+    * [#295618](https://ewave.tpondemand.com/entity/295618) -- [Ext catalog price rule] Rule is not applied to the configurable which contains a simple product matches the rule

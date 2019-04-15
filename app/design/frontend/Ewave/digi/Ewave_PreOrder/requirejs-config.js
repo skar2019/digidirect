@@ -7,6 +7,9 @@ var config = {
             },
             'Ewave_PreOrder/js/product/preorder_grouped': {
                 'Ewave_PreOrder/js/product/preorder_grouped-mixin': true
+            },
+            'Ewave_PreOrder/js/product/preorder_configurable': {
+                'Ewave_PreOrder/js/product/preorder_configurable-mixin': true
             }
         }
     },

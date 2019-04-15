@@ -1,9 +1,4 @@
 <?xml version="1.0"?>
-<!--
-/**
- * @package Ewave_StoreLocator
- */
--->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Store/etc/config.xsd">
     <default>
         <ewave_storelocator_config>
@@ -19,6 +14,10 @@
             <general>
                 <api>google</api>
             </general>
+            <dev>
+                <guess_state>0</guess_state>
+                <guess_country>0</guess_country>
+            </dev>
         </ewave_storelocator_config>
     </default>
 </config>

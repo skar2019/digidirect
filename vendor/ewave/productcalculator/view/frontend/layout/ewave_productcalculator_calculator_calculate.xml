@@ -15,6 +15,7 @@
                            template="Ewave_ProductCalculator::product/listing/renderer.phtml"
                            ifconfig="catalog/frontend/show_swatches_in_product_list"/>
                 </block>
+                <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="ewave_product_calculator_product_details_before_add_to"/>
             </block>
         </block>
         <block class="Magento\Framework\Pricing\Render" name="product.price.render.default">

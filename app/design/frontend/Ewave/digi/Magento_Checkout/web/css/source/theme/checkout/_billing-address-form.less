@@ -1,0 +1,82 @@
+//
+//  Checkout: Billing address form
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .billing-address-form {
+        .field[name*='telephone'] .field-tooltip {
+            display: none;
+        }
+
+        .choice.field > label {
+            margin-top: 10px;
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .billing-address-form {
+        .field[name*='firstname'],
+        .field[name*='city'],
+        .field[name*='country_id'],
+        .field[name*='country'] {
+            float: left;
+            width: calc(~'50% - 10px');
+        }
+
+        .field[name*='lastname'],
+        .field[name*='telephone'] {
+            float: right;
+            width: calc(~'50% - 10px');
+        }
+
+        .field[name*='region'] {
+            margin-left: 20px;
+            float: left;
+        }
+
+        .field[name*='postcode'] {
+            float: right;
+        }
+
+        .field[name*='region'],
+        .field[name*='postcode'] {
+            width: calc(~'25% - 15px');
+        }
+
+        .field[name*='telephone'],
+        .field[name*='country_id'] {
+            margin-bottom: 0;
+        }
+    }
+
+    .payment-method-billing-address {
+        .actions-toolbar .action-update {
+            .lib-font-size(14);
+            padding: 13px 15px 12px;
+            width: 180px;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .payment-method-billing-address {
+        .actions-toolbar .action-update {
+            .lib-font-size(16);
+            padding: 16px 15px 14px;
+            width: 200px;
+        }
+    }
+}

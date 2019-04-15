@@ -1,0 +1,108 @@
+//
+//  Collect: Checkout
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .checkout-shipping-address {
+        .collect-block {
+            .lib-css(border-bottom, 1px solid @color-3-5);
+        }
+
+        .collect-block .wrapper-title {
+            width: ~'calc(100% - 40px)';
+        }
+    }
+
+    .checkout-container .collect-type {
+        & {
+            .lib-css(border-bottom, 2px solid @color-black);
+            border-top: none;
+            margin-top: 28px;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: 14px;
+        }
+
+        input[type='radio'] {
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        .label:before,
+        .label:after {
+            display: none;
+        }
+
+        input[type='radio'] + label {
+            padding-left: 0;
+        }
+
+        label {
+            .lib-font-size(12);
+            padding-top: 12px;
+            padding-bottom: 6px;
+            .lib-css(background-color, @color-3-5);
+        }
+
+        > input:checked + label {
+            .lib-css(border-bottom, 2px solid @color-black);
+            .lib-css(background-color, @color-black);
+            .lib-css(color, @color-white);
+            padding-left: 0;
+        }
+
+        .svg-icon {
+            width: 30px;
+            height: 30px;
+        }
+    }
+}
+
+//
+//  M +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .checkout-shipping-address {
+        .collect-block {
+            padding-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .collect-block .link {
+            right: 0;
+            margin-top: 0;
+            bottom: 0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .collect-block .wrapper-title {
+            padding-left: 20px;
+            font-size: 12px;
+        }
+
+        .collect-block .wrapper-title > .title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+    }
+
+    .checkout-container .collect-type {
+        .label {
+            .lib-font-size(20);
+            font-weight: bold;
+        }
+
+        .svg-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 18px;
+        }
+    }
+}

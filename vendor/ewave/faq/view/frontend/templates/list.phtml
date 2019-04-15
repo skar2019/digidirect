@@ -1,0 +1,29 @@
+<?php
+/**
+ * @var \Ewave\Faq\Block\Listfaq $block
+ */
+$faqs = $block->getFaqCollection();
+?>
+
+<?php if ($faqs->getSize()) : ?>
+    <?php foreach ($faqs as $faq) : ?>
+        <div class="faq-item" data-testid="faq-item-list">
+            <a class="faq-question" href="#faq-answer-<?php echo (int)$faq->getId(); ?>" data-testid="faq-question-item" data-question-id="<?php echo
+            (int)$faq->getId(); ?>" id="faq-question-<?php echo
+            (int)$faq->getId(); ?>" title="<?php echo $block->escapeHtml($faq->getQuestion()); ?>">
+                <?php /* @escapeNotVerified */ echo $block->stripTags($faq->getQuestion()); ?>
+            </a>
+            <div class="faq-answer" id="faq-answer-<?php echo (int)$faq->getId(); ?>" data-testid="faq-answer-item">
+                <?php /* @escapeNotVerified */ echo $faq->getAnswer(); ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('No FAQ found!') ?></span></div>
+<?php endif; ?>
+
+<?php if ($_toolbar = $block->getChildHtml('toolbar')) : ?>
+    <div class="toolbar faq-toolbar">
+        <?php /* @escapeNotVerified */ echo $_toolbar ?>
+    </div>
+<?php endif; ?>

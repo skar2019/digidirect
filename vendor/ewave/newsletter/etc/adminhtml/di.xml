@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Newsletter\Block\Adminhtml\Subscriber\Grid">
+        <plugin name="Ewave_Newsletter::Magento\Newsletter\Block\Adminhtml\Subscriber\Grid" type="Ewave\Newsletter\Plugin\Newsletter\Block\Adminhtml\Subscriber\Grid"/>
+    </type>
+</config>

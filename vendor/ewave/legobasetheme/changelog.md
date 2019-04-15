@@ -342,3 +342,17 @@ Feature:
 Improvements:
 
 - Input radio and checkbox focus styles
+
+1.19.1
+=============
+
+Bugfix:
+
+- [#291334](https://ewave.tpondemand.com/entity/291334) - Product can't be added to the cart when custom option with "File" type is enabled for the product
+
+1.20.0
+=============
+
+Feature:
+
+- [#294065](https://ewave.tpondemand.com/entity/294065) - [Extended Catalog Price Rule] As a customer, I want to be able to use 'Display a message' Catalog Price Rule on widgets

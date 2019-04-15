@@ -2,8 +2,6 @@
 
 namespace Ewave\Collect\Helper\Storage;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Webapi\Exception;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\App\Helper\Context;
 use Ewave\Collect\Helper\Data as CollectHelperData;
@@ -256,6 +254,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->scopeConfig->getValue(
             CollectHelperData::XML_GEO_LOCATION_METHOD,
             ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function showUnavailablePlaces()
+    {
+        return $this->scopeConfig->isSetFlag(
+            CollectHelperData::CONFIG_SHOW_UNAVAILABLE_PLACES,
+            ScopeInterface::SCOPE_STORE
         );
     }
 }

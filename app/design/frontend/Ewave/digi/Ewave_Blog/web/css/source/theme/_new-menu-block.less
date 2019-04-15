@@ -1,0 +1,206 @@
+//
+//  Blog menu
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .blog-categories {
+        > .list > .item {
+            display: flex;
+        }
+
+        > .list {
+            padding-left: 0;
+        }
+
+        .logo {
+            .lib-css(color, @color-white);
+            .lib-css(background, @color-black);
+            text-align: left;
+            padding: 18px 20px 16px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .logo .svgi-blog-widget {
+            display: none;
+        }
+
+        .count {
+            display: none;
+        }
+
+        .link {
+            .lib-css(color, @color-white);
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .logo .arrow > .svgi-action {
+            width: 20px;
+            height: 20px;
+        }
+
+        .logo .arrow {
+            transform: rotate(-90deg);
+            position: absolute;
+            right: 20px;
+            top: 18px;
+        }
+
+        .logo.active .arrow {
+            transform: rotate(90deg);
+        }
+    }
+
+    .blog-view-index,
+    .blog-category-index,
+    .blog-tag-index,
+    .blog-index-index {
+        .columns {
+            flex-direction: column;
+        }
+
+        .blog-tags {
+            display: none;
+        }
+
+        .sidebar-main {
+            padding: 0;
+        }
+    }
+
+    .blog-view-index,
+    .blog-tag-index {
+        .blog-search {
+            padding-top: 35px;
+        }
+    }
+
+    .faq-categories.secondary-nav.blog-categories > .logo {
+        min-height: 52px;
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .blog-category-index,
+    .blog-tag-index,
+    .blog-view-index,
+    .blog-index-index {
+        .sidebar.sidebar-main {
+            padding-left: 0;
+            padding-right: 20px;
+        }
+
+        .blog-tags {
+            display: flex;
+        }
+    }
+
+    .blog-category-index,
+    .blog-index-index {
+        .sidebar.sidebar-main {
+            padding-top: 100px;
+        }
+    }
+
+    .blog-view-index,
+    .blog-tag-index {
+        .sidebar.sidebar-main {
+            padding-top: 35px;
+        }
+
+        .blog-search {
+            padding-top: 0;
+        }
+    }
+
+    .blog-categories {
+        & {
+            position: relative;
+            padding-top: 100px;
+        }
+
+        > .list {
+            padding: 0;
+        }
+
+        .logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            .lib-css(background, @color-black);
+            height: 91px;
+            padding: 0 0 0 20px;
+            cursor: default;
+        }
+
+        .logo .arrow {
+            display: none;
+        }
+
+        .logo.active .logo-title {
+            display: none;
+        }
+
+        .logo .svgi-blog-widget {
+            display: block;
+            cursor: default;
+        }
+
+        .svgi-blog-widget {
+            width: 91px;
+            height: 91px;
+        }
+
+        > .list > .item {
+            padding-left: 0;
+        }
+
+        .count {
+            display: none;
+        }
+
+        .link {
+            .lib-css(color, @color-white);
+            text-decoration: none;
+        }
+
+        .link.-active:after {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 54px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            .lib-css(background, @color-2-1);
+            right: -30px;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .blog-category-index,
+    .blog-tag-index,
+    .blog-view-index,
+    .blog-index-index {
+        .sidebar.sidebar-main {
+            padding-right: 50px;
+        }
+    }
+}

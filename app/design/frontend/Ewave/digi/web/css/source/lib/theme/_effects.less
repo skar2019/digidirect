@@ -16,6 +16,9 @@
 @link-color__color: @color-2-1;
 @social-icon__color: @color-black;
 @social-icon__background: @color-white;
+@product-item-offset__margin-top: -10px;
+@product-item-offset__margin-bottom: 10px;
+@products-slider-item__box-shadow-color: fade(@color-black, 10%);
 
 //
 //  Transition Simple. Example: .lib-transition(color);
@@ -63,6 +66,26 @@
     .lib-css(box-shadow, 0 0 0 2px @card-hover__border-color);
     .lib-css(color, @sub-menu-hover__color);
     z-index: 10;
+}
+
+//
+//  Checkout complete tab hover
+//  ---------------------------------------------
+
+.lib-checkout-tab-hover {
+    .lib-css(background, @color-white);
+    .lib-css(color, @color-2-1);
+    z-index: 10;
+}
+
+//
+//  Checkout complete tab number hover
+//  ---------------------------------------------
+
+.lib-checkout-tabnumber-hover {
+    .lib-css(border-color, @card-hover__color);
+    .lib-css(color, @color-white);
+    .lib-css(background-color, @card-hover__color);
 }
 
 //
@@ -115,6 +138,16 @@
 
 .lib-color-hover {
     .lib-css(color, @link-color__color);
+    .lib-transition(@transition-property, @block-transition-duration);
+}
+
+//
+//  Block offset (slider)
+//  ---------------------------------------------
+
+.lib-block-offset-hover {
+    .lib-css(margin-top, @product-item-offset__margin-top);
+    .lib-css(margin-bottom, @product-item-offset__margin-bottom);
     .lib-transition(@transition-property, @block-transition-duration);
 }
 

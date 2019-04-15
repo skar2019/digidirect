@@ -66,12 +66,6 @@ class ConfigurablePlugin
      */
     protected function collectGivenExtendedRulesForParent(array $rulesData)
     {
-        $simpleProductsNumber = count($rulesData);
-        $rulesDataCount = count(array_filter($rulesData));
-        if ($rulesDataCount !== $simpleProductsNumber) { // some children don't have any extended rules at all.
-            return false;
-        }
-
         // Count all extended rules for children.
         $ruleIdsCounter = [];
         $rulesDataForParent = [];
@@ -85,12 +79,6 @@ class ConfigurablePlugin
             }
         }
 
-        // remove rules which do not applied for all children.
-        foreach ($ruleIdsCounter as $rule => $count) {
-            if ($count != $simpleProductsNumber) {
-                unset($rulesDataForParent[$rule]);
-            }
-        }
         return $rulesDataForParent;
     }
 }

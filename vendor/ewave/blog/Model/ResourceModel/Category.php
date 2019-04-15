@@ -168,6 +168,7 @@ class Category extends AbstractDb
                 []
             )
             ->where('post.status = ?', Status::STATUS_ENABLED)
+            ->where('post.publish_date <= NOW()')
             ->where('rel.category_id = ?', (int)$categoryId);
         return $connection->fetchOne($select);
     }

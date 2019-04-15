@@ -4,6 +4,7 @@ namespace Ewave\PreOrder\Helper;
 
 use Ewave\PreOrder\Api\Data\ProductAttributeInterface;
 use Ewave\PreOrder\Model\Preorder\Mapper as PreorderMapper;
+use Ewave\PreOrder\Model\StockResolver;
 use Magento\Bundle\Model\Product\Type as Bundle;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
@@ -46,12 +47,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $stockItemRepository;
 
     /**
+     * @var StockResolver
+     */
+    protected $stockResolver;
+
+    /**
      * Preorder constructor.
      *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Ewave\PreOrder\Helper\Config $preOrderConfigHelper
      * @param \Ewave\PreOrder\Helper\Templater $templater
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param StockResolver $stockResolver
      * @param \Ewave\PreOrder\Model\Preorder\Mapper $preOrderMapper
      * @param StockItemRepositoryInterface $stockItemRepository
      */
@@ -60,12 +67,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         Config $preOrderConfigHelper,
         Templater $templater,
         StockRegistryInterface $stockRegistry,
+        StockResolver $stockResolver,
         PreorderMapper $preOrderMapper,
         StockItemRepositoryInterface $stockItemRepository
     ) {
         $this->preOrderConfigHelper = $preOrderConfigHelper;
         $this->templater = $templater;
         $this->stockRegistry = $stockRegistry;
+        $this->stockResolver = $stockResolver;
         $this->preOrderMapper = $preOrderMapper;
         $this->stockItemRepository = $stockItemRepository;
 
@@ -115,7 +124,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $note = '';
         try {
-            $stockItem = $this->stockItemRepository->get($product->getId());
+            $stockItem = $this->getStockProvider($product);
         } catch (\Exception $e) {
             $this->_logger->error($e->getMessage());
             return $note;
@@ -254,14 +263,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Verify stock item
      *
-     * @param \Magento\CatalogInventory\Api\Data\StockItemInterface $stockItem
+     * @param object $stockItem
      * @return bool
      */
-    public function verifyStockItem(\Magento\CatalogInventory\Api\Data\StockItemInterface $stockItem)
+    public function verifyStockItem($stockItem)
     {
-        if ($stockItem->getQty() <= $stockItem->getMinQty()
-            || !$stockItem->getData('is_in_stock')
-            && self::BACKORDERS_PREORDER_OPTION == $stockItem->getBackorders()
+        if ($stockItem instanceof \Magento\Framework\DataObject
+            && ($stockItem->getQty() <= $stockItem->getMinQty()
+                || !$stockItem->getData('is_in_stock')
+                && self::BACKORDERS_PREORDER_OPTION == $stockItem->getBackorders())
         ) {
             return $this->getConfig()->isAllowEmptyQty();
         }
@@ -291,5 +301,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function processTemplate(Product $product, $template)
     {
         return $this->templater->process($template, $product);
+    }
+
+    /**
+     * Get stock provider
+     *
+     * @param object $product
+     * @return mixed
+     */
+    public function getStockProvider($product)
+    {
+        return $this->stockResolver->getProductStockItem($product);
     }
 }

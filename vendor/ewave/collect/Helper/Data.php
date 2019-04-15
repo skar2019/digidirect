@@ -24,6 +24,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     const XML_COLLECT_METHOD_ENABLE = 'carriers/collect/active';
     const XML_ENABLE_SINGLE_STORE_IN_CART_RESTRICTION = 'carriers/collect/enable_single_store_in_cart_restriction';
+    const XML_COLLECT_METHOD_ENABLE_ON_PDP = 'carriers/collect/active_on_pdp';
+    const XML_COLLECT_METHOD_ENABLE_ON_CART = 'carriers/collect/active_on_cart';
     const XML_COLLECT_METHOD_ENABLE_ON_CHECKOUT = 'carriers/collect/active_on_checkout';
     const XML_COLLECT_METHOD_TITLE = 'carriers/collect/title';
     const XML_COLLECT_METHOD_NAME = 'carriers/collect/name';
@@ -41,6 +43,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     const XML_PRODUCT_AVAILABLE_MESSAGE = 'carriers/collect/message_product_is_available_in_previously_store';
     const XML_PRODUCT_NOT_AVAILABLE_MESSAGE = 'carriers/collect/message_product_is_not_available_in_previously_store';
+
+    const CONFIG_SHOW_UNAVAILABLE_PLACES = 'carriers/collect/show_unavailable_places';
+    const CONFIG_PLACES_ON_PAGE = 'carriers/collect/places_on_page';
 
     /**
      * Quote repository.
@@ -366,6 +371,30 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * Whether collect is enable on Product Display Page.
+     * @return bool
+     */
+    public function isCollectEnableOnPdp()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_COLLECT_METHOD_ENABLE_ON_PDP,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * Whether collect is enable on Cart Page.
+     * @return bool
+     */
+    public function isCollectEnableOnCart()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_COLLECT_METHOD_ENABLE_ON_CART,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
      * Whether collect is enable on checkout
      *
      * @return bool
@@ -385,7 +414,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getVariationType()
     {
-        return $this->scopeConfig->getValue(self::XML_COLLECT_VARIATION);
+        return $this->scopeConfig->getValue(self::XML_COLLECT_VARIATION, ScopeInterface::SCOPE_WEBSITE);
     }
 
     /**
@@ -682,11 +711,65 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @param null $quoteId
      * @return bool
      */
-    public function hasCollectItemInCart()
+    public function hasCollectItemInCart($quoteId = null)
     {
-        return ($quoteId = $this->_checkoutSession->getQuoteId()) ?
-            $this->isCollectItems($quoteId) : false;
+        if (!$quoteId) {
+            $quoteId = $this->_checkoutSession->getQuoteId();
+        }
+        return $quoteId ? $this->isCollectItems($quoteId) : false;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlacesOnPage()
+    {
+        return (int)$this->scopeConfig->getValue(self::CONFIG_PLACES_ON_PAGE, ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * @param array $skus
+     * @param int $qty
+     * @return array
+     */
+    public function prepareSkuQtyArray(array $skus, $qty)
+    {
+        $skuQty = [];
+        foreach ($skus as $sku) {
+            $skuQty[$sku] = $qty;
+        }
+        return $skuQty;
+    }
+
+    /**
+     * @param array $quoteItems
+     * @return array
+     */
+    public function getSkuToQtyByItems($quoteItems)
+    {
+        $skuToQty = [];
+        foreach ($quoteItems as $quoteItem) {
+            if ($quoteItem->getProductType() == \Magento\Bundle\Model\Product\Type::TYPE_CODE) {
+                foreach ($quoteItem->getChildren() as $childItem) {
+                    $sku = $childItem->getSku();
+                    $result[$sku] = $sku;
+                    if (!isset($skuToQty[$sku])) {
+                        $skuToQty[$sku] = 0;
+                    }
+                    $skuToQty[$sku] += $childItem->getQty();
+                }
+                continue;
+            }
+            $sku = $quoteItem->getSku();
+            $result[$sku] = $sku;
+            if (!isset($skuToQty[$sku])) {
+                $skuToQty[$sku] = 0;
+            }
+            $skuToQty[$sku] += $quoteItem->getQty();
+        }
+        return $skuToQty;
     }
 }

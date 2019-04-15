@@ -1,0 +1,68 @@
+//
+//  Customer: NewCustomer
+//  _____________________________________________
+
+//
+//  Variables
+//  _____________________________________________
+
+@newcustomer-li-benefits__pseudo-type: before;
+@newcustomer-tick-benefit__display: inline-block;
+@newcustomer-tick-benefit__height: 15px;
+@newcustomer-tick-benefit__margin: 0 15px 0 0;
+@newcustomer-tick-benefit__width: 25px;
+@newcustomer-tick-benefit__vertical-align: baseline;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .tick-block {
+        ul {
+            list-style: none;
+            padding-left: 7px;
+        }
+
+        li {
+            .lib-base64(
+                @_base64-display: @newcustomer-tick-benefit__display,
+                @_base64-width: @newcustomer-tick-benefit__width,
+                @_base64-height: @newcustomer-tick-benefit__height,
+                @_base64-margin: @newcustomer-tick-benefit__margin,
+                @_base64-background-image: @base64-icon__tick,
+                @_base64-pseudo-type: @newcustomer-li-benefits__pseudo-type,
+                @_base64-vertical-align: @newcustomer-tick-benefit__vertical-align
+            );
+        }
+    }
+}
+
+//
+//  Tablet
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .tick-block {
+        ul {
+            line-height: 2.46;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .tick-block {
+        ul {
+            line-height: 2.2;
+            margin-bottom: 26px;
+        }
+
+        ul > li {
+            min-height: 31px;
+        }
+    }
+}

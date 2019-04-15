@@ -2,7 +2,7 @@
   "name": "ewave/outofstocknotif",
   "description": "Out Of Stock Notification",
   "type": "magento2-module",
-  "version": "2.1.1.0",
+  "version": "2.3.0.0",
   "autoload": {
     "files": [
       "registration.php"

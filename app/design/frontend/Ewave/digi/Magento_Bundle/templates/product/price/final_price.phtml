@@ -35,20 +35,6 @@ $minimalRegularPrice = $regularPriceModel->getMinimalPrice();
     </p>
 <?php else: ?>
     <?php if ($block->showRangePrice()): ?>
-        <?php if ($catalogRulePDP = trim($this->getLayout()
-            ->createBlock('Ewave\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage')
-            ->setBlockName('digi_catalog_rule_pdp')
-            ->setTemplate('Ewave_ExtendedCatalogPriceRule::product/view/price_rule.phtml')
-            ->setActualAmount($minimalPrice)
-            ->toHtml())) : ?>
-            <div class="block-extendedrule -pdp -cashback-available">
-                <div class="price-box">
-                    <span class="price-container">
-                        <span class="price-label"><?= /* @escapeNotVerified */ __('Cashback Available') ?></span>
-                    </span>
-                </div>
-            </div>
-        <?php endif; ?>
         <p class="price-from">
             <?php /* @escapeNotVerified */ echo $block->renderAmount($minimalPrice, [
                 'display_label'     => __('Starts from'),
@@ -57,5 +43,15 @@ $minimalRegularPrice = $regularPriceModel->getMinimalPrice();
                 'include_container' => true
             ]); ?>
         </p>
+        <?php if ($catalogRulePDP = trim($this->getLayout()
+            ->createBlock('Ewave\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage')
+            ->setBlockName('digi_catalog_rule_pdp')
+            ->setTemplate('Ewave_ExtendedCatalogPriceRule::product/view/price_rule.phtml')
+            ->setActualAmount($minimalPrice)
+            ->toHtml())) : ?>
+            <div class="price-to">
+                <span class="price-label"><?= /* @escapeNotVerified */ __('Cashback Available') ?></span>
+            </div>
+        <?php endif; ?>
     <?php endif ?>
 <?php endif ?>

@@ -2,7 +2,7 @@
   "name": "ewave/utilities",
   "type": "magento2-module",
   "description": "Ewave Utilities Module",
-  "version": "1.19.1.0",
+  "version": "1.19.3.0",
   "autoload": {
     "files": [ "registration.php" ],
     "psr-4": {

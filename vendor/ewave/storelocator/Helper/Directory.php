@@ -2,11 +2,14 @@
 
 namespace Ewave\StoreLocator\Helper;
 
+use function GuzzleHttp\Psr7\str;
+use Magento\Directory\Model\Country;
 use Magento\Directory\Model\CountryFactory;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Directory\Model\ResourceModel\Region\CollectionFactory;
 use Magento\Framework\App\Helper\Context;
+use Magento\Directory\Helper\Data as DirectoryHelper;
 
 /**
  * @since 1.4.1
@@ -37,19 +40,42 @@ class Directory extends AbstractHelper
     protected $countryNameByCode = [];
 
     /**
+     * @var DirectoryHelper
+     */
+    private $directoryHelper;
+
+    /**
+     * @var array
+     */
+    private $countryCodeByName = [];
+
+    /**
+     * @var array
+     */
+    private $countryCodeByIso2Code = [];
+
+    /**
+     * @var array
+     */
+    private $countryCodeByIso3Code = [];
+
+    /**
      * Directory constructor.
      * @param Context $context
      * @param CollectionFactory $regCollectionFactory
      * @param CountryFactory $countryFactory
+     * @param DirectoryHelper $data
      */
     public function __construct(
         Context $context,
         CollectionFactory $regCollectionFactory,
-        CountryFactory $countryFactory
+        CountryFactory $countryFactory,
+        DirectoryHelper $data
     ) {
         parent::__construct($context);
         $this->regCollectionFactory = $regCollectionFactory;
         $this->countryFactory = $countryFactory;
+        $this->directoryHelper = $data;
     }
 
     /**
@@ -126,5 +152,35 @@ class Directory extends AbstractHelper
             return explode(',', $value);
         }
         return [];
+    }
+
+    /**
+     * @param string $name
+     * @return mixed|null
+     */
+    public function getCountryCodeByName($name = '')
+    {
+        $name = trim($name);
+        if(!$name) {
+            return null;
+        }
+        if (!isset($this->countryNameByCode[$name])) {
+            $countries = $this->directoryHelper->getCountryCollection();
+            foreach ($countries as $country) {
+                /**
+                 * @var $country Country
+                 */
+                $countryName = (string)$country->getName();
+                $countryCode = $country->getCountryId();
+                $countryIso2Code = $country->getData('iso2_code');
+                $countryIso3Code = $country->getData('iso3_code');
+                $this->countryNameByCode[$countryName] = $countryCode;
+                $this->countryCodeByName[$countryCode] = $countryCode;
+                $this->countryCodeByIso2Code[$countryIso2Code] = $countryCode;
+                $this->countryCodeByIso3Code[$countryIso3Code] = $countryCode;
+            }
+        }
+        return $this->countryNameByCode[$name] ?? $this->countryCodeByIso3Code[$name]
+            ?? $this->countryCodeByIso2Code[$name] ?? null;
     }
 }

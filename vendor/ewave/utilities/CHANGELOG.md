@@ -274,3 +274,14 @@
 ================
 * Bugfixes:
     * [#285548](https://ewave.tpondemand.com/entity/285548) -- [M2.3] WYSIWYG settings are not working on Magento 2.3
+
+1.19.2
+================
+* Bugfixes:
+    * [#285548](https://ewave.tpondemand.com/entity/285548) -- [M2.3] .SVG-file is not uploaded if it set up in allowed file types for WYSIWIG
+    * [#285548](https://ewave.tpondemand.com/entity/285548) -- [M2.3] Default placeholder is shown in WYSIWYG redactor instead image
+
+1.19.3
+================
+* Bugfixes:
+    * [#290401](https://ewave.tpondemand.com/entity/290401) -- [M2.3][Newsletter] 500 error if user try to place Order with enabled newsletter module

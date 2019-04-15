@@ -24,6 +24,7 @@
         }
 
         .block-title strong {
+            .lib-css(font-weight, @font-weight__bold);
             position: relative;
         }
 
@@ -56,10 +57,12 @@
         .fieldset .legend {
             float: none;
             display: block;
+            width: 100%;
             margin-bottom: 10px;
             .lib-font-size(22);
             .lib-css(font-weight, @font-weight__bold);
             line-height: 30px;
+            text-align: center;
         }
 
         .description {
@@ -87,7 +90,8 @@
 
             &::before,
             &::after {
-                margin-top: 0;
+                top: 100%;
+                margin-top: -30px;
             }
 
             &::before {
@@ -99,6 +103,7 @@
         .field.choice input:checked + .title {
             &::after {
                 left: 14px;
+                margin-top: -25px;
             }
         }
 
@@ -115,8 +120,33 @@
             border-radius: 5px;
         }
 
+        .field.choice > .label {
+            position: relative;
+        }
+
         .field .img {
             vertical-align: top;
+            pointer-events: none;
+            width: 100%;
+        }
+    
+        .field.-lenses .img,
+        .field.-cameras .img,
+        .field.-drones .img {
+            width: auto;
+            max-width: 160px;
+        }
+
+        .label > .name {
+            margin-top: 10px;
+        }
+
+        .field.choice .label.title {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            background: transparent;
         }
 
         .actions-toolbar {
@@ -161,7 +191,7 @@
         }
 
         .field.choice .label {
-            padding: 0 0 10px;
+            padding: 15px 0 10px;
             .lib-font-size(15);
             line-height: 18px;
             cursor: pointer;
@@ -180,8 +210,8 @@
     }
 
     .calculator-result {
-        &:not(:empty) {
-            margin-top: -20px;
+        .message.info.empty {
+            display: none;
         }
     }
 }
@@ -262,9 +292,6 @@
         }
 
         .field.choice .label {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
             height: 100%;
         }
 
@@ -290,6 +317,11 @@
             .lib-font-size(18);
             line-height: 45px;
         }
+    
+        .field .label > .name {
+            margin-top: 15px;
+        }
+
     }
 
     .finder-category {
@@ -303,6 +335,7 @@
         }
 
         .field.choice .label {
+            padding-top: 12px;
             padding-bottom: 20px;
             .lib-font-size(16);
             line-height: 20px;
@@ -345,13 +378,13 @@
         }
 
         .field-list {
-            margin-right: -15px;
-            margin-left: -15px;
+            margin-right: -10px;
+            margin-left: -10px;
         }
 
         .field.choice {
-            padding-right: 15px;
-            padding-left: 15px;
+            padding-right: 10px;
+            padding-left: 10px;
         }
 
         .field-list.-wide .field.choice {
@@ -403,10 +436,6 @@
     }
 
     .calculator-result {
-        &:not(:empty) {
-            margin-top: -40px;
-        }
-
         .product-items > .product-item {
             width: 25%;
         }

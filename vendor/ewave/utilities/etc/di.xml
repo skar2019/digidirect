@@ -51,4 +51,17 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Cms\Model\Wysiwyg\Images\Storage">
+        <arguments>
+            <argument name="extensions" xsi:type="array">
+                <item name="allowed" xsi:type="array">
+                    <item name="svg" xsi:type="string">image/svg+xml</item>
+                </item>
+                <item name="image_allowed" xsi:type="array">
+                    <item name="svg" xsi:type="string">image/svg+xml</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 </config>

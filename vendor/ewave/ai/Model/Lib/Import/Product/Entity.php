@@ -462,6 +462,7 @@ class Entity extends Product implements EntityInterface
      * Save products. Ewave changes: url rewrites only for new products
      *
      * @return \Magento\CatalogImportExport\Model\Import\Proxy\Product\ResourceModel
+     * @SuppressWarnings(PHPMD.LongMehtod)
      */
     protected function _saveProducts()
     {
@@ -530,6 +531,7 @@ class Entity extends Product implements EntityInterface
                         // existing row
                         $entityRowsUp[] = [
                             'updated_at' => (new \DateTime())->format(DateTime::DATETIME_PHP_FORMAT),
+                            'attribute_set_id' => $this->_oldSku[$rowSku]['attr_set_id'],
                             $this->getProductEntityLinkField()
                                          => $this->_oldSku[$rowSku][$this->getProductEntityLinkField()],
                         ];
@@ -837,9 +839,11 @@ class Entity extends Product implements EntityInterface
             foreach ($skuData as $sku => $attributes) {
                 $linkId = $this->_connection->fetchOne(
                     $this->_connection->select()
-                        ->from($this->getResource()->getTable('catalog_product_entity'))
+                        ->from(
+                            $this->getResource()->getTable('catalog_product_entity'),
+                            $this->getProductEntityLinkField()
+                        )
                         ->where('sku = ?', (string)$sku)
-                        ->columns($this->getProductEntityLinkField())
                 );
 
                 foreach ($attributes as $attributeId => $storeValues) {

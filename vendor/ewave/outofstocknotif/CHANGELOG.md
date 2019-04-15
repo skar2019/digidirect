@@ -36,3 +36,15 @@
 * Bugfixes:
     * [#290626](https://ewave.tpondemand.com/entity/290626) -- [BACKORDER] 'Back-order' button is replaced on 'Add to Cart' on PLP
     * [#290777](https://ewave.tpondemand.com/entity/290777) -- [BACKORDER] 'Back-order' button is not displayed on the product search result page
+
+2.2.0
+=============
+* New features:
+    * [#296530](https://ewave.tpondemand.com/entity/296530) -- [NOTIFY ME BUTTON] As and admin, I want 'notify me when in stock' in following cases.
+
+2.3.0
+=============
+* New features:
+    * [#295017](https://ewave.tpondemand.com/entity/295017) -- [PRODUCT ATTRIBUTES] As an admin, I want to be able to set and display the availability day for products
+* Bugfixes:
+    * [#294343](https://ewave.tpondemand.com/entity/294343) -- [Project: DigiDirect] "Pre-order" button is replaced with "Backorder" after adding product to the cart

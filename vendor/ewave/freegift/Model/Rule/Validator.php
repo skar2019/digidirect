@@ -2,17 +2,17 @@
 
 namespace Ewave\FreeGift\Model\Rule;
 
+/**
+ * Class Validator
+ *
+ * @package Ewave\FreeGift\Model\Rule
+ */
 class Validator extends \Magento\Rule\Model\AbstractModel
 {
     /**
      * @var \Magento\SalesRule\Model\Rule\Condition\CombineFactory
      */
     protected $_combineFactory;
-
-    /**
-     * @var \Magento\SalesRule\Model\Rule\Action\CollectionFactory
-     */
-    protected $_actionCollectionFactory;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -25,6 +25,11 @@ class Validator extends \Magento\Rule\Model\AbstractModel
     protected $_productIds = [];
 
     /**
+     * @var \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory
+     */
+    protected $_condProdCombineF;
+
+    /**
      * Validator constructor.
      *
      * @param \Magento\Framework\Model\Context $context
@@ -33,10 +38,9 @@ class Validator extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\Rule\Condition\CombineFactory $combineFactory
-     * @param \Magento\SalesRule\Model\Rule\Action\CollectionFactory $actionCollectionFactory
+     * @param \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF
      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
      * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
-     * @param array $relatedCacheTypes
      * @param array $data
      */
     public function __construct(
@@ -46,15 +50,14 @@ class Validator extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\Rule\Condition\CombineFactory $combineFactory,
-        \Magento\SalesRule\Model\Rule\Action\CollectionFactory $actionCollectionFactory,
+        \Magento\SalesRule\Model\Rule\Condition\Product\CombineFactory $condProdCombineF,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $relatedCacheTypes = [],
         array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_combineFactory = $combineFactory;
-        $this->_actionCollectionFactory = $actionCollectionFactory;
+        $this->_condProdCombineF = $condProdCombineF;
         parent::__construct(
             $context,
             $registry,
@@ -67,7 +70,7 @@ class Validator extends \Magento\Rule\Model\AbstractModel
     }
 
     /**
-     * Getter for rule conditions collection
+     * Get rule condition combine model instance
      *
      * @return \Magento\SalesRule\Model\Rule\Condition\Combine
      */
@@ -77,13 +80,13 @@ class Validator extends \Magento\Rule\Model\AbstractModel
     }
 
     /**
-     * Getter for rule actions collection
+     * Get rule condition product combine model instance
      *
-     * @return \Magento\SalesRule\Model\Rule\Action\Collection
+     * @return \Magento\SalesRule\Model\Rule\Condition\Product\Combine
      */
     public function getActionsInstance()
     {
-        return $this->_actionCollectionFactory->create();
+        return $this->_condProdCombineF->create();
     }
 
     /**
@@ -101,6 +104,9 @@ class Validator extends \Magento\Rule\Model\AbstractModel
         if (!isset($this->_productIds[$cacheKey])) {
             $this->_resetConditions();
             $this->setConditionsSerialized($salesRule->getConditionsSerialized());
+
+            $this->_resetActions();
+            $this->setActionsSerialized($salesRule->getActionsSerialized());
 
             $product->setAllItems([$product]);
             $product->setProduct($product);
@@ -133,7 +139,8 @@ class Validator extends \Magento\Rule\Model\AbstractModel
 
         foreach ($websites as $websiteId => $defaultStoreId) {
             $product->setStoreId($defaultStoreId);
-            $results[$websiteId] = $this->getConditions()->validate($product);
+            $results[$websiteId] = $this->getConditions()->validate($product)
+                && $this->getActions()->validate($product);
         }
 
         return $results;

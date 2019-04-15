@@ -3,25 +3,27 @@
 namespace Ewave\StoreLocator\Model\Store;
 
 use Ewave\StoreLocator\Component\AttributeSetNameNormalizer;
+use Ewave\StoreLocator\Helper\Directory;
 use Ewave\StoreLocator\Model\Config\Source\DisplayOnMap;
 use Ewave\Locator\Model\ProcessorInterface;
 use Ewave\StoreLocator\Helper\Config as ConfigHelper;
 use Ewave\StoreLocator\Model\Config\Source\SortOrder;
-use Magento\Eav\Model\Entity\Attribute\Set;
 use Magento\Framework\Api\SortOrder as SortOrderApi;
 use Ewave\AbstractEntity\Model\ResourceModel\AbstractEntityIndex;
 use Ewave\AbstractEntity\Api\Data\AbstractEntityInterface;
 use Ewave\AbstractEntity\Model\AbstractEntity\Attribute\Source\VisibleOnFrontend;
 use Ewave\AbstractEntity\Model\AbstractEntity\Attribute\Source\Status;
 use Magento\Framework\App\Cache;
+use Magento\Framework\App\ObjectManager;
 use \Magento\Framework\App\ResourceConnection;
 use Ewave\AbstractEntity\Model\AbstractEntity\Media\Config as MediaConfig;
 use Magento\Framework\UrlInterface;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\CollectionFactory;
-use Magento\Eav\Model\ResourceModel\Entity\Attribute\Set\Collection;
 use Ewave\StoreLocator\Helper\AeIndex as AeHelper;
 use Magento\Catalog\Model\Template\Filter as CatalogTemplateFilter;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
+use Ewave\Locator\Helper\LocalizationConfig;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -31,9 +33,13 @@ class Processor implements ProcessorInterface
     const DISTANCE_FIELD = 'distance';
     const ADDITIONAL_SETTINGS = 'additional_settings';
     const COUNTRY_FILTER = 'country_filter';
+    const REGION_FILTER = 'region_filter';
     const SEARCH_TERM_PARAM = 'searchTerm';
     const SEARCH_PARAMS_DO_NOT_FILTER_BY_COUNTRY = 'do_not_filter_by_country';
     const EWAVE_STORE_LOCATOR_CACHE_TABLES = 'ewave_storelocator_cache_tables';
+    const SEARCH_PARAMS_DO_NOT_FILTER_BY_REGION = 'do_not_filter_by_region';
+    const SEARCH_PARAM_GUESS_STATE = 'guess_state';
+    const SEARCH_PARAMS_GUESS_COUNTRY = 'guess_country';
 
     /**
      * @var ConfigHelper
@@ -96,6 +102,28 @@ class Processor implements ProcessorInterface
     protected $catalogTemplateFilter;
 
     /**
+     * @var LocalizationConfig
+     */
+    protected $localizationConfig;
+
+    /**
+     * @var Directory
+     */
+    protected $directoryHelper;
+
+    /**
+     * @var null|string
+     */
+    private $searchTermCountryBySearchTerm = [];
+
+
+    /**
+     * @var mixed
+     */
+    protected $eventManager;
+
+
+    /**
      * Processor constructor.
      * @param ConfigHelper $configHelper
      * @param AbstractEntityIndex $abstractEntityIndex
@@ -107,6 +135,9 @@ class Processor implements ProcessorInterface
      * @param CatalogTemplateFilter $catalogTemplateFilter
      * @param AttributeSetNameNormalizer $attributeSetNameNormalizer
      * @param Cache $cache
+     * @param LocalizationConfig $localizationConfig
+     * @param Directory $directory
+     * @param EventManagerInterface|null $eventManager
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -119,7 +150,10 @@ class Processor implements ProcessorInterface
         AeHelper $aeHelper,
         CatalogTemplateFilter $catalogTemplateFilter,
         AttributeSetNameNormalizer $attributeSetNameNormalizer,
-        Cache $cache
+        Cache $cache,
+        LocalizationConfig $localizationConfig,
+        Directory $directory = null,
+        EventManagerInterface $eventManager = null
     ) {
         $this->cacheManager = $cache;
         $this->attributeSetNormalizer = $attributeSetNameNormalizer;
@@ -131,6 +165,10 @@ class Processor implements ProcessorInterface
         $this->attributeSetCollectionFactory = $collectionFactory;
         $this->aeHelper = $aeHelper;
         $this->catalogTemplateFilter = $catalogTemplateFilter;
+        $this->localizationConfig = $localizationConfig;
+        $this->directoryHelper = $directory ?: ObjectManager::getInstance()->get(Directory::class);
+        $objectManager = ObjectManager::getInstance();
+        $this->eventManager = $eventManager ?: $objectManager->get(EventManagerInterface::class);
     }
 
     /**
@@ -155,6 +193,14 @@ class Processor implements ProcessorInterface
             $callbacks = $data['callbacks'];
         }
         $items = $this->searchStores($setName, $searchParams, $attributes);
+
+        $transportObject = new \Magento\Framework\DataObject(['items' => $items]);
+        $this->eventManager->dispatch(
+            'ewave_storelocator_add_extra_info_to_stores_items',
+            ['transport_object' => $transportObject]
+        );
+        $items = $transportObject->getItems();
+
         $result['items'] = $this->prepareStores($items, $store, $callbacks);
         $result['settings'] = [
             'show_featured_stores_at_the_top' => $this->configHelper->isShowFeaturedStoresAtTheTop(),
@@ -274,7 +320,6 @@ class Processor implements ProcessorInterface
         $searchParams = [],
         array $attributes = []
     ) {
-
         $attributeSetName = $this->changeStoreLocatorName($attributeSetName);
 
         $sortDistanceField = self::DISTANCE_FIELD;
@@ -288,13 +333,17 @@ class Processor implements ProcessorInterface
         }
 
         $searchTerm = isset($searchParams[self::SEARCH_TERM_PARAM]) ? $searchParams[self::SEARCH_TERM_PARAM] : null;
-        if (empty(trim($searchTerm))) {
-            $searchTerm = null;
-        }
 
         $sortOrder = $this->getSortOrders($sortDistanceField);
         try {
             $attributes = $this->getExistsAttributes($attributeSetName, $attributes);
+
+            $searchTerm = $this->modifyQuery($searchTerm);
+            if (empty(trim($searchTerm))) {
+                $searchTerm = null;
+            }
+
+
             $select = $this->abstractEntityIndex->searchEntities(
                 $attributeSetName,
                 $searchTerm,
@@ -314,6 +363,7 @@ class Processor implements ProcessorInterface
             AbstractEntityInterface::VISIBLE_ON_FRONTEND . '=?',
             VisibleOnFrontend::VISIBLE_ON_FRONTEND_ENABLED
         );
+
         $select->where(AbstractEntityInterface::STATUS . '=?', Status::STATUS_ENABLED);
         $select->where(ConfigHelper::ATTRIBUTE_DISPLAY_ON_MAP . '=?', DisplayOnMap::DISPLAY_ON_MAP_ENABLED);
         $this->addAttributeToFilter($select, $attributes, 'longitude', 'NOT ISNULL(longitude)');
@@ -327,7 +377,10 @@ class Processor implements ProcessorInterface
                 && $this->aeHelper->isAttributeDescribed($attributeSetName, 'longitude')
             ) {
                 $defaultRadius = $this->configHelper->getDefaultRadius();
-                $distance = empty($searchParams['radius']) ? $defaultRadius : $searchParams['radius'] * 1000;
+                $distance = empty($searchParams['radius']) ?
+                    $this->localizationConfig->convertUnitToKilometres($defaultRadius) :
+                    $searchParams['radius'] * 1000;
+
                 if (!empty($searchParams['without_radius']) && $searchParams['without_radius']) {
                     $distance = null;
                 }
@@ -346,6 +399,14 @@ class Processor implements ProcessorInterface
             if (!$doNotFilterByCountry) {
                 $select->where('country  IN (?)', $this->getCountryFilter($searchParams));
             }
+
+            $doNotFilterByRegion = $searchParams[self::SEARCH_PARAMS_DO_NOT_FILTER_BY_REGION] ?? null;
+            if (!$doNotFilterByRegion) {
+                $regionFilter = $this->getRegionFilter($searchParams);
+                if (!empty($regionFilter)) {
+                    $this->tryRegionFilter($select, $regionFilter, $attributes);
+                }
+            }
         }
 
         $limit = $this->configHelper->getMaxStoresToShow();
@@ -357,6 +418,19 @@ class Processor implements ProcessorInterface
             return $this->resource->getConnection()->fetchAll($select);
         } catch (\Throwable $exception) {
             return [];
+        }
+    }
+
+    /**
+     * @param Select $select
+     * @param array $regionFilter
+     * @param array $attributes
+     * @return void
+     */
+    private function tryRegionFilter(\Magento\Framework\Db\Select $select, $regionFilter, $attributes)
+    {
+        if (in_array('state', $attributes)) {
+            $select->where('state  IN (?)', $this->getCountryFilter($regionFilter));
         }
     }
 
@@ -419,11 +493,40 @@ class Processor implements ProcessorInterface
             return $countryCodes;
         }
 
+        /**
+         * If country filter is not presented - try to filter by entered country
+         */
+        $searchTerm = isset($searchParams[self::SEARCH_TERM_PARAM]) ? $searchParams[self::SEARCH_TERM_PARAM] : null;
+        if (!empty($this->getSearchTermCountry($searchTerm))) {
+            return $this->getSearchTermCountry($searchTerm);
+        }
+
         if ($this->areCoordinatesPresented($searchParams)) {
             return $this->configHelper->getAvailableCountries();
         }
 
         return [$this->configHelper->getDefaultCountry()];
+    }
+
+
+    /**
+     * Get regions codes as array.
+     * @param array $searchParams
+     * @return array|null
+     */
+    protected function getRegionFilter($searchParams)
+    {
+        if (!$this->isRegionFilterPresented($searchParams)) {
+            return null;
+        }
+
+        $regions = $searchParams[static::REGION_FILTER] ?? [];
+        if (!is_array($regions)) {
+            $regionsCodes = explode(',', $regions);
+            $regions = $regionsCodes;
+        }
+        $regionsCodes = array_filter($regions);
+        return $regionsCodes;
     }
 
     /**
@@ -542,5 +645,98 @@ class Processor implements ProcessorInterface
     protected function isCountryFilterPresented($searchParams)
     {
         return isset($searchParams[self::COUNTRY_FILTER]);
+    }
+
+    /**
+     * @param array $searchParams
+     * @return bool
+     */
+    protected function isRegionFilterPresented($searchParams)
+    {
+        return isset($searchParams[self::REGION_FILTER]);
+    }
+
+    /**
+     * Experimental. Enables in an admin area to take control of this functionality as it can work incorrectly or slow
+     * @param string $searchTerm
+     * @return string
+     */
+    protected function guessState($searchTerm)
+    {
+        if (!$this->configHelper->guessState()) {
+            return $searchTerm;
+        }
+
+        $availableCountries = $this->configHelper->getAvailableCountries();
+        $cacheKey = md5(json_encode($availableCountries));
+        $cache = $this->cacheManager->load($cacheKey);
+        if (false === $cache) {
+            $regions = [];
+            foreach ($availableCountries as $country) {
+                $regionsList = $this->directoryHelper->getRegionsByCountry($country);
+                foreach ($regionsList as $configuration) {
+                    $code = $configuration['code'] ?? null;
+                    $name = $configuration['name'] ?? null;
+                    $regions[$code] = $name;
+                }
+            }
+            $this->cacheManager->save(json_encode($regions), $cacheKey);
+        } else {
+            $regions = json_decode($cache, true);
+        }
+        if (!empty($regions)) {
+            $searchTermExploded = explode(',', $searchTerm);
+            foreach ($searchTermExploded as $key => $value) {
+                $value = trim($value);
+                if (isset($regions[$value])) {
+                    $searchTermExploded[$key] = $regions[$value];
+                    break;
+                }
+            }
+            $searchTerm = implode(',', $searchTermExploded);
+        }
+        return $searchTerm;
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return bool
+     */
+    protected function isOnlyCountryInSearchTerm($searchTerm)
+    {
+        return !empty($this->getSearchTermCountry($searchTerm));
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return null|string
+     */
+    protected function modifyQuery($searchTerm)
+    {
+        /**
+         * If user types only country name in a search => just remove search term and use country filter
+         */
+        if ($this->isOnlyCountryInSearchTerm($searchTerm)) {
+            return null;
+        }
+
+        $searchTerm = $this->guessState($searchTerm);
+        return $searchTerm;
+    }
+
+    /**
+     * @param string $searchTerm
+     * @return mixed
+     */
+    private function getSearchTermCountry($searchTerm)
+    {
+        if (!$this->configHelper->guessCountry()) {
+            return null;
+        }
+        if (!isset($this->searchTermCountryBySearchTerm[$searchTerm])) {
+            $this->searchTermCountryBySearchTerm[$searchTerm] = $this->directoryHelper->getCountryCodeByName($searchTerm);
+        }
+
+        return $this->searchTermCountryBySearchTerm[$searchTerm];
     }
 }

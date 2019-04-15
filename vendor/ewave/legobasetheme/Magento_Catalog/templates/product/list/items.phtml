@@ -198,6 +198,10 @@ $blockIdentifier = 'widget-product-grid';
                                 <?php echo $block->getReviewsSummaryHtml($_item, $templateType) ?>
                             <?php endif; ?>
 
+                            <?php if ($productDetailsBeforePrice = $block->getChildBlock('product_details_before_price_' . $type)): ?>
+                                <?php echo $productDetailsBeforePrice->setProduct($_item)->getChildHtml(); ?>
+                            <?php endif; ?>
+
                             <?php if (!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
                                 <?php if (!$_item->getRequiredOptions()): ?>
                                     <div class="field choice related">

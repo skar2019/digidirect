@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <newsletter>
+            <subscription>
+                <enable_subscribe_on_checkout>0</enable_subscribe_on_checkout>
+                <subscribe_on_checkout_text>Subscribe to our newsletter</subscribe_on_checkout_text>
+                <enable_success_email>1</enable_success_email>
+                <enable_unsubscribtion_email>1</enable_unsubscribtion_email>
+                <enable_subscribe_on_paypal_review_page>0</enable_subscribe_on_paypal_review_page>
+            </subscription>
+        </newsletter>
+    </default>
+</config>

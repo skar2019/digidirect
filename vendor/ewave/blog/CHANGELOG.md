@@ -108,3 +108,10 @@
     * [#290402](https://ewave.tpondemand.com/entity/290402) -- [BLOG CATEGORIES WIDGET FRONTEND] Blog Category is duplicated in case only child categories are selected
     * [#290476](https://ewave.tpondemand.com/entity/290476) -- [BLOG CATEGORIES WIDGET FRONTEND] Parent category is not displayed in case first child has not posts
 	
+2.2.1
+====================
+* Bugfixes:
+    * [#290411](https://ewave.tpondemand.com/entity/290411) -- [Blog] Counter is calculated posts which have Publish Date > current
+    * [#290425](https://ewave.tpondemand.com/entity/290425) -- [BLOG CATEGORIES WIDGET FRONTEND] Sorting for child category doesn't work
+    * [#291644](https://ewave.tpondemand.com/entity/291644) -- [BLOG CATEGORIES WIDGET FRONTEND] HTTP ERROR 500 in case open blog post from blog category widget
+    * [#292508](https://ewave.tpondemand.com/entity/292508) -- [PROJECT: CONVERSE] ewave/blog error	

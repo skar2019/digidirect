@@ -9,7 +9,7 @@ define([
     return function (target) {
         target.applyBillingAddress = function () {
             var shippingAddress;
-            if (!quote.canApplyBillingAddress) return;
+            if (quote.customShipping && !quote.canApplyBillingAddress || !quote.customShipping && !quote.getCalculatedTotal()) return;
 
             if (quote.billingAddress()) {
                 selectBillingAddress(quote.billingAddress());

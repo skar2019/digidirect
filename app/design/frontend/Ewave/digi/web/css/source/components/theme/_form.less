@@ -84,6 +84,13 @@
         }
     }
 
+    // Special AU tactic
+    .fieldset[data-hasrequired]::after,
+    .field.required > .label::after,
+    .field._required > .label::after {
+        content: none;
+    }
+
     select:not([multiple]) {
         .lib-css(background-size, @form-element-select__background-size @form-element-select__background-size);
     }
@@ -105,6 +112,12 @@
     select:not([multiple]) {
         .lib-css(height, @form-element-input__height__m);
         .lib-font-size(@form-element-input__font-size__m);
+    }
+
+    .field {
+        > .label {
+            .lib-font-size(13);
+        }
     }
 }
 
@@ -128,5 +141,11 @@
 
     select:not([multiple]) {
         background-size: 20px 20px;
+    }
+
+    .field {
+        > .label {
+            .lib-font-size(14);
+        }
     }
 }

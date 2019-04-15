@@ -7,12 +7,12 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    .page-footer {
+    .footer-line {
         .copyright {
             color: #9b9b9b;
         }
     }
-    .page-footer .copyright,
+    .footer-line .copyright,
     .footer-bottom {
         font-size: 12px;
     }
@@ -98,14 +98,14 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-    .page-footer {
+    .footer-line {
         .copyright {
             float: left;
             margin: 10px 5px 0 0;
         }
     }
 
-    .page-footer .copyright,
+    .footer-line .copyright,
     .footer-bottom {
         font-size: 13px;
     }
@@ -141,7 +141,7 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    .page-footer .copyright,
+    .footer-line .copyright,
     .footer-bottom {
         font-size: 14px;
     }

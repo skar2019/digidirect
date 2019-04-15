@@ -5,6 +5,7 @@
         <sequence>
             <module name="Ewave_Utilities"/>
             <module name="Ewave_Googleapi"/>
+            <module name="Ewave_Localization"/>
         </sequence>
     </module>
 </config>

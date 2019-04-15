@@ -1,12 +1,18 @@
 <?php
 /** @var \Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule $block */
+$product = '';
 
-$product = $block->getParentBlock()->getProduct();
+if (!$product = $block->getProduct()) {
+    $product = $block->getParentBlock()->getProduct();
+}
+
+$productId = $product->getId();
+$productRules = $block->getProductRules($product);
 ?>
 
-<?php if ($product && $product->hasData('show_msg_extended_rule')) : ?>
-    <?php foreach ($product->getData('show_msg_extended_rule') as $rule): ?>
-        <?php $id = 'rule-' . $rule['rule_id'] . '-' . $product->getId(); ?>
+<?php if ($productId && $productRules) : ?>
+    <?php foreach ($productRules as $rule): ?>
+        <?php $id = 'rule-' . $rule['rule_id'] . '-' . $productId; ?>
         <div class="block-extendedrule" id="<?= /* @noEscape */ $id ?>">
             <?php if(!empty($rule['action_amount'])): ?>
                 <div class="amount"><?= /* @noEscape */ $block->formatDiscountAmount($rule['action_amount']); ?></div>
