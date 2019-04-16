@@ -96,10 +96,8 @@ class MigrationProcessor
 
                 $sku = !empty($row->getData('pronto_code')) ? $row->getData('pronto_code') : $this->helper->prepareSku($row);
                 try {
-                    $product = $this->productRepository->get($sku);
+                    $product = $this->productRepository->get($sku, false, 0);
                 } catch (NoSuchEntityException $e) {
-                    // nothing
-                } finally {
                     $product = $this->productFactory->create();
                 }
 
@@ -107,9 +105,9 @@ class MigrationProcessor
                  * @var \Magento\Catalog\Api\Data\ProductInterface $product
                  */
                 $product->setSku($sku);
+                $product->setStoreId(0);
                 $productName = $this->helper->htmlEntityDecode($row->getData('Name')) ?: 'Migration ' . $row->getData('ID');
                 $product->setName($productName);
-                $product->setStoreId(0);
                 $product->setAttributeSetId(4);
                 $product->setStatus((int) $row->getData('Enabled') ? 1 : 2);
                 $product->setTypeId('simple');

@@ -231,4 +231,38 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     {
         return $this->productResource->updateProductAttributes($products, $this->attributesToUpdate);
     }
+
+    /**
+     * Business rule:
+     * If is disabling more than 10% existing products,
+     * the changes will be reversed and an error will be logged in Magento Abstract Integration logs
+     * @return bool
+     */
+    protected function checkDisabledPercent()
+    {
+        if ($this->disabledProductsCount && $this->countMagentoSkus) {
+            $disabledPercent = round($this->disabledProductsCount / $this->countMagentoSkus * 100);
+            if ($disabledPercent > self::DISABLED_PRODUCTS_PERCENT_FOR_SKIP_UPDATE) {
+                $this->logger->warning(
+                    __(
+                        'Update for exists products is skipped because will be disabled %1 percents',
+                        $disabledPercent
+                    ),
+                    [],
+                    \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
+                );
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return ProductResponseHandlerAbstract|$this
+     */
+    protected function unsetData()
+    {
+        $this->existSkus = [];
+        return parent::unsetData();
+    }
 }

@@ -2302,7 +2302,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "39cc63110258a8f4b14a53c405599c9cb7e89341"
+                "reference": "85e20bdf3b49d007a274cf3778bda8b81f17ae27"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2314,7 +2314,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-04-10T11:39:36+00:00"
+            "time": "2019-04-15T09:07:50+00:00"
         },
         {
             "name": "ewave/quickview",

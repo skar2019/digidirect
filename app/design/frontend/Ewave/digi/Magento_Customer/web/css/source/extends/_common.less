@@ -129,9 +129,22 @@
             padding-right: 9px;
         }
 
+        .toolbar-amount {
+            .lib-vendor-prefix-display();
+            .lib-vendor-prefix-flex-basis(125px);
+            .lib-vendor-prefix-flex-shrink(0);
+            align-items: center;
+            align-self: flex-end;
+            height: 40px;
+        }
+
         .limiter {
             .lib-vendor-prefix-flex-basis(135px);
             .lib-vendor-prefix-flex-shrink(0);
+        }
+
+        .pages + .limiter {
+            padding-top: 50px;
         }
 
         .pages {
@@ -202,8 +215,17 @@
             margin-bottom: 0;
         }
 
+        .toolbar-amount {
+            align-self: auto;
+            height: auto;
+        }
+
         .limiter {
             .lib-vendor-prefix-flex-basis();
+        }
+
+        .pages + .limiter {
+            padding-top: 0;
         }
 
         .pages {
@@ -214,6 +236,18 @@
     .columns.-entire {
         .column.main {
             min-height: 0;
+        }
+    }
+}
+
+//
+//  Tablet XM+
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
+    .account {
+        .toolbar-amount {
+            .lib-vendor-prefix-flex-basis();
         }
     }
 }

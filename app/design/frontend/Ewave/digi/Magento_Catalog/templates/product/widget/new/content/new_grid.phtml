@@ -118,10 +118,11 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                                         "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']": {
                                                                             "outstockNotification": {
                                                                                 "modal": false,
-                                                                                "notificationForBackorder": 1,
+                                                                                "notificationForBackorder": true,
                                                                                 "isBackorderProduct": true,
                                                                                 "backorderButtonLabel": "<?= /* @escapeNotVerified */ __('Back-order'); ?>",
-                                                                                "addToCartFormSelector": "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']"
+                                                                                "addToCartFormSelector": "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']",
+                                                                                "outofstockHideContainer": false
                                                                             }
                                                                         }
                                                                     }

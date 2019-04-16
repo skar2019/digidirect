@@ -14,6 +14,7 @@
 
         > .list {
             padding-left: 0;
+            display: none;
         }
 
         .logo {
@@ -132,6 +133,7 @@
 
         > .list {
             padding: 0;
+            display: block;
         }
 
         .logo {
@@ -186,6 +188,10 @@
             transform: translateY(-50%);
             .lib-css(background, @color-2-1);
             right: -30px;
+        }
+
+        .link.-active {
+            font-weight: 700;
         }
     }
 }

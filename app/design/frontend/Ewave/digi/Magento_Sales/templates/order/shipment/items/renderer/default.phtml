@@ -36,8 +36,8 @@
         <?php endif; ?>
         <?php echo $block->escapeHtml($_item->getDescription()) ?>
     </td>
-    <td class="col sku" data-th="<?php echo $block->escapeHtml(__('Product Code')); ?>"><?php /* @escapeNotVerified */ echo $block->prepareSku($block->getSku()) ?></td>
-    <td class="col price" data-th="<?php echo $block->escapeHtml(__('Price')); ?>"><?= /* @escapeNotVerified */ $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($_item->getPrice()) ?></td>
-    <td class="col qty" data-th="<?php echo $block->escapeHtml(__('Qty')); ?>"><?php /* @escapeNotVerified */ echo __('Ordered: '.$_order->getTotalQtyOrdered()*1) ?><br><?php /* @escapeNotVerified */ echo __('Shipped: '.$_item->getQty()*1) ?></td>
-    <td class="col subtotal" data-th="<?php echo $block->escapeHtml(__('Subtotal')); ?>"><?= /* @escapeNotVerified */ $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($_item->getQty()*$_item->getPrice()) ?></td>
+    <td class="col sku" data-th="<?php echo $block->escapeHtml(__('Product Code')); ?>"><?= $block->prepareSku($block->getSku()) ?></td>
+    <td class="col price" data-th="<?php echo $block->escapeHtml(__('Price')); ?>"><?= $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($_item->getPrice()) ?></td>
+    <td class="col qty" data-th="<?php echo $block->escapeHtml(__('Qty')); ?>"><?= __('Ordered: '.$_item->getOrderItem()->getQtyOrdered()*1) ?><br><?= __('Shipped: '.$_item->getOrderItem()->getQtyShipped()*1) ?></td>
+    <td class="col subtotal" data-th="<?php echo $block->escapeHtml(__('Subtotal')); ?>"><?= $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($_item->getQty()*$_item->getPrice()) ?></td>
 </tr>

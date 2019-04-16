@@ -42,8 +42,15 @@
 
 & when (@media-common = true) {
     body.-minicart-opened {
-        height: 100vh;
-        overflow: hidden;
+        & {
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        #chat-widget-container {
+            right: auto !important; // Rewrite inline styles
+            left: 0 !important; // Rewrite inline styles
+        }
     }
 
     .action.showcart {

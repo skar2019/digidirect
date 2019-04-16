@@ -270,7 +270,7 @@
                         <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Inventory\Get\MapperHelper</item>
                         <item name="method" xsi:type="string">getPrice</item>
                         <item name="arguments" xsi:type="array">
-                            <item name="price" xsi:type="string">{{var price}}</item>
+                            <item name="price" xsi:type="string">{{var pricing.price-region.prc-recommend-retail-inc-tax}}</item>
                         </item>
                     </item>
                 </item>

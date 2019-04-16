@@ -3,24 +3,85 @@
 namespace Ewave\ProntoDigi\ProntoApi\Products\Get;
 
 use Ewave\AI\Model\Lib\Import\Product\Entity;
+use Ewave\AI\Model\Lib\Import\Product\EntityFactory as ImportFactory;
+use Ewave\AI\Model\Lib\Mapping\MapperInterface;
+use Ewave\AI\Model\Lib\Validator\Validate;
+use Ewave\ProntoDigi\Helper\Inventory;
+use Ewave\ProntoDigi\Model\Import\Sources\SourceItems as SourceItemsImport;
+use Ewave\ProntoDigi\Model\ResourceModel\Product as ProductResource;
 use Ewave\ProntoDigi\ProntoApi\Constants\Products as ProductConstants;
 use Ewave\ProntoDigi\ProntoApi\ProductResponseHandlerAbstract;
 use Ewave\ProntoDigi\ProntoApi\Products\Get\Response\CategoryProcessor;
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+use Magento\Catalog\Model\Product\Url;
+use Magento\Catalog\Model\ResourceModel\Attribute as AttributeResource;
 use Magento\CatalogImportExport\Model\Import\Product;
+use Magento\Eav\Model\Config as EavConfig;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Inventory\Model\SourceItemFactory;
+use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface;
+use Magento\Catalog\Model\Product as ProductModel;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ResponseHandler extends ProductResponseHandlerAbstract
 {
+    const BRAND_ATTRIBUTE_CODE = 'brand';
+
     /**
      * @var array
      */
     protected $productsToImport = [];
+
+    /**
+     * @var AttributeResource
+     */
+    protected $attributeResource;
+
+    /**
+     * @var EavConfig
+     */
+    protected $eavConfig;
+
+    /**
+     * ResponseHandler constructor.
+     * @param EavConfig $eavConfig
+     * @param AttributeResource $attributeResource
+     * @param ImportFactory $importFactory
+     * @param Validate $validator
+     * @param Url $productUrl
+     * @param ProductResource $productResource
+     * @param CategoryFactory $categoryFactory
+     * @param CategoryProcessor $categoryProcessor
+     * @param Inventory $inventoryHelper
+     * @param IsSourceItemManagementAllowedForProductTypeInterface $allowedForProductType
+     * @param SourceItemsImport $sourceItemsImport
+     * @param SourceItemFactory $sourceItemFactory
+     * @param MapperInterface|null $mapper
+     */
+    public function __construct(
+        EavConfig $eavConfig,
+        AttributeResource $attributeResource,
+        ImportFactory $importFactory,
+        Validate $validator,
+        Url $productUrl,
+        ProductResource $productResource,
+        CategoryFactory $categoryFactory,
+        CategoryProcessor $categoryProcessor,
+        Inventory $inventoryHelper,
+        IsSourceItemManagementAllowedForProductTypeInterface $allowedForProductType,
+        SourceItemsImport $sourceItemsImport,
+        SourceItemFactory $sourceItemFactory,
+        MapperInterface $mapper = null
+    ) {
+        $this->eavConfig = $eavConfig;
+        $this->attributeResource = $attributeResource;
+        parent::__construct($importFactory, $validator, $productUrl, $productResource, $categoryFactory, $categoryProcessor, $inventoryHelper, $allowedForProductType, $sourceItemsImport, $sourceItemFactory, $mapper);
+    }
 
     /**
      * @param array $response
@@ -44,15 +105,16 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         }
         $this->unsetData();
         $this->import($this->productsToImport);
-
         return $this;
     }
 
     /**
+     * @param array $products
      * @return $this
      * @throws LocalizedException
+     * @throws \Magento\Framework\Exception\AlreadyExistsException
      */
-    protected function import($products)
+    protected function import(array $products)
     {
         if (empty($products)) {
             $this->logger->info(__('There are no valid items to import.'));
@@ -65,6 +127,22 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $import->setProductsData([$products]);
         $import->saveProducts();
         $this->saveSourceItems();
+        $attribute = $this->eavConfig->getAttribute(ProductModel::ENTITY, self::BRAND_ATTRIBUTE_CODE);
+        if ($attribute->getEntityId()) {
+            $this->attributeResource->save($attribute);
+        }
+        if (!empty($this->existSkus)) {
+            foreach ($this->existSkus as &$item) {
+                $item = [ProductAttributeInterface::CODE_STATUS => ProductStatus::STATUS_DISABLED];
+            }
+            $this->productResource->updateProductAttributes($this->existSkus, [ProductAttributeInterface::CODE_STATUS]);
+            $this->logger->info(
+                __('Disable products which exists in Magento but missing in the interface'),
+                $this->existSkus,
+                \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
+            );
+            $this->existSkus = [];
+        }
         $this->logger->info('TIME LOG: Import time: ' . round(microtime(true) - $start, 3) . ' sec.');
         return $this;
     }
@@ -119,7 +197,6 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             }
             unset($response[$k]);
         }
-
         $products = array_merge($this->newProducts, $this->existsProducts);
         return $products;
     }
@@ -250,9 +327,35 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                 []
             );
         }
-
         unset($this->existSkus[$sku]);
         unset($productData[ProductInterface::NAME]);
         return $productData;
+    }
+
+    /**
+     * Business rule:
+     * If is disabling more than 10% existing products,
+     * the changes will be reversed and an error will be logged in Magento Abstract Integration logs
+     * @return bool
+     */
+    protected function checkDisabledPercent()
+    {
+        $existsCount = count($this->getExistSkus());
+        if ($this->disabledProductsCount && $existsCount) {
+            $skusToDisable = $this->disabledProductsCount + count($this->existSkus);
+            $disabledPercent = round($skusToDisable / $this->countMagentoSkus * 100);
+            if ($disabledPercent > self::DISABLED_PRODUCTS_PERCENT_FOR_SKIP_UPDATE) {
+                $this->logger->warning(
+                    __(
+                        'Update for exists products is skipped because will be disabled %1 percents',
+                        $disabledPercent
+                    ),
+                    [],
+                    \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
+                );
+                return true;
+            }
+        }
+        return false;
     }
 }

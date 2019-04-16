@@ -2,13 +2,14 @@
 
 namespace Ewave\ProntoDigi\ProntoApi;
 
-use Ewave\AI\Model\Lib\Import\Product\Entity;
 use Ewave\AI\Model\Lib\Import\Product\EntityFactory as ImportFactory;
 use Ewave\AI\Model\Lib\Mapping\MapperInterface;
 use Ewave\AI\Model\Lib\Validator\Validate;
 use Ewave\Pronto\ProntoApi\ResponseHandler as BaseResponseHandler;
-use Ewave\Pronto\ProntoApi\ResponseHandlerInterface;
+use Ewave\ProntoDigi\Helper\Inventory;
+use Ewave\ProntoDigi\Model\Import\Sources\SourceItems as SourceItemsImport;
 use Ewave\ProntoDigi\Model\ResourceModel\Product as ProductResource;
+use Ewave\ProntoDigi\ProntoApi\Constants\InventoryGetRequest;
 use Ewave\ProntoDigi\ProntoApi\Constants\Products as ProductConstants;
 use Ewave\ProntoDigi\ProntoApi\Products\Get\Response\CategoryProcessor;
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
@@ -16,14 +17,10 @@ use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 use Magento\Catalog\Model\Product\Url;
-use Magento\CatalogImportExport\Model\Import\Product;
 use Magento\Framework\Exception\LocalizedException;
-use Ewave\ProntoDigi\Helper\Inventory;
-use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface;
-use Ewave\ProntoDigi\Model\Import\Sources\SourceItems as SourceItemsImport;
-use Ewave\ProntoDigi\ProntoApi\Constants\InventoryGetRequest;
 use Magento\Inventory\Model\SourceItemFactory;
 use Magento\InventoryApi\Api\Data\SourceItemInterface;
+use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface;
 
 /**
  * Class ProductResponseHandlerAbstract
@@ -204,6 +201,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
     {
         if (empty($this->existSkus)) {
             $this->existSkus = $this->productResource->getExistSkus();
+            $this->countMagentoSkus = count($this->existSkus);
         }
         return $this->existSkus;
     }
@@ -264,7 +262,6 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
      */
     protected function unsetData()
     {
-        $this->existSkus = [];
         $this->excludedSkus = [];
         $this->existSources = [];
         $this->existSourceItems = [];
@@ -286,34 +283,6 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
             $data[ProductAttributeInterface::CODE_STATUS] = ProductStatus::STATUS_DISABLED;
         }
         return $data;
-    }
-
-    /**
-     * Business rule:
-     * If is disabling more than 10% existing products,
-     * the changes will be reversed and an error will be logged in Magento Abstract Integration logs
-     * @return bool
-     */
-    protected function checkDisabledPercent()
-    {
-        $this->countMagentoSkus = count($this->getExistSkus());
-        $countDisabledMagentoSkus = count($this->productResource->getExistSkusByStatus(ProductStatus::STATUS_DISABLED));
-        if ($this->disabledProductsCount) {
-            $skusToDisable = $this->disabledProductsCount + $countDisabledMagentoSkus;
-            $disabledPercent = round($skusToDisable / $this->countMagentoSkus * 100);
-            if ($disabledPercent > self::DISABLED_PRODUCTS_PERCENT_FOR_SKIP_UPDATE) {
-                $this->logger->warning(
-                    __(
-                        'Update for exists products is skipped because will be disabled %1 percents',
-                        $disabledPercent
-                    ),
-                    [],
-                    \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
-                );
-                return true;
-            }
-        }
-        return false;
     }
 
     /**

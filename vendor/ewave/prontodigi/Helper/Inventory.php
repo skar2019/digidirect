@@ -2,13 +2,14 @@
 
 namespace Ewave\Prontodigi\Helper;
 
-use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
-use Magento\InventoryConfigurationApi\Model\GetAllowedProductTypesForSourceItemManagementInterface;
-use Magento\InventoryApi\Api\Data\SourceItemInterface;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
 use Magento\InventoryApi\Api\Data\SourceInterface;
+use Magento\InventoryApi\Api\Data\SourceItemInterface;
+use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Magento\InventoryApi\Api\SourceRepositoryInterface;
+use Magento\InventoryConfigurationApi\Model\GetAllowedProductTypesForSourceItemManagementInterface;
 
 /**
  * Class Inventory
@@ -42,17 +43,20 @@ class Inventory extends AbstractHelper
      * @param SourceItemRepositoryInterface $sourceItemRepository
      * @param GetAllowedProductTypesForSourceItemManagementInterface $allowedProductTypesForSourceItemManagement
      * @param SourceRepositoryInterface $sourceRepository
+     * @param Context $context
      */
     public function __construct(
         SearchCriteriaBuilder $criteriaBuilder,
         SourceItemRepositoryInterface $sourceItemRepository,
         GetAllowedProductTypesForSourceItemManagementInterface $allowedProductTypesForSourceItemManagement,
-        SourceRepositoryInterface $sourceRepository
+        SourceRepositoryInterface $sourceRepository,
+        Context $context
     ) {
         $this->searchCriteriaBuilder = $criteriaBuilder;
         $this->sourceItemRepository = $sourceItemRepository;
         $this->allowedProductTypesForSourceItemManagement = $allowedProductTypesForSourceItemManagement;
         $this->sourceRepository = $sourceRepository;
+        parent::__construct($context);
     }
 
     /**

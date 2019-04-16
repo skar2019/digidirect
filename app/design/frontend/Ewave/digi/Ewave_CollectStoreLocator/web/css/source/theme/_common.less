@@ -50,12 +50,14 @@
         }
         
         .open-hours table td:last-child {
+            .lib-css(color, @color-4-8);
+            font-weight: bold;
             text-align: right;
+            text-transform: lowercase;
         }
         
         .locator-list .locator-item.item {
             .lib-css(border, 2px solid @form-element-input__border-color);
-            
             padding: 20px;
         }
     
@@ -65,7 +67,14 @@
         
         .locator-item .address {
             margin-bottom: 0;
-            min-height: auto;
+            min-height: 0;
+        }
+
+        .action.-select {
+            .lib-font-size(16);
+            min-width: 150px;
+            padding: 7px 15px;
+            font-weight: 400;
         }
     }
 }
@@ -78,14 +87,6 @@
     .collect-locator {
         .locator-map {
             display: none; //Hide map according markup
-        }
-    
-        .action.-select {
-            .lib-font-size(16);
-            
-            min-width: 150px;
-            padding: 7px 15px;
-            font-weight: 400;
         }
         
         .locator-list {

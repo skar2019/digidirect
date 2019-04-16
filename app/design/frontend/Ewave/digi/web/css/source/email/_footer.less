@@ -1,0 +1,37 @@
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .copyright-table {
+        .lib-css(background-color, @color-black);
+        .lib-css(color, @color-white);
+    }
+
+    table.copyright {
+        max-width: 633px;
+    }
+
+    .copy-link,
+    .copyright.text {
+        .lib-css(color, @color-white);
+        .lib-css(font-weight, @font-weight__regular);
+        .lib-css(font-family, @email-font-family);
+        padding: 16px 0 15px;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .copyright.text {
+        color: #9b9b9b;
+    }
+
+    .social-wrapper {
+        position: relative;
+    }
+
+    td.footer {
+        padding-top: 44px;
+    }
+}
+

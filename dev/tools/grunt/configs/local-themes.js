@@ -8,7 +8,9 @@ module.exports = {
             'css/styles-l',
             'css/fonts',
             'css/print',
-            'mage/gallery/gallery'
+            'mage/gallery/gallery',
+            'css/email-inline',
+            'css/email'
         ],
         dsl: 'less'
     }

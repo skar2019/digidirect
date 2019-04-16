@@ -48,19 +48,19 @@ $categoryExeption = "top contributors";
             <span class="label"><?php echo $block->escapeHtml(__('Share this Article:')); ?></span>
             <a class="link"
                target="_blank"
-               href="http://twitter.com/share?url=">
+               href="http://twitter.com/share?url=<?php echo $block->escapeUrl($post->getViewUrl()) ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon -twitter">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-twitter"></use>
                 </svg>
             </a>
-            <a href="https://www.facebook.com/digidirect/" target="_blank" rel="noopener" class="-facebook">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $block->escapeUrl($post->getViewUrl()) ?>" target="_blank" rel="noopener" class="-facebook">
                 <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-facebook"></use>
                 </svg>
             </a>
             <a class="link"
                target="_blank"
-               href="https://plus.google.com/share?url=">
+               href="https://plus.google.com/share?url=<?php echo $block->escapeUrl($post->getViewUrl()) ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon -google-plus">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-google-plus"></use>
                 </svg>
