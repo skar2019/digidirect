@@ -20,6 +20,24 @@
                     <label>Enable Trailing Slash</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="enable_hreflang_tags" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Hreflang Tags</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[If set to ‘Yes’, hreflang tags < link rel="alternate" hreflang="{hreflang_code}" href="{page_URL}" /> will be added to store pages code]]></comment>
+                </field>
+                <field id="hreflang_code_selection" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Hreflang Code Selection</label>
+                    <source_model>Ewave\SEO\Model\Config\Source\StoreCode</source_model>
+                    <comment>Select from where Hreflang Code will be picked up</comment>
+                    <depends>
+                        <field id="enable_hreflang_tags">1</field>
+                    </depends>
+                </field>
+                <field id="enable_contextual_redirects" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Contextual Redirects</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set to 'Yes', contextual 301 redirects will be enabled</comment>
+                </field>
             </group>
             <group id="sitemap" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Sitemap Settings</label>

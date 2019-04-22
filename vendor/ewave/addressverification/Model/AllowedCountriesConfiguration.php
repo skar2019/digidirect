@@ -50,7 +50,8 @@ class AllowedCountriesConfiguration
      */
     public function getAllowedCountries()
     {
-        $currentStoreId = $this->storeManager->getStore()->getId();
+        $store = $this->storeManager->getStore();
+        $currentStoreId = $store->getId();
         if (!isset($this->allowedCountriesByStore[$currentStoreId])) {
             $countries = $this->scopeConfig->getValue(
                 'general/country/allow',
@@ -66,7 +67,7 @@ class AllowedCountriesConfiguration
             }
 
             $uploadedCountries = $this->location->getAllowedCountriesByStore(
-                $currentStoreId
+                $currentStoreId, $store->getWebsiteId()
             );
 
             $this->allowedCountriesByStore[$currentStoreId] = array_intersect($countries, $uploadedCountries);

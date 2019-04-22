@@ -17,6 +17,7 @@ class TranslatedLists
     {
         if ($result !== null) {
             $result = __($result);
+            return $result->__toString();
         }
         return $result;
     }

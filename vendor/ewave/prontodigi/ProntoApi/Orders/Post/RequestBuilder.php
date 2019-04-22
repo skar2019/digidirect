@@ -107,7 +107,7 @@ class RequestBuilder extends BaseRequestBuilder implements RequestBuilderInterfa
     {
         $data = parent::getRequestContent();
         $paymentDetails = $data[Order::SALES_ORDER][Order::HEADER][Order::PAYMENT_DETAILS];
-        if (empty($paymentDetails[PaymentDetail::PAYMENT_DETAIL][PaymentDetail::PAYMENT_REFERENCE])) {
+        if (empty($paymentDetails[PaymentDetail::PAYMENT_DETAIL][PaymentDetail::AMOUNT_TENDERED])) {
             unset($data[Order::SALES_ORDER][Order::HEADER][Order::PAYMENT_DETAILS][PaymentDetail::PAYMENT_DETAIL]);
         }
         $xml = new \SimpleXMLElement('<' . Order::ROOT_CONTAINER . '/>');

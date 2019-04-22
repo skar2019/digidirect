@@ -37,10 +37,6 @@ define([
                     this._super();
                 }
             },
-            _setDefaultLabel: function() {
-              this._super();
-              this._removeOldLabels();
-            },
             _removeOldLabels: function($parentElement) {
                 if (!$parentElement || $parentElement.length) {
                     $parentElement = $(this.options.toCartBlockSelector);

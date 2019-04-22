@@ -4,4 +4,12 @@
                 type="Magento\Framework\Api\SearchResults" />
     <preference for="Ewave\SEO\Api\Data\SitemapExcludeInterface" type="Ewave\SEO\Model\SitemapExclude" />
     <preference for="Ewave\SEO\Api\SitemapExcludeRepositoryInterface" type="Ewave\SEO\Model\SitemapExcludeRepository" />
+
+    <type name="Ewave\SEO\Model\Config\Source\StoreCode">
+        <arguments>
+            <argument name="fields" xsi:type="array">
+                <item name="StoreCodeName" xsi:type="string">From Store Code</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

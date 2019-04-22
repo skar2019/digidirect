@@ -59,4 +59,20 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Link\Produ
 
         return $categoryProducts;
     }
+
+    /**
+     * Add products to filter
+     *
+     * @param array $products
+     * @return $this
+     */
+    public function addProductsFilter(array $products)
+    {
+        if (!empty($products)) {
+            $identifierField = $this->getProductEntityMetadata()->getIdentifierField();
+            $this->getSelect()->where("e.$identifierField IN (?)", $products);
+            $this->_hasLinkFilter = false;
+        }
+        return $this;
+    }
 }

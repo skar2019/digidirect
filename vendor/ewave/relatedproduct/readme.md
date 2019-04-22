@@ -23,3 +23,7 @@ How To add custom product attributes to collection via layout:
 Version 2.0.0
 
 Refactoring & Testing
+
+Version 2.3.0
+
+Compatible with Magento Commerce (EE) 2.3

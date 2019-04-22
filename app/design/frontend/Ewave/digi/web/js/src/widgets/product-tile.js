@@ -108,7 +108,7 @@ $.widget('ewave.productTile', {
         return this;
     },
     initPriceRuleModal() {
-        let currentTriggerElement = this.element.find(this.options.catalogPriceRuleModalTriggerSelector).first(),
+        let currentTriggerElement = this.element.find(this.options.catalogPriceRuleModalTriggerSelector),
             ruleId = currentTriggerElement.data('rule-id');
 
         if (ruleId) {

@@ -14,7 +14,7 @@ $_isLocalizationMode = count($_localizationItems) > 0 ? 1 : 0;
             <div class="localization-select">
                 <select id="localization_select" data-role="localization-select">
                     <?php foreach ($_localizationItems as $loc => $item): ?>
-                        <option value="<?= /* @escapeNotVerified */ $loc; ?>"><?= /* @escapeNotVerified */ $loc; ?></option>
+                        <option value="<?= /* @escapeNotVerified */ $loc; ?>"><?= /* @escapeNotVerified */ $item['countryName']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

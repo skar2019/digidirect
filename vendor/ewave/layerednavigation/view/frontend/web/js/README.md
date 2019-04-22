@@ -29,7 +29,7 @@ addOn || string | '' | Add-ons communicate between component and the global stor
 ```javascript
     triggerApplyButton: false,
     triggerApplyMode: false,
-    applyModeBreakpoint: '(max-width: 769px)',
+    applyModeBreakpoint: '(max-width: 767px)',
     enableAjax: false,
     enabledSeoUrls: false,
     postfix: '',

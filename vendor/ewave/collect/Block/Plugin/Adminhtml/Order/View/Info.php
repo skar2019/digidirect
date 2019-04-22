@@ -5,23 +5,25 @@ use Magento\Sales\Model\Order\Address;
 
 /**
  * Class Info
+ *
  * @package Ewave\Collect\Block\Plugin\Adminhtml\Order\View
  */
 class Info
 {
     /**
-     * @var \Ewave\Collect\Model\StorageHandler
+     * @var \Ewave\Collect\Model\OrderStoreLocatorInfo
      */
-    protected $_storageHandler;
+    protected $orderStoreLocatorInfo;
 
     /**
      * AroundGetItemData constructor.
-     * @param \Ewave\Collect\Model\StorageHandler $_storageHandler
+     *
+     * @param \Ewave\Collect\Model\OrderStoreLocatorInfo $orderStoreLocatorInfo
      */
     public function __construct(
-        \Ewave\Collect\Model\StorageHandler $_storageHandler
+        \Ewave\Collect\Model\OrderStoreLocatorInfo $orderStoreLocatorInfo
     ) {
-        $this->_storageHandler = $_storageHandler;
+        $this->orderStoreLocatorInfo = $orderStoreLocatorInfo;
     }
 
     /**
@@ -29,15 +31,17 @@ class Info
      * @param \Closure $proceed
      * @param Address $address
      * @return null|string
+     * @throws \Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundGetFormattedAddress(
         \Magento\Sales\Block\Adminhtml\Order\View\Info $subject,
-        $proceed,
+        \Closure $proceed,
         Address $address
     ) {
         if ($address->getAddressType() == 'shipping'
-            && $storeLocatorInfo = $this->getStoreLocatorInfoByOrder($address->getOrder())) {
+            && $storeLocatorInfo = $this->getStoreLocatorInfoByOrder($address->getOrder())
+        ) {
             return __('Store ID: %1', nl2br($storeLocatorInfo));
         }
 
@@ -49,15 +53,17 @@ class Info
      * @param \Closure $proceed
      * @param Address $address
      * @return string
+     * @throws \Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundGetAddressEditLink(
         \Magento\Sales\Block\Adminhtml\Order\View\Info $subject,
-        $proceed,
+        \Closure $proceed,
         Address $address
     ) {
         if ($address->getAddressType() == 'shipping'
-            && $storeLocatorInfo = $this->getStoreLocatorInfoByOrder($address->getOrder())) {
+            && $storeLocatorInfo = $this->getStoreLocatorInfoByOrder($address->getOrder())
+        ) {
             return '';
         }
 
@@ -69,6 +75,7 @@ class Info
      *
      * @param \Magento\Sales\Model\Order $order
      * @return string
+     * @throws \Exception
      */
     public function getStoreLocatorInfoByOrder($order)
     {
@@ -86,27 +93,10 @@ class Info
     /**
      * @param \Magento\Sales\Model\Order $order
      * @return bool|\Ewave\Collect\Api\Data\CollectPlaceInterface
+     * @throws \Exception
      */
     public function getStoreLocatorItemByOrder($order)
     {
-        $collectPlaceId = $collectPlaceStorage = false;
-        foreach ($order->getAllVisibleItems() as $orderItem) {
-            /** @var \Magento\Sales\Model\Order\Item $orderItem **/
-            if ($orderItem->getCollectPlaceId()) {
-                $collectPlaceId = $orderItem->getCollectPlaceId();
-                $collectPlaceStorage = $orderItem->getCollectPlaceStorageName();
-                break;
-            }
-        }
-
-        if ($collectPlaceId) {
-            $collectPlace = $this->_storageHandler->getCollectPlaceById(
-                $collectPlaceId,
-                $collectPlaceStorage
-            );
-            return $collectPlace && $collectPlace->getId() ? $collectPlace : false;
-        }
-
-        return false;
+        return $this->orderStoreLocatorInfo->getStoreLocatorItemByOrder($order);
     }
 }

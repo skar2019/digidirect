@@ -1,19 +1,21 @@
 <?php
 namespace Ewave\CollectAbstractEntity\Helper;
 
-use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class Config
+ *
  * @package Ewave\CollectAbstractEntity\Helper
  */
 class Config extends AbstractHelper
 {
     const XML_PATH_COLLECT_FIELDS_MATRIX = 'carriers/collect/click_collect_fields_matrix';
     const XML_PATH_COLLECT_ABSTRACT_ENTITY = 'carriers/collect/click_collect_entity';
+    const XML_PATH_PREFILL_SHIPPING_ADDRESS = 'carriers/collect/prefill_shipping_address_fields_matrix';
 
     /**
      * @var SerializerInterface
@@ -21,7 +23,18 @@ class Config extends AbstractHelper
     protected $serializer;
 
     /**
+     * @var array
+     */
+    protected $collectFields;
+
+    /**
+     * @var string[]
+     */
+    protected $prefillShippingAddressFields;
+
+    /**
      * Config constructor.
+     *
      * @param Context $context
      * @param SerializerInterface $serializer
      */
@@ -52,17 +65,45 @@ class Config extends AbstractHelper
      */
     public function getCollectFieldsMatrix($storeId = null)
     {
-        $json = $this->scopeConfig->getValue(
-            self::XML_PATH_COLLECT_FIELDS_MATRIX,
-            ScopeInterface::SCOPE_WEBSITE,
-            $storeId
-        );
-        $array = $json ? $this->serializer->unserialize($json) : [];
+        if (null === $this->collectFields) {
+            $json = $this->scopeConfig->getValue(
+                self::XML_PATH_COLLECT_FIELDS_MATRIX,
+                ScopeInterface::SCOPE_WEBSITE,
+                $storeId
+            );
+            $array = $json ? $this->serializer->unserialize($json) : [];
 
-        $map = [];
-        foreach ($array as $item) {
-            $map[$item['collect_field_column']] = $item['abstract_entity_attribute_field_column'];
+            $this->collectFields = [];
+            foreach ($array as $item) {
+                $this->collectFields[$item['collect_field_column']] = $item['abstract_entity_attribute_field_column'];
+            }
         }
-        return $map;
+
+        return $this->collectFields;
+    }
+
+    /**
+     * @param null|string $storeId
+     * @return array
+     */
+    public function getPrefillShippingAddressFieldsMatrix($storeId = null)
+    {
+        if (null === $this->prefillShippingAddressFields) {
+            $json = $this->scopeConfig->getValue(
+                self::XML_PATH_PREFILL_SHIPPING_ADDRESS,
+                ScopeInterface::SCOPE_WEBSITE,
+                $storeId
+            );
+            $array = $json ? $this->serializer->unserialize($json) : [];
+
+            $this->prefillShippingAddressFields = [];
+            foreach ($array as $item) {
+                $this->prefillShippingAddressFields[$item['shipping_address_field_column']] =
+                    $item['abstract_entity_attribute_field_column'];
+            }
+
+        }
+
+        return $this->prefillShippingAddressFields;
     }
 }

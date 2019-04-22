@@ -5,7 +5,7 @@
   "suggest": {
     "ewave/utilities": "Ewave Seo may use ewave/utilities methods"
   },
-  "version": "1.4.1.0",
+  "version": "1.6.0.0",
   "autoload": {
     "files": [
       "registration.php"

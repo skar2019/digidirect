@@ -76,15 +76,21 @@ class Location extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     }
 
     /**
-     * @param $storeId
+     * @param int $storeId
+     * @param int|null $websiteId
      * @return array
      */
-    public function getAllowedCountriesByStore($storeId)
+    public function getAllowedCountriesByStore($storeId, $websiteId = null)
     {
         $select = $this->getConnection()->select()
             ->from($this->getMainTable(), ['country_code'])
             ->where($this->getQuoteInto('store_id IN (?)', [0, $storeId]))
             ->distinct();
+
+        if ($websiteId) {
+            $select->orWhere($this->getQuoteInto('website_id IN (?)', [0, $websiteId]));
+        }
+
         return $this->getConnection()->fetchCol($select);
     }
 

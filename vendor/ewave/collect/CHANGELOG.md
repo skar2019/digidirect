@@ -278,3 +278,16 @@
     * [#295812](https://ewave.tpondemand.com/entity/295812) -- [MSI & COLLECT] As a user, I want to be able to see availability status in cart/checkout click&collect stores
     * [#297705](https://ewave.tpondemand.com/entity/297705) -- [Locator][Click & Collect] As a system, I want availability flag to be added
     * [#278827](https://ewave.tpondemand.com/entity/278827) -- [Single C&C for Cart] As an admin, I want 'Single C&C for Cart' variation to be added
+ 
+
+2.13.0
+=============
+* New features:
+    * [#295601](https://ewave.tpondemand.com/entity/295601) -- [C&C][Abstract Entity] As a customer, I want Shipping Address fields to be hidden and pre-filled with an Abstract Entity values on Checkout
+ 
+
+2.13.1
+=============
+* Bugfixes:
+    * [#300965](https://ewave.tpondemand.com/entity/300965) -- [C&C][Abstract Entity] User can proceed to the checkout step 2 without selecting store for click and collect
+    

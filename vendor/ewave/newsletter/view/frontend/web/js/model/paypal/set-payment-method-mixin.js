@@ -43,12 +43,11 @@ define([
 
             return storage[method](
                 serviceUrl, JSON.stringify(payload)
-            ).fail(
-                function (response) {
-                    errorProcessor.process(response, messageContainer);
-                    fullScreenLoader.stopLoader();
-                }
-            );
+            ).fail(function (response) {
+                errorProcessor.process(response, messageContainer);
+            }).always(function () {
+                fullScreenLoader.stopLoader();
+            });
         };
     };
 });

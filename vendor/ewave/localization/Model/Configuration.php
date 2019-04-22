@@ -5,6 +5,7 @@ namespace Ewave\Localization\Model;
 use Ewave\Localization\Helper\Data;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Serialize\Serializer\Json as jsonHelper;
+use Magento\Directory\Model\CountryFactory;
 
 class Configuration
 {
@@ -52,20 +53,27 @@ class Configuration
     protected $dataHelper;
 
     /**
+     * @var CountryFactory
+     */
+    protected $countryFactory;
+
+    /**
      * Configuration constructor.
-     *
      * @param ScopeConfigInterface $scopeConfig
      * @param jsonHelper $_jsonHelper
      * @param Data $dataHelper
+     * @param CountryFactory $countryFactory
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         jsonHelper $_jsonHelper,
-        Data $dataHelper
+        Data $dataHelper,
+        CountryFactory $countryFactory
     ) {
         $this->dataHelper = $dataHelper;
         $this->_scopeConfig = $scopeConfig;
         $this->_jsonHelper = $_jsonHelper;
+        $this->countryFactory = $countryFactory;
     }
 
     /**
@@ -84,6 +92,16 @@ class Configuration
     }
 
     /**
+     * @param $countryCode
+     * @return mixed
+     */
+    public function getCountryName($countryCode)
+    {
+        $country = $this->countryFactory->create()->loadByCode($countryCode);
+        return $country->getName();
+    }
+
+    /**
      * Returns formatted phone codes
      *
      * @return array
@@ -98,10 +116,12 @@ class Configuration
             $phoneCodes = $this->_jsonHelper->unserialize($this->_getPhoneCodes());
             if (!empty($phoneCodes)) {
                 foreach ($phoneCodes as $code) {
+                    $countryName = $this->getCountryName($code['country']);
                     $result[$code['country']] = [
                         'prefix' => $code['mask_prefix'],
                         'pattern' => $code['mask_pattern'],
                         'placeholder' => $code['mask_placeholder'],
+                        'countryName' => $countryName
                     ];
                 }
             }

@@ -47,24 +47,7 @@
     }
 
     .products-reviews-toolbar.bottom .pager {
-        & {
-            .lib-vendor-prefix-display(flex);
-            .lib-vendor-box-align(center);
-            .ewave-lib-box-align(space-between);
-            padding: 15px 20px 30px;
-        }
-
-        .limiter-label {
-            display: none;
-        }
-
-        .limiter-options {
-            .lib-font-size(14);
-            padding-left: 10px;
-            padding-right: 30px;
-            background-size: 13px 20px;
-            background-position: right 8px center;
-        }
+        padding: 15px 20px 30px;
     }
 }
 
@@ -119,7 +102,7 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .review-customer-index .column.main {
-        margin-bottom: 40px;
+        margin-bottom: 0;
     }
 
     .table-wrapper.reviews {
@@ -159,16 +142,6 @@
             white-space: nowrap;
         }
     }
-
-    .products-reviews-toolbar.bottom .pager {
-        .limiter-options {
-            .lib-font-size(15);
-            padding-left: 14px;
-            padding-right: 45px;
-            background-size: 12px 12px;
-            background-position: right 15px center;
-        }
-    }
 }
 
 //
@@ -177,7 +150,7 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
     .review-customer-index .column.main {
-       min-height: auto;
+        min-height: 0;
     }
 
     .table-reviews {
@@ -213,9 +186,7 @@
     }
 
     .products-reviews-toolbar.bottom .pager {
-        & {
-            padding: 15px 30px 167px;
-        }
+        padding: 15px 30px 40px;
     }
 }
 

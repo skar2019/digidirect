@@ -28,3 +28,8 @@
 ===============
 * New features:
     * [#285372](https://ewave.tpondemand.com/entity/285372) -- [MULTI-VIEW IN WIDGETS] As a customer, I want to be able to use multi-view on the following widgets
+
+1.1.1
+===============
+* Bugfixes:
+    * [#291520](https://ewave.tpondemand.com/entity/291520) -- [RipCurl] [Product Multi-View] After hovering over the picture it is cropped

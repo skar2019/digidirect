@@ -58,7 +58,7 @@ class Image
         if ($hoverImage !== false) {
             $images = $productRender->getImages();
             $imageHelper = $this->_imageFactory->create()
-                ->init($product, 'small_image');
+                ->init($product, 'recently_viewed_widget_alternative_image');
 
             $imageHelper->setImageFile($hoverImage);
 

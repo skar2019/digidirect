@@ -2,7 +2,6 @@
 
 namespace Ewave\StoreLocator\Helper;
 
-use function GuzzleHttp\Psr7\str;
 use Magento\Directory\Model\Country;
 use Magento\Directory\Model\CountryFactory;
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -160,7 +159,7 @@ class Directory extends AbstractHelper
      */
     public function getCountryCodeByName($name = '')
     {
-        $name = trim($name);
+        $name = strtolower(trim($name));
         if(!$name) {
             return null;
         }
@@ -170,7 +169,7 @@ class Directory extends AbstractHelper
                 /**
                  * @var $country Country
                  */
-                $countryName = (string)$country->getName();
+                $countryName = strtolower((string)$country->getName());
                 $countryCode = $country->getCountryId();
                 $countryIso2Code = $country->getData('iso2_code');
                 $countryIso3Code = $country->getData('iso3_code');

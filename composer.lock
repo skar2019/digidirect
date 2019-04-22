@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95a42f638350d39f35825646d6b42782",
+    "content-hash": "84bb37a201303c3ae529769c2ea971d6",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -399,16 +399,16 @@
         },
         {
             "name": "colinmollenhour/cache-backend-file",
-            "version": "v1.4.4",
+            "version": "v1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/colinmollenhour/Cm_Cache_Backend_File.git",
-                "reference": "184171cc79933a828c3f9b1a1054724cea22a216"
+                "reference": "03c7d4c0f43b2de1b559a3527d18ff697d306544"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/colinmollenhour/Cm_Cache_Backend_File/zipball/184171cc79933a828c3f9b1a1054724cea22a216",
-                "reference": "184171cc79933a828c3f9b1a1054724cea22a216",
+                "url": "https://api.github.com/repos/colinmollenhour/Cm_Cache_Backend_File/zipball/03c7d4c0f43b2de1b559a3527d18ff697d306544",
+                "reference": "03c7d4c0f43b2de1b559a3527d18ff697d306544",
                 "shasum": ""
             },
             "type": "magento-module",
@@ -428,7 +428,7 @@
             ],
             "description": "The stock Zend_Cache_Backend_File backend has extremely poor performance for cleaning by tags making it become unusable as the number of cached items increases. This backend makes many changes resulting in a huge performance boost, especially for tag cleaning.",
             "homepage": "https://github.com/colinmollenhour/Cm_Cache_Backend_File",
-            "time": "2018-04-05T15:28:43+00:00"
+            "time": "2019-04-18T21:54:31+00:00"
         },
         {
             "name": "colinmollenhour/cache-backend-redis",
@@ -601,16 +601,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "1.8.4",
+            "version": "1.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "bc364c2480c17941e2135cfc568fa41794392534"
+                "reference": "949b116f9e7d98d8d276594fed74b580d125c0e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/bc364c2480c17941e2135cfc568fa41794392534",
-                "reference": "bc364c2480c17941e2135cfc568fa41794392534",
+                "url": "https://api.github.com/repos/composer/composer/zipball/949b116f9e7d98d8d276594fed74b580d125c0e6",
+                "reference": "949b116f9e7d98d8d276594fed74b580d125c0e6",
                 "shasum": ""
             },
             "require": {
@@ -677,7 +677,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2019-02-11T09:52:10+00:00"
+            "time": "2019-04-09T15:46:48+00:00"
         },
         {
             "name": "composer/semver",
@@ -1067,15 +1067,10 @@
         {
             "name": "dotmailer/dotmailer-magento2-extension-enterprise",
             "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise.git",
-                "reference": "916c6968554cefcac28922a9d261d851f0b0f111"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension-enterprise/zipball/916c6968554cefcac28922a9d261d851f0b0f111",
-                "reference": "916c6968554cefcac28922a9d261d851f0b0f111",
+                "url": "https://repo.magento.com/archives/dotmailer/dotmailer-magento2-extension-enterprise/dotmailer-dotmailer-magento2-extension-enterprise-1.0.3.0.zip",
+                "reference": null,
                 "shasum": "034adb39808433b83c42eb2b4b59f4b20c0e8cc9"
             },
             "require": {
@@ -1296,11 +1291,11 @@
         },
         {
             "name": "ewave/addressverification",
-            "version": "dev-release/2.0.7",
+            "version": "dev-release/2.0.10",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_addressverification.git",
-                "reference": "f905882d956d9875e86d073da11c330e858a6eca"
+                "reference": "b242998a18b4af41cb98142d4627bf58705a1924"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1312,7 +1307,7 @@
                 }
             },
             "description": "Address suggestions with Google places API",
-            "time": "2019-01-08T12:26:46+00:00"
+            "time": "2019-03-22T05:39:52+00:00"
         },
         {
             "name": "ewave/ai",
@@ -1320,7 +1315,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_ai.git",
-                "reference": "0f7b66b7fd413e15613c871d3e58238c7eefb851"
+                "reference": "d8b219a7ea3d076a13b74bb5cdec68398170ed69"
             },
             "require": {
                 "vlucas/valitron": "^1.4"
@@ -1335,15 +1330,15 @@
                 }
             },
             "description": "Integration Engine.",
-            "time": "2019-04-03T08:14:00+00:00"
+            "time": "2019-04-22T12:10:12+00:00"
         },
         {
             "name": "ewave/banner",
-            "version": "dev-release/4.0.0",
+            "version": "dev-release/4.0.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_banner.git",
-                "reference": "aa4bcff3885defc5ea57522320cda2242fea5056"
+                "reference": "431bc5b73d8688bc222daf5f91d86992002b8b37"
             },
             "suggest": {
                 "ewave/utilities": "Ewave Banner extension may use ewave/utilities methods"
@@ -1358,7 +1353,7 @@
                 }
             },
             "description": "Banner extended with attributes",
-            "time": "2019-02-04T05:48:38+00:00"
+            "time": "2019-04-19T07:18:41+00:00"
         },
         {
             "name": "ewave/blog",
@@ -1402,26 +1397,6 @@
             },
             "description": "Ewave Infinite Scroll solution for blog",
             "time": "2017-09-12T13:48:59+00:00"
-        },
-        {
-            "name": "ewave/cartsuggestions",
-            "version": "dev-release/1.0.0",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_cartsuggestions.git",
-                "reference": "4be7a7b0ca4da5a80e16494f038d3f29a0c4f6b1"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\CartSuggestions\\": ""
-                }
-            },
-            "description": "Ewave Cart Out Of Stock Suggestions",
-            "time": "2017-04-06T13:08:39+00:00"
         },
         {
             "name": "ewave/categoryfilter",
@@ -1487,11 +1462,11 @@
         },
         {
             "name": "ewave/collect",
-            "version": "dev-release/2.12.0",
+            "version": "dev-release/2.13.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collect.git",
-                "reference": "30567e8efb047bd94bb4793b0ab9132d80e19f04"
+                "reference": "42ccfbd65a2ecace95e6e50ba15794f18b3247b9"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1503,7 +1478,7 @@
                 }
             },
             "description": "Ewave Click and Collect Module",
-            "time": "2019-04-08T10:17:56+00:00"
+            "time": "2019-04-19T13:37:00+00:00"
         },
         {
             "name": "ewave/collect-staging",
@@ -1527,11 +1502,11 @@
         },
         {
             "name": "ewave/collectabstractentity",
-            "version": "dev-release/1.1.0",
+            "version": "dev-release/1.2.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectabstractentity.git",
-                "reference": "3febbf9c1d7f4e7096a2fa165a25fbe59cf4c17e"
+                "reference": "1fd349b899e88fffaed292dbaf47882ec3f89015"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1543,7 +1518,7 @@
                 }
             },
             "description": "Ewave CollectAbstractEntity",
-            "time": "2019-04-08T07:52:06+00:00"
+            "time": "2019-04-16T13:38:14+00:00"
         },
         {
             "name": "ewave/collectabstractentitymsi",
@@ -1587,11 +1562,11 @@
         },
         {
             "name": "ewave/defaulttheme",
-            "version": "dev-release/1.3.1",
+            "version": "dev-release/1.3.2",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_defaulttheme.git",
-                "reference": "c459d1e27bbe831cab0ee83fa2e8755e70112dce"
+                "reference": "b0c89a5b94700d6d7765320d9081a7eac0810d58"
             },
             "require": {
                 "ewave/legobasetheme": "*"
@@ -1606,7 +1581,7 @@
                 "Commercial"
             ],
             "description": "Default theme",
-            "time": "2019-02-14T12:38:32+00:00"
+            "time": "2019-04-04T12:32:25+00:00"
         },
         {
             "name": "ewave/email",
@@ -1713,11 +1688,11 @@
         },
         {
             "name": "ewave/extendedshippingrates",
-            "version": "dev-release/1.3.4",
+            "version": "dev-release/1.3.5",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedshippingrates.git",
-                "reference": "2131f103c757b1e8a2d54ee25f0b628d1fa6e2b0"
+                "reference": "f1f4891b0513444eb84ef1e17b30ebfa8e8d4323"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1729,7 +1704,7 @@
                 }
             },
             "description": "Ewave Extended Shipping Rates",
-            "time": "2019-02-14T12:46:15+00:00"
+            "time": "2019-02-26T05:19:56+00:00"
         },
         {
             "name": "ewave/faq",
@@ -1773,11 +1748,11 @@
         },
         {
             "name": "ewave/freegift",
-            "version": "dev-release/1.10.4",
+            "version": "dev-release/1.10.6",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_freegift.git",
-                "reference": "09109934430a874db9fb9d3614b8755dd4145e23"
+                "reference": "4df896f3a05da002986ca7229f36cb50169b5ae3"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1789,7 +1764,7 @@
                 }
             },
             "description": "Free gift",
-            "time": "2019-03-21T13:11:25+00:00"
+            "time": "2019-04-11T13:44:35+00:00"
         },
         {
             "name": "ewave/giftcardimage",
@@ -1856,11 +1831,11 @@
         },
         {
             "name": "ewave/layerednavigation",
-            "version": "dev-release/1.5.2",
+            "version": "dev-release/1.5.3",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_layerednavigation.git",
-                "reference": "5dab78c8cf0d43e153432d025c229f95e58badf3"
+                "reference": "9c6bd9038cd29f5bde2979d4b38222ad4e47ebfa"
             },
             "require": {
                 "magento/module-layered-navigation": "*"
@@ -1878,15 +1853,15 @@
                 "Commercial"
             ],
             "description": "Layered Navigation",
-            "time": "2019-02-21T07:54:23+00:00"
+            "time": "2019-03-14T07:51:33+00:00"
         },
         {
             "name": "ewave/legobasetheme",
-            "version": "dev-release/1.20.0",
+            "version": "dev-release/1.21.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/lego-base-theme.git",
-                "reference": "94eb2ec7acf6ea4acf8308c944b8ab4cbffd7c0c"
+                "reference": "b47d5be5f58bd6960362cbcce218deb215a0b90f"
             },
             "type": "magento2-theme",
             "autoload": {
@@ -1898,15 +1873,15 @@
                 "Commercial"
             ],
             "description": "Lego Base theme",
-            "time": "2019-04-05T07:55:36+00:00"
+            "time": "2019-04-15T12:18:02+00:00"
         },
         {
             "name": "ewave/localization",
-            "version": "dev-release/1.5.0",
+            "version": "dev-release/1.5.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_localization.git",
-                "reference": "bd921e3fd5a322390d6c1478e1d873cc683b4010"
+                "reference": "4a6e6876d565d1bdee328a88265a4e2f67e3e6fb"
             },
             "suggest": {
                 "ewave/utilities": "Ewave Localization may use ewave/utilities methods"
@@ -1921,7 +1896,7 @@
                 }
             },
             "description": "Ewave Localizations",
-            "time": "2019-02-19T07:40:11+00:00"
+            "time": "2019-04-16T12:03:18+00:00"
         },
         {
             "name": "ewave/locator",
@@ -1989,11 +1964,11 @@
         },
         {
             "name": "ewave/mystorewidget",
-            "version": "dev-release/2.0.7",
+            "version": "dev-release/2.0.8",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_mystorewidget.git",
-                "reference": "e9b9c904a22b4e78124b7d62036caf9a927dbfc1"
+                "reference": "e5e828ffa4ca7374855123c3920827f75e3c22e9"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2005,7 +1980,7 @@
                 }
             },
             "description": "Ewave MyStoreWidget module",
-            "time": "2019-01-28T08:00:15+00:00"
+            "time": "2019-03-11T05:20:09+00:00"
         },
         {
             "name": "ewave/mystorewidgetcollect",
@@ -2072,11 +2047,11 @@
         },
         {
             "name": "ewave/newsletter",
-            "version": "dev-release/1.3.0",
+            "version": "dev-release/1.3.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_newsletter.git",
-                "reference": "ce55ca6b1b6a42d35f89ba0adcd5957685033bce"
+                "reference": "776d128a9fd2c214fd41e8556bcbde8b44c69b6d"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2088,7 +2063,7 @@
                 }
             },
             "description": "Ewave Newsletter",
-            "time": "2019-01-17T08:38:14+00:00"
+            "time": "2019-03-26T09:13:08+00:00"
         },
         {
             "name": "ewave/orderimages",
@@ -2156,7 +2131,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_preorder.git",
-                "reference": "22bb889f017cb68419ec92bb8635ac2bbe009bc2"
+                "reference": "571b6a3e01de075b73d439f460b191cdc2b792a6"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2168,7 +2143,7 @@
                 }
             },
             "description": "Ewave PreOrder Module",
-            "time": "2019-04-08T12:30:28+00:00"
+            "time": "2019-04-22T11:40:46+00:00"
         },
         {
             "name": "ewave/productattachment",
@@ -2192,11 +2167,11 @@
         },
         {
             "name": "ewave/productcalculator",
-            "version": "dev-release/1.6.0",
+            "version": "dev-release/1.6.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productcalculator.git",
-                "reference": "404532dc8571b8b28fe7f1a1071b71fd38fa9d71"
+                "reference": "a78db44d13bdccf060335c7c54c5bbc34d2751f1"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2208,15 +2183,15 @@
                 }
             },
             "description": "Ewave ProductCalculator",
-            "time": "2019-04-01T06:00:07+00:00"
+            "time": "2019-04-16T12:12:25+00:00"
         },
         {
             "name": "ewave/productmultiview",
-            "version": "dev-release/1.1.0",
+            "version": "dev-release/1.1.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productmultiview.git",
-                "reference": "c27c809645c7a44eb3dfd5506bb1ea79d31492e5"
+                "reference": "482f8aaa6e4015d53775d2d7fd7d72d93a449e0b"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2231,7 +2206,7 @@
                 "Commercial"
             ],
             "description": "Product Multi-View",
-            "time": "2018-12-29T08:57:43+00:00"
+            "time": "2019-04-01T06:31:40+00:00"
         },
         {
             "name": "ewave/productoverlay",
@@ -2302,7 +2277,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "85e20bdf3b49d007a274cf3778bda8b81f17ae27"
+                "reference": "f4b1b5198eb7d0017232a9caa4017efa54cc76e8"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2314,7 +2289,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-04-15T09:07:50+00:00"
+            "time": "2019-04-19T11:10:26+00:00"
         },
         {
             "name": "ewave/quickview",
@@ -2338,11 +2313,11 @@
         },
         {
             "name": "ewave/relatedproduct",
-            "version": "dev-release/2.2.0",
+            "version": "dev-release/2.3.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_relatedproduct.git",
-                "reference": "c6f3ed69d7f4e02783f8a9d9cdf4c2a418e3c04d"
+                "reference": "9044d563e55e9765e319da47c6540e24053be58b"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2354,7 +2329,7 @@
                 }
             },
             "description": "Ewave Related Product",
-            "time": "2019-01-24T12:26:42+00:00"
+            "time": "2019-04-16T05:17:34+00:00"
         },
         {
             "name": "ewave/security",
@@ -2381,11 +2356,11 @@
         },
         {
             "name": "ewave/seo",
-            "version": "dev-release/1.4.1",
+            "version": "dev-release/1.6.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_seo.git",
-                "reference": "284b18b33248b9de2e41ccb09f14c9b4869d274b"
+                "reference": "a5b617a2405a8d2077aab7dd29cd652354dcfbf6"
             },
             "suggest": {
                 "ewave/utilities": "Ewave Seo may use ewave/utilities methods"
@@ -2400,7 +2375,7 @@
                 }
             },
             "description": "SEO",
-            "time": "2018-10-22T12:55:50+00:00"
+            "time": "2019-03-26T06:03:50+00:00"
         },
         {
             "name": "ewave/singlecheckoutbutton",
@@ -2491,7 +2466,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_storelocator.git",
-                "reference": "d8d1b4b2f8a4151d2acaf222b4c292aa0bee20eb"
+                "reference": "f631d17c4f2d2efa9fae92c48a5c60ab80ce7498"
             },
             "suggest": {
                 "ewave/abstractentity": "Ewave StoreLocator is useless without ewave/abstractentity extension. If your version >=1.4.0 you must use ewave/abstractentity version >= 2.9.1",
@@ -2509,7 +2484,7 @@
                 }
             },
             "description": "Store Locator",
-            "time": "2019-04-08T08:36:09+00:00"
+            "time": "2019-04-17T11:45:20+00:00"
         },
         {
             "name": "ewave/storelocatorinfinitescroll",
@@ -2557,11 +2532,11 @@
         },
         {
             "name": "ewave/utilities",
-            "version": "dev-release/1.19.3",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_utilities.git",
-                "reference": "7886c25a810fd7e4abbb3e5389225296e53dcc90"
+                "reference": "d4d4e42c248b8ea55bf75cc550a70ad19f456038"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2573,20 +2548,20 @@
                 }
             },
             "description": "Ewave Utilities Module",
-            "time": "2019-02-20T11:57:34+00:00"
+            "time": "2019-04-22T14:25:20+00:00"
         },
         {
             "name": "fastly/magento2",
-            "version": "1.2.92",
+            "version": "1.2.94",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastly/fastly-magento2.git",
-                "reference": "68afb41d728267240e467a6787900ec50deb7bb8"
+                "reference": "a3cecb93599fc1318bf592ae1d9447c833fd674f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastly/fastly-magento2/zipball/68afb41d728267240e467a6787900ec50deb7bb8",
-                "reference": "68afb41d728267240e467a6787900ec50deb7bb8",
+                "url": "https://api.github.com/repos/fastly/fastly-magento2/zipball/a3cecb93599fc1318bf592ae1d9447c833fd674f",
+                "reference": "a3cecb93599fc1318bf592ae1d9447c833fd674f",
                 "shasum": ""
             },
             "require": {
@@ -2611,7 +2586,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Fastly CDN Module for Magento 2.x",
-            "time": "2019-04-01T14:19:30+00:00"
+            "time": "2019-04-17T16:43:38+00:00"
         },
         {
             "name": "google/recaptcha",
@@ -3000,7 +2975,7 @@
         },
         {
             "name": "illuminate/config",
-            "version": "v5.8.9",
+            "version": "v5.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/config.git",
@@ -3044,7 +3019,7 @@
         },
         {
             "name": "illuminate/container",
-            "version": "v5.8.9",
+            "version": "v5.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/container.git",
@@ -3089,16 +3064,16 @@
         },
         {
             "name": "illuminate/contracts",
-            "version": "v5.8.9",
+            "version": "v5.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/contracts.git",
-                "reference": "7224ed316427ae5f67c4888679bbf7f6e7773660"
+                "reference": "053c578b5a95fc50fa62266ff720ef74790e938e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/contracts/zipball/7224ed316427ae5f67c4888679bbf7f6e7773660",
-                "reference": "7224ed316427ae5f67c4888679bbf7f6e7773660",
+                "url": "https://api.github.com/repos/illuminate/contracts/zipball/053c578b5a95fc50fa62266ff720ef74790e938e",
+                "reference": "053c578b5a95fc50fa62266ff720ef74790e938e",
                 "shasum": ""
             },
             "require": {
@@ -3129,20 +3104,20 @@
             ],
             "description": "The Illuminate Contracts package.",
             "homepage": "https://laravel.com",
-            "time": "2019-03-06T19:39:19+00:00"
+            "time": "2019-04-16T12:47:20+00:00"
         },
         {
             "name": "illuminate/support",
-            "version": "v5.8.9",
+            "version": "v5.8.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/illuminate/support.git",
-                "reference": "e275519c58246cc4011c798f9b0a0f83aae2aab7"
+                "reference": "5541fa4ee4b5ab4635056fae0eecad7d328b86b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/illuminate/support/zipball/e275519c58246cc4011c798f9b0a0f83aae2aab7",
-                "reference": "e275519c58246cc4011c798f9b0a0f83aae2aab7",
+                "url": "https://api.github.com/repos/illuminate/support/zipball/5541fa4ee4b5ab4635056fae0eecad7d328b86b4",
+                "reference": "5541fa4ee4b5ab4635056fae0eecad7d328b86b4",
                 "shasum": ""
             },
             "require": {
@@ -3190,7 +3165,7 @@
             ],
             "description": "The Illuminate Support package.",
             "homepage": "https://laravel.com",
-            "time": "2019-04-01T19:02:05+00:00"
+            "time": "2019-04-14T05:44:06+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -15730,16 +15705,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.16.2",
+            "version": "2.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "720a9c36927396efeeb48a972e9d129d44b6dc28"
+                "reference": "9b49d637ad009e5e211142bc7492adcb19dbd645"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/720a9c36927396efeeb48a972e9d129d44b6dc28",
-                "reference": "720a9c36927396efeeb48a972e9d129d44b6dc28",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/9b49d637ad009e5e211142bc7492adcb19dbd645",
+                "reference": "9b49d637ad009e5e211142bc7492adcb19dbd645",
                 "shasum": ""
             },
             "require": {
@@ -15749,9 +15724,9 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.14 || ^3.0",
-                "kylekatarnls/multi-tester": "^0.1",
+                "kylekatarnls/multi-tester": "^1.1",
                 "phpmd/phpmd": "^2.6",
-                "phpstan/phpstan": "^0.10.8",
+                "phpstan/phpstan": "^0.11",
                 "phpunit/phpunit": "^7.5 || ^8.0",
                 "squizlabs/php_codesniffer": "^3.4"
             },
@@ -15786,7 +15761,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-03-29T12:23:12+00:00"
+            "time": "2019-04-17T08:51:36+00:00"
         },
         {
             "name": "oyejorge/less.php",
@@ -16846,7 +16821,7 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.1.11",
+            "version": "v4.1.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -16985,7 +16960,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
@@ -17038,7 +17013,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v4.1.11",
+            "version": "v4.1.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -17101,7 +17076,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -17151,16 +17126,16 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "267b7002c1b70ea80db0833c3afe05f0fbde580a"
+                "reference": "e45135658bd6c14b61850bf131c4f09a55133f69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/267b7002c1b70ea80db0833c3afe05f0fbde580a",
-                "reference": "267b7002c1b70ea80db0833c3afe05f0fbde580a",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/e45135658bd6c14b61850bf131c4f09a55133f69",
+                "reference": "e45135658bd6c14b61850bf131c4f09a55133f69",
                 "shasum": ""
             },
             "require": {
@@ -17196,11 +17171,11 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2019-02-23T15:42:05+00:00"
+            "time": "2019-04-06T13:51:08+00:00"
         },
         {
             "name": "symfony/inflector",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -17258,16 +17233,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "3896e5a7d06fd15fa4947694c8dcdd371ff147d1"
+                "reference": "fd4a5f27b7cd085b489247b9890ebca9f3e10044"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/3896e5a7d06fd15fa4947694c8dcdd371ff147d1",
-                "reference": "3896e5a7d06fd15fa4947694c8dcdd371ff147d1",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/fd4a5f27b7cd085b489247b9890ebca9f3e10044",
+                "reference": "fd4a5f27b7cd085b489247b9890ebca9f3e10044",
                 "shasum": ""
             },
             "require": {
@@ -17308,7 +17283,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2019-02-23T15:17:42+00:00"
+            "time": "2019-04-10T16:20:36+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -17537,7 +17512,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v4.1.11",
+            "version": "v4.1.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -17586,7 +17561,7 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
@@ -17653,16 +17628,16 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "e46933cc31b68f51f7fc5470fb55550407520f56"
+                "reference": "46c0dede1f925383d13dc783857be2c41efd0b24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/e46933cc31b68f51f7fc5470fb55550407520f56",
-                "reference": "e46933cc31b68f51f7fc5470fb55550407520f56",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/46c0dede1f925383d13dc783857be2c41efd0b24",
+                "reference": "46c0dede1f925383d13dc783857be2c41efd0b24",
                 "shasum": ""
             },
             "require": {
@@ -17684,7 +17659,9 @@
                 "symfony/console": "~3.4|~4.0",
                 "symfony/dependency-injection": "~3.4|~4.0",
                 "symfony/finder": "~2.8|~3.0|~4.0",
+                "symfony/http-kernel": "~3.4|~4.0",
                 "symfony/intl": "~3.4|~4.0",
+                "symfony/var-dumper": "~3.4|~4.0",
                 "symfony/yaml": "~3.4|~4.0"
             },
             "suggest": {
@@ -17722,11 +17699,11 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-04-01T14:13:08+00:00"
+            "time": "2019-04-10T16:20:36+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.24",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
@@ -17995,16 +17972,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.7.4",
+            "version": "v2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "ed9c49220e09bfaeb1ba4d48077c08a7b09908dd"
+                "reference": "91cc2594d3143761ce0399c1caffd0b500ffe5b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/ed9c49220e09bfaeb1ba4d48077c08a7b09908dd",
-                "reference": "ed9c49220e09bfaeb1ba4d48077c08a7b09908dd",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/91cc2594d3143761ce0399c1caffd0b500ffe5b9",
+                "reference": "91cc2594d3143761ce0399c1caffd0b500ffe5b9",
                 "shasum": ""
             },
             "require": {
@@ -18020,7 +17997,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7-dev"
+                    "dev-master": "2.8-dev"
                 }
             },
             "autoload": {
@@ -18058,7 +18035,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-03-23T14:28:58+00:00"
+            "time": "2019-04-16T17:14:24+00:00"
         },
         {
             "name": "vertex/module-tax",
@@ -20515,16 +20492,16 @@
         },
         {
             "name": "zipmoney/merchantapi-php",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zipMoney/merchantapi-php.git",
-                "reference": "2d45ea0b69cae571d3b436a7be12652e4cd4b488"
+                "reference": "560c6d234ad3ce2c79fd014d2d9c07bedba1a083"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zipMoney/merchantapi-php/zipball/2d45ea0b69cae571d3b436a7be12652e4cd4b488",
-                "reference": "2d45ea0b69cae571d3b436a7be12652e4cd4b488",
+                "url": "https://api.github.com/repos/zipMoney/merchantapi-php/zipball/560c6d234ad3ce2c79fd014d2d9c07bedba1a083",
+                "reference": "560c6d234ad3ce2c79fd014d2d9c07bedba1a083",
                 "shasum": ""
             },
             "require": {
@@ -20563,7 +20540,7 @@
                 "zipPay",
                 "zipcredit"
             ],
-            "time": "2018-09-13T01:08:59+00:00"
+            "time": "2019-04-11T05:46:40+00:00"
         }
     ],
     "packages-dev": [
@@ -22164,16 +22141,16 @@
         },
         {
             "name": "jms/serializer",
-            "version": "1.13.0",
+            "version": "1.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "00863e1d55b411cc33ad3e1de09a4c8d3aae793c"
+                "reference": "ee96d57024af9a7716d56fcbe3aa94b3d030f3ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/00863e1d55b411cc33ad3e1de09a4c8d3aae793c",
-                "reference": "00863e1d55b411cc33ad3e1de09a4c8d3aae793c",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/ee96d57024af9a7716d56fcbe3aa94b3d030f3ca",
+                "reference": "ee96d57024af9a7716d56fcbe3aa94b3d030f3ca",
                 "shasum": ""
             },
             "require": {
@@ -22213,7 +22190,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-1.x": "1.13-dev"
+                    "dev-1.x": "1.14-dev"
                 }
             },
             "autoload": {
@@ -22244,7 +22221,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2018-07-25T13:58:54+00:00"
+            "time": "2019-04-17T08:12:16+00:00"
         },
         {
             "name": "league/container",
@@ -22546,16 +22523,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.8.1",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8"
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
                 "shasum": ""
             },
             "require": {
@@ -22590,7 +22567,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2018-06-11T23:09:50+00:00"
+            "time": "2019-04-07T13:18:21+00:00"
         },
         {
             "name": "pdepend/pdepend",
@@ -24258,16 +24235,16 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
-                "reference": "61d85c5af2fc058014c7c89504c3944e73a086f0"
+                "reference": "c09c18cca96d7067152f78956faf55346c338283"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/61d85c5af2fc058014c7c89504c3944e73a086f0",
-                "reference": "61d85c5af2fc058014c7c89504c3944e73a086f0",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/c09c18cca96d7067152f78956faf55346c338283",
+                "reference": "c09c18cca96d7067152f78956faf55346c338283",
                 "shasum": ""
             },
             "require": {
@@ -24311,11 +24288,11 @@
             ],
             "description": "Symfony BrowserKit Component",
             "homepage": "https://symfony.com",
-            "time": "2019-02-23T15:17:42+00:00"
+            "time": "2019-04-07T09:56:43+00:00"
         },
         {
             "name": "symfony/config",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -24378,16 +24355,16 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "1806e43ff6bff57398d33b326cd753a12d9f434f"
+                "reference": "2748643dd378626c4d348a31ad12394e2d6f7ea8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/1806e43ff6bff57398d33b326cd753a12d9f434f",
-                "reference": "1806e43ff6bff57398d33b326cd753a12d9f434f",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/2748643dd378626c4d348a31ad12394e2d6f7ea8",
+                "reference": "2748643dd378626c4d348a31ad12394e2d6f7ea8",
                 "shasum": ""
             },
             "require": {
@@ -24447,11 +24424,11 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2019-03-30T15:58:42+00:00"
+            "time": "2019-04-16T11:19:53+00:00"
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
@@ -24508,16 +24485,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "5b7ab6beaa5b053b8d3c9b13367ada9b292e12e1"
+                "reference": "6ebbe61f48069033225c9d3fa7eb5ed116d766d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/5b7ab6beaa5b053b8d3c9b13367ada9b292e12e1",
-                "reference": "5b7ab6beaa5b053b8d3c9b13367ada9b292e12e1",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/6ebbe61f48069033225c9d3fa7eb5ed116d766d6",
+                "reference": "6ebbe61f48069033225c9d3fa7eb5ed116d766d6",
                 "shasum": ""
             },
             "require": {
@@ -24558,7 +24535,7 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2019-03-30T15:58:42+00:00"
+            "time": "2019-04-17T14:56:00+00:00"
         },
         {
             "name": "symfony/polyfill-php70",
@@ -24676,7 +24653,7 @@
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v4.2.5",
+            "version": "v4.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
@@ -24918,7 +24895,6 @@
         "ewave/banner": 20,
         "ewave/blog": 20,
         "ewave/bloginfinitescroll": 20,
-        "ewave/cartsuggestions": 20,
         "ewave/categoryfilter": 20,
         "ewave/checkoutfields": 20,
         "ewave/cms-upgrade": 20,

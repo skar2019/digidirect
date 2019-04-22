@@ -259,6 +259,9 @@ class FieldGroups implements ModifierInterface
                     'config' => [
                         'additionalClasses' => 'admin__field-wide',
                         'componentType' => DynamicRows::NAME,
+                        'dndConfig' => [
+                            'enabled' => false,
+                        ],
                         'label' => null,
                         'columnsHeader' => false,
                         'columnsHeaderAfterRender' => true,

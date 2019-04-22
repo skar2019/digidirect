@@ -36,7 +36,7 @@ class DefaultOptionModel extends Serialized
                 $attribute = $this->_prepareKey($attribute);
             }
         }
-        return md5(implode('_', array_values($attributes)));
+        return md5($this->getField() . '-' . implode('_', array_values($attributes)));
     }
 
     /**

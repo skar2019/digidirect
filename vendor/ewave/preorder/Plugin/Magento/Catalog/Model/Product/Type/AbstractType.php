@@ -13,6 +13,11 @@ class AbstractType
     protected $stockItemRepository;
 
     /**
+     * @var \Magento\CatalogInventory\Api\StockItemCriteriaInterfaceFactory
+     */
+    protected $stockItemCriteriaFactory;
+
+    /**
      * @var \Ewave\PreOrder\Helper\Data
      */
     protected $preOrderHelper;
@@ -25,15 +30,18 @@ class AbstractType
     /**
      * AbstractType constructor.
      * @param \Magento\CatalogInventory\Model\Stock\StockItemRepository $stockItemRepository
+     * @param \Magento\CatalogInventory\Api\StockItemCriteriaInterfaceFactory $stockItemCriteriaInterfaceFactory
      * @param \Ewave\PreOrder\Helper\Data $preOrderHelper
      * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(
         \Magento\CatalogInventory\Model\Stock\StockItemRepository $stockItemRepository,
+        \Magento\CatalogInventory\Api\StockItemCriteriaInterfaceFactory $stockItemCriteriaInterfaceFactory,
         \Ewave\PreOrder\Helper\Data $preOrderHelper,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->stockItemRepository = $stockItemRepository;
+        $this->stockItemCriteriaFactory = $stockItemCriteriaInterfaceFactory;
         $this->preOrderHelper = $preOrderHelper;
         $this->logger = $logger;
     }
@@ -52,7 +60,10 @@ class AbstractType
         $result = $proceed($product);
         if (!$result) {
             try {
-                $stockItem = $this->stockItemRepository->get($product->getId());
+                $criteria = $this->stockItemCriteriaFactory->create();
+                $criteria->setProductsFilter($product->getId());
+                $collection = $this->stockItemRepository->getList($criteria);
+                $stockItem = current($collection->getItems());
                 $result = $this->preOrderHelper->checkStockItemQty($stockItem);
             } catch (\Exception $e) {
                 $this->logger->error($e->getMessage());

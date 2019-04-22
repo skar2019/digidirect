@@ -95,6 +95,6 @@ class UpgradeData implements UpgradeDataInterface
      */
     protected function compareVersions($version)
     {
-        return $this->context->getVersion() && (version_compare($this->context->getVersion(), $version) < 0);
+        return version_compare($this->context->getVersion(), $version, '<');
     }
 }

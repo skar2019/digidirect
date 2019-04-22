@@ -146,3 +146,9 @@ Bugfix. Changed column id type from smallint to int.
 
 ### VERSION 1.15.3
 Bugfix. Product Import. Label is not imported for the image with 'Alternative' role
+
+### VERSION 1.15.4
+Bugfix. Compatibility with php7.2 fixes.
+Bugfix. Product Import. Fixed error for 2.2.0 magento - used file that does not exist in previous release bugfix.
+Bugfix. Product Import. Categories upsert fix.
+Bugfix. Product Import. Save products fix.

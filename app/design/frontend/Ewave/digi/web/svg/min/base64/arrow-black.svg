@@ -1,12 +1,1 @@
-
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <defs>
-        <style>
-            .cls-1 {
-                fill: #222;
-                fill-rule: evenodd;
-            }
-        </style>
-    </defs>
-    <path d="M9.994,1.321 L5.160,5.990 L5.000,5.836 L4.840,5.990 L0.006,1.321 L1.378,-0.003 L5.000,3.496 L8.622,-0.003 L9.994,1.321 Z" class="cls-1"></path>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg"><path fill="#222" fill-rule="evenodd" d="M9.994 1.321L5.16 5.99 5 5.836l-.16.154L.006 1.321 1.378-.003 5 3.496 8.622-.003l1.372 1.324z"/></svg>

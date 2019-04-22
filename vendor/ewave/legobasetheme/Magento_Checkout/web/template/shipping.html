@@ -39,7 +39,7 @@
                 <!--/ko-->
 
                 <!-- Inline address form -->
-                <!-- ko if: (isFormInline) -->
+                <!-- ko if: (isFormInline || addressFormWhatever()) -->
                 <div data-role="shipping-form" data-bind="fadeVisible: isShippingAddressVisible">
                     <!-- ko template: 'Magento_Checkout/shipping-address/form' --><!-- /ko -->
                 </div>

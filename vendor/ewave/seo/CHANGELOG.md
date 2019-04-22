@@ -47,3 +47,13 @@
 =============
 * Improvements:
     * [PHP 7.1] As a system, I want the following extensions to be compatible with PHP 7.1
+
+1.5.0
+===============   
+* New features:
+    * [#292356](https://tp.ewave.com/292356) -- [HREFLANG TAGS] As an admin, I want to be able to enable Hreflang Tags
+
+1.6.0
+===============   
+* New features:
+    * [#294847](https://tp.ewave.com/294847) -- [CONTEXTUAL 301 REDIRECTS] As an admin, I want contextual 301 redirects to be configured

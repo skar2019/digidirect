@@ -60,7 +60,7 @@ define(
                 }
             ).always(
                 function () {
-                    isLoading(false);
+                    totals.isLoading(false);
                 }
             );
         };

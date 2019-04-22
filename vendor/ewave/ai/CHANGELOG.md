@@ -256,3 +256,8 @@
 =============
 * Bugfixes:
     * [#293198](https://ewave.tpondemand.com/entity/293198) -- Product Import. Label is not imported for the image with 'Alternative' role
+
+1.15.4
+=============
+* Bugfixes:
+    * [#300494](https://ewave.tpondemand.com/entity/300494) -- RuntimeException during di:compile: Class Magento\CatalogImportExport\Model\Import\Product\MediaGalleryProcessor does not exist in [Ewave\AI\Preferences\Model\Import\Product\Interceptor]

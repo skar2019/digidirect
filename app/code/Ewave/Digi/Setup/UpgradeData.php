@@ -2,6 +2,7 @@
 
 namespace Ewave\Digi\Setup;
 
+use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\UpgradeDataInterface;
@@ -272,6 +273,22 @@ class UpgradeData implements UpgradeDataInterface
 
         if (version_compare($context->getVersion(), '1.0.17', '<')) {
             $this->upgradeTo117($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.18', '<')) {
+            $this->upgradeTo118($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.19', '<')) {
+            $this->upgradeTo119($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.20', '<')) {
+            $this->upgradeTo120($setup);
+        }
+
+        if (version_compare($context->getVersion(), '1.0.21', '<')) {
+            $this->upgradeTo121($setup);
         }
 
         $setup->endSetup();
@@ -1040,7 +1057,7 @@ class UpgradeData implements UpgradeDataInterface
                 'is_visible_in_grid'    => true,
                 'is_filterable_in_grid' => true,
                 'is_searchable_in_grid' => true,
-                'used_in_forms'         => ['customer_account_edit'],
+                'used_in_forms'         => ['adminhtml_customer', 'customer_account_edit'],
             ],
             'is_aipp_verified' => [
                 'type'      => 'int',
@@ -1057,7 +1074,7 @@ class UpgradeData implements UpgradeDataInterface
                 'is_visible_in_grid'    => true,
                 'is_filterable_in_grid' => true,
                 'is_searchable_in_grid' => true,
-                'used_in_forms'         => [],
+                'used_in_forms'         => ['adminhtml_customer', 'customer_account_edit'],
             ],
         ];
 
@@ -1068,5 +1085,79 @@ class UpgradeData implements UpgradeDataInterface
             $attribute->setData('used_in_forms', $attrData['used_in_forms']);
             $attribute->save();
         }
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     *
+     * @throws \Exception
+     */
+    public function upgradeTo118(ModuleDataSetupInterface $setup): void
+    {
+        /** @var CustomerSetup $customerSetup */
+        $customerSetup = $this->customerSetupFactory->create(['setup'=> $setup]);
+        /** @var EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+
+        $attrCode = 'contact_number';
+        $attrData = [
+            'type' => 'varchar',
+            'label' => 'Contact number',
+            'input' => 'text',
+            'required' => false,
+            'visible' => true,
+            'system' => false,
+            'position' => 0,
+            'user_defined' => true,
+        ];
+
+        $eavSetup->addAttribute(CustomerEntity::ENTITY, $attrCode, $attrData);
+        $attribute = $customerSetup->getEavConfig()->getAttribute(CustomerEntity::ENTITY, $attrCode);
+        $attribute->setData('used_in_forms', ['customer_account_edit']);
+        $attribute->save();
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo119(ModuleDataSetupInterface $setup)
+    {
+        /** @var EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+
+        $attributeIds = [
+            'aipp_number',
+            'is_aipp_verified',
+            'contact_number'
+        ];
+
+        foreach ($attributeIds as $attributeId) {
+            $eavSetup->addAttributeToSet(
+                CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
+                CustomerMetadataInterface::ATTRIBUTE_SET_ID_CUSTOMER,
+                null,
+                $attributeId
+            );
+        }
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo120(ModuleDataSetupInterface $setup)
+    {
+        /** @var EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $eavSetup->updateAttribute(CustomerEntity::ENTITY, 'contact_number', 'is_visible', false);
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo121(ModuleDataSetupInterface $setup)
+    {
+        /** @var EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pronto_stock_status');
     }
 }

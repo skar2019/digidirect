@@ -341,7 +341,6 @@ class Cart extends \Magento\Checkout\Model\Cart
         }
 
         if ($this->_freeProductsCache === null) {
-            $this->_giftMessagesHelper->clearFreeGiftMessages();
             $items = $this->_giftRegistry->getLimits();
 
             $groups = $items['_groups'];
@@ -362,7 +361,8 @@ class Cart extends \Magento\Checkout\Model\Cart
                     'name',
                     'small_image',
                     'status',
-                    'visibility'
+                    'visibility',
+                    'price'
                 ])
                 ->addFieldToFilter('sku', ['in' => $allowedSku]);
 
@@ -389,6 +389,7 @@ class Cart extends \Magento\Checkout\Model\Cart
             }
 
             if ($products->getSize()) {
+                $this->_giftMessagesHelper->clearFreeGiftMessages();
                 $this->_freeProductsCache = $products;
             } else {
                 $this->_freeProductsCache = [];

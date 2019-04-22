@@ -5,6 +5,7 @@
             <argument name="commands" xsi:type="array">
                 <item name="data_migrate" xsi:type="object">Ewave\Migration\Console\Command\MigrateCommand</item>
                 <item name="attr_migrate" xsi:type="object">Ewave\Migration\Console\Command\MigrateAttributesCommand</item>
+                <item name="MigrationKaywebCustomersCommand" xsi:type="object">Ewave\Migration\Console\Command\MigrateKaywebCustomersCommand</item>
             </argument>
         </arguments>
     </type>

@@ -5,6 +5,7 @@ define([
 
     return function (item) {
         store.entityId(item.entityId);
+        store.entityName(item.entityName);
         store.selectedStore(item.selectedStore);
         store.storeUrl(item.storeUrl);
         store.isStoreSelected(item.isStoreSelected);

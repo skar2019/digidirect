@@ -17,11 +17,7 @@
                 <!--/ko-->
 
 
-                <!-- ko foreach: getRegion('address-list-additional-addresses') -->
-                <div class="fieldset">
-                    <!-- ko template: getTemplate() --><!-- /ko -->
-                </div>
-                <!--/ko-->
+
 
                 <!-- Address form pop up -->
                 <!-- ko if: (!isFormInline) -->
@@ -34,15 +30,21 @@
                 </div>
                 <!-- /ko -->
 
+                <!-- ko foreach: getRegion('address-list-additional-addresses') -->
+                <div class="fieldset">
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                </div>
+                <!--/ko-->
+
                 <!-- ko foreach: getRegion('before-form') -->
                 <!-- ko template: getTemplate() --><!-- /ko -->
                 <!--/ko-->
 
                 <!-- Inline address form -->
-                <!-- ko if: (isFormInline) -->
-                <div data-role="shipping-form" data-bind="fadeVisible: isShippingAddressVisible">
-                    <!-- ko template: 'Magento_Checkout/shipping-address/form' --><!-- /ko -->
-                </div>
+                <!-- ko if: (isFormInline || addressFormWhatever()) -->
+                    <div data-role="shipping-form" data-bind="fadeVisible: isShippingAddressVisible">
+                        <!-- ko template: 'Magento_Checkout/shipping-address/form' --><!-- /ko -->
+                    </div>
                 <!-- /ko -->
             <!--/ko-->
         </div>

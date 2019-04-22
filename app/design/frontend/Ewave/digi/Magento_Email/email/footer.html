@@ -20,11 +20,11 @@
 
                                     <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
                                         <tr>
-                                            <td style="width:630px; padding:0px 0px 54px">
+                                            <td style="width:600px; padding:0px 0px 54px">
 
                                                 <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
                                                     <tr>
-                                                        <td>
+                                                        <td style="padding: 0 10px;">
 
                                                             <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
                                                                 <tr>
@@ -118,6 +118,13 @@
                                                                     </th>
                                                                     <th align="left" style="width:36%;" width="36%" valign="top" class="mobileStack social-wrapper">
                                                                         <table width="230px" cellpadding="0" cellspacing="0" border="0" align="right" class="mobiletable contacts">
+                                                                            <tr>
+                                                                                <td align="right" style="padding:0px 0px 25px;">
+                                                                                    <p style="color:#000000;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
+                                                                                        Thank you for purchasing<br/>from digiDirect.
+                                                                                    </p>
+                                                                                </td>
+                                                                            </tr>
                                                                             <tr valign="top">
                                                                                 <td align="right" style="padding:0px 0px 25px;">
                                                                                     <p style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:18px;margin:0;font-weight:normal;text-decoration:none;">
@@ -140,7 +147,7 @@
                                                                         <div class="mobile-only" style="font-size: 0; max-height: 0; overflow: hidden; display: none; mso-hide: all;">
                                                                             <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
                                                                                 <tr>
-                                                                                    <td width="700px" style="padding: 20px 0;">
+                                                                                    <td style="padding: 20px 0;">
                                                                                         <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable" bgcolor="#f5f5f5">
 
                                                                                             <tr>
@@ -223,7 +230,7 @@
 
                                 <table cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable copyright">
                                     <tr>
-                                        <td style="width:630px;">
+                                        <td style="width:600px;">
 
                                             <table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" class="mobiletable">
                                                 <tr>
@@ -236,8 +243,8 @@
                                                                         <tr>
                                                                             <td align="left" class="calign">
                                                                                 <p class="copyright text">
-                                                                                    {{trans '<a href="%policy_url" class="copy-link"  title="policy">Privacy Policy</a>' policy_url=$this.getUrl($store,'privacy-policy-cookie-restriction-mode',[_nosid:1]) |raw}}&nbsp;&nbsp;|&nbsp;&nbsp;
-                                                                                    {{trans '<a href="%account_url" class="copy-link"  title="terms-of-use">Terms of Use</a>' account_url=$this.getUrl($store,'terms-of-use',[_nosid:1]) |raw}}
+                                                                                    {{trans '<a href="%policy_url" class="copy-link"  title="policy" style="padding-right:10px;">Privacy Policy</a>' policy_url=$this.getUrl($store,'privacy-policy-cookie-restriction-mode',[_nosid:1]) |raw}}|
+                                                                                    {{trans '<a href="%account_url" class="copy-link"  title="terms-of-use" style="padding-left:6px;">Terms of Use</a>' account_url=$this.getUrl($store,'terms-of-use',[_nosid:1]) |raw}}
                                                                                 </p>
                                                                             </td>
                                                                         </tr>
@@ -248,7 +255,7 @@
                                                                         <tr>
                                                                             <td align="right" class="calign">
                                                                                 <p class="copyright text">
-                                                                                    © DigiDIRECT 2019. All rights reserved.
+                                                                                    {{trans '\© DigiDIRECT 2019. All rights reserved.'}}
                                                                                 </p>
                                                                             </td>
                                                                         </tr>

@@ -122,3 +122,7 @@
 4.0.0
 * New features:
     * [#287253](https://ewave.tpondemand.com/entity/287253) -- [2.3] As an extension, I want to be compatible with Magento 2.3	
+
+4.0.1
+* Bugfixes:
+    * [#297330](https://ewave.tpondemand.com/entity/297330) -- [Magento 2.3.1] 500 Internal Server Error in case adding Dynamic Blocks

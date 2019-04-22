@@ -17,12 +17,12 @@
         .lib-css(color, @color-white);
         .lib-css(font-weight, @font-weight__regular);
         .lib-css(font-family, @email-font-family);
-        padding: 16px 0 15px;
         font-size: 14px;
         text-decoration: none;
     }
 
     .copyright.text {
+        padding: 16px 10px 15px;
         color: #9b9b9b;
     }
 
@@ -31,7 +31,11 @@
     }
 
     td.footer {
-        padding-top: 44px;
+        .lib-css(max-width, @email-table__max-width);
+    }
+
+    .footer > table {
+        padding-top: 56px;
     }
 }
 

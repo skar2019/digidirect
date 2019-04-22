@@ -40,9 +40,28 @@
             clear: left;
             margin: -10px 0 12px;
         }
+    
+        .item .available {
+            .lib-css(color, @color-1-2);
+        }
+    
+        .item .unavailable {
+            .lib-css(color, @color-4-8);
+        }
         
         .item.-hours > .icon {
             margin-top: 7px;
+        }
+        
+        .item.-available .icon {
+            margin-top: -2px;
+        }
+    
+        .item.-available a {
+            .lib-css(color, @primary__color);
+    
+            font-weight: 500;
+            margin-right: 2px;
         }
     
         .open-hours table td:first-child {
@@ -75,6 +94,11 @@
             min-width: 150px;
             padding: 7px 15px;
             font-weight: 400;
+        }
+        
+        .locator-item .name.-available,
+        .locator-item .icon.-available {
+            .lib-css(color, @color-orange-red1);
         }
     }
 }
@@ -127,7 +151,7 @@
         }
     
         .store-locator .locator-search {
-            margin-bottom: 10px
+            margin-bottom: 10px;
         }
     
         .locator-map {
@@ -183,7 +207,7 @@
         }
     
         .mCSB_container {
-            transform: translate3d(0, 0, 1px); //Activate gpu
+            transform: translate3d(0, 0, 0); //Activate gpu
         }
     
         .locator-list .mCSB_scrollTools {

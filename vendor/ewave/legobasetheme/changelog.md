@@ -356,3 +356,15 @@ Bugfix:
 Feature:
 
 - [#294065](https://ewave.tpondemand.com/entity/294065) - [Extended Catalog Price Rule] As a customer, I want to be able to use 'Display a message' Catalog Price Rule on widgets
+
+1.21.0
+=============
+
+Feature:
+
+- [#295601](https://ewave.tpondemand.com/entity/295601) - [C&C][Abstract Entity] As a customer, I want Shipping Address fields to be hidden and pre-filled with an Abstract Entity values on Checkout
+
+Bugfixes:
+
+- [#297224](https://ewave.tpondemand.com/entity/297224) - [Magento 2.3.1] Postal Code is not full filled in case Google Address Autocomplete
+- [#297811](https://ewave.tpondemand.com/entity/297811) - [Project: DigiDirect] Screen jumps up on checkbox selection

@@ -285,3 +285,13 @@
 ================
 * Bugfixes:
     * [#290401](https://ewave.tpondemand.com/entity/290401) -- [M2.3][Newsletter] 500 error if user try to place Order with enabled newsletter module
+
+1.19.4
+================
+* Bugfixes:
+    * [#294917](https://ewave.tpondemand.com/entity/294917) -- [Project:CRV] Validation error appears while user uploads pdf file in spite this file type is allowed in settings
+    
+1.20.0
+================
+* New features:
+    * [#296975](https://ewave.tpondemand.com/entity/296975) -- [COMPARE EVENT] As an admin, I want Compare Event logic to be changed

@@ -85,7 +85,7 @@
             margin-right: 0;
             background-size: 100% 100%;
         }
-        
+
         .page.messages .message:only-child {
             margin-bottom: 0;
         }
@@ -273,8 +273,15 @@
             padding-right: 80px;
             background-size: 100% auto;
         }
+
+        &.wishlist-shared-index .page-main {
+            padding-left: 70px;
+            padding-right: 70px;
+        }
         
-        &.account-orders .page-main {
+        &.account-orders .page-main,
+        &.magento_rma-returns-create .page-main,
+        &.wishlist-shared-index .page-main {
             background-attachment: fixed;
         }
 
@@ -290,6 +297,10 @@
             padding-left: 0;
             padding-right: 0;
             order: 3;
+        }
+
+        &.wishlist-shared-index .columns {
+            width: 100%;
         }
 
         .page.messages {
@@ -360,6 +371,21 @@
 
         .columns {
             .lib-css(width, @account-column-main__width__xl);
+        }
+
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
+    .account {
+        &.wishlist-shared-index .columns {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        &.wishlist-shared-index .page-main {
+            padding-left: 0;
+            padding-right: 0;
         }
     }
 }

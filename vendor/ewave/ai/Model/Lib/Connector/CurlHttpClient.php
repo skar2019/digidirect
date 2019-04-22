@@ -21,6 +21,8 @@ use Ewave\AI\Helper\Logger as LoggerHelper;
  */
 class CurlHttpClient
 {
+    const URL_PARAM_PATTERN = '{%s}';
+
     const STREAM_PARENT_FOLDER = DirectoryList::VAR_DIR;
     const STREAM_FOLDER = 'ai_curl_stream';
 
@@ -720,6 +722,30 @@ class CurlHttpClient
             $this->logAnyway('CURL ERROR: ' . $errorMessage, 'error');
             throw new \Zend\Http\Client\Adapter\Exception\RuntimeException($errorMessage);
         }
+    }
+
+    /**
+     * @param string $endpoint
+     * @param string $methodUri
+     * @param array $urlParameters
+     * @return string
+     */
+    public function getRequestUrl($endpoint, $methodUri, array $urlParameters = [])
+    {
+        $parsedUrl = parse_url($methodUri);
+        if (!empty($parsedUrl['scheme'])) {
+            $url = $methodUri;
+        } else {
+            $url = $endpoint;
+            if ($methodUri) {
+                $url = rtrim($url, '/') . '/' . ltrim($methodUri, '/');
+            }
+        }
+        foreach ($urlParameters as $urlParamName => $urlParamValue) {
+            $replace = sprintf(static::URL_PARAM_PATTERN, $urlParamName);
+            $url = str_replace($replace, $urlParamValue, $url);
+        }
+        return $url;
     }
 
     /**

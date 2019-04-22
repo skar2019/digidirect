@@ -38,7 +38,7 @@ $categoryExeption = "top contributors";
                     <span class="label"><?php /* @escapeNotVerified */
                         echo __('Tags: ') ?></span>
                     <?php foreach ($block->getTags() as $tag): ?>
-                        <span class="item"><a href="<?php echo $block->escapeUrl($tag->getUrl()) ?>"
+                        <span class="item"><a class="tag-link" href="<?php echo $block->escapeUrl($tag->getUrl()) ?>"
                                               title="<?php echo $block->escapeHtml($tag->getName()) ?>"><?php echo $block->escapeHtml($tag->getName()) ?></a></span>
                     <?php endforeach; ?>
                 </div>
@@ -68,3 +68,15 @@ $categoryExeption = "top contributors";
         </div>
     </div>
 </div>
+<script>
+    require([], function () {
+        var elemWrapper = document.querySelector('.wrapper-top'),
+            elemTag = elemWrapper.querySelector('.tags'),
+            tagLabel = elemWrapper.querySelector('.label'),
+            tagItem = elemTag.querySelector('.item');
+
+        if (tagLabel && !tagItem) {
+            tagLabel.style.display = 'none';
+        }
+    });
+</script>

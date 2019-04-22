@@ -112,3 +112,8 @@
 =============
 * Bugfixes:
     * [#290462](https://ewave.tpondemand.com/entity/290462) -- [Project: Digidirect] [ESR] Composer dump-autoload warning
+
+1.3.5
+=============
+* Bugfixes:
+    * [#271617](https://ewave.tpondemand.com/entity/271617) -- [ESR] Configuration setting "Multiple rates price calculation" is not applied on website level

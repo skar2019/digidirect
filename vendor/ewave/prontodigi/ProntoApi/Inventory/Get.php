@@ -48,9 +48,7 @@ class Get extends ProductGetAbstract
         $minDate = $this->dateTime->date(InventoryGetRequestConstants::REQUEST_DATE_FORMAT);
         parent::reInitRunOptions();
         $this->_runOptions = array_merge($this->_runOptions, [
-            InventoryGetRequestConstants::DATE_CHANGE_MIN => $minDate,
-            InventoryGetRequestConstants::CHECK_WAREHOUSE_CHANGE => self::CHECK_CHANGE_VALUE,
-            InventoryGetRequestConstants::CHECK_PRICE_CHANGE => self::CHECK_CHANGE_VALUE
+            InventoryGetRequestConstants::DATE_CHANGE_MIN => $minDate
         ]);
         return $this;
     }

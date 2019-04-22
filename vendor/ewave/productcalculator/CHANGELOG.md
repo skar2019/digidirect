@@ -78,3 +78,8 @@
 =============
 * New features:
     * [#294069](https://ewave.tpondemand.com/entity/294069) -- [Extended Catalog Price Rule] As a customer, I want to be able to use 'Display a message' Catalog Price Rule on Product Calculator results
+
+1.6.1
+=============
+* New features:
+    * [#296579](https://ewave.tpondemand.com/entity/296579) -- [Project: DigiDirect] Drag & Drop option functionality doesn't work for the product Finder in admin

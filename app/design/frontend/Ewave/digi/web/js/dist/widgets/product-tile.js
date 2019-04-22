@@ -104,7 +104,7 @@ define(['jquery', 'jquery/ui', 'domReady!', 'catalogAddToCart', 'truncateCollect
             return this;
         },
         initPriceRuleModal: function initPriceRuleModal() {
-            var currentTriggerElement = this.element.find(this.options.catalogPriceRuleModalTriggerSelector).first(),
+            var currentTriggerElement = this.element.find(this.options.catalogPriceRuleModalTriggerSelector),
                 ruleId = currentTriggerElement.data('rule-id');
 
             if (ruleId) {

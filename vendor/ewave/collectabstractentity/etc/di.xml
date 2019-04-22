@@ -38,4 +38,29 @@
                       xsi:type="string">Ewave\CollectAbstractEntity\Model\ResourceModel\AbstractEntity\Collect\CollectionFlat</argument>
         </arguments>
     </virtualType>
+    <type name="Magento\Quote\Model\QuoteRepository">
+        <plugin name="Ewave_CollectAbstractEntity::Magento\Quote\Model\QuoteRepository"
+                type="Ewave\CollectAbstractEntity\Plugin\Magento\Quote\Model\QuoteRepository"/>
+    </type>
+    <type name="Magento\Quote\Model\QuoteManagement">
+        <plugin name="Ewave_CollectAbstractEntity::Magento\Quote\Model\QuoteManagement"
+                type="Ewave\CollectAbstractEntity\Plugin\Magento\Quote\Model\QuoteManagement"/>
+    </type>
+    <type name="Ewave\Collect\Helper\Config\Address">
+        <plugin name="Ewave_CollectAbstractEntity::Ewave\Collect\Helper\Config\Address"
+                type="Ewave\CollectAbstractEntity\Plugin\Ewave\Collect\Helper\Config\Address" sortOrder="1000"/>
+    </type>
+
+    <virtualType name="CheckoutConfigCollectPlaceInformationObserver"
+                 type="Ewave\CollectAbstractEntity\Observer\Collect\AddPrefillFields">
+        <arguments>
+            <argument name="injectToParam" xsi:type="string">info</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ApplyCollectPlaceToAllItemsResultObserver"
+                 type="Ewave\CollectAbstractEntity\Observer\Collect\AddPrefillFields">
+        <arguments>
+            <argument name="injectToParam" xsi:type="string">result</argument>
+        </arguments>
+    </virtualType>
 </config>

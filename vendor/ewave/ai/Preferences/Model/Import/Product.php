@@ -3,7 +3,6 @@ namespace Ewave\AI\Preferences\Model\Import;
 
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\CatalogImportExport\Model\Export\Product as ProductExport;
-use Magento\CatalogImportExport\Model\Import\Product\MediaGalleryProcessor;
 use Magento\CatalogImportExport\Model\Import\Product\RowValidatorInterface as ValidatorInterface;
 use Magento\Framework\Json\Decoder;
 use Magento\Framework\Model\ResourceModel\Db\TransactionManagerInterface;
@@ -93,13 +92,6 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
     protected $productStoreId;
 
     /**
-     * Provide ability to process and save images during import.
-     *
-     * @var MediaGalleryProcessor
-     */
-    protected $mediaProcessor;
-
-    /**
      * Product constructor.
      *
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
@@ -145,7 +137,6 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
      * @param array $data
      * @param array $dateAttrCodes
      * @param CatalogConfig|null $catalogConfig
-     * @param MediaGalleryProcessor|null $mediaProcessor
      */
     public function __construct(
         \Magento\Framework\Json\Helper\Data $jsonHelper,
@@ -190,8 +181,7 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
         Decoder $jsonDecoder,
         array $data = [],
         array $dateAttrCodes = [],
-        CatalogConfig $catalogConfig = null,
-        MediaGalleryProcessor $mediaProcessor = null
+        CatalogConfig $catalogConfig = null
     ) {
         parent::__construct(
             $jsonHelper,
@@ -239,10 +229,7 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
         $this->mediaHelper = $mediaHelper;
         $this->jsonDecoder = $jsonDecoder;
         $this->storeManager = $storeManager;
-        $this->catalogConfig = $catalogConfig ?: \Magento\Framework\App\ObjectManager::getInstance()
-            ->get(CatalogConfig::class);
-        $this->mediaProcessor = $mediaProcessor ?: \Magento\Framework\App\ObjectManager::getInstance()
-            ->get(MediaGalleryProcessor::class);
+        $this->catalogConfig = $catalogConfig ?: ObjectManager::getInstance()->get(CatalogConfig::class);
     }
 
     /**
@@ -764,24 +751,6 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
         }
 
         return [$images, $labels];
-    }
-
-    /**
-     * Save product media gallery.
-     *
-     * @param array $mediaGalleryData
-     * @return $this
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
-    protected function _saveMediaGallery(array $mediaGalleryData)
-    {
-        if (empty($mediaGalleryData)) {
-            return $this;
-        }
-        $this->mediaProcessor->saveMediaGallery($mediaGalleryData);
-
-        return $this;
     }
 
     /**

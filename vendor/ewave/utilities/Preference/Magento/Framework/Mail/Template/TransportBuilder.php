@@ -13,6 +13,11 @@ use Magento\Email\Model\ResourceModel\Template\CollectionFactory as EmailCollect
 class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
 {
     /**
+     * @var \Ewave\Utilities\Model\Mail\MessageFactory
+     */
+    protected $messageCreateAttachmentFactory;
+
+    /**
      * @var \Ewave\Utilities\Model\CustomTemplateVarsInterface[]
      */
     protected $customTemplateVars;
@@ -28,6 +33,11 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
     protected $recipients;
 
     /**
+     * @var bool
+     */
+    protected $isMessageCreateAttachmentShouldBeUsed;
+
+    /**
      * TransportBuilder constructor.
      *
      * @param \Magento\Framework\Mail\Template\FactoryInterface $templateFactory
@@ -35,6 +45,8 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
      * @param \Magento\Framework\Mail\Template\SenderResolverInterface $senderResolver
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Mail\TransportInterfaceFactory $mailTransportFactory
+     * @param \Magento\Framework\Mail\MessageInterfaceFactory $messageFactory
+     * @param \Ewave\Utilities\Model\Mail\MessageFactory $messageCreateAttachmentFactory
      * @param EmailCollectionFactory $emailCollectionFactory
      * @param array $customTemplateVars
      */
@@ -44,14 +56,31 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
         \Magento\Framework\Mail\Template\SenderResolverInterface $senderResolver,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Mail\TransportInterfaceFactory $mailTransportFactory,
-        array $customTemplateVars = [],
-        EmailCollectionFactory $emailCollectionFactory = null
+        \Magento\Framework\Mail\MessageInterfaceFactory $messageFactory = null,
+        \Ewave\Utilities\Model\Mail\MessageFactory $messageCreateAttachmentFactory = null,
+        EmailCollectionFactory $emailCollectionFactory = null,
+        array $customTemplateVars = []
     ) {
-        parent::__construct($templateFactory, $message, $senderResolver, $objectManager, $mailTransportFactory);
+        parent::__construct(
+            $templateFactory,
+            $message,
+            $senderResolver,
+            $objectManager,
+            $mailTransportFactory,
+            $messageFactory
+        );
+        $this->messageCreateAttachmentFactory = $messageCreateAttachmentFactory ?: $this->objectManager->create(
+            \Ewave\Utilities\Model\Mail\MessageFactory::class
+        );
         $this->emailCollectionFactory = $emailCollectionFactory ?: $this->objectManager->create(
             EmailCollectionFactory::class
         );
         $this->customTemplateVars = $customTemplateVars;
+
+        $this->isMessageCreateAttachmentShouldBeUsed = !is_callable([$this->message, 'createAttachment']);
+        if ($this->isMessageCreateAttachmentShouldBeUsed) {
+            $this->message = $this->messageCreateAttachmentFactory->create();
+        }
     }
 
     /**
@@ -166,15 +195,16 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
     }
 
     /**
-     * Prepare message
-     *
      * @return $this
      */
     protected function prepareMessage()
     {
         $this->prepareCustomTemplateVars();
-
-        return parent::prepareMessage();
+        $return = parent::prepareMessage();
+        if ($this->message instanceof \Ewave\Utilities\Model\Mail\Message) {
+            $this->message->setPartsToBody();
+        }
+        return $return;
     }
 
     /**
@@ -184,5 +214,28 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
     {
         $this->recipients[] = $address;
         return parent::addTo($address, $name);
+    }
+
+    /**
+     * Reset object state
+     * @return $this
+     */
+    public function resetObjectState()
+    {
+        return $this->reset();
+    }
+
+    /**
+     * Reset object state
+     *
+     * @return $this
+     */
+    protected function reset()
+    {
+        $return = parent::reset();
+        if ($this->isMessageCreateAttachmentShouldBeUsed) {
+            $this->message = $this->messageCreateAttachmentFactory->create();
+        }
+        return $return;
     }
 }

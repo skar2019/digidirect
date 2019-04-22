@@ -72,11 +72,13 @@ class Data
 
     /**
      * @param string $input
+     * @param int $bitmask
+     *
      * @return string
      */
-    public function htmlEntityDecode(?string $input): string
+    public function htmlEntityDecode(?string $input, $bitmask = ENT_COMPAT | ENT_HTML401): string
     {
-        return html_entity_decode($input);
+        return html_entity_decode($input, $bitmask);
     }
 
     /**

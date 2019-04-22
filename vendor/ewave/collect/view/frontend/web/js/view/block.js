@@ -9,8 +9,9 @@ define([
     'Ewave_Collect/js/model/block',
     'Ewave_Collect/js/action/set-block-places',
     'Magento_Checkout/js/model/url-builder',
-    'mage/storage'
-], function ($, _, ko, Component, $t, modal, formPopUpState, collectPlaces, setBlockPlaces, urlBuilder, storage) {
+    'mage/storage',
+    'Magento_Checkout/js/model/quote'
+], function ($, _, ko, Component, $t, modal, formPopUpState, collectPlaces, setBlockPlaces, urlBuilder, storage, quote) {
     'use strict';
 
     var singleCartPopUp = null,
@@ -40,6 +41,8 @@ define([
                     self.getPopUp().openModal();
                 }
             });
+
+            this.setPlacesToQuote();
         },
         formItemId: '',
         isSingleCartFormPopUpVisible: formPopUpState.isVisible,
@@ -141,6 +144,8 @@ define([
             if (method === 'delivery') {
                 this.applyDeliveryToAllItems();
             }
+
+            quote.customShipping = method === 'collect';
         },
         applyDeliveryToAllItems: function () {
             var self = this,
@@ -174,7 +179,11 @@ define([
             this.onClosePopUp();
             this.updateCollectPlaces(JSON.parse(response));
             this.collectPlaceRows.removeAll();
+            this.setPlacesToQuote();
         },
-        onErrorApplyPlace: function (response) {}
+        onErrorApplyPlace: function (response) {},
+        setPlacesToQuote: function () {
+            quote.collectPlaces = this.collectPlaces();
+        }
     });
 });

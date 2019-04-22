@@ -4,6 +4,8 @@ namespace Ewave\Banner\Block\Adminhtml\Banner\Helper\Form\Gallery;
 
 use Ewave\Banner\Component\Json;
 use Ewave\Banner\Helper\IssetTrait;
+use Magento\Backend\Block\DataProviders\ImageUploadConfig as ImageUploadConfigDataProvider;
+use Magento\Framework\App\ObjectManager;
 
 class Content extends \Magento\Backend\Block\Widget
 {
@@ -32,6 +34,11 @@ class Content extends \Magento\Backend\Block\Widget
     protected $assetRepo;
 
     /**
+     * @var ImageUploadConfigDataProvider
+     */
+    protected $imageUploadConfigDataProvider;
+
+    /**
      * Content constructor.
      *
      * @param \Magento\Backend\Block\Template\Context $context
@@ -43,12 +50,15 @@ class Content extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         Json $jsonEncoder,
         \Ewave\Banner\Helper\Image\Config $imageConfig,
-        array $data = []
+        array $data = [],
+        ImageUploadConfigDataProvider $imageUploadConfigDataProvider = null
     ) {
         $this->jsonEncoder = $jsonEncoder;
         $this->imageConfig = $imageConfig;
         $this->assetRepo = $context->getAssetRepository();
         parent::__construct($context, $data);
+        $this->imageUploadConfigDataProvider = $imageUploadConfigDataProvider
+            ?: ObjectManager::getInstance()->get(ImageUploadConfigDataProvider::class);
     }
 
     /**
@@ -56,7 +66,10 @@ class Content extends \Magento\Backend\Block\Widget
      */
     protected function _prepareLayout()
     {
-        $this->addChild('uploader', \Magento\Backend\Block\Media\Uploader::class);
+        $this->addChild(
+            'uploader', \Magento\Backend\Block\Media\Uploader::class,
+            ['image_upload_config_data' => $this->imageUploadConfigDataProvider]
+        );
 
         $this->getUploader()->getConfig()->setUrl(
             $this->_urlBuilder->addSessionParam()->getUrl('ewave_banner/gallery/upload')

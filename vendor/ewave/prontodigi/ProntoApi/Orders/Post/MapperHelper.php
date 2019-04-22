@@ -2,6 +2,7 @@
 
 namespace Ewave\ProntoDigi\ProntoApi\Orders\Post;
 
+use Ewave\AbstractEntity\Model\AbstractEntityRepository;
 use Ewave\CheckoutFields\Helper\Data as CheckoutFieldsDataHelper;
 use Ewave\Collect\Model\Carrier\Collectcarrier;
 use Ewave\ProntoDigi\ProntoApi\Constants\CustomerAttributes;
@@ -20,7 +21,6 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Model\Order;
 use ZipMoney\ZipMoneyPayment\Model\Config as ZipPayConfig;
-use Ewave\AbstractEntity\Model\AbstractEntityRepository;
 
 class MapperHelper
 {
@@ -120,7 +120,8 @@ class MapperHelper
     {
         $accountName = $this->getCustomerAttributeValue($order, CustomerAttributes::PRONTO_ACCOUNT_NAME);
         if (empty($accountName)) {
-            $accountName = $order->getCustomerName();
+            $address = $order->getShippingAddress() ?? $order->getBillingAddress();
+            $accountName = $address->getName();
         }
         return $accountName;
     }
@@ -141,9 +142,6 @@ class MapperHelper
     public function getAmountTendered(OrderInterface $order)
     {
         $value = (float)$order->getBaseGiftCardsAmount();
-        if (empty($value)) {
-            $value = (float)$order->getBaseSubtotal();
-        }
         return round($value, 2);
     }
     
@@ -215,25 +213,31 @@ class MapperHelper
      */
     public function getPurchaseOrderNumber(OrderInterface $order)
     {
-        return (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'po_number');
+        return (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'delivery_number');
     }
 
     /**
      * @param OrderInterface|Order $order
+     * @param int $start
+     * @param int|null $length
      * @return string
      */
-    public function getOrderComment(OrderInterface $order)
+    public function getOrderComment(OrderInterface $order, $start, $length = null)
     {
-        return (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'order_comment');
+        $data = (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'order_comment');
+        return $length ? substr($data, $start, $length) : substr($data, $start);
     }
 
     /**
      * @param OrderInterface|Order $order
+     * @param int $start
+     * @param int|null $length
      * @return string
      */
-    public function getDeliveryNotes(OrderInterface $order)
+    public function getDeliveryNotes(OrderInterface $order, $start, $length = null)
     {
-        return (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'delivery_notes');
+        $data = (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'delivery_notes');
+        return $length ? substr($data, $start, $length) : substr($data, $start);
     }
 
     /**
@@ -289,7 +293,7 @@ class MapperHelper
      */
     public function getOrderTotalIncTax(OrderInterface $order)
     {
-        return $order->getBaseSubtotalInclTax() + $order->getBaseShippingAmount();
+        return $order->getBaseGrandTotal();
     }
 
     /**
@@ -328,24 +332,20 @@ class MapperHelper
     protected function getOrderLine(OrderItemInterface $item)
     {
         $orderLines = [];
-        $discount = $item->getDiscountAmount();
-        $tax = $item->getBaseTaxAmount();
-        $rowTotal = $item->getBaseRowTotal();
+        $discount = abs($item->getDiscountAmount());
         $lineType = 'SN';
-        
         if ($item->getProductType() == ProductType::TYPE_VIRTUAL) {
             $lineType = 'SS';
         }
-        
         $orderLines[] = [
             OLConst::LINE_TYPE => $lineType,
             OLConst::STOCK_CODE => $item->getSku(),
-            OLConst::UNIT_PRICE_INC_TAX => $rowTotal+$tax,
+            OLConst::UNIT_PRICE_INC_TAX => $item->getBasePriceInclTax() - ($discount / $item->getQtyOrdered()),
             OLConst::ORDERED => $item->getQtyOrdered(),
             OLConst::BACKORDERED => $item->getQtyOrdered(),
             OLConst::SHIPPED => 0,
             OLConst::SOL_DISC_RATE => 0,
-            OLConst::SOL_LINE_TOTAL_INC_TAX => $rowTotal - $discount + $tax,
+            OLConst::SOL_LINE_TOTAL_INC_TAX => $item->getBaseRowTotalInclTax() - $discount,
         ];
         return $orderLines;
     }

@@ -104,3 +104,10 @@
 =============
 * Bugfixes:
     * [#284859](https://ewave.tpondemand.com/entity/284859) -- [PROJECT: TAF] 'Customer Care' page is broken
+
+2.0.8
+=============
+* Bugfixes:
+    * [#269032](https://ewave.tpondemand.com/entity/269032) -- [My Store Widget] 'Text Input' search is not working for all entities except Store
+    * [#292344](https://ewave.tpondemand.com/entity/292344) -- [M2.3][Advanced Pricing] Price set up in admin panel is not applied on storefront
+    * [#292826](https://ewave.tpondemand.com/entity/292826) -- [My Store Widget] Store name is duplicated in widget

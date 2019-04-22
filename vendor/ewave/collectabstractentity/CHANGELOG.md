@@ -14,3 +14,8 @@
     * [#295812](https://ewave.tpondemand.com/entity/295812) -- [MSI & COLLECT] As a user, I want to be able to see availability status in cart/checkout click&collect stores
     * [#297191](https://ewave.tpondemand.com/entity/297191) -- [PDP INFO] As a user, I want to be able to see stores availability status on PDP
     * [#297705](https://ewave.tpondemand.com/entity/297705) -- [Locator][Click & Collect] As a system, I want availability flag to be added
+
+1.2.0
+=============
+* New features:
+    * [#295601](https://ewave.tpondemand.com/entity/295601) -- [C&C][Abstract Entity] As a customer, I want Shipping Address fields to be hidden and pre-filled with an Abstract Entity values on Checkout

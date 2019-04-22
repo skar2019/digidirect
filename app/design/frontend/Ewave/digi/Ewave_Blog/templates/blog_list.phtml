@@ -9,10 +9,12 @@ $categoryExeption = "top contributors";
     <div class="blog-list blog-pg">
         <?php foreach ($block->getCollection() as $post): ?>
             <article class="post-card item">
-                <?php $thumb = $post->getImageUrl(null, 150); ?>
-                <?php if (!empty($thumb)): ?>
+                <?php if (!empty($post->getImageUrl())): ?>
                 <a class="img-link" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php echo $block->escapeHtml($post->getTitle()) ?>">
-                    <img src="<?php echo $block->escapeHtml($thumb); ?>" alt="<?php echo $block->escapeHtml($post->getTitle()) ?>">
+                    <picture>
+                        <source media="(min-width: 1280px)" srcset="<?php echo $block->escapeHtml($post->getImageUrl(null, 850)); ?>">
+                        <img src="<?php echo $block->escapeHtml($post->getImageUrl(null, 750)); ?>" alt="<?php echo $block->escapeHtml($post->getTitle()) ?>">
+                    </picture>
                 </a>
                 <?php endif; ?>
                 <div class="container">
@@ -23,7 +25,7 @@ $categoryExeption = "top contributors";
                             <div class="categories">
                                 <?php /** @var $category \Ewave\Blog\Model\Category*/ ?>
                                 <?php $i=1; foreach ($categoriesArray as $key => $category): ?>
-                                    <a href="<?php $block->escapeUrl($category->getViewUrl())?>" class="link item" title="<?php /* @escapeNotVerified */  echo $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?> <?php endif; ?>
+                                    <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link item" title="<?php /* @escapeNotVerified */  echo $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?> <?php endif; ?>
                                     <?php $i++; ?>
                                 <?php endforeach; ?>
                             </div>
@@ -35,10 +37,14 @@ $categoryExeption = "top contributors";
                         </a>
                     </h2>
                     <div class="description content"><?php /* @escapeNotVerified */ echo $block->getShortDescription($post); ?></div>
-                    <div class="date">
-                        <?php /* @escapeNotVerified */ echo __('Posted:') ?>
-                        <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
-                    </div>
+                    
+                    <?php if (($categoryName = $category->getName()) && (strcasecmp($categoryName, $categoryExeption) != 0)):?>
+                        <div class="posted">
+                            <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
+                            <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
+                        </div>
+                    <?php endif; ?>
+
                     <a class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Read More') ?>">
                         <span class="more-title"><?php /* @escapeNotVerified */ echo __('Read More') ?></span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">
@@ -64,10 +70,13 @@ $categoryExeption = "top contributors";
         <?php foreach ($block->getCollection() as $post): ?>
             <?php $thumb = ""; ?>
             <article class="post-card item">
-                <?php $thumb = $post->getImageUrl(null, 150); ?>
-                <?php if (!empty($thumb)): ?>
+
+                <?php if (!empty($post->getImageUrl())): ?>
                 <a class="img-link" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php echo $block->escapeHtml($post->getTitle()) ?>">
-                        <img src="<?php echo $block->escapeHtml($thumb); ?>" alt="<?php echo $block->escapeHtml($post->getTitle()) ?>">
+                    <picture>
+                        <source media="(min-width: 1280px)" srcset="<?php echo $block->escapeHtml($post->getImageUrl(null, 850)); ?>">
+                        <img src="<?php echo $block->escapeHtml($post->getImageUrl(null, 750)); ?>" alt="<?php echo $block->escapeHtml($post->getTitle()) ?>">
+                    </picture>
                 </a>
                 <?php endif; ?>
 
@@ -79,7 +88,7 @@ $categoryExeption = "top contributors";
                             <div class="categories">
                                 <?php /** @var $category \Ewave\Blog\Model\Category*/ ?>
                                 <?php $i=1; foreach ($categoriesArray as $key => $category): ?>
-                                    <a href="<?php $block->escapeUrl($category->getViewUrl())?>" class="link item" title="<?php /* @escapeNotVerified */  echo $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?> <?php endif; ?>
+                                    <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link item" title="<?php /* @escapeNotVerified */  echo $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?> <?php endif; ?>
                                     <?php $i++; ?>
                                 <?php endforeach; ?>
                             </div>
@@ -91,13 +100,14 @@ $categoryExeption = "top contributors";
                         <?php echo $block->escapeHtml($post->getTitle()); ?>
                     </a>
                 </h2>
-                <div class="description content"><?php /* @escapeNotVerified */ echo $block->getShortDescription($post); ?></div>
                     <?php if (($categoryName = $category->getName()) && (strcasecmp($categoryName, $categoryExeption) != 0)):?>
                         <div class="posted">
                             <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
                             <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
                         </div>
                     <?php endif; ?>
+                <div class="description content"><?php /* @escapeNotVerified */ echo $block->getShortDescription($post); ?></div>
+
                     <a class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Read More') ?>">
                         <span class="more-title"><?php /* @escapeNotVerified */ echo __('Read More') ?></span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">

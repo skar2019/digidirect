@@ -8,6 +8,12 @@
 
 & when (@media-common = true) {
     & when (@ewave-form__is-enabled = true) {
+        .field {
+            &.choice {
+                .lib-css(position, @form-field-choice__position);
+            }
+        }
+        
         //  Input Group
         .input-group {
             .lib-form-input-group();

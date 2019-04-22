@@ -9,7 +9,8 @@ if (empty($menuArray)) {
 }
 ?>
 
-<nav class="<?php echo $block->escapeHtml($block->getAreaSelector());?><?php echo $block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
+<nav data-action="navigation" class="<?php echo $block->escapeHtml($block->getAreaSelector());?><?php echo
+$block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
     <ul class="<?php echo $block->getWrapperClass() ? ' ' . $block->escapeHtml($block->getWrapperClass()) : '';?><?php echo $block->getHorizontal() == 'true' ? ' -horizontal' : '';?><?php echo $block->getExpanded() == 'true' ? ' -expanded' : '';?>">
         <?php $i = 1; $j = 1; foreach ($menuArray as $item) : ?>
         <?php if (isset($item->cms_block_content)){
@@ -27,7 +28,8 @@ if (empty($menuArray)) {
             <?php else: ?>
                 <?php $style = null; ?>
             <?php endif;?>
-        <li class="<?php echo $block->escapeHtml($item->frontend_class); ?><?php echo $block->getItemClass() ? ' ' . $block->escapeHtml($block->getItemClass()) : '';?><?php echo $item->is_active ? ' -active': '' ?><?php echo $have_parent ? ' -parent' : '' ?> -level<?php echo $block->escapeHtml((int)$i) ?>">
+        <li class="category-item <?php echo $block->escapeHtml($item->frontend_class); ?><?php echo $block->getItemClass
+        () ? ' ' . $block->escapeHtml($block->getItemClass()) : '';?><?php echo $item->is_active ? ' -active': '' ?><?php echo $have_parent ? ' -parent' : '' ?> -level<?php echo $block->escapeHtml((int)$i) ?>">
             <?php if ($item->url && ($item->is_link == '1' || $item->is_link === true)): ?>
                 <a <?php if($style) : ?>style="<?php echo $block->escapeHtml($style) ?>" <?php endif; ?> class="<?php echo $block->getItemLabelClass() ? ' ' . $block->escapeHtml($block->getItemLabelClass()) : '';?>" title="<?php echo $block->escapeHtml($item->title) ?>" href="<?php echo $block->escapeUrl($item->url) ?>" id="mi-<?php echo (int)$i ?>-<?php echo $block->escapeHtml((int)$j) ?>">
                     <?php echo $block->escapeHtml($item->title) ?>
@@ -61,7 +63,8 @@ if (empty($menuArray)) {
                     <?php else: ?>
                         <?php $style = null; ?>
                     <?php endif;?>
-                    <li class="<?php echo $block->escapeHtml($frontendChildClass) ?><?php echo $block->getItemClass() ? ' ' . $block->escapeHtml($block->getItemClass()) : '';?><?php echo $child->is_active ? ' -active': '' ?><?php echo $have_parent? ' -parent' : '' ?> -level<?php echo (int)$i?><?php if(isset($child->menu_item_type)): ?> -type-<?= /* @noEscape */ $child->menu_item_type ?><?php endif;?>">
+                    <li class="category-item <?php echo $block->escapeHtml($frontendChildClass) ?><?php echo
+                    $block->getItemClass() ? ' ' . $block->escapeHtml($block->getItemClass()) : '';?><?php echo $child->is_active ? ' -active': '' ?><?php echo $have_parent? ' -parent' : '' ?> -level<?php echo (int)$i?><?php if(isset($child->menu_item_type)): ?> -type-<?= /* @noEscape */ $child->menu_item_type ?><?php endif;?>">
                         <?php if ($child->url && ($child->is_link == '1' || $child->is_link === true)) : ?>
                             <a <?php if($style) : ?>style="<?php echo $block->escapeHtml($style)?>" <?php endif; ?> class="<?php /* @escapeNotVerified */ echo $block->getItemLabelClass() ? ' ' .  $block->escapeHtml($block->getItemLabelClass()) : '';?>" title="<?php /* @escapeNotVerified */ echo $child->title ?>" href="<?php /* @escapeNotVerified */ echo $child->url ?>" id="mi-<?php echo (int)$i ?>-<?php echo (int)$j ?><?php if ($m): ?>-<?php echo (int)$m; ?><?php endif; ?>-<?php echo (int)$k ?>">
                                 <?php /* @escapeNotVerified */ echo $child->title ?>

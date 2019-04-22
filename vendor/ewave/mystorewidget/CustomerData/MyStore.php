@@ -34,6 +34,7 @@ class MyStore implements SectionSourceInterface
         $currentStore = $this->helper->getCurrentStore();
         if ($currentStore) {
             $currentStoreData = $currentStore->getData();
+            $currentStoreData['entity_name'] = $currentStore->getEntityName();
         }
 
         return [

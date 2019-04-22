@@ -121,7 +121,7 @@
 <script type="text/x-magento-init">
     {
         "#form-validate": {
-            "addressValidation": {}
+            "addressValidation": <?php if ($block->getPostCodeConfig()):?>{"postCodes": <?= /* @noEscape */ $block->getPostCodeConfig()->getSerializedPostCodes(); ?>}<?php else: ?>{}<?php endif; ?>
         },
         "#country": {
             "regionUpdater": {

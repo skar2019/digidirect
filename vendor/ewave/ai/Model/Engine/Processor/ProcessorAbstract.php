@@ -174,7 +174,19 @@ abstract class ProcessorAbstract extends DataObject
     }
 
     /**
-     * Get run option
+     * Set run options
+     *
+     * @param array $options
+     * @return $this
+     */
+    public function setRunOptions(array $options)
+    {
+        $this->_runOptions = $options;
+        return $this;
+    }
+
+    /**
+     * Set run option
      *
      * @param string $option
      * @param mixed $value

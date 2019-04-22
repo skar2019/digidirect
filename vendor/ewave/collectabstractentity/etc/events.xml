@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- Add abstract entity info to collect places -->
+    <event name="ewave_collect_checkout_config_collect_place_information">
+        <observer name="EwaveCollectAbstractEntity::ewave_collect_checkout_config_collect_place_information"
+                  instance="CheckoutConfigCollectPlaceInformationObserver" />
+    </event>
+    <event name="ewave_collect_apply_collect_place_to_all_items_result">
+        <observer name="EwaveCollectAbstractEntity::ewave_collect_apply_collect_place_to_all_items_result"
+                  instance="ApplyCollectPlaceToAllItemsResultObserver" />
+    </event>
+</config>

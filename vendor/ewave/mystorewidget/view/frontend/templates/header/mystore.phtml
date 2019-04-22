@@ -48,7 +48,7 @@ $selectedStore = $block->getStoreName();
                 <label class="message" for="<?= /* @escapeNotVerified */ $block->getMyStoreInputId() ?>">
                     <!-- ko if: (store.isStoreSelected()) -->
                         <!-- ko i18n: 'My'--><!-- /ko -->
-                        <!-- ko text: store.selectedStore() --><!-- /ko -->
+                        <!-- ko text: store.entityName() --><!-- /ko -->:
                     <!--/ko-->
                     <!-- ko ifnot: (store.isStoreSelected()) -->
                         <!-- ko i18n: 'My Store:'--><!-- /ko -->

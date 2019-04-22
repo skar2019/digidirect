@@ -96,4 +96,14 @@
 * Bugfixes:
     * [#274468](https://ewave.tpondemand.com/entity/274468) -- [PROJECT: PLATYPUS][AddressVerification] 05/10/18 postcode length validation
     * [#286555](https://ewave.tpondemand.com/entity/286555) -- [Project: Platypus] Address is not saved in quote for C&C	
+	
+2.0.9
+================
+* Bugfixes:
+    * [#291951](https://ewave.tpondemand.com/entity/291951) -- [Project: TAF] [addressverification] no check if a file_element already exists	
+	* [#292506](https://ewave.tpondemand.com/entity/292506) -- [PROJECT: CONVERSE] ewave/addressverification error
      
+2.0.10
+===================	
+* Bugfixes:
+    * [#295129](https://ewave.tpondemand.com/entity/295129) -- [PROJECT: VANS NZ] Address autocomplete is not working    	 

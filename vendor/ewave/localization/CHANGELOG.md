@@ -67,4 +67,8 @@
 ====================
 * New features:
     * [#290149](https://ewave.tpondemand.com/entity/290149) -- [Localisation] As an admin, I want to be able to set up Length Unit for Country or State
+1.5.1
+====================
+* Bugfixes:
+    * [#297584](https://ewave.tpondemand.com/entity/297584) -- [Project: DigiDirect] "Address book" page under My Account is displayed broken when user has additional address	
     

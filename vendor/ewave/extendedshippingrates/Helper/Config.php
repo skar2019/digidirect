@@ -7,9 +7,17 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
 
+/**
+ * Class Config
+ *
+ * @package Ewave\ExtendedShippingRates\Helper
+ */
 class Config extends AbstractHelper
 {
-    const XML_PATH_HIDED_METHODS_RELATIONS = 'ewave_extendedshippingrates/hide_methods/hided_methods_relations';
+    const ESR = 'ewave_extendedshippingrates';
+
+    const XML_PATH_HIDED_METHODS_RELATIONS = self::ESR . '/hide_methods/hided_methods_relations';
+    const XML_PATH_MULTIPLE_RATES_PRICE = self::ESR . '/main/multiple_rates_price';
 
     const COUNTRY_COLUMN = 'country_column';
     const STATE_COLUMN = 'state_column';
@@ -41,7 +49,6 @@ class Config extends AbstractHelper
 
     /**
      * @param null $scopeCode
-     *
      * @return array
      */
     public function getHidedMethods($scopeCode = null)
@@ -64,5 +71,18 @@ class Config extends AbstractHelper
         }
 
         return $this->hidedMethodsArr;
+    }
+
+    /**
+     * @param null $scopeCode
+     * @return int
+     */
+    public function getMultipleRatesPrice($scopeCode = null)
+    {
+        return (int)$this->scopeConfig->getValue(
+            self::XML_PATH_MULTIPLE_RATES_PRICE,
+            ScopeInterface::SCOPE_WEBSITE,
+            $scopeCode
+        );
     }
 }

@@ -31,6 +31,14 @@
             type="Ewave\Utilities\Plugin\Magento\Cms\Model\Wysiwyg\Images\StoragePlugin"
         />
     </type>
+    <!-- Adding allowed mime type from Allowed file types for upload using WYSIWYG -->
+    <type name="Magento\Framework\File\Uploader">
+        <plugin
+            name="EwaveUtilities::MagentoFrameworkFileUploaderPlugin"
+            sortOrder="10"
+            type="Ewave\Utilities\Plugin\Magento\Framework\File\UploaderPlugin"
+        />
+    </type>
     <type name="Magento\Framework\Image\Adapter\Gd2">
         <plugin
             name="EwaveUtilities::MagentoFrameworkImageAdapterGd2Plugin"

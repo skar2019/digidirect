@@ -13,7 +13,7 @@ define([
         options: {
             triggerApplyButton: false,
             triggerApplyMode: false,
-            applyModeBreakpoint: '(max-width: 769px)',
+            applyModeBreakpoint: '(max-width: 767px)',
             enableAjax: false,
             enabledSeoUrls: false,
             postfix: '',

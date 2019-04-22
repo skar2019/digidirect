@@ -96,7 +96,7 @@ if ($exist = $block->getItems()->getSize()) {
                                                                 </span>
                                                             <?php endforeach; ?>
                                                         <?php else : ?>
-                                                            <span class="value"><?php echo $block->escapeHtml($attribute->getValue()); ?></span>
+                                                            <span class="value"><?php /* @escapeNotVerified */ echo $attribute->getValue(); ?></span>
                                                         <?php endif; ?>
                                                     </div>
                                                 </div>

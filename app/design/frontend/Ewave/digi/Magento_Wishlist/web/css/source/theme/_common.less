@@ -31,18 +31,9 @@
     }
 
     .toolbar.wishlist-toolbar {
-        & {
-            .lib-css(background-color, @color-white);
-            .lib-css(padding, 0 @indent__m @indent__m);
-            .lib-css(margin-bottom, @indent__m);
-        }
-
-        & > .pager {
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .lib-css(background-color, @color-white);
+        .lib-css(padding, 0 @indent__m @indent__m);
+        .lib-css(margin-bottom, @indent__m);
     }
 }
 
@@ -66,17 +57,6 @@
 
         .link.-update {
             display: none;
-        }
-    }
-
-    .toolbar.wishlist-toolbar {
-        & > .pager {
-            flex-direction: column;
-        }
-
-        & > .pager > .toolbar-amount,
-        & > .pager > .pages {
-            margin-bottom: 10px;
         }
     }
 }

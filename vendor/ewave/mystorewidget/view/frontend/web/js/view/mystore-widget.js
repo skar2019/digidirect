@@ -31,9 +31,10 @@ define([
         updateStoreData: function (data) {
             setStore({
                 entityId: data.entity_id,
+                entityName: data.entity_name,
                 selectedStore: this.formatLabel(data) || data.name,
                 storeUrl: data.url_key,
-                isStoreSelected: 1
+                isStoreSelected: data.length === 0 ? 0 : 1
             });
         },
         formatLabel: function (item) {

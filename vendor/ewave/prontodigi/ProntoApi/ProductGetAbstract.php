@@ -56,17 +56,17 @@ class ProductGetAbstract extends ProcessMultiple
     protected function updateProcessedData($response)
     {
         $response = $this->standardizeResponse($response);
-        if (!is_array($response) || !array_key_exists(self::ROOT_NODE, $response)) {
-            throw new \Exception(sprintf('There is no `%s` field in response', self::ROOT_NODE));
+        if (!is_array($response)) {
+            throw new \Exception(sprintf('Response is not valid `%s`', $response));
         }
         $flagData = $this->getStorageData(self::FLAG_PROCESS_DATA, []);
 
-        if (!is_array($response[self::ROOT_NODE])
+        if (!array_key_exists(self::ROOT_NODE, $response)
+            || !is_array($response[self::ROOT_NODE])
             || !array_key_exists(self::CONTAINER, $response[self::ROOT_NODE])
         ) {
             return $this->saveTerminateFlag($flagData);
         }
-
         $processedProducts = $response[self::ROOT_NODE][self::CONTAINER];
 
         if (!$processedProducts) {

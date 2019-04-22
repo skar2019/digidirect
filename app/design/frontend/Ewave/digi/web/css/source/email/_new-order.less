@@ -1,0 +1,85 @@
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .order-main {
+        .lib-css(background-color, @color-white);
+        .lib-css(font-family, @email-font-family);
+        .lib-css(max-width, @email-table__max-width);
+        margin: auto;
+        font-size: 14px;
+        border-spacing: 0;
+    }
+
+    .email-title {
+        .lib-css(color, @primary__color);
+        .lib-css(font-weight, @font-weight__bold);
+        padding: 10px 0 30px;
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .email-intro .text {
+        padding-bottom: 20px;
+    }
+
+    .email-summary td {
+        .lib-css(font-family, @email-font-family);
+        padding: 56px 0 0;
+        text-align: center;
+    }
+
+    .email-summary h1 {
+        font-size: 24px;
+        font-weight: bolder;
+        padding-bottom: 7px;
+        margin: 0;
+    }
+
+    .order-placed,
+    .order-number {
+        font-weight: bolder;
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .order-details {
+        .lib-css(border-bottom, 1px solid @color-3-4);
+        .lib-css(font-family, @email-font-family);
+        width: 100%;
+        padding: 30px 30px 40px;
+    }
+
+    .order-details h3 {
+        margin-top: 15px;
+        font-size: 14px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .order-details .payment-method .title {
+        .lib-css(font-weight, @font-weight__regular);
+        margin-bottom: 0;
+    }
+
+    .order-details .payment-method .content {
+        display: none;
+    }
+
+    .order-details .method-info {
+        padding: 17px 0 0;
+    }
+
+    .method-info .payment-method {
+        margin: 0;
+    }
+
+    .email-items {
+        width: 100%;
+    }
+
+    .main-content {
+        .lib-css(max-width, @email-table__max-width);
+    }
+}

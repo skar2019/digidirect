@@ -1,0 +1,93 @@
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .email-items {
+        & {
+            .lib-css(border-bottom, 1px solid @color-3-4);
+            padding-top: 15px;
+        }
+
+        thead th {
+            .lib-css(border-top, 1px solid @color-3-4);
+            .lib-css(border-bottom, 1px solid @color-3-4);
+            padding: 12px 20px;
+        }
+
+        .col.image {
+            text-align: left;
+        }
+
+        .item-qty {
+            text-align: center;
+        }
+
+        .item-price {
+            text-align: right;
+        }
+
+        tbody tr {
+            height: 180px;
+        }
+
+        tbody td {
+            .lib-css(border-bottom, 1px solid @color-3-4);
+            padding: 18px 20px;
+        }
+
+        tbody .col.image {
+            padding: 18px 0 0 20px;
+        }
+
+        td.col.image,
+        td.item-info {
+            vertical-align: top;
+        }
+
+        .order-totals th {
+            .lib-css(font-weight, @font-weight__regular);
+            text-align: left;
+            padding: 8px 0 0;
+        }
+
+        .order-totals td {
+            padding: 8px 20px 0 40px;
+            text-align: right;
+        }
+
+        .order-totals .grand_total th {
+            .lib-css(font-weight, @font-weight__bold);
+        }
+
+        .grand_total td,
+        .grand_total th {
+            padding-bottom: 25px;
+        }
+
+        .item-info {
+            width: 30%;
+        }
+
+        .item-info .product-name {
+            .lib-css(font-weight, @font-weight__bold);
+        }
+
+        .item-info .sku {
+            display: none;
+        }
+
+        .item-info .item-options {
+            margin-top: 17px;
+            margin-bottom: 0;
+        }
+
+        .item-options dd {
+            margin-bottom: 3px;
+        }
+
+        .item-options dt em {
+            font-style: normal;
+        }
+    }
+}

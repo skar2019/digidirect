@@ -3,15 +3,16 @@ namespace Ewave\Collect\Model;
 
 use Ewave\Collect\Api\ApplyCollectPlaceInterface;
 use Ewave\Collect\Api\Data\CollectPlaceInterface;
-use Ewave\Collect\Model\AddToCart\CollectException;
 use Magento\Checkout\Model\Session;
-use Magento\Framework\Serialize\Serializer\Json;
-use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\DataObject;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 use Psr\Log\LoggerInterface;
 
 /**
  * Class ApplyCollectPlace
+ *
  * @package Ewave\Collect\Model
  */
 class ApplyCollectPlace extends AbstractApplyShippingVariation implements ApplyCollectPlaceInterface
@@ -33,6 +34,7 @@ class ApplyCollectPlace extends AbstractApplyShippingVariation implements ApplyC
 
     /**
      * ApplyCollectPlace constructor.
+     *
      * @param Session $session
      * @param StorageHandler $storageHandler
      * @param LoggerInterface $logger
@@ -79,14 +81,25 @@ class ApplyCollectPlace extends AbstractApplyShippingVariation implements ApplyC
             return false;
         }
 
-        // such format is used for handy usage from front-end
         $firstItem = reset($items);
-        $result[0] = [
+
+        $resultObject = new DataObject([
             'collect_place_name' => $collectPlace->getName(),
             'collect_place_address' => $collectPlace->getAddress(),
             'item_id' => $firstItem->getItemId(),
             'item_name' => $firstItem->getName()
-        ];
+        ]);
+        $this->eventManager->dispatch(
+            'ewave_collect_apply_collect_place_to_all_items_result',
+            [
+                'quote_item' => $firstItem,
+                'collect_place' => $collectPlace,
+                'result' => $resultObject
+            ]
+        );
+
+        // such format is used for handy usage from front-end
+        $result[0] = $resultObject->getData();
 
         return $this->jsonSerializer->serialize($result);
     }
@@ -115,6 +128,7 @@ class ApplyCollectPlace extends AbstractApplyShippingVariation implements ApplyC
                 }
             }
         }
+
         return $collectPlace;
     }
 }

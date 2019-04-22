@@ -96,6 +96,10 @@ define([
                         return false;
                     }
 
+                    if (_.isEmpty(quote.collectPlaces)) {
+                        this.onErrorValidationShippingInformation('collectPlace');
+                        return false;
+                    }
                     return true;
                 } else {
                     if (quote.isShippingAddressHidden) {
@@ -126,8 +130,8 @@ define([
                         }
                     );
                 }
-            }
-
+            },
+            onErrorValidationShippingInformation: function (type) {}
         });
     };
 });

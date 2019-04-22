@@ -39,3 +39,8 @@
 =============
 * New features:
     * [#282872](https://ewave.tpondemand.com/entity/282872) -- [GRID ATTRIBUTES] As an admin, I want to be able to add additional attributes to the Newsletter Subscribers grid
+
+1.3.1
+=============
+* New features:
+    * [#295267](https://ewave.tpondemand.com/entity/295267) -- [Project: Rip Curl][Checkout][PayPal] The page is stuck with loader during address verification

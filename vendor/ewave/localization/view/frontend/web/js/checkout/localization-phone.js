@@ -16,7 +16,7 @@ define([
             inputSelector: '[data-role="localization-input"]',
             selectSelector: '[data-role="localization-select"]',
             validateRegex: /^(\d+|[\+ ()])+$/,
-            errorMessage: 'Please enter a valid phone number.'
+            errorMessage: $.mage.__('Please enter a valid phone number.')
         },
 
         getPlaceholder: ko.observable(null),
@@ -35,7 +35,7 @@ define([
             var self = this;
             validator.addRule('validate-phone-number', function (value) {
                 return value.match(self.validateRegex);
-            }, $.mage.__(self.errorMessage));
+            }, self.errorMessage);
             $.extend(this.validation, {'validate-phone-number': {}});
         },
 
@@ -45,10 +45,20 @@ define([
          */
         setLocalizationOptions: function () {
             var locales = _.keys(this.data),
+                self = this,
                 options = _.map(locales, function (locale) {
-                    return {locale: locale};
+                    return { locale: locale, countryName: self.getCountryName(locale) };
                 });
             return options;
+        },
+
+        /**
+         *
+         * @param locale
+         * @returns {*}
+         */
+        getCountryName: function (locale) {
+            return this.data[locale].countryName;
         },
 
         /**

@@ -107,6 +107,11 @@ class ImportFile extends \Magento\Config\Block\System\Config\Form\Field
      */
     protected function isDisabled()
     {
+        if(empty($this->hasData('file_element'))) {
+            
+            return false;
+        }
+        
         return $this->isElementInherit() || !$this->hasFile();
     }
 

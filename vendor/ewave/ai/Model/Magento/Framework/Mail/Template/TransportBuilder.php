@@ -5,6 +5,7 @@ namespace Ewave\AI\Model\Magento\Framework\Mail\Template;
 /**
  * Class TransportBuilder
  * @package Ewave\AI\Model\Magento\Framework\Mail\Template
+ * @deprecated
  */
 class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
 {

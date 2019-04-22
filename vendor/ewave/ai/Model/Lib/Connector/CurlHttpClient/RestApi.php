@@ -20,8 +20,6 @@ use Magento\Framework\Serialize\Serializer\Json as SerializerJson;
  */
 class RestApi extends CurlHttpClient
 {
-    const URL_PARAM_PATTERN = '{%s}';
-
     /**
      * @var SerializerJson
      */
@@ -71,18 +69,11 @@ class RestApi extends CurlHttpClient
      * @param string $methodUri
      * @param array $urlParameters
      * @return string
+     * @deprecated since release/1.15.3. use ->getRequestUrl() instead of this one
      */
     public function getRestApiRequestUrl($endpoint, $methodUri, array $urlParameters = [])
     {
-        $url = $endpoint;
-        if ($methodUri) {
-            $url = rtrim($url, '/') . '/' . ltrim($methodUri, '/');
-        }
-        foreach ($urlParameters as $urlParamName => $urlParamValue) {
-            $replace = sprintf(static::URL_PARAM_PATTERN, $urlParamName);
-            $url = str_replace($replace, $urlParamValue, $url);
-        }
-        return $url;
+        return $this->getRequestUrl($endpoint, $methodUri, $urlParameters);
     }
 
     /**

@@ -112,4 +112,13 @@
         <plugin name="Ewave_PreOrder::addPreorderButtonIfProductOutOfStock"
                 type="Ewave\PreOrder\Plugin\Magento\Catalog\Model\Product\Type\AbstractType"/>
     </type>
+
+    <!-- Compatibility with Magento 2.3.1 -->
+    <type name="Magento\InventorySales\Model\ResourceModel\IsStockItemSalableCondition\IsStockItemSalableConditionChain">
+        <arguments>
+            <argument name="conditions" xsi:type="array">
+                <item name="preorder" xsi:type="object">Ewave\PreOrder\Model\ResourceModel\IsStockItemSalableCondition\PreOrderCondition</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

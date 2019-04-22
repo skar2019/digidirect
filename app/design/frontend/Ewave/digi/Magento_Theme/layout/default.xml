@@ -35,7 +35,7 @@
         <referenceBlock name="svg_sprite">
             <arguments>
                 <argument name="svg_is_inline" xsi:type="boolean">true</argument>
-                <argument name="svg_revision" xsi:type="string">1.9.1</argument>
+                <argument name="svg_revision" xsi:type="string">1.9.3</argument>
             </arguments>
         </referenceBlock>
 

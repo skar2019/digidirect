@@ -1,15 +1,11 @@
 //
-//  Variables
-//  ---------------------------------------------
-@email-font-family: Roboto,Arial,Helvetica,sans-serif;
-
-//
 //  Common
 //  ---------------------------------------------
 
 & when (@media-common = true) {
     table.main {
         padding-top: 20px;
+        width: 100%;
     }
 
     td.header {
@@ -20,10 +16,19 @@
     .header-image .image {
         width: 100%;
         height: auto;
+        max-width: 600px;
     }
 
     p {
         margin: 0;
     }
 
+    .header,
+    .header-image {
+        .lib-css(max-width, @email-table__max-width);
+    }
+
+    .header-image {
+        text-align: center;
+    }
 }

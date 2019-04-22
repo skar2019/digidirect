@@ -1,14 +1,17 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Model\Carrier;
 
+use Ewave\ExtendedShippingRates\Api\Data\MethodInterface;
+use Ewave\ExtendedShippingRates\Model\Carrier\Method\Rate;
+use Magento\Framework\App\ObjectManager;
 use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
-use Ewave\ExtendedShippingRates\Api\Data\MethodInterface;
 
 /**
  * Class Artificial
+ *
  * @package Ewave\ExtendedShippingRates\Model\Carrier
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -50,6 +53,21 @@ class Artificial extends AbstractCarrier implements CarrierInterface
     protected $_request;
 
     /**
+     * @var \Magento\Shipping\Model\Rate\ResultFactory
+     */
+    protected $_rateResultFactory;
+
+    /**
+     * @var \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory
+     */
+    protected $_rateMethodFactory;
+
+    /**
+     * @var \Ewave\ExtendedShippingRates\Helper\Config|null
+     */
+    protected $_configHelper;
+
+    /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Quote\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Psr\Log\LoggerInterface $logger
@@ -58,6 +76,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
      * @param \Ewave\ExtendedShippingRates\Model\CarrierFactory $carrierFactory
      * @param \Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory $collectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Ewave\ExtendedShippingRates\Helper\Config|null $configHelper
      * @param array $data
      */
     public function __construct(
@@ -69,21 +88,27 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         \Ewave\ExtendedShippingRates\Model\CarrierFactory $carrierFactory,
         \Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory $collectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Ewave\ExtendedShippingRates\Helper\Config $configHelper = null,
         array $data = []
     ) {
-    
+
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         $this->_carrierFactory = $carrierFactory;
         $this->_carrierCollectionFactory = $collectionFactory;
         $this->_storeManager = $storeManager;
+        $this->_configHelper = $configHelper
+            ?? ObjectManager::getInstance()->get(\Ewave\ExtendedShippingRates\Helper\Config::class);
+
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
+
         $this->prepareCarriers();
     }
 
     /**
      * @param RateRequest $request
      * @return bool|Result
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function collectRates(RateRequest $request)
     {
@@ -129,6 +154,51 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Get allowed shipping methods
+     *
+     * @return array
+     * @api
+     */
+    public function getAllowedMethods()
+    {
+        $carrier = $this->findCarrier();
+        if (!$carrier) {
+            return [];
+        }
+
+        return $carrier->getMethodsCollection()->toAllowedMethodsArray();
+    }
+
+    /**
+     * Get allowed shipping methods as array of objects
+     *
+     * @return array
+     */
+    public function getAllowedMethodCollectionArray()
+    {
+        $carrier = $this->findCarrier();
+        if (!$carrier) {
+            return [];
+        }
+
+        return $carrier->getMethodsCollection()->toAllowedMethodsArray(false);
+    }
+
+    /**
+     * @param string $field
+     * @return false|mixed|string
+     */
+    public function getConfigData($field)
+    {
+        $carrier = $this->findCarrier();
+        if ($carrier) {
+            return $carrier->getData($field);
+        }
+
+        return parent::getConfigData($field);
     }
 
     /**
@@ -204,39 +274,10 @@ class Artificial extends AbstractCarrier implements CarrierInterface
     }
 
     /**
-     * Get allowed shipping methods
-     *
-     * @return array
-     * @api
-     */
-    public function getAllowedMethods()
-    {
-        $carrier = $this->findCarrier();
-        if (!$carrier) {
-            return [];
-        }
-
-        return $carrier->getMethodsCollection()->toAllowedMethodsArray();
-    }
-
-    /**
-     * Get allowed shipping methods as array of objects
-     * @return array
-     */
-    public function getAllowedMethodCollectionArray()
-    {
-        $carrier = $this->findCarrier();
-        if (!$carrier) {
-            return [];
-        }
-
-        return $carrier->getMethodsCollection()->toAllowedMethodsArray(false);
-    }
-
-    /**
      * @param \Magento\Quote\Model\Quote\Address\RateResult\Method $method
      * @param \Ewave\ExtendedShippingRates\Model\Carrier\Method $methodData
      * @return \Magento\Quote\Model\Quote\Address\RateResult\Method|null
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function applyRates(
         \Magento\Quote\Model\Quote\Address\RateResult\Method $method,
@@ -271,6 +312,13 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         return $method;
     }
 
+    /**
+     * @param array $rates
+     * @param \Magento\Quote\Model\Quote\Address\RateRequest $request
+     * @param \Ewave\ExtendedShippingRates\Model\Carrier\Method $methodData
+     * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
     protected function filterRatesBeforeApply(
         $rates,
         RateRequest $request,
@@ -280,18 +328,15 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             return $rates;
         }
 
-        $multipleRatesCalculationType = $this->_storeManager
-            ->getStore()
-            ->getConfig('ewave_extendedshippingrates/main/multiple_rates_price');
-
+        $multipleRatesCalculationType = $this->_configHelper->getMultipleRatesPrice($this->_storeManager->getWebsite());
         switch ($multipleRatesCalculationType) {
-            case \Ewave\ExtendedShippingRates\Model\Carrier\Method\Rate::MULTIPLE_RATES_PRICE_CALCULATION_MAX_PRIORITY:
+            case Rate::MULTIPLE_RATES_PRICE_CALCULATION_MAX_PRIORITY:
                 $resultRate = $this->getRateWithMaxPriority($rates);
                 break;
-            case \Ewave\ExtendedShippingRates\Model\Carrier\Method\Rate::MULTIPLE_RATES_PRICE_CALCULATION_MAX_PRICE:
+            case Rate::MULTIPLE_RATES_PRICE_CALCULATION_MAX_PRICE:
                 $resultRate = $this->getRateWithMaxPrice($rates, $request, $methodData);
                 break;
-            case \Ewave\ExtendedShippingRates\Model\Carrier\Method\Rate::MULTIPLE_RATES_PRICE_CALCULATION_MIN_PRICE:
+            case Rate::MULTIPLE_RATES_PRICE_CALCULATION_MIN_PRICE:
                 $resultRate = $this->getRateWithMinPrice($rates, $request, $methodData);
                 break;
             default:
@@ -374,18 +419,5 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         }
 
         return $rate;
-    }
-
-    /**
-     * @param string $field
-     * @return false|mixed|string
-     */
-    public function getConfigData($field)
-    {
-        $carrier = $this->findCarrier();
-        if ($carrier) {
-            return $carrier->getData($field);
-        }
-        return parent::getConfigData($field);
     }
 }

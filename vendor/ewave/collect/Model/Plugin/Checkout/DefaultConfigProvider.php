@@ -4,8 +4,10 @@ namespace Ewave\Collect\Model\Plugin\Checkout;
 
 use Ewave\Collect\Helper\Config\Address as AddressCollectHelper;
 use Ewave\Collect\Helper\Data as CollectHelper;
-use Ewave\Collect\Plugin\Quote\Model\Quote;
 use Magento\Checkout\Model\Session as CheckoutSession;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\DataObject;
+use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -46,6 +48,11 @@ class DefaultConfigProvider
     protected $addressCollectHelper;
 
     /**
+     * @var \Magento\Framework\Event\ManagerInterface|null
+     */
+    protected $eventManager;
+
+    /**
      * DefaultConfigProvider constructor.
      *
      * @param CheckoutSession $checkoutSession
@@ -54,6 +61,7 @@ class DefaultConfigProvider
      * @param \Ewave\Collect\Model\StorageHandler $storageHandler
      * @param CollectHelper $collectHelper
      * @param \Ewave\Collect\Helper\Config\Address $addressCollectHelper
+     * @param \Magento\Framework\Event\ManagerInterface|null $eventManager
      */
     public function __construct(
         CheckoutSession $checkoutSession,
@@ -61,7 +69,8 @@ class DefaultConfigProvider
         \Magento\Quote\Api\PaymentMethodManagementInterface $paymentMethodManagement,
         \Ewave\Collect\Model\StorageHandler $storageHandler,
         CollectHelper $collectHelper,
-        AddressCollectHelper $addressCollectHelper
+        AddressCollectHelper $addressCollectHelper,
+        EventManagerInterface $eventManager = null
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quoteRepository = $quoteRepository;
@@ -69,6 +78,7 @@ class DefaultConfigProvider
         $this->storageHandler = $storageHandler;
         $this->collectHelper = $collectHelper;
         $this->addressCollectHelper = $addressCollectHelper;
+        $this->eventManager = $eventManager ?: ObjectManager::getInstance()->get(EventManagerInterface::class);
     }
 
     /**
@@ -78,6 +88,7 @@ class DefaultConfigProvider
      * @param [] $result
      * @return mixed
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function afterGetConfig(
         \Magento\Checkout\Model\DefaultConfigProvider $subject,
@@ -98,7 +109,7 @@ class DefaultConfigProvider
                     if ($quote->getIsVirtual() || $collectItems) {
                         foreach ($this->paymentMethodManagement->getList($quote->getId()) as $paymentMethod) {
                             $paymentMethods[] = [
-                                'code'  => $paymentMethod->getCode(),
+                                'code' => $paymentMethod->getCode(),
                                 'title' => $paymentMethod->getTitle()
                             ];
                         }
@@ -127,6 +138,7 @@ class DefaultConfigProvider
      * Get collect place information
      *
      * @return []
+     * @throws \Exception
      */
     protected function getCollectPlaceInformation()
     {
@@ -154,10 +166,21 @@ class DefaultConfigProvider
             /** @var $collectPlace \Ewave\Collect\Api\Data\CollectPlaceInterface */
             $collectPlace = $findPlaces[$key]['collect_place'];
             if ($collectPlace instanceof \Ewave\Collect\Api\Data\CollectPlaceInterface) {
-                $collectPlaces[$quoteItem->getItemId()]['item_id'] = $quoteItem->getItemId();
-                $collectPlaces[$quoteItem->getItemId()]['item_name'] = $quoteItem->getName();
-                $collectPlaces[$quoteItem->getItemId()]['collect_place_name'] = $collectPlace->getName();
-                $collectPlaces[$quoteItem->getItemId()]['collect_place_address'] = $collectPlace->getAddress();
+                $collectPlaceObject = new DataObject([
+                    'item_id' => $quoteItem->getItemId(),
+                    'item_name' => $quoteItem->getName(),
+                    'collect_place_name' => $collectPlace->getName(),
+                    'collect_place_address' => $collectPlace->getAddress()
+                ]);
+                $this->eventManager->dispatch(
+                    'ewave_collect_checkout_config_collect_place_information',
+                    [
+                        'quote_item' => $quoteItem,
+                        'collect_place' => $collectPlace,
+                        'info' => $collectPlaceObject
+                    ]
+                );
+                $collectPlaces[$quoteItem->getItemId()] = $collectPlaceObject->getData();
             }
         }
 
@@ -172,6 +195,7 @@ class DefaultConfigProvider
     protected function getCollectDefaultAddress()
     {
         $addresses = $this->addressCollectHelper->getDefaultAddressArray();
+
         return $addresses;
     }
 }

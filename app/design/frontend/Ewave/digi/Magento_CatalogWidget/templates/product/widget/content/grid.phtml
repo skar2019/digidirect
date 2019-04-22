@@ -33,45 +33,42 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
 }
 ?>
 
+<!-- Used for blog post page-->
+
 <?php if ($exist):?>
     <div class="widget block-new-products products-widget -new-arrivals _full-width-background <?= /* @escapeNotVerified */ $mode ?>">
-        <span class="title" role="heading" aria-level="2"><?= /* @escapeNotVerified */ $title ?></span>
+        <span class="title featured" role="heading" aria-level="2"><?= /* @escapeNotVerified */ $title ?></span>
         <div class="block-content">
             <?= /* @escapeNotVerified */ '<!-- ' . $image . '-->' ?>
             <div class="products-<?= /* @escapeNotVerified */ $mode ?> <?= /* @escapeNotVerified */ $mode ?>">
-                <div class="product-items product-carousel <?= /* @escapeNotVerified */ $type ?>"
+                <div class="product-items <?= /* @escapeNotVerified */ $type ?>"
                      data-mage-init='{
-                      "productTile": {
+                                "slickInit":{
+                                    "arrows": false,
+                                    "slidesToShow": 2,
+                                    "slidesToScroll": 1,
+                                    "mobileFirst": true,
+                                    "waitForAnimate": false,
+                                    "autoplay": false,
+                                    "infinite": false,
+                                    "swipeToSlide": true,
+                                    "dots": false,
+                                    "responsive": [
+                                        {
+                                            "breakpoint": 767,
+                                            "settings": {"slidesToShow": 3,
+                                            "arrows": true
+                                            }
+                                        }
+                                    ]
+                                },
+                                "productTile": {
                           <?php if($block->isRedirectToCartEnabled()): ?>
                           "isRedirectToCartEnabled": true,
                           <?php endif; ?>
-                          "type":"<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>",
-                           "slickInit": {
-                              "responsive": [
-                                  {
-                                     "breakpoint": "1024",
-                                     "settings": {
-                                         "slidesToShow": "3",
-                                         "slidesToScroll": "1"
-                                      }
-                                  }, {
-                                     "breakpoint": "767",
-                                     "settings": {
-                                         "slidesToShow": "2",
-                                         "slidesToScroll": "1",
-                                         "arrows": "true"
-                                      }
-                                  }, {
-                                     "breakpoint": "1439",
-                                     "settings": {
-                                         "slidesToShow": "3",
-                                         "slidesToScroll": "1",
-                                         "arrows": "true"
-                                     }
-                                 }]
-                           }
-                      }
-                     }'>
+                          "type":"default"
+                                }
+                            }'>
                     <?php foreach ($items as $_item): ?>
                         <?php
                         $productOverlaysHtml = '';
@@ -83,30 +80,34 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                         ?>
                         <div class="product-item">
                             <div class="product-item-info" data-parent-product-id="<?= $_item->getId(); ?>">
-                                <a href="<?php echo $block->escapeUrl($productUrl); ?>"
+                                <a href="<?= /* @escapeNotVerified */ $block->getProductUrl($_item); ?>"
                                    class="product photo product-item-photo"
                                    title="<?= /* @escapeNotVerified */ $block->escapeHtml($productName); ?>">
-                                    <?php echo $block->getImage($_item, $image)->toHtml(); ?>
+                                    <?= $block->getImage($_item, $image)->toHtml(); ?>
                                     <?php if ($productOverlaysHtml): ?>
                                         <?= /* @escapeNotVerified */ $productOverlaysHtml; ?>
                                     <?php endif; ?>
                                 </a>
 
                                 <strong class="product name product-item-name">
-                                    <a class="product-item-link"
-                                       title="<?= $block->escapeHtml($productName); ?>"
-                                       href="<?= $block->escapeUrl($productUrl) ;?>">
+                                    <a href="<?= /* @escapeNotVerified */ $block->getProductUrl($_item) ?>"
+                                       title="<?= /* @escapeNotVerified */ $block->escapeHtml($productName); ?>"
+                                       class="product-item-link">
                                         <?= $block->escapeHtml($productName); ?>
                                     </a>
                                 </strong>
 
                                 <div class="product details product-item-details">
-
                                     <?php if ($showReview && $templateType): ?>
-                                        <?= $block->getReviewsSummaryHtml($_item, $templateType); ?>
+                                        <?=  $block->getReviewsSummaryHtml($_item, $templateType); ?>
                                     <?php endif; ?>
-                                    <?php echo $block->getProductPriceHtml($_item, $type); ?>
-
+                                    <?= $this->getLayout()
+                                        ->createBlock('Ewave\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                                        ->setTemplate('Ewave_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                                        ->setProduct($_item)
+                                        ->toHtml();
+                                    ?>
+                                    <?= $block->getProductPriceHtml($_item, $type); ?>
 
                                     <div class="product-item-inner">
                                         <?php if ($showWishlist || $showCompare || $showCart): ?>
@@ -120,15 +121,18 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                                   data-mage-init='{"validation": {}}'
                                                                   action="<?= $block->escapeUrl($addToCartUrl); ?>"
                                                                   method="post">
-                                                                <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
-                                                                <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
-                                                                <?php echo $block->getBlockHtml('formkey')?>
+                                                                <input type="hidden" name="product"
+                                                                       value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
+                                                                <input type="hidden"
+                                                                       name="<?= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED; ?>"
+                                                                       value="<?= /* @escapeNotVerified */ $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
+                                                                <?= $block->getBlockHtml('formkey')?>
                                                                 <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
-                                                                    <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
+                                                                    <?= /* @escapeNotVerified */ $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
                                                                 <?php endif; ?>
                                                                 <button class="action tocart"
-                                                                        type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                                    <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                                        type="submit" title="<?= /* @escapeNotVerified */ __('Add to Cart') ?>">
+                                                                    <span><?= /* @escapeNotVerified */ __('Add to Cart') ?></span>
                                                                 </button>
                                                             </form>
                                                         <?php
@@ -138,25 +142,25 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                         ?>
                                                         <?php if ($isNotificationForBackorder && $isBackOrderAllow) : ?>
                                                             <script type="text/x-magento-init">
-                                                                    {
-                                                                        "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']": {
-                                                                            "outstockNotification": {
-                                                                                "modal": false,
-                                                                                "notificationForBackorder": true,
-                                                                                "isBackorderProduct": true,
-                                                                                "backorderButtonLabel": "<?= /* @escapeNotVerified */ __('Back-order'); ?>",
-                                                                                "addToCartFormSelector": "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']",
-                                                                                "outofstockHideContainer": false
-                                                                            }
+                                                                {
+                                                                    "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']": {
+                                                                        "outstockNotification": {
+                                                                            "modal": false,
+                                                                            "notificationForBackorder": true,
+                                                                            "isBackorderProduct": true,
+                                                                            "backorderButtonLabel": "<?= /* @escapeNotVerified */ __('Back-order'); ?>",
+                                                                            "addToCartFormSelector": "form[data-product-sku='<?= /* @escapeNotVerified */ $_item->getSku(); ?>']",
+                                                                            "outofstockHideContainer": false
                                                                         }
                                                                     }
-                                                                </script>
+                                                                }
+                                                            </script>
                                                         <?php endif; ?>
                                                         <?php else: ?>
                                                         <?php if ($_item->getIsSalable()): ?>
-                                                            <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+                                                            <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock') ?></span></div>
                                                         <?php else: ?>
-                                                            <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+                                                            <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock') ?></span></div>
                                                         <?php endif; ?>
                                                         <?php endif; ?>
                                                     </div>
@@ -185,18 +189,18 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                 <?php if ($showQuickView): ?>
                                                     <span role="button"
                                                           data-role="quickview-button"
-                                                          data-url="<?php echo $block->escapeUrl($productUrl) . '?quickview=1'; ?>"
+                                                          data-url="<?= $block->escapeUrl($productUrl) . '?quickview=1'; ?>"
                                                           class="quickview-button"
                                                           title="<?= $block->escapeHtml($quickViewLabel); ?>">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
                                                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-quick"></use>
                                                         </svg>
                                                         <span class="title"><?= $block->escapeHtml($quickViewLabel); ?></span>
-                                                    </span>
+                                                </span>
                                                 <?php endif; ?>
                                             </div>
                                         <?php endif; ?>
-                                        <?php echo $this->getLayout()
+                                        <?= $this->getLayout()
                                             ->createBlock('Magento\Cms\Block\Block')
                                             ->setBlockId('product-tile-rent')
                                             ->toHtml();
@@ -205,7 +209,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php endforeach ?>
                 </div>
             </div>
         </div>
@@ -218,9 +222,9 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
             {
                 ".block-new-products": {
                     "quickView": {
-                        "loaderIcon": "<?php echo $block->escapeUrl($this->helper('Ewave\Utilities\Helper\Animation')->getImage()); ?>",
-                        "loaderText": "<?php echo $block->escapeHtml($this->helper('Ewave\Utilities\Helper\Animation')->getText()); ?>",
-                        "isMobileEnabled": "<?php /* @escapeNotVerified */ echo $quickViewUseForMobile ? true : false ?>"
+                        "loaderIcon": "<?= $block->escapeUrl($this->helper('Ewave\Utilities\Helper\Animation')->getImage()); ?>",
+                        "loaderText": "<?= $block->escapeHtml($this->helper('Ewave\Utilities\Helper\Animation')->getText()); ?>",
+                        "isMobileEnabled": "<?= /* @escapeNotVerified */ $quickViewUseForMobile ? true : false ?>"
                     }
                 }
             }

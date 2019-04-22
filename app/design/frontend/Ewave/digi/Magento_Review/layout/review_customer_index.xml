@@ -6,6 +6,7 @@
                 <argument translate="true" name="title" xsi:type="string">Product Reviews</argument>
             </action>
         </referenceBlock>
+        <referenceContainer name="columns" htmlClass="columns -entire" />
         <referenceBlock name="customer_account_navigation_block">
             <arguments>
                 <argument name="block_title" translate="true" xsi:type="string">Product Reviews</argument>

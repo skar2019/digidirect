@@ -47,7 +47,7 @@ class Mail
     /**
      * Transport Builder
      *
-     * @var \Ewave\AI\Model\Magento\Framework\Mail\Template\TransportBuilder
+     * @var \Magento\Framework\Mail\Template\TransportBuilder
      */
     protected $transportBuilder;
 
@@ -58,7 +58,7 @@ class Mail
      * @param \Ewave\AI\Helper\Mail $mailHelper
      * @param \Ewave\AI\Helper\Logger $logHelper
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
-     * @param \Ewave\AI\Model\Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+     * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -66,7 +66,7 @@ class Mail
         \Ewave\AI\Helper\Mail $mailHelper,
         \Ewave\AI\Helper\Logger $logHelper,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
-        \Ewave\AI\Model\Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
+        \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
     ) {
         $this->_logHelper = $logHelper;
         $this->_mailHelper = $mailHelper;
@@ -112,8 +112,18 @@ class Mail
             )
             ->addTo($emails);
 
-        if ($attachLogFile && $log->getLogFile() && file_exists($log->getLogFile())) {
-            $transport->attachFile($log->getLogFile(), basename($log->getLogFile()));
+        $logFile = $log->getLogFile();
+        if ($attachLogFile && $logFile && file_exists($logFile)) {
+            /**
+             * @var $transport \Ewave\Utilities\Preference\Magento\Framework\Mail\Template\TransportBuilder
+             */
+            $transport->createAttachment(
+                file_get_contents($logFile),
+                'application/octet-stream', //we do not use constants: used different Zend libraries in 2.2.7 and 2.3.0
+                'attachment',
+                'base64',
+                basename($logFile)
+            );
         }
 
         $transport->getTransport()->sendMessage();

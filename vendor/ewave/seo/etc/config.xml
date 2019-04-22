@@ -5,6 +5,7 @@
         <ewave_seo>
             <general>
                 <enable_trailing_slash>1</enable_trailing_slash>
+                <enable_contextual_redirects>0</enable_contextual_redirects>
             </general>
         </ewave_seo>
     </default>

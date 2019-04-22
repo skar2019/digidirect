@@ -157,3 +157,8 @@
 * Bugfixes:
     * [#291079](https://ewave.tpondemand.com/entity/291079) -- [Project: DigiDirect] Crash page when go to category without products
     * [#291177](https://ewave.tpondemand.com/entity/291177) -- [Master Configurable Simple] Fatal error is shown if user try to open catalog page
+
+1.5.3
+=============
+* Bugfixes:
+    * [#291731](https://ewave.tpondemand.com/entity/291731) -- [Project: DigiDirect][Category filter][Tablet] No ability to apply sorting setting on Ipad

@@ -126,6 +126,22 @@
         }
     }
 
+    .opc-wrapper.-hide-methods {
+        & {
+            padding-bottom: 35px;
+        }
+
+        .field[name*='company'],
+        .checkout-shipping-method,
+        .field.addresses {
+            display: none;
+        }
+
+        .action.edit-address-link {
+            display: none!important;
+        }
+    }
+
     .opc-block-summary .items-in-cart {
         .product-item,
         .product-item-details {
@@ -150,6 +166,10 @@
             margin-bottom: 0;
             padding-top: 0;
         }
+    }
+
+    .opc-sidebar.shipping-step .opc-block-summary .mark .value {
+        display: none;
     }
 }
 
@@ -215,6 +235,18 @@
     .opc-wrapper,
     .opc-sidebar {
         padding-top: 30px;
+    }
+
+    .opc-wrapper.-hide-methods {
+        & {
+            padding-bottom: 54px;
+            margin-bottom: 29px;
+        }
+
+        .form-shipping-address .field.-telephone {
+            float: none;
+            width: 100%;
+        }
     }
 
     .opc-wrapper .step-title,

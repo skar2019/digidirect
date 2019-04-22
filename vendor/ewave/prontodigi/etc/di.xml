@@ -505,6 +505,8 @@
                                                 <item name="method" xsi:type="string">getOrderComment</item>
                                                 <item name="arguments" xsi:type="array">
                                                     <item name="order" xsi:type="string">{{var order}}</item>
+                                                    <item name="start" xsi:type="string">0</item>
+                                                    <item name="length" xsi:type="string">30</item>
                                                 </item>
                                             </item>
                                         </item>
@@ -515,6 +517,7 @@
                                                 <item name="method" xsi:type="string">getOrderComment</item>
                                                 <item name="arguments" xsi:type="array">
                                                     <item name="order" xsi:type="string">{{var order}}</item>
+                                                    <item name="start" xsi:type="string">30</item>
                                                 </item>
                                             </item>
                                         </item>
@@ -525,6 +528,8 @@
                                                 <item name="method" xsi:type="string">getDeliveryNotes</item>
                                                 <item name="arguments" xsi:type="array">
                                                     <item name="order" xsi:type="string">{{var order}}</item>
+                                                    <item name="start" xsi:type="string">0</item>
+                                                    <item name="length" xsi:type="string">30</item>
                                                 </item>
                                             </item>
                                         </item>
@@ -535,6 +540,7 @@
                                                 <item name="method" xsi:type="string">getDeliveryNotes</item>
                                                 <item name="arguments" xsi:type="array">
                                                     <item name="order" xsi:type="string">{{var order}}</item>
+                                                    <item name="start" xsi:type="string">30</item>
                                                 </item>
                                             </item>
                                         </item>

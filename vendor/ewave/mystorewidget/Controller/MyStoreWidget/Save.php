@@ -144,11 +144,18 @@ class Save extends Index
             if ($this->configHelper->isSearchTypeTextInput()) {
                 $searchText = $this->getRequest()->getParam('store_name');
                 $savedStores = $this->myStoreRepository->saveForTypeTextInput($customerId, $searchText);
+
+                $savedTypes = [];
                 foreach ($savedStores as $store) {
-                    $storeId = $store[AbstractEntityInterface::ENTITY_ID];
                     $type = $store['type'];
-                    $this->myStoreDataHelper->setMyStoreCookie($storeId, $type);
-                    $this->myStoreDataHelper->setAbstractEntityIdInSession($storeId, $type);
+                    if (in_array($type, $savedTypes)) {
+                        continue;
+                    }
+
+                    $savedTypes[] = $type;
+                    $storeId = $store[AbstractEntityInterface::ENTITY_ID];
+                    $this->myStoreDataHelper->setCurrentStore($storeId);
+                    $this->myStoreDataHelper->setCurrentStore($storeId, $type);
                 }
                 $this->myStoreDataHelper->setSearchTextCookie($searchText);
             } else {

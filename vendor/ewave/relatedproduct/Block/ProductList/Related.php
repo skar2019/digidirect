@@ -4,6 +4,7 @@ namespace Ewave\RelatedProduct\Block\ProductList;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection;
+use Magento\Framework\App\ObjectManager;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
@@ -102,7 +103,22 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->_coreRegistry->registry('product');
         if ($product) {
-            $this->_itemCollection = $this->getRelatedProductCollection($product)
+            //Compatibility with the Target Rule extension of Commerce Edition:
+            $relatedIds = [];
+            if ($this->moduleManager->isEnabled('Magento_TargetRule')) {
+                // @codeCoverageIgnoreStart
+                /**
+                 * ObjectManager is used for compatibility with Community Edition
+                 * @var \Magento\TargetRule\Block\Catalog\Product\ProductList\Related $targetRule
+                 */
+                $targetRule = ObjectManager::getInstance()->get(
+                    'Magento\TargetRule\Block\Catalog\Product\ProductList\Related'
+                );
+                $relatedIds = array_keys($targetRule->getItemCollection());
+                // @codeCoverageIgnoreEnd
+            }
+
+            $this->_itemCollection = $this->getRelatedProductCollection($product, $relatedIds)
                 ->addAttributeToSelect($this->_productAttributes)
                 ->setPositionOrder()
                 ->addStoreFilter();
@@ -134,13 +150,21 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
 
     /**
      * @param \Magento\Catalog\Model\Product $product
+     * @param array $relatedIds
      * @return \Ewave\RelatedProduct\Model\ResourceModel\RelatedProduct\Collection
      */
-    public function getRelatedProductCollection(\Magento\Catalog\Model\Product $product)
+    public function getRelatedProductCollection(\Magento\Catalog\Model\Product $product, array $relatedIds = [])
     {
         $linkModel = $product->getLinkInstance()->useRelatedLinks();
-        $collection = $this->_productCollectionFactory->create()->setLinkModel($linkModel);
+        $collection = $this->_productCollectionFactory->create();
         $collection->setIsStrongMode()->setProduct($product);
+
+        if (!empty($relatedIds)) {
+            $collection->addProductsFilter($relatedIds);
+        } else {
+            $collection->setLinkModel($linkModel);
+        }
+
         return $collection;
     }
 

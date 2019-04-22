@@ -175,3 +175,13 @@
 * Bugfixes:
     * [#295252](https://ewave.tpondemand.com/entity/295252) -- [Project: DigiDirect] Promo item's label and name are displayed for all products while it is applied for particular product
 
+1.10.5
+=============
+* Bugfixes:
+    * [#296111](https://ewave.tpondemand.com/entity/296111) -- [Project: Rip Curl][MCOM+FreeGift][Staff] No error message for staff customers when product is not available in warehouse
+
+1.10.6
+=============
+* Bugfixes:
+    * [#298789](https://ewave.tpondemand.com/entity/298789) -- [Project:RipCurl][Free gift] Old simple product price equal 0 instead of correct price on free gift pop-up
+    * [#298795](https://ewave.tpondemand.com/entity/298795) -- [Project:Rip Curl][Checkout][Step 2] Error in console when applied promocode was canceled

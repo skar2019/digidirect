@@ -52,3 +52,10 @@ Improvements:
 Bugfix:
 
 * [#290367](https://ewave.tpondemand.com/entity/290367) - [Project: Rip Curl][PDP][IE] Star icons are missing in 'Reviews' section of the product
+
+1.3.2
+=============
+
+Bugfix:
+
+* [#296965](https://ewave.tpondemand.com/entity/296965) - [M2.3.1.] There is an error during static-content:deploy

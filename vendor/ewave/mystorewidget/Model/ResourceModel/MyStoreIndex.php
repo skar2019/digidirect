@@ -106,7 +106,10 @@ class MyStoreIndex extends AbstractDb
                 $columns[] = $fulltextColumn;
             }
         }
-        $connection->query("ALTER TABLE $table ADD FULLTEXT (" . implode(', ', $columns) . ")");
+
+        if (!empty($columns)) {
+            $connection->query("ALTER TABLE $table ADD FULLTEXT (" . implode(', ', $columns) . ")");
+        }
 
         foreach ($this->rangeAttributes as $rangeAttribute) {
             if (isset($tableStructure[$rangeAttribute])) {

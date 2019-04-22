@@ -7,7 +7,7 @@
                 <products_get_uri>stock-master?call-type=full_enquiry</products_get_uri>
             </api_products>
             <api_inventory>
-                <inventory_get_uri>stock-master?call-type=full_enquiry</inventory_get_uri>
+                <inventory_get_uri><![CDATA[stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-max]]></inventory_get_uri>
             </api_inventory>
             <api_order>
                 <order_post_uri>sales?call-type=create_orders</order_post_uri>
