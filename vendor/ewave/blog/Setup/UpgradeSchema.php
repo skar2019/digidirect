@@ -11,6 +11,7 @@ use Ewave\Blog\Api\Data\PostInterface;
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
+use Ewave\Blog\Api\Data\TagInterface;
 
 /**
  * Class UpgradeSchema
@@ -57,6 +58,15 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if (version_compare($context->getVersion(), '1.0.6', '<')) {
             $this->modifyCreatedAtFieldInPosts($setup);
             $this->addDateFieldsToCategoriesAndPosts($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.7', '<')) {
+            $this->addColumnToPostInformationForStoreView($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.8', '<')) {
+            $this->updateBlogPostTagTable($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.9', '<')) {
+            $this->updatePostTagsTableForStoreView($setup);
         }
 
         $setup->endSetup();
@@ -113,10 +123,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function getDateFieldparams($comment)
     {
         return [
-            'type'     => Table::TYPE_TIMESTAMP,
+            'type' => Table::TYPE_TIMESTAMP,
             'nullable' => false,
-            'default'  => Table::TIMESTAMP_INIT,
-            'comment'  => $comment,
+            'default' => Table::TIMESTAMP_INIT,
+            'comment' => $comment,
         ];
     }
 
@@ -370,7 +380,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         return $this;
     }
-       
+
     /**
      * @param string $priTableName
      * @param string $priColumnName
@@ -422,6 +432,164 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $setup->getConnection()->dropColumn($setup->getTable(PostInterface::EWAVE_BLOG_POST_TABLE), $column);
         }
 
+        return $this;
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    protected function addColumnToPostInformationForStoreView($setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE),
+            'url_key',
+            [
+                'type' => Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => false,
+                'comment' => 'URL key'
+            ]
+        );
+        $setup->getConnection()->addColumn(
+            $setup->getTable(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE),
+            'status',
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'comment' => 'Status'
+            ]
+        );
+
+        $this->movePostColumnsValueToInformationTable($setup);
+        return $this;
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    protected function movePostColumnsValueToInformationTable($setup)
+    {
+        $columns = [
+            'url_key',
+            'status'
+        ];
+        $adapter = $setup->getConnection();
+        $tableDescription = $adapter->describeTable(PostInterface::EWAVE_BLOG_POST_TABLE);
+        $fieldsToSelect = array_keys($tableDescription);
+        $fieldsToSelect = array_intersect($columns, $fieldsToSelect);
+        if (!empty($fieldsToSelect)) {
+            $fieldsToSelect[] = PostInterface::FIELD_ID;
+            $select = $adapter->select()
+                ->from(PostInterface::EWAVE_BLOG_POST_TABLE)
+                ->reset(\Zend_Db_Select::COLUMNS)
+                ->columns($fieldsToSelect);
+            $result = $adapter->fetchAll($select);
+            $oldData = [];
+            foreach ($result as $row) {
+                $key = $row[PostInterface::FIELD_ID];
+                unset($row[PostInterface::FIELD_ID]);
+                $oldData[$key] = $row;
+            }
+
+            $select = $adapter->select()
+                ->from(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE)
+                ->reset(\Zend_Db_Select::COLUMNS)
+                ->columns([
+                    PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID,
+                    PostContentInterface::STORE_ID,
+                    PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_URL_KEY,
+                    PostInterface::FIELD_STATUS
+                ]);
+            $result = $adapter->fetchAll($select);
+            foreach ($result as $key => &$row) {
+                $newData = !empty($oldData[$row[PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID]])
+                    ? $oldData[$row[PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID]]
+                    : [];
+                if (empty($newData)) {
+                    unset($result[$key]);
+                }
+                $row = array_merge($row, $newData);
+            }
+            $adapter->insertOnDuplicate(
+                PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
+                $result,
+                $columns
+            );
+
+            foreach ($columns as $column) {
+                $setup->getConnection()->dropColumn(
+                    $setup->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+                    $column
+                );
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    protected function updateBlogPostTagTable($setup)
+    {
+        $setup->getConnection()->addIndex(
+            TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+            $setup->getIdxName(
+                TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+                ['post_id']
+            ),
+            ['post_id']
+        );
+        return $this;
+    }
+
+    /**
+     * @param SchemaSetupInterface $setup
+     * @return $this
+     */
+    protected function updatePostTagsTableForStoreView($setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable(TagInterface::EWAVE_BLOG_POST_TAG_TABLE),
+            'store_id',
+            [
+                'type' => Table::TYPE_SMALLINT,
+                'length' => 5,
+                'nullable' => false,
+                'unsigned' => true,
+                'comment' => 'Store Id'
+            ]
+        );
+
+        $setup->getConnection()->dropIndex(
+            TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+            'primary'
+        );
+
+        $setup->getConnection()->addIndex(
+            TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+            $setup->getIdxName(
+                TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+                ['post_id', 'tag_id', 'store_id']
+            ),
+            ['post_id', 'tag_id', 'store_id'],
+            AdapterInterface::INDEX_TYPE_PRIMARY
+        );
+
+        $setup->getConnection()->addForeignKey(
+            $setup->getFkName(
+                TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+                'store_id',
+                'store',
+                'store_id'
+            ),
+            TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+            'store_id',
+            'store',
+            'store_id'
+        );
         return $this;
     }
 }

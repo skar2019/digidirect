@@ -13,6 +13,9 @@
         <plugin name="Ewave_ProductOverlay::AddProductToData"
                 type="Ewave\ProductOverlay\Plugin\Catalog\Product\ImageBuilder"/>
     </type>
+    <type name="Magento\Catalog\Block\Product\AbstractProduct">
+        <plugin name="Ewave_ProductOverlay::AddProductToImageBlockData" type="Ewave\ProductOverlay\Plugin\Catalog\Block\Product\AbstractProductPlugin" />
+    </type>
     <preference for="Magento\Swatches\Block\Product\Renderer\Configurable" type="Ewave\ProductOverlay\Preference\Magento\Swatches\Block\Product\Renderer\Configurable" />
     <preference for="Magento\Swatches\Block\Product\Renderer\Listing\Configurable" type="Ewave\ProductOverlay\Preference\Magento\Swatches\Block\Product\Renderer\Listing\Configurable" />
 </config>

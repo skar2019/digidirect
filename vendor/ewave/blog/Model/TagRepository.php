@@ -2,12 +2,18 @@
 
 namespace Ewave\Blog\Model;
 
+use Ewave\Blog\Api\Data\PostInterface;
 use Ewave\Blog\Api\Data\TagInterface;
 use Ewave\Blog\Api\TagRepositoryInterface;
 use Ewave\Blog\Model\ResourceModel\Tag;
 use Ewave\Blog\Model\TagFactory;
 use Ewave\Blog\Model\ResourceModel\Tag\CollectionFactory;
 use Magento\Store\Model\Store;
+use Ewave\Blog\Sql\TagSave;
+use Magento\Framework\App\ObjectManager;
+use Ewave\Blog\Model\CurrentStoreFetcher;
+use Ewave\Blog\Api\PostRepositoryInterface;
+use Ewave\Blog\Model\Config\Provider\Status;
 
 class TagRepository implements TagRepositoryInterface
 {
@@ -37,20 +43,45 @@ class TagRepository implements TagRepositoryInterface
     protected $tagsByPostId = [];
 
     /**
+     * @var TagSave
+     */
+    protected $tagSave;
+
+    /**
+     * @var CurrentStoreFetcher
+     */
+    protected $currentStoreFetcher;
+
+    /**
+     * @var PostRepositoryInterface
+     */
+    protected $postRepository;
+
+    /**
      * TagRepository constructor.
-     *
      * @param Tag $resourceModel
      * @param \Ewave\Blog\Model\TagFactory $modelFactory
      * @param CollectionFactory $collectionFactory
+     * @param TagSave|null $tagSave
+     * @param \Ewave\Blog\Model\CurrentStoreFetcher|null $currentStoreFetcher
+     * @param PostRepositoryInterface|null $postRepository
      */
     public function __construct(
         Tag $resourceModel,
         TagFactory $modelFactory,
-        CollectionFactory $collectionFactory
+        CollectionFactory $collectionFactory,
+        TagSave $tagSave = null,
+        CurrentStoreFetcher $currentStoreFetcher = null,
+        PostRepositoryInterface $postRepository = null
     ) {
         $this->resourceModel = $resourceModel;
         $this->modelFactory = $modelFactory;
         $this->collectionFactory = $collectionFactory;
+        $this->tagSave = $tagSave ?:
+            ObjectManager::getInstance()->get(TagSave::class);
+        $this->currentStoreFetcher = $currentStoreFetcher ?:
+            ObjectManager::getInstance()->get(CurrentStoreFetcher::class);
+        $this->postRepository = $postRepository ?: ObjectManager::getInstance()->get(PostRepositoryInterface::class);
     }
 
     /**
@@ -73,27 +104,18 @@ class TagRepository implements TagRepositoryInterface
      */
     public function getRandomTags($storeId)
     {
-        $stores = [Store::DEFAULT_STORE_ID, $storeId];
+        $postAvailable = $this->postRepository->getPostList(Status::STATUS_ENABLED, $storeId);
+        $tags = [];
+        foreach ($postAvailable as $post) {
+            if ($post->getTags()) {
+                $tags = array_merge($tags, $post->getTags());
+            }
+        }
+
         /** @var Tag\Collection $collection */
         $collection = $this->collectionFactory->create();
         $collection->getSelect()
-            ->joinInner(
-                ['tag_rel' => $this->resourceModel->getTable('ewave_blog_post_tags')],
-                'main_table.entity_id = tag_rel.tag_id',
-                []
-            )
-            ->joinInner(
-                ['post_cat_rel' => $this->resourceModel->getTable('ewave_blog_post_categories')],
-                'post_cat_rel.post_id = tag_rel.post_id',
-                []
-            )
-            ->joinInner(
-                ['cat_store_rel' => $this->resourceModel->getTable('ewave_blog_category_stores')],
-                'cat_store_rel.category_id = post_cat_rel.category_id',
-                []
-            )
-            ->where('cat_store_rel.store_id IN (?)', $stores)
-            ->group('main_table.entity_id')
+            ->where('main_table.name in (?)', array_unique($tags))
             ->order((new \Zend_Db_Expr('RAND()')));
         return $collection;
     }
@@ -105,11 +127,20 @@ class TagRepository implements TagRepositoryInterface
     public function getTagsByPostId($postId)
     {
         if (!isset($this->tagsByPostId[$postId])) {
+            $storeId = $this->currentStoreFetcher->getCurrentStoreId();
+            if (!$this->tagSave->hasStoreViewContent($postId, $storeId)) {
+                $storeId = Store::DEFAULT_STORE_ID;
+            }
+
             $collection = $this->collectionFactory->create();
             $collection->getSelect()->joinInner(
                 ['rel' => Tag::TAG_POST_RELATION_TABLE],
                 'main_table.entity_id = rel.tag_id'
-            )->where('rel.post_id = ?', (int)$postId);
+            );
+
+            $collection->getSelect()
+                ->where('rel.post_id = ?', (int)$postId)
+            ->where('rel.store_id = ?', (int)$storeId);
             $this->tagsByPostId[$postId] = $collection;
         }
         return $this->tagsByPostId[$postId];

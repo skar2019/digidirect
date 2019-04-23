@@ -87,6 +87,10 @@ class Save extends AbstractSaveAction
                     'blog_category_prepare_save',
                     ['model' => $model, 'request' => $this->getRequest()]
                 );
+
+                if(!$model->getId()) {
+                    $model->setData('is_new_category', true);
+                }
                 $this->categoryRepository->save($model);
 
                 $this->messageManager->addSuccessMessage(__('You saved category'));

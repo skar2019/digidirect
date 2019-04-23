@@ -2,7 +2,7 @@
   "name": "ewave/cms-upgrade",
   "description": "Upgrade cms data",
   "type": "magento2-module",
-  "version": "1.2.7.0",
+  "version": "1.2.8.0",
   "suggest": {
     "ewave/utilities": "Ewave CmsUpgrade may use ewave/utilities methods"
   },

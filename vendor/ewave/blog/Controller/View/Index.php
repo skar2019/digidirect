@@ -116,6 +116,9 @@ class Index extends Action
     protected function addBreadCrumbs(\Magento\Framework\View\Result\Page $page, \Ewave\Blog\Model\Post $post)
     {
         $breadcrumbs = $page->getLayout()->getBlock('breadcrumbs');
+        if(!$breadcrumbs) {
+            return;
+        }
         $breadcrumbs->addCrumb(
             'home',
             [

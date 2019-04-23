@@ -150,6 +150,15 @@ class Router implements RouterInterface
 
             $parts = explode('/', $urlKey);
             $urlKey = $this->prepareUrlKey($urlKey, $parts);
+
+            if ($this->isCategoryRoot($urlKey)) {
+                return $this->setRedirect($request, self::LIST_CONTROLLER, $urlKey);
+            }
+
+            if ($this->isBlogIndexRoute($urlKey)) {
+                return $this->setRedirect($request, self::LIST_CONTROLLER, $urlKey);
+            }
+
             if ($urlKeyCat = $this->getCategoryPath($origUrlKey, $parts)) {
                 $catId = $this->categoryRepository->getCategoryIdByUrlKey(
                     $urlKeyCat,
@@ -180,6 +189,26 @@ class Router implements RouterInterface
             }
         }
         return null;
+    }
+
+    /**
+     * @param string $urlKey
+     *
+     * @return bool
+     */
+    protected function isCategoryRoot(string $urlKey)
+    {
+        return $urlKey === $this->dataHelper->getGeneralSettingsConfig('cat_prefix');
+    }
+
+    /**
+     * @param string $urlKey
+     *
+     * @return bool
+     */
+    protected function isBlogIndexRoute(string $urlKey)
+    {
+        return $urlKey === $this->dataHelper->getGeneralSettingsConfig('list_url');
     }
 
     /**

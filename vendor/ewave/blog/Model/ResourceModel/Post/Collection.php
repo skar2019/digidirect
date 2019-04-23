@@ -198,24 +198,22 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      */
     protected function loadTags()
     {
-        $tableName = Tag::TAG_POST_RELATION_TABLE;
-        $linkField = 'post_id';
         $linkedIds = $this->getColumnValues('entity_id');
+        $storeId = $this->currentStoreFetcher->getCurrentStoreId();
         if (!empty($linkedIds)) {
-            $connection = $this->getConnection();
-            $select = $connection->select()
-                ->from(['tag_relation' => $this->getTable($tableName)], ['tag_relation.post_id'])
-                ->joinLeft(
-                    ['tag' => $this->getTable('ewave_blog_tags')],
-                    'tag_relation.tag_id = tag.entity_id',
-                    ['tag_name' => 'name']
-                )
-                ->where('tag_relation.' . $linkField . ' IN (?)', $linkedIds);
-            $result = $connection->fetchAll($select);
+            $result = $this->getTagsByPosts($linkedIds, $this->currentStoreFetcher->getCurrentStoreId());
             $tags = [];
             foreach ($result as $tagData) {
                 $tags[$tagData['post_id']][] = $tagData['tag_name'];
             }
+            if ($storeId != Store::DEFAULT_STORE_ID) {
+                $linkedIds = array_diff($linkedIds, array_keys($tags));
+                $result = $this->getTagsByPosts($linkedIds);
+                foreach ($result as $tagData) {
+                    $tags[$tagData['post_id']][] = $tagData['tag_name'];
+                }
+            }
+
             foreach ($this as $item) {
                 if (isset($tags[$item->getId()])) {
                     $item->setData('tags', $tags[$item->getId()]);
@@ -225,6 +223,28 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             }
         }
         return $this;
+    }
+
+    /**
+     * @param array $linkedIds
+     * @param int $storeId
+     * @param string $linkField
+     * @return array
+     */
+    protected function getTagsByPosts($linkedIds, $storeId = Store::DEFAULT_STORE_ID, $linkField = 'post_id')
+    {
+        $tableName = Tag::TAG_POST_RELATION_TABLE;
+        $connection = $this->getConnection();
+        $select = $connection->select()
+            ->from(['tag_relation' => $this->getTable($tableName)], ['tag_relation.post_id'])
+            ->joinLeft(
+                ['tag' => $this->getTable('ewave_blog_tags')],
+                'tag_relation.tag_id = tag.entity_id',
+                ['tag_name' => 'name']
+            )
+            ->where('tag_relation.' . $linkField . ' IN (?)', $linkedIds)
+            ->where('tag_relation.store_id = ?', $storeId);
+        return $connection->fetchAll($select);
     }
 
     /**
@@ -267,6 +287,32 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
         $this->getSelect()->where(
             $expr
+        );
+        return $this;
+    }
+
+    /**
+     * @param int $status
+     * @return $this
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function addFilterByStatus($status = Status::STATUS_ENABLED)
+    {
+        if (!$this->currentStoreFetcher->getIsDefault()) {
+            $statusExp = sprintf(
+                PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.status = "%s"',
+                $status
+            );
+            $expr = $this->getConnection()->getIfNullSql(
+                $statusExp,
+                PostInformationJoin::DEFAULT_STORE_COLUMN_PREFIX . $statusExp
+            );
+            $this->getSelect()->where($expr);
+            return $this;
+        }
+        $this->addFieldToFilter(
+            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE.'.' . PostInterface::FIELD_STATUS,
+            $status
         );
         return $this;
     }
@@ -319,12 +365,44 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
      */
     public function addFilterByTagId($tagId)
     {
-        $this->getSelect()->joinInner(
-            ['tag_rel' => $this->getTable(Tag::TAG_POST_RELATION_TABLE)],
-            'main_table.entity_id = tag_rel.post_id',
-            []
-        )->where('tag_rel.tag_id = ?', (int)$tagId);
+        $storeId = $this->currentStoreFetcher->getCurrentStoreId();
+        /** get all posts with current store configurations */
+        $postsByCurrentStore = $this->selectPostTagsByCondition(['tag_relation.store_id' => ['eq' => $storeId]]);
+        $defoultConditions = [
+            'tag_relation.store_id' => ['eq' => Store::DEFAULT_STORE_ID],
+            'tag_relation.tag_id' => ['eq' => $tagId]
+        ];
+        if (!empty($postsByCurrentStore)) {
+            /** exclude posts for current store */
+            $defoultConditions['tag_relation.post_id'] = ['nin' => $postsByCurrentStore];
+        }
+        $postsByDefaultStore = $this->selectPostTagsByCondition($defoultConditions);
+
+        /** get post by tag id for current store */
+        $postsByCurrentStore = $this->selectPostTagsByCondition([
+            'tag_relation.store_id' => ['eq' => $storeId],
+            'tag_relation.tag_id' => ['eq' => $tagId]
+        ]);
+        $postIds = array_merge($postsByCurrentStore, $postsByDefaultStore);
+        $this->getSelect()->where('main_table.entity_id IN (?)', $postIds);
         return $this;
+    }
+
+    /**
+     * @param array $conditions
+     * @return array
+     */
+    public function selectPostTagsByCondition($conditions)
+    {
+        $tableName = Tag::TAG_POST_RELATION_TABLE;
+        $connection = $this->getConnection();
+        $select = $connection->select()
+            ->from(['tag_relation' => $this->getTable($tableName)], ['tag_relation.post_id']);
+        foreach ($conditions as $fieldName => $condition) {
+            $condition = $connection->prepareSqlCondition($fieldName, $condition);
+            $select->where($condition);
+        }
+        return $connection->fetchCol($select);
     }
 
     /**

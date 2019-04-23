@@ -215,6 +215,7 @@
                     <item name="dataType" xsi:type="string">date</item>
                     <item name="label" xsi:type="string" translate="true">Publish Date</item>
                     <item name="dateFormat" xsi:type="string">MMM dd, YYYY</item>
+                    <item name="timezone" xsi:type="boolean">false</item>
                 </item>
             </argument>
         </column>

@@ -6,9 +6,14 @@ use Ewave\Blog\Api\Data\PostContentInterface;
 use Ewave\Blog\Model\CurrentStoreFetcher;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
+use Magento\Store\Model\Store;
 
 class PostInformationSave extends AbstractDb implements InformationSaveInterface, CurrentStoreContentCheckerInterface
 {
+    const POST_IS_NEW = 'post_is_new';
+    const STATUS_DISABLED = 0;
+    const STATUS_ENABLED = 1;
+
     /**
      * @var CurrentStoreFetcher
      */
@@ -74,7 +79,30 @@ class PostInformationSave extends AbstractDb implements InformationSaveInterface
                 unset($data[$key]);
             }
         }
+        $this->saveInformationSql($data);
 
+        if($entity->getData(static::POST_IS_NEW)) {
+            $storeToSave = $data[PostContentInterface::STORE_ID] ?? Store::DEFAULT_STORE_ID;
+            /**
+             * If post is new and it is being saved not for default store view
+             * we need to save it in default store view with disabled status
+             */
+            if($storeToSave != Store::DEFAULT_STORE_ID) {
+                $data[PostContentInterface::STORE_ID] = Store::DEFAULT_STORE_ID;
+                $data['status'] = static::STATUS_DISABLED;
+                $this->saveInformationSql($data);
+            }
+        }
+
+        return;
+    }
+
+    /**
+     * @param [] $data
+     * @return void
+     */
+    private function saveInformationSql($data)
+    {
         $this->getConnection()->insertOnDuplicate(
             $this->getMainTable(),
             [

@@ -7,6 +7,7 @@ use Ewave\Blog\Model\CurrentStoreFetcher;
 use Ewave\Blog\Model\ResourceModel\Category;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
+use Magento\Store\Model\Store;
 
 class CategoryInformationSave extends AbstractDb implements InformationSaveInterface,
  CurrentStoreContentCheckerInterface, IfNullProcessorInterface
@@ -61,7 +62,6 @@ class CategoryInformationSave extends AbstractDb implements InformationSaveInter
             $data[$key] = $value;
         }
 
-        $table = $this->getConnection()->describeTable($this->getMainTable());
         $columns = $this->getConnection()->describeTable($this->getMainTable());
 
         foreach ($data as $key => $value) {
@@ -69,7 +69,29 @@ class CategoryInformationSave extends AbstractDb implements InformationSaveInter
                 unset($data[$key]);
             }
         }
+        $this->saveInformationSql($data);
 
+        if($entity->getIsNewCategory()) {
+            $storeToSave = $data[CategoryContentInterface::STORE_ID] ?? Store::DEFAULT_STORE_ID;
+            /**
+             * If category is new and it is being saved not for default store view
+             * we need to save it in default store view with disabled status
+             */
+            if($storeToSave != Store::DEFAULT_STORE_ID) {
+                $data[CategoryContentInterface::STORE_ID] = Store::DEFAULT_STORE_ID;
+                $data['status'] = 0;
+                $this->saveInformationSql($data);
+            }
+        }
+        return;
+    }
+
+    /**
+     * @param [] $data
+     * @return void
+     */
+    private function saveInformationSql($data)
+    {
         $this->getConnection()->insertOnDuplicate(
             $this->getMainTable(),
             [

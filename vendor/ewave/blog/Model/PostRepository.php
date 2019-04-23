@@ -13,6 +13,7 @@ use Magento\Framework\Stdlib\DateTime\DateTime;
 use Ewave\Blog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Stdlib\DateTime\Filter\Date;
+use Ewave\Blog\Api\Data\PostContentInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -138,7 +139,11 @@ class PostRepository implements PostRepositoryInterface
         $item->setData(PostInterface::FIELD_UPDATED_AT, $this->dateTime->gmtDate());
         $this->resourceModel->save($item);
         $this->resourceModel->updateCategories($item->getId(), $item->getCategoryId());
-        $this->resourceModel->updateTags($item->getId(), $item->getTags());
+        $this->resourceModel->updateTags(
+            $item->getId(),
+            $item->getTags(),
+            $item->getData(PostContentInterface::STORE_ID)
+        );
         if (is_array($relatedPosts)) {
             $this->resourceModel->updateRelatedPosts($item->getId(), $relatedPosts);
         }
@@ -155,7 +160,7 @@ class PostRepository implements PostRepositoryInterface
      */
     public function getPostIdByUrlKey($urlKey, $storeId)
     {
-        return $this->resourceModel->loadPostIdByUrlKey($urlKey, [Store::DEFAULT_STORE_ID, $storeId]);
+        return $this->resourceModel->loadPostIdByUrlKey($urlKey, $storeId);
     }
 
     /**
@@ -178,7 +183,7 @@ class PostRepository implements PostRepositoryInterface
         }
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();
-        $collection->addFieldToFilter('main_table.' . PostInterface::FIELD_STATUS, $status);
+        $collection->addFilterByStatus($status);
         $collection->addFieldToFilter(PostInterface::FIELD_PUBLISH_DATE, [$publishDateCondition => $publishDate]);
         $collection->addFilterByCategoriesStore($store);
         $collection->getSelect()->group('main_table.entity_id');

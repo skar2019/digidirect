@@ -10,7 +10,11 @@
         <ul class="list">
             <?php foreach ($block->getTags() as $tag): ?>
                 <li class="item">
-                    <a class="link" href="<?php echo $block->escapeUrl($tag->getUrl()) ?>" title="#<?php echo $block->escapeHtml($tag->getName()) ?>">#<?php echo $block->escapeHtml($tag->getName()) ?></a>
+                    <a class="link<?php echo $block->isCurrentTag($tag) ? ' -active' : '' ?>"
+                       href="<?php echo $block->escapeUrl($tag->getUrl()) ?>"
+                       title="#<?php echo $block->escapeHtml($tag->getName()) ?>">
+                        #<?php echo $block->escapeHtml($tag->getName()) ?>
+                    </a>
                 </li>
             <?php endforeach; ?>
         </ul>

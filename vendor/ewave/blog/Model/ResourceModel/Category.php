@@ -10,6 +10,10 @@ use Ewave\Blog\Sql\CategoryInformationJoin;
 use Ewave\Blog\Sql\CategoryInformationSave;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
+use Ewave\Blog\Sql\PostInformationJoin;
+use Magento\Framework\App\ObjectManager;
+use Ewave\Blog\Api\Data\PostContentInterface;
+use Magento\Store\Model\Store;
 
 /**
  * Class Category
@@ -36,24 +40,32 @@ class Category extends AbstractDb
     protected $saveStoreInformation;
 
     /**
+     * @var PostInformationJoin
+     */
+    protected $postJoin;
+
+    /**
      * Category constructor.
-     *
      * @param Context $context
      * @param CurrentStoreFetcher $currentStoreFetcher
      * @param CategoryInformationJoin $categoryInformationJoin
      * @param CategoryInformationSave $categoryInformationSave
      * @param null $connectionName
+     * @param PostInformationJoin|null $postJoin
      */
     public function __construct(
         Context $context,
         CurrentStoreFetcher $currentStoreFetcher,
         CategoryInformationJoin $categoryInformationJoin,
         CategoryInformationSave $categoryInformationSave,
-        $connectionName = null
+        $connectionName = null,
+        PostInformationJoin $postJoin = null
     ) {
         $this->saveStoreInformation = $categoryInformationSave;
         $this->joinStoreInformation = $categoryInformationJoin;
         $this->storeFetcher = $currentStoreFetcher;
+        $this->postJoin = $postJoin ?:
+            ObjectManager::getInstance()->get(PostInformationJoin::class);
         parent::__construct($context, $connectionName);
     }
 
@@ -154,9 +166,11 @@ class Category extends AbstractDb
 
     /**
      * @param int $categoryId
+     * @param int $storeId
      * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getCountPostsByCategoryId($categoryId)
+    public function getCountPostsByCategoryId($categoryId, $storeId)
     {
         $connection = $this->getConnection();
         $select = $connection
@@ -166,8 +180,21 @@ class Category extends AbstractDb
                 ['post' => $this->getTable(PostInterface::EWAVE_BLOG_POST_TABLE)],
                 'rel.post_id = post.entity_id',
                 []
-            )
-            ->where('post.status = ?', Status::STATUS_ENABLED)
+            );
+
+        $this->postJoin->join($select, $storeId, 'post');
+        $statusExp = sprintf(
+            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.status = "%s"',
+            Status::STATUS_ENABLED
+        );
+        if ($storeId != Store::DEFAULT_STORE_ID) {
+            $this->postJoin->joinDefault($select, Store::DEFAULT_STORE_ID, 'post');
+            $statusExp = $this->getConnection()->getIfNullSql(
+                $statusExp,
+                PostInformationJoin::DEFAULT_STORE_COLUMN_PREFIX . $statusExp
+            );
+        }
+        $select->where($statusExp)
             ->where('post.publish_date <= NOW()')
             ->where('rel.category_id = ?', (int)$categoryId);
         return $connection->fetchOne($select);

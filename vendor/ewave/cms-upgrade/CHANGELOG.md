@@ -68,3 +68,9 @@
 * Improvements:
     * Insert last updated version into database table if version was not presented in database
     * Banner attributes are updated in database if images serialization are failed 
+
+1.2.8
+=============
+* Bugfixes:
+    * [#300503](https://ewave.tpondemand.com/entity/300503) -- [Magento 2.3.1][CMS Upgrade] Widget is not created after upgrading
+

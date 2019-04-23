@@ -49,6 +49,16 @@ class CategoryRepository implements CategoryRepositoryInterface
     protected $storeFetcher;
 
     /**
+     * @var array
+     */
+    private $categoryByUrlKeyAndStore = [];
+
+    /**
+     * @var array
+     */
+    private $countPostsByCategoryId = [];
+
+    /**
      * CategoryRepository constructor.
      *
      * @param Category $resourceModel
@@ -106,7 +116,7 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function deleteById($id)
     {
-        if ($this->resourceModel->getCountPostsByCategoryId($id)) {
+        if ($this->getCountPostsByCategoryId($id)) {
             throw new LocalizedException(__('The category can\'t be deleted. Please unassign Posts and try again.'));
         }
         $result = $this->resourceModel->delete($this->getById($id));
@@ -134,16 +144,33 @@ class CategoryRepository implements CategoryRepositoryInterface
      */
     public function getCategoryIdByUrlKey($urlKey, $storeId)
     {
-        return $this->resourceModel->loadCategoryIdByUrlKey($urlKey, [Store::DEFAULT_STORE_ID, $storeId]);
+        $cacheKey = $urlKey . $storeId;
+        if(!isset($this->categoryByUrlKeyAndStore[$cacheKey])) {
+            $this->categoryByUrlKeyAndStore[$cacheKey] = $this->resourceModel->loadCategoryIdByUrlKey(
+                $urlKey,
+                [Store::DEFAULT_STORE_ID, $storeId]
+            );
+        }
+
+        return $this->categoryByUrlKeyAndStore[$cacheKey] ?? null;
     }
 
     /**
      * @param int $categoryId
-     * @return string
+     * @param int $storeId
+     * @return mixed|string
+     * @throws LocalizedException
      */
-    public function getCountPostsByCategoryId($categoryId)
+    public function getCountPostsByCategoryId($categoryId, $storeId = Store::DEFAULT_STORE_ID)
     {
-        return $this->resourceModel->getCountPostsByCategoryId($categoryId);
+        $cacheKey = $categoryId . $storeId;
+        if(!isset($this->countPostsByCategoryId[$cacheKey])) {
+            $this->countPostsByCategoryId[$cacheKey] = $this->resourceModel->getCountPostsByCategoryId(
+                $categoryId,
+                $storeId
+            );
+        }
+        return $this->countPostsByCategoryId[$cacheKey] ?? 0;
     }
 
     /**

@@ -9,6 +9,7 @@ use Ewave\Blog\Model\CurrentStoreFetcher;
 use Ewave\Blog\Model\PostFactory;
 use Ewave\Blog\Model\PostRepository;
 use Ewave\Blog\Model\UrlModel;
+use Ewave\Blog\Sql\PostInformationSave;
 use Magento\Backend\App\Action;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\SerializerInterface;
@@ -93,6 +94,11 @@ class Save extends AbstractSaveAction
                 if (!$model->getId() && $id) {
                     throw new LocalizedException(__('This post no longer exists.'));
                 }
+
+                if(!$model->getId()) {
+                    $model->setData(PostInformationSave::POST_IS_NEW, true);
+                }
+
                 $this->extractPostData($model, $postData);
                 $this->urlModel->prepareUrlKey($model, 'title');
                 $this->_eventManager->dispatch(

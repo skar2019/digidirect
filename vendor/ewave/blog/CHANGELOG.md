@@ -114,4 +114,30 @@
     * [#290411](https://ewave.tpondemand.com/entity/290411) -- [Blog] Counter is calculated posts which have Publish Date > current
     * [#290425](https://ewave.tpondemand.com/entity/290425) -- [BLOG CATEGORIES WIDGET FRONTEND] Sorting for child category doesn't work
     * [#291644](https://ewave.tpondemand.com/entity/291644) -- [BLOG CATEGORIES WIDGET FRONTEND] HTTP ERROR 500 in case open blog post from blog category widget
-    * [#292508](https://ewave.tpondemand.com/entity/292508) -- [PROJECT: CONVERSE] ewave/blog error	
+    * [#292508](https://ewave.tpondemand.com/entity/292508) -- [PROJECT: CONVERSE] ewave/blog error
+
+2.2.2
+====================
+* Bugfixes:
+    * [#292427](https://ewave.tpondemand.com/entity/292427) -- [LEGO][Blog][Blog Post Listing] Tag of the currently opened tag listing page is not highlighted
+
+2.3.0
+===================
+* New features:
+    * [#293001](https://tp.ewave.com/293001) -- [BLOG TRANSLATION] As an admin, I want Blog settings to be updgraded
+	
+2.3.1
+===================
+* Bugfixes:
+    * [#292586](https://ewave.tpondemand.com/entity/292586) -- [Project: Rip Curl][Back-office][Ewave Blog] Publish date of the blog posts in the grid 'Manage Blog Posts' doesn't match the publish date of the post items	
+
+2.4.0
+===================
+* New features:
+    * [#294888](https://tp.ewave.com/294888) -- [CONTEXTUAL 301 REDIRECTS] As an admin, I want contextual 301 redirects configuration to be available in Blog module
+	
+2.4.1
+===================
+* Bugfixes:
+    * [#294253](https://ewave.tpondemand.com/entity/294253) -- [Project: DigiDirect] Ewave_Blog module doesn't have verification for Breadcrumps module
+    * [#297756](https://ewave.tpondemand.com/entity/297756) -- [Project: Rip Curl][Translate Blog][Back-office] Categories/Posts created only for a certain store view are not displayed in the corresponding grids in the back-office	

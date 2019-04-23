@@ -137,3 +137,9 @@
 ==============
 * New features:
     * [#286981](https://ewave.tpondemand.com/entity/286981) -- As an admin, I want to be able to specify a Product Overlay for a Catalog Price Rule
+
+2.2.1
+===============
+* Bugfixes:
+    * [#297285](https://ewave.tpondemand.com/entity/297285) -- [M2.3.1][Product Overlays] Overlays are not shown on PLP
+

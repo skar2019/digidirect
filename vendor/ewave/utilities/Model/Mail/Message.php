@@ -12,16 +12,6 @@ namespace Ewave\Utilities\Model\Mail;
 class Message implements \Magento\Framework\Mail\MessageInterface
 {
     /**
-     * @var \Zend\Mime\PartFactory
-     */
-    protected $partFactory;
-
-    /**
-     * @var \Zend\Mime\MessageFactory
-     */
-    protected $mimeMessageFactory;
-
-    /**
      * @var \Zend\Mail\Message
      */
     private $zendMessage;
@@ -39,8 +29,6 @@ class Message implements \Magento\Framework\Mail\MessageInterface
     public function __construct(
         $charset = 'utf-8'
     ) {
-        $this->partFactory = new \Zend\Mime\Part();
-        $this->mimeMessageFactory = new \Zend\Mime\Message();
         $this->zendMessage = \Zend\Mail\MessageFactory::getInstance();
         $this->zendMessage->setEncoding($charset);
     }
@@ -53,7 +41,7 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function setBodyText($content)
     {
-        $textPart = $this->partFactory->create();
+        $textPart = new \Zend\Mime\Part();
 
         $textPart->setContent($content)
             ->setType(\Zend\Mime\Mime::TYPE_TEXT)
@@ -72,7 +60,7 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function setBodyHtml($content)
     {
-        $htmlPart = $this->partFactory->create();
+        $htmlPart = new \Zend\Mime\Part();
 
         $htmlPart->setContent($content)
             ->setType(\Zend\Mime\Mime::TYPE_HTML)
@@ -93,7 +81,7 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function setBodyAttachment($content, $fileName, $fileType)
     {
-        $attachmentPart = $this->partFactory->create();
+        $attachmentPart = new \Zend\Mime\Part();
 
         $attachmentPart->setContent($content)
             ->setType($fileType)
@@ -113,7 +101,7 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      */
     public function setPartsToBody()
     {
-        $mimeMessage = $this->mimeMessageFactory->create();
+        $mimeMessage = new \Zend\Mime\Message();
         $mimeMessage->setParts($this->parts);
         $this->zendMessage->setBody($mimeMessage);
 
@@ -246,7 +234,7 @@ class Message implements \Magento\Framework\Mail\MessageInterface
         $encoding = \Zend\Mime\Mime::ENCODING_BASE64,
         $filename = null
     ) {
-        $attachmentPart = $this->partFactory->create();
+        $attachmentPart = new \Zend\Mime\Part();
 
         $attachmentPart->setContent($body)
             ->setType($mimeType)

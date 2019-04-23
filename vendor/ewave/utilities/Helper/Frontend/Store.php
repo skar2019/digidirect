@@ -66,8 +66,8 @@ class Store extends AbstractHelper
     {
         return $this->storeManager->getStore($storeId);
     }
-	
-	/**
+
+    /**
      * @return \Magento\Store\Api\Data\WebsiteInterface[]
      */
     public function getWebsites()

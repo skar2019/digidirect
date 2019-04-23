@@ -14,6 +14,7 @@ interface PostContentInterface extends StoreViewSpecificInterface
     const EWAVE_BLOG_POST_INFORMATION_TABLE_TITLE = 'title';
     const EWAVE_BLOG_POST_INFORMATION_TABLE_CONTENT = 'content';
     const EWAVE_BLOG_POST_INFORMATION_TABLE_SHORT_CONTENT = 'short_content';
+    const EWAVE_BLOG_POST_INFORMATION_TABLE_URL_KEY = 'url_key';
 
     /**
      * @return string

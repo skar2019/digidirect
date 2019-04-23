@@ -39,10 +39,10 @@ class WebsiteSwitcher extends AbstractHelper
     private $currencyFactory;
 
     /**
-     * Data constructor.
-     *
+     * WebsiteSwitcher constructor.
      * @param Context $context
      * @param StoreManagerInterface $storeManager
+     * @param CurrencyFactory $currencyFactory
      */
     public function __construct(
         Context $context,

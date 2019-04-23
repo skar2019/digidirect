@@ -104,7 +104,10 @@ class Renderer extends Template
      */
     public function getCountPosts($categoryId)
     {
-        return $this->categoryRepository->getCountPostsByCategoryId($categoryId);
+        return $this->categoryRepository->getCountPostsByCategoryId(
+            $categoryId,
+            $this->_storeManager->getStore()->getId()
+        );
     }
 
     /**

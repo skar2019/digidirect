@@ -3,8 +3,12 @@
 namespace Ewave\CmsUpgrade\Console\Command\Processor;
 
 use Ewave\CmsUpgrade\Model\Widget\ThemeResolver;
+use Magento\Framework\App\Area;
+use Magento\Framework\App\State;
+use Magento\Widget\Model\ResourceModel\Widget\Instance\Collection;
 use Magento\Widget\Model\ResourceModel\Widget\Instance\CollectionFactory;
 use Ewave\CmsUpgrade\Helper\MapperWidget;
+use Magento\Widget\Model\Widget\Instance;
 
 /**
  * Class WidgetProcessor
@@ -22,7 +26,7 @@ class WidgetProcessor extends AbstractProcessor
     protected $_collectionFactory;
 
     /**
-     * @var \Ewave\CmsUpgrade\Helper\MapperWidget
+     * @var MapperWidget
      */
     protected $_helperMapper;
 
@@ -32,25 +36,33 @@ class WidgetProcessor extends AbstractProcessor
     protected $themeResolver;
 
     /**
+     * @var State
+     */
+    protected $appState;
+
+    /**
      * WidgetProcessor constructor.
      *
      * @param CollectionFactory $collectionFactory
-     * @param MapperWidget $helperMapper
-     * @param ThemeResolver $themeResolver
+     * @param MapperWidget      $helperMapper
+     * @param ThemeResolver     $themeResolver
+     * @param State             $appState
      */
     public function __construct(
         CollectionFactory $collectionFactory,
         MapperWidget $helperMapper,
-        ThemeResolver $themeResolver
+        ThemeResolver $themeResolver,
+        State $appState
     ) {
         $this->themeResolver = $themeResolver;
         $this->_collectionFactory = $collectionFactory;
         $this->_helperMapper = $helperMapper;
+        $this->appState = $appState;
     }
 
     /**
      * @param array $data
-     * @return \Magento\Widget\Model\Widget\Instance
+     * @return Instance
      */
     protected function _prepareModel(array $data)
     {
@@ -67,10 +79,10 @@ class WidgetProcessor extends AbstractProcessor
             $data['theme_id'] = $themeIdFromDb;
         }
 
-        /** @var \Magento\Widget\Model\ResourceModel\Widget\Instance\Collection $widgetCollection */
+        /** @var Collection $widgetCollection */
         $widgetCollection = $this->_collectionFactory->create();
 
-        /** @var \Magento\Widget\Model\Widget\Instance $widget */
+        /** @var Instance $widget */
         $widget = $widgetCollection
             ->addFieldToFilter(static::PK_FIELD, $data[static::PK_FIELD])
             ->addFieldToFilter(static::PK_FIELD_ADD, $data[static::PK_FIELD_ADD])
@@ -87,5 +99,23 @@ class WidgetProcessor extends AbstractProcessor
         $widget->addData($data);
 
         return $widget;
+    }
+
+    /**
+     * Emulate frontend area code for afterSave widget model
+     * @see \Magento\Widget\Model\ResourceModel\Widget\Instance::_afterSave
+     * @param bool $checkUpdateDate
+     *
+     * @throws \Exception
+     */
+    public function upgrade($checkUpdateDate = false)
+    {
+        $this->appState->emulateAreaCode(
+            Area::AREA_FRONTEND,
+            function () use ($checkUpdateDate) {
+                parent::upgrade($checkUpdateDate);
+            },
+            [$checkUpdateDate]
+        );
     }
 }

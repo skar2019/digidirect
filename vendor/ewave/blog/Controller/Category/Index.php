@@ -77,21 +77,23 @@ class Index extends Action
         $breadcrumbShow = $this->dataHelper->getGeneralSettingsConfig('breadcrumb');
         if ($breadcrumbShow) {
             $breadcrumbs = $page->getLayout()->getBlock('breadcrumbs');
-            $breadcrumbs->addCrumb(
-                'home',
-                [
-                    'label' => __('Home'),
-                    'title' => __('Home'),
-                    'link' => $this->_url->getUrl('')
-                ]
-            );
-            $breadcrumbs->addCrumb(
-                'category',
-                [
-                    'label' => __($category->getName()),
-                    'title' => __($category->getName()),
-                ]
-            );
+            if($breadcrumbs) {
+                $breadcrumbs->addCrumb(
+                    'home',
+                    [
+                        'label' => __('Home'),
+                        'title' => __('Home'),
+                        'link' => $this->_url->getUrl('')
+                    ]
+                );
+                $breadcrumbs->addCrumb(
+                    'category',
+                    [
+                        'label' => __($category->getName()),
+                        'title' => __($category->getName()),
+                    ]
+                );
+            }
         }
         $pageLayout = $this->dataHelper->getGeneralSettingsConfig('cat_layout');
         $pageConfig = $page->getConfig();

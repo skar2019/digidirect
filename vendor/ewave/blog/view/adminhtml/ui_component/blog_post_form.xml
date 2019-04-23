@@ -111,6 +111,7 @@
                     <item name="source" xsi:type="string">search_engine</item>
                     <item name="sortOrder" xsi:type="number">20</item>
                     <item name="dataScope" xsi:type="string">url_key</item>
+                    <item name="scopeLabel" xsi:type="string">[Store View]</item>
                 </item>
             </argument>
         </field>
@@ -140,6 +141,7 @@
                     <item name="sortOrder" xsi:type="number">40</item>
                     <item name="dataScope" xsi:type="string">tags</item>
                     <item name="additionalClasses" xsi:type="string">tag-list</item>
+                    <item name="scopeLabel" xsi:type="string">[Store View]</item>
                 </item>
             </argument>
         </field>
@@ -214,6 +216,7 @@
                     <item name="validation" xsi:type="array">
                         <item name="required-entry" xsi:type="boolean">true</item>
                     </item>
+                    <item name="scopeLabel" xsi:type="string">[Store View]</item>
                 </item>
                 <item name="options" xsi:type="object">Ewave\Blog\Model\Config\Source\Status</item>
             </argument>

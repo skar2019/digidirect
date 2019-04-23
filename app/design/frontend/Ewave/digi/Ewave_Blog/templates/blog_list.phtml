@@ -36,7 +36,6 @@ $categoryExeption = "top contributors";
                             <?php echo $block->escapeHtml($post->getTitle()); ?>
                         </a>
                     </h2>
-                    <div class="description content"><?php /* @escapeNotVerified */ echo $block->getShortDescription($post); ?></div>
                     
                     <?php if (($categoryName = $category->getName()) && (strcasecmp($categoryName, $categoryExeption) != 0)):?>
                         <div class="posted">
@@ -44,6 +43,8 @@ $categoryExeption = "top contributors";
                             <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
                         </div>
                     <?php endif; ?>
+
+                    <div class="description content"><?php /* @escapeNotVerified */ echo $block->getShortDescription($post); ?></div>
 
                     <a class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Read More') ?>">
                         <span class="more-title"><?php /* @escapeNotVerified */ echo __('Read More') ?></span>

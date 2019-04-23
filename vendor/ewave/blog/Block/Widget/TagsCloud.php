@@ -2,6 +2,7 @@
 namespace Ewave\Blog\Block\Widget;
 
 use Ewave\Blog\Api\TagRepositoryInterface;
+use Ewave\Blog\Api\Data\TagInterface;
 
 class TagsCloud extends \Magento\Framework\View\Element\Template
 {
@@ -63,6 +64,17 @@ class TagsCloud extends \Magento\Framework\View\Element\Template
     {
         $cacheKey = parent::getCacheKeyInfo();
         $cacheKey['nil'] = $this->getNameInLayout();
+        $cacheKey['tag'] = $this->getRequest()->getParam('tag', '');
         return $cacheKey;
+    }
+
+    /**
+     * @param TagInterface $tag
+     *
+     * @return bool
+     */
+    public function isCurrentTag(TagInterface $tag)
+    {
+        return strtolower($tag->getName()) == strtolower(urldecode($this->getRequest()->getParam('tag')));
     }
 }

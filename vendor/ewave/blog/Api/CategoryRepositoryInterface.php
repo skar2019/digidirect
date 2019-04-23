@@ -2,6 +2,7 @@
 namespace Ewave\Blog\Api;
 
 use Ewave\Blog\Model\ResourceModel\Category\Collection;
+use Magento\Store\Model\Store;
 
 /**
  * Interface CategoryRepositoryInterface
@@ -29,9 +30,10 @@ interface CategoryRepositoryInterface extends AbstractRepositoryInterface
 
     /**
      * @param int $categoryId
-     * @return string
+     * @param int $storeId
+     * @return mixed
      */
-    public function getCountPostsByCategoryId($categoryId);
+    public function getCountPostsByCategoryId($categoryId, $storeId = Store::DEFAULT_STORE_ID);
 
     /**
      * @param string $ulrKey

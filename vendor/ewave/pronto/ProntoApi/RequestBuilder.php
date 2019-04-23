@@ -282,7 +282,6 @@ class RequestBuilder implements RequestBuilderInterface
         $zendHttpClient = $this->httpClient->getHttpClient();
         $adapter = $zendHttpClient->getAdapter();
         $adapter->setCurlOption(CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
-        $adapter->setCurlOption(CURLOPT_DNS_USE_GLOBAL_CACHE, false);
 
         $this->isBuilt = true;
 

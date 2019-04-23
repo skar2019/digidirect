@@ -11,6 +11,8 @@ use Ewave\Blog\Sql\PostInformationJoin;
 use Ewave\Blog\Sql\PostInformationSave;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
+use Ewave\Blog\Api\Data\PostContentInterface;
+use Magento\Store\Model\Store;
 
 /**
  * Class Post
@@ -97,11 +99,11 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     {
         $connection = $this->getConnection();
         return $connection->update(
-            $this->getMainTable(),
+            $this->getTable(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE),
             [
                 'status' => $status,
             ],
-            $connection->quoteInto('entity_id IN (?)', $ids)
+            $connection->quoteInto('information_post_id IN (?) AND information_store_id = 0', $ids)
         );
     }
 
@@ -205,7 +207,10 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         );
 
         if ($activeOnly) {
-            $select->where(Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE . '.status = ?', Status::STATUS_ENABLED);
+            $select->where(
+                Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE . '.status = ?',
+                Status::STATUS_ENABLED
+            );
         }
 
         return $connection->fetchPairs($select, ['post_id' => (int)$postId]);
@@ -214,14 +219,15 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     /**
      * @param int $postId
      * @param string $newTags
+     * @param int $storeId
      * @throws LocalizedException
      * @return void
      */
-    public function updateTags($postId, $newTags)
+    public function updateTags($postId, $newTags, $storeId)
     {
         $connection = $this->getConnection();
 
-        $oldTags = $this->lookupTags($postId);
+        $oldTags = $this->lookupTags($postId, $storeId);
         if (!is_array($newTags)) {
             $newTags = explode(',', $newTags);
         }
@@ -235,7 +241,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 $newTag = trim($newTag);
                 if (!empty($newTag)) {
                     $data[] = [
-                        'name' => $newTag,
+                        'name' => $newTag
                     ];
                 }
             }
@@ -250,6 +256,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
             $where = [
                 'post_id = ?' => (int)$postId,
                 'tag_id IN (?)' => $delete,
+                'store_id = ?' => (int)$storeId
             ];
             $connection->delete($table, $where);
         }
@@ -260,6 +267,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 $data[] = [
                     'post_id' => (int)$postId,
                     'tag_id' => (int)$tagId,
+                    'store_id' => (int)$storeId
                 ];
             }
             $connection->insertMultiple($table, $data);
@@ -267,12 +275,12 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     }
 
     /**
-     * @param int $postId
+     * @param array|int $postId
+     * @param int $storeId
      * @return array
      * @throws LocalizedException
-     * @throws \Exception
      */
-    public function lookupTags($postId)
+    public function lookupTags($postId, $storeId)
     {
         $connection = $this->getConnection();
         $select = $connection->select()
@@ -283,7 +291,8 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 []
             )
             ->join(['tag' => $this->getTable('ewave_blog_tags')], 'ptr.tag_id = tag.entity_id', ['tag_name' => 'name'])
-            ->where('p.entity_id = :post_id');
+            ->where('p.entity_id = :post_id')
+            ->where('ptr.store_id = ?', $storeId);
         return $connection->fetchPairs($select, ['post_id' => (int)$postId]);
     }
 
@@ -307,17 +316,39 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
             ->joinInner(
                 ['cat_rel' => $this->getTable(self::CATEGORY_RELATION_TABLE)],
                 'posts.entity_id = cat_rel.post_id'
-            )
-            ->joinInner(
-                [Aliases::CATEGORY_ENTITY_TABLE_ALIAS => $this->getTable(Category::EWAVE_BLOG_CATEGORY_TABLE)],
-                'cat_rel.category_id = ' . Aliases::CATEGORY_ENTITY_TABLE_ALIAS . '.entity_id'
-            )
+            );
+        $this->postJoin->join($select, $storeId, 'posts');
+
+        $storeIds = [$storeId];
+        if (!in_array(Store::DEFAULT_STORE_ID, $storeIds)) {
+            $storeIds[] = Store::DEFAULT_STORE_ID;
+        }
+        $select->joinInner(
+            [Aliases::CATEGORY_ENTITY_TABLE_ALIAS => $this->getTable(Category::EWAVE_BLOG_CATEGORY_TABLE)],
+            'cat_rel.category_id = ' . Aliases::CATEGORY_ENTITY_TABLE_ALIAS . '.entity_id'
+        )
             ->joinInner(
                 ['cat_stores' => $this->getTable(Category::STORE_RELATION_TABLE)],
                 'cat_stores.category_id = cat_rel.category_id'
             )
-            ->where('posts.url_key = ?', $urlKey)
-            ->where('cat_stores.store_id IN (?)', $storeId);
+            ->where('cat_stores.store_id IN (?)', $storeIds);
+
+        $urlKeyExp = sprintf(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.url_key = "%s"', $urlKey);
+        $statusExp = sprintf(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.status = "%s"', $status);
+        if ($storeId != Store::DEFAULT_STORE_ID) {
+            $this->postJoin->joinDefault($select, Store::DEFAULT_STORE_ID, 'posts');
+            $urlKeyExp = $this->getConnection()->getIfNullSql(
+                $urlKeyExp,
+                PostInformationJoin::DEFAULT_STORE_COLUMN_PREFIX . $urlKeyExp
+            );
+            $statusExp = $this->getConnection()->getIfNullSql(
+                $statusExp,
+                PostInformationJoin::DEFAULT_STORE_COLUMN_PREFIX . $statusExp
+            );
+        }
+
+        $select->where($urlKeyExp);
+
         $this->categoryJoin->join(
             $select,
             $this->currentStoreFetcher->getCurrentStoreId()
@@ -326,7 +357,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $this->categoryJoin->joinDefault($select);
 
         if ($status !== null) {
-            $select->where('posts.status = ?', $status);
+            $select->where($statusExp);
         }
         if ($categoryStatus !== null) {
             $this->categoryJoin->processIfNull('status', $categoryStatus);
@@ -475,7 +506,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $select = $this->getConnection()
             ->select()
             ->from(['posts' => $this->getMainTable()])
-        ->where('posts.entity_id = ?', $id);
+            ->where('posts.entity_id = ?', $id);
 
         $this->postJoin->join(
             $select,

@@ -56,10 +56,10 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
         \Magento\Framework\Mail\Template\SenderResolverInterface $senderResolver,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Mail\TransportInterfaceFactory $mailTransportFactory,
-        \Magento\Framework\Mail\MessageInterfaceFactory $messageFactory = null,
-        \Ewave\Utilities\Model\Mail\MessageFactory $messageCreateAttachmentFactory = null,
+        array $customTemplateVars = [],
         EmailCollectionFactory $emailCollectionFactory = null,
-        array $customTemplateVars = []
+        \Magento\Framework\Mail\MessageInterfaceFactory $messageFactory = null,
+        \Ewave\Utilities\Model\Mail\MessageFactory $messageCreateAttachmentFactory = null
     ) {
         parent::__construct(
             $templateFactory,
