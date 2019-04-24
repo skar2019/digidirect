@@ -24,6 +24,11 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 </div>
 <div data-bind="css: collectPlaces().length > 0 ? 'collect-block -visible' : 'collect-block'" data-role="collect-block"
      data-collect-type="collect">
+    <!-- ko if: window.selectStore -->
+    <div class="message notice">
+        <span><!-- ko i18n: 'Please select a store.'--><!-- /ko --></span>
+    </div>
+    <!-- /ko-->
     <!-- ko if: collectPlaces().length > 0 -->
     <div class="pickup-cms" data-bind="html: window.pickUpStoreCmsBlock"></div>
     <div class="wrap-block">

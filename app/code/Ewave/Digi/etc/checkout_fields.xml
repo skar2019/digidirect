@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="urn:ewave:module:Ewave_OrderManagement:etc/checkout_fields.xsd">
     <field id="delivery_number">
         <!--  expected id="delivery_number" for order-field.js -->
-        <frontend_name></frontend_name>
+        <frontend_name>Delivery Number</frontend_name>
         <frontend_input>text</frontend_input>
         <sort_order>5</sort_order>
         <validation>
@@ -15,6 +15,7 @@
             <custom_scope>shippingAddress</custom_scope>
             <fieldset>address-list-additional-addresses</fieldset>
         </area>
+        <class>delivery-number</class>
     </field>
     <field id="delivery_notes">
         <frontend_name>Delivery Notes</frontend_name>

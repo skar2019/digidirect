@@ -6,9 +6,10 @@ define([
     'Magento_Checkout/js/model/cart/estimate-service'
 ], function ($, ko, quote, addressList, estimate) {
     'use strict';
-
+    
     var mixin = {
         initialize: function () {
+            window.selectStore = ko.observable(false);
             this._super();
             var self = this;
 
@@ -26,6 +27,13 @@ define([
             this._super();
             if (!this.source.get('params.invalid')) {
                 $('.edit-address-link').show();
+            }
+        },
+
+        onErrorValidationShippingInformation: function (type) {
+            var pageTypeIsCheckout = $('body').hasClass('checkout-index-index');
+            if (pageTypeIsCheckout) {
+                window.selectStore(true);
             }
         }
     };

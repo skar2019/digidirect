@@ -1,6 +1,6 @@
 <?php
 
-namespace Ewave\Prontodigi\Helper;
+namespace Ewave\ProntoDigi\Helper;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -13,7 +13,7 @@ use Magento\InventoryConfigurationApi\Model\GetAllowedProductTypesForSourceItemM
 
 /**
  * Class Inventory
- * @package Ewave\Prontodigi\Helper
+ * @package Ewave\ProntoDigi\Helper
  */
 class Inventory extends AbstractHelper
 {
