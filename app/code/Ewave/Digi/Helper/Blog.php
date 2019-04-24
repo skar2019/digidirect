@@ -44,11 +44,14 @@ class Blog extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @param null|\Ewave\Blog\Api\Data\PostInterface $post
      * @return bool
      */
-    public function isPostRelatedToContributors()
+    public function isPostRelatedToContributors($post = null)
     {
-        $post = $this->_coreRegistry->registry(\Ewave\Blog\Api\Data\PostInterface::CURRENT_ITEM);
+        if (empty($post) || !($post instanceof \Ewave\Blog\Api\Data\PostInterface)) {
+            $post = $this->_coreRegistry->registry(\Ewave\Blog\Api\Data\PostInterface::CURRENT_ITEM);
+        }
 
         $select = $this->connection->select()
             ->from(['rel' => self::CATEGORY_RELATION_TABLE], 'category_id')

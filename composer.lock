@@ -2277,7 +2277,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "6953e6ac442f959949804a5c6422be618ddc724f"
+                "reference": "6ed0fbf967c91bb56554ad8c5f63f4f44c009ec6"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2289,7 +2289,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-04-24T08:26:35+00:00"
+            "time": "2019-04-24T13:25:15+00:00"
         },
         {
             "name": "ewave/quickview",
@@ -2536,7 +2536,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_utilities.git",
-                "reference": "18e5d378a270b3fb1488d447a3f847fab6a41da9"
+                "reference": "1d60d930b3b46712f2fd5c11ab81f7ae0ee3ff47"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2548,7 +2548,7 @@
                 }
             },
             "description": "Ewave Utilities Module",
-            "time": "2019-04-23T07:08:39+00:00"
+            "time": "2019-04-24T13:25:17+00:00"
         },
         {
             "name": "fastly/magento2",

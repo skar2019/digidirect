@@ -91,10 +91,22 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
      */
     public function getExistSkus()
     {
+        $excludeAttribute = $this->getAttribute(ProductsConst::PRODUCT_ATTRIBUTE_EXCLUDE_FROM_INTEGRATION);
+        $linkFiled = $this->getLinkField();
         $connection = $this->getConnection();
         $select = $connection
             ->select()
-            ->from(['p' => $this->getEntityTable()], [ProductInterface::SKU, ProductInterface::TYPE_ID]);
+            ->from(['p' => $this->getEntityTable()], [ProductInterface::SKU, ProductInterface::TYPE_ID])
+            ->joinLeft(
+                ['at_excl' => $excludeAttribute->getBackendTable()],
+                implode(' AND ', [
+                    'at_excl.' . $linkFiled . ' = p.' . $linkFiled,
+                    $connection->quoteInto('at_excl.attribute_id = ?', $excludeAttribute->getId()),
+                    $connection->quoteInto('at_excl.store_id = ?', Store::DEFAULT_STORE_ID),
+                ]),
+                [ProductsConst::PRODUCT_ATTRIBUTE_EXCLUDE_FROM_INTEGRATION => 'at_excl.value']
+            )
+            ->where('COALESCE(at_excl.value, "0") <> 1');
 
         $this->addOptionToSelect($select, ProductsConst::PRODUCT_ATTRIBUTE_STOCK_STATUS);
         $this->addOptionToSelect($select, ProductsConst::PRODUCT_ATTRIBUTE_STOCK_CONDITION);

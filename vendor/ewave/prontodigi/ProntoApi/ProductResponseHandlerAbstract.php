@@ -265,6 +265,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         $this->excludedSkus = [];
         $this->existSources = [];
         $this->existSourceItems = [];
+        $this->newProducts = [];
         return $this;
     }
 

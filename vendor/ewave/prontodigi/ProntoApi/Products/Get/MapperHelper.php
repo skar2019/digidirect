@@ -119,7 +119,7 @@ class MapperHelper
      */
     public function getStockCondition($stockCondition)
     {
-        if (!isset(InstallData::OPTIONS_STOCK_CONDITION[$stockCondition])) {
+        if (!empty($stockCondition) && !isset(InstallData::OPTIONS_STOCK_CONDITION[$stockCondition])) {
             $stockCondition = 'other';
         }
         return $stockCondition;

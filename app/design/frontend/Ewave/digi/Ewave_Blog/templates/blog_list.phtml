@@ -3,7 +3,11 @@
  * @var \Ewave\Blog\Block\Blog $block
  * @var \Ewave\Blog\Model\Post $post
  */
-$categoryExeption = "top contributors";
+
+/**
+ * @var \Ewave\Digi\Helper\Blog $blogHelper
+ */
+$blogHelper = $this->helper('Ewave\Digi\Helper\Blog');
 ?>
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list blog-pg">
@@ -37,7 +41,7 @@ $categoryExeption = "top contributors";
                         </a>
                     </h2>
                     
-                    <?php if (($categoryName = $category->getName()) && (strcasecmp($categoryName, $categoryExeption) != 0)):?>
+                    <?php if (!$blogHelper->isPostRelatedToContributors($post)):?>
                         <div class="posted">
                             <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
                             <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
@@ -101,7 +105,7 @@ $categoryExeption = "top contributors";
                         <?php echo $block->escapeHtml($post->getTitle()); ?>
                     </a>
                 </h2>
-                    <?php if (($categoryName = $category->getName()) && (strcasecmp($categoryName, $categoryExeption) != 0)):?>
+                    <?php if (!$blogHelper->isPostRelatedToContributors($post)):?>
                         <div class="posted">
                             <span class="label"><?php /* @escapeNotVerified */ echo __('Posted on') ?></span>
                             <?php echo $block->escapeHtml($post->getCreatedDate()); ?>

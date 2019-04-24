@@ -101,7 +101,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     {
         if ($this->checkDisabledPercent()) {
             $this->productsToImport = $this->newProducts;
-            $this->existsProducts = [];
+            $this->existSkus = [];
         }
         $this->unsetData();
         $this->import($this->productsToImport);
@@ -154,6 +154,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     protected function prepareProductsData(array $response)
     {
         $productsUrlKey = [];
+        $newProducts = [];
+        $existsProducts = [];
         foreach ($response as $k => $productData) {
             if ($this->validator->isValid($productData)) {
                 try {
@@ -170,7 +172,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     $productData = $this->getCategories($productData);
                     $productData = $this->getAttributeSet($productData);
 
-                    if (!isset($this->getExistSkus()[$sku])) {
+                    if (!isset($this->getExistSkus()[$sku]) && empty($this->getExcludedSkus()[$sku])) {
                         $productData[ProductAttributeInterface::CODE_STATUS] = ProductStatus::STATUS_DISABLED;
                         if ($this->isAllowedMultiSourceInventoryForProductType($productData['product_type'])) {
                             $productData['sources'] = $this->assignProductToExistedSources($productData);
@@ -184,10 +186,10 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                         }
                         $productsUrlKey[$urkKey] = $sku;
                         $productData[Entity::URL_KEY] = $urkKey;
-                        $this->newProducts[$sku] = $productData;
+                        $newProducts[$sku] = $productData;
                     } elseif ($this->isProductUpdatePossible($productData)) {
                         $this->filterSourceItemsBeforeUpdate($sku);
-                        $this->existsProducts[$sku] = $this->prepareExistProduct($productData);
+                        $existsProducts[$sku] = $this->prepareExistProduct($productData);
                     }
                 } catch (LocalizedException $e) {
                     $this->logInvalidProductInfo($e->getMessage(), $productData);
@@ -197,7 +199,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             }
             unset($response[$k]);
         }
-        $products = array_merge($this->newProducts, $this->existsProducts);
+        $products = array_merge($newProducts, $existsProducts);
+        $this->newProducts = array_merge($this->newProducts, $newProducts);
         return $products;
     }
 
@@ -340,15 +343,18 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      */
     protected function checkDisabledPercent()
     {
-        $existsCount = count($this->getExistSkus());
-        if ($this->disabledProductsCount && $existsCount) {
-            $skusToDisable = $this->disabledProductsCount + count($this->existSkus);
+        $existsCount = count($this->existSkus);
+        if ($this->disabledProductsCount || $existsCount) {
+            $skusToDisable = $this->disabledProductsCount + $existsCount;
             $disabledPercent = round($skusToDisable / $this->countMagentoSkus * 100);
             if ($disabledPercent > self::DISABLED_PRODUCTS_PERCENT_FOR_SKIP_UPDATE) {
                 $this->logger->warning(
                     __(
-                        'Update for exists products is skipped because will be disabled %1 percents',
-                        $disabledPercent
+                        'Update for exists products is skipped because will be disabled %1 percent.
+                         Disabled Products Count: %2, Exist in Magento but not received from Pronto: %3',
+                        $disabledPercent,
+                        $this->disabledProductsCount,
+                        $existsCount
                     ),
                     [],
                     \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE

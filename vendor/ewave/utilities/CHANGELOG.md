@@ -295,3 +295,9 @@
 ================
 * New features:
     * [#296975](https://ewave.tpondemand.com/entity/296975) -- [COMPARE EVENT] As an admin, I want Compare Event logic to be changed
+
+1.20.1
+================
+* Bugfixes:
+    * [#295240](https://ewave.tpondemand.com/entity/295240) -- [Project DigiDirect] [Abstract Integration] [Magento 2.3] Email can not be sent with attached Log-file
+    * [#298913](https://ewave.tpondemand.com/entity/298913) -- [C&C][Abstract Entity] Postcode field is removed from the 'Click and Collect Fields to Set Up Store' table instead of 'Pre-fill Shipping Address Fields'
