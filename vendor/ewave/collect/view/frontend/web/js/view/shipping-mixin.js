@@ -72,6 +72,7 @@ define([
             validateShippingInformation: function () {
                 var loginFormSelector = 'form[data-role=email-with-possible-login]',
                     emailValidationResult = customer.isLoggedIn();
+
                 if (quote.customShipping) {
                     if (!quote.shippingMethod()) {
                         this.errorValidationMessage('Please specify a shipping method.');
@@ -82,7 +83,7 @@ define([
                         $(loginFormSelector).validation();
                         emailValidationResult = Boolean($(loginFormSelector + ' input[name=username]').valid());
                     }
-                       
+
                     if (this.isFormInline) {
                         if (!quote.shippingMethod().method_code ||
                                 !quote.shippingMethod().carrier_code ||
@@ -96,11 +97,11 @@ define([
                         return false;
                     }
 
-                    if (_.isEmpty(quote.collectPlaces)) {
-                        this.onErrorValidationShippingInformation('collectPlace');
-                        return false;
-                    }
                     return true;
+                } else if (isSingleCartCollectVariation && quote.isCollectSelected && _.isEmpty(quote.collectPlaces)) {
+                    this.onErrorValidationShippingInformation('collectPlace');
+
+                    return false;
                 } else {
                     if (quote.isShippingAddressHidden) {
                         if (!quote.shippingMethod()) {
@@ -114,6 +115,13 @@ define([
                         }
                         return true;
                     }
+                }
+
+                if (isSingleCartCollectVariation && emailValidationResult && quote.isCollectSelected) {
+                    this.source.set('params.invalid', false);
+                    this.triggerShippingDataValidateEvent();
+
+                    return !this.source.get('params.invalid');
                 }
 
                 return this._super();

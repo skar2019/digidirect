@@ -2,7 +2,7 @@
     "name": "ewave/abstractattributes",
     "type": "magento2-module",
     "description": "Ewave Abstract Attributes Module",
-    "version": "3.0.7.0",
+    "version": "3.0.5.0",
     "autoload": {
         "files": [
             "registration.php"

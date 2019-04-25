@@ -12,7 +12,7 @@
         "sort-packages": true
     },
     "require": {
-        "ewave/abstractattributes": "dev-release/3.0.6",
+        "ewave/abstractattributes": "dev-develop",
         "ewave/abstractattributesnavigation": "dev-develop",
         "ewave/abstractentity": "dev-release/3.1.4",
         "ewave/addressverification": "dev-release/2.0.10",
@@ -23,7 +23,7 @@
         "ewave/categoryfilter": "dev-release/1.0.1",
         "ewave/checkoutfields": "dev-release/1.8.0",
         "ewave/cms-upgrade": "dev-release/1.2.8",
-        "ewave/collect": "dev-release/2.13.1",
+        "ewave/collect": "dev-develop",
         "ewave/collect-staging": "dev-develop",
         "ewave/collectabstractentity": "dev-release/1.2.0",
         "ewave/collectabstractentitymsi": "dev-release/1.0.0",

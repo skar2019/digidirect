@@ -290,4 +290,9 @@
 =============
 * Bugfixes:
     * [#300965](https://ewave.tpondemand.com/entity/300965) -- [C&C][Abstract Entity] User can proceed to the checkout step 2 without selecting store for click and collect
-    
+ 
+
+2.13.2
+=============
+* Bugfixes:
+    * [#300965](https://ewave.tpondemand.com/entity/300965) -- [C&C][Abstract Entity] User can proceed to the checkout step 2 without selecting store for click and collect

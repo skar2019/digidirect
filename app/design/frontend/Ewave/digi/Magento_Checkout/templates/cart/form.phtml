@@ -76,35 +76,38 @@
         var $elements = $("[data-role=remove-item-from-cart]");
         $('#shopping-cart-table').on('click', $elements, function(event){
             event.stopPropagation();
-            var params = JSON.parse(jQuery(event.target).attr('data-post'));
 
-            confirm({
-                content: '<?= /* @escapeNotVerified */ __('Are you sure you would like to remove this item?') ?>',
-                title: 'Attention',
-                actions: {
-                    confirm: function () {
-                        dataPost().postData(params);
+            if ($(event.target).is("[data-role=remove-item-from-cart]")) {
+                var params = JSON.parse(jQuery(event.target).attr('data-post'));
+
+                confirm({
+                    content: '<?= /* @escapeNotVerified */ __('Are you sure you would like to remove this item?') ?>',
+                    title: 'Attention',
+                    actions: {
+                        confirm: function () {
+                            dataPost().postData(params);
+                        },
+                        always: function (e) {
+                            e.stopImmediatePropagation();
+                        }
                     },
-                    always: function (e) {
-                        e.stopImmediatePropagation();
-                    }
-                },
-                buttons: [{
-                    text: $t('No, Keep It'),
-                    class: 'action primary action-dismiss',
+                    buttons: [{
+                        text: $t('No, Keep It'),
+                        class: 'action primary action-dismiss',
 
-                    click: function (event) {
-                        this.closeModal(event);
-                    }
-                }, {
-                    text: $t('Yes, Remove It'),
-                    class: 'action-primary action-accept',
+                        click: function (event) {
+                            this.closeModal(event);
+                        }
+                    }, {
+                        text: $t('Yes, Remove It'),
+                        class: 'action-primary action-accept',
 
-                    click: function (event) {
-                        this.closeModal(event, true);
-                    }
-                }]
-            });
+                        click: function (event) {
+                            this.closeModal(event, true);
+                        }
+                    }]
+                });
+            }
         });
 
 //]]>

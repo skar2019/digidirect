@@ -52,6 +52,11 @@
                         if ($_parentBlock && $productPrice = $_parentBlock->getProductPrice($product)) {
                             $fromPrice = $productPrice;
                         }
+
+                        if (empty($fromPrice)) {
+                            $fromPrice = $product->getMinimalPrice();
+                        }
+
                         $fromClass = 'price-from';
                         $afterLabel = __('Cashback available');
                         $afterPrice = false;

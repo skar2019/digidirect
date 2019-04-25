@@ -28,20 +28,15 @@ define([
             collectFormTemplate: 'Ewave_Collect/checkout/shipping-address/block-form'
         },
         collectPlaces: collectPlaces.places,
+        isCollectSelected: ko.observable(false),
         collectPlaceRows: ko.observableArray([]),
         initialize: function () {
-            var self = this;
-
             setBlockPlaces();
 
             this._super();
 
-            this.isSingleCartFormPopUpVisible.subscribe(function (value) {
-                if (value) {
-                    self.getPopUp().openModal();
-                }
-            });
-
+            this.checkIsCollectSelected();
+            this.onSubscribe();
             this.setPlacesToQuote();
         },
         formItemId: '',
@@ -50,6 +45,23 @@ define([
         isSingleCartCollectVariation: ko.observable(isSingleCartCollectVariation || false),
         placesUrl: placesUrl,
         distanceList: distanceList,
+        checkIsCollectSelected: function () {
+            if (this.collectPlaces().length > 0) {
+                this.isCollectSelected(true);
+                quote.isCollectSelected = true;
+            } else {
+                this.isCollectSelected(false);
+                quote.isCollectSelected = false;
+            }
+        },
+        onSubscribe: function () {
+            var self = this;
+            this.isSingleCartFormPopUpVisible.subscribe(function (value) {
+                if (value) {
+                    self.getPopUp().openModal();
+                }
+            });
+        },
         getPopUp: function () {
             var self = this;
 
@@ -143,9 +155,12 @@ define([
 
             if (method === 'delivery') {
                 this.applyDeliveryToAllItems();
+                this.isCollectSelected(false);
+                quote.isCollectSelected = false;
+            } else {
+                this.isCollectSelected(true);
+                quote.isCollectSelected = true;
             }
-
-            quote.customShipping = method === 'collect';
         },
         applyDeliveryToAllItems: function () {
             var self = this,

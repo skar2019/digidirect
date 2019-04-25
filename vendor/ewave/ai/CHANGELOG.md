@@ -261,3 +261,8 @@
 =============
 * Bugfixes:
     * [#300494](https://ewave.tpondemand.com/entity/300494) -- RuntimeException during di:compile: Class Magento\CatalogImportExport\Model\Import\Product\MediaGalleryProcessor does not exist in [Ewave\AI\Preferences\Model\Import\Product\Interceptor]
+
+1.15.5
+=============
+* Bugfixes:
+    * [#295240](https://ewave.tpondemand.com/entity/295240) -- [Magento 2.3] Email can not be sent with attached Log-file

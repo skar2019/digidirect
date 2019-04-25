@@ -291,6 +291,10 @@ class UpgradeData implements UpgradeDataInterface
             $this->upgradeTo121($setup);
         }
 
+        if (version_compare($context->getVersion(), '1.0.22', '<')) {
+            $this->upgradeTo122($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -1159,5 +1163,31 @@ class UpgradeData implements UpgradeDataInterface
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
         $eavSetup->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'pronto_stock_status');
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo122(ModuleDataSetupInterface $setup)
+    {
+        $connection = $setup->getConnection();
+        $regionTable = $setup->getTable('directory_country_region');
+        $regionNameTable = $setup->getTable('directory_country_region_name');
+
+        $deleteFromSelectSql = $connection->select()
+            ->from(['region' => $regionTable])
+            ->joinLeft(['region_name' => $regionNameTable], 'region.region_id = region_name.region_id')
+            ->joinInner(
+                ['region_duplicated' => $regionTable],
+                'region.country_id = region_duplicated.country_id
+                        AND region.code = region_duplicated.code
+                        AND region.default_name = region_duplicated.default_name
+                        AND region.region_id <> region_duplicated.region_id')
+            ->where('region.country_id = ?', 'AU')
+            ->where('region_name.locale IS NULL')
+            ->where('region_name.name IS NULL')
+            ->deleteFromSelect('region');
+
+        $connection->query($deleteFromSelectSql);
     }
 }

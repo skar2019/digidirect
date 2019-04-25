@@ -38,36 +38,7 @@ if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
     <div class="block-content content" aria-labelledby="block-<?php echo $block->escapeHtml($class) ?>-heading">
 
         <div class="products wrapper grid products-grid products-<?php echo $block->escapeHtml($type); ?>">
-            <ol class="products list items product-items" data-mage-init='{
-                                "slickInit":{
-                                    "arrows": false,
-                                    "slidesToShow": 2,
-                                    "slidesToScroll": 1,
-                                    "mobileFirst": true,
-                                    "waitForAnimate": false,
-                                    "autoplay": false,
-                                    "infinite": false,
-                                    "swipeToSlide": true,
-                                    "dots": false,
-                                    "responsive": [
-                                        {
-                                            "breakpoint": 768,
-                                            "settings": {"slidesToShow": 3
-                                            }
-                                        }, {
-                                            "breakpoint": 1439,
-                                            "settings": {"slidesToShow": 4,
-                                            "arrows": true
-                                            }
-                                        }, {
-                                            "breakpoint": 1800,
-                                            "settings": {"slidesToShow": 5,
-                                            "arrows": true
-                                            }
-                                        }
-                                    ]
-                                }
-                            }'>
+            <ol class="products list items product-items" id="related-slider">
                 <?php $iterator = 1; ?>
                 <?php $i = 0; ?>
                 <?php foreach ($items as $_item): ?>
@@ -172,3 +143,10 @@ if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
     </div>
     </div>
 <?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Ewave_Blog/js/related-slider": {}
+        }
+    }
+</script>

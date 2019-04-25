@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc82f727c745e9bb9fa67b3efb67c1d8",
+    "content-hash": "a508a4210cd94c370d3d5cb2ef103cc3",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1231,11 +1231,11 @@
         },
         {
             "name": "ewave/abstractattributes",
-            "version": "dev-release/3.0.6",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractattributes.git",
-                "reference": "ed04a54cb0d5d9ca082b58e33ab93b39c8edbe96"
+                "reference": "bbfcad602cb510b91a8209cbea2facae5a5573bb"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1247,7 +1247,7 @@
                 }
             },
             "description": "Ewave Abstract Attributes Module",
-            "time": "2019-01-25T11:42:59+00:00"
+            "time": "2019-04-17T10:30:08+00:00"
         },
         {
             "name": "ewave/abstractattributesnavigation",
@@ -1315,7 +1315,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_ai.git",
-                "reference": "d8b219a7ea3d076a13b74bb5cdec68398170ed69"
+                "reference": "0dcfbfa9b4accd33dbe27115f11bdee474f6b579"
             },
             "require": {
                 "vlucas/valitron": "^1.4"
@@ -1330,7 +1330,7 @@
                 }
             },
             "description": "Integration Engine.",
-            "time": "2019-04-22T12:10:12+00:00"
+            "time": "2019-04-24T13:32:18+00:00"
         },
         {
             "name": "ewave/banner",
@@ -1462,11 +1462,11 @@
         },
         {
             "name": "ewave/collect",
-            "version": "dev-release/2.13.1",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collect.git",
-                "reference": "42ccfbd65a2ecace95e6e50ba15794f18b3247b9"
+                "reference": "32969423bb7e0faf340c60acabbddcdbe9769c60"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1478,7 +1478,7 @@
                 }
             },
             "description": "Ewave Click and Collect Module",
-            "time": "2019-04-19T13:37:00+00:00"
+            "time": "2019-04-24T10:44:21+00:00"
         },
         {
             "name": "ewave/collect-staging",

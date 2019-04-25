@@ -9,7 +9,7 @@ $fieldCssClass .= $block->isRequired() ? ' required' : '';
 <div class="<?= /* @escapeNotVerified */ $fieldCssClass ?>">
     <label class="label" for="<?= $block->getHtmlId() ?>"><span><?= /* @escapeNotVerified */ $block->getLabel() ?></span></label>
     <div class="control">
-        <input readonly type="text" id="<?= $block->getHtmlId() ?>" name="<?= /* @escapeNotVerified */ $block->getFieldName() ?>" value="<?= /* @escapeNotVerified */ $block->getFilteredValue() ?>" class="input-text<?= $block->getHtmlClass() ?>" disabled>
+        <div class="fake-input"><?= /* @escapeNotVerified */ $block->getFilteredValue() ?></div>
         <?php if (!$block->getValue()) : ?>
             <div class="note"><?= __('If you are a member of AIPP, please contact customer support to receive special offers') ?></div>
         <?php endif; ?>

@@ -72,7 +72,7 @@
                 <div id="checkout-shipping-method-load" data-bind="css: methodListClasses()">
                     <ul class="shipping-methods table-checkout-shipping-method items">
                         <!-- ko foreach: { data: rates(), as: 'method'} -->
-                        <li class="row" data-bind="click: $parent.selectShippingMethod">
+                        <li class="row" data-bind="click: $parent.selectShippingMethod, css: method.carrier_code ">
                         <!-- ko ifnot: method.error_message -->
                             <!-- ko if: $parent.rates().length == 1 -->
                             <input class="radio"
