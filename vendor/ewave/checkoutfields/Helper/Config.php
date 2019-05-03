@@ -21,6 +21,13 @@ class Config
     const CHECKOUT_FIELDS = 'checkout_fields/checkout_fields/checkout_fields';
     const CHECKOUT_FIELDS_ENABLE = 'checkout_fields/checkout_fields/enable_checkout_fields';
 
+    const FIELDSET_ID_QUOTE = 'custom_quote_checkout_fields';
+    const FIELDSET_ASPECT_TO_QUOTE = 'to_quote';
+
+    const FIELDSET_ID_ORDER = 'custom_order_checkout_fields';
+    const FIELDSET_ASPECT_FROM_ORDER = 'from_order';
+    const FIELDSET_ASPECT_FROM_QUOTE = 'from_quote';
+
     /**
      * @var ScopeConfigInterface|null
      */

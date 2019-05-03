@@ -2,75 +2,50 @@
 
 namespace Ewave\CheckoutFields\Observer;
 
-use \Magento\Framework\Event\ObserverInterface;
+use Ewave\CheckoutFields\Api\QuoteFieldValueManagementInterface;
+use Magento\Framework\Event\Observer;
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Quote\Api\Data\CartInterface;
+use Magento\Quote\Model\Quote;
 
 /**
  * Class SaveCustomCheckoutValuesBeforePlaceOrder
+ *
  * @package Ewave\CheckoutFields\Observer
  */
 class SaveCustomCheckoutValuesBeforePlaceOrder implements ObserverInterface
 {
     /**
-     * @var \Magento\Framework\App\RequestInterface
+     * @var QuoteFieldValueManagementInterface
      */
-    protected $request;
-
-    /**
-     * @var \Ewave\CheckoutFields\Helper\Xml\Fields\Parser
-     */
-    protected $parser;
-
-    /**
-     * @var \Ewave\CheckoutFields\Model\QuoteFieldValueFactory
-     */
-    protected $quoteFieldValueModel;
+    protected $quoteFieldValueManagement;
 
     /**
      * SaveCustomCheckoutValuesBeforePlaceOrder constructor.
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Ewave\CheckoutFields\Helper\Xml\Fields\Parser $parser
-     * @param \Ewave\CheckoutFields\Model\QuoteFieldValueFactory $quoteFieldValueModel
+     *
+     * @param QuoteFieldValueManagementInterface $quoteFieldValueManagement
      */
-    public function __construct(
-        \Magento\Framework\App\RequestInterface $request,
-        \Ewave\CheckoutFields\Helper\Xml\Fields\Parser $parser,
-        \Ewave\CheckoutFields\Model\QuoteFieldValueFactory $quoteFieldValueModel
-    ) {
-        $this->request = $request;
-        $this->parser = $parser;
-        $this->quoteFieldValueModel = $quoteFieldValueModel;
+    public function __construct(QuoteFieldValueManagementInterface $quoteFieldValueManagement)
+    {
+        $this->quoteFieldValueManagement = $quoteFieldValueManagement;
     }
 
     /**
      * Save checkout fields data before order placing
      *
-     * @param \Magento\Framework\Event\Observer $observer
-     * @return $this|bool|void
-     * @throws \Magento\Framework\Exception\AlreadyExistsException
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param Observer $observer
+     *
+     * @return $this|void
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
+        /** @var Quote $quote */
         $quote = $observer->getEvent()->getQuote();
-        if (!$quote) {
-            return false;
+        if (!$quote instanceof CartInterface) {
+            return $this;
         }
 
-        $params = $this->request->getPost()->toArray();
-        $fields = $this->parser->getFields();
-
-        foreach ($params as $code => $values) {
-            if (isset($fields[$code])) {
-                $model = $this->quoteFieldValueModel->create();
-                $model->setData([
-                    'code'     => $values['label'] ?? null,
-                    'quote_id' => $quote->getId(),
-                    'value'    => serialize($values['value'] ?? ''),
-                    'field_id' => $code,
-                ]);
-                $model->getResource()->save($model);
-            }
-        }
+        $this->quoteFieldValueManagement->saveToQuoteFromExtensionAttributes($quote);
 
         return $this;
     }

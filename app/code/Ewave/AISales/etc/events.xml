@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- Orders Grid Refresh -->
+    <event name="ewave_ai_sales_orders_import_save_after">
+        <observer name="ewave_ai_sales_order_save_address_synchronize" instance="Ewave\AISales\Observer\SynchronizeOrderAddresses" />
+        <observer name="ewave_ai_sales_order_save_grid_refresh" instance="Ewave\AISales\Observer\Order\GridRefresh" />
+    </event>
+    <event name="ewave_ai_sales_orders_import_update_after">
+        <observer name="ewave_ai_sales_order_update_address_synchronize" instance="Ewave\AISales\Observer\SynchronizeOrderAddresses" />
+        <observer name="ewave_ai_sales_order_update_grid_refresh" instance="Ewave\AISales\Observer\Order\GridRefresh" />
+    </event>
+
+    <!-- Invoices Grid Refresh -->
+    <event name="ewave_ai_sales_invoices_import_save_after">
+        <observer name="ewave_ai_sales_invoice_save_grid_refresh" instance="Ewave\AISales\Observer\Invoice\GridRefresh" />
+    </event>
+    <event name="ewave_ai_sales_invoices_import_update_after">
+        <observer name="ewave_ai_sales_invoice_update_grid_refresh" instance="Ewave\AISales\Observer\Invoice\GridRefresh" />
+    </event>
+
+    <!-- Shipments Grid Refresh -->
+    <event name="ewave_ai_sales_shipments_import_save_after">
+        <observer name="ewave_ai_sales_shipment_save_grid_refresh" instance="Ewave\AISales\Observer\Shipment\GridRefresh" />
+    </event>
+    <event name="ewave_ai_sales_shipments_import_update_after">
+        <observer name="ewave_ai_sales_shipment_update_grid_refresh" instance="Ewave\AISales\Observer\Shipment\GridRefresh" />
+    </event>
+
+    <!-- CreditMemos Grid Refresh -->
+    <event name="ewave_ai_sales_creditmemo_import_save_after">
+        <observer name="ewave_ai_sales_creditmemo_save_grid_refresh" instance="Ewave\AISales\Observer\CreditMemo\GridRefresh" />
+    </event>
+    <event name="ewave_ai_sales_creditmemo_import_update_after">
+        <observer name="ewave_ai_sales_creditmemo_update_grid_refresh" instance="Ewave\AISales\Observer\CreditMemo\GridRefresh" />
+    </event>
+
+    <!-- Rma Grid Refresh -->
+    <event name="ewave_ai_sales_rma_import_save_after">
+        <observer name="ewave_ai_sales_rma_save_grid_refresh" instance="Ewave\AISales\Observer\Rma\GridRefresh" />
+    </event>
+    <event name="ewave_ai_sales_rma_import_update_after">
+        <observer name="ewave_ai_sales_rma_update_grid_refresh" instance="Ewave\AISales\Observer\Rma\GridRefresh" />
+    </event>
+</config>

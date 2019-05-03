@@ -17,6 +17,23 @@
                 type="Ewave\CheckoutFields\Model\PdpFieldValue"/>
     <preference for="Ewave\CheckoutFields\Api\PdpFieldValueRepositoryInterface"
                 type="Ewave\CheckoutFields\Model\PdpFieldValueRepository"/>
+    <preference for="Ewave\CheckoutFields\Api\Data\QuoteFieldValueInterface"
+                type="Ewave\CheckoutFields\Model\QuoteFieldValue"/>
+    <preference for="Ewave\CheckoutFields\Api\QuoteFieldValueRepositoryInterface"
+                type="Ewave\CheckoutFields\Model\QuoteFieldValueRepository"/>
+    <preference for="Ewave\CheckoutFields\Api\OrderFieldValueRepositoryInterface"
+                type="Ewave\CheckoutFields\Model\OrderFieldValueRepository"/>
+    <preference for="Ewave\CheckoutFields\Api\QuoteFieldValueManagementInterface"
+                type="Ewave\CheckoutFields\Model\QuoteFieldValueManagement"/>
+
+    <type name="Magento\Quote\Model\QuoteRepository\LoadHandler">
+        <plugin name="Ewave_CheckoutFields::PluginMagentoQuoteModelQuoteRepositoryLoadHandlerPlugin" type="Ewave\CheckoutFields\Plugin\Magento\Quote\Model\QuoteRepository\LoadHandlerPlugin"/>
+    </type>
+    <type name="Magento\Quote\Api\PaymentMethodManagementInterface">
+        <plugin name="Ewave_CheckoutFields::PluginMagentoQuoteApiPaymentMethodManagementInterface" type="Ewave\CheckoutFields\Plugin\Magento\Quote\Model\PaymentMethodManagementPlugin"/>
+    </type>
+
+
     <preference for="Ewave\CheckoutFields\Api\CustomFieldsInterface"
                 type="Ewave\CheckoutFields\Model\Service\CustomFields"/>
 
@@ -27,5 +44,17 @@
                 <item name="max_text_length" xsi:type="string">maxlength</item>
             </argument>
         </arguments>
+    </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="updateCheckoutFieldsByDate" xsi:type="object">Ewave\CheckoutFields\Console\Command\UpdateCheckoutFieldsByString</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="OrderCheckoutFieldsPlugin" type="Ewave\CheckoutFields\Plugin\Model\Order\RepositoryPlugin"/>
     </type>
 </config>

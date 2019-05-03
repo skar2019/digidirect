@@ -229,6 +229,9 @@ class Validator extends \Magento\Framework\Model\AbstractModel
                 if (!$this->validatorUtility->canProcessRule($rule, $address, $currentMethod)) {
                     if ($rule->getActionTypeOption() == ActionTypeOptions::ACTION_TYPE_ENABLE_OPTION
                         && in_array(Rule::ACTION_DISABLE_SM, $rule->getActionType())
+                        && $rule->getDisabledShippingMethods()
+                        && is_array($rule->getDisabledShippingMethods())
+                        && in_array($currentMethod, $rule->getDisabledShippingMethods())
                     ) {
                         $this->condAppliedShippingRuleIds[$currentMethod][$rule->getId()][self::CONDITION_NEED_HIDE]
                             = $rule;
@@ -426,7 +429,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         if ($postProcessing) {
             $collection->addFieldToFilter(PostProcessingInterface::POST_PROCESSING, ['eq' => 1]);
         } else {
-            $collection->addFieldToFilter(PostProcessingInterface::POST_PROCESSING, ['neq' => 1]);
+            $collection->addFieldToFilter(PostProcessingInterface::POST_PROCESSING, [['neq' => 1], ['null' => 1]]);
         }
 
         return $collection;

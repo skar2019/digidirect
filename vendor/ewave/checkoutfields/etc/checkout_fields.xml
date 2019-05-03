@@ -156,6 +156,10 @@
         <field id="delivery_date">
             <frontend_name>Delivery Date</frontend_name>
             <frontend_input>date</frontend_input>
+        -->
+        <!-- Example of date format: http://php.net/manual/en/datetime.createfromformat.php -->
+        <!--
+            <frontend_format>d/m/Y</frontend_format>
             <sort_order>260</sort_order>
             <validation>
                 <rule name="required-entry">1</rule>

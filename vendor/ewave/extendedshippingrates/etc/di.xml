@@ -236,4 +236,8 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Quote\Model\CouponManagement">
+        <plugin name="ewave_extendedshippingrates_magento_quote_model_couponmanagement"
+                type="Ewave\ExtendedShippingRates\Plugin\Magento\Quote\Model\CouponManagementPlugin"/>
+    </type>
 </config>

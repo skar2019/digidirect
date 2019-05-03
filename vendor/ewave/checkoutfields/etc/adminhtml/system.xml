@@ -5,8 +5,10 @@
             <label>Custom Checkout Fields</label>
             <tab>ewave</tab>
             <resource>Ewave_CheckoutFields::checkout_fields</resource>
+
             <group id="checkout_fields" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General Settings</label>
+
                 <field id="enable_checkout_fields" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Checkout Fields</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -15,6 +17,31 @@
                     <label>Checkout Fields</label>
                     <frontend_model>Ewave\CheckoutFields\Block\Adminhtml\System\Config\Fields</frontend_model>
                     <backend_model>Ewave\CheckoutFields\Model\Config\ArraySerialized</backend_model>
+                    <depends>
+                        <field id="enable_checkout_fields">1</field>
+                    </depends>
+                </field>
+            </group>
+
+            <group id="cron" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Cron</label>
+                <depends>
+                    <field id="*/checkout_fields/enable_checkout_fields">1</field>
+                </depends>
+
+                <field id="frequency" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Frequency</label>
+                    <depends>
+                        <field id="*/checkout_fields/enable_checkout_fields">1</field>
+                    </depends>
+                    <source_model>Magento\Cron\Model\Config\Source\Frequency</source_model>
+                    <backend_model>Ewave\CheckoutFields\Model\Config\Backend\Cron</backend_model>
+                </field>
+                <field id="time" translate="label" type="time" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Start Time</label>
+                    <depends>
+                        <field id="*/checkout_fields/enable_checkout_fields">1</field>
+                    </depends>
                 </field>
             </group>
         </section>

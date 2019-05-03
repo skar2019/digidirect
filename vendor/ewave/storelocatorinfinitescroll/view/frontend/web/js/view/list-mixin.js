@@ -62,7 +62,7 @@ define([
                 this._initScroll();
             }
         },
-        _initScroll () {
+        _initScroll: function () {
             var self = this,
                 $container = this._isWindowContainer(this.scrollContainer) ? $(window) : $(this.scrollContainer);
 
@@ -82,7 +82,7 @@ define([
          * @returns {number|Number}
          * @private
          */
-        _getPosition () {
+        _getPosition: function () {
             return document.documentElement.scrollTop || document.body.scrollTop || window.pageYOffset;
         },
         /**
@@ -90,7 +90,7 @@ define([
          * @returns {*}
          * @private
          */
-        _getScrollThreshold () {
+        _getScrollThreshold: function () {
             var $lastElement,
                 scrollOffset = this.scrollOffset;
 
@@ -111,7 +111,7 @@ define([
          * @returns {*}
          * @private
          */
-        _getCurrentScrollOffset () {
+        _getCurrentScrollOffset: function () {
             var scrollTop = 0,
                 $container = $(this.scrollContainer),
                 containerHeight = $container.height();
@@ -130,7 +130,7 @@ define([
          * @returns {boolean}
          * @private
          */
-        _hasScrollBar () {
+        _hasScrollBar: function () {
             var $container = $(this.scrollContainer);
 
             if (this._isWindowContainer(this.scrollContainer)) {
@@ -143,7 +143,7 @@ define([
          * @returns {boolean}
          * @private
          */
-        _loadOnScroll () {
+        _loadOnScroll: function () {
             var currentScrollOffset = this._getCurrentScrollOffset(),
                 scrollThreshold = this._getScrollThreshold();
 
@@ -155,7 +155,7 @@ define([
          * @returns {boolean}
          * @private
          */
-        _isWindowContainer (container) {
+        _isWindowContainer: function (container) {
             return container === 'window';
         },
         /**
@@ -163,7 +163,7 @@ define([
          * @returns {boolean}
          * @private
          */
-        _preFill () {
+        _preFill: function () {
             return (this.preFill && !this._hasScrollBar());
         }
     };

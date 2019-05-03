@@ -24,6 +24,12 @@ use ZipMoney\ZipMoneyPayment\Model\Config as ZipPayConfig;
 
 class MapperHelper
 {
+    const BRAIN_TREE_PAYMENT_TYPE = 'BT';
+    const PAY_PAL_PAYMENT_TYPE = 'PY';
+    const ZIP_PAY_PAYMENT_TYPE = 'ZM';
+    const BANK_TRANSFER_PAYMENT_TYPE = 'Y';
+    const GIFT_CARD_PAYMENT_TYPE = 'VI';
+
     /**
      * @var CheckoutFieldsDataHelper
      */
@@ -142,6 +148,7 @@ class MapperHelper
     public function getAmountTendered(OrderInterface $order)
     {
         $value = (float)$order->getBaseGiftCardsAmount();
+        $value = !empty($value) ? $value : $order->getBaseGrandTotal();
         return round($value, 2);
     }
     
@@ -253,18 +260,34 @@ class MapperHelper
 
         switch ($method->getCode()) {
             case BraintreeConfigProvider::CODE:
-                return 'BT';
+                return self::BRAIN_TREE_PAYMENT_TYPE;
             case PaypalConfig::METHOD_EXPRESS:
             case BraintreePaypalConfigProvider::PAYPAL_CODE:
-                return 'PY';
+                return self::PAY_PAL_PAYMENT_TYPE;
             case ZipPayConfig::METHOD_CODE:
-                return 'ZM';
+                return self::ZIP_PAY_PAYMENT_TYPE;
             case Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE:
-                return 'Y';
+                return self::BANK_TRANSFER_PAYMENT_TYPE;
             case 'free':
-                return 'VI';
+                return self::GIFT_CARD_PAYMENT_TYPE;
         }
         throw new \Exception('Could not define payment type');
+    }
+
+    /**
+     * @param OrderInterface $order
+     * @return string|null
+     * @throws \Exception
+     */
+    public function getPaymentReference(OrderInterface $order)
+    {
+        $paymentType = $this->getPaymentType($order);
+        if ($paymentType == self::GIFT_CARD_PAYMENT_TYPE) {
+            $result = 'Gift Card';
+        } else {
+            $result = $order->getPayment()->getCcTransId();
+        }
+        return $result;
     }
 
     /**

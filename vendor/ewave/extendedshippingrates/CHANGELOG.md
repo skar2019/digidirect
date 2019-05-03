@@ -117,3 +117,11 @@
 =============
 * Bugfixes:
     * [#271617](https://ewave.tpondemand.com/entity/271617) -- [ESR] Configuration setting "Multiple rates price calculation" is not applied on website level
+
+1.4.0
+=============
+* New features:
+    * [#300266](https://ewave.tpondemand.com/entity/300266) -- [CONDITION] As an admin, I want new condition to be added
+
+* Bugfixes:
+    * [#263254](https://ewave.tpondemand.com/entity/263254) -- [ESR] Method which matches 2 rules with 'Hide' and 'Show' actioons respectively is displayed on Checkout incorrectly

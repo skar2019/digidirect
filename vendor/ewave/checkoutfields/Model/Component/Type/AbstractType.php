@@ -30,6 +30,7 @@ abstract class AbstractType
     const XML_ID = 'id';
     const XML_FRONTEND_NAME = 'frontend_name';
     const XML_FRONTEND_INPUT = 'frontend_input';
+    const XML_FRONTEND_FORMAT = 'frontend_format';
     const XML_CHECKOUT_STEP = 'checkout_step';
     const XML_OPTIONS = 'options';
     const XML_VALIDATION = 'validation';

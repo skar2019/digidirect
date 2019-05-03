@@ -2,20 +2,33 @@
 
 namespace Ewave\CheckoutFields\Model;
 
-use \Magento\Framework\DataObject\IdentityInterface;
-use \Ewave\CheckoutFields\Api\Data\OrderFieldValueInterface;
-use \Magento\Framework\Model\AbstractModel;
-use Magento\Sales\Model\Order;
+use Ewave\CheckoutFields\Api\Data\OrderFieldValueExtensionInterface;
+use Ewave\CheckoutFields\Api\Data\OrderFieldValueInterface;
+use Ewave\CheckoutFields\Api\OrderFieldValueRepositoryInterface;
+use Ewave\CheckoutFields\Api\QuoteFieldValueRepositoryInterface;
+use Ewave\CheckoutFields\Model\ResourceModel\OrderFieldValue\CollectionFactory as OrderValueCollectionFactory;
+use Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\CollectionFactory;
+use Exception;
+use Magento\Checkout\Model\Session;
+use Magento\Framework\Api\AttributeValueFactory;
+use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\ExtensionAttributesFactory;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
 use Magento\Quote\Model\Quote;
-use \Magento\Checkout\Model\Session;
-use \Ewave\CheckoutFields\Api\Data\QuoteFieldValueInterface;
+use Magento\Sales\Model\Order;
 
 /**
  * Class OrderFieldValue
  *
  * @package Ewave\CheckoutFields\Model
  */
-class OrderFieldValue extends AbstractModel implements IdentityInterface, OrderFieldValueInterface
+class OrderFieldValue extends AbstractExtensibleModel implements IdentityInterface, OrderFieldValueInterface
 {
     const CACHE_TAG = 'ewave_checkout_fields';
 
@@ -27,7 +40,7 @@ class OrderFieldValue extends AbstractModel implements IdentityInterface, OrderF
     /**
      * @var ResourceModel\QuoteFieldValue\CollectionFactory
      */
-    protected $_quoteFieldsCollectionFactory;
+    protected $quoteFieldsCollectionFactory;
 
     /**
      * @var Session
@@ -35,28 +48,78 @@ class OrderFieldValue extends AbstractModel implements IdentityInterface, OrderF
     protected $checkoutSession;
 
     /**
+     * @var OrderFieldValueRepositoryInterface
+     */
+    protected $orderFieldValueRepository;
+
+    /**
+     * @var QuoteFieldValueRepositoryInterface
+     */
+    protected $quoteFieldValueRepository;
+
+    /**
+     * @var OrderValueCollectionFactory
+     */
+    protected $orderValueCollectionFactory;
+
+    /**
      * OrderFieldValue constructor.
      *
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param Session $checkoutSession
+     * @param Context                                         $context
+     * @param Registry                                        $registry
+     * @param Session                                         $checkoutSession
      * @param ResourceModel\QuoteFieldValue\CollectionFactory $quoteFieldsCollectionFactory
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
-     * @param array $data
+     * @param AbstractResource|null                           $resource
+     * @param AbstractDb                                      $resourceCollection
+     * @param array                                           $data
+     * @param ExtensionAttributesFactory                      $extensionFactory
+     * @param AttributeValueFactory                           $customAttributeFactory
+     * @param OrderFieldValueRepositoryInterface              $orderFieldValueRepository
+     * @param QuoteFieldValueRepositoryInterface              $quoteFieldValueRepository
+     * @param OrderValueCollectionFactory|null                $orderValueCollectionFactory
      */
     public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
+        Context $context,
+        Registry $registry,
         Session $checkoutSession,
-        \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\CollectionFactory $quoteFieldsCollectionFactory,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $data = []
+        CollectionFactory $quoteFieldsCollectionFactory,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = [],
+        ExtensionAttributesFactory $extensionFactory = null,
+        AttributeValueFactory $customAttributeFactory = null,
+        OrderFieldValueRepositoryInterface $orderFieldValueRepository = null,
+        QuoteFieldValueRepositoryInterface $quoteFieldValueRepository = null,
+        OrderValueCollectionFactory  $orderValueCollectionFactory = null
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_quoteFieldsCollectionFactory = $quoteFieldsCollectionFactory;
+
+        $this->quoteFieldsCollectionFactory = $quoteFieldsCollectionFactory;
         $this->checkoutSession = $checkoutSession;
+        $extensionFactory = $extensionFactory ?? ObjectManager::getInstance()->get(
+                ExtensionAttributesFactory::class
+            );
+        $customAttributeFactory = $customAttributeFactory ?? ObjectManager::getInstance()->get(
+                AttributeValueFactory::class
+            );
+        $this->orderFieldValueRepository = $orderFieldValueRepository ?? ObjectManager::getInstance()->get(
+                OrderFieldValueRepositoryInterface::class
+            );
+        $this->quoteFieldValueRepository = $quoteFieldValueRepository ?? ObjectManager::getInstance()->get(
+                QuoteFieldValueRepositoryInterface::class
+            );
+        $this->orderValueCollectionFactory = $orderValueCollectionFactory ?? ObjectManager::getInstance()->get(
+                OrderValueCollectionFactory::class
+            );
+
+        parent::__construct(
+            $context,
+            $registry,
+            $extensionFactory,
+            $customAttributeFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -168,69 +231,66 @@ class OrderFieldValue extends AbstractModel implements IdentityInterface, OrderF
      * @param Quote $quote
      * @param Order $order
      * @return void
+     * @deprecated 2.0
      */
     public function saveCustomCheckoutValuesToOrder(Quote $quote, Order $order)
     {
-        /**
-         * @var $items \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection
-         */
-        $items = $this->prepareQuoteCollectionFields($quote->getId());
-
-        if (!$items->count()) {
-            // Index controller was not fired yet
-            $this->checkoutSession->setObserverFlag(true);
-        }
-
-        $dataToSave = [];
-
-        foreach ($items as $key => $item) {
-            $dataToSave[$key] = [
-                'code' => $item->getCode(),
-                'order_id' => $order->getId(),
-                'value' => $item->getValue(),
-                'field_id' => $item->getFieldId()
-            ];
-        }
-
-        if (!empty($dataToSave)) {
-            $this->_getResource()->saveCustomCheckoutValuesToOrder($dataToSave);
-            $this->deleteItems($items);
-        }
+        $this->orderFieldValueRepository->moveCheckoutFieldsToOrderFromQuote($quote, $order);
     }
 
     /**
-     * @param int $quoteId
-     * @return ResourceModel\QuoteFieldValue\Collection
+     * @param $quoteId
+     *
+     * @return ExtensibleDataInterface[]
+     * @deprecated 2.0
      */
     public function prepareQuoteCollectionFields($quoteId)
     {
-        /* @var $quoteCollectionFields \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection */
-        $quoteCollectionFields = $this->_quoteFieldsCollectionFactory->create();
-        return $quoteCollectionFields->addFieldToFilter(QuoteFieldValueInterface::QUOTE_ID, $quoteId);
+        return $this->quoteFieldValueRepository->getListByQuoteId($quoteId);
     }
 
     /**
-     * @param \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection $items
-     * @throws \Exception
+     * @param ResourceModel\QuoteFieldValue\Collection $items
+     * @throws Exception
+     * @deprecated 2.0
      */
     public function deleteItems($items)
     {
         /**
-         * @var $item \Ewave\CheckoutFields\Model\QuoteFieldValue
+         * @var $item QuoteFieldValue
          */
         foreach ($items as $item) {
-            $item->getResource()->delete($item);
+            $this->quoteFieldValueRepository->delete($item);
         }
     }
 
     /**
      * Get custom fields order
      *
-     * @param int $orderId
-     * @return \Ewave\CheckoutFields\Model\ResourceModel\OrderFieldValue\Collection
+     * @param $orderId
+     *
+     * @return mixed
      */
     public function getCustomFields($orderId)
     {
-        return $this->getCollection()->addFieldToFilter(self::ORDER_ID, ['eq' => $orderId]);
+        $collection = $this->orderValueCollectionFactory->create();
+
+        return $collection->addFieldToFilter(self::ORDER_ID, ['eq' => $orderId]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getExtensionAttributes()
+    {
+        return $this->_getExtensionAttributes();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setExtensionAttributes(OrderFieldValueExtensionInterface $extensionAttributes)
+    {
+        return $this->_setExtensionAttributes($extensionAttributes);
     }
 }

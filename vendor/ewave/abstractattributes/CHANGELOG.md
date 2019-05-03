@@ -117,3 +117,14 @@
 =============
 * Bugfixes:
     * [#250523](https://ewave.tpondemand.com/entity/250523) -- [PROJECT: Nick Scali][CE][Abstract Attributes] Indexing/caching works incorrectly for Brands/Collections
+
+3.0.6
+=============
+* Bugfixes:
+    * [#287039](https://ewave.tpondemand.com/entity/287039) -- [MARKETPLACE][M2.3][AA] Mass action (Delete) works incorrect
+    * [#287127](https://ewave.tpondemand.com/entity/287127) -- [Marketplace][AA] Clean Cache System message is not shown after AA option is edited
+
+3.0.7
+=============
+* Bugfixes:
+    * [#297785](https://ewave.tpondemand.com/entity/297785) -- [Project: DigiDirect] Abstract attribute is duplicated after second resaving it

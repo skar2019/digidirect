@@ -4,6 +4,7 @@ namespace Ewave\ExtendedShippingRates\Plugin\Magento\SalesRule\Model\Rule\Condit
 use Magento\SalesRule\Model\Rule\Condition\Combine as Subject;
 use Ewave\ExtendedShippingRates\Model\Rule\Condition\UseZoneFromState;
 use Ewave\ExtendedShippingRates\Model\Rule\Condition\UseCustomCondition;
+use Ewave\ExtendedShippingRates\Model\Rule\Condition\DiscountCode;
 
 /**
  * Class Combine
@@ -27,6 +28,11 @@ class Combine
         $result[] = [
             'label' => __('Use custom condition <...>'),
             'value' => UseCustomCondition::class,
+        ];
+
+        $result[] = [
+            'label' => __('Discount code'),
+            'value' => DiscountCode::class,
         ];
         return $result;
     }

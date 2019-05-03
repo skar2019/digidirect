@@ -2,7 +2,9 @@
 /**
  * @var \Ewave\Blog\Block\Post\RelatedPosts $block
  * @var \Ewave\Blog\Model\Post $post
+ * @var \Ewave\Digi\Helper\Blog $blogHelper
  */
+$blogHelper = $this->helper('Ewave\Digi\Helper\Blog');
 ?>
 <?php if ($block->isDisplayPosts()) : ?>
     <?php $collection = $block->getCollection(); ?>
@@ -38,10 +40,12 @@
                                 </a>
                             </h2>
 
+                            <?php if (!$blogHelper->isPostRelatedToContributors($post)):?>
                             <div class="date">
                                 <?php /* @escapeNotVerified */ echo __('Posted:') ?>
                                 <?php echo $block->escapeHtml($post->getCreatedDate()); ?>
                             </div>
+                            <?php endif; ?>
                             <a class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Read More') ?>">
                                 <span class="more-title"><?php /* @escapeNotVerified */ echo __('Read More') ?></span>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">

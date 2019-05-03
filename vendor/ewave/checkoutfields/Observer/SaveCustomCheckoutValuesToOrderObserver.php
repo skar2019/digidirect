@@ -2,60 +2,51 @@
 
 namespace Ewave\CheckoutFields\Observer;
 
-use \Magento\Framework\Event\Observer as EventObserver;
-use \Magento\Framework\Event\ObserverInterface;
-use \Ewave\CheckoutFields\Model\OrderFieldValueFactory;
-use \Magento\Sales\Model\Order;
-use \Magento\Quote\Model\Quote;
+use Ewave\CheckoutFields\Api\OrderFieldValueRepositoryInterface;
+use Magento\Framework\Event\Observer as EventObserver;
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Quote\Api\Data\CartInterface;
+use Magento\Sales\Api\Data\OrderInterface;
 
 /**
  * Class SaveCustomCheckoutValuesToOrderObserver
+ *
  * @package Ewave\CheckoutFields\Observer
  */
 class SaveCustomCheckoutValuesToOrderObserver implements ObserverInterface
 {
     /**
-     * @var OrderFieldValueFactory
+     * @var OrderFieldValueRepositoryInterface
      */
-    protected $orderFieldValueModel;
-
-    /**
-     * @var Collection
-     */
-    protected $quoteCollection;
+    protected $orderFieldValueRepository;
 
     /**
      * SaveCustomCheckoutValuesToOrderObserver constructor.
-     * @param OrderFieldValueFactory $orderFieldValueModel
+     *
+     * @param OrderFieldValueRepositoryInterface $orderFieldValueRepository
      */
-
-    /**
-     * SaveCustomCheckoutValuesToOrderObserver constructor.
-     * @param OrderFieldValueFactory $orderFieldValueModel
-     */
-    public function __construct(OrderFieldValueFactory $orderFieldValueModel)
+    public function __construct(OrderFieldValueRepositoryInterface $orderFieldValueRepository)
     {
-        $this->orderFieldValueModel = $orderFieldValueModel;
+        $this->orderFieldValueRepository = $orderFieldValueRepository;
     }
 
     /**
      * Add delivery notes from quote to order object
+     *
      * @param EventObserver $observer
+     *
      * @return $this
      */
     public function execute(EventObserver $observer)
     {
         $order = $observer->getEvent()->getOrder();
         $quote = $observer->getEvent()->getQuote();
-        if (!$order instanceof Order || !$quote instanceof Quote) {
+        if (!$order instanceof OrderInterface || !$quote instanceof CartInterface) {
             return $this;
         }
 
-        $model = $this->orderFieldValueModel->create();
-        /**
-         * @var $model \Ewave\CheckoutFields\Model\OrderFieldValue
-         */
-        $model->saveCustomCheckoutValuesToOrder($quote, $order);
+        $this->orderFieldValueRepository->moveCheckoutFieldsToOrderFromQuote($quote, $order);
+
         return $this;
     }
 }

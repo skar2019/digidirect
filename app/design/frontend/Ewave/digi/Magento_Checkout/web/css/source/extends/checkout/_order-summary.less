@@ -98,3 +98,17 @@
 
 //  Modal
 //@checkout-summary-modal-action-close__display__m: none;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .opc-block-summary {
+        &._block-content-loading {
+            .loading-mask {
+                position: fixed!important;
+            }
+        }
+    }
+}

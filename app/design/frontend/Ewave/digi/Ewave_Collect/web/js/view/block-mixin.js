@@ -16,21 +16,14 @@ define([
             applyDeliveryToAllItems: function () {
                 this._super();
 
-                var deliveryChecked =  $('[data-collect-type="delivery"]').hasClass(this.visibleClass);
-
                 this.toggleToDeliveryShippingMethod();
-
-                quote.shippingMethod.subscribe(function () {
-                    if (quote.shippingMethod()) {
-                        if (quote.shippingMethod().carrier_code === 'collect' && deliveryChecked) {
-                            this.toggleToDeliveryShippingMethod();
-                        }
-                    }
-                },this);
             },
 
             toggleToDeliveryShippingMethod: function () {
-                $('.row.collect').siblings().find('input').trigger('click');
+                var closestRadioButton = $('.row.collect').siblings().find('input')[0];
+                if(closestRadioButton) {
+                    $(closestRadioButton).trigger('click');
+                }
             }
         });
     }

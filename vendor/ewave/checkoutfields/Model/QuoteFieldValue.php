@@ -2,16 +2,29 @@
 
 namespace Ewave\CheckoutFields\Model;
 
-use \Magento\Framework\DataObject\IdentityInterface;
-use \Ewave\CheckoutFields\Api\Data\QuoteFieldValueInterface;
-use \Magento\Framework\Model\AbstractModel;
-use \Ewave\CheckoutFields\Helper\Xml\Fields\Parser;
+use Ewave\CheckoutFields\Api\Data\QuoteFieldValueExtensionInterface;
+use Ewave\CheckoutFields\Api\Data\QuoteFieldValueInterface;
+use Ewave\CheckoutFields\Api\QuoteFieldValueRepositoryInterface;
+use Ewave\CheckoutFields\Helper\Xml\Fields\Parser;
+use Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\CollectionFactory as QuoteFieldValueCollectionFactory;
+use Magento\Framework\Api\AttributeValueFactory;
+use Magento\Framework\Api\ExtensionAttributesFactory;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
+use Magento\Quote\Model\Quote;
 
 /**
  * Class QuoteFieldValue
+ *
  * @package Ewave\CheckoutFields\Model
  */
-class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteFieldValueInterface
+class QuoteFieldValue extends AbstractExtensibleModel implements IdentityInterface, QuoteFieldValueInterface
 {
     const CACHE_TAG = 'ewave_checkout_fields';
 
@@ -21,38 +34,80 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
     protected $_eventPrefix = 'ewave_checkoutfields_quote';
 
     /**
+     * @var QuoteFieldValueRepositoryInterface
+     */
+    protected $quoteFieldValueRepository;
+
+    /**
      * @var Parser
      */
-    protected $_parser;
+    protected $parser;
+
+    /**
+     * @var QuoteFieldValueCollectionFactory
+     */
+    protected $valueCollectionFactory;
 
     /**
      * QuoteFieldValue constructor.
-     * @param \Magento\Framework\Model\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param Parser $parser
-     * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
-     * @param \Magento\Framework\Data\Collection\AbstractDb|null $resourceCollection
-     * @param array $data
+     *
+     * @param Context                                 $context
+     * @param Registry                                $registry
+     * @param Parser                                  $parser
+     * @param AbstractResource|null                   $resource
+     * @param AbstractDb|null                         $resourceCollection
+     * @param array                                   $data
+     * @param ExtensionAttributesFactory|null         $extensionFactory
+     * @param AttributeValueFactory|null              $customAttributeFactory
+     * @param QuoteFieldValueRepositoryInterface|null $quoteFieldValueRepository
+     * @param QuoteFieldValueCollectionFactory|null   $quoteFieldValueCollectionFactory
      */
     public function __construct(
-        \Magento\Framework\Model\Context $context,
-        \Magento\Framework\Registry $registry,
+        Context $context,
+        Registry $registry,
         Parser $parser,
-        \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-        \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-        array $data = []
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = [],
+        ExtensionAttributesFactory $extensionFactory = null,
+        AttributeValueFactory $customAttributeFactory = null,
+        QuoteFieldValueRepositoryInterface $quoteFieldValueRepository = null,
+        QuoteFieldValueCollectionFactory $quoteFieldValueCollectionFactory = null
     ) {
-        $this->_parser = $parser;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->parser = $parser;
+        $this->quoteFieldValueRepository = $quoteFieldValueRepository ?? ObjectManager::getInstance()->get(
+                QuoteFieldValueRepositoryInterface::class
+            );
+        $extensionFactory = $extensionFactory ?? ObjectManager::getInstance()->get(
+            ExtensionAttributesFactory::class
+            );
+
+        $customAttributeFactory = $customAttributeFactory ?? ObjectManager::getInstance()->get(
+                AttributeValueFactory::class
+            );
+
+        $this->valueCollectionFactory = $quoteFieldValueCollectionFactory
+                                        ?? ObjectManager::getInstance()->get(QuoteFieldValueCollectionFactory::class);
+
+        parent::__construct(
+            $context,
+            $registry,
+            $extensionFactory,
+            $customAttributeFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
      * Initialization
+     *
      * @return void
      */
     protected function _construct()
     {
-        $this->_init('Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue');
+        $this->_init(ResourceModel\QuoteFieldValue::class);
     }
 
     /**
@@ -105,6 +160,7 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
 
     /**
      * @param string $code
+     *
      * @return $this
      */
     public function setCode($code)
@@ -114,6 +170,7 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
 
     /**
      * @param int $id
+     *
      * @return $this
      */
     public function setId($id)
@@ -123,6 +180,7 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
 
     /**
      * @param int $quoteId
+     *
      * @return $this
      */
     public function setQuoteId($quoteId)
@@ -132,6 +190,7 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
 
     /**
      * @param string|array $value
+     *
      * @return $this
      */
     public function setValue($value)
@@ -141,6 +200,7 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
 
     /**
      * @param string $fieldId
+     *
      * @return $this
      */
     public function setFieldId($fieldId)
@@ -153,55 +213,45 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
      *
      * @param int $quoteId
      * @return void
+     * @deprecated 2.0
      */
     public function cleanDataBeforeSave($quoteId)
     {
-        $items = $this->getCollection()->addFieldToFilter(self::QUOTE_ID, $quoteId);
+        $items = $this->quoteFieldValueRepository->getListByQuoteId($quoteId);
+
         /**
          * @var $item $this
          */
         foreach ($items as $item) {
-            $this->_getResource()->delete($item);
+            $this->quoteFieldValueRepository->delete($item);
         }
     }
 
     /**
-     * @param \Magento\Quote\Model\Quote $quote
+     * @param Quote $quote
      * @param array $params
      * @param bool $reSave
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
+     * @deprecated 2.0
      */
     public function saveCustomFieldsValuesToQuote($quote, $params = [], $reSave = true)
     {
-        if ($reSave) {
-            $this->cleanDataBeforeSave($quote->getId());
-        }
-        $dataToSave = [];
-        $fields = $this->_parser->getFields($quote->getStoreId());
-        foreach ($params as $code => $values) {
-            $label = $fields[$code]['frontend_name'] ?? '';
-            $dataToSave[] = [
-                'code' => $label,
-                'quote_id' => $quote->getId(),
-                'value' => serialize($values ?? ''),
-                'field_id' => $code,
-            ];
-        }
-        if (!empty($dataToSave)) {
-            $this->_getResource()->saveCustomFieldsValuesToQuote($dataToSave);
-        }
+        $this->quoteFieldValueRepository->saveToQuote($quote, $params, $reSave);
     }
 
     /**
      * Get custom fields quote
      *
-     * @param int $quoteId
-     * @return \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection
+     * @param $quoteId
+     *
+     * @return ResourceModel\QuoteFieldValue\Collection
      */
     public function getCustomFields($quoteId)
     {
-        return $this->getCollection()->addFieldToFilter(self::QUOTE_ID, ['eq' => $quoteId]);
+        $collection = $this->valueCollectionFactory->create();
+
+        return $collection->addFieldToFilter(self::QUOTE_ID, ['eq' => $quoteId]);
     }
 
     /**
@@ -209,12 +259,31 @@ class QuoteFieldValue extends AbstractModel implements IdentityInterface, QuoteF
      *
      * @param int $quoteId
      * @param string $fieldId
-     * @return \Ewave\CheckoutFields\Model\ResourceModel\QuoteFieldValue\Collection
+     *
+     * @return ResourceModel\QuoteFieldValue\Collection
      */
     public function getCustomField($quoteId, $fieldId)
     {
-        return $this->getCollection()
-            ->addFieldToFilter(self::QUOTE_ID, ['eq' => $quoteId])
-            ->addFieldToFilter(self::FIELD_ID, ['eq' => $fieldId]);
+        $collection = $this->valueCollectionFactory->create();
+
+        return $collection
+                    ->addFieldToFilter(self::QUOTE_ID, ['eq' => $quoteId])
+                    ->addFieldToFilter(self::FIELD_ID, ['eq' => $fieldId]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getExtensionAttributes()
+    {
+        return $this->_getExtensionAttributes();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setExtensionAttributes(QuoteFieldValueExtensionInterface $extensionAttributes)
+    {
+        return $this->_setExtensionAttributes($extensionAttributes);
     }
 }

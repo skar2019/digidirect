@@ -20,14 +20,15 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element type="xs:string" name="frontend_name" minOccurs="1" maxOccurs="1"/>
-            <xs:element type="frontendInput" name="frontend_input" minOccurs="1" maxOccurs="1"/>
-            <xs:element type="xs:integer" name="sort_order" maxOccurs="1" minOccurs="1" />
+            <xs:element name="frontend_name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="frontend_input" type="frontendInput" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="frontend_format" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="sort_order" type="xs:integer" maxOccurs="1" minOccurs="1" />
             <xs:element name="validation" type="validationType" minOccurs="0" maxOccurs="1"/>
             <xs:element name="area" type="areaType" maxOccurs="1" minOccurs="1"/>
             <xs:element name="depends" type="dependsType" minOccurs="0" maxOccurs="1"/>
-            <xs:element type="optionsType" name="options" minOccurs="0" maxOccurs="1"/>
-            <xs:element type="xs:string" name="class" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="options" type="optionsType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="class" type="xs:string" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:ID" use="required"/>
     </xs:complexType>

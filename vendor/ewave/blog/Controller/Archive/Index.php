@@ -1,4 +1,5 @@
 <?php
+
 namespace Ewave\Blog\Controller\Archive;
 
 use Ewave\Blog\Block\Archive;
@@ -31,6 +32,7 @@ class Index extends Action
 
     /**
      * Index constructor.
+     *
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Data $dataHelper
@@ -70,24 +72,34 @@ class Index extends Action
         $page->getConfig()->getTitle()->set(__('Monthly Archives: ' . date('F', $time) . ' ' . date('Y', $time)));
         $breadcrumbShow = $this->dataHelper->getGeneralSettingsConfig('breadcrumb');
         if ($breadcrumbShow) {
-            $breadcrumbs = $page->getLayout()
-                ->getBlock('breadcrumbs');
-            $breadcrumbs->addCrumb(
-                'home',
-                [
-                    'label' => __('Home'),
-                    'title' => __('Home'),
-                    'link' => $this->_url->getUrl('')
-                ]
-            );
-            $breadcrumbs->addCrumb(
-                'ewave_blog',
-                [
-                    'label' => __('Latest Blog Posts'),
-                    'title' => __('Latest Blog Posts')
-                ]
-            );
+            $this->addBreadcrumbs($page);
         }
         return $page;
+    }
+
+    /**
+     * @param \Magento\Framework\View\Result\Page $page
+     */
+    private function addBreadcrumbs(\Magento\Framework\View\Result\Page $page)
+    {
+        $breadcrumbs = $page->getLayout()->getBlock('breadcrumbs');
+        if (!$breadcrumbs) {
+            return;
+        }
+        $breadcrumbs->addCrumb(
+            'home',
+            [
+                'label' => __('Home'),
+                'title' => __('Home'),
+                'link' => $this->_url->getUrl(''),
+            ]
+        );
+        $breadcrumbs->addCrumb(
+            'ewave_blog',
+            [
+                'label' => __('Latest Blog Posts'),
+                'title' => __('Latest Blog Posts'),
+            ]
+        );
     }
 }

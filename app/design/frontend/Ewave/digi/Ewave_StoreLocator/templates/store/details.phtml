@@ -16,14 +16,24 @@ $exclusiveIcon = $block->getExclusiveIcon();
             </svg>
         </span>
     </div>
-    <?php if ($address = $block->getFullAddress()): ?>
+
+    <?php if ($abstractEntity): ?>
         <div class="item -address">
             <span class="icon">
                 <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-building"></use>
                 </svg>
             </span>
-            <?php /* @escapeNotVerified */ echo $address; ?>
+            <?php if ($posStreetAddress = $abstractEntity->getStreet()): ?>
+                <?php echo $block->escapeHtml($posStreetAddress); ?>,
+            <?php endif; ?>
+            <?php if ($posCity = $abstractEntity->getCity()): ?>
+                <?php echo $block->escapeHtml($posCity); ?>
+            <?php endif; ?>
+            <?php if ($posState = $abstractEntity->getState()): ?>
+                <?php echo $block->escapeHtml($posState); ?>
+            <?php endif; ?>
+            <?php echo $block->escapeHtml($abstractEntity->getPostcode()); ?>
         </div>
     <?php endif; ?>
 

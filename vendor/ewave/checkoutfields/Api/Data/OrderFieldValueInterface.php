@@ -2,11 +2,14 @@
 
 namespace Ewave\CheckoutFields\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Interface OrderFieldValueInterface
+ *
  * @package Ewave\CheckoutFields\Api\Data
  */
-interface OrderFieldValueInterface
+interface OrderFieldValueInterface extends ExtensibleDataInterface
 {
     /**
      * Entity ID
@@ -87,4 +90,21 @@ interface OrderFieldValueInterface
      * @return OrderFieldValueInterface
      */
     public function setFieldId($fieldId);
+
+    /**
+     * Retrieve existing extension attributes object or create a new one.
+     *
+     * @return \Ewave\CheckoutFields\Api\Data\OrderFieldValueExtensionInterface|null
+     */
+    public function getExtensionAttributes();
+
+    /**
+     * Set an extension attributes object.
+     *
+     * @param \Ewave\CheckoutFields\Api\Data\OrderFieldValueExtensionInterface $extensionAttributes
+     * @return $this
+     */
+    public function setExtensionAttributes(
+        \Ewave\CheckoutFields\Api\Data\OrderFieldValueExtensionInterface $extensionAttributes
+    );
 }

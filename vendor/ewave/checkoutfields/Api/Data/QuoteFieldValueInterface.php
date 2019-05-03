@@ -2,11 +2,13 @@
 
 namespace Ewave\CheckoutFields\Api\Data;
 
+use Magento\Framework\Api\ExtensibleDataInterface;
+
 /**
  * Interface QuoteFieldValueInterface
  * @package Ewave\CheckoutFields\Api\Data
  */
-interface QuoteFieldValueInterface
+interface QuoteFieldValueInterface extends ExtensibleDataInterface
 {
     /**
      * Entity ID
@@ -87,4 +89,21 @@ interface QuoteFieldValueInterface
      * @return QuoteFieldValueInterface
      */
     public function setFieldId($fieldId);
+
+    /**
+     * Retrieve existing extension attributes object or create a new one.
+     *
+     * @return \Ewave\CheckoutFields\Api\Data\QuoteFieldValueExtensionInterface|null
+     */
+    public function getExtensionAttributes();
+
+    /**
+     * Set an extension attributes object.
+     *
+     * @param \Ewave\CheckoutFields\Api\Data\QuoteFieldValueExtensionInterface $extensionAttributes
+     * @return $this
+     */
+    public function setExtensionAttributes(
+        \Ewave\CheckoutFields\Api\Data\QuoteFieldValueExtensionInterface $extensionAttributes
+    );
 }

@@ -32,6 +32,8 @@ Code must be unique
     <field id="textarea_field">
         <frontend_name>Textarea field</frontend_name>
         <frontend_input>textarea</frontend_input>
+        <!-- For date fields can be used format -->
+        <frontend_format>d/m/Y</frontend_format>
         <sort_order>10000</sort_order>
         <validation>
             <rule name="required-entry">1</rule>

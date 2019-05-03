@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:ewave:module:Ewave_InfiniteScroll:etc/infinitescroll.xsd">
+    <scroll name="catalog_brand">
+        <config handle="eaa_attribute_option_index" instance="Ewave\InfiniteScroll\Model\Catalog\Processor" selector=".product-items"/>
+    </scroll>
+</config>

@@ -1,7 +1,9 @@
 define([
-    'Magento_Checkout/js/model/quote'
+    'Magento_Checkout/js/model/quote',
+    'Ewave_CheckoutFields/js/model/skip-state'
 ], function (
-    quote
+    quote,
+    skipState
 ) {
     'use strict';
     return function (target) {
@@ -9,6 +11,7 @@ define([
             initialize: function () {
                 this._super();
                 quote.isFormInline = this.isFormInline;
+                this.setCheckoutSkipValidation();
             },
             validateShippingInformation: function () {
                 var checkoutFields = window.customCheckoutFieldConfig.fields;
@@ -20,6 +23,12 @@ define([
                     }
                 }
                 return this._super();
+            },
+            setCheckoutSkipValidation: function () {
+                skipState.setSkipValidation(!this.visible());
+                this.visible.subscribe(function (flag) {
+                    skipState.setSkipValidation(!flag);
+                });
             }
         });
     };

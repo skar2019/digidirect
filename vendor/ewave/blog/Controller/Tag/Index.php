@@ -1,4 +1,5 @@
 <?php
+
 namespace Ewave\Blog\Controller\Tag;
 
 use Ewave\Blog\Api\Data\TagInterface;
@@ -37,6 +38,7 @@ class Index extends Action
 
     /**
      * Index constructor.
+     *
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Data $dataHelper
@@ -68,21 +70,36 @@ class Index extends Action
         $page->getConfig()->getTitle()->set(__('Blog Posts with tag #%1', $tag->getName()));
         $breadcrumbShow = $this->dataHelper->getGeneralSettingsConfig('breadcrumb');
         if ($breadcrumbShow) {
-            $breadcrumbs = $page->getLayout()->getBlock('breadcrumbs');
-            $breadcrumbs->addCrumb(
-                'home',
-                [
-                    'label' => __('Home'),
-                    'title' => __('Home'),
-                    'link' => $this->_url->getUrl('')
-                ]
-            );
+            $this->addBreadcrumbs($page);
         }
         $pageLayout = $this->dataHelper->getGeneralSettingsConfig('post_list_layout');
         $pageConfig = $page->getConfig();
         $pageConfig->setPageLayout($pageLayout);
         $page->getLayout()->getUpdate();
         return $page;
+    }
+
+    /**
+     * @param \Magento\Framework\View\Result\Page $page
+     * @return void
+     */
+    private function addBreadcrumbs(\Magento\Framework\View\Result\Page $page)
+    {
+        /**
+         * @var $breadcrumbs
+         */
+        $breadcrumbs = $page->getLayout()->getBlock('breadcrumbs');
+        if (!$breadcrumbs) {
+            return;
+        }
+        $breadcrumbs->addCrumb(
+            'home',
+            [
+                'label' => __('Home'),
+                'title' => __('Home'),
+                'link' => $this->_url->getUrl(''),
+            ]
+        );
     }
 
     /**

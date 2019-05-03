@@ -1,7 +1,9 @@
 <?php
+
 namespace Ewave\AI\Preferences\Model\Import;
 
 use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Catalog\Model\Product\Attribute\Backend\Media\ImageEntryConverter;
 use Magento\CatalogImportExport\Model\Export\Product as ProductExport;
 use Magento\CatalogImportExport\Model\Import\Product\RowValidatorInterface as ValidatorInterface;
 use Magento\Framework\Json\Decoder;
@@ -423,18 +425,17 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
                                 }
                                 $thumbnail = $videoData['thumbnails']['standard']['url'] ?? '';
                                 $uploadedFile = $this->uploadMediaFiles(trim($thumbnail), true);
-                                $mediaGallery[$storeId][$rowSku][] = [
+                                $mediaGallery[$storeId][$rowSku][$uploadedFile] = [
                                     'attribute_id' => $this->getMediaGalleryAttributeId(),
                                     'label' => $rowLabels[$column][$columnImageKey] ?? '',
                                     'position' => ++$position,
                                     'disabled' => isset($disabledImages[$columnImage]) ? '1' : '0',
-                                    'value' => null,
+                                    'value' => $uploadedFile,
                                     'videoInfo' => [
                                         'img' => $uploadedFile,
                                         'link' => 'https://www.youtube.com/watch?v=' . $columnImage,
                                         'title' => $videoData['title'],
                                         'description' => $videoData['description'],
-
                                     ],
                                 ];
                             } else {
@@ -751,6 +752,139 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
         }
 
         return [$images, $labels];
+    }
+
+    /**
+     * @see \Magento\CatalogImportExport\Model\Import\Product\MediaGalleryProcessor::saveMediaGallery()
+     * @param array $mediaGalleryData
+     * @return $this
+     */
+    protected function _saveMediaGallery(array $mediaGalleryData)
+    {
+        if (empty($mediaGalleryData)) {
+            return $this;
+        }
+        $this->initMediaGalleryResources();
+        $mediaGalleryDataGlobal = array_replace_recursive(...$mediaGalleryData);
+        $imageNames = [];
+        $multiInsertData = [];
+        $valueToProductId = [];
+        foreach ($mediaGalleryDataGlobal as $productSku => $mediaGalleryRows) {
+            $productId = $this->skuProcessor->getNewSku($productSku)[$this->getProductEntityLinkField()];
+            $insertedGalleryImgs = [];
+            foreach ($mediaGalleryRows as $insertValue) {
+                if (!in_array($insertValue['value'], $insertedGalleryImgs)) {
+                    $mediaType = empty($insertValue['videoInfo']) ?
+                        ImageEntryConverter::MEDIA_TYPE_CODE : ExternalVideoEntryConverter::MEDIA_TYPE_CODE;
+                    $valueArr = [
+                        'attribute_id' => $insertValue['attribute_id'],
+                        'value' => $insertValue['value'],
+                        'media_type' => $mediaType,
+                        'disabled' => $insertValue['disabled'],
+                    ];
+                    $valueToProductId[$insertValue['value']][] = $productId;
+                    $imageNames[] = $insertValue['value'];
+                    $multiInsertData[] = $valueArr;
+                    $insertedGalleryImgs[] = $insertValue['value'];
+                }
+            }
+        }
+        $oldMediaValues = $this->_connection->fetchAssoc(
+            $this->_connection->select()->from($this->mediaGalleryTableName, ['value_id', 'value'])
+                ->where('value IN (?)', $imageNames)
+        );
+        $this->_connection->insertOnDuplicate($this->mediaGalleryTableName, $multiInsertData);
+        $newMediaSelect = $this->_connection->select()->from($this->mediaGalleryTableName, ['value_id', 'value'])
+            ->where('value IN (?)', $imageNames);
+        if (array_keys($oldMediaValues)) {
+            $newMediaSelect->where('value_id NOT IN (?)', array_keys($oldMediaValues));
+        }
+        $newMediaValues = $this->_connection->fetchAssoc($newMediaSelect);
+        foreach ($mediaGalleryData as $storeId => $storeMediaGalleryData) {
+            $this->processMediaPerStore((int)$storeId, $storeMediaGalleryData, $newMediaValues, $valueToProductId);
+        }
+        return $this;
+    }
+
+    /**
+     * @see \Magento\CatalogImportExport\Model\Import\Product\MediaGalleryProcessor::processMediaPerStore()
+     * Save media gallery data per store.
+     *
+     * @param int $storeId
+     * @param array $mediaGalleryData
+     * @param array $newMediaValues
+     * @param array $valueToProductId
+     * @return void
+     */
+    protected function processMediaPerStore(
+        int $storeId,
+        array $mediaGalleryData,
+        array $newMediaValues,
+        array $valueToProductId
+    ) {
+        $multiInsertData = [];
+        $dataForSkinnyTable = [];
+        $dataVideoInsertData = [];
+        foreach ($mediaGalleryData as $mediaGalleryRows) {
+            foreach ($mediaGalleryRows as $insertValue) {
+                foreach ($newMediaValues as $valueId => $values) {
+                    if ($values['value'] == $insertValue['value']) {
+                        $insertValue['value_id'] = $valueId;
+                        $insertValue[$this->getProductEntityLinkField()]
+                            = array_shift($valueToProductId[$values['value']]);
+                        unset($newMediaValues[$valueId]);
+                        break;
+                    }
+                }
+                if (isset($insertValue['value_id'])) {
+                    $valueArr = [
+                        'value_id' => $insertValue['value_id'],
+                        'store_id' => $storeId,
+                        $this->getProductEntityLinkField() => $insertValue[$this->getProductEntityLinkField()],
+                        'label' => $insertValue['label'],
+                        'position' => $insertValue['position'],
+                        'disabled' => $insertValue['disabled'],
+                    ];
+                    $multiInsertData[] = $valueArr;
+                    $dataForSkinnyTable[] = [
+                        'value_id' => $insertValue['value_id'],
+                        $this->getProductEntityLinkField() => $insertValue[$this->getProductEntityLinkField()],
+                    ];
+                    if (!empty($insertValue['videoInfo']['link'])) {
+                        $dataVideoInsertData[] = [
+                            'value_id' => $insertValue['value_id'],
+                            'store_id' => $storeId,
+                            'url' => $insertValue['videoInfo']['link'],
+                            'title' => $insertValue['videoInfo']['title'],
+                            'description' => $insertValue['videoInfo']['description'],
+                        ];
+                    }
+                }
+            }
+        }
+        try {
+            $this->_connection->insertOnDuplicate(
+                $this->mediaGalleryValueTableName,
+                $multiInsertData,
+                ['value_id', 'store_id', $this->getProductEntityLinkField(), 'label', 'position', 'disabled']
+            );
+            $this->_connection->insertOnDuplicate(
+                $this->mediaGalleryEntityToValueTableName,
+                $dataForSkinnyTable,
+                ['value_id']
+            );
+            if (!empty($dataVideoInsertData)) {
+                $this->_connection->insertOnDuplicate(
+                    $this->getResource()->getTable('catalog_product_entity_media_gallery_value_video'),
+                    $dataVideoInsertData
+                );
+            }
+        } catch (\Exception $e) {
+            $this->_connection->delete(
+                $this->mediaGalleryTableName,
+                $this->_connection->quoteInto('value_id IN (?)', $newMediaValues)
+            );
+        }
     }
 
     /**

@@ -33,3 +33,10 @@
     * [#283834](https://ewave.tpondemand.com/entity/283834) -- [M2-2-7][Pre-Order] PDP: Pre-order button is renamed to Add to Cart after adding a product to Cart
     * [#290626](https://ewave.tpondemand.com/entity/290626) -- [BACKORDER] 'Back-order' button is replaced on 'Add to Cart' on PLP
     * [#294343](https://ewave.tpondemand.com/entity/294343) -- [Project: DigiDirect] "Pre-order" button is replaced with "Backorder" after adding product to the cart
+
+1.0.5
+=============
+* Bugfixes:
+    * [#297872](https://ewave.tpondemand.com/entity/297872) -- [Project: DigiDirect] "StockItemRepository" gets invalid parameter
+    * [#297873](https://ewave.tpondemand.com/entity/297873) -- [Project: DigiDirect] Wrong change in "inventory_stock_2" table, after product is saved with "Allow Pre-Orders" option
+

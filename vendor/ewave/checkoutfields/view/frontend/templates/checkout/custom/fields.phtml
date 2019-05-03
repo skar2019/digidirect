@@ -1,9 +1,5 @@
 <?php /** @var Ewave\CheckoutFields\Block\Checkout\Custom\Fields $block */ ?>
 
 <script>
-window.customCheckoutFieldConfig = {
-    "serviceUrl": '/checkoutfields/save',
-    "fields": <?php echo /* @escapeNotVerified */ $block->getFields(); ?>,
-    "provider": "<?php echo $block->escapeHtml($block->getProvider()); ?>"
-};
+window.customCheckoutFieldConfig =  <?= /* @escapeNotVerified */ $block->getSerializedCheckoutFieldsConfig() ?>;
 </script>

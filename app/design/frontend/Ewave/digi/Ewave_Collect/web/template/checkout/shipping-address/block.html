@@ -19,7 +19,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
     </label>
 </div>
 
-<div data-bind="css: 'collect-block -visible'" data-role="collect-block" data-collect-type="delivery">
+<div data-bind="css: collectPlaces().length > 0 ? 'collect-block' : 'collect-block -visible'" data-role="collect-block" data-collect-type="delivery">
     <div data-bind="i18n: 'If your order is placed before 11am AEST on a business day (Mon-Fri), it leaves our warehouse the same day!'"></div>
 </div>
 <div data-bind="css: collectPlaces().length > 0 ? 'collect-block -visible' : 'collect-block'" data-role="collect-block"

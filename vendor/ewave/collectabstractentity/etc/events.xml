@@ -9,4 +9,7 @@
         <observer name="EwaveCollectAbstractEntity::ewave_collect_apply_collect_place_to_all_items_result"
                   instance="ApplyCollectPlaceToAllItemsResultObserver" />
     </event>
+    <event name="sales_order_shipment_track_process_relation">
+        <observer name="ewave_collect_send_tracking_number_email_notification" instance="Ewave\CollectAbstractEntity\Observer\SendTrackingNumberEmailNotification" />
+    </event>
 </config>

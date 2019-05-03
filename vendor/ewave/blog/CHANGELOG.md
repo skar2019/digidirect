@@ -140,4 +140,8 @@
 ===================
 * Bugfixes:
     * [#294253](https://ewave.tpondemand.com/entity/294253) -- [Project: DigiDirect] Ewave_Blog module doesn't have verification for Breadcrumps module
-    * [#297756](https://ewave.tpondemand.com/entity/297756) -- [Project: Rip Curl][Translate Blog][Back-office] Categories/Posts created only for a certain store view are not displayed in the corresponding grids in the back-office	
+    * [#297756](https://ewave.tpondemand.com/entity/297756) -- [Project: Rip Curl][Translate Blog][Back-office] Categories/Posts created only for a certain store view are not displayed in the corresponding grids in the back-office
+
+2.4.2
+* Bugfixes:
+    * [#294253](https://ewave.tpondemand.com/entity/294253) -- [Project: DigiDirect] Ewave_Blog module doesn't have verification for Breadcrumps module	

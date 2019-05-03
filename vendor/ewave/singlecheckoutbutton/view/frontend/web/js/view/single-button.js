@@ -6,17 +6,17 @@ define([
     'Magento_Checkout/js/model/step-navigator',
     'Magento_Checkout/js/model/quote',
     'mage/translate',
-    'Ewave_SingleCheckoutButton/js/view/error-methods'
-], function (
-    $,
+    'Ewave_SingleCheckoutButton/js/view/error-methods',
+    'uiRegistry'
+], function ($,
     ko,
     _,
     Component,
     stepNavigator,
     quote,
     $t,
-    errorMethods
-) {
+    errorMethods,
+    uiRegistry) {
     'use strict';
 
     return Component.extend({
@@ -27,12 +27,17 @@ define([
             isOnlyPaymentStep: false,
             shippingFormSelector: '#co-shipping-method-form',
             paymentMethodContainer: '.payment-method',
-            defaultButton: '.action.primary'           
+            defaultButton: '.action.primary',
+            isBraintreePaypalOneStepEnabled: true,
+            braintreePaypalComponent: 'checkout.steps.billing-step.payment.payments-list.braintree_paypal',
+            braintreePaypalButtonContinue: '#braintree_paypal_continue_to',
+            braintreePaypalButtonPlaceOrder: '#braintree_paypal_place_order'
         },
         activeStep: ko.observable(null),
         label: ko.observable(null),
         isVisible: ko.observable(false),
         isDisabled: ko.observable(false),
+        isSubscribed: false,
 
         initialize: function () {
             this._super();
@@ -103,7 +108,14 @@ define([
          * Payment step action
          */
         paymentStepAction: function () {
-            this.checkPaymentMethod() ? $('#' + quote.paymentMethod().method).closest(this.paymentMethodContainer).find(this.defaultButton).trigger('click') : errorMethods().isErrorPaymentMethod(true);
+            if (this.checkPaymentMethod() && quote.paymentMethod().method === 'braintree_paypal') {
+                $(this.braintreePaypalButtonContinue).trigger('click');
+                if (!this.isSubscribed) {
+                    this.subscribePaypalBraintreeResponse();
+                }
+            } else {
+                this.checkPaymentMethod() ? $('#' + quote.paymentMethod().method).closest(this.paymentMethodContainer).find(this.defaultButton).trigger('click') : errorMethods().isErrorPaymentMethod(true);
+            }
         },
 
         /**
@@ -112,6 +124,36 @@ define([
          */
         checkPaymentMethod: function () {
             return !!quote.paymentMethod();
-        }
+        },
+
+        /**
+         * Subscribe to Braintree PayPal response
+         */
+        subscribePaypalBraintreeResponse: function () {
+            var component = uiRegistry.get(this.braintreePaypalComponent);
+
+            component.isReviewRequired.subscribe(function (flag) {
+                flag && component.paymentMethodNonce ? this.onSuccessGetNonce() : this.onErrorGetNonce();
+            }, this);
+
+            this.isSubscribed = true;
+        },
+
+        /**
+         * Success callback
+         */
+        onSuccessGetNonce: function () {
+            this.isBraintreePaypalOneStepEnabled ? $(this.braintreePaypalButtonPlaceOrder).trigger('click') : this.proceedSecondStep();
+        },
+
+        /**
+         * Error callback
+         */
+        onErrorGetNonce: function () {},
+
+        /**
+         * Callback for second step PayPal Braintree
+         */
+        proceedSecondStep: function () {}
     });
 });

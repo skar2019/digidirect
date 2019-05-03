@@ -1,44 +1,56 @@
 <?php
+
 namespace Ewave\CheckoutFields\Plugin\Sales\Model\AdminOrder;
 
-use Ewave\CheckoutFields\Model\QuoteFieldValueFactory;
+use Ewave\CheckoutFields\Api\QuoteFieldValueRepositoryInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Quote\Api\Data\CartInterface;
 use Magento\Sales\Model\AdminOrder\Create as SubjectCreate;
 
 /**
  * Class Create
+ *
  * @package Ewave\CheckoutFields\Plugin\Sales\Model\AdminOrder
  */
 class Create
 {
     /**
-     * @var QuoteFieldValueFactory
+     * @var QuoteFieldValueRepositoryInterface
      */
-    protected $_quoteFieldValueModel;
+    protected $quoteFieldValueRepository;
 
     /**
      * Create constructor.
-     * @param QuoteFieldValueFactory $quoteFieldValueModel
+     *
+     * @param QuoteFieldValueRepositoryInterface $quoteFieldValueRepository
      */
-    public function __construct(QuoteFieldValueFactory $quoteFieldValueModel)
+    public function __construct(QuoteFieldValueRepositoryInterface $quoteFieldValueRepository)
     {
-        $this->_quoteFieldValueModel = $quoteFieldValueModel;
+        $this->quoteFieldValueRepository = $quoteFieldValueRepository;
     }
 
     /**
      * save checkout fields to quote
      *
      * @param SubjectCreate $subject
-     * @param \Closure $proceed
-     * @param array $data
+     * @param SubjectCreate $result
+     * @param               $data
+     *
      * @return SubjectCreate
+     * @throws LocalizedException
      */
-    public function aroundImportPostData(SubjectCreate $subject, \Closure $proceed, $data)
+    public function afterImportPostData(SubjectCreate $subject, SubjectCreate $result, $data)
     {
-        $result = $proceed($data);
+        $quote = $subject->getQuote();
+        if (!$quote instanceof CartInterface) {
+            return $result;
+        }
+
         $params = isset($data['additional']) ? $data['additional'] : [];
-        /** @var $model \Ewave\CheckoutFields\Model\QuoteFieldValue **/
-        $model = $this->_quoteFieldValueModel->create();
-        $model->saveCustomFieldsValuesToQuote($subject->getQuote(), $params);
+        if ($params) {
+            $this->quoteFieldValueRepository->saveToQuote($subject->getQuote(), $params);
+        }
+
         return $result;
     }
 }

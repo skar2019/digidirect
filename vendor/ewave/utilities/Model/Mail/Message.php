@@ -9,7 +9,7 @@ namespace Ewave\Utilities\Model\Mail;
  *
  * @package Ewave\Utilities\Model\Mail
  */
-class Message implements \Magento\Framework\Mail\MessageInterface
+class Message extends \Magento\Framework\Mail\Message implements \Magento\Framework\Mail\MessageInterface
 {
     /**
      * @var \Zend\Mail\Message
@@ -37,9 +37,11 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      * Add the HTML mime part to the message.
      *
      * @param string $content
+     * @param string $charset
+     * @param string $encoding
      * @return $this
      */
-    public function setBodyText($content)
+    public function setBodyText($content, $charset = null, $encoding = 'quoted-printable')
     {
         $textPart = new \Zend\Mime\Part();
 
@@ -56,9 +58,11 @@ class Message implements \Magento\Framework\Mail\MessageInterface
      * Add the text mime part to the message.
      *
      * @param string $content
+     * @param string $charset
+     * @param string $encoding
      * @return $this
      */
-    public function setBodyHtml($content)
+    public function setBodyHtml($content, $charset = null, $encoding = 'quoted-printable')
     {
         $htmlPart = new \Zend\Mime\Part();
 

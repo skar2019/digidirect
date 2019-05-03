@@ -107,9 +107,10 @@ class RequestBuilder extends BaseRequestBuilder implements RequestBuilderInterfa
     {
         $data = parent::getRequestContent();
         $paymentDetails = $data[Order::SALES_ORDER][Order::HEADER][Order::PAYMENT_DETAILS];
-        if (empty($paymentDetails[PaymentDetail::PAYMENT_DETAIL][PaymentDetail::AMOUNT_TENDERED])) {
+        if ($paymentDetails[PaymentDetail::PAYMENT_DETAIL][PaymentDetail::PAYMENT_TYPE] == MapperHelper::BANK_TRANSFER_PAYMENT_TYPE) {
             unset($data[Order::SALES_ORDER][Order::HEADER][Order::PAYMENT_DETAILS][PaymentDetail::PAYMENT_DETAIL]);
         }
+
         $xml = new \SimpleXMLElement('<' . Order::ROOT_CONTAINER . '/>');
         $xml = $this->arrayToXml($data, $xml);
         $dom = dom_import_simplexml($xml)->ownerDocument;

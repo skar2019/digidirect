@@ -19,3 +19,8 @@
 =============
 * New features:
     * [#295601](https://ewave.tpondemand.com/entity/295601) -- [C&C][Abstract Entity] As a customer, I want Shipping Address fields to be hidden and pre-filled with an Abstract Entity values on Checkout
+
+1.3.0
+=============
+* New features:
+    * [#301719](https://ewave.tpondemand.com/entity/301719) -- [C&C][Abstract Entity] As an admin, I want new settings for shipped order notification to be added

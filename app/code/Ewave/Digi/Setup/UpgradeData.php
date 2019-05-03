@@ -31,6 +31,8 @@ use Magento\Customer\Setup\CustomerSetup;
 use Magento\Customer\Model\Customer as CustomerEntity;
 use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Model\Entity\Attribute\Source\Boolean;
+use Magento\Sales\Setup\SalesSetupFactory;
+use Magento\Sales\Model\Order;
 
 /**
  * Class UpgradeSchema
@@ -132,6 +134,10 @@ class UpgradeData implements UpgradeDataInterface
      * @var CustomerSetupFactory
      */
     private $customerSetupFactory;
+    /**
+     * @var SalesSetupFactory
+     */
+    private $setupFactory;
 
     /**
      * UpgradeData constructor.
@@ -152,8 +158,9 @@ class UpgradeData implements UpgradeDataInterface
      * @param KeyFeatureEntitySetupFactory $keyFeatureEntitySetup
      * @param StoreEntitySetupFactory $storeEntitySetupFactory
      * @param TypeFactory $typeFactory
-     * @param ProductAttributeOptionManagementInterface $productAttributeOptionManagement
+     * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $productAttributeRepository
      * @param CustomerSetupFactory $customerSetupFactory
+     * @param SalesSetupFactory $setupFactory
      */
     public function __construct(
         AttributeSetFactory $attributeSetFactory,
@@ -174,7 +181,8 @@ class UpgradeData implements UpgradeDataInterface
         StoreEntitySetupFactory $storeEntitySetupFactory,
         TypeFactory $typeFactory,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $productAttributeRepository,
-        CustomerSetupFactory $customerSetupFactory
+        CustomerSetupFactory $customerSetupFactory,
+        SalesSetupFactory $setupFactory
     ) {
         $this->attributeSetFactory = $attributeSetFactory;
         $this->eavSetupFactory = $eavSetupFactory;
@@ -202,6 +210,7 @@ class UpgradeData implements UpgradeDataInterface
 
         }
 
+        $this->setupFactory = $setupFactory;
     }
 
     /**
@@ -290,9 +299,15 @@ class UpgradeData implements UpgradeDataInterface
         if (version_compare($context->getVersion(), '1.0.21', '<')) {
             $this->upgradeTo121($setup);
         }
+        if (version_compare($context->getVersion(), '1.0.22', '<')) {
+            $this->upgradeTo122($setup);
+        }
 
         if (version_compare($context->getVersion(), '1.0.22', '<')) {
             $this->upgradeTo122($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.23', '<')) {
+            $this->upgradeTo123($setup);
         }
 
         $setup->endSetup();
@@ -1189,5 +1204,48 @@ class UpgradeData implements UpgradeDataInterface
             ->deleteFromSelect('region');
 
         $connection->query($deleteFromSelectSql);
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo123(ModuleDataSetupInterface $setup)
+    {
+        /**
+         * @var $salesInstaller \Magento\Sales\Setup\SalesSetup
+         */
+        $salesInstaller = $this->setupFactory->create(
+            ['resourceName' => 'sales_setup', 'setup' => $setup]
+        );
+
+        $salesInstaller->addAttribute(
+            Order::ENTITY,
+            'kw_delivery_notice',
+            [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'label' => 'Delivery notice',
+                'visible' => false,
+                'nullable' => true
+            ]
+        );
+        $salesInstaller->addAttribute(
+            Order::ENTITY,
+            'kw_billing_notice',
+            [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'label' => 'Billing notice',
+                'visible' => false,
+                'nullable' => true
+            ]
+        );
+        $salesInstaller->addAttribute(
+            Order::ENTITY,
+            'kw_order_additional_info',
+            [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'visible' => false,
+                'nullable' => true
+            ]
+        );
     }
 }

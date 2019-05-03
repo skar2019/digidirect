@@ -1,4 +1,5 @@
 <?php
+
 namespace Ewave\Blog\Controller\Index;
 
 use Ewave\Blog\Helper\Data;
@@ -16,7 +17,7 @@ class Index extends Action
      * @var Data
      */
     protected $dataHelper;
-    
+
     /**
      * @var PageFactory
      */
@@ -24,6 +25,7 @@ class Index extends Action
 
     /**
      * Index constructor.
+     *
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Data $dataHelper
@@ -53,28 +55,39 @@ class Index extends Action
         $page->getConfig()->getTitle()->set($title);
         $breadcrumbShow = $this->dataHelper->getGeneralSettingsConfig('breadcrumb');
         if ($breadcrumbShow) {
-            $breadcrumbs = $page->getLayout()
-                ->getBlock('breadcrumbs');
-            $breadcrumbs->addCrumb(
-                'home',
-                [
-                    'label' => __('Home'),
-                    'title' => __('Home'),
-                    'link' => $this->_url->getUrl('')
-                ]
-            );
-            $breadcrumbs->addCrumb(
-                'ewave_blog',
-                [
-                    'label' => __($title),
-                    'title' => __($title)
-                ]
-            );
+            $this->addBreadcrumb($page, $title);
         }
         $pageLayout = $this->dataHelper->getGeneralSettingsConfig('post_list_layout');
         $pageConfig = $page->getConfig();
         $pageConfig->setPageLayout($pageLayout);
         $page->getLayout()->getUpdate();
         return $page;
+    }
+
+    /**
+     * @param \Magento\Framework\View\Result\Page $page
+     * @param $title
+     */
+    private function addBreadcrumb(\Magento\Framework\View\Result\Page $page, $title)
+    {
+        $breadcrumbs = $page->getLayout()->getBlock('breadcrumbs');
+        if (!$breadcrumbs) {
+            return;
+        }
+        $breadcrumbs->addCrumb(
+            'home',
+            [
+                'label' => __('Home'),
+                'title' => __('Home'),
+                'link' => $this->_url->getUrl(''),
+            ]
+        );
+        $breadcrumbs->addCrumb(
+            'ewave_blog',
+            [
+                'label' => __($title),
+                'title' => __($title),
+            ]
+        );
     }
 }

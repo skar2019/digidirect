@@ -3,6 +3,8 @@ namespace Ewave\ExtendedShippingRates\Model\Plugin\Shipping\Rate\Result;
 
 use Ewave\ExtendedShippingRates\Model\ValidatorsAggregator;
 use Ewave\ExtendedShippingRates\Model\RuleAppliersAggregator;
+use Ewave\ExtendedShippingRates\Model\Rule\Condition\DiscountCode;
+use Magento\Framework\Registry;
 
 /**
  * Class Append
@@ -21,16 +23,24 @@ class Append
     protected $ruleAppliersAggregator;
 
     /**
+     * @var Registry
+     */
+    protected $registry;
+
+    /**
      * Append constructor.
      * @param ValidatorsAggregator $validatorsAggregator
      * @param RuleAppliersAggregator $ruleAppliersAggregator
+     * @param Registry $registry
      */
     public function __construct(
         ValidatorsAggregator $validatorsAggregator,
-        RuleAppliersAggregator $ruleAppliersAggregator
+        RuleAppliersAggregator $ruleAppliersAggregator,
+        Registry $registry
     ) {
         $this->validatorsAggregator = $validatorsAggregator;
         $this->ruleAppliersAggregator = $ruleAppliersAggregator;
+        $this->registry = $registry;
     }
 
     /**
@@ -61,6 +71,23 @@ class Append
         $validator->init($storeId, $customerGroup);
         if ($validator->validate($result)) {
             $rules = $validator->getAvailableRulesForRate($result);
+
+            /* @var \Ewave\ExtendedShippingRates\Model\Rule $rule */
+            foreach ($rules as $rule) {
+                $ruleData = $rule->getConditions()->asArray();
+                if (isset($ruleData['conditions'])) {
+                    $conditions = $ruleData['conditions'];
+                    foreach ($conditions as $condition) {
+                        if (
+                            isset($condition['attribute']) &&
+                            $condition['attribute'] == DiscountCode::ATTRIBUTE_CODE &&
+                            !$this->registry->registry(DiscountCode::ATTRIBUTE_CODE)
+                        ) {
+                            $this->registry->register(DiscountCode::ATTRIBUTE_CODE, true);
+                        }
+                    }
+                }
+            }
             $conditionalRules = $validator->getConditionallyAvailableRulesForRate($result);
             $result = $rulesApplier->applyRules($result, $rules, $conditionalRules);
         }

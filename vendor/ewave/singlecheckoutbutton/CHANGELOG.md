@@ -10,3 +10,8 @@
 =============
 * Bugfixes:
     * [#293554](https://ewave.tpondemand.com/entity/293554) -- [Project: DigiDirect] "Place order" button is changing to "Next" after page refreshing on the second checkout step
+
+1.0.2
+=============
+* Bugfixes:
+    * [#298923](https://ewave.tpondemand.com/entity/298923) -- [Project: DigiDirect] An error message is displayed on the second Checkout step after trying to place an order using PayPal which is set up through the Braintree

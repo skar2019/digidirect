@@ -48,9 +48,6 @@ define([
                 }
             });
 
-            if (Object.keys(params).length > 0 && passed) {
-                storage.post(resourceUrlManager.getUrl({'default': config.serviceUrl}, {}), JSON.stringify({params: params}));
-            }
             return passed;
         }
     };

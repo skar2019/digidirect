@@ -2,66 +2,53 @@
 
 namespace Ewave\CheckoutFields\Observer;
 
-use \Magento\Framework\Event\Observer as EventObserver;
-use \Magento\Framework\Event\ObserverInterface;
-use \Ewave\CheckoutFields\Model\QuoteFieldValueFactory;
-use \Ewave\CheckoutFields\Model\ResourceModel\OrderFieldValue\CollectionFactory as OrderFieldCollectionFactory;
-use \Magento\Sales\Model\Order;
-use \Magento\Quote\Model\Quote;
+use Ewave\CheckoutFields\Api\QuoteFieldValueManagementInterface;
+use Magento\Framework\Event\Observer as EventObserver;
+use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Quote\Api\Data\CartInterface;
+use Magento\Sales\Api\Data\OrderInterface;
 
 /**
  * Class SaveCustomCheckoutValuesToQuoteObserver
+ *
  * @package Ewave\CheckoutFields\Observer
  */
 class SaveCustomCheckoutValuesToQuoteObserver implements ObserverInterface
 {
     /**
-     * @var QuoteFieldValueFactory
+     * @var QuoteFieldValueManagementInterface
      */
-    protected $_quoteFieldValueModel;
+    protected $quoteFieldValueManagement;
 
     /**
-     * @var OrderFieldCollectionFactory
+     * SaveCustomCheckoutValuesBeforePlaceOrder constructor.
+     *
+     * @param QuoteFieldValueManagementInterface $quoteFieldValueManagement
      */
-    protected $_orderFieldsCollectionFactory;
-
-    /**
-     * SaveCustomCheckoutValuesToQuoteObserver constructor.
-     * @param QuoteFieldValueFactory $quoteFieldValueModel
-     * @param OrderFieldCollectionFactory $_orderFieldsCollectionFactory
-     */
-    public function __construct(
-        QuoteFieldValueFactory $quoteFieldValueModel,
-        OrderFieldCollectionFactory $_orderFieldsCollectionFactory
-    ) {
-        $this->_quoteFieldValueModel = $quoteFieldValueModel;
-        $this->_orderFieldsCollectionFactory = $_orderFieldsCollectionFactory;
+    public function __construct(QuoteFieldValueManagementInterface $quoteFieldValueManagement)
+    {
+        $this->quoteFieldValueManagement = $quoteFieldValueManagement;
     }
 
     /**
      * Add delivery notes to quote object
+     *
      * @param EventObserver $observer
+     *
      * @return $this
+     * @throws LocalizedException
      */
     public function execute(EventObserver $observer)
     {
-        $model = $this->_quoteFieldValueModel->create();
         $order = $observer->getEvent()->getOrder();
         $quote = $observer->getEvent()->getQuote();
-        if (!$order instanceof Order || !$quote instanceof Quote) {
+        if (!$order instanceof OrderInterface || !$quote instanceof CartInterface) {
             return $this;
         }
-        $orderCollectionFields = $this->_orderFieldsCollectionFactory->create();
-        $items = $orderCollectionFields->addFieldToFilter('order_id', $order->getId());
 
-        $params = [];
-        foreach ($items as $item) {
-            $params[$item->getFieldId()] = unserialize($item->getValue());
-        }
-        /**
-         * @var $model \Ewave\CheckoutFields\Model\QuoteFieldValue
-         */
-        $model->saveCustomFieldsValuesToQuote($quote, $params);
+        $this->quoteFieldValueManagement->saveToQuoteFromOrder($quote, $order);
+
         return $this;
     }
 }

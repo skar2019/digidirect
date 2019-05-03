@@ -136,3 +136,28 @@
 * New features:
     * [#288512](https://ewave.tpondemand.com/entity/288512) -- [CHECKOUT FLAG] As a system, I want to be able to define if user's Outlet doesn't have 'outlet_id' value
 
+1.9.0
+=============
+* New features:
+    * [#283781](https://ewave.tpondemand.com/entity/283781) -- As an admin, I wand dependencies between checkout field could be made via XML file
+    * [#291502](https://ewave.tpondemand.com/entity/291502) -- [SCRIPT] As a system, I want to be able to update Custom Checkout Fields in Order and Quotes using command line
+
+1.9.0.1
+=============
+* Bugfixes:
+    * [#290531](https://ewave.tpondemand.com/entity/290531) -- [Project: Neverfail][PO Number][Subscriptions] 'PO Number' and 'To Date' fields should not displayed for residential outlet
+
+2.0.0
+=============
+* Bugfixes:
+    * [#296188](https://ewave.tpondemand.com/entity/296188) -- [Project: Rip Curl][ewave_checkoutfields] Custom checkout fields are not stored in database immediately after order placing
+
+2.0.1
+=============
+* Bugfixes:
+    * [#301844](https://ewave.tpondemand.com/entity/301844) -- [Project RipCurl][OMS] Sync_order error
+
+2.0.2
+=============
+* Bugfixes:
+    * [#297819](https://ewave.tpondemand.com/entity/297819) -- [Project: DigiDirect] Validation for address mandatory fields is missed on the second Checkout step for logged in user

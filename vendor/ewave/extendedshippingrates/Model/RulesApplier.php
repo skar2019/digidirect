@@ -72,7 +72,6 @@ class RulesApplier
 
     /**
      * @param Quote $quote
-     *
      * @return $this
      */
     public function setQuote(Quote $quote)
@@ -100,7 +99,6 @@ class RulesApplier
      * @param Method $rate
      * @param array|ResourceModel\Rule\Collection $rules
      * @param array $conditionalRules
-     *
      * @return \Magento\Quote\Model\Quote\Address\RateResult\Method
      * @throws \Magento\Framework\Exception\LocalizedException
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
@@ -134,7 +132,7 @@ class RulesApplier
                         break;
 
                     case Rule::ACTION_DISABLE_SM:
-                        if ($this->validateRulesActionTypeOption($rules, $actionType)
+                        if ($this->validateRulesActionTypeOption($rules, $actionType, $conditionalRules)
                             && is_array($rule->getDisabledShippingMethods())
                             && in_array($currentRate, $rule->getDisabledShippingMethods())) {
                             $this->disableOrEnableShippingMethod($rule, $currentRate, $rate, $conditionalRule);
@@ -171,16 +169,19 @@ class RulesApplier
      *
      * @param array $rules
      * @param mixed $actionType
-     *
+     * @param array $conditionalRules
      * @return bool
      */
-    public function validateRulesActionTypeOption($rules, $actionType)
+    public function validateRulesActionTypeOption($rules, $actionType, array $conditionalRules = [])
     {
         $result = [];
         if ($actionType == Rule::ACTION_DISABLE_SM) {
             foreach ($rules as $rule) {
-                $result[] = $rule->getActionTypeOption();
+                $result[] = isset($conditionalRules[$rule->getId()][Validator::CONDITION_NEED_HIDE])
+                    ? ActionTypeOptions::ACTION_TYPE_DISABLE_OPTION
+                    : $rule->getActionTypeOption();
             }
+
             if (count(array_unique($result)) == 1) {
                 $this->commonActionTypeOption = array_shift($result);
 
@@ -196,7 +197,6 @@ class RulesApplier
      * @param Method $currentRate
      * @param Method $rate
      * @param array $conditionalRule
-     *
      * @return $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -223,7 +223,6 @@ class RulesApplier
      * Change rate title
      *
      * @param Method $rate
-     *
      * @return $this
      */
     public function useAltTitleShippingMethod($rate)
@@ -239,7 +238,6 @@ class RulesApplier
      * Change rate code
      *
      * @param Method $rate
-     *
      * @return $this
      */
     public function useAltCodeShippingMethod($rate)
@@ -256,7 +254,6 @@ class RulesApplier
      *
      * @param Rule $rule
      * @param Method $rate
-     *
      * @return Method
      */
     protected function overwriteCost(Rule $rule, Method $rate)
@@ -294,7 +291,6 @@ class RulesApplier
      *
      * @param array $actions
      * @param Rule $rule
-     *
      * @return array
      */
     protected function sortActions(array $actions, Rule $rule)
@@ -333,7 +329,6 @@ class RulesApplier
      * Add current shipping method to array of disabled shipping methods
      *
      * @param Method $rate
-     *
      * @return $this
      */
     public function disableShippingMethod(Method $rate)
@@ -349,7 +344,6 @@ class RulesApplier
      * Add current shipping method to array of enabled shipping methods
      *
      * @param Method $rate
-     *
      * @return $this
      */
     public function enableShippingMethod(Method $rate)
@@ -364,7 +358,6 @@ class RulesApplier
      * Save shipping methods availability in the checkout session
      *
      * @param Method $rate
-     *
      * @return $this
      */
     protected function updateShippingMethodsAvailability($rate)
@@ -398,7 +391,6 @@ class RulesApplier
     /**
      * @param \Magento\Quote\Model\Quote\Address $address
      * @param int[] $appliedRuleIds
-     *
      * @return $this
      */
     public function setAppliedShippingRuleIds($address, array $appliedRuleIds)
