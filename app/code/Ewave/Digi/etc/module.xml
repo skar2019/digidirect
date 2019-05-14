@@ -5,6 +5,7 @@
             <module name="Ewave_Utilities"/>
             <module name="Ewave_Store"/>
             <module name="Ewave_MSI"/>
+            <module name="Ewave_CollectAbstractEntity"/>
         </sequence>
     </module>
 </config>

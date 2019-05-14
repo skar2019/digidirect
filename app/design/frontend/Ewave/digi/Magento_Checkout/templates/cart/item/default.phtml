@@ -8,9 +8,10 @@ $isVisibleProduct = $product->isVisibleInSiteVisibility();
 $helper = $this->helper('Magento\Msrp\Helper\Data');
 $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
 $freeGift = ($_item->getPrice()==0) ? '-free-gift':'';
+$congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_type')!='simple') ? '-config':'';
 ?>
 <tbody class="cart item <?php /* @escapeNotVerified */ echo $freeGift;?>" id="cart-item-<?php echo (int)$_item->getId(); ?>">
-<tr class="item-info">
+<tr class="item-info <?php echo $congigProductClass; ?>">
     <td data-th="<?php echo $block->escapeHtml(__('Item')); ?>" class="col item">
         <?php if ($block->hasProductUrl()):?>
             <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl() ?>"
@@ -65,40 +66,6 @@ $freeGift = ($_item->getPrice()==0) ? '-free-gift':'';
             <?php if ($addInfoBlock): ?>
                 <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
             <?php endif;?>
-            <div class="mobile-only">
-                <div class="field qty">
-                    <label class="label" for="cart-<?php /* @escapeNotVerified */ echo $_item->getId() ?>-qty">
-                        <span><?php /* @escapeNotVerified */ echo __('Qty') ?></span>
-                    </label>
-                    <div class="control qty">
-                        <input id="cart-<?php /* @escapeNotVerified */ echo $_item->getId() ?>-qty"
-                               name="cart[<?php /* @escapeNotVerified */ echo $_item->getId() ?>][qty]"
-                               data-cart-item-id="<?php /* @escapeNotVerified */ echo $_item->getSku() ?>"
-                               value="<?php /* @escapeNotVerified */ echo $block->getQty() ?>"
-                               type="number"
-                               size="4"
-                               title="<?php echo $block->escapeHtml(__('Qty')); ?>"
-                               class="input-text qty"
-                               maxlength="12"
-                               data-validate="{'required':true,'validate-greater-than-zero':true}"
-                               data-role="cart-item-qty"/>
-                    </div>
-                    <button type="submit"
-                            name="update_cart_action"
-                            data-cart-item-update=""
-                            value="update_qty"
-                            title="<?= $block->escapeHtml(__('Update Shopping Cart')) ?>"
-                            class="action update">
-                        <span><?= /* @escapeNotVerified */ __('Update') ?></span>
-                    </button>
-                </div>
-                <div class="price">
-                    <label class="label" for="cart-<?php /* @escapeNotVerified */ echo $_item->getId() ?>-price">
-                        <span><?php /* @escapeNotVerified */ echo __('Price') ?></span>
-                    </label>
-                    <?php echo $block->getUnitPriceHtml($_item); ?>
-                </div>
-            </div>
         </div>
     </td>
 

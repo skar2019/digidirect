@@ -622,4 +622,15 @@
             <argument name="requestMethod" xsi:type="string">GET</argument>
         </arguments>
     </type>
+
+    <virtualType name="ProntoInvoiceSender" type="Magento\Sales\Model\Order\Email\Sender\InvoiceSender">
+        <arguments>
+            <argument name="identityContainer" xsi:type="object">Ewave\ProntoDigi\Model\InvoiceIdentity</argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\ProntoDigi\Model\InvoiceManager">
+        <arguments>
+            <argument name="invoiceSender" xsi:type="object">ProntoInvoiceSender</argument>
+        </arguments>
+    </type>
 </config>

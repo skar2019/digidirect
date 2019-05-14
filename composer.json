@@ -18,10 +18,10 @@
         "ewave/addressverification": "dev-release/2.0.10",
         "ewave/ai": "dev-develop",
         "ewave/banner": "dev-release/4.0.1",
-        "ewave/blog": "dev-release/2.4.2",
+        "ewave/blog": "dev-release/2.4.3",
         "ewave/bloginfinitescroll": "dev-release/1.0.0",
         "ewave/categoryfilter": "dev-release/1.0.1",
-        "ewave/checkoutfields": "dev-release/2.0.2",
+        "ewave/checkoutfields": "dev-release/2.1.0",
         "ewave/cms-upgrade": "dev-release/1.2.8",
         "ewave/collect": "dev-develop",
         "ewave/collect-staging": "dev-develop",
@@ -41,8 +41,9 @@
         "ewave/giftcardimage": "dev-release/1.1.0",
         "ewave/googleapi": "dev-release/1.0.0",
         "ewave/infinitescroll": "dev-release/1.2.3",
+        "ewave/invoiceincrementid": "dev-develop",
         "ewave/layerednavigation": "dev-release/1.5.3",
-        "ewave/legobasetheme": "dev-release/1.21.0",
+        "ewave/legobasetheme": "dev-develop",
         "ewave/localization": "dev-release/1.5.1",
         "ewave/locator": "dev-release/1.5.1",
         "ewave/magentofixes": "dev-digidirect_develop",
@@ -72,7 +73,7 @@
         "ewave/socialsharing": "dev-release/1.1.1",
         "ewave/store": "dev-release/1.2.0",
         "ewave/storelocator": "dev-release/1.9.0",
-        "ewave/storelocatorinfinitescroll": "dev-release/1.0.0",
+        "ewave/storelocatorinfinitescroll": "dev-develop",
         "ewave/styleguide": "dev-develop",
         "ewave/utilities": "dev-develop",
         "klevu/module-search": "^2.2",
@@ -403,6 +404,10 @@
         {
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_outofstocknotif.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_invoiceincrementid.git"
         }
     ],
     "extra": {

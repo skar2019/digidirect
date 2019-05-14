@@ -13,7 +13,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Ewave\Migration\Helper\Profiler;
 use Ewave\Migration\Helper\Data;
 use Magento\Framework\Filesystem\Driver\File;
-use Ewave\AISales\Model\Import\Order\OrderInterface as ImportOrder;
+use Ewave\AISales\Model\Import\Order\Order as ImportOrder;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 
 /**

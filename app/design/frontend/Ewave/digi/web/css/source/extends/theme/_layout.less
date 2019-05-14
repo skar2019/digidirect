@@ -7,6 +7,7 @@
 //  ---------------------------------------------
 @layout-columns__padding__l: 50px;
 @layout-columns__padding__xl: 0;
+@page-wrapper__min-width: 375px;
 
 //
 //  Common
@@ -14,6 +15,7 @@
 
 & when (@media-common = true) {
     .page-wrapper {
+        .lib-css(min-width, @page-wrapper__min-width);
         overflow: hidden;
     }
 
@@ -62,6 +64,7 @@
     
     .full-height {
         height: 100%;
+        max-width: 100%; // iOs fix
     }
     
     .page-layout-1column-white {
@@ -83,6 +86,12 @@
         
         .columns {
             margin-bottom: 30px;
+        }
+    }
+
+    .@{layout-class-1column} {
+        .column.main {
+            min-width: 100%; // Firefox fix
         }
     }
 }
@@ -123,7 +132,6 @@
         &.simple-structure .page-title-wrapper {
             .lib-css(margin-left, @layout-columns__padding__l);
             .lib-css(margin-right, @layout-columns__padding__l);
-
             padding-top: 55px;
         }
     }

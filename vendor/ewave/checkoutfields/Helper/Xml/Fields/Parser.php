@@ -5,6 +5,8 @@ namespace Ewave\CheckoutFields\Helper\Xml\Fields;
 use \Ewave\CheckoutFields\Helper\Config;
 use Ewave\CheckoutFields\Model\Component\Type\AbstractType;
 use Ewave\CheckoutFields\Model\Config\Data as FieldsConfig;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\ObjectManager;
 use \Magento\Framework\Module\Dir\Reader;
 use \Magento\Framework\Xml\Parser as MagentoParser;
 use \Ewave\CheckoutFields\Model\Condition\ConditionInterface;
@@ -15,8 +17,10 @@ use \Ewave\CheckoutFields\Model\Condition\ConditionInterface;
  */
 class Parser
 {
+    const XML_LOGGED_IN = 'fieldset_customer_logged';
+
     /**
-     * @var \Magento\Framework\Module\Dir\Reader
+     * @var Reader
      */
     protected $moduleDirReader;
 
@@ -46,22 +50,31 @@ class Parser
     protected $validationRuleMapping;
 
     /**
+     * @var Session
+     */
+    protected $customerSession;
+
+    /**
      * Parser constructor.
-     * @param FieldsConfig $fieldsConfig
-     * @param Config $config
-     * @param array $conditions
-     * @param array $validationRuleMapping
+     *
+     * @param FieldsConfig        $fieldsConfig
+     * @param Config              $config
+     * @param array               $conditions
+     * @param array               $validationRuleMapping
+     * @param Session|null $customerSession
      */
     public function __construct(
         FieldsConfig $fieldsConfig,
         Config $config,
         array $conditions = [],
-        array $validationRuleMapping = []
+        array $validationRuleMapping = [],
+        Session $customerSession = null
     ) {
         $this->config = $config;
         $this->fieldsConfig = $fieldsConfig;
         $this->conditions = $conditions;
         $this->validationRuleMapping = $validationRuleMapping;
+        $this->customerSession = $customerSession ?: ObjectManager::getInstance()->get(Session::class);
     }
 
     /**
@@ -97,7 +110,7 @@ class Parser
     {
         $parsedArray = $this->fieldsConfig->getFields();
         if (isset($parsedArray['fields'])) {
-            return (array)$parsedArray['fields'];
+            return $this->loggedCustomerReplaceFieldset((array)$parsedArray['fields']);
         }
         return [];
     }
@@ -209,5 +222,23 @@ class Parser
             ];
         }
         return $config;
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function loggedCustomerReplaceFieldset(array $fields)
+    {
+        $isLoggedIn = $this->customerSession->isLoggedIn();
+        foreach ($fields as &$fieldOptions) {
+            if (!$isLoggedIn || !isset($fieldOptions[AbstractType::XML_AREA][self::XML_LOGGED_IN])) {
+                continue;
+            }
+            $fieldOptions[AbstractType::XML_AREA][AbstractType::XML_FIELDSET]
+                = $fieldOptions[AbstractType::XML_AREA][self::XML_LOGGED_IN];
+            unset($fieldOptions[AbstractType::XML_AREA][self::XML_LOGGED_IN]);
+        }
+
+        return $fields;
     }
 }

@@ -7,5 +7,7 @@ mysql:
     disk: 8192
 redis:
     type: redis:3.0
-    disk: 8192
-
+    disk: 1536
+elasticsearch:
+    type: elasticsearch:6.5
+    disk: 1024

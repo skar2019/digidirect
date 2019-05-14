@@ -6,6 +6,7 @@
             <module name="Ewave_Pronto" />
             <module name="Ewave_AI" />
             <module name="Ewave_CheckoutFields" />
+            <module name="Ewave_InvoiceIncrementId" />
         </sequence>
     </module>
 </config>

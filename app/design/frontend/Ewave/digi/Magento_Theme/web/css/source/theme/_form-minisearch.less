@@ -99,6 +99,41 @@
             background-color: transparent;
         }
     }
+
+    body .klevu-fluid > .klevu-pt-rs-hover {
+        width: 232px!important;
+    }
+}
+
+//
+//  Tablet -
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    body .klevu-fluid > .klevu-pt-rs-hover {
+        width: 212px!important;
+    }
+}
+
+//
+//  Tablet Large -
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xm) {
+    body .klevu-fluid > .klevu-pt-rs-hover {
+        width: 232px!important;
+    }
+}
+
+//
+//  Desktop -
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
+    body .klevu-fluid > .klevu-pt-rs-hover {
+        right: 17px!important;
+        width: 232px!important;
+    }
 }
 
 //
@@ -136,6 +171,11 @@
             width: 100%;
         }
     }
+
+    body .klevu-fluid .klevu-pt-rs-hover,
+    body .klevu-pt-rs-hover .klevu-pt-hover-box {
+        width: 344px !important;
+    }
 }
 
 //
@@ -145,5 +185,10 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
     .form.minisearch {
         .lib-css(width, @block-search__width);
+    }
+
+    body .klevu-fluid .klevu-pt-rs-hover,
+    body .klevu-pt-rs-hover .klevu-pt-hover-box {
+        width: 644px !important;
     }
 }

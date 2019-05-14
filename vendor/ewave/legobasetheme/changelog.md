@@ -368,3 +368,10 @@ Bugfixes:
 
 - [#297224](https://ewave.tpondemand.com/entity/297224) - [Magento 2.3.1] Postal Code is not full filled in case Google Address Autocomplete
 - [#297811](https://ewave.tpondemand.com/entity/297811) - [Project: DigiDirect] Screen jumps up on checkbox selection
+
+1.21.1
+=============
+Bugfixes:
+
+1. [#301931](https://ewave.tpondemand.com/entity/301931) - [Project: DigiDirect] Fonts should be base on status of the CSS minification when prod mode is enabled
+2. [#300310](https://ewave.tpondemand.com/entity/300310) - [Project: DigiDirect] Approved reviews are not displayed in the "Product attribute" block after clicking "review" link on the "Review" details page under My account

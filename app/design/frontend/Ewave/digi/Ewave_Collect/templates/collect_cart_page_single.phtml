@@ -1,6 +1,10 @@
 <div id="collect-single-cart" data-bind="scope: 'collect-single-cart'" class="collect_place_class">
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
+<?php $pickUpStoreCmsBlock = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('pick-up-store')->toHtml() ?>
+<script type="text/javascript">
+    window.pickUpStoreCmsBlock = <?php echo json_encode($pickUpStoreCmsBlock)?>;
+</script>
 <script type="text/x-magento-init">
     {
         "#collect-single-cart": {

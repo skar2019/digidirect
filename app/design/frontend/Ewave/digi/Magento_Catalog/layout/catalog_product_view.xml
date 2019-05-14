@@ -26,6 +26,7 @@
 
         <move element="catalog.product.related" destination="content" before="-"/>
         <move element="product.info.upsell" destination="content" after="-"/>
+        <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
 
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes _negative-gutter" after="product.info.media">
@@ -85,14 +86,10 @@
         </referenceContainer>
 
         <referenceContainer name="product.info.extrahint">
-            <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div" htmlClass="product-extra" before="-">
-                <block class="Magento\Cms\Block\Block" name="pdp.cms.zip" before="-">
-                    <arguments>
-                        <argument name="block_id" xsi:type="string">product_detail_content_zip_money</argument>
-                    </arguments>
-                </block>
-            </container>
+            <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" />
         </referenceContainer>
+
+        <move element="product.info.addtocart.zipmoney.productimage" destination="product.info.bottom" before="-" />
 
         <referenceBlock name="product.info.upsell">
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
@@ -119,6 +116,12 @@
                 </arguments>
             </block>
         </referenceContainer>
+
+        <container name="product.places" htmlTag="div" htmlClass="product-places">
+            <block class="Ewave\Digi\Block\Places" name="product.places.helper"
+                   template="Magento_Catalog::product/view/product_places.phtml">
+            </block>
+        </container>
     </body>
 </page>
  

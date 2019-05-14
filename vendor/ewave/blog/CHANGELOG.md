@@ -145,3 +145,9 @@
 2.4.2
 * Bugfixes:
     * [#294253](https://ewave.tpondemand.com/entity/294253) -- [Project: DigiDirect] Ewave_Blog module doesn't have verification for Breadcrumps module	
+	
+2.4.3
+====================
+* Bugfixes:
+    * [#294253](https://ewave.tpondemand.com/entity/294253) -- [Project: DigiDirect] Ewave_Blog module doesn't have verification for Breadcrumps module
+    * [#302054](https://ewave.tpondemand.com/entity/302054) -- [Project; DigiDirect] Trying to add config product from the "Related products" section redirects user to the 404 page	

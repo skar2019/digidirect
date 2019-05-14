@@ -94,6 +94,8 @@ class PaymentMethodManagementPlugin
         $quoteExtension->setQuoteFieldValues($quoteFieldValues);
         $quote->setExtensionAttributes($quoteExtension);
 
+        $this->quoteFieldValueManagement->saveToQuoteFromExtensionAttributes($quote);
+
         return $result;
     }
 

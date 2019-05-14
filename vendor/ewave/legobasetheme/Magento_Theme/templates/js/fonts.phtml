@@ -1,8 +1,10 @@
 <?php if ($block->getFontsActive()) : ?>
     <?php
-        $isProductionMode = $this->helper('Ewave\Utilities\Helper\Data')->getDeploymentMode() == 'production';
+        $helper = $this->helper('Ewave\Utilities\Helper\Data');
+        $isProductionMode = $helper->getDeploymentMode() == 'production';
+        $isCssMin = $helper->getConfig('dev/css/minify_files');
         $themePath = $block->getViewFileUrl('/') . '/';
-        $fontsCss = $isProductionMode ? $block->getFontsCssMin() : $block->getFontsCss();
+        $fontsCss = $isProductionMode && $isCssMin ? $block->getFontsCssMin() : $block->getFontsCss();
     ?>
     <?php if ($block->getFontsIsInline()) : ?>
         <script id="custom-fonts" data-theme-path="<?php echo $block->escapeUrl($themePath); ?>" data-fonts-css="<?php echo $block->escapeHtml($fontsCss);?>" data-fonts-revision="<?php echo $block->escapeHtml($block->getFontsRevision());?>"><?php echo $block->getChildHtml('js.fonts.inline'); ?></script>

@@ -22,10 +22,16 @@
 
         .modal-content {
             padding: 0;
+            display: none;
+        }
+
+        &._show .modal-content {
+            display: block;
         }
 
         &._show .modal-inner-wrap {
             .lib-css(width, @quickview-moda-inner__width__s);
+            min-width: 1px; // iOs fix
             .lib-css(transform, @quickview-modal-inner__show__transform);
         }
 

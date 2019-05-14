@@ -15,6 +15,10 @@
             line-height: 36px;
         }
 
+        > iframe {
+            position: absolute;
+        }
+
         .footer-bottom {
             padding-top: 20px;
             padding-bottom: 20px;
@@ -80,7 +84,7 @@
             transform: rotate(-180deg);
         }
     }
-    
+
     .checkout-container {
         > .messages .message:only-child {
             margin: 0;
@@ -124,6 +128,19 @@
         .form-login .actions-toolbar {
             margin-bottom: 21px;
         }
+
+        .field.captcha .nested {
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .field.captcha .captcha-img {
+            top: 0;
+            transform: none;
+            left: 136px;
+            width: 140px;
+            height: 40px;
+        }
     }
 
     .opc-wrapper.-hide-methods {
@@ -138,7 +155,7 @@
         }
 
         .action.edit-address-link {
-            display: none!important;
+            display: none !important;
         }
 
         .field.delivery-number {
@@ -264,7 +281,13 @@
     }
 
     .opc-wrapper {
-        padding-bottom: 55px;
+        & {
+            padding-bottom: 55px;
+        }
+
+        .field.captcha .captcha-img {
+            width: 165px;
+        }
     }
 }
 

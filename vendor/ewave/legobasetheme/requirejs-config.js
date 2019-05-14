@@ -12,6 +12,11 @@ var config = {
             'wcagHandler': 'js/components/wcag-handler'
         }
     },
+    shim: {
+        'Magento_Review/js/process-reviews': {
+            deps: ['tabs']
+        }
+    },
     deps: [
         'babelpolyfill'
     ]

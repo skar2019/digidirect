@@ -3,6 +3,7 @@
 namespace Ewave\ProntoDigi\ProntoApi\Orders\Post;
 
 use Ewave\AI\Model\Lib\Mapping\MapperInterface;
+use Ewave\InvoiceIncrementId\Model\IncrementIdUpdater;
 use Ewave\Pronto\ProntoApi\ResponseHandler as BaseResponseHandler;
 use Ewave\Pronto\ProntoApi\ResponseHandlerInterface;
 use Ewave\ProntoDigi\ProntoApi\Constants\CustomerAttributes;
@@ -10,7 +11,6 @@ use Ewave\ProntoDigi\ProntoApi\Constants\Order;
 use Ewave\ProntoDigi\ProntoApi\Orders\Post;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Model\ResourceModel\Order as OrderResource;
 
 class ResponseHandler extends BaseResponseHandler implements ResponseHandlerInterface
@@ -32,26 +32,26 @@ class ResponseHandler extends BaseResponseHandler implements ResponseHandlerInte
     protected $orderResource;
 
     /**
-     * @var InvoiceRepositoryInterface
+     * @var IncrementIdUpdater
      */
-    protected $invoiceRepository;
+    protected $incrementIdUpdater;
 
     /**
      * ResponseHandler constructor.
      * @param OrderResource $orderResource
      * @param CustomerRepositoryInterface $customerRepository
-     * @param InvoiceRepositoryInterface $invoiceRepository
+     * @param IncrementIdUpdater $incrementIdUpdater
      * @param MapperInterface|null $mapper
      */
     public function __construct(
         OrderResource $orderResource,
         CustomerRepositoryInterface $customerRepository,
-        InvoiceRepositoryInterface $invoiceRepository,
+        IncrementIdUpdater $incrementIdUpdater,
         MapperInterface $mapper = null
     ) {
         $this->orderResource = $orderResource;
         $this->customerRepository = $customerRepository;
-        $this->invoiceRepository = $invoiceRepository;
+        $this->incrementIdUpdater = $incrementIdUpdater;
         parent::__construct($mapper);
     }
 
@@ -72,7 +72,6 @@ class ResponseHandler extends BaseResponseHandler implements ResponseHandlerInte
 
         if (isset($data[self::RESPONSE_ORDER_CREATED], $data[self::RESPONSE_ORDER_NO])
             && $data[self::RESPONSE_ORDER_CREATED] == self::ORDER_CREATED_FLAG) {
-            
             /** @var OrderInterface|\Magento\Sales\Model\Order $order */
             $order = $this->process->getRunOption(Post::ORDER_RUN_OPTION_PARAMETER);
 
@@ -93,10 +92,7 @@ class ResponseHandler extends BaseResponseHandler implements ResponseHandlerInte
 
             /** @var \Magento\Sales\Model\Order\Invoice $invoice */
             $invoice = $order->getInvoiceCollection()->getFirstItem();
-            if ($invoice->getId()) {
-                $invoice->setIncrementId($data[self::RESPONSE_ORDER_NO]);
-                $this->invoiceRepository->save($invoice);
-            }
+            $this->incrementIdUpdater->update($invoice, $data[self::RESPONSE_ORDER_NO]);
         } else {
             $this->logger->error(__('Order is not created in Pronto'));
         }

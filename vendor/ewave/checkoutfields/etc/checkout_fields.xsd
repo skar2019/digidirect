@@ -59,6 +59,7 @@
             <xs:element type="checkoutStepType" name="checkout_step"/>
             <xs:element type="customScope" name="custom_scope"/>
             <xs:element type="xs:string" name="fieldset"/>
+            <xs:element type="xs:string" name="fieldset_customer_logged" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
 

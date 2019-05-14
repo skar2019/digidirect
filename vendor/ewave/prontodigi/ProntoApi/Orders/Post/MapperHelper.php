@@ -285,7 +285,7 @@ class MapperHelper
         if ($paymentType == self::GIFT_CARD_PAYMENT_TYPE) {
             $result = 'Gift Card';
         } else {
-            $result = $order->getPayment()->getCcTransId();
+            $result = $order->getPayment()->getLastTransId();
         }
         return $result;
     }

@@ -27,6 +27,7 @@ runtime:
 relationships:
     database: "mysql:mysql"
     redis: "redis:redis"
+    elasticsearch: "elasticsearch:elasticsearch"
 
 # The configuration of app when it is exposed to the web.
 web:
@@ -66,7 +67,7 @@ web:
 
 
 # The size of the persistent disk of the application (in MB).
-disk: 12000
+disk: 20000
 
 # The mounts that will be performed when the package is deployed.
 mounts:
@@ -99,6 +100,12 @@ crons:
     cronrun:
         spec: "* * * * *"
         cmd: "php bin/magento cron:run"
+    dumpupload:
+        spec: "* 1 * * *"
+        cmd: "/bin/bash ~/var/dumps/dump-auto-upload.sh > /dev/null 2>&1"
+    logrotator:
+        spec: "* 2 * * *"
+        cmd: "/bin/bash ~/var/remove-integration-logs.sh > /dev/null 2>&1"
 
 #For FE - grunt
 dependencies:

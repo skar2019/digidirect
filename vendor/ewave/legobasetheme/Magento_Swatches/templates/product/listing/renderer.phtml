@@ -23,7 +23,7 @@
 
 <script type="text/x-magento-init">
     {
-        "[data-role=priceBox][data-price-box=product-id-<?= /* @escapeNotVerified */ $productId ?>]": {
+        "[data-role=priceBox][data-product-id='<?= /* @escapeNotVerified */ $productId; ?>']": {
             "priceBox": {
                 "priceConfig": <?= /* @escapeNotVerified */ $jsonConfig; ?>
             }

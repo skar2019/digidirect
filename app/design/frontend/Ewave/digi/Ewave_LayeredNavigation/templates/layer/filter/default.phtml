@@ -3,6 +3,7 @@
  * @var $helper \Ewave\LayeredNavigation\Helper\Data
  * @var $filterSetting \Ewave\LayeredNavigation\Api\Data\FilterSettingInterface
  * @var $filterItems \Ewave\LayeredNavigation\Model\Layer\Filter\Item[]
+ * @var $block Ewave\LayeredNavigation\Block\Navigation\FilterRenderer
  */
 $helper = $this->helper('Ewave\LayeredNavigation\Helper\Data');
 $optionsData = $helper->getOptionsSeoData();
@@ -12,6 +13,12 @@ $checkedWithinLessMore = false;
 if ($filterSetting->isShowMoreEnabled()) {
     $_filterItemsDivider = $filterSetting->getShowMoreCount();
 }
+$queryString = $block->getRequest()->getRequestString();
+$rel ='';
+if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
+    $rel = 'rel="nofollow"';
+}
+
 ?>
 <?php //Find active filters within less/more block ?>
 <?php $counter = 0; foreach ($filterItems as $filterItem): ?>
@@ -48,6 +55,7 @@ if ($filterSetting->isShowMoreEnabled()) {
                    data-code="<?php echo $this->escapeHtml($attributeCode); ?>"
                    data-value="<?php echo $this->escapeHtml($value); ?>"
                    href="<?php echo $block->escapeUrl($filterItem->getUrl()) ?>"
+                   <?php echo $rel ?>
                    class="filter-link ewave_layerednavigation_filter_item_<?php echo $this->escapeHtml($keyValue);
                    ?><?php if ($checked): ?> selected<?php endif; ?>">
                     <input type="checkbox"

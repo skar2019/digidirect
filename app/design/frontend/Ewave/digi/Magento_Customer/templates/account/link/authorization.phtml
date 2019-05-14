@@ -18,11 +18,12 @@ if ($block->isLoggedIn()) {
 </span>
 <?php else: ?>
     <div class="authorization-link">
-        <strong data-role="trigger" class="link js-dropdown-dialog">
+        <strong data-role="trigger" class="link js-dropdown-dialog" title="<?= /* @escapeNotVerified */ __('Account') ?>">
             <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-account"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-account"></use></svg>
             <span class="text"><?= /* @escapeNotVerified */ __('Account') ?></span>
         </strong>
         <ul data-role="dropdownDialog"
+            class="customer-dialog"
             data-mage-init='{"dropdownDialog":{
                 "appendTo":".authorization-link",
                 "triggerTarget":".authorization-link .js-dropdown-dialog",

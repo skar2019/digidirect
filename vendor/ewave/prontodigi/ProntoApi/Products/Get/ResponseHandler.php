@@ -31,6 +31,8 @@ use Magento\Catalog\Model\Product as ProductModel;
 class ResponseHandler extends ProductResponseHandlerAbstract
 {
     const BRAND_ATTRIBUTE_CODE = 'brand';
+    const USE_CONFIG_BACKORDERS = 'use_config_backorders';
+    const BACKORDERS = 'backorders';
 
     /**
      * @var array
@@ -169,6 +171,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                         unset($productData['sources']);
                     }
                     $productData = $this->getStatus($productData);
+                    $productData = $this->getBackorders($productData);
                     $productData = $this->getCategories($productData);
                     $productData = $this->getAttributeSet($productData);
 
@@ -317,14 +320,14 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             );
         }
 
-        $currentCondigion = $this->getExistSkus()[$sku][ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION];
+        $currentCondition = $this->getExistSkus()[$sku][ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION];
         $newCondition = $productData[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION];
         if ($newStatus != $currentStatus) {
             $this->logger->warning(
                 __(
                     'Stock condition is changed for sku: %1. Previous condition: %2. New condition: %3',
                     $sku,
-                    $currentCondigion,
+                    $currentCondition,
                     $newCondition
                 ),
                 []
@@ -363,5 +366,19 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             }
         }
         return false;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function getBackorders(array $data)
+    {
+        if (!empty($data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION])
+            && $data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION] == 'O') {
+            $data[self::BACKORDERS] = 0;
+            $data[self::USE_CONFIG_BACKORDERS] = 0;
+        }
+        return $data;
     }
 }

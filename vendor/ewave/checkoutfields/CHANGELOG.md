@@ -161,3 +161,9 @@
 =============
 * Bugfixes:
     * [#297819](https://ewave.tpondemand.com/entity/297819) -- [Project: DigiDirect] Validation for address mandatory fields is missed on the second Checkout step for logged in user
+
+2.1.0
+=============
+* Bugfixes:
+    * [#303189](https://ewave.tpondemand.com/entity/303189) -- [CUSTOM FIELDS PLACEMENT] As an admin, I want to be able to place custom checkout field in dependence on user state
+    

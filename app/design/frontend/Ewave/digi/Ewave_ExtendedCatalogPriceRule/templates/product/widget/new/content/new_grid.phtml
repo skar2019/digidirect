@@ -10,7 +10,6 @@ use Magento\Framework\App\Action\Action;
  * @var $_quickViewHelper \Ewave\QuickView\Helper\Data
  */
 if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())) {
-    $_productOverlayHelper = $this->helper('Ewave\ProductOverlay\Helper\Data');
     $_quickViewHelper = $this->helper('Ewave\QuickView\Helper\Data');
 
     $type = 'widget-new-grid';
@@ -51,12 +50,8 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                      }'>
                     <?php foreach ($items as $_item): ?>
                         <?php
-                        $productOverlaysHtml = '';
-                        $productName = $_item->getName();
-                        $productUrl = $block->getProductUrl($_item);
-                        if ($_productOverlayHelper) {
-                            $productOverlaysHtml = $_productOverlayHelper->renderProductOverlay($_item);
-                        }
+                            $productName = $_item->getName();
+                            $productUrl = $block->getProductUrl($_item);
                         ?>
                         <div class="product-item">
                             <div class="product-item-info" data-parent-product-id="<?= $_item->getId(); ?>">
@@ -64,9 +59,6 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                    class="product photo product-item-photo"
                                    title="<?= /* @escapeNotVerified */ $block->escapeHtml($productName); ?>">
                                     <?= $block->getImage($_item, $image)->toHtml(); ?>
-                                    <?php if ($productOverlaysHtml): ?>
-                                        <?= /* @escapeNotVerified */ $productOverlaysHtml; ?>
-                                    <?php endif; ?>
                                 </a>
 
                                 <strong class="product name product-item-name">

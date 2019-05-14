@@ -38,9 +38,7 @@
 @menu-item-link-level1__display: false;
 @menu-item-link-level1__margin: false;
 @menu-item-link-level1__padding: 20px;
-@menu-item-link-level1__padding__m: 20px 24px;
-@menu-item-link-level1__padding__xl: 20px 42px;
-@menu-item-link-level1__padding__xxl: 20px 64px;
+@menu-item-link-level1__padding__m: 20px 10px;
 @menu-item-link-level1__font-size: 14px;
 @menu-item-link-level1__font-weight: 700;
 @menu-item-link-level1__line-height: 20px;
@@ -179,11 +177,13 @@
 
         > .item {
             .lib-css(border-bottom, @menu-item-level0__border-bottom__m);
+            width: 100%;
         }
 
         > .item > .link {
             display: flex;
             align-items: center;
+            justify-content: center;
             height: 100%;
             .lib-css(padding, @menu-item-link-level1__padding__m);
             .lib-css(line-height, @menu-item-link-level1__line-height__m);
@@ -192,30 +192,6 @@
 
         > .item > .link[style*='background-image'] {
             background-image: none !important; // Override inline styles from BO
-        }
-    }
-}
-
-//
-//  XL +
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-    @{nav-menu-wrapper-selector} {
-        > .item > .link {
-            .lib-css(padding, @menu-item-link-level1__padding__xl);
-        }
-    }
-}
-
-//
-//  XXL +
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
-    @{nav-menu-wrapper-selector} {
-        > .item > .link {
-            .lib-css(padding, @menu-item-link-level1__padding__xxl);
         }
     }
 }

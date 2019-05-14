@@ -71,7 +71,6 @@
             padding-top: 24px;
             padding-right: 17px;
             box-sizing: content-box;
-            z-index: 999; // iOs fix #302675
 
             &::before {
                 display: none;
@@ -131,7 +130,7 @@
             cursor: pointer;
         }
 
-        .authorization-link .ui-dialog-content {
+        .authorization-link .customer-dialog {
             .lib-css(background-color, @color-white);
             .lib-css(border, 1px solid @color-4-1);
             position: absolute;
@@ -158,7 +157,7 @@
             }
         }
 
-        .authorization-link.active .ui-dialog-content {
+        .authorization-link.active .customer-dialog {
             display: block;
         }
 

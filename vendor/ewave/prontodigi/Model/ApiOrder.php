@@ -27,19 +27,27 @@ class ApiOrder implements ApiOrderInterface
     protected $logger;
 
     /**
+     * @var InvoiceManager
+     */
+    protected $invoiceManager;
+
+    /**
      * ApiOrder constructor.
      * @param OrderGetExecutor $orderGetExecutor
      * @param OrderRepositoryInterface $orderRepository
      * @param LoggerInterface $logger
+     * @param InvoiceManager $invoiceManager
      */
     public function __construct(
         OrderGetExecutor $orderGetExecutor,
         OrderRepositoryInterface $orderRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        InvoiceManager $invoiceManager
     ) {
         $this->orderGetExecutor = $orderGetExecutor;
         $this->orderRepository = $orderRepository;
         $this->logger = $logger;
+        $this->invoiceManager = $invoiceManager;
     }
 
     /**
@@ -54,6 +62,10 @@ class ApiOrder implements ApiOrderInterface
             $order = $this->orderRepository->get($entity->getEntityId());
             $order->addData($entity->getData());
             $order = $this->orderRepository->save($order);
+            /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+            $invoice = $order->getInvoiceCollection()->getFirstItem();
+            $invoice = $invoice->getEntityId() ? $invoice : $this->invoiceManager->createInvoice($order);
+            $this->invoiceManager->notifyCustomer($invoice);
         } catch (\Throwable $e) {
             $this->logger->critical(__('Could not update order: %1', $e->__toString()));
             throw $e;
