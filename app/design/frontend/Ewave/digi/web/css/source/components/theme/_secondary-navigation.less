@@ -15,6 +15,8 @@
 @secondary-nav__background__l: fade(@color-black, 40%);
 @secondary-nav-item__padding: 18px @layout__width-xs-indent 16px;
 @secondary-nav-item__padding__l: 20px 0 20px 40px;
+@secondary-nav-item-list__padding__l: 0 0 0 40px;
+@secondary-nav-item-link__padding__l: 20px 0;
 @secondary-nav-item__color: @color-white;
 @secondary-nav-item__border-style: solid;
 @secondary-nav-item__border-width: 0 0 1px;
@@ -218,6 +220,8 @@
         .item {
             .lib-css(padding, @secondary-nav-item__padding__l);
             .lib-css(font-weight, @font-weight__regular);
+    
+            margin: 0;
 
             &::before {
                 content: '';
@@ -229,6 +233,16 @@
                 background-repeat: no-repeat;
                 .lib-css(fill, @secondary-nav-item__color);
             }
+        }
+
+        li.item {
+            .lib-css(padding, @secondary-nav-item-list__padding__l);
+        }
+
+        .item > .link {
+            .lib-css(padding, @secondary-nav-item-link__padding__l);
+            
+            display: block;
         }
 
         .item.-active,

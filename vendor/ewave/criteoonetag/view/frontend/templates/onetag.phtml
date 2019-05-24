@@ -1,0 +1,12 @@
+<?php
+/** @var \Ewave\CriteoOneTag\Block\AbstractTag $block */
+?>
+
+<?php if($this->helper('Ewave\CriteoOneTag\Helper\Data')->isEnable($block->getStoreId())):?>
+<script type="text/javascript">
+   var dataLayer = dataLayer || [];
+   dataLayer.push({
+       'PageType': '<?= /* @escapeNotVerified */ $block->getPageType() ?>'<?= /* @escapeNotVerified */ $block->getItem() ?>
+   });
+</script>
+<?php endif; ?>

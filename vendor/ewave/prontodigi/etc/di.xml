@@ -428,7 +428,7 @@
                                         </item>
                                         <item name="line-3" xsi:type="array">
                                             <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_3</item>
-                                            <item name="value" xsi:type="string">{{var billingAddress.getStreetLine(1)}}{{if shippingAddress.getStreetLine(2)}}{{var shippingAddress.getStreetLine(2)}}{{/if}}</item>
+                                            <item name="value" xsi:type="string">{{var billingAddress.getStreetLine(1)}}{{if billingAddress.getStreetLine(2)}} {{var billingAddress.getStreetLine(2)}}{{/if}}</item>
                                         </item>
                                         <item name="line-4" xsi:type="array">
                                             <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_4</item>
@@ -465,11 +465,15 @@
                                         </item>
                                         <item name="line-3" xsi:type="array">
                                             <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_3</item>
-                                            <item name="value" xsi:type="string">{{var shippingAddress.getStreetLine(1)}}</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.getStreetLine(1)}}{{if shippingAddress.getStreetLine(2)}} {{var shippingAddress.getStreetLine(2)}}{{/if}}</item>
                                         </item>
                                         <item name="line-4" xsi:type="array">
                                             <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_4</item>
-                                            <item name="value" xsi:type="string">{{var shippingAddress.getStreetLine(2)}}</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.city}}</item>
+                                        </item>
+                                        <item name="line-5" xsi:type="array">
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_4</item>
+                                            <item name="value" xsi:type="string">{{var shippingAddress.region}}</item>
                                         </item>
                                         <item name="postcode" xsi:type="array">
                                             <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::POSTCODE</item>

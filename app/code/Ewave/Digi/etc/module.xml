@@ -6,6 +6,7 @@
             <module name="Ewave_Store"/>
             <module name="Ewave_MSI"/>
             <module name="Ewave_CollectAbstractEntity"/>
+            <module name="Magento_MediaStorage"/>
         </sequence>
     </module>
 </config>

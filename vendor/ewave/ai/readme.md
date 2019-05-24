@@ -156,3 +156,11 @@ The parameter you can specify right before loader creating or in .htaccess file 
 ### VERSION 1.15.5
 - Bugfix. Email can not be sent with attached Log-file.
 - NOTE: required ewave/utilities release/1.20.1+
+
+### VERSION 1.15.6
+- Bugfix. Product Import. Undefined index error. Images/Video import problem. Resolved for 2.2 & 2.3 versions. Video is working.
+
+### VERSION 1.15.7
+- Refactoring. Preferences/Model/Import/Product/CategoryProcessor: some private methods declared as protected to override in add-on.
+- Bugfix. Product import. Product attributes are not set while using Magento Import functionality
+- Bugfix. Product import. Row "XXX" skipped. Error appear: Notice: Undefined index: rowNum

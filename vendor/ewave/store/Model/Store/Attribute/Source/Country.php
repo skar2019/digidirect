@@ -1,49 +1,56 @@
 <?php
+
 namespace Ewave\Store\Model\Store\Attribute\Source;
 
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Framework\App\State;
 
-/**
- * Class Country
- * @package Ewave\Store\Model\Store\Attribute\Backend
- */
 class Country extends AbstractSource implements OptionSourceInterface
 {
     /**
      * @var \Magento\Framework\App\Cache\Type\Config
      */
-    protected $_configCacheType;
+    protected $configCacheType;
 
     /**
      * Store manager
      *
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected $_storeManager;
+    protected $storeManager;
 
     /**
      * Country factory
      *
      * @var \Magento\Directory\Model\CountryFactory
      */
-    protected $_countryFactory;
+    protected $countryFactory;
 
     /**
-     * Construct
+     * @var State|null
+     */
+    private $appState;
+
+    /**
+     * Country constructor.
      *
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
+     * @param State|null $state
      */
     public function __construct(
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Cache\Type\Config $configCacheType
+        \Magento\Framework\App\Cache\Type\Config $configCacheType,
+        State $state = null
     ) {
-        $this->_countryFactory = $countryFactory;
-        $this->_storeManager = $storeManager;
-        $this->_configCacheType = $configCacheType;
+        $this->countryFactory = $countryFactory;
+        $this->storeManager = $storeManager;
+        $this->configCacheType = $configCacheType;
+        $this->appState = $state;
     }
 
     /**
@@ -53,14 +60,26 @@ class Country extends AbstractSource implements OptionSourceInterface
      */
     public function getAllOptions()
     {
-        $cacheKey = 'EWAVE_POS_COUNTRY_SELECT_STORE_' . $this->_storeManager->getStore()->getCode();
-        if ($cache = $this->_configCacheType->load($cacheKey)) {
+        $area = $this->getAppState()->getAreaCode();
+        $cacheKey = 'EWAVE_POS_COUNTRY_SELECT_STORE_' . $this->storeManager->getStore()->getCode() . $area;
+        if ($cache = $this->configCacheType->load($cacheKey)) {
             $options = unserialize($cache);
         } else {
-            $collection = $this->_countryFactory->create()->getResourceCollection()->loadByStore();
+            $collection = $this->countryFactory->create()->getResourceCollection()->loadByStore();
             $options = $collection->toOptionArray();
-            $this->_configCacheType->save(serialize($options), $cacheKey);
+            $this->configCacheType->save(serialize($options), $cacheKey);
         }
         return $options;
+    }
+
+    /**
+     * @return State|mixed|null
+     */
+    private function getAppState()
+    {
+        if (null === $this->appState) {
+            $this->appState = ObjectManager::getInstance()->get(\Magento\Framework\App\State::class);
+        }
+        return $this->appState;
     }
 }

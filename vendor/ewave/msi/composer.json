@@ -2,7 +2,7 @@
   "name": "ewave/msi",
   "type": "magento2-module",
   "description": "Ewave MSI",
-  "version": "1.0.0.0",
+  "version": "1.0.3.0",
   "autoload": {
     "files": [ "registration.php" ],
     "psr-4": {

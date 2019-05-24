@@ -309,11 +309,12 @@ class Cart extends \Magento\Checkout\Model\Cart
             return $qtyRequested;
         }
 
-        $stockItem = $this->stockRegistry->getStockItem(
+        $stockStatus = $this->stockRegistry->getStockStatus(
             $product->getId(),
             $product->getStore()->getWebsiteId()
         );
 
+        $stockItem = $stockStatus->getStockItem();
         if (!$stockItem->getManageStock()) {
             return $qtyRequested;
         }
@@ -325,7 +326,7 @@ class Cart extends \Magento\Checkout\Model\Cart
             }
         }
 
-        $qty = $stockItem->getQty() - $qtyAdded;
+        $qty = $stockStatus->getQty() - $qtyAdded;
         return min($qty, $qtyRequested);
     }
 

@@ -125,3 +125,8 @@
 
 * Bugfixes:
     * [#263254](https://ewave.tpondemand.com/entity/263254) -- [ESR] Method which matches 2 rules with 'Hide' and 'Show' actioons respectively is displayed on Checkout incorrectly
+	
+1.4.1	
+=============
+* Bugfixes:
+    * [#302970](https://ewave.tpondemand.com/entity/302970) -- [RC-249][Checkout - Step 1][Shipping methods] Shipping Methods fail to load and return an error

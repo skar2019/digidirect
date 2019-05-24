@@ -50,31 +50,31 @@ class Parser
     protected $validationRuleMapping;
 
     /**
-     * @var Session
-     */
-    protected $customerSession;
-
-    /**
      * Parser constructor.
      *
      * @param FieldsConfig        $fieldsConfig
      * @param Config              $config
      * @param array               $conditions
      * @param array               $validationRuleMapping
-     * @param Session|null $customerSession
      */
     public function __construct(
         FieldsConfig $fieldsConfig,
         Config $config,
         array $conditions = [],
-        array $validationRuleMapping = [],
-        Session $customerSession = null
+        array $validationRuleMapping = []
     ) {
         $this->config = $config;
         $this->fieldsConfig = $fieldsConfig;
         $this->conditions = $conditions;
         $this->validationRuleMapping = $validationRuleMapping;
-        $this->customerSession = $customerSession ?: ObjectManager::getInstance()->get(Session::class);
+    }
+
+    /**
+     * @return Session
+     */
+    public function getCustomerSession()
+    {
+        return ObjectManager::getInstance()->get(Session::class);
     }
 
     /**
@@ -229,7 +229,7 @@ class Parser
      */
     protected function loggedCustomerReplaceFieldset(array $fields)
     {
-        $isLoggedIn = $this->customerSession->isLoggedIn();
+        $isLoggedIn = $this->getCustomerSession()->isLoggedIn();
         foreach ($fields as &$fieldOptions) {
             if (!$isLoggedIn || !isset($fieldOptions[AbstractType::XML_AREA][self::XML_LOGGED_IN])) {
                 continue;

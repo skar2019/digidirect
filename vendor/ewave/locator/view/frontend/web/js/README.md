@@ -37,6 +37,12 @@ infoBox |  | object |  | Google Map infoBox configurations.
 openInPopup |  | string | false | Flag for showing map separately for every location in popup
 popupSelector |  | string | '[data-role=storelocator-popup]' | Selector for popup with map and location details inside
 popupOptions |  | Object | {} | Options for [modal widget](https://devdocs.magento.com/guides/v2.3/javascript-dev-guide/widgets/widget_modal.html)
+geoLocation |  | object |  | User GeoLocation configurations.
+- | enable | boolean | false | Specifies the use GeoLocation logic.
+- | zoom | boolean | 12 | Specifies the level of zoom after centering the map at the user's current location. Use empty string to disable change level of zoom.
+- | action | sting | '[data-role=my-geolocation]' | Selector for CTA element which trigger GeoLocation logic.
+- | noPermissionMessage | sting | '<p>Google Maps does not have permission to use your location.</p><a href="https://support.google.com/maps/answer/2839911" title="Learn more">Learn more</a>' | Specifies the message (appear by click on the CTA element - 'action' option) if the user denied the request for GeoLocation.
+-| markerSettings | object | {} | Special config for current user GeoLocation marker. Google Map [marker options](https://developers.google.com/maps/documentation/javascript/3.exp/reference#MarkerOptions).
  
 ## Locator Directions Widget Settings
  

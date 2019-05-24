@@ -82,8 +82,6 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
          */
 
         function Autocomplete(options) {
-            var _this = this;
-
             _classCallCheck(this, Autocomplete);
 
             this.options = Object.assign({}, this.options, options);
@@ -101,24 +99,32 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
             // initializing watchers
             this.watchers();
 
-            // loading of google places library.
-            try {
-                require(['//maps.googleapis.com/maps/api/js?key=' + options.gplaces_config.api_key + '&libraries=places'], function () {
-                    _this.initAutocomplete(_this.inputField, _this.config, _this.selectors);
-                });
-            } catch (e) {
-                console.warn('Google Places Library hasn\'t been downloaded', e);
-            }
+            this._loadGoogleApi(window.ewaveGoogleMapsUrl || '//maps.googleapis.com/maps/api/js?key=' + options.gplaces_config.api_key + '&libraries=places');
+
             // Initialization value
             this.isFormComplete = false;
         }
 
         /**
-         * Binds events to functions of module
+         * Loading of google places library
+         * @private
          */
 
 
         _createClass(Autocomplete, [{
+            key: '_loadGoogleApi',
+            value: function _loadGoogleApi(mapUrl) {
+                var _this = this;
+
+                try {
+                    require([mapUrl], function () {
+                        _this.initAutocomplete(_this.inputField, _this.config, _this.selectors);
+                    });
+                } catch (e) {
+                    console.warn('Google Places Library hasn\'t been downloaded', e);
+                }
+            }
+        }, {
             key: 'watchers',
             value: function watchers() {
                 var _this2 = this;

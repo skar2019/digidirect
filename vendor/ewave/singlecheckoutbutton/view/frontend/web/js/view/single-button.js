@@ -88,6 +88,7 @@ define([
                 visible = this.isOnlyPaymentStep ? step === 'payment' : true;
             this.label(labelButton);
             this.isVisible(visible);
+            this.isDisabled(this.activeStep() === 'payment' && !quote.billingAddress());
         },
 
         /**

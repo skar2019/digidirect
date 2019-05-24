@@ -15,3 +15,8 @@
 =============
 * Bugfixes:
     * [#298923](https://ewave.tpondemand.com/entity/298923) -- [Project: DigiDirect] An error message is displayed on the second Checkout step after trying to place an order using PayPal which is set up through the Braintree
+
+1.0.3
+=============
+* Bugfixes:
+    * [#302240](https://ewave.tpondemand.com/entity/302240) -- [Single Checkout Button] Next button is not available if user unticks checkbox 'My billing and shipping address are the same'

@@ -18,8 +18,7 @@
     .noroute-content {
 
         & {
-            height: 430px;
-            margin-bottom: -20px;
+            min-height: 430px;
             display: flex;
             align-items: center;
             background-repeat: no-repeat;
@@ -44,6 +43,7 @@
                 text-decoration: none;
                 .lib-button();
                 padding: 10px 50px;
+                margin-bottom: 20px;
             }
 
             > .main {
@@ -72,7 +72,7 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
 
     .noroute-content {
-        height: 450px;
+        min-height: 450px;
     }
 
     .noroute-content > .content-wrapper {
@@ -101,7 +101,7 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
 
     .noroute-content {
-        height: 600px;
+        min-height: 600px;
     }
 
     .noroute-content >.content-wrapper {

@@ -20,7 +20,10 @@ $currentApi = $this->helper('Ewave\StoreLocator\Helper\Config')->getApi();
                         "extensible": <?php /* @escapeNotVerified */ echo $block->getExtendRadius() ?>,
                         "metricType": "<?php /* @escapeNotVerified */ echo $block->getMetric() ?>"
                     },
-                    "openInPopup": "<?php echo /* @noEscape */ $isInPopup; ?>"
+                    "openInPopup": "<?php echo /* @noEscape */ $isInPopup; ?>",
+                    "geoLocation": {
+                        "enable": <?php /* @escapeNotVerified */ echo $block->isAskToUseGeolocationOnFirstVisit(); ?>
+                    }
                 }
             }
         }

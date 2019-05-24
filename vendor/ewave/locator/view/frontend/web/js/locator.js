@@ -1,4 +1,4 @@
-/* global google, MarkerClusterer */
+/* global google */
 define([
     'jquery',
     'mage/template',
@@ -6,11 +6,12 @@ define([
     'Magento_Ui/js/modal/modal',
     'Magento_Ui/js/lib/core/events',
     'text!Ewave_Locator/template/info-box.html',
+    'Magento_Ui/js/modal/alert',
     'jquery/ui',
     'jquery/validate'
-], function ($, mageTemplate, setLocations, modal, events, infoBoxTmpl) {
+], function ($, mageTemplate, setLocations, modal, events, infoBoxTmpl, alert) {
     'use strict';
-    
+
     $.widget('ewave.locator', {
         options: {
             google: {
@@ -56,7 +57,15 @@ define([
             },
             openInPopup: false,
             popupSelector: '[data-role=storelocator-popup]',
-            popupOptions: {}
+            popupOptions: {},
+            geoLocation: {
+                enable: false,
+                zoom: 12,
+                action: '[data-role=my-geolocation]',
+                noPermissionMessage: '<p>Google Maps does not have permission to use your location.</p><a href="https://support.google.com/maps/answer/2839911" title="Learn more">Learn more</a>',
+                markerSettings: {},
+                conversionConstant: 0.609344
+            }
         },
         _create: function () {
             this.isLoad = false;
@@ -90,6 +99,8 @@ define([
                 this.modal = modal(this.options.popupOptions, $(this.options.popupSelector));
                 events.on('location.show', this.modal.openModal.bind(this.modal));
             }
+
+            this.bindCurrentPosition();
         },
         _loadGoogleApi: function (mapUrl) {
             require([mapUrl], function () {
@@ -125,7 +136,114 @@ define([
             this.bounds = new google.maps.LatLngBounds();
 
             this.setDefaultCountry();
+            this.setGeoLocation();
             $(document).trigger('locator.map.initialized');
+        },
+        setGeoLocation: function () {
+            if (this.options.geoLocation.enable) {
+                this._setUserGeoLocation();
+            }
+        },
+        _setUserGeoLocation: function (isManual) {
+            var self = this;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    self.onSuccessGeoLocation(position);
+                }, function (error) {
+                    self.onErrorGeoLocation(error, isManual);
+                });
+            } else {
+                console.warn('The browser does not support Geolocation.');
+            }
+        },
+        onSuccessGeoLocation: function (position) {
+            var self = this,
+                latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+            this.userCurrentLocation = latLng;
+
+            if (!$.isEmptyObject(this.options.defaultLocations)) {
+                if (this.isReadyDefaultCountry) {
+                    this.setCenterByCurrentPosition(latLng);
+                } else {
+                    $(document).on('locator.after.setDefaultCountry', function () {
+                        self.setCenterByCurrentPosition(latLng);
+                    });
+                }
+            } else {
+                this.setCenterByCurrentPosition(latLng);
+            }
+
+            this.setGeoLocationMarker(latLng);
+        },
+        onErrorGeoLocation: function (error, isManual) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    if (isManual) {
+                        alert({content: this.options.geoLocation.noPermissionMessage});
+                    } else {
+                        console.warn('User denied the request for Geolocation.');
+                    }
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert({content: 'Location information is unavailable.'});
+                    break;
+                case error.TIMEOUT:
+                    alert({content: 'The request to get user location timed out.'});
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert({content: 'An unknown error occurred.'});
+                    break;
+            }
+        },
+        setGeoLocationMarker: function (latLng) {
+            var options = $.extend({}, this.getMarkerSettings({}, latLng), this.options.geoLocation.markerSettings);
+
+            this.geoLocationMarker = new google.maps.Marker(options);
+        },
+        setCenterByCurrentPosition: function (latLng) {
+            this.map.setCenter(latLng);
+            if (this.options.geoLocation.zoom) {
+                this.map.setZoom(this.options.geoLocation.zoom);
+            }
+
+            this.sortItemByDistance(latLng);
+        },
+        sortItemByDistance: function (center) {
+            var entity = this.options.defaultLocations[this.options.entityName],
+                settings = entity.settings;
+
+            setLocations([], {});
+
+            this.setItemsDistance(center);
+            this.list.sort(function (a, b) {
+                return a.geo_distance - b.geo_distance;
+            });
+
+            setLocations(this.list, settings);
+        },
+        setItemsDistance: function (center) {
+            var self = this;
+
+            $.each(this.list, function (index, item) {
+                var latlng = new google.maps.LatLng(item.latitude, item.longitude),
+                    distance = self.calculateDistance(center, latlng) / 1000;
+                item['geo_distance'] = distance;
+                item['geo_distance_formatted'] = self.setFormattedDistance(distance);
+            });
+        },
+        setFormattedDistance: function (distance) {
+            return parseFloat(this.getConvertedGeoLocationDistance(distance).toFixed(2)) + ' ' + this.options.radius.metricType;
+        },
+        bindCurrentPosition: function () {
+            var self = this;
+
+            $(this.options.geoLocation.action).on('click', function (e) {
+                e.preventDefault();
+
+                self._setUserGeoLocation(true);
+            });
         },
         getMap: function () {
             return this.map;
@@ -138,6 +256,7 @@ define([
         },
         setDefaultCountry: function () {
             if (!$.isEmptyObject(this.options.defaultLocations)) {
+                this.isReadyDefaultCountry = false;
                 var entity = this.options.defaultLocations[this.options.entityName],
                     items = entity.items,
                     settings = entity.settings;
@@ -158,6 +277,8 @@ define([
                             this.autocomplete.setBounds(this.defaultBounds);
                         }
                         this.map.fitBounds(this.defaultBounds);
+                        $(document).trigger('locator.after.setDefaultCountry');
+                        this.isReadyDefaultCountry = true;
                     }
                 }.bind(this));
             }
@@ -189,7 +310,6 @@ define([
                 self._search($(self.options.search.form));
             });
         },
-
         _getDefaultSearchParams: function ($form, term, location) {
             return {
                 isAjax: true,
@@ -200,14 +320,16 @@ define([
                 radius: this.getConvertedDistance()
             };
         },
-
         getConvertedDistance: function (data) {
             var distance = data || $(this.options.search.radius).val();
             return this.options.radius.metricType === 'km' ? distance : distance * this.options.radius.conversionConstant;
         },
-
+        getConvertedGeoLocationDistance: function (distance) {
+            return this.options.radius.metricType === 'km' ? distance : distance * this.options.geoLocation.conversionConstant;
+        },
         sendRequest: function ($form, term, location) {
             var self = this,
+                jqxhr,
                 defaultParams = this._getDefaultSearchParams($form, term, location),
                 formData = $form.serializeArray().reduce(function (res, v) {
                     if (v.name === 'radius') {
@@ -220,21 +342,27 @@ define([
 
             self.isLoad = true;
 
-            $.ajax({
+            jqxhr = $.ajax({
                 url: $form.attr('action'),
                 type: 'GET',
                 dataType: 'json',
                 showLoader: true,
-                data: formData,
-                success: function (response) {
-                    self.renderLocations(response.result[self.options.entityName], location);
-                },
-                error: function (xhr) {
-                    console.warn('Search failed: ', xhr.statusText);
-                },
-                complete: function () {
-                    self.isLoad = false;
-                }
+                data: formData
+            });
+
+            this.onSendRequest(jqxhr, location);
+
+            return jqxhr;
+        },
+        onSendRequest: function (jqxhr, location) {
+            var self = this;
+
+            jqxhr.done(function (response) {
+                self.renderLocations(response.result[self.options.entityName], location);
+            }).fail(function (xhr) {
+                console.warn('Search failed: ', xhr.statusText);
+            }).always(function () {
+                self.isLoad = false;
             });
         },
         _setInlineMap: function () {
@@ -250,7 +378,11 @@ define([
                 settings = entity.settings;
 
             this.clearLocations();
+
             Array.prototype.push.apply(this.list, items);
+            if (this.userCurrentLocation) {
+                this.setItemsDistance(this.userCurrentLocation);
+            }
             setLocations(this.list, settings);
 
             // render on map explicitly
@@ -258,6 +390,9 @@ define([
 
             if (this.map !== undefined) {
                 this.renderOnMap(items, center, settings);
+                if (this.userCurrentLocation) {
+                    this.setGeoLocationMarker(this.userCurrentLocation);
+                }
             }
         },
         renderOnMap: function (items, center, settings) {
@@ -271,7 +406,7 @@ define([
 
             $.each(items, function (index, item) {
                 self.createMarker(item, center, settings);
-                
+
                 if (item.child_items) {
                     $.each(item.child_items, function (i, child) {
                         self.createMarker(child, center, settings);
@@ -297,10 +432,12 @@ define([
                 options = $.extend({}, this.getMarkerSettings(item, latlng), this.options.marker.settings),
                 marker = new google.maps.Marker(options);
 
-            google.maps.event.addListener(marker, 'click', function () {
-                self.infoWindow.setContent(self.getInfoBoxTemplate(item));
-                self.infoWindow.open(self.map, marker);
-            });
+            if (!$.isEmptyObject(item)) {
+                google.maps.event.addListener(marker, 'click', function () {
+                    self.infoWindow.setContent(self.getInfoBoxTemplate(item));
+                    self.infoWindow.open(self.map, marker);
+                });
+            }
             this.markers.push(marker);
             this.bounds.extend(latlng);
         },

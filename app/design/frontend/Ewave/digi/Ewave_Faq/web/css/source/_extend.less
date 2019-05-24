@@ -66,7 +66,7 @@
         &.-search {
             .lib-css(background, none);
             margin: 25px 0 0;
-            padding: 20px 0;
+            padding: 0;
         }
 
         &.listing {
@@ -247,6 +247,7 @@
             .lib-vendor-prefix-display(flex);
             .lib-vendor-prefix-flex-direction(row);
             .lib-vendor-prefix-flex-wrap();
+            padding-bottom: 30px;
         }
 
         > .title {
@@ -332,6 +333,16 @@
         &[href*='contact']::before {
             height: 27px;
             .lib-css(background-image, @base64-icon__help-white);
+        }
+
+        &[href*='security']::before {
+            height: 27px;
+            .lib-css(background-image, @base64-icon__shield);
+        }
+
+        &[href*='shopping']::before {
+            height: 27px;
+            .lib-css(background-image, @base64-icon__shopping);
         }
     }
 

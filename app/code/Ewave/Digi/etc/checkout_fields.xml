@@ -5,7 +5,7 @@
         <!--  expected id="delivery_number" for order-field.js -->
         <frontend_name>Delivery Number</frontend_name>
         <frontend_input>text</frontend_input>
-        <sort_order>5</sort_order>
+        <sort_order>65</sort_order>
         <validation>
             <rule name="validate-number">1</rule>
             <rule name="validate-digits">1</rule>
@@ -13,7 +13,8 @@
         <area>
             <checkout_step>shipping-step</checkout_step>
             <custom_scope>shippingAddress</custom_scope>
-            <fieldset>address-list-additional-addresses</fieldset>
+            <fieldset>shipping-address-fieldset</fieldset>
+            <fieldset_customer_logged>address-list-additional-addresses</fieldset_customer_logged>
         </area>
         <class>delivery-number</class>
     </field>

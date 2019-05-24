@@ -305,7 +305,7 @@ class RulesApplier
             }
 
             // Get original sort order
-            $sortOrder = $amounts[$action]['sort'];
+            $sortOrder = (int)$amounts[$action]['sort'];
 
             /**
              * Update the sort order to prevent overwriting.

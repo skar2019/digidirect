@@ -72,7 +72,10 @@ class AbstractRenderer extends Select
             }
 
             foreach ($this->_attributeLists->toOptionArray() as $option) {
-                if (empty($option['value'])) {
+                if (!isset($option['value'])) {
+                    continue;
+                }
+                if (is_scalar($option['value']) && !strlen($option['value'])) {
                     continue;
                 }
                 $this->addOption($option['value'], $option['label']);

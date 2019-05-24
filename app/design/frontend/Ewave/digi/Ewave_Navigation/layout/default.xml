@@ -42,6 +42,7 @@
                 <argument name="add_link_to_top" xsi:type="boolean">false</argument>
                 <argument name="view_custom" xsi:type="string">Ewave_Navigation/js/dist/extend/views/index</argument>
                 <argument name="link_string" xsi:type="string" translate="true">View All</argument>
+                <argument name="cms_block_class_name" xsi:type="string">cms category-item</argument>
             </arguments>
             <container  name="main.menu.bottom" label="Main Menu Bottom">
                 <block class="Magento\Cms\Block\Block" name="main.menu.cms.helpful.info">

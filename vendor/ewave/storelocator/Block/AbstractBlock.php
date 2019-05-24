@@ -242,4 +242,12 @@ class AbstractBlock extends Template
 
         return $this->apiKeyHelper;
     }
+
+    /**
+     * @return string
+     */
+    public function isAskToUseGeolocationOnFirstVisit()
+    {
+        return $this->configHelper->isAskToUseGeolocationOnFirstVisit();
+    }
 }

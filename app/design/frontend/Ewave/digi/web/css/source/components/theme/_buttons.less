@@ -103,7 +103,8 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    a@{button-primary-selector} {
+    a@{button-primary-selector},
+    button@{button-primary-selector} {
         &.-size-wide {
             .lib-css(padding, @button-wide__padding__l);
             .lib-css(font-size, @button__font-size__xl);

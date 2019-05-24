@@ -6,6 +6,7 @@ use Ewave\AI\Model\Lib\Import\Product\Entity;
 use Ewave\AI\Model\Lib\Import\Product\EntityFactory as ImportFactory;
 use Ewave\AI\Model\Lib\Mapping\MapperInterface;
 use Ewave\AI\Model\Lib\Validator\Validate;
+use Ewave\ProntoDigi\Helper\Config;
 use Ewave\ProntoDigi\Helper\Inventory;
 use Ewave\ProntoDigi\Model\Import\Sources\SourceItems as SourceItemsImport;
 use Ewave\ProntoDigi\Model\ResourceModel\Product as ProductResource;
@@ -15,6 +16,7 @@ use Ewave\ProntoDigi\ProntoApi\Products\Get\Response\CategoryProcessor;
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Model\Product as ProductModel;
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
 use Magento\Catalog\Model\Product\Url;
 use Magento\Catalog\Model\ResourceModel\Attribute as AttributeResource;
@@ -23,7 +25,6 @@ use Magento\Eav\Model\Config as EavConfig;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Inventory\Model\SourceItemFactory;
 use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface;
-use Magento\Catalog\Model\Product as ProductModel;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -50,6 +51,16 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     protected $eavConfig;
 
     /**
+     * @var null|string
+     */
+    protected $defaultAttributeSetName;
+
+    /**
+     * @var array
+     */
+    protected $urlKeyToSku;
+
+    /**
      * ResponseHandler constructor.
      * @param EavConfig $eavConfig
      * @param AttributeResource $attributeResource
@@ -63,6 +74,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      * @param IsSourceItemManagementAllowedForProductTypeInterface $allowedForProductType
      * @param SourceItemsImport $sourceItemsImport
      * @param SourceItemFactory $sourceItemFactory
+     * @param Config $configHelper
      * @param MapperInterface|null $mapper
      */
     public function __construct(
@@ -78,11 +90,25 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         IsSourceItemManagementAllowedForProductTypeInterface $allowedForProductType,
         SourceItemsImport $sourceItemsImport,
         SourceItemFactory $sourceItemFactory,
+        Config $configHelper,
         MapperInterface $mapper = null
     ) {
+        parent::__construct(
+            $importFactory,
+            $validator,
+            $productUrl,
+            $productResource,
+            $categoryFactory,
+            $categoryProcessor,
+            $inventoryHelper,
+            $allowedForProductType,
+            $sourceItemsImport,
+            $sourceItemFactory,
+            $configHelper,
+            $mapper
+        );
         $this->eavConfig = $eavConfig;
         $this->attributeResource = $attributeResource;
-        parent::__construct($importFactory, $validator, $productUrl, $productResource, $categoryFactory, $categoryProcessor, $inventoryHelper, $allowedForProductType, $sourceItemsImport, $sourceItemFactory, $mapper);
     }
 
     /**
@@ -91,6 +117,9 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      */
     public function handle(array $response)
     {
+        if ($this->urlKeyToSku == null) {
+            $this->urlKeyToSku = $this->productResource->getUrlKeyToSku();
+        }
         $this->productsToImport = array_merge($this->productsToImport, $this->prepareProductsData($response));
         return $this;
     }
@@ -105,9 +134,27 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             $this->productsToImport = $this->newProducts;
             $this->existSkus = [];
         }
+        $this->urlKeyToSku = null;
         $this->unsetData();
         $this->import($this->productsToImport);
         return $this;
+    }
+
+    /**
+     * @param string $sku
+     * @param string $name
+     * @return string
+     */
+    protected function getUrlKey($sku, $name)
+    {
+        $urlKey = $this->productUrl->formatUrlKey($name);
+        if (isset($this->urlKeyToSku[$urlKey])) {
+            if (strtolower($this->urlKeyToSku[$urlKey]) != strtolower($sku)) {
+                $urlKey = $urlKey . '-' . $sku;
+            }
+        }
+        $this->urlKeyToSku[$urlKey] = $sku;
+        return $urlKey;
     }
 
     /**
@@ -126,6 +173,9 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $start = microtime(true);
         /** @var \Ewave\AI\Model\Lib\Import\Product\Entity $import */
         $import = $this->importFactory->create(['aiLogger' => $this->logger]);
+        $parameters = $import->getParameters();
+        $parameters['_disable_url_key_validation'] = true;
+        $import->setParameters($parameters);
         $import->setProductsData([$products]);
         $import->saveProducts();
         $this->saveSourceItems();
@@ -155,7 +205,6 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      */
     protected function prepareProductsData(array $response)
     {
-        $productsUrlKey = [];
         $newProducts = [];
         $existsProducts = [];
         foreach ($response as $k => $productData) {
@@ -173,7 +222,6 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     $productData = $this->getStatus($productData);
                     $productData = $this->getBackorders($productData);
                     $productData = $this->getCategories($productData);
-                    $productData = $this->getAttributeSet($productData);
 
                     if (!isset($this->getExistSkus()[$sku]) && empty($this->getExcludedSkus()[$sku])) {
                         $productData[ProductAttributeInterface::CODE_STATUS] = ProductStatus::STATUS_DISABLED;
@@ -183,12 +231,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                             unset($productData['sources']);
                         }
 
-                        $urkKey = $this->productUrl->formatUrlKey($name);
-                        if (isset($productsUrlKey[$urkKey])) {
-                            $urkKey = $urkKey . '-' . $sku;
-                        }
-                        $productsUrlKey[$urkKey] = $sku;
-                        $productData[Entity::URL_KEY] = $urkKey;
+                        $productData[Entity::URL_KEY] = $this->getUrlKey($sku, $name);
+                        $productData = $this->getAttributeSetForNewProduct($productData);
                         $newProducts[$sku] = $productData;
                     } elseif ($this->isProductUpdatePossible($productData)) {
                         $this->filterSourceItemsBeforeUpdate($sku);
@@ -274,22 +318,53 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     /**
      * @param array $data
      * @return array
-     * @throws LocalizedException
      */
-    protected function getAttributeSet(array $data)
+    protected function getAttributeSetForNewProduct(array $data)
     {
         $standardizedKey = $this->standardizeKey($data[Product::COL_ATTR_SET]);
         if (!isset($this->getAttributeSetList()[$standardizedKey])) {
-            throw new LocalizedException(
+            $attributeSet = $this->getDefaultAttributeSetName();
+            $this->logger->warning(
                 __(
-                    'Attribute set %1 does not exist. Product %2 skipped',
+                    'Attribute Set "%1" does not exist in Magento. Default attribute set is assigned for sku: %2',
                     $data[Product::COL_ATTR_SET],
                     $data[ProductInterface::SKU]
-                )
+                ),
+                [],
+                \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
             );
+        } else {
+            $attributeSet = $this->getAttributeSetList()[$standardizedKey];
         }
+        $data[Product::COL_ATTR_SET] = $attributeSet;
+        return $data;
+    }
 
-        $data[Product::COL_ATTR_SET] = $this->getAttributeSetList()[$standardizedKey];
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function getAttributeSetForExistProduct(array $data)
+    {
+        $standardizedKey = $this->standardizeKey($data[Product::COL_ATTR_SET]);
+        if (!isset($this->getAttributeSetList()[$standardizedKey])) {
+            $sku = $data[ProductInterface::SKU];
+            $attributeSet = $this->getExistSkus()[$sku]['attribute_set_name'];
+            $this->logger->warning(
+                __(
+                    'Attribute set "%1" does not exist in Magento. 
+                     Previous attribute set "%2" remains which was assigned before Integration run for sku: %3',
+                    $data[Product::COL_ATTR_SET],
+                    $attributeSet,
+                    $sku
+                ),
+                [],
+                \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
+            );
+        } else {
+            $attributeSet = $this->getAttributeSetList()[$standardizedKey];
+        }
+        $data[Product::COL_ATTR_SET] = $attributeSet;
         return $data;
     }
 
@@ -316,13 +391,14 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     $currentStatus,
                     $newStatus
                 ),
-                []
+                [],
+                \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
             );
         }
 
         $currentCondition = $this->getExistSkus()[$sku][ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION];
         $newCondition = $productData[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION];
-        if ($newStatus != $currentStatus) {
+        if ($newCondition != $currentCondition) {
             $this->logger->warning(
                 __(
                     'Stock condition is changed for sku: %1. Previous condition: %2. New condition: %3',
@@ -330,11 +406,12 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     $currentCondition,
                     $newCondition
                 ),
-                []
+                [],
+                \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
             );
         }
+        $productData = $this->getAttributeSetForExistProduct($productData);
         unset($this->existSkus[$sku]);
-        unset($productData[ProductInterface::NAME]);
         return $productData;
     }
 
@@ -350,14 +427,16 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         if ($this->disabledProductsCount || $existsCount) {
             $skusToDisable = $this->disabledProductsCount + $existsCount;
             $disabledPercent = round($skusToDisable / $this->countMagentoSkus * 100);
-            if ($disabledPercent > self::DISABLED_PRODUCTS_PERCENT_FOR_SKIP_UPDATE) {
+            if ($disabledPercent > $this->configHelper->getProductsDisabledPercent()) {
                 $this->logger->warning(
                     __(
                         'Update for exists products is skipped because will be disabled %1 percent.
-                         Disabled Products Count: %2, Exist in Magento but not received from Pronto: %3',
+                         Disabled Products Count: %2, Exist in Magento but not received from Pronto: %3, 
+                         Sku not received from Pronto: %4',
                         $disabledPercent,
                         $this->disabledProductsCount,
-                        $existsCount
+                        $existsCount,
+                        implode(', ', array_keys($this->existSkus))
                     ),
                     [],
                     \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
@@ -380,5 +459,16 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             $data[self::USE_CONFIG_BACKORDERS] = 0;
         }
         return $data;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDefaultAttributeSetName()
+    {
+        if ($this->defaultAttributeSetName === null) {
+            $this->defaultAttributeSetName = $this->productResource->getDefaultAttributeSetName();
+        }
+        return $this->defaultAttributeSetName;
     }
 }

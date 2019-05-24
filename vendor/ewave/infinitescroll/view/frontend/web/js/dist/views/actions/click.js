@@ -81,7 +81,7 @@ define(['module', 'exports', 'jquery', 'knockout', './../../common/store', 'text
             value: function _renderButton(options) {
                 var buttonHtml = (0, _jquery2.default)(options.buttonArea)[0];
 
-                if (+options.totalCount > +options.currentCount && (0, _jquery2.default)(options.buttonArea).length) {
+                if (options.nextUrl && (0, _jquery2.default)(options.buttonArea).length) {
                     if (!options.buttonPrepend) {
                         (0, _jquery2.default)(options.buttonTemplate).appendTo(options.buttonArea);
                     } else {

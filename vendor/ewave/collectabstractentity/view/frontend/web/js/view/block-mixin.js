@@ -2,8 +2,9 @@ define([
     'ko',
     'underscore',
     'uiRegistry',
-    'jquery'
-], function (ko, _, uiRegistry, $) {
+    'jquery',
+    'Magento_Ui/js/lib/view/utils/async'
+], function (ko, _, uiRegistry, $, async) {
     'use strict';
 
     return function (target) {
@@ -100,7 +101,9 @@ define([
             },
 
             selectCollectShippingMethod: function () {
-                $('input[value="collect_collect"]').trigger('click');
+                async.async('input[value="collect_collect"]', function (node) {
+                    $(node).trigger('click');
+                });
             },
 
             enableCollectMode: function () {

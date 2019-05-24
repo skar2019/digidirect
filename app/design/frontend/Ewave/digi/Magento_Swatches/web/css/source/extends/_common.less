@@ -58,14 +58,22 @@
 //@swatch-option__cursor: pointer;
 @swatch-option__background: transparent;
 //
-//@swatch-option__hover__border: @border-width__base solid @color-white;
-//@swatch-option__hover__color: @color-gray20;
-//@swatch-option__hover__outline: 1px solid @color-gray60;
+@swatch-option__hover__border__l: @border-width__base solid @color-white;
+@swatch-option__hover__color__l: @color-gray20;
+@swatch-option__hover__outline__l: 1px solid @color-gray60;
+
+@swatch-option__hover__border: false;
+@swatch-option__hover__color: false;
+@swatch-option__hover__outline: false;
 
 //  Option (selected)
-//@swatch-option__selected__border: @swatch-option__hover__border;
-//@swatch-option__selected__color: @swatch-option__hover__color;
-@swatch-option__selected__outline: 2px solid @primary__color;
+@swatch-option__selected__border__l: @swatch-option__hover__border;
+@swatch-option__selected__color__l: @swatch-option__hover__color;
+@swatch-option__selected__outline__l: 2px solid @primary__color;
+
+@swatch-option__selected__border: false;
+@swatch-option__selected__color: false;
+@swatch-option__selected__outline: false;
 
 //  Text attributes
 @swatch-option-text__font-size: 8px;
@@ -88,8 +96,11 @@
 //@attr-swatch-option__selected__color: @color-black;
 
 //  Image and Color swatch
-//@img-color-swatch-option__hover__border: @swatch-option__hover__border;
-@img-color-swatch-option__hover__outline: 2px solid @primary__color;
+@img-color-swatch-option__hover__border__l: @swatch-option__hover__border;
+@img-color-swatch-option__hover__outline__l: 2px solid @primary__color;
+
+@img-color-swatch-option__hover__border: false;
+@img-color-swatch-option__hover__outline: false;
 //
 //@swatch-option__disabled__cursor: default;
 //@swatch-option__disabled-after__content: ' ';
@@ -185,7 +196,8 @@
 //@swatch-option-link-layered__position: relative;
 //@swatch-option-link-layered__margin: ~'0 !important';
 //@swatch-option-link-layered__padding: ~'0 !important';
-//@swatch-option-link-layered__focus__box-shadow: 0 0 3px 1px @color-sky-blue1;
+@swatch-option-link-layered__focus__box-shadow__l: 0 0 3px 1px @color-sky-blue1;
+@swatch-option-link-layered__focus__box-shadow: false;
 //@swatch-option-link-layered-tooltip__hover__display: block;
 //
 @swatch-opt__margin: 9px 0 19px;
@@ -242,6 +254,12 @@
             &::after {
                 display: none;
             }
+        }
+
+        &.selected {
+            .lib-css(border, @swatch-option__hover__border);
+            .lib-css(color, @swatch-option__hover__color);
+            .lib-css(outline, 2px solid @primary__color);
         }
     }
 
@@ -330,6 +348,30 @@
             .lib-css(font-size, @swatch-option-text__font-size__l);
             .lib-css(line-height, @swatch-option-text__line-height__l);
         }
+
+        &:not(.disabled):hover {
+            .lib-css(border, @swatch-option__hover__border__l);
+            .lib-css(color, @swatch-option__hover__color__l);
+            .lib-css(outline, @swatch-option__hover__outline__l);
+        }
+
+        &.selected {
+            .lib-css(border, @swatch-option__selected__border__l);
+            .lib-css(color, @swatch-option__selected__color__l);
+            .lib-css(outline, @swatch-option__selected__outline__l);
+        }
+
+        &.image,
+        &.color {
+            &:not(.disabled):hover {
+                .lib-css(border, @img-color-swatch-option__hover__border__l);
+                .lib-css(outline, @img-color-swatch-option__hover__outline__l);
+            }
+        }
+    }
+
+    .swatch-option-link-layered:focus > div {
+        .lib-css(box-shadow, @swatch-option-link-layered__focus__box-shadow__l);
     }
 
     .product-options-wrapper {

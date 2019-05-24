@@ -5,20 +5,21 @@ namespace Ewave\ProntoDigi\ProntoApi\Inventory\Get;
 use Ewave\AI\Model\Lib\Import\Product\EntityFactory as ImportFactory;
 use Ewave\AI\Model\Lib\Mapping\MapperInterface;
 use Ewave\AI\Model\Lib\Validator\Validate;
+use Ewave\ProntoDigi\Helper\Config;
 use Ewave\ProntoDigi\Helper\Inventory;
 use Ewave\ProntoDigi\Model\Import\Sources\SourceItems as SourceItemsImport;
 use Ewave\ProntoDigi\Model\ResourceModel\Product as ProductResource;
+use Ewave\ProntoDigi\ProntoApi\Constants\Products as ProductConstants;
+use Ewave\ProntoDigi\ProntoApi\ProductResponseHandlerAbstract;
 use Ewave\ProntoDigi\ProntoApi\Products\Get\Response\CategoryProcessor;
-use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
-use Ewave\ProntoDigi\ProntoApi\ProductResponseHandlerAbstract;
-use Ewave\ProntoDigi\ProntoApi\Constants\Products as ProductConstants;
 use Magento\Catalog\Model\Product\Url;
-use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface;
-use Magento\Inventory\Model\SourceItemFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Inventory\Model\SourceItemFactory;
+use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface;
 
 /**
  * Class ResponseHandler
@@ -43,6 +44,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      * @param Inventory $inventoryHelper
      * @param IsSourceItemManagementAllowedForProductTypeInterface $allowedForProductType
      * @param SourceItemsImport $sourceItemsImport
+     * @param SourceItemFactory $sourceItemFactory
+     * @param Config $configHelper
      * @param MapperInterface|null $mapper
      * @param array $attributesToUpdate
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -58,6 +61,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         IsSourceItemManagementAllowedForProductTypeInterface $allowedForProductType,
         SourceItemsImport $sourceItemsImport,
         SourceItemFactory $sourceItemFactory,
+        Config $configHelper,
         MapperInterface $mapper = null,
         array $attributesToUpdate = []
     ) {
@@ -72,6 +76,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             $allowedForProductType,
             $sourceItemsImport,
             $sourceItemFactory,
+            $configHelper,
             $mapper
         );
         $this->attributesToUpdate = $attributesToUpdate;
@@ -242,7 +247,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     {
         if ($this->disabledProductsCount && $this->countMagentoSkus) {
             $disabledPercent = round($this->disabledProductsCount / $this->countMagentoSkus * 100);
-            if ($disabledPercent > self::DISABLED_PRODUCTS_PERCENT_FOR_SKIP_UPDATE) {
+            if ($disabledPercent > $this->configHelper->getInventoryProductsDisabledPercent()) {
                 $this->logger->warning(
                     __(
                         'Update for exists products is skipped because will be disabled %1 percents',

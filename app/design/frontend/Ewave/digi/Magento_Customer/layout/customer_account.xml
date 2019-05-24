@@ -103,7 +103,7 @@
                 </arguments>
             </block>
             <block class="Magento\Customer\Block\Account\SortLinkInterface" name="account-navigation-icon-returns"
-                   template="Magento_Customer::account/navigation-icon.phtml">
+                   template="Magento_Customer::account/navigation-icon.phtml" ifconfig="sales/magento_rma/enabled">
                 <arguments>
                     <argument name="sortOrder" xsi:type="number">280</argument>
                     <argument name="icon_id" xsi:type="string">returns</argument>
@@ -137,7 +137,7 @@
                     <argument name="icon_id" xsi:type="string">newsletter</argument>
                 </arguments>
             </block>
-            <block class="Magento\Customer\Block\Account\SortLinkInterface" name="customer-account-navigation-return-history-link-new">
+            <block class="Magento\Customer\Block\Account\SortLinkInterface" name="customer-account-navigation-return-history-link-new" ifconfig="sales/magento_rma/enabled">
                 <arguments>
                     <argument name="path" xsi:type="string">rma/returns/history</argument>
                     <argument name="label" xsi:type="string">Returns</argument>
@@ -145,7 +145,6 @@
                 </arguments>
             </block>
         </referenceBlock>
-
         <!-- Move account nav into collapse block -->
         <block class="Magento\Framework\View\Element\Template" name="customer_account_navigation_block" template="Magento_Customer::html/collapsible.phtml" before="-">
             <arguments>

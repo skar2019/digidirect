@@ -76,3 +76,13 @@
 ==============
 * Bugfixes:
     * [#289857](https://ewave.tpondemand.com/entity/289857) -- [FAQ] Questions are not displayed when navigate through pages in FAQ category
+	
+1.2.7
+===============
+* Bugfixes:
+    * [#305086](https://tp.ewave.com/305086) -- 	[RC-269][FAQ] Wrong URLs are created when user switches between blocks on FAQ pages: extra html is added
+	
+1.2.8
+=================
+* Bugfixes:
+    * [#305709](https://ewave.tpondemand.com/entity/305709) -- [Project: DigiDirect] Admin user is not able to Create new email template for FAQ using "Customer answer template" template	

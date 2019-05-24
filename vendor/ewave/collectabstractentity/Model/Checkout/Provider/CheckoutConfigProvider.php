@@ -2,6 +2,8 @@
 
 namespace Ewave\CollectAbstractEntity\Model\Checkout\Provider;
 
+use Magento\Directory\Model\Data\RegionInformation;
+
 /**
  * Class CheckoutConfigProvider
  *
@@ -10,6 +12,7 @@ namespace Ewave\CollectAbstractEntity\Model\Checkout\Provider;
 class CheckoutConfigProvider implements \Magento\Checkout\Model\ConfigProviderInterface
 {
     const PREFILL_SHIPPING_FIELDS = 'collect_prefill_shipping_fields';
+    const REGION_FIELD = 'region';
 
     /**
      * @var \Ewave\CollectAbstractEntity\Helper\Config
@@ -31,11 +34,14 @@ class CheckoutConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      */
     public function getConfig()
     {
+        $prefillFields = $this->configHelper->getPrefillShippingAddressFieldsMatrix();
+        $prefillFieldsKeys = array_keys($prefillFields);
+        if (isset($prefillFields[self::REGION_FIELD])) {
+            array_push($prefillFieldsKeys, RegionInformation::KEY_REGION_ID);
+        }
         return [
             'quoteData' => [
-                self::PREFILL_SHIPPING_FIELDS => array_keys(
-                    $this->configHelper->getPrefillShippingAddressFieldsMatrix()
-                )
+                self::PREFILL_SHIPPING_FIELDS => $prefillFieldsKeys
             ]
         ];
     }

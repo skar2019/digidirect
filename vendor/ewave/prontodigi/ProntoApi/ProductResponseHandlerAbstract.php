@@ -6,6 +6,7 @@ use Ewave\AI\Model\Lib\Import\Product\EntityFactory as ImportFactory;
 use Ewave\AI\Model\Lib\Mapping\MapperInterface;
 use Ewave\AI\Model\Lib\Validator\Validate;
 use Ewave\Pronto\ProntoApi\ResponseHandler as BaseResponseHandler;
+use Ewave\ProntoDigi\Helper\Config;
 use Ewave\ProntoDigi\Helper\Inventory;
 use Ewave\ProntoDigi\Model\Import\Sources\SourceItems as SourceItemsImport;
 use Ewave\ProntoDigi\Model\ResourceModel\Product as ProductResource;
@@ -30,8 +31,6 @@ use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProd
  */
 abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implements \Ewave\Pronto\ProntoApi\ResponseHandlerMultipleInterface
 {
-    const DISABLED_PRODUCTS_PERCENT_FOR_SKIP_UPDATE = 10;
-
     /**
      * @var Validate
      */
@@ -143,6 +142,11 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
     protected $sourceItemFactory;
 
     /**
+     * @var Config
+     */
+    protected $configHelper;
+
+    /**
      * ProductResponseHandlerAbstract constructor.
      * @param ImportFactory $importFactory
      * @param Validate $validator
@@ -154,6 +158,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
      * @param IsSourceItemManagementAllowedForProductTypeInterface $allowedForProductType
      * @param SourceItemsImport $sourceItemsImport
      * @param SourceItemFactory $sourceItemFactory
+     * @param Config $configHelper
      * @param MapperInterface|null $mapper
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -168,6 +173,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         IsSourceItemManagementAllowedForProductTypeInterface $allowedForProductType,
         SourceItemsImport $sourceItemsImport,
         SourceItemFactory $sourceItemFactory,
+        Config $configHelper,
         MapperInterface $mapper = null
     ) {
         parent::__construct($mapper);
@@ -181,14 +187,15 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         $this->allowedForProductType = $allowedForProductType;
         $this->sourceItemsImport = $sourceItemsImport;
         $this->sourceItemFactory = $sourceItemFactory;
+        $this->configHelper = $configHelper;
     }
 
     /**
-     * @return array|null
+     * @return array
      */
     public function getExcludedSkus()
     {
-        if (empty($this->excludedSkus)) {
+        if ($this->excludedSkus === null) {
             $this->excludedSkus = $this->productResource->getExcludedSkus();
         }
         return $this->excludedSkus;
@@ -262,7 +269,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
      */
     protected function unsetData()
     {
-        $this->excludedSkus = [];
+        $this->excludedSkus = null;
         $this->existSources = [];
         $this->existSourceItems = [];
         $this->newProducts = [];

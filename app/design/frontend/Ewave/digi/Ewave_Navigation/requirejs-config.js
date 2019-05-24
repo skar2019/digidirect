@@ -7,5 +7,12 @@ var config = {
     },
     deps: [
         'babelpolyfill'
-    ]
+    ],
+    config: {
+        mixins: {
+            'Magento_Theme/js/view/breadcrumbs': {
+                'Ewave_Navigation/js/product/breadcrumbs-mixin': true
+            }
+        }
+    }
 };

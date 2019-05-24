@@ -17,6 +17,9 @@
         </address>
         <a class="link" data-bind="attr: {href: url_key, title: $t('Store Detail')}, text: $t('Store Detail'), click: $parents[2].showDetails.bind($parents[2])"></a>
     </div>
+    <!-- ko if: $data.geo_distance_formatted -->
+        <span class="distance" data-bind="text: $data.geo_distance_formatted"></span>
+    <!-- /ko -->
     <!-- ko foreach: $parent.getRegion('itemEnd') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
     <!-- /ko -->

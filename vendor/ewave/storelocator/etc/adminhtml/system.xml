@@ -19,6 +19,11 @@
                     <label>API</label>
                     <source_model>Ewave\StoreLocator\Model\Config\Source\Api</source_model>
                 </field>
+                <field id="ask_to_use_geolocation_on_first_visit" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Ask To Use Geolocation On First Visit</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set up to "Yes" customer will be asked for permission to use their geolocation on Store Locator first visit</comment>
+                </field>
             </group>
             <group id="list_settings" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Store Locator Listing</label>

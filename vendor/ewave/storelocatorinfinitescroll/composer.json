@@ -2,7 +2,7 @@
   "name": "ewave/storelocatorinfinitescroll",
   "type": "magento2-module",
   "description": "Ewave StoreLocatorInfiniteScroll Module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "suggest": {
     "ewave/storelocator": "Ewave StoreLocatorInfiniteScroll may use ewave/storelocator methods.",
     "ewave/infinitescroll": "Ewave StoreLocatorInfiniteScroll does use ewave/infinitescroll methods."

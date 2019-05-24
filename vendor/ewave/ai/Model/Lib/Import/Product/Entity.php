@@ -579,6 +579,7 @@ class Entity extends Product implements EntityInterface
                     if (!array_key_exists($rowSku, $this->categoriesCache)) {
                         $this->categoriesCache[$rowSku] = [];
                     }
+                    $rowData['rowNum'] = $rowNum;
                     $categoryIds = $this->processRowCategories($rowData);
                     foreach ($categoryIds as $id) {
                         $this->categoriesCache[$rowSku][$id] = true;
@@ -1098,9 +1099,7 @@ class Entity extends Product implements EntityInterface
     {
         $params = $this->getParameters();
 
-        if (!empty($params[self::PARAM_DISABLE_URL_KEY_VALIDATION])
-            && $params[self::PARAM_DISABLE_URL_KEY_VALIDATION]
-        ) {
+        if (!empty($params[self::PARAM_DISABLE_URL_KEY_VALIDATION])) {
             //we do not want validate url key - it already specified as correct
             return false;
         }

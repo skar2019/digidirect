@@ -284,15 +284,18 @@
 =============
 * New features:
     * [#295601](https://ewave.tpondemand.com/entity/295601) -- [C&C][Abstract Entity] As a customer, I want Shipping Address fields to be hidden and pre-filled with an Abstract Entity values on Checkout
- 
 
 2.13.1
 =============
 * Bugfixes:
     * [#300965](https://ewave.tpondemand.com/entity/300965) -- [C&C][Abstract Entity] User can proceed to the checkout step 2 without selecting store for click and collect
- 
 
 2.13.2
 =============
 * Bugfixes:
     * [#300965](https://ewave.tpondemand.com/entity/300965) -- [C&C][Abstract Entity] User can proceed to the checkout step 2 without selecting store for click and collect
+
+2.13.3
+=============
+* Bugfixes:
+    * [#303737](https://ewave.tpondemand.com/entity/303737) -- "My billing and.." checkbox for the payment method is unchecked after trying to place an order with invalid data in custom checkout field

@@ -50,6 +50,8 @@ class Config extends DefaultConfiguration
     const XML_PATH_ENABLE_DIRECTIONS = 'ewave_storelocator_config/store_details/enable_directions';
     const STORE_LOCATOR_UPLOAD_DIR = 'ewave/storelocator/image';
     const XML_PATH_API = 'ewave_storelocator_config/general/api';
+    const XML_PATH_ASK_TO_USE_GEOLOCATION_ON_FIRST_VISIT =
+        'ewave_storelocator_config/general/ask_to_use_geolocation_on_first_visit';
     const XML_PATH_DETAIL_CLICK_ACTION = 'ewave_storelocator_config/list_settings/detail_click_action';
     const XML_PATH_MAIN_ENTITY = 'ewave_storelocator_config/dev/main_entity';
     const XML_PATH_ENTITY_LAYOUT_CONFIGURATION = 'ewave_storelocator_config/dev/entity_layout_mapping';
@@ -358,6 +360,17 @@ class Config extends DefaultConfiguration
     public function getApi($storeId = null)
     {
         return $this->scopeConfig->getValue(self::XML_PATH_API, ScopeInterface::SCOPE_STORE, $storeId);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAskToUseGeolocationOnFirstVisit()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_ASK_TO_USE_GEOLOCATION_ON_FIRST_VISIT,
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**

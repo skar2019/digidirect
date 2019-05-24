@@ -266,3 +266,16 @@
 =============
 * Bugfixes:
     * [#295240](https://ewave.tpondemand.com/entity/295240) -- [Magento 2.3] Email can not be sent with attached Log-file
+
+1.15.6
+=============
+* Bugfixes:
+    * [#302709](https://ewave.tpondemand.com/entity/302709) -- Product Import. Undefined index error. Images/Video import problem. Resolved for 2.2 & 2.3 versions. Video is working.
+
+1.15.7
+=============
+* Refactoring:
+    * Preferences/Model/Import/Product/CategoryProcessor: some private methods declared as protected to override in add-on.
+* Bugfixes:
+    * [#306537](https://ewave.tpondemand.com/entity/306537) -- Product import. Product attributes are not set while using Magento Import functionality
+    * [#306766](https://ewave.tpondemand.com/entity/306766) -- Product import. Row "XXX" skipped. Error appear: Notice: Undefined index: rowNum

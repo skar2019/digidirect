@@ -13,6 +13,7 @@
             </list_settings>
             <general>
                 <api>google</api>
+                <ask_to_use_geolocation_on_first_visit>1</ask_to_use_geolocation_on_first_visit>
             </general>
             <dev>
                 <guess_state>0</guess_state>

@@ -7,6 +7,7 @@
                 <item name="attr_migrate" xsi:type="object">Ewave\Migration\Console\Command\MigrateAttributesCommand</item>
                 <item name="MigrationKaywebCustomersCommand" xsi:type="object">Ewave\Migration\Console\Command\MigrateKaywebCustomersCommand</item>
                 <item name="MigrationKaywebOrdersCommand" xsi:type="object">Ewave\Migration\Console\Command\MigrateKaywebOrdersCommand</item>
+                <item name="MigrationKaywebRedirectCommand" xsi:type="object">Ewave\Migration\Console\Command\MigrateKaywebRedirectCommand</item>
             </argument>
         </arguments>
     </type>

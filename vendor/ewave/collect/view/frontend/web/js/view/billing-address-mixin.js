@@ -21,9 +21,6 @@ define(
             return address.getType() == 'customer-address';
         });
         return target.extend({
-            isCanUseShippingAddress: ko.observable(!quote.customShipping && !quote.isShippingAddressHidden),
-            isAddressSameAsShipping: ko.observable(false),
-            isAddressFormVisible: ko.observable(!customer.isLoggedIn() || addressOptions.length == 1),
             canUseShippingAddress: function (flag) {
                 var result = flag != undefined ? flag : quote.customShipping || quote.isShippingAddressHidden ? false : !quote.isVirtual() && quote.shippingAddress() && quote.shippingAddress().canUseForBilling();
                 return result;
@@ -39,9 +36,7 @@ define(
             initObservable: function () {
                 this._super()
                 .observe({
-                    selectedAddress: null,
-                    isAddressDetailsVisible: quote.billingAddress() != null,
-                    saveInAddressBook: 1
+                    isCanUseShippingAddress: !quote.customShipping && !quote.isShippingAddressHidden
                 });
 
                 quote.billingAddress.subscribe(function (newAddress) {

@@ -16,7 +16,12 @@
                               action="<?= $block->escapeUrl($block->getShippingMethodSubmitUrl()) ?>"
                               class="form">
                             <?php if ($block->canEditShippingMethod()): ?>
-                                <?php if ($groups = $block->getShippingRateGroups()): ?>
+                                <?php $groups =
+                                    array_filter($block->getShippingRateGroups(), function ($rateName) {
+                                        return $rateName !== 'collect';
+                                    }, ARRAY_FILTER_USE_KEY)
+                                ?>
+                                <?php if (!empty($groups)) : ?>
                                     <?php $currentRate = $block->getCurrentShippingRate(); ?>
                                     <div class="field shipping required">
                                         <select name="shipping_method" id="shipping-method" class="select">
@@ -30,9 +35,6 @@
                                                         $code
                                                     )); ?>">
                                                     <?php foreach ($rates as $rate): ?>
-                                                        <?php
-                                                        var_dump($rate);
-                                                        ?>
                                                         <option value="<?= $block->escapeHtml(
                                                                 $block->renderShippingRateValue($rate)
                                                             ); ?>"

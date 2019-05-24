@@ -185,3 +185,8 @@
 * Bugfixes:
     * [#298789](https://ewave.tpondemand.com/entity/298789) -- [Project:RipCurl][Free gift] Old simple product price equal 0 instead of correct price on free gift pop-up
     * [#298795](https://ewave.tpondemand.com/entity/298795) -- [Project:Rip Curl][Checkout][Step 2] Error in console when applied promocode was canceled
+
+1.10.7
+=============
+* Bugfixes:
+    * [#303394](https://ewave.tpondemand.com/entity/303394) -- [DigiDirect] Free product is not added to the cart with Cart price rule when it is assigned to non-default sources

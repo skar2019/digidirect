@@ -7,9 +7,6 @@ var config = {
             },
             'Magento_Checkout/js/action/set-payment-information': {
                 'Ewave_Newsletter/js/model/set-payment-information-mixin': true
-            },
-            'Magento_Paypal/js/action/set-payment-method': {
-                'Ewave_Newsletter/js/model/paypal/set-payment-method-mixin': true
             }
         }
     }

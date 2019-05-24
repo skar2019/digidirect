@@ -2,7 +2,7 @@
   "name": "ewave/freegift",
   "description": "Free gift",
   "type": "magento2-module",
-  "version": "1.10.5.0",
+  "version": "1.10.7.0",
   "autoload": {
     "files": [
       "registration.php"

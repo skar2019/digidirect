@@ -165,6 +165,12 @@
 
         &.-light .svg-icon {
             .lib-css(fill, @color-4-1);
+            
+            transition: all .3s linear;
+            
+            &:hover {
+                .lib-css(fill, @color-orange-red1);
+            }
         }
 
         .label {

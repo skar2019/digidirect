@@ -183,7 +183,8 @@ class Index extends Action {
         // Prepare the paged response object
         $pagedResult = (object) [
             'count' => sizeof($items),
-            'items' => $variants
+            'items' => $variants,
+            'generator' => 'Studio19 Magento2 Extension 1.0.5',
         ];
 
         if ($top == sizeof($items))
@@ -271,7 +272,9 @@ class Index extends Action {
                     $code = $attribute->getProductAttribute()->getAttributeCode();
                     
                     // If the key does not exist, it probably has not been set on the products, and is thus misconfigured, so it should not be added to output.
-                    if (array_key_exists($code, $variantData)) {
+                    // Update 16/1/18 -- Extra condition check since Power Golf is giving out of bounds exception on the 'name' => ... line below.
+                    // Update 15/5/18 -- Add try/catch since I can't work out why the code is failing
+                    if (isset($code, $variantData[$code], $optionsByAttributeValues, $optionsByAttributeValues[$variantData[$code]])) {
                         $attributeValues[$attribute->getData('label')] = array(
                             'id' => intval($variantData[$code]),
                             'name' => $optionsByAttributeValues[$variantData[$code]]

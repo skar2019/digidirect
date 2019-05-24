@@ -65,8 +65,15 @@
 * New features:
     * [#291306](https://ewave.tpondemand.com/entity/291306) -- As an admin, I want set up Length Unit to be used in Locator module     
 
-1.5.1
+1.6.0
 ==============
 * Bugfixes:
     * [#291813](https://tp.ewave.com/291813) -- There is an error during store searching on the store locator
+	
+* New features:
+    * [#300771](https://ewave.tpondemand.com/entity/300771) -- [DISTANCE TO STORES] As a customer, I want to be able to view the distance from my geo location for all stores in the list
+
+* Bugfixes:
+    * [#302817](https://ewave.tpondemand.com/entity/302817) -- [DISTANCE TO STORES] There is wrong distance in miles to the store on the store locator page
+    * [#302892](https://ewave.tpondemand.com/entity/302892) -- [DISTANCE TO STORES] List of stores are not displayed on the store locator page in case geolocation coordinates are equal to store	
 

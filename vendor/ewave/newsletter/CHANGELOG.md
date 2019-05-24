@@ -44,3 +44,8 @@
 =============
 * New features:
     * [#295267](https://ewave.tpondemand.com/entity/295267) -- [Project: Rip Curl][Checkout][PayPal] The page is stuck with loader during address verification
+
+1.3.2
+=============
+* New features:
+    * [#302040](https://ewave.tpondemand.com/entity/302040) -- [Project: Rip Curl][Custom Checkout Fields][Paypal] Values of custom checkout fields are not saved in DB for Paypal payment

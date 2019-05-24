@@ -14,7 +14,7 @@ export default class Action {
         this.options = Object.assign({}, this.options, options);
 
         if (this.options.scrollToLastViewedItem) {
-            new ItemClick(options);    
+            new ItemClick(options);
         }
 
         ViewModelButton = function (state) {
@@ -36,7 +36,7 @@ export default class Action {
     _renderButton (options) {
         let buttonHtml = $(options.buttonArea)[0];
 
-        if (+options.totalCount > +options.currentCount && $(options.buttonArea).length) {
+        if (options.nextUrl && $(options.buttonArea).length) {
             if (!options.buttonPrepend) {
                 $(options.buttonTemplate).appendTo(options.buttonArea);
             } else {

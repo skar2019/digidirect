@@ -1,8 +1,10 @@
 <?php
 /**
  * @var \Ewave\Faq\Block\Listfaq $block
+ * @var $utilitiesHelper \Ewave\Utilities\Helper\Cms
  */
 $faqs = $block->getFaqCollection();
+$utilitiesHelper = $this->helper(\Ewave\Utilities\Helper\Cms::class);
 ?>
 
 <?php if ($faqs->getSize()) : ?>
@@ -14,7 +16,7 @@ $faqs = $block->getFaqCollection();
                 <?php /* @escapeNotVerified */ echo $block->stripTags($faq->getQuestion()); ?>
             </a>
             <div class="faq-answer" id="faq-answer-<?php echo (int)$faq->getId(); ?>" data-testid="faq-answer-item">
-                <?php /* @escapeNotVerified */ echo $faq->getAnswer(); ?>
+				<?php /* @escapeNotVerified */ echo $utilitiesHelper->getCmsFilterContent($faq->getAnswer()); ?>
             </div>
         </div>
     <?php endforeach; ?>

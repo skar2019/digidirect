@@ -83,3 +83,8 @@
 * Bugfixes:
     * [#291085](https://ewave.tpondemand.com/entity/291085) -- [Project: DigiDirect] Products are duplicated on the Search result page
     * [#291853](https://ewave.tpondemand.com/entity/291853) -- [Project: DigiDirect] Text inside the product overlay is displayed with big line spacing after clicking "Load more" button on the product listing page
+
+1.2.4
+=============
+* Bugfixes:
+    * [#306535](https://ewave.tpondemand.com/entity/306535) -- [Blog] Load More button is not shown for blog posts

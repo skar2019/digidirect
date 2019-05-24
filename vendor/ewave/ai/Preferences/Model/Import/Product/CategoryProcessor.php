@@ -151,11 +151,11 @@ class CategoryProcessor extends \Magento\CatalogImportExport\Model\Import\Produc
      * Add failed category
      *
      * @param string $category
-     * @param \Magento\Framework\Exception\AlreadyExistsException $exception
+     * @param \Magento\Framework\Exception\LocalizedException $exception
      *
      * @return $this
      */
-    private function addFailedCategory($category, $exception)
+    protected function addFailedCategory($category, $exception)
     {
         $this->failedCategories[] =
             [
@@ -173,7 +173,7 @@ class CategoryProcessor extends \Magento\CatalogImportExport\Model\Import\Produc
      * @param string $string
      * @return string
      */
-    private function standardizeString($string)
+    protected function standardizeString($string)
     {
         return mb_strtolower($string);
     }

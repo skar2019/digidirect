@@ -107,3 +107,8 @@
 ===================	
 * Bugfixes:
     * [#295129](https://ewave.tpondemand.com/entity/295129) -- [PROJECT: VANS NZ] Address autocomplete is not working    	 
+	
+2.0.11
+===================
+* Bugfixes:
+    * [#303081](https://ewave.tpondemand.com/entity/303081) -- [Project: DigiDirect] JS error message is displayed in the browser's console after opening C&C popup on the Checkout page	

@@ -24,3 +24,14 @@
 =============
 * New features:
     * [#301719](https://ewave.tpondemand.com/entity/301719) -- [C&C][Abstract Entity] As an admin, I want new settings for shipped order notification to be added
+
+1.3.1
+=============
+* Bugfixes:
+    * [#301419](https://ewave.tpondemand.com/entity/301419) -- [C&C][Abstract Entity] 'State/Province' is not hidden on the checkout step 1
+
+1.3.2
+=============
+* Bugfixes:
+    * [#306359](https://ewave.tpondemand.com/entity/306359) -- [Project: DigiDirect] "Shipping Methods" is not selected when C&C is selected on the cart page
+    

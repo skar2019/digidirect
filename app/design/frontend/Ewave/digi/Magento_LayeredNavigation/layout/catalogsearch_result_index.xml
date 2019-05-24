@@ -9,6 +9,12 @@
             </block>
         </referenceContainer>
 
+        <referenceBlock name="search_result_list">
+            <action method="setDefaultDirection">
+                <argument name="dir" xsi:type="string">asc</argument>
+            </action>
+        </referenceBlock>
+
         <move element="catalogsearch.leftnav.clear" destination="catalogsearch.leftnav" before="-" />      
 
         <move element="ewave.layerednavigation.apply" destination="catalogsearch.leftnav" before="-" />

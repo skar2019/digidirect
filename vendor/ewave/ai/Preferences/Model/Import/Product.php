@@ -235,6 +235,26 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
     }
 
     /**
+     * Whether a url key is needed to be change.
+     *
+     * @param array $rowData
+     * @return bool
+     */
+    protected function isNeedToChangeUrlKey(array $rowData)
+    {
+        $urlKey = $this->getUrlKey($rowData);
+        $productExists = $this->isSkuExist($rowData[self::COL_SKU]);
+        $markedToEraseUrlKey = isset($rowData[self::URL_KEY]);
+        // The product isn't new and the url key index wasn't marked for change.
+        if (!$urlKey && $productExists && !$markedToEraseUrlKey) {
+            // Seems there is no need to change the url key
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Gather and save information about product entities.
      *
      * @return $this
@@ -290,7 +310,16 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
                 }
                 $rowScope = $this->getRowScope($rowData);
 
-                $rowData[self::URL_KEY] = $this->getUrlKey($rowData);
+                $urlKey = $this->getUrlKey($rowData);
+                if (!empty($rowData[self::URL_KEY])) {
+                    // If url_key column and its value were in the CSV file
+                    $rowData[self::URL_KEY] = $urlKey;
+                } elseif ($this->isNeedToChangeUrlKey($rowData)) {
+                    // If url_key column was empty or even not declared in the CSV file but by the rules it is need to
+                    // be setteed. In case when url_key is generating from name column we have to ensure that the bunch
+                    // of products will pass for the event with url_key column.
+                    $bunch[$rowNum][self::URL_KEY] = $rowData[self::URL_KEY] = $urlKey;
+                }
 
                 $rowSku = $rowData[self::COL_SKU];
 
@@ -632,9 +661,11 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
             foreach ($skuData as $sku => $attributes) {
                 $linkId = $this->_connection->fetchOne(
                     $this->_connection->select()
-                        ->from($this->getResource()->getTable('catalog_product_entity'))
+                        ->from(
+                            $this->getResource()->getTable('catalog_product_entity'),
+                            $this->getProductEntityLinkField()
+                        )
                         ->where('sku = ?', (string)$sku)
-                        ->columns($this->getProductEntityLinkField())
                 );
 
                 foreach ($attributes as $attributeId => $storeValues) {

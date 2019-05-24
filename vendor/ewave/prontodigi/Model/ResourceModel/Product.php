@@ -2,14 +2,15 @@
 
 namespace Ewave\ProntoDigi\Model\ResourceModel;
 
+use Ewave\ProntoDigi\ProntoApi\Constants\InventoryGetRequest;
 use Ewave\ProntoDigi\ProntoApi\Constants\Products as ProductsConst;
+use Magento\Catalog\Api\Data\ProductAttributeInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\Indexer\Category\Product\TableMaintainer;
-use Magento\Catalog\Model\ResourceModel\Category;
-use Magento\Store\Model\Store;
-use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use Ewave\ProntoDigi\ProntoApi\Constants\InventoryGetRequest;
 use Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+use Magento\Catalog\Model\ResourceModel\Category;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
+use Magento\Store\Model\Store;
 
 /**
  * Class Product
@@ -87,6 +88,24 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
     }
 
     /**
+     * @return string
+     */
+    public function getDefaultAttributeSetName()
+    {
+        $connection = $this->getConnection();
+        $select = $connection
+            ->select()
+            ->from(['asn' => $this->getTable('eav_attribute_set')], 'attribute_set_name')
+            ->joinInner(
+                ['eet' => $this->getTable('eav_entity_type')],
+                'asn.attribute_set_id = eet.default_attribute_set_id'
+            )
+            ->where('eet.entity_type_id = ?', $this->getTypeId());
+
+        return $connection->fetchOne($select);
+    }
+
+    /**
      * @return array
      */
     public function getExistSkus()
@@ -105,6 +124,11 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
                     $connection->quoteInto('at_excl.store_id = ?', Store::DEFAULT_STORE_ID),
                 ]),
                 [ProductsConst::PRODUCT_ATTRIBUTE_EXCLUDE_FROM_INTEGRATION => 'at_excl.value']
+            )
+            ->joinLeft(
+                ['at_set' => $this->getTable('eav_attribute_set')],
+                'p.attribute_set_id = at_set.attribute_set_id',
+                ['attribute_set_name']
             )
             ->where('COALESCE(at_excl.value, "0") <> 1');
 
@@ -234,5 +258,28 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
                 );
             }
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getUrlKeyToSku()
+    {
+        /**
+         * @var $productCollection \Magento\Catalog\Model\ResourceModel\Product\Collection
+         */
+        $productCollection = $this->collectionFactory->create();
+        $select = $productCollection->getSelect();
+        $adapter = $productCollection->getConnection();
+        $select->reset(\Zend_Db_Select::COLUMNS);
+
+        $productCollection->addAttributeToFilter(
+            ProductAttributeInterface::CODE_SEO_FIELD_URL_KEY,
+            ['notnull' => true],
+            'left'
+        );
+        $select->columns(['sku' => 'e.' . ProductInterface::SKU]);
+
+        return $adapter->fetchPairs($select);
     }
 }

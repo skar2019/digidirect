@@ -4,10 +4,14 @@ $locatorName = $block->getData('locatorName');
 $default = $block->getDefaultRadius();
 $items = $block->getRadiusOptions();
 $metric = $block->getMetric();
+$isGeoLocation = $block->isAskToUseGeolocationOnFirstVisit();
 ?>
 
 <div class="locator-search">
     <form action="<?php echo $block->escapeUrl($block->getSearchUrl()); ?>" class="form" data-locator="<?php /* @escapeNotVerified */ echo $locatorName ?>" data-mage-init='{"validation": {}}'>
+        <button type="button" data-role="my-geolocation" class="button locator-mylocation" title="<?php /* @escapeNotVerified */ echo __('My Location')?>">
+            <span><?php /* @escapeNotVerified */ echo __('My Location')?></span>
+        </button>
         <div class="input-group">
             <div class="control">
                 <input type="text"

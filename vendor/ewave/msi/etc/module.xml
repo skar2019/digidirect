@@ -4,6 +4,7 @@
     <module name="Ewave_MSI" setup_version="1.0.0">
         <sequence>
             <module name="Magento_Inventory" />
+            <module name="Magento_InventorySales" />
         </sequence>
     </module>
 </config>

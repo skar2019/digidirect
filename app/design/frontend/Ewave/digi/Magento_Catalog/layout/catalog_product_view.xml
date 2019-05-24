@@ -5,6 +5,7 @@
         <referenceBlock name="view.addto.compare" remove="true" />
         <referenceBlock name="product.info.mailto" remove="true" />
         <referenceBlock name="product.info.overview" remove="true" />
+        <referenceBlock name="product.info.addtocart.additional.zipmoney.productimage" remove="true" />
 
         <!-- in case us/288107-->
         <referenceBlock name="product.attributes" remove="true" />

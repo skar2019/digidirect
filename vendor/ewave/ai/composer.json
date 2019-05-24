@@ -2,7 +2,7 @@
   "name": "ewave/ai",
   "type": "magento2-module",
   "description": "Integration Engine.",
-  "version": "1.15.5.0",
+  "version": "1.15.7.0",
   "require": {
     "vlucas/valitron": "^1.4"
   },

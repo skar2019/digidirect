@@ -47,22 +47,4 @@ class CategoryProcessor extends \Ewave\AI\Preferences\Model\Import\Product\Categ
 
         return $category->getId();
     }
-
-    /**
-     * Add failed category
-     *
-     * @param string $category
-     * @param \Magento\Framework\Exception\AlreadyExistsException $exception
-     *
-     * @return $this
-     */
-    private function addFailedCategory($category, $exception)
-    {
-        $this->failedCategories[] =
-            [
-                'category' => $category,
-                'exception' => $exception,
-            ];
-        return $this;
-    }
 }

@@ -22,16 +22,24 @@ export default class Autocomplete {
         // initializing watchers
         this.watchers();
 
-        // loading of google places library.
+        this._loadGoogleApi(window.ewaveGoogleMapsUrl || `//maps.googleapis.com/maps/api/js?key=${options.gplaces_config.api_key}&libraries=places`);
+
+        // Initialization value
+        this.isFormComplete = false;
+    }
+
+    /**
+     * Loading of google places library
+     * @private
+     */
+    _loadGoogleApi (mapUrl) {
         try {
-            require([`//maps.googleapis.com/maps/api/js?key=${options.gplaces_config.api_key}&libraries=places`], () => {
+            require([mapUrl], () => {
                 this.initAutocomplete(this.inputField, this.config, this.selectors);
-        });
+            });
         } catch (e) {
             console.warn('Google Places Library hasn\'t been downloaded', e);
         }
-        // Initialization value
-        this.isFormComplete = false;
     }
 
     /**

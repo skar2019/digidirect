@@ -44,12 +44,17 @@
             position: fixed;
         }
         
-        > .primary {
+        > .primary,
+        > .button-holder {
             width: 50%;
             text-align: center;
         }
-        
-        .primary + .primary {
+    
+        > .button-holder {
+            display: inline-block;
+        }
+    
+        .button-holder + .primary {
             margin-left: 20px;
         }
     }
@@ -189,10 +194,37 @@
             padding: 0;
             margin-bottom: 8px;
         }
-    
+        
         > .sidedar-toolbar .clear.action {
             width: 100%;
             margin: 0 0 30px;
+        }
+    
+        > .sidedar-toolbar .ln-apply {
+            width: 100%;
+            margin: 0 0 15px;
+            position: relative;
+            top: 0;
+            
+            &:hover {
+                .lib-css(background-color, @color-white);
+                .lib-css(color, @primary__color);
+                .lib-css(border-color, @primary__color);
+            }
+        }
+    
+        > .sidedar-toolbar .button-holder {
+            min-height: 50px;
+            width: 100%;
+            display: block;
+            text-align: left;
+        }
+        
+        .ln-apply._sticky {
+            .lib-css(box-shadow, 0 0 30px 30px @color-white);
+            
+            position: fixed;
+            z-index: 5;
         }
     }
     
