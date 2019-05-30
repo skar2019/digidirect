@@ -23,6 +23,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     const CART_MESSAGE = 'ewave_freegift/messages/cart_message';
     const POPUP_TEMPLATE = 'ewave_freegift/messages/popup_template';
     const MESSAGE_FOR_HIDDEN_FREE_ITEM_PRICE = 'ewave_freegift/messages/message_hidden_free_item_price';
+    const MESSAGE_TYPE = 'ewave_freegift/messages/message_type';
 
     /**
      * @return bool
@@ -176,6 +177,17 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     {
         return $this->scopeConfig->isSetFlag(
             self::REDIRECT_TO_CART,
+            ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessageType()
+    {
+        return $this->scopeConfig->getValue(
+            self::MESSAGE_TYPE,
             ScopeInterface::SCOPE_STORE
         );
     }

@@ -95,7 +95,9 @@ class Messages extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             if (!in_array($message, $freeGiftMessages) || $showEachTime) {
-                $this->_messageManager->addNoticeMessage($message);
+                $messageType = $this->_configHelper->getMessageType();
+                $messageTypeFunctionName = 'add' . ucfirst($messageType) . 'Message';
+                $this->_messageManager->$messageTypeFunctionName($message);
                 $freeGiftMessages[] = $message;
                 $this->_registry->unregister(self::REGISTRY_KEY);
                 $this->_registry->register(self::REGISTRY_KEY, $freeGiftMessages);

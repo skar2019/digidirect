@@ -151,3 +151,17 @@
 * Bugfixes:
     * [#294253](https://ewave.tpondemand.com/entity/294253) -- [Project: DigiDirect] Ewave_Blog module doesn't have verification for Breadcrumps module
     * [#302054](https://ewave.tpondemand.com/entity/302054) -- [Project; DigiDirect] Trying to add config product from the "Related products" section redirects user to the 404 page	
+	
+2.5.0
+====================	
+New features:
+    * [#302053](https://ewave.tpondemand.com/entity/302053) -- As an admin, I want to be able to setup a theme for blog pages
+
+* Bugfixes:
+    * [#306068](https://ewave.tpondemand.com/entity/306068) -- [Blog] It's impossible to open blog post/category page if custom theme is set for blog	
+
+2.5.1	
+====================
+* Bugfixes:
+    * [#302248](https://ewave.tpondemand.com/entity/302248) -- [Project: DigiDirect] Sort order could not be changed for the assigned post in the widget
+    * [#306536](https://ewave.tpondemand.com/entity/306536) -- [Blog] An empty value is not added to Theme dropdown	

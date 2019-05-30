@@ -117,5 +117,10 @@
 
 1.10.0
 * New features:
-    * [#300771](https://ewave.tpondemand.com/entity/300771) -- [DISTANCE TO STORES] As a customer, I want to be able to view the distance from my geo location for all stores in the list	
+    * [#300771](https://ewave.tpondemand.com/entity/300771) -- [DISTANCE TO STORES] As a customer, I want to be able to view the distance from my geo location for all stores in the list
+
+1.10.1
+============
+* Bugfixes:
+    * [#303555](https://ewave.tpondemand.com/entity/303555) -- [Project: DigiDirect] Searching by postcode always returns the US even when it is not set up in admin	
     	

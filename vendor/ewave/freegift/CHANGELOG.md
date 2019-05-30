@@ -190,3 +190,9 @@
 =============
 * Bugfixes:
     * [#303394](https://ewave.tpondemand.com/entity/303394) -- [DigiDirect] Free product is not added to the cart with Cart price rule when it is assigned to non-default sources
+
+1.11.0
+=============
+* New features:
+    * [#306869](https://ewave.tpondemand.com/entity/306869) -- [NOTICE MESSAGE] As an admin, I want to be able to specify free gift notice message as a success message.
+    

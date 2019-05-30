@@ -20,3 +20,8 @@
 =============
 * Bugfixes:
     * [#302240](https://ewave.tpondemand.com/entity/302240) -- [Single Checkout Button] Next button is not available if user unticks checkbox 'My billing and shipping address are the same'
+
+1.0.4
+=============
+* Bugfixes:
+    * [#307583](https://ewave.tpondemand.com/entity/307583) -- [Project: DigiDirect] User is not able to proceed to the second Checkout step after proceeding to the first step using browser's arrows

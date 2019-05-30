@@ -5,6 +5,7 @@ namespace Ewave\LayeredNavigation\Model\ResourceModel\Fulltext;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Exception\StateException;
 use Magento\Framework\Phrase;
+use Magento\Framework\Search\Adapter\Mysql\TemporaryStorage;
 use Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory;
 use Magento\Store\Model\ScopeInterface;
 
@@ -37,6 +38,11 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
      * @var \Magento\Search\Model\SearchEngine
      */
     protected $searchEngine;
+
+    /**
+     * @var \Magento\Framework\Search\Adapter\Mysql\TemporaryStorageFactory
+     */
+    protected $temporaryStorageFactory;
 
     /**
      * @var string
@@ -144,6 +150,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\Serialize\Serializer\Json $json
      * @param \Magento\Framework\Serialize\Serializer\Serialize $serialize
+     * @param \Magento\Framework\Search\Adapter\Mysql\TemporaryStorageFactory $temporaryStorageFactory
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -175,7 +182,8 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
         array $staticPlaceholders = [],
         \Magento\Framework\App\CacheInterface $cache = null,
         \Magento\Framework\Serialize\Serializer\Json $json = null,
-        \Magento\Framework\Serialize\Serializer\Serialize $serialize = null
+        \Magento\Framework\Serialize\Serializer\Serialize $serialize = null,
+        \Magento\Framework\Search\Adapter\Mysql\TemporaryStorageFactory $temporaryStorageFactory = null
     ) {
         $this->queryFactory = $catalogSearchData;
         parent::__construct(
@@ -218,6 +226,9 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 
         $this->serialize = $serialize ?: \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\Serialize\Serializer\Serialize::class);
+
+        $this->temporaryStorageFactory = $temporaryStorageFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\Framework\Search\Adapter\Mysql\TemporaryStorageFactory::class);
     }
 
     /**
@@ -311,9 +322,11 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
         $ids = [0];
         $this->queryResponse = $this->searchEngine->search($queryRequest);
 
+        $items = [];
         /** @var \Magento\Framework\Search\Document $document */
         foreach ($this->queryResponse as $document) {
             $ids[] = $document->getId();
+            $items[] = $document;
         }
 
         parent::addFieldToFilter('entity_id', ['in' => $ids]);
@@ -329,6 +342,19 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
                         $ids
                     )
                 )
+            );
+        }
+
+        $joinedTables = $this->getSelect()->getPart('from');
+        if (!isset($joinedTables['search_result'])) {
+            $temporaryStorage = $this->temporaryStorageFactory->create();
+            $table = $temporaryStorage->storeApiDocuments($items);
+            $this->getSelect()->joinInner(
+                [
+                    'search_result' => $table->getName(),
+                ],
+                'e.entity_id = search_result.' . TemporaryStorage::FIELD_ENTITY_ID,
+                []
             );
         }
     }

@@ -2,7 +2,7 @@
   "name": "ewave/singlecheckoutbutton",
   "description": "Ewave SingleCheckoutButton",
   "type": "magento2-module",
-  "version": "1.0.3.0",
+  "version": "1.0.4.0",
   "autoload": {
     "files": [
       "registration.php"

@@ -15,3 +15,9 @@
     * [#294065](https://ewave.tpondemand.com/entity/294065) -- [Extended Catalog Price Rule] As a customer, I want to be able to use 'Display a message' Catalog Price Rule on widgets
 * Bugfixes:
     * [#295618](https://ewave.tpondemand.com/entity/295618) -- [Ext catalog price rule] Rule is not applied to the configurable which contains a simple product matches the rule
+
+1.2.0
+=============
+* New features:
+    * [#303822](https://ewave.tpondemand.com/entity/303822) -- [Extended Catalog Price Rule] As an admin, I want to be able to add Catalog Price Rules calculation to the Product REST APIs
+

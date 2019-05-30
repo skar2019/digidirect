@@ -201,6 +201,10 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
                 $toMulti[] = $to;
             }
         }
+		
+		if (!$fromMulti || !$toMulti) {
+            return $this;
+        }
 
         $this->getLayer()->getProductCollection()->addFieldToFilter('price', [
             'from' => implode(',', $fromMulti),

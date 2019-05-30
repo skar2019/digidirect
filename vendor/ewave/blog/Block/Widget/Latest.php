@@ -5,6 +5,7 @@ namespace Ewave\Blog\Block\Widget;
 use Ewave\Blog\Model\Config\Provider\Status;
 use Ewave\Blog\Model\Post\Source\DisplayType;
 use Ewave\Blog\Model\ResourceModel\Post\Collection;
+use Magento\Framework\DB\Select;
 use Magento\Widget\Block\BlockInterface;
 
 class Latest extends AbstractWidget implements BlockInterface
@@ -22,6 +23,7 @@ class Latest extends AbstractWidget implements BlockInterface
             );
             $collection->setOrder('publish_date', 'DESC');
 
+            $postIds = '';
             $postsDisplayType = $this->getPostsDisplayType();
             if ($postsDisplayType &&
                 $postsDisplayType === DisplayType::SPECIFIED_POSTS_OPTION_VALUE &&
@@ -36,9 +38,15 @@ class Latest extends AbstractWidget implements BlockInterface
                 }
             }
 
+            if (!empty($postIds)) {
+                $collection->getSelect()->reset(Select::ORDER);
+                $collection->getSelect()->order(new \Zend_Db_Expr('FIELD(main_table.entity_id, ' . $postIds . ')'));
+            }
+
             $this->setData('collection', $collection);
             $this->categoryHelper->prepareCategoriesUrls();
         }
+
         return $this->getData('collection');
     }
 

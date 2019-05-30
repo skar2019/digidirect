@@ -71,6 +71,10 @@ class Preprocessor
             return $this->prepareRangeQuery($filter);
         }
 
+        if ($filter->getField() == 'entity_id') {
+            return $proceed($filter, $isNegation, $query);
+        }
+
         $attribute = $this->productAttributeRepository->get($filter->getField());
         if ($attribute->getBackendType() == 'decimal') {
             /** @var \Magento\Framework\Search\Request\Filter\Range $filter */

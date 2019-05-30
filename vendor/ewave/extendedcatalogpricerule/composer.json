@@ -2,7 +2,7 @@
   "name": "ewave/extendedcatalogpricerule",
   "type": "magento2-module",
   "description": "Ewave Extended Catalog Price Rule",
-  "version": "1.1.0.0",
+  "version": "1.2.0.0",
   "autoload": {
     "files": [ "registration.php" ],
     "psr-4": {

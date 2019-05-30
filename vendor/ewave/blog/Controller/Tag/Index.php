@@ -5,6 +5,8 @@ namespace Ewave\Blog\Controller\Tag;
 use Ewave\Blog\Api\Data\TagInterface;
 use Ewave\Blog\Api\TagRepositoryInterface;
 use Ewave\Blog\Helper\Data;
+use Ewave\Blog\Helper\Design;
+use Ewave\Blog\Model\BlogDesign;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\NotFoundException;
@@ -13,6 +15,7 @@ use Magento\Framework\View\Result\PageFactory;
 
 /**
  * Class Index
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Index extends Action
 {
@@ -37,6 +40,16 @@ class Index extends Action
     protected $registry;
 
     /**
+     * @var BlogDesign
+     */
+    protected $blogDesign;
+
+    /**
+     * @var Design
+     */
+    protected $designHelper;
+
+    /**
      * Index constructor.
      *
      * @param Context $context
@@ -44,18 +57,24 @@ class Index extends Action
      * @param Data $dataHelper
      * @param TagRepositoryInterface $tagRepository
      * @param Registry $registry
+     * @param BlogDesign $blogDesign
+     * @param Design $designHelper
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
         Data $dataHelper,
         TagRepositoryInterface $tagRepository,
-        Registry $registry
+        Registry $registry,
+        BlogDesign $blogDesign,
+        Design $designHelper
     ) {
         $this->dataHelper = $dataHelper;
         $this->resultPageFactory = $resultPageFactory;
         $this->tagRepository = $tagRepository;
         $this->registry = $registry;
+        $this->blogDesign = $blogDesign;
+        $this->designHelper = $designHelper;
         parent::__construct($context);
     }
 
@@ -67,6 +86,14 @@ class Index extends Action
     {
         $tag = $this->initTag();
         $page = $this->resultPageFactory->create();
+        $this->blogDesign->setNewTheme();
+
+        $layoutUpdate = $this->designHelper->getXmlUpdates();
+        if (!empty($layoutUpdate)) {
+            $page->addUpdate($layoutUpdate);
+            $page->addPageLayoutHandles(['layout_update' => sha1($layoutUpdate)], null, false);
+        }
+
         $page->getConfig()->getTitle()->set(__('Blog Posts with tag #%1', $tag->getName()));
         $breadcrumbShow = $this->dataHelper->getGeneralSettingsConfig('breadcrumb');
         if ($breadcrumbShow) {

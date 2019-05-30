@@ -8,15 +8,7 @@ define([
     'mage/translate',
     'Ewave_SingleCheckoutButton/js/view/error-methods',
     'uiRegistry'
-], function ($,
-    ko,
-    _,
-    Component,
-    stepNavigator,
-    quote,
-    $t,
-    errorMethods,
-    uiRegistry) {
+], function ($, ko, _, Component, stepNavigator, quote, $t, errorMethods, uiRegistry) {
     'use strict';
 
     return Component.extend({
@@ -50,14 +42,24 @@ define([
          * Bind
          */
         bind: function () {
+            this.subscribeStepNavigator();
+            this.subscribeActiveStep();
+            this.subscribeBillingAddress();
+        },
+
+        subscribeStepNavigator: function () {
             stepNavigator.steps.subscribe(function (data) {
                 this.checkActiveStep(data);
             }, this);
+        },
 
+        subscribeActiveStep: function () {
             this.activeStep.subscribe(function (step) {
                 this.setButtonData(step);
             }, this);
+        },
 
+        subscribeBillingAddress: function () {
             quote.billingAddress.subscribe(function (newAddress) {
                 this.isDisabled(!newAddress);
             }, this);
@@ -69,11 +71,17 @@ define([
          */
         checkActiveStep: function (data) {
             var step = _.find(data, function (item) {
-                return item.isVisible();
-            });
+                    return item.isVisible();
+                }),
+                hash;
 
             if (!this.activeStep() && step || step && this.activeStep !== step.code) {
-                this.activeStep(step.code);
+                hash = window.location.hash;
+                if (hash && hash.replace('#', '') !== step.code) {
+                    this.activeStep(hash.replace('#', ''));
+                } else {
+                    this.activeStep(step.code);
+                }
             } else if (typeof step === 'undefined' && data.length) {
                 this.activeStep(data[data.length - 1].code);
             }

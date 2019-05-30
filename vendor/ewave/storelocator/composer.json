@@ -2,7 +2,7 @@
   "name": "ewave/storelocator",
   "description": "Store Locator",
   "type": "magento2-module",
-  "version": "1.10.0.0",
+  "version": "1.10.1.0",
   "suggest": {
     "ewave/utilities": "Ewave StoreLocator may use ewave/utilities (version >= 1.16.5) methods",
     "ewave/locator": "Ewave StoreLocator does use ewave/locator methods. If you use version >=1.4.0 you must install ewave/locator version >= 1.2.0",

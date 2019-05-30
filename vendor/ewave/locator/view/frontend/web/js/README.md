@@ -7,6 +7,7 @@ google |  | object |  | Google Maps API configurations.
 - | libraries | string | '&libraries=geometry' | Google Maps API [libraries](https://developers.google.com/maps/documentation/javascript/libraries).
 entityName |  | string | 'store' | Abstract Entity name to select the return response from the backend.
 defaultAddress |  | string | 'Australia' | Address displayed on the map by default.
+defaultCountryCode |  | string | 'AU' | Country code that influences, not fully restricts, results from the Geocoding service.
 defaultLocations |  | object | {} | Locations from 'defaultAddress' (country) displayed on the map if the search is not applied.
 search |  | object |  | Search configurations.
 - | form | string | '.locator-search .form' | Selector for search form element.

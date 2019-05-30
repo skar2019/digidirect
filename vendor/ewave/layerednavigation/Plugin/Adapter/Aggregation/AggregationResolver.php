@@ -3,6 +3,7 @@ namespace Ewave\LayeredNavigation\Plugin\Adapter\Aggregation;
 
 use Magento\Catalog\Api\AttributeSetFinderInterface;
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
+use Magento\Catalog\Model\ResourceModel\Product\Attribute\Collection as AttributeCollection;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Framework\Search\Request\Config;
@@ -31,23 +32,32 @@ class AggregationResolver
     protected $config;
 
     /**
-     * AggregationResolver constructor
+     * @var AttributeCollection
+     */
+    private $attributeCollection;
+
+    /**
+     * AggregationResolver constructor.
      *
      * @param AttributeSetFinderInterface $attributeSetFinder
      * @param ProductAttributeRepositoryInterface $productAttributeRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param Config $config
+     * @param AttributeCollection|null $attributeCollection
      */
     public function __construct(
         AttributeSetFinderInterface $attributeSetFinder,
         ProductAttributeRepositoryInterface $productAttributeRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        Config $config
+        Config $config,
+        AttributeCollection $attributeCollection = null
     ) {
         $this->attributeSetFinder = $attributeSetFinder;
         $this->productAttributeRepository = $productAttributeRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->config = $config;
+        $this->attributeCollection = $attributeCollection
+            ?: \Magento\Framework\App\ObjectManager::getInstance()->get(AttributeCollection::class);
     }
 
     /**
@@ -93,15 +103,14 @@ class AggregationResolver
     {
         $attributeSetIds = $this->attributeSetFinder->findAttributeSetIdsByProductIds($documentIds);
 
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter('attribute_set_id', $attributeSetIds, 'in')
-            ->create();
-        $result = $this->productAttributeRepository->getList($searchCriteria);
+        $this->attributeCollection->setAttributeSetFilter($attributeSetIds);
+        $this->attributeCollection->setEntityTypeFilter(
+            \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE
+        );
+        $this->attributeCollection->getSelect()
+            ->reset(\Magento\Framework\DB\Select::COLUMNS)
+            ->columns('attribute_code');
 
-        $attributeCodes = [];
-        foreach ($result->getItems() as $attribute) {
-            $attributeCodes[] = $attribute->getAttributeCode();
-        }
-        return $attributeCodes;
+        return $this->attributeCollection->getConnection()->fetchCol($this->attributeCollection->getSelect());
     }
 }

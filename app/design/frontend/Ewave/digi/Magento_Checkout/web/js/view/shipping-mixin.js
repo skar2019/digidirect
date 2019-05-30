@@ -1,10 +1,8 @@
 define([
     'jquery',
     'ko',
-    'Magento_Checkout/js/model/quote',
-    'Magento_Customer/js/model/address-list',
-    'Magento_Checkout/js/model/cart/estimate-service'
-], function ($, ko, quote, addressList, estimate) {
+    'Magento_Checkout/js/model/quote'
+], function ($, ko, quote) {
     'use strict';
     
     var mixin = {

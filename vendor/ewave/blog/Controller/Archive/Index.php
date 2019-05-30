@@ -4,6 +4,8 @@ namespace Ewave\Blog\Controller\Archive;
 
 use Ewave\Blog\Block\Archive;
 use Ewave\Blog\Helper\Data;
+use Ewave\Blog\Helper\Design;
+use Ewave\Blog\Model\BlogDesign;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\NotFoundException;
@@ -12,6 +14,7 @@ use Magento\Framework\View\Result\PageFactory;
 
 /**
  * Class Index
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Index extends Action
 {
@@ -31,22 +34,38 @@ class Index extends Action
     protected $registry;
 
     /**
+     * @var BlogDesign
+     */
+    protected $blogDesign;
+
+    /**
+     * @var Design
+     */
+    protected $designHelper;
+
+    /**
      * Index constructor.
      *
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Data $dataHelper
      * @param Registry $registry
+     * @param BlogDesign $blogDesign
+     * @param Design $designHelper
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
         Data $dataHelper,
-        Registry $registry
+        Registry $registry,
+        BlogDesign $blogDesign,
+        Design $designHelper
     ) {
         $this->dataHelper = $dataHelper;
         $this->resultPageFactory = $resultPageFactory;
         $this->registry = $registry;
+        $this->blogDesign = $blogDesign;
+        $this->designHelper = $designHelper;
         parent::__construct($context);
     }
 
@@ -69,6 +88,14 @@ class Index extends Action
         $this->registry->register(Archive::CURRENT_MONTH, (int)$date[1]);
 
         $page = $this->resultPageFactory->create();
+        $this->blogDesign->setNewTheme();
+
+        $layoutUpdate = $this->designHelper->getXmlUpdates();
+        if (!empty($layoutUpdate)) {
+            $page->addUpdate($layoutUpdate);
+            $page->addPageLayoutHandles(['layout_update' => sha1($layoutUpdate)], null, false);
+        }
+
         $page->getConfig()->getTitle()->set(__('Monthly Archives: ' . date('F', $time) . ' ' . date('Y', $time)));
         $breadcrumbShow = $this->dataHelper->getGeneralSettingsConfig('breadcrumb');
         if ($breadcrumbShow) {
@@ -79,6 +106,7 @@ class Index extends Action
 
     /**
      * @param \Magento\Framework\View\Result\Page $page
+     * @return mixed
      */
     private function addBreadcrumbs(\Magento\Framework\View\Result\Page $page)
     {

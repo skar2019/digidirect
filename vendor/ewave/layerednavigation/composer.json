@@ -5,7 +5,7 @@
         "magento/module-layered-navigation": "*"
     },
     "type": "magento2-module",
-    "version": "1.5.3.0",
+    "version": "1.5.4.0",
     "license": [
         "Commercial"
     ],

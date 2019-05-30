@@ -367,8 +367,19 @@
                     <label>Feed Description</label>
                 </field>
             </group>
+            <group id="design" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Design</label>
+                <field id="theme" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Theme</label>
+                    <source_model>Ewave\Blog\Model\Config\Source\Theme</source_model>
+                </field>
+                <field id="update_xml" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Layout Update XML</label>
+                    <backend_model>Ewave\Blog\Model\Config\Backend\Validate</backend_model>
+                </field>
+            </group>
         </section>
-		           <section id="dev">
+        <section id="dev">
                 <group id="blog" translate="label comment" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Blog Settings</label>
                     <field id="localize_publish_date" showInStore="1" showInWebsite="1" showInDefault="1" sortOrder="300" translate="label comment" type="select">
@@ -376,7 +387,7 @@
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     </field>
                 </group>
-            </section>
+        </section>
         <section id="sitemap">
             <group id="blog" translate="label comment" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Blog Pages Options</label>

@@ -3,6 +3,8 @@
 namespace Ewave\Blog\Controller\Index;
 
 use Ewave\Blog\Helper\Data;
+use Ewave\Blog\Helper\Design;
+use Ewave\Blog\Model\BlogDesign;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\NotFoundException;
@@ -24,19 +26,35 @@ class Index extends Action
     protected $resultPageFactory;
 
     /**
+     * @var BlogDesign
+     */
+    protected $blogDesign;
+
+    /**
+     * @var Design
+     */
+    protected $designHelper;
+
+    /**
      * Index constructor.
      *
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param Data $dataHelper
+     * @param BlogDesign $blogDesign
+     * @param Design $designHelper
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
-        Data $dataHelper
+        Data $dataHelper,
+        BlogDesign $blogDesign,
+        Design $designHelper
     ) {
         $this->dataHelper = $dataHelper;
         $this->resultPageFactory = $resultPageFactory;
+        $this->blogDesign = $blogDesign;
+        $this->designHelper = $designHelper;
         parent::__construct($context);
     }
 
@@ -49,7 +67,16 @@ class Index extends Action
         if (!$this->dataHelper->isModuleEnabled()) {
             throw new NotFoundException(__('Page not found.'));
         }
+        $this->blogDesign->setNewTheme();
+
         $page = $this->resultPageFactory->create();
+
+        $layoutUpdate = $this->designHelper->getXmlUpdates();
+        if (!empty($layoutUpdate)) {
+            $page->addUpdate($layoutUpdate);
+            $page->addPageLayoutHandles(['layout_update' => sha1($layoutUpdate)], null, false);
+        }
+
         $searchQuery = $this->getRequest()->getParam('s');
         $title = !empty($searchQuery) ? __("Search results for: '%1'", $searchQuery) : __('Latest Blog Posts');
         $page->getConfig()->getTitle()->set($title);
@@ -57,16 +84,18 @@ class Index extends Action
         if ($breadcrumbShow) {
             $this->addBreadcrumb($page, $title);
         }
+
         $pageLayout = $this->dataHelper->getGeneralSettingsConfig('post_list_layout');
         $pageConfig = $page->getConfig();
         $pageConfig->setPageLayout($pageLayout);
-        $page->getLayout()->getUpdate();
+
         return $page;
     }
 
     /**
      * @param \Magento\Framework\View\Result\Page $page
-     * @param $title
+     * @param mixed $title
+     * @return mixed
      */
     private function addBreadcrumb(\Magento\Framework\View\Result\Page $page, $title)
     {

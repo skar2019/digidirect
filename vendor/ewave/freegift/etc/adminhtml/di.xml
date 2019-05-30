@@ -112,4 +112,12 @@
             </argument>
         </arguments>
     </type>
+    <type name="Ewave\FreeGift\Model\Config\Source\MessageType">
+        <arguments>
+            <argument name="messageType" xsi:type="array">
+                <item name="notice" xsi:type="string">Notice</item>
+                <item name="success" xsi:type="string">Success</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

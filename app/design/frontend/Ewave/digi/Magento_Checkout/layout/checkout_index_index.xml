@@ -78,6 +78,10 @@
                                                                         <item name="tooltip" xsi:type="boolean">false</item>
                                                                         <item name="additionalClasses" xsi:type="string">-half -telephone</item>
                                                                     </item>
+                                                                    <item name="validation" xsi:type="array">
+                                                                        <item name="validate-number" xsi:type="boolean">true</item>
+                                                                        <item name="required-entry" xsi:type="boolean">true</item>
+                                                                    </item>
                                                                 </item>
                                                             </item>
                                                         </item>

@@ -5,6 +5,8 @@ use Ewave\Blog\Api\CategoryRepositoryInterface;
 use Ewave\Blog\Api\Data\PostInterface;
 use Ewave\Blog\Helper\Arrow;
 use Ewave\Blog\Helper\Data;
+use Ewave\Blog\Helper\Design;
+use Ewave\Blog\Model\BlogDesign;
 use Ewave\Blog\Model\PostRepository;
 use Ewave\Blog\Model\UrlModel;
 use Magento\Framework\App\Action\Action;
@@ -54,6 +56,16 @@ class Index extends Action
     protected $arrowHelper;
 
     /**
+     * @var BlogDesign
+     */
+    protected $blogDesign;
+
+    /**
+     * @var Design
+     */
+    protected $designHelper;
+
+    /**
      * Index constructor.
      * @param Context $context
      * @param PageFactory $resultPageFactory
@@ -63,6 +75,9 @@ class Index extends Action
      * @param UrlModel $urlModel
      * @param CategoryRepositoryInterface $categoryRepository
      * @param Arrow $arrowHelper
+     * @param BlogDesign $blogDesign
+     * @param Design $designHelper
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Context $context,
@@ -72,7 +87,9 @@ class Index extends Action
         Registry $registry,
         UrlModel $urlModel,
         CategoryRepositoryInterface $categoryRepository,
-        Arrow $arrowHelper
+        Arrow $arrowHelper,
+        BlogDesign $blogDesign,
+        Design $designHelper
     ) {
         $this->resultPageFactory = $resultPageFactory;
         $this->dataHelper = $dataHelper;
@@ -81,6 +98,8 @@ class Index extends Action
         $this->urlModel = $urlModel;
         $this->categoryRepository = $categoryRepository;
         $this->arrowHelper = $arrowHelper;
+        $this->blogDesign = $blogDesign;
+        $this->designHelper = $designHelper;
         parent::__construct($context);
     }
 
@@ -91,12 +110,20 @@ class Index extends Action
     public function execute()
     {
         $page = $this->resultPageFactory->create();
+        $this->blogDesign->setNewTheme();
+
+        $layoutUpdate = $this->designHelper->getXmlUpdates();
+        if (!empty($layoutUpdate)) {
+            $page->addUpdate($layoutUpdate);
+            $page->addPageLayoutHandles(['layout_update' => sha1($layoutUpdate)], null, false);
+        }
+
         $post = $this->initPost();
         $metaTitle = $post->getMetaTitle() ? $post->getMetaTitle() : $post->getTitle();
         $page->getConfig()->getTitle()->set($metaTitle);
         $page->getConfig()->setKeywords($post->getMetaKeywords());
         $page->getConfig()->setDescription($post->getMetaDescription());
-        
+
         $breadcrumbShow = $this->dataHelper->getGeneralSettingsConfig('breadcrumb');
         if ($breadcrumbShow) {
             $this->addBreadCrumbs($page, $post);
@@ -116,7 +143,7 @@ class Index extends Action
     protected function addBreadCrumbs(\Magento\Framework\View\Result\Page $page, \Ewave\Blog\Model\Post $post)
     {
         $breadcrumbs = $page->getLayout()->getBlock('breadcrumbs');
-        if(!$breadcrumbs) {
+        if (!$breadcrumbs) {
             return;
         }
         $breadcrumbs->addCrumb(

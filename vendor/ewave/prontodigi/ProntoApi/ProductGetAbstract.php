@@ -33,6 +33,10 @@ class ProductGetAbstract extends ProcessMultiple
     protected function reInitRunOptions()
     {
         $flagData = $this->getStorageData(self::FLAG_PROCESS_DATA, []);
+        if (!empty($flagData[self::FLAG_PROCESS_DATA_TERMINATE])) {
+            return $this;
+        }
+
         if (!$flagData) {
             $start = '0';
         } else {
@@ -108,9 +112,12 @@ class ProductGetAbstract extends ProcessMultiple
     protected function updateLastProcessedCode(array $flagData = [])
     {
         $processedProducts = $flagData[self::FLAG_PROCESS_DATA_PROCESSED_CODES] ?? [];
-        $lastProductCode = end($processedProducts);
-        if ($lastProductCode) {
+        if (!empty($processedProducts)) {
+            $lastProductCode = array_pop($processedProducts);
             $flagData[self::FLAG_PROCESS_DATA_LAST_CODE] = $lastProductCode;
+            if (!ctype_digit($lastProductCode)) { //only numbers are allowed
+                $flagData[self::FLAG_PROCESS_DATA_TERMINATE] = true;
+            }
         }
 
         return $flagData;
@@ -134,7 +141,7 @@ class ProductGetAbstract extends ProcessMultiple
     protected function isRequestNeeded()
     {
         $flagData = $this->getStorageData(self::FLAG_PROCESS_DATA, []);
-        return !($flagData[self::FLAG_PROCESS_DATA_TERMINATE] ?? false);
+        return empty($flagData[self::FLAG_PROCESS_DATA_TERMINATE]);
     }
 
     /**

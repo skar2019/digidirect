@@ -27,7 +27,7 @@
         <!-- Fonts -->
         <referenceBlock name="js_fonts">
             <arguments>
-                <argument name="fonts_revision" xsi:type="string">1.0.3</argument>
+                <argument name="fonts_revision" xsi:type="string">1.0.6</argument>
             </arguments>
         </referenceBlock>
         

@@ -14,6 +14,7 @@ $currentApi = $this->helper('Ewave\StoreLocator\Helper\Config')->getApi();
                 "locator": {
                     <?php if ($entityName) : ?>"entityName": "<?= $block->escapeHtml($entityName) ?>",<?php endif; ?>
                     "defaultAddress": "<?php echo $block->escapeHtml($block->getDefaultCountry()) ?>",
+                    "defaultCountryCode": "<?php echo $block->escapeHtml($block->getDefaultCountryCode()) ?>",
                     "defaultLocations": <?php /* @escapeNotVerified */ echo $entities ?>,
                     "radius": {
                         "default": <?php echo (int)$block->getDefaultRadius() ?>,

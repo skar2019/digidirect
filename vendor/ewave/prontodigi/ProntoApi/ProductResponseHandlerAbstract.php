@@ -2,7 +2,6 @@
 
 namespace Ewave\ProntoDigi\ProntoApi;
 
-use Ewave\AI\Model\Lib\Import\Product\EntityFactory as ImportFactory;
 use Ewave\AI\Model\Lib\Mapping\MapperInterface;
 use Ewave\AI\Model\Lib\Validator\Validate;
 use Ewave\Pronto\ProntoApi\ResponseHandler as BaseResponseHandler;
@@ -35,11 +34,6 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
      * @var Validate
      */
     protected $validator;
-
-    /**
-     * @var ImportFactory
-     */
-    protected $importFactory;
 
     /**
      * @var array|null
@@ -148,7 +142,6 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
 
     /**
      * ProductResponseHandlerAbstract constructor.
-     * @param ImportFactory $importFactory
      * @param Validate $validator
      * @param Url $productUrl
      * @param ProductResource $productResource
@@ -163,7 +156,6 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        ImportFactory $importFactory,
         Validate $validator,
         Url $productUrl,
         ProductResource $productResource,
@@ -177,7 +169,6 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         MapperInterface $mapper = null
     ) {
         parent::__construct($mapper);
-        $this->importFactory = $importFactory;
         $this->validator = $validator;
         $this->productUrl = $productUrl;
         $this->productResource = $productResource;
@@ -202,12 +193,19 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
     }
 
     /**
+     * NOTE: HERE WE GET ONLY PRODUCTS THAT HAVE ONLY DIGITS IN SKU!
+     *
      * @return array|null
      */
     public function getExistSkus()
     {
         if (empty($this->existSkus)) {
             $this->existSkus = $this->productResource->getExistSkus();
+            foreach ($this->existSkus as $sku => $productInfo) {
+                if (!ctype_digit($sku)) {
+                    unset($this->existSkus[$sku]);
+                }
+            }
             $this->countMagentoSkus = count($this->existSkus);
         }
         return $this->existSkus;

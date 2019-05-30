@@ -162,3 +162,8 @@
 =============
 * Bugfixes:
     * [#291731](https://ewave.tpondemand.com/entity/291731) -- [Project: DigiDirect][Category filter][Tablet] No ability to apply sorting setting on Ipad
+
+1.5.4
+=============
+* Bugfixes:
+    * [#303875](https://ewave.tpondemand.com/entity/303875) -- Exception notice is displayed if change url after filtration by price

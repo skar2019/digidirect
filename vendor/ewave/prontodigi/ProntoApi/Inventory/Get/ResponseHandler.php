@@ -2,7 +2,6 @@
 
 namespace Ewave\ProntoDigi\ProntoApi\Inventory\Get;
 
-use Ewave\AI\Model\Lib\Import\Product\EntityFactory as ImportFactory;
 use Ewave\AI\Model\Lib\Mapping\MapperInterface;
 use Ewave\AI\Model\Lib\Validator\Validate;
 use Ewave\ProntoDigi\Helper\Config;
@@ -35,7 +34,6 @@ class ResponseHandler extends ProductResponseHandlerAbstract
 
     /**
      * ResponseHandler constructor.
-     * @param ImportFactory $importFactory
      * @param Validate $validator
      * @param Url $productUrl
      * @param ProductResource $productResource
@@ -51,7 +49,6 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        ImportFactory $importFactory,
         Validate $validator,
         Url $productUrl,
         ProductResource $productResource,
@@ -66,7 +63,6 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         array $attributesToUpdate = []
     ) {
         parent::__construct(
-            $importFactory,
             $validator,
             $productUrl,
             $productResource,
@@ -143,7 +139,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     if (!isset($this->getExistSkus()[$sku])) {
                         $this->logger->info(
                             __(
-                                'Skipped update because product is not exist, SKU %1',
+                                'Skipped update: product "%1" does not exist',
                                 $sku
                             ),
                             $productData,
@@ -184,7 +180,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         if (!empty($this->getExcludedSkus()[$sku])) {
             $this->logger->info(
                 __(
-                    'Skipped update because product is excluded from the integration, SKU %1',
+                    'Skipped update: product "%1" is excluded from the integration',
                     $productData[ProductInterface::SKU]
                 ),
                 $productData,

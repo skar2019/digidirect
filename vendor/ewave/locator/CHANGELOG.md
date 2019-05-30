@@ -75,5 +75,10 @@
 
 * Bugfixes:
     * [#302817](https://ewave.tpondemand.com/entity/302817) -- [DISTANCE TO STORES] There is wrong distance in miles to the store on the store locator page
-    * [#302892](https://ewave.tpondemand.com/entity/302892) -- [DISTANCE TO STORES] List of stores are not displayed on the store locator page in case geolocation coordinates are equal to store	
+    * [#302892](https://ewave.tpondemand.com/entity/302892) -- [DISTANCE TO STORES] List of stores are not displayed on the store locator page in case geolocation coordinates are equal to store
+
+1.6.1
+================
+* Bugfixes:
+    * [#303555](https://ewave.tpondemand.com/entity/303555) -- [Project: DigiDirect] Searching by postcode always returns the US even when it is not set up in admin	
 

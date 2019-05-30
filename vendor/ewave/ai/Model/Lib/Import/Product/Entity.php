@@ -19,6 +19,9 @@ use Ewave\AI\Model\Logger\LoggerInterface as AILoggerInterface;
 
 /**
  * Class Entity
+ *
+ * @see \Ewave\AI\Model\Lib\Entity\Import\Product\Product AND USE IT!
+ * @deprecated
  * @package Ewave\AI\Model\Lib\Import\Product
  */
 class Entity extends Product implements EntityInterface
@@ -835,7 +838,7 @@ class Entity extends Product implements EntityInterface
     {
         foreach ($attributesData as $tableName => $skuData) {
             $tableData = [];
-            $deleteWhere = [];
+            $deleteData = [];
             $linkField = $this->getProductEntityLinkField();
             foreach ($skuData as $sku => $attributes) {
                 $linkId = $this->_connection->fetchOne(
@@ -850,9 +853,7 @@ class Entity extends Product implements EntityInterface
                 foreach ($attributes as $attributeId => $storeValues) {
                     foreach ($storeValues as $storeId => $storeValue) {
                         if (empty($storeValue)) {
-                            $deleteWhere[] = '(' . $this->_connection->quoteInto($linkField . ' = ?', $linkId)
-                                . ' AND ' . $this->_connection->quoteInto('attribute_id = ?', $attributeId)
-                                . ' AND ' . $this->_connection->quoteInto('store_id = ?', $storeId) . ')';
+                            $deleteData[$attributeId][$storeId][$linkId] = true;
                         } else {
                             $tableData[] = [
                                 $this->getProductEntityLinkField() => $linkId,
@@ -865,11 +866,19 @@ class Entity extends Product implements EntityInterface
                 }
             }
 
-            if (!empty($deleteWhere)) {
-                $this->_connection->delete(
-                    $tableName,
-                    implode(' OR ', $deleteWhere)
-                );
+            if (!empty($deleteData)) {
+                foreach ($deleteData as $attributeId => $deleteStoreData) {
+                    foreach ($deleteData as $storeId => $linkFields) {
+                        $this->_connection->delete(
+                            $tableName,
+                            [
+                                $linkField . ' IN (?)' => array_keys($linkFields),
+                                'attribute_id = ?' => $attributeId,
+                                'store_id = ?' => $storeId
+                            ]
+                        );
+                    }
+                }
             }
 
             if (!empty($tableData)) {

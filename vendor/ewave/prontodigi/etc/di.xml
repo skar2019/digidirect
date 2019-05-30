@@ -31,7 +31,7 @@
         <arguments>
             <argument name="valitronValidatorFactory" xsi:type="object">valitronFactory</argument>
             <argument name="inputFormat" xsi:type="array">
-                <item name="code" xsi:type="string">required</item>
+                <item name="code" xsi:type="string">required,integer</item>
                 <item name="stk-stock-status" xsi:type="string">required</item>
                 <item name="gtins" xsi:type="string">required</item>
                 <item name="web-category1" xsi:type="string">optional</item>
@@ -85,7 +85,7 @@
                         </item>
                     </item>
                 </item>
-                <item name="_attribute_set" xsi:type="string">stock-group-desc</item>
+                <item name="attribute_set_code" xsi:type="string">stock-group-desc</item>
                 <item name="sources" xsi:type="array">
                     <item name="key" xsi:type="string">sources</item>
                     <item name="getter" xsi:type="array">
@@ -97,8 +97,8 @@
                         </item>
                     </item>
                 </item>
-                <item name="_product_websites" xsi:type="array">
-                    <item name="key" xsi:type="string">_product_websites</item>
+                <item name="product_websites" xsi:type="array">
+                    <item name="key" xsi:type="string">product_websites</item>
                     <item name="getter" xsi:type="array">
                         <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
                         <item name="method" xsi:type="string">getWebsite</item>
@@ -233,7 +233,7 @@
         <arguments>
             <argument name="valitronValidatorFactory" xsi:type="object">valitronFactory</argument>
             <argument name="inputFormat" xsi:type="array">
-                <item name="code" xsi:type="string">required</item>
+                <item name="code" xsi:type="string">required,integer</item>
                 <item name="stk-stock-status" xsi:type="string">required</item>
                 <item name="pricing.price-region.prc-recommend-retail-inc-tax" xsi:type="string">numeric</item>
             </argument>
@@ -472,7 +472,7 @@
                                             <item name="value" xsi:type="string">{{var shippingAddress.city}}</item>
                                         </item>
                                         <item name="line-5" xsi:type="array">
-                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_4</item>
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\Address::LINE_5</item>
                                             <item name="value" xsi:type="string">{{var shippingAddress.region}}</item>
                                         </item>
                                         <item name="postcode" xsi:type="array">

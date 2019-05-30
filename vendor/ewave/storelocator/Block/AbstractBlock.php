@@ -123,7 +123,15 @@ class AbstractBlock extends Template
      */
     public function getDefaultCountry()
     {
-        return $this->getCountryName($this->configHelper->getDefaultCountry());
+        return $this->getCountryName($this->getDefaultCountryCode());
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultCountryCode()
+    {
+        return $this->configHelper->getDefaultCountry();
     }
 
     /**

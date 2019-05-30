@@ -164,3 +164,7 @@ The parameter you can specify right before loader creating or in .htaccess file 
 - Refactoring. Preferences/Model/Import/Product/CategoryProcessor: some private methods declared as protected to override in add-on.
 - Bugfix. Product import. Product attributes are not set while using Magento Import functionality
 - Bugfix. Product import. Row "XXX" skipped. Error appear: Notice: Undefined index: rowNum
+
+### VERSION 1.15.8
+- Bugfix. Product import overwrites URL key of the product to empty value.
+- class Ewave\AI\Model\Lib\Import\Product\Entity marked as deprecated: use Ewave\AI\Model\Lib\Entity\Import\Product\Product

@@ -229,11 +229,11 @@ class Chooser extends Extended
 
             inputs[1].checkboxElement = checkbox;
 
-            var indexOf = Object.keys(grid.selPostsIds).indexOf(postId);
+            var indexOf = grid.selPostsIds[postId];
             if(indexOf >= 0){
                 checkbox.checked = true;
                 if (!position.value) {
-                    position.value = indexOf + 1;
+                    position.value = indexOf;
                 }
             }
 
@@ -289,9 +289,7 @@ class Chooser extends Extended
                 var postId    = checkbox.value;
 
                 if(checked){
-                    if(Object.keys(grid.selPostsIds).indexOf(postId) < 0){
-                        grid.selPostsIds[postId] = position;
-                    }
+                     grid.selPostsIds[postId] = position;
                 }
                 else{
                     delete(grid.selPostsIds[postId]);

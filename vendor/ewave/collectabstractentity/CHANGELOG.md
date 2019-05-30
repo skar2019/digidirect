@@ -34,4 +34,10 @@
 =============
 * Bugfixes:
     * [#306359](https://ewave.tpondemand.com/entity/306359) -- [Project: DigiDirect] "Shipping Methods" is not selected when C&C is selected on the cart page
+
+1.3.3
+=============
+* Bugfixes:
+    * [#307583](https://ewave.tpondemand.com/entity/307583) -- [Project: DigiDirect] User is not able to proceed to the second Checkout step after proceeding to the first step using browser's arrows
+    * [#307327](https://ewave.tpondemand.com/entity/307327) -- [Project: DigiDirect] Registered user is not able to place an order with C&C shipping method
     

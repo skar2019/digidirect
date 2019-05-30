@@ -20,6 +20,7 @@ define([
             },
             entityName: 'store',
             defaultAddress: 'Australia',
+            defaultCountryCode: 'AU',
             defaultLocations: {},
             search: {
                 form: '.locator-search .form',
@@ -286,7 +287,16 @@ define([
         _search: function ($form) {
             var term = $(this.options.search.term).val();
 
-            this.geocoder.geocode({address: term}, function (results, status) {
+            var params = {
+                address: term,
+                region: this.options.defaultCountryCode
+            };
+
+            if (!!this.defaultBounds) {
+                params.bounds = this.defaultBounds;
+            }
+
+            this.geocoder.geocode(params, function (results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     this.sendRequest($form, term, results[0].geometry.location);
                 } else {

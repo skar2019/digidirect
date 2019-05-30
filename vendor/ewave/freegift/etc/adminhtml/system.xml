@@ -36,30 +36,35 @@
             <group id="messages" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>Messages And Notifications Settings</label>
-                <field id="cart_message" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
+                <field id="cart_message" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="1">
                     <label>Message For The Free Item In The Cart</label>
                 </field>
-                <field id="prefix" translate="label comment" type="text" sortOrder="2" showInDefault="1"
+                <field id="prefix" translate="label comment" type="text" sortOrder="20" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Prefix For The Free Item Name In The Order</label>
                 </field>
-                <field id="add_message" translate="label comment" type="textarea" sortOrder="3" showInDefault="1"
+                <field id="message_type" translate="label" type="select" sortOrder="21" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Message Type For the Free Item In The Cart</label>
+                    <source_model>Ewave\FreeGift\Model\Config\Source\MessageType</source_model>
+                </field>
+                <field id="add_message" translate="label comment" type="textarea" sortOrder="30" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Add Free Gift Message</label>
                 </field>
-                <field id="auto_open_popup" translate="label comment" type="select" sortOrder="4" showInDefault="1"
+                <field id="auto_open_popup" translate="label comment" type="select" sortOrder="40" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Open Popup Automatically</label>
                     <comment>Always open free gift popup on cart page if any free gift is available</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="popup_template" translate="label comment" type="select" sortOrder="4" showInDefault="1"
+                <field id="popup_template" translate="label comment" type="select" sortOrder="50" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Popup template</label>
                     <source_model>Ewave\FreeGift\Model\Config\Source\Template</source_model>
                 </field>
-                <field id="display_popup_once" translate="label comment" type="select" sortOrder="5" showInDefault="1"
+                <field id="display_popup_once" translate="label comment" type="select" sortOrder="60" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Display popup only once</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -67,7 +72,7 @@
                         <field id="auto_open_popup">1</field>
                     </depends>
                 </field>
-                <field id="display_error_messages" translate="label comment" type="select" sortOrder="6"
+                <field id="display_error_messages" translate="label comment" type="select" sortOrder="70"
                        showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Display Error Messages</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

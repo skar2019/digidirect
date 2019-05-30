@@ -303,10 +303,7 @@ class MapperHelper
             $itemLines = $this->getOrderLinesByOrderItem($item);
             $orderLines = array_merge($orderLines, $itemLines);
         }
-
-        if ((float)$order->getBaseShippingAmount()) {
-            $orderLines = array_merge($orderLines, $this->getShippingLine($order));
-        }
+        $orderLines = array_merge($orderLines, $this->getShippingLine($order));
         return $orderLines;
     }
 
@@ -382,6 +379,7 @@ class MapperHelper
         $orderLines[] = [
             OLConst::LINE_TYPE => 'SC',
             OLConst::STOCK_CODE => '',
+            OLConst::DESCRIPTION => $order->getShippingDescription(),
             OLConst::UNIT_PRICE_INC_TAX => $order->getBaseShippingAmount(),
             OLConst::ORDERED => 1,
             OLConst::BACKORDERED => 1,

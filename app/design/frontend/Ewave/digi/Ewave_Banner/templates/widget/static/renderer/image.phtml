@@ -38,6 +38,11 @@ $isLazyLoad = $block->getWidget()->getIsLazyLoad();
         <?php endforeach; ?>
         <?php if ($isLazyLoad) : ?>
             <img class="lazyload" data-src="<?= /* @noEscape */ $images[0]['src_set_image']; ?>" alt="<?= /* @noEscape */ $alt; ?>"/>
+            <div class="loader" style="display: block; text-align: center;">
+                <img src="<?= $block->escapeUrl($block->getViewFileUrl('images/loader-1.gif')); ?>"
+                     alt="<?= $block->escapeHtml(__('Loading...')); ?>"
+                     style="margin: auto">
+            </div>
         <?php else : ?>
             <img src="<?= /* @noEscape */ $images[0]['src_set_image']; ?>" alt="<?= /* @noEscape */ $alt; ?>"/>
         <?php endif; ?>

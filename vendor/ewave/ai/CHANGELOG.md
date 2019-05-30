@@ -279,3 +279,8 @@
 * Bugfixes:
     * [#306537](https://ewave.tpondemand.com/entity/306537) -- Product import. Product attributes are not set while using Magento Import functionality
     * [#306766](https://ewave.tpondemand.com/entity/306766) -- Product import. Row "XXX" skipped. Error appear: Notice: Undefined index: rowNum
+
+1.15.8
+=============
+* Bugfixes:
+    * [#307093](https://ewave.tpondemand.com/entity/307093) -- Product import overwrites URL key of the product to empty value

@@ -15,6 +15,16 @@ class CategoryProcessor extends \Ewave\AI\Preferences\Model\Import\Product\Categ
     }
 
     /**
+     * @param string $categoryPath
+     * @param null $storeId
+     * @return int
+     */
+    public function upsertCategory($categoryPath, $storeId = null)
+    {
+        return parent::upsertCategory($categoryPath, $storeId);
+    }
+
+    /**
      * Creates a category.
      *
      * @param string $name
@@ -38,12 +48,9 @@ class CategoryProcessor extends \Ewave\AI\Preferences\Model\Import\Product\Categ
         if ($storeId !== null) {
             $category->setStoreId($storeId);
         }
-        try {
-            $category->save();
-            $this->categoriesCache[$category->getId()] = $category;
-        } catch (\Throwable $e) {
-            $this->addFailedCategory($category, $e);
-        }
+
+        $category->save();
+        $this->categoriesCache[$category->getId()] = $category;
 
         return $category->getId();
     }

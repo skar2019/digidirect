@@ -375,3 +375,15 @@ Bugfixes:
 
 1. [#301931](https://ewave.tpondemand.com/entity/301931) - [Project: DigiDirect] Fonts should be base on status of the CSS minification when prod mode is enabled
 2. [#300310](https://ewave.tpondemand.com/entity/300310) - [Project: DigiDirect] Approved reviews are not displayed in the "Product attribute" block after clicking "review" link on the "Review" details page under My account
+
+1.21.2
+=============
+Bugfix:
+
+[#294182](https://ewave.tpondemand.com/entity/294182) - [Checkout demo] User cannot proceed to the checkout first step, page is hung
+
+1.21.3
+=============
+Bugfix:
+
+[#307565](https://ewave.tpondemand.com/entity/307565) - [Project: DigiDirect] Qty field is displayed empty on the PDP after trying to edit product

@@ -171,4 +171,14 @@
 =============
 * Bugfixes:
     * [#303839](https://ewave.tpondemand.com/entity/303839) -- "There are no commands defined" error in CLI
+
+2.1.2
+=============
+* Bugfixes:
+    * [#297819](https://ewave.tpondemand.com/entity/297819) -- [Project: DigiDirect] Validation for address mandatory fields is missed on the second Checkout step for logged in user
+
+2.1.3
+=============
+* Bugfixes:
+    * [#307583](https://ewave.tpondemand.com/entity/307583) -- [Project: DigiDirect] User is not able to proceed to the second Checkout step after proceeding to the first step using browser's arrows
     

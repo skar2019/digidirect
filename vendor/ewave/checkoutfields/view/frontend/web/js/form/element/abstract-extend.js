@@ -18,7 +18,7 @@ define([
                     return this._super();
                 }
 
-                if (!this.isFormInline) {
+                if (!this.isFormInline && this.isCustomShippingField()) {
                     if (formPopUpState.isVisible()) {
                         if (this.isCustomShippingField()) {
                             return false;
