@@ -3,10 +3,6 @@
     <event name="ewave_abstractentity_save_before">
         <observer name="ewave_storelocator_save_before" instance="Ewave\StoreLocator\Observer\Adminhtml\StoreLocatorSaveBefore"/>
     </event>
-    <event name="create_abstract_entity_index_table_before">
-        <observer name="create_abstract_entity_index_table_before" instance="Ewave\StoreLocator\Observer\Adminhtml\CreateIndexTableBefore"/>
-    </event>
-
 
     <!-- Save mapping -->
     <event name="eav_entity_attribute_set_save_before">

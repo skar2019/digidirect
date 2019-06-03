@@ -33,6 +33,7 @@ use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Model\Entity\Attribute\Source\Boolean;
 use Magento\Sales\Setup\SalesSetupFactory;
 use Magento\Sales\Model\Order;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class UpgradeSchema
@@ -138,6 +139,14 @@ class UpgradeData implements UpgradeDataInterface
      * @var SalesSetupFactory
      */
     private $setupFactory;
+    /**
+     * @var SeoBrandDescriptionEntitySetupFactory
+     */
+    private $seoBrandDescriptionEntitySetupFactory;
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     /**
      * UpgradeData constructor.
@@ -161,6 +170,8 @@ class UpgradeData implements UpgradeDataInterface
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $productAttributeRepository
      * @param CustomerSetupFactory $customerSetupFactory
      * @param SalesSetupFactory $setupFactory
+     * @param SeoBrandDescriptionEntitySetupFactory $seoBrandDescriptionEntitySetupFactory
+     * @param LoggerInterface $logger
      */
     public function __construct(
         AttributeSetFactory $attributeSetFactory,
@@ -182,7 +193,9 @@ class UpgradeData implements UpgradeDataInterface
         TypeFactory $typeFactory,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $productAttributeRepository,
         CustomerSetupFactory $customerSetupFactory,
-        SalesSetupFactory $setupFactory
+        SalesSetupFactory $setupFactory,
+        SeoBrandDescriptionEntitySetupFactory $seoBrandDescriptionEntitySetupFactory,
+        LoggerInterface $logger
     ) {
         $this->attributeSetFactory = $attributeSetFactory;
         $this->eavSetupFactory = $eavSetupFactory;
@@ -207,10 +220,12 @@ class UpgradeData implements UpgradeDataInterface
         try {
             $state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
         } catch (LocalizedException $e) {
-
+            $this->logger->critical($e->getMessage());
         }
 
         $this->setupFactory = $setupFactory;
+        $this->seoBrandDescriptionEntitySetupFactory = $seoBrandDescriptionEntitySetupFactory;
+        $this->logger = $logger;
     }
 
     /**
@@ -308,6 +323,9 @@ class UpgradeData implements UpgradeDataInterface
         }
         if (version_compare($context->getVersion(), '1.0.23', '<')) {
             $this->upgradeTo123($setup);
+        }
+        if (version_compare($context->getVersion(), '1.0.24', '<')) {
+            $this->upgradeTo124($setup);
         }
 
         $setup->endSetup();
@@ -519,7 +537,7 @@ class UpgradeData implements UpgradeDataInterface
             'label' => 'Key Features',
             'input' => 'multiselect',
             'required' => false,
-            'source' => \Ewave\Digi\Model\Source\KeyFeatures::class,
+            'source' => \Ewave\Digi\Model\Source\Categories::class,
             'backend' => \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend::class,
             'user_defined' => true,
             'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
@@ -1247,5 +1265,21 @@ class UpgradeData implements UpgradeDataInterface
                 'nullable' => true
             ]
         );
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo124(ModuleDataSetupInterface $setup)
+    {
+        try {
+            /**
+             * @var $entitySetup \Ewave\Digi\Setup\SeoBrandDescriptionEntitySetup
+             */
+            $entitySetup = $this->seoBrandDescriptionEntitySetupFactory->create(['setup' => $setup]);
+            $entitySetup->installEntities();
+        } catch (\Exception $e) {
+            $this->logger->critical($e->getMessage());
+        }
     }
 }

@@ -299,3 +299,8 @@
 =============
 * Bugfixes:
     * [#303737](https://ewave.tpondemand.com/entity/303737) -- "My billing and.." checkbox for the payment method is unchecked after trying to place an order with invalid data in custom checkout field
+
+2.13.4
+=============
+* Bugfixes:
+    * [#307859](https://ewave.tpondemand.com/entity/307859) -- [Project: DigiDirect] Shipping address is not displayed on the second checkout step for the logged in users

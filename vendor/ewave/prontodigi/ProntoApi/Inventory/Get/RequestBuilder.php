@@ -2,7 +2,7 @@
 namespace Ewave\ProntoDigi\ProntoApi\Inventory\Get;
 
 use Ewave\Pronto\ProntoApi\RequestBuilder as BaseRequestBuilder;
-use Ewave\ProntoDigi\ProntoApi\Constants\InventoryGetRequest as InventoryGetRequestConstants;
+use Ewave\ProntoDigi\ProntoApi\Constants\InventoryGetRequest as RequestConstants;
 
 /**
  * Class RequestBuilder
@@ -10,6 +10,8 @@ use Ewave\ProntoDigi\ProntoApi\Constants\InventoryGetRequest as InventoryGetRequ
  */
 class RequestBuilder extends BaseRequestBuilder
 {
+    const XML_PATH_API_INVENTORY_INTERFACE = 'ewave_pronto/api_inventory/inventory_get_uri';
+
     /**
      * @return $this|BaseRequestBuilder
      * @throws \Exception
@@ -17,17 +19,16 @@ class RequestBuilder extends BaseRequestBuilder
     protected function initRequestParams()
     {
         $params = $this->process->getRunOptions();
-        if (!isset($params[InventoryGetRequestConstants::START_ITEM])) {
+        if (!isset($params[RequestConstants::START_ITEM])) {
             $this->throwInvalidRequestParamsException();
         }
 
-        if (!isset($params[InventoryGetRequestConstants::DATE_CHANGE_MIN])) {
+        if (!isset($params[RequestConstants::DATE_CHANGE_MIN])) {
             $this->throwInvalidRequestParamsException();
         }
 
-        $this->queryParams[InventoryGetRequestConstants::START_ITEM] = $params[InventoryGetRequestConstants::START_ITEM];
-        $this->queryParams[InventoryGetRequestConstants::DATE_CHANGE_MIN] =
-            $params[InventoryGetRequestConstants::DATE_CHANGE_MIN];
+        $this->queryParams[RequestConstants::START_ITEM] = $params[RequestConstants::START_ITEM];
+        $this->queryParams[RequestConstants::DATE_CHANGE_MIN] = $params[RequestConstants::DATE_CHANGE_MIN];
         $this->requestParams = [];
 
         return $this;

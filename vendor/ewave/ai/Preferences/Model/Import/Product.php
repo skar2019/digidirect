@@ -38,6 +38,21 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
     const CATEGORIES_BEHAVIOR_REPLACE = 'replace';
 
     /**
+     * Use ->setParameter(Product::IMPORT_PARAM_SET_MEDIA_GALLERY_AS_ENABLED, true)
+     * catalog_product_entity_media_gallery: field disabled = 0.
+     * Otherwise image will disappear from product edit page. We want to see image on product edit page.
+     */
+    const IMPORT_PARAM_SET_MEDIA_GALLERY_AS_ENABLED = 'set_media_gallery_as_enabled';
+
+    /**
+     * Use ->setParameter(Product::IMPORT_PARAM_IGNORE_SCOPE_FOR_CONFIGURABLE_COLLECT_SUPER_DATA, true)
+     * Default configurable product import assigns children to configurable only in GLOBAL scope
+     * This parameter will work only if import behavior is 'append'
+     */
+    const IMPORT_PARAM_IGNORE_SCOPE_FOR_CONFIGURABLE_COLLECT_SUPER_DATA
+        = 'ignore_scope_for_configurable_collect_super_data';
+
+    /**
      * Column names that holds images files names.
      *
      * Note: the order of array items has a value in order to properly set 'position' value
@@ -800,6 +815,7 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
         $imageNames = [];
         $multiInsertData = [];
         $valueToProductId = [];
+        $isMediaEnabled = !empty($this->_parameters[self::IMPORT_PARAM_SET_MEDIA_GALLERY_AS_ENABLED]);
         foreach ($mediaGalleryDataGlobal as $productSku => $mediaGalleryRows) {
             $productId = $this->skuProcessor->getNewSku($productSku)[$this->getProductEntityLinkField()];
             $insertedGalleryImgs = [];
@@ -811,7 +827,7 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
                         'attribute_id' => $insertValue['attribute_id'],
                         'value' => $insertValue['value'],
                         'media_type' => $mediaType,
-                        'disabled' => $insertValue['disabled'],
+                        'disabled' => $isMediaEnabled ? 0 : $insertValue['disabled'],
                     ];
                     $valueToProductId[$insertValue['value']][] = $productId;
                     $imageNames[] = $insertValue['value'];

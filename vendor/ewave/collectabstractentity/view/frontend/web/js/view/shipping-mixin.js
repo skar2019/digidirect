@@ -34,15 +34,23 @@ define([
             },
 
             bindAddressFormWhatever: function () {
+                this.savedShippingAdress = quote.shippingAddress();
                 var self = this;
+
                 if (this.isEnableAddressFormWhatever()) {
                     $(document).on('change', 'input[name="delivery_type"]', function () {
                         if ($(this).val() === 'collect') {
                             self.addressFormWhatever(true);
                             self.isSaveShippingInAddressBook(false);
+                            self.savedShippingAdress = quote.shippingAddress();
                         } else {
                             self.addressFormWhatever(false);
                             self.isSaveShippingInAddressBook(true);
+                            window.checkoutConfig.collectSkipValidate = true;
+
+                            if (self.savedShippingAdress) {
+                                selectShippingAddress(self.savedShippingAdress);
+                            }
                         }
                     });
                     uiRegistry.async(this.collectBlockUiRegistryName)(function (field) {
@@ -64,7 +72,7 @@ define([
                     addressData,
                     field;
 
-                if (this.isEnableAddressFormWhatever() && $('input[name="delivery_type"]') === 'collect') {
+                if (customer.isLoggedIn() && isSingleCartCollectVariation && $('input[name="delivery_type"]:checked').val() === 'collect') {
                     shippingAddress = quote.shippingAddress();
                     addressData = addressConverter.formAddressDataToQuoteAddress(
                         this.source.get('shippingAddress')
@@ -85,7 +93,7 @@ define([
                         }
                     }
 
-                    shippingAddress['save_in_address_book'] = 1;
+                    shippingAddress['save_in_address_book'] = 0;
                     selectShippingAddress(shippingAddress);
                 }
                 return result;

@@ -13,7 +13,12 @@ define([
             _create: function () {
                 $('html').addClass('full-height');
                 $('body').dataPost('disable');
-                $('body').find('.columns').customScrollbar();
+                mediaCheck({
+                    media: '(min-width: 1024px)',
+                    entry: function () {
+                        $('body').find('.columns').customScrollbar();
+                    }
+                });
                 this._bind();
             }
         });

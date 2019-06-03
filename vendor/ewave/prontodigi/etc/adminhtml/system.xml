@@ -3,37 +3,43 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="ewave_pronto">
-            <group id="api_products" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0"
-                   showInStore="0">
-                <label>Product interface</label>
-                <field id="products_get_uri" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="api_products" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Products</label>
+                <field id="products_get_uri" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Products GET URI</label>
                     <comment>URI of Products Interface</comment>
                 </field>
-                <field id="disabled_products_percent_skip_update" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="disabled_products_percent_skip_update" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Disabled products percent for skip update</label>
                     <validate>required-entry validate-digits</validate>
                 </field>
             </group>
-            <group id="api_inventory" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
-                   showInStore="0">
-                <label>Inventory interface</label>
-                <field id="inventory_get_uri" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="api_inventory" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Inventory</label>
+                <field id="inventory_get_uri" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Inventory GET URI</label>
                     <comment>URI of Inventory Interface</comment>
                 </field>
-                <field id="disabled_products_percent_skip_update" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="disabled_products_percent_skip_update" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Disabled products percent for skip update</label>
+                    <validate>required-entry validate-digits</validate>
+                </field>
+                <field id="diff_last_minutes" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Get difference for the last X minutes</label>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="decrease_quantity_for_all_sources" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Decrease quantity for all sources</label>
                     <validate>required-entry validate-digits</validate>
                 </field>
             </group>
             <group id="api_order" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
-                <label>Order Settings</label>
-                <field id="order_post_uri" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Orders</label>
+                <field id="order_post_uri" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Order POST URI</label>
                     <comment>URI of Order Post Interface</comment>
                 </field>
-                <field id="order_get_uri" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="order_get_uri" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Order GET URI</label>
                     <comment>URI of Order Get Interface</comment>
                 </field>

@@ -7,6 +7,9 @@ var config = {
             },
             'Magento_Checkout/js/view/shipping': {
                 'Ewave_CollectAbstractEntity/js/view/shipping-mixin': true
+            },
+            'Magento_Checkout/js/model/shipping-rates-validator': {
+                'Ewave_CollectAbstractEntity/js/model/shipping-rates-validator-mixin': true
             }
         }
     }

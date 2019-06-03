@@ -5,6 +5,7 @@ namespace Ewave\ProntoDigi\ProntoApi;
 use Ewave\AI\Model\Lib\Mapping\MapperInterface;
 use Ewave\AI\Model\Lib\Validator\Validate;
 use Ewave\Pronto\ProntoApi\ResponseHandler as BaseResponseHandler;
+use Ewave\Pronto\ProntoApi\ResponseHandlerMultipleInterface;
 use Ewave\ProntoDigi\Helper\Config;
 use Ewave\ProntoDigi\Helper\Inventory;
 use Ewave\ProntoDigi\Model\Import\Sources\SourceItems as SourceItemsImport;
@@ -28,7 +29,7 @@ use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProd
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implements \Ewave\Pronto\ProntoApi\ResponseHandlerMultipleInterface
+abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implements ResponseHandlerMultipleInterface
 {
     /**
      * @var Validate
@@ -141,6 +142,11 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
     protected $configHelper;
 
     /**
+     * @var int
+     */
+    protected $decreaseQty;
+
+    /**
      * ProductResponseHandlerAbstract constructor.
      * @param Validate $validator
      * @param Url $productUrl
@@ -179,6 +185,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         $this->sourceItemsImport = $sourceItemsImport;
         $this->sourceItemFactory = $sourceItemFactory;
         $this->configHelper = $configHelper;
+        $this->decreaseQty = $this->configHelper->getInventoryDecreaseQuantityForAllSources();
     }
 
     /**
@@ -454,19 +461,15 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
      */
     protected function prepareSourceItemDataForDb($sku, $data, $stockStatus, $qty = null)
     {
-        if (
-            isset($this->excludeQtyFromUpdate[$sku][$data[SourceItemInterface::SOURCE_CODE]]) &&
-            isset($this->existSourceItems[$sku][$data[SourceItemInterface::SOURCE_CODE]])
+        if (isset($this->excludeQtyFromUpdate[$sku][$data[SourceItemInterface::SOURCE_CODE]])
+            && isset($this->existSourceItems[$sku][$data[SourceItemInterface::SOURCE_CODE]])
         ) {
             $item = $this->existSourceItems[$sku][$data[SourceItemInterface::SOURCE_CODE]];
             $qty = $item->getQuantity();
         }
 
         if ($qty === null) {
-            $qty = $data['qty'];
-            $qty -= $data[SourceItemInterface::SOURCE_CODE] == InventoryGetRequest::SWHS_SOURCE_CODE ?
-                InventoryGetRequest::SWHS_QTY_DECREADE_VALUE :
-                InventoryGetRequest::DEFAULT_QTY_DECREADE_VALUE;
+            $qty = $data['qty'] - $this->decreaseQty;
         }
 
         $sourceItemData = [

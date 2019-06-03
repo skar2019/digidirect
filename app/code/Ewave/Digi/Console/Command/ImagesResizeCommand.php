@@ -341,7 +341,6 @@ class ImagesResizeCommand extends \Symfony\Component\Console\Command\Command
     private function resize(array $viewImage, string $originalImagePath, string $originalImageName)
     {
         $imageParams = $this->paramsBuilder->build($viewImage);
-        $image = $this->makeImage($originalImagePath, $imageParams);
         $imageAsset = $this->assertImageFactory->create(
             [
                 'miscParams' => $imageParams,
@@ -349,10 +348,14 @@ class ImagesResizeCommand extends \Symfony\Component\Console\Command\Command
             ]
         );
 
-        if ($imageParams['image_width'] !== null && $imageParams['image_height'] !== null) {
-            $image->resize($imageParams['image_width'], $imageParams['image_height']);
+        if (!file_exists($imageAsset->getPath())) {
+            $image = $this->makeImage($originalImagePath, $imageParams);
+
+            if ($imageParams['image_width'] !== null && $imageParams['image_height'] !== null) {
+                $image->resize($imageParams['image_width'], $imageParams['image_height']);
+            }
+            $image->save($imageAsset->getPath());
         }
-        $image->save($imageAsset->getPath());
     }
 
     /**

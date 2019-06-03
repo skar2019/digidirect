@@ -2,7 +2,10 @@
 namespace Ewave\AbstractAttributes\Block\Attribute\Option;
 
 use Ewave\AbstractAttributes\Api\Data\OptionInterface;
+use Magento\Catalog\Helper\Category as CategoryHelper;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Framework\View\Asset\GroupedCollection as PageAsset;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
@@ -12,6 +15,7 @@ use Magento\Framework\Exception\LocalizedException;
 class View extends \Magento\Framework\View\Element\Template
 {
     const CACHE_TAG = 'eaa_attribute_option_view';
+    const ASSET_CANONICAL = 'canonical';
 
     /**
      * @var \Magento\Framework\Registry
@@ -39,6 +43,16 @@ class View extends \Magento\Framework\View\Element\Template
     protected $blockFactory;
 
     /**
+     * @var PageAsset
+     */
+    protected $pageAsset;
+
+    /**
+     * @var CategoryHelper
+     */
+    protected $categoryHelper;
+
+    /**
      * View constructor.
      * @param Context $context
      * @param \Magento\Framework\Registry $coreRegistry
@@ -47,6 +61,8 @@ class View extends \Magento\Framework\View\Element\Template
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param array $data
+     * @param PageAsset $pageAsset
+     * @param CategoryHelper $categoryHelper
      */
     public function __construct(
         Context $context,
@@ -55,13 +71,17 @@ class View extends \Magento\Framework\View\Element\Template
         \Ewave\AbstractAttributes\Helper\Data $helper,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Cms\Model\BlockFactory $blockFactory,
-        array $data
+        array $data,
+        PageAsset $pageAsset = null,
+        CategoryHelper $categoryHelper = null
     ) {
         $this->coreRegistry = $coreRegistry;
         $this->urlHelper = $urlHelper;
         $this->helper = $helper;
         $this->filterProvider = $filterProvider;
         $this->blockFactory = $blockFactory;
+        $this->pageAsset = $pageAsset ?: ObjectManager::getInstance()->get(PageAsset::class);
+        $this->categoryHelper = $categoryHelper ?: ObjectManager::getInstance()->get(CategoryHelper::class);
         parent::__construct($context, $data);
     }
 
@@ -157,7 +177,39 @@ class View extends \Magento\Framework\View\Element\Template
             $pageMainTitle->setPageTitle($this->escapeHtml($option->getLabel()));
         }
 
+        if ($this->categoryHelper->canUseCanonicalTag()) {
+            $this->addCanonicalUrl();
+        }
+
         return parent::_prepareLayout();
+    }
+
+    /**
+     * @return void
+     */
+    public function addCanonicalUrl()
+    {
+        foreach ($this->pageAsset->getAll() as $url => $asset) {
+            if ($asset->getContentType() == self::ASSET_CANONICAL) {
+                $this->pageAsset->remove($url);
+            }
+        }
+
+        $option = $this->getOption();
+        $this->pageConfig->addRemotePageAsset(
+            $this->getCanonicalUrl($option),
+            self::ASSET_CANONICAL,
+            ['attributes' => ['rel' => self::ASSET_CANONICAL]]
+        );
+    }
+
+    /**
+     * @param OptionInterface $option
+     * @return string
+     */
+    public function getCanonicalUrl(OptionInterface $option)
+    {
+        return $option->getUrl();
     }
 
     /**

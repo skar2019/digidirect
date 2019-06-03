@@ -218,7 +218,7 @@
     </type>
     <type name="Ewave\ProntoDigi\ProntoApi\Inventory\Get\RequestBuilder">
         <arguments>
-            <argument name="requestMethodUriConfigPath" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Inventory\Get::XML_PATH_API_INVENTORY_INTERFACE</argument>
+            <argument name="requestMethodUriConfigPath" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Inventory\Get\RequestBuilder::XML_PATH_API_INVENTORY_INTERFACE</argument>
             <argument name="requestMethod" xsi:type="string">GET</argument>
         </arguments>
     </type>

@@ -14,6 +14,8 @@
         if ($productPrice > $productFinalPrice) {
             $hasSpecialPrice = true;
             $priceClass .= ' -special-price';
+        } elseif ($productPrice == $productFinalPrice && $rule['action_amount'] == 0 ) {
+            $priceClass .= ' -no-price-affection';
         }
         ?>
             <div class="block-extendedrule <?= /* @noEscape */ $priceClass?>" id="<?= /* @noEscape */ $id ?>">

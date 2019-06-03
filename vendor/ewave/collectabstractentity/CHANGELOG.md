@@ -40,4 +40,10 @@
 * Bugfixes:
     * [#307583](https://ewave.tpondemand.com/entity/307583) -- [Project: DigiDirect] User is not able to proceed to the second Checkout step after proceeding to the first step using browser's arrows
     * [#307327](https://ewave.tpondemand.com/entity/307327) -- [Project: DigiDirect] Registered user is not able to place an order with C&C shipping method
+
+1.3.4
+=============
+* Bugfixes:
+    * [#307859](https://ewave.tpondemand.com/entity/307859) -- [Project: DigiDirect] Shipping address is not displayed on the second checkout step for the logged in users    
+    * [#307843](https://ewave.tpondemand.com/entity/307843) -- [Project: DigiDirect] An error message is displayed on the first Checkout step for the logged in user after trying to proceed to the second step   
     

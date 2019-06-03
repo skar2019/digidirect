@@ -108,7 +108,9 @@ class OrderPlace extends PayPalOrderPlace
             $this->cartManagement->placeOrder($quote->getId());
         } catch (\Exception $e) {
             $this->logger->critical('#307048 message ' . $e->getMessage(), ['trace' => $e->getTrace()]);
-            $this->orderCancellationService->execute($quote->getReservedOrderId());
+            if ($quote->getReservedOrderId()) {
+                $this->orderCancellationService->execute($quote->getReservedOrderId());
+            }
             throw $e;
         }
     }

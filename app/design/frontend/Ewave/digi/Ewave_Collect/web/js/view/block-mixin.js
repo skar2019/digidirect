@@ -30,8 +30,17 @@ define([
             },
 
             selectCollectShippingMethod: function () {
+                var flag = true;
+
                 async.async('div[data-collect-type="delivery"]', function (node) {
                     $(node).removeClass('-visible');
+                });
+
+                async.async('input[value="collect_collect"]', function (node) {
+                    if (flag) {
+                        $(node).trigger('click');
+                        flag = false;
+                    }
                 });
 
                 async.async('div[data-collect-type="collect"]', function (node) {

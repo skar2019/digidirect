@@ -4,9 +4,11 @@ namespace Ewave\ProntoDigi\ProntoApi\Inventory;
 
 use Ewave\Pronto\ProntoApi\RequestBuilderInterface;
 use Ewave\Pronto\ProntoApi\ResponseHandlerMultipleInterface;
+use Ewave\ProntoDigi\Helper\Config as ConfigHelper;
 use Ewave\ProntoDigi\ProntoApi\Constants\InventoryGetRequest as InventoryGetRequestConstants;
-use Magento\Framework\Stdlib\DateTime\DateTime;
 use Ewave\ProntoDigi\ProntoApi\ProductGetAbstract;
+use Magento\Framework\Stdlib\DateTime\DateTime;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * Class Get
@@ -15,29 +17,57 @@ use Ewave\ProntoDigi\ProntoApi\ProductGetAbstract;
 class Get extends ProductGetAbstract
 {
     const PROCESS_CODE = 'pronto_inventory_get';
-    const XML_PATH_API_INVENTORY_INTERFACE = 'ewave_pronto/api_inventory/inventory_get_uri';
-    const CHECK_CHANGE_VALUE = 'Y';
 
     /**
-     * @var DateTime
+     * @var TimezoneInterface
      */
-    protected $dateTime;
+    protected $timezone;
+
+    /**
+     * @var ConfigHelper
+     */
+    protected $configHelper;
+
+    /**
+     * @var string
+     */
+    protected $minDate;
 
     /**
      * Get constructor.
-     * @param DateTime $date
+     * @param TimezoneInterface $timezone
+     * @param ConfigHelper $configHelper
      * @param RequestBuilderInterface $requestBuilder
      * @param ResponseHandlerMultipleInterface|null $responseHandler
      * @param null $initParams
      */
     public function __construct(
-        DateTime $date,
+        TimezoneInterface $timezone,
+        ConfigHelper $configHelper,
         RequestBuilderInterface $requestBuilder,
         ResponseHandlerMultipleInterface $responseHandler = null,
         $initParams = null
     ) {
         parent::__construct($requestBuilder, $responseHandler, $initParams);
-        $this->dateTime = $date;
+        $this->timezone = $timezone;
+        $this->configHelper = $configHelper;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function process()
+    {
+        $interval = $this->configHelper->getInventoryDiffLastMinutes();
+        $intervalObject = new \DateInterval('PT' . $interval . 'M');
+        $timezone = $this->configHelper->getTimezone();
+        $timezoneObject = new \DateTimeZone($timezone);
+        $this->minDate = $this->timezone->date()
+            ->setTimezone($timezoneObject)
+            ->sub($intervalObject)
+            ->format(InventoryGetRequestConstants::REQUEST_DATE_FORMAT);
+        return parent::process();
     }
 
     /**
@@ -45,11 +75,8 @@ class Get extends ProductGetAbstract
      */
     protected function reInitRunOptions()
     {
-        $minDate = $this->dateTime->date(InventoryGetRequestConstants::REQUEST_DATE_FORMAT);
-        parent::reInitRunOptions();
-        $this->_runOptions = array_merge($this->_runOptions, [
-            InventoryGetRequestConstants::DATE_CHANGE_MIN => $minDate
-        ]);
-        return $this;
+        $return = parent::reInitRunOptions();
+        $this->setRunOption(InventoryGetRequestConstants::DATE_CHANGE_MIN, $this->minDate);
+        return $return;
     }
 }

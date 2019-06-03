@@ -23,6 +23,11 @@ define([
                     categoryMenuItem = null,
                     cmsLinkItem = null;
 
+                // Check if category url equal base url
+                if (categoryUrl+'/' === BASE_URL) {
+                    return true;
+                }
+
                 if (categoryUrl && menu.length) {
                     categoryMenuItem = menu.find(
                         this.options.categoryItemSelector +

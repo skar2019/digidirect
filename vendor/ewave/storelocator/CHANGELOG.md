@@ -123,4 +123,9 @@
 ============
 * Bugfixes:
     * [#303555](https://ewave.tpondemand.com/entity/303555) -- [Project: DigiDirect] Searching by postcode always returns the US even when it is not set up in admin	
+	
+1.10.2
+============
+* Bugfixes:
+    * [#308439](https://ewave.tpondemand.com/entity/308439) -- [Project: DigiDirect] Store entity is not searchable on the "Store locator" page after its creating	
     	
