@@ -44,6 +44,7 @@ class Categories extends AbstractSource implements OptionSourceInterface
 
         $categories = $this->categoryCollectionFactory->create()
             ->addAttributeToSelect('*')
+            ->setOrder('name', 'ASC')
             ->setStore($this->storeManager->getStore());
 
         foreach ($categories as $item) {

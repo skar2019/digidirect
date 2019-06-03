@@ -48,6 +48,10 @@
                     <item name="class" xsi:type="string">Ewave\Blog\Ui\DataProvider\Category\Form\Modifier\DisableNonStoreViewProperties</item>
                     <item name="sortOrder" xsi:type="number">30</item>
                 </item>
+                <item name="disableNonStoreViewPropertiesInCategory" xsi:type="array">
+                    <item name="class" xsi:type="string">Ewave\Blog\Ui\DataProvider\Category\Form\Modifier\DisableNonStoreViewPropertiesInCategory</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
             </argument>
         </arguments>
     </virtualType>
@@ -63,6 +67,15 @@
             <argument name="defaultTypesToInvalidate" xsi:type="array">
                 <item name="block_html" xsi:type="string">block_html</item>
                 <item name="full_page" xsi:type="string">full_page</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Ewave\Blog\Ui\DataProvider\Category\Form\Modifier\DisableNonStoreViewPropertiesInCategory">
+        <arguments>
+            <argument name="fieldCodes" xsi:type="array">
+                <item name="parent_id" xsi:type="string">parent_id</item>
+                <item name="store_id" xsi:type="string">store_id</item>
             </argument>
         </arguments>
     </type>

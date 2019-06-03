@@ -465,7 +465,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
             && isset($this->existSourceItems[$sku][$data[SourceItemInterface::SOURCE_CODE]])
         ) {
             $item = $this->existSourceItems[$sku][$data[SourceItemInterface::SOURCE_CODE]];
-            $qty = $item->getQuantity();
+            $qty = $item[SourceItemInterface::QUANTITY];
         }
 
         if ($qty === null) {
@@ -493,10 +493,10 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
             $readyToUpdate = $this->sourceItemsToUpdate[$sku];
             $existedSourceItems = $this->getExistSourceItems()[$sku];
             foreach ($readyToUpdate as $key => $sourceItem) {
-                if (
-                    isset($existedSourceItems[$sourceItem->getSourceCode()]) &&
-                    $existedSourceItems[$sourceItem->getSourceCode()]->getQuantity() == $sourceItem->getQuantity() &&
-                    $existedSourceItems[$sourceItem->getSourceCode()]->getStatus() == $sourceItem->getStatus()
+                $sourceCode = $sourceItem->getSourceCode();
+                if (isset($existedSourceItems[$sourceCode])
+                    && $existedSourceItems[$sourceCode][SourceItemInterface::QUANTITY] == $sourceItem->getQuantity()
+                    && $existedSourceItems[$sourceCode][SourceItemInterface::STATUS] == $sourceItem->getStatus()
                 ) {
                     unset($readyToUpdate[$key]);
                 }

@@ -128,3 +128,8 @@
 =============
 * Bugfixes:
     * [#297785](https://ewave.tpondemand.com/entity/297785) -- [Project: DigiDirect] Abstract attribute is duplicated after second resaving it
+
+3.0.8
+=============
+* Bugfixes:
+    * [#307983](https://ewave.tpondemand.com/entity/307983) -- [Project: DigiDirect] Canonical url for the abstract attribute pages is generated incorrectly

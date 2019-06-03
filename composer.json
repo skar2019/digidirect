@@ -14,15 +14,17 @@
     "require": {
         "ewave/abstractattributes": "dev-develop",
         "ewave/abstractattributesnavigation": "dev-develop",
+	"ewave/abstractattributeslayerednavigation": "dev-develop",
         "ewave/abstractentity": "dev-release/3.1.4",
         "ewave/addressverification": "dev-release/2.0.11",
         "ewave/ai": "dev-develop",
         "ewave/banner": "dev-release/4.0.1",
-        "ewave/blog": "dev-release/2.5.1",
+        "ewave/blog": "dev-release/3.0.0",
         "ewave/bloginfinitescroll": "dev-release/1.0.0",
         "ewave/categoryfilter": "dev-release/1.0.1",
         "ewave/checkoutfields": "dev-release/2.1.3",
         "ewave/cms-upgrade": "dev-release/1.2.8",
+	"ewave/customsitemaplinks": "dev-develop",
         "ewave/collect": "dev-release/2.13.4",
         "ewave/collect-staging": "dev-develop",
         "ewave/collectabstractentity": "dev-release/1.3.4",
@@ -413,6 +415,14 @@
         {
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_criteoonetag.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractattributeslayerednavigation.git"
+        },
+        {
+            "type": "vcs",
+            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_customsitemaplinks.git"
         }
     ],
     "extra": {

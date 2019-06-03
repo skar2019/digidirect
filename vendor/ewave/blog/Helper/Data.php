@@ -83,14 +83,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @return int
-     */
-    public function getMobilePostPerPage()
-    {
-        return abs((int)$this->getGeneralSettingsConfig('postonlist_mobile'));
-    }
-
-    /**
      * @param string $setting
      * @param string $scopeType
      * @param null|int $scopeCode

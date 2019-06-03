@@ -5,6 +5,10 @@
 
         <move element="page.messages" destination="page.wrapper" before="main.content" />
 
+        <referenceContainer name="after.body.start">
+            <block class="Magento\Framework\View\Element\Template" name="facebook.pixel.js" as="facebook_pixel_js"
+                   template="Magento_Theme::js/facebook-pixel.phtml"/>
+        </referenceContainer>
         <referenceContainer name="page.wrapper">
             <container name="page.below.container" htmlClass="page-below" htmlTag="div" before="footer-container">
                 <container htmlClass="content" htmlTag="div" name="page.below.content">

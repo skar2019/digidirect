@@ -9,12 +9,14 @@ $categoryExeption = "top contributors";
 <div class="post-view post-card item">
     <?php if (!$block->isDisplayCategories() && $categories = $block->getCategories()): ?>
         <?php $categoriesTitlesCount = count($categories); ?>
+        <?php $categoriesArrayNames = [] ?>
         <?php if ($categoriesTitlesCount) : ?>
             <div class="categories post-view">
                 <?php /** @var $category \Ewave\Blog\Model\Category*/ ?>
                 <?php $i=1; foreach ($categories as $key => $category): ?>
                     <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link" title="<?php echo /* @escapeNotVerified */  $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?>,<?php endif; ?>
                     <?php $i++; ?>
+                    <?php array_push($categoriesArrayNames, $category->getName())?>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
@@ -66,6 +68,16 @@ $categoryExeption = "top contributors";
                 </svg>
             </a>
         </div>
+    </div>
+    <div class="init _hidden">
+        <script>
+            if (typeof fbq !== undefined) {
+                fbq('trackCustom', 'ViewArticle', {
+                    blog_category: <?php echo $this->helper("Magento\Framework\Json\Helper\Data")->jsonEncode($categoriesArrayNames)?>,
+                    content_name: '<?php echo $block->escapeHtml($post->getTitle()) ?>'
+                });
+            }
+        </script>
     </div>
 </div>
 <script>

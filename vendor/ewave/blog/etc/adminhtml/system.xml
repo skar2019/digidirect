@@ -80,11 +80,6 @@
                     <label>Post per Page on List</label>
                     <depends><field id="active">1</field></depends>
                 </field>
-
-                <field id="postonlist_mobile" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Post per Page on List(mobile)</label>
-                    <depends><field id="active">1</field></depends>
-                </field>
             </group>
 
             <group id="comments" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">

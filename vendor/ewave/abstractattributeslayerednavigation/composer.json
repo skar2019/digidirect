@@ -1,0 +1,14 @@
+{
+    "name": "ewave/abstractattributeslayerednavigation",
+    "type": "magento2-module",
+    "description": "Addon for Ewave Abstract Attributes + Ewave Layered Navigation",
+    "version": "1.1.1.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ewave\\AbstractAttributesLayeredNavigation\\": ""
+        }
+    }
+}

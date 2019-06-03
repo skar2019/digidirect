@@ -71,12 +71,17 @@ class Brands extends AbstractSource implements OptionSourceInterface
         if ($attrItem) {
             $attrOptions = $this->optionRepository
                 ->getAttributeOptions($attrItem->getAttributeId(), $this->storeManager->getStore());
+
             foreach ($attrOptions as $item) {
-                $options[] = [
+                $options[$item->getLabel() . $item->getId()] = [
                     'value' => $item->getId(),
                     'label' => $item->getLabel(),
                 ];
             }
+
+            ksort($options);
+            $options = array_values($options);
+
         }
 
         return $options;

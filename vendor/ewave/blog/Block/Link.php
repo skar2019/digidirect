@@ -4,9 +4,14 @@ namespace Ewave\Blog\Block;
 
 use Ewave\Blog\Helper\Data;
 use Ewave\Blog\Model\UrlModel;
-use Magento\Framework\View\Element\Template\Context;
 use Magento\Framework\App\DefaultPathInterface;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\UrlInterface;
+use Magento\Framework\View\Element\Template\Context;
 
+/**
+ * Class Link
+ */
 class Link extends \Magento\Framework\View\Element\Html\Link\Current
 {
     /**
@@ -20,6 +25,11 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
     protected $urlModel;
 
     /**
+     * @var mixed
+     */
+    protected $url;
+
+    /**
      * Link constructor.
      *
      * @param Context $context
@@ -27,17 +37,20 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
      * @param Data $dataHelper
      * @param UrlModel $urlModel
      * @param array $data
+     * @param UrlInterface $url
      */
     public function __construct(
         Context $context,
         DefaultPathInterface $defaultPath,
         Data $dataHelper,
         UrlModel $urlModel,
-        array $data = []
+        array $data = [],
+        \Magento\Framework\UrlInterface $url = null
     ) {
         parent::__construct($context, $defaultPath, $data);
         $this->dataHelper = $dataHelper;
         $this->urlModel = $urlModel;
+        $this->url = $url ?: ObjectManager::getInstance()->get(UrlInterface::class);
     }
 
     /**
@@ -90,6 +103,15 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
         $cacheKey['nil'] = $this->getNameInLayout();
         $cacheKey['request_params'] = json_encode($this->getRequest()->getParams());
         $cacheKey['is_module_enabled'] = $this->dataHelper->isModuleEnabled();
+        $cacheKey['is_current'] = $this->isCurrent();
         return $cacheKey;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCurrent()
+    {
+        return $this->getHref() == $this->url->getCurrentUrl();
     }
 }

@@ -2,14 +2,12 @@
 
 namespace Ewave\ProntoDigi\Helper;
 
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\InventoryApi\Api\Data\SourceInterface;
 use Magento\InventoryApi\Api\Data\SourceItemInterface;
-use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
-use Magento\InventoryApi\Api\SourceRepositoryInterface;
-use Magento\InventoryConfigurationApi\Model\GetAllowedProductTypesForSourceItemManagementInterface;
+use Magento\Inventory\Model\ResourceModel\SourceItem\CollectionFactory as SourceItemCollectionFactory;
+use Magento\Inventory\Model\ResourceModel\Source\CollectionFactory as SourceCollectionFactory;
 
 /**
  * Class Inventory
@@ -18,45 +16,34 @@ use Magento\InventoryConfigurationApi\Model\GetAllowedProductTypesForSourceItemM
 class Inventory extends AbstractHelper
 {
     /**
-     * @var SearchCriteriaBuilder
+     * @var SourceCollectionFactory
      */
-    protected $searchCriteriaBuilder;
+    protected $sourceCollectionFactory;
 
     /**
-     * @var SourceItemRepositoryInterface
+     * @var SourceItemCollectionFactory
      */
-    protected $sourceItemRepository;
+    protected $sourceItemCollectionFactory;
 
     /**
-     * @var GetAllowedProductTypesForSourceItemManagementInterface
+     * @var null|array
      */
-    protected $allowedProductTypesForSourceItemManagement;
-
-    /**
-     * @var SourceRepositoryInterface
-     */
-    protected $sourceRepository;
+    protected $sources;
 
     /**
      * Inventory constructor.
-     * @param SearchCriteriaBuilder $criteriaBuilder
-     * @param SourceItemRepositoryInterface $sourceItemRepository
-     * @param GetAllowedProductTypesForSourceItemManagementInterface $allowedProductTypesForSourceItemManagement
-     * @param SourceRepositoryInterface $sourceRepository
      * @param Context $context
+     * @param SourceItemCollectionFactory $sourceItemCollectionFactory
+     * @param SourceCollectionFactory $sourceCollectionFactory
      */
     public function __construct(
-        SearchCriteriaBuilder $criteriaBuilder,
-        SourceItemRepositoryInterface $sourceItemRepository,
-        GetAllowedProductTypesForSourceItemManagementInterface $allowedProductTypesForSourceItemManagement,
-        SourceRepositoryInterface $sourceRepository,
-        Context $context
+        Context $context,
+        SourceItemCollectionFactory $sourceItemCollectionFactory,
+        SourceCollectionFactory $sourceCollectionFactory
     ) {
-        $this->searchCriteriaBuilder = $criteriaBuilder;
-        $this->sourceItemRepository = $sourceItemRepository;
-        $this->allowedProductTypesForSourceItemManagement = $allowedProductTypesForSourceItemManagement;
-        $this->sourceRepository = $sourceRepository;
         parent::__construct($context);
+        $this->sourceItemCollectionFactory = $sourceItemCollectionFactory;
+        $this->sourceCollectionFactory = $sourceCollectionFactory;
     }
 
     /**
@@ -66,22 +53,13 @@ class Inventory extends AbstractHelper
     public function getSourceItemsData($skus = [])
     {
         $itemsBySkus = [];
-        $searchCriteria = $this->searchCriteriaBuilder;
-        if (!empty($skus)) {
-            $searchCriteria = $searchCriteria->addFilter(
-                SourceItemInterface::SKU,
-                $skus, 'in'
-            );
-        }
-        $searchCriteria = $searchCriteria->create();
-
-        $sourceItems = $this->sourceItemRepository->getList($searchCriteria)->getItems();
+        $sourceItems = $this->getSourceItems($skus);
         $sourcesBySourceCode = $this->getSourcesBySourceItems($sourceItems);
 
         foreach ($sourceItems as $sourceItem) {
-            $sku = $sourceItem->getSku();
-            $source = $sourcesBySourceCode[$sourceItem->getSourceCode()];
-            $itemsBySkus[$sku][$source->getSourceCode()] = $sourceItem;
+            $sku = $sourceItem[SourceItemInterface::SKU];
+            $source = $sourcesBySourceCode[$sourceItem[SourceInterface::SOURCE_CODE]];
+            $itemsBySkus[$sku][$source[SourceInterface::SOURCE_CODE]] = $sourceItem;
         }
 
         return $itemsBySkus;
@@ -89,37 +67,46 @@ class Inventory extends AbstractHelper
 
     /**
      * Get all sources by source items codes.
-     *
-     * @param SourceItemInterface[] $sourceItems
+     * @param array $sourceItems
      * @return array
      */
     public function getSourcesBySourceItems(array $sourceItems)
     {
-        $newSourceCodes = $sourcesBySourceCodes = [];
-
+        $sourcesBySourceCodes = [];
+        $allSources = $this->getSources();
         foreach ($sourceItems as $sourceItem) {
-            $newSourceCodes[$sourceItem->getSourceCode()] = $sourceItem->getSourceCode();
-        }
-
-        $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(SourceInterface::SOURCE_CODE, array_keys($newSourceCodes), 'in')
-            ->create();
-        $sources = $this->sourceRepository->getList($searchCriteria)->getItems();
-
-        foreach ($sources as $source) {
-            $sourcesBySourceCodes[$source->getSourceCode()] = $source;
+            $sourcesBySourceCodes[$sourceItem[SourceItemInterface::SOURCE_CODE]] =
+                $allSources[$sourceItem[SourceItemInterface::SOURCE_CODE]];
         }
 
         return $sourcesBySourceCodes;
     }
 
     /**
-     * @return SourceInterface[]
+     * @return array
      */
     public function getSources()
     {
-        $searchCriteria = $this->searchCriteriaBuilder->create();
-        $sources = $this->sourceRepository->getList($searchCriteria)->getItems();
-        return $sources;
+        if ($this->sources == null) {
+            $collection = $this->sourceCollectionFactory->create();
+            $select = $collection->getSelect();
+            $this->sources = $collection->getConnection()->fetchAssoc($select);
+        }
+        return $this->sources;
+    }
+
+    /**
+     * @param array $skus
+     * @return array
+     */
+    public function getSourceItems($skus = [])
+    {
+        $collection = $this->sourceItemCollectionFactory->create();
+
+        if (!empty($skus)) {
+            $collection->addFieldToFilter(SourceItemInterface::SKU, ['in' => array_keys($skus)]);
+        }
+        $select = $collection->getSelect();
+        return $collection->getConnection()->fetchAll($select);
     }
 }

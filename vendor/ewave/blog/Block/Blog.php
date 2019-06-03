@@ -101,7 +101,6 @@ class Blog extends Template
         $this->commentRepository = $commentRepository;
         $this->filterProvider = $filterProvider;
         $this->registry = $registry;
-        $this->_isScopePrivate = true;
         $this->categoryHelper = $categoryHelper;
         $this->arrowHelper = $arrowHelper;
         $this->urlModel = $urlModel;

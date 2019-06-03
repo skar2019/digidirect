@@ -165,3 +165,18 @@ New features:
 * Bugfixes:
     * [#302248](https://ewave.tpondemand.com/entity/302248) -- [Project: DigiDirect] Sort order could not be changed for the assigned post in the widget
     * [#306536](https://ewave.tpondemand.com/entity/306536) -- [Blog] An empty value is not added to Theme dropdown	
+
+=======
+	
+2.5.2
+======================
+    * [#306154](https://ewave.tpondemand.com/entity/306154) -- [Blog] The blog's link is not clickable if user go to non-blog pages
+    * [#307776](https://ewave.tpondemand.com/entity/307776) -- [Project: Rip Curl][Blog] Blog category settings saved for a certain store view apply to all stores	
+	* [#307721](https://tp.ewave.com/307721) - Newrelic always returns errors related to Blog after reviewing site performance
+	
+3.0.0
+====================
+* Bugfixes:
+    * [#218309](https://ewave.tpondemand.com/entity/218309) -- [Blog] BACKWARD INCOMPATIBLE changes: Posts Per Page (Mobile) setting is not applied correctly. Mobile setting has been removed and not supported any longer.
+
+

@@ -8,6 +8,7 @@
 <?php
     $isShowState = false; // Show/Hide filters state
     $isShowTitleCount = false; // Show/Hide Title Count
+    $brandLabels = false;
 ?>
 <?php if ($block->canShowBlock()): ?>
     <div class="block filter">
@@ -43,7 +44,11 @@
                            data-testid="sln-filter-title">
                             <?php echo $block->escapeHtml(__($filter->getName())) ?>
                             <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
+
                             <?php if ($activeCount > 0 && !empty($activeLabels)) : ?>
+                                <?php if (strtolower($filter->getName()) == 'brand'): ?>
+                                    <?php $brandLabels = $activeLabels; ?>
+                                <?php endif; ?>
                                 <span class="value"><?php /* @escapeNotVerified */ echo implode(', ', $activeLabels) ?></span>
                                 <?php if ($isShowTitleCount): ?>
                                     <span class="count"><?php echo (int)$activeCount ?></span>
@@ -60,6 +65,26 @@
             <?php if ($wrapOptions): ?>
                 </div>
             <?php endif; ?>
+        </div>
+        <div class="init _hidden">
+            <?php $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $current_category = $objectManager->get('Magento\Framework\Registry')->registry('current_category');
+            $parent_category = $current_category->getParentCategory();?>
+            <script>
+                if (typeof fbq !== undefined) {
+                    fbq('trackCustom', 'ViewCategory', {
+                        <?php if($parent_category->getName()): ?>
+                        content_category: "<?php echo $parent_category->getName(); ?>",
+                        <?php endif; ?>
+                        <?php if($current_category->getName()): ?>
+                        content_name: "<?php echo $current_category->getName(); ?>"
+                        <?php endif; ?>
+                        <?php if($brandLabels): ?>
+                        ,content_brand: "<?php echo implode(', ', $brandLabels) ?>"
+                        <?php endif; ?>
+                    });
+                }
+            </script>
         </div>
     </div>
 <?php endif; ?>

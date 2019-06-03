@@ -24,6 +24,7 @@ $blogHelper = $this->helper('Ewave\Digi\Helper\Blog');
                 <div class="container">
                     <?php if ($block->isShowCategoryNames()) : ?>
                         <?php $categoriesArray = $block->getCategoriesTitlesAsArray($post); ?>
+                        <?php $categoriesArrayNames = [] ?>
                         <?php $categoriesTitlesCount = count($categoriesArray); ?>
                         <?php if ($categoriesTitlesCount) : ?>
                             <div class="categories">
@@ -31,6 +32,7 @@ $blogHelper = $this->helper('Ewave\Digi\Helper\Blog');
                                 <?php $i=1; foreach ($categoriesArray as $key => $category): ?>
                                     <a href="<?php echo $block->escapeUrl($category->getViewUrl())?>" class="link item" title="<?php /* @escapeNotVerified */  echo $category->getName(); ?>"><?php /* @escapeNotVerified */  echo $category->getName(); ?></a><?php if ($categoriesTitlesCount != $i) : ?> <?php endif; ?>
                                     <?php $i++; ?>
+                                    <?php array_push($categoriesArrayNames, $category->getName())?>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -67,6 +69,17 @@ $blogHelper = $this->helper('Ewave\Digi\Helper\Blog');
                 </div>
 
                 <a class="thumb" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php echo $block->escapeHtml($post->getTitle()) ?>"></a>
+
+                <div class="init _hidden">
+                    <script>
+                        if (typeof fbq !== undefined) {
+                            fbq('trackCustom', 'ViewArticle', {
+                                blog_category: '<?php echo $this->helper("Magento\Framework\Json\Helper\Data")->jsonEncode($categoriesArrayNames)?>',
+                                content_name: '<?php echo $block->escapeHtml($post->getTitle()) ?>'
+                            });
+                        }
+                    </script>
+                </div>
             </article>
         <?php endforeach; ?>
     </div>
