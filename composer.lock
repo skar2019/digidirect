@@ -1069,8 +1069,8 @@
             "version": "1.0.3",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension-enterprise/zipball/916c6968554cefcac28922a9d261d851f0b0f111",
-                "reference": "916c6968554cefcac28922a9d261d851f0b0f111",
+                "url": "https://repo.magento.com/archives/dotmailer/dotmailer-magento2-extension-enterprise/dotmailer-dotmailer-magento2-extension-enterprise-1.0.3.0.zip",
+                "reference": null,
                 "shasum": "034adb39808433b83c42eb2b4b59f4b20c0e8cc9"
             },
             "require": {
