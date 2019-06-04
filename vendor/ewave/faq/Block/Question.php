@@ -3,11 +3,6 @@ namespace Ewave\Faq\Block;
 
 use Magento\Framework\View\Element\Template;
 
-/**
- * Class Question
- *
- * @package Ewave\Faq\Block
- */
 class Question extends Template
 {
     /**

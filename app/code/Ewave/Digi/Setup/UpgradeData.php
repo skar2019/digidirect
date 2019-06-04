@@ -327,6 +327,9 @@ class UpgradeData implements UpgradeDataInterface
         if (version_compare($context->getVersion(), '1.0.24', '<')) {
             $this->upgradeTo124($setup);
         }
+        if (version_compare($context->getVersion(), '1.0.25', '<')) {
+            $this->upgradeTo125($setup);
+        }
 
         $setup->endSetup();
     }
@@ -1278,6 +1281,69 @@ class UpgradeData implements UpgradeDataInterface
              */
             $entitySetup = $this->seoBrandDescriptionEntitySetupFactory->create(['setup' => $setup]);
             $entitySetup->installEntities();
+        } catch (\Exception $e) {
+            $this->logger->critical($e->getMessage());
+        }
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo125(ModuleDataSetupInterface $setup)
+    {
+        try {
+            $entityType = $this->typeFactory->create()->loadByCode(AbstractEntity::ENTITY_TYPE);
+
+            $attributeSet = $this->attributeSetFactory->create();
+            $setCollection = $attributeSet->getResourceCollection()
+                ->addFieldToFilter('entity_type_id', $entityType->getId())
+                ->addFieldToFilter(
+                    'attribute_set_name',
+                    \Ewave\Digi\Setup\SeoBrandDescriptionEntitySetup::ABSTRACT_ENTITY_NAME
+                )
+                ->load();
+            $attributeSet = $setCollection->fetchItem();
+
+            /**
+             * \Ewave\Store\Setup\StoreEntitySetup $storeEntitySetup
+             */
+            $storeEntitySetup = $this->storeEntitySetupFactory->create(['setup' => $setup]);
+
+            $storeEntitySetup->addAttributeToStoreEntity($attributeSet, [
+                'meta_title' => [
+                    'type' => 'varchar',
+                    'label' => 'Meta Title',
+                    'input' => 'text',
+                    'required' => false,
+                    'sort_order' => 55,
+                    'user_defined' => true,
+                    'position' => 55,
+                    'is_global' => ScopedAttributeInterface::SCOPE_GLOBAL,
+                ],
+                'meta_description' => [
+                    'type' => 'text',
+                    'label' => 'Meta Description',
+                    'input' => 'textarea',
+                    'required' => false,
+                    'sort_order' => 130,
+                    'position' => 130,
+                    'user_defined' => true,
+                    'wysiwyg_enabled' => false,
+                    'is_global' => ScopedAttributeInterface::SCOPE_GLOBAL,
+                ],
+                'meta_keywords ' => [
+                    'type' => 'text',
+                    'label' => 'Meta Keywords ',
+                    'input' => 'textarea',
+                    'required' => false,
+                    'sort_order' => 140,
+                    'position' => 140,
+                    'user_defined' => true,
+                    'wysiwyg_enabled' => false,
+                    'is_global' => ScopedAttributeInterface::SCOPE_GLOBAL,
+                ]
+            ]);
+
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
         }

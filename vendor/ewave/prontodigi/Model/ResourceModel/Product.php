@@ -226,7 +226,7 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
         foreach ($attributes as $code) {
             $productCollection->addAttributeToSelect($code, 'left');
         }
-        $productCollection->addAttributeToFilter('sku', ['in' => array_keys($products)]);
+        $productCollection->addAttributeToFilter('sku', ['in' => array_map('strval', array_keys($products))]);
         $select = $productCollection->getSelect();
         $items = $this->getConnection()->fetchAll($select);
 
@@ -235,9 +235,8 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
             foreach ($itemsBunch as $item) {
                 foreach ($attributes as $attributeCode) {
                     $productData = $products[$item['sku']];
-                    if (
-                        isset($productData[$attributeCode]) &&
-                        $productData[$attributeCode] != $item[$attributeCode]
+                    if (isset($productData[$attributeCode])
+                        && $productData[$attributeCode] != $item[$attributeCode]
                     ) {
                         $attribute = $this->getAttribute($attributeCode);
                         $attributeTable = $attribute->getBackendTable();

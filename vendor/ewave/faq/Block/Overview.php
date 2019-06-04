@@ -1,13 +1,16 @@
 <?php
+
 namespace Ewave\Faq\Block;
 
 use Ewave\Faq\Model\Category;
+use Magento\Framework\DataObject\IdentityInterface;
 
 /**
  * Class Overview
+ *
  * @package Ewave\Faq\Block
  */
-class Overview extends \Magento\Framework\View\Element\Template
+class Overview extends \Magento\Framework\View\Element\Template implements IdentityInterface
 {
     /**
      * @var \Ewave\Faq\Helper\Data
@@ -20,7 +23,13 @@ class Overview extends \Magento\Framework\View\Element\Template
     protected $_categoryCollectionFactory;
 
     /**
+     * @var null| \Ewave\Faq\Model\ResourceModel\Category\Collection
+     */
+    private $allCategory = null;
+
+    /**
      * Overview constructor.
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Ewave\Faq\Model\ResourceModel\Category\CollectionFactory $categoryCollectionFactory
      * @param \Ewave\Faq\Helper\Data $faqHelper
@@ -49,15 +58,18 @@ class Overview extends \Magento\Framework\View\Element\Template
         parent::_prepareLayout();
         $this->pageConfig->setDescription('');
         $this->pageConfig->setKeywords('');
+        return $this;
     }
 
     /**
-     * @return $this
+     * @return \Ewave\Faq\Model\ResourceModel\Category\Collection|null
      */
     public function getAllCategory()
     {
-        $categories = $this->_categoryCollectionFactory->create();
-        return $categories->getCategoryCollection();
+        if (null === $this->allCategory) {
+            $this->allCategory = $this->_categoryCollectionFactory->create()->getCategoryCollection();
+        }
+        return $this->allCategory;
     }
 
     /**
@@ -93,5 +105,22 @@ class Overview extends \Magento\Framework\View\Element\Template
     public function getFaqId()
     {
         return $this->getRequest()->getParam('faqId');
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $identities = [];
+        $allCategory = $this->getAllCategory();
+        foreach ($allCategory as $category) {
+            /**
+             * @var $category Category
+             */
+            $identities[] = Category::FAQ_CATEGORY_IDENTITY_KEY . '_' . $category->getId();
+        }
+
+        return $identities;
     }
 }

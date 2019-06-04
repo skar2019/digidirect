@@ -21,11 +21,14 @@
                     <comment>A website-relative value. Example: "faq".</comment>
                     <validate>required-entry</validate>
                 </field>
-                <field id="faq_per_page" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="main_url_suffix" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Faq Page Url Suffix</label>
+                </field>
+                <field id="faq_per_page" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Questions per page</label>
                     <comment>If the value is empty or 0, default will be 20.</comment>
                 </field>
-                <field id="faq_tag_enable" translate="label comment" type="select" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="faq_tag_enable" translate="label comment" type="select" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Tags</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
@@ -42,6 +45,9 @@
                 <field id="ajax_category" translate="label comment" type="select" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable ajax for FAQ Categories</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="category_url_suffix" translate="label" type="text" sortOrder="45" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Faq Category Page Url Suffix</label>
                 </field>
             </group>
             <group id="customer_questions" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="100" translate="label">

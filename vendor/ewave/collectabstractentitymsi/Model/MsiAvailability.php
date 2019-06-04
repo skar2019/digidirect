@@ -102,7 +102,6 @@ class MsiAvailability
     }
 
     /**
-     * Items has to be available at least in one Collect Place's Source.
      * @param array $sourcesData
      * @param array $placeSources
      * @param $requiredQty
@@ -110,17 +109,14 @@ class MsiAvailability
      */
     public function isItemAvailableInPlaceSources(array $sourcesData, array $placeSources, $requiredQty)
     {
-        $available = false;
+        $qtyTotal = 0;
         foreach ($placeSources as $placeSource) {
             if (empty($sourcesData[$placeSource])) {
                 continue;
             }
-            if ($sourcesData[$placeSource] >= $requiredQty) {
-                $available = true;
-                break;
-            }
+            $qtyTotal += $sourcesData[$placeSource];
         }
-        return $available;
+        return $qtyTotal >= $requiredQty;
     }
 
     /**

@@ -4,19 +4,21 @@ namespace Ewave\Faq\Helper;
 
 use Magento\Store\Model\ScopeInterface;
 
-/**
- * Class Data
- *
- * @package Ewave\Faq\Helper
- */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const FAQ_URL = 'ewave_faq/general/faq_page_url';
+    const FAQ_SUFFIX = 'ewave_faq/general/main_url_suffix';
+    const FAQ_CATEGORY_SUFFIX = 'ewave_faq/general/category_url_suffix';
     const FAQ_ENABLED = 'ewave_faq/general/faq_enabled';
     const FAQ_PERPAGE = 'ewave_faq/general/faq_per_page';
     const FAQ_TAG_ENABLE = 'ewave_faq/general/faq_tag_enable';
     const FAQ_SEARCH_ENABLE = 'ewave_faq/general/faq_search_enable';
     const DEFAULT_PER_PAGE_COUNT = 20;
+
+    /**
+     * @var null|string
+     */
+    private $faqUrl = null;
 
     /**
      * @return bool
@@ -49,7 +51,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getFaqUrl()
     {
-        return $this->scopeConfig->getValue(self::FAQ_URL, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if (null === $this->faqUrl) {
+        }
+        $faqUrl = $this->scopeConfig->getValue(self::FAQ_URL, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        $faqUrl = \str_replace($this->getFaqSuffix(), '', $faqUrl);
+        $faqUrl = $faqUrl . $this->getFaqSuffix();
+        return $faqUrl;
     }
 
     /**
@@ -110,5 +117,41 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isAjaxEnabled()
     {
         return $this->scopeConfig->isSetFlag('ewave_faq/general/ajax_category', ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFaqSuffix(): string
+    {
+        return (string)trim($this->scopeConfig->getValue(static::FAQ_SUFFIX));
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageUrlWithoutSuffix(): string
+    {
+        $pageUrl = $this->getFaqUrl();
+        $suffix = $this->getFaqSuffix();
+        return \str_replace($suffix, '', $pageUrl);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoryUrlSuffix(): string
+    {
+        return (string)$this->scopeConfig->getValue(static::FAQ_CATEGORY_SUFFIX);
+    }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    public function removeFaqCategorySuffix(string $url): string
+    {
+        $suffix = $this->getCategoryUrlSuffix();
+        return \str_replace($suffix, '', $url);
     }
 }

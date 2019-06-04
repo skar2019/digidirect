@@ -5,10 +5,6 @@ use Ewave\Faq\Model\ResourceModel\Category\CollectionFactory as CategoryCollecti
 use Ewave\Faq\Model\Category as Category;
 use Magento\Ui\DataProvider\AbstractDataProvider;
 
-/**
- * Class CategoryDataProvider
- * @package Ewave\Faq\Ui\DataProvider\Category\Form
- */
 class CategoryDataProvider extends AbstractDataProvider
 {
     /**

@@ -2,47 +2,36 @@
 
 namespace Ewave\Faq\Observer;
 
+use Ewave\Faq\Model\FaqCategoryUrlProcessor;
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRewrite\Model\UrlPersistInterface;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\Framework\Exception\LocalizedException;
-use Ewave\Faq\Model\Category;
 use Ewave\Faq\Helper\Data as Helper;
-use Ewave\Faq\Model\FaqCategoryUrlRewriteGenerator as UrlGenerator;
 
 class ProcessUrlRewriteSavingObserver implements ObserverInterface
 {
-    /**
-     * @var UrlPersistInterface
-     */
-    protected $urlPersist;
-
     /**
      * @var Helper
      */
     protected $helper;
 
     /**
-     * @var UrlGenerator
+     * @var FaqCategoryUrlProcessor
      */
-    protected $urlRewriteGenerator;
+    private $urlProcessor;
 
     /**
      * ProcessUrlRewriteSavingObserver constructor.
      *
-     * @param UrlPersistInterface $urlPersist
      * @param Helper $helper
-     * @param UrlGenerator $urlRewriteGenerator
+     * @param FaqCategoryUrlProcessor $categoryUrlProcessor
      */
     public function __construct(
-        UrlPersistInterface $urlPersist,
         Helper $helper,
-        UrlGenerator $urlRewriteGenerator
+        FaqCategoryUrlProcessor $categoryUrlProcessor
     ) {
-        $this->urlPersist = $urlPersist;
+        $this->urlProcessor = $categoryUrlProcessor;
         $this->helper = $helper;
-        $this->urlRewriteGenerator = $urlRewriteGenerator;
     }
 
     /**
@@ -70,13 +59,7 @@ class ProcessUrlRewriteSavingObserver implements ObserverInterface
         }
 
         if ($faqCategory->dataHasChangedFor('identifier') || $faqCategory->dataHasChangedFor('store_id')) {
-            $urls = $this->urlRewriteGenerator->generate($faqCategory);
-
-            $this->urlPersist->deleteByData([
-                UrlRewrite::ENTITY_ID => $faqCategory->getId(),
-                UrlRewrite::ENTITY_TYPE => Category::URL_REWRITE_ENTITY_TYPE,
-            ]);
-            $this->urlPersist->replace($urls);
+            $this->urlProcessor->processCategory($faqCategory);
         }
     }
 }

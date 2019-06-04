@@ -4,12 +4,14 @@ $locatorName = $block->getData('locatorName');
 $default = $block->getDefaultRadius();
 $items = $block->getRadiusOptions();
 $metric = $block->getMetric();
+$showLocator = false;
 ?>
 
 <script type="text/javascript">
     window.unavalabilityUrl = "<?php echo $block->escapeUrl($block->getUrl('contact')); ?>";
 </script>
 
+<?php if ($showLocator) : ?>
 <div class="locator-search -collect">
     <form action="<?php echo $block->escapeUrl($block->getSearchUrl()); ?>" class="form" data-locator="<?php /* @escapeNotVerified */ echo $locatorName ?>" data-mage-init='{"validation": {}}'>
         <div class="input-group">
@@ -35,3 +37,4 @@ $metric = $block->getMetric();
         </div>
     </form>
 </div>
+<?php endif; ?>

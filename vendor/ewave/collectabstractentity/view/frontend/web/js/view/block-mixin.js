@@ -108,7 +108,9 @@ define([
 
             enableCollectMode: function () {
                 this.selectCollectShippingMethod();
-                $('.opc-wrapper').addClass('-hide-methods');
+                async.async('.opc-wrapper', function (node) {
+                    $(node).addClass('-hide-methods');
+                });
             },
 
             disableCollectMode: function () {

@@ -1,17 +1,16 @@
 <?php
+
 namespace Ewave\Faq\Model;
 
 use Ewave\Faq\Api\Data\CategoryInterface;
+use Magento\Framework\DataObject\IdentityInterface;
 
-/**
- * Class Category
- * @package Ewave\Faq\Model
- */
-class Category extends \Magento\Framework\Model\AbstractModel implements CategoryInterface
+class Category extends \Magento\Framework\Model\AbstractModel implements CategoryInterface, IdentityInterface
 {
     const STATUS_ACTIVE = 1;
     const URL_REWRITE_ENTITY_TYPE = 'faq-category';
     const CANONICAL_URL_PATH = 'faq/index/index/faqType/category/faqId/';
+    const FAQ_CATEGORY_IDENTITY_KEY = 'category_faq_identity_key_';
 
     /**
      * Prefix of model events names
@@ -44,7 +43,7 @@ class Category extends \Magento\Framework\Model\AbstractModel implements Categor
      * @var \Ewave\Faq\Helper\Data
      */
     protected $_helper;
-    
+
     /**
      * Category constructor.
      *
@@ -116,6 +115,33 @@ class Category extends \Magento\Framework\Model\AbstractModel implements Categor
      */
     public function getRequestPath()
     {
-        return $this->_helper->getFaqUrl() . '/' . $this->getIdentifier();
+        return $this->_helper->getPageUrlWithoutSuffix() . '/' . $this->getIdentifierWithSuffix();
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier(): string
+    {
+        return (string)$this->getData(static::IDENTIFIER);
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifierWithSuffix()
+    {
+        $identifier = $this->getData(static::IDENTIFIER);
+        return (string)$this->_helper->removeFaqCategorySuffix($identifier) . $this->_helper->getCategoryUrlSuffix();
+    }
+
+    /**
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return [
+            static::FAQ_CATEGORY_IDENTITY_KEY . '_' . $this->getId(),
+        ];
     }
 }

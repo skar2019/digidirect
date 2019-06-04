@@ -3,6 +3,7 @@
     <module name="Ewave_CollectAbstractEntityMSI" setup_version="1.0.0">
         <sequence>
             <module name="Ewave_Utilities" />
+            <module name="Ewave_CollectAbstractEntity" />
         </sequence>
     </module>
 </config>

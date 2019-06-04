@@ -86,3 +86,8 @@
 =================
 * Bugfixes:
     * [#305709](https://ewave.tpondemand.com/entity/305709) -- [Project: DigiDirect] Admin user is not able to Create new email template for FAQ using "Customer answer template" template	
+	
+1.2.0
+=============
+* New features:
+    * [#307638](https://ewave.tpondemand.com/entity/307638) -- [URL SUFFIXES] As an admin, I want to be able to turn off URL suffixes for FAQ categories

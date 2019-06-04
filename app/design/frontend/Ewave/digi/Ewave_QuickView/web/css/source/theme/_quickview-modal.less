@@ -152,6 +152,20 @@
 }
 
 //
+//  Mobile +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+    .catalog-product-view.quickview-main {
+        .product-basic,
+        .section-center {
+            display: block;
+            max-width: 100vw;
+        }
+    }
+}
+
+//
 //  Tablet
 //  ---------------------------------------------
 

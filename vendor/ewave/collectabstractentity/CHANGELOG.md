@@ -46,4 +46,9 @@
 * Bugfixes:
     * [#307859](https://ewave.tpondemand.com/entity/307859) -- [Project: DigiDirect] Shipping address is not displayed on the second checkout step for the logged in users    
     * [#307843](https://ewave.tpondemand.com/entity/307843) -- [Project: DigiDirect] An error message is displayed on the first Checkout step for the logged in user after trying to proceed to the second step   
-    
+
+1.3.5
+=============
+* Bugfixes:
+    * [#308572](https://ewave.tpondemand.com/entity/308572) -- [Project: DigiDirect] "Shipping Methods" section is displayed on the first checkout step when "Collect" radio button is selected   
+

@@ -4,8 +4,10 @@ $locatorName = $block->getData('locatorName');
 $default = $block->getDefaultRadius();
 $items = $block->getRadiusOptions();
 $metric = $block->getMetric();
+$showLocator = false;
 ?>
 
+<?php if ($showLocator) : ?>
 <div class="locator-search">
     <form action="<?php echo $block->escapeUrl($block->getSearchUrl()); ?>" class="form" data-locator="<?php /* @escapeNotVerified */ echo $locatorName ?>" data-mage-init='{"validation": {}}'>
         <div class="input-group">
@@ -34,3 +36,4 @@ $metric = $block->getMetric();
         </div>
     </form>
 </div>
+<?php endif; ?>

@@ -10,6 +10,7 @@ use Ewave\AbstractEntity\Api\Data\AbstractEntityInterface;
 use Ewave\CollectAbstractEntity\Model\ResourceModel\AbstractEntity as AbstractEntityResource;
 use Magento\Eav\Model\ResourceModel\AttributeLoader;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SortOrderBuilder;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -39,6 +40,11 @@ class CollectPlaceRepository implements CollectPlaceRepositoryInterface
     protected $configHelper;
 
     /**
+     * @var SortOrderBuilder
+     */
+    protected $sortOrderBuilder;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
@@ -55,6 +61,7 @@ class CollectPlaceRepository implements CollectPlaceRepositoryInterface
      * @param AbstractEntityRepositoryInterface $abstractEntityRepository
      * @param AbstractEntityResource $abstractEntityResource
      * @param LoggerInterface $logger
+     * @param SortOrderBuilder $sortOrderBuilder
      * @param array $loadAttributes
      */
     public function __construct(
@@ -63,12 +70,14 @@ class CollectPlaceRepository implements CollectPlaceRepositoryInterface
         AbstractEntityRepositoryInterface $abstractEntityRepository,
         AbstractEntityResource $abstractEntityResource,
         LoggerInterface $logger,
+        SortOrderBuilder $sortOrderBuilder,
         array $loadAttributes = []
     ) {
         $this->configHelper = $configHelper;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->abstractEntityRepository = $abstractEntityRepository;
         $this->abstractEntityResource = $abstractEntityResource;
+        $this->sortOrderBuilder = $sortOrderBuilder;
         $this->logger = $logger;
         $this->loadAttributes = $loadAttributes;
     }
@@ -120,6 +129,8 @@ class CollectPlaceRepository implements CollectPlaceRepositoryInterface
     {
         $setId = $this->configHelper->getCollectAbstractEntityId();
         $this->searchCriteriaBuilder->addFilter(AttributeLoader::ATTRIBUTE_SET_ID, $setId);
+        $sortOrder = $this->sortOrderBuilder->setField(AbstractEntityInterface::ENTITY_ID)->setAscendingDirection()->create();
+        $this->searchCriteriaBuilder->addSortOrder($sortOrder);
 
         if ($this->abstractEntityResource->isAttributeInAttributeSet($setId, AbstractEntityInterface::STATUS)) {
             $this->searchCriteriaBuilder->addFilter(
