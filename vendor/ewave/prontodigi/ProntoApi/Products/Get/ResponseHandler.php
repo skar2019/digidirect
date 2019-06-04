@@ -68,6 +68,11 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     protected $urlKeyToSku;
 
     /**
+     * @var array
+     */
+    protected $attributeOptions = [];
+
+    /**
      * @var string
      */
     protected $rootCategoryName;
@@ -109,7 +114,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         SourceItemFactory $sourceItemFactory,
         Config $configHelper,
         MapperInterface $mapper = null
-    ) {
+    )
+    {
         parent::__construct(
             $validator,
             $productUrl,
@@ -136,6 +142,9 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     {
         if ($this->urlKeyToSku == null) {
             $this->urlKeyToSku = $this->productResource->getUrlKeyToSku();
+            $this->attributeOptions = [
+                self::BRAND_ATTRIBUTE_CODE => $this->getOptionHash(self::BRAND_ATTRIBUTE_CODE),
+            ];
         }
         $this->productsToImport = array_merge($this->productsToImport, $this->prepareProductsData($response));
         return $this;
@@ -151,6 +160,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             $this->productsToImport = $this->newProducts;
             $this->existSkus = [];
         }
+        $this->attributeOptions = [];
         $this->urlKeyToSku = null;
         $this->unsetData();
         $this->import($this->productsToImport);
@@ -172,6 +182,25 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         }
         $this->urlKeyToSku[$urlKey] = $sku;
         return $urlKey;
+    }
+
+    /**
+     * @param string $attributeCode
+     * @return array
+     * @throws LocalizedException
+     */
+    protected function getOptionHash(string $attributeCode): array
+    {
+        $result = [];
+        $attribute = $this->productResource->getAttribute($attributeCode);
+        $options = $attribute->getSource()->getAllOptions(false);
+        foreach ($options as $option) {
+            if (!isset($option['value']) || !strlen($option['value'])) {
+                continue;
+            }
+            $result[strtolower($option['label'])] = $option['value'];
+        }
+        return $result;
     }
 
     /**
@@ -243,6 +272,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     $productData = $this->getStatus($productData);
                     $productData = $this->getBackorders($productData);
                     $productData = $this->getCategories($productData);
+                    $productData = $this->getBrand($productData);
                     unset($productData['sources']);
                     if (!isset($this->getExistSkus()[$sku]) && empty($this->getExcludedSkus()[$sku])) {
                         $productData[ProductAttributeInterface::CODE_STATUS] = ProductStatus::STATUS_DISABLED;
@@ -337,7 +367,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             $this->failedCategories[$lowerFullCategoryPath] = (string)$e->getMessage();
             $this->logger->error(
                 __(
-                    'SKU: %1. Could not create category %2: %3',
+                    'SKU: "%1". Could not create category "%2": %3',
                     $data[ProductInterface::SKU],
                     $fullCategoryPath,
                     $e->getMessage()
@@ -345,6 +375,28 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             );
         }
 
+        return $data;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function getBrand(array $data): array
+    {
+        if (isset($data[self::BRAND_ATTRIBUTE_CODE])) {
+            $brand = $data[self::BRAND_ATTRIBUTE_CODE];
+            if (!isset($this->attributeOptions[self::BRAND_ATTRIBUTE_CODE][strtolower($brand)])) {
+                $this->logger->warning(
+                    __(
+                        'SKU: "%1". Brand "%2" does not exist',
+                        $data[ProductInterface::SKU],
+                        $brand
+                    )
+                );
+                unset($data[self::BRAND_ATTRIBUTE_CODE]);
+            }
+        }
         return $data;
     }
 

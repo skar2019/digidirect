@@ -5,7 +5,6 @@
 ?>
 <?php
 $_product = $block->getProduct();
-$isQualifiesForFreeShipping = ($_product) ? $_product->getAttributeText('qualifies_for_free_shipping') : false;
 ?>
 <?php $places =  ($_product) ? $block->getAllCollectPlaces($_product) : false;?>
 <?php if ($places): ?>
@@ -21,10 +20,8 @@ $isQualifiesForFreeShipping = ($_product) ? $_product->getAttributeText('qualifi
             </div>
             <div class="data item content" id="tab-delivery" data-role="content">
                 <div class="text">
-                    <?php if ($isQualifiesForFreeShipping == 'Yes'): ?>
-                        <?php echo /* @noEscape */ __('This item qualifies for free shipping'); ?>
-                    <?php else: ?>
-                        <?php echo /* @noEscape */ __('This item does not qualify for free shipping'); ?>
+                    <?php if ($messageCmsContent = $block->getChildHtml('product.delivery.message')): ?>
+                        <?php echo $messageCmsContent; ?>
                     <?php endif; ?>
                 </div>
             </div>

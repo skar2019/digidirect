@@ -121,8 +121,16 @@
         <container name="product.places" htmlTag="div" htmlClass="product-places">
             <block class="Ewave\Digi\Block\Places" name="product.places.helper"
                    template="Magento_Catalog::product/view/product_places.phtml">
+                <block class="Magento\Cms\Block\Block" name="product.delivery.message">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">product-detail-delivery-tab-message</argument>
+                    </arguments>
+                </block>
             </block>
         </container>
+
+        <!--Temporary solution -->
+        <referenceBlock name="product.store.availability" remove="true" />
     </body>
 </page>
  

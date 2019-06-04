@@ -215,6 +215,14 @@
         .data.item.content .text {
             .lib-font-size(12);
         }
+    
+        .data.item.content .text p {
+            font: inherit;
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
     }
 
     .product.data.items > .data.item.title.active {
