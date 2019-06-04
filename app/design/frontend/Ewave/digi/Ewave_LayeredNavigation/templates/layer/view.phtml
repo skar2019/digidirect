@@ -48,7 +48,7 @@
                             <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
 
                             <?php if ($activeCount > 0 && !empty($activeLabels)) : ?>
-                                <?php $faceBookPixel->setBrandLabel($filter->getName(), $activeLabels); ?>
+                                <?php $faceBookPixel->setBrandLabel($filter, $activeLabels); ?>
                                 <span class="value"><?php /* @escapeNotVerified */ echo implode(', ', $activeLabels) ?></span>
                                 <?php if ($isShowTitleCount): ?>
                                     <span class="count"><?php echo (int)$activeCount ?></span>
