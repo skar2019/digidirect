@@ -767,9 +767,6 @@
     <preference for="Magento\CatalogImportExport\Model\Import\Product\CategoryProcessor"
                 type="Ewave\AI\Preferences\Model\Import\Product\CategoryProcessor"/>
 
-    <preference for="Magento\ConfigurableImportExport\Model\Import\Product\Type\Configurable"
-                type="Ewave\AI\Preferences\Magento\ConfigurableImportExport\Model\Import\Product\Type\Configurable"/>
-
     <preference for="Ewave\AI\Model\Lib\Entity\Import\CatalogRule\CatalogRuleInterface"
                 type="Ewave\AI\Model\Lib\Entity\Import\CatalogRule\CatalogRule"/>
 

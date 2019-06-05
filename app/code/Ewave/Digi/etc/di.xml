@@ -10,6 +10,13 @@
         </arguments>
     </type>
 
+    <type name="\Magento\Catalog\Block\Category\View">
+        <plugin name="category.view.after.pulugin"
+                type="\Ewave\Digi\Plugin\Magento\Catalog\Block\Category\View"
+                sortOrder="1"
+                disabled="false" />
+    </type>
+
     <type name="Magento\Framework\App\Router\NoRouteHandlerList">
         <arguments>
             <argument name="handlerClassesList" xsi:type="array">
@@ -20,5 +27,4 @@
             </argument>
         </arguments>
     </type>
-
 </config>

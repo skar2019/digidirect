@@ -40,7 +40,7 @@ $block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
                 </span>
             <?php endif; ?>
             <?php
-            $function = function ($children, $i, $j, $m) use (&$function, $block) { ?>
+            $function = function ($children, $i, $j, $m) use (&$function, $block, $item) { ?>
                 <?php $i++; $k = 1; $n = 0; $v = $m; ?>
                 <?php foreach ($children as $child) : ?>
                     <?php if (isset($child->cms_block_content)){
@@ -82,6 +82,21 @@ $block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
                             <?php if (isset($child->children)) : ?>
                                 <?php $n++; $m = $n; ?>
                                 <ul class="<?php /* @escapeNotVerified */ echo $block->getInnerListsClass() ? ' ' . $block->getInnerListsClass() : '';?>">
+
+
+                                <!-- START DIGI CATEGORY BRAND MENU HARDCODE FOR SEO PURPOSES -->
+                                <?php
+                                    if ($child->title == 'Brands' && count($child->children)) {
+                                        foreach ($child->children as $brandLink) {
+                                            if (strpos($brandLink->url, '/brands/') !== false && $item->url) {
+                                                $brandLinkLastPart = last(array_filter(explode('/', $brandLink->url)));
+                                                $brandLink->url = $item->url . '/' . $brandLinkLastPart;
+                                            }
+                                        }
+                                    }
+                                ?>
+                                <!-- END DIGI CATEGORY BRAND MENU HARDCODE FOR SEO PURPOSES -->
+
                                     <?php $function($child->children, $i, $j, $m); ?>
                                 </ul>
                                 <?php $m = $v; ?>

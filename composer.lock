@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5676e8f283dfb567eaaa27f6323ddb0",
+    "content-hash": "9aa754880329d79281ce0779fff5350d",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1234,11 +1234,11 @@
         },
         {
             "name": "ewave/abstractattributes",
-            "version": "dev-develop",
+            "version": "dev-release/3.0.8",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractattributes.git",
-                "reference": "8882aa8f59d400d71f66156a8f982853064dd0a8"
+                "reference": "f52bdc820430577c81af44f77f47507b585ae077"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1250,15 +1250,15 @@
                 }
             },
             "description": "Ewave Abstract Attributes Module",
-            "time": "2019-05-31T11:52:59+00:00"
+            "time": "2019-05-31T11:52:30+00:00"
         },
         {
             "name": "ewave/abstractattributesnavigation",
-            "version": "dev-develop",
+            "version": "dev-release/1.0.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractattributesnavigation.git",
-                "reference": "14d4bb39655872731296a0d4d1e6963bb1495668"
+                "reference": "b8c88b06261d824cbed312d422c4655dca271819"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1270,7 +1270,7 @@
                 }
             },
             "description": "Ewave Abstract Attributes Navigation Module",
-            "time": "2018-12-22T07:31:33+00:00"
+            "time": "2019-05-27T08:20:00+00:00"
         },
         {
             "name": "ewave/abstractentity",
@@ -1314,11 +1314,11 @@
         },
         {
             "name": "ewave/ai",
-            "version": "dev-develop",
+            "version": "dev-release/1.15.8",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_ai.git",
-                "reference": "15e9f5c211ca707df5b697714c795ddce4fe7f57"
+                "reference": "d79772ee9d08846044dc8bfedd1056d3a9ed86cd"
             },
             "require": {
                 "vlucas/valitron": "^1.4"
@@ -1333,7 +1333,7 @@
                 }
             },
             "description": "Integration Engine.",
-            "time": "2019-05-30T12:10:54+00:00"
+            "time": "2019-05-28T06:51:05+00:00"
         },
         {
             "name": "ewave/banner",
@@ -1484,26 +1484,6 @@
             "time": "2019-05-31T08:30:01+00:00"
         },
         {
-            "name": "ewave/collect-staging",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collect_staging.git",
-                "reference": "8a674ac807b8cce53ef3c4f8fa9ea22a73f2abe3"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\CollectStaging\\": ""
-                }
-            },
-            "description": "Collect",
-            "time": "2019-02-05T11:00:37+00:00"
-        },
-        {
             "name": "ewave/collectabstractentity",
             "version": "dev-release/1.3.5",
             "source": {
@@ -1585,7 +1565,7 @@
         },
         {
             "name": "ewave/customsitemaplinks",
-            "version": "dev-develop",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_customsitemaplinks.git",
@@ -1877,11 +1857,11 @@
         },
         {
             "name": "ewave/invoiceincrementid",
-            "version": "dev-develop",
+            "version": "dev-release/1.0.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_invoiceincrementid.git",
-                "reference": "5c9258e8829d687fe58226b502e27dccc9a028a3"
+                "reference": "3d10c22a1ca0a2b0ebb256c8f482a95cda3b1569"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1893,11 +1873,11 @@
                 }
             },
             "description": "Ewave Invoice Increment Id",
-            "time": "2019-05-08T07:33:42+00:00"
+            "time": "2019-06-05T13:18:07+00:00"
         },
         {
             "name": "ewave/layerednavigation",
-            "version": "dev-develop",
+            "version": "dev-digi",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_layerednavigation.git",
@@ -2554,11 +2534,11 @@
         },
         {
             "name": "ewave/storelocatorinfinitescroll",
-            "version": "dev-develop",
+            "version": "dev-release/1.0.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_storelocatorinfinitescroll.git",
-                "reference": "fd3da71d40a51c7b6ae6e970539b70ee0de040a5"
+                "reference": "8db9709d1d2b4091815e3a37d1acabd0613ada6a"
             },
             "suggest": {
                 "ewave/infinitescroll": "Ewave StoreLocatorInfiniteScroll does use ewave/infinitescroll methods.",
@@ -2574,7 +2554,7 @@
                 }
             },
             "description": "Ewave StoreLocatorInfiniteScroll Module",
-            "time": "2019-05-11T11:47:31+00:00"
+            "time": "2019-05-11T11:47:59+00:00"
         },
         {
             "name": "ewave/styleguide",
@@ -2598,11 +2578,11 @@
         },
         {
             "name": "ewave/utilities",
-            "version": "dev-develop",
+            "version": "dev-release/1.20.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_utilities.git",
-                "reference": "bafeea5cddba5429f70763a00841c3864198a169"
+                "reference": "7d03c1442e749bf1bc75f337bfde04031ff8d636"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2614,7 +2594,7 @@
                 }
             },
             "description": "Ewave Utilities Module",
-            "time": "2019-05-22T13:11:16+00:00"
+            "time": "2019-04-24T13:24:42+00:00"
         },
         {
             "name": "fastly/magento2",
@@ -24980,7 +24960,6 @@
         "ewave/cms-upgrade": 20,
         "ewave/customsitemaplinks": 20,
         "ewave/collect": 20,
-        "ewave/collect-staging": 20,
         "ewave/collectabstractentity": 20,
         "ewave/collectabstractentitymsi": 20,
         "ewave/collectstorelocator": 20,

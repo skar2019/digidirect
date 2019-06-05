@@ -1,7 +1,0 @@
-<?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:ewave:module:Ewave_Collect:etc/placestorage.xsd">
-    <placestorage name="test">
-        <config handle="store_storage_test" instance="Ewave\CollectStaging\Model\StoreRepositoryTest" source="Ewave\CollectStaging\Model\StorePlaceStock"/>
-    </placestorage>
-</config>

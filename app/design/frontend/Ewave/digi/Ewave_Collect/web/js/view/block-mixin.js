@@ -10,9 +10,12 @@ define([
 
     return function (target) {
         return target.extend({
+            _isCheckoutPage: function() {
+                return $('body').hasClass('checkout-index-index');
+            },
             onSuccessApplyPlace: function (response) {
                 this._super(response);
-                var pageTypeIsCheckout = $('body').hasClass('checkout-index-index');
+                var pageTypeIsCheckout = this._isCheckoutPage();
                 if (pageTypeIsCheckout) {
                     window.selectStore(false);
                 }
@@ -28,7 +31,19 @@ define([
                     closestRadioButtons.first().trigger('click');
                 }
             },
-
+            setCollectAbstractEntityFields: function() {
+                var self = this,
+                    flag = true;
+                this._super();
+                if (this.isSingleCartCollectVariation() && this.collectPlaces() && !this.collectPlaces().length && this._isCheckoutPage()) {
+                    async.async('.row .radio.-item-0', function (node) {
+                        if (flag && quote.shippingMethod().carrier_code == 'collect') {
+                            $(node).trigger('click');
+                            flag = false;
+                        }
+                    });
+                }
+            },
             selectCollectShippingMethod: function () {
                 var flag = true;
 

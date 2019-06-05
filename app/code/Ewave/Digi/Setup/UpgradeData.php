@@ -1343,7 +1343,6 @@ class UpgradeData implements UpgradeDataInterface
                     'is_global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 ]
             ]);
-
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
         }

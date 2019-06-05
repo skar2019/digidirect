@@ -36,7 +36,7 @@ class AbstractAttribute extends \Magento\Framework\App\Helper\AbstractHelper
     public function getBrandIdByUrlKey(string $brandUrlKey)
     {
         $select = $this->connection->select()
-            ->from(['aa' => 'ewave_aa_options'], 'option_id')
+            ->from(['aa' => 'ewave_aa_options'], 'row_id')
             ->joinLeft(['eao' => 'eav_attribute_option'], 'aa.option_id = eao.option_id', [])
             ->joinLeft(['eav' => 'eav_attribute'], 'eao.attribute_id = eav.attribute_id', [])
             ->where('eav.attribute_code = :brand AND aa.url_key = :url_key')

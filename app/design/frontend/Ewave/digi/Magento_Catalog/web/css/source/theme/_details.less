@@ -206,6 +206,20 @@
             flex-basis: 50%;
         }
     
+        .data.items .data.item.title.-full-width {
+            width: 100%;
+            flex-basis: 100%;
+        }
+    
+        .data.item.title.-full-width .switch:hover {
+            background: initial;
+            cursor: text;
+        }
+    
+        .product.data.items .data.item.title:hover > .data.switch {
+            .lib-css(color, @primary__color);
+        }
+    
         .data.items .data.item.content {
             padding-left: 0;
             padding-right: 0;
