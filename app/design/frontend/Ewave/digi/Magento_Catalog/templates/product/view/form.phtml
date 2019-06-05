@@ -50,7 +50,8 @@ $currencyCode = $currencysymbol->getStore()->getCurrentCurrencyCode();
                 fbq('track', 'ViewContent', {
                     content_name: '<?php echo $block->escapeHtml($_product->getName()); ?>',
                     content_id: '<?php echo $block->escapeHtml($_product->getSku()); ?>',
-                    currency: '<?php echo $block->escapeHtml($currencyCode); ?>'
+                    currency: '<?php echo $block->escapeHtml($currencyCode); ?>',
+                    content_type: 'product'
                 });
             }
         </script>

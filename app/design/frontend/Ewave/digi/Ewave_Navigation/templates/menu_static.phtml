@@ -86,7 +86,7 @@ $block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
 
                                 <!-- START DIGI CATEGORY BRAND MENU HARDCODE FOR SEO PURPOSES -->
                                 <?php
-                                    if ($child->title == 'Brands' && count($child->children)) {
+                                    if (strpos($child->title, 'Brands') == 0 && count($child->children)) {
                                         foreach ($child->children as $brandLink) {
                                             if (strpos($brandLink->url, '/brands/') !== false && $item->url) {
                                                 $brandLinkLastPart = last(array_filter(explode('/', $brandLink->url)));

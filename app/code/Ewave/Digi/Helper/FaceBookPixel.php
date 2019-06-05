@@ -119,6 +119,9 @@ class FaceBookPixel extends \Magento\Framework\App\Helper\AbstractHelper
             $result['content_brand'] = $this->getBrandLabel();
         }
 
+        if (!empty($result)) {
+            $result['content_type'] = 'product';
+        }
         return $this->jsonSerializer->serialize($result);
     }
 
@@ -133,7 +136,12 @@ class FaceBookPixel extends \Magento\Framework\App\Helper\AbstractHelper
         $order = $this->checkoutSession->getLastRealOrder();
         $orderCurrency = $order->getOrderCurrency();
         $preparedData = $this->prepareOrderItems($order->getAllVisibleItems());
-        $purchaseData = ['currency' => $orderCurrency->getCurrencyCode(), 'contents' => $preparedData];
+        $purchaseData = [
+            'currency'     => $orderCurrency->getCurrencyCode(),
+            'contents'     => $preparedData,
+            'value'        => $order->getGrandTotal(),
+            'content_type' => 'product'
+        ];
 
         return $this->jsonSerializer->serialize($purchaseData);
     }
