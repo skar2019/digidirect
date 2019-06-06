@@ -57,7 +57,7 @@ class FaceBookPixel extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function setBrandLabel($filter, $activeLabel)
     {
-        if (strtolower($filter->getName()) == 'brand') {
+        if (strtolower((string) $filter->getName()) == 'brand') {
             $this->brandLabel = $activeLabel;
         }
     }

@@ -37,7 +37,7 @@ define([
                 this._super();
                 if (this.isSingleCartCollectVariation() && this.collectPlaces() && !this.collectPlaces().length && this._isCheckoutPage()) {
                     async.async('.row .radio.-item-0', function (node) {
-                        if (flag && quote.shippingMethod().carrier_code == 'collect') {
+                        if (flag && $(node).is(':visible')) {
                             $(node).trigger('click');
                             flag = false;
                         }

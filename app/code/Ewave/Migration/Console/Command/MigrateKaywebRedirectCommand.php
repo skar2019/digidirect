@@ -175,6 +175,9 @@ class MigrateKaywebRedirectCommand extends Command
 
             $result = $this->migrationProcessor
                 ->process($output, $productIterator, $debugOption);
+
+            $result = $this->prepareUrls($result, $crawlContent);
+
             $output->writeln('The data was received, an attempt to write data to a file ');
             $savedFilesName = $this->saveResult($result, $pathToResult);
             $output->writeln('The data is recorded successfully '. $savedFilesName);
@@ -186,9 +189,24 @@ class MigrateKaywebRedirectCommand extends Command
     }
 
     /**
+     * @param array $urls
+     * @param array $crawled
+     * @return array
+     */
+    protected function prepareUrls(array $urls, array $crawled): array
+    {
+        foreach ($urls['all'] as $key => $url) {
+            $urls['all'][$key] = $crawled[$url];
+        }
+
+        return $urls;
+    }
+
+    /**
      * @param array $result
      * @param string $pathToSave
      * @return string
+     * @throws FileSystemException
      */
     private function saveResult(array $result, string $pathToSave)
     {
@@ -282,8 +300,7 @@ class MigrateKaywebRedirectCommand extends Command
                 $urlArray = array_combine($nameArray, $element);
                 $urlParsed = explode('/', $urlArray['Address']);
                 $url = array_pop($urlParsed);
-                $statusCode = $urlArray['Status Code'];
-                $acc[$url] = $statusCode;
+                $acc[$url] = $urlArray['Address'];
                 return $acc;
             }, []);
         }
