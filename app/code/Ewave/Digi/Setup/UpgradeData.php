@@ -330,6 +330,9 @@ class UpgradeData implements UpgradeDataInterface
         if (version_compare($context->getVersion(), '1.0.25', '<')) {
             $this->upgradeTo125($setup);
         }
+        if (version_compare($context->getVersion(), '1.0.26', '<')) {
+            $this->upgradeTo126($setup);
+        }
 
         $setup->endSetup();
     }
@@ -1343,6 +1346,32 @@ class UpgradeData implements UpgradeDataInterface
                     'is_global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 ]
             ]);
+        } catch (\Exception $e) {
+            $this->logger->critical($e->getMessage());
+        }
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo126(ModuleDataSetupInterface $setup)
+    {
+        try {
+            $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
+
+            $attributesCode = [
+                'aipp_number',
+                'contact_number'
+            ];
+
+            foreach ($attributesCode as $attributeCode) {
+                $attribute = $customerSetup->getEavConfig()->getAttribute(
+                    CustomerEntity::ENTITY,
+                    $attributeCode
+                );
+                $attribute->setData('used_in_forms', ['adminhtml_customer', 'customer_account_edit']);
+                $attribute->save();
+            }
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
         }

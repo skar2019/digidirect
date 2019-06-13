@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9aa754880329d79281ce0779fff5350d",
+    "content-hash": "f5de396641f7c3aa56ebcb97c23b5d33",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1569,7 +1569,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_customsitemaplinks.git",
-                "reference": "8d18f6a9c3c1f590d0ecf0740f065b02b92a4dbd"
+                "reference": "3b570ce747b7b07bee2646a41f5006f66d37db86"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1581,7 +1581,7 @@
                 }
             },
             "description": "Ewave Custom Sitemap Links",
-            "time": "2019-06-03T12:27:48+00:00"
+            "time": "2019-06-10T12:31:07+00:00"
         },
         {
             "name": "ewave/defaulttheme",
@@ -1877,11 +1877,11 @@
         },
         {
             "name": "ewave/layerednavigation",
-            "version": "dev-digi",
+            "version": "dev-release/1.6.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_layerednavigation.git",
-                "reference": "2190d7b760ad9b78dac5af34c9849cccc38e51cd"
+                "reference": "3392e964386617aff48ad4b931267c0dfb5e5bcd"
             },
             "require": {
                 "magento/module-layered-navigation": "*"
@@ -1899,7 +1899,7 @@
                 "Commercial"
             ],
             "description": "Layered Navigation",
-            "time": "2019-05-29T13:02:05+00:00"
+            "time": "2019-06-12T13:00:57+00:00"
         },
         {
             "name": "ewave/legobasetheme",
@@ -2299,11 +2299,11 @@
         },
         {
             "name": "ewave/pronto",
-            "version": "dev-develop",
+            "version": "dev-release/1.0.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_pronto.git",
-                "reference": "bc6c72453457acfacd245589912b6bbdcb3032b1"
+                "reference": "767a253f464e1c6348a51f57a3156f1fd02a3adf"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2315,7 +2315,7 @@
                 }
             },
             "description": "Ewave Pronto",
-            "time": "2019-05-31T10:52:20+00:00"
+            "time": "2019-06-10T11:36:38+00:00"
         },
         {
             "name": "ewave/prontodigi",
@@ -2323,7 +2323,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "f1c17bf4ccbd83dd2b9d6fa4db752b6f3c9d8663"
+                "reference": "e6a6bd3dc768b2dc60ea2e13e0ffac341f403ea3"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2335,7 +2335,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-06-04T14:04:09+00:00"
+            "time": "2019-06-13T09:14:56+00:00"
         },
         {
             "name": "ewave/quickview",

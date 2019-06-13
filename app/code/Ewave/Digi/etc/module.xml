@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Ewave_Digi" setup_version="1.0.25">
+    <module name="Ewave_Digi" setup_version="1.0.26">
         <sequence>
             <module name="Ewave_Utilities"/>
             <module name="Ewave_Store"/>
@@ -9,6 +9,7 @@
             <module name="Magento_MediaStorage"/>
             <module name="Ewave_ProntoDigi"/>
             <module name="Ewave_AbstractAttributes"/>
+            <module name="Ewave_Collect"/>
         </sequence>
     </module>
 </config>

@@ -39,7 +39,7 @@ class ResponseHandler extends BaseResponseHandler implements ResponseHandlerInte
      * @return BaseResponseHandler|ResponseHandlerInterface|void
      * @throws \Exception
      */
-    public function handle($response)
+    public function handle(array $response)
     {
         if (!isset($response[Order::SALES_ORDER], $response[Order::SALES_ORDER][Order::HEADER])
             || empty($response[Order::SALES_ORDER]['response']['status'])
@@ -72,5 +72,6 @@ class ResponseHandler extends BaseResponseHandler implements ResponseHandlerInte
                 __('Cannot update Order Manifest Number, %1 is empty', self::MANIFEST_NUMBER_PARAM)
             );
         }
+
     }
 }

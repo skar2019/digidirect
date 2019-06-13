@@ -3,7 +3,7 @@
 namespace Ewave\ProntoDigi\ProntoApi\Products\Get;
 
 use Ewave\AI\Preferences\Model\Import\Product\CategoryProcessor;
-use Ewave\ProntoDigi\ProntoApi\Constants\Products as ProductConstans;
+use Ewave\ProntoDigi\ProntoApi\Constants\Products as ProductConstants;
 use Ewave\ProntoDigi\Setup\InstallData;
 use Magento\Catalog\Model\Product\Type;
 use Magento\Store\Model\WebsiteRepository;
@@ -133,8 +133,9 @@ class MapperHelper
     {
         $result = '';
         $gtin = $this->getFirstGtin($gtins);
-        if (is_array($gtin) && isset($gtin['uom'], $gtin['conv']) && strtolower($gtin['uom']) != self::UOM_EACH) {
-            $result = 'Box of ' . $gtin['conv'];
+        if (is_array($gtin) && isset($gtin['uom']) && strtolower($gtin['uom']) != self::UOM_EACH) {
+            $conv = $gtin['conv'] ?? '';
+            $result = ProductConstants::DESCRIPTION_BEGINNING . $conv;
         }
         return $result;
     }
@@ -182,7 +183,7 @@ class MapperHelper
 
     /**
      * @param string $stockStatus
-     * @return array
+     * @return string
      */
     public function getProductType($stockStatus)
     {

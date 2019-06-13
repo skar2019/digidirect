@@ -36,4 +36,6 @@ class Products
     const API_DESC1 = 'desc1';
     const API_DESC2 = 'desc2';
     const API_DESC3 = 'desc3';
+
+    const DESCRIPTION_BEGINNING = 'Box of ';
 }

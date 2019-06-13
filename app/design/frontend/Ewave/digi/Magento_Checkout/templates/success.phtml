@@ -2,6 +2,7 @@
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $customerSession = $objectManager->get('Magento\Customer\Model\Session');
 $faceBookPixel = $this->helper('Ewave\Digi\Helper\FaceBookPixel');
+$googleAnalytic = $this->helper('Ewave\Digi\Helper\GoogleAnalytics');
 
 ?>
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
@@ -32,3 +33,11 @@ $faceBookPixel = $this->helper('Ewave\Digi\Helper\FaceBookPixel');
         </script>
     </div>
 </div>
+
+<script>
+    ga('require', 'ecommerce');
+
+    ga('ecommerce:addTransaction', <?php echo $googleAnalytic->getPurchaseData() ?> );
+
+    ga('ecommerce:send');
+</script>

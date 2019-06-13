@@ -39,8 +39,10 @@ class Sitemap
     {
         $links = $this->sitemapHelper->getCustomLinks($sitemap->getStoreId());
         if (!empty($links)) {
+            $changefreq = $this->sitemapHelper->getCustomLinksChangefreq($sitemap->getStoreId());
             $sitemap->addSiteMapItem(new DataObject([
-                'changefreq' => $this->sitemapHelper->getCustomLinksChangefreq($sitemap->getStoreId()),
+                'changefreq' => $changefreq,
+                'change_frequency' => $changefreq,
                 'priority' => $this->sitemapHelper->getCustomLinksPriority($sitemap->getStoreId()),
                 'collection' => $this->prepareLinks($links),
             ]));

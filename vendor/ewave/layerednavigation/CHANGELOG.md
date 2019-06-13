@@ -167,3 +167,10 @@
 =============
 * Bugfixes:
     * [#303875](https://ewave.tpondemand.com/entity/303875) -- Exception notice is displayed if change url after filtration by price
+
+1.6.0
+=============
+* Bugfixes:
+    * [#302219](https://ewave.tpondemand.com/entity/302219) -- As an admin, I want Klevu Search to be compatible with following extensions
+* Improvements:
+    * Remove old code from 2.1 version by performance reason

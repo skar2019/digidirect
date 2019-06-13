@@ -2,15 +2,11 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="head.additional">
-            <block class="Magento\Framework\View\Element\Text" name="script_sales">
-                <action method="setText">
-                    <argument translate="true" name="text" xsi:type="string">
-                        <![CDATA[<!-- Event snippet for Sale conversion page --><script> gtag('event', 'conversion', { 'send_to': 'AW-962495858/hqGFCKXItlgQ8or6ygM', 'value': 1.0, 'currency': 'AUD' }); </script>]]>
-                    </argument>
-                </action>
-            </block>
+            <block class="Magento\Framework\View\Element\Template" name="checkout.ga.js" before="-"
+                   template="Magento_Checkout::js/ga.phtml" />
+            <block class="Magento\Framework\View\Element\Template" name="checkout.ga.js.customer" template="Magento_Checkout::js/ga-customer.phtml" />
         </referenceBlock>
 
-        <referenceBlock name="page.main.title" remove="true"/>
+        <referenceBlock name="page.main.title" remove="true" />
     </body>
 </page>

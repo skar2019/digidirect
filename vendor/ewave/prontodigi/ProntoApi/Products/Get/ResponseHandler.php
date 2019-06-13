@@ -114,8 +114,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         SourceItemFactory $sourceItemFactory,
         Config $configHelper,
         MapperInterface $mapper = null
-    )
-    {
+    ) {
         parent::__construct(
             $validator,
             $productUrl,
@@ -140,12 +139,20 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      */
     public function handle(array $response)
     {
-        if ($this->urlKeyToSku == null) {
+        if ($this->urlKeyToSku === null) {
             $this->urlKeyToSku = $this->productResource->getUrlKeyToSku();
             $this->attributeOptions = [
                 self::BRAND_ATTRIBUTE_CODE => $this->getOptionHash(self::BRAND_ATTRIBUTE_CODE),
             ];
         }
+        if ($this->rootCategoryName === null) {
+            $this->categoryProcessor->initCategories();
+            $existsCategories = $this->categoryProcessor->getCategories();
+            reset($existsCategories);
+            $this->rootCategoryName = key($existsCategories);
+            unset($existsCategories);
+        }
+
         $this->productsToImport = array_merge($this->productsToImport, $this->prepareProductsData($response));
         return $this;
     }
@@ -247,11 +254,6 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      */
     protected function prepareProductsData(array $response)
     {
-        $this->categoryProcessor->initCategories();
-        $existsCategories = $this->categoryProcessor->getCategories();
-        reset($existsCategories);
-        $this->rootCategoryName = key($existsCategories);
-
         $newProducts = [];
         $existsProducts = [];
         foreach ($response as $k => $productData) {
@@ -273,6 +275,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     $productData = $this->getBackorders($productData);
                     $productData = $this->getCategories($productData);
                     $productData = $this->getBrand($productData);
+                    $productData = $this->getDescription($productData);
                     unset($productData['sources']);
                     if (!isset($this->getExistSkus()[$sku]) && empty($this->getExcludedSkus()[$sku])) {
                         $productData[ProductAttributeInterface::CODE_STATUS] = ProductStatus::STATUS_DISABLED;
@@ -362,7 +365,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                 throw new \Exception($this->failedCategories[$lowerFullCategoryPath]);
             }
             $this->categoryProcessor->upsertCategory($fullCategoryPath);
-            $data['categories'] = $fullCategoryPath;
+            $data[Product::COL_CATEGORY] = $fullCategoryPath;
         } catch (\Throwable $e) {
             $this->failedCategories[$lowerFullCategoryPath] = (string)$e->getMessage();
             $this->logger->error(
@@ -395,6 +398,29 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     )
                 );
                 unset($data[self::BRAND_ATTRIBUTE_CODE]);
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    protected function getDescription(array $data): array
+    {
+        if (array_key_exists(ProductAttributeInterface::CODE_DESCRIPTION, $data)) {
+            $description = (string)$data[ProductAttributeInterface::CODE_DESCRIPTION];
+            if (isset($this->getExistSkus()[$data[ProductInterface::SKU]])) {
+                unset($data[ProductAttributeInterface::CODE_DESCRIPTION]);
+            } elseif (!strlen($description)) {
+                unset($data[ProductAttributeInterface::CODE_DESCRIPTION]);
+            } elseif ($description == ProductConstants::DESCRIPTION_BEGINNING) {
+                $this->logger->warning(
+                    __('SKU "%1". uom is not "EACH". conv is empty', $data[ProductInterface::SKU]),
+                    [],
+                    \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
+                );
             }
         }
         return $data;

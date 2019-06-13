@@ -63,7 +63,7 @@ class ResponseHandler extends BaseResponseHandler implements ResponseHandlerInte
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\State\InputMismatchException
      */
-    public function handle($response)
+    public function handle(array $response)
     {
         if (!isset($response[Order::ROOT_CONTAINER], $response[Order::ROOT_CONTAINER][Order::SALES_ORDER])) {
             throw new \Exception(__('Response structure is not valid'));
