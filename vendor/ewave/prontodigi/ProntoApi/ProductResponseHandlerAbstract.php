@@ -144,7 +144,12 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
     /**
      * @var int
      */
-    protected $decreaseQty;
+    protected $inventoryBufferQty;
+
+    /**
+     * @var int
+     */
+    protected $inventoryBufferAction;
 
     /**
      * ProductResponseHandlerAbstract constructor.
@@ -185,7 +190,8 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         $this->sourceItemsImport = $sourceItemsImport;
         $this->sourceItemFactory = $sourceItemFactory;
         $this->configHelper = $configHelper;
-        $this->decreaseQty = $this->configHelper->getInventoryDecreaseQuantityForAllSources();
+        $this->inventoryBufferQty = $this->configHelper->getInventoryBufferQuantityForAllSources();
+        $this->inventoryBufferAction = $this->configHelper->getInventoryBufferAction();
     }
 
     /**
@@ -469,7 +475,15 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         }
 
         if ($qty === null) {
-            $qty = $data['qty'] - $this->decreaseQty;
+            $qty = $data['qty'];
+        }
+
+        if ($this->inventoryBufferQty) {
+            if ($this->inventoryBufferAction) {
+                $qty += $this->inventoryBufferQty;
+            } else {
+                $qty -= $this->inventoryBufferQty;
+            }
         }
 
         $sourceItemData = [

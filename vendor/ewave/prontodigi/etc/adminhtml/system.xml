@@ -28,9 +28,17 @@
                     <label>Get difference for the last X minutes</label>
                     <validate>required-entry validate-digits validate-greater-than-zero</validate>
                 </field>
-                <field id="decrease_quantity_for_all_sources" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Decrease quantity for all sources</label>
+                <field id="buffer_action" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Buffer's Action</label>
+                    <options>
+                        <option label="Decrease">0</option>
+                        <option label="Increase">1</option>
+                    </options>
+                </field>
+                <field id="buffer_quantity_for_all_sources" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Decrease/Increase quantity for all sources</label>
                     <validate>required-entry validate-digits</validate>
+                    <comment>Set 0 to disable buffer functionality</comment>
                 </field>
             </group>
             <group id="api_order" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">

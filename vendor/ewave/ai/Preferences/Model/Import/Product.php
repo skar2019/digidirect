@@ -811,7 +811,6 @@ class Product extends \Magento\CatalogImportExport\Model\Import\Product
                         'attribute_id' => $insertValue['attribute_id'],
                         'value' => $insertValue['value'],
                         'media_type' => $mediaType,
-                        'disabled' => $insertValue['disabled'],
                     ];
                     $valueToProductId[$insertValue['value']][] = $productId;
                     $imageNames[] = $insertValue['value'];

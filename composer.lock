@@ -1318,7 +1318,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_ai.git",
-                "reference": "d79772ee9d08846044dc8bfedd1056d3a9ed86cd"
+                "reference": "dcd54163e29b0cce7dbebcc75db6fb9e8cfbbefb"
             },
             "require": {
                 "vlucas/valitron": "^1.4"
@@ -1333,7 +1333,7 @@
                 }
             },
             "description": "Integration Engine.",
-            "time": "2019-05-28T06:51:05+00:00"
+            "time": "2019-06-17T08:51:31+00:00"
         },
         {
             "name": "ewave/banner",
@@ -2323,7 +2323,7 @@
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "e6a6bd3dc768b2dc60ea2e13e0ffac341f403ea3"
+                "reference": "9feb120b476381990e878a51f1a4d2fba9087733"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2335,7 +2335,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-06-13T09:14:56+00:00"
+            "time": "2019-06-17T13:56:55+00:00"
         },
         {
             "name": "ewave/quickview",
