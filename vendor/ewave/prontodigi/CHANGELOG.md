@@ -16,3 +16,15 @@
     * [#310732](https://ewave.tpondemand.com/entity/310732) -- Product Interface: Integration run overwrites product's description field
 * Improvements:
     * [#289111](https://ewave.tpondemand.com/entity/289111) -- Set description only for new products
+
+1.0.2
+=============
+* New features:
+    * [#312031](https://ewave.tpondemand.com/entity/312031) -- Inventory & Pricing Interface: Set Source.qty buffer configuration
+* Bugfixes:
+    * [#311208](https://ewave.tpondemand.com/entity/311208) -- Order Interface: Orders placed via ZipPay are not synced with Pronto in BE
+
+1.0.3
+=============
+* Bugfixes:
+    * [#313425](https://ewave.tpondemand.com/entity/313425) -- Order Interface: Pickup orders in store are being charged to the wrong customer

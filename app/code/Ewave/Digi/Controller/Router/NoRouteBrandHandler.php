@@ -39,14 +39,16 @@ class NoRouteBrandHandler implements \Magento\Framework\App\Router\NoRouteHandle
          */
         $path = $request->getRequestUri();
 
-        $parts = explode('/', $path);
+        $withoutGet = explode('?', $path);
+
+        $parts = explode('/', $withoutGet[0]);
 
         $possibleBrand = explode('.', array_pop($parts));
 
-        if ($this->isBrand($possibleBrand[0])) {
-            $parts[] = Url::FILTERS_DELIMITER;
-            $parts[] = self::BRAND_FILTER;
-            $parts[] = implode('.', $possibleBrand);
+        $optionId = $this->getBrandOption($possibleBrand[0]);
+
+        if ($optionId) {
+            $request->setParams([self::BRAND_FILTER => $optionId]);
             $request->setPathInfo(implode('/', $parts));
             $this->_isProcessed = true;
             return true;
@@ -57,14 +59,14 @@ class NoRouteBrandHandler implements \Magento\Framework\App\Router\NoRouteHandle
 
     /**
      * @param string $brand
-     * @return bool
+     * @return int|null
      */
-    protected function isBrand(string $brand)
+    protected function getBrandOption(string $brand)
     {
         if (!empty($brand)) {
-            return (bool) $this->aaHelper->getBrandIdByUrlKey($brand);
+            return $this->aaHelper->getBrandOptionIdByUrlKey($brand);
         }
 
-        return false;
+        return null;
     }
 }

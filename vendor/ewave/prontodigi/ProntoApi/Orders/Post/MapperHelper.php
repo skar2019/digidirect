@@ -51,9 +51,9 @@ class MapperHelper
     protected $sourceItemRepository;
 
     /**
-     * @var CustomerInterface|null
+     * @var CustomerInterface[]|array
      */
-    protected $customer;
+    protected $customer = [];
 
     /**
      * @var AbstractEntityRepository
@@ -401,12 +401,13 @@ class MapperHelper
     protected function getCustomerAttributeValue(OrderInterface $order, $attributeCode)
     {
         $result = '';
-        if (!$order->getCustomerIsGuest() && !$this->customer) {
-            $this->customer = $this->customerRepository->getById($order->getCustomerId());
+        if (!$order->getCustomerIsGuest() && !isset($this->customer[$order->getEntityId()])) {
+            $this->customer[$order->getEntityId()] = $this->customerRepository->getById($order->getCustomerId());
         }
 
-        if ($this->customer) {
-            $attribute = $this->customer->getCustomAttribute($attributeCode);
+        if (isset($this->customer[$order->getEntityId()])) {
+            $customer = $this->customer[$order->getEntityId()];
+            $attribute = $customer->getCustomAttribute($attributeCode);
             $result = $attribute ? $attribute->getValue() : '';
         }
 

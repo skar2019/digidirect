@@ -108,6 +108,23 @@
         .sorter-trigger {
             .ewave-lib-offcanvas-trigger-overlay-only();
         }
+        
+        .sorter.-mobile {
+            display: flex;
+            justify-content: center;
+        }
+    
+        .sorter.-mobile > * {
+            flex-basis: 50%;
+        }
+    
+        .sorter.-mobile .sorter-trigger {
+            text-align: right;
+        }
+    
+        .sorter.-mobile .sorter-action {
+            text-align: left;
+        }
     }
 
     .sorter-container {
@@ -190,7 +207,8 @@
 
         .desktop-row {
             .ewave-lib-box-align(space-between);
-            margin-right: 120px;
+            
+            margin-right: 100px;
             padding: 0 0 18px 30px;
         }
 
@@ -206,7 +224,7 @@
         .modes {
             .lib-css(right, @catalog-toolbar__padding__l);
             position: absolute;
-            bottom: 22px;
+            bottom: 15px;
         }
     }
     

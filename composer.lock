@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f5de396641f7c3aa56ebcb97c23b5d33",
+    "content-hash": "56bc5ceaed9914b9b82762e65dbaf557",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -2256,11 +2256,11 @@
         },
         {
             "name": "ewave/productoverlay",
-            "version": "dev-release/2.2.1",
+            "version": "dev-release/2.2.2",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productoverlay.git",
-                "reference": "ced9f1c302150169e793b0bbec80385184005529"
+                "reference": "d375d723695f8b69e6c4630637a20a8085fbd3f6"
             },
             "suggest": {
                 "ewave/utilities": "Ewave ProductOverlay may use ewave/utilities methods"
@@ -2275,7 +2275,7 @@
                 }
             },
             "description": "Product Overlays",
-            "time": "2019-04-19T07:08:42+00:00"
+            "time": "2019-06-18T06:00:44+00:00"
         },
         {
             "name": "ewave/productpriority",
@@ -2319,11 +2319,11 @@
         },
         {
             "name": "ewave/prontodigi",
-            "version": "dev-develop",
+            "version": "dev-release/1.0.3",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "9feb120b476381990e878a51f1a4d2fba9087733"
+                "reference": "14080861d6c01152bb5616162c8ab381e3a92e75"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2335,7 +2335,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-06-17T13:56:55+00:00"
+            "time": "2019-06-26T12:14:41+00:00"
         },
         {
             "name": "ewave/quickview",

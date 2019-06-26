@@ -42,6 +42,32 @@ class AbstractAttribute extends \Magento\Framework\App\Helper\AbstractHelper
             ->where('eav.attribute_code = :brand AND aa.url_key = :url_key')
             ->limit(1);
 
+        $row_id = $this->connection->fetchOne(
+            $select,
+            [
+                'brand' => self::BRAND_ATTRIBUTE_CODE,
+                'url_key' => $brandUrlKey
+            ]
+        );
+
+        return (int) $row_id;
+    }
+
+    /**
+     * Hotfix duplicate because getBrandIdByUrlKey is using in other places with row_id
+     *
+     * @param string $brandUrlKey
+     * @return int
+     */
+    public function getBrandOptionIdByUrlKey(string $brandUrlKey)
+    {
+        $select = $this->connection->select()
+            ->from(['aa' => 'ewave_aa_options'], 'option_id')
+            ->joinLeft(['eao' => 'eav_attribute_option'], 'aa.option_id = eao.option_id', [])
+            ->joinLeft(['eav' => 'eav_attribute'], 'eao.attribute_id = eav.attribute_id', [])
+            ->where('eav.attribute_code = :brand AND aa.url_key = :url_key')
+            ->limit(1);
+
         $option_id = $this->connection->fetchOne(
             $select,
             [

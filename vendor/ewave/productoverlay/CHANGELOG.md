@@ -143,3 +143,7 @@
 * Bugfixes:
     * [#297285](https://ewave.tpondemand.com/entity/297285) -- [M2.3.1][Product Overlays] Overlays are not shown on PLP
 
+2.2.2
+===============
+* Bugfixes:
+    * [#310896](https://ewave.tpondemand.com/entity/310896) -- [Overlays][Project: digiDirect] "From Date" saved value goes foward up to 24h on save

@@ -482,6 +482,7 @@ class Conditions extends Generic implements TabInterface
 
             if (isset($data[Overlays::FROM_DATE])) {
                 $dateFrom = explode(" ", $data[Overlays::FROM_DATE]);
+                $data[Overlays::FROM_DATE] = $dateFrom[0];
                 if (isset($dateFrom[1]) && $dateFrom[1] != '00:00:00') {
                     $data['from_time'] = $this->_overlayHelper->formatTime($dateFrom[1]);
                 }
@@ -489,7 +490,7 @@ class Conditions extends Generic implements TabInterface
 
             if (isset($data[Overlays::TO_DATE])) {
                 $dateTo = explode(" ", $data[Overlays::TO_DATE]);
-
+                $data[Overlays::TO_DATE] = $dateTo[0];
                 if (isset($dateTo[1]) && $dateTo[1] != '00:00:00') {
                     $data['to_time'] = $this->_overlayHelper->formatTime($dateTo[1]);
                 }
