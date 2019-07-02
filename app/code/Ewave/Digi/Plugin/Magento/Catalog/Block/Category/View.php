@@ -39,12 +39,14 @@ class View
     public function afterSetLayout($subject, $result)
     {
         if ($this->seoBrandDescription->isSeoBrandDescriptionUse()) {
+
             /**
              * @var $seoBrandEntity \Ewave\Digi\Model\SeoBrandDescription
              */
             $seoBrandEntity = $this->seoBrandDescription->getSeoBrandEntity();
+            $this->seoBrandDescription->setDefaultMetaInformation();
             if ($seoBrandEntity && $seoBrandEntity->getId()) {
-                $seoBrandEntity->setMetaInformation($seoBrandEntity);
+                $seoBrandEntity->setMetaInformationByEntity($seoBrandEntity);
             }
         }
         return [$result];

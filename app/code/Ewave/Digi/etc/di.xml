@@ -27,4 +27,10 @@
             </argument>
         </arguments>
     </type>
+    <type name="Ewave\LayeredNavigation\Helper\Meta">
+        <plugin name="layarednavigation.meta.after.pulugin"
+                type="Ewave\Digi\Plugin\Ewave\LayeredNavigation\Helper\Meta"
+                sortOrder="1"
+                disabled="false" />
+    </type>
 </config>

@@ -23,6 +23,7 @@ class SeoBrandDescription
 {
     const ASSET_CANONICAL = 'canonical';
     const EXCLUDED_ID_CATEGORIES = [1, 2];
+    const ROBOTS_META_DATA = 'INDEX,FOLLOW';
 
     /**
      * @var bool
@@ -164,16 +165,27 @@ class SeoBrandDescription
     }
 
     /**
-     * @param SeoBrandDescription $seoBrandEntity
+     * @param string $robotsMetaData
      */
-    public function setMetaInformation($seoBrandEntity)
+    public function setDefaultMetaInformation($robotsMetaData = self::ROBOTS_META_DATA)
     {
         $currentUrl = $this->getCurrentUrl();
-        if ($this->pageConfig && $currentUrl) {
+        $currentOption = $this->getCurrentOption();
+        if ($currentUrl && $currentOption) {
+            $this->pageConfig->setRobots($robotsMetaData);
+            $this->setCanonical($currentUrl);
+        }
+    }
+
+    /**
+     * @param SeoBrandDescription $seoBrandEntity
+     */
+    public function setMetaInformationByEntity($seoBrandEntity)
+    {
+        if ($this->pageConfig) {
             $this->pageConfig->setMetaTitle($seoBrandEntity->getMetaTitle());
             $this->pageConfig->setDescription($seoBrandEntity->getMetaDescription());
             $this->pageConfig->setKeywords($seoBrandEntity->getMetaKeywords());
-            $this->setCanonical($currentUrl);
         }
     }
 
@@ -182,12 +194,10 @@ class SeoBrandDescription
      */
     private function getCurrentUrl()
     {
-        $currentUrl = null;
         $currentUrl = $this->url->getCurrentUrl();
         if (empty($currentUrl) || strpos($currentUrl, '/filters/') !== false) {
             $currentUrl = null;
         }
-
         return $currentUrl;
     }
 

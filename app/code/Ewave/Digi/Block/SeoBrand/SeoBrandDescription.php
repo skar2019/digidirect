@@ -54,9 +54,10 @@ class SeoBrandDescription extends Template
     {
         $result = null;
         $seoBrandEntity = $this->seoBrandDescription->getSeoBrandEntity();
+        $this->seoBrandDescription->setDefaultMetaInformation();
 
         if ($seoBrandEntity && $seoBrandEntity->getId()) {
-            $this->seoBrandDescription->setMetaInformation($seoBrandEntity);
+            $this->seoBrandDescription->setMetaInformationByEntity($seoBrandEntity);
         }
     }
 
