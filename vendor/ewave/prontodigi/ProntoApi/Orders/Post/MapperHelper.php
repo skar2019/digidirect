@@ -151,7 +151,7 @@ class MapperHelper
         $value = !empty($value) ? $value : $order->getBaseGrandTotal();
         return round($value, 2);
     }
-    
+
     /**
      * @param OrderInterface $order
      * @return string
@@ -371,7 +371,7 @@ class MapperHelper
     }
 
     /**
-     * @param OrderInterface $item
+     * @param OrderInterface $order
      * @return array
      */
     protected function getShippingLine(OrderInterface $order)

@@ -226,11 +226,13 @@ class ResponseHandler extends ProductResponseHandlerAbstract
 
     /**
      * @param array $products
+     * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     protected function saveProductAttributes($products)
     {
-        return $this->productResource->updateProductAttributes($products, $this->attributesToUpdate);
+        $this->productResource->updateProductAttributes($products, $this->attributesToUpdate);
+        return $this;
     }
 
     /**

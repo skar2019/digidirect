@@ -75,8 +75,7 @@ class Inventory extends AbstractHelper
         $sourcesBySourceCodes = [];
         $allSources = $this->getSources();
         foreach ($sourceItems as $sourceItem) {
-            $sourcesBySourceCodes[$sourceItem[SourceItemInterface::SOURCE_CODE]] =
-                $allSources[$sourceItem[SourceItemInterface::SOURCE_CODE]];
+            $sourcesBySourceCodes[$sourceItem['source_code']] = $allSources[$sourceItem['source_code']];
         }
 
         return $sourcesBySourceCodes;

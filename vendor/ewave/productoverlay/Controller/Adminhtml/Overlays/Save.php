@@ -1,5 +1,7 @@
 <?php
 
+// @codingStandardsIgnoreFile
+
 namespace Ewave\ProductOverlay\Controller\Adminhtml\Overlays;
 
 use Ewave\ProductOverlay\Helper\Data;
@@ -17,6 +19,7 @@ class Save extends \Ewave\ProductOverlay\Controller\Adminhtml\Overlays
      * Overlay Save Action
      *
      * @return void
+     * @SuppressWarnings(Generic.Metrics.CyclomaticComplexity.MaxExceeded)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -77,7 +80,10 @@ class Save extends \Ewave\ProductOverlay\Controller\Adminhtml\Overlays
 
                     if (!$useIsNewDates && !$useCreationDate) {
                         throw new \Magento\Framework\Exception\LocalizedException(
-                            __('Please check general settings and try again, see Stores - Configuration - Ewave - Product Overlays - Is New')
+                            __(
+                                'Please check general settings and try again,
+                                see Stores - Configuration - Ewave - Product Overlays - Is New'
+                            )
                         );
                     }
                 }
@@ -111,8 +117,24 @@ class Save extends \Ewave\ProductOverlay\Controller\Adminhtml\Overlays
                     $data['to_date'] = $data['to_date'] . ' ' . $data['to_time'];
                 }
 
+                if (!empty($data['to_date'])) {
+                    $data['to_date'] = $this->timezone->convertToTz(
+                        $data['to_date'],
+                        $this->timezone->getTimezone()->getDefaultTimezone(),
+                        $this->timezone->getTimezone()->getConfigTimezone()
+                    );
+                }
+
                 if (!empty($data['from_time'])) {
                     $data['from_date'] = $data['from_date'] . ' ' . $data['from_time'];
+                }
+
+                if (!empty($data['from_date'])) {
+                    $data['from_date'] = $this->timezone->convertToTz(
+                        $data['from_date'],
+                        $this->timezone->getTimezone()->getDefaultTimezone(),
+                        $this->timezone->getTimezone()->getConfigTimezone()
+                    );
                 }
 
                 if (isset($data[Overlays::TO_PRICE]) && !strlen($data[Overlays::TO_PRICE])) {

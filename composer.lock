@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "56bc5ceaed9914b9b82762e65dbaf557",
+    "content-hash": "7fbdb15ed7413b7397366ed7a8c1503d",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1565,11 +1565,11 @@
         },
         {
             "name": "ewave/customsitemaplinks",
-            "version": "dev-master",
+            "version": "dev-release/1.0.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_customsitemaplinks.git",
-                "reference": "3b570ce747b7b07bee2646a41f5006f66d37db86"
+                "reference": "6a2a464ad669db108f5d562d6ab35c7d88416dec"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1581,7 +1581,7 @@
                 }
             },
             "description": "Ewave Custom Sitemap Links",
-            "time": "2019-06-10T12:31:07+00:00"
+            "time": "2019-06-10T12:30:40+00:00"
         },
         {
             "name": "ewave/defaulttheme",
@@ -1903,11 +1903,11 @@
         },
         {
             "name": "ewave/legobasetheme",
-            "version": "dev-release/1.21.3",
+            "version": "dev-release/1.23.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/lego-base-theme.git",
-                "reference": "b0443f5a83c6a4cd3f822c93cd51f001594714f3"
+                "reference": "0105e5652d36781fe2c93297dff9cf2081ea0c9d"
             },
             "type": "magento2-theme",
             "autoload": {
@@ -1919,7 +1919,7 @@
                 "Commercial"
             ],
             "description": "Lego Base theme",
-            "time": "2019-05-29T06:03:21+00:00"
+            "time": "2019-07-05T10:50:37+00:00"
         },
         {
             "name": "ewave/localization",
@@ -2256,11 +2256,11 @@
         },
         {
             "name": "ewave/productoverlay",
-            "version": "dev-release/2.2.2",
+            "version": "dev-release/2.3.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productoverlay.git",
-                "reference": "d375d723695f8b69e6c4630637a20a8085fbd3f6"
+                "reference": "0267b851fa560ee8d748616044b18b9a4fddb549"
             },
             "suggest": {
                 "ewave/utilities": "Ewave ProductOverlay may use ewave/utilities methods"
@@ -2275,7 +2275,7 @@
                 }
             },
             "description": "Product Overlays",
-            "time": "2019-06-18T06:00:44+00:00"
+            "time": "2019-07-02T10:41:28+00:00"
         },
         {
             "name": "ewave/productpriority",
@@ -2319,11 +2319,11 @@
         },
         {
             "name": "ewave/prontodigi",
-            "version": "dev-release/1.0.3",
+            "version": "dev-release/1.0.5",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "14080861d6c01152bb5616162c8ab381e3a92e75"
+                "reference": "b62a103f382848dcb74a982215f00b4fb2545009"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2335,7 +2335,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-06-26T12:14:41+00:00"
+            "time": "2019-07-08T10:35:19+00:00"
         },
         {
             "name": "ewave/quickview",

@@ -68,7 +68,7 @@ class RequestBuilder extends BaseRequestBuilder implements RequestBuilderInterfa
     {
         return $this->requestParams;
     }
-    
+
     /**
      * @return $this
      * @throws \Exception
@@ -99,7 +99,7 @@ class RequestBuilder extends BaseRequestBuilder implements RequestBuilderInterfa
 
         return $this;
     }
-    
+
     /**
      * @return string
      */
@@ -107,36 +107,12 @@ class RequestBuilder extends BaseRequestBuilder implements RequestBuilderInterfa
     {
         $data = parent::getRequestContent();
         $paymentDetails = $data[Order::SALES_ORDER][Order::HEADER][Order::PAYMENT_DETAILS];
-        if ($paymentDetails[PaymentDetail::PAYMENT_DETAIL][PaymentDetail::PAYMENT_TYPE] == MapperHelper::BANK_TRANSFER_PAYMENT_TYPE) {
+        $paymentType = $paymentDetails[PaymentDetail::PAYMENT_DETAIL][PaymentDetail::PAYMENT_TYPE];
+        if ($paymentType == MapperHelper::BANK_TRANSFER_PAYMENT_TYPE) {
             unset($data[Order::SALES_ORDER][Order::HEADER][Order::PAYMENT_DETAILS][PaymentDetail::PAYMENT_DETAIL]);
         }
 
-        $xml = new \SimpleXMLElement('<' . Order::ROOT_CONTAINER . '/>');
-        $xml = $this->arrayToXml($data, $xml);
-        $dom = dom_import_simplexml($xml)->ownerDocument;
-        $dom->formatOutput = true;
-        return $dom->saveXML();
-    }
-
-    /**
-     * @param array $array
-     * @param \SimpleXMLElement $xml
-     * @param null|string $elementTag
-     * @return \SimpleXMLElement
-     */
-    protected function arrayToXml(array $array, \SimpleXMLElement $xml, $elementTag = null)
-    {
-        foreach ($array as $tag => $element) {
-             if (is_array($element)) {
-                if (is_int(current(array_keys($element)))) {
-                    $this->arrayToXml($element, $xml, $tag);
-                } else {
-                    $this->arrayToXml($element, $xml->addChild($elementTag ?? $tag));
-                }
-            } else {
-                $xml->addChild($tag, $element);
-            }
-        }
+        $xml = \Ewave\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, Order::ROOT_CONTAINER);
         return $xml;
     }
 }

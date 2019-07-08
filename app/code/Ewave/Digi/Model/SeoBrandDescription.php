@@ -183,9 +183,18 @@ class SeoBrandDescription
     public function setMetaInformationByEntity($seoBrandEntity)
     {
         if ($this->pageConfig) {
-            $this->pageConfig->setMetaTitle($seoBrandEntity->getMetaTitle());
-            $this->pageConfig->setDescription($seoBrandEntity->getMetaDescription());
-            $this->pageConfig->setKeywords($seoBrandEntity->getMetaKeywords());
+            if ($seoBrandEntity->getMetaTitle()) {
+                $this->pageConfig->setMetaTitle($seoBrandEntity->getMetaTitle());
+                $this->pageConfig->getTitle()->set($seoBrandEntity->getMetaTitle());
+            }
+
+            if ($seoBrandEntity->getMetaDescription()) {
+                $this->pageConfig->setDescription($seoBrandEntity->getMetaDescription());
+            }
+
+            if ($seoBrandEntity->getMetaKeywords()) {
+                $this->pageConfig->setKeywords($seoBrandEntity->getMetaKeywords());
+            }
         }
     }
 

@@ -31,7 +31,7 @@ $block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
         <li class="category-item <?php echo $block->escapeHtml($item->frontend_class); ?><?php echo $block->getItemClass
         () ? ' ' . $block->escapeHtml($block->getItemClass()) : '';?><?php echo $item->is_active ? ' -active': '' ?><?php echo $have_parent ? ' -parent' : '' ?> -level<?php echo $block->escapeHtml((int)$i) ?>">
             <?php if ($item->url && ($item->is_link == '1' || $item->is_link === true)): ?>
-                <a <?php if($style) : ?>style="<?php echo $block->escapeHtml($style) ?>" <?php endif; ?> class="<?php echo $block->getItemLabelClass() ? ' ' . $block->escapeHtml($block->getItemLabelClass()) : '';?>" title="<?php echo $block->escapeHtml($item->title) ?>" href="<?php echo $block->escapeUrl($item->url) ?>" id="mi-<?php echo (int)$i ?>-<?php echo $block->escapeHtml((int)$j) ?>">
+                <a <?php if($style) : ?>style="<?php echo $block->escapeHtml($style) ?>" <?php endif; ?> class="prevented<?php echo $block->getItemLabelClass() ? ' ' . $block->escapeHtml($block->getItemLabelClass()) : '';?>" title="<?php echo $block->escapeHtml($item->title) ?>" href="<?php echo $block->escapeUrl($item->url) ?>" id="mi-<?php echo (int)$i ?>-<?php echo $block->escapeHtml((int)$j) ?>">
                     <?php echo $block->escapeHtml($item->title) ?>
                 </a>
             <?php else: ?>

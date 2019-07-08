@@ -190,6 +190,14 @@
             .lib-css(text-align, @menu-item-link-level1__text-align__m);
         }
 
+        .prevented {
+            pointer-events: none;
+        }
+
+        &.-expanded .prevented {
+            pointer-events: auto;
+        }
+
         > .item > .link[style*='background-image'] {
             background-image: none !important; // Override inline styles from BO
         }

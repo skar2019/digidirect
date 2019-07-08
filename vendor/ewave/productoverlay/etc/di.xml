@@ -129,6 +129,7 @@
                         <item name="read" xsi:type="string">Ewave\ProductOverlay\Model\ResourceModel\Rule\CatalogRule\ReadHandler</item>
                         <item name="create" xsi:type="string">Ewave\ProductOverlay\Model\ResourceModel\Rule\CatalogRule\SaveHandler</item>
                         <item name="update" xsi:type="string">Ewave\ProductOverlay\Model\ResourceModel\Rule\CatalogRule\SaveHandler</item>
+                        <item name="delete" xsi:type="string">Ewave\ProductOverlay\Model\ResourceModel\Rule\CatalogRule\DeleteHandler</item>
                     </item>
                 </item>
             </argument>

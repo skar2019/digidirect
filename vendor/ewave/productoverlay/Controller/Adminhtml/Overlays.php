@@ -2,8 +2,10 @@
 
 namespace Ewave\ProductOverlay\Controller\Adminhtml;
 
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Stdlib\DateTime\Filter\Date;
 use Magento\Ui\Component\MassAction\Filter;
+use Ewave\ProductOverlay\Helper\Timezone;
 
 /**
  * Abstract Class Overlays
@@ -106,6 +108,11 @@ abstract class Overlays extends \Magento\Backend\App\Action
     protected $serializer;
 
     /**
+     * @var Timezone
+     */
+    protected $timezone;
+
+    /**
      * Overlays constructor.
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
@@ -125,6 +132,7 @@ abstract class Overlays extends \Magento\Backend\App\Action
      * @param \Magento\Framework\App\Cache\TypeListInterface $typeList
      * @param \Magento\Framework\Serialize\Serializer\Json $serializer
      * @param array $data
+     * @param Timezone $timezone
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -145,7 +153,8 @@ abstract class Overlays extends \Magento\Backend\App\Action
         Filter $filter,
         \Magento\Framework\App\Cache\TypeListInterface $typeList,
         \Magento\Framework\Serialize\Serializer\Json $serializer,
-        array $data = []
+        array $data = [],
+        Timezone $timezone = null
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_collectionFactory = $collectionFactory;
@@ -165,6 +174,7 @@ abstract class Overlays extends \Magento\Backend\App\Action
         $this->typeList = $typeList;
         $this->serializer = $serializer;
         $this->data = $data;
+        $this->timezone = $timezone ?: ObjectManager::getInstance()->get(Timezone::class);
     }
 
     /**

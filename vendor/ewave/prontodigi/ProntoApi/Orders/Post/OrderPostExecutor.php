@@ -79,7 +79,8 @@ class OrderPostExecutor
         $prontoOrderNumber = $order->getData(OrderConst::ATTRIBUTE_PRONTO_ORDER_NUMBER);
         if (!empty($prontoOrderNumber)) {
             throw new LocalizedException(
-                __('Order with increment ID %1 has already sent to Pronto. Pronto order number: %2',
+                __(
+                    'Order with increment ID %1 has already sent to Pronto. Pronto order number: %2',
                     $order->getIncrementId(),
                     $prontoOrderNumber
                 ),

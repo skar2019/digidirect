@@ -5,6 +5,8 @@ namespace Ewave\ProductOverlay\Helper;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Ewave\ProductOverlay\Model\ResourceModel\Overlays\CollectionFactory;
 use Ewave\ProductOverlay\Model\Overlay\Attribute\Source\Status;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Customer\Model\Context as CustomerContext;
 use Ewave\ProductOverlay\Model\Overlays;
@@ -148,6 +150,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_httpContext;
 
     /**
+     * @var \Magento\Catalog\Api\ProductRepositoryInterface
+     */
+    protected $_productRepository;
+
+    /**
      * Data constructor.
      *
      * @param CollectionFactory $collectionFactory
@@ -161,6 +168,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Ewave\ProductOverlay\Model\File\UploaderFactory $fileUploaderFactory
      * @param \Magento\Framework\App\CacheInterface $cacheManager
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -175,7 +183,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Ewave\ProductOverlay\Model\File\UploaderFactory $fileUploaderFactory,
         \Magento\Framework\App\CacheInterface $cacheManager,
-        \Magento\Framework\App\Http\Context $httpContext
+        \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository = null
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
@@ -189,6 +198,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_fileUploaderFactory = $fileUploaderFactory;
         $this->_cacheManager = $cacheManager;
         $this->_httpContext = $httpContext;
+        $this->_productRepository = $productRepository ?: ObjectManager::getInstance()->get(
+            \Magento\Catalog\Api\ProductRepositoryInterface::class
+        );
     }
 
     /**
@@ -260,13 +272,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Product|int $product
      * @param string $mode
      * @return string
      */
-    public function renderProductOverlay(\Magento\Catalog\Model\Product $product = null, $mode = self::MODE_CATEGORY)
+    public function renderProductOverlay($product = null, $mode = self::MODE_CATEGORY)
     {
-        $productId = $product !== null ? $product->getId() : '';
+        $productId = $product;
+        if ($productId instanceof \Magento\Catalog\Model\Product) {
+            $productId = $product->getId();
+        }
+
+        $productId = $productId !== null ? $productId : '';
         $cacheKey = implode('_', [
             self::OVERLAY_CACHE_KEY,
             $this->_httpContext->getValue(CustomerContext::CONTEXT_GROUP),
@@ -291,18 +308,26 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Catalog\Model\Product|int $product
      * @param string $mode
      * @return string
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _renderProductOverlay(
-        \Magento\Catalog\Model\Product $product = null,
+        $product = null,
         $mode = self::MODE_CATEGORY
     ) {
         $html = '';
-        if (null === $product) {
+        if (empty($product)) {
             return $html;
+        }
+
+        if (!$product instanceof \Magento\Catalog\Model\Product) {
+            try {
+                $product = $this->_productRepository->getById($product);
+            } catch (LocalizedException $e) {
+                return $html;
+            }
         }
 
         $applied = false;
@@ -441,6 +466,31 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getApplicableSimples(\Magento\Catalog\Model\Product $product)
     {
         $applicableSimple = [];
+        $applicableSimpleArray = $this->getApplicableSimplesArray($product);
+
+        foreach ($applicableSimpleArray as $childId => $overlays) {
+            foreach ($overlays as $overlay) {
+                $applicableSimple[$childId][] = [
+                    'overlay_id' => $overlay->getId(),
+                    'use_for_parent' => $overlay->getUseForParent(),
+                    'stock_label' => $overlay->getStockLabel()
+                ];
+            }
+        }
+        if (!empty($applicableSimple)) {
+            return json_encode($applicableSimple);
+        }
+        return '';
+    }
+
+    /**
+     * @param \Magento\Catalog\Model\Product $product
+     * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function getApplicableSimplesArray(\Magento\Catalog\Model\Product $product)
+    {
+        $applicableSimple = [];
         $mode = 'product';
         /** @var \Ewave\ProductOverlay\Model\Overlays $overlay */
         foreach ($this->getOverlayCollection() as $overlay) {
@@ -454,20 +504,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     }
 
                     if ($overlay->isApplicable()) {
-                        $data = [
-                            'overlay_id' => $overlay->getId(),
-                            'use_for_parent' => $overlay->getUseForParent(),
-                            'stock_label' => $overlay->getStockLabel()
-                        ];
-                        $applicableSimple[$child->getId()][] = $data;
+                        $applicableSimple[$child->getId()][] = $overlay;
                     }
                 }
             }
         }
-        if (!empty($applicableSimple)) {
-            return json_encode($applicableSimple);
-        }
-        return '';
+        return $applicableSimple;
     }
 
     /**

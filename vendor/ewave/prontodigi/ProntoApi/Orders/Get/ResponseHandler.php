@@ -72,6 +72,5 @@ class ResponseHandler extends BaseResponseHandler implements ResponseHandlerInte
                 __('Cannot update Order Manifest Number, %1 is empty', self::MANIFEST_NUMBER_PARAM)
             );
         }
-
     }
 }

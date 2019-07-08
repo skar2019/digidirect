@@ -141,6 +141,7 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
     /**
      * @param \Magento\Framework\DB\Select $select
      * @param string $attrCode
+     * @return $this
      */
     protected function addOptionToSelect(\Magento\Framework\DB\Select $select, $attrCode)
     {
@@ -163,6 +164,7 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
             ]),
             [$attrCode => $attrCode . 'option_value.value']
         );
+        return $this;
     }
 
     /**
@@ -217,6 +219,7 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
     /**
      * @param array $products
      * @param array $attributes
+     * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function updateProductAttributes($products, $attributes = [])
@@ -257,6 +260,7 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
                 );
             }
         }
+        return $this;
     }
 
     /**

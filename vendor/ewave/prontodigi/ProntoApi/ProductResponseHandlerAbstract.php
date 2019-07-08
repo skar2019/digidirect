@@ -261,7 +261,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
     }
 
     /**
-     * @return SourceItemsImport|void
+     * @return $this
      * @throws LocalizedException
      */
     protected function saveSourceItems()
@@ -272,7 +272,8 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
                 $importData[] = $sourceItem;
             }
         }
-        return $this->sourceItemsImport->updateData($importData);
+        $this->sourceItemsImport->updateData($importData);
+        return $this;
     }
 
     /**
@@ -307,6 +308,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
     /**
      * @param string $message
      * @param mixed $productData
+     * @return void
      */
     protected function logInvalidProductInfo($message, $productData)
     {
@@ -380,8 +382,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
                     $data,
                     \Ewave\AI\Model\Logger\Logger::LOG_PLACE_FILE
                 );
-                $this->excludeQtyFromUpdate[$sku][$item[SourceItemInterface::SOURCE_CODE]] =
-                    $item[SourceItemInterface::SOURCE_CODE];
+                $this->excludeQtyFromUpdate[$sku][$item['source_code']] = $item['source_code'];
             }
         }
 
@@ -402,9 +403,8 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         }
 
         //case 6
-        if (
-            !empty($this->getExistSourceItems()[$sku]) &&
-            $notMappedSourceCodes = array_diff(
+        if (!empty($this->getExistSourceItems()[$sku])
+            && $notMappedSourceCodes = array_diff(
                 array_keys($this->getExistSourceItems()[$sku]),
                 array_keys($validSources)
             )
@@ -428,9 +428,8 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
         foreach ($productDataSources as $dataSource) {
             $this->sourceItemsToUpdate[$sku][] = $this->prepareSourceItemDataForDb($sku, $dataSource, $stockStatus);
         }
-        $data['sources'] = isset($this->sourceItemsToUpdate[$sku]) ?
-            $this->sourceItemsToUpdate[$sku] :
-            $productDataSources;
+        $sources = isset($this->sourceItemsToUpdate[$sku]) ? $this->sourceItemsToUpdate[$sku] : $productDataSources;
+        $data['sources'] = $sources;
         return $data;
     }
 

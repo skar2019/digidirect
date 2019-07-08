@@ -147,3 +147,16 @@
 ===============
 * Bugfixes:
     * [#310896](https://ewave.tpondemand.com/entity/310896) -- [Overlays][Project: digiDirect] "From Date" saved value goes foward up to 24h on save
+
+2.3.0
+===============
+* Bugfixes:
+    * [#289205](https://ewave.tpondemand.com/entity/289205) -- [RELATED PRICE RULE] As an admin, I want related Overlay to be disabled on CPR delete
+
+2.3.1
+===============
+* Bugfixes:
+    * [#313981](https://ewave.tpondemand.com/entity/313981) -- [Project: DigiDirect] GMT timezone is used in Date Range settings on Conditions tab
+    * [#314371](https://ewave.tpondemand.com/entity/314371) -- [Project: DigiDirect] Time not display, after saved, in the tab "Conditions" if enter value 00:00
+    * [#314386](https://ewave.tpondemand.com/entity/314386) -- [Project: Digidirect] Error when enter not valid value time in the line "From Time" and "To time"
+    * [#314784](https://ewave.tpondemand.com/entity/314784) -- [Project: DigiDirect] Date change after save

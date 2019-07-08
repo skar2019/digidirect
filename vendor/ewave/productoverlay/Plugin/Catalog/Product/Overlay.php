@@ -50,11 +50,15 @@ class Overlay
         \Magento\Catalog\Block\Product\Image $subject,
         $result
     ) {
-        $product = $subject->getProduct();
-        if ($product && $this->_request->getFullActionName() == 'catalog_category_view'
+        $productId = $subject->getProductId();
+        if (!$productId && ($product = $subject->getProduct())) {
+            $productId = $subject->getProduct()->getId();
+        }
+
+        if ($productId && $this->_request->getFullActionName() == 'catalog_category_view'
             || $this->needToProcessOverlay($subject)
         ) {
-            $result .= $this->_helper->renderProductOverlay($product, 'category');
+            $result .= $this->_helper->renderProductOverlay($productId, 'category');
         }
         return $result;
     }

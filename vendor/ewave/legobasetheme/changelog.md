@@ -1,3 +1,5 @@
+#Starting from 1.22.0v we dropped Magento2.2.* compatibility !!! 
+
 1.0.0
 =============
 1. [Slick slider](https://github.com/kenwheeler/slick) - 1.6.0
@@ -387,3 +389,32 @@ Bugfix:
 Bugfix:
 
 [#307565](https://ewave.tpondemand.com/entity/307565) - [Project: DigiDirect] Qty field is displayed empty on the PDP after trying to edit product
+
+1.21.4
+=============
+Bugfix:
+
+[#308052](https://ewave.tpondemand.com/entity/308052) - [Project: Converse][PDP] Сolour and size values are not preselected after click 'Edit' on Cart page
+
+1.22.0
+=============
+
+Magento 2.2 compatibility dropped!
+
+Bugfix:
+
+[#309459](https://ewave.tpondemand.com/entity/309459) - [Project: DigidDirect] Renaming address fields in the "Customer Address" is not applied on Add/Edit address page under My Account
+
+1.22.1
+=============
+
+Bugfix:
+
+[#311139](https://ewave.tpondemand.com/entity/311139) - [Attribute Matrix] Size values are not preselected after click 'Edit' on Cart page
+
+1.23.0
+=============
+
+Feature:
+
+- [#316202](https://ewave.tpondemand.com/entity/316202) - [IMAGE LOAD] As a user, I want PDP images to be loaded faster

@@ -60,13 +60,13 @@ class SourceItems extends \Magento\Inventory\Model\ResourceModel\SourceItem
 
     /**
      * @param SourceItem[] $sourceItems
-     * @return $this|void
+     * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function updateData(array $sourceItems)
     {
         if (empty($sourceItems)) {
-            return ;
+            return $this;
         }
         $existedSkus = $this->getExistedSkus();
         $dataToUpdate = [];

@@ -63,7 +63,10 @@ class OverlayList extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSou
             $collection = $this->_getOverlayCollection();
             $options = [];
             foreach ($collection as $item) {
-                $options[] = ['label' => $item->getName(), 'value' => $item->getOverlayId()];
+                $options[] = [
+                    'label' => $item->getName() . (!$item->getStatus() ? __(' (Disabled)') : ''),
+                    'value' => $item->getOverlayId()
+                ];
             }
             $this->_options = $options;
         }
@@ -76,9 +79,7 @@ class OverlayList extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSou
     protected function _getOverlayCollection()
     {
         $collection = $this->_collectionFactory->create();
-        $collection
-            ->addStatusFilter(Status::STATUS_ENABLED)
-            ->addStoreFilter($this->_storeManager->getStore()->getId());
+        $collection->addStoreFilter($this->_storeManager->getStore()->getId());
         return $collection;
     }
 

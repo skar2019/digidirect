@@ -40,8 +40,10 @@ class ProductGetAbstract extends ProcessMultiple
         if (!$flagData) {
             $start = '0';
         } else {
-            $start = isset($flagData[self::FLAG_PROCESS_DATA_LAST_CODE]) ?
-                $flagData[self::FLAG_PROCESS_DATA_LAST_CODE] + 1 : null;
+            $start = null;
+            if (isset($flagData[self::FLAG_PROCESS_DATA_LAST_CODE])) {
+                $start = $flagData[self::FLAG_PROCESS_DATA_LAST_CODE] + 1;
+            }
         }
 
         $this->_runOptions = [

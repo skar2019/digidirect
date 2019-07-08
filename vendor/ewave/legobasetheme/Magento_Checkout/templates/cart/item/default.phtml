@@ -49,6 +49,9 @@ $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinima
                         </dd>
                     <?php endforeach; ?>
                 </dl>
+                <?php if ($block->getChildBlock('checkout.cart.item.options.additional.action')): ?>
+                    <?php echo /* @noEscape */ $block->getChildBlock('checkout.cart.item.options.additional.action')->setOptions($_options)->setItemId((int)$_item->getId())->toHtml();?>
+                <?php endif; ?>
             <?php endif;?>
             <?php if ($messages = $block->getMessages()): ?>
                 <?php foreach ($messages as $message): ?>

@@ -48,6 +48,7 @@ class UpgradeData implements UpgradeDataInterface
     /**
      * @param ModuleDataSetupInterface $setup
      * @param ModuleContextInterface $context
+     * @return void
      * @throws LocalizedException
      */
     public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
@@ -73,7 +74,7 @@ class UpgradeData implements UpgradeDataInterface
     protected function upgradeTo102(ModuleDataSetupInterface $setup)
     {
         /** @var CustomerSetup $customerSetup */
-        $customerSetup = $this->customerSetupFactory->create(['setup'=> $setup]);
+        $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
         /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
 
@@ -81,14 +82,14 @@ class UpgradeData implements UpgradeDataInterface
             CustomerEntity::ENTITY,
             CustomerAttributes::PRONTO_ACCOUNT_ID,
             [
-                'type'         => 'varchar',
-                'label'        => 'Pronto Account ID',
-                'input'        => 'text',
-                'required'     => false,
-                'visible'      => true,
+                'type' => 'varchar',
+                'label' => 'Pronto Account ID',
+                'input' => 'text',
+                'required' => false,
+                'visible' => true,
                 'user_defined' => false,
-                'position'     => 100,
-                'system'       => 0,
+                'position' => 100,
+                'system' => 0,
                 'used_in_forms', ['adminhtml_customer', 'customer_form_attribute']
             ]
         );
@@ -97,7 +98,7 @@ class UpgradeData implements UpgradeDataInterface
             CustomerEntity::ENTITY,
             CustomerAttributes::PRONTO_ACCOUNT_ID
         );
-        $attribute->setData('used_in_forms',['adminhtml_customer', 'customer_form_attribute']);
+        $attribute->setData('used_in_forms', ['adminhtml_customer', 'customer_form_attribute']);
         $attribute->save();
         $eavSetup->addAttributeToSet(
             CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
@@ -110,14 +111,14 @@ class UpgradeData implements UpgradeDataInterface
             \Magento\Customer\Model\Customer::ENTITY,
             CustomerAttributes::PRONTO_ACCOUNT_NAME,
             [
-                'type'         => 'varchar',
-                'label'        => 'Pronto Account Name',
-                'input'        => 'text',
-                'required'     => false,
-                'visible'      => true,
+                'type' => 'varchar',
+                'label' => 'Pronto Account Name',
+                'input' => 'text',
+                'required' => false,
+                'visible' => true,
                 'user_defined' => false,
-                'position'     => 110,
-                'system'       => 0,
+                'position' => 110,
+                'system' => 0,
                 'used_in_forms', ['adminhtml_customer', 'customer_form_attribute']
             ]
         );
@@ -126,7 +127,7 @@ class UpgradeData implements UpgradeDataInterface
             CustomerEntity::ENTITY,
             CustomerAttributes::PRONTO_ACCOUNT_NAME
         );
-        $attribute->setData('used_in_forms',['adminhtml_customer', 'customer_form_attribute']);
+        $attribute->setData('used_in_forms', ['adminhtml_customer', 'customer_form_attribute']);
         $attribute->save();
         $eavSetup->addAttributeToSet(
             CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER,
@@ -148,13 +149,13 @@ class UpgradeData implements UpgradeDataInterface
             Product::ENTITY,
             ProductConstants::PRODUCT_APN,
             [
-                'group'          => 'Product Details',
-                'type'           => 'varchar',
-                'label'          => 'APN',
-                'input'          => 'text',
-                'required'       => false,
-                'sort_order'     => 100,
-                'global'         => ScopedAttributeInterface::SCOPE_GLOBAL,
+                'group' => 'Product Details',
+                'type' => 'varchar',
+                'label' => 'APN',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 100,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'user_defined' => true,
             ]
         );

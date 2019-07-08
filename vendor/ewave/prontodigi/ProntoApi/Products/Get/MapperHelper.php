@@ -33,9 +33,8 @@ class MapperHelper
     }
 
     /**
-     * @param $offset
-     * @param $barcodes
-     *
+     * @param int $offset
+     * @param array $barcodes
      * @return string
      */
     public function getBarCode($offset, $barcodes)
@@ -67,7 +66,6 @@ class MapperHelper
      * @param string $description1
      * @param string $description2
      * @param string $description3
-     *
      * @return string
      */
     public function getName(string $description1 = '', string $description2 = '', string $description3 = '')
@@ -142,7 +140,7 @@ class MapperHelper
 
     /**
      * @param array $gtins
-     * @param array $value
+     * @param string $value
      * @return array|mixed
      */
     protected function getFirstGtin(array $gtins, $value = 'id')
@@ -156,24 +154,27 @@ class MapperHelper
     }
 
     /**
-     * @param string $category
-     * @return mixed
+     * @param string $category1
+     * @param string $category2
+     * @param string $category3
+     * @param string $category4
+     * @return string
      */
-    public function getCategories($category1, $categor2, $categor3, $categor4)
+    public function getCategories($category1, $category2, $category3, $category4)
     {
-        $cateogry = $this->preapareCategory($category1)
-            . $this->preapareCategory($categor2)
-            . $this->preapareCategory($categor3)
-            . $this->preapareCategory($categor4);
+        $category = $this->prepareCategory($category1)
+            . $this->prepareCategory($category2)
+            . $this->prepareCategory($category3)
+            . $this->prepareCategory($category4);
 
-        return $cateogry;
+        return $category;
     }
 
     /**
      * @param string $category
      * @return string mixed
      */
-    protected function preapareCategory($category)
+    protected function prepareCategory($category)
     {
         if (!empty($category)) {
             return CategoryProcessor::DELIMITER_CATEGORY . str_replace('/', ' & ', $category);

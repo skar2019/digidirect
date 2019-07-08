@@ -28,3 +28,13 @@
 =============
 * Bugfixes:
     * [#313425](https://ewave.tpondemand.com/entity/313425) -- Order Interface: Pickup orders in store are being charged to the wrong customer
+
+1.0.4
+=============
+* New features:
+    * [#312910](https://ewave.tpondemand.com/entity/312910) -- Assign product to the all level categories, not to the last level category.
+
+1.0.5
+=============
+* Bugfixes:
+    * [#315910](https://ewave.tpondemand.com/entity/315910) -- Orders with "&" failing

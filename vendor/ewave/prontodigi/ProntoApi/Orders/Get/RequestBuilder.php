@@ -27,8 +27,8 @@ class RequestBuilder extends BaseRequestBuilder implements RequestBuilderInterfa
     /**
      * RequestBuilder constructor.
      * @param RestApiFactory $restApiFactory
-     * @param $requestMethodUriConfigPath
-     * @param $requestMethod
+     * @param string $requestMethodUriConfigPath
+     * @param string $requestMethod
      * @param ScopeConfigInterface $scopeConfig
      * @param EncryptorInterface $encryptor
      * @param OrderRepositoryInterface $orderRepository

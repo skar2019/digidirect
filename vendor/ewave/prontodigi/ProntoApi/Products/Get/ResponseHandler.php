@@ -347,6 +347,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      */
     protected function getCategories(array $data)
     {
+        $allCategories = [];
         $categoryAttributes = ['category1', 'category2', 'category3', 'category4'];
         $fullCategoryPath = $this->rootCategoryName;
         foreach ($categoryAttributes as $catagoryAttribute) {
@@ -357,15 +358,18 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             }
 
             $fullCategoryPath .= CategoryProcessor::DELIMITER_CATEGORY . $categoryName;
+            $allCategories[] = $fullCategoryPath;
         }
 
-        $lowerFullCategoryPath = strtolower($fullCategoryPath);
+        $fullPathCategories = implode(',', $allCategories);
+        $fullPathCategories = !empty($fullPathCategories) ? $fullPathCategories : $fullCategoryPath;
+        $lowerFullCategoryPath = strtolower($fullPathCategories);
         try {
             if (isset($this->failedCategories[$lowerFullCategoryPath])) {
                 throw new \Exception($this->failedCategories[$lowerFullCategoryPath]);
             }
             $this->categoryProcessor->upsertCategory($fullCategoryPath);
-            $data[Product::COL_CATEGORY] = $fullCategoryPath;
+            $data[Product::COL_CATEGORY] = $fullPathCategories;
         } catch (\Throwable $e) {
             $this->failedCategories[$lowerFullCategoryPath] = (string)$e->getMessage();
             $this->logger->error(

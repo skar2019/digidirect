@@ -1167,18 +1167,20 @@ define([
                 }
 
                 imagesToUpdate = this._setImageIndex(imagesToUpdate);
-                gallery.updateData(imagesToUpdate);
+                if (gallery) {
+                    gallery.updateData(imagesToUpdate);
 
-                if (isInitial) {
-                    $(this.options.mediaGallerySelector).AddFotoramaVideoEvents();
-                } else {
-                    $(this.options.mediaGallerySelector).AddFotoramaVideoEvents({
-                        selectedOption: this.getProduct(),
-                        dataMergeStrategy: this.options.gallerySwitchStrategy
-                    });
+                    if (isInitial) {
+                        $(this.options.mediaGallerySelector).AddFotoramaVideoEvents();
+                    } else {
+                        $(this.options.mediaGallerySelector).AddFotoramaVideoEvents({
+                            selectedOption: this.getProduct(),
+                            dataMergeStrategy: this.options.gallerySwitchStrategy
+                        });
+                    }
+
+                    gallery.first();
                 }
-
-                gallery.first();
 
             } else if (justAnImage && justAnImage.img) {
                 context.find('.product-image-photo').attr('src', justAnImage.img);
@@ -1240,9 +1242,7 @@ define([
                     '[attribute-id="' + attributeId + '"] [option-id="' + optionId + '"]'),
                     parentInput = elem.parent();
 
-                if (triggerClick === null || triggerClick === '') {
-                    triggerClick = 'click';
-                }
+                triggerClick = !!triggerClick ? triggerClick : 'click';
 
                 if (elem.hasClass('selected')) {
                     return;

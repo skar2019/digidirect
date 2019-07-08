@@ -56,13 +56,13 @@ class InstallData implements InstallDataInterface
             Product::ENTITY,
             ProductConstants::PRODUCT_ATTRIBUTE_UOM,
             [
-                'group'          => 'Product Details',
-                'type'           => 'varchar',
-                'label'          => 'Unit of Measure',
-                'input'          => 'text',
-                'required'       => false,
-                'sort_order'     => 100,
-                'global'         => ScopedAttributeInterface::SCOPE_GLOBAL,
+                'group' => 'Product Details',
+                'type' => 'varchar',
+                'label' => 'Unit of Measure',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 100,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'user_defined' => true,
             ]
         );
@@ -71,14 +71,14 @@ class InstallData implements InstallDataInterface
             Product::ENTITY,
             ProductConstants::PRODUCT_ATTRIBUTE_CONVERSION,
             [
-                'group'          => 'Product Details',
-                'type'           => 'int',
-                'label'          => 'Conversion',
-                'input'          => 'text',
+                'group' => 'Product Details',
+                'type' => 'int',
+                'label' => 'Conversion',
+                'input' => 'text',
                 'frontend_class' => 'validate-digits',
-                'required'       => false,
-                'sort_order'     => 110,
-                'global'         => ScopedAttributeInterface::SCOPE_GLOBAL,
+                'required' => false,
+                'sort_order' => 110,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'user_defined' => true,
             ]
         );
@@ -87,13 +87,13 @@ class InstallData implements InstallDataInterface
             Product::ENTITY,
             ProductConstants::PRODUCT_ATTRIBUTE_BARCODE1,
             [
-                'group'          => 'Product Details',
-                'type'           => 'text',
-                'label'          => 'Barcode1',
-                'input'          => 'text',
-                'required'       => false,
-                'sort_order'     => 120,
-                'global'         => ScopedAttributeInterface::SCOPE_GLOBAL,
+                'group' => 'Product Details',
+                'type' => 'text',
+                'label' => 'Barcode1',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 120,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'user_defined' => true,
             ]
         );
@@ -102,13 +102,13 @@ class InstallData implements InstallDataInterface
             Product::ENTITY,
             ProductConstants::PRODUCT_ATTRIBUTE_BARCODE2,
             [
-                'group'          => 'Product Details',
-                'type'           => 'text',
-                'label'          => 'Barcode2',
-                'input'          => 'text',
-                'required'       => false,
-                'sort_order'     => 130,
-                'global'         => ScopedAttributeInterface::SCOPE_GLOBAL,
+                'group' => 'Product Details',
+                'type' => 'text',
+                'label' => 'Barcode2',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 130,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'user_defined' => true,
             ]
         );
@@ -117,13 +117,13 @@ class InstallData implements InstallDataInterface
             Product::ENTITY,
             ProductConstants::PRODUCT_ATTRIBUTE_BARCODE3,
             [
-                'group'          => 'Product Details',
-                'type'           => 'text',
-                'label'          => 'Barcode3',
-                'input'          => 'text',
-                'required'       => false,
-                'sort_order'     => 140,
-                'global'         => ScopedAttributeInterface::SCOPE_GLOBAL,
+                'group' => 'Product Details',
+                'type' => 'text',
+                'label' => 'Barcode3',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 140,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'user_defined' => true,
             ]
         );
@@ -132,13 +132,13 @@ class InstallData implements InstallDataInterface
             Product::ENTITY,
             ProductConstants::PRODUCT_ATTRIBUTE_BARCODE4,
             [
-                'group'          => 'Product Details',
-                'type'           => 'text',
-                'label'          => 'Barcode4',
-                'input'          => 'text',
-                'required'       => false,
-                'sort_order'     => 150,
-                'global'         => ScopedAttributeInterface::SCOPE_GLOBAL,
+                'group' => 'Product Details',
+                'type' => 'text',
+                'label' => 'Barcode4',
+                'input' => 'text',
+                'required' => false,
+                'sort_order' => 150,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'user_defined' => true,
             ]
         );
@@ -227,9 +227,8 @@ class InstallData implements InstallDataInterface
 
     /**
      * @param EavSetup $eavSetup
-     * @param array    $options
-     * @param          $code
-     *
+     * @param array $options
+     * @param string $attributeCode
      * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
      */
