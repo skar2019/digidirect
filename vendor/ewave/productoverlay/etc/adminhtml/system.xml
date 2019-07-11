@@ -91,6 +91,21 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
+            <group id="smart_cache" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Smart Cache Cleaner</label>
+                <field id="enable_cache_cleaner" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Enable Smart Cache Cleaner</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If set up to "Yes" system will flush cash for products with changed Overlays (comparing with the previous check).</comment>
+                </field>
+                <field id="cache_cleaner_cron_expr" translate="label" type="text" sortOrder="20" showInDefault="1"
+                       showInWebsite="0" showInStore="0">
+                    <label>Smart Cache Cleaner Cron Expression</label>
+                    <comment>Cron schedule for Smart Cache Cleaner.</comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>

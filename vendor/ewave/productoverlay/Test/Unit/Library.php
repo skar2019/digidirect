@@ -7,7 +7,7 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
  * Class Library
  * @package Ewave\ProductOverlay\Test\Unit
  */
-class Library extends \PHPUnit_Framework_TestCase
+class Library extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ObjectManager
@@ -55,5 +55,17 @@ class Library extends \PHPUnit_Framework_TestCase
         $property = $class->getProperty($property);
         $property->setAccessible(true);
         return $property;
+    }
+
+    /**
+     * @param \ReflectionClass $class
+     * @param string $methodName
+     * @return \ReflectionMethod
+     */
+    protected function setAccessibleMethod(\ReflectionClass $class, $methodName)
+    {
+        $method = $class->getMethod($methodName);
+        $method->setAccessible(true);
+        return $method;
     }
 }

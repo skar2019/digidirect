@@ -98,13 +98,13 @@ class Category extends AbstractDb
                     \Magento\Catalog\Model\Category::KEY_PARENT_ID,
                     \Magento\Catalog\Model\Category::KEY_PATH,
                     \Magento\Catalog\Model\Category::KEY_LEVEL,
-                    'children_count',
+                    new \Zend_Db_Expr('ABS(children_count) as children_count'),
                 ]
             )
             ->order(\Magento\Catalog\Model\Category::KEY_LEVEL . ' ' . \Zend_Db_Select::SQL_ASC)
             ->order(\Magento\Catalog\Model\Category::KEY_POSITION . ' ' . \Zend_Db_Select::SQL_ASC);
 
-        $collection->joinAttribute('name', 'catalog_category/name', 'entity_id', null, 'left');
+        $collection->addAttributeToSelect(\Magento\Catalog\Model\Category::KEY_NAME, 'left');
 
         $stmt = $connection->query($select);
 

@@ -15,6 +15,7 @@ if (empty($bannersToDisplay)) {
 }
 $bannerId = $block->getUniqueId();
 $isLazyLoad = $block->getIsLazyLoad();
+$isShowLoader = false;
 $mediaQueryFull = $block->jsonEncode($block->getMediaQuery());
 $autoPlay = $block->isAutoplay() ? 'true' : 'false';
 $breadcrumbsType = $block->getBreadcrumbsType();
@@ -50,7 +51,7 @@ endif;
             <?= /* @noEscape */ $block->renderBannerItem($bannerItem); ?>
         <?php endforeach; ?>
     </div>
-    <?php if (!$isLazyLoad) : ?>
+    <?php if (!$isLazyLoad && $isShowLoader) : ?>
         <img class="loader" src="<?= /* @noEscape */ $this->helper(\Ewave\Banner\Helper\DefaultLoader::class)->getImage() ?>" alt="<?= /* @noEscape */ __('Loading...') ?>">
     <?php endif; ?>
    <?php echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('banner-additional')->toHtml(); ?>

@@ -18,6 +18,10 @@
             <overlay_management>
                 <enable_management>0</enable_management>
             </overlay_management>
+            <smart_cache>
+                <enable_cache_cleaner>0</enable_cache_cleaner>
+                <cache_cleaner_cron_expr>*/5 * * * *</cache_cleaner_cron_expr>
+            </smart_cache>
         </ewave_productoverlay>
     </default>
 </config>

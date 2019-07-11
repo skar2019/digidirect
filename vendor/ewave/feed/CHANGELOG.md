@@ -72,3 +72,21 @@
 * Bugfixes:
     * [#286547](https://ewave.tpondemand.com/entity/286547) -- [PROJECT: RipCurl][TD][Google Feed] Error is shown in Admin Panel after Manual file generation
     * [#286613](https://ewave.tpondemand.com/entity/286613) -- [Project: RipCurl][Google Feed] Cron: Xml file is generated with errors.
+
+1.1.2
+=============
+* Bugfixes:
+    * [#309443](https://ewave.tpondemand.com/entity/309443) -- [Project: Rip Curl][Back-office][Shopping Feeds] Mapping is not available: Root Catalog is missing in the category mapping of shopping feeds
+    * [#310491](https://ewave.tpondemand.com/entity/310491) -- [Project: Rip Curl][Shopping feeds][Content Setting] Extra website code is added to generated URL of 'link' attribute in the feed XML schema
+    * [#310808](https://ewave.tpondemand.com/entity/310808) -- [Project: Rip Curl][Shopping feeds][Content Setting] Additional image URL is not fully generated in the feed XML schema when 'alternative image' attribute is used
+
+1.1.3
+=============
+* Bugfixes:
+    * [#310491](https://ewave.tpondemand.com/entity/310491) -- [Project: Rip Curl][Shopping feeds][Content Setting] Extra website code is added to generated URL of 'link' attribute in the feed XML schema
+
+1.1.4
+=============
+* Bugfixes:
+    * [#310808](https://ewave.tpondemand.com/entity/310808) -- [Project: Rip Curl][Shopping feeds][Content Setting] Additional image URL is not fully generated in the feed XML schema when 'alternative image' attribute is used
+

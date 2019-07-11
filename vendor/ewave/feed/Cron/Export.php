@@ -114,7 +114,9 @@ class Export
                 }
             } catch (\Exception $e) {
                 $this->history->add($feed, 'Exception', $e->getMessage());
+                // @codingStandardsIgnoreStart
                 echo $e;
+                // @codingStandardsIgnoreEnd
             }
         }
     }
@@ -148,7 +150,6 @@ class Export
 
         if (in_array($currentDay, $feed->getCronDay())) {
             foreach ($feed->getCronTime() as $cronTime) {
-
                 if ($currentTime >= $cronTime
                     && $cronTime >= $lastTime
                     && $currentTime - $lastTime > 10

@@ -3,6 +3,7 @@
 namespace Ewave\Feed\Export\Resolver;
 
 use Ewave\Feed\Export\Context;
+use Magento\Framework\App\ObjectManager;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Filesystem;
 use Magento\Catalog\Model\ProductFactory;
@@ -17,6 +18,7 @@ use Ewave\Feed\Model\ResourceModel\Dynamic\Attribute\CollectionFactory as Dynami
 
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Framework\Data\Collection;
 
 /**
@@ -107,6 +109,11 @@ class ProductResolver extends AbstractResolver
     protected static $isInitialized;
 
     /**
+     * @var ImageHelper
+     */
+    protected $imageHelper;
+
+    /**
      * ProductResolver constructor.
      * @param Context $context
      * @param StoreManagerInterface $storeManager
@@ -120,6 +127,7 @@ class ProductResolver extends AbstractResolver
      * @param ProductAttributeCollectionFactory $productAttributeCollectionFactory
      * @param CategoryMappingCollectionFactory $categoryMappingCollectionFactory
      * @param DynamicAttributeCollectionFactory $dynamicAttributeCollectionFactory
+     * @param ImageHelper $imageHelper
      */
     public function __construct(
         Context $context,
@@ -133,7 +141,8 @@ class ProductResolver extends AbstractResolver
         AttributeSetCollectionFactory $attributeSetCollectionFactory,
         ProductAttributeCollectionFactory $productAttributeCollectionFactory,
         CategoryMappingCollectionFactory $categoryMappingCollectionFactory,
-        DynamicAttributeCollectionFactory $dynamicAttributeCollectionFactory
+        DynamicAttributeCollectionFactory $dynamicAttributeCollectionFactory,
+        ImageHelper $imageHelper = null
     ) {
         $this->productFactory = $productFactory;
         $this->stockRegistry = $stockRegistry;
@@ -143,6 +152,7 @@ class ProductResolver extends AbstractResolver
         $this->productAttributeCollectionFactory = $productAttributeCollectionFactory;
         $this->categoryMappingCollectionFactory = $categoryMappingCollectionFactory;
         $this->dynamicAttributeCollectionFactory = $dynamicAttributeCollectionFactory;
+        $this->imageHelper = $imageHelper ?: ObjectManager::getInstance()->get(ImageHelper::class);
 
         parent::__construct($context, $storeManager, $filesystem, $poolFactory);
 
@@ -211,6 +221,8 @@ class ProductResolver extends AbstractResolver
 
     /**
      * {@inheritdoc}
+     *
+     * @return array
      */
     public function getAttributes()
     {
@@ -309,7 +321,7 @@ class ProductResolver extends AbstractResolver
     public function getImage($product)
     {
         if ($product->getImage()) {
-            return $this->getImageUrl($product->getImage());
+            return $this->getImageUrl($product->getImage(), $product);
         }
 
         return '';
@@ -324,7 +336,7 @@ class ProductResolver extends AbstractResolver
     public function getThumbnail($product)
     {
         if ($product->getThumbnail()) {
-            return $this->getImageUrl($product->getThumbnail());
+            return $this->getImageUrl($product->getThumbnail(), $product, 'product_thumbnail_image');
         }
 
         return '';
@@ -339,7 +351,7 @@ class ProductResolver extends AbstractResolver
     public function getSmallImage($product)
     {
         if ($product->getSmallImage()) {
-            return $this->getImageUrl($product->getSmallImage());
+            return $this->getImageUrl($product->getSmallImage(), $product, 'product_small_image');
         }
 
         return '';
@@ -360,7 +372,7 @@ class ProductResolver extends AbstractResolver
         /** @var \Magento\Framework\DataObject $galleryImage */
         if (is_array($galleryImages) || $galleryImages instanceof \Traversable) {
             foreach ($galleryImages as $galleryImage) {
-                $gallery[] = $this->getImageUrl($galleryImage->getData('file'));
+                $gallery[] = $this->getImageUrl($galleryImage->getData('file'), $product);
             }
         }
 
@@ -535,7 +547,9 @@ class ProductResolver extends AbstractResolver
     }
 
     /**
-     * {@inheritdoc}
+     * @param array|Product|string $value
+     * @param string $key
+     * @return string
      */
     public function toString($value, $key = null)
     {
@@ -656,6 +670,10 @@ class ProductResolver extends AbstractResolver
             }
         }
 
+        if ($result && $attribute && $attribute->getFrontendInput() == 'media_image') {
+            $result = $this->getImageUrl($result, $product);
+        }
+
         return $result;
     }
 
@@ -699,13 +717,20 @@ class ProductResolver extends AbstractResolver
 
     /**
      * @param string $file
+     * @param Product $product
+     * @param string $imageId
      * @return string
      */
-    protected function getImageUrl($file)
+    protected function getImageUrl($file, $product = null, $imageId = 'product_page_main_image')
     {
-        $file = ltrim(str_replace('\\', '/', $file), '/');
+        if (null === $product) {
+            $file = ltrim(str_replace('\\', '/', $file), '/');
+            return self::$productImageBaseUrl . $file;
+        }
 
-        return self::$productImageBaseUrl . $file;
+        return $this->imageHelper->init($product, $imageId)
+            ->setImageFile($file)
+            ->getUrl();
     }
 
     /**

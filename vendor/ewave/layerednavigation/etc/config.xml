@@ -7,6 +7,7 @@
                 <enable_apply_button>1</enable_apply_button>
                 <enable_mobile_apply_button>1</enable_mobile_apply_button>
                 <enable_filter_remember>0</enable_filter_remember>
+                <hide_options_after_select>1</hide_options_after_select>
             </general>
             <category>
                 <display_mode>0</display_mode>

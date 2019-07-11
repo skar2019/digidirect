@@ -174,3 +174,13 @@
     * [#302219](https://ewave.tpondemand.com/entity/302219) -- As an admin, I want Klevu Search to be compatible with following extensions
 * Improvements:
     * Remove old code from 2.1 version by performance reason
+
+1.6.1
+===============
+* Bugfixes:
+    * [#310984](https://ewave.tpondemand.com/entity/310984) -- [PROJECT: Sportsgirl] Inccorect filter value by price (Сonflict with method with fetchRow() connection method used)
+
+1.7.0
+=============
+* New features:
+    * [#316406](https://ewave.tpondemand.com/entity/316406) -- [DON'T HIDE OPTIONS] As a user, I want filter's attribute options to be available after making a selection

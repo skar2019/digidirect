@@ -302,6 +302,20 @@ class Data extends AbstractHelper
     }
 
     /**
+     * Hide the list of filters after making a selection,
+     * so that customer will be able to see all options
+     *
+     * @return bool
+     */
+    public function hideOptionsAfterSelect()
+    {
+        return $this->scopeConfig->isSetFlag(
+            'ewave_layerednavigation/general/hide_options_after_select',
+            \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
      * Return category suffix
      * @return string
      */

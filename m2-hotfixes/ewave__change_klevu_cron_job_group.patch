@@ -1,0 +1,12 @@
+diff --git a/vendor/klevu/module-productsearch/etc/crontab.xml b/vendor/klevu/module-productsearch/etc/crontab.xml
+index 6940c5550..c92a73a42 100644
+--- a/vendor/klevu/module-productsearch/etc/crontab.xml
++++ b/vendor/klevu/module-productsearch/etc/crontab.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0"?>
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Cron/etc/crontab.xsd">
+-  <group id="default">
++  <group id="ewave_klevu_search">
+     <job name="klevu_search_product_sync" instance="Klevu\Search\Model\Product\Sync" method="runCron">
+         <config_path>klevu_search/product_sync/frequency</config_path>
+ 	</job>

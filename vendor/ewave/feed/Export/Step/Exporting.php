@@ -10,6 +10,8 @@ use Ewave\Feed\Export\Liquid\Context as LiquidContext;
 use Ewave\Feed\Export\Liquid\Template as LiquidTemplate;
 use Ewave\Feed\Export\Filter\Pool as FilterPool;
 use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\UrlInterfaceFactory;
+use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 
 class Exporting extends AbstractStep
@@ -45,6 +47,11 @@ class Exporting extends AbstractStep
     protected $storeManager;
 
     /**
+     * @var UrlInterfaceFactory
+     */
+    protected $urlFactory;
+
+    /**
      * Exporting constructor.
      * @param Context $context
      * @param ResourceConnection $resource
@@ -53,6 +60,7 @@ class Exporting extends AbstractStep
      * @param GeneralResolver $resolver
      * @param FilterPool $filterPool
      * @param StoreManagerInterface $storeManager
+     * @param UrlInterfaceFactory $urlFactory
      */
     public function __construct(
         Context $context,
@@ -61,7 +69,8 @@ class Exporting extends AbstractStep
         Config $config,
         GeneralResolver $resolver,
         FilterPool $filterPool,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        UrlInterfaceFactory $urlFactory
     ) {
         $this->resource = $resource;
         $this->resolver = $resolver;
@@ -69,6 +78,7 @@ class Exporting extends AbstractStep
         $this->io = $io;
         $this->filterPool = $filterPool;
         $this->storeManager = $storeManager;
+        $this->urlFactory = $urlFactory;
 
         parent::__construct($context);
     }
@@ -93,23 +103,31 @@ class Exporting extends AbstractStep
      */
     protected function fixBaseUrl($result)
     {
-        $store = $this->context->getFeed()->getStore();
-        $adminStore = $this->storeManager->getStore(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
+        /**
+         * @var $currentStore Store
+         * @var $store Store
+         * @var $adminStore Store
+         */
+        $url = $this->urlFactory->create();
+        if ($url instanceof \Magento\Backend\Model\UrlInterface) {
+            $store = $this->context->getFeed()->getStore();
+            $adminStore = $this->storeManager->getStore(Store::ADMIN_CODE);
 
-        $urlTypeLink = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
+            $urlTypeLink = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
 
-        $hasDisableStoreInUrl = $adminStore->hasDisableStoreInUrl();
-        $disableStoreInUrl = $adminStore->getDisableStoreInUrl();
-        $adminStore->setDisableStoreInUrl(true);
-        $adminStoreUrlTypeLink = $adminStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
-        if ($hasDisableStoreInUrl) {
-            $adminStore->setDisableStoreInUrl($disableStoreInUrl);
-        } else {
-            $adminStore->unsDisableStoreInUrl();
-        }
+            $hasDisableStoreInUrl = $adminStore->hasDisableStoreInUrl();
+            $disableStoreInUrl = $adminStore->getDisableStoreInUrl();
+            $adminStore->setDisableStoreInUrl(true);
+            $adminStoreUrlTypeLink = $adminStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_LINK);
+            if ($hasDisableStoreInUrl) {
+                $adminStore->setDisableStoreInUrl($disableStoreInUrl);
+            } else {
+                $adminStore->unsDisableStoreInUrl();
+            }
 
-        if ($urlTypeLink != $adminStoreUrlTypeLink) {
-            $result = str_replace($adminStoreUrlTypeLink, $urlTypeLink, $result);
+            if ($urlTypeLink != $adminStoreUrlTypeLink) {
+                $result = str_replace($adminStoreUrlTypeLink, $urlTypeLink, $result);
+            }
         }
 
         return $result;

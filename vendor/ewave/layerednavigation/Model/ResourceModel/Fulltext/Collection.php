@@ -421,7 +421,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
             $requestBuilder->autoSetRequestName();
 
             $queryResponse = $this->queryResponse;
-            if ($this->helper->isApplyButtonEnabled()) {
+            if ($this->helper->isApplyButtonEnabled() || !$this->helper->hideOptionsAfterSelect()) {
                 $appliedFilters = $requestBuilder->getAllPlaceholders();
                 foreach (array_keys($appliedFilters) as $placeholder) {
                     if (!in_array($placeholder, $this->staticPlaceholders)) {
@@ -531,9 +531,8 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
     public function getMinMaxValueByAttribute(\Magento\Catalog\Model\ResourceModel\Eav\Attribute $attribute)
     {
         if (!isset($this->minMaxValuesAttributes[$attribute->getAttributeCode()])) {
-            if (
-                $this->memRequestBuilder->hasPlaceholder($attribute->getAttributeCode() . ".from") ||
-                $this->memRequestBuilder->hasPlaceholder($attribute->getAttributeCode() . ".to")
+            if ($this->memRequestBuilder->hasPlaceholder($attribute->getAttributeCode() . ".from")
+                || $this->memRequestBuilder->hasPlaceholder($attribute->getAttributeCode() . ".to")
             ) {
                 /**
                  * @var $requestBuilder \Ewave\LayeredNavigation\Model\Request\Builder
@@ -602,14 +601,20 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
                     } else {
                         unset($where[$whereId]);
                     }
-
                 }
             }
 
             $this->getSelect()->setPart(\Zend_Db_Select::WHERE, $where);
             $this->_renderFilters();
         }
-        return parent::_prepareStatisticsData();
+
+        $groupPart = $this->getSelect()->getPart(\Zend_Db_Select::GROUP);
+        $this->getSelect()->reset(\Zend_Db_Select::GROUP);
+
+        parent::_prepareStatisticsData();
+
+        $this->getSelect()->setPart(\Zend_Db_Select::GROUP, $groupPart);
+        return $this;
     }
 
     /**

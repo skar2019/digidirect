@@ -39,6 +39,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_NEW_CREATION_DATE = 'new/creation_date';
     const XML_PATH_NEW_DAYS = 'new/days';
     const XML_PATH_MANAGEMENT = 'overlay_management/enable_management';
+    const XML_PATH_ENABLE_SMART_CACHE = 'smart_cache/enable_cache_cleaner';
     const DISPLAY_PRODUCT = 'ewave_productoverlay/display/product';
     const DISPLAY_CATEGORY = 'ewave_productoverlay/display/category';
 
@@ -278,31 +279,36 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function renderProductOverlay($product = null, $mode = self::MODE_CATEGORY)
     {
-        $productId = $product;
-        if ($productId instanceof \Magento\Catalog\Model\Product) {
-            $productId = $product->getId();
-        }
+        if (!$this->isEnabledSmartCacheCleaner()) {
+            $productId = $product;
+            if ($productId instanceof \Magento\Catalog\Model\Product) {
+                $productId = $product->getId();
+            }
 
-        $productId = $productId !== null ? $productId : '';
-        $cacheKey = implode('_', [
-            self::OVERLAY_CACHE_KEY,
-            $this->_httpContext->getValue(CustomerContext::CONTEXT_GROUP),
-            $this->_httpContext->getValue(StoreManagerInterface::CONTEXT_STORE),
-            $mode,
-            $productId
-        ]);
+            $productId = $productId !== null ? $productId : '';
+            $cacheKey = implode('_', [
+                self::OVERLAY_CACHE_KEY,
+                $this->_httpContext->getValue(CustomerContext::CONTEXT_GROUP),
+                $this->_httpContext->getValue(StoreManagerInterface::CONTEXT_STORE),
+                $mode,
+                $productId
+            ]);
 
-        $overlayHtml = $this->_cacheManager->load($cacheKey);
-        if ($overlayHtml !== false) {
-            return $overlayHtml;
+            $overlayHtml = $this->_cacheManager->load($cacheKey);
+            if ($overlayHtml !== false) {
+                return $overlayHtml;
+            }
         }
 
         $overlayHtml = $this->_renderProductOverlay($product, $mode);
-        $this->_cacheManager->save($overlayHtml, $cacheKey, [
-            self::PRODUCT_CACHE_KEY . $productId,
-            BlockCache::TYPE_IDENTIFIER,
-            PageCache::TYPE_IDENTIFIER
-        ]);
+
+        if (!$this->isEnabledSmartCacheCleaner()) {
+            $this->_cacheManager->save($overlayHtml, $cacheKey, [
+                self::PRODUCT_CACHE_KEY . $productId,
+                BlockCache::TYPE_IDENTIFIER,
+                PageCache::TYPE_IDENTIFIER
+            ]);
+        }
 
         return $overlayHtml;
     }
@@ -435,24 +441,29 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $result = '';
         if ($product) {
-            $cacheKey = implode('_', [
-                self::OVERLAY_CACHE_KEY,
-                'APPLICABLE_SIMPLES',
-                $this->_httpContext->getValue(CustomerContext::CONTEXT_GROUP),
-                $this->_httpContext->getValue(StoreManagerInterface::CONTEXT_STORE),
-                $product->getId()
-            ]);
+            if (!$this->isEnabledSmartCacheCleaner()) {
+                $cacheKey = implode('_', [
+                    self::OVERLAY_CACHE_KEY,
+                    'APPLICABLE_SIMPLES',
+                    $this->_httpContext->getValue(CustomerContext::CONTEXT_GROUP),
+                    $this->_httpContext->getValue(StoreManagerInterface::CONTEXT_STORE),
+                    $product->getId()
+                ]);
 
-            if ($result = $this->_cacheManager->load($cacheKey)) {
-                return $result;
+                if ($result = $this->_cacheManager->load($cacheKey)) {
+                    return $result;
+                }
             }
 
             $result = $this->_getApplicableSimples($product);
-            $this->_cacheManager->save($result, $cacheKey, [
-                self::PRODUCT_CACHE_KEY . $product->getId(),
-                BlockCache::TYPE_IDENTIFIER,
-                PageCache::TYPE_IDENTIFIER
-            ]);
+
+            if (!$this->isEnabledSmartCacheCleaner()) {
+                $this->_cacheManager->save($result, $cacheKey, [
+                    self::PRODUCT_CACHE_KEY . $product->getId(),
+                    BlockCache::TYPE_IDENTIFIER,
+                    PageCache::TYPE_IDENTIFIER
+                ]);
+            }
         }
 
         return $result;
@@ -515,7 +526,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @return \Ewave\ProductOverlay\Model\ResourceModel\Overlays\Collection
      */
-    protected function getOverlayCollection()
+    public function getOverlayCollection()
     {
         if ($this->_overlayCollection === null) {
             /** @var \Ewave\ProductOverlay\Model\ResourceModel\Overlays\Collection $collection */
@@ -667,6 +678,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         return $this->scopeConfig->isSetFlag(
             self::MODULE_CONFIG_PREFIX . self::XML_PATH_MANAGEMENT
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabledSmartCacheCleaner()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::MODULE_CONFIG_PREFIX . self::XML_PATH_ENABLE_SMART_CACHE
         );
     }
 
