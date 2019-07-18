@@ -11,9 +11,11 @@ define([
                 isHideAllWithoutParent: true
             },
             /**
-             * Disable inline styles calculations
+             * Hide overlay without disabled flag
              */
             setOverlayStyle: function () {
+                this._super();
+
                 // hide overlay if it does not have use for parent flag
                 if (this.options.isHideAllWithoutParent) {
                     this.showOnlyParentProductOverlay();

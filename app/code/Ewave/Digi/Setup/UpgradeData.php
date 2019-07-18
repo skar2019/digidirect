@@ -333,6 +333,9 @@ class UpgradeData implements UpgradeDataInterface
         if (version_compare($context->getVersion(), '1.0.26', '<')) {
             $this->upgradeTo126($setup);
         }
+        if (version_compare($context->getVersion(), '1.0.27', '<')) {
+            $this->upgradeTo127($setup);
+        }
 
         $setup->endSetup();
     }
@@ -1375,5 +1378,35 @@ class UpgradeData implements UpgradeDataInterface
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
         }
+    }
+
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     * @throws LocalizedException
+     */
+    public function upgradeTo127(ModuleDataSetupInterface $setup)
+    {
+        /** @var \Magento\Eav\Setup\EavSetup $eavSetup */
+        $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
+        $entityTypeId = $eavSetup->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
+        $attributeSetId = $eavSetup->getDefaultAttributeSetId($entityTypeId);
+        $idGroup = $eavSetup->getAttributeGroupId($entityTypeId, $attributeSetId, 'General Information');
+
+        $attrData = [
+            'type' => 'int',
+            'label' => 'Web-only sale',
+            'input' => 'boolean',
+            'source' => \Magento\Eav\Model\Entity\Attribute\Source\Boolean::class,
+            'default' => 0,
+            'required' => false,
+            'user_defined' => true,
+            'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+            'sort_order' => 60,
+            'group' => 'General',
+            'is_used_in_grid' => true,
+            'used_in_product_listing' => true
+        ];
+        $eavSetup->addAttribute($entityTypeId, 'web_only_sale', $attrData);
     }
 }

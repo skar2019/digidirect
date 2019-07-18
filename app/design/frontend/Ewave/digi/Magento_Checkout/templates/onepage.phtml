@@ -6,6 +6,8 @@
 
 // @codingStandardsIgnoreFile
 $cmsPaymentsBlock = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('secure-pay')->toHtml();
+$quoteHelper = $helper = $this->helper('Ewave\Digi\Helper\Quote');
+$hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
 ?>
 
 <div id="checkout" data-bind="scope:'checkout'" class="checkout-container">
@@ -53,3 +55,9 @@ $cmsPaymentsBlock = $block->getLayout()->createBlock('Magento\Cms\Block\Block')-
     }
 </script>
 </div>
+
+<?php if ($hasWebOnly) : ?>
+<script>
+    window.hasWebOnly = <?= $hasWebOnly ?>;
+</script>
+<?php endif; ?>

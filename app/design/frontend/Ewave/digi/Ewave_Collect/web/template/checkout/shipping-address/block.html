@@ -1,6 +1,7 @@
 <!-- ko if: isCollectEnableOnCheckout && isSingleCartCollectVariation -->
-<div class="collect-type">
-    <input type="radio" id="collect_type_delivery" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
+    <div class="collect-type">
+        <!-- ko ifnot: isWebOnly() -->
+    <input type="radio" id="collect_type_delivery" class="half-width" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
 attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
     <label for="collect_type_delivery" class="label">
         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
@@ -8,7 +9,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         </svg>
         <span class="text"><!-- ko i18n: 'Delivery'--><!-- /ko --></span>
     </label>
-    <input type="radio" id="collect_type_collect" name="delivery_type" value="collect"
+    <input type="radio"  id="collect_type_collect" name="delivery_type" value="collect"
            data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}}, attr:{'checked': collectPlaces().length > 0 ? 'checked' : false}"/>
     <label for="collect_type_collect" class="label">
         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
@@ -17,11 +18,24 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         <span class="text"><!-- ko i18n: 'Pick up in-store'--><!-- /ko --></span>
         </svg>
     </label>
+    <!-- /ko-->
+        <!-- ko if: isWebOnly() -->
+        <input type="radio" id="collect_type_delivery" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
+attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
+        <label for="collect_type_delivery" class="label full-width">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-delivery"></use>
+            </svg>
+            <span class="text"><!-- ko i18n: 'Delivery'--><!-- /ko --></span>
+        </label>
+        <!-- /ko-->
 </div>
 
 <div data-bind="css: 'collect-block -visible'" data-role="collect-block" data-collect-type="delivery">
     <div data-bind="i18n: 'If your order is placed before 11am AEST on a business day (Mon-Fri), it leaves our warehouse the same day!'"></div>
 </div>
+
+<!-- ko ifnot: isWebOnly() -->
 <div data-bind="css: 'collect-block'" data-role="collect-block"
      data-collect-type="collect">
     <!-- ko if: window.selectStore -->
@@ -70,6 +84,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
     <!-- /ko -->
     <!-- /ko -->
 </div>
+<!-- /ko-->
 
 <div id="collect-block-modal-checkout" data-bind="visible: isSingleCartFormPopUpVisible()">
     <!-- ko template: collectFormTemplate --><!-- /ko -->

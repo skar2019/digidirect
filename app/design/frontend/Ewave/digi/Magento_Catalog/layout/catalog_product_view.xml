@@ -126,6 +126,11 @@
                         <argument name="block_id" xsi:type="string">product-detail-delivery-tab-message</argument>
                     </arguments>
                 </block>
+                <block class="Magento\Cms\Block\Block" name="web.only.message">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">web-only-message</argument>
+                    </arguments>
+                </block>
             </block>
         </container>
 

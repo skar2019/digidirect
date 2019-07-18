@@ -9,6 +9,8 @@ $helper = $this->helper('Magento\Msrp\Helper\Data');
 $canApplyMsrp = $helper->isShowBeforeOrderConfirm($product) && $helper->isMinimalPriceLessMsrp($product);
 $freeGift = ($_item->getPrice()==0) ? '-free-gift':'';
 $congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_type')!='simple') ? '-config':'';
+$quoteHelper = $helper = $this->helper('Ewave\Digi\Helper\Quote');
+$isProductWebOnly = $quoteHelper->isProductWebOnly($product);
 ?>
 <tbody class="cart item <?php /* @escapeNotVerified */ echo $freeGift;?>" id="cart-item-<?php echo (int)$_item->getId(); ?>">
 <tr class="item-info <?php echo $congigProductClass; ?>">
@@ -66,6 +68,12 @@ $congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_
             <?php if ($addInfoBlock): ?>
                 <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
             <?php endif;?>
+
+            <?php if ($isProductWebOnly) : ?>
+                <div class="cart item message webonly-message">
+                    <span><?php /* @escapeNotVerified */ echo __("This product is available for delivery only."); ?></span>
+                </div>
+            <?php endif; ?>
         </div>
     </td>
 

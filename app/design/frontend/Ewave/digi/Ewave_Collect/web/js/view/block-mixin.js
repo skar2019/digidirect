@@ -9,8 +9,12 @@ define([
     'use strict';
 
     return function (target) {
+        var checkIsWeb = window.hasWebOnly;
+
         return target.extend({
-            _isCheckoutPage: function() {
+            isWebOnly: ko.observable(checkIsWeb || false),
+
+            _isCheckoutPage: function () {
                 return $('body').hasClass('checkout-index-index');
             },
             onSuccessApplyPlace: function (response) {
@@ -27,11 +31,11 @@ define([
             toggleToDeliveryShippingMethod: function () {
                 var closestRadioButtons = $('.row.collect').siblings().find('input');
 
-                if(!closestRadioButtons.filter(':checked').length) {
+                if (!closestRadioButtons.filter(':checked').length) {
                     closestRadioButtons.first().trigger('click');
                 }
             },
-            setCollectAbstractEntityFields: function() {
+            setCollectAbstractEntityFields: function () {
                 var self = this,
                     flag = true;
                 this._super();
@@ -41,6 +45,12 @@ define([
                             $(node).trigger('click');
                             flag = false;
                         }
+                    });
+                }
+
+                if (this.isWebOnly() === 1) {
+                    async.async('#collect_type_delivery', function (node) {
+                        $(node).trigger('click');
                     });
                 }
             },

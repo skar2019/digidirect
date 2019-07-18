@@ -3,4 +3,7 @@
     <type name="Magento\CustomAttributeManagement\Block\Form">
         <plugin name="get_attribute_html_before" type="Ewave\Digi\Plugin\Magento\CustomAttributeManagement\Block\Form"/>
     </type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="ewave_digi_checkout_default_config_provider" type="Ewave\Digi\Model\Plugin\Checkout\DefaultConfigProvider" sortOrder="110" disabled="false"/>
+    </type>
 </config>

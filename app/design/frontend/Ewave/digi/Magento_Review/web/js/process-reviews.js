@@ -18,7 +18,7 @@ define([
             cache: true,
             dataType: 'html',
             showLoader: false,
-            loaderContext: $('.product.data.items')
+            loaderContext: $('.product.data.items.details-tab')
         }).done(function (data) {
             $('#product-review-container').html(data);
             $('[data-role="product-review"] .pages a').each(function (index, element) {
@@ -54,9 +54,9 @@ define([
 
                 event.preventDefault();
                 anchor = $(this).attr('href').replace(/^.*?(#|$)/, '');
-                $('.product.data.items [data-role="content"]').each(function (index) { //eslint-disable-line
+                $('.product.data.items.details-tab [data-role="content"]').each(function (index) { //eslint-disable-line
                     if (this.id == 'reviews') { //eslint-disable-line eqeqeq
-                        $('.product.data.items').tabs('activate', index);
+                        $('.product.data.items.details-tab').tabs('activate', index);
                         $('html, body').animate({
                             scrollTop: $('#' + anchor).offset().top - 50
                         }, 300);

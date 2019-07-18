@@ -69,13 +69,7 @@ $currencyCode = $currencysymbol->getStore()->getCurrentCurrencyCode();
 </script>
 
 <?php if ($_product): ?>
-    <?php
-      if ($_product->getData('special_price')) {
-          $price = $_product->getData('special_price');
-      } else {
-          $price = $_product->getData('price');
-      }
-    ?>
+    <?php $price = $_product->getData('final_price'); ?>
     <script>
         if (typeof gtag !== undefined) {
             gtag('event', 'view_item', {

@@ -5,6 +5,10 @@
 ?>
 <?php
 $isShowAvailability = false;
+$_product = $block->getProduct();
+
+$quoteHelper = $helper = $this->helper('Ewave\Digi\Helper\Quote');
+$isProductWebOnly = $quoteHelper->isProductWebOnly($_product);
 ?>
 <div class="product info detailed -places">
     <div class="product data items" data-bind="mageInit: {'tabs':{'openedState':'active'}}">
@@ -20,6 +24,13 @@ $isShowAvailability = false;
             </a>
         </div>
         <div class="data item content" id="tab-delivery" data-role="content">
+            <?php if ($isProductWebOnly) : ?>
+                <div class="text web-only-msg">
+                    <?php if ($messageWebOnly = $block->getChildHtml('web.only.message')): ?>
+                        <?php echo $messageWebOnly; ?>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
             <div class="text">
                 <?php if ($messageCmsContent = $block->getChildHtml('product.delivery.message')): ?>
                     <?php echo $messageCmsContent; ?>
