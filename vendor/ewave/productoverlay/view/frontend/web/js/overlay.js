@@ -11,7 +11,8 @@ define([
             'mode': 'cat',
             'productGridSelector': '.product-item',
             'hideForConfigurable': false,
-            'swatchContainer': '[data-role=swatch-options]'
+            'swatchContainer': '[data-role=swatch-options]',
+            'overlaySelector': ''
         },
         image: null,
         imageWidth: null,
@@ -90,12 +91,14 @@ define([
                 $(document).on('fotorama:load', function (event) {
                     if (self && self.options.path && self.options.path !== '') {
                         var newParent = $(self.options.path);
-                        if (newParent.length) {
+                        if (newParent.length && !self.isExistInParent(newParent)) {
                             self.parent = newParent;
                             newParent.append(self.element);
-                            newParent.css('position', 'relative');
+                            if (!(newParent.attr('class').indexOf('fotorama') > -1)) {
+                                newParent.css('position', 'relative');
+                            }
                             if (!swatchMode) {
-                                self.element.removeClass('-hide');
+                                newParent.find(self.options.overlaySelector).removeClass('-hide');
                             }
                             $(self.options.swatchContainer).trigger('product.overlay.appended');
                         }
@@ -106,6 +109,10 @@ define([
                     self.setOverlayStyle();
                 });
             }
+        },
+
+        isExistInParent: function (parent) {
+            return !!parent.find(this.options.overlaySelector).length;
         },
 
         setOverlayStyle: function () {

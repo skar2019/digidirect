@@ -13,6 +13,7 @@ class Config extends AbstractHelper
     const INVENTORY_DIFF_LAST_MINUTES = 'ewave_pronto/api_inventory/diff_last_minutes';
     const INVENTORY_BUFFER_QUANTITY_FOR_ALL_SOURCES = 'ewave_pronto/api_inventory/buffer_quantity_for_all_sources';
     const INVENTORY_BUFFER_ACTION = 'ewave_pronto/api_inventory/buffer_action';
+    const DEBUG_UPDATE_REQUEST = 'ewave_pronto/debug/is_debug_update_request';
 
     /**
      * @return string
@@ -60,5 +61,13 @@ class Config extends AbstractHelper
     public function getInventoryBufferAction()
     {
         return (int)$this->scopeConfig->getValue(self::INVENTORY_BUFFER_ACTION);
+    }
+
+    /**
+     * @return int
+     */
+    public function getDebugUpdateRequest()
+    {
+        return (int)$this->scopeConfig->getValue(self::DEBUG_UPDATE_REQUEST);
     }
 }

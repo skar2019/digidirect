@@ -4,6 +4,7 @@ namespace Ewave\ProductOverlay\Model\Rule;
 use Ewave\ProductOverlay\Model\Overlays;
 use Magento\CatalogRule\Api\Data\RuleInterface;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Staging\Api\UpdateRepositoryInterface;
 use Magento\Staging\Model\ResourceModel\Db\ReadEntityVersion;
@@ -271,5 +272,29 @@ class CatalogRuleOverlays implements ProcessorInterface
         }
 
         return $connection->fetchCol($select);
+    }
+
+    /**
+     * @param int $overlayId
+     * @param int $ruleRowId
+     * @return int
+     * @throws CouldNotDeleteException
+     */
+    public function deleteRelation($overlayId, $ruleRowId)
+    {
+        $connection = $this->resource->getConnection();
+        $affectedRows = $connection->delete(
+            $connection->getTableName('ewave_product_overlay_catalogrule'),
+            [
+                'overlay_id = ?' => $overlayId,
+                'row_id = ?' => $ruleRowId,
+            ]
+        );
+
+        if (!$affectedRows) {
+            throw new CouldNotDeleteException(__('Can\'t find an item to delete.'));
+        }
+
+        return $affectedRows;
     }
 }

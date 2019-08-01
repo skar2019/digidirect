@@ -19,7 +19,10 @@ define([
             panel: '#direction-panel',
             message: $.mage.__('At least one of the origin, destination, or waypoints could not be geocoded.'),
             settings: {},
-            reverse: '.reverse-directions'
+            reverse: '.reverse-directions',
+            autocomplete: {
+                useRestrictions: false
+            }
         },
         _create: function () {
             this.locator = $(this.options.locator).data('ewave-locator');
@@ -47,8 +50,8 @@ define([
         _onInitMap: function () {
             this._initDirections();
             this._setUserGeoLocation();
-            this.locator.initAutoComplete(this.options.search.from);
-            this.locator.initAutoComplete(this.options.search.to);
+            this.locator.initAutoComplete(this.options.search.from, this.options.autocomplete.useRestrictions);
+            this.locator.initAutoComplete(this.options.search.to, this.options.autocomplete.useRestrictions);
         },
         _initDirections: function () {
             this.directionsDisplay = new google.maps.DirectionsRenderer();

@@ -9,8 +9,9 @@ define([
         $.widget('mage.SwatchRenderer', widget, {
             options: {
                 applicableSimple: {},
-                productConteiner: '.product-item-info',
-                labelContainer: '[data-role="label-overlay"]'
+                productContainer: '.product-item-info',
+                labelContainer: '[data-role="label-overlay"]',
+                pdpMediaContainer: null
             },
             labelsForParent: '',
             _create: function () {
@@ -28,6 +29,10 @@ define([
                 this._bindOverlay();
             },
 
+            /**
+             * Bind overlay append
+             * @private
+             */
             _bindOverlay: function () {
                 if (!this.inProductList) {
                     $(this.element).on('product.overlay.appended', $.proxy(function () {
@@ -36,36 +41,71 @@ define([
                 }
             },
 
+            /**
+             * Find overlays
+             * @private
+             */
             _findProductOverlay: function () {
                 var simpleId = this.getProduct(),
                     counter = this.getProductCounter(),
-                    productContainer = this.options.productConteiner,
-                    overlayProduct = $(this.element).closest(productContainer).find('.product-overlay'),
-                    labelContainer = this.options.labelContainer;
+                    productContainer = this.options.pdpMediaContainer ? $(this.options.pdpMediaContainer) : $(this.element).closest(this.options.productContainer),
+                    overlays = productContainer.find('.product-overlay');
 
                 if (this.options.isLoaded) {
-                    $(labelContainer).empty();
+                    $(this.options.labelContainer).empty();
                 } else {
                     this.options.isLoaded = true;
                 }
 
-                overlayProduct.addClass('-hide');
-                if (typeof this.options.applicableSimple[simpleId] !== 'undefined' && counter === 1) {
-                    $.each(this.options.applicableSimple[simpleId], function (i, overlay) {
-                        var overlayId = 'product-overlay-' + overlay.overlay_id + '-' + simpleId,
-                            stockLabel = overlay.stock_label,
-                            labelResult = stockLabel + $(labelContainer).html();
-                        $('.' + overlayId).removeClass('-hide');
-                        $(labelContainer).html(labelResult);
-                    });
-                } else if (typeof simpleId === 'undefined') {
-                    if (this.labelsForParent !== '') {
-                        $(labelContainer).html(this.labelsForParent);
-                    }
-                    $(this.element).closest(productContainer).find('[data-role="use-for-parent"]').removeClass('-hide');
-                } else {
-                    overlayProduct.addClass('-hide');
+                this.hideAllOverlays(overlays);
+
+                if (!simpleId) {
+                    this.showOverlaysForParent(overlays);
+                    this.setStockLabelForParent();
+                } else if (counter === 1) {
+                    this.showOverlaysForCurrentProduct(simpleId, overlays);
                 }
+            },
+
+            /**
+             * Show overlays for parent product
+             * @param overlays
+             */
+            showOverlaysForParent: function (overlays) {
+                overlays.filter('[data-role="use-for-parent"]').removeClass('-hide');
+            },
+
+            /**
+             * Set stock label for parent product
+             */
+            setStockLabelForParent: function () {
+                if (this.labelsForParent !== '') {
+                    $(this.options.labelContainer).html(this.labelsForParent);
+                }
+            },
+
+            /**
+             * Show overlays for current simple product
+             * @param simpleId
+             * @param overlays
+             */
+            showOverlaysForCurrentProduct: function (simpleId, overlays) {
+                var stockLabel = '';
+                if (this.options.applicableSimple[simpleId]) {
+                    _.each(this.options.applicableSimple[simpleId], function (item) {
+                        overlays.filter('[data-overlay-id=' + item.overlay_id + ']').removeClass('-hide');
+                        stockLabel += item.stock_label;
+                    }, this);
+                }
+                $(this.options.labelContainer).html(stockLabel);
+            },
+
+            /**
+             * Hide all overlays
+             * @param overlays
+             */
+            hideAllOverlays: function (overlays) {
+                overlays.addClass('-hide');
             },
 
             getProductCounter: function () {

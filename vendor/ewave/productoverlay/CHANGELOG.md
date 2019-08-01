@@ -165,3 +165,23 @@
 ==============
 * New features:
     * [#316942](https://ewave.tpondemand.com/entity/316942) -- [CACHE CLEANER] As an admin, I want to be able to enable smart cache cleaner and it's schedule
+
+2.4.1
+===============
+* Bugfixes:
+    * [#316293](https://ewave.tpondemand.com/entity/316293) -- [Project: DigiDirect] GMT timezone is used in Date Range settings on Conditions tab
+
+2.4.2
+===============
+* Bugfixes:
+    * [#314868](https://ewave.tpondemand.com/entity/314868) -- [Project: DigiDirect] The time is changed after save if enter value time with "-"
+
+2.5.0
+===============
+* New features:
+    * [#314766](https://ewave.tpondemand.com/entity/314766) -- [ONE DIV FOR CONF] As a customer, I want only one overlay to be loaded for a configurable product
+
+2.5.1
+===============
+* Bugfixes:
+    * [#317640](https://ewave.tpondemand.com/entity/317640) -- [Project: DigiDirect] Conditions for the overlay could not be set up once it was assigned and then unassigned to the catalog price rule

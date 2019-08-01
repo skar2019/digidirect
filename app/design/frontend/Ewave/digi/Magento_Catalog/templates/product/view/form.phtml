@@ -71,14 +71,13 @@ $currencyCode = $currencysymbol->getStore()->getCurrentCurrencyCode();
 <?php if ($_product): ?>
     <?php $price = $_product->getData('final_price'); ?>
     <script>
-        if (typeof gtag !== undefined) {
-            gtag('event', 'view_item', {
-                'value': <?= $price ?>,
-                'items': [{
-                    'id': <?= $_product->getId(); ?>,
-                    'google_business_vertical': 'retail'
-                }]
-            });
-        }
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'value': <?= $price ?>,
+            'items': [{
+                'id':  <?= $_product->getSku(); ?>,
+                'google_business_vertical': 'retail'
+            }]
+        });
     </script>
 <?php endif ?>

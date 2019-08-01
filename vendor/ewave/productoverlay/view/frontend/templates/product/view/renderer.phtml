@@ -3,7 +3,6 @@ $helper = $this->helper('Ewave\ProductOverlay\Helper\Data');
 $products = $helper->getApplicableSimples();
 ?>
 <div class="swatch-opt" data-role="swatch-options"></div>
-
 <script type="text/x-magento-init">
     {
         "[data-role=swatch-options]": {
@@ -12,6 +11,7 @@ $products = $helper->getApplicableSimples();
                 "jsonSwatchConfig": <?php /* @noEscape */ echo $block->getJsonSwatchConfig(); ?>,
                 "applicableSimple": <?php echo /* @escapeNotVerified */ $products ? $products : '{}' ; ?>,
                 "productConteiner": ".main",
+                "pdpMediaContainer": ".product.media",
                 "mediaCallback": "<?= /* @escapeNotVerified */ $block->getMediaCallback() ?>",
                 "gallerySwitchStrategy": "<?php /* @escapeNotVerified */ echo $block->getVar('gallery_switch_strategy',
         'Magento_ConfigurableProduct') ?: 'replace'; ?>",

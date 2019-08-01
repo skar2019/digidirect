@@ -2,7 +2,7 @@
   "name": "ewave/productoverlay",
   "type": "magento2-module",
   "description": "Product Overlays",
-  "version": "2.4.0.0",
+  "version": "2.5.1.0",
   "suggest": {
     "ewave/utilities": "Ewave ProductOverlay may use ewave/utilities methods"
   },

@@ -43,3 +43,13 @@ Pronto Integration for DigiDirect project
 =============
 * Bugfixes:
     * [#315910](https://ewave.tpondemand.com/entity/315910) -- Orders with "&" failing
+
+1.0.6
+=============
+* New features:
+    * [#319664](https://ewave.tpondemand.com/entity/319664) -- Order Interface: Have a credit card type information in 'Transaction ID'
+
+1.0.7
+=============
+* Bugfixes:
+    * [#317607](https://ewave.tpondemand.com/entity/317607) -- Uncaught exceptions displayed during order interface run

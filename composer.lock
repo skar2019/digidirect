@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ff4cdca7c509c9055df073b0c8995c15",
+    "content-hash": "93cdd92cd71a7f668539b3cf77ae73a0",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1946,11 +1946,11 @@
         },
         {
             "name": "ewave/locator",
-            "version": "dev-release/1.6.1",
+            "version": "dev-release/1.7.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_locator.git",
-                "reference": "40e7e0da429cf05cf5a788e5ec3883d9be773af9"
+                "reference": "53832909ea725c0f73be3cb27dfc1d1ca25146a1"
             },
             "suggest": {
                 "ewave/googleapi": "Ewave Locator does use ewave/googleapi methods.",
@@ -1966,7 +1966,7 @@
                 }
             },
             "description": "Ewave Locator Module",
-            "time": "2019-05-29T13:10:21+00:00"
+            "time": "2019-07-23T05:39:47+00:00"
         },
         {
             "name": "ewave/magentofixes",
@@ -2256,11 +2256,11 @@
         },
         {
             "name": "ewave/productoverlay",
-            "version": "dev-release/2.4.0",
+            "version": "dev-release/2.5.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productoverlay.git",
-                "reference": "68139bbacbf6a89722c7e73f7adcfc89d7edd9a4"
+                "reference": "6999fe0fe54bf62f303b1dc6e6955f9342e222a7"
             },
             "suggest": {
                 "ewave/utilities": "Ewave ProductOverlay may use ewave/utilities methods"
@@ -2275,7 +2275,7 @@
                 }
             },
             "description": "Product Overlays",
-            "time": "2019-07-10T14:16:02+00:00"
+            "time": "2019-07-25T08:40:20+00:00"
         },
         {
             "name": "ewave/productpriority",
@@ -2319,11 +2319,11 @@
         },
         {
             "name": "ewave/prontodigi",
-            "version": "dev-release/1.0.5",
+            "version": "dev-release/1.0.7",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "b62a103f382848dcb74a982215f00b4fb2545009"
+                "reference": "eb43eafab4d79b5238f44899c9cfe86a3cbb6d8b"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2335,7 +2335,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-07-08T10:35:19+00:00"
+            "time": "2019-08-01T09:47:13+00:00"
         },
         {
             "name": "ewave/quickview",

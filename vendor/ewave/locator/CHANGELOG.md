@@ -68,8 +68,7 @@
 1.6.0
 ==============
 * Bugfixes:
-    * [#291813](https://tp.ewave.com/291813) -- There is an error during store searching on the store locator
-	
+    * [#291813](https://tp.ewave.com/291813) -- There is an error during store searching on the store locator	
 * New features:
     * [#300771](https://ewave.tpondemand.com/entity/300771) -- [DISTANCE TO STORES] As a customer, I want to be able to view the distance from my geo location for all stores in the list
 
@@ -81,4 +80,19 @@
 ================
 * Bugfixes:
     * [#303555](https://ewave.tpondemand.com/entity/303555) -- [Project: DigiDirect] Searching by postcode always returns the US even when it is not set up in admin	
+	
+1.6.2
+================
+* Bugfixes:
+    * [#313978](https://ewave.tpondemand.com/entity/313978) -- [Project:Ripcurl][storelocator] It is impossible to see store details if stores have same address	
 
+1.7.0
+================
+* New features:
+    * [#316440](https://ewave.tpondemand.com/entity/316440) -- [DEFAULT COUNTRY SEARCH] As a user, I want to see address suggestions only for the default country while searching
+    
+1.7.1
+================
+* Bugfixes:
+    * [#319344](https://ewave.tpondemand.com/entity/319344) -- There are not stores in the search result if "Using Radius" mode and Extend the Radius
+    * [#319490](https://ewave.tpondemand.com/entity/319490) -- [Locator] Stores are displayed in the incorrect order in case select by distance is selected

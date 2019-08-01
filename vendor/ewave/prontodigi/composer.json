@@ -2,7 +2,7 @@
   "name": "ewave/prontodigi",
   "type": "magento2-module",
   "description": "Ewave ProntoDigi",
-  "version": "1.0.5.0",
+  "version": "1.0.7.0",
   "autoload": {
     "files": [ "registration.php" ],
     "psr-4": {

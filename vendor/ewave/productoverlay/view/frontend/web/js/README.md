@@ -8,3 +8,4 @@ mode | string | 'cat' | Type of page: 'cat' - category/search results or 'prod' 
 productGridSelector | string | '.product-item' | The container to find DOM-selector from back-end (admin panel) to append overlay.
 hideForConfigurable | boolean | false | Hide for configurable product
 swatchContainer | string | [data-role=swatch-options] | Selector with swatches 
+overlaySelector | string | '' | Selector for current overlay 

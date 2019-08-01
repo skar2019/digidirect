@@ -255,7 +255,8 @@ class Conditions extends Generic implements TabInterface
                 ->setTemplate('Ewave_ProductOverlay::overlay/catalog_price_rules.phtml')
                 ->setOverlay($overlay)
                 ->setRules($catalogPriceRules)
-                ->setCssClass('message message-warning');
+                ->setCssClass('message message-warning')
+                ->setRemoveLinkImage($this->_assetRepo->getUrl('images/rule_component_remove.gif'));
 
             $fieldset = $form->addFieldset(
                 'conditions_fieldset',

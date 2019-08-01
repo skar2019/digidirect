@@ -336,6 +336,9 @@ class UpgradeData implements UpgradeDataInterface
         if (version_compare($context->getVersion(), '1.0.27', '<')) {
             $this->upgradeTo127($setup);
         }
+        if (version_compare($context->getVersion(), '1.0.28', '<')) {
+            $this->upgradeTo128($setup);
+        }
 
         $setup->endSetup();
     }
@@ -1408,5 +1411,15 @@ class UpgradeData implements UpgradeDataInterface
             'used_in_product_listing' => true
         ];
         $eavSetup->addAttribute($entityTypeId, 'web_only_sale', $attrData);
+    }
+
+    /**
+     * @param ModuleDataSetupInterface $setup
+     */
+    public function upgradeTo128(ModuleDataSetupInterface $setup)
+    {
+        $connection = $setup->getConnection();
+        $table = $setup->getTable('ewave_layerednavigation_filter_setting');
+        $connection->update($table, ['index_mode' => 2, 'follow_mode' => 2]);
     }
 }

@@ -9,6 +9,9 @@ use Magento\Framework\ObjectManagerInterface;
 
 class Locator
 {
+
+    const RESULT_OBJECT_EVENT = 'result_object';
+
     /**
      * @var Data
      */
@@ -67,7 +70,7 @@ class Locator
         }
         $this->eventManager->dispatch(
             'ewave_locator_entites_after_load',
-            ['result_object' => $this->resultObject]
+            [static::RESULT_OBJECT_EVENT => $this->resultObject]
         );
         return $this->resultObject->getData();
     }

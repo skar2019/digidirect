@@ -336,6 +336,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
+        $applicableInfo = [];
         $applied = false;
         /** @var \Ewave\ProductOverlay\Model\Overlays $overlay */
         foreach ($this->getOverlayCollection() as $overlay) {
@@ -349,17 +350,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $overlay->setHideInConfigurable(false);
                 if (($product->getTypeId() == Configurable::TYPE_CODE || $product->getTypeId() == Grouped::TYPE_CODE)) {
                     $overlay->setHideInConfigurable(!$overlay->getUseForParent());
-                    $html .= $this->_generateHtml($overlay);
+                    $applicableInfo[$overlay->getId()][] = $product->getId();
+
                     $usedProds = $this->getUsedProducts($product);
                     foreach ($usedProds as $child) {
                         $overlay->init($child, $mode, $product);
                         if ($overlay->isApplicable()) {
                             $applied = true;
-                            $html .= $this->_generateHtml($overlay);
+                            $applicableInfo[$overlay->getId()][] = $child->getId();
                         }
                     }
                 } else {
-                    $html .= $this->_generateHtml($overlay);
+                    $applicableInfo[$overlay->getId()][] = $product->getId();
                 }
             } elseif (($product->getTypeId() == Configurable::TYPE_CODE
                 || $product->getTypeId() == Grouped::TYPE_CODE)) {
@@ -368,13 +370,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     $overlay->init($child, $mode, $product);
                     if ($overlay->isApplicable()) {
                         $applied = true;
-                        $html .= $this->_generateHtml($overlay);
+                        $applicableInfo[$overlay->getId()][] = $child->getId();
                     }
                 }
             }
         }
 
-        return $html;
+        return $this->_generateSingleHtml($product, $applicableInfo);
     }
 
     /**
@@ -554,6 +556,33 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
         $html = $block->setOverlay($overlay)->toHtml();
 
+        return $html;
+    }
+
+    /**
+     * Generate block with overlay configuration by product with children
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param array $applicableInfo
+     * @return string
+     */
+    protected function _generateSingleHtml(\Magento\Catalog\Model\Product $product, array $applicableInfo)
+    {
+        $html = '';
+        $overlaysCollection = $this->getOverlayCollection();
+        foreach ($applicableInfo as $overlayId => $products) {
+            $overlay = $overlaysCollection->getItemById($overlayId);
+            $layout = $this->layoutFactory->create();
+            $block = $layout->createBlock(
+                'Ewave\ProductOverlay\Block\Overlay',
+                'ewave.productoverlay',
+                ['data' => [
+                    'product' => $product,
+                    'applicable_product_ids' => $products,
+                ]]
+            );
+            $html .= $block->setOverlay($overlay)->toHtml();
+        }
         return $html;
     }
 

@@ -71,34 +71,20 @@ class InvoiceManager
     }
 
     /**
-     * @param OrderInterface|Order $order
-     * @return InvoiceInterface|null
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param OrderInterface $order
+     * @return Order\Invoice|null
      */
     public function createInvoice(OrderInterface $order)
     {
         $invoice = null;
         if ($order->canInvoice()) {
-            try {
-                $invoice = $this->invoiceService->prepareInvoice($order);
-                $invoice->register();
-                $this->invoiceRepository->save($invoice);
-                $transactionSave = $this->transaction->addObject(
-                    $invoice
-                )->addObject(
-                    $invoice->getOrder()
-                );
-                $transactionSave->save();
-            } catch (\Throwable $e) {
-                $invoice = null;
-                $this->logger->critical(
-                    __(
-                        'Could create invoice for order: %1. Error: ',
-                        $order->getIncrementId(),
-                        $e->__toString()
-                    )
-                );
-            }
+            $invoice = $this->invoiceService->prepareInvoice($order);
+            $invoice->register();
+            $this->invoiceRepository->save($invoice);
+            $this->transaction
+                ->addObject($invoice)
+                ->addObject($invoice->getOrder())
+                ->save();
         }
         return $invoice;
     }
@@ -111,24 +97,14 @@ class InvoiceManager
     {
         if ($invoice->getEntityId()) {
             $order = $invoice->getOrder();
-            try {
-                $this->incrementIdUpdater->update($invoice, $order->getData(OrderConst::ATTRIBUTE_PRONTO_ORDER_NUMBER));
-                if ($this->invoiceSender->send($invoice)) {
-                    $order->addCommentToStatusHistory(
-                        __('Notified customer about invoice #%1.', $invoice->getIncrementId())
-                    )
-                        ->setIsCustomerNotified(true)
-                        ->save();
+            $this->incrementIdUpdater->update($invoice, $order->getData(OrderConst::ATTRIBUTE_PRONTO_ORDER_NUMBER));
+            if ($this->invoiceSender->send($invoice)) {
+                $order->addCommentToStatusHistory(
+                    __('Notified customer about invoice #%1.', $invoice->getIncrementId())
+                )
+                    ->setIsCustomerNotified(true)
+                    ->save();
                     return true;
-                }
-            } catch (\Throwable $e) {
-                $this->logger->critical(
-                    __(
-                        'Could send email invoice for order: %1. Error: ',
-                        $order->getIncrementId(),
-                        $e->__toString()
-                    )
-                );
             }
         }
         return false;

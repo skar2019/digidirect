@@ -6,4 +6,11 @@
     <type name="Magento\Checkout\Model\DefaultConfigProvider">
         <plugin name="ewave_digi_checkout_default_config_provider" type="Ewave\Digi\Model\Plugin\Checkout\DefaultConfigProvider" sortOrder="110" disabled="false"/>
     </type>
+
+    <type name="Magento\Framework\View\Page\Config\Renderer">
+        <plugin name="assets.render.plugin"
+                type="Ewave\Digi\Plugin\Magento\Framework\View\Page\Config\Renderer"
+                sortOrder="1"
+                disabled="false" />
+    </type>
 </config>

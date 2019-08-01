@@ -21,12 +21,14 @@ define([
             entityName: 'store',
             defaultAddress: 'Australia',
             defaultCountryCode: 'AU',
+            availableCountries: [],
             defaultLocations: {},
             search: {
                 form: '.locator-search .form',
                 term: '.locator-search .input-search',
                 radius: '.locator-search .radius',
-                onLoad: false
+                onLoad: false,
+                mode: 'RADIUS'
             },
             map: {
                 id: 'locator-map',
@@ -66,6 +68,9 @@ define([
                 noPermissionMessage: '<p>Google Maps does not have permission to use your location.</p><a href="https://support.google.com/maps/answer/2839911" title="Learn more">Learn more</a>',
                 markerSettings: {},
                 conversionConstant: 0.609344
+            },
+            autocomplete: {
+                useRestrictions: true
             }
         },
         _create: function () {
@@ -106,7 +111,7 @@ define([
         _loadGoogleApi: function (mapUrl) {
             require([mapUrl], function () {
                 this._initMap();
-                this.initAutoComplete(this.options.search.term);
+                this.initAutoComplete(this.options.search.term, this.options.autocomplete.useRestrictions);
                 this._setInlineMap();
             }.bind(this), function () {
                 console.error('Failed to load Google Maps API');
@@ -114,9 +119,14 @@ define([
                 $(document).trigger('locator.map.initialized');
             });
         },
-        initAutoComplete: function (field) {
+        initAutoComplete: function (field, useRestrictions) {
             if ($(field).length) {
                 this.autocomplete = new google.maps.places.Autocomplete((document.querySelector(field)), {types: ['geocode']});
+                if (useRestrictions) {
+                    this.autocomplete.setComponentRestrictions({
+                        'country': this.options.availableCountries
+                    });
+                }
             }
         },
         _initMap: function () {
@@ -224,14 +234,15 @@ define([
 
             setLocations(this.list, settings);
         },
-        setItemsDistance: function (center) {
-            var self = this;
+        setItemsDistance: function (center, itemKey) {
+            var self = this,
+                key = itemKey || 'geo_distance';
 
             $.each(this.list, function (index, item) {
                 var latlng = new google.maps.LatLng(item.latitude, item.longitude),
                     distance = self.calculateDistance(center, latlng) / 1000;
-                item['geo_distance'] = distance;
-                item['geo_distance_formatted'] = self.setFormattedDistance(distance);
+                item[key] = distance;
+                item[key + '_formatted'] = self.setFormattedDistance(distance);
             });
         },
         setFormattedDistance: function (distance) {
@@ -285,12 +296,11 @@ define([
             }
         },
         _search: function ($form) {
-            var term = $(this.options.search.term).val();
-
-            var params = {
-                address: term,
-                region: this.options.defaultCountryCode
-            };
+            var term = $(this.options.search.term).val(),
+                params = {
+                    address: term,
+                    region: this.options.defaultCountryCode
+                };
 
             if (!!this.defaultBounds) {
                 params.bounds = this.defaultBounds;
@@ -298,14 +308,23 @@ define([
 
             this.geocoder.geocode(params, function (results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
-                    this.sendRequest($form, term, results[0].geometry.location);
+                    this.searchByGeocode($form, term, results[0].geometry.location);
+                } else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                    this._searchOnQueryLimit($form);
                 } else {
-                    this.clearLocations();
-                    this.clearMap();
-                    setLocations([], {});
-                    console.warn(term + ' not found');
+                    this.clearAll();
                 }
             }.bind(this));
+        },
+        searchByGeocode: function ($form, term, location) {
+            if (this.options.search.mode === 'ALL') {
+                this.isIgnoreRadius = true;
+                this.renderLocations(this.getAllItems(), location);
+            } else if (this.options.search.mode === 'RADIUS') {
+                this.renderLocations(this.getInternalRadiusItems(location), location);
+            } else {
+                this.sendRequest($form, term, location);
+            }
         },
         _searchOnLoad: function () {
             var self = this;
@@ -319,6 +338,21 @@ define([
             $(document).on('locator.map.initialized', function () {
                 self._search($(self.options.search.form));
             });
+        },
+        _searchOnQueryLimit: function ($form) {
+            var self = this,
+                $submitSearch = $form.find('button:submit');
+
+            $submitSearch.prop('disabled', true);
+            setTimeout(function () {
+                $submitSearch.prop('disabled', false);
+                self._search($form);
+            }, 2000);
+        },
+        clearAll: function () {
+            this.clearLocations();
+            this.clearMap();
+            setLocations([], {});
         },
         _getDefaultSearchParams: function ($form, term, location) {
             return {
@@ -393,6 +427,14 @@ define([
             if (this.userCurrentLocation) {
                 this.setItemsDistance(this.userCurrentLocation);
             }
+
+            if (this.options.search.mode === 'RADIUS' && this.options.sortOrder === 'DISTANCE') {
+                this.setItemsDistance(center, 'radius_distance');
+                this.list.sort(function (a, b) {
+                    return a.radius_distance - b.radius_distance;
+                });
+            }
+
             setLocations(this.list, settings);
 
             // render on map explicitly
@@ -410,6 +452,41 @@ define([
             this.setMarkers(items, center, settings);
             this.initCircle(center);
             this.fitLocations();
+        },
+        getAllItems: function () {
+            if (!$.isEmptyObject(this.options.defaultLocations)) {
+                var entity = this.options.defaultLocations[this.options.entityName];
+
+                return {
+                    items: entity.items,
+                    settings: entity.settings
+                };
+            } else {
+                return {
+                    items: [],
+                    settings: {}
+                };
+            }
+        },
+        getInternalRadiusItems: function (center) {
+            var self = this,
+                result = this.getAllItems(),
+                radius,
+                latlng,
+                items = [];
+
+            if (!$.isEmptyObject(this.options.defaultLocations)) {
+                radius = this.getRadius();
+
+                $.each(result.items, function (index, item) {
+                    latlng = new google.maps.LatLng(item.latitude, item.longitude);
+                    if (self.calculateDistance(center, latlng) <= radius) {
+                        items.push(item);
+                    }
+                });
+                result.items = items;
+            }
+            return result;
         },
         setMarkers: function (items, center, settings) {
             var self = this;
@@ -454,7 +531,7 @@ define([
         getMarkerSettings: function (item, latlng) {
             return {
                 map: this.map,
-                position: latlng,
+                position: this.fixSameCoordinates(latlng),
                 title: item.name
             };
         },
@@ -513,7 +590,7 @@ define([
             if (this.options.radius.extensible && !markers.length && $radius.length) {
                 $nextRadius = $radius.find('option:selected').next();
                 if ($nextRadius.length) {
-                    $nextRadius.attr('selected', 'selected');
+                    $nextRadius.prop('selected', true);
                     this._search($(this.options.search.form));
                 }
             }
@@ -579,6 +656,26 @@ define([
             } else {
                 this.loadMarkerClustering();
             }
+        },
+        fixSameCoordinates: function (latlng) {
+            var self = this,
+                newLat,
+                newLng,
+                finalLatLng = latlng;
+
+            if (this.options.marker.useClustering) {
+                $.each(this.markers, function (i, marker) {
+                    // if a marker already exists in the same position as this marker
+                    if (typeof marker.getPosition !== 'undefined' && marker.getPosition().equals(latlng)) {
+                        var a = 360.0 / self.markers.length;
+                        newLat = latlng.lat() + -0.00004 * Math.cos((+a * i) / 180 * Math.PI);
+                        newLng = latlng.lng() + -0.00004 * Math.sin((+a * i) / 180 * Math.PI);
+                        finalLatLng = new google.maps.LatLng(newLat, newLng);
+                    }
+                });
+            }
+
+            return finalLatLng;
         }
     });
 

@@ -8,6 +8,8 @@ use Magento\Framework\View\Element\Template\Context;
 use Ewave\Digi\Model\SeoBrandDescription as ModelSeoBrand;
 
 /**
+ * TODO: rewrite all logic and move part of code info helper
+ *
  * Class SeoBrandDescription
  * @package Ewave\Digi\Block\SeoBrand
  */
@@ -34,7 +36,8 @@ class SeoBrandDescription extends Template
     }
 
     /**
-     * @return null|string
+     * @return string|null
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getSeoData(): ?string
     {
@@ -48,17 +51,63 @@ class SeoBrandDescription extends Template
     }
 
     /**
-     * void
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
+    protected function setContentPageTitle()
+    {
+        // set html page title
+        $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
+        if ($pageMainTitle) {
+            $brandName = $this->seoBrandDescription->getBrandLabel(
+                $this->seoBrandDescription->getCurrentOption()
+            );
+            $pageMainTitle->setPageTitle($this->escapeHtml($brandName));
+        }
+    }
+
+    /**
+     * @param $filterName
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    protected function setFilterContentPageTitle($filterName)
+    {
+        // set html page title
+        $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
+        if ($pageMainTitle) {
+            $pageMainTitle->setPageTitle($this->escapeHtml($filterName . ': ' . $pageMainTitle->getPageTitle()));
+        }
+    }
+
     public function prepareSeoData()
     {
         $result = null;
-        $seoBrandEntity = $this->seoBrandDescription->getSeoBrandEntity();
-        $this->seoBrandDescription->setDefaultMetaInformation();
+        try {
+            if ($this->seoBrandDescription->isCategoryBrandPage()) {
+                $seoBrandEntity = $this->seoBrandDescription->getSeoBrandEntity();
+                $this->seoBrandDescription->setDefaultMetaInformation();
 
-        if ($seoBrandEntity && $seoBrandEntity->getId()) {
-            $this->seoBrandDescription->setMetaInformationByEntity($seoBrandEntity);
+                if ($seoBrandEntity && $seoBrandEntity->getId()) {
+                    $this->seoBrandDescription->setMetaInformationByEntity($seoBrandEntity);
+                }
+
+                $this->setContentPageTitle();
+            } else {
+                if ($this->seoBrandDescription->isFiltered()) {
+                    $this->setFilterContentPageTitle($this->seoBrandDescription->getLastFilterLabel());
+                }
+            }
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            //nothing
         }
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isFilterPage()
+    {
+        return $this->seoBrandDescription->isFilterPage();
     }
 
     /**

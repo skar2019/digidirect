@@ -52,6 +52,15 @@
                     <comment>URI of Order Get Interface</comment>
                 </field>
             </group>
+            <group id="debug" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Debug</label>
+                <field id="is_debug_update_request" translate="label" type="select" sortOrder="12"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Update Status Request </label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enable then all update status request from Pronto to Magento written to log file pronto.log</comment>
+                </field>
+            </group>
         </section>
     </system>
 </config>

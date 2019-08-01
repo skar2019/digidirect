@@ -22,32 +22,37 @@ class View
      */
     private $pageConfig;
 
+    private $isAlreadySet;
+
     public function __construct(
         Config $pageConfig,
         ModelSeoBrand $seoBrandDescription
     ) {
-
         $this->seoBrandDescription = $seoBrandDescription;
         $this->pageConfig = $pageConfig;
     }
 
     /**
-     * @param FormSubject $subject
+     * @param $subject
      * @param $result
      * @return array
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function afterSetLayout($subject, $result)
     {
-        if ($this->seoBrandDescription->isSeoBrandDescriptionUse()) {
-
-            /**
-             * @var $seoBrandEntity \Ewave\Digi\Model\SeoBrandDescription
-             */
-            $seoBrandEntity = $this->seoBrandDescription->getSeoBrandEntity();
-            $this->seoBrandDescription->setDefaultMetaInformation();
-            if ($seoBrandEntity && $seoBrandEntity->getId()) {
-                $seoBrandEntity->setMetaInformationByEntity($seoBrandEntity);
+        if (!$this->isAlreadySet) {
+            if ($this->seoBrandDescription->isCategoryBrandPage()){
+                /**
+                 * @var $seoBrandEntity \Ewave\Digi\Model\SeoBrandDescription
+                 */
+                $seoBrandEntity = $this->seoBrandDescription->getSeoBrandEntity();
+                $this->seoBrandDescription->setDefaultMetaInformation();
+                if ($seoBrandEntity && $seoBrandEntity->getId()) {
+                    $seoBrandEntity->setMetaInformationByEntity($seoBrandEntity);
+                }
             }
+
+            $this->isAlreadySet = true;
         }
         return [$result];
     }

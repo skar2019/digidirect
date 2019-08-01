@@ -637,4 +637,23 @@
             <argument name="invoiceSender" xsi:type="object">ProntoInvoiceSender</argument>
         </arguments>
     </type>
+    <type name="Ewave\ProntoDigi\Model\ApiOrder">
+        <arguments>
+            <argument name="logger" xsi:type="object">Ewave\ProntoDigi\Log</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Ewave\ProntoDigi\LogHandler" type="Magento\Framework\Logger\Handler\Base">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/pronto.log</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Ewave\ProntoDigi\Log" type="Monolog\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">pronto</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="logger" xsi:type="object">Ewave\ProntoDigi\LogHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
 </config>

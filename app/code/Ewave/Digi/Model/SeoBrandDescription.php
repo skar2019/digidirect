@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Ewave\Digi\Model;
 
+use Ewave\LayeredNavigation\Helper\Url;
 use Magento\Eav\Model\Entity\TypeFactory;
 use Ewave\AbstractEntity\Model\AbstractEntityRepository;
 use Ewave\Digi\Setup\SeoBrandDescriptionEntitySetup;
@@ -14,6 +15,7 @@ use Magento\Framework\View\Page\Config;
 use Magento\Framework\View\Asset\GroupedCollection as PageAsset;
 use Ewave\Digi\Helper\AbstractAttribute;
 use \Zend\Uri\Http as ZendUrlParser;
+use \Ewave\LayeredNavigation\Helper\UrlParser;
 
 /**
  * Class SeoBrandDescription
@@ -24,6 +26,8 @@ class SeoBrandDescription
     const ASSET_CANONICAL = 'canonical';
     const EXCLUDED_ID_CATEGORIES = [1, 2];
     const ROBOTS_META_DATA = 'INDEX,FOLLOW';
+    const BRAND_ATTR_CODE = 'brand';
+    const META_TITLE_MASK = 'Buy {{brand}} Products Online';
 
     /**
      * @var bool
@@ -67,6 +71,18 @@ class SeoBrandDescription
      */
     private $zendUrlParser;
 
+    private $currentBrand;
+
+    /**
+     * @var UrlParser
+     */
+    private $urlParser;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
     public function __construct(
         AbstractEntityRepository $abstractEntityRepository,
         Registry $coreRegistry,
@@ -75,7 +91,9 @@ class SeoBrandDescription
         Config $pageConfig,
         PageAsset $pageAsset,
         AbstractAttribute $abstractAttributeHelper,
-        ZendUrlParser $zendUrlParser
+        ZendUrlParser $zendUrlParser,
+        UrlParser $urlParser,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->abstractEntityRepository = $abstractEntityRepository;
         $this->coreRegistry = $coreRegistry;
@@ -85,18 +103,27 @@ class SeoBrandDescription
         $this->pageAsset = $pageAsset;
         $this->abstractAttributeHelper = $abstractAttributeHelper;
         $this->zendUrlParser = $zendUrlParser;
+        $this->urlParser = $urlParser;
+        $this->scopeConfig = $scopeConfig;
     }
 
+    /**
+     * @return int|null
+     */
     public function getCurrentOption()
     {
-        $optionId = null;
-        $currentUrl = $this->getCurrentUrl();
-        $urlKey = $currentUrl ? $this->parseUrl($currentUrl) : null;
-        $brandId = $urlKey && !empty($urlKey) ? $this->abstractAttributeHelper->getBrandIdByUrlKey($urlKey) : null;
-        if ($brandId) {
-            $optionId = $brandId;
+        if (!$this->currentBrand) {
+            $this->currentBrand = 0;
+            $optionId = null;
+            $currentUrl = $this->getCurrentUrl();
+            $urlKey = $currentUrl ? $this->parseUrl($currentUrl) : null;
+            $brandId = $urlKey && !empty($urlKey) ? $this->abstractAttributeHelper->getBrandIdByUrlKey($urlKey) : null;
+            if ($brandId) {
+                $this->currentBrand = $brandId;
+            }
         }
-        return $optionId;
+
+        return $this->currentBrand;
     }
 
     /**
@@ -113,7 +140,7 @@ class SeoBrandDescription
     public function setSeoBrandEntity($seoBrandEntity)
     {
         if ($seoBrandEntity && $seoBrandEntity->getId()) {
-            $this->seoBrandEntity =  $seoBrandEntity;
+            $this->seoBrandEntity = $seoBrandEntity;
             $this->isSeoBrnadUse = true;
         }
     }
@@ -134,7 +161,8 @@ class SeoBrandDescription
     }
 
     /**
-     * @return SeoBrandDescription|null
+     * @return null
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getSeoBrandEntity()
     {
@@ -145,8 +173,8 @@ class SeoBrandDescription
                 $entityType = $this->abstractEntityRepository
                     ->getCollection(SeoBrandDescriptionEntitySetup::ABSTRACT_ENTITY_NAME)
                     ->addAttributeToSelect('*')
-                    ->addAttributeToFilter('brand', ['eq' =>  $currentOption])
-                    ->addAttributeToFilter('catogory', ['eq' =>  $currentCategory->getId()])
+                    ->addAttributeToFilter('brand', ['eq' => $currentOption])
+                    ->addAttributeToFilter('catogory', ['eq' => $currentCategory->getId()])
                     ->setPage(1, 1);
                 $this->setSeoBrandEntity($entityType->getFirstItem());
             }
@@ -169,12 +197,47 @@ class SeoBrandDescription
      */
     public function setDefaultMetaInformation($robotsMetaData = self::ROBOTS_META_DATA)
     {
-        $currentUrl = $this->getCurrentUrl();
-        $currentOption = $this->getCurrentOption();
-        if ($currentUrl && $currentOption) {
+        if ($this->isCategoryBrandPage()) {
             $this->pageConfig->setRobots($robotsMetaData);
-            $this->setCanonical($currentUrl);
+            $this->setCanonical($this->getCanonicalUrl());
+
+            if (!$this->seoBrandEntity || !$this->seoBrandEntity->getMetaTitle()) {
+                $brandName = $this->getBrandLabel($this->getCurrentOption());
+                $this->setDefaultMetaTitle($brandName);
+            }
+        } else {
+            if ($this->isFiltered()) {
+                $this->setMetaTitle($this->getLastFilterLabel() . ': ' . $this->pageConfig->getTitle()->getShortHeading());
+            }
         }
+    }
+
+    public function getLastFilterLabel()
+    {
+        $url = preg_replace('/\?.*/i', '', $this->url->getCurrentUrl());
+        $categorySuffix = $this->scopeConfig->getValue('catalog/seo/category_url_suffix');
+        $seoPart = trim(str_replace($categorySuffix,'', last(explode(Url::FILTERS_DELIMITER, $url))), '/');
+        $params = $this->urlParser->parseSeoPart($seoPart);
+
+        if (!empty($params)) {
+            $labels = [];
+            $lastParam = explode(',', last($params));
+            foreach ($lastParam as $option) {
+                $labels[] = $this->abstractAttributeHelper->getOptionLabel($option);
+            }
+            return implode(', ', $labels);
+        }
+
+        return 'Filter';
+    }
+
+    /**
+     * @param $rowId
+     * @return string
+     */
+    public function getBrandLabel($rowId)
+    {
+        return $this->abstractAttributeHelper->getBrandLabel($rowId);
     }
 
     /**
@@ -184,8 +247,7 @@ class SeoBrandDescription
     {
         if ($this->pageConfig) {
             if ($seoBrandEntity->getMetaTitle()) {
-                $this->pageConfig->setMetaTitle($seoBrandEntity->getMetaTitle());
-                $this->pageConfig->getTitle()->set($seoBrandEntity->getMetaTitle());
+                $this->setMetaTitle($seoBrandEntity->getMetaTitle());
             }
 
             if ($seoBrandEntity->getMetaDescription()) {
@@ -199,19 +261,94 @@ class SeoBrandDescription
     }
 
     /**
+     * @param $brandName
+     */
+    public function setDefaultMetaTitle($brandName)
+    {
+        $metaTitle = str_replace('{{'. self::BRAND_ATTR_CODE .'}}', $brandName, self::META_TITLE_MASK);
+        $this->setMetaTitle($metaTitle);
+    }
+
+    /**
+     * @param $title
+     */
+    public function setMetaTitle($title)
+    {
+        $this->pageConfig->setMetaTitle($title);
+        $this->pageConfig->getTitle()->set($title);
+    }
+
+    /**
      * @return null|string
      */
     private function getCurrentUrl()
     {
         $currentUrl = $this->url->getCurrentUrl();
-        if (empty($currentUrl) || strpos($currentUrl, '/filters/') !== false) {
+        if (empty($currentUrl) || $this->isFiltered($currentUrl)) {
             $currentUrl = null;
         }
         return $currentUrl;
     }
 
     /**
-     * @param $url
+     * @return string
+     */
+    public function getCanonicalUrl()
+    {
+        $currentUrl = $this->getCurrentUrl();
+        $urlKey = $currentUrl ? $this->parseUrl($currentUrl) : '';
+        $currentCategory = $this->getCurrentCategory();
+
+        $parentCategory = $currentCategory->getParentCategories();
+        if (!empty($parentCategory) && count($parentCategory) > 1) {
+            $currentCategory = array_shift($parentCategory);
+        }
+        return $currentCategory->getUrl() . '/' . $urlKey;
+    }
+
+    /**
+     * @param null|string $currentUrl
+     * @return bool
+     */
+    public function isFiltered($currentUrl = null)
+    {
+        $isFiltered = true;
+
+        $currentUrl = $currentUrl ?: $this->url->getCurrentUrl();
+
+        $path = preg_replace('/\?.*/i', '', $currentUrl);
+        if (!preg_match('/^(.*)\/' . Url::FILTERS_DELIMITER . '\/(.*)$/', $path, $matches)) {
+            $isFiltered = false;
+        } else {
+            if ($this->isOnlyBrandInFilter($matches[2])) {
+                $isFiltered = false;
+            }
+        }
+
+        return $isFiltered;
+    }
+
+    /**
+     * @param string $seoPart
+     * @return bool
+     */
+    private function isOnlyBrandInFilter($seoPart)
+    {
+        $params = explode('/', $seoPart);
+
+        if (count($params) > 2
+            || $params[0] != self::BRAND_ATTR_CODE
+            || strpos($params[1], ',') !== false
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $url
+     * @return void
      */
     private function setCanonical($url)
     {
@@ -221,7 +358,6 @@ class SeoBrandDescription
                     $this->pageAsset->remove($urlKey);
                 }
             }
-
             $this->pageConfig->addRemotePageAsset(
                 $url,
                 self::ASSET_CANONICAL,
@@ -243,5 +379,25 @@ class SeoBrandDescription
             $lastPath = array_pop($pathArr);
         }
         return $lastPath;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCategoryBrandPage()
+    {
+        return $this->getCurrentOption() && $this->getCurrentCategory();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFilterPage()
+    {
+        $currentUrl = $this->url->getCurrentUrl();
+        if (empty($currentUrl) || strpos($currentUrl, '/filters/') !== false) {
+            return true;
+        }
+        return false;
     }
 }

@@ -143,6 +143,8 @@ class Save extends \Ewave\ProductOverlay\Controller\Adminhtml\Overlays
 
                 $overlay->setData($data);
 
+                $overlay->validateTimes();
+
                 if (!$overlay->validateDates()) {
                     throw new \Magento\Framework\Exception\LocalizedException(
                         __('"From Date" should be less than "To Date".')

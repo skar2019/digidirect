@@ -5,14 +5,15 @@
 <?php
 /** @var \Ewave\ProductOverlay\Model\Overlays $overlay */
 $overlay = $this->getOverlay();
-$key = (int)$overlay->getId() . '-' . (int)$overlay->getProduct()->getId();
+$product = $block->getProduct();
+$key = (int)$overlay->getId() . '-' . (int)$product->getId();
 $text = $overlay->getText();
 $nativeText = strip_tags($text);
 $containerPath = $block->getContainerPath();
 $hasImageSize = $overlay->getImageSize() ? ' -has-size' : '';
 ?>
 <?php if ($containerPath): ?>
-    <div data-testid="productOverlay-overlayBlock" class="product-overlay-<?php echo $block->escapeHtml($key); ?> product-overlay -<?php echo $block->escapeHtml($overlay->getCssClass()) ?><?php /* @escapeNotVerified */ echo $hasImageSize; ?>"<?php if ($overlay->getUseForParent()): ?> data-role="use-for-parent"<?php endif; ?> style="<?php echo $block->escapeHtml($overlay->getValue('block_style')); ?>">
+    <div data-testid="productOverlay-overlayBlock" class="product-overlay-<?php echo $block->escapeHtml($key); ?> product-overlay -<?php echo $block->escapeHtml($overlay->getCssClass()) ?><?php /* @escapeNotVerified */ echo $hasImageSize; ?>"<?php if ($overlay->getUseForParent()): ?> data-role="use-for-parent"<?php endif; ?> data-overlay-id="<?php echo $block->escapeHtml((int)$overlay->getId()); ?>" style="<?php echo $block->escapeHtml($overlay->getValue('block_style')); ?>">
         <img class="img"
              src="<?php echo $block->escapeUrl($block->getImageScr()) ?>"
              title="<?php echo $block->escapeHtml($nativeText) ?>"
@@ -30,10 +31,10 @@ $hasImageSize = $overlay->getImageSize() ? ' -has-size' : '';
                     "size": <?= /* @escapeNotVerified */ $overlay->getImageSize() ?>,
                     "path": "<?= $block->escapeHtml($containerPath) ?>",
                     "mode": "<?= $block->escapeHtml($overlay->getMode()) ?>",
-                    "hideForConfigurable": "<?= /* @escapeNotVerified */ $overlay->getHideInConfigurable(); ?>"
+                    "hideForConfigurable": "<?= /* @escapeNotVerified */ $overlay->getHideInConfigurable(); ?>",
+                    "overlaySelector": ".product-overlay-<?php echo $block->escapeHtml($key); ?>"
                 }
             }
         }
     </script>
 <?php endif; ?>
-

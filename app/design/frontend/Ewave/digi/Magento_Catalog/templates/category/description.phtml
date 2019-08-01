@@ -20,7 +20,7 @@ $currentDescription = $seoDescriptionData && !empty($seoDescriptionData)
     ? $seoDescriptionData
     : $block->getCurrentCategory()->getDescription();
 ?>
-<?php if ($currentDescription): ?>
+<?php if ($currentDescription && !$seoBlock->isFilterPage()): ?>
     <div class="category-description">
         <?= /* @escapeNotVerified */ $this->helper('Magento\Catalog\Helper\Output')
             ->categoryAttribute(
