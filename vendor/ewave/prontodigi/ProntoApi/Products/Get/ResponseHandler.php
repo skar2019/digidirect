@@ -34,7 +34,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
 {
     const BRAND_ATTRIBUTE_CODE = 'brand';
     const USE_CONFIG_BACKORDERS = 'use_config_backorders';
-    const BACKORDERS = 'backorders';
+    const BACKORDERS = 'allow_backorders';
     const COL_ATTR_SET = 'attribute_set_code';
 
     /**
@@ -620,7 +620,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     protected function getBackorders(array $data)
     {
         if (!empty($data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION])
-            && $data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION] == 'O') {
+            && $data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION] == 'T') {
             $data[self::BACKORDERS] = 0;
             $data[self::USE_CONFIG_BACKORDERS] = 0;
         }

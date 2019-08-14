@@ -43,5 +43,27 @@
             }
         }
     </script>
+
+
+    <?php  /** Start: Overlay Settings for You may also Like slider (Ewave_ProductOverlay/web/js/upsell-slider.js) */ ?>
+
+    <script type="text/javascript">
+        window.overlayOnSlideSize = <?= /* @escapeNotVerified */ $overlay->getImageSize() ?>;
+        window.overlayOnSliderPath = "<?= $block->escapeHtml($containerPath) ?>";
+        window.overlayOnSliderMode = "<?= /* @escapeNotVerified */ $overlay->getImageSize() ?>";
+        window.overlayOnSliderHideForConfigurable = "<?= /* @escapeNotVerified */ $overlay->getHideInConfigurable(); ?>";
+    </script>
+
+    <?php /** End */ ?>
+
+
+    <script type="text/x-magento-init">
+    {
+        "*": {
+            "Ewave_ProductOverlay/js/upsell-slider": {}
+        }
+    }
+    </script>
 <?php endif; ?>
+
 

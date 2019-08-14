@@ -298,7 +298,7 @@ abstract class ProductResponseHandlerAbstract extends BaseResponseHandler implem
             || empty($data['sources'])
             || empty($data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_STATUS])
             || (!empty($data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION])
-                && $data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION] != 'O')
+                && $data[ProductConstants::PRODUCT_ATTRIBUTE_STOCK_CONDITION] != 'T')
         ) {
             $data[ProductAttributeInterface::CODE_STATUS] = ProductStatus::STATUS_DISABLED;
         }

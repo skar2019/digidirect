@@ -191,13 +191,13 @@ switch ($type = $block->getType()) {
         </div>
         <?php endif; ?>
         <div class="wrapper grid products-grid products-<?= $block->escapeHtml($type); ?>">
-            <ol class="list items product-items"
+            <ol class="list items product-items upsell-slider" id="upsell-slider"
                 data-mage-init='{
                     "productTile": {
                         <?php if ($block->isRedirectToCartEnabled()): ?>
                         "isRedirectToCartEnabled": true,
                         <?php endif; ?>
-                        "type": "<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>"
+                        "type": "default"
                     }
                     }'>
                 <?php foreach ($items as $_item): ?>

@@ -50,8 +50,9 @@ class SeoBrandDescription extends Template
         return $result;
     }
 
+
     /**
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return void
      */
     protected function setContentPageTitle()
     {
@@ -66,18 +67,37 @@ class SeoBrandDescription extends Template
     }
 
     /**
-     * @param $filterName
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @param array $filterNames
+     * @return void
      */
-    protected function setFilterContentPageTitle($filterName)
+    protected function setFilterContentPageTitle(array $filterNames)
     {
         // set html page title
         $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
         if ($pageMainTitle) {
-            $pageMainTitle->setPageTitle($this->escapeHtml($filterName . ': ' . $pageMainTitle->getPageTitle()));
+            $filterTitle = $this->preparedFilterTitle($filterNames);
+            $pageMainTitle->setPageTitle($this->escapeHtml($filterTitle . ': ' . $pageMainTitle->getPageTitle()));
         }
     }
 
+    /**
+     * @param array $filterNames
+     * @return string
+     */
+    public function preparedFilterTitle(array $filterNames)
+    {
+        if (empty($filterNames)) {
+            return 'Filter';
+        }
+
+        if (count($filterNames) == 1) {
+            return array_shift($filterNames);
+        }
+        return array_pop($filterNames);
+    }
+    /**
+     * @return void
+     */
     public function prepareSeoData()
     {
         $result = null;

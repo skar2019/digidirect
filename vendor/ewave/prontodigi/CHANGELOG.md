@@ -48,3 +48,8 @@
 =============
 * Bugfixes:
     * [#317607](https://ewave.tpondemand.com/entity/317607) -- Uncaught exceptions displayed during order interface run
+
+1.0.8
+=============
+* New features:
+    * [#321608](https://ewave.tpondemand.com/entity/321608) -- Product Interface: Products with 'stk-condition' = 'O' should be disabled after integration

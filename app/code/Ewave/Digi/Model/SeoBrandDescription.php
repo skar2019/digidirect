@@ -71,6 +71,9 @@ class SeoBrandDescription
      */
     private $zendUrlParser;
 
+    /**
+     * @var string
+     */
     private $currentBrand;
 
     /**
@@ -83,6 +86,19 @@ class SeoBrandDescription
      */
     protected $scopeConfig;
 
+    /**
+     * SeoBrandDescription constructor.
+     * @param AbstractEntityRepository $abstractEntityRepository
+     * @param Registry $coreRegistry
+     * @param RequestInterface $request
+     * @param UrlInterface $url
+     * @param Config $pageConfig
+     * @param PageAsset $pageAsset
+     * @param AbstractAttribute $abstractAttributeHelper
+     * @param ZendUrlParser $zendUrlParser
+     * @param UrlParser $urlParser
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     */
     public function __construct(
         AbstractEntityRepository $abstractEntityRepository,
         Registry $coreRegistry,
@@ -136,6 +152,7 @@ class SeoBrandDescription
 
     /**
      * @param $seoBrandEntity
+     * @return void
      */
     public function setSeoBrandEntity($seoBrandEntity)
     {
@@ -162,7 +179,6 @@ class SeoBrandDescription
 
     /**
      * @return null
-     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getSeoBrandEntity()
     {
@@ -194,6 +210,7 @@ class SeoBrandDescription
 
     /**
      * @param string $robotsMetaData
+     * @return void
      */
     public function setDefaultMetaInformation($robotsMetaData = self::ROBOTS_META_DATA)
     {
@@ -207,16 +224,22 @@ class SeoBrandDescription
             }
         } else {
             if ($this->isFiltered()) {
-                $this->setMetaTitle($this->getLastFilterLabel() . ': ' . $this->pageConfig->getTitle()->getShortHeading());
+                $this->setMetaTitle(
+                    $this->getTitleFromFilterLabel($this->getLastFilterLabel())
+                    . ': ' . $this->pageConfig->getTitle()->getShortHeading()
+                );
             }
         }
     }
 
+    /**
+     * @return array
+     */
     public function getLastFilterLabel()
     {
         $url = preg_replace('/\?.*/i', '', $this->url->getCurrentUrl());
         $categorySuffix = $this->scopeConfig->getValue('catalog/seo/category_url_suffix');
-        $seoPart = trim(str_replace($categorySuffix,'', last(explode(Url::FILTERS_DELIMITER, $url))), '/');
+        $seoPart = trim(str_replace($categorySuffix, '', last(explode(Url::FILTERS_DELIMITER, $url))), '/');
         $params = $this->urlParser->parseSeoPart($seoPart);
 
         if (!empty($params)) {
@@ -225,14 +248,26 @@ class SeoBrandDescription
             foreach ($lastParam as $option) {
                 $labels[] = $this->abstractAttributeHelper->getOptionLabel($option);
             }
-            return implode(', ', $labels);
+            return $labels;
         }
 
+        return ['Filter'];
+    }
+
+    /**
+     * @param array $filterNames
+     * @return string
+     */
+    public function getTitleFromFilterLabel(array $filterNames)
+    {
+        if (!empty($filterNames)) {
+            return implode(',', $filterNames);
+        }
         return 'Filter';
     }
 
     /**
-     * @param $rowId
+     * @param string $rowId
      * @return string
      */
     public function getBrandLabel($rowId)
@@ -242,6 +277,7 @@ class SeoBrandDescription
 
     /**
      * @param SeoBrandDescription $seoBrandEntity
+     * @return void
      */
     public function setMetaInformationByEntity($seoBrandEntity)
     {
@@ -261,7 +297,8 @@ class SeoBrandDescription
     }
 
     /**
-     * @param $brandName
+     * @param string $brandName
+     * @return void
      */
     public function setDefaultMetaTitle($brandName)
     {
@@ -270,12 +307,16 @@ class SeoBrandDescription
     }
 
     /**
-     * @param $title
+     * @param string $title
+     * @return void
      */
     public function setMetaTitle($title)
     {
-        $this->pageConfig->setMetaTitle($title);
-        $this->pageConfig->getTitle()->set($title);
+        $titleObj = $this->pageConfig->getTitle();
+        $titleObj->set($title);
+        $metaTitleWithConfig = $titleObj->get();
+        $this->pageConfig->setMetaTitle($metaTitleWithConfig);
+        $this->pageConfig->getTitle()->set($metaTitleWithConfig);
     }
 
     /**
