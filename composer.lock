@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bcc203620f146a4b7121b1b9481b1eb5",
+    "content-hash": "8bb17b0ae4cdba5d383c2c392afde912",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -2319,11 +2319,11 @@
         },
         {
             "name": "ewave/prontodigi",
-            "version": "dev-release/1.0.8",
+            "version": "dev-release/1.0.10",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "2167b0895b4fe773be364f5520992dcfbef3dc31"
+                "reference": "63584bad13ec15084aa19bf3fa783d5ecf6a49ab"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2335,7 +2335,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-08-13T13:39:10+00:00"
+            "time": "2019-09-04T07:43:49+00:00"
         },
         {
             "name": "ewave/quickview",

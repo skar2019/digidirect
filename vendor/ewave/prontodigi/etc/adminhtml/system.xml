@@ -51,6 +51,34 @@
                     <label>Order GET URI</label>
                     <comment>URI of Order Get Interface</comment>
                 </field>
+                <field id="collect_place_to_repcode" translate="label" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Rep Code for Store Pick-Up</label>
+                    <frontend_model>Ewave\ProntoDigi\Block\Adminhtml\Config\CollectPlaceToRepCode</frontend_model>
+                    <backend_model>Ewave\Utilities\Model\System\Config\Backend\DefaultOptionModel</backend_model>
+                </field>
+                <field id="territory_code" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Territory Code</label>
+                </field>
+                <field id="payment_method_to_payment_type" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Payment Method to Payment Type</label>
+                    <frontend_model>Ewave\ProntoDigi\Block\Adminhtml\Config\PaymentMethodToPaymentType</frontend_model>
+                    <backend_model>Ewave\Utilities\Model\System\Config\Backend\DefaultOptionModel</backend_model>
+                </field>
+                <field id="m2epro_payment_method_to_payment_type" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>M2E Pro Payment Method to Payment Type</label>
+                    <frontend_model>Ewave\ProntoDigi\Block\Adminhtml\Config\M2EProPaymentMethodToPaymentType</frontend_model>
+                    <backend_model>Ewave\Utilities\Model\System\Config\Backend\DefaultOptionModel</backend_model>
+                    <comment>
+                        <![CDATA[
+                            M2E Pro Payment Method column value is generated from "additional_information" from the payment (table sales_order_payment)<br/>
+                            We need two values: "component_mode" and "payment_method"<br/>
+                            if "payment_method" is empty then put {{component_mode}}<br/>
+                            example: amazon<br/>
+                            if "payment_method" is not empty then put {{payment_method}}-{{component_mode}"<br/>
+                            example: ebay-PayPal<br/>
+                        ]]>
+                    </comment>
+                </field>
             </group>
             <group id="debug" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Debug</label>

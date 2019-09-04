@@ -17,6 +17,7 @@
             <api_order>
                 <order_post_uri>sales?call-type=create_orders</order_post_uri>
                 <order_get_uri>sales?call-type=get_order</order_get_uri>
+                <territory_code>WEBS</territory_code>
             </api_order>
         </ewave_pronto>
     </default>

@@ -58,3 +58,16 @@ Pronto Integration for DigiDirect project
 =============
 * New features:
     * [#321608](https://ewave.tpondemand.com/entity/321608) -- Product Interface: Products with 'stk-condition' = 'O' should be disabled after integration
+
+1.0.9
+=============
+* New features:
+    * [#325699](https://ewave.tpondemand.com/entity/325699) -- Order Interface: Add new changes to order interface
+
+1.0.10
+=============
+* New features:
+    * [#327099](https://ewave.tpondemand.com/entity/327099) -- Order Interface: Send orders with M2E Pro Payment method
+
+* Bugfixes:
+    * [#325912](https://ewave.tpondemand.com/entity/325912) -- Product Interface: reverts product priority

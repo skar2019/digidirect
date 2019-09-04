@@ -1,0 +1,14 @@
+diff --git a/vendor/klevu/module-productsearch/Framework/Request/Cleaner.php b/vendor/klevu/module-productsearch/Framework/Request/Cleaner.php
+index 22068d5f8..5dcd6b2c3 100644
+--- a/vendor/klevu/module-productsearch/Framework/Request/Cleaner.php
++++ b/vendor/klevu/module-productsearch/Framework/Request/Cleaner.php
+@@ -92,6 +92,9 @@ class Cleaner extends \Magento\Framework\Search\Request\Cleaner
+             case "elasticsearch5":
+                 return '_id';
+                 break;
++            case "elasticsearch6":
++                return '_id';
++                break;
+             case "solr":
+                 return '_id';
+                 break;

@@ -5,31 +5,22 @@ namespace Ewave\ProntoDigi\ProntoApi\Orders\Post;
 use Ewave\AbstractEntity\Model\AbstractEntityRepository;
 use Ewave\CheckoutFields\Helper\Data as CheckoutFieldsDataHelper;
 use Ewave\Collect\Model\Carrier\Collectcarrier;
+use Ewave\ProntoDigi\Helper\Config;
 use Ewave\ProntoDigi\ProntoApi\Constants\CustomerAttributes;
 use Ewave\ProntoDigi\ProntoApi\Constants\Order\OrderLine as OLConst;
 use Magento\Braintree\Model\Ui\ConfigProvider as BraintreeConfigProvider;
-use Magento\Braintree\Model\Ui\PayPal\ConfigProvider as BraintreePaypalConfigProvider;
 use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\InventoryApi\Api\Data\SourceItemInterface;
 use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
-use Magento\OfflinePayments\Model\Banktransfer;
-use Magento\Paypal\Model\Config as PaypalConfig;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Model\Order;
-use ZipMoney\ZipMoneyPayment\Model\Config as ZipPayConfig;
 
 class MapperHelper
 {
-    const BRAIN_TREE_PAYMENT_TYPE = 'BT';
-    const PAY_PAL_PAYMENT_TYPE = 'PY';
-    const ZIP_PAY_PAYMENT_TYPE = 'ZM';
-    const BANK_TRANSFER_PAYMENT_TYPE = 'Y';
-    const GIFT_CARD_PAYMENT_TYPE = 'VI';
-
     /**
      * @var CheckoutFieldsDataHelper
      */
@@ -61,34 +52,26 @@ class MapperHelper
     protected $abstractEntityRepository;
 
     /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
      * @var array
      */
-    protected $regionWarehouseMap = [
-        'SWHS' => ['NSW', 'ACT'],
-        'MELB' => ['VIC', 'TAS', 'NT', 'SA', 'QLD'],
-        'CANN' => ['WA'],
+    protected $relocateWarehouseMap = [
+        'MELB' => 'SWHS',
+        'CANN' => 'SWHS',
+        'SWHS' => 'MELB'
     ];
 
     /**
      * @var array
      */
-    protected $relocateWarehouseMap = ['MELB' => 'SWHS', 'CANN' => 'SWHS', 'SWHS' => 'MELB'];
-
-    /**
-     * @var array
-     */
-    protected $repDispatchWarehouseMap = ['MELB' => '85', 'CANN' => 'C3W', 'SWHS' => 'C9W'];
-
-    /**
-     * @var array
-     */
-    protected $repStorePickUpWarehouseMap = [
-        'BRIS' => 'B5W',
-        'MIRA' => 'M6W',
-        'SYDN' => 'S7W',
-        'MELB' => 'M1P',
-        'CANN' => 'C3P',
-        'BOND' => 'B4P'
+    protected $repDispatchWarehouseMap = [
+        'MELB' => '85',
+        'CANN' => 'C3W',
+        'SWHS' => 'C9W'
     ];
 
     /**
@@ -103,19 +86,22 @@ class MapperHelper
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param SourceItemRepositoryInterface $sourceItemRepository
      * @param AbstractEntityRepository $abstractEntityRepository
+     * @param Config $config
      */
     public function __construct(
         CheckoutFieldsDataHelper $checkoutFieldsDataHelper,
         CustomerRepositoryInterface $customerRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SourceItemRepositoryInterface $sourceItemRepository,
-        AbstractEntityRepository $abstractEntityRepository
+        AbstractEntityRepository $abstractEntityRepository,
+        Config $config
     ) {
         $this->checkoutFieldsDataHelper = $checkoutFieldsDataHelper;
         $this->customerRepository = $customerRepository;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->sourceItemRepository = $sourceItemRepository;
         $this->abstractEntityRepository = $abstractEntityRepository;
+        $this->config = $config;
     }
 
     /**
@@ -159,10 +145,28 @@ class MapperHelper
     public function getRep(OrderInterface $order)
     {
         if ($order->getShippingMethod() == Collectcarrier::COLLECT_SHIPPING_METHOD) {
-            return $this->repStorePickUpWarehouseMap[$this->getWarehouse($order)] ?? '';
-        } else {
-            return $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
+            if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+                $mapping = $this->config->getCollectPlaceToRepCodeMapping();
+                return $mapping[$collectPlaceId] ?? '';
+            }
+            return '';
         }
+
+        return $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
+    }
+
+    /**
+     * @param OrderInterface $order
+     * @return int|null
+     */
+    protected function getCollectPlaceId(OrderInterface $order)
+    {
+        foreach ($order->getAllVisibleItems() as $item) {
+            if ($collectPlaceId = $item->getCollectPlaceId()) {
+                return $collectPlaceId;
+            }
+        }
+        return null;
     }
 
     /**
@@ -176,14 +180,7 @@ class MapperHelper
             $whse = '';
 
             if ($order->getShippingMethod() == Collectcarrier::COLLECT_SHIPPING_METHOD) {
-                $collectPlaceId = null;
-                foreach ($order->getAllVisibleItems() as $item) {
-                    if ($item->getCollectPlaceId()) {
-                        $collectPlaceId = $item->getCollectPlaceId();
-                        break;
-                    }
-                }
-                if ($collectPlaceId) {
+                if ($collectPlaceId = $this->getCollectPlaceId($order)) {
                     $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
                 }
             } elseif ($order->getShippingAddress()) {
@@ -254,24 +251,28 @@ class MapperHelper
      */
     public function getPaymentType(OrderInterface $order)
     {
+        /**
+         * @var \Magento\Payment\Model\Method\Adapter $method
+         */
         $payment = $order->getPayment();
-        /** @var \Magento\Payment\Model\Method\Adapter $method */
         $method = $payment->getMethodInstance();
 
-        switch ($method->getCode()) {
-            case BraintreeConfigProvider::CODE:
-                return self::BRAIN_TREE_PAYMENT_TYPE;
-            case PaypalConfig::METHOD_EXPRESS:
-            case BraintreePaypalConfigProvider::PAYPAL_CODE:
-                return self::PAY_PAL_PAYMENT_TYPE;
-            case ZipPayConfig::METHOD_CODE:
-                return self::ZIP_PAY_PAYMENT_TYPE;
-            case Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE:
-                return self::BANK_TRANSFER_PAYMENT_TYPE;
-            case 'free':
-                return self::GIFT_CARD_PAYMENT_TYPE;
+        $code = $method->getCode();
+        if ($code == 'm2epropayment') {
+            $componentMode = $payment->getAdditionalInformation('component_mode');
+            $paymentMethod = $payment->getAdditionalInformation('payment_method');
+            $code = $paymentMethod ? $componentMode . '-' . $paymentMethod : $componentMode;
+            $mapping = $this->config->getM2eProPaymentMethodToPaymentType();
+        } else {
+            $mapping = $this->config->getPaymentMethodToPaymentType();
         }
-        throw new \Exception('Could not define payment type');
+
+        if (!isset($mapping[$code])) {
+            throw new \Exception('Could not define payment type');
+        }
+
+        $paymentType = $mapping[$code];
+        return $paymentType;
     }
 
     /**
@@ -281,14 +282,21 @@ class MapperHelper
      */
     public function getPaymentReference(OrderInterface $order)
     {
-        $paymentType = $this->getPaymentType($order);
-        if ($paymentType == self::GIFT_CARD_PAYMENT_TYPE) {
+        /**
+         * @var \Magento\Payment\Model\Method\Adapter $method
+         */
+        $payment = $order->getPayment();
+        $method = $payment->getMethodInstance();
+        $methodCode = $method->getCode();
+        if ($method->getCode() == 'free') {
             $result = 'Gift Card';
         } else {
-            $payment = $order->getPayment();
             $result = $payment->getLastTransId();
-            if ($paymentType == self::BRAIN_TREE_PAYMENT_TYPE) {
+            if ($methodCode == BraintreeConfigProvider::CODE) {
                 $result .= ' ' . $payment->getCcType();
+            }
+            if (!$result && $methodCode == 'm2epropayment') {
+                $result = $payment->getAdditionalInformation('channel_order_id');
             }
         }
         return $result;
@@ -424,14 +432,7 @@ class MapperHelper
      */
     protected function getWarehouseByRegionCode($regionCode)
     {
-        $warehouse = '';
-        foreach ($this->regionWarehouseMap as $whsCode => $regions) {
-            if (in_array($regionCode, $regions)) {
-                $warehouse = $whsCode;
-                break;
-            }
-        }
-        return $warehouse;
+        return 'SWHS';
     }
 
     /**

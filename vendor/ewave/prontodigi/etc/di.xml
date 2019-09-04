@@ -377,7 +377,7 @@
                                 </item>
                                 <item name="territory" xsi:type="array">
                                     <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::TERRITORY</item>
-                                    <item name="value" xsi:type="string">WEBS</item>
+                                    <item name="value" xsi:type="string">{{config path="ewave_pronto/api_order/territory_code"}}</item>
                                 </item>
                                 <item name="reference" xsi:type="array">
                                     <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::REFERENCE</item>

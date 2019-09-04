@@ -11,6 +11,7 @@ use Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails as PaymentDetail;
 use Ewave\ProntoDigi\ProntoApi\Orders\Post;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\OfflinePayments\Model\Banktransfer;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
 
@@ -105,10 +106,15 @@ class RequestBuilder extends BaseRequestBuilder implements RequestBuilderInterfa
      */
     protected function getRequestContent()
     {
+        /**
+         * @var $order \Magento\Sales\Model\Order
+         */
         $data = parent::getRequestContent();
-        $paymentDetails = $data[Order::SALES_ORDER][Order::HEADER][Order::PAYMENT_DETAILS];
-        $paymentType = $paymentDetails[PaymentDetail::PAYMENT_DETAIL][PaymentDetail::PAYMENT_TYPE];
-        if ($paymentType == MapperHelper::BANK_TRANSFER_PAYMENT_TYPE) {
+
+        $order = $this->process->getRunOption(Post::ORDER_RUN_OPTION_PARAMETER);
+        $paymentInstance = $order->getPayment();
+
+        if ($paymentInstance->getMethod() == Banktransfer::PAYMENT_METHOD_BANKTRANSFER_CODE) {
             unset($data[Order::SALES_ORDER][Order::HEADER][Order::PAYMENT_DETAILS][PaymentDetail::PAYMENT_DETAIL]);
         }
 

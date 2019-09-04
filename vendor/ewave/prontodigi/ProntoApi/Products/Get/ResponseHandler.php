@@ -226,7 +226,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $start = microtime(true);
         /** @var $productImport ProductImport */
         $productImport = $this->productImportFactory->create(['logger' => $this->logger]);
-        $productImport->saveBunch($products);
+        // set updateOnDuplicate 'false' in order to set 'append' import behavior
+        $productImport->saveBunch($products, false);
         $this->saveSourceItems();
         $attribute = $this->eavConfig->getAttribute(ProductModel::ENTITY, self::BRAND_ATTRIBUTE_CODE);
         if ($attribute->getEntityId()) {
