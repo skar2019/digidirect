@@ -17,6 +17,11 @@ class ImageBuilder
     protected $_helper;
 
     /**
+     * @var string|null
+     */
+    protected $imageId;
+
+    /**
      * ImageBuilder constructor.
      * @param \Ewave\ProductOverlay\Helper\Data $helper
      * @param \Magento\Framework\Registry $registry
@@ -27,6 +32,23 @@ class ImageBuilder
     ) {
         $this->_helper  = $helper;
         $this->registry = $registry;
+    }
+
+    /**
+     * @param \Magento\Catalog\Block\Product\ImageBuilder $subject
+     * @param Product|null $product
+     * @param string|null $imageId
+     * @param array|null $attributes
+     * @return mixed
+     */
+    public function beforeCreate(
+        \Magento\Catalog\Block\Product\ImageBuilder $subject,
+        Product $product = null,
+        string $imageId = null,
+        array $attributes = null
+    ) {
+        $this->imageId = $imageId;
+        return [$product, $imageId, $attributes];
     }
 
     /**
@@ -42,6 +64,9 @@ class ImageBuilder
         $product = $this->registry->registry(Data::CURRENT_PRODUCT_REGISTRY);
         if ($product instanceof \Magento\Catalog\Api\Data\ProductInterface) {
             $result->setProduct($product);
+        }
+        if ($this->imageId) {
+            $result->setImageId($this->imageId);
         }
 
         return $result;

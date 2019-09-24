@@ -185,3 +185,23 @@
 ===============
 * Bugfixes:
     * [#317640](https://ewave.tpondemand.com/entity/317640) -- [Project: DigiDirect] Conditions for the overlay could not be set up once it was assigned and then unassigned to the catalog price rule
+
+2.5.2
+===============
+* Bugfixes:
+    * [#315859](https://ewave.tpondemand.com/entity/315859) -- [Project: Motic] Overlays icon can not be shown at cross sell product in cart page
+
+2.5.3
+===============
+* Bugfixes:
+    * [#327111](https://ewave.tpondemand.com/entity/327111) -- [Motic Project][Overlay] Just One Overlay is Displayed for Product
+
+2.5.4
+===============
+* Bugfixes:
+    * [#326545](https://ewave.tpondemand.com/entity/326545) -- [Project: Motic][Grouped] Overlay is applied to parent product when option "Use for parent" is set to NO
+
+2.6.0
+===============
+* Bugfixes:
+    * [#330709](https://ewave.tpondemand.com/entity/330709) -- [MISSED CRON JOBS] As a system, I want missed cron jobs to be decreased by puting them into a separate cron group

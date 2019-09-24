@@ -78,6 +78,14 @@ class Overlay
                 return false;
             }
         }
+        $excludeImages = $this->data['exclude_images'] ?? [];
+        if ($subject->getImageId()) {
+            foreach ($excludeImages as $excludeImage) {
+                if (trim($excludeImage) == $subject->getImageId()) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 

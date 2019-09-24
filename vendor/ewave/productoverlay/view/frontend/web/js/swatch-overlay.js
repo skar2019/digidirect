@@ -116,10 +116,7 @@ define([
 
             updateBaseImage: function (images, context, isInProductView) {
                 this._super(images, context, isInProductView);
-
-                if (this.inProductList) {
-                    this._findProductOverlay();
-                }
+                this._findProductOverlay();
             }
         });
         return $.mage.SwatchRenderer;

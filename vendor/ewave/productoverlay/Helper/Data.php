@@ -348,7 +348,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if ($overlay->isApplicable()) {
                 $applied = true;
                 $overlay->setHideInConfigurable(false);
-                if (($product->getTypeId() == Configurable::TYPE_CODE || $product->getTypeId() == Grouped::TYPE_CODE)) {
+                if (in_array($product->getTypeId(), [Configurable::TYPE_CODE, Grouped::TYPE_CODE])) {
                     $overlay->setHideInConfigurable(!$overlay->getUseForParent());
                     $applicableInfo[$overlay->getId()][] = $product->getId();
 
@@ -363,8 +363,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 } else {
                     $applicableInfo[$overlay->getId()][] = $product->getId();
                 }
-            } elseif (($product->getTypeId() == Configurable::TYPE_CODE
-                || $product->getTypeId() == Grouped::TYPE_CODE)) {
+            } elseif (in_array($product->getTypeId(), [Configurable::TYPE_CODE, Grouped::TYPE_CODE])) {
+                if ($product->getTypeId() == Grouped::TYPE_CODE && !$overlay->getUseForParent()) {
+                    continue;
+                }
+
                 $usedProds = $this->getUsedProducts($product);
                 foreach ($usedProds as $child) {
                     $overlay->init($child, $mode, $product);

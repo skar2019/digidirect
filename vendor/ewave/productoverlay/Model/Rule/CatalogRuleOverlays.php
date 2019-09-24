@@ -107,9 +107,7 @@ class CatalogRuleOverlays implements ProcessorInterface
             return false;
         }
 
-        if (empty($this->productByRuleId[$product->getId()])) {
-            $this->productByRuleId = $this->resource->getPriceRuleProductsByRule($ruleIds);
-        }
+        $this->productByRuleId = $this->resource->getPriceRuleProductsByRule($ruleIds);
 
         foreach ($ruleIds as $item) {
             if (isset($this->productByRuleId[$product->getId()])

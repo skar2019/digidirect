@@ -96,8 +96,10 @@
                 </item>
                 <item name="exclude_handles" xsi:type="array">
                     <item name="wishlist_index_index" xsi:type="string">wishlist_index_index</item>
-                    <item name="checkout_cart_index" xsi:type="string">checkout_cart_index</item>
                     <item name="catalog_product_compare_index" xsi:type="string">catalog_product_compare_index</item>
+                </item>
+                <item name="exclude_images" xsi:type="array">
+                    <item name="cart_page_product_thumbnail" xsi:type="string">cart_page_product_thumbnail</item>
                 </item>
             </argument>
         </arguments>
