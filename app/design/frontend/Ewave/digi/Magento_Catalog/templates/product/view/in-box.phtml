@@ -6,3 +6,13 @@
     </div>
 </div>
 <?php endif; ?>
+<?php echo $this->getLayout()
+    ->createBlock('Magento\Cms\Block\Block')
+    ->setBlockId('pdp-details-card')
+    ->toHtml();
+?>
+<?php echo $this->getLayout()
+    ->createBlock('Ewave\ProductAttachment\Block\Product\View\Attachment')
+    ->setTemplate('Ewave_ProductAttachment::product/view/attachments.phtml')
+    ->toHtml()
+?>

@@ -36,7 +36,6 @@ class CollectInfo extends Info
         parent::__construct($context, $data);
         $this->_storageHandler = $storageHandler;
         $this->_collectHelper = $collectHelper;
-        $this->_isScopePrivate = true;
     }
 
     /**

@@ -14,14 +14,12 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Import extends AbstractHelper
 {
-
-    const XML_POST_CODE_PATH='carriers/collect/post_code_upload';
+    const XML_POST_CODE_PATH = 'carriers/collect/post_code_upload';
 
     /**
      * Import constructor.
      *
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context
@@ -45,6 +43,7 @@ class Import extends AbstractHelper
             $scopeType = ScopeInterface::SCOPE_STORES;
             $scopeId = $storeId;
         }
+
         return new DataObject(['scope_id' => $scopeId, 'scope_type' => $scopeType]);
     }
 

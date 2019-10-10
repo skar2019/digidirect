@@ -7,6 +7,7 @@
 // @codingStandardsIgnoreFile
 
 /** @var $block \Magento\Catalog\Block\Product\View */
+$pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -32,18 +33,41 @@
             <button type="submit"
                     title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
                     class="action tocart"
-                    id="product-addtocart-button">
+                    id="product-addtocart-button"
+                    data-action="add-to-cart-action"
+                    >
                 <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
             </button>
             <?= $block->getChildHtml('', true) ?>
         </div>
     </div>
 </div>
+    <div class="btn-wrapper-pdp">
+        <div class="price">
+            <?php
+            $productPrice = (float) $_product->getPrice();
+            $productFinalPrice = (float) $_product->getFinalPrice();
+            ?>
+
+            <div class="price-full" id="priceFull"><?= /* @escapeNotVerified */  $pricingHelper->currency($productPrice, true, false) ?></div>
+            <div class="price-promotional" id="pricePromotional"></div>
+            <div class="before" id="beforeCB"></div>
+            <div class="after" id="afterCB"></div>
+        </div>
+        <div class="btn" id="add-cart-btn"></div>
+    </div>
 <?php endif; ?>
 <script type="text/x-magento-init">
     {
         "#product_addtocart_form": {
             "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Catalog/js/add-to-cart": {}
         }
     }
 </script>

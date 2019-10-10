@@ -39,6 +39,11 @@
                     <comment>Featured Image checkbox can be shown only to images of products, that are assigned to the specified Attribute set.</comment>
                     <can_be_empty>1</can_be_empty>
                 </field>
+                <field id="display_one_category" translate="label comment" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Display Only One Category of a Product</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If switched to 'Yes' - only one category of a product will be displayed in the Recommended Accessories section</comment>
+                </field>
             </group>
         </section>
     </system>

@@ -4,6 +4,7 @@ namespace Ewave\RelatedProduct\Block\ProductList;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Catalog\Model\ResourceModel\Collection\AbstractCollection;
+use Magento\Catalog\Model\ResourceModel\Product\Collection as ProductCollection;
 use Magento\Framework\App\ObjectManager;
 
 /**
@@ -142,7 +143,7 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
             }
 
             $this->_categories = array_unique($this->_categories);
-            $this->getCategoriesAssignedRelatedProducts();
+            $this->getCategoriesAssignedRelatedProducts(true, null, $this->_itemCollection);
             $this->_categoriesPositions = $this->_itemCollection->getCategoryPositions($this->_categories);
         }
         return $this;
@@ -173,27 +174,52 @@ class Related extends \Magento\Catalog\Block\Product\ProductList\Related
      *
      * @param bool $isActive
      * @param bool|string $sortBy
+     * @param \Magento\Catalog\Model\ResourceModel\Product\Collection $products
      * @return \Magento\Catalog\Model\ResourceModel\Category\Collection
      */
-    public function getCategoriesAssignedRelatedProducts($isActive = true, $sortBy = null)
-    {
+    public function getCategoriesAssignedRelatedProducts(
+        $isActive = true,
+        $sortBy = null,
+        ProductCollection $products = null
+    ) {
         if (!$this->_categoriesItems) {
-            $collection = $this->_categoryCollectionFactory->create()
+            $productCategoriesCollection = $this->_categoryCollectionFactory->create()
                 ->addFieldToFilter('entity_id', ['in' => $this->_categories])
                 ->addAttributeToSelect(['entity_id', 'name']);
 
-            $this->addCategoryAttribute($collection);
+            $this->addCategoryAttribute($productCategoriesCollection);
 
             if ($isActive) {
-                $collection->addIsActiveFilter();
+                $productCategoriesCollection->addIsActiveFilter();
             }
             if ($sortBy !== null) {
-                $collection->addOrderField($sortBy);
+                $productCategoriesCollection->addOrderField($sortBy);
             }
 
-            $this->_categories = $collection->getAllIds();
+            if (null !== $products && $this->_helper->displayOneCategory()) {
+                $this->_categories = [];
+                foreach ($products as $product) {
+                    $categoriesByLevel = [];
+                    foreach ($productCategoriesCollection as $category) {
+                        if (in_array($category->getId(), $product->getCategoryIds())) {
+                            $categoriesByLevel[(int)$category->getLevel()][] = $category;
+                        }
+                    }
 
-            $this->_categoriesItems = $collection;
+                    if (!empty($categoriesByLevel)) {
+                        krsort($categoriesByLevel);
+                        foreach (reset($categoriesByLevel) as $deepestCategory) {
+                            if (!in_array($deepestCategory->getId(), $this->_categories)) {
+                                $this->_categories[] = $deepestCategory->getId();
+                                $this->_categoriesItems[] = $deepestCategory;
+                            }
+                        }
+                    }
+                }
+            } else {
+                $this->_categories = $productCategoriesCollection->getAllIds();
+                $this->_categoriesItems = $productCategoriesCollection;
+            }
         }
         return $this->_categoriesItems;
     }

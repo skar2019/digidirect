@@ -2,12 +2,14 @@
 
 namespace Ewave\Collect\Block\Adminhtml\Order\View\Tab;
 
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+
 /**
  * Class CollectStores
+ *
  * @package Ewave\Collect\Block\Adminhtml\Order\View\Tab
  */
-class CollectStores extends \Magento\Backend\Block\Template
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class CollectStores extends \Magento\Backend\Block\Template implements TabInterface
 {
     /**
      * Core registry
@@ -22,7 +24,7 @@ class CollectStores extends \Magento\Backend\Block\Template
     protected $_helper;
 
     /**
-     * array
+     * @var array
      */
     protected $_orderItems = [];
 
@@ -135,7 +137,7 @@ class CollectStores extends \Magento\Backend\Block\Template
         $itemsWithPlace = [];
 
         foreach ($items as $orderItem) {
-            /** @var \Magento\Sales\Model\Order\Item $orderItem **/
+            /** @var \Magento\Sales\Model\Order\Item $orderItem * */
             if ($collectPlaceId = $orderItem->getCollectPlaceId()) {
                 $collectPlace = $this->_helper->getCollectPlaceById(
                     $collectPlaceId,
@@ -147,6 +149,7 @@ class CollectStores extends \Magento\Backend\Block\Template
                 ];
             }
         }
+
         return $itemsWithPlace;
     }
 
@@ -166,6 +169,7 @@ class CollectStores extends \Magento\Backend\Block\Template
                 $collectPlaceIds[] = $placeId;
             }
         }
+
         return count(array_unique($collectPlaceIds)) > 1;
     }
 
@@ -177,6 +181,7 @@ class CollectStores extends \Magento\Backend\Block\Template
         if (empty($this->_orderItems)) {
             $this->_orderItems = $this->getOrder()->getAllVisibleItems();
         }
+
         return $this->_orderItems;
     }
 
@@ -199,6 +204,7 @@ class CollectStores extends \Magento\Backend\Block\Template
                 $result = array_merge($result, $options['attributes_info']);
             }
         }
+
         return $result;
     }
 }

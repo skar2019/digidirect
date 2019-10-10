@@ -7,7 +7,7 @@ namespace Ewave\Collect\Api\Data;
  *
  * @package Ewave\Collect\Api\Data
  */
-interface CollectPlaceInterface
+interface CollectPlaceInterface extends \Magento\Framework\Api\CustomAttributesDataInterface
 {
     /**
      * Get Collect Place Id

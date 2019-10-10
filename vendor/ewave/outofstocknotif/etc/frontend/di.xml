@@ -14,4 +14,7 @@
     <type name="Magento\ProductAlert\Model\ProductSalability">
         <plugin name="product_alert_adapt_salability" type="Ewave\OutOfStockNotif\Plugin\Magento\ProductAlert\Model\ProductSalabilityPlugin"/>
     </type>
+    <type name="Magento\Customer\CustomerData\Customer">
+        <plugin name="Ewave_OutOfStockNotif::CustomerData_emailAdded" type="Ewave\OutOfStockNotif\Plugin\Customer\CustomerData\CustomerPlugin"/>
+    </type>
 </config>

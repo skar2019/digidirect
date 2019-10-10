@@ -5,15 +5,9 @@
         <referenceBlock name="navigation.sections" remove="true" />
 
         <referenceContainer name="page.top">
+            <block class="Ewave\Navigation\Block\Menu" name="main.menu.close.cross" template="Ewave_Navigation::close-cross.phtml"/>
             <container name="main.menu.section" label="Main Menu Section" htmlTag="div" htmlClass="menu-section">
                 <container name="main.menu.off.canvas.section" label="Main Menu Off-Canvas Section" htmlTag="div" htmlClass="offcanvas-items">
-                    <block class="Magento\Framework\View\Element\Template" name="shop.by.department"
-                           template="Ewave_Navigation::link/shop-by-department.phtml">
-                        <arguments>
-                            <argument name="label" xsi:type="string" translate="true">Shop By Department</argument>
-                            <argument name="back_title" xsi:type="string" translate="true">Main Menu</argument>
-                        </arguments>
-                    </block>
                     <block class="Ewave\Navigation\Block\Menu" name="off.canvas.menu" template="menu_static.phtml">
                         <arguments>
                             <argument name="set_code" xsi:type="string">off_canvas_menu</argument>
@@ -23,7 +17,7 @@
                             <argument name="extra_content_class_name" xsi:type="string">extra</argument>
                             <argument name="expanded" xsi:type="string">false</argument>
                             <argument name="place" xsi:type="string">main</argument>
-                            <argument name="sub_menu_block_class" xsi:type="string">sub-menu -clear</argument>
+                            <argument name="sub_menu_block_class" xsi:type="string">sub-menu menu-sec</argument>
                             <argument name="item_class" xsi:type="string">item</argument>
                             <argument name="item_label_class" xsi:type="string">link</argument>
                             <argument name="inner_lists_class" xsi:type="string">menu</argument>
@@ -34,7 +28,7 @@
             </container>
         </referenceContainer>
 
-        <move element="ewave.menu.header" destination="main.menu.section" after="main.menu.off.canvas.section"/>
+        <move element="ewave.menu.header" destination="main.menu.off.canvas.section" before="-"/>
         <referenceBlock name="ewave.menu.header">
             <arguments>
                 <argument name="action" xsi:type="string">click</argument>
@@ -45,9 +39,19 @@
                 <argument name="cms_block_class_name" xsi:type="string">cms category-item</argument>
             </arguments>
             <container  name="main.menu.bottom" label="Main Menu Bottom">
-                <block class="Magento\Cms\Block\Block" name="main.menu.cms.helpful.info">
+                <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.one.menu">
                     <arguments>
-                        <argument name="block_id" xsi:type="string">cms-helpful-info</argument>
+                        <argument name="block_id" xsi:type="string">cms-helpful-info-1</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.two.menu">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">cms-helpful-info-2</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.three.menu">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">cms-helpful-info-3</argument>
                     </arguments>
                 </block>
             </container>

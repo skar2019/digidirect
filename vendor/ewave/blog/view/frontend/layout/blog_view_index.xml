@@ -3,6 +3,16 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="msrp_popup"/>
     <body>
+        <referenceBlock name="head.additional">
+            <block class="Magento\Framework\View\Element\Template"
+                   ifconfig="ewave_blog/opengraph_settings/enable_opengraph_on_post_page"
+                   name="blog.opengraph.post">
+                <arguments>
+                    <argument name="template" xsi:type="string">Ewave_Blog::opengraph.phtml</argument>
+                    <argument name="viewModel" xsi:type="object">\Ewave\Blog\ViewModel\OpenGraphBlogPost</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
         <referenceContainer name="content">
             <block class="Ewave\Blog\Block\Post" name="blog.post" template="post_view.phtml">
                 <arguments>
@@ -21,22 +31,22 @@
             </block>
             <block class="Ewave\Blog\Block\Post\Arrow" name="blog.post.arrow" as="arrow" template="Ewave_Blog::post/arrow.phtml"/>
             <block class="Ewave\Blog\Block\Post\RelatedPosts" name="blog.post.relatedposts" as="relatedposts" template="Ewave_Blog::post/related_posts.phtml"/>
-            <block class="Ewave\Blog\Block\Post\RelatedProducts" ifconfig="ewave_blog/related_setting/related_products/enabled" name="blog.relatedproducts" as="relatedproducts" template="Ewave_Blog::post/related_products.phtml"/>
+            <block class="Ewave\Blog\Block\Post\RelatedProducts" ifconfig="ewave_blog/related_products/enabled" name="blog.relatedproducts" as="relatedproducts" template="Ewave_Blog::post/related_products.phtml"/>
         </referenceContainer>
         <referenceContainer name="sidebar.additional">
             <block class="Ewave\Blog\Block\Widget\Search" name="blog.widget.search" template="widget/search.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Categories" ifconfig="ewave_blog/display_settings/view_page/category_onpost_right" name="blog.categorytree.right" template="widget/categories.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Popular" ifconfig="ewave_blog/display_settings/view_page/popular_onpost_right" name="blog.popular.right" template="widget/popular.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Latest" ifconfig="ewave_blog/display_settings/view_page/latest_onpost_right" name="blog.latest.right" template="widget/latest.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Archive" ifconfig="ewave_blog/display_settings/view_page/archive_onpost_right" name="blog.archive.right" template="widget/archive.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Categories" ifconfig="ewave_blog/view_page/category_onpost_right" name="blog.categorytree.right" template="widget/categories.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Popular" ifconfig="ewave_blog/view_page/popular_onpost_right" name="blog.popular.right" template="widget/popular.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Latest" ifconfig="ewave_blog/view_page/latest_onpost_right" name="blog.latest.right" template="widget/latest.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Archive" ifconfig="ewave_blog/view_page/archive_onpost_right" name="blog.archive.right" template="widget/archive.phtml"/>
             <block class="Ewave\Blog\Block\Widget\TagsCloud" name="blog.sidebar.tags.cloud" template="Ewave_Blog::widget/tags.phtml"/>
         </referenceContainer>
         <referenceContainer name="sidebar.main">
             <block class="Ewave\Blog\Block\Widget\Search" name="blog.widget.search" template="widget/search.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Categories" ifconfig="ewave_blog/display_settings/view_page/category_onpost_left" name="blog.categorytree.left" template="widget/categories.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Popular" ifconfig="ewave_blog/display_settings/view_page/popular_onpost_left" name="blog.popular.left" template="widget/popular.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Latest" ifconfig="ewave_blog/display_settings/view_page/latest_onpost_left" name="blog.latest.left" template="widget/latest.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Archive" ifconfig="ewave_blog/display_settings/view_page/archive_onpost_left" name="blog.archive.left" template="widget/archive.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Categories" ifconfig="ewave_blog/view_page/category_onpost_left" name="blog.categorytree.left" template="widget/categories.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Popular" ifconfig="ewave_blog/view_page/popular_onpost_left" name="blog.popular.left" template="widget/popular.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Latest" ifconfig="ewave_blog/view_page/latest_onpost_left" name="blog.latest.left" template="widget/latest.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Archive" ifconfig="ewave_blog/view_page/archive_onpost_left" name="blog.archive.left" template="widget/archive.phtml"/>
             <block class="Ewave\Blog\Block\Widget\TagsCloud" name="blog.sidebar.tags.cloud" template="Ewave_Blog::widget/tags.phtml"/>
         </referenceContainer>
         <referenceBlock name="catalog.compare.sidebar" remove="true"/>

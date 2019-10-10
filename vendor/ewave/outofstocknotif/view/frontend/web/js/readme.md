@@ -35,3 +35,7 @@ hiddenClass | string | 'no-display' | Class to hide the block with button Add to
 visibleClass | string | '-visible-block' | Class to show the hidden block
 notAvailableClass | string | '-not-available' | Class for not available attributes
 selectedClass | string | '.selected' | The selector selected attributes 
+availabilityDateInfo | array | [] | Data for the availability date for simple products
+soldOutMessageInfo | array | [] | List products for show sold out message 
+defaultMessage | string | 'This item has sold out' | Default sold out message 
+targetElement | string | '[data-role="outofstock-button"]' | Selector for element, before wich insert data

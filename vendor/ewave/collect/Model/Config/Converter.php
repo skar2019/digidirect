@@ -27,6 +27,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 $output[mb_strtolower($data['handle'])] = $data;
             }
         }
+
         return ['placestorages' => $output];
     }
 
@@ -38,12 +39,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function _convertConfig($config)
     {
-
         /** Parse handle configuration */
         $handle = $config->attributes->getNamedItem('handle')->nodeValue;
         if (!$handle) {
             throw new \InvalidArgumentException('Attribute handle is missed');
         }
+
         /** Parse instance configuration */
         $instance = $config->attributes->getNamedItem('instance')->nodeValue;
         if (!$instance) {

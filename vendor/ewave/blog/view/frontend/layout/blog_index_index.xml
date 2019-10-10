@@ -14,27 +14,27 @@
 
         <referenceContainer name="sidebar.additional">
             <block class="Ewave\Blog\Block\Widget\Search" name="blog.widget.search" template="widget/search.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Categories" ifconfig="ewave_blog/display_settings/list_page/category_onlist_right" name="blog.categorytree.right" template="widget/categories.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Popular" ifconfig="ewave_blog/display_settings/list_page/popular_onlist_right" name="blog.popular.right" template="widget/popular.phtml">
+            <block class="Ewave\Blog\Block\Widget\Categories" ifconfig="ewave_blog/list_page/category_onlist_right" name="blog.categorytree.right" template="widget/categories.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Popular" ifconfig="ewave_blog/list_page/popular_onlist_right" name="blog.popular.right" template="widget/popular.phtml">
                 <arguments>
                     <argument name="count" xsi:type="string" translate="true">5</argument>
                 </arguments>
             </block>
-            <block class="Ewave\Blog\Block\Widget\Latest" ifconfig="ewave_blog/display_settings/list_page/latest_onlist_right" name="blog.latest.right" template="widget/latest.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Archive" ifconfig="ewave_blog/display_settings/list_page/archive_onlist_right" name="blog.archive.right" template="widget/archive.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Latest" ifconfig="ewave_blog/list_page/latest_onlist_right" name="blog.latest.right" template="widget/latest.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Archive" ifconfig="ewave_blog/list_page/archive_onlist_right" name="blog.archive.right" template="widget/archive.phtml"/>
             <block class="Ewave\Blog\Block\Widget\TagsCloud" name="blog.sidebar.tags.cloud" template="Ewave_Blog::widget/tags.phtml"/>
         </referenceContainer>
 
         <referenceContainer name="sidebar.main">
             <block class="Ewave\Blog\Block\Widget\Search" name="blog.widget.search" template="widget/search.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Categories" ifconfig="ewave_blog/display_settings/list_page/category_onlist_left" name="blog.categorytree.left" template="widget/categories.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Popular" ifconfig="ewave_blog/display_settings/list_page/popular_onlist_left" name="blog.popular.left" template="widget/popular.phtml">
+            <block class="Ewave\Blog\Block\Widget\Categories" ifconfig="ewave_blog/list_page/category_onlist_left" name="blog.categorytree.left" template="widget/categories.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Popular" ifconfig="ewave_blog/list_page/popular_onlist_left" name="blog.popular.left" template="widget/popular.phtml">
                 <arguments>
                     <argument name="count" xsi:type="string" translate="true">5</argument>
                 </arguments>
             </block>
-            <block class="Ewave\Blog\Block\Widget\Latest" ifconfig="ewave_blog/display_settings/list_page/latest_onlist_left" name="blog.latest.left" template="widget/latest.phtml"/>
-            <block class="Ewave\Blog\Block\Widget\Archive" ifconfig="ewave_blog/display_settings/list_page/archive_onlist_left" name="blog.archive.left" template="widget/archive.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Latest" ifconfig="ewave_blog/list_page/latest_onlist_left" name="blog.latest.left" template="widget/latest.phtml"/>
+            <block class="Ewave\Blog\Block\Widget\Archive" ifconfig="ewave_blog/list_page/archive_onlist_left" name="blog.archive.left" template="widget/archive.phtml"/>
             <block class="Ewave\Blog\Block\Widget\TagsCloud" name="blog.sidebar.tags.cloud" template="Ewave_Blog::widget/tags.phtml"/>
         </referenceContainer>
 

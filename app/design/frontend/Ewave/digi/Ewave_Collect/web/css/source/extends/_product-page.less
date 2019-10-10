@@ -21,11 +21,18 @@
             left: 0;
         }
 
+        .link.action.primary {
+            text-align: center;
+            width: 100%;
+            font-weight: 700;
+        }
+
         .wrapper-title {
             .lib-font-size(12);
             display: inline-block;
             width: ~'calc(100% - 50px)';
             padding-left: 20px;
+            text-transform: capitalize;
         }
 
         .wrapper-title > .title {
@@ -160,5 +167,10 @@
         > label {
             .lib-font-size(14);
         }
+    }
+
+    .collect-block .wrap-block {
+        display: block;
+        .lib-vendor-box-align(false);
     }
 }

@@ -6,11 +6,9 @@ use Magento\ProductAlert\Helper\Data as Helper;
 use Magento\Framework\Data\Helper\PostHelper;
 use Magento\Framework\Registry;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
-use Magento\Customer\Model\SessionFactory;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableProduct;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\Serialize\Serializer\Json as JsonHelper;
-use Ewave\OutOfStockNotif\Helper\Data as EwaveHelper;
 
 /**
  * Class Stock
@@ -18,20 +16,12 @@ use Ewave\OutOfStockNotif\Helper\Data as EwaveHelper;
  */
 class Stock extends \Magento\ProductAlert\Block\Product\View\Stock
 {
-    /**
-     * @var EwaveHelper
-     */
-    protected $ewaveHelper;
+
 
     /**
      * @var JsonHelper
      */
     protected $jsonHelper;
-
-    /**
-     * @var CustomerSession
-     */
-    protected $customerSession;
 
     /**
      * @var \Magento\CatalogInventory\Api\StockRegistryInterface
@@ -45,8 +35,6 @@ class Stock extends \Magento\ProductAlert\Block\Product\View\Stock
      * @param Helper $helper
      * @param Registry $registry
      * @param PostHelper $coreHelper
-     * @param SessionFactory $customerSession
-     * @param EwaveHelper $ewaveHelper
      * @param StockRegistryInterface $stockRegistry
      * @param JsonHelper $jsonHelper
      * @param array $data
@@ -56,32 +44,13 @@ class Stock extends \Magento\ProductAlert\Block\Product\View\Stock
         Helper $helper,
         Registry $registry,
         PostHelper $coreHelper,
-        SessionFactory $customerSession,
-        EwaveHelper $ewaveHelper,
         JsonHelper $jsonHelper,
         StockRegistryInterface $stockRegistry,
         array $data = []
     ) {
         parent::__construct($context, $helper, $registry, $coreHelper, $data);
-        $this->_isScopePrivate = true;
-        $this->setData('cache_lifetime', 0);
-        $this->customerSession = $customerSession;
-        $this->ewaveHelper = $ewaveHelper;
         $this->stockRegistry = $stockRegistry;
         $this->jsonHelper = $jsonHelper;
-    }
-
-    /**
-     * @return array
-     */
-    public function getCacheKeyInfo()
-    {
-        $info = parent::getCacheKeyInfo();
-        if (!is_array($info)) {
-            $info = [];
-        }
-        $info['is_logged_in'] = $this->ewaveHelper->isLoggedIn();
-        return $info;
     }
 
     /**
@@ -119,33 +88,6 @@ class Stock extends \Magento\ProductAlert\Block\Product\View\Stock
     public function getCurrentProduct()
     {
         return $this->getProduct();
-    }
-
-    /**
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function getCustomerEmail()
-    {
-        if ($this->ewaveHelper->isLoggedIn()) {
-            return $this->getCustomer()->getEmail();
-        }
-        return '';
-    }
-
-    /**
-     * @return \Magento\Customer\Model\Customer
-     */
-    protected function getCustomer()
-    {
-        return $this->getSession()->getCustomer();
-    }
-
-    /**
-     * @return \Magento\Customer\Model\Session
-     */
-    protected function getSession()
-    {
-        return $this->customerSession->create();
     }
 
     /**

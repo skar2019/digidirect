@@ -13,10 +13,16 @@
                 continue;
             }
             $alias = $layout->getElementAlias($name);
+            $aliasName = $alias;
+
+            if ($alias == 'additionalinfo') {
+                $aliasName = $block->escapeHtml(__('Additional Information'));
+            }
+
             $label = $block->getChildData($alias, 'title');
 
             ?>
-            <div class="data item title tab-in"
+            <div class="data item title tab-in <?= /* @escapeNotVerified */ $alias ?>"
                  data-alias="<?= /* @escapeNotVerified */ $alias ?>"
                  aria-labeledby="tab-label-<?= /* @escapeNotVerified */ $alias ?>-title"
                  data-role="collapsible" id="tab-label-<?= /* @escapeNotVerified */ $alias ?>">
@@ -25,7 +31,7 @@
                    data-toggle="switch"
                    href="#<?= /* @escapeNotVerified */ $alias ?>"
                    id="tab-label-<?= /* @escapeNotVerified */ $alias ?>-title">
-                    <?= /* @escapeNotVerified */ $alias ?>
+                    <?= /* @escapeNotVerified */ $aliasName ?>
                     <div class="arrow">
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-action">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-left"></use>
@@ -33,7 +39,7 @@
                     </div>
                 </a>
             </div>
-                <div class="data item content" id="<?= /* @escapeNotVerified */ $alias ?>" data-role="content">
+                <div class="data item content <?= /* @escapeNotVerified */ $alias ?>" id="<?= /* @escapeNotVerified */ $alias ?>" data-role="content">
                     <?= /* @escapeNotVerified */ $html; ?>
                     <div class="read-more">
                         <div class="title">

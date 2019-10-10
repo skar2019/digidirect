@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Ewave\Collect\Model\Config;
-
 
 class Data extends \Magento\Framework\Config\Data
 {
@@ -23,7 +21,7 @@ class Data extends \Magento\Framework\Config\Data
                 return $storages;
             }
         }
-        
+
         return false;
     }
 }

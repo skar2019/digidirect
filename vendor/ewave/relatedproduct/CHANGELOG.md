@@ -21,8 +21,13 @@
 =============
 * Bugfixes:
     * [#190433](https://ewave.tpondemand.com/entity/190433) -- [Related Product's Info] HTML tags are displayed for attribute values
-    
+
 2.3.0
 =============
 * New features:
     * [#293186](https://ewave.tpondemand.com/entity/293186) -- [EE] As a system, I want to be compatible with Magento Commerce (EE)
+
+2.4.0
+=============
+* New features:
+    * [#331816](https://ewave.tpondemand.com/entity/331816) -- [Related Product Info] As a customer, I want to see only one category of a product in the Recommended Accessories section

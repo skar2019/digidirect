@@ -37,7 +37,6 @@ class Review extends \Magento\Paypal\Block\Express\Review
     ) {
         parent::__construct($context, $taxHelper, $addressConfig, $priceCurrency, $data);
         $this->collectHelper = $collectHelper;
-
     }
 
     /**
@@ -56,7 +55,6 @@ class Review extends \Magento\Paypal\Block\Express\Review
 
     /**
      *  Hide shipping address for collect
-     *
      * {@inheritdoc}
      */
     public function getShippingAddress()

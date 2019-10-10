@@ -35,6 +35,20 @@
             display: none; //hide discount label
         }
     }
+
+    .checkout-cart-index #removedBefore:before {
+        display: none; // #removedBefore needs to override Message styles in checkout-data-resolver-mixin.js
+    }
+
+    .checkout-cart-index #removedBefore {
+        margin-left: -32px;
+    }
+
+    .checkout-cart-index .free-message.svg-icon {
+        margin: 0 10px;
+        transform: rotateY(180deg);
+        .lib-css(fill, @color-black);
+    }
 }
 
 //

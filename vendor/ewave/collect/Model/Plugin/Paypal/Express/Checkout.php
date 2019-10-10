@@ -48,14 +48,14 @@ class Checkout
     /**
      * If billing address is null assign to it address that was gotten from PayPal
      * See bug #226390
-     * Also @see \Ewave\Collect\Model\Plugin\Quote\Payment::aroundGetAdditionalInformation
-     * and @see \Ewave\Collect\Model\Plugin\Paypal\Api\Nvp::aroundGetData
      *
      * @param \Magento\Paypal\Model\Express\Checkout $checkout
      * @param \Closure $proceed
      * @param string $token
-     * @return void
+     * @return mixed|void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @see \Ewave\Collect\Model\Plugin\Quote\Payment::aroundGetAdditionalInformation
+     * @see \Ewave\Collect\Model\Plugin\Paypal\Api\Nvp::aroundGetData
      * @see \Magento\Paypal\Model\Express\Checkout::returnFromPaypal
      */
     public function aroundReturnFromPaypal(

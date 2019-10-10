@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="default.cms.helpful.info" remove="true"/>
+        <referenceBlock name="cms.helpfullinfo.slider.block" remove="true"/>
         <referenceBlock name="ewave.menu.footer.bottom" remove="true"/>
         <referenceBlock name="footer-social-links" remove="true"/>
 
@@ -10,7 +10,10 @@
                 <argument translate="true" name="title" xsi:type="string">Secure Checkout</argument>
             </action>
         </referenceBlock>
+        <block class="Magento\Framework\View\Element\Template" name="checkout.cart.menu" template="Magento_Checkout::checkout-menu-mobile.phtml" />
+
         <move element="page.main.title" destination="content" before="-" />
+        <move element="checkout.cart.menu" destination="content" before="page.main.title" />
 
         <referenceBlock name="checkout.root">
             <arguments>

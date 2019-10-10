@@ -2,8 +2,8 @@
 
 namespace Ewave\Collect\Observer;
 
-use Magento\Framework\Event\ObserverInterface;
 use Ewave\Collect\Helper\Data as CollectHelper;
+use Magento\Framework\Event\ObserverInterface;
 
 class SetCollectPlaceData implements ObserverInterface
 {
@@ -30,7 +30,7 @@ class SetCollectPlaceData implements ObserverInterface
 
     /**
      * SetCollectPlaceData constructor.
-     * 
+     *
      * @param \Magento\Framework\App\RequestInterface $requestInterface
      * @param CollectHelper $collectHelper
      * @param \Ewave\Collect\Model\QuoteItemHandler $quoteItemHandler
@@ -48,7 +48,7 @@ class SetCollectPlaceData implements ObserverInterface
     /**
      * Execute
      *
-     * @param   \Magento\Framework\Event\Observer $observer
+     * @param \Magento\Framework\Event\Observer $observer
      * @return  void
      * @throws \Exception
      */

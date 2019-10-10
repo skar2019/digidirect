@@ -108,7 +108,7 @@ class Post extends Template implements IdentityInterface
      */
     public function isDisplayViews()
     {
-        return $this->helper->getDisplaySettingsConfig('display_views');
+        return $this->helper->getDisplaySettingsConfig('display_settings/display_views');
     }
 
     /**
@@ -116,7 +116,7 @@ class Post extends Template implements IdentityInterface
      */
     public function isDisplayShare()
     {
-        return $this->helper->getDisplaySettingsConfig('display_share');
+        return $this->helper->getDisplaySettingsConfig('display_settings/display_share');
     }
 
     /**
@@ -124,7 +124,7 @@ class Post extends Template implements IdentityInterface
      */
     public function isShareAbove()
     {
-        return $this->helper->getDisplaySettingsConfig('share_above');
+        return $this->helper->getDisplaySettingsConfig('display_settings/share_above');
     }
 
     /**
@@ -132,7 +132,7 @@ class Post extends Template implements IdentityInterface
      */
     public function isShareBelow()
     {
-        return $this->helper->getDisplaySettingsConfig('share_below');
+        return $this->helper->getDisplaySettingsConfig('display_settings/share_below');
     }
 
     /**
@@ -148,7 +148,7 @@ class Post extends Template implements IdentityInterface
      */
     public function isDisplayTags()
     {
-        return $this->helper->getDisplaySettingsConfig('display_tags');
+        return $this->helper->getDisplaySettingsConfig('display_settings/display_tags');
     }
 
     /**

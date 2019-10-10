@@ -1,8 +1,11 @@
 define([
     'jquery',
     'underscore',
+    'mage/translate',
+    'mage/template',
+    'text!Ewave_OutOfStockNotif/template/additional-information.html',
     'jquery/ui'
-], function ($, _) {
+], function ($, _, $t, mageTemplate, tmp) {
     'use strict';
 
     $.widget('ewave.outstockConfigurable', {
@@ -20,11 +23,16 @@ define([
             hiddenClass: 'no-display',
             visibleClass: '-visible-visible',
             notAvailableClass: '-not-available',
-            selectedClass: '.selected'
+            selectedClass: '.selected',
+            availabilityDateInfo: [],
+            soldOutMessageInfo: [],
+            defaultMessage: $t('This item has sold out'),
+            targetElement: '[data-role="outofstock-button"]'
         },
         productList: [],
         parentID: '',
         swatchMode: false,
+        isEnabledAdditionInformation: false,
 
         _create: function () {
             var $widget = this,
@@ -51,6 +59,7 @@ define([
             } else {
                 $widget._showHiddenBlock();
             }
+            this.checkAdditionalInformation();
         },
         
         // Remember the id of the parent product, it is used when resetting all parameters
@@ -83,9 +92,13 @@ define([
             avaliableList = _.filter(listProducts, function (prod) {
                 return $widget.options.availableProducts.indexOf(prod.id) !== -1;
             });
+
+            this.clearAdditionalInformation();
+
             if (simpleProduct && $widget.options.availableProducts.indexOf(simpleProduct) === -1 && !avaliableList.length) {
                 $('[data-role="' + $widget.options.outofstockHideContainer + '"]').addClass(this.options.visibleClass);
                 $($widget.options.actionContainer).addClass(this.options.hiddenClass);
+                this.checkCurrentAdditionalInformation(simpleProduct);
             } else {
                 $('[data-role="' + $widget.options.outofstockHideContainer + '"]').removeClass(this.options.visibleClass);
                 $($widget.options.actionContainer).removeClass(this.options.hiddenClass);
@@ -177,6 +190,55 @@ define([
             list = _.where(this.availableList, obj);
 
             return _.isEmpty(list);
+        },
+
+        /**
+         * Check availability additional information
+         */
+        checkAdditionalInformation: function () {
+            this.isEnabledAdditionInformation = !_.isEmpty(this.options.availabilityDateInfo) || !_.isEmpty(this.options.soldOutMessageInfo);
+        },
+
+        /**
+         * Clear additional information
+         */
+        clearAdditionalInformation: function () {
+            if (this.additionaInformationContainer) {
+                this.additionaInformationContainer.remove();
+            }
+        },
+
+        /**
+         * Check additional information for current product
+         * @param {number} id
+         */
+        checkCurrentAdditionalInformation: function (id) {
+            var text;
+            if (this.isEnabledAdditionInformation && !_.contains(this.options.availableProducts, id.toString())) {
+                text = this.getAdditionaInformation(id);
+                if (text) {
+                    this.appendInformation(text);
+                }
+            }
+        },
+
+        /**
+         * Get additional information for current product
+         * @param id
+         */
+        getAdditionaInformation: function (id) {
+            var date = !_.isEmpty(this.options.availabilityDateInfo) && this.options.availabilityDateInfo[id] ? this.options.availabilityDateInfo[id] : null,
+                message = _.contains(this.options.soldOutMessageInfo, id) ? this.options.defaultMessage : null;
+            return date || message;
+        },
+
+        /**
+         * Append information
+         * @param text
+         */
+        appendInformation: function (text) {
+            this.additionaInformationContainer = $(mageTemplate(tmp, {data: text}));
+            $(this.options.targetElement).before(this.additionaInformationContainer);
         }
 
     });

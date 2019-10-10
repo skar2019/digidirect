@@ -50,16 +50,11 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>
         </svg>
         <div class="wrapper-title">
-            <div class="title" data-bind="i18n: 'Your selected Location'"></div>
+            <div class="title" data-bind="i18n: 'Your selected Store'"></div>
             <span data-bind="text: collectPlaces()[0].collect_place_name + ' (' + collectPlaces()[0].collect_place_address + ')'"></span>
         </div>
-        <!-- ko if: getDeliveryPlace(collectPlaces()[0]) -->
-        <a class="link -change"
-           href="#collect-block-modal-checkout"
-           data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change'"></a>
-        <!-- /ko -->
-        <!-- ko ifnot: getDeliveryPlace(collectPlaces()[0]) -->
-        <a class="link -collect"
+
+        <a class="link -collect action primary"
            href="#collect-block-modal-checkout"
            data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change'"></a>
         <!-- /ko -->
@@ -73,12 +68,19 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>
         </svg>
         <div class="wrapper-title">
-            <div class="title" data-bind="i18n: 'Your selected Location'"></div>
+            <div class="title" data-bind="i18n: 'Your selected Store'"></div>
             <div data-bind="i18n: 'No store selected'"></div>
         </div>
-        <a class="link -collect"
+        <!-- ko if: getDeliveryPlace(collectPlaces()[0]) -->
+        <a class="link -change action primary"
            href="#collect-block-modal-checkout"
-           data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change'"></a>
+           data-bind="click: function(data, event) { showFormPopUp(data, event) }"></a>
+        <!-- /ko -->
+        <!-- ko ifnot: getDeliveryPlace(collectPlaces()[0]) -->
+        <a class="link -collect action primary"
+           href="#collect-block-modal-checkout"
+           data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Choose Your Store'"></a>
+        <!-- /ko -->
     </div>
 
     <!-- /ko -->

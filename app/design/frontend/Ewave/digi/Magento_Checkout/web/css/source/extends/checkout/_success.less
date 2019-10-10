@@ -82,6 +82,12 @@
         padding: 15px 0;
         .lib-font-size(15);
     }
+
+    .message.success {
+        width: 100%;
+        text-align: center;
+        padding-left: 40px;
+    }
 }
 
 //
@@ -89,7 +95,7 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-   .checkout-success {
+    .checkout-success {
         & {
             padding: 60px 5px 30px 0;
         }
@@ -98,7 +104,7 @@
             .lib-font-size(35);
         }
 
-        > .-addition:before {
+        > .-addition::before {
             content: '|';
             .lib-font-size(20);
             margin: 0 20px;

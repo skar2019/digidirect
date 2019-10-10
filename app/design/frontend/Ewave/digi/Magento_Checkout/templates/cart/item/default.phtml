@@ -11,6 +11,7 @@ $freeGift = ($_item->getPrice()==0) ? '-free-gift':'';
 $congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_type')!='simple') ? '-config':'';
 $quoteHelper = $helper = $this->helper('Ewave\Digi\Helper\Quote');
 $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
+$preOrderStatus = \Ewave\PreOrder\Helper\Data::BACKORDERS_PREORDER_OPTION;
 ?>
 <tbody class="cart item <?php /* @escapeNotVerified */ echo $freeGift;?>" id="cart-item-<?php echo (int)$_item->getId(); ?>">
 <tr class="item-info <?php echo $congigProductClass; ?>">
@@ -33,8 +34,23 @@ $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
         <span class="item-actions">
             <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
         </span>
-
         <div class="product-item-details">
+            <?php $checkExtensionAttr = $product->getExtensionAttributes(); ?>
+            <?php if (!empty($checkExtensionAttr)): ?>
+            <?php  $checkIsPreOrderStatus = $product->getExtensionAttributes()->getStockItem()->getBackOrders();?>
+                <?php if ($checkIsPreOrderStatus == $preOrderStatus): ?>
+                    <div class="preorder-title">
+                        <span><?php /* @escapeNotVerified */ echo __("Pre-order"); ?></span>
+                    </div>
+                    <div class="preorder-note-txt">
+                        <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+                        <?php if ($addInfoBlock): ?>
+                            <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
+                        <?php endif;?>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+
             <strong class="product-item-name">
                 <?php if ($block->hasProductUrl()):?>
                     <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl() ?>"><?php echo $block->escapeHtml($block->getProductName()) ?></a>
@@ -64,10 +80,6 @@ $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
                     <div class="cart item message <?php /* @escapeNotVerified */ echo $message['type'] ?>"><div><?php echo $block->escapeHtml($message['text']) ?></div></div>
                 <?php endforeach; ?>
             <?php endif; ?>
-            <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
-            <?php if ($addInfoBlock): ?>
-                <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
-            <?php endif;?>
 
             <?php if ($isProductWebOnly) : ?>
                 <div class="cart item message webonly-message">

@@ -7,6 +7,7 @@ define([
     return function (target) {
         $.widget('ewave.preOrder', target, {
             options: {
+                addToCartButton: $('[data-action="add-to-cart-action"]'),
                 preOrderNoteClass: 'pdp-preorder',
                 preOrderNoteSelector: '.pdp-preorder',
                 toCartBlockSelector: '.product-info-main .box-tocart',

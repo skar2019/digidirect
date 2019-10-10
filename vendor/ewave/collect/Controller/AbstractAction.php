@@ -7,13 +7,14 @@ use Magento\Framework\App\Action\Context;
 
 /**
  * Class Abstract Action
+ *
  * @package Ewave\Collect\Controller
  */
 abstract class AbstractAction extends Action
 {
     /**
      * Collect Helper
-     * 
+     *
      * @var \Ewave\Collect\Helper\Data
      */
     protected $_collectHelper;
@@ -34,7 +35,7 @@ abstract class AbstractAction extends Action
 
     /**
      * AbstractAction constructor.
-     * 
+     *
      * @param Context $context
      * @param \Ewave\Collect\Helper\Data $collectHelper
      * @param \Ewave\Collect\Model\StorageHandler $storageHandler
@@ -46,7 +47,6 @@ abstract class AbstractAction extends Action
         \Ewave\Collect\Model\StorageHandler $storageHandler,
         \Psr\Log\LoggerInterface $logger
     ) {
-
         parent::__construct($context);
         $this->_collectHelper = $collectHelper;
         $this->_storageHandler = $storageHandler;

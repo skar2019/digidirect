@@ -6,8 +6,9 @@ $helperSession = $this->helper(\Ewave\OutOfStockNotif\Helper\Session::class);
 $isNotificationForBackorder = $helper->isEnabledForBackorder();
 $stock = $helper->getStockProvider($_product);
 $isBackorderProduct = (bool)$stock->getBackorders();
+$isBackOrderAllow = $helper->isBackOrderAllow($_product);
 ?>
-<?php if ($isNotificationForBackorder && $_product->isSaleable() && $stock->getQty() <= 0 && $isBackorderProduct) : ?>
+<?php if ($isNotificationForBackorder && $_product->isSaleable() && $stock->getQty() <= 0 && $isBackorderProduct && $isBackOrderAllow ) : ?>
     <div data-role="outofstock-block" class="outofstock-block product alert <?php echo $block->getHtmlClass() ?>">
         <div data-role="outofstock-form">
             <p><?php /* @escapeNotVerified */ echo __("Enter your email address and we'll email you as soon as the item is back in stock"); ?></p>
@@ -29,7 +30,6 @@ $isBackorderProduct = (bool)$stock->getBackorders();
             </form>
         </div>
     </div>
-
     <script type="text/x-magento-init">
         {
             "#product_addtocart_form": {

@@ -2,9 +2,10 @@ define([
     'jquery',
     'Magento_Ui/js/modal/modal',
     'mage/translate',
+    'Magento_Customer/js/customer-data',
     'Magento_Catalog/js/catalog-add-to-cart',
     'jquery/ui'
-], function ($, modal, $t) {
+], function ($, modal, $t, customerData) {
     'use strict';
     
     $.widget('ewave.outstockNotification', {
@@ -27,10 +28,14 @@ define([
             backorderButtonLabel: $t('Back-order'),
             backorderButtonClassname: '-back-order',
             addToCartFormSelector: '#product_addtocart_form',
-            addToCartButtonSelector: '.action.tocart'
+            addToCartButtonSelector: '.action.tocart',
+            emailField: '[data-role="outofstock-email-field"]'
         },
+
+        _isBackOrderEvent: false,
         
         _create: function () {
+            var self = this;
             if (this.options.modal) {
                 this._createPopup();
                 $(this.options.popupButton).on('click', this._openPopup.bind(this));
@@ -39,6 +44,18 @@ define([
                 $(this.options.outofstockHideContainer).addClass(this.options.visibleClass);
             }
             this.setBackOrderAddToCart();
+
+            this.checkCutomerEmail();
+
+            $(document).on('ajax:addToCart', function (e, data) {
+                if (self._isBackOrderEvent) {
+                    self.element.catalogAddToCart('setDefaultOptins', 'addToCartButtonTextDefault', self.options.backorderButtonLabel);
+                }
+            });
+
+            this.element.on('click', '.' + this.options.backorderButtonClassname, function () {
+                self._isBackOrderEvent = true;
+            });
         },
 
         _createPopup: function () {
@@ -55,6 +72,13 @@ define([
                 $addToCartButton.find('span').text(this.options.backorderButtonLabel);
                 $addToCartButton.attr('title', this.options.backorderButtonLabel);
                 $addToCartButton.addClass(this.options.backorderButtonClassname);
+            }
+        },
+
+        checkCutomerEmail: function () {
+            var data = customerData.get('customer')();
+            if (data.email) {
+                $(this.options.emailField).val(data.email);
             }
         }
     });

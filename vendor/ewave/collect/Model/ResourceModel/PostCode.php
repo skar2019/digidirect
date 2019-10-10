@@ -7,11 +7,11 @@ use Magento\Framework\Model\ResourceModel\Db\Context;
 
 class PostCode extends AbstractDb
 {
-
-    const COORDINATES_PRECISION=4;
+    const COORDINATES_PRECISION = 4;
 
     /**
      * OrderPdf constructor.
+     *
      * @param Context $context
      * @param null $connectionName
      */
@@ -34,6 +34,7 @@ class PostCode extends AbstractDb
 
     /**
      * Save post code data.
+     *
      * @param array $data
      * @return int The number of affected rows.
      */
@@ -41,6 +42,7 @@ class PostCode extends AbstractDb
     {
         $connection = $this->getConnection();
         $connection->truncateTable(PostCodeModel::POST_CODE_TABLE);
+
         return $connection->insertOnDuplicate(
             PostCodeModel::POST_CODE_TABLE,
             $data,
@@ -50,6 +52,7 @@ class PostCode extends AbstractDb
 
     /**
      * Get post code data from base.
+     *
      * @param string $postCode
      * @return array Data of affected rows.
      */
@@ -61,16 +64,18 @@ class PostCode extends AbstractDb
                 $this->getTable(PostCodeModel::POST_CODE_TABLE),
                 [PostCodeModel::TABLE_COLUMN_LONGITUDE, PostCodeModel::TABLE_COLUMN_LATITUDE]
             )
-            ->where(PostCodeModel::TABLE_COLUMN_POST_CODE.' = ?', $postCode)
+            ->where(PostCodeModel::TABLE_COLUMN_POST_CODE . ' = ?', $postCode)
             ->where(PostCodeModel::TABLE_COLUMN_LONGITUDE . ' != ?', null)
             ->where(PostCodeModel::TABLE_COLUMN_LATITUDE . ' != ?', null);
+
         return $this->getAverageCoordinates($connection->fetchAll($select));
     }
 
     /**
      * Get average data from coordinates.
+     *
      * @param array $coordinates
-     * @return array Data of coordinates.
+     * @return array|false Data of coordinates.
      */
     protected function getAverageCoordinates($coordinates)
     {
@@ -88,6 +93,7 @@ class PostCode extends AbstractDb
 
             return $return;
         }
+
         return false;
     }
 }

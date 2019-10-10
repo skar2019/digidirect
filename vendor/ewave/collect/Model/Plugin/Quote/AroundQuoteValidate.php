@@ -8,7 +8,6 @@ use Ewave\Collect\Model\Carrier\Collectcarrier;
 
 class AroundQuoteValidate
 {
-
     /**
      * Logger
      *
@@ -25,7 +24,7 @@ class AroundQuoteValidate
 
     /**
      * Collect Helper
-     * 
+     *
      * @var \Ewave\Collect\Helper\Data
      */
     protected $_collectHelper;
@@ -38,8 +37,13 @@ class AroundQuoteValidate
     protected $_collectQuantityValidator;
 
     /**
+     * @var \Ewave\Collect\Helper\Config\Data
+     */
+    protected $_collectConfigHelper;
+
+    /**
      * AroundQuoteValidate constructor.
-     * 
+     *
      * @param \Psr\Log\LoggerInterface $logger
      * @param \Ewave\Collect\Helper\Data $collectHelper
      * @param \Ewave\Collect\Helper\Config\Data $collectConfigHelper
@@ -93,6 +97,7 @@ class AroundQuoteValidate
                     }
                 } catch (\Exception $e) {
                     $this->_collectHelper->logError($e->getMessage());
+
                     return $qtyValidator;
                 }
             }

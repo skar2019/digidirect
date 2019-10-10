@@ -13,6 +13,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const XML_PATH_SHOWING_CATEGORY_ATTRIBUTES = 'ewave_related_product/shown_parameters/category_attributes';
     const XML_PATH_FEATURED_IMAGES_ENABLE = 'ewave_related_product/shown_parameters/images_enable';
     const XML_PATH_VISIBILITY_PRODUCTS_TYPE = 'ewave_related_product/shown_parameters/visibility_products';
+    const XML_PATH_DISPLAY_ONE_CATEGORY = 'ewave_related_product/shown_parameters/display_one_category';
 
     /**
      * @var GalleryReadHandler
@@ -117,6 +118,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getShowingCategoryAttributes()
     {
         return $this->getMultiSelectConfig(self::XML_PATH_SHOWING_CATEGORY_ATTRIBUTES);
+    }
+
+    /**
+     * @return bool
+     */
+    public function displayOneCategory()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_DISPLAY_ONE_CATEGORY,
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 
     /**

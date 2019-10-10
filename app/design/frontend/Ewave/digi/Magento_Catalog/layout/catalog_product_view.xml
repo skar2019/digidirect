@@ -23,7 +23,6 @@
         <move element="product.info.media" destination="product.view.media.overview" before="-" />
 
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
-        <move element="product.info.attachment" destination="product.info.media.bar" after="-"/>
 
         <move element="catalog.product.related" destination="content" before="-"/>
         <move element="product.info.upsell" destination="content" after="-"/>
@@ -34,11 +33,6 @@
                 <container name="product.info.media.bar" htmlTag="div" htmlClass="right-bar">
                     <block class="Magento\Catalog\Block\Product\View\Description" name="product.in.box"
                            template="Magento_Catalog::product/view/in-box.phtml">
-                    </block>
-                    <block class="Magento\Cms\Block\Block" name="pdp-details-card" after="pdp.cms.details">
-                        <arguments>
-                            <argument name="block_id" xsi:type="string">pdp-details-card</argument>
-                        </arguments>
                     </block>
                 </container>
             </container>
@@ -51,6 +45,11 @@
                 <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec" as="spec" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info" after="product.info.description">
                     <arguments>
                         <argument translate="true" name="title" xsi:type="string">Specs</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.addinfo" as="additionalinfo" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.review">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Additional Info</argument>
                     </arguments>
                 </block>
             </referenceBlock>
@@ -136,6 +135,7 @@
 
         <!--Temporary solution -->
         <referenceBlock name="product.store.availability" remove="true" />
+        <referenceBlock name="product.info.attachment" remove="true" />
     </body>
 </page>
  

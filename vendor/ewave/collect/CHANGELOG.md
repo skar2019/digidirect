@@ -304,3 +304,39 @@
 =============
 * Bugfixes:
     * [#307859](https://ewave.tpondemand.com/entity/307859) -- [Project: DigiDirect] Shipping address is not displayed on the second checkout step for the logged in users
+
+2.13.5
+=============
+* Bugfixes:
+    * [#321136](https://ewave.tpondemand.com/entity/321136) -- [Charity] Charity amount is not re-counted if user goes back to 1st step of Checkout and changes payment method
+
+2.14.0
+=============
+* New features:
+    * [#304091](https://ewave.tpondemand.com/entity/304091) -- [ADD C&C ATTR] As an admin, I want C&C orders placed by users to include Collect Place attribute
+
+2.14.1
+=============
+* Bugfixes:
+    * [#311110](https://ewave.tpondemand.com/entity/311110) -- [Project: RipCurl][C&C] The Customer is not available to place an order with delivery method when C&C order was interrupted
+
+2.14.2
+=============
+* Bugfixes:
+    * [#322581](https://ewave.tpondemand.com/entity/322581) -- [PROJECT: Sportsgirl] Shipping methods are not updated after change Сountry or Zipcode
+
+2.14.3
+=============
+* Bugfixes:
+    * [#323381](https://ewave.tpondemand.com/entity/323381) -- [PROJECT: Sportsgirl] Payload extender should be added to the default shipping-save-processor
+
+2.14.4
+=============
+* Bugfixes:
+    * [#330325](https://ewave.tpondemand.com/entity/330325) -- [PROJECT: Sportsgirl] The "Place order" button is not active after clicking the "Charity" checkbox
+
+2.15.0
+=============
+* New features:
+    * [#331347](https://ewave.tpondemand.com/entity/331347) -- [PRIVATE CONTENT] As a system, I want '_isPrivateScope' parameter to be removed from Ewave_collect module
+

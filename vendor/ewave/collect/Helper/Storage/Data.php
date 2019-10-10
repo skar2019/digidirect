@@ -2,11 +2,11 @@
 
 namespace Ewave\Collect\Helper\Storage;
 
-use Magento\Store\Model\ScopeInterface;
-use Magento\Framework\App\Helper\Context;
 use Ewave\Collect\Helper\Data as CollectHelperData;
-use Ewave\Collect\Model\ResourceModel\PostCode as PostCodeResource;
 use Ewave\Collect\Model\PostCode as PostCodeModel;
+use Ewave\Collect\Model\ResourceModel\PostCode as PostCodeResource;
+use Magento\Framework\App\Helper\Context;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class Data
@@ -36,7 +36,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * CountryInformation
-     * 
+     *
      * @var \Magento\Directory\Api\CountryInformationAcquirerInterface
      */
     protected $_countryInformation;
@@ -49,7 +49,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_checkoutSession;
 
     /**
-     * PostCodeResource $postCodeResource
+     * @var PostCodeResource
      */
     protected $postCodeResource;
 
@@ -87,13 +87,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getCoordinatesByPostcode($postcode)
     {
-
         if ($this->getGeoLocationMethod() == CollectHelperData::GEO_LOCATION_METHOD_POST_CODE) {
             $coordinatesData = $this->postCodeResource->getCoordinatesByPostCodeFromDB($postcode);
             $coordinates = [
                 'lat' => $coordinatesData[PostCodeModel::TABLE_COLUMN_LATITUDE],
                 'long' => $coordinatesData[PostCodeModel::TABLE_COLUMN_LONGITUDE]
             ];
+
             return $coordinates;
         }
         //generate url for request to google api to get coordinates by postcode
@@ -112,17 +112,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         } catch (\Exception $e) {
             $this->_logger->error('COLLECT ERROR ==>> ' . $e->getMessage());
+
             return false;
         }
-        
+
         //calculate average coordinates
         $latCount = 0;
         $longCount = 0;
         $latSum = 0;
         $longSum = 0;
         foreach ($data['results'] as $item) {
-            if (
-                isset($item['geometry']) &&
+            if (isset($item['geometry']) &&
                 isset($item['geometry']['location']) &&
                 isset($item['geometry']['location']['lat']) &&
                 isset($item['geometry']['location']['lng'])
@@ -205,7 +205,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return self::GOOGLE_GEOCODE_API_URL .
             '?components=country:' . $this->getCountryId() . '|' . $queryType . ':' .
-        (string)$postcode . '&key=' . $this->getGoogleApiKey();
+            (string)$postcode . '&key=' . $this->getGoogleApiKey();
     }
 
     /**

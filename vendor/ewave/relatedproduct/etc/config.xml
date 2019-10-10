@@ -10,6 +10,7 @@
                 <visibility_products>2,4</visibility_products>
                 <images_enable>1</images_enable>
                 <attribute_sets>4</attribute_sets>
+                <display_one_category>0</display_one_category>
             </shown_parameters>
         </ewave_related_product>
     </default>

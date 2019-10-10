@@ -316,7 +316,6 @@ class SeoBrandDescription
         $titleObj->set($title);
         $metaTitleWithConfig = $titleObj->get();
         $this->pageConfig->setMetaTitle($metaTitleWithConfig);
-        $this->pageConfig->getTitle()->set($metaTitleWithConfig);
     }
 
     /**

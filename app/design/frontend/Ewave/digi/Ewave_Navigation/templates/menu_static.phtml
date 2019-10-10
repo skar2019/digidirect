@@ -9,7 +9,7 @@ if (empty($menuArray)) {
 }
 ?>
 
-<nav data-action="navigation" class="<?php echo $block->escapeHtml($block->getAreaSelector());?><?php echo
+<nav data-mage-init='{"mainMenu": {}}' data-action="navigation" class="<?php echo $block->escapeHtml($block->getAreaSelector());?><?php echo
 $block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
     <ul class="<?php echo $block->getWrapperClass() ? ' ' . $block->escapeHtml($block->getWrapperClass()) : '';?><?php echo $block->getHorizontal() == 'true' ? ' -horizontal' : '';?><?php echo $block->getExpanded() == 'true' ? ' -expanded' : '';?>">
         <?php $i = 1; $j = 1; foreach ($menuArray as $item) : ?>
@@ -128,9 +128,14 @@ $block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
         <?php $j++; endforeach; ?>
     </ul>
 </nav>
+
 <?php if ($mainMenuBottom = $block->getChildHtml('main.menu.bottom')) : ?>
-    <div class="menu-cmsitem"><?php echo $mainMenuBottom ?></div>
-<?php endif;?>
+    <div class="menu-cmsitem">
+        <div class="helpful-info">
+            <?php echo $mainMenuBottom ?>
+        </div>
+    </div>
+<?php endif; ?>
 
 <script type="text/x-magento-init">
     {

@@ -22,7 +22,7 @@ class QuoteItemHandler
 
     /**
      * QuoteItemHandler constructor.
-     * 
+     *
      * @param CollectQuantityValidator $collectQuantityValidator
      * @param CollectHelper $collectHelper
      */
@@ -45,8 +45,7 @@ class QuoteItemHandler
      */
     public function changeQuoteItemCollectType($quoteItem, $deliveryType, $collectPlaceId, $collectPlaceStorageName)
     {
-        if (
-            $deliveryType == CollectHelper::DELIVERY_TYPE_COLLECT &&
+        if ($deliveryType == CollectHelper::DELIVERY_TYPE_COLLECT &&
             $collectPlaceId &&
             $collectPlaceStorageName
         ) {
@@ -92,7 +91,7 @@ class QuoteItemHandler
                 $result = false;
             }
 
-            if (!$checkQty) {
+            if (empty($checkQty)) {
                 $quoteItem->setUseOldQty(true);
                 $result = false;
             }
@@ -100,7 +99,7 @@ class QuoteItemHandler
 
         $quoteItem->setCollectPlaceId($oldCollectPlaceId);
         $quoteItem->setCollectPlaceStorageName($oldCollectPlaceStorageName);
-        
+
         return $result;
     }
 }

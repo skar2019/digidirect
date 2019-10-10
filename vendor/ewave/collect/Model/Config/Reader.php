@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Ewave\Collect\Model\Config;
-
 
 class Reader extends \Magento\Framework\Config\Reader\Filesystem
 {

@@ -11,18 +11,7 @@ $quoteHelper = $helper = $this->helper('Ewave\Digi\Helper\Quote');
 $isProductWebOnly = $quoteHelper->isProductWebOnly($_product);
 ?>
 <div class="product info detailed -places">
-    <div class="product data items" data-bind="mageInit: {'tabs':{'openedState':'active'}}">
-        <div class="data item title<?php if(!$isShowAvailability): ?> -full-width<?php endif; ?>"
-             aria-labeledby="tab-label-title" data-role="collapsible"
-             id="tab-label-delivery">
-            <a class="data switch" tabindex="-1"
-               data-toggle="switch"
-               href="#tab-delivery"
-               id="tab-label-delivery-title">
-                <?php echo /* @noEscape */
-                __('Delivery'); ?>
-            </a>
-        </div>
+    <div class="product data items">
         <div class="data item content" id="tab-delivery" data-role="content">
             <?php if ($isProductWebOnly) : ?>
                 <div class="text web-only-msg">

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ffcb9db527037104be26f40c4ecfb1a",
+    "content-hash": "1e13f1e4c4adbc2ed6f1b1c99bfa3c06",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1360,11 +1360,11 @@
         },
         {
             "name": "ewave/blog",
-            "version": "dev-release/3.0.0",
+            "version": "dev-release/3.0.3",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_blog.git",
-                "reference": "be47210f725b96f110ad83e088b93d630c570f55"
+                "reference": "9073b788fa4f1db74982610b427c2cc5e13db743"
             },
             "suggest": {
                 "ewave/utilities": "Ewave Blog may use ewave/utilities methods"
@@ -1379,7 +1379,7 @@
                 }
             },
             "description": "Blog",
-            "time": "2019-05-31T10:54:38+00:00"
+            "time": "2019-09-13T11:57:49+00:00"
         },
         {
             "name": "ewave/bloginfinitescroll",
@@ -1465,11 +1465,11 @@
         },
         {
             "name": "ewave/collect",
-            "version": "dev-release/2.13.4",
+            "version": "dev-release/2.15.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collect.git",
-                "reference": "8b10036234cdb024076e8964736508a6b3d711ff"
+                "reference": "0b2f9a7f6d7c2fad238c9f98049d5f387eb43c90"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1481,7 +1481,7 @@
                 }
             },
             "description": "Ewave Click and Collect Module",
-            "time": "2019-05-31T08:30:01+00:00"
+            "time": "2019-10-01T05:07:25+00:00"
         },
         {
             "name": "ewave/collectabstractentity",
@@ -2133,11 +2133,11 @@
         },
         {
             "name": "ewave/outofstocknotif",
-            "version": "dev-release/2.3.0",
+            "version": "dev-release/2.4.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_outofstocknotif.git",
-                "reference": "f59d4ea9168daca311beba010a86e3ceef38085a"
+                "reference": "11617948af654392801f6e33bb890b7e351c9b4f"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2149,7 +2149,7 @@
                 }
             },
             "description": "Out Of Stock Notification",
-            "time": "2019-04-01T06:13:16+00:00"
+            "time": "2019-09-25T07:39:17+00:00"
         },
         {
             "name": "ewave/outofstocknotifpreorder",
@@ -2230,6 +2230,26 @@
             },
             "description": "Ewave ProductCalculator",
             "time": "2019-04-16T12:12:25+00:00"
+        },
+        {
+            "name": "ewave/productfilter",
+            "version": "dev-release/1.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productfilter.git",
+                "reference": "cf213a215ab6867dbe1045a74389dce6cc50e031"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ProductFilter\\": ""
+                }
+            },
+            "description": "Ewave Product Filter Module",
+            "time": "2019-09-30T05:42:59+00:00"
         },
         {
             "name": "ewave/productmultiview",
@@ -2359,11 +2379,11 @@
         },
         {
             "name": "ewave/relatedproduct",
-            "version": "dev-release/2.3.0",
+            "version": "dev-release/2.4.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_relatedproduct.git",
-                "reference": "9044d563e55e9765e319da47c6540e24053be58b"
+                "reference": "c6147c1c5f31ecafe2d42605a2cfdd8aa987b21f"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2375,7 +2395,7 @@
                 }
             },
             "description": "Ewave Related Product",
-            "time": "2019-04-16T05:17:34+00:00"
+            "time": "2019-10-03T05:55:35+00:00"
         },
         {
             "name": "ewave/security",
@@ -2598,25 +2618,25 @@
         },
         {
             "name": "fastly/magento2",
-            "version": "1.2.103",
+            "version": "1.2.119",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastly/fastly-magento2.git",
-                "reference": "d08d2c3faf365a39d2c63ca1e7e601f75f4384ec"
+                "reference": "ebe6feb8ef575ecc62d4048d355104e7ff0f978d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastly/fastly-magento2/zipball/d08d2c3faf365a39d2c63ca1e7e601f75f4384ec",
-                "reference": "d08d2c3faf365a39d2c63ca1e7e601f75f4384ec",
+                "url": "https://api.github.com/repos/fastly/fastly-magento2/zipball/ebe6feb8ef575ecc62d4048d355104e7ff0f978d",
+                "reference": "ebe6feb8ef575ecc62d4048d355104e7ff0f978d",
                 "shasum": ""
             },
             "require": {
-                "magento/framework": ">=100.0.0",
+                "magento/framework": ">=101.0.0",
                 "magento/module-cache-invalidate": ">=100.0.0",
                 "magento/module-config": ">=100.0.0",
                 "magento/module-page-cache": ">=100.0.0",
                 "magento/module-store": ">=100.0.0",
-                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0"
+                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2632,7 +2652,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Fastly CDN Module for Magento 2.x",
-            "time": "2019-05-21T16:16:34+00:00"
+            "time": "2019-10-02T17:04:26+00:00"
         },
         {
             "name": "google/recaptcha",
@@ -3868,29 +3888,35 @@
         },
         {
             "name": "magento/ece-tools",
-            "version": "2002.0.19",
+            "version": "2002.0.21",
             "dist": {
                 "type": "zip",
-                "url": "https://repo.magento.com/archives/magento/ece-tools/magento-ece-tools-2002.0.19.0.zip",
-                "shasum": "42c4f358eea4921ae823818561f2be262f1d9e07"
+                "url": "https://repo.magento.com/archives/magento/ece-tools/magento-ece-tools-2002.0.21.0.zip",
+                "shasum": "78bcf877768f3f23a7d55cdd2f9fc95f113bb1d5"
             },
             "require": {
                 "composer/composer": "@stable",
                 "composer/semver": "^1.4",
                 "ext-json": "*",
                 "ext-pdo": "*",
+                "ext-sockets": "*",
                 "graylog2/gelf-php": "^1.4.2",
                 "guzzlehttp/guzzle": "^6.2",
                 "illuminate/config": "^5.5",
                 "illuminate/container": "^5.5",
                 "illuminate/contracts": "^5.5",
+                "magento/magento-cloud-components": "^1.0.1",
                 "monolog/monolog": "^1.16",
                 "php": "^7.0",
                 "psr/container": "^1.0",
                 "psr/log": "^1.0",
                 "symfony/console": "^2.6||^4.0",
-                "symfony/yaml": "^3.3",
+                "symfony/process": "~2.1||~4.1.0",
+                "symfony/yaml": "^3.3||^4.0",
                 "twig/twig": "^1.0||^2.0"
+            },
+            "conflict": {
+                "nesbot/carbon": ">=1.38 <2.0"
             },
             "replace": {
                 "magento/ece-patches": "*",
@@ -3901,10 +3927,10 @@
                 "consolidation/robo": "^1.2",
                 "php-mock/php-mock-phpunit": "^2.0",
                 "phpmd/phpmd": "@stable",
+                "phpstan/phpstan": "@stable",
                 "phpunit/php-code-coverage": "^5.2",
                 "phpunit/phpunit": "^6.2",
-                "squizlabs/php_codesniffer": " ^3.0",
-                "symfony/process": "^3.4"
+                "squizlabs/php_codesniffer": "^3.0"
             },
             "bin": [
                 "bin/ece-tools",
@@ -3920,29 +3946,35 @@
                         ".magento.env.yaml.dist"
                     ],
                     [
-                        "dist/Makefile",
-                        "Makefile"
+                        "dist/docker-sync.yml",
+                        "docker-sync.yml"
+                    ],
+                    [
+                        "dist/mutagen.sh",
+                        "mutagen.sh"
                     ],
                     [
                         "dist/docker/mnt",
-                        "docker/mnt"
+                        ".docker/mnt"
                     ],
                     [
                         "dist/docker/tmp",
-                        "docker/tmp"
+                        ".docker/tmp"
                     ],
                     [
                         "dist/docker/mysql",
-                        "docker/mysql"
+                        ".docker/mysql"
                     ],
                     [
-                        "dist/docker/README.md",
-                        "docker/README.md"
-                    ],
-                    [
-                        "dist/docker-sync.yml",
-                        "docker-sync.yml"
+                        "dist/docker/bin/docker",
+                        "bin/docker"
                     ]
+                ],
+                "chmod": [
+                    {
+                        "mask": "0755",
+                        "path": "bin/docker"
+                    }
                 ]
             },
             "autoload": {
@@ -4364,6 +4396,34 @@
                 "AFL-3.0"
             ],
             "description": "Chinese (China) language"
+        },
+        {
+            "name": "magento/magento-cloud-components",
+            "version": "1.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/magento-cloud-components/magento-magento-cloud-components-1.0.1.0.zip",
+                "shasum": "2528c0bdef0452bf86eb2cdfd896f139f0062e70"
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^7.0"
+            },
+            "suggest": {
+                "magento/framework": "*",
+                "magento/module-store": "*",
+                "magento/module-url-rewrite": "*"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CloudComponents\\": ""
+                }
+            },
+            "description": "Cloud Components Module for Magento 2.x"
         },
         {
             "name": "magento/magento-cloud-metapackage",
@@ -24723,6 +24783,7 @@
         "ewave/preorder": 20,
         "ewave/productattachment": 20,
         "ewave/productcalculator": 20,
+        "ewave/productfilter": 20,
         "ewave/productmultiview": 20,
         "ewave/productoverlay": 20,
         "ewave/productpriority": 20,

@@ -179,4 +179,17 @@ New features:
 * Bugfixes:
     * [#218309](https://ewave.tpondemand.com/entity/218309) -- [Blog] BACKWARD INCOMPATIBLE changes: Posts Per Page (Mobile) setting is not applied correctly. Mobile setting has been removed and not supported any longer.
 
-
+3.0.1
+=======================
+* Bugfixes:
+    * [#324902](https://ewave.tpondemand.com/entity/324902) -- [CMS lego env] In the sitemap a file is not generate
+	
+3.0.2	
+=======================
+* Bugfixes:
+    * [#305951](https://ewave.tpondemand.com/entity/305951) -- [Project: Converse] Exception in cms_upgrade - wrong sittings structure
+	
+3.0.3	
+=========================
+* New features:
+    * [#328636](https://ewave.tpondemand.com/entity/328636) -- [BLOG][OPEN GRAPH TAGS] As an admin, I want to able enable/disable opengraph tags for categories and posts

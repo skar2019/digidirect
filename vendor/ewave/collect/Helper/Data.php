@@ -9,6 +9,7 @@ use Magento\Store\Model\ScopeInterface;
  * Class Data
  *
  * @package Ewave\Collect\Helper
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
@@ -39,7 +40,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const GEO_LOCATION_METHOD_GOOGLE_API = 'google_api';
     const GEO_LOCATION_METHOD_POST_CODE = 'post_code';
 
-    const XML_GEO_LOCATION_METHOD='carriers/collect/geo_location_method';
+    const XML_GEO_LOCATION_METHOD = 'carriers/collect/geo_location_method';
 
     const XML_PRODUCT_AVAILABLE_MESSAGE = 'carriers/collect/message_product_is_available_in_previously_store';
     const XML_PRODUCT_NOT_AVAILABLE_MESSAGE = 'carriers/collect/message_product_is_not_available_in_previously_store';
@@ -152,7 +153,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $result = $this->changeDeliverMethod($params, $method);
             if ($result['result'] !== true) {
                 //break id we can`t change for same item
-                return $result ;
+                return $result;
             }
         }
 
@@ -163,10 +164,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         if ($collectPlace instanceof \Ewave\Collect\Api\Data\CollectPlaceInterface) {
             return [
-                'collect_place_name'    => $collectPlace->getName(),
-                'collect_place_id'      => $collectPlace->getId(),
+                'collect_place_name' => $collectPlace->getName(),
+                'collect_place_id' => $collectPlace->getId(),
                 'collect_place_address' => $collectPlace->getAddress(),
-                'result'                => true
+                'result' => true
             ];
         }
 
@@ -221,9 +222,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $result = ['result' => true];
             } catch (LocalizedException $e) {
                 $this->logError($e->getMessage());
+
                 return ['result' => false, 'message' => $e->getMessage()];
             } catch (\Exception $e) {
                 $this->logError($e->getMessage());
+
                 return ['result' => false, 'message' => $this->getExceptionMessage($e)];
             }
 
@@ -372,6 +375,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Whether collect is enable on Product Display Page.
+     *
      * @return bool
      */
     public function isCollectEnableOnPdp()
@@ -384,6 +388,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Whether collect is enable on Cart Page.
+     *
      * @return bool
      */
     public function isCollectEnableOnCart()
@@ -662,6 +667,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($this->_state->getAreaCode() == \Magento\Framework\App\Area::AREA_ADMINHTML) {
             return false;
         }
+
         return true;
     }
 
@@ -698,20 +704,24 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($quoteItemId) {
             $params['quote_item_id'] = $quoteItemId;
         }
+
         return $this->_getUrl('collectplace/place/change', $params);
     }
 
     /**
+     * @param null|int $quoteId
      * @return bool
      */
-    public function hasDeliveryItemInCart()
+    public function hasDeliveryItemInCart($quoteId = null)
     {
-        return ($quoteId = $this->_checkoutSession->getQuoteId()) ?
-            $this->isDeliveryItems($quoteId) : false;
+        if (!$quoteId) {
+            $quoteId = $this->_checkoutSession->getQuoteId();
+        }
+        return $quoteId ? $this->isDeliveryItems($quoteId) : false;
     }
 
     /**
-     * @param null $quoteId
+     * @param null|int $quoteId
      * @return bool
      */
     public function hasCollectItemInCart($quoteId = null)
@@ -719,6 +729,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (!$quoteId) {
             $quoteId = $this->_checkoutSession->getQuoteId();
         }
+
         return $quoteId ? $this->isCollectItems($quoteId) : false;
     }
 
@@ -741,6 +752,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         foreach ($skus as $sku) {
             $skuQty[$sku] = $qty;
         }
+
         return $skuQty;
     }
 
@@ -770,6 +782,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
             $skuToQty[$sku] += $quoteItem->getQty();
         }
+
         return $skuToQty;
     }
 }

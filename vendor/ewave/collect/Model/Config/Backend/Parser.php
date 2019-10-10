@@ -66,9 +66,9 @@ class Parser
         $content = $this->fileGetContents();
         $rows = explode("\n", $content);
         $result = [];
-        $countRows=count($rows);
-        for ($i=1; $i<$countRows; ++$i) {
-            $data=$rows[$i];
+        $countRows = count($rows);
+        for ($i = 1; $i < $countRows; ++$i) {
+            $data = $rows[$i];
             if (!empty($data)) {
                 $data = preg_replace('/[\x00-\x1F\x7F]/', '', $data);
                 $rowData = explode(',', $data);
@@ -83,6 +83,7 @@ class Parser
                 ];
             }
         }
+
         return $result;
     }
 
@@ -93,6 +94,7 @@ class Parser
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
+
         return $this;
     }
 
@@ -103,6 +105,7 @@ class Parser
     public function setWebsiteId($websiteId)
     {
         $this->websiteId = $websiteId;
+
         return $this;
     }
 
@@ -113,6 +116,7 @@ class Parser
     public function setCountryCode($countryCode)
     {
         $this->countryCode = $countryCode;
+
         return $this;
     }
 
@@ -123,6 +127,7 @@ class Parser
     public function setFile($file)
     {
         $this->file = $file;
+
         return $this;
     }
 
@@ -141,6 +146,6 @@ class Parser
     protected function getAbsoluteFilePath()
     {
         return $this->directoryList->getPath('media')
-            .  DIRECTORY_SEPARATOR  . self::DIRECTORY . DIRECTORY_SEPARATOR . $this->file;
+            . DIRECTORY_SEPARATOR . self::DIRECTORY . DIRECTORY_SEPARATOR . $this->file;
     }
 }

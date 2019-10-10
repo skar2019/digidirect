@@ -18,8 +18,10 @@
 
         > .right-bar {
             width: 100%;
+            display: none;
         }
 
+        > .product.info.detailed .product-attachment,
         > .right-bar .product-attachment {
             .lib-css(color, @color-black);
             margin: 20px 20px 40px;
@@ -28,10 +30,33 @@
             float: none;
         }
 
+        > .right-bar .product-attachment ~ .product-attachment > .attachment-title {
+            display: none;
+        }
+
+        > .product.info.detailed .product-attachment ~ .product-attachment > .attachment-title {
+            display: none;
+        }
+
+        .attach-wrapper {
+            margin-bottom: 40px;
+        }
+
+        > .product.info.detailed .attachment-title {
+            .lib-css(color, @color-black);
+            display: block;
+        }
         > .right-bar .attachment-title {
             .lib-css(color, @color-white);
             .lib-css(background, @color-4-6);
             display: block;
+        }
+
+        > .product.info.detailed .attachment-container {
+            display: block;
+            text-decoration: none;
+            .lib-css(border, 1px solid @color-3-5);
+            .lib-css(background, @color-white);
         }
 
         > .right-bar .attachment-container {
@@ -40,6 +65,7 @@
             .lib-css(background, @color-white);
         }
 
+        > .product.info.detailed .attachment-container > .icon,
         > .right-bar .attachment-container > .icon {
             .lib-css(background, @color-3-4);
             position: absolute;
@@ -48,6 +74,7 @@
             display: inline;
         }
 
+        > .product.info.detailed .attachment-container .name,
         > .right-bar .attachment-container .name {
             padding-left: 70px;
             padding-top: 20px;
@@ -55,6 +82,7 @@
             .lib-css(color, @color-4-1);
         }
 
+        > .product.info.detailed .attachment-container .download,
         > .right-bar .attachment-container .download {
             padding-left: 70px;
             padding-bottom: 20px;
@@ -62,6 +90,7 @@
             display: block;
         }
 
+        > .product.info.detailed .attachment-container .download > .name,
         > .right-bar .attachment-container .download > .name {
             text-align: left;
             font-size: 11px;
@@ -249,6 +278,68 @@
         .lib-css(color, @message-error__color);
         padding: 5px 0;
     }
+
+    // Code provided by customer: Start
+
+    .item.spec {
+        .h2Lit {
+            padding-top: .6rem;
+            margin-bottom: -.3rem;
+        }
+
+        .uLit {
+            padding-top: 1rem;
+            margin-bottom: -.2rem;
+        }
+
+        span.h2Lit,
+        span.h1Lit {
+            color: #ff6600;
+            font-weight: bold;
+        }
+
+        span.h1Lit {
+            font-size: large;
+        }
+
+        span.h2Lit,
+        p.mText,
+        blockquote.descQ {
+            font-size: medium;
+        }
+
+        blockquote.descQ footer {
+            font-size: small;
+        }
+
+        blockquote.descQ {
+            background-color: rgb(237, 237, 237);
+            padding: .5rem;
+            width: 80%;
+        }
+
+        blockquote.descQ p {
+            padding: .5rem .5rem 0 .5rem;
+        }
+
+        .Ul.mpn {
+            color: #888888;
+        }
+
+        span.ind {
+            padding-left: 1rem;
+        }
+
+        table.specTable tr {
+            vertical-align: top;
+        }
+
+        table.specTable th,
+        table.specTable td {
+            width: 50%;
+        }
+    }
+    // Code provided by customer: End
 }
 
 //
@@ -273,7 +364,8 @@
             float: right;
             margin-left: -100%;
             width: 100%;
-            margin-top: 60px;
+            margin-top: 0;
+            text-align: center;
             border-width: 1px 0 0;
         }
     
@@ -297,6 +389,10 @@
             width: calc(~'100% + 40px');
         }
 
+        > .right-bar {
+            display: block;
+        }
+
         > .right-bar > .mCSB_inside > .mCSB_container {
             margin-right: 15px;
         }
@@ -306,10 +402,21 @@
             flex-wrap: wrap;
         }
 
+        > .right-bar {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        > .product.info.detailed .attach-wrapper,
+        > .right-bar .attach-wrapper {
+            width: 50%;
+        }
+
         > .right-bar .content-middle {
             width: calc(~'50%');
         }
 
+        > .product.info.detailed .product-attachment,
         > .right-bar .product-attachment {
             width: calc(~'50% - 40px');
             display: inline-table;
@@ -399,7 +506,7 @@
         }
 
         .data.item.content {
-            margin-top: 60px;
+            margin-top: 0;
         }
 
         .item.spec {
@@ -412,12 +519,35 @@
                 height: 584px;
                 overflow: hidden;
                 position: relative;
+                padding-top: 60px;
             }
 
             &.-closed {
-                height: calc(~'100% - 60px');
+                height: calc(~'100%');
                 .lib-hover-out();
             }
+        }
+    }
+
+    .tab-in.additionalinfo {
+        display: none;
+    }
+
+    .product.attributes .more.-closed .read-more {
+        &::after {
+            content: '- hide';
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            text-transform: capitalize;
+        }
+
+        > .title {
+            display: none;
         }
     }
 }
@@ -466,7 +596,13 @@
             width: 100%;
         }
 
-        > .right-bar .product-attachment {
+        > .right-bar .mCSB_container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        > .product.info.detailed .attach-wrapper,
+        > .right-bar .attach-wrapper {
             width: 100%;
             display: block;
         }
@@ -509,16 +645,18 @@
         }
 
         .-closed {
-            height: calc(~'100% - 60px');
+            //height: calc(~'100% - 60px');
+            height: 100%;
         }
 
         .data.item.content.more {
-            height: 720px;
+            height: 780px;
         }
 
         .data.item.content {
-            padding: 20px 60px 35px;
+            padding: 60px 60px 35px;
             font-size: 14px;
+            text-align: left;
         }
     }
 

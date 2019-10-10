@@ -5,11 +5,11 @@ namespace Ewave\Collect\Controller\Place;
 use Ewave\Collect\Controller\AbstractAction;
 use Ewave\Collect\Helper\Data as CollectHelper;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Webapi\Exception;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
  * Class Change
+ *
  * @package Ewave\Collect\Controller\Place
  */
 class Change extends AbstractAction
@@ -37,6 +37,7 @@ class Change extends AbstractAction
             $result = $this->_collectHelper->changeQuoteDeliverMethod($params, $deliveryMethod);
         } catch (LocalizedException $e) {
             $this->_collectHelper->logError($e->getMessage());
+
             return $resultJson->setData(
                 [
                     'data' => [],
@@ -46,6 +47,7 @@ class Change extends AbstractAction
             );
         } catch (\Exception $e) {
             $this->_collectHelper->logError($e->getMessage());
+
             return $resultJson->setData(
                 [
                     'data' => [],
@@ -58,7 +60,7 @@ class Change extends AbstractAction
         return $resultJson->setData(
             [
                 'data' => $result,
-                'result' => isset($result['result']) ? $result['result']:false
+                'result' => $result['result'] ?? false
             ]
         );
     }

@@ -3,20 +3,19 @@
 namespace Ewave\Collect\Model\Config;
 
 use Magento\Framework\Config\SchemaLocatorInterface;
-use Magento\Framework\Module\Dir;
 
 class SchemaLocator implements SchemaLocatorInterface
 {
     /**
      * UrnResolver
-     * 
+     *
      * @var \Magento\Framework\Config\Dom\UrnResolver
      */
     protected $urnResolver;
 
     /**
      * SchemaLocator constructor.
-     * 
+     *
      * @param \Magento\Framework\Config\Dom\UrnResolver $urnResolver
      */
     public function __construct(\Magento\Framework\Config\Dom\UrnResolver $urnResolver)

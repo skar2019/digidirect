@@ -1,8 +1,17 @@
 <?php
-/** @var $block \Magento\ConfigurableProduct\Block\Product\View\Type\Configurable */
+/**
+ * @var $block \Magento\ConfigurableProduct\Block\Product\View\Type\Configurable
+ * @var $infoBlock \Ewave\OutOfStockNotif\Block\Product\View\AvailableDate
+ */
 ?>
 <?php
     $isSalable = $block->getProduct()->isSalable() ? 1 : 0;
+    $availabilityDateInfo = '{}';
+    $soldOutMessageInfo = '[]';
+    if ($infoBlock = $block->getLayout()->getBlock('outstock.info')) {
+        $availabilityDateInfo = $infoBlock->getAvailabilityDateInfo($block->getAllowProducts());
+        $soldOutMessageInfo = $infoBlock->getSoldOutMessageInfo($block->getAllowProducts());
+    }
 ?>
 
 <script type="text/x-magento-init">
@@ -17,7 +26,9 @@
                 "swatchElements": "swatch-options",
                 "swatchEventElements": ".swatch-option",
                 "hiddenClass": "no-display",
-                "visibleClass": "-visible-block"
+                "visibleClass": "-visible-block",
+                "availabilityDateInfo": <?php /* @escapeNotVerified */ echo $availabilityDateInfo ?>,
+                "soldOutMessageInfo": <?php /* @escapeNotVerified */ echo $soldOutMessageInfo ?>
             }
         }
     }

@@ -15,32 +15,41 @@
 & when (@media-common = true) {
     .helpful-info {
         & {
-            margin: 30px 0;
+            margin: 0;
             .lib-css(background-color, @helpful-block__background-color);
+            .lib-css(border-top, 1px solid @helpful-block-block__border-color);
         }
 
         .svg-icon {
+            & {
+                transform: scale(-1, 1);
+                margin-right: 10px;
+            }
+
             &.-free {
-                width: 54px;
-                height: 34px;
+                width: 40px;
+                height: 30px;
             }
 
             &.-help {
-                width: 41px;
-                height: 47px;
+                width: 40px;
+                height: 30px;
             }
 
             &.-peace {
-                width: 50px;
-                height: 48px;
+                width: 40px;
+                height: 30px;
             }
         }
 
         .block {
             & {
                 .lib-css(border-bottom, 1px solid @helpful-block-block__border-color);
-                margin: 0;
-                padding: 25px 0;
+                padding: 9px 0;
+                width: auto;
+                display: flex;
+                margin: 0 auto;
+                height: 100%;
             }
 
             &:last-child {
@@ -50,22 +59,34 @@
 
         .alink {
             .lib-vendor-prefix-display(flex);
-            .ewave-lib-box-align(space-between);
+            justify-content: center;
             .lib-font-size(18);
             .lib-css(font-weight, @font-weight__heavier);
             .lib-css(border-left, 6px solid @color-black);
             padding: 6px 20px;
             text-decoration: none;
+            border: none;
+            width: auto;
+            height: 100%;
         }
 
         .text {
             .lib-vendor-prefix-display(inline-flex);
-            .lib-vendor-prefix-flex-direction(column);
+            .lib-vendor-prefix-flex-direction(row);
+            justify-content: center;
+            align-items: center;
+            order: 2;
+            font-size: 12px;
+            font-weight: 500;
+            .lib-css(color, @color-black);
         }
 
         .small {
-            .lib-font-size(14);
+            .lib-font-size(12);
             .lib-css(color, @helpful-secondary-text__color);
+            text-transform: lowercase;
+            .lib-css(color, @color-black);
+            padding-left: 3px;
         }
     }
 }
@@ -76,10 +97,19 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .helpful-info {
         & {
+            margin: 30px 0;
             .lib-vendor-prefix-display(flex);
+            border: none;
         }
 
         .svg-icon {
+            & {
+                transform: scale(1, 1);
+                width: auto;
+                height: auto;
+                margin-right: 0;
+            }
+
             &.-free {
                 width: 44px;
                 height: 28px;
@@ -102,10 +132,9 @@
                 border-bottom: none;
                 width: calc(~'100%/3');
                 padding: 23px 0;
-            }
-
-            &:last-child {
-                border-right: none;
+                display: block;
+                margin: 0;
+                height: auto;
             }
         }
 
@@ -114,14 +143,31 @@
             .lib-hover-out();
             height: 66px;
             padding-top: 10px;
+            .ewave-lib-box-align(space-between);
+            align-items: center;
+            width: auto;
+            .lib-css(border-left, 6px solid @color-black);
         }
 
         .small {
             .lib-font-size(12);
+            text-transform: none;
+            .lib-css(color, @helpful-secondary-text__color);
+            padding-left: 0;
         }
 
         .alink:hover {
             .lib-border-hover();
+        }
+
+        .text {
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            order: inherit;
+            font-size: 16px;
+            font-weight: 500;
+            .lib-css(color, inherit);
         }
     }
 }
@@ -162,5 +208,13 @@
         .small {
             .lib-font-size(16);
         }
+
+        .text {
+            .lib-font-size(24);
+        }
+    }
+
+    .menu-wrapper .menu-cmsitem .block .text {
+        .lib-font-size(14);
     }
 }

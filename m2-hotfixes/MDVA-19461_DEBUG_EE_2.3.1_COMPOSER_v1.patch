@@ -1,0 +1,262 @@
+diff --git a/vendor/magento/module-analytics/Model/Connector/NotifyDataChangedCommand.php b/vendor/magento/module-analytics/Model/Connector/NotifyDataChangedCommand.php
+index f1a8ea6460f..b77cdbc018f 100644
+--- a/vendor/magento/module-analytics/Model/Connector/NotifyDataChangedCommand.php
++++ b/vendor/magento/module-analytics/Model/Connector/NotifyDataChangedCommand.php
+@@ -76,6 +76,7 @@ class NotifyDataChangedCommand implements CommandInterface
+      */
+     public function execute()
+     {
++        $debug = null;
+         $result = false;
+         if ($this->analyticsToken->isTokenExist()) {
+             $response = $this->httpClient->request(
+@@ -86,8 +87,15 @@ class NotifyDataChangedCommand implements CommandInterface
+                     "url" => $this->config->getValue(Store::XML_PATH_SECURE_BASE_URL),
+                 ]
+             );
++              $debug['request-url'] = $this->config->getValue($this->notifyDataChangedUrlPath);
++              $debug['request-body'] = 'TOKEN =  '. $this->analyticsToken->getToken() .
++                  ' URL = '. $this->config->getValue(Store::XML_PATH_SECURE_BASE_URL);
++             $debug['response'] = $response;
+             $result = $this->responseResolver->getResult($response);
+         }
++        \Magento\Framework\Debugger::getInstance(null, "DataChangeNotifier")
++              ->log('Notify MBI about that data collection was finished:',
++                  $debug);
+         return (bool)$result;
+     }
+ }
+diff --git a/vendor/magento/module-analytics/Model/Connector/SignUpCommand.php b/vendor/magento/module-analytics/Model/Connector/SignUpCommand.php
+index e35c9bb42bc..cfe450c2b18 100644
+--- a/vendor/magento/module-analytics/Model/Connector/SignUpCommand.php
++++ b/vendor/magento/module-analytics/Model/Connector/SignUpCommand.php
+@@ -93,6 +93,7 @@ class SignUpCommand implements CommandInterface
+      */
+     public function execute()
+     {
++        $debug = null;
+         $result = false;
+         $integrationToken = $this->integrationManager->generateToken();
+         if ($integrationToken) {
+@@ -105,7 +106,10 @@ class SignUpCommand implements CommandInterface
+                     "url" => $this->config->getValue(Store::XML_PATH_SECURE_BASE_URL),
+                 ]
+             );
+-
++            $debug['RequestUrl'] = $this->config->getValue($this->signUpUrlPath);
++            $debug['RequestBody'] = 'token:' . $integrationToken->getData('token') .
++                             ' url: '. $this->config->getValue(Store::XML_PATH_SECURE_BASE_URL);
++            $debug['response'] = $response;
+             $result = $this->responseResolver->getResult($response);
+             if (!$result) {
+                 $this->logger->warning(
+@@ -118,7 +122,8 @@ class SignUpCommand implements CommandInterface
+                 );
+             }
+         }
+-
++         \Magento\Framework\Debugger::getInstance(null, "SignUp")
++            ->log('SignUpCommand:', $debug);
+         return (bool)$result;
+     }
+ }
+diff --git a/vendor/magento/module-analytics/Model/FileRecorder.php b/vendor/magento/module-analytics/Model/FileRecorder.php
+index 70438a98d56..159c21c0a7d 100644
+--- a/vendor/magento/module-analytics/Model/FileRecorder.php
++++ b/vendor/magento/module-analytics/Model/FileRecorder.php
+@@ -76,7 +76,8 @@ class FileRecorder
+         $fileInfo = $this->fileInfoManager->load();
+         $this->registerFile($encodedContext, $fileRelativePath);
+         $this->removeOldFile($fileInfo, $directory);
+-
++        \Magento\Framework\Debugger::getInstance(null, "FileInfo")
++            ->log('Created File info:', $fileInfo);
+         return true;
+     }
+ 
+diff --git a/vendor/magento/module-analytics/Model/SubscriptionStatusProvider.php b/vendor/magento/module-analytics/Model/SubscriptionStatusProvider.php
+index 1dd831a672f..ff759a6aa58 100644
+--- a/vendor/magento/module-analytics/Model/SubscriptionStatusProvider.php
++++ b/vendor/magento/module-analytics/Model/SubscriptionStatusProvider.php
+@@ -103,6 +103,9 @@ class SubscriptionStatusProvider
+             if ($this->flagManager->getFlagData(SubscriptionHandler::ATTEMPTS_REVERSE_COUNTER_FLAG_CODE) === null) {
+                 $status = static::FAILED;
+             }
++            $debug['status'] = $status;
++            $debug['token'] = $this->analyticsToken->getToken();
++            \Magento\Framework\Debugger::getInstance(null,'SS_CreateFileFail')->log('Subscription status:', $debug);
+         }
+ 
+         return $status;
+diff --git a/vendor/magento/framework/Debugger.php b/vendor/magento/framework/Debugger.php
+new file mode 100644
+index 00000000000..25eb6b3fceb
+--- /dev/null
++++ b/vendor/magento/framework/Debugger.php
+@@ -0,0 +1,165 @@
++<?php
++/**
++ * Support Debugger that helps add log messages constantly at separated log file
++ */
++namespace Magento\Framework;
++
++use Magento\Framework\App\Filesystem\DirectoryList;
++use Magento\Framework\App\ObjectManager;
++
++/**
++ * Constant debugger
++ */
++class Debugger
++{
++    /**
++     * Debugger log file name mask
++     */
++    const DEBUGGER_LOG_FILE_MASK = 'debug/support/%s_debug_%s.log';
++
++    /**
++     * Debugger error log file name
++     */
++    const DEBUGGER_ERRORS_LOG_FILE = 'debug_errors.log';
++
++    /**
++     * Store debugger singleton instance
++     *
++     * @var \Magento\Framework\Debugger
++     */
++    private static $_instance = null;
++
++    /**
++     * @var string
++     */
++    private $dir;
++
++    /**
++     * @var string
++     */
++    private $debugFile;
++
++    /**
++     * Fields that should be replaced in debug data with '***'
++     *
++     * @var array
++     */
++    protected $_debugReplacePrivateDataKeys = array(
++                'cvv', 'cc_cid', 'cc_number', 'customer_password', 'confirm_password', 'last4'
++            );
++
++    /**
++     * Create log directory if it not exists
++     * Prevent creating any instances outside of class because of using singleton pattern
++     *
++     * @param string $logId
++     */
++    private function __construct($logId, $type)
++    {
++                if (empty($logId)) {
++                        $logId = session_id() ? session_id() : uniqid();
++                    }
++        $filesystem = ObjectManager::getInstance()->get(Filesystem::class);
++        $this->dir = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
++        $this->debugFile = sprintf(self::DEBUGGER_LOG_FILE_MASK, $type, $logId);
++    }
++
++    /**
++     * Prevent creating any clones because of using singleton pattern
++     */
++    private function __clone()
++    {
++            }
++
++    /**
++     * Retrieve singleton instance of debugger
++     *
++     * @param int $logId
++     * @return \Magento\Framework\Debugger
++     */
++    public static function getInstance($logId = null, $type)
++    {
++                if (!(self::$_instance instanceof Debugger)) {
++                        self::$_instance = new self($logId, $type);
++                    }
++        return self::$_instance;
++    }
++
++    /**
++     * Log message and data
++     *
++     * @param string $message
++     * @param mixed $data
++     */
++    public function log($message, $data = '!empty!')
++    {
++                $stream = $this->dir->openFile($this->debugFile, 'a');
++                $stream->lock();
++                $stream->write($this->prepareMessage($message, $data));
++                $stream->unlock();
++                $stream->close();
++            }
++
++    /**
++     * Prepare message and converts data into sting
++     *
++     * @param $message
++     * @param $data
++     *
++     * @return string
++     */
++    private function prepareMessage($message, $data)
++    {
++                $backtrace = Debug::backtrace(true, false, false);
++                if ($data != '!empty!') {
++                        $data = $this->_filterDebugData($data);
++                        ob_start();
++                        var_dump($data);
++                        $data = ob_get_clean();
++                    }
++        $result = sprintf($this->getMessageTemplate(),
++                date('r'), $message, memory_get_usage(true), memory_get_usage(), $backtrace, $data);
++        return $result;
++    }
++
++    /**
++     * Recursive filter data
++     *
++     * @param mixed $data
++     * @return mixed
++     */
++    private function _filterDebugData($data)
++    {
++                if (is_array($data) && is_array($this->_debugReplacePrivateDataKeys)) {
++                        foreach ($data as $key => $value) {
++                                if (in_array($key, $this->_debugReplacePrivateDataKeys, true)) {
++                                        $data[$key] = '****';
++                                    } else {
++                                        if (is_array($data[$key])) {
++                                                $data[$key] = $this->_filterDebugData($data[$key]);
++                                            }
++                }
++            }
++        }
++        return $data;
++    }
++
++    /**
++     * Get Message Format Template
++     *
++     * @return string
++     */
++    private function getMessageTemplate()
++    {
++                return <<<EOF
++%s: %s
++MEMORY_REAL_USAGE: %s
++MEMORY_EMALLOC_USAGE: %s
++BACKTRACE:
++%s
++DATA:
++%s
++
++EOF;
++    }
++}
+\ No newline at end of file

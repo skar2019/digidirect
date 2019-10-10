@@ -4,9 +4,6 @@
         <referenceContainer name="main.menu.off.canvas.section">
             <block class="Magento\Customer\Block\Account\Link" name="your-account-link"
                    template="Magento_Customer::link/your-account.phtml" before="-">
-                <arguments>
-                    <argument name="label" xsi:type="string" translate="true">Your Account</argument>
-                </arguments>
             </block>
             <block class="Magento\Customer\Block\Account\AuthorizationLink" name="sign-out-link"
                    template="Magento_Customer::link/sign-out.phtml" after="-"/>

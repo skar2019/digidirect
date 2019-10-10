@@ -10,6 +10,9 @@
     .footer-partners {
         & {
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .item {
@@ -24,8 +27,6 @@
 
         img {
             margin: 0 12px 27px;
-            max-width: 129px;
-            max-height: 68px;
             vertical-align: middle;
         }
 
@@ -35,6 +36,37 @@
 
         .item.-flexirent img {
             max-width: 78px;
+        }
+    }
+}
+
+//
+//  Tablet Max
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .footer-partners {
+        .-aipp img {
+            width: 44px;
+            height: 44px;
+        }
+
+        .-zip img {
+            width: 66px;
+            height: 23px;
+        }
+
+        .-studio19 img {
+            width: 86px;
+            height: 23px;
+            margin-top: 5px;
+            margin-left: 5px;
+        }
+
+        .-flexirent img {
+            width: 67px;
+            height: 28px;
+            margin-bottom: 30px;
         }
     }
 }
@@ -65,6 +97,13 @@
         .item img {
             margin-right: 0;
             margin-left: 0;
+            max-width: 129px;
+            max-height: 68px;
+        }
+
+        img {
+            max-width: 129px;
+            max-height: 68px;
         }
     }
 }

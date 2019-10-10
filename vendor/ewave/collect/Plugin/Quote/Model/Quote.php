@@ -2,9 +2,28 @@
 namespace Ewave\Collect\Plugin\Quote\Model;
 
 use Magento\Quote\Model\Quote as Subject;
+use Ewave\Collect\Helper\Data as CollectHelper;
 
+/**
+ * Class Quote
+ * @package Ewave\Collect\Plugin\Quote\Model
+ */
 class Quote
 {
+    /**
+     * @var CollectHelper
+     */
+    protected $collectHelper;
+
+    /**
+     * Quote constructor.
+     * @param CollectHelper $collectHelper
+     */
+    public function __construct(CollectHelper $collectHelper)
+    {
+        $this->collectHelper = $collectHelper;
+    }
+
     /**
      * @param Subject $subject
      * @param Subject $result
@@ -22,6 +41,28 @@ class Quote
                 }
             }
         }
+
+        if ($this->collectHelper->isEnableSingleStoreInCartRestriction()
+            && $this->collectHelper->hasCollectItemInCart($subject->getId())
+            && $this->collectHelper->hasDeliveryItemInCart($subject->getId())
+        ) {
+            $this->transformAllItemsToDelivery($subject);
+        }
         return $result;
+    }
+
+    /**
+     * @param Subject $quote
+     * @return void
+     */
+    public function transformAllItemsToDelivery($quote)
+    {
+        foreach ($quote->getAllVisibleItems() as $item) {
+            if (!$item->getCollectPlaceId() && !$item->getCollectPlaceStorageName()) {
+                continue;
+            }
+            $item->setCollectPlaceId(null);
+            $item->setCollectPlaceStorageName(null);
+        }
     }
 }

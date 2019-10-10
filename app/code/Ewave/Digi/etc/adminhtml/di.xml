@@ -8,4 +8,16 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Ui\Component\Form\Element\DataType\Date">
+        <plugin name="magento.ui.component.form.element.datatype.date"
+                type="Ewave\Digi\Plugin\Magento\Ui\Component\Form\Element\DataType\Date"
+                sortOrder="10" />
+    </type>
+    <type name="Ewave\Digi\Plugin\Magento\Ui\Component\Form\Element\DataType\Date">
+        <arguments>
+            <argument name="listWrongLocale" xsi:type="array">
+                <item name="en_AU" xsi:type="string">en_AU</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -2,14 +2,14 @@ define([
     'jquery',
     'mage/translate',
     'mage/template',
-    'text!Ewave_Navigation/template/back.html',
     'text!Ewave_Navigation/template/view-all.html',
     'jquery/ui'
-], function ($, $t, mageTemplate, menuBackTmpl, viewAllTmpl) {
+], function ($, $t, mageTemplate, viewAllTmpl) {
     'use strict';
 
     $.widget('ewave.mainMenu', {
         options: {
+            secondaryMenu: '.menu-sec',
             menuSectionSelector: '.menu-section',
             slideClassName: '-slide',
             subSlideClassName: '-sub-slide',
@@ -20,30 +20,10 @@ define([
             cmsCloneSelector: '.menu-cmsitem'
         },
         _create: function () {
-            this.addMenuBack();
             this.addViewAll();
             this.cloneCMS();
-            this._bind();
-        },
-
-        _bind: function () {
-            var self = this;
-
-            $('[data-action="toggle-nav"], .navigation-wrapper > .menu-back').on('click', function () {
-                $(self.options.menuSectionSelector).removeClass(self.options.slideClassName).removeClass(self.options.subSlideClassName);
-            });
-
-            this.element.on('click', function () {
-                $(self.options.menuSectionSelector).addClass(self.options.slideClassName);
-            });
-        },
-
-        addMenuBack: function () {
-            var tmpl = mageTemplate(menuBackTmpl, {
-                name: this.options.menuBackTitle
-            });
-
-            $(tmpl).prependTo($('.navigation-wrapper'));
+            this.secMenu();
+            this.firstStep();
         },
 
         addViewAll: function () {
@@ -70,13 +50,35 @@ define([
                 $(this).hide();
             });
         },
-        
+
         cloneCMS: function () {
-            if ($(this.options.cmsCloneSelector).length) {
+            if (!window.cloneCmsMenuFlag && $(this.options.cmsCloneSelector).length) {
                 var $clone = $(this.options.cmsCloneSelector).clone();
                 $clone.find('a').attr('rel', 'nofollow');
                 $clone.appendTo('.menu-wrapper > .item > .sub-menu');
+                window.cloneCmsMenuFlag = true;
             }
+        },
+
+        secMenu: function () {
+
+            var that = this;
+
+            $('.nav-offcanvas .category-item').on('click', function () {
+                if (this.querySelector(that.options.secondaryMenu).classList.contains('-clear')) {
+                    this.querySelector(that.options.secondaryMenu).classList.remove('-clear');
+                    this.querySelector('.link').classList.remove('-min');
+                } else {
+                    this.querySelector(that.options.secondaryMenu).classList.add('-clear');
+                    this.querySelector('.link').classList.add('-min');
+                }
+            })
+        },
+
+        firstStep: function () {
+            $('.action.nav-toggle').on('click', function () {
+                $('.menu-back').trigger('click')
+            })
         }
     });
 

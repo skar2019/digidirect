@@ -37,9 +37,7 @@
     .page-below {
         > .content {
             .lib-css(max-width, @layout__max-width);
-            .lib-css(padding-left, @layout-indent__width);
-            .lib-css(padding-right, @layout-indent__width);
-            
+
             margin: 0 auto;
         }
     }
@@ -114,6 +112,13 @@
     
         .columns {
             margin-bottom: 40px;
+        }
+    }
+
+    .page-below {
+        > .content {
+            .lib-css(padding-left, @layout-indent__width);
+            .lib-css(padding-right, @layout-indent__width);
         }
     }
 }

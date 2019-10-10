@@ -50,7 +50,7 @@ class StockResolver
         } else {
             $stockItem = $product->getExtensionAttributes()->getStockItem();
             if (!$stockItem) {
-                $stockItem = $this->getStockItemRepositoryInterface()->get($product->getId());
+                $stockItem = $this->getStockRegistry()->getStockItem($product->getId());
             }
         }
 
@@ -92,13 +92,12 @@ class StockResolver
 
     /**
      * Solving compatibility problem
-     * \Magento\CatalogInventory\Api\StockItemRepositoryInterface is deprecated
      *
-     * @return object
+     * @return mixed
      */
-    private function getStockItemRepositoryInterface()
+    private function getStockRegistry()
     {
         return ObjectManager::getInstance()
-            ->get('Magento\CatalogInventory\Api\StockItemRepositoryInterface');
+            ->get('Magento\CatalogInventory\Api\StockRegistryInterface');
     }
 }

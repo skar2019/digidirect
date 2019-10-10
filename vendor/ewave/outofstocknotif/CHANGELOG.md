@@ -48,3 +48,18 @@
     * [#295017](https://ewave.tpondemand.com/entity/295017) -- [PRODUCT ATTRIBUTES] As an admin, I want to be able to set and display the availability day for products
 * Bugfixes:
     * [#294343](https://ewave.tpondemand.com/entity/294343) -- [Project: DigiDirect] "Pre-order" button is replaced with "Backorder" after adding product to the cart
+
+2.3.1
+=============
+* Bugfixes:
+    * [#288739](https://ewave.tpondemand.com/entity/288739) -- [Out of Stock Notification][BackOrder] 'Add to Cart' button is not renamed on PLP
+
+2.3.2
+=============
+* Bugfixes:
+    * [#306400](https://ewave.tpondemand.com/entity/306400) -- [Out of Stock Notification] Availability date of a simple product is not shown on configurable level
+
+2.4.0
+=============
+* New features:
+    * [#330729](https://ewave.tpondemand.com/entity/330729) -- [Private Content] As a system, I want to use 'private content' instead of '_isPrivateScope' parametre

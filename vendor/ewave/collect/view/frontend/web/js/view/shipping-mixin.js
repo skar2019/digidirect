@@ -7,8 +7,7 @@ define([
     'Magento_Checkout/js/action/set-shipping-information',
     'Magento_Checkout/js/view/shipping-information',
     'Magento_Checkout/js/model/step-navigator',
-    'Magento_Checkout/js/view/billing-address',
-    'Magento_Checkout/js/model/checkout-data-resolver'
+    'Magento_Checkout/js/view/billing-address'
 ], function (
     $,
     _,
@@ -18,8 +17,7 @@ define([
     setShippingInformationAction,
     shippingInformation,
     stepNavigator,
-    billingAddress,
-    checkoutDataResolver
+    billingAddress
 ) {
     'use strict';
     var disableShippingForm = ko.observable(null),
@@ -128,19 +126,12 @@ define([
 
                 return this._super();
             },
-            setShippingInformation: function () {
-                if (this.validateShippingInformation()) {
-                    quote.billingAddress(null);
-                    checkoutDataResolver.resolveBillingAddress();
-                    setShippingInformationAction().done(
-                        function () {
-                            stepNavigator.next();
-                            if (quote.disableShippingForm()) {
-                                billingAddress().checkCollectionMode();
-                                quote.canApplyBillingAddress = true;
-                            }
-                        }
-                    );
+            setShippingInformationSuccess: function () {
+                this._super();
+
+                if (quote.disableShippingForm()) {
+                    billingAddress().checkCollectionMode();
+                    quote.canApplyBillingAddress = true;
                 }
             },
             onErrorValidationShippingInformation: function (type) {}

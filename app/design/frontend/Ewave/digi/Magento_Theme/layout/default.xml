@@ -12,10 +12,23 @@
         <referenceContainer name="page.wrapper">
             <container name="page.below.container" htmlClass="page-below" htmlTag="div" before="footer-container">
                 <container htmlClass="content" htmlTag="div" name="page.below.content">
-                    <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info">
-                        <arguments>
-                            <argument name="block_id" xsi:type="string">cms-helpful-info</argument>
-                        </arguments>
+                    <block class="Magento\Framework\View\Element\Template" name="cms.helpfullinfo.slider.block"
+                           template="Magento_Theme::helpfull-info.phtml">
+                        <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.one">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">cms-helpful-info-1</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.two">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">cms-helpful-info-2</argument>
+                            </arguments>
+                        </block>
+                        <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.three">
+                            <arguments>
+                                <argument name="block_id" xsi:type="string">cms-helpful-info-3</argument>
+                            </arguments>
+                        </block>
                     </block>
                 </container>
             </container>
@@ -39,7 +52,7 @@
         <referenceBlock name="svg_sprite">
             <arguments>
                 <argument name="svg_is_inline" xsi:type="boolean">true</argument>
-                <argument name="svg_revision" xsi:type="string">1.9.3</argument>
+                <argument name="svg_revision" xsi:type="string">2.0.7</argument>
             </arguments>
         </referenceBlock>
 
