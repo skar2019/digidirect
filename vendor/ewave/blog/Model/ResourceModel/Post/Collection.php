@@ -4,7 +4,6 @@ namespace Ewave\Blog\Model\ResourceModel\Post;
 
 use Ewave\Blog\Api\Data\CategoryContentInterface;
 use Ewave\Blog\Api\Data\PostContentInterface;
-use Ewave\Blog\Api\Data\PostInterface;
 use Ewave\Blog\Model\Config\Provider\Status;
 use Ewave\Blog\Model\CurrentStoreFetcher;
 use Ewave\Blog\Model\ResourceModel\Category;
@@ -312,7 +311,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             return $this;
         }
         $this->addFieldToFilter(
-            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.' . PostInterface::FIELD_STATUS,
+            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE.'.' . PostInterface::FIELD_STATUS,
             $status
         );
         return $this;

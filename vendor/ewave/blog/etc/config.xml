@@ -28,51 +28,53 @@
                 <emailoncomment>0</emailoncomment>
                 <commentcount>8</commentcount>
             </comments>
-            <related_posts>
-                <enabled>1</enabled>
-                <number_of_posts>5</number_of_posts>
-            </related_posts>
-            <related_products>
-                <enabled>1</enabled>
-                <number_of_products>5</number_of_products>
-                <show_addtocart>1</show_addtocart>
-                <show_whishlist_icon>1</show_whishlist_icon>
-                <show_compare_icon>1</show_compare_icon>
-            </related_products>
+            <related_setting>
+                <related_posts>
+                    <enabled>1</enabled>
+                    <number_of_posts>5</number_of_posts>
+                </related_posts>
+                <related_products>
+                    <enabled>1</enabled>
+                    <number_of_products>5</number_of_products>
+                    <show_addtocart>1</show_addtocart>
+                    <show_whishlist_icon>1</show_whishlist_icon>
+                    <show_compare_icon>1</show_compare_icon>
+                </related_products>
+            </related_setting>
             <display_settings>
                 <display_views>0</display_views>
                 <display_share>1</display_share>
                 <share_above>0</share_above>
                 <share_below>1</share_below>
                 <display_tags>1</display_tags>
+                <list_page>
+                    <show_type>list</show_type>
+                    <display_tags_listing>0</display_tags_listing>
+                    <category_onlist_left>1</category_onlist_left>
+                    <category_onlist_right>0</category_onlist_right>
+                    <popular_onlist_left>1</popular_onlist_left>
+                    <popular_onlist_right>0</popular_onlist_right>
+                    <latest_onlist_left>0</latest_onlist_left>
+                    <latest_onlist_right>0</latest_onlist_right>
+                </list_page>
+                <view_page>
+                    <category_onpost_left>1</category_onpost_left>
+                    <category_onpost_right>0</category_onpost_right>
+                    <popular_onpost_left>0</popular_onpost_left>
+                    <popular_onpost_right>0</popular_onpost_right>
+                    <latest_onpost_left>1</latest_onpost_left>
+                    <latest_onpost_right>0</latest_onpost_right>
+                </view_page>
+                <cat_page>
+                    <show_type>grid</show_type>
+                    <categorylist_oncat_left>0</categorylist_oncat_left>
+                    <categorylist_oncat_right>1</categorylist_oncat_right>
+                    <popular_oncat_left>0</popular_oncat_left>
+                    <popular_oncat_right>0</popular_oncat_right>
+                    <latest_oncat_left>0</latest_oncat_left>
+                    <latest_oncat_right>0</latest_oncat_right>
+                </cat_page>
             </display_settings>
-            <list_page>
-                <show_type>list</show_type>
-                <display_tags_listing>0</display_tags_listing>
-                <category_onlist_left>1</category_onlist_left>
-                <category_onlist_right>0</category_onlist_right>
-                <popular_onlist_left>1</popular_onlist_left>
-                <popular_onlist_right>0</popular_onlist_right>
-                <latest_onlist_left>0</latest_onlist_left>
-                <latest_onlist_right>0</latest_onlist_right>
-            </list_page>
-            <view_page>
-                <category_onpost_left>1</category_onpost_left>
-                <category_onpost_right>0</category_onpost_right>
-                <popular_onpost_left>0</popular_onpost_left>
-                <popular_onpost_right>0</popular_onpost_right>
-                <latest_onpost_left>1</latest_onpost_left>
-                <latest_onpost_right>0</latest_onpost_right>
-            </view_page>
-            <cat_page>
-                <show_type>grid</show_type>
-                <categorylist_oncat_left>0</categorylist_oncat_left>
-                <categorylist_oncat_right>1</categorylist_oncat_right>
-                <popular_oncat_left>0</popular_oncat_left>
-                <popular_oncat_right>0</popular_oncat_right>
-                <latest_oncat_left>0</latest_oncat_left>
-                <latest_oncat_right>0</latest_oncat_right>
-            </cat_page>
         </ewave_blog>
         <!-- This setting is introduced as legacy but after update you should enable it if you need -->
         <dev>

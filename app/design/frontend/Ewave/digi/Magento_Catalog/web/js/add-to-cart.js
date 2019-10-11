@@ -32,35 +32,35 @@ define([
         var priceFull = document.getElementById('priceFull');
         var newPlacePricePromotional = document.getElementById('pricePromotional');
 
-        if (!elementPromotionalPrice && (elementBeforeCashBack || elementAfterCashBack) ) {
-            $(priceFull).css('display','none');
-            $(newPlacePricePromotional).css('display','none');
-        } else if (elementPromotionalPrice && (elementBeforeCashBack || elementAfterCashBack)) {
-            $(newPlaceBeforeCB).css('display','none');
-            $(newPlaceAfterCB).css('display','none');
+        if (elementPromotionalPrice) {
+            $(newPlaceBeforeCB).css('display', 'none');
+            $(newPlaceAfterCB).css('display', 'none');
             priceFull.classList.add('old-price');
-        }  else {
-            $(newPlaceBeforeCB).css('display','none');
-            $(newPlaceAfterCB).css('display','none');
-            $(newPlacePricePromotional).css('display','none');
+        } else if (!elementPromotionalPrice && (elementBeforeCashBack || elementAfterCashBack)) {
+            $(priceFull).css('display', 'none');
+            $(newPlacePricePromotional).css('display', 'none');
+        } else if (elementPromotionalPrice && (elementBeforeCashBack || elementAfterCashBack)) {
+            $(newPlaceBeforeCB).css('display', 'none');
+            $(newPlaceAfterCB).css('display', 'none');
+            priceFull.classList.add('old-price');
+        } else {
+            $(newPlaceBeforeCB).css('display', 'none');
+            $(newPlaceAfterCB).css('display', 'none');
+            $(newPlacePricePromotional).css('display', 'none');
         }
-
         if (elementBeforeCashBack) {
             var clonedBeforeCB = elementBeforeCashBack.cloneNode(true);
             newPlaceBeforeCB.appendChild(clonedBeforeCB);
         }
-
         if (elementAfterCashBack) {
             var clonedAfterCB = elementAfterCashBack.cloneNode(true);
             newPlaceAfterCB.appendChild(clonedAfterCB);
         }
-
         if (elementPromotionalPrice) {
             var clonedPricePromotional = elementPromotionalPrice.cloneNode(true);
             newPlacePricePromotional.appendChild(clonedPricePromotional);
-
-            $(newPlaceBeforeCB).css('display','none');
-            $(newPlaceAfterCB).css('display','none');
+            $(newPlaceBeforeCB).css('display', 'none');
+            $(newPlaceAfterCB).css('display', 'none');
         }
 
         var clone = toCartButton.cloneNode(true);

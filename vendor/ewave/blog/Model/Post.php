@@ -252,18 +252,4 @@ class Post extends \Magento\Framework\Model\AbstractModel implements PostInterfa
         }
         return $identities;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getAvailableStoresIds()
-    {
-        $storeIds = $this->_resource->getStoreRelationCategoryByPostId($this->getId());
-        return array_reduce($storeIds, function ($acc, $element) {
-            if (!empty($element)) {
-                $acc[] = array_shift($element);
-            }
-            return $acc;
-        }, []);
-    }
 }

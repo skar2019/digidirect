@@ -18,7 +18,7 @@
         "ewave/addressverification": "dev-release/2.0.11",
         "ewave/ai": "dev-release/1.15.8",
         "ewave/banner": "dev-release/4.0.1",
-        "ewave/blog": "dev-release/3.0.3",
+        "ewave/blog": "dev-release/3.0.0",
         "ewave/bloginfinitescroll": "dev-release/1.0.0",
         "ewave/categoryfilter": "dev-release/1.0.1",
         "ewave/checkoutfields": "dev-release/2.1.3",

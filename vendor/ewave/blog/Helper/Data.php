@@ -8,13 +8,12 @@ use Magento\Store\Model\ScopeInterface;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
     const GENERAL_SETTINGS = 'ewave_blog/general/';
-    const BLOG_SETTINGS    = 'ewave_blog/';
-    const COMMENT_SETTINGS = 'ewave_blog/comments/';
-    const ENABLE_DISPLAY_ALTERNATES_LOCALES_CATEGORY =
-        'ewave_blog/opengraph_settings/enable_display_alternative_locales_category_page';
 
-    const ENABLE_DISPLAY_ALTERNATES_LOCALES_POST =
-        'ewave_blog/opengraph_settings/enable_display_alternative_locales_post_page';
+    const DISPLAY_SETTINGS = 'ewave_blog/display_settings/';
+
+    const RELATED_SETTINGS = 'ewave_blog/related_setting/';
+
+    const COMMENT_SETTINGS = 'ewave_blog/comments/';
 
     /**
      * @return bool
@@ -58,7 +57,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $scopeType = ScopeInterface::SCOPE_STORE,
         $scopeCode = null
     ) {
-        return $this->scopeConfig->getValue(self::BLOG_SETTINGS . $setting, $scopeType, $scopeCode);
+        return $this->scopeConfig->getValue(self::RELATED_SETTINGS . $setting, $scopeType, $scopeCode);
     }
 
     /**
@@ -72,7 +71,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $scopeType = ScopeInterface::SCOPE_STORE,
         $scopeCode = null
     ) {
-        return $this->scopeConfig->getValue(self::BLOG_SETTINGS . $setting, $scopeType, $scopeCode);
+        return $this->scopeConfig->getValue(self::DISPLAY_SETTINGS . $setting, $scopeType, $scopeCode);
     }
 
     /**
@@ -106,27 +105,5 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isDateLocalizationRequired(): bool
     {
         return $this->scopeConfig->isSetFlag('dev/blog/localize_publish_date', ScopeInterface::SCOPE_STORE);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isEnableDisplayAlternatesLocalesTagCategoryPage(): bool
-    {
-        return $this->scopeConfig->isSetFlag(
-            self::ENABLE_DISPLAY_ALTERNATES_LOCALES_CATEGORY,
-            ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function isEnableDisplayAlternatesLocalesTagPostPage(): bool
-    {
-        return $this->scopeConfig->isSetFlag(
-            self::ENABLE_DISPLAY_ALTERNATES_LOCALES_POST,
-            ScopeInterface::SCOPE_STORE
-        );
     }
 }

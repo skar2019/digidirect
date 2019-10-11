@@ -2,7 +2,7 @@
   "name": "ewave/blog",
   "description": "Blog",
   "type": "magento2-module",
-  "version": "3.0.3",
+  "version": "3.0.0",
   "suggest": {
     "ewave/utilities": "Ewave Blog may use ewave/utilities methods"
   },

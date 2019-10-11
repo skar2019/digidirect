@@ -83,12 +83,4 @@ class Category extends \Magento\Framework\Model\AbstractModel implements Categor
     {
         return $this->identitiesGenerator->getIdentities($this, self::CACHE_TAG_PREFIX);
     }
-
-    /**
-     * @return mixed
-     */
-    public function getViewStores()
-    {
-        return $this->_resource->lookupStoreIds($this->getId());
-    }
 }
