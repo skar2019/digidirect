@@ -189,7 +189,7 @@
                 </item>
             </argument>
         </column>
-        <column name="post_title">
+        <column name="title">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Blog Post Title</item>

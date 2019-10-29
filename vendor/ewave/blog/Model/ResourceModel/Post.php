@@ -21,10 +21,10 @@ use Magento\Store\Model\Store;
 class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     const CATEGORY_RELATION_TABLE = 'ewave_blog_post_categories';
-
     const RELATED_POST_TABLE = 'ewave_blog_post_related_post';
-
     const RELATED_PRODUCTS_TABLE = 'ewave_blog_post_related_products';
+    const BLOG_POST_INFORMATION_TABLE = 'ewave_blog_post_information';
+    const CATEGORY_STORE_TABLE = 'ewave_blog_category_stores';
 
     /**
      * @var Tag
@@ -496,12 +496,15 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     /**
      * @param \Magento\Framework\Model\AbstractModel $object
      * @param int $id
+     * @param int $storeId
      * @return $this
      * @throws LocalizedException
      */
-    public function loadById($object, $id)
+    public function loadById($object, $id, $storeId = null)
     {
-        $storeId = $this->currentStoreFetcher->getCurrentStoreId();
+        if (null === $storeId) {
+            $storeId = $this->currentStoreFetcher->getCurrentStoreId();
+        }
 
         $select = $this->getConnection()
             ->select()
@@ -518,5 +521,25 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $result = $this->getConnection()->fetchRow($select);
         $object->setData($result);
         return $this;
+    }
+
+    /**
+     * @param string|int $postId
+     * @return array
+     */
+    public function getStoreRelationCategoryByPostId($postId)
+    {
+        $connection = $this->getConnection();
+        $select = $connection->select()
+            ->from(['post_category'
+            => $this->getTable(Post::CATEGORY_RELATION_TABLE)], 'category_store.store_id')
+            ->joinLeft(
+                ['category_store' => self::CATEGORY_STORE_TABLE],
+                'post_category.category_id = category_store.category_id',
+                []
+            )
+            ->where('post_category.post_id = :post_id');
+
+        return $connection->fetchAssoc($select, ['post_id' => (int)$postId]);
     }
 }

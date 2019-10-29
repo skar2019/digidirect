@@ -15,6 +15,7 @@
 
             <additional>
                 <discovercompositeoptions>0</discovercompositeoptions>
+                <backordersforavailabilitydate>-1</backordersforavailabilitydate>
             </additional>
         </ewave_preorder>
     </default>

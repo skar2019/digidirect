@@ -80,6 +80,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Ewave\PreOrder\Helper\Data">
+        <arguments>
+            <argument name="availabilityDateTag" xsi:type="string">#availability_date#</argument>
+        </arguments>
+    </type>
 
     <type name="Magento\CatalogInventory\Model\Source\Backorders">
         <plugin name="Ewave_PreOrder::toOptionArray" type="Ewave\PreOrder\Plugin\CatalogInventoryBackorders"/>

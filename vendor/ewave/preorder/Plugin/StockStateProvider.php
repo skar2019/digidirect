@@ -61,8 +61,7 @@ class StockStateProvider
      * @return bool
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundVerifyStock
-    (
+    public function aroundVerifyStock(
         \Magento\CatalogInventory\Model\StockStateProvider $subject,
         \Closure $closure,
         \Magento\CatalogInventory\Api\Data\StockItemInterface $stockItem

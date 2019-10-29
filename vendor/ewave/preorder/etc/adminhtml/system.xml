@@ -56,6 +56,13 @@
                             ]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="backordersforavailabilitydate" translate="label" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                   <label>Backorders option for "Product Availability Date"</label>
+                   <comment><![CDATA[
+                           This value will be set to "Backorders", when "Product Availability Date" comes for target product.
+                           ]]></comment>
+                   <source_model>Ewave\PreOrder\Model\Source\Backorders</source_model>
+               </field>
             </group>
         </section>
     </system>

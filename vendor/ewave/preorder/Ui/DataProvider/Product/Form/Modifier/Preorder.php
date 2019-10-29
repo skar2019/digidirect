@@ -38,6 +38,8 @@ class Preorder extends AbstractModifier
         [ProductAttributeInterface::CODE_PREORDER_NOTE] = $model->getEwavePreorderNote();
         $data[$modelId][self::DATA_SOURCE_DEFAULT]
         [ProductAttributeInterface::CODE_PREORDER_CART_LABEL] = $model->getEwavePreorderCartLabel();
+        $data[$modelId][self::DATA_SOURCE_DEFAULT][ProductAttributeInterface::CODE_PRODUCT_AVAILABILITY_DATE]
+            = $model->getEwaveProductAvailabilityDate();
         return $data;
     }
 

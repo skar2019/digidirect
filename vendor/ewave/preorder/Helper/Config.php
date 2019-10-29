@@ -23,6 +23,8 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
 
     const XML_PATH_SECTION_ADDITIONAL = self::EWAVE_PREORDER . '/additional/';
     const XML_PATH_DISCOVER_COMPOSITE_OPTIONS = self::XML_PATH_SECTION_ADDITIONAL . 'discovercompositeoptions';
+    const XML_PATH_BACKORDERS_FOR_AVAILABILITY_DATE
+        = self::XML_PATH_SECTION_ADDITIONAL.'backordersforavailabilitydate';
 
     /**
      * Is preorder enabled
@@ -110,5 +112,15 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         return $result;
+    }
+
+    /**
+     * Get backorders for availability date config
+     *
+     * @return int
+     */
+    public function getBackordersForAvailabilityDateConfig()
+    {
+        return $this->getCurrentStoreConfig(self::XML_PATH_BACKORDERS_FOR_AVAILABILITY_DATE);
     }
 }

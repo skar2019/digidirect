@@ -11,6 +11,8 @@ use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\App\Helper\Context;
 use Magento\CatalogInventory\Api\StockItemRepositoryInterface;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * Class Data
@@ -52,6 +54,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $stockResolver;
 
     /**
+     * @var TimezoneInterface
+     */
+    protected $localeDate;
+
+    /**
+     * @var string
+     */
+    protected $availabilityDateTag;
+
+    /**
      * Preorder constructor.
      *
      * @param \Magento\Framework\App\Helper\Context $context
@@ -61,6 +73,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param StockResolver $stockResolver
      * @param \Ewave\PreOrder\Model\Preorder\Mapper $preOrderMapper
      * @param StockItemRepositoryInterface $stockItemRepository
+     * @param TimezoneInterface $localeDate
+     * @param string $availabilityDateTag
      */
     public function __construct(
         Context $context,
@@ -69,7 +83,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         StockRegistryInterface $stockRegistry,
         StockResolver $stockResolver,
         PreorderMapper $preOrderMapper,
-        StockItemRepositoryInterface $stockItemRepository
+        StockItemRepositoryInterface $stockItemRepository,
+        TimezoneInterface $localeDate = null,
+        string $availabilityDateTag = null
     ) {
         $this->preOrderConfigHelper = $preOrderConfigHelper;
         $this->templater = $templater;
@@ -77,6 +93,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->stockResolver = $stockResolver;
         $this->preOrderMapper = $preOrderMapper;
         $this->stockItemRepository = $stockItemRepository;
+        $this->localeDate = $localeDate ?: ObjectManager::getInstance()->get(TimezoneInterface::class);
+        $this->availabilityDateTag = $availabilityDateTag;
 
         parent::__construct($context);
     }
@@ -141,6 +159,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             $note = $this->processTemplate($product, $template);
+            $note = $this->insertProductAvailabilityDate($product, $note);
         }
         return $note;
     }
@@ -312,5 +331,34 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getStockProvider($product)
     {
         return $this->stockResolver->getProductStockItem($product);
+    }
+
+    /**
+     * Replace tag with date
+     *
+     * @param Product $product
+     * @param string $note
+     * @return string
+     */
+    protected function insertProductAvailabilityDate(Product $product, $note)
+    {
+        $availabilityDate = $this->getAttributeRawValue(
+            $product,
+            ProductAttributeInterface::CODE_PRODUCT_AVAILABILITY_DATE
+        );
+
+        if ($availabilityDate
+            && !empty($this->availabilityDateTag)
+            && strpos($note, $this->availabilityDateTag) !== false
+        ) {
+            $date = $this->localeDate->formatDate(
+                new \DateTime($availabilityDate),
+                \IntlDateFormatter::SHORT,
+                false
+            );
+            $note = str_replace($this->availabilityDateTag, $date, $note);
+        }
+
+        return $note;
     }
 }

@@ -83,4 +83,16 @@ abstract class AbstractWidget extends Template
 
         return $categories;
     }
+
+    /**
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if (!$this->dataHelper->isModuleEnabled()) {
+            return '';
+        }
+
+        return parent::_toHtml();
+    }
 }

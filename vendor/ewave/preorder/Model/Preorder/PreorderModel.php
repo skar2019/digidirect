@@ -7,8 +7,7 @@ namespace Ewave\PreOrder\Model\Preorder;
  *
  * @package Ewave\PreOrder\Model
  */
-class PreorderModel extends \Magento\Framework\DataObject
-    implements \Ewave\PreOrder\Api\Data\PreorderModelInterface
+class PreorderModel extends \Magento\Framework\DataObject implements \Ewave\PreOrder\Api\Data\PreorderModelInterface
 {
     /**
      * {@inheritdoc}

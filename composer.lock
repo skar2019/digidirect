@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3705af4d3ce24e275ec5e84ad1f5ba9f",
+    "content-hash": "d16ae13455e2245572ada4334d74cce6",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1065,7 +1065,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise.git",
-                "reference": "aea11faf9776e5a4643984a6f08db57c7d92561f"
+                "reference": "916c6968554cefcac28922a9d261d851f0b0f111"
             },
             "dist": {
                 "type": "zip",
@@ -1360,11 +1360,11 @@
         },
         {
             "name": "ewave/blog",
-            "version": "dev-release/3.0.0",
+            "version": "dev-release/3.1.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_blog.git",
-                "reference": "be47210f725b96f110ad83e088b93d630c570f55"
+                "reference": "c8e98364a8b2d0bf48a188f194e760e9fc5cbf26"
             },
             "suggest": {
                 "ewave/utilities": "Ewave Blog may use ewave/utilities methods"
@@ -1379,7 +1379,7 @@
                 }
             },
             "description": "Blog",
-            "time": "2019-05-31T10:54:38+00:00"
+            "time": "2019-10-11T08:42:10+00:00"
         },
         {
             "name": "ewave/bloginfinitescroll",
@@ -2173,11 +2173,11 @@
         },
         {
             "name": "ewave/preorder",
-            "version": "dev-release/1.0.5",
+            "version": "dev-release/1.1.1",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_preorder.git",
-                "reference": "a90a82e3dfebb502fd17b57a87338cd98feed4b8"
+                "reference": "1e9ef30ea100dd32aedf03f98da01ea777c84a66"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2189,7 +2189,7 @@
                 }
             },
             "description": "Ewave PreOrder Module",
-            "time": "2019-04-25T13:22:30+00:00"
+            "time": "2019-10-25T05:38:44+00:00"
         },
         {
             "name": "ewave/productattachment",

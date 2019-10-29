@@ -2,13 +2,15 @@
 
 namespace Ewave\PreOrder\Model;
 
+use Ewave\PreOrder\Api\Data\OrderPreorderInterface;
+use Magento\Framework\Model\AbstractModel;
+
 /**
  * Class OrderPreorder
  *
  * @package Ewave\PreOrder\Model
  */
-class OrderPreorder extends \Magento\Framework\Model\AbstractModel
-    implements \Ewave\PreOrder\Api\Data\OrderPreorderInterface
+class OrderPreorder extends AbstractModel implements OrderPreorderInterface
 {
     /**
      * {@inheritdoc}
@@ -24,6 +26,7 @@ class OrderPreorder extends \Magento\Framework\Model\AbstractModel
     public function setOrderId($orderId)
     {
         $this->setData(self::ORDER_ID, $orderId);
+
         return $this;
     }
 
@@ -41,6 +44,7 @@ class OrderPreorder extends \Magento\Framework\Model\AbstractModel
     public function setIsPreorder($isPreorder)
     {
         $this->setData(self::IS_PREORDER, $isPreorder);
+
         return $this;
     }
 
@@ -58,6 +62,7 @@ class OrderPreorder extends \Magento\Framework\Model\AbstractModel
     public function setWarning($warning)
     {
         $this->setData(self::WARNING, $warning);
+
         return $this;
     }
 

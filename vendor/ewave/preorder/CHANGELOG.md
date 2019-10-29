@@ -40,3 +40,15 @@
     * [#297872](https://ewave.tpondemand.com/entity/297872) -- [Project: DigiDirect] "StockItemRepository" gets invalid parameter
     * [#297873](https://ewave.tpondemand.com/entity/297873) -- [Project: DigiDirect] Wrong change in "inventory_stock_2" table, after product is saved with "Allow Pre-Orders" option
 
+
+1.1.0
+=============
+* New features:
+   * [#333161](https://ewave.tpondemand.com/entity/333161) -- [Product Availability Date] As an admin, I want to be able to set and display availability date for products
+   * [#333163](https://ewave.tpondemand.com/entity/333163) -- [Product Availability Date] As an admin, I want to be able to set option which will switch ¨Backorders¨ value
+
+1.1.1
+=============
+* Bugfixes:
+    * [#336529](https://ewave.tpondemand.com/entity/336529) -- [Project: DigiDirect] "Product Availability Date" field doesn't pass validation after choosing date in the date pickup per
+

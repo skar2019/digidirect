@@ -5,11 +5,11 @@
 $post = $block->getPost();
 $mainImage = $post->getMainImage();
 $categoryExeption = "top contributors";
+$categoriesArrayNames = [];
 ?>
 <div class="post-view post-card item">
     <?php if (!$block->isDisplayCategories() && $categories = $block->getCategories()): ?>
         <?php $categoriesTitlesCount = count($categories); ?>
-        <?php $categoriesArrayNames = [] ?>
         <?php if ($categoriesTitlesCount) : ?>
             <div class="categories post-view">
                 <?php /** @var $category \Ewave\Blog\Model\Category*/ ?>

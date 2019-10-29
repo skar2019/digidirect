@@ -26,7 +26,7 @@ class StockResolver
     }
 
     /**
-     * @param $product
+     * @param \Magento\Catalog\Model\Product $product
      * @return mixed
      */
     public function getProductStockItem($product)
@@ -65,7 +65,7 @@ class StockResolver
     private function getStockResolverInstance()
     {
         return ObjectManager::getInstance()
-            ->get('Magento\InventorySalesApi\Api\StockResolverInterface');
+            ->get(\Magento\InventorySalesApi\Api\StockResolverInterface::class);
     }
 
     /**
@@ -76,7 +76,7 @@ class StockResolver
     private function getProductSalableQtyInterface()
     {
         return ObjectManager::getInstance()
-            ->get('Magento\InventorySalesApi\Api\GetProductSalableQtyInterface');
+            ->get(\Magento\InventorySalesApi\Api\GetProductSalableQtyInterface::class);
     }
 
     /**
@@ -87,7 +87,7 @@ class StockResolver
     private function getStockItemConfigurationInterface()
     {
         return ObjectManager::getInstance()
-            ->get('Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface');
+            ->get(\Magento\InventoryConfigurationApi\Api\GetStockItemConfigurationInterface::class);
     }
 
     /**
@@ -98,6 +98,6 @@ class StockResolver
     private function getStockRegistry()
     {
         return ObjectManager::getInstance()
-            ->get('Magento\CatalogInventory\Api\StockRegistryInterface');
+            ->get(\Magento\CatalogInventory\Api\StockRegistryInterface::class);
     }
 }

@@ -8,6 +8,7 @@
  * @var \Ewave\Digi\Helper\Blog $blogHelper
  */
 $blogHelper = $this->helper('Ewave\Digi\Helper\Blog');
+$categoriesArrayNames = [];
 ?>
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list blog-pg">
@@ -24,7 +25,6 @@ $blogHelper = $this->helper('Ewave\Digi\Helper\Blog');
                 <div class="container">
                     <?php if ($block->isShowCategoryNames()) : ?>
                         <?php $categoriesArray = $block->getCategoriesTitlesAsArray($post); ?>
-                        <?php $categoriesArrayNames = [] ?>
                         <?php $categoriesTitlesCount = count($categoriesArray); ?>
                         <?php if ($categoriesTitlesCount) : ?>
                             <div class="categories">

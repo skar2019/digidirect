@@ -91,17 +91,19 @@ class PostRepository implements PostRepositoryInterface
 
     /**
      * @param int $id
+     * @param int $storeId
      * @return \Ewave\Blog\Model\Post
      */
-    public function getById($id)
+    public function getById($id, $storeId = null)
     {
-        if (!isset($this->postById[$id])) {
+        $cacheKey = implode('_', [$id, $storeId]);
+        if (!isset($this->postById[$cacheKey])) {
             $item = $this->modelFactory->create();
-            $this->resourceModel->loadById($item, $id);
-            $this->postById[$id] = $item;
+            $this->resourceModel->loadById($item, $id, $storeId);
+            $this->postById[$cacheKey] = $item;
         }
 
-        return $this->postById[$id];
+        return $this->postById[$cacheKey];
     }
 
     /**

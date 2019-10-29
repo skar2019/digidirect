@@ -79,7 +79,7 @@ class PreorderWarning extends \Magento\Framework\View\Element\Template
                 return __($warning);
             }
         } catch (\Exception $e) {
-            //Do nothing;
+            return '';
         }
         return '';
     }

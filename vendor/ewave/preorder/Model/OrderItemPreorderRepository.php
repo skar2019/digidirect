@@ -120,8 +120,7 @@ class OrderItemPreorderRepository implements \Ewave\PreOrder\Api\OrderItemPreord
             $orderItemPreorder = $this->getByOrderItemId($orderItemId);
             return $orderItemPreorder->getIsPreorder();
         } catch (\Exception $e) {
-            //Do nothing
+            return false;
         }
-        return false;
     }
 }
