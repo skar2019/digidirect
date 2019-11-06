@@ -1,21 +1,21 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Ui\DataProvider\Method\Form\Modifier;
 
-use Magento\Ui\Component\Form\Element\DataType\Number;
-use Magento\Ui\Component\Form\Element\DataType\Text;
-use Magento\Ui\Component\Form\Field;
+use Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Rate as RateController;
+use Ewave\ExtendedShippingRates\Model\Carrier\MethodFactory;
+use Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory as CarrierCollectionFactory;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Phrase;
-use Magento\Ui\Component\Container;
-use Magento\Ui\Component\Form\Element\Input;
-use Magento\Ui\Component\Form\Fieldset;
 use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\ArrayManager;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Framework\App\RequestInterface;
-use Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Rate as RateController;
-use Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory as CarrierCollectionFactory;
-use Ewave\ExtendedShippingRates\Model\Carrier\MethodFactory;
+use Magento\Ui\Component\Container;
+use Magento\Ui\Component\Form\Element\DataType\Number;
+use Magento\Ui\Component\Form\Element\DataType\Text;
+use Magento\Ui\Component\Form\Element\Input;
+use Magento\Ui\Component\Form\Field;
+use Magento\Ui\Component\Form\Fieldset;
 
 class Rates extends AbstractModifier
 {
@@ -237,6 +237,7 @@ class Rates extends AbstractModifier
     {
         $columnIds = 'ewave_extendedshippingrates_rates_listing.method_columns.ids';
         $listingDataSource = 'ewave_extendedshippingrates_rates_listing_data_source';
+
         return [
             'arguments' => [
                 'data' => [
@@ -258,7 +259,7 @@ class Rates extends AbstractModifier
                                 'autoRender' => true,
                                 'componentType' => 'insertListing',
                                 'dataScope' => 'ewave_extendedshippingrates_rates_listing',
-                                'externalProvider'=> 'ewave_extendedshippingrates_rates_listing.' . $listingDataSource,
+                                'externalProvider' => 'ewave_extendedshippingrates_rates_listing.' . $listingDataSource,
                                 'selectionsProvider' => 'ewave_extendedshippingrates_rates_listing.' . $columnIds,
                                 'ns' => 'ewave_extendedshippingrates_rates_listing',
                                 'render_url' => $this->urlBuilder->getUrl('mui/index/render'),

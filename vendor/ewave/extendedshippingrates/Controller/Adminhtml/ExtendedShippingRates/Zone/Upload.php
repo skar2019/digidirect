@@ -4,11 +4,12 @@ namespace Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates
 
 /**
  * Class Upload
+ *
  * @package Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Zone
  */
 class Upload extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Zone
 {
-    const UPLOAD_FORM_FIELD_NAME= 'extendedshippingrates_zone_file';
+    const UPLOAD_FORM_FIELD_NAME = 'extendedshippingrates_zone_file';
 
     /**
      * @var \Ewave\ExtendedShippingRates\Model\Zone\Import
@@ -22,6 +23,7 @@ class Upload extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedS
 
     /**
      * Upload constructor.
+     *
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Ewave\ExtendedShippingRates\Model\ZoneFactory $zoneFactory
@@ -71,6 +73,7 @@ class Upload extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedS
         }
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect->setUrl($this->_redirect->getRedirectUrl());
+
         return $resultRedirect;
     }
 }

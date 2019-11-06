@@ -28,7 +28,6 @@ class Save extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShi
         \Psr\Log\LoggerInterface $logger,
         \Ewave\ExtendedShippingRates\Api\CarrierRepositoryInterface $carrierRepository
     ) {
-
         parent::__construct(
             $context,
             $coreRegistry,
@@ -80,6 +79,7 @@ class Save extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShi
                 }
                 $this->_session->setPageData($data);
                 $this->_redirect('ewave_extendedshippingrates/*/edit', ['id' => $model->getId()]);
+
                 return;
             }
 
@@ -93,9 +93,11 @@ class Save extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShi
             $this->_session->setPageData(false);
             if ($this->getRequest()->getParam('back')) {
                 $this->_redirect('ewave_extendedshippingrates/*/edit', ['id' => $model->getId()]);
+
                 return;
             }
             $this->_redirect('ewave_extendedshippingrates/*/');
+
             return;
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
@@ -105,6 +107,7 @@ class Save extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShi
             } else {
                 $this->_redirect('ewave_extendedshippingrates/*/new');
             }
+
             return;
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage(
@@ -114,6 +117,7 @@ class Save extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShi
             $data = !empty($data) ? $data : [];
             $this->_session->setPageData($data);
             $this->_redirect('ewave_extendedshippingrates/*/edit', ['id' => $this->getRequest()->getParam('id')]);
+
             return;
         }
     }

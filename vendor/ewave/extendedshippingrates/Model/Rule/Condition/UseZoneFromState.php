@@ -2,13 +2,14 @@
 
 namespace Ewave\ExtendedShippingRates\Model\Rule\Condition;
 
-use Magento\Rule\Model\Condition\AbstractCondition;
-use Magento\Quote\Model\Quote;
-use Magento\Framework\Model\AbstractModel;
 use Ewave\ExtendedShippingRates\Api\Data\ZoneInterface;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Quote\Model\Quote;
+use Magento\Rule\Model\Condition\AbstractCondition;
 
 /**
  * Class UseZoneFromState
+ *
  * @package Ewave\ExtendedShippingRates\Model\Rule\Condition
  */
 class UseZoneFromState extends AbstractCondition
@@ -22,6 +23,7 @@ class UseZoneFromState extends AbstractCondition
 
     /**
      * UseZoneFromState constructor.
+     *
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Ewave\ExtendedShippingRates\Model\ResourceModel\Zone\CollectionFactory $zoneCollectionFactory
      * @param array $data
@@ -47,6 +49,7 @@ class UseZoneFromState extends AbstractCondition
         ];
 
         $this->setAttributeOption($attributes);
+
         return $this;
     }
 
@@ -59,6 +62,7 @@ class UseZoneFromState extends AbstractCondition
     {
         $element = parent::getAttributeElement();
         $element->setShowAsText(true);
+
         return $element;
     }
 
@@ -82,6 +86,7 @@ class UseZoneFromState extends AbstractCondition
             $this->getOperatorElementHtml() .
             $this->getRemoveLinkHtml() .
             $this->getChooserContainerHtml();
+
         return $html;
     }
 
@@ -108,6 +113,7 @@ class UseZoneFromState extends AbstractCondition
                 '==' => __('')
             ];
         }
+
         return $this->_defaultOperatorOptions;
     }
 
@@ -125,11 +131,13 @@ class UseZoneFromState extends AbstractCondition
             'value' => true,
             'is_value_processed' => $this->getIsValueParsed(),
         ];
+
         return $out;
     }
 
     /**
      * Validate Rule Condition
+     *
      * @param \Magento\Framework\Model\AbstractModel $model
      * @return bool
      */
@@ -157,10 +165,10 @@ class UseZoneFromState extends AbstractCondition
                         $model->setData(self::ATTRIBUTE_NAME, true);
                         break;
                     }
-
                 }
             }
         }
+
         return parent::validate($model);
     }
 

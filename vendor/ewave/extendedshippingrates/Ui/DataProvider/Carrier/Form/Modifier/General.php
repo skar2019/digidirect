@@ -36,7 +36,6 @@ class General extends AbstractModifier
      */
     public function modifyData(array $data)
     {
-
         // Add submit (save) url to the config
         $actionParameters = [];
         $submitUrl = $this->urlBuilder->getUrl(
@@ -88,7 +87,6 @@ class General extends AbstractModifier
      */
     protected function buildMainFields()
     {
-
         $this->meta[static::FIELD_CARRIER_NAME] = [
             'arguments' => [
                 'data' => [

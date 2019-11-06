@@ -27,7 +27,6 @@ class Methods implements ArrayInterface
         ShippingConfig $shippingConfig,
         ScopeConfigInterface $scopeConfig
     ) {
-    
         $this->shippingConfig = $shippingConfig;
         $this->scopeConfig = $scopeConfig;
     }

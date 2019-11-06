@@ -51,6 +51,7 @@ class UpgradeData implements UpgradeDataInterface
     {
         return [
             '1.0.1' => 'checkAndRemoveDoubledStates',
+            '1.0.2' => 'addPuertoRicoCountry',
         ];
     }
 
@@ -86,5 +87,19 @@ class UpgradeData implements UpgradeDataInterface
                 $this->setup->getConnection()->quoteInto('region_id IN (?)', $result)
             );
         }
+    }
+
+    protected function addPuertoRicoCountry()
+    {
+        $data = [
+            'country_id' => 'PR',
+            'iso2_code' => 'PR',
+            'iso3_code' => 'PRI'
+        ];
+
+        $this->setup->getConnection()->insert(
+            $this->setup->getTable('directory_country'),
+            $data
+        );
     }
 }

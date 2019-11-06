@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d16ae13455e2245572ada4334d74cce6",
+    "content-hash": "06e932e814207a6517f160593962b4d6",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1647,6 +1647,26 @@
             "time": "2018-10-22T12:04:44+00:00"
         },
         {
+            "name": "ewave/extendedcartpricerules",
+            "version": "dev-release/1.9.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcartpricerules.git",
+                "reference": "97606a85eccc3b281783bc3f43dc4e4567955167"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedCartPriceRules\\": ""
+                }
+            },
+            "description": "Ewave ExtendedCartPriceRules",
+            "time": "2019-11-05T13:16:39+00:00"
+        },
+        {
             "name": "ewave/extendedcatalogpricerule",
             "version": "dev-release/1.2.0",
             "source": {
@@ -1711,11 +1731,11 @@
         },
         {
             "name": "ewave/extendedshippingrates",
-            "version": "dev-release/1.4.1",
+            "version": "dev-release/1.5.3",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedshippingrates.git",
-                "reference": "ac76130089e561ec26b5a27792a0def954b47464"
+                "reference": "a11535d2b1c4331f9faa8852aa63504e6f01bf69"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1727,7 +1747,27 @@
                 }
             },
             "description": "Ewave Extended Shipping Rates",
-            "time": "2019-05-15T10:36:01+00:00"
+            "time": "2019-10-18T06:54:59+00:00"
+        },
+        {
+            "name": "ewave/extendedshippingrateslocalization",
+            "version": "dev-release/1.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedshippingrateslocalization.git",
+                "reference": "e6a7876d596a4eda44233068439b240e08cfe344"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedShippingRatesLocalization\\": ""
+                }
+            },
+            "description": "Ewave ExtendedShippingRatesLocalization",
+            "time": "2019-06-14T08:31:00+00:00"
         },
         {
             "name": "ewave/faq",
@@ -1923,11 +1963,11 @@
         },
         {
             "name": "ewave/localization",
-            "version": "dev-release/1.5.1",
+            "version": "dev-release/1.6.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_localization.git",
-                "reference": "4a6e6876d565d1bdee328a88265a4e2f67e3e6fb"
+                "reference": "88369b4bb9f2404e98d27ad9c288b7457b33ed3e"
             },
             "suggest": {
                 "ewave/utilities": "Ewave Localization may use ewave/utilities methods"
@@ -1942,7 +1982,7 @@
                 }
             },
             "description": "Ewave Localizations",
-            "time": "2019-04-16T12:03:18+00:00"
+            "time": "2019-06-24T08:21:40+00:00"
         },
         {
             "name": "ewave/locator",
@@ -24755,10 +24795,12 @@
         "ewave/defaulttheme": 20,
         "ewave/email": 20,
         "ewave/emailblocker": 20,
+        "ewave/extendedcartpricerules": 20,
         "ewave/extendedcatalogpricerule": 20,
         "ewave/extendedcatalogpriceruleproductcalculator": 20,
         "ewave/extendedminicart": 20,
         "ewave/extendedshippingrates": 20,
+        "ewave/extendedshippingrateslocalization": 20,
         "ewave/faq": 20,
         "ewave/feed": 20,
         "ewave/freegift": 20,

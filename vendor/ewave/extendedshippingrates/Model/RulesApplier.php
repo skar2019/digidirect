@@ -362,7 +362,6 @@ class RulesApplier
      */
     protected function updateShippingMethodsAvailability($rate)
     {
-
         /** @var \Magento\Quote\Model\Quote\Address $address */
         $address = $this->getQuote()->getShippingAddress();
         $existingMethods = $address->getShippingRulesMethods() ?: [];

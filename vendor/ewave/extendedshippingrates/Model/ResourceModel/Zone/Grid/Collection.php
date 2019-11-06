@@ -1,6 +1,7 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Model\ResourceModel\Zone\Grid;
 
+use Ewave\ExtendedShippingRates\Model\ResourceModel\Zone\Collection as ZoneCollection;
 use Magento\Framework\Api\Search\SearchResultInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
@@ -10,7 +11,6 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Ewave\ExtendedShippingRates\Model\ResourceModel\Zone\Collection as ZoneCollection;
 use Psr\Log\LoggerInterface;
 
 class Collection extends ZoneCollection implements SearchResultInterface
@@ -51,7 +51,7 @@ class Collection extends ZoneCollection implements SearchResultInterface
         $eventPrefix,
         $eventObject,
         $resourceModel,
-        $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document',
+        $model = \Magento\Framework\View\Element\UiComponent\DataProvider\Document::class,
         $connection = null,
         AbstractDb $resource = null
     ) {
@@ -87,6 +87,8 @@ class Collection extends ZoneCollection implements SearchResultInterface
     public function setAggregations($aggregations)
     {
         $this->aggregations = $aggregations;
+
+        return $this;
     }
 
     /**

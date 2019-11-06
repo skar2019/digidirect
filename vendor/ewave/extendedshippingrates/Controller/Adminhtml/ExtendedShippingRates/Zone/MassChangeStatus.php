@@ -1,12 +1,12 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Zone;
 
-use Magento\Framework\Controller\ResultFactory;
-use Magento\Backend\App\Action\Context;
-use Magento\Ui\Component\MassAction\Filter;
+use Ewave\ExtendedShippingRates\Api\ZoneRepositoryInterface;
 use Ewave\ExtendedShippingRates\Model\ResourceModel\Zone\CollectionFactory;
 use Ewave\ExtendedShippingRates\Model\ZoneFactory;
-use Ewave\ExtendedShippingRates\Api\ZoneRepositoryInterface;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Controller\ResultFactory;
+use Magento\Ui\Component\MassAction\Filter;
 
 class MassChangeStatus extends \Magento\Backend\App\Action
 {
@@ -74,7 +74,9 @@ class MassChangeStatus extends \Magento\Backend\App\Action
             }
 
             if ($updatedZonesCount) {
-                $this->messageManager->addSuccessMessage(__('A total of %1 record(s) were updated.', $updatedZonesCount));
+                $this->messageManager->addSuccessMessage(
+                    __('A total of %1 record(s) were updated.', $updatedZonesCount)
+                );
             }
 
             /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */

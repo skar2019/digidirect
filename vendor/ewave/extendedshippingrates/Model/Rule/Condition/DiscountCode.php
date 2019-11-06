@@ -47,7 +47,7 @@ class DiscountCode extends AbstractCondition
      */
     public function getInputType()
     {
-        return 'select';
+        return 'string';
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Setup;
 
+use Ewave\ExtendedShippingRates\Model\Carrier;
+use Ewave\ExtendedShippingRates\Model\Rule;
+use Ewave\ExtendedShippingRates\Model\Zone;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\InstallSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
-use Ewave\ExtendedShippingRates\Model\Carrier;
-use Ewave\ExtendedShippingRates\Model\Zone;
-use Ewave\ExtendedShippingRates\Model\Rule;
-use Magento\Framework\DB\Adapter\AdapterInterface;
 
 class InstallSchema implements InstallSchemaInterface
 {
@@ -40,9 +40,9 @@ class InstallSchema implements InstallSchemaInterface
      * Adds main table
      *
      * @param SchemaSetupInterface $setup
-     * @throws \Zend_Db_Exception
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @throws \Zend_Db_Exception
      */
     protected function addMainTable(SchemaSetupInterface $setup)
     {
@@ -187,8 +187,8 @@ class InstallSchema implements InstallSchemaInterface
      * column store_ids of main catalog shipping rules table
      *
      * @param SchemaSetupInterface $setup
-     * @throws \Zend_Db_Exception
      * @return void
+     * @throws \Zend_Db_Exception
      */
     protected function addStoreTable(SchemaSetupInterface $setup)
     {
@@ -241,8 +241,8 @@ class InstallSchema implements InstallSchemaInterface
      * column customer_group_ids of main shipping rules table
      *
      * @param SchemaSetupInterface $setup
-     * @throws \Zend_Db_Exception
      * @return void
+     * @throws \Zend_Db_Exception
      */
     protected function addCustomerGroupTable(SchemaSetupInterface $setup)
     {
@@ -299,9 +299,9 @@ class InstallSchema implements InstallSchemaInterface
      * Adds carriers table
      *
      * @param SchemaSetupInterface $setup
-     * @throws \Zend_Db_Exception
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @throws \Zend_Db_Exception
      */
     protected function addCarriersTable(SchemaSetupInterface $setup)
     {
@@ -416,13 +416,12 @@ class InstallSchema implements InstallSchemaInterface
      * Adds methods table
      *
      * @param SchemaSetupInterface $setup
-     * @throws \Zend_Db_Exception
      * @return void
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @throws \Zend_Db_Exception
      */
     protected function addMethodsTable(SchemaSetupInterface $setup)
     {
-
         $table = $setup->getConnection()
             ->newTable($setup->getTable(Carrier::METHOD_TABLE_NAME))
             ->addColumn(

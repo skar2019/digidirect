@@ -107,6 +107,7 @@ interface MethodInterface
 
     /**
      * Get alternative code
+     *
      * @return string|null
      */
     public function getAlternativeCode();
@@ -117,7 +118,7 @@ interface MethodInterface
      * @return bool|null
      */
     public function isActive();
-    
+
     /**
      * Set ID
      *
@@ -208,13 +209,15 @@ interface MethodInterface
 
     /**
      * Set alternative title
+     *
      * @param string $altTitle
      * @return mixed
      */
     public function setAlternativeTitle($altTitle);
-    
+
     /**
      * Set alternative code
+     *
      * @param string $altCode
      * @return mixed
      */

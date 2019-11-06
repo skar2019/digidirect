@@ -91,7 +91,6 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         \Ewave\ExtendedShippingRates\Helper\Config $configHelper = null,
         array $data = []
     ) {
-
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
         $this->_carrierFactory = $carrierFactory;

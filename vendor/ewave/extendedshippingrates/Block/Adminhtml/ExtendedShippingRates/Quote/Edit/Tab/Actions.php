@@ -1,22 +1,23 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Block\Adminhtml\ExtendedShippingRates\Quote\Edit\Tab;
 
-use Magento\Backend\Block\Template\Context;
-use Magento\Backend\Block\Widget\Form\Renderer\Fieldset;
-use Magento\Framework\Data\FormFactory;
-use Magento\Framework\Registry;
-use Ewave\ExtendedShippingRates\Model\Config\Source\Shipping\Methods as Config;
-use Ewave\ExtendedShippingRates\Model\Config\Source\Shipping\ExtendedActions as ShippingActionsConfig;
-use Ewave\ExtendedShippingRates\Model\Rule;
-use Magento\Framework\Convert\DataObject as ObjectConverter;
-use Magento\Config\Model\Config\Source\Yesno;
-use Ewave\ExtendedShippingRates\Ui\DataProvider\Quote\Form\QuoteDataProvider;
 use Ewave\ExtendedShippingRates\Api\Data\RuleInterface;
 use Ewave\ExtendedShippingRates\Model\Config\Source\Rule\ActionTypeOptions;
+use Ewave\ExtendedShippingRates\Model\Config\Source\Shipping\ExtendedActions as ShippingActionsConfig;
+use Ewave\ExtendedShippingRates\Model\Config\Source\Shipping\Methods as Config;
+use Ewave\ExtendedShippingRates\Model\Rule;
+use Ewave\ExtendedShippingRates\Ui\DataProvider\Quote\Form\QuoteDataProvider;
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Form\Renderer\Fieldset;
+use Magento\Config\Model\Config\Source\Yesno;
+use Magento\Framework\Convert\DataObject as ObjectConverter;
+use Magento\Framework\Data\FormFactory;
+use Magento\Framework\Registry;
 
 /**
  * Class Actions
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ *
  * @package Ewave\ExtendedShippingRates\Block\Adminhtml\ExtendedShippingRates\Quote\Edit\Tab
  */
 class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
@@ -53,6 +54,7 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
     /**
      * Actions constructor.
+     *
      * @param Context $context
      * @param Registry $registry
      * @param FormFactory $formFactory
@@ -182,6 +184,7 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
         $form->setValues($model->getData());
 
         $this->setForm($form);
+
         return parent::_prepareForm();
     }
 
@@ -226,7 +229,6 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     protected function addModifyCostFieldset(\Magento\Framework\Data\Form $form)
     {
-
         $modelActionType = $this->getSourceModelActionType();
         $hidden = !in_array(Rule::ACTION_OVERWRITE_COST, $modelActionType) ? self::HIDDEN_FIELDSET_CLASS_NAME : '';
         $classes = 'dependable_fieldset_' . Rule::ACTION_OVERWRITE_COST . ' ' . $hidden;
@@ -298,6 +300,7 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
     /**
      * Add use alternative title fieldset
+     *
      * @param \Magento\Framework\Data\Form $form
      * @return mixed
      */
@@ -409,7 +412,7 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
             ]
         );
 
-         //Stop future rules processing
+        //Stop future rules processing
         $mainFieldset->addField(
             RuleInterface::STOP_RULES_PROCESSING,
             'select',
@@ -440,7 +443,6 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
         Rule $model,
         $parentLabel = ''
     ) {
-
         foreach ($data as $action) {
             if (empty($action['value'])) {
                 continue;

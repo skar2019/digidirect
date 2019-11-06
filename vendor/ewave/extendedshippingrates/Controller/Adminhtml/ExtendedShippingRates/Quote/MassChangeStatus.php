@@ -1,13 +1,12 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Quote;
 
-use Magento\Backend\App\Action;
-use Magento\Framework\Controller\ResultFactory;
-use Magento\Backend\App\Action\Context;
-use Magento\Ui\Component\MassAction\Filter;
 use Ewave\ExtendedShippingRates\Model\ResourceModel\Rule\CollectionFactory;
 use Ewave\ExtendedShippingRates\Model\RuleFactory;
-use Ewave\ExtendedShippingRates\Api\RuleRepositoryInterface;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Controller\ResultFactory;
+use Magento\Ui\Component\MassAction\Filter;
 
 class MassChangeStatus extends Action
 {
@@ -32,29 +31,21 @@ class MassChangeStatus extends Action
     protected $ruleFactory;
 
     /**
-     * @var RuleRepositoryInterface
-     */
-    protected $ruleRepository;
-
-    /**
      * @param Context $context
      * @param Filter $filter
      * @param CollectionFactory $ruleCollectionFactory
      * @param RuleFactory $ruleFactory
-     * @param RuleRepositoryInterface $ruleRepository
      */
     public function __construct(
         Context $context,
         Filter $filter,
         CollectionFactory $ruleCollectionFactory,
-        RuleFactory $ruleFactory,
-        RuleRepositoryInterface $ruleRepository
+        RuleFactory $ruleFactory
     ) {
         parent::__construct($context);
         $this->ruleCollectionFactory = $ruleCollectionFactory;
         $this->filter = $filter;
         $this->ruleFactory = $ruleFactory;
-        $this->ruleRepository = $ruleRepository;
     }
 
     /**
@@ -67,15 +58,17 @@ class MassChangeStatus extends Action
         try {
             $collection = $this->filter->getCollection($this->ruleCollectionFactory->create());
             $updatedRulesCount = 0;
-            foreach ($collection->getAllIds() as $ruleId) {
-                $rule = $this->ruleRepository->getById($ruleId);
-                $rule->setData('is_active', $this->getRequest()->getParam('is_active'));
-                $this->ruleRepository->save($rule);
+            foreach ($collection as $rule) {
+                $rule->setIsActive($this->getRequest()->getParam('is_active'));
+                $rule->save();
+
                 $updatedRulesCount++;
             }
 
             if ($updatedRulesCount) {
-                $this->messageManager->addSuccessMessage(__('A total of %1 record(s) were updated.', $updatedRulesCount));
+                $this->messageManager->addSuccessMessage(
+                    __('A total of %1 record(s) were updated.', $updatedRulesCount)
+                );
             }
 
             /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */

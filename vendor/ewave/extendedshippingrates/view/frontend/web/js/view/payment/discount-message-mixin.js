@@ -1,9 +1,12 @@
 define([
+    'jquery',
     'underscore',
     'mage/translate',
     'Magento_SalesRule/js/view/payment/discount',
-    'Ewave_ExtendedShippingRates/js/action/shipping-rates-updater'
-], function (_, $t, discount, ratesUpdater) {
+    'Ewave_ExtendedShippingRates/js/action/shipping-rates-updater',
+    'Magento_Checkout/js/model/totals',
+    'Magento_Checkout/js/action/get-payment-information'
+], function ($, _, $t, discount, ratesUpdater, totals, getPaymentInformationAction) {
     'use strict';
 
     var mixin = {
@@ -32,6 +35,7 @@ define([
             if (_.contains(errorMessages, this.canceledCouponMessage)) {
                 newMessage = this.canceledMessage;
                 isApplied = false;
+                this.reloadOrderSummary();
             }
 
             if (newMessage) {
@@ -48,6 +52,15 @@ define([
         setDiscountState: function (isApplied) {
             discount().isApplied(isApplied);
             ratesUpdater.isNeedUpdate(true);
+        },
+
+        reloadOrderSummary: function () {
+            var deferred = $.Deferred();
+            totals.isLoading(true);
+            getPaymentInformationAction(deferred);
+            $.when(deferred).done(function () {
+                totals.isLoading(false);
+            });
         }
     };
 

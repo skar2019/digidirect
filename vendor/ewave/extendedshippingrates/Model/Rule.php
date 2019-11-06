@@ -16,9 +16,12 @@ use Magento\Rule\Model\AbstractModel;
  *
  * @package Ewave\ExtendedShippingRates\Model
  */
-class Rule extends AbstractModel
-    implements RuleInterface, RuleZoneInterface, PostProcessingInterface,
-RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
+class Rule extends AbstractModel implements
+    RuleInterface,
+    RuleZoneInterface,
+    PostProcessingInterface,
+    RuleAlternativeTitleInterface,
+    RuleAlternativeCodeInterface
 {
     /**
      * Tables
@@ -161,7 +164,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
 
     /**
      * @param Method $rate
-     *
      * @return string
      */
     public static function getMethodCode(Method $rate)
@@ -529,7 +531,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set ID
      *
      * @param int $id
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setId($id)
@@ -541,7 +542,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set name
      *
      * @param string $name
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setName($name)
@@ -553,7 +553,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set description
      *
      * @param string $description
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setDescription($description)
@@ -565,7 +564,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set from date
      *
      * @param string $fromDate
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setFromDate($fromDate)
@@ -577,7 +575,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set to date
      *
      * @param string $toDate
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setToDate($toDate)
@@ -589,7 +586,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set days of week
      *
      * @param string $daysOfWeek
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setDaysOfWeek($daysOfWeek)
@@ -601,7 +597,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set is active
      *
      * @param string $isActive
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setIsActive($isActive)
@@ -613,7 +608,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set conditions serialized
      *
      * @param string $conditionsSerialized
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setConditionsSerialized($conditionsSerialized)
@@ -625,7 +619,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set actions serialized
      *
      * @param string $actionsSerialized
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setActionsSerialized($actionsSerialized)
@@ -637,7 +630,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set stop rules processing
      *
      * @param string $stopRulesProcessing
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setStopRulesProcessing($stopRulesProcessing)
@@ -649,7 +641,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set shipping methods
      *
      * @param string $shippingMethods
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setShippingMethods($shippingMethods)
@@ -661,7 +652,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set disabled shipping methods
      *
      * @param string $disabledShippingMethods
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setDisabledShippingMethods($disabledShippingMethods)
@@ -673,7 +663,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set enabled shipping methods
      *
      * @param string $enabledShippingMethods
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setEnabledShippingMethods($enabledShippingMethods)
@@ -685,7 +674,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set sort order
      *
      * @param string $sortOrder
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setSortOrder($sortOrder)
@@ -697,7 +685,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set action type
      *
      * @param array $actionType
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setActionType($actionType)
@@ -709,7 +696,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set action type option
      *
      * @param int $option
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setActionTypeOption($option)
@@ -721,7 +707,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set simple action
      *
      * @param string $simpleAction
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setSimpleAction($simpleAction)
@@ -733,7 +718,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set amount
      *
      * @param array $amount
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setAmount($amount)
@@ -745,7 +729,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set time from
      *
      * @param string $timeFrom
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setTimeFrom($timeFrom)
@@ -757,7 +740,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set time to
      *
      * @param string $timeTo
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setTimeTo($timeTo)
@@ -769,7 +751,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set use time
      *
      * @param string $useTime
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setUseTime($useTime)
@@ -781,7 +762,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set time enabled
      *
      * @param string $timeEnabled
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setTimeEnabled($timeEnabled)
@@ -793,7 +773,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set customer group ids
      *
      * @param array $customerGroupIds
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setCustomerGroupIds($customerGroupIds)
@@ -805,7 +784,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set store ids
      *
      * @param array $storeIds
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleInterface
      */
     public function setStoreIds($storeIds)
@@ -839,7 +817,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Check cached validation result for specific address
      *
      * @param Address $address
-     *
      * @return bool
      */
     public function hasIsValidForAddress($address)
@@ -854,7 +831,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      *
      * @param Address $address
      * @param bool $validationResult
-     *
      * @return $this
      */
     public function setIsValidForAddress($address, $validationResult)
@@ -869,7 +845,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Get cached validation result for specific address
      *
      * @param Address $address
-     *
      * @return bool
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
@@ -884,7 +859,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Return id for address
      *
      * @param Address $address
-     *
      * @return string
      */
     private function _getAddressId($address)
@@ -898,7 +872,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
 
     /**
      * @param string $formName
-     *
      * @return string
      */
     public function getActionsFieldSetId($formName = '')
@@ -1005,7 +978,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set used alternative title shipping methods
      *
      * @param string $methods
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleAlternativeTitleInterface
      */
     public function setUsedAltTitleShippingMethods($methods)
@@ -1017,7 +989,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set action offset begins
      *
      * @param int $offset
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleAlternativeTitleInterface
      */
     public function setActionOffsetBegins($offset)
@@ -1029,7 +1000,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set action offset ends
      *
      * @param int $offset
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleAlternativeTitleInterface
      */
     public function setActionOffsetEnds($offset)
@@ -1041,7 +1011,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set used alternative code shipping methods
      *
      * @param string $methods
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleAlternativeTitleInterface
      */
     public function setUsedAltCodeShippingMethods($methods)
@@ -1053,7 +1022,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set action offset begins
      *
      * @param int $offset
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleAlternativeTitleInterface
      */
     public function setAltCodeActionOffsetBegins($offset)
@@ -1065,7 +1033,6 @@ RuleAlternativeTitleInterface, RuleAlternativeCodeInterface
      * Set action offset ends
      *
      * @param int $offset
-     *
      * @return \Ewave\ExtendedShippingRates\Api\Data\RuleAlternativeTitleInterface
      */
     public function setAltCodeActionOffsetEnds($offset)

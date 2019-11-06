@@ -2,15 +2,15 @@
 
 namespace Ewave\ExtendedShippingRates\Model\Zone;
 
-use Magento\Directory\Model\Country;
-use Magento\ImportExport\Model\Import\Adapter as ImportAdapter;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingError;
 use Ewave\ExtendedShippingRates\Api\Data\ZoneInterface;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\ImportExport\Model\Import\Adapter as ImportAdapter;
+use Magento\ImportExport\Model\Import\ErrorProcessing\ProcessingError;
 use Magento\Store\Model\Store;
 
 /**
  * Class Import
+ *
  * @package Ewave\ExtendedShippingRates\Model\Zone
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -142,6 +142,7 @@ class Import extends \Magento\Framework\Model\AbstractModel
 
     /**
      * Import constructor.
+     *
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Json\Helper\Data $jsonHelper
@@ -279,11 +280,11 @@ class Import extends \Magento\Framework\Model\AbstractModel
         }
 
         $this->getErrorAggregator()->getErrorsCount();
+
         return $this;
     }
 
     /**
-     *
      * @param array $allBunches
      * @return array
      */
@@ -307,6 +308,7 @@ class Import extends \Magento\Framework\Model\AbstractModel
                 }
             }
         }
+
         return $uniqueRowsData;
     }
 
@@ -329,6 +331,7 @@ class Import extends \Magento\Framework\Model\AbstractModel
                 $uniqueRowsData[$id] = $model->getData();
             }
         }
+
         return $uniqueRowsData;
     }
 
@@ -347,11 +350,13 @@ class Import extends \Magento\Framework\Model\AbstractModel
     protected function _setSource(\Magento\ImportExport\Model\Import\Source\Csv $source)
     {
         $this->_source = $source;
+
         return $this;
     }
 
     /**
      * Process zone import
+     *
      * @param array $file
      * @return $this
      */
@@ -413,8 +418,8 @@ class Import extends \Magento\Framework\Model\AbstractModel
     /**
      * Check exist errors while importing
      *
-     * @throws \Magento\Framework\Exception\LocalizedException
      * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function validateImportProcess()
     {
@@ -500,8 +505,7 @@ class Import extends \Magento\Framework\Model\AbstractModel
      */
     public function _prepareRegionDataForDb(&$rowData)
     {
-        if (
-            !empty($rowData[ZoneInterface::REGION])
+        if (!empty($rowData[ZoneInterface::REGION])
             && strtoupper($rowData[ZoneInterface::REGION]) != self::ALL_STATE_FLAG
         ) {
             $region = $this->regionFactory->create()->loadByCode(
@@ -561,6 +565,7 @@ class Import extends \Magento\Framework\Model\AbstractModel
     {
         $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::TMP);
         $directory->delete($file['name']);
+
         return $this;
     }
 }

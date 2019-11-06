@@ -87,7 +87,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
      * @param array $actionMethodFields
      * @param array $data
-     *
      * @throws \Magento\Framework\Exception\LocalizedException
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -104,7 +103,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         array $actionMethodFields = [],
         array $data = []
     ) {
-
         $this->collectionFactory = $collectionFactory;
         $this->validatorUtility = $utility;
         $this->productCondition = $productCondition;
@@ -121,9 +119,8 @@ class Validator extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param array $actionMethodFields
-     *
-     * @throws \Magento\Framework\Exception\LocalizedException
      * @return void
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function prepareActionMethodFields(array $actionMethodFields)
     {
@@ -140,7 +137,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param Quote $quote
-     *
      * @return $this
      */
     public function setQuote(Quote $quote)
@@ -169,7 +165,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      *
      * @param int $storeId
      * @param int $customerGroupId
-     *
      * @return $this
      */
     public function init($storeId, $customerGroupId)
@@ -189,7 +184,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
 
     /**
      * @param Method $rate
-     *
      * @return bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -257,7 +251,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Ewave\ExtendedShippingRates\Model\Rule $rule
      * @param string $currentMethod
-     *
      * @return bool
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -287,7 +280,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * Get available stored rules for $rate
      *
      * @param Method $rate
-     *
      * @return array
      */
     public function getAvailableRulesForRate(Method $rate)
@@ -306,7 +298,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * Get available stored rules for $rate
      *
      * @param Method $rate
-     *
      * @return array
      */
     public function getConditionallyAvailableRulesForRate(Method $rate)
@@ -325,13 +316,11 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * Update address applied rule ids with new rule id
      *
      * @param Address $address
-     *
      * @return Address
      */
     protected function updateAddressAppliedShippingRuleIds(
         Address $address
     ) {
-
         $addressRuleIds = $address->getAppliedShippingRulesIds();
         if (!$addressRuleIds) {
             $addressRuleIds = [];
@@ -350,7 +339,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * @param Address $address
      * @param Rule $rule
      * @param string $method
-     *
      * @return bool
      */
     protected function checkAddressAppliedRule(
@@ -358,7 +346,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         Rule $rule,
         $method
     ) {
-
         $appliedRules = $address->getAppliedShippingRulesIds();
 
         if (!is_array($appliedRules)) {
@@ -380,7 +367,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * Get rules collection for current object state
      *
      * @param bool $postProcessing
-     *
      * @return \Ewave\ExtendedShippingRates\Model\ResourceModel\Rule\Collection
      */
     protected function _getRules($postProcessing = false)
@@ -398,7 +384,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      *
      * @param Rule $rule
      * @param QuoteItem $item
-     *
      * @return bool
      */
     public function isValidItem(Rule $rule, QuoteItem $item)
@@ -416,7 +401,6 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      * @param int $storeId
      * @param int $customerGroupId
      * @param bool $postProcessing
-     *
      * @return RuleCollection
      */
     protected function _getValidationRulesCollection($storeId, $customerGroupId, $postProcessing = false)

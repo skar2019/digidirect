@@ -1,13 +1,14 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Model\Plugin\Shipping\Rate\Result;
 
-use Ewave\ExtendedShippingRates\Model\ValidatorsAggregator;
-use Ewave\ExtendedShippingRates\Model\RuleAppliersAggregator;
 use Ewave\ExtendedShippingRates\Model\Rule\Condition\DiscountCode;
+use Ewave\ExtendedShippingRates\Model\RuleAppliersAggregator;
+use Ewave\ExtendedShippingRates\Model\ValidatorsAggregator;
 use Magento\Framework\Registry;
 
 /**
  * Class Append
+ *
  * @package Ewave\ExtendedShippingRates\Model\Plugin\Shipping\Rate\Result
  */
 class Append
@@ -29,6 +30,7 @@ class Append
 
     /**
      * Append constructor.
+     *
      * @param ValidatorsAggregator $validatorsAggregator
      * @param RuleAppliersAggregator $ruleAppliersAggregator
      * @param Registry $registry
@@ -45,15 +47,14 @@ class Append
 
     /**
      * Validate shipping methods before append.
-     * @see \Ewave\ExtendedShippingRates\Observer\Sales\Quote\Address\CollectTotalsAfter
-     * by checking the value of this mark in the rate object.
-     *
-     * NOTE: If you have some problems with the rules and the shipping methods, start debugging from here.
      *
      * @param \Magento\Shipping\Model\Rate\Result $subject
      * @param \Magento\Quote\Model\Quote\Address\RateResult\AbstractResult|\Magento\Shipping\Model\Rate\Result $result
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @see \Ewave\ExtendedShippingRates\Observer\Sales\Quote\Address\CollectTotalsAfter
+     * by checking the value of this mark in the rate object.
+     * NOTE: If you have some problems with the rules and the shipping methods, start debugging from here.
      */
     public function beforeAppend($subject, $result)
     {
@@ -78,8 +79,7 @@ class Append
                 if (isset($ruleData['conditions'])) {
                     $conditions = $ruleData['conditions'];
                     foreach ($conditions as $condition) {
-                        if (
-                            isset($condition['attribute']) &&
+                        if (isset($condition['attribute']) &&
                             $condition['attribute'] == DiscountCode::ATTRIBUTE_CODE &&
                             !$this->registry->registry(DiscountCode::ATTRIBUTE_CODE)
                         ) {

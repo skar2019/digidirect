@@ -35,7 +35,6 @@ class Save extends \Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShi
         \Psr\Log\LoggerInterface $logger,
         \Ewave\ExtendedShippingRates\Api\RateRepositoryInterface $rateRepository
     ) {
-
         parent::__construct(
             $context,
             $coreRegistry,

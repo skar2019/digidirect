@@ -66,7 +66,6 @@ class Utility
      * @param \Ewave\ExtendedShippingRates\Model\Rule $rule
      * @param Address $address
      * @param string $currentMethod
-     *
      * @return bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -108,7 +107,6 @@ class Utility
      * Validate rule by time (in minutes from 0 to 1440)
      *
      * @param Rule $rule
-     *
      * @return bool
      */
     public function validateTime(Rule $rule)
@@ -147,7 +145,6 @@ class Utility
      * Validate rule by current store date
      *
      * @param Rule $rule
-     *
      * @return bool
      * @throws \Zend_Date_Exception
      */
@@ -171,7 +168,6 @@ class Utility
     /**
      * @param \Ewave\ExtendedShippingRates\Model\Rule $rule
      * @param \Zend_Date $date
-     *
      * @return bool
      */
     public function validateDate(Rule $rule, \Zend_Date $date)
@@ -184,7 +180,6 @@ class Utility
      *
      * @param Rule $rule
      * @param \Zend_Date $date
-     *
      * @return bool
      */
     public function validateDayOfWeek(Rule $rule, \Zend_Date $date)
@@ -213,7 +208,6 @@ class Utility
 
     /**
      * @param \Ewave\ExtendedShippingRates\Model\Rule $rule
-     *
      * @return bool
      */
     public function validateAltTitleActionOffset(Rule $rule)
@@ -223,7 +217,6 @@ class Utility
 
     /**
      * @param \Ewave\ExtendedShippingRates\Model\Rule $rule
-     *
      * @return bool
      */
     public function validateAltCodeActionOffset(Rule $rule)
@@ -243,7 +236,6 @@ class Utility
      * @param int $actionOffsetBegins
      * @param int $actionOffsetEnds
      * @param string $actionType
-     *
      * @return bool
      */
     public function validateActionOffset(
@@ -252,8 +244,7 @@ class Utility
         $actionOffsetEnds,
         $actionType = Rule::ACTION_USE_ALT_TITLE
     ) {
-        if (
-            in_array($actionType, $rule->getActionType())
+        if (in_array($actionType, $rule->getActionType())
             && $actionOffsetEnds
         ) {
             $ruleDays = explode(',', $rule->getDaysOfWeek());
@@ -265,7 +256,6 @@ class Utility
 
             $timestamp = mktime(0, $startTimeActionOffset);
             if (time() >= $timestamp) {
-
                 $startActionOffsetDate = (new \DateTime())->setTimestamp($timestamp);
                 $endActionOffsetDate = $startActionOffsetDate->modify('+' . $actionOffsetEnds . 'minutes');
 
@@ -289,7 +279,6 @@ class Utility
      * @param array|string $a1
      * @param array|string $a2
      * @param bool $asString
-     *
      * @return array|string
      */
     public function mergeIds($a1, $a2, $asString = true)
@@ -312,7 +301,6 @@ class Utility
      * Get datetime in current store locale
      *
      * @param Rule $rule
-     *
      * @return \Zend_Date
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

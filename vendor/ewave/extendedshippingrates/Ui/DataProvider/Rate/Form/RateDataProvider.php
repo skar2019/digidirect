@@ -2,12 +2,12 @@
 namespace Ewave\ExtendedShippingRates\Ui\DataProvider\Rate\Form;
 
 use Ewave\ExtendedShippingRates\Model\ResourceModel\Rate\CollectionFactory;
+use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Ui\DataProvider\AbstractDataProvider;
-use Magento\Ui\DataProvider\Modifier\PoolInterface;
 use Magento\Ui\DataProvider\Modifier\ModifierInterface;
-use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Ui\DataProvider\Modifier\PoolInterface;
 
 class RateDataProvider extends AbstractDataProvider
 {
@@ -55,7 +55,6 @@ class RateDataProvider extends AbstractDataProvider
         array $meta = [],
         array $data = []
     ) {
-    
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
         $this->pool = $pool;
         $this->request = $request;

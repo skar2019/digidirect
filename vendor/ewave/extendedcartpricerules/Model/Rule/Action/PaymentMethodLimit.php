@@ -1,0 +1,49 @@
+<?php
+namespace Ewave\ExtendedCartPriceRules\Model\Rule\Action;
+
+use Magento\SalesRule\Model\Validator;
+use Magento\Quote\Api\Data\CartInterface;
+
+class PaymentMethodLimit extends Validator
+{
+    /**
+     * If the method returns NULL then no payment restrictions exist
+     *
+     * @param CartInterface $quote
+     * @return array|null
+     */
+    public function getAvailableMethods(CartInterface $quote)
+    {
+        $hasLimit = false;
+        $availableMethods = [];
+        $items = $quote->getItems() ?: [];
+        foreach ($items as $item) {
+            $address = $item->getAddress();
+            foreach ($this->_getRules($address) as $rule) {
+                if (!$this->validatorUtility->canProcessRule($rule, $address)) {
+                    continue;
+                }
+
+                if (!$rule->getActions()->validate($item)) {
+                    continue;
+                }
+
+                $paymentMethodLimit = array_filter(explode(',', $rule->getPaymentMethodLimit()));
+                if (!empty($paymentMethodLimit)) {
+                    $hasLimit = true;
+                    if (empty($availableMethods)) {
+                        $availableMethods = $paymentMethodLimit;
+                    } else {
+                        $availableMethods = array_intersect($availableMethods, $paymentMethodLimit);
+                    }
+                }
+            }
+        }
+
+        if (false === $hasLimit) {
+            return null;
+        }
+
+        return $availableMethods;
+    }
+}

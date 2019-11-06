@@ -7,6 +7,8 @@ use Ewave\ExtendedShippingRates\Model\RuleAppliersAggregator;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Registry;
 use Magento\Quote\Model\CouponManagement;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Json\Helper\Data as JsonHelper;
 
 /**
  * Class CouponManagementPlugin
@@ -27,18 +29,27 @@ class CouponManagementPlugin
     protected $ruleAppliersAggregator;
 
     /**
+     * @var JsonHelper
+     */
+    protected $jsonHelper;
+
+    /**
      * CouponManagementPlugin constructor.
+     *
      * @param Registry $registry
+     * @param JsonHelper $jsonHelper
      */
     public function __construct(
-        Registry $registry
+        Registry $registry,
+        JsonHelper $jsonHelper = null
     ) {
         $this->registry = $registry;
+        $this->jsonHelper = $jsonHelper ?: ObjectManager::getInstance()->get(JsonHelper::class);
     }
 
     /**
      * @param CouponManagement $object
-     * @param $result
+     * @param mixed $result
      * @return mixed
      * @throws LocalizedException
      */
@@ -47,20 +58,22 @@ class CouponManagementPlugin
         if ($this->registry->registry(DiscountCode::ATTRIBUTE_CODE) == true) {
             throw new LocalizedException(__(self::RETURN_SET_CODE));
         }
+
         return $result;
     }
 
     /**
      * @param CouponManagement $object
-     * @param $result
+     * @param mixed $result
      * @return mixed
      * @throws LocalizedException
      */
     public function afterRemove(CouponManagement $object, $result)
     {
         if ($result == true) {
-            throw new LocalizedException(__(self::RETURN_REMOVE_CODE));
+            $result = $this->jsonHelper->jsonEncode(['message' => self::RETURN_REMOVE_CODE]);
         }
+
         return $result;
     }
 }

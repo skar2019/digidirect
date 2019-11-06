@@ -81,10 +81,12 @@
 * Bugfixes:
     * [#262192](https://ewave.tpondemand.com/entity/262192) -- [ESR] Admin panel is not user friendly
 
+
 1.2.0
 =============
 * New features:
     * [#264581](https://ewave.tpondemand.com/entity/264581) -- [DISPLAY ALL METHODS] As a customer, I want to be able to see all available shipping methods
+
 
 1.3.0
 =============
@@ -118,6 +120,7 @@
 * Bugfixes:
     * [#271617](https://ewave.tpondemand.com/entity/271617) -- [ESR] Configuration setting "Multiple rates price calculation" is not applied on website level
 
+
 1.4.0
 =============
 * New features:
@@ -130,3 +133,27 @@
 =============
 * Bugfixes:
     * [#302970](https://ewave.tpondemand.com/entity/302970) -- [RC-249][Checkout - Step 1][Shipping methods] Shipping Methods fail to load and return an error
+
+
+1.5.0
+=============
+* New features:
+    * [#321442](https://ewave.tpondemand.com/entity/321442) -- [DISCOUNT CODE] As an admin, I want to be able to use additional condition operators for a discount code
+	
+1.5.1	
+=============
+* Bugfixes:
+    * [#324215](https://ewave.tpondemand.com/entity/324215) -- [Extended Shipping Rates] 500 error when click on "Shipping Rules & Restcrictions"
+    * [#324473](https://ewave.tpondemand.com/entity/324473) -- [DHC 2.3.2][Extended Shipping Rates] It's impossible to open Shipping Methods grid in admin panel
+	
+1.5.2	
+=============
+* Bugfixes:
+    * [#325790](https://ewave.tpondemand.com/entity/325790) -- [PROJECT: Sportsgirl] Discount amount should not be displayed in order summary after click on "Cancel" button
+
+1.5.3	
+=============
+* Bugfixes:
+    * [#333331](https://ewave.tpondemand.com/entity/333331) -- [Project: RipCurl][Extended shipping rates] Customer group in shipping rule is changed to default customer groups after changing the status to "Active/Inactive" through mass action
+
+

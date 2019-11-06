@@ -1,14 +1,14 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Controller\Adminhtml\ExtendedShippingRates\Carrier;
 
-use Magento\Backend\App\Action;
-use Magento\Framework\Controller\ResultFactory;
-use Magento\Backend\App\Action\Context;
-use Magento\Ui\Component\MassAction\Filter;
-use Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory;
-use Ewave\ExtendedShippingRates\Model\CarrierFactory;
 use Ewave\ExtendedShippingRates\Api\CarrierRepositoryInterface;
+use Ewave\ExtendedShippingRates\Model\CarrierFactory;
 use Ewave\ExtendedShippingRates\Model\CarrierRepository;
+use Ewave\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Controller\ResultFactory;
+use Magento\Ui\Component\MassAction\Filter;
 
 class MassChangeStatus extends Action
 {
@@ -76,7 +76,9 @@ class MassChangeStatus extends Action
             }
 
             if ($updatedCarriersCount) {
-                $this->messageManager->addSuccessMessage(__('A total of %1 record(s) were updated.', $updatedCarriersCount));
+                $this->messageManager->addSuccessMessage(
+                    __('A total of %1 record(s) were updated.', $updatedCarriersCount)
+                );
             }
 
             /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */

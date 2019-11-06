@@ -1,9 +1,9 @@
 <?php
 namespace Ewave\ExtendedShippingRates\Model\ResourceModel;
 
-use Magento\Framework\Model\AbstractModel;
-use Ewave\ExtendedShippingRates\Model\Carrier as CarrierModel;
 use Ewave\ExtendedShippingRates\Api\Data\CarrierInterface;
+use Ewave\ExtendedShippingRates\Model\Carrier as CarrierModel;
+use Magento\Framework\Model\AbstractModel;
 
 class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
@@ -26,6 +26,7 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 
     /**
      * Carrier constructor.
+     *
      * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
      * @param Method\CollectionFactory $methodsCollectionFactory
      * @param \Magento\Framework\Stdlib\StringUtils $string
@@ -62,6 +63,7 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     {
         parent::_afterLoad($object);
         $this->addMethods($object);
+
         return $this;
     }
 
@@ -72,6 +74,7 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     public function _beforeSave(AbstractModel $object)
     {
         parent::_beforeSave($object);
+
         return $this;
     }
 
@@ -102,6 +105,7 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $object->setData('skip_resource_after_load', true);
         $object->afterLoad();
         $object->unsetData('skip_resource_after_load');
+
         return $this;
     }
 
@@ -113,6 +117,7 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     {
         parent::delete($object);
         $object->afterDelete();
+
         return $this;
     }
 
@@ -121,8 +126,8 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      *
      * @param int $carrierId
      * @param array $labels
-     * @throws \Exception
      * @return $this
+     * @throws \Exception
      */
     public function saveStoreLabels($carrierId, $labels)
     {
@@ -171,6 +176,7 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         )->where(
             'carrier_id = :carrier_id'
         );
+
         return $this->getConnection()->fetchPairs($select, [':carrier_id' => $carrierId]);
     }
 
@@ -193,11 +199,13 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         )->order(
             'store_id DESC'
         );
+
         return $this->getConnection()->fetchOne($select, [':carrier_id' => $carrierId, ':store_id' => $storeId]);
     }
 
     /**
      * Adds corresponding shipping methods to the carrier
+     *
      * @param AbstractModel $object
      * @return void
      */
@@ -227,6 +235,8 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 
     /**
      * Set Only Active Methods Flag
+     *
+     * @return void
      */
     public function setOnlyActiveMethodsFlag()
     {
@@ -245,6 +255,8 @@ class Carrier extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 
     /**
      * Remove Only Active Methods Flag
+     *
+     * @return void
      */
     public function removeOnlyActiveMethodsFlag()
     {

@@ -142,7 +142,7 @@ class EditTabLabels extends Generic implements
 
         /** @var \Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset $renderer */
         $renderer = $this->getLayout()
-            ->createBlock('Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset');
+            ->createBlock(\Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset::class);
 
         $fieldset->setRenderer($renderer);
         $websites = $this->_storeManager->getWebsites();
