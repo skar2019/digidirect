@@ -120,3 +120,9 @@
 * New features:
     * [#338931](https://ewave.tpondemand.com/entity/338931) -- [Extended Cart Price Rules] As an admin, I want to be able to add new condition about product quantity in source
 
+
+1.10.0
+=============
+* New features:
+    * [#340814](https://ewave.tpondemand.com/entity/340814) -- [Extended Cart Price Rules] As an admin, I want to be able to add new condition about cart products sum volume
+

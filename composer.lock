@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06e932e814207a6517f160593962b4d6",
+    "content-hash": "0ac44cbcf52cf96d13dd9f3b89730e86",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -1648,11 +1648,11 @@
         },
         {
             "name": "ewave/extendedcartpricerules",
-            "version": "dev-release/1.9.0",
+            "version": "dev-release/1.10.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcartpricerules.git",
-                "reference": "97606a85eccc3b281783bc3f43dc4e4567955167"
+                "reference": "c94075231edf82971d120b686b71acfa149881b3"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1664,7 +1664,7 @@
                 }
             },
             "description": "Ewave ExtendedCartPriceRules",
-            "time": "2019-11-05T13:16:39+00:00"
+            "time": "2019-11-14T12:54:31+00:00"
         },
         {
             "name": "ewave/extendedcatalogpricerule",

@@ -37,6 +37,7 @@
         <arguments>
             <argument name="builders" xsi:type="array">
                 <item name="item" xsi:type="string">Ewave\Digi\Gateway\Request\ItemDataBuilder</item>
+                <item name="custom_fields" xsi:type="string">Ewave\Digi\Gateway\Request\CustomFieldsDataBuilder</item>
             </argument>
         </arguments>
     </virtualType>
