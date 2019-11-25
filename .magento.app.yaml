@@ -101,10 +101,10 @@ crons:
         spec: "* * * * *"
         cmd: "php bin/magento cron:run"
     dumpupload:
-        spec: "* 1 * * *"
+        spec: "0 16 * * *"
         cmd: "/bin/bash ~/var/dumps/dump-auto-upload.sh > /dev/null 2>&1"
     logrotator:
-        spec: "* 2 * * *"
+        spec: "0 2 * * *"
         cmd: "/bin/bash ~/var/remove-integration-logs.sh > /dev/null 2>&1"
 
 #For FE - grunt
