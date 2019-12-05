@@ -41,4 +41,9 @@
             </argument>
         </arguments>
     </virtualType>
+    <type name="Ewave\Pronto\ProntoApi\RequestBuilder">
+        <plugin name="ewave.pronto.prontoapi.requestbuilder"
+                type="Ewave\Digi\Plugin\Ewave\Pronto\ProntoApi\RequestBuilder"
+                sortOrder="10" />
+    </type>
 </config>

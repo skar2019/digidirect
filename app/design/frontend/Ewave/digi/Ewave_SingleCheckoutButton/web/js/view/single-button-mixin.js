@@ -17,6 +17,18 @@ define(['mage/translate', 'Magento_Checkout/js/model/quote', 'jquery'], function
             },
 
             paymentStepAction: function () {
+                var self = this,
+                    $orderBtn = $('[id="placeOrderBtn"]');
+
+                // main disabling of the button for 1 sec to avoid double click
+                $orderBtn.prop('disabled', true);
+                setTimeout(function () {
+                    //checking if it isn't disabled with main way (observable var)
+                    if (!self.isDisabled()){
+                        $orderBtn.prop('disabled', false);
+                    }
+                }, 1000);
+
                 $(this.placeOrderButton).css('pointer-events', 'none');
 
                 $(this.brainTreeField).on('mouseenter', function () {
