@@ -28,6 +28,7 @@ class Order
     const DELIVERY_INSTRUCTION = 'delivery-instruction';
     const PAYMENT_DETAILS = 'payment-details';
     const DETAIL = 'detail';
+    const ON_HOLD_REASON_CODE = 'on-hold-reason-code';
 
     const ATTRIBUTE_PRONTO_STATUS_CODE = 'pronto_status_code';
     const ATTRIBUTE_PRONTO_ORDER_NUMBER = 'pronto_order_number';

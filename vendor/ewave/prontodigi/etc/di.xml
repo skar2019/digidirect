@@ -413,7 +413,11 @@
                                 </item>
                                 <item name="set-on-status" xsi:type="array">
                                     <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::SET_ON_STATUS</item>
-                                    <item name="value" xsi:type="string">B</item>
+                                    <item name="value" xsi:type="string">H</item>
+                                </item>
+                                <item name="on-hold-reason-code" xsi:type="array">
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::ON_HOLD_REASON_CODE</item>
+                                    <item name="value" xsi:type="string">05</item>
                                 </item>
                                 <item name="billing-address" xsi:type="array">
                                     <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::BILLING_ADDRESS</item>

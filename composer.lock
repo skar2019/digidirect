@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ac44cbcf52cf96d13dd9f3b89730e86",
+    "content-hash": "bf102ee65d449c1354421ae02cda13f7",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -870,6 +870,7 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
+            "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
         },
         {
@@ -2379,11 +2380,11 @@
         },
         {
             "name": "ewave/prontodigi",
-            "version": "dev-release/1.0.10",
+            "version": "dev-release/1.0.11",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "63584bad13ec15084aa19bf3fa783d5ecf6a49ab"
+                "reference": "a306a50283eb9373385fbaf7073f6636142f791f"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2395,7 +2396,7 @@
                 }
             },
             "description": "Ewave ProntoDigi",
-            "time": "2019-09-04T07:43:49+00:00"
+            "time": "2019-12-02T14:43:08+00:00"
         },
         {
             "name": "ewave/quickview",
@@ -3850,16 +3851,16 @@
         },
         {
             "name": "m2e/ebay-amazon-magento2",
-            "version": "1.4.0",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/m2epro/magento2-extension.git",
-                "reference": "47bea723ac85ac31d503758631f049ecd926fe32"
+                "reference": "02a43dd0b6b62bdb0434ce6375278bd8a8837ddf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/m2epro/magento2-extension/zipball/47bea723ac85ac31d503758631f049ecd926fe32",
-                "reference": "47bea723ac85ac31d503758631f049ecd926fe32",
+                "url": "https://api.github.com/repos/m2epro/magento2-extension/zipball/02a43dd0b6b62bdb0434ce6375278bd8a8837ddf",
+                "reference": "02a43dd0b6b62bdb0434ce6375278bd8a8837ddf",
                 "shasum": ""
             },
             "require": {
@@ -3886,9 +3887,9 @@
                 "walmart"
             ],
             "support": {
-                "source": "https://github.com/m2epro/magento2-extension/tree/v1.4.0"
+                "source": "https://github.com/m2epro/magento2-extension/tree/v1.4.2"
             },
-            "time": "2019-06-11T09:26:04+00:00"
+            "time": "2019-10-02T10:47:04+00:00"
         },
         {
             "name": "magento/composer",

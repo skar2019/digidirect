@@ -71,3 +71,8 @@ Pronto Integration for DigiDirect project
 
 * Bugfixes:
     * [#325912](https://ewave.tpondemand.com/entity/325912) -- Product Interface: reverts product priority
+
+1.0.11
+=============
+* New features:
+    * [#344329](https://ewave.tpondemand.com/entity/344329) -- Order Interface: Change order_status to an "on hold".

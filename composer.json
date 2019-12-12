@@ -67,7 +67,7 @@
         "ewave/productoverlay": "dev-release/2.6.0",
         "ewave/productpriority": "dev-release/1.0.3",
         "ewave/pronto": "dev-release/1.0.0",
-        "ewave/prontodigi": "dev-release/1.0.10",
+        "ewave/prontodigi": "dev-release/1.0.11",
         "ewave/quickview": "dev-release/1.2.4",
         "ewave/relatedproduct": "dev-release/2.4.0",
         "ewave/security": "dev-release/1.0.6",
@@ -83,7 +83,7 @@
         "fastly/magento2": "1.2.119",
         "klevu/module-search": "^2.2",
         "livechat/module-magento-livechat": "dev-master",
-        "m2e/ebay-amazon-magento2": "1.4.0",
+        "m2e/ebay-amazon-magento2": "1.4.2",
         "magento/magento-cloud-metapackage": "2.3.1",
         "zipmoney/magento2": "^1.0"
     },
@@ -438,6 +438,14 @@
         {
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcartpricerules.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/m2epro/magento2-extension.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise.git"
         }
     ],
     "extra": {
