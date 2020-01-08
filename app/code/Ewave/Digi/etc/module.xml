@@ -10,6 +10,7 @@
             <module name="Ewave_ProntoDigi"/>
             <module name="Ewave_AbstractAttributes"/>
             <module name="Ewave_Collect"/>
+            <moduel name="LiveChat_LiveChat"/>
         </sequence>
     </module>
 </config>

@@ -23,7 +23,7 @@
                     <?php
                     $fromLabel = __('Before Cashback');
                     $fromClass = 'before-cashback';
-                    $fromPrice = $productPrice;
+                    $fromPrice = $hasSpecialPrice ? $productFinalPrice : $productPrice;
                     $afterLabel = __('After Cashback');
                     $afterClass = 'after-cashback';
                     $afterPrice = 0;

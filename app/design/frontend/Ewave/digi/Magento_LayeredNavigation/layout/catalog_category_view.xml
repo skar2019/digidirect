@@ -16,8 +16,7 @@
 
         <move element="ewave.layerednavigation.apply" destination="catalog.leftnav" before="-" />
 
-
-        <move element="ewave.categoryfilter.dropdown" destination="catalog.leftnav" after="-" />
+        <move element="ewave.categoryfilter.dropdown" destination="catalog.leftnav" before="-" />
 
         <move element="catalog.leftnav" destination="offcanvasSidebar" after="ewave.categoryfilter.dropdown" />
     </body>

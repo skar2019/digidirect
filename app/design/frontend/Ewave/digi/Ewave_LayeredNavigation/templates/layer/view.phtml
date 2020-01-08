@@ -11,6 +11,7 @@
     $isShowTitleCount = false; // Show/Hide Title Count
     $brandLabels = false;
     $faceBookPixel = $this->helper('Ewave\Digi\Helper\FaceBookPixel');
+    $filterExclusions = ['cat'];
 ?>
 <?php if ($block->canShowBlock()): ?>
     <div class="block filter">
@@ -21,8 +22,17 @@
             <?php echo $block->getChildHtml('ewave.layerednavigation.apply'); ?>
             <?php echo $block->getChildHtml('catalog.leftnav.clear'); ?>
         </div>
-        <?php //TODO: temporary solution ?>
-        <?php //echo $block->getChildHtml('ewave.categoryfilter.dropdown'); ?>
+        <?php echo $block->getChildHtml('ewave.categoryfilter.dropdown'); ?>
+        <?php $allFilter = $block->getFilters();
+        $filterWithCodeName = array_reduce($allFilter, static function ($acc, $filter) use ($filterExclusions) {
+            $filterRequestVar = $filter->getRequestVar();
+            if (!empty($filterRequestVar) && !in_array($filterRequestVar, $filterExclusions)) {
+                $acc[$filterRequestVar] = $filter;
+                return $acc;
+            }
+            return $acc;
+        }, []);
+        ?>
 
         <div class="block-content filter-content">
             <?php if ($isShowState): ?>
@@ -30,7 +40,7 @@
             <?php endif; ?>
 
             <?php $wrapOptions = false; ?>
-            <?php $i = 0; foreach ($block->getFilters() as $filter): ?>
+            <?php $i = 0; foreach ($filterWithCodeName as $filter): ?>
             <?php $activeCount = (int)$block->getChildBlock('renderer')->getActiveCount($filter); ?>
             <?php $isTabActive = ($i == 0 || $i == 1 || $activeCount) ? true : false; ?>
                 <?php if (!$wrapOptions): ?>

@@ -13,4 +13,5 @@
                 sortOrder="1"
                 disabled="false" />
     </type>
+    <preference for="LiveChat\LiveChat\Controller\GetCart\Index" type="Ewave\Digi\Controller\GetCart\Index" />
 </config>
