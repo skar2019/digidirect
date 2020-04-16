@@ -6,5 +6,13 @@ var config = {
                 'Magento_Theme/js/sticky-mixin': true
             }
         }
+    },
+    paths: {
+            'bootstrap':'Magento_Theme/js/bootstrap.bundle',
+    } ,
+    shim: {
+        'bootstrap': {
+            'deps': ['jquery']
+        }
     }
 };
