@@ -12,6 +12,7 @@ define([
             var self = this;
 
             quote.shippingMethod.subscribe(function (shippingMethod) {
+                $('#s_method_AP_VSM').parent().css('display', 'none');
                 if (self.rates().length == 1) {
                     $('#s_method_' + shippingMethod.method_code).closest('.row').addClass('-active').siblings().removeClass('-active');
                 } else {

@@ -77,6 +77,14 @@
                     <label>Geo Location Behavior</label>
                     <source_model>Ewave\MyStoreWidget\Model\Config\Source\GeoLocationBehavior</source_model>
                 </field>
+                <field id="disable_autocomplite_mobile_divice" translate="lable comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Disable Geo Location Auto-complete for Mobile Devices</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Select 'Yes' to disable Geo Location Auto-complete for mobile devices</comment>
+                    <depends>
+                        <field id="enable_geo_location_autocomplite">1</field>
+                    </depends>
+                </field>
             </group>
         </section>
     </system>

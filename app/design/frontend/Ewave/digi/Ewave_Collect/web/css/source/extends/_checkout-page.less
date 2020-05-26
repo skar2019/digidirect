@@ -11,6 +11,29 @@
         .collect-block .wrapper-title {
             width: ~'calc(100% - 40px)';
         }
+
+        .collect-block .pickup-available-wrapper {
+            margin-bottom: 16px;
+        }
+
+        .collect-block .pickup-available-text {
+            & {
+                .lib-css(color, @message-success__color);
+                .lib-font-size(14);
+                line-height: 1.43;
+                padding-left: 18px;
+                position: relative;
+            }
+
+            &:before {
+                content: @base64-icon__ok;
+                position: absolute;
+                width: 14px;
+                height: 12px;
+                top: 0;
+                left: 0;
+            }
+        }
     }
 
     .checkout-container .collect-type {
@@ -95,6 +118,17 @@
         word-break: normal;
         .lib-font-size(12);
     }
+
+    #block-opcmystorebar,
+    .checkout-index-index .live-chat-additional-link {
+        display: none;
+    }
+
+    .checkout-shipping-address {
+        .collect-block .wrapper-title > span {
+            .lib-css(color, @color-2-1);
+        }
+    }
 }
 
 //
@@ -109,21 +143,29 @@
         }
 
         .collect-block .link {
+            .lib-css(font-weight, @font-weight__heavier);
+            .lib-font-size(14);
+            max-width: 230px;
             right: 0;
             margin-top: 0;
             bottom: 0;
-            font-size: 14px;
-            font-weight: 500;
         }
 
         .collect-block .wrapper-title {
-            padding-left: 20px;
-            font-size: 12px;
+            .lib-font-size(12);
+            padding-left: 13px;
         }
 
         .collect-block .wrapper-title > .title {
-            font-size: 20px;
-            font-weight: 500;
+            .lib-css(font-weight, @font-weight__heavier);
+            .lib-font-size(20);
+            display: none;
+        }
+
+        .collect-block .wrapper-title > span {
+            .lib-css(font-weight, @font-weight__heavier);
+            .lib-css(color, @color-2-1);
+            .lib-font-size(16);
         }
     }
 
@@ -160,6 +202,6 @@
 
     .checkout-container .collect-block .wrap-block {
         .lib-vendor-prefix-display(flex);
-        .lib-vendor-box-align(flex-end);
+        .lib-vendor-box-align(center);
     }
 }

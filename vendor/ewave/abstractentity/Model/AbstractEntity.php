@@ -1,4 +1,5 @@
 <?php
+
 namespace Ewave\AbstractEntity\Model;
 
 use Ewave\AbstractEntity\Api\AbstractEntityRepositoryInterface\Proxy as AbstractEntityRepositoryInterface;
@@ -19,6 +20,7 @@ use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
+use Magento\Eav\Model\Config as EavConfig;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
@@ -89,6 +91,11 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
     protected $filterFactory;
 
     /**
+     * @var EavConfig
+     */
+    protected $eavConfig;
+
+    /**
      * AbstractEntity constructor.
      *
      * @param \Magento\Framework\Model\Context $context
@@ -104,6 +111,7 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
      * @param array $data
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param FilterFactory $filterFactory
+     * @param EavConfig $eavConfig
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -119,7 +127,8 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
         AbstractDb $resourceCollection = null,
         array $data = [],
         SearchCriteriaBuilder $searchCriteriaBuilder = null,
-        FilterFactory $filterFactory = null
+        FilterFactory $filterFactory = null,
+        EavConfig $eavConfig = null
     ) {
         $this->storeManager = $storeManager;
         $this->urlProcessorFactory = $urlProcessorFactory;
@@ -138,6 +147,7 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
             SearchCriteriaBuilder::class
         );
         $this->filterFactory = $filterFactory ?: ObjectManager::getInstance()->get(FilterFactory::class);
+        $this->eavConfig = $eavConfig ?: ObjectManager::getInstance()->get(EavConfig::class);
     }
 
     /**
@@ -371,7 +381,7 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
     /**
      * Processing object before save data
      *
-     * @return $this
+     * @return AbstractExtensibleModel
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function beforeSave()
@@ -382,6 +392,23 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
         if (($urlKey === '' || $urlKey === null) && $name) {
             $this->setUrlKey($this->filterManager->translitUrl($name));
         }
+
+        try {
+            $urlKeyAttribute = $this->getResource()->getAttribute(AbstractEntityInterface::URL_KEY);
+        } catch (\Throwable $e) {
+            return parent::beforeSave();
+        }
+
+        $i = 0;
+        $urlKeyValue = $this->getUrlKey();
+        while (true) {
+            if ($this->getResource()->checkAttributeUniqueValue($urlKeyAttribute, $this)) {
+                break;
+            } else {
+                $this->setUrlKey($urlKeyValue . '-' . ++$i);
+            }
+        }
+
         return parent::beforeSave();
     }
 
@@ -486,5 +513,21 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
         $searchCriteriaBuilder->addFilter($filter);
 
         return $this->abstractEntityRepository->getList($searchCriteriaBuilder->create(), $attributeSet, $attributes);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getCustomAttributesCodes()
+    {
+        if ($this->customAttributesCodes === null) {
+            $allAttributes = $this->eavConfig->getEntityAttributes(self::ENTITY_TYPE, $this);
+            $allAttributeCodes = array_keys($allAttributes);
+            $this->customAttributesCodes = array_diff(
+                $allAttributeCodes,
+                AbstractEntityInterface::ATTRIBUTES
+            );
+        }
+        return $this->customAttributesCodes;
     }
 }

@@ -9,6 +9,7 @@ namespace Ewave\ExtendedCartPriceRules\Model\Checkout\Provider;
 class CheckoutConfigProvider implements \Magento\Checkout\Model\ConfigProviderInterface
 {
     const PAYMENT_LIMITED_BY_RULES = 'paymentLimitedByRules';
+    const EXTEND_RULES_DATA = 'extendRulesData';
 
     /**
      * @var \Ewave\ExtendedCartPriceRules\Helper\Data
@@ -30,7 +31,10 @@ class CheckoutConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
      */
     public function getConfig()
     {
-        return [self::PAYMENT_LIMITED_BY_RULES => $this->getAvailableMethods()];
+        return [
+            self::PAYMENT_LIMITED_BY_RULES => $this->getAvailableMethods(),
+            self::EXTEND_RULES_DATA => $this->getExtendRulesData()
+            ];
     }
 
     /**
@@ -39,5 +43,15 @@ class CheckoutConfigProvider implements \Magento\Checkout\Model\ConfigProviderIn
     public function getAvailableMethods()
     {
         return $this->_helper->getAvailableMethods();
+    }
+
+    /**
+     * Get extend rules data
+     *
+     * @return array
+     */
+    public function getExtendRulesData()
+    {
+        return $this->_helper->getExtendRulesData();
     }
 }

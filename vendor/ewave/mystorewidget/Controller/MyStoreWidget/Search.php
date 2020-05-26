@@ -1,4 +1,5 @@
 <?php
+
 namespace Ewave\MyStoreWidget\Controller\MyStoreWidget;
 
 use Ewave\MyStoreWidget\Api\MyStoreRepositoryInterface;
@@ -10,6 +11,7 @@ use Magento\Framework\Exception\InputException;
 
 /**
  * Class Search
+ *
  * @package Ewave\MyStoreWidget\Controller\MyStoreWidget
  */
 class Search extends Index
@@ -21,6 +23,7 @@ class Search extends Index
 
     /**
      * Search constructor.
+     *
      * @param Context $context
      * @param MyStoreRepositoryInterface $myStoreRepository
      * @param MyStoreFactory $myStoreFactory

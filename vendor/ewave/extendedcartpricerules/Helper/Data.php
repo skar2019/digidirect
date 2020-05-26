@@ -4,6 +4,7 @@ namespace Ewave\ExtendedCartPriceRules\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Model\ResourceModel\Product as ProductResource;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
@@ -204,12 +205,40 @@ class Data extends AbstractHelper
         $newAllowedMethods = [];
         foreach ($availableMethods as $availableMethod) {
             /** @var $availableMethod \Magento\Quote\Api\Data\PaymentMethodInterface */
-            if (in_array($availableMethod->getCode(), $allowedMethods)) {
+            if (!in_array($availableMethod->getCode(), $allowedMethods)) {
                 $newAllowedMethods[] = $availableMethod->getCode();
             }
         }
 
         return $newAllowedMethods;
+    }
+
+    /**
+     * Get extend rules data ('Is enable unavailabl payment methods' and
+     * 'Message for unavailable payment method') from rule 'Actions' tab
+     *
+     * @param null|Quote $quote
+     * @return array
+     */
+    public function getExtendRulesData($quote = null)
+    {
+        $quote = $quote ?: $this->getQuote();
+        if (null === $quote) {
+            return [];
+        }
+        try {
+            $store = $this->storeManager->getStore($quote->getStoreId());
+        } catch (NoSuchEntityException $e) {
+            return [];
+        }
+        $this->paymentMethodLimit->init(
+            $store->getWebsiteId(),
+            $quote->getCustomerGroupId(),
+            $quote->getCouponCode()
+        );
+
+        $extendData = $this->paymentMethodLimit->getExtendRulesData($quote);
+        return $extendData;
     }
 
     /**

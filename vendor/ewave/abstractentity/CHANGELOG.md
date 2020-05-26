@@ -176,3 +176,53 @@
 =============
 * Bugfixes:
     * [#296393](https://ewave.tpondemand.com/entity/296393) -- backend_model is empty in case attribute input type is multiselect
+
+3.1.5
+=============
+* Bugfixes:
+    * [#297580](https://ewave.tpondemand.com/entity/297580) -- [Magento 2.3.1] Abstract entity cannot be deleted
+    * [#300827](https://ewave.tpondemand.com/entity/300827) -- [Abstract Entity] Error during compilation
+
+3.2.0
+=============
+* New features:
+    * [#302037](https://ewave.tpondemand.com/entity/302037) -- POST: /V1/abstractentity/type/:attributeSetName
+    * [#302038](https://ewave.tpondemand.com/entity/302038) -- PUT: /V1/abstractentity/type/:attributeSetName/:id
+    * [#302039](https://ewave.tpondemand.com/entity/302039) -- GET: /V1/abstractentity/type/:attributeSetName
+    * [#302042](https://ewave.tpondemand.com/entity/302042) -- DELETE: /V1/abstractentity/type/:attributeSetName/:id
+
+3.2.1
+=============
+* Bugfixes:
+    * [#305183](https://ewave.tpondemand.com/entity/305183) -- [Abstract Entity] It is possible to create duplicates for existing entity
+
+3.2.2
+=============
+* Bugfixes:
+    * [#313056](https://ewave.tpondemand.com/entity/313056) -- repository tries to use index table in admin area and generated _index_0 table name, but this table doesn't exist (index is not generated for default store).
+
+3.3.0
+=============
+* New features:
+    * [#313112](https://ewave.tpondemand.com/entity/313112) -- [Converse] - [Store Locator] The pattern described should be configurable
+
+3.4.0
+=============
+* Improvements:
+    * Back-Office data validation pool
+
+3.4.1
+=============
+* Bugfixes:
+    * [#334708](https://ewave.tpondemand.com/entity/334708) -- [Project: NEVERFAIL] [abstractentity] optimize getSize/getItems method
+
+3.4.2
+==============
+* Bugfixes:
+    * [#343777](https://ewave.tpondemand.com/entity/343777) -- [Ultra 2.3.3] Reindex does not work correctly
+
+3.4.3
+==============
+* Bugfixes:
+    * [#343310](https://ewave.tpondemand.com/entity/343310) -- [Project: Neverfail] Cant insert widget into "Text area"
+

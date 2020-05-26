@@ -2,6 +2,8 @@
 namespace Ewave\MyStoreWidget\Plugin\Magento\App\Action;
 
 use Ewave\MyStoreWidget\Helper\Data as Helper;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\ResultInterface;
 
 /**
  * Class ContextPlugin
@@ -32,15 +34,13 @@ class ContextPlugin
 
     /**
      * @param \Magento\Framework\App\ActionInterface $subject
-     * @param \Closure $proceed
-     * @param \Magento\Framework\App\RequestInterface $request
-     * @return mixed
+     * @param ResponseInterface|ResultInterface $result
+     * @return ResponseInterface|ResultInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function aroundDispatch(
+    public function afterDispatch(
         \Magento\Framework\App\ActionInterface $subject,
-        \Closure $proceed,
-        \Magento\Framework\App\RequestInterface $request
+        $result
     ) {
         $currentStore = $this->helper->getCurrentStore();
         $this->httpContext->setValue(
@@ -48,6 +48,7 @@ class ContextPlugin
             ($currentStore ? $currentStore->getId() : false),
             false
         );
-        return $proceed($request);
+
+        return $result;
     }
 }

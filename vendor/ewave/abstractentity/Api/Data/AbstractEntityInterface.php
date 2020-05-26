@@ -1,7 +1,7 @@
 <?php
 namespace Ewave\AbstractEntity\Api\Data;
 
-interface AbstractEntityInterface
+interface AbstractEntityInterface extends \Magento\Framework\Api\CustomAttributesDataInterface
 {
     const NAME = 'name';
     const ATTRIBUTE_SET_ID = 'attribute_set_id';
@@ -14,6 +14,20 @@ interface AbstractEntityInterface
     const PARENT_ID = 'parent_id';
     const ENTITY_ID = 'entity_id';
     const ADD_TO_SITEMAP = 'add_to_sitemap';
+
+    const ATTRIBUTES = [
+        self::NAME,
+        self::ATTRIBUTE_SET_ID,
+        self::STATUS,
+        self::VISIBLE_ON_FRONTEND,
+        self::URL_KEY,
+        self::CREATED_AT,
+        self::UPDATED_AT,
+        self::STORE_ID,
+        self::PARENT_ID,
+        self::ENTITY_ID,
+        self::ADD_TO_SITEMAP,
+    ];
 
     /**
      * @return int|null

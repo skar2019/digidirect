@@ -14,18 +14,15 @@
 * Bugfixes:
     * [#176842](https://ewave.tpondemand.com/entity/176842) -- MAGENTO BUG. PROJECT: Platypus. User can't place order but can add item to cart
 
-
 1.0.2
 =============
 * Bugfixes:
     * [#180258](https://ewave.tpondemand.com/entity/180258) -- PROJECT: Platypus. Checkout does not work if 'Click and Collect' is disabled
 
-
 1.0.3
 =============
 * Bugfixes:
     * [#183823](https://ewave.tpondemand.com/entity/183823) -- PROJECT: Platypus. C&C "regionId is a required field" error for New Zealand
-
 
 1.0.4
 =============
@@ -54,7 +51,6 @@
     * [#185876](https://ewave.tpondemand.com/entity/185876) -- Checkout Fields + C&C: Shipping address block is not hidden on checkout page
     * [#185899](https://ewave.tpondemand.com/entity/185899) -- PROJECT: Platypus. Virtual product has delivery type
 
-
 2.0.1
 =============
 * Bugfixes:
@@ -75,18 +71,15 @@
     * [#187348](https://ewave.tpondemand.com/entity/187348) -- PROJECT: Pharmacy Online. Billing address saved, but address form displays when user comes to checkout
     * [#187842](https://ewave.tpondemand.com/entity/187348) -- C&C. Console error, impossible to place order in some cases
 
-
 2.1.1
 =============
 * Bugfixes:
     * [#187279](https://ewave.tpondemand.com/entity/187279) -- PROJECT: Pharmacy Online. Click & Collect: Billing information is settled in quote with shipping data if collect selected as shipping method
 
-
 2.1.2
 =============
 * Bugfixes:
     * [#188181](https://ewave.tpondemand.com/entity/188181) -- The "No such entity with cartId" error message appears if admin tries to create an order via admin panel
-
 
 2.1.3
 =============
@@ -103,7 +96,6 @@
     * [#220731](https://ewave.tpondemand.com/entity/220731) -- [CC]: Checkout: Order summary block contains the store name
     * [#220750](https://ewave.tpondemand.com/entity/220750) -- [CC]: Back-office: There are no information about store on order details page
 
-
 2.2.1
 =============
 * Bugfixes:
@@ -115,7 +107,6 @@
 * New features:
     * [#219343](https://ewave.tpondemand.com/entity/219343) -- [Order View Page] As an admin I want to see Store id and Address Details on Order View Page
 
-
 2.3.1
 =============
 * Bugfixes:
@@ -123,24 +114,20 @@
     * [#220755](https://ewave.tpondemand.com/entity/220755) -- [CC]: Cart: Store name is NOT updated after changing
     * [#221245](https://ewave.tpondemand.com/entity/221245) -- [CC]: PDP: When user choose radio-button for CD shipping method, CC search form should be hidden
 
-
 2.3.2
 =============
 * Bugfixes:
     * [#229970](https://tp.ewave.com/229970) -- [PROJECT: TAF][Afterpay][PROD] Orders are absent in the Admin (Afterpay)
-
 
 2.3.3
 =============
 * Bugfixes:
     * [#231305](https://tp.ewave.com/231305) -- [PROJECT: TAF][Collect] Order cannot be opened from the back-end
 
-
 2.3.4
 =============
 * Bugfixes:
     * [#229503](https://tp.ewave.com/229503) -- [CC]: Cart: Radio buttons for Shipping and Tax stayed after C&C method has been applied
-
 
 2.3.5
 =============
@@ -171,24 +158,20 @@
 * New features:
     * [#258093](https://tp.ewave.com/258093) -- [AUPost Coordinates] As an admin, I want AUPost post code to calculate average coordinates on file upload
 
-
 2.6.1
 =============
 * Bugfixes:
     * [#259173](https://ewave.tpondemand.com/entity/259173) -- [Availability Check][Click&Collect] Null is received for the coordinates if user check stores for C&C on PDP
-
 
 2.6.2
 =============
 * Bugfixes:
     * [#260123](https://ewave.tpondemand.com/entity/260123) -- [PROJECT: PLATYPUS][AUSPOST] Place cannot be correctly detected when not all entries with the same postcode have latitude and longitude entries
 
-
 2.6.3
 =============
 * Bugfixes:
     * [#258539](https://ewave.tpondemand.com/entity/258539) -- [COLLECT V2] Order is not split correctly for 'СС+Delivery' items in cart due to shipping method error
-
 
 2.6.4
 =============
@@ -204,7 +187,6 @@
 
 * Bugfixes:
     * [#263097](https://ewave.tpondemand.com/entity/263097) -- [PROJECT: PLATYPUS][SDD] 2 of the same products are displayed in the cart and not 1 product with Qty 2
-
 
 2.7.1
 =============
@@ -225,7 +207,6 @@
     * [#260125](https://ewave.tpondemand.com/entity/260125) -- [MDM] [C&C] There are labels and message from basic C&C extension
     * [#266000](https://ewave.tpondemand.com/entity/266000) -- [PROJECT TAF][PDP][C&C] СС tab is not preselect when cart already contains CC product
     * [#266758](https://ewave.tpondemand.com/entity/266758) -- [PROJECT: TAF] Delivery product is not added to shopping cart when it already contains C&C item
-
 
 2.8.1
 =============
@@ -263,7 +244,6 @@
 
 * Bugfixes:
     * [#291072](https://ewave.tpondemand.com/entity/291072) -- 'Click&Collect Variation' is displayed for store view and website but works on global scope
-
 
 2.11.1
 =============
@@ -310,6 +290,7 @@
 * Bugfixes:
     * [#321136](https://ewave.tpondemand.com/entity/321136) -- [Charity] Charity amount is not re-counted if user goes back to 1st step of Checkout and changes payment method
 
+
 2.14.0
 =============
 * New features:
@@ -335,8 +316,35 @@
 * Bugfixes:
     * [#330325](https://ewave.tpondemand.com/entity/330325) -- [PROJECT: Sportsgirl] The "Place order" button is not active after clicking the "Charity" checkbox
 
+
 2.15.0
 =============
 * New features:
     * [#331347](https://ewave.tpondemand.com/entity/331347) -- [PRIVATE CONTENT] As a system, I want '_isPrivateScope' parameter to be removed from Ewave_collect module
+
+2.15.1
+=============
+* Bugfixes:
+    * [#334850](https://ewave.tpondemand.com/entity/334850) -- [TAF][PHP Upgrade][ewave_collect] Exception error on C&C request
+
+2.15.2
+=============
+* Bugfixes:
+    * [#339239](https://ewave.tpondemand.com/entity/339239) -- [TAF][PHP Upgrade][ewave_collect] Exception error on C&C request
+
+2.15.3
+=============
+* Bugfixes:
+    * [#346201](https://ewave.tpondemand.com/entity/346201) -- [PROJECT: SussanGroup][CHECKOUT STEP 1][C&C] A grey inactive screen occurs after a double change of the DTS place
+
+2.15.4
+=============
+* Bugfixes:
+    * [#360086](https://ewave.tpondemand.com/entity/360086) -- [TAF][Magento 2.3.3 Upgrade][Fluent Fulfilment options] Error message text is incorrect
+
+
+2.16.0
+=============
+* New features:
+    * [#357437](https://ewave.tpondemand.com/entity/357437) -- [Abstract Entity][My Store][Click&Collect] As a admin, I want following settings to be added
 

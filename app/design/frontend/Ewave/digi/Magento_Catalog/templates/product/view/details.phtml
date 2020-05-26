@@ -19,6 +19,10 @@
                 $aliasName = $block->escapeHtml(__('Additional Information'));
             }
 
+            if ($alias == 'whatinthebox') {
+                $aliasName = $block->escapeHtml(__('What’s In The Box'));
+            }
+
             $label = $block->getChildData($alias, 'title');
 
             ?>

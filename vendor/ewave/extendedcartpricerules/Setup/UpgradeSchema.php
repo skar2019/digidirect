@@ -23,6 +23,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $this->addEwaveExtendedCartPriceRuleTable($setup);
         }
 
+        if (version_compare($context->getVersion(), '1.0.3', '<')) {
+            $this->addExtendPaymentMethodLimitColumns($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -82,5 +86,38 @@ class UpgradeSchema implements UpgradeSchemaInterface
             );
             $setup->getConnection()->createTable($table);
         }
+    }
+
+    /**
+     * The 'enable_unavailable_payment_methods' and 'message_for_unavailable_payment_method' columns
+     * added to the 'salesrule' table.
+     *
+     * @param SchemaSetupInterface $setup
+     * @return void
+     */
+    private function addExtendPaymentMethodLimitColumns(SchemaSetupInterface $setup)
+    {
+        $setup->getConnection()->addColumn(
+            $setup->getTable('salesrule'),
+            'enable_unavailable_payment_methods',
+            [
+                'type'      => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                'default'   => 0,
+                'nullable'  => false,
+                'comment'   => 'Enable Unavailable Payment Methods',
+            ]
+        );
+
+        $setup->getConnection()->addColumn(
+            $setup->getTable('salesrule'),
+            'message_for_unavailable_payment_method',
+            [
+                'type'      => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'length' => 255,
+                'default'   => '',
+                'nullable'  => true,
+                'comment'   => 'Message to Display for Unavailable Payment Methods',
+            ]
+        );
     }
 }

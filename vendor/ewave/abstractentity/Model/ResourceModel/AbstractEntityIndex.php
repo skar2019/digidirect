@@ -2,12 +2,15 @@
 
 namespace Ewave\AbstractEntity\Model\ResourceModel;
 
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Event\ManagerInterface;
 use Ewave\AbstractEntity\Helper\Data as Helper;
+use Ewave\AbstractEntity\Helper\Config as Config;
 use Ewave\AbstractEntity\Api\Data\AbstractEntityInterface;
+use Ewave\AbstractEntity\Model\Config\Source\FulltextSearchPattern;
 
 /**
  * Class MyStoreIndex
@@ -38,6 +41,11 @@ class AbstractEntityIndex extends AbstractDb
     protected $helper;
 
     /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
      * AbstractEntityIndex constructor.
      *
      * @param Context $context
@@ -45,18 +53,21 @@ class AbstractEntityIndex extends AbstractDb
      * @param Helper $helper
      * @param array $rangeAttributes
      * @param null $connectionName
+     * @param Config $config
      */
     public function __construct(
         Context $context,
         ManagerInterface $eventManager,
         Helper $helper,
         $rangeAttributes = [],
-        $connectionName = null
+        $connectionName = null,
+        Config $config = null
     ) {
         parent::__construct($context, $connectionName);
         $this->eventManager = $eventManager;
         $this->rangeAttributes = $rangeAttributes;
         $this->helper = $helper;
+        $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);
     }
 
     /**
@@ -69,10 +80,12 @@ class AbstractEntityIndex extends AbstractDb
 
     /**
      * @param Select $select
-     * @param $tablePostfix
+     * @param string $tablePostfix
      * @param int $storeId
      * @param string $engine
      * @param array $fulltextColumns
+     *
+     * @return void
      */
     public function createTableFromSelect(
         Select $select,
@@ -107,6 +120,8 @@ class AbstractEntityIndex extends AbstractDb
         $table = $this->getTable(self::TABLE_NAME) . $tablePostfix;
         $connection->dropTable($table);
         $connection->query("CREATE TABLE $table ENGINE=$engine $select");
+        $columnsInTable = array_keys($connection->describeTable($table));
+        $fulltextColumns = array_intersect($fulltextColumns, $columnsInTable);
         if (!empty($fulltextColumns)) {
             $connection->query("ALTER TABLE $table ADD FULLTEXT (" . implode(', ', $fulltextColumns) . ")");
         }
@@ -158,9 +173,11 @@ class AbstractEntityIndex extends AbstractDb
 
     /**
      * @param AbstractEntityInterface $ae
-     * @param $entityName
+     * @param strng $entityName
      * @param int $storeId
      * @param array $arguments
+     *
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function updateEntityIndexData(AbstractEntityInterface $ae, $entityName, int $storeId, $arguments = [])
@@ -199,7 +216,7 @@ class AbstractEntityIndex extends AbstractDb
     {
         $query->where(
             'MATCH (' . implode(', ', $attributes) . ') AGAINST (? IN BOOLEAN MODE)',
-            '*' . $searchTerm . '*'
+            $this->config->getFulltextSearchValue($searchTerm)
         );
 
         foreach ($this->rangeAttributes as $range) {

@@ -105,8 +105,38 @@
                                                                         <item name="title" xsi:type="string" translate="true">Apply Gift Card &amp; Promo Code</item>
                                                                     </item>
                                                                     <item name="children" xsi:type="array">
-                                                                        <!-- merge discount and giftCardAccount here-->
+                                                                        <item name="errors" xsi:type="array">
+                                                                            <item name="sortOrder" xsi:type="string">0</item>
+                                                                            <item name="component" xsi:type="string">Magento_GiftCardAccount/js/view/payment/gift-card-messages</item>
+                                                                            <item name="displayArea" xsi:type="string">messages</item>
+                                                                        </item>
+                                                                        <item name="abstract-forms" xsi:type="array">
+                                                                            <item name="component" xsi:type="string">Ewave_AbstractGiftCard/js/view/payment/gift-card-account</item>
+                                                                            <item name="config" xsi:type="array">
+                                                                                <item name="template" xsi:type="string">Ewave_AbstractGiftCard/payment/item</item>
+                                                                                <item name="displayArea" xsi:type="string">after-gift-card</item>
+                                                                                <item name="serviceCode" xsi:type="string">vii</item>
+                                                                                <item name="isPin" xsi:type="boolean">true</item>
+                                                                                <item name="isCheckBalance" xsi:type="boolean">false</item>
+                                                                                <item name="isClearFieldAfterSave" xsi:type="boolean">true</item>
+                                                                                <item name="componentDisabled" xsi:type="boolean">false</item>
+                                                                            </item>
+                                                                        </item>
+                                                                        <item name="vii-cards" xsi:type="array">
+                                                                            <item name="component"  xsi:type="string">Ewave_Vii/js/view/payment/gift-cards</item>
+                                                                            <item name="config" xsi:type="array">
+                                                                                <item name="template" xsi:type="string">Ewave_Vii/gift-cards</item>
+                                                                                <item name="sortOrder" xsi:type="string">1</item>
+                                                                                <item name="code" xsi:type="string">giftcardaccount</item>
+                                                                                <item name="cardLabel" xsi:type="string" translate="true">Gift Card Number</item>
+                                                                                <item name="pinLabel" xsi:type="string" translate="true">Gift Card PIN</item>
+                                                                                <item name="pinValue" xsi:type="string">0000</item>
+                                                                                <item name="removeLabel" xsi:type="string" translate="true">Remove</item>
+                                                                                <item name="componentDisabled" xsi:type="boolean">false</item>
+                                                                            </item>
+                                                                        </item>
                                                                     </item>
+
                                                                 </item>
                                                             </item>
                                                         </item>

@@ -8,7 +8,7 @@ use Magento\Quote\Api\CartRepositoryInterface;
 use Magento\Quote\Model\Quote;
 use Magento\Quote\Model\Quote\Item;
 use Magento\Quote\Model\Quote\Item\AbstractItem;
-use Magento\Quote\Model\QuoteRepository\SaveHandler;
+use Magento\Quote\Model\ResourceModel\Quote as QuoteResourceModel;
 use Magento\SalesRule\Model\ResourceModel\Rule\Collection as RulesCollection;
 use Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory;
 use Magento\SalesRule\Model\Validator;
@@ -27,11 +27,6 @@ class IncreaseRuleManagement
     protected $ruleCollectionFactory;
 
     /**
-     * @var SaveHandler
-     */
-    protected $quoteSaveHandler;
-
-    /**
      * @var StoreManagerInterface
      */
     protected $storeManager;
@@ -47,23 +42,28 @@ class IncreaseRuleManagement
     protected $rules = [];
 
     /**
+     * @var QuoteResourceModel
+     */
+    protected $quoteResourceModel;
+
+    /**
      * IncreaseRuleManagement constructor.
      * @param CartRepositoryInterface $quoteRepository
      * @param CollectionFactory $collectionFactory
-     * @param SaveHandler $quoteSaveHandler
+     * @param QuoteResourceModel $quoteResourceModel
      * @param StoreManagerInterface $storeManager
      * @param Validator $validator
      */
     public function __construct(
         CartRepositoryInterface $quoteRepository,
         CollectionFactory $collectionFactory,
-        SaveHandler $quoteSaveHandler,
+        QuoteResourceModel $quoteResourceModel,
         StoreManagerInterface $storeManager,
         Validator $validator
     ) {
         $this->quoteRepository = $quoteRepository;
         $this->ruleCollectionFactory = $collectionFactory;
-        $this->quoteSaveHandler = $quoteSaveHandler;
+        $this->quoteResourceModel = $quoteResourceModel;
         $this->storeManager = $storeManager;
         $this->validator = $validator;
     }
@@ -83,8 +83,7 @@ class IncreaseRuleManagement
                 }
             }
             $quote->getShippingAddress()->setCollectShippingRates(true);
-            $quote->collectTotals();
-            $this->quoteSaveHandler->save($quote);
+            $this->quoteResourceModel->save($quote->collectTotals());
         }
         return $quote;
     }
@@ -110,15 +109,19 @@ class IncreaseRuleManagement
             }
             /** @var Item $item */
             foreach ($quote->getAllItems() as $item) {
-                $quote = $item->getQuote();
-                $this->validator->init(
-                    $this->storeManager->getWebsite()->getId(),
-                    $quote->getCustomerGroupId(),
-                    $quote->getCouponCode()
-                );
-                $this->validator->process($item);
-                if (!empty($item->getAppliedRuleIds())) {
-                    $this->addPriceByIncreaseAmountRule($item->getAppliedRuleIds(), $item);
+                if ($this->initItem($item) && $item->getQty() > 0) {
+                    $quote = $item->getQuote();
+                    if ($quote->getCouponCode()) {
+                        $this->validator->init(
+                            $this->storeManager->getWebsite()->getId(),
+                            $quote->getCustomerGroupId(),
+                            $quote->getCouponCode()
+                        );
+                        $this->validator->process($item);
+                    }
+                    if (!empty($item->getAppliedRuleIds())) {
+                        $this->addPriceByIncreaseAmountRule($item->getAppliedRuleIds(), $item);
+                    }
                 }
             }
         }
@@ -168,5 +171,32 @@ class IncreaseRuleManagement
             }
         }
         return $this->rules;
+    }
+
+    /**
+     * TODO fix item price like it is done in \Magento\Quote\Model\Quote\Address\Total\Subtotla
+     *
+     * @param Item $quoteItem
+     * @return bool
+     */
+    protected function initItem($quoteItem)
+    {
+        $product = $quoteItem->getProduct();
+        $quoteItem->setConvertedPrice(null);
+        if ($quoteItem->getParentItem() && $quoteItem->isChildrenCalculated()) {
+            $finalPrice = $quoteItem->getParentItem()->getProduct()->getPriceModel()->getChildFinalPrice(
+                $quoteItem->getParentItem()->getProduct(),
+                $quoteItem->getParentItem()->getQty(),
+                $product,
+                $quoteItem->getQty()
+            );
+        } else {
+            $finalPrice = !$quoteItem->getParentItem() ? $product->getFinalPrice($quoteItem->getQty()) : 0;
+        }
+
+        $originalPrice = $product->getPrice() ?? $finalPrice;
+        $quoteItem->setPrice($finalPrice)->setBaseOriginalPrice($originalPrice);
+
+        return true;
     }
 }

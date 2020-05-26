@@ -126,3 +126,34 @@
 * New features:
     * [#340814](https://ewave.tpondemand.com/entity/340814) -- [Extended Cart Price Rules] As an admin, I want to be able to add new condition about cart products sum volume
 
+
+1.11.0
+=============
+* Improvements:
+    Remove MSI related functionality to Ewave ExtendedCartPriceRulesMSI module
+* New features:
+    * [#353862](https://ewave.tpondemand.com/entity/353862) -- [Extended Cart Price Rules] [MSI] As an admin, I want to be able to add new condition about product quantity in source
+* Bugfixes:
+    * [#352274](https://ewave.tpondemand.com/entity/352274) -- [Magento 2.3.3][PLATYPUS] Setup:di:compile failed
+
+1.11.1
+=============
+* Bugfixes:
+    * [#367899](https://ewave.tpondemand.com/entity/367899) -- [Project:Platypus] Paypal displaying incorrect total in portal when using a coupon code
+
+1.11.2
+=============
+* Bugfixes:
+    * [#368998](https://ewave.tpondemand.com/entity/368998) -- [Project: L'Oreal] Incorrect order subtotal calculating after applying a cart price rule and a gift wrap at the same time on the Cart page
+
+
+1.12.0
+=============
+* New features:
+    * [#229685](https://ewave.tpondemand.com/entity/229685) -- [EXTENDED CART PRICE RULES] As an admin, I want to be able to set up Payment Method Limit cart rules
+
+1.12.1
+=============
+* Bugfixes:
+    * [#366513](https://ewave.tpondemand.com/entity/366513) -- [Platypys 2.3.4][MultipleDeliveryMethod] Fatal error is displayed when try to use Multiple Addresses
+

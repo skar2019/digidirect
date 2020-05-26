@@ -187,11 +187,13 @@ class AbstractEntityRepository implements AbstractEntityRepositoryInterface
     public function getCollection($attributeSet = null, $attributes = null)
     {
         $attributeSetId = $this->resource->getAttributeSetIdByName($attributeSet);
-        if ($attributeSetId !== null && $this->configHelper->isIndexTableEnableForEntity($attributeSetId)) {
+        if ($attributeSetId !== null
+            && $this->storeManager->getStore()->getId() //there is no flat table for store_id = 0
+            && $this->configHelper->isIndexTableEnableForEntity($attributeSetId)
+        ) {
             return $this->_getIndexCollection($attributeSet);
-        } else {
-            return $this->_getEavCollection($attributeSetId, $attributes);
         }
+        return $this->_getEavCollection($attributeSetId, $attributes);
     }
 
     /**
@@ -228,8 +230,12 @@ class AbstractEntityRepository implements AbstractEntityRepositoryInterface
 
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
-        $searchResults->setTotalCount($collection->getSize());
         $searchResults->setItems($collection->getItems());
+        if ($collection->getPageSize()) {
+            $searchResults->setTotalCount($collection->getSize());
+        } else {
+            $searchResults->setTotalCount(count($collection->getItems()));
+        }
 
         return $searchResults;
     }
@@ -261,7 +267,7 @@ class AbstractEntityRepository implements AbstractEntityRepositoryInterface
         }
 
         if ($attributes !== null) {
-            $collection->addAttributeToSelect($attributes, true);
+            $collection->addAttributeToSelect($attributes);
         }
 
         return $collection;

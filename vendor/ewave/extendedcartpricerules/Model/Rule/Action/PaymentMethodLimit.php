@@ -46,4 +46,44 @@ class PaymentMethodLimit extends Validator
 
         return $availableMethods;
     }
+
+    /**
+     * Get extend rule data
+     *
+     * @param CartInterface $quote
+     * @return array
+     */
+    public function getExtendRulesData(CartInterface $quote)
+    {
+        $result = [];
+        $items = $quote->getItems() ?: [];
+        $defaultMessage = __('Selected Payment Method Is Not Available For Your Order');
+
+        foreach ($items as $item) {
+            $address = $item->getAddress();
+            foreach ($this->_getRules($address) as $rule) {
+                if (!$this->validatorUtility->canProcessRule($rule, $address)) {
+                    continue;
+                }
+
+                if (!$rule->getActions()->validate($item)) {
+                    continue;
+                }
+
+                $isEnableFlag = (bool) $rule->getEnableUnavailablePaymentMethods() ?? false;
+                $message = $rule->getMessageForUnavailablePaymentMethod() ?? $defaultMessage;
+
+                if (is_string($message)) {
+                    $message = __($message);
+                }
+
+                $result[$rule->getId()] = [
+                    'isEnableUnavailablePaymentMethods' => $isEnableFlag,
+                    'messageForUnavailablePaymentMethod' => $message
+                ];
+            }
+        }
+
+        return $result;
+    }
 }

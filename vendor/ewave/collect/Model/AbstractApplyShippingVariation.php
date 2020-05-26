@@ -47,6 +47,9 @@ class AbstractApplyShippingVariation
             return false;
         }
 
+        $this->checkoutSession->setCollectPlaceId($collectPlaceId);
+        $this->checkoutSession->setCollectPlaceStorageName($storageName);
+
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         /** @var Item $quoteItem */
         foreach ($quoteItems as $quoteItem) {

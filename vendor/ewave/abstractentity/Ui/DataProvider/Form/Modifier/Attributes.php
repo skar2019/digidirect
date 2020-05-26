@@ -247,8 +247,8 @@ class Attributes extends AbstractModifier
         $meta['wysiwyg'] = true;
         $meta['template'] = 'ui/form/field';
         $meta['wysiwygConfigData'] = [
-            'add_variables' => false,
-            'add_widgets' => false,
+            'add_variables' => true,
+            'add_widgets' => true,
             'add_directives' => true,
             'use_container' => true,
             'container_class' => 'hor-scroll',

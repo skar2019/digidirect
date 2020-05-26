@@ -31,3 +31,8 @@
 //Y
 "You can track your order status by creating an account.", "Create an account for next time to track your order, faster checkout & more"
 //Z
+"The expiration date must be set in the future.","Gift Card is not valid."
+"Please correct the gift card code.","Gift Card is not valid."
+"Invalid Card Number","Gift Card is not valid."
+"We cannot apply this gift card.","Gift Card is not valid."
+"Invalid Card and Balance Status","Gift Card is not valid."

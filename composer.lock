@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf102ee65d449c1354421ae02cda13f7",
+    "content-hash": "9abe7a76e854c3a2f3748414eadd8e74",
     "packages": [
         {
             "name": "amzn/amazon-pay-and-login-magento-2-module",
@@ -290,53 +290,6 @@
                 "validation"
             ],
             "time": "2019-05-28T15:27:37+00:00"
-        },
-        {
-            "name": "braintree/braintree_php",
-            "version": "3.35.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/braintree/braintree_php.git",
-                "reference": "6c4388199ce379432804a5c18b88585157ef2ed7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/braintree/braintree_php/zipball/6c4388199ce379432804a5c18b88585157ef2ed7",
-                "reference": "6c4388199ce379432804a5c18b88585157ef2ed7",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-dom": "*",
-                "ext-hash": "*",
-                "ext-openssl": "*",
-                "ext-xmlwriter": "*",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Braintree": "lib/"
-                },
-                "psr-4": {
-                    "Braintree\\": "lib/Braintree"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Braintree",
-                    "homepage": "https://www.braintreepayments.com"
-                }
-            ],
-            "description": "Braintree PHP Client Library",
-            "time": "2018-07-26T14:37:38+00:00"
         },
         {
             "name": "christian-riesen/base32",
@@ -993,25 +946,34 @@
         },
         {
             "name": "dotmailer/dotmailer-magento2-extension",
-            "version": "3.1.1",
+            "version": "4.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dotmailer/dotmailer-magento2-extension.git",
+                "reference": "ecd5c7aaaf51646ba4c2d053176463b3f733304f"
+            },
             "dist": {
                 "type": "zip",
-                "url": "https://repo.magento.com/archives/dotmailer/dotmailer-magento2-extension/dotmailer-dotmailer-magento2-extension-3.1.1.0.zip",
-                "shasum": "2ede8827f7faacf72f6bc2004f9d4325f61cbd3f"
+                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension/zipball/ecd5c7aaaf51646ba4c2d053176463b3f733304f",
+                "reference": "ecd5c7aaaf51646ba4c2d053176463b3f733304f",
+                "shasum": ""
             },
             "require": {
-                "magento/framework": ">=100 <103",
+                "magento/framework": ">=101 <103",
                 "magento/module-backend": ">=100 <102",
+                "magento/module-bundle": "100.*",
                 "magento/module-catalog": ">=101 <104",
                 "magento/module-catalog-inventory": "100.*",
                 "magento/module-catalog-rule": ">=100 <102",
                 "magento/module-checkout": "100.*",
                 "magento/module-config": ">=100 <103",
+                "magento/module-configurable-product": "100.*",
                 "magento/module-cron": "100.*",
                 "magento/module-customer": ">=100 <103",
                 "magento/module-directory": "100.*",
                 "magento/module-eav": ">=100 <103",
                 "magento/module-email": ">=100 <102",
+                "magento/module-grouped-product": "100.*",
                 "magento/module-newsletter": "100.*",
                 "magento/module-payment": "100.*",
                 "magento/module-product-alert": "100.*",
@@ -1023,7 +985,9 @@
                 "magento/module-send-friend": "100.*",
                 "magento/module-shipping": "100.*",
                 "magento/module-store": ">=100 <102",
+                "magento/module-theme": ">=100 <102",
                 "magento/module-ui": ">=100 <102",
+                "magento/module-url-rewrite": ">=100 <102",
                 "magento/module-user": ">=100 <102",
                 "magento/module-wishlist": ">=100 <102"
             },
@@ -1031,6 +995,9 @@
                 "magento/marketplace-eqp": "dev-master",
                 "phpmd/phpmd": "@stable",
                 "squizlabs/php_codesniffer": "@stable"
+            },
+            "suggest": {
+                "dotmailer/dotmailer-magento2-extension-chat": "Adds Engagement Cloud Chat to your Magento store"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1041,41 +1008,29 @@
                     "Dotdigitalgroup\\Email\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "authors": [
-                {
-                    "name": "Calin Diacon",
-                    "email": "calin.diacon@dotmailer.com"
-                },
-                {
-                    "name": "Adeel Qamar",
-                    "email": "adeel.qamar@dotmailer.com"
-                },
-                {
-                    "name": "Zygimantas",
-                    "email": "zygimantas.simkus@dotmailer.com"
-                }
-            ],
-            "description": "dotmailer integration for magento 2"
+            "description": "dotmailer integration for magento 2",
+            "time": "2020-02-12T14:46:29+00:00"
         },
         {
             "name": "dotmailer/dotmailer-magento2-extension-enterprise",
-            "version": "1.0.3",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise.git",
-                "reference": "916c6968554cefcac28922a9d261d851f0b0f111"
+                "reference": "100af03fbdc3758c2354a7926e7fa6f45ebbabe9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension-enterprise/zipball/916c6968554cefcac28922a9d261d851f0b0f111",
-                "reference": "916c6968554cefcac28922a9d261d851f0b0f111",
-                "shasum": "034adb39808433b83c42eb2b4b59f4b20c0e8cc9"
+                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension-enterprise/zipball/100af03fbdc3758c2354a7926e7fa6f45ebbabe9",
+                "reference": "100af03fbdc3758c2354a7926e7fa6f45ebbabe9",
+                "shasum": ""
             },
             "require": {
-                "dotmailer/dotmailer-magento2-extension": ">=3.0.2",
+                "dotmailer/dotmailer-magento2-extension": "^4.3.1",
                 "magento/module-customer-segment": ">=100 <103",
                 "magento/module-reward": ">=100 <102",
                 "magento/module-store": ">=100 <102"
@@ -1092,17 +1047,12 @@
             "license": [
                 "MIT"
             ],
-            "authors": [
-                {
-                    "name": "Calin Diacon",
-                    "email": "calin.diacon@dotmailer.com"
-                },
-                {
-                    "name": "Adeel Qamar",
-                    "email": "adeel.qamar@dotmailer.com"
-                }
-            ],
-            "description": "dotmailer integration for magento 2 enterprise"
+            "description": "Engagement Cloud integration for Magento Commerce",
+            "support": {
+                "source": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise/tree/v1.0.5",
+                "issues": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise/issues"
+            },
+            "time": "2020-01-14T10:19:00+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -1275,11 +1225,11 @@
         },
         {
             "name": "ewave/abstractentity",
-            "version": "dev-release/3.1.4",
+            "version": "dev-release/3.4.3",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractentity.git",
-                "reference": "931ff0d164320f06e330eed5c15cadf6e51d3b00"
+                "reference": "73972a4db91b057960eee153e6c85e54de2a0717"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1291,7 +1241,47 @@
                 }
             },
             "description": "Abstract Entity",
-            "time": "2019-03-26T13:43:15+00:00"
+            "time": "2019-12-11T08:44:09+00:00"
+        },
+        {
+            "name": "ewave/abstractgiftcard",
+            "version": "dev-release/2.3.2",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractgiftcard.git",
+                "reference": "3b37a4aa093b65058cf494d86682db13f0cb1954"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\AbstractGiftCard\\": ""
+                }
+            },
+            "description": "AbstractGiftCard",
+            "time": "2020-05-13T11:45:11+00:00"
+        },
+        {
+            "name": "ewave/abstractgiftcardlogger",
+            "version": "dev-release/1.0.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractgiftcardlogger.git",
+                "reference": "601d3654ba04a6c713f978e2308705e680dccbd6"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\AbstractGiftCardLogger\\": ""
+                }
+            },
+            "description": "Ewave AbstractGiftCard Logger",
+            "time": "2019-09-05T06:14:36+00:00"
         },
         {
             "name": "ewave/addressverification",
@@ -1466,11 +1456,11 @@
         },
         {
             "name": "ewave/collect",
-            "version": "dev-release/2.15.0",
+            "version": "dev-release/2.16.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collect.git",
-                "reference": "0b2f9a7f6d7c2fad238c9f98049d5f387eb43c90"
+                "reference": "84573a3b0ae3d04f7b9ddf5188837616d6e7cc1b"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1482,7 +1472,7 @@
                 }
             },
             "description": "Ewave Click and Collect Module",
-            "time": "2019-10-01T05:07:25+00:00"
+            "time": "2020-04-02T09:06:25+00:00"
         },
         {
             "name": "ewave/collectabstractentity",
@@ -1649,11 +1639,11 @@
         },
         {
             "name": "ewave/extendedcartpricerules",
-            "version": "dev-release/1.10.0",
+            "version": "dev-release/1.12.2",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcartpricerules.git",
-                "reference": "c94075231edf82971d120b686b71acfa149881b3"
+                "reference": "8040aa6f5f670a396ff09c4fca32540f6f0ac6f6"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1665,7 +1655,27 @@
                 }
             },
             "description": "Ewave ExtendedCartPriceRules",
-            "time": "2019-11-14T12:54:31+00:00"
+            "time": "2020-04-21T05:52:55+00:00"
+        },
+        {
+            "name": "ewave/extendedcartpricerulesmsi",
+            "version": "dev-release/1.0.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcartpricerulesmsi.git",
+                "reference": "548cb8b58ec5ceb3b0866d4a4e54ea1042d59eb2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedCartPriceRulesMSI\\": ""
+                }
+            },
+            "description": "Ewave ExtendedCartPriceRulesMSI",
+            "time": "2020-05-05T08:28:13+00:00"
         },
         {
             "name": "ewave/extendedcatalogpricerule",
@@ -1771,6 +1781,26 @@
             "time": "2019-06-14T08:31:00+00:00"
         },
         {
+            "name": "ewave/extendedshippingratesshippingavailability",
+            "version": "dev-release/1.1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedshippingratesshippingavailability.git",
+                "reference": "de3a062edd20ad85322b14022498c42f9a5eed3b"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedShippingRatesShippingAvailability\\": ""
+                }
+            },
+            "description": "Ewave Extended Shipping Rates Shipping Availability",
+            "time": "2019-10-29T10:36:28+00:00"
+        },
+        {
             "name": "ewave/faq",
             "version": "dev-release/1.3.0",
             "source": {
@@ -1795,11 +1825,11 @@
         },
         {
             "name": "ewave/feed",
-            "version": "dev-develop",
+            "version": "dev-release/1.2.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_feeds.git",
-                "reference": "df8c03a504c7df43ca59f22c39310ed4c03845a6"
+                "reference": "c3603fbc8ed9bc987ac4317458ac9a5214180d41"
             },
             "type": "magento2-module",
             "autoload": {
@@ -1811,7 +1841,7 @@
                 }
             },
             "description": "Shopping Feeds",
-            "time": "2019-07-11T10:21:58+00:00"
+            "time": "2019-07-11T13:43:02+00:00"
         },
         {
             "name": "ewave/freegift",
@@ -2051,11 +2081,11 @@
         },
         {
             "name": "ewave/mystorewidget",
-            "version": "dev-release/2.0.8",
+            "version": "dev-release/2.2.2",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_mystorewidget.git",
-                "reference": "e5e828ffa4ca7374855123c3920827f75e3c22e9"
+                "reference": "a90fdac5dff3e35c95aa5c20b174d9718467c03c"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2067,15 +2097,15 @@
                 }
             },
             "description": "Ewave MyStoreWidget module",
-            "time": "2019-03-11T05:20:09+00:00"
+            "time": "2020-05-05T13:02:08+00:00"
         },
         {
             "name": "ewave/mystorewidgetcollect",
-            "version": "dev-release/1.0.0",
+            "version": "dev-release/1.1.0",
             "source": {
                 "type": "git",
                 "url": "ssh://git@stash.ewave.com:7999/lego/ewave_mystorewidgetcollect.git",
-                "reference": "437c5e76d405a9b4cb4afeefdefd6ff3b34e2382"
+                "reference": "18ce7d3424fae95a42fc36f4fc8a47086eb2b01c"
             },
             "type": "magento2-module",
             "autoload": {
@@ -2087,7 +2117,7 @@
                 }
             },
             "description": "Ewave MyStoreWidget + Click&Collect Add-on",
-            "time": "2018-12-05T06:30:43+00:00"
+            "time": "2020-04-02T09:06:59+00:00"
         },
         {
             "name": "ewave/navigation",
@@ -2485,6 +2515,46 @@
             "time": "2019-03-26T06:03:50+00:00"
         },
         {
+            "name": "ewave/shippingavailabilitycheck",
+            "version": "dev-release/1.4.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_shippingavailabilitycheck.git",
+                "reference": "ff95cc5183eee388bc004363b7b4f47f8b2e8324"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ShippingAvailabilityCheck\\": ""
+                }
+            },
+            "description": "Ewave ShippingAvailabilityCheck",
+            "time": "2019-02-28T06:21:57+00:00"
+        },
+        {
+            "name": "ewave/shippingavailabilitycheckcollect",
+            "version": "dev-release/1.1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_shippingavailabilitycheckcollect.git",
+                "reference": "8c8bfb6d2dbf4f1c98301e497ce98cfe163ce20d"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ShippingAvailabilityCheckCollect\\": ""
+                }
+            },
+            "description": "Ewave ShippingAvailabilityCheckCollect",
+            "time": "2019-06-14T11:37:12+00:00"
+        },
+        {
             "name": "ewave/singlecheckoutbutton",
             "version": "dev-release/1.0.4",
             "source": {
@@ -2656,6 +2726,26 @@
             },
             "description": "Ewave Utilities Module",
             "time": "2019-04-24T13:24:42+00:00"
+        },
+        {
+            "name": "ewave/vii",
+            "version": "dev-release/1.1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_vii.git",
+                "reference": "4be587d7b6a40151ebdbada276384da1f99cf4cd"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Vii\\": ""
+                }
+            },
+            "description": "Ewave Vii",
+            "time": "2020-05-13T12:15:21+00:00"
         },
         {
             "name": "fastly/magento2",
@@ -3028,6 +3118,7 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+            "abandoned": true,
             "time": "2018-07-31T13:22:33+00:00"
         },
         {
@@ -3078,6 +3169,7 @@
                 "Guzzle",
                 "stream"
             ],
+            "abandoned": true,
             "time": "2014-10-12T19:18:40+00:00"
         },
         {
@@ -3808,6 +3900,60 @@
             ],
             "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
             "time": "2019-05-13T15:38:11+00:00"
+        },
+        {
+            "name": "league/iso3166",
+            "version": "2.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/iso3166.git",
+                "reference": "aed3b32fc293afdf2c6c6a322c2408eb5d20804a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/iso3166/zipball/aed3b32fc293afdf2c6c6a322c2408eb5d20804a",
+                "reference": "aed3b32fc293afdf2c6c6a322c2408eb5d20804a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.12",
+                "phpunit/phpunit": "^5.7.11 || ^6.0 || ^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\ISO3166\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Bast",
+                    "email": "rob.bast@gmail.com"
+                }
+            ],
+            "description": "ISO 3166-1 PHP Library",
+            "homepage": "https://github.com/thephpleague/iso3166",
+            "keywords": [
+                "3166",
+                "3166-1",
+                "ISO 3166",
+                "countries",
+                "iso",
+                "library"
+            ],
+            "time": "2020-01-29T07:08:12+00:00"
         },
         {
             "name": "livechat/module-magento-livechat",
@@ -5960,52 +6106,6 @@
                 "proprietary"
             ],
             "description": "Banner Page Builder Analytics module"
-        },
-        {
-            "name": "magento/module-braintree",
-            "version": "100.3.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://repo.magento.com/archives/magento/module-braintree/magento-module-braintree-100.3.1.0.zip",
-                "shasum": "bc99da6e5eef549dc2542cfe914aa7742361e2c6"
-            },
-            "require": {
-                "braintree/braintree_php": "3.35.0",
-                "magento/framework": "102.0.*",
-                "magento/magento-composer-installer": "*",
-                "magento/module-backend": "101.0.*",
-                "magento/module-catalog": "103.0.*",
-                "magento/module-checkout": "100.3.*",
-                "magento/module-config": "101.1.*",
-                "magento/module-customer": "102.0.*",
-                "magento/module-directory": "100.3.*",
-                "magento/module-instant-purchase": "100.3.*",
-                "magento/module-payment": "100.3.*",
-                "magento/module-paypal": "100.3.*",
-                "magento/module-quote": "101.1.*",
-                "magento/module-sales": "102.0.*",
-                "magento/module-ui": "101.1.*",
-                "magento/module-vault": "101.1.*",
-                "php": "~7.1.3||~7.2.0"
-            },
-            "suggest": {
-                "magento/module-checkout-agreements": "100.3.*",
-                "magento/module-theme": "101.0.*"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Magento\\Braintree\\": ""
-                }
-            },
-            "license": [
-                "OSL-3.0",
-                "AFL-3.0"
-            ],
-            "description": "N/A"
         },
         {
             "name": "magento/module-bundle",
@@ -15704,6 +15804,7 @@
                 "php",
                 "stylesheet"
             ],
+            "abandoned": true,
             "time": "2017-03-28T22:19:25+00:00"
         },
         {
@@ -15894,6 +15995,74 @@
                 "side-channel resistant"
             ],
             "time": "2019-05-13T16:04:50+00:00"
+        },
+        {
+            "name": "paypal/module-braintree",
+            "version": "3.4.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/paypal/module-braintree/paypal-module-braintree-3.4.1.0.zip",
+                "shasum": "e28be03b8af4edd0a785b7fac8b85d7e4ae48380"
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-simplexml": "*",
+                "league/iso3166": "^2.1",
+                "magento/module-backend": "100.2.*||101.0.*",
+                "magento/module-catalog": "102.0.*||103.0.*",
+                "magento/module-checkout": "100.2.*||100.3.*",
+                "magento/module-config": "101.0.*||101.1.*",
+                "magento/module-customer": "101.0.*||102.0.*",
+                "magento/module-directory": "100.2.*||100.3.*",
+                "magento/module-payment": "100.2.*||100.3.*",
+                "magento/module-paypal": "100.2.*||100.3.*",
+                "magento/module-quote": "101.0.*||101.1.*",
+                "magento/module-sales": "101.0.*||102.0.*",
+                "magento/module-theme": "100.2.*||101.0.*",
+                "magento/module-ui": "101.0.*||101.1.*",
+                "magento/module-vault": "101.0.*||101.1.*",
+                "php": "^7.0"
+            },
+            "replace": {
+                "braintree/braintree_php": "3.*",
+                "magento/module-braintree": "100.*.*"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-0": {
+                    "Braintree": "braintree_php/lib/"
+                },
+                "psr-4": {
+                    "Magento\\Braintree\\": "",
+                    "Braintree\\": "braintree_php/lib/Braintree"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Magento Commerce",
+                    "homepage": "http://www.magento.com",
+                    "role": "Original Developers"
+                },
+                {
+                    "name": "Aidan Threadgold",
+                    "email": "aidan@gene.co.uk",
+                    "homepage": "https://www.gene.co.uk",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Paul Canning",
+                    "email": "paul.canning@gene.co.uk",
+                    "homepage": "https://www.gene.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Fork from the Magento Braintree 2.2.0 module by Gene Commerce for PayPal."
         },
         {
             "name": "pelago/emogrifier",
@@ -18235,6 +18404,7 @@
                 "barcode",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-barcode",
             "time": "2017-12-11T15:30:02+00:00"
         },
         {
@@ -18293,6 +18463,7 @@
                 "captcha",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-captcha",
             "time": "2018-04-24T17:24:10+00:00"
         },
         {
@@ -18346,6 +18517,7 @@
                 "code",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-code",
             "time": "2018-08-13T20:36:59+00:00"
         },
         {
@@ -18402,6 +18574,7 @@
                 "config",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-config",
             "time": "2016-02-04T23:01:10+00:00"
         },
         {
@@ -18455,6 +18628,7 @@
                 "console",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-console",
             "time": "2018-01-25T19:08:04+00:00"
         },
         {
@@ -18505,6 +18679,7 @@
                 "crypt",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-crypt",
             "time": "2016-02-03T23:46:30+00:00"
         },
         {
@@ -18563,6 +18738,7 @@
                 "db",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-db",
             "time": "2019-02-25T11:37:45+00:00"
         },
         {
@@ -18610,6 +18786,7 @@
                 "di",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-di",
             "time": "2016-04-25T20:58:11+00:00"
         },
         {
@@ -18674,6 +18851,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2018-09-05T19:29:37+00:00"
         },
         {
@@ -18719,6 +18897,7 @@
                 "escaper",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-escaper",
             "time": "2018-04-25T15:48:53+00:00"
         },
         {
@@ -18766,6 +18945,7 @@
                 "eventmanager",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-eventmanager",
             "time": "2017-12-12T17:48:56+00:00"
         },
         {
@@ -18827,6 +19007,7 @@
                 "feed",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-feed",
             "time": "2018-08-01T13:53:20+00:00"
         },
         {
@@ -18892,6 +19073,7 @@
                 "filter",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-filter",
             "time": "2018-12-17T16:00:04+00:00"
         },
         {
@@ -18970,6 +19152,7 @@
                 "form",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-form",
             "time": "2018-12-11T22:51:29+00:00"
         },
         {
@@ -19025,6 +19208,7 @@
                 "zend",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-http",
             "time": "2019-02-07T17:47:08+00:00"
         },
         {
@@ -19083,6 +19267,7 @@
                 "hydrator",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-hydrator",
             "time": "2016-02-18T22:38:26+00:00"
         },
         {
@@ -19151,6 +19336,7 @@
                 "i18n",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-i18n",
             "time": "2018-05-16T16:39:13+00:00"
         },
         {
@@ -19208,6 +19394,7 @@
                 "inputfilter",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-inputfilter",
             "time": "2019-01-30T16:58:51+00:00"
         },
         {
@@ -19263,6 +19450,7 @@
                 "json",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-json",
             "time": "2016-02-04T21:20:26+00:00"
         },
         {
@@ -19308,6 +19496,7 @@
                 "loader",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-loader",
             "time": "2018-04-30T15:20:54+00:00"
         },
         {
@@ -19379,6 +19568,7 @@
                 "logging",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-log",
             "time": "2018-04-09T21:59:51+00:00"
         },
         {
@@ -19441,6 +19631,7 @@
                 "mail",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-mail",
             "time": "2018-06-07T13:37:07+00:00"
         },
         {
@@ -19491,6 +19682,7 @@
                 "math",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-math",
             "time": "2018-12-04T15:34:17+00:00"
         },
         {
@@ -19542,6 +19734,7 @@
                 "mime",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-mime",
             "time": "2018-05-14T19:02:50+00:00"
         },
         {
@@ -19602,6 +19795,7 @@
                 "modulemanager",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-modulemanager",
             "time": "2017-12-02T06:11:18+00:00"
         },
         {
@@ -19697,6 +19891,7 @@
                 "mvc",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-mvc",
             "time": "2018-05-03T13:13:41+00:00"
         },
         {
@@ -19746,6 +19941,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-psr7bridge",
             "time": "2016-05-10T21:44:39+00:00"
         },
         {
@@ -19803,6 +19999,7 @@
                 "serializer",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-serializer",
             "time": "2018-05-14T18:45:18+00:00"
         },
         {
@@ -19850,6 +20047,7 @@
                 "server",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-server",
             "time": "2018-04-30T22:21:28+00:00"
         },
         {
@@ -19902,6 +20100,7 @@
                 "servicemanager",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-servicemanager",
             "time": "2018-06-22T14:49:54+00:00"
         },
         {
@@ -19969,6 +20168,7 @@
                 "session",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-session",
             "time": "2018-02-22T16:33:54+00:00"
         },
         {
@@ -20022,6 +20222,7 @@
                 "soap",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-soap",
             "time": "2019-04-30T16:45:35+00:00"
         },
         {
@@ -20081,6 +20282,7 @@
                 "stdlib",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-stdlib",
             "time": "2016-04-12T21:17:31+00:00"
         },
         {
@@ -20129,6 +20331,7 @@
                 "text",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-text",
             "time": "2018-04-30T14:55:10+00:00"
         },
         {
@@ -20176,6 +20379,7 @@
                 "uri",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-uri",
             "time": "2019-02-27T21:39:04+00:00"
         },
         {
@@ -20249,6 +20453,7 @@
                 "validator",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-validator",
             "time": "2019-01-29T22:26:39+00:00"
         },
         {
@@ -20336,6 +20541,7 @@
                 "view",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-view",
             "time": "2018-12-06T21:20:01+00:00"
         },
         {
@@ -21605,12 +21811,12 @@
             "version": "1.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/facebook/php-webdriver.git",
+                "url": "https://github.com/php-webdriver/php-webdriver-archive.git",
                 "reference": "bd8c740097eb9f2fc3735250fc1912bc811a954e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/bd8c740097eb9f2fc3735250fc1912bc811a954e",
+                "url": "https://api.github.com/repos/php-webdriver/php-webdriver-archive/zipball/bd8c740097eb9f2fc3735250fc1912bc811a954e",
                 "reference": "bd8c740097eb9f2fc3735250fc1912bc811a954e",
                 "shasum": ""
             },
@@ -21658,6 +21864,7 @@
                 "selenium",
                 "webdriver"
             ],
+            "abandoned": "php-webdriver/webdriver",
             "time": "2018-05-16T17:37:13+00:00"
         },
         {
@@ -22361,6 +22568,7 @@
                 "bcmath",
                 "math"
             ],
+            "abandoned": "brick/math",
             "time": "2017-02-16T16:54:46+00:00"
         },
         {
@@ -24773,12 +24981,27 @@
             "time": "2018-12-25T11:19:39+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "3.1.1",
+            "alias_normalized": "3.1.1.0",
+            "version": "4.3.4.0",
+            "package": "dotmailer/dotmailer-magento2-extension"
+        },
+        {
+            "alias": "1.0.3",
+            "alias_normalized": "1.0.3.0",
+            "version": "1.0.5.0",
+            "package": "dotmailer/dotmailer-magento2-extension-enterprise"
+        }
+    ],
     "minimum-stability": "stable",
     "stability-flags": {
         "ewave/abstractattributes": 20,
         "ewave/abstractattributesnavigation": 20,
         "ewave/abstractentity": 20,
+        "ewave/abstractgiftcard": 20,
+        "ewave/abstractgiftcardlogger": 20,
         "ewave/addressverification": 20,
         "ewave/ai": 20,
         "ewave/banner": 20,
@@ -24797,11 +25020,13 @@
         "ewave/email": 20,
         "ewave/emailblocker": 20,
         "ewave/extendedcartpricerules": 20,
+        "ewave/extendedcartpricerulesmsi": 20,
         "ewave/extendedcatalogpricerule": 20,
         "ewave/extendedcatalogpriceruleproductcalculator": 20,
         "ewave/extendedminicart": 20,
         "ewave/extendedshippingrates": 20,
         "ewave/extendedshippingrateslocalization": 20,
+        "ewave/extendedshippingratesshippingavailability": 20,
         "ewave/faq": 20,
         "ewave/feed": 20,
         "ewave/freegift": 20,
@@ -24836,6 +25061,8 @@
         "ewave/relatedproduct": 20,
         "ewave/security": 20,
         "ewave/seo": 20,
+        "ewave/shippingavailabilitycheck": 20,
+        "ewave/shippingavailabilitycheckcollect": 20,
         "ewave/singlecheckoutbutton": 20,
         "ewave/sitemapwidget": 20,
         "ewave/socialsharing": 20,
@@ -24844,6 +25071,7 @@
         "ewave/storelocatorinfinitescroll": 20,
         "ewave/styleguide": 20,
         "ewave/utilities": 20,
+        "ewave/vii": 20,
         "livechat/module-magento-livechat": 20,
         "phpmd/phpmd": 0
     },

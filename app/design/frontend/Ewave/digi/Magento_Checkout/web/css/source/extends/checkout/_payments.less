@@ -70,3 +70,63 @@
 //
 ////  No Detection
 //@checkout-payment-method-content-fieldset-no-detection-control__margin-left__m: 0;
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .checkout-index-index {
+        #payment-method-braintree-paypal .payment-method-content .actions-toolbar {
+            & {
+                display: block;
+            }
+
+            .primary {
+                float: none;
+            }
+
+            #braintree_paypal_placeholder {
+                & {
+                    padding: 0;
+                    border: none;
+                    background: none;
+                }
+
+                .zoid-component-frame .paypal-button-tagline {
+                    display: none;
+                }
+            }
+        }
+
+        #payment-method-braintree-paypal .checkout-newsletter {
+            .lib-vendor-prefix-display(flex);
+        }
+    }
+
+    .braintree-paypal-oneclick .paypal-review #order-review-form .primary {
+        margin-bottom: 20px;
+        float: right;
+    }
+
+    .braintree-googlepay-review .paypal-review.view {
+        .lib-css(background-color, @color-white);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .braintree-googlepay-review .paypal-review-items #order-review-form #review-buttons-container > .primary{
+        float: right;
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+    .checkout-index-index {
+        #payment-method-braintree-paypal .payment-method-content .actions-toolbar {
+            #braintree_paypal_placeholder {
+                .zoid-outlet {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

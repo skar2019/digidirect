@@ -1,10 +1,12 @@
 <?php
+
 namespace Ewave\MyStoreWidget\Model\Indexer\Store;
 
 use Ewave\AbstractEntity\Api\Data\AbstractEntityInterface;
 use Ewave\AbstractEntity\Model\ResourceModel\AbstractEntity\CollectionFactory;
 use Ewave\MyStoreWidget\Model\ResourceModel\MyStoreIndex;
 use Ewave\MyStoreWidget\Helper\Config as Helper;
+use Ewave\MyStoreWidget\Spi\AdditionalAttributeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\App\ObjectManager;
 
@@ -31,22 +33,53 @@ class Action
     protected $storeManager;
 
     /**
+     * @var array
+     */
+    protected $additionalAttributes;
+
+    /**
      * Action constructor.
      * @param CollectionFactory $collectionFactory
      * @param MyStoreIndex $myStoreIndex
      * @param Helper $helper
-     * @param StoreManagerInterface $storeManager
+     * @param StoreManagerInterface|null $storeManager
+     * @param array $additionalAttributes
      */
     public function __construct(
         CollectionFactory $collectionFactory,
         MyStoreIndex $myStoreIndex,
         Helper $helper,
-        StoreManagerInterface $storeManager = null
+        StoreManagerInterface $storeManager = null,
+        $additionalAttributes = []
     ) {
         $this->collectionFactory = $collectionFactory;
         $this->myStoreIndex = $myStoreIndex;
         $this->helper = $helper;
         $this->storeManager = $storeManager ?: ObjectManager::getInstance()->get(StoreManagerInterface::class);
+        $this->additionalAttributes = $additionalAttributes;
+    }
+
+    /**
+     * Get additional attributes
+     * @return array
+     */
+    protected function getAdditionalAttributes()
+    {
+        $attributes = [];
+
+        if (count($this->additionalAttributes)) {
+            foreach ($this->additionalAttributes as $attribute) {
+                if ($attribute instanceof AdditionalAttributeInterface) {
+                    $code = $attribute->getCode();
+
+                    if (!empty($code)) {
+                        $attributes[] = $code;
+                    }
+                }
+            }
+        }
+
+        return $attributes;
     }
 
     /**
@@ -57,6 +90,11 @@ class Action
     {
         $attributes = $this->helper->getAttributes();
         $responseAttributes = $this->helper->getResponseAttributes();
+        $additionalAttributes = $this->getAdditionalAttributes();
+
+        if ($additionalAttributes) {
+            $responseAttributes = array_unique(array_merge($responseAttributes, $additionalAttributes));
+        }
 
         foreach ($this->storeManager->getStores(true) as $store) {
             $storeCollection = $this->collectionFactory->create();

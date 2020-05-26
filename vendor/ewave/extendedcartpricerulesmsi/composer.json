@@ -1,0 +1,14 @@
+{
+  "name": "ewave/extendedcartpricerulesmsi",
+  "description": "Ewave ExtendedCartPriceRulesMSI",
+  "type": "magento2-module",
+  "version": "1.0.3.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ewave\\ExtendedCartPriceRulesMSI\\": ""
+    }
+  }
+}

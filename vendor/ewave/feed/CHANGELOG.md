@@ -90,3 +90,7 @@
 * Bugfixes:
     * [#310808](https://ewave.tpondemand.com/entity/310808) -- [Project: Rip Curl][Shopping feeds][Content Setting] Additional image URL is not fully generated in the feed XML schema when 'alternative image' attribute is used
 
+1.2.0
+=============
+* Bugfixes:
+    * [#317409](https://ewave.tpondemand.com/entity/317409) -- [CRON JOB] As a system, I want 'feed_export' cron job to be in a separate cron group

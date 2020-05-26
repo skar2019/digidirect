@@ -3,4 +3,7 @@
     <type name="Ewave\MyStoreWidget\Helper\Config">
         <plugin name="Ewave_MyStoreWidgetCollect::ewaveMyStoreWidgetHelperConfig" type="Ewave\MyStoreWidgetCollect\Plugin\MyStoreWidget\Helper\Config" />
     </type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="ewave_mystorewidgetcollect_checkout_default_config_provider" type="Ewave\MyStoreWidgetCollect\Plugin\Checkout\ConfigProvider" sortOrder="100"/>
+    </type>
 </config>

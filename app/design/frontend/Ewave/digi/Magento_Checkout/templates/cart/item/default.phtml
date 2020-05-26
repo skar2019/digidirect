@@ -1,4 +1,5 @@
-<?php
+<?php use Ewave\Digi\Helper\SddShippingChecker;
+
 /** @var $block \Magento\Checkout\Block\Cart\Item\Renderer */
 
 $_item = $block->getItem();
@@ -12,6 +13,12 @@ $congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_
 $quoteHelper = $helper = $this->helper('Ewave\Digi\Helper\Quote');
 $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
 $preOrderStatus = \Ewave\PreOrder\Helper\Data::BACKORDERS_PREORDER_OPTION;
+/**
+ * @var $sddShippingChecker Ewave\Digi\Helper\SddShippingChecker
+ */
+$sddShippingChecker = $this->helper(SddShippingChecker::class);
+$productData = $sddShippingChecker->createProductData($product->getId(), $_item->getQty());
+$isSddAvailable = $sddShippingChecker->getCheckResult($productData);
 ?>
 <tbody class="cart item <?php /* @escapeNotVerified */ echo $freeGift;?>" id="cart-item-<?php echo (int)$_item->getId(); ?>">
 <tr class="item-info <?php echo $congigProductClass; ?>">
@@ -58,6 +65,11 @@ $preOrderStatus = \Ewave\PreOrder\Helper\Data::BACKORDERS_PREORDER_OPTION;
                     <?php echo $block->escapeHtml($block->getProductName()) ?>
                 <?php endif; ?>
             </strong>
+            <?php if ($isSddAvailable):?>
+            <div class="pickup-available-wrapper">
+                <span class="pickup-available-text"><?php /* @escapeNotVerified */ echo __("Available for Same-Day Delivery"); ?></span>
+            </div>
+            <?php endif; ?>
             <?php if ($_options = $block->getOptionList()):?>
                 <dl class="item-options">
                     <?php foreach ($_options as $_option) : ?>

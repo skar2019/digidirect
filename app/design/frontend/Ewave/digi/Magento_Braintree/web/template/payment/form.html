@@ -39,13 +39,8 @@
                         <span><!-- ko i18n: 'Expiration Date'--><!-- /ko --></span>
                     </label>
                     <div class="control">
-                        <div class="hosted-date-wrap">
-                            <div data-bind="attr: {id: getCode() + '_expirationMonth'}"
-                                 class="hosted-control hosted-date -month"></div>
-                            <div class="separator"><!-- ko i18n: '/'--><!-- /ko --></div>
-                            <div data-bind="attr: {id: getCode() + '_expirationYear'}"
-                                 class="hosted-control hosted-date"></div>
-
+                        <div>
+                            <div data-bind="attr: {id: getCode() + '_expirationDate'}" class="hosted-control"></div>
                             <div class="hosted-error"><!-- ko i18n: 'Please, enter valid Expiration Date'--><!-- /ko --></div>
                         </div>
                     </div>

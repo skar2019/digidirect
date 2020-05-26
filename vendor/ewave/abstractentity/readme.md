@@ -63,6 +63,11 @@ etc.
    
    If you set index to "update on save" and you save  AE for default store it will reindex all stores.
    If you save information for particular store it will reindex only one table
-   
-   
-   
+
+### VERSION 3.2.0
+REST API:
+```/V1/abstractentity/type/:attributeSetName - GET```
+```/V1/abstractentity/type/:attributeSetName/:id - GET```
+```/V1/abstractentity/type/:attributeSetName - POST```
+```/V1/abstractentity/type/:attributeSetName/:id - PUT```
+```/V1/abstractentity/type/:attributeSetName/:id - DELETE```

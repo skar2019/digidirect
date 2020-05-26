@@ -6,7 +6,7 @@ use Magento\Framework\Registry;
 use Magento\Eav\Api\AttributeSetRepositoryInterface;
 use Magento\Framework\App\Cache\TypeListInterface;
 
-class Delete extends \Magento\Catalog\Controller\Adminhtml\Product\Set\Delete
+class Delete extends \Magento\Catalog\Controller\Adminhtml\Product\Set
 {
     const ADMIN_RESOURCE = 'Ewave_AbstractEntity::abstractentity_delete';
 
@@ -19,6 +19,11 @@ class Delete extends \Magento\Catalog\Controller\Adminhtml\Product\Set\Delete
      * @var array
      */
     protected $data;
+
+    /**
+     * @var AttributeSetRepositoryInterface
+     */
+    protected $attributeSetRepository;
 
     /**
      * Delete constructor.
@@ -35,9 +40,10 @@ class Delete extends \Magento\Catalog\Controller\Adminhtml\Product\Set\Delete
         TypeListInterface $typeList,
         array $data = []
     ) {
-        parent::__construct($context, $coreRegistry, $attributeSetRepository);
+        parent::__construct($context, $coreRegistry);
         $this->typeList = $typeList;
         $this->data = $data;
+        $this->attributeSetRepository = $attributeSetRepository;
     }
 
     /**

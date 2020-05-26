@@ -2,7 +2,7 @@
     <body>
         <referenceBlock name="breadcrumbs" remove="true"/>
         <referenceBlock name="back-to-top" remove="true"/>
-
+        <move element="header_mystore_widget" destination="header.wrapper.links" before="-"/>
         <move element="page.messages" destination="page.wrapper" before="main.content" />
 
         <referenceContainer name="after.body.start">
@@ -52,7 +52,7 @@
         <referenceBlock name="svg_sprite">
             <arguments>
                 <argument name="svg_is_inline" xsi:type="boolean">true</argument>
-                <argument name="svg_revision" xsi:type="string">2.0.7</argument>
+                <argument name="svg_revision" xsi:type="string">2.0.9</argument>
             </arguments>
         </referenceBlock>
 

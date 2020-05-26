@@ -1,7 +1,11 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Wishlist\CustomerData\Wishlist" type="Ewave\Digi\Rewrite\Wishlist\CustomerData\Wishlist" />
-    <preference for="Magento\Braintree\Model\Paypal\Helper\OrderPlace" type="Ewave\Digi\Rewrite\Model\Paypal\Helper\OrderPlace" />
+
+    <preference for="Ewave\Digi\Api\Rest\CheckSsdAvailabilityInterface"
+                type="Ewave\Digi\Model\Rest\SsdAvailabilityCheck"/>
+    <preference for="Ewave\Digi\Api\Rest\CheckVsmAvailabilityInterface"
+                type="Ewave\Digi\Model\Rest\VsmAvailabilityCheck"/>
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
@@ -27,12 +31,14 @@
             </argument>
         </arguments>
     </type>
+
     <type name="Ewave\LayeredNavigation\Helper\Meta">
         <plugin name="layarednavigation.meta.after.pulugin"
                 type="Ewave\Digi\Plugin\Ewave\LayeredNavigation\Helper\Meta"
                 sortOrder="1"
                 disabled="false" />
     </type>
+
     <virtualType name="BraintreeAuthorizeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
@@ -41,9 +47,16 @@
             </argument>
         </arguments>
     </virtualType>
+
     <type name="Ewave\Pronto\ProntoApi\RequestBuilder">
         <plugin name="ewave.pronto.prontoapi.requestbuilder"
                 type="Ewave\Digi\Plugin\Ewave\Pronto\ProntoApi\RequestBuilder"
                 sortOrder="10" />
+    </type>
+
+    <type name="Ewave\Digi\Model\ShippingCheck\VsmCheckerService">
+        <arguments>
+            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
+        </arguments>
     </type>
 </config>

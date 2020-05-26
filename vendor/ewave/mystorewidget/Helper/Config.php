@@ -36,6 +36,8 @@ class Config extends AbstractHelper
     const XML_PATH_GEOLOCATION_ENABLE = 'ewave_mystorewidget/geo_location/enable';
     const XML_PATH_GEOLOCATION_BEHAVIOR = 'ewave_mystorewidget/geo_location/behavior';
 
+    const XML_PATH_DISABLED_AUTOCOMPLITE_MOBILE = 'ewave_mystorewidget/geo_location/disable_autocomplite_mobile_divice';
+
     /**
      * @var ShippingAddressInfo
      */
@@ -233,5 +235,16 @@ class Config extends AbstractHelper
     public function isSearchTypeTextInput()
     {
         return (int)$this->scopeConfig->getValue(self::XML_PATH_SEARCH_TYPE) === SearchType::TEXT_TYPE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDisabledGeoLocationAutocompliteForMobileDivices()
+    {
+        return $this->scopeConfig->isSetFlag(
+            self::XML_PATH_DISABLED_AUTOCOMPLITE_MOBILE,
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 }

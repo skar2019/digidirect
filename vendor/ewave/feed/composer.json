@@ -2,7 +2,7 @@
     "name": "ewave/feed",
     "type": "magento2-module",
     "description": "Shopping Feeds",
-    "version": "1.1.4.0",
+    "version": "1.2.0.0",
     "autoload": {
         "files": [
             "registration.php"

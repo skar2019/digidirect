@@ -92,6 +92,12 @@
                     <span data-bind="i18n: 'Qty:'"></span>
                     <span data-bind="text: qty"></span>
                 </div>
+
+                <!-- ko if: is_sdd_available -->
+                <div class="pickup-available-wrapper">
+                    <span class="pickup-available-text"><!-- ko i18n: 'Available for Same-Day Delivery'--><!-- /ko --></span>
+                </div>
+                <!-- /ko -->
             </div>
         </div>
     </div>

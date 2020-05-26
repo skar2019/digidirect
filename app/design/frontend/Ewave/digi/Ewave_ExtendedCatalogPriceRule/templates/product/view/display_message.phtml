@@ -18,13 +18,13 @@
             $priceClass .= ' -no-price-affection';
         }
         ?>
-            <div class="block-extendedrule <?= /* @noEscape */ $priceClass?>" id="<?= /* @noEscape */ $id ?>">
+            <div class="block-extendedrule <?= /* @noEscape */ $priceClass?>" id="<?= /* @noEscape */ $id ?>" data-mage-init='{"cashbackLabel":{}}'>
                 <?php if(!empty($rule['action_amount']) && $rule['action_amount'] > 0): ?>
                     <?php
                     $fromLabel = __('Before Cashback');
                     $fromClass = 'before-cashback';
                     $fromPrice = $hasSpecialPrice ? $productFinalPrice : $productPrice;
-                    $afterLabel = __('After Cashback');
+                    $afterLabel = __('Cashback available');
                     $afterClass = 'after-cashback';
                     $afterPrice = 0;
                     switch ($productType) {
@@ -60,10 +60,11 @@
                             </span>
                             <span class="<?= /* @escapeNotVerified */ $afterClass; ?>">
                                 <?php if ($afterLabel): ?>
-                                    <span class="price-label"><?= /* @noEscape */  $afterLabel; ?></span>
+                                    <span class="price-label price-label-pr"><?= /* @noEscape */  $afterLabel; ?></span>
                                 <?php endif; ?>
                                 <?php if (is_numeric($afterPrice)): ?>
                                     <span class="price-wrapper"><span class="price"><?= /* @noEscape */  $block->formatDiscountAmount($afterPrice); ?></span></span>
+                                    <span class="price-label price-label-pf"><?= /* @escapeNotVerified */ __('After Cashback'); ?></span>
                                 <?php endif; ?>
                             </span>
                         </div>

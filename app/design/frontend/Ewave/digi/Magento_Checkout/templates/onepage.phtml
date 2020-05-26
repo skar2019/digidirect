@@ -44,8 +44,10 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
         })
     </script>
     <?php $pickUpStoreCmsBlock = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('pick-up-store')->toHtml() ?>
+    <?php $oneHourPickUpAvailable = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('one-hour-pickup-available')->toHtml() ?>
     <script type="text/javascript">
         window.pickUpStoreCmsBlock = <?php echo json_encode($pickUpStoreCmsBlock)?>;
+        window.oneHourPickUpAvailable = <?php echo json_encode($oneHourPickUpAvailable)?>
     </script>
     <script type="text/x-magento-init">
     {

@@ -3,6 +3,8 @@
 namespace Ewave\Collect\Model;
 
 use Ewave\Collect\Helper\Data as CollectHelper;
+use Magento\Framework\App\ObjectManager;
+use Magento\Checkout\Model\Session;
 
 class QuoteItemHandler
 {
@@ -21,17 +23,25 @@ class QuoteItemHandler
     protected $_collectQuantityValidator;
 
     /**
+     * @var Session
+     */
+    protected $checkoutSession;
+
+    /**
      * QuoteItemHandler constructor.
      *
      * @param CollectQuantityValidator $collectQuantityValidator
      * @param CollectHelper $collectHelper
+     * @param Session $checkoutSession
      */
     public function __construct(
         \Ewave\Collect\Model\CollectQuantityValidator $collectQuantityValidator,
-        \Ewave\Collect\Helper\Data $collectHelper
+        \Ewave\Collect\Helper\Data $collectHelper,
+        Session $checkoutSession = null
     ) {
         $this->_collectHelper = $collectHelper;
         $this->_collectQuantityValidator = $collectQuantityValidator;
+        $this->checkoutSession = $checkoutSession ?: ObjectManager::getInstance()->get(Session::class);
     }
 
     /**
@@ -54,6 +64,11 @@ class QuoteItemHandler
         } elseif ($deliveryType == CollectHelper::DELIVERY_TYPE_DELIVER) {
             $quoteItem->setCollectPlaceId(null);
             $quoteItem->setCollectPlaceStorageName(null);
+        } elseif (!empty($this->checkoutSession->getCollectPlaceId())
+            && !empty($this->checkoutSession->getCollectPlaceStorageName())
+        ) {
+            $quoteItem->setCollectPlaceId($this->checkoutSession->getCollectPlaceId());
+            $quoteItem->setCollectPlaceStorageName($this->checkoutSession->getCollectPlaceStorageName());
         }
     }
 

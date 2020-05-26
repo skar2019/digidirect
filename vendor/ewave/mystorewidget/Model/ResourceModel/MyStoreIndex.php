@@ -1,8 +1,11 @@
 <?php
+
 namespace Ewave\MyStoreWidget\Model\ResourceModel;
 
 use Ewave\MyStoreWidget\Helper\Config;
+use Ewave\AbstractEntity\Helper\Config as AeConfigHelper;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Framework\DB\Select;
@@ -29,6 +32,11 @@ class MyStoreIndex extends AbstractDb
     protected $configHelper;
 
     /**
+     * @var AeConfigHelper
+     */
+    protected $aeConfigHelper;
+
+    /**
      * @var \Ewave\MyStoreWidget\Helper\SearchHelper
      */
     protected $searchHelper;
@@ -47,6 +55,7 @@ class MyStoreIndex extends AbstractDb
      * @param string|null $connectionName
      * @param array $rangeAttributes
      * @param StoreManagerInterface $storeManager
+     * @param AeConfigHelper $aeConfigHelper
      */
     public function __construct(
         Context $context,
@@ -54,13 +63,15 @@ class MyStoreIndex extends AbstractDb
         \Ewave\MyStoreWidget\Helper\SearchHelper $searchHelper,
         $connectionName = null,
         $rangeAttributes = ['postcode'],
-        StoreManagerInterface $storeManager = null
+        StoreManagerInterface $storeManager = null,
+        AeConfigHelper $aeConfigHelper = null
     ) {
         parent::__construct($context, $connectionName);
         $this->rangeAttributes = $rangeAttributes;
         $this->configHelper = $configHelper;
         $this->searchHelper = $searchHelper;
         $this->storeManager = $storeManager ?: ObjectManager::getInstance()->get(StoreManagerInterface::class);
+        $this->aeConfigHelper = $aeConfigHelper ?: ObjectManager::getInstance()->get(AeConfigHelper::class);
     }
 
     /**
@@ -91,20 +102,22 @@ class MyStoreIndex extends AbstractDb
         array $fulltextColumns = [],
         $storeId = Store::DEFAULT_STORE_ID
     ) {
-        $fulltextColumns = array_diff($fulltextColumns, $this->rangeAttributes);
+        if ($this->configHelper->isSearchTypeTextInput()) {
+            $fulltextColumns = array_diff($fulltextColumns, $this->rangeAttributes);
+        }
         $connection = $this->getConnection();
         $table = $this->getTableName($storeId);
         $connection->dropTable($table);
         $connection->query("CREATE TABLE $table ENGINE=InnoDB $select");
         $tableStructure = $connection->describeTable($table);
 
-        $columns = [];
-        foreach ($fulltextColumns as $fulltextColumn) {
-            if (isset($tableStructure[$fulltextColumn])
-                && in_array($tableStructure[$fulltextColumn]['DATA_TYPE'], ['varchar', 'text'])
-            ) {
-                $columns[] = $fulltextColumn;
-            }
+        $columns = $this->getFulltextColumns($fulltextColumns, $storeId);
+
+        //max 16 columns allowed for indices, @see https://dev.mysql.com/doc/refman/5.7/en/multiple-column-indexes.html
+        if (count($columns) > 16) {
+            throw new LocalizedException(
+                __('You cannot specify more than 16 search attributes to use as searchable fields.')
+            );
         }
 
         if (!empty($columns)) {
@@ -133,12 +146,17 @@ class MyStoreIndex extends AbstractDb
 
         $connection = $this->getConnection();
         $table = $this->getTableName($storeId);
+
+        $attributes = $this->getFulltextColumns($attributes, $storeId);
+
         if (!$connection->query("SHOW TABLES LIKE '$table';")->rowCount()) {
             return [];
         }
         $query = $connection->select()->from($table, ['*', 'type' => '(\'\')']);
         if (!empty($attributes) && $searchTerm !== null) {
-            $attributes = array_diff($attributes, $this->rangeAttributes);
+            if ($this->configHelper->isSearchTypeTextInput()) {
+                $attributes = array_diff($attributes, $this->rangeAttributes);
+            }
             foreach ($this->rangeAttributes as $range) {
                 if (in_array($range, $attributes)) {
                     continue;
@@ -153,11 +171,34 @@ class MyStoreIndex extends AbstractDb
             if ($attributes) {
                 $query->orWhere(
                     'MATCH (' . implode(', ', $attributes) . ') AGAINST (? IN BOOLEAN MODE)',
-                    '*' . $searchTerm . '*'
+                    $this->aeConfigHelper->getFulltextSearchValue($searchTerm, $storeId)
                 );
             }
         }
 
         return $connection->fetchAll($query);
+    }
+
+    /**
+     * @param array $attributes
+     * @param int $storeId
+     * @return array
+     */
+    protected function getFulltextColumns(array $attributes, $storeId)
+    {
+        $connection = $this->getConnection();
+        $table = $this->getTableName($storeId);
+
+        $tableStructure = $connection->describeTable($table);
+        $columns = [];
+        foreach ($attributes as $attribute) {
+            if (isset($tableStructure[$attribute])
+                && in_array($tableStructure[$attribute]['DATA_TYPE'], ['varchar', 'text'])
+            ) {
+                $columns[] = $attribute;
+            }
+        }
+
+        return $columns;
     }
 }

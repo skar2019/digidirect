@@ -147,8 +147,8 @@ class StorageHandler
                 $centralDistance = $this->_storageHelper->getDistanceBetweenCoordinates(
                     $centralCoord['lat'],
                     $centralCoord['long'],
-                    $collectPlace->getLatitude(),
-                    $collectPlace->getLongitude()
+                    (float)$collectPlace->getLatitude(),
+                    (float)$collectPlace->getLongitude()
                 );
 
                 if ($centralDistance <= $distance) {

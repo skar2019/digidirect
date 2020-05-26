@@ -32,7 +32,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 </div>
 
 <div data-bind="css: 'collect-block -visible'" data-role="collect-block" data-collect-type="delivery">
-    <div data-bind="i18n: 'For shipping methods and times see below.'"></div>
+    <div data-bind="i18n: 'If your order is placed before 11am AEST on a business day (Mon-Fri), it leaves our warehouse the same day!'"></div>
 </div>
 
 <!-- ko ifnot: isWebOnly() -->
@@ -43,8 +43,15 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         <span><!-- ko i18n: 'Please select a store.'--><!-- /ko --></span>
     </div>
     <!-- /ko-->
+    <!-- ko if: isVsmAvailable -->
+    <div class="pickup-available-wrapper">
+        <div id="one-hour-cms" class="pickup-cms" data-bind="html: window.oneHourPickUpAvailable"></div>
+    </div>
+    <!-- /ko -->
     <!-- ko if: collectPlaces().length > 0 -->
+    <!-- ko ifnot: isVsmAvailable -->
     <div class="pickup-cms" data-bind="html: window.pickUpStoreCmsBlock"></div>
+    <!-- /ko -->
     <div class="wrap-block">
         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-pin">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>

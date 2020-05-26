@@ -19,3 +19,30 @@
 ////  Category Page: 1 Column Layout
 //@catalog-category-page-layout-1column-column-main__min-height: inherit;
 
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .catalogsearch-result-index .products .product-item-info,
+    .catalog-category-view .products .product-item-info {
+        .price-final_price {
+            & {
+                position: relative;
+            }
+
+            .old-price-label {
+                position: absolute;
+                top: 0;
+            }
+
+            .svg-icon.digidirectprice {
+                position: absolute;
+                right: 0;
+                top: -10px;
+                width: 80px;
+            }
+        }
+    }
+}

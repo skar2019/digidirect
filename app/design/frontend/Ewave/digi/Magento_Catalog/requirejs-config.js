@@ -5,5 +5,10 @@ var config = {
                 'Magento_Catalog/js/product/list/toolbar-mixin': true
             }
         }
+    },
+    map: {
+        '*': {
+            'cashbackLabel': 'Magento_Catalog/js/product/price/cashback-label'
+        }
     }
 };

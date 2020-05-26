@@ -14,4 +14,7 @@
                 disabled="false" />
     </type>
     <preference for="LiveChat\LiveChat\Controller\GetCart\Index" type="Ewave\Digi\Controller\GetCart\Index" />
+    <type name="Magento\Checkout\CustomerData\DefaultItem">
+        <plugin name="Ewave_Digi::ShippingChecker" type="Ewave\Digi\Plugin\Magento\Checkout\CustomerData\DefaultItem"/>
+    </type>
 </config>

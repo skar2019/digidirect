@@ -321,7 +321,7 @@ class ProductSumVolume extends AbstractCondition
             return false;
         }
 
-        $quoteItems = $quote->getItems();
+        $quoteItems = $quote->getAllVisibleItems();
         if (empty($quoteItems)) {
             return false;
         }

@@ -12,6 +12,7 @@
             <geo_location>
                 <enable>0</enable>
                 <behavior>keep</behavior>
+                <disable_autocomplite_mobile_divice>0</disable_autocomplite_mobile_divice>
             </geo_location>
         </ewave_mystorewidget>
     </default>

@@ -3,14 +3,16 @@ namespace Ewave\AbstractEntity\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Ewave\AbstractEntity\Model\Indexer\AbstractEntity;
+use Ewave\AbstractEntity\Model\Config\Source\FulltextSearchPattern;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
-use \Magento\Framework\Indexer\StateInterface;
+use Magento\Framework\Indexer\StateInterface;
 
 class Config extends AbstractHelper
 {
     const XML_PATH_ENABLED = 'ewave_abstractentity/general/enable';
     const XML_PATH_ENTITIES = 'ewave_abstractentity/general/entities';
+    const XML_PATH_FULLTEXT_SEARCH_PATTERN = 'ewave_abstractentity/general/fulltext_search_pattern';
 
     /**
      * @var array
@@ -84,5 +86,40 @@ class Config extends AbstractHelper
             return explode(',', $value);
         }
         return [];
+    }
+
+    /**
+     * @param string|int|null $scopeCode
+     * @return string
+     */
+    public function getFulltextSearchPattern($scopeCode = null)
+    {
+        $pattern = $this->scopeConfig->getValue(
+            self::XML_PATH_FULLTEXT_SEARCH_PATTERN,
+            ScopeInterface::SCOPE_WEBSITE,
+            $scopeCode
+        );
+
+        if (empty($pattern)) {
+            $pattern = FulltextSearchPattern::PATTERN_ASTERISK_ASTERISK;
+        }
+
+        return $pattern;
+    }
+
+    /**
+     * @param string $searchTerm
+     * @param string|int|null $scopeCode
+     * @return string
+     */
+    public function getFulltextSearchValue($searchTerm, $scopeCode = null)
+    {
+        $fulltextPattern = $this->getFulltextSearchPattern($scopeCode);
+        if (FulltextSearchPattern::PATTERN_PLUS_ASTERISK == $fulltextPattern) {
+            $fulltextSearchValue = '+' . $searchTerm . '*';
+        } else {
+            $fulltextSearchValue = '*' . $searchTerm . '*';
+        }
+        return $fulltextSearchValue;
     }
 }

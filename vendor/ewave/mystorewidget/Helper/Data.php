@@ -2,6 +2,7 @@
 
 namespace Ewave\MyStoreWidget\Helper;
 
+use Ewave\AbstractEntity\Helper\Url;
 use Ewave\MyStoreWidget\Api\Data\MyStoreInterface;
 use Ewave\MyStoreWidget\Api\MyStoreRepositoryInterface;
 use Ewave\AbstractEntity\Api\AbstractEntityRepositoryInterface;
@@ -11,13 +12,14 @@ use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Customer\Model\SessionFactory as CustomerSessionFactory;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Class Data
- * @package Ewave\MyStoreWidget\Helper
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Data extends AbstractHelper
 {
@@ -66,7 +68,18 @@ class Data extends AbstractHelper
     protected $currentMyStore = [];
 
     /**
+     * @var Url
+     */
+    protected $aeHelper;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * Data constructor.
+     *
      * @param Context $context
      * @param MyStoreRepositoryInterface $myStoreRepository
      * @param AbstractEntityRepositoryInterface $abstractEntityRepository
@@ -74,6 +87,8 @@ class Data extends AbstractHelper
      * @param CookieMetadataFactory $cookieMetadataFactory
      * @param PhpCookieManager $phpCookieManager
      * @param Config $myStoreConfig
+     * @param Url|null $url
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         Context $context,
@@ -82,7 +97,9 @@ class Data extends AbstractHelper
         CustomerSessionFactory $customerSessionFactory,
         CookieMetadataFactory $cookieMetadataFactory,
         PhpCookieManager $phpCookieManager,
-        MySotreConfig $myStoreConfig
+        MySotreConfig $myStoreConfig,
+        Url $url = null,
+        StoreManagerInterface $storeManager = null
     ) {
         parent::__construct($context);
         $this->myStoreRepository = $myStoreRepository;
@@ -91,6 +108,8 @@ class Data extends AbstractHelper
         $this->cookieMetadataFactory = $cookieMetadataFactory;
         $this->cookieMetadataManager = $phpCookieManager;
         $this->myStoreConfig = $myStoreConfig;
+        $this->aeHelper = $url ?: ObjectManager::getInstance()->get(Url::class);
+        $this->storeManager = $storeManager ?: ObjectManager::getInstance()->get(StoreManagerInterface::class);
     }
 
     /**
@@ -115,6 +134,8 @@ class Data extends AbstractHelper
      * @param bool $reload
      * @param string $type
      * @return AbstractEntityInterface|false
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getCurrentStore($reload = false, $type = MyStoreInterface::DEFAULT_TYPE)
     {
@@ -140,12 +161,18 @@ class Data extends AbstractHelper
 
             if ($myStoreId) {
                 try {
+                    $this->currentStore[$type] = false;
                     $store = $this->abstractEntityRepository->getById($myStoreId);
                     if ($store->getId() && $store->getStatus()) {
+                        $storeUrl = $this->aeHelper->getAbstractEntityUrl(
+                            $store->getId(),
+                            $this->storeManager->getStore()->getId()
+                        );
+                        $store->setUrlKey($storeUrl);
                         $this->currentStore[$type] = $store;
                     }
                 } catch (LocalizedException $e) {
-                    // do nothing
+                    $this->currentStore[$type] = false;
                 }
             }
         }

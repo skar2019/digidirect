@@ -6,7 +6,7 @@
 namespace Ewave\Digi\Gateway\Request;
 
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use Magento\Braintree\Gateway\SubjectReader;
+use Magento\Braintree\Gateway\Helper\SubjectReader;
 use Magento\Sales\Model\Order\Item as OrderItem;
 
 /**

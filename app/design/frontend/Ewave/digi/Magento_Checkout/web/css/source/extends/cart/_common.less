@@ -37,6 +37,10 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
+    .checkout-cart-index .header.content .mystore-button {
+        display: flex;
+    }
+
     .cart-container {
         > .page-title {
             display: block;
@@ -100,8 +104,35 @@
 
         .product-item-details .message.notice:not(.freegift-items) div,
         .product-item-details .message.error div {
-            .lib-css(color,@message-error__color);
+            .lib-css(color, @message-error__color);
             padding: 0;
+        }
+
+        .form-cart .pickup-available-wrapper {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            left: 0;
+            text-align: center;
+        }
+
+        .form-cart .pickup-available-text {
+            & {
+                .lib-css(color, @message-success__color);
+                .lib-font-size(12);
+                line-height: 1.67;
+                padding-left: 18px;
+                position: relative;
+            }
+
+            &:before {
+                content: @base64-icon__ok;
+                position: absolute;
+                width: 14px;
+                height: 12px;
+                top: 0;
+                left: 0;
+            }
         }
     }
 }
@@ -135,6 +166,17 @@
 
         > .page-title {
             margin: 35px 0 20px;
+        }
+
+        .form-cart .pickup-available-wrapper {
+            margin-bottom: 16px;
+            position: static;
+            text-align: left;
+        }
+
+        .form-cart .pickup-available-text {
+            .lib-font-size(14);
+            line-height: 1.43;
         }
     }
 }

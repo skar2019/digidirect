@@ -19,22 +19,26 @@ define([
         isSingleCartCollectVariation = window.checkoutConfig.quoteData.is_single_cart_collect_variation,
         quoteCollectPlaces = window.checkoutConfig.quoteData.collect_places,
         placesUrl = window.checkoutConfig.quoteData.get_places_url,
-        distanceList = window.checkoutConfig.quoteData.distance_list;
+        distanceList = window.checkoutConfig.quoteData.distance_list,
+        selectedStore = window.checkoutConfig.quoteData.selected_collect_place;
 
     return Component.extend({
         defaults: {
             collectBlock: '[data-role="collect-block"]',
             visibleClass: '-visible',
-            collectFormTemplate: 'Ewave_Collect/checkout/shipping-address/block-form'
+            collectFormTemplate: 'Ewave_Collect/checkout/shipping-address/block-form',
+            entityName: 'abstract_entity_store'
         },
         collectPlaces: collectPlaces.places,
         isCollectSelected: ko.observable(false),
         collectPlaceRows: ko.observableArray([]),
+        isInProgress: false,
         initialize: function () {
             setBlockPlaces();
 
             this._super();
 
+            this.setPreselectedStore();
             this.checkIsCollectSelected();
             this.onSubscribe();
             this.setPlacesToQuote();
@@ -84,7 +88,9 @@ define([
             return singleCartPopUp;
         },
         onClosePopUp: function () {
-            this.getPopUp().closeModal();
+            if (this.isSingleCartFormPopUpVisible()) {
+                this.getPopUp().closeModal();
+            }
         },
         showFormPopUp: function (data, e) {
             if (this.collectPlaces().length > 0) {
@@ -177,18 +183,27 @@ define([
         },
         onErrorDelivery: function (response) {},
         applyCollectPlaceToAllItems: function (id, name) {
-            var self = this,
-                serviceUrl = urlBuilder.createUrl('/collectplace/apply/all', {}),
+            var self,
+                serviceUrl,
+                payload;
+
+            if (!this.isInProgress) {
+                this.isInProgress = true;
+                self = this;
+                serviceUrl = urlBuilder.createUrl('/collectplace/apply/all', {});
                 payload = {
                     collectPlaceId: id,
                     storageName: name
                 };
 
-            storage.post(serviceUrl, JSON.stringify(payload)).done(function (response) {
-                self.onSuccessApplyPlace(response);
-            }).fail(function (response) {
-                self.onErrorApplyPlace(response);
-            });
+                storage.post(serviceUrl, JSON.stringify(payload)).done(function (response) {
+                    self.onSuccessApplyPlace(response);
+                    self.isInProgress = false;
+                }).fail(function (response) {
+                    self.onErrorApplyPlace(response);
+                    self.isInProgress = false;
+                });
+            }
         },
         onSuccessApplyPlace: function (response) {
             this.onClosePopUp();
@@ -199,6 +214,16 @@ define([
         onErrorApplyPlace: function (response) {},
         setPlacesToQuote: function () {
             quote.collectPlaces = this.collectPlaces();
+        },
+        setPreselectedStore: function () {
+            if (selectedStore) {
+                return this.isCollectSelected.subscribe(function (isCollect) {
+                    if (isCollect && this.collectPlaces().length === 0) {
+                        this.applyCollectPlaceToAllItems(selectedStore.entity_id, this.entityName);
+                    }
+                }.bind(this));
+            }
+            return null;
         }
     });
 });

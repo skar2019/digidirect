@@ -1,7 +1,8 @@
 <!-- ko if: giftCardAccount.isVisible-->
-<div class="payment-option opc-payment-additional giftcardaccount "
+<div class="payment-option payment-option-content opc-payment-additional giftcardaccount hide"
+     data-role="content"
      id="giftcardaccount-placer">
-    <div class="payment-title field choice" data-role="title">
+    <div class="payment-title hide field choice" data-role="title">
         <span class="action action-toggle" id="block-giftcard-heading" aria-level="2">
             <!-- ko i18n: 'Gift Card'--><!-- /ko -->
         </span>
@@ -26,7 +27,7 @@
                                data-bind="value: giftCartCode"/>
                     </div>
                 </div>
-                <!-- ko if: giftCardAccount.isChecked-->
+                 <!-- ko if: giftCardAccount.isChecked-->
                     <!-- ko if: giftCardAccount.isValid-->
                     <div class="giftcard-account-info">
                         <div class="giftcard-account-number">

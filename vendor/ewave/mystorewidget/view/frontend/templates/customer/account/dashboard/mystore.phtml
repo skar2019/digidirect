@@ -1,6 +1,6 @@
 <?php
 /**
- * @var $block Ewave\MyStoreWidget\Block\Account\Dashboard\MyStore
+ * @var $block Ewave\MyStoreWidget\Block\MyStore
  */
 ?>
 <div class="block-mystore block block-dashboard-mystore">
@@ -26,7 +26,7 @@
                     <a class="action -change" data-action="change-store" data-container="#block-mystorebar" href="#block-mystorebar" title="<?php /* @escapeNotVerified */ echo __('Change') ?>">
                         <?php /* @escapeNotVerified */ echo __('Change') ?>
                     </a>
-                    <a class="action remove" href="<?php /* @escapeNotVerified */ echo $block->getRemoveUrl() ?>" title="<?php /* @escapeNotVerified */ echo __('Remove') ?>">
+                    <a class="action remove" href="#" data-post='{"action":"<?php /* @escapeNotVerified */ echo $block->getRemoveUrl() ?>", "data":{}}' title="<?php /* @escapeNotVerified */ echo __('Remove') ?>">
                         <?php /* @escapeNotVerified */ echo __('Remove') ?>
                     </a>
                     <a href="<?php /* @escapeNotVerified */ echo $block->getUrl($block->getStore()->getUrlKey()) ?>" class="action -details" title="<?php /* @escapeNotVerified */ echo __('Store Details') ?>">

@@ -6,8 +6,7 @@
  -->
 <div if="isPaymentMethodsAvailable()"
      class="items payment-methods">
-    <div repeat="foreach: paymentGroupsList, item: '$group'"
-         class="payment-group">
+    <div repeat="foreach: paymentGroupsList, item: '$group'" class="payment-group" data-bind="mageInit: {'Magento_Checkout/js/order-button-disabled':{}}">
         <div if="getRegion($group().displayArea)().length"
              data-bind="i18n: 'Payment Method'"
              class="step-title"

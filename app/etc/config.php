@@ -468,7 +468,8 @@ return [
         'Studio19_Variants' => 1,
         'Temando_Shipping' => 0,
         'Vertex_Tax' => 1,
-        'ZipMoney_ZipMoneyPayment' => 1
+        'ZipMoney_ZipMoneyPayment' => 1,
+      	'Ewave_M2ePro' => 1
     ],
     'admin_user' => [
         'locale' => [

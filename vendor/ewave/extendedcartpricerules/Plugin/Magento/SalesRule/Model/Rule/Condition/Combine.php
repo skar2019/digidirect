@@ -31,10 +31,6 @@ class Combine
             'value' => \Ewave\ExtendedCartPriceRules\Model\Rule\Condition\ProductWasBoughtIn::class,
         ];
         $result[] = [
-            'label' => __('Product quantity in Source'),
-            'value' => \Ewave\ExtendedCartPriceRules\Model\Rule\Condition\ProductQuantityInSource::class,
-        ];
-        $result[] = [
             'label' => __('Product sum volume'),
             'value' => \Ewave\ExtendedCartPriceRules\Model\Rule\Condition\ProductSumVolume::class,
         ];

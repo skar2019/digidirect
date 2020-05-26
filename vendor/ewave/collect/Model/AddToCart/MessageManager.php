@@ -29,4 +29,23 @@ class MessageManager extends Manager
 
         return parent::addException($exception, $alternativeText, $group);
     }
+
+    /**
+     * To change the "alternative text" to "exception message" in an exception,
+     * you need to throw follow collect exception with desirable message:
+     * throw new \Ewave\Collect\Model\AddToCart\CollectException($msg);
+     *
+     * @param \Exception $exception
+     * @param null $alternativeText
+     * @param null $group
+     * @return Manager
+     */
+    public function addExceptionMessage(\Exception $exception, $alternativeText = null, $group = null)
+    {
+        if ($exception instanceof \Ewave\Collect\Model\AddToCart\CollectException) {
+            $alternativeText = $exception->getMessage();
+        }
+
+        return parent::addExceptionMessage($exception, $alternativeText, $group);
+    }
 }

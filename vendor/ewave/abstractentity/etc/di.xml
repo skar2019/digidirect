@@ -7,6 +7,8 @@
     <preference for="Ewave\Utilities\Model\Media\ConfigInterface" type="Ewave\Utilities\Model\Media\Config"/>
     <preference for="Ewave\AbstractEntity\Api\Rest\AbstractEntityRestInterface"
                 type="Ewave\AbstractEntity\Model\Rest\AbstractEntityRest"/>
+    <preference for="Ewave\AbstractEntity\Api\Rest\AbstractEntityRestByAttributeSetInterface"
+                type="Ewave\AbstractEntity\Model\Rest\AbstractEntityRestByAttributeSet"/>
 
     <type name="Magento\Framework\Model\Entity\RepositoryFactory">
         <arguments>

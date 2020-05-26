@@ -2,6 +2,7 @@
 namespace Ewave\MyStoreWidgetCollect\Plugin\MyStoreWidget\Helper;
 
 use Ewave\Collect\Helper\Data as CollectHelper;
+use Ewave\MyStoreWidgetCollect\Helper\Config as ConfigHelper;
 
 class Config
 {
@@ -9,14 +10,21 @@ class Config
      * @var CollectHelper
      */
     protected $collectHelper;
+    /**
+     * @var ConfigHelper
+     */
+    private $configHelper;
 
     /**
      * @param CollectHelper $collectHelper
+     * @param ConfigHelper $configHelper
      */
     public function __construct(
-        CollectHelper $collectHelper
+        CollectHelper $collectHelper,
+        ConfigHelper $configHelper
     ) {
         $this->collectHelper = $collectHelper;
+        $this->configHelper = $configHelper;
     }
 
     /**
@@ -37,7 +45,7 @@ class Config
         \Ewave\MyStoreWidget\Helper\Config $subject,
         $result
     ) {
-        if (!$this->isFullCcEnable()) {
+        if (!$this->isFullCcEnable() && $this->configHelper->isDisableFromFullCC()) {
             $result = false;
         }
         return $result;

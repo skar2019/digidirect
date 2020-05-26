@@ -18,9 +18,9 @@ define([
         },
         exit: function () {
             $("#productOverview").tabs({
-                active: 1,
+                active: 0,
                 openedState: "active",
-                collapsible: true
+                collapsible: false
             })
         },
     });

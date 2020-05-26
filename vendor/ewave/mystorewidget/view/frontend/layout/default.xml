@@ -4,6 +4,9 @@
         <referenceContainer name="after.body.start">
             <block class="Ewave\MyStoreWidget\Block\MyStore" name="header_mystore_widget" as="mystorewidget_header"
                    template="Ewave_MyStoreWidget::header/mystore.phtml" before="-">
+                <arguments>
+                    <argument name="is_geo_location_enabled" xsi:type="boolean">false</argument>
+                </arguments>
             </block>
         </referenceContainer>
     </body>

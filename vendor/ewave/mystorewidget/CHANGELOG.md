@@ -111,3 +111,40 @@
     * [#269032](https://ewave.tpondemand.com/entity/269032) -- [My Store Widget] 'Text Input' search is not working for all entities except Store
     * [#292344](https://ewave.tpondemand.com/entity/292344) -- [M2.3][Advanced Pricing] Price set up in admin panel is not applied on storefront
     * [#292826](https://ewave.tpondemand.com/entity/292826) -- [My Store Widget] Store name is duplicated in widget
+
+2.1.0
+=============
+* New features:
+    * [#313112](https://ewave.tpondemand.com/entity/313112) -- [Converse] - [Store Locator] The pattern described should be configurable
+
+2.1.1
+=============
+* Bugfixes:
+    * [#335557](https://ewave.tpondemand.com/entity/335557) -- [Project: Ultraceuticals] referral link doesn't display ref clinik on the first load
+
+2.1.2
+=============
+* Bugfixes:
+    * [#343406](https://ewave.tpondemand.com/entity/343406) -- [ULTRA 2.3.3][MyStoreWidget] The fatal error is displayed when "Available For Search Attribute" is "Display on map"
+
+2.1.3
+=============
+* Bugfixes:
+    * [#365098](https://ewave.tpondemand.com/entity/365098) -- [PROJECT: UltraC][MyStoreWidget] The list of clinics is not displayed at the clinic widget
+
+2.2.0
+=============
+* New features:
+    * [#370793](https://ewave.tpondemand.com/entity/370793) -- [GEOLOCATION SETTINGS] As an admin, I want following geolocation settings to be added
+    * [#370825](https://ewave.tpondemand.com/entity/370825) -- [GEOLOCATION] As a system, I want to display geo location for the guests and customers wihout specified shipping address
+
+2.2.1
+=============
+* Bugfixes:
+    * [#367888](https://ewave.tpondemand.com/entity/367888) -- [TAF 2.3.4] [MyStoreWidgetCollect] No possibility to remove or Set "My Store" from "My Account" page
+
+2.2.2
+=============
+* Bugfixes:
+    * [#376650](https://ewave.tpondemand.com/entity/376650) -- [Project: DigiDirect][MyStore widget] Store page is not opened when user tries to open this page from PDP page
+

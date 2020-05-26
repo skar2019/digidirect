@@ -7,6 +7,7 @@
 $helper = $this->helper('Ewave\MyStoreWidget\Helper\Config');
 $urlHelper = $this->helper('Ewave\AbstractEntity\Helper\Url');
 $selectedStore = $block->getStoreName();
+$isGeoLocationEnabled = $helper->isGeoLocationEnabled() && $block->getIsGeoLocationEnabled();
 ?>
 <?php if ($helper->isGoogleAutoSuggestEnabled()): ?>
     <?php
@@ -19,10 +20,12 @@ $selectedStore = $block->getStoreName();
         {
             "myStoreSwitcher": {
                 "searchUrl": "<?php /* @escapeNotVerified */ echo $block->getSearchUrl(); ?>",
-                <?php if ($helper->isGeoLocationEnabled()): ?>
-                   "isNeedKeepGeoLocation": <?php /* @escapeNotVerified */ echo (int)$helper->isNeedKeepGeolocation(); ?>,
-                   "isGeoLocationEnabled": <?php /* @escapeNotVerified */ echo (int)$helper->isGeoLocationEnabled(); ?>,
-                   "storesList": <?php /* @escapeNotVerified */ echo $block->getStores(); ?>,
+                <?php if ($isGeoLocationEnabled): ?>
+                    "isGeoLocationEnabled": <?php echo (int)$isGeoLocationEnabled; ?>,
+                    "isNeedKeepGeoLocation": <?php /* @escapeNotVerified */ echo (int)$helper->isNeedKeepGeolocation(); ?>,
+                    "storesList": <?php /* @escapeNotVerified */ echo $block->getStores(); ?>,
+                    "isMobileGeoLocationAutocomliteDisabled": <?php echo (int)$helper->isDisabledGeoLocationAutocompliteForMobileDivices(); ?>,
+                    "googleAutoSuggestApiKey": "<?php echo /* @escapeNotVerified */ $helper->getGoogleAutoSuggestApiKey(); ?>",
                 <?php endif; ?>
                 <?php if ($helper->isGoogleAutoSuggestEnabled()): ?>
                     "isGoogleAutoSuggestEnabled": <?php /* @escapeNotVerified */ echo (int)$helper->isGoogleAutoSuggestEnabled(); ?>,

@@ -2,7 +2,7 @@
   "name": "ewave/mystorewidget",
   "description": "Ewave MyStoreWidget module",
   "type": "magento2-module",
-  "version": "2.0.8.0",
+  "version": "2.2.2.0",
   "autoload": {
     "files": [
       "registration.php"

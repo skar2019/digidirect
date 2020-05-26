@@ -51,8 +51,20 @@ class QuoteManagement
         /** @var \Magento\Quote\Model\Quote $quote */
         $quote = $this->quoteRepository->getActive($cartId);
         $allowedPaymentMethods = $this->helper->getAvailableMethods();
-        if (!$allowedPaymentMethods || !in_array($quote->getPayment()->getMethod(), $allowedPaymentMethods)) {
-            throw new LocalizedException(__('Selected Payment Method Is Not Available For Your Order'));
+        if ((!$allowedPaymentMethods || in_array($quote->getPayment()->getMethod(), $allowedPaymentMethods))
+            && !empty($quote->getAppliedRuleIds())
+        ) {
+            $extendData = $this->helper->getExtendRulesData($quote);
+            $appliedRuleIds = explode(',', $quote->getAppliedRuleIds());
+
+            foreach ($appliedRuleIds as $ruleId) {
+                if ($extendData[$ruleId]['isEnableUnavailablePaymentMethods']) {
+                    $message = $extendData[$ruleId]['messageForUnavailablePaymentMethod']
+                        ?? __('Selected Payment Method Is Not Available For Your Order');
+
+                    throw new LocalizedException($message);
+                }
+            }
         }
 
         return [$cartId, $paymentMethod];

@@ -6,9 +6,9 @@
             <label>Abstract Entities</label>
             <tab>ewave</tab>
             <resource>Ewave_AbstractEntity::abstractentity_config</resource>
-            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Indexation</label>
-                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Index Tables</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
@@ -16,7 +16,14 @@
                     <label>Entities</label>
                     <source_model>Ewave\AbstractEntity\Model\Config\Source\AttributeSet</source_model>
                     <depends>
-                        <field  id="enable">1</field>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="fulltext_search_pattern" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Fulltext Search Pattern</label>
+                    <source_model>Ewave\AbstractEntity\Model\Config\Source\FulltextSearchPattern</source_model>
+                    <depends>
+                        <field id="enable">1</field>
                     </depends>
                 </field>
             </group>

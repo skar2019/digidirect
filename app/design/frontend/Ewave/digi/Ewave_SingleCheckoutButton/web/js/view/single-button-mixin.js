@@ -13,7 +13,8 @@ define(['mage/translate', 'Magento_Checkout/js/model/quote', 'jquery'], function
                 defaultButton: '.action.primary',
                 placeOrderButton: '#placeOrderBtn',
                 brainTreeField: '.hosted-control',
-                paymentMethod: '.payment-method-title > .radio'
+                paymentMethod: '.payment-method-title > .radio',
+                braintreeGooglePayButtonContinue: '.braintree-googlepay-button',
             },
 
             paymentStepAction: function () {
@@ -47,6 +48,12 @@ define(['mage/translate', 'Magento_Checkout/js/model/quote', 'jquery'], function
                     $('#placeOrderBtn').css('pointer-events', 'auto');
                 });
 
+                if (this.checkPaymentMethod() && quote.paymentMethod().method === 'braintree_googlepay') {
+                    var googlePayButton = $(this.braintreeGooglePayButtonContinue);
+                    if (googlePayButton.length ) {
+                        googlePayButton.trigger('click');
+                    }
+                }
                 this._super();
             }
         });

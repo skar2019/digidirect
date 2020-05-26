@@ -6,6 +6,7 @@ use Ewave\AbstractEntity\Model\AbstractEntity;
 use Ewave\AbstractEntity\Api\AbstractEntityRepositoryInterface;
 use Ewave\AbstractEntity\Api\Data\AbstractEntityInterface;
 use Ewave\AbstractEntity\Model\Registry\Constants;
+use Ewave\AbstractEntity\Model\DataFilterPool;
 use Magento\Eav\Api\AttributeSetRepositoryInterface;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
@@ -13,7 +14,6 @@ use Magento\Backend\Model\View\Result\ForwardFactory;
 use Magento\Framework\Registry;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Eav\Model\Config;
 
 class Save extends AbstractEntityController
 {
@@ -30,14 +30,9 @@ class Save extends AbstractEntityController
     protected $abstractEntityRepository;
 
     /**
-     * @var \Magento\Framework\Stdlib\DateTime\Filter\Date
+     * @var DataFilterPool
      */
-    protected $dateFilter;
-
-    /**
-     * @var Config
-     */
-    protected $_eavConfig;
+    protected $dataFilterPool;
 
     /**
      * Save constructor.
@@ -48,8 +43,8 @@ class Save extends AbstractEntityController
      * @param AbstractEntityRepositoryInterface $abstractEntityRepository
      * @param AttributeSetRepositoryInterface $attributeSetRepository
      * @param DataPersistorInterface $dataPersistor
-     * @param \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter
-     * @param Config $_eavConfig
+     * @param DataFilterPool $dataFilterPool
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function __construct(
         Context $context,
@@ -59,13 +54,11 @@ class Save extends AbstractEntityController
         AbstractEntityRepositoryInterface $abstractEntityRepository,
         AttributeSetRepositoryInterface $attributeSetRepository,
         DataPersistorInterface $dataPersistor,
-        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
-        Config $_eavConfig
+        DataFilterPool $dataFilterPool
     ) {
         $this->abstractEntityRepository = $abstractEntityRepository;
         $this->dataPersistor = $dataPersistor;
-        $this->dateFilter = $dateFilter;
-        $this->_eavConfig = $_eavConfig;
+        $this->dataFilterPool = $dataFilterPool;
         parent::__construct(
             $context,
             $coreRegistry,
@@ -142,36 +135,13 @@ class Save extends AbstractEntityController
     }
 
     /**
-     * Datetime data preprocessing
+     * Data preprocessing
      * @param array $data
      * @return array
      * @throws LocalizedException
      */
     protected function _filterPostData($data)
     {
-        if (!empty($data['attribute_set_id'])) {
-            $entityType = $this->_eavConfig->getEntityType(AbstractEntity::ENTITY_TYPE);
-            $attributes = $entityType->getAttributeCollection($data['attribute_set_id'])->getItems();
-            $dateFieldFilters = [];
-            foreach ($attributes as $attribute) {
-                if ($attribute->getBackend()->getType() == 'datetime') {
-                    $dateFieldFilters[$attribute->getAttributeCode()] = $this->dateFilter;
-                }
-            }
-
-            // make sure the date is converted to internal format
-            $inputFilter = new \Zend_Filter_Input(
-                $dateFieldFilters,
-                [],
-                $data
-            );
-
-            try {
-                $data = $inputFilter->getUnescaped();
-            } catch (\Exception $e) {
-                throw new LocalizedException(__('Post Data Validation Error: %1', $e->getMessage()));
-            }
-        }
-        return $data;
+        return $this->dataFilterPool->execute($data);
     }
 }

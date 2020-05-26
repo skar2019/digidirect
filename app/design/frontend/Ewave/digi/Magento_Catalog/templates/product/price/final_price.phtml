@@ -22,6 +22,7 @@ $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
 ?>
 <?php if ($block->hasSpecialPrice()): ?>
+    <span class="old-price-label"><?= /* @escapeNotVerified */ __('Don\'t pay')?></span>
     <span class="old-price">
         <?php /* @escapeNotVerified */ echo $block->renderAmount($priceModel->getAmount(), [
             'display_label'     => __(''),
@@ -31,9 +32,12 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             'skip_adjustments'  => true
         ]); ?>
     </span>
+    <svg class="svg-icon digidirectprice">
+        <use xlink:href="#svgi-digidirectprice" />
+    </svg>
     <span class="special-price">
         <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
-            'display_label'     => __('Promotional Pricing'),
+            'display_label'     => __(''),
             'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
             'price_type'        => 'finalPrice',
             'include_container' => true,

@@ -2,6 +2,8 @@
 /**
  * @var \Magento\Paypal\Block\Express\Review $block
  */
+
+$groups = '';
 ?>
 <div class="paypal-review view">
     <div class="block block-order-details-view">
@@ -16,11 +18,13 @@
                               action="<?= $block->escapeUrl($block->getShippingMethodSubmitUrl()) ?>"
                               class="form">
                             <?php if ($block->canEditShippingMethod()): ?>
-                                <?php $groups =
-                                    array_filter($block->getShippingRateGroups(), function ($rateName) {
-                                        return $rateName !== 'collect';
-                                    }, ARRAY_FILTER_USE_KEY)
-                                ?>
+                                <?php if ($block->getShippingRateGroups()): ?>
+                                    <?php $groups =
+                                        array_filter($block->getShippingRateGroups(), function ($rateName) {
+                                            return $rateName !== 'collect';
+                                        }, ARRAY_FILTER_USE_KEY)
+                                    ?>
+                                <?php endif; ?>
                                 <?php if (!empty($groups)) : ?>
                                     <?php $currentRate = $block->getCurrentShippingRate(); ?>
                                     <div class="field shipping required">
@@ -32,17 +36,18 @@
                                             <?php endif; ?>
                                             <?php foreach ($groups as $code => $rates): ?>
                                                 <optgroup label="<?= $block->escapeHtml($block->getCarrierName(
-                                                        $code
-                                                    )); ?>">
+                                                    $code
+                                                )); ?>">
                                                     <?php foreach ($rates as $rate): ?>
                                                         <option value="<?= $block->escapeHtml(
-                                                                $block->renderShippingRateValue($rate)
-                                                            ); ?>"
+                                                            $block->renderShippingRateValue($rate)
+                                                        ); ?>"
                                                             <?= ($currentRate === $rate) ?
                                                                 ' selected="selected"' : '';
                                                             ?>>
-                                                            <?php /* @noEscape */ echo
-                                                                $block->renderShippingRateOption($rate);
+                                                            <?php /* @noEscape */
+                                                            echo
+                                                            $block->renderShippingRateOption($rate);
                                                             ?>
                                                         </option>
                                                     <?php endforeach; ?>
@@ -70,7 +75,8 @@
                                 <?php endif; ?>
                             <?php else: ?>
                                 <p>
-                                    <?php /* @noEscape */ echo $block->renderShippingRateOption(
+                                    <?php /* @noEscape */
+                                    echo $block->renderShippingRateOption(
                                         $block->getCurrentShippingRate()
                                     ); ?>
                                 </p>
@@ -87,7 +93,7 @@
                             <?= $block->escapeHtml(
                                 $block->renderAddress($block->getShippingAddress()),
                                 ['br']
-                            );?>
+                            ); ?>
                         </address>
                     </div>
                     <?php if ($block->getCanEditShippingAddress()): ?>
@@ -107,20 +113,22 @@
                     <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/pp-acceptance-medium.png"
                          alt="<?= $block->escapeHtml(__('Buy now with PayPal')) ?>"/>
                 </div>
-            <?php if ($block->getEditUrl()): ?>
-                <div class="box-actions">
-                    <a href="<?= $block->escapeUrl($block->getEditUrl()) ?>" class="action edit">
-                        <span><?= $block->escapeHtml(__('Edit Payment Information')) ?></span>
-                    </a>
-                </div>
-            <?php endif ?>
+                <?php if ($block->getEditUrl()): ?>
+                    <div class="box-actions">
+                        <a href="<?= $block->escapeUrl($block->getEditUrl()) ?>" class="action edit">
+                            <span><?= $block->escapeHtml(__('Edit Payment Information')) ?></span>
+                        </a>
+                    </div>
+                <?php endif ?>
             </div>
         </div>
     </div>
 
-    <div class="paypal-review-discount discount" data-mage-init='{"collapsible":{"openedState": "active", "saveState": false, "animate": "200"}}'>
+    <div class="paypal-review-discount discount"
+         data-mage-init='{"collapsible":{"openedState": "active", "saveState": false, "animate": "200"}}'>
         <div class="title" data-role="title">
-            <strong id="block-code-card-heading" role="heading" aria-level="2" class="name"><?= /* @escapeNotVerified */ __('Apply Gift Card & Promotional Code') ?></strong>
+            <strong id="block-code-card-heading" role="heading" aria-level="2" class="name"><?= /* @escapeNotVerified */
+                __('Apply Gift Card & Promotional Code') ?></strong>
         </div>
         <div class="content" data-role="content" aria-labelledby="block-code-card-heading">
             <?= $block->getChildHtml('paypal.additional.actions') ?>
@@ -131,7 +139,7 @@
         <div class="paypal-review-title">
             <strong><?= $block->escapeHtml(__('Items in Your Shopping Cart')) ?></strong>
             <a href="<?= $block->escapeUrl($block->getUrl('checkout/cart')) ?>" class="action edit">
-                <span><?= $block->escapeHtml(__('Edit Shopping Cart')) ?></span>
+                <span class="paypal-review-edit-link"><?= $block->escapeHtml(__('Edit Shopping Cart')) ?></span>
             </a>
         </div>
 
@@ -167,9 +175,12 @@
                 "shippingSubmitFormSelector": "#shipping-method-form",
                 "shippingSelector": "#shipping-method",
                 "shippingMethodUpdateUrl": "<?= $block->escapeUrl($block->getUpdateShippingMethodsUrl()) ?>",
-                "isAjax": <?= /* @noEscape */ $block->getUseAjax() ? 'true' : 'false' ?>,
-                "canEditShippingMethod": <?= /* @noEscape */ $block->canEditShippingMethod() ? 'true' : 'false' ?>
+                "isAjax": <?= /* @noEscape */
+    $block->getUseAjax() ? 'true' : 'false' ?>,
+                "canEditShippingMethod": <?= /* @noEscape */
+    $block->canEditShippingMethod() ? 'true' : 'false' ?>
             }
         }
     }
+
 </script>

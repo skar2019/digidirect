@@ -84,4 +84,13 @@
             <argument name="resource" xsi:type="object">Magento\Eav\Model\ResourceModel\Entity\Attribute</argument>
         </arguments>
     </type>
+
+    <type name="Ewave\AbstractEntity\Model\DataFilterPool">
+        <arguments>
+            <argument name="filters" xsi:type="array">
+                <item name="dateTimeFilter" xsi:type="object">Ewave\AbstractEntity\Model\DataFilter\DateTimeFilter</item>
+            </argument>
+        </arguments>
+    </type>
+
 </config>
