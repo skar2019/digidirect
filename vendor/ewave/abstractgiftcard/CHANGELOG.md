@@ -84,7 +84,6 @@
 =============
 * Bugfixes:
     * [#371972](https://tp.ewave.com/371972) -- Revert giftcard logic on exception is not executed.
-
     * [#371972](https://tp.ewave.com/371972) -- Revert giftcard logic on exception is not executed.
 
 2.3.2
@@ -92,4 +91,3 @@
 * New features:
     * [#344574](https://tp.ewave.com/344574) -- Refactoring to customize. -- [Vii] As an admin, I want following settings to be added
     * [#371299](https://tp.ewave.com/371299) -- Refactoring to customize. -- [Vii] As a system, I want Undo interface to be implemented within Vii integration
-
