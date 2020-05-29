@@ -85,6 +85,7 @@
 * Bugfixes:
     * [#371972](https://tp.ewave.com/371972) -- Revert giftcard logic on exception is not executed.
 
+    * [#371972](https://tp.ewave.com/371972) -- Revert giftcard logic on exception is not executed.
 
 2.3.2
 =============
