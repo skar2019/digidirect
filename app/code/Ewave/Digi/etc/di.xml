@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Wishlist\CustomerData\Wishlist" type="Ewave\Digi\Rewrite\Wishlist\CustomerData\Wishlist" />
-
+    <preference for="Ewave\MyStoreWidget\Model\ResourceModel\MyStoreIndex" type="Ewave\Digi\Rewrite\Ewave\MyStoreWidget\Model\MyStoreIndexRewrite"/>
     <preference for="Ewave\Digi\Api\Rest\CheckSsdAvailabilityInterface"
                 type="Ewave\Digi\Model\Rest\SsdAvailabilityCheck"/>
     <preference for="Ewave\Digi\Api\Rest\CheckVsmAvailabilityInterface"

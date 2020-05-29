@@ -17,6 +17,7 @@
         "ewave/abstractattributes": "dev-release/3.0.8",
         "ewave/abstractattributesnavigation": "dev-release/1.0.1",
         "ewave/abstractentity": "dev-release/3.4.3",
+        "ewave/abstractentitypopup": "dev-release/1.0.0",
         "ewave/abstractgiftcard": "dev-release/2.3.2",
         "ewave/abstractgiftcardlogger": "dev-release/1.0.3",
         "ewave/addressverification": "dev-release/2.0.11",
