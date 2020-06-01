@@ -79,7 +79,7 @@
         <move element="product.info.social" destination="product.info.main" after="-" />
         <referenceContainer name="product.info.price">
             <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="-">
-                <block class="LiveChat\LiveChat\Block\SnippetBlock" name="snippetblock" template="snippetblock.phtml" />
+                <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
             </container>
         </referenceContainer>
         <referenceContainer name="product.info.extrahint">
