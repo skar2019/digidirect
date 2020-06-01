@@ -1,10 +1,1 @@
-<span class="live-chat-additional-link">Request a pricematch</span>
-
-<script>
-    require(['jquery'], function ($) {
-        $(document).on('click', '.live-chat-additional', function () {
-            $('#chat-widget-container').click();
-        });
-    });
-</script>
-
+<span class="live-chat-additional-link" onclick="LC_API.open_chat_window(); return false">Request a pricematch</span>
