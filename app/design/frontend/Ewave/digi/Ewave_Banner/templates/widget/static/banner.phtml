@@ -14,7 +14,7 @@ if (empty($bannersToDisplay)) {
     return;
 }
 $bannerId = $block->getUniqueId();
-$isLazyLoad = $block->getIsLazyLoad();
+$isLazyLoad = true;//$block->getIsLazyLoad();
 $isShowLoader = false;
 $mediaQueryFull = $block->jsonEncode($block->getMediaQuery());
 $autoPlay = $block->isAutoplay() ? 'true' : 'false';
