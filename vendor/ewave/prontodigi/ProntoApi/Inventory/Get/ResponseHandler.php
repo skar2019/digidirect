@@ -118,6 +118,10 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $this->saveProductAttributes($products);
         $this->saveSourceItems();
 
+        $model = $this->_objectManager->create('\Ess\M2ePro\PublicServices\Product\SqlChange');
+        $model->markQtyWasChanged($products->getId());
+        $model->applyChanges();
+        
         $this->logger->info(
             'TIME LOG: Import time: ' . round(microtime(true) - $start, 3) . ' sec.'
         );
