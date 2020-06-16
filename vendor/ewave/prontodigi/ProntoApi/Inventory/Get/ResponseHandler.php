@@ -120,6 +120,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
 
         $model = $this->_objectManager->create('\Ess\M2ePro\PublicServices\Product\SqlChange');
         $model->markQtyWasChanged($products->getId());
+        $model->markPriceWasChanged($products->getId());
         $model->applyChanges();
         
         $this->logger->info(
