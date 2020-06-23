@@ -224,6 +224,8 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
      */
     public function updateProductAttributes($products, $attributes = [])
     {
+        $model = $this->_objectManager->create('\Ess\M2ePro\PublicServices\Product\SqlChange');
+        
         $linkFiled = $this->getLinkField();
         $productCollection = $this->collectionFactory->create();
         foreach ($attributes as $code) {
@@ -250,6 +252,10 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
                             'value' => $productData[$attributeCode]
                         ];
                     }
+                    
+                    $model->markQtyWasChanged($products[$item['id']]);
+                    $model->markPriceWasChanged($products[$item['id']]);
+                    $model->applyChanges();
                 }
             }
             foreach ($dataToUpdate as $tableName => $data) {
