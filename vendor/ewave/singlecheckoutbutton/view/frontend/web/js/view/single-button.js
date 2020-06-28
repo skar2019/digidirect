@@ -7,8 +7,10 @@ define([
     'Magento_Checkout/js/model/quote',
     'mage/translate',
     'Ewave_SingleCheckoutButton/js/view/error-methods',
-    'uiRegistry'
-], function ($, ko, _, Component, stepNavigator, quote, $t, errorMethods, uiRegistry) {
+    'uiRegistry',
+    'Magento_Checkout/js/checkout-data',
+    'Magento_Checkout/js/action/select-payment-method'
+], function ($, ko, _, Component, stepNavigator, quote, $t, errorMethods, uiRegistry, checkoutData, selectPaymentMethodAction) {
     'use strict';
 
     return Component.extend({
@@ -110,13 +112,15 @@ define([
          * Shipping step action
          */
         shippingStepAction: function () {
+            selectPaymentMethodAction(null);
+            checkoutData.setSelectedPaymentMethod(null);
             $(this.shippingFormSelector).trigger('submit');
         },
 
         /**
          * Payment step action
          */
-        paymentStepAction: function () {
+        paymentStepAction: function () {            
             if (this.checkPaymentMethod() && quote.paymentMethod().method === 'braintree_paypal') {
                 $(this.braintreePaypalButtonContinue).trigger('click');
                 if (!this.isSubscribed) {

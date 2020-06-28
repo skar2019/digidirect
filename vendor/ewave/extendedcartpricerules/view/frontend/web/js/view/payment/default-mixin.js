@@ -24,7 +24,7 @@ define([
 
         initialize: function () {
             this._super();
-
+            
             if (this.isRemoveItemRuleApplied()) {
                 this.isPlaceOrderActionAllowed(false);
                 this.isEnabledPaymentButton(false);
