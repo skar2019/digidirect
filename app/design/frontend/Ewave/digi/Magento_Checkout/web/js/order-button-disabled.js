@@ -16,7 +16,9 @@ define([
         $("#co-payment-form").trigger("reset");
         $("#co-transparent-form-braintree").trigger("reset");
         $(".payment-method-braintree").removeClass('_active');
-
+        $(".payment-method").removeClass('_active');
+        $("#braintree_googlepay").trigger("click");
+        
         if ($('#braintree_paypal').is(':checked')) {
             $('#payment-method-braintree-paypal').removeClass('_active');
         }
