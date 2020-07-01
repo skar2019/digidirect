@@ -60,27 +60,27 @@ define([
                 selectShippingMethodAction(availableRate);
             }
 
-            if (shippingExist.length > 0 && !availableRate) {
-                var shippingAmount = shippingExist[0].base_amount;
-
-                if (shippingAmount === 0) {
-                    selectShippingMethodAction(shippingExist[0]);
-
-                    var msg = '<svg xmlns="http://www.w3.org/2000/svg" class="free-message svg-icon -free"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-shipping"></use></svg>' + 'You have qualified for free shipping!';
-
-                    customerData.set('messages', {
-                        messages: [{
-                            type: 'success',
-                            text: msg
-                        }]
-                    });
-
-                    var element = $('.free-message');
-                    element.parent().prop('id','removedBefore');
-
-                    return
-                }
-            }
+//            if (shippingExist.length > 0 && !availableRate) {
+//                var shippingAmount = shippingExist[0].base_amount;
+//
+//                if (shippingAmount === 0) {
+//                    selectShippingMethodAction(shippingExist[0]);
+//
+//                    var msg = '<svg xmlns="http://www.w3.org/2000/svg" class="free-message svg-icon -free"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-shipping"></use></svg>' + 'You have qualified for free shipping!';
+//
+//                    customerData.set('messages', {
+//                        messages: [{
+//                            type: 'success',
+//                            text: msg
+//                        }]
+//                    });
+//
+//                    var element = $('.free-message');
+//                    element.parent().prop('id','removedBefore');
+//
+//                    return
+//                }
+//            }
 
             if (freeshippingExist.length > 0 && !availableRate) {
                 selectShippingMethodAction(freeshippingExist[0]);
