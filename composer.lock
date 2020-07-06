@@ -1495,46 +1495,6 @@
             "time": "2019-06-04T05:11:49+00:00"
         },
         {
-            "name": "ewave/collectabstractentitymsi",
-            "version": "dev-release/1.1.0",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectabstractentitymsi.git",
-                "reference": "aba99b0b76622df1e08fb21420ba9f4449969d08"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\CollectAbstractEntityMSI\\": ""
-                }
-            },
-            "description": "Ewave CollectAbstractEntityMSI",
-            "time": "2019-05-31T11:53:19+00:00"
-        },
-        {
-            "name": "ewave/collectstorelocator",
-            "version": "dev-release/1.1.0",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectstorelocator.git",
-                "reference": "155feb0e45f2a8133341689e783c53a2eefe51da"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\CollectStoreLocator\\": ""
-                }
-            },
-            "description": "Ewave CollectStoreLocator",
-            "time": "2019-04-08T08:26:35+00:00"
-        },
-        {
             "name": "ewave/criteoonetag",
             "version": "dev-release/1.0.2",
             "source": {
@@ -25012,8 +24972,6 @@
         "ewave/cms-upgrade": 20,
         "ewave/collect": 20,
         "ewave/collectabstractentity": 20,
-        "ewave/collectabstractentitymsi": 20,
-        "ewave/collectstorelocator": 20,
         "ewave/criteoonetag": 20,
         "ewave/customsitemaplinks": 20,
         "ewave/defaulttheme": 20,

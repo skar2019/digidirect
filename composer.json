@@ -30,8 +30,6 @@
         "ewave/cms-upgrade": "dev-release/1.2.8",
         "ewave/collect": "dev-release/2.16.0",
         "ewave/collectabstractentity": "dev-release/1.3.5",
-        "ewave/collectabstractentitymsi": "dev-release/1.1.0",
-        "ewave/collectstorelocator": "dev-release/1.1.0",
         "ewave/criteoonetag": "dev-release/1.0.2",
         "ewave/customsitemaplinks": "dev-release/1.0.0",
         "ewave/defaulttheme": "dev-release/1.3.3",
@@ -74,7 +72,6 @@
         "ewave/productoverlay": "dev-release/2.6.0",
         "ewave/productpriority": "dev-release/1.0.3",
         "ewave/pronto": "dev-release/1.0.0",
-        "ewave/prontodigi": "dev-release/1.0.11",
         "ewave/quickview": "dev-release/1.2.4",
         "ewave/relatedproduct": "dev-release/2.4.0",
         "ewave/security": "dev-release/1.0.6",
@@ -388,10 +385,6 @@
         },
         {
             "type": "vcs",
-            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectstorelocator.git"
-        },
-        {
-            "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_faq.git"
         },
         {
@@ -401,10 +394,6 @@
         {
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectabstractentity.git"
-        },
-        {
-            "type": "vcs",
-            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectabstractentitymsi.git"
         },
         {
             "type": "vcs",
