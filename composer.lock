@@ -2369,26 +2369,6 @@
             "time": "2019-06-10T11:36:38+00:00"
         },
         {
-            "name": "ewave/prontodigi",
-            "version": "dev-release/1.0.11",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git",
-                "reference": "a306a50283eb9373385fbaf7073f6636142f791f"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\ProntoDigi\\": ""
-                }
-            },
-            "description": "Ewave ProntoDigi",
-            "time": "2019-12-02T14:43:08+00:00"
-        },
-        {
             "name": "ewave/quickview",
             "version": "dev-release/1.2.4",
             "source": {
@@ -25014,7 +24994,6 @@
         "ewave/productoverlay": 20,
         "ewave/productpriority": 20,
         "ewave/pronto": 20,
-        "ewave/prontodigi": 20,
         "ewave/quickview": 20,
         "ewave/relatedproduct": 20,
         "ewave/security": 20,
