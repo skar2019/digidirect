@@ -381,10 +381,6 @@
         },
         {
             "type": "vcs",
-            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_prontodigi.git"
-        },
-        {
-            "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_faq.git"
         },
         {
