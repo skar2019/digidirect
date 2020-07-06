@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ewave_pronto">
+            <group id="api_products" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Products</label>
+                <field id="products_get_uri" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Products GET URI</label>
+                    <comment>URI of Products Interface</comment>
+                </field>
+                <field id="disabled_products_percent_skip_update" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Disabled products percent for skip update</label>
+                    <validate>required-entry validate-digits</validate>
+                </field>
+            </group>
+            <group id="api_inventory" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Inventory</label>
+                <field id="inventory_get_uri" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Inventory GET URI</label>
+                    <comment>URI of Inventory Interface</comment>
+                </field>
+                <field id="disabled_products_percent_skip_update" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Disabled products percent for skip update</label>
+                    <validate>required-entry validate-digits</validate>
+                </field>
+                <field id="diff_last_minutes" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Get difference for the last X minutes</label>
+                    <validate>required-entry validate-digits validate-greater-than-zero</validate>
+                </field>
+                <field id="buffer_action" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Buffer's Action</label>
+                    <options>
+                        <option label="Decrease">0</option>
+                        <option label="Increase">1</option>
+                    </options>
+                </field>
+                <field id="buffer_quantity_for_all_sources" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Decrease/Increase quantity for all sources</label>
+                    <validate>required-entry validate-digits</validate>
+                    <comment>Set 0 to disable buffer functionality</comment>
+                </field>
+            </group>
+            <group id="api_order" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Orders</label>
+                <field id="order_post_uri" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order POST URI</label>
+                    <comment>URI of Order Post Interface</comment>
+                </field>
+                <field id="order_get_uri" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order GET URI</label>
+                    <comment>URI of Order Get Interface</comment>
+                </field>
+                <field id="collect_place_to_repcode" translate="label" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Rep Code for Store Pick-Up</label>
+                    <frontend_model>Ewave\ProntoDigi\Block\Adminhtml\Config\CollectPlaceToRepCode</frontend_model>
+                    <backend_model>Ewave\Utilities\Model\System\Config\Backend\DefaultOptionModel</backend_model>
+                </field>
+                <field id="territory_code" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Territory Code</label>
+                </field>
+                <field id="payment_method_to_payment_type" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Payment Method to Payment Type</label>
+                    <frontend_model>Ewave\ProntoDigi\Block\Adminhtml\Config\PaymentMethodToPaymentType</frontend_model>
+                    <backend_model>Ewave\Utilities\Model\System\Config\Backend\DefaultOptionModel</backend_model>
+                </field>
+                <field id="m2epro_payment_method_to_payment_type" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>M2E Pro Payment Method to Payment Type</label>
+                    <frontend_model>Ewave\ProntoDigi\Block\Adminhtml\Config\M2EProPaymentMethodToPaymentType</frontend_model>
+                    <backend_model>Ewave\Utilities\Model\System\Config\Backend\DefaultOptionModel</backend_model>
+                    <comment>
+                        <![CDATA[
+                            M2E Pro Payment Method column value is generated from "additional_information" from the payment (table sales_order_payment)<br/>
+                            We need two values: "component_mode" and "payment_method"<br/>
+                            if "payment_method" is empty then put {{component_mode}}<br/>
+                            example: amazon<br/>
+                            if "payment_method" is not empty then put {{payment_method}}-{{component_mode}"<br/>
+                            example: ebay-PayPal<br/>
+                        ]]>
+                    </comment>
+                </field>
+            </group>
+            <group id="debug" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Debug</label>
+                <field id="is_debug_update_request" translate="label" type="select" sortOrder="12"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Update Status Request </label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If enable then all update status request from Pronto to Magento written to log file pronto.log</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

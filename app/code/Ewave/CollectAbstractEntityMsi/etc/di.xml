@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\CollectAbstractEntity\Model\CollectPlaceRepository">
+        <plugin name="Ewave_CollectAbstractEntityMSI::CollectPlaceRepositoryPlugin"
+                type="Ewave\CollectAbstractEntityMSI\Plugin\Ewave\CollectAbstractEntity\Model\CollectPlaceRepositoryPlugin"/>
+    </type>
+    <type name="Ewave\CollectAbstractEntityMSI\Model\ProductTypeHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="configurableHandler" xsi:type="object">Ewave\CollectAbstractEntityMSI\Model\ProductTypeHandler\Configurable</item>
+                <item name="groupedHandler" xsi:type="object">Ewave\CollectAbstractEntityMSI\Model\ProductTypeHandler\Grouped</item>
+                <item name="simpleHandler" xsi:type="object">Ewave\CollectAbstractEntityMSI\Model\ProductTypeHandler\Simple</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\CollectAbstractEntityMSI\Helper\ProductType">
+        <arguments>
+            <argument name="availableProductTypes" xsi:type="array">
+                <item name="configurableType" xsi:type="const">Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE</item>
+                <item name="groupedType" xsi:type="const">Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</item>
+                <item name="simpleType" xsi:type="const">Magento\Catalog\Model\Product\Type::TYPE_SIMPLE</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
