@@ -225,7 +225,7 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
     public function updateProductAttributes($products, $attributes = [])
     {
 
-        $model = $this->_objectManager->create(M2e\Ebay-Amazon-Magento2\PublicServices\Product\SqlChange::class);
+        //$model = $this->_objectManager->create(M2e\Ebay-Amazon-Magento2\PublicServices\Product\SqlChange::class);
         $linkFiled = $this->getLinkField();
         $productCollection = $this->collectionFactory->create();
         foreach ($attributes as $code) {
@@ -253,9 +253,9 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
                         ];
                     }
                     
-                    $model->markQtyWasChanged($products[$item['id']]);
-                    $model->markPriceWasChanged($products[$item['id']]);
-                    $model->applyChanges();
+//                    $model->markQtyWasChanged($products[$item['id']]);
+//                    $model->markPriceWasChanged($products[$item['id']]);
+//                    $model->applyChanges();
                 }
             }
             foreach ($dataToUpdate as $tableName => $data) {
