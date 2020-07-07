@@ -224,8 +224,8 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
      */
     public function updateProductAttributes($products, $attributes = [])
     {
-        $model = $this->_objectManager->create('M2e\Ebay-Amazon-Magento2\PublicServices\Product\SqlChange');
-        
+
+        $model = $this->_objectManager->create(M2e\Ebay-Amazon-Magento2\PublicServices\Product\SqlChange::class);
         $linkFiled = $this->getLinkField();
         $productCollection = $this->collectionFactory->create();
         foreach ($attributes as $code) {
