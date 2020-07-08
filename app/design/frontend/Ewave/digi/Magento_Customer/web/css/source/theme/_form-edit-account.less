@@ -97,7 +97,26 @@
         }
 
         .fieldset {
-            .lib-css(width, @account-form-edit-fieldset__width__l);
+            
+            &{
+                .lib-css(width, @account-form-edit-fieldset__width__l);
+            }
+            
+            .qff-fieldset {
+                margin-bottom: 30px;
+            }
+            
+            .qff-fieldset .no-margin-bottom {
+               margin-bottom: 0;
+            }
+
+            .qff-fieldset.hide {
+                display: none;
+            }
+            
+            .qff-fieldset .qff-block{
+                margin-top: 15px;
+            }
         }
 
         .fieldset.password {
@@ -112,6 +131,12 @@
             .lib-font-size(16);
             padding: 16px 15px 14px;
         }
+    }
+     
+    span.qff-details-error {
+        color: red;
+        font-weight: bold;
+        font-size: 12px;
     }
 
     .account .form-edit-account {

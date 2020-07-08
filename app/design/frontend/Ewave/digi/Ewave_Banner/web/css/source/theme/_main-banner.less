@@ -14,6 +14,7 @@
     .banner-main-wrapper {
         & {
             &:extend(._negative-gutter);
+            padding: 0 !important;
         }
     }
 }
@@ -43,6 +44,55 @@
 
     .banner-main-wrapper > .additional-banner {
         max-width: calc(~'30% + 4px');
+    }
+    
+    .qantas-promo-banner
+    {
+        &{
+            margin-top: 30px;
+        }
+        
+        .child-banner{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .image{
+            width: 100%;
+            max-width: 200px;
+            display: inline-block;
+            margin: 20px;
+        }
+        
+        .blurb{
+            &{
+                display: inline-block;
+                font-size: 18px;
+                font-weight: 400;
+            }
+            
+            .highlight{
+                color: red;
+                font-weight: bold;
+            }
+        }
+        
+        .action{
+            &{
+                display: inline-block;
+                margin: 20px;
+            }
+            
+            a{
+                line-height: 2.4rem;
+                padding: 11px 15px;
+                font-size: 1.6rem;
+                padding: 11px 71px;
+            }
+        }
     }
 }
 

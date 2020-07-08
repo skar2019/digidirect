@@ -67,6 +67,13 @@
                     </arguments>
                 </block>
             </container>
+            <container name="footer-qantas" as="footer-qantas" label="Page Footer Qantas" htmlTag="div" htmlClass="footer-partners" after="-">
+                <block class="Magento\Cms\Block\Block" name="footer-qantas-block">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">footer_qantas</argument>
+                    </arguments>
+                </block>
+            </container>
         </referenceContainer>
         <referenceContainer name="footer-container">
             <container name="footer-line" as="footer-line" label="Page Footer Line" htmlTag="div" htmlClass="footer-line">

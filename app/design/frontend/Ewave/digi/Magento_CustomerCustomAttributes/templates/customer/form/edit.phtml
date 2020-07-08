@@ -34,7 +34,6 @@
             <input type="checkbox" name="change_password" id="change-password" data-role="change-password" value="1" title="<?= $block->escapeHtmlAttr(__('Change Password')) ?>"<?php if ($block->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox" />
             <label class="label" for="change-password"><span><?= $block->escapeHtml(__('Change Password')) ?></span></label>
         </div>
-
         <div class="field choice qff-number">
             <input type="checkbox" name="change_qff_number" id="change-qff-number" data-role="change-qff-number" value="1" title="<?= $block->escapeHtmlAttr(__('Change QFF Number')) ?>" class="checkbox" />
             <label class="label" for="change-qff-number"><span><?= $block->escapeHtml(__('Change QFF Number')) ?></span></label>
@@ -73,7 +72,8 @@
             </div>
             
         </fieldset>
-
+        
+        
         <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_user_attributes'); ?>
         <?php if ($userDefinedAttributes):?>
             <?php $userDefinedAttributes->setEntityType('customer')->setShowContainer(false);?>
@@ -117,6 +117,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="field confirm password required" data-container="confirm-password">
             <label class="label" for="password-confirmation"><span><?= /* @escapeNotVerified */ __('Confirm New Password') ?></span></label>
             <div class="control">
@@ -125,8 +126,11 @@
                     autocomplete="off" />
             </div>
         </div>
+        
+       
         <?= $block->getChildHtml('form_additional_info') ?>
     </fieldset>
+    
     <div class="actions-toolbar">
         <div class="primary">
             <button id="submit" type="submit" class="action save" title="<?= /* @escapeNotVerified */ __('Save') ?>"><span><?= /* @escapeNotVerified */ __('Save') ?></span></button>
@@ -212,7 +216,6 @@
         "jquery",
         "mage/mage"
     ], function($){
-
              
         <?php if (isset($_GET["a"]) && $_GET["a"] == "link"): ?>
             $("#change-qff-number").attr("checked", true);
@@ -246,7 +249,6 @@
             ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
         <?php endif ?>
         });
-
     });
 </script>
 <script type="text/x-magento-init">
@@ -257,7 +259,7 @@
                 "titleChangePassword": "<?= /* @escapeNotVerified */ __('Change Password') ?>",
                 "titleChangeEmailAndPassword": "<?= /* @escapeNotVerified */ __('Change Email and Password') ?>"
             }
-        },  
+        },
         "*": {
             "Magento_CustomerCustomAttributes/validation": {
                 "ignore": <?= (int) ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()) ?>,
