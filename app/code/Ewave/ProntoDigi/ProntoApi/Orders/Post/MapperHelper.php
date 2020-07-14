@@ -258,7 +258,7 @@ class MapperHelper
         $method = $payment->getMethodInstance();
 
         $code = $method->getCode();
-        if ($code == 'm2epropayment') {
+        if ($code == 'm2epropayment' || $code == 'braintree_googlepay' ) {
             $componentMode = $payment->getAdditionalInformation('component_mode');
             $paymentMethod = $payment->getAdditionalInformation('payment_method');
             $code = $paymentMethod ? $componentMode . '-' . $paymentMethod : $componentMode;
