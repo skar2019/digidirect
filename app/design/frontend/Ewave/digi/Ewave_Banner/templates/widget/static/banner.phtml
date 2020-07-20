@@ -24,13 +24,11 @@ $getDelaySpeedValue = $block->getDelaySpeedValue() * 1000;
 $navigationTitles = 'false';
 $prevArrow = $block->getArrowPrevious();
 $nextArrow = $block->getArrowNext();
-
 if ($breadcrumbsType == 'no'):
     $dots = 'false';
 else :
     $dots = 'true';
 endif;
-
 if ($breadcrumbsType == 'content'):
     $navigationTitles = 'true';
 endif;
