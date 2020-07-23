@@ -3936,48 +3936,6 @@
             "time": "2019-01-21T20:22:14+00:00"
         },
         {
-            "name": "m2e/ebay-amazon-magento2",
-            "version": "1.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/m2epro/magento2-extension.git",
-                "reference": "02a43dd0b6b62bdb0434ce6375278bd8a8837ddf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/m2epro/magento2-extension/zipball/02a43dd0b6b62bdb0434ce6375278bd8a8837ddf",
-                "reference": "02a43dd0b6b62bdb0434ce6375278bd8a8837ddf",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ess\\M2ePro\\": ""
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "description": "M2E Pro is a Magento trusted (TM), award-winning extension, which allows merchants of all sizes to fully integrate Magento based system(s) into eBay/Amazon/Walmart platforms.",
-            "homepage": "https://www.m2epro.com/",
-            "keywords": [
-                "amazon",
-                "ebay",
-                "magento",
-                "walmart"
-            ],
-            "support": {
-                "source": "https://github.com/m2epro/magento2-extension/tree/v1.4.2"
-            },
-            "time": "2019-10-02T10:47:04+00:00"
-        },
-        {
             "name": "magento/composer",
             "version": "1.4.0",
             "source": {

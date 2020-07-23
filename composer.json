@@ -90,7 +90,6 @@
         "ewave/vii": "dev-release/1.1.0",
         "klevu/module-search": "^2.2",
         "livechat/module-magento-livechat": "dev-master",
-        "m2e/ebay-amazon-magento2": "1.4.2",
         "magento/magento-cloud-metapackage": "2.3.1",
         "paypal/module-braintree": "^3.4",
         "zipmoney/magento2": "^1.0"
@@ -442,10 +441,6 @@
         {
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcartpricerules.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/m2epro/magento2-extension.git"
         },
         {
             "type": "vcs",

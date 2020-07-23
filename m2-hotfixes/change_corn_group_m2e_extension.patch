@@ -16,10 +16,10 @@ index b53d9d64a..3a0a62b03 100644
 +        <use_separate_process>1</use_separate_process>
 +    </group>
  </config>
-diff --git a/vendor/m2e/ebay-amazon-magento2/etc/crontab.xml b/vendor/m2e/ebay-amazon-magento2/etc/crontab.xml
+diff --git a/app/code/Ess/M2ePro/etc/crontab.xml b/app/code/Ess/M2ePro/etc/crontab.xml
 index ef641b332..ce4bc756e 100644
---- a/vendor/m2e/ebay-amazon-magento2/etc/crontab.xml
-+++ b/vendor/m2e/ebay-amazon-magento2/etc/crontab.xml
+--- a/app/code/Ess/M2ePro/etc/crontab.xml
++++ b/app/code/Ess/M2ePro/etc/crontab.xml
 @@ -3,7 +3,7 @@
  <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
