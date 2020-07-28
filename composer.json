@@ -35,7 +35,6 @@
         "ewave/defaulttheme": "dev-release/1.3.3",
         "ewave/email": "dev-release/1.0.0",
         "ewave/emailblocker": "dev-release/1.0.5",
-        "ewave/extendedcartpricerules": "dev-release/1.12.2",
         "ewave/extendedcartpricerulesmsi": "dev-release/1.0.3",
         "ewave/extendedcatalogpricerule": "dev-release/1.2.0",
         "ewave/extendedcatalogpriceruleproductcalculator": "dev-release/1.0.0",
@@ -78,7 +77,6 @@
         "ewave/seo": "dev-release/1.6.0",
         "ewave/shippingavailabilitycheck": "dev-release/1.4.3",
         "ewave/shippingavailabilitycheckcollect": "dev-release/1.1.0",
-        "ewave/singlecheckoutbutton": "dev-release/1.0.4",
         "ewave/sitemapwidget": "dev-release/1.1.0",
         "ewave/socialsharing": "dev-release/1.1.1",
         "ewave/store": "dev-release/1.2.1",
@@ -146,10 +144,6 @@
 	{
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_banner.git"
-        },
-	{
-            "type": "vcs",
-            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcatalogpricerule.git"
         },
         {
             "type": "vcs",
@@ -370,10 +364,6 @@
         {
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_relatedproduct.git"
-        },
-        {
-            "type": "vcs",
-            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_singlecheckoutbutton.git"
         },
         {
             "type": "vcs",

@@ -1598,26 +1598,6 @@
             "time": "2018-10-22T12:04:44+00:00"
         },
         {
-            "name": "ewave/extendedcartpricerules",
-            "version": "dev-release/1.12.2",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcartpricerules.git",
-                "reference": "8040aa6f5f670a396ff09c4fca32540f6f0ac6f6"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\ExtendedCartPriceRules\\": ""
-                }
-            },
-            "description": "Ewave ExtendedCartPriceRules",
-            "time": "2020-04-21T05:52:55+00:00"
-        },
-        {
             "name": "ewave/extendedcartpricerulesmsi",
             "version": "dev-release/1.0.3",
             "source": {
@@ -2493,26 +2473,6 @@
             },
             "description": "Ewave ShippingAvailabilityCheckCollect",
             "time": "2019-06-14T11:37:12+00:00"
-        },
-        {
-            "name": "ewave/singlecheckoutbutton",
-            "version": "dev-release/1.0.4",
-            "source": {
-                "type": "git",
-                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_singlecheckoutbutton.git",
-                "reference": "aac230c4c42997fa79f9c3552580749944762183"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\SingleCheckoutButton\\": ""
-                }
-            },
-            "description": "Ewave SingleCheckoutButton",
-            "time": "2019-05-29T11:38:04+00:00"
         },
         {
             "name": "ewave/sitemapwidget",
@@ -24957,7 +24917,6 @@
         "ewave/defaulttheme": 20,
         "ewave/email": 20,
         "ewave/emailblocker": 20,
-        "ewave/extendedcartpricerules": 20,
         "ewave/extendedcartpricerulesmsi": 20,
         "ewave/extendedcatalogpricerule": 20,
         "ewave/extendedcatalogpriceruleproductcalculator": 20,
@@ -25000,7 +24959,6 @@
         "ewave/seo": 20,
         "ewave/shippingavailabilitycheck": 20,
         "ewave/shippingavailabilitycheckcollect": 20,
-        "ewave/singlecheckoutbutton": 20,
         "ewave/sitemapwidget": 20,
         "ewave/socialsharing": 20,
         "ewave/store": 20,
