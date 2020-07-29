@@ -47,6 +47,21 @@
     @media only screen and (max-width: (@screen__m - 1)) {
         .media-width('max', @screen__m);
     }
+    @media all and (min-width: @screen__xxs) {
+    .media-width('min', @screen__xxs);
+    }
+
+    @media all and (min-width: @screen__xs) {
+    .media-width('min', @screen__xs);
+    }
+
+     @media all and (min-width: @screen__l) {
+    .media-width('min', @screen__l);
+    }
+
+    @media all and (min-width: @screen__xl) {
+    .media-width('min', @screen__xl);
+    }
 
     @media only screen and (max-width: (@screen__s - 1)) {
         .media-width('max', @screen__s);
