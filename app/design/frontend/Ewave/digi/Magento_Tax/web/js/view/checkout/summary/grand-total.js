@@ -37,8 +37,9 @@ define([
                 price = totals.getSegment('grand_total').value;
             }
             var points = price * 2;
-            
+    
             return points.toLocaleString();
+            
         },
         
         /**
