@@ -90,6 +90,7 @@ and open the template in the editor.
         top: 188px;
         background: currentColor;
         padding: 20px;
+        margin: -2px;
     }
           
  
@@ -203,7 +204,7 @@ and open the template in the editor.
 }
 
 //320px
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxs)
+.media-width(@extremum, @break) when (@extremum = 'max'), (@extremum = 'min') and (@break = @screen__xxs)
 {
     .qantas-fqq {
         
@@ -429,7 +430,9 @@ and open the template in the editor.
         height: 110px;
         width: 62%;
     }
-
+.how {
+    padding-top: 10px;
+}
 }
 
 //break @768
@@ -468,7 +471,7 @@ and open the template in the editor.
     .qff-row
     {
           left: 1px;
-          top: 129px;
+          top: 69px;
         
     }
     
@@ -570,6 +573,7 @@ and open the template in the editor.
         left:208px!important;
         padding: 45px!important;
         width: 32%;
+        top: 148px;
     }
 
     .qantas-fqq 
@@ -633,8 +637,10 @@ and open the template in the editor.
         }
     }
     
+    .qff-row {
     
-    
+        top: 3%;
+    }
     .shop 
     {
        left: 1%;
@@ -658,7 +664,7 @@ and open the template in the editor.
         .qff-column 
         {
             position: relative !important;
-            left: -184px !important;
+            left: 49px !important;
             padding: 45px !important;
             height: 276px!important;
                width: 47%!important;
@@ -698,11 +704,9 @@ and open the template in the editor.
             left: 229px;
             top: 40px;
         }
-        .how {
-           padding-top: 113px;
-       }
+        
        .qantas-bot h1 {
-           font-size: 40px;
+           font-size: 28px;
        }
        .qff-column-content {
            margin-left: 10px;
