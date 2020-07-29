@@ -437,7 +437,19 @@ and open the template in the editor.
 
 //break @768
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-         
+             .qantas-pts-wrapper-summary
+    {
+        text-align: end !important;
+
+        font-size: 14px;
+        font-weight: 600;
+        color: #222;
+        position: relative!important;
+        left: 65px  !important;
+        font-size: 15px!important;
+        width: 100%;
+    }
+     
    .qantas-landing-banner  
    {
         width: 113%;
@@ -553,7 +565,13 @@ and open the template in the editor.
 //1024px
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
-   
+    .qantas-pts-wrapper-summary
+   {
+
+        font-size: 15px!important;
+        width: 100%;
+    
+   }
     .qantas-landing-banner  
     {
         width: 111%;
@@ -588,14 +606,20 @@ and open the template in the editor.
         .shop {
        
         left: -24px;
+        }
     }
-}
 
 
 
 //1280px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-   
+    .qantas-pts-wrapper-summary
+    {
+
+        font-size: 14px!important;
+        
+    }
+    
     .qantas-landing-banner  
     
     {
@@ -648,7 +672,13 @@ and open the template in the editor.
 }
 //1440px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-        .qantas-landing-banner  
+    .qantas-pts-wrapper-summary
+    {
+
+        font-size: 15px!important;
+   
+    }
+    .qantas-landing-banner  
         {
             width: 111%;
             height: 400px;
@@ -713,3 +743,15 @@ and open the template in the editor.
            padding: 30px !important;
        }
 }
+//1800px
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) 
+{
+    .qantas-pts-wrapper-summary
+    {
+        
+        font-size: 15px!important;
+        
+        
+    }
+}
+  
