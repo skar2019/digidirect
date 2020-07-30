@@ -20,16 +20,43 @@ and open the template in the editor.
 */
 & when (@media-common = true) 
 {
+    
+   
+   .qff-row {
+    
+    color: #040404!important;
+}
+    .terms{
+            
+    margin-top: 61px;
+    
+    padding: 27px;
+    
+    background: center;
+        p{
+           letter-spacing: 1px;
+            font-stretch: extra-condensed; 
+                text-align: justify;
+        }
+        
+    }
+    .qff-bot-logo{
+        width: 39rem;
+    }
+    
    .qantas-bot .bot-content 
     {
      text-align: center;
-
+         padding: 19px 34px 19px 67px!important;
+     p{
+            font-size: 20px;
+     }
     }
     
     .qff-column-content {
     
-    background-color: #e7e7e7!important;
-    
+    background-color: #f4f4f4!important;
+    border-bottom: solid;
 }
     .qantas-button 
     {
@@ -139,7 +166,8 @@ and open the template in the editor.
                 position: relative;
                 left: -109px;
                 width: 103%;
-                height: 400px;
+                height: 50%;
+                
 
                     .bot-content
                     {
@@ -194,12 +222,12 @@ and open the template in the editor.
         
             width: 107%;
             height: 400px;
-            background: url('@{baseDir}images/fqq.png')no-repeat;
+            background: url('@{baseDir}images/QFF-logo.png')no-repeat;
             background-size: contain;
             position: relative;
             top: 84px;       
      }
-  
+     
   
 }
 
@@ -216,16 +244,17 @@ and open the template in the editor.
         height: 400px;
         background: url('@{baseDir}images/qantas-banner-landing.jpg')no-repeat;
         background-size: cover;
-        background-position: left;
+        background-position: right;
         position: relative;
         left: -68px;
+        margin-bottom: 22rem;
     }
     .qff-column 
     {
         width: 44.33%;
         padding: 19px; 
          left: 73px;;
-
+         top: 39rem;
     }
 
     .qff-column-content 
@@ -247,13 +276,13 @@ and open the template in the editor.
         background: #000;
         color: white;
         position: relative;
-        left: -36px;
+        left: -48px;
         width: 122%;
-        height: 320px;
+        height: fit-content;
         
         .bot-content {
-        padding: 0px;
-        padding-top: 71px;  
+         padding: 18px 34px 2rem 8rem!important;
+        
         margin-top: 10px;
 
         }
@@ -300,22 +329,25 @@ and open the template in the editor.
                                                                                     
 //480px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xs){
+    .how {
+    padding-top: 0px;
+}
      .qantas-landing-banner  
     {
         width: 120%;
         height: 400px;
         background: url('@{baseDir}images/qantas-banner-landing.jpg')no-repeat;
         background-size: cover;
-        background-position: left;
+        background-position: right;
         position: relative;
         left: -68px;
-            margin-bottom: 117px;
+            margin-bottom: 143px;
     }
     .qff-column 
     {
         padding: 19px; 
-        left: 73px;
-        
+            left: 73px;
+    top: 32rem;
     width: 46.33%;
     }
     .qantas-fqq 
@@ -326,7 +358,7 @@ and open the template in the editor.
 
     .steps h1 
     {
-
+    font-weight: 600;
         font-size: 17px;
     }
     .qff-column-content 
@@ -357,7 +389,7 @@ and open the template in the editor.
     }
     .qff-row-content {
     position: relative;
-    left: -16px;
+    left: -15px;
     }
 }
 
@@ -370,20 +402,20 @@ and open the template in the editor.
         height: 400px;
         background: url('@{baseDir}images/qantas-banner-landing.jpg')no-repeat;
         background-size: cover;
-        background-position: left;
+        background-position: right;
         position: relative;
         left: -68px;
-            margin-bottom: 368px;
+            margin-bottom: 411px;
     }
    
     .qantas-fqq
     {
-                width: 84%;
-                height: 400px;
-                background: url('@{baseDir}images/fqq.png')no-repeat;
-                background-size: contain;
-                position: relative;
-                top: 84px;       
+        width: 63%;
+        height: 400px;
+        background: url('@{baseDir}images/QFF-logo.png') no-repeat;
+        background-size: contain;
+        position: relative;
+        top: -4px;    
      }
      .qff-column 
      {
@@ -394,7 +426,7 @@ and open the template in the editor.
     }
     .shop {
         position: relative;
-        top: 13px;
+       top: -31px;
         left: -16px;
     }
     .qff-column-content {
@@ -412,11 +444,10 @@ and open the template in the editor.
             color: white;
             position: relative;
             left: -56px;
-            height: 312px;
+             height: fit-content;;
            .bot-content 
            {
-                margin-top: 105px;
-                padding-top: 92px;
+                padding: 50px 90px;
                 margin-top: 432px;
             }
     }
@@ -427,8 +458,8 @@ and open the template in the editor.
         left: 9px;
     }
     .shop .digi-logo {
-        height: 110px;
-        width: 62%;
+       
+        width: 50%;
     }
 .how {
     padding-top: 10px;
@@ -456,28 +487,27 @@ and open the template in the editor.
         height: 400px;
         background: url('@{baseDir}images/qantas-banner-landing.jpg')no-repeat;
         background-size: cover;
-        background-position: left;
+        background-position: right;
         position: relative;
         left: -68px;
-        margin-bottom: 368px;
+        margin-bottom: 360px;
    }
     .qantas-fqq
     {
-        
-           width: 79%;
-            height: 400px;
-            background: url('@{baseDir}images/fqq.png')no-repeat;
-            background-size: contain;
-            position: relative;
-           top: 52px;      
+        width: 54%;
+    height: 400px;
+    background: url(../images/QFF-logo.png) no-repeat;
+    background-size: contain;
+    position: relative;
+    top: -3px;     
     }
   
   
            .qff-column 
            {
-            left: 48px;
-            
-            width: 100%;
+                left: 48px;
+                width: 102%;
+                height: 216px;
             }    
    
     .qff-row
@@ -492,7 +522,7 @@ and open the template in the editor.
     {
        
         padding: 17px !important;
-        background-color: #e7e7e7!important;
+        
         margin-left: 6px;
     }
     .qff-row-contet:after 
@@ -511,9 +541,11 @@ and open the template in the editor.
     }
     .shop
     {
-        position: relative;
-                    top: -10px;
-                    left: -48px;
+       position: relative;
+   
+    top: -53px;
+
+    left: -40px;
          h1
          {          
                 color: #e65300;
@@ -536,7 +568,7 @@ and open the template in the editor.
                }
                .digi-logo
                {
-                width: 111%;
+                width: 32rem!important;
                 height: 400px;
                 background: url('@{baseDir}images/digi.png')no-repeat;
                 background-size: contain;
@@ -548,10 +580,11 @@ and open the template in the editor.
     
     .qantas-bot {
         width: 116%;
+        height: fit-content;
     }
     .qantas-bot .bot-content {
-        padding: 112px 186px;
-    padding-top: 105px;
+            padding: 49px 79px;
+    
     }
     .how {
     padding-top: 60px;
@@ -565,6 +598,13 @@ and open the template in the editor.
 //1024px
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
+    
+    .shop .digi-logo {
+        width: 23rem;
+    }
+    .how {
+    padding-top: 0px;
+}
     .qantas-pts-wrapper-summary
    {
 
@@ -574,45 +614,56 @@ and open the template in the editor.
    }
     .qantas-landing-banner  
     {
-        width: 111%;
-        height: 400px;
-        background: url('@{baseDir}images/qantas-banner-landing.jpg')no-repeat;
+         width: 119%;
+        height: 499px;
+        background: url(../images/qantas-banner-landing.jpg) no-repeat;
         background-size: cover;
-        background-position: left;
+        background-position: right;
         position: relative;
         left: -68px;
-        margin-bottom: 117px;
+        margin-bottom: 42px;
     }
 
    
     .qff-column
     {
-        position: relative!important;
-        left:208px!important;
+       position: relative!important;
+        left: -5%!important;
         padding: 45px!important;
-        width: 32%;
-        top: 148px;
+        width: 52%
     }
 
     .qantas-fqq 
     {
-         width: 80%!important;
-        }
+            width: 70%!important;
+    left: 11rem;
+    }
         
         .bot-content{
             
             padding-top: 96px;
         }
         .shop {
-       
-        left: -24px;
+    left: 8rem;
+    top: -7rem;
         }
-    }
-
+        
+        .qff-row {
+    left: 1px;
+    top: -256px;
+    width: 93%;
+}
+}  
+        
 
 
 //1280px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+  .qff-row {
+    top: 3%;
+    
+    }
+    
     .qantas-pts-wrapper-summary
     {
 
@@ -623,22 +674,24 @@ and open the template in the editor.
     .qantas-landing-banner  
     
     {
-        width: 113%%;
-        height: 400px;
-        background: url('@{baseDir}images/qantas-banner-landing.jpg')no-repeat;
+        width: 119%;
+        height: 499px;
+        background: url(../images/qantas-banner-landing.jpg) no-repeat;
         background-size: cover;
         background-position: left;
         position: relative;
-        left: -68px;
-               margin-bottom: 32%;
+        left: -71px;
+        margin-bottom: 34px;
+        
     }
     
     .qff-column 
     {
-            position: relative!important;
-            left: 24%!important;
-            padding: 45px!important;
-            width: 55%!important;
+        position: relative!important;
+       left: 7% !important;
+        padding: 45px!important;
+        width: 55%!important;
+        top: -9px;
     }
     .qff-column-content 
     {
@@ -648,71 +701,73 @@ and open the template in the editor.
 
     .qantas-fqq 
     {
-        width: 95%!important;
-        top: 11%;
+        width: 76%!important;
+        top: -8%;
+        left: 1rem;
     }
     .qantas-bot {
-            left: -70px;
+        left: -70px;
+        height: fit-content;
          .bot-content 
         {
 
-            padding-top: 124px;
+           padding: 35px;
 
         }
     }
     
     .qff-row {
-    
+        width: 81%;
         top: 3%;
     }
     .shop 
     {
-       left: 1%;
+          left: -5%;
+    top: -9rem;
     }
 }
 //1440px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-    .qantas-pts-wrapper-summary
-    {
+    
+    
+    
+    .qantas-pts-wrapper-summary{
 
         font-size: 15px!important;
    
     }
-    .qantas-landing-banner  
-        {
-            width: 111%;
-            height: 400px;
-            background: url('@{baseDir}images/qantas-banner-landing.jpg')no-repeat;
-            background-size: cover;
-            background-position: left;
-            position: relative;
-            left: -72px;
-            margin-bottom: 98px!important;
+    
+      .qantas-landing-banner{
+        width: 122%;
+        height: 628px;
+        background: url(../images/qantas-banner-landing.jpg) no-repeat;
+        background-size: cover;
+        background-position: right;
+        position: relative;
+        left: -72px;
+        margin-bottom: 34px!important;
         }
 
 
-        .qff-column 
-        {
+        .qff-column{
             position: relative !important;
-            left: 49px !important;
+            left: 43px !important;
             padding: 45px !important;
-            height: 276px!important;
-               width: 47%!important;
+            height: 271px!important;
+            width: 52%!important;
         }
      
-        .qantas-fqq 
-        {
-    
-            top: 12px;
+        .qantas-fqq{
+             width: 46rem!important;
+             top: 5rem;
+             left: 5rem;
             
-                .qff-column-content 
-                {
+                .qff-column-content{
 
                     margin-left: 10px;
                 }
 
-                .qantas-fqq 
-                {
+                .qantas-fqq{
                     width: 95%!important;
                 }
 
@@ -720,21 +775,23 @@ and open the template in the editor.
         }
 
         .qantas-bot {
-             left: -72px!important;
-                height: 413px;
+            left: -72px!important;
+            height: fit-content;
+            
              .bot-content 
                 {
                     padding: 109px 428px!important;
-                    padding-top: 123px!important;
+                    
                     margin-top: 432px!important;
                     padding-left: 421px;
                 }
+                p{
+                font-size: 23px;
+            }
         }
-        qff-row {
-            left: 229px;
-            top: 40px;
+        .qff-row {
+            top: 2%;
         }
-        
        .qantas-bot h1 {
            font-size: 28px;
        }
@@ -742,10 +799,33 @@ and open the template in the editor.
            margin-left: 10px;
            padding: 30px !important;
        }
+       .shop{
+           
+            left: 2%;
+            top: -5rem;
+
+           .digi-logo{
+             width: 31rem;
+        }
+       } 
+       
+       
+
 }
 //1800px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) 
 {
+    
+    .qantas-landing-banner {
+    width: 111%;
+    height: 628px;
+    background: url(../images/qantas-banner-landing.jpg) no-repeat;
+    background-size: cover;
+    background-position: right;
+    position: relative;
+    left: -72px;
+    margin-bottom: 34px!important;
+}
     .qantas-pts-wrapper-summary
     {
         
@@ -753,5 +833,48 @@ and open the template in the editor.
         
         
     }
+    
+    .how {
+        
+        padding-top: 0px;
+    
+    }
+    .qff-row {
+        
+        top: 2%;
+    }
+    
+    .qantas-fqq {
+        width: 47rem!important;
+        top: 5rem;
+        left: 5rem;
+    }
+
+    .shop{
+        left: 1%;
+        top: -4rem;
+        .digi-logo{
+        width: 40rem;
+        }
+    } 
+    
+
+    .wrapper{
+            position: relative;
+            left: 2rem;
+
+    }
+
+    .qantas-bot 
+    {
+        left: -12rem!important;
+
+        .bot-content {
+            padding: 6rem!important;
+        }
+    }
+    .qff-column{
+            left: 175px !important;
+    }
+
 }
-  
