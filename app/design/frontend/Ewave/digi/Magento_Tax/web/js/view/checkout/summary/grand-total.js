@@ -32,12 +32,14 @@ define([
          */
         getPoints: function () {
             var price = 0;
-
+            
             if (this.totals()) {
                 price = totals.getSegment('grand_total').value;
             }
-            var points = price * 2;
-    
+            var formattedPrice = Math.floor(price);
+            
+            var points = formattedPrice * 2;
+               
             return points.toLocaleString();
             
         },
