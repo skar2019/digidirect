@@ -954,7 +954,7 @@ and open the template in the editor.
                 }
               h1 {
                 font-size: 28px;
-            }
+                }
 
         }
     }
@@ -984,10 +984,12 @@ and open the template in the editor.
 
            .digi-logo{
              width: 31rem;
-        }
+            }
        } 
        
        
+
+    }
 
 }
 //1800px
@@ -1045,43 +1047,40 @@ and open the template in the editor.
 //1800px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) 
 {
-    .qantas-landing-banner {
-        &{
-            width: 111%;
-            height: 628px;
-            background: url(../images/qantas-banner-landing.jpg) no-repeat;
-            background-size: cover;
-            background-position: right;
-            position: relative;
-            left: -72px;
-            margin-bottom: 34px!important;
-        }
-        
-        .qantas-pts-wrapper-summary
-        {
-            font-size: 15px!important;
-        }
-
-        .how {
-            padding-top: 0px;
-        }
-
-        .qff-row {
-
-        .qantas-bot 
-        {
-            left: -12rem!important;
-                .bot-content {
-                    padding: 6rem!important;
-                }
+        .qantas-landing-banner {
+            
+                width: 111%;
+                height: 628px;
+                background: url(../images/qantas-banner-landing.jpg) no-repeat;
+                background-size: cover;
+                background-position: right;
+                position: relative;
+                left: -72px;
+                margin-bottom: 34px!important;
             }
 
-        .bot-content {
-            padding: 6rem!important;
-        }
-    }
-    .qff-column{
-            left: 175px !important;
-    }
+            .qantas-pts-wrapper-summary
+            {
+                font-size: 15px!important;
+            }
+
+            .how {
+                padding-top: 0px;
+            }
+
+            .qff-row {
+
+                .qantas-bot 
+                {
+                    left: -12rem!important;
+                        .bot-content {
+                            padding: 6rem!important;
+                        }
+                 }
+
+                .qff-column{
+                    left: 175px !important;
+                }
+            }
 
 }
