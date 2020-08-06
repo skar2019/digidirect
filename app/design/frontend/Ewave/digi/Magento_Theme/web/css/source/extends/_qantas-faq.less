@@ -1,0 +1,98 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : Aug 6, 2020, 8:25:17 AM
+    Author     : Admin
+*/
+& when (@media-common = true) 
+{ 
+    
+    .faqantas-container{
+        background-color:#ffffff;
+        padding: 27px;
+        margin: 40px 0;
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        
+       
+    }
+    .qff-question{
+            text-decoration: none;
+           
+            font: 700 14px;
+            text-decoration: none;
+            color: #000;
+        }
+    .qff-accordion-trigger {
+        
+            border: solid #e6e6e6;
+            line-height: 24px;
+            font-size: 14px;
+            border-top: solid #e6e6e6;
+            border-width: 1px 0;
+            padding: 15px 30px 15px 0;
+            padding: .875em 3em .875em 1.5em;
+            background-color: #e65300;
+            color: #FFF;
+            position: relative;
+           
+    }
+    .qff-accordion-trigger:after{
+         content: "";
+            background: url('@{baseDir}/images/icons8-expand-arrow-100.png') no-repeat;
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            right: 2%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: 90% center;
+           top: 17px;
+    }
+    
+    .faqantas-answer {
+        font-size: 1.4rem;
+        line-height: 1.36;
+        padding: 20px 37px;
+        font: 12px ;
+        text-align: justify;
+        letter-spacing: 1px;
+       
+        
+    }
+}
+
+//320
+.media-width(@extremum, @break) when (@extremum = 'max')and (@break = @screen__xxs){
+    .faqantas-container {
+          width: calc(154%);
+        margin-left: -258px;
+        margin-right: -80px;
+        padding: 86px;
+    }
+    
+    .faqantas-answer {
+    
+     padding: 20px 19px;
+
+    }
+}
+
+//640
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s)
+{
+    .faqantas-container{
+        padding: 90px;
+    }
+}
+
+
+   
+  
