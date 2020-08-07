@@ -21,9 +21,16 @@ and open the template in the editor.
 & when (@media-common = true) 
 {
 
-    .qantas-span, .price-font{
-            font-size: 12px;
+
+    .qantas-span, 
+    .price-font{
+        font-size: 12px;
+
+    .qff-checkout-points{
+        text-align: end;
+        font-weight: bold;
     }
+
     .block-minicart .block-content > .actions .action {
       margin-top: 18px;
       font-weight: bold;
@@ -358,12 +365,7 @@ and open the template in the editor.
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xxs)
 {
-    .qff-checkout-points {
-       position: absolute;
-        top: 262px;
-        right: 15px;
-   
-    }
+ 
     .qantas-fqq {
         
     width: 91%;
@@ -467,13 +469,7 @@ and open the template in the editor.
      .terms {
         margin-top: 0px;
     }
-    
-     .qff-checkout-points {
-       position: absolute;
-        top: 262px;
-        right: 15px;
-   
-    }
+
 }
 //480px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xs){
@@ -559,12 +555,7 @@ and open the template in the editor.
     .terms {
         margin-top: 172px;
     }
-    .qff-checkout-points {
-       position: absolute;
-        top: 262px;
-        right: 15px;
-   
-    }
+
     
 }
 //640min
@@ -644,22 +635,27 @@ and open the template in the editor.
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     
-     .qff-checkout-points {
-       position: absolute;
-        top: 319px;
-        right: 15px;
-   
-    }
+.qantas-points-container-checkout{
+            .mark {
+                .qff-th{
+                    width: 96px!important;
+                }
+                
+            }
+        }
 }
 
-
+//break @768
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-   .qff-checkout-points {
-    position: absolute;
-    top: 242px;
-    right: 15px;;
-   
-}
+    .qantas-points-container-checkout{
+            .mark{
+                .qff-th{
+                    width: 512px!important;
+                }
+                
+            }
+        }
+
    .qantas-landing-banner  
    {
         width: 113%;
@@ -819,8 +815,26 @@ and open the template in the editor.
 
     .qantas-fqq 
     {
-            width: 70%!important;
-    left: 11rem;
+
+        width: 70%!important;
+        left: 11rem;
+    }
+
+    .bot-content{
+
+        padding-top: 96px;
+    }
+    .shop {
+        left: 8rem;
+        top: -7rem;
+    }
+
+    .qff-row {
+        left: 1px;
+        top: -256px;
+        width: 93%;
+
+>>>>>>> 5ec3a72b2... Changes on checkout and landing page
     }
         
         .bot-content{
@@ -848,14 +862,11 @@ and open the template in the editor.
     
     }
 
+     .table-totals .mark .qff-th
+            {
+               width: 100px!important;
+            }
 
-   .qff-checkout-points {
-        position: absolute;
-        top: 246px;
-        right: 23px;
-        
-    }
-    
     .qantas-landing-banner  
     
     {
@@ -913,8 +924,10 @@ and open the template in the editor.
 }
 //1440px
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-
-  
+    
+   .faqantas-container {
+        padding: 134px;
+    }
       .qantas-landing-banner{
 
         width: 122%;
@@ -926,6 +939,37 @@ and open the template in the editor.
         left: -72px;
         margin-bottom: 34px!important;
         }
+
+
+        .qff-column{
+            position: relative !important;
+            left: 43px !important;
+            padding: 45px !important;
+            height: 271px!important;
+            width: 52%!important;
+        }
+     
+        .qantas-fqq{
+            width: 70%!important;
+            top: 5rem;
+            left: 5rem;
+            
+               
+
+
+    .qff-column{
+        position: relative !important;
+        left: 43px !important;
+        padding: 45px !important;
+        height: 271px!important;
+        width: 52%!important;
+    }
+
+    .qantas-fqq{
+        width: 46rem!important;
+        top: 5rem;
+        left: 5rem;
+>>>>>>> 5ec3a72b2... Changes on checkout and landing page
 
 
         .qff-column{

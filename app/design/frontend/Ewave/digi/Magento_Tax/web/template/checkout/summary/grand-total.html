@@ -23,22 +23,19 @@
 </tr>
 <tr>
     
-    <td class="qantas-pts-wrapper-summary">
-        <div>
-        <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
-        Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
-         </div>
-        
-    </td>
-</tr>
-<tr>  
-        <td class="qff-checkout-points" >
-            <div>
-                <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
-                Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
-             </div>
-        </td>  
-    </tr>
+ <div class="qantas-points-container-checkout">
+        <tr>  
+            <th class="mark" scope="row" >
+
+            </th>
+            <td class="qff-checkout-points" >
+            
+                    <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
+                    Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
+               
+            </td>  
+        </tr>
+    </div> 
 <!-- /ko -->
 
 <!-- ko if: !isTaxDisplayedInGrandTotal && isDisplayed() -->
@@ -52,26 +49,20 @@
 </tr>
 
     <!-- ko ifnot: ($parent.isShippingStep) -->
-    <tr>
+    <div class="qantas-points-container-checkout">
+        <tr>  
+            <th class="mark qff-th" scope="row" >
 
-        <td class="qantas-pts-wrapper-summary " >
-            <div>
-                <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
-                Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
-            </div>
-        </td>
-        
-    </tr>
-    
-    <tr>  
-        <td class="qff-checkout-points" >
-            <div>
-                <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
-                Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
-             </div>
-        </td>  
-    </tr>
-    
+            </th>
+            <td class="qff-checkout-points" >
+                
+                    <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
+                    Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
+               
+            </td>  
+        </tr>
+    </div> 
+
 <!-- /ko -->
 <!-- /ko -->
 <!-- ko if: isBaseGrandTotalDisplayNeeded() && isDisplayed() -->
@@ -81,23 +72,19 @@
         <span class="price" data-bind="text: getBaseValue(), attr: {'data-th': basicCurrencyMessage}"></span>
     </td>
 </tr>
-<tr>
-    
-    <td class="qantas-pts-wrapper-summary">
-        <div>
-        <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
-        Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
-         </div>
-        
-    </td>
-</tr>
- <tr>  
-        <td class="qff-checkout-points" >
-            <div>
-                <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
-                Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
-             </div>
-        </td>  
-    </tr>
+
+<div class="qantas-points-container-checkout">
+        <tr>  
+            <th class="mark" scope="row" >
+
+            </th>
+            <td class="qff-checkout-points" >
+              
+                    <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
+                    Earn <span class="price" data-bind="text: getPoints() "></span> Qantas Points
+                 
+            </td>  
+        </tr>
+ </div> 
 
 <!-- /ko -->
