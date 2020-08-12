@@ -18,7 +18,6 @@
         "ewave/abstractattributesnavigation": "dev-release/1.0.1",
         "ewave/abstractentity": "dev-release/3.4.3",
         "ewave/abstractentitypopup": "dev-release/1.0.0",
-        "ewave/abstractgiftcard": "dev-release/2.3.2",
         "ewave/abstractgiftcardlogger": "dev-release/1.0.3",
         "ewave/addressverification": "dev-release/2.0.11",
         "ewave/ai": "dev-release/1.15.8",
@@ -85,7 +84,6 @@
         "ewave/styleguide": "dev-develop",
         "ewave/utilities": "dev-release/1.20.1",
         "fastly/magento2": "1.2.119",
-        "ewave/vii": "dev-release/1.1.0",
         "klevu/module-search": "^2.2",
         "livechat/module-magento-livechat": "dev-master",
         "m2e/ebay-amazon-magento2": "1.4.2",
@@ -141,7 +139,7 @@
             "type": "composer",
             "url": "https://repo.magento.com/"
         },
-	{
+    {
             "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_banner.git"
         },
@@ -451,17 +449,7 @@
         },
         {
             "type": "vcs",
-            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractgiftcard.git"
-
-        },
-        {
-            "type": "vcs",
             "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractgiftcardlogger.git"
-
-        },
-        {
-            "type": "vcs",
-            "url": "ssh://git@stash.ewave.com:7999/lego/ewave_vii.git"
 
         }
     ],
