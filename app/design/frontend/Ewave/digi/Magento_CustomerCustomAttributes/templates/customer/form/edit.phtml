@@ -34,6 +34,49 @@
             <input type="checkbox" name="change_password" id="change-password" data-role="change-password" value="1" title="<?= $block->escapeHtmlAttr(__('Change Password')) ?>"<?php if ($block->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox" />
             <label class="label" for="change-password"><span><?= $block->escapeHtml(__('Change Password')) ?></span></label>
         </div>
+
+        <div class="field choice qff-number">
+            <input type="checkbox" name="change_qff_number" id="change-qff-number" data-role="change-qff-number" value="1" title="<?= $block->escapeHtmlAttr(__('Change QFF Number')) ?>" class="checkbox" />
+            <label class="label" for="change-qff-number"><span><?= $block->escapeHtml(__('Change QFF Number')) ?></span></label>
+        </div>
+        
+        <fieldset class="fieldset qff-fieldset hide">
+            <legend class="legend title-form"><span><?= /* @escapeNotVerified */ __('Qantas Frequent Flyer Details') ?></span></legend><br>
+
+            <div class="qantas-promo-box">
+                <div class="qff-logo-container"></div>
+                <span><strong>Earn 2 Qantas Points</strong> per $1 spent when you add a valid Qantas Frequent Flyer number</a>
+                <a href="/qantas" target="_blank" rel="noopener">Learn more</a>
+            </div>
+            <div class="field">
+                <label for="qff_number" class="label"><span><?= /* @escapeNotVerified */ __('Qantas Frequent Flyer Number') ?></span></label>
+                <div class="control">
+                    <input type="text" 
+                           name="qff_number" 
+                           id="qff_number" 
+                           autocomplete="text" 
+                           value="<?= $block->escapeHtml($block->getCustomer()->getQffNumber())?>"
+                           title="<?= /* @escapeNotVerified */ __('Qantas Frequent Flyer Number') ?>" class="input-text"/>
+                </div>
+            </div>
+            <div class="field no-margin-bottom">
+                <label for="qff_lastname" class="label"><span><?= /* @escapeNotVerified */ __('Qantas Frequent Flyer Last Name') ?></span></label>
+                <div class="control">
+                    <input type="text" 
+                           name="qff_lastname" 
+                           id="qff_lastname" 
+                           autocomplete="text"
+                           title="<?= /* @escapeNotVerified */ __('Qantas Frequent Flyer Last Name') ?>" 
+                           value="<?= $block->escapeHtml($block->getCustomer()->getQffLastname())?>"
+                           class="input-text"/>
+                </div>
+            </div>
+            
+            <?php if (!$block->getCustomer()->verifyQffDetails() && !empty($block->getCustomer()->getQffNumber())): ?>
+                <span class="qff-details-error">Details does not match our record. Please enter the correct details.</span>
+            <?php endif;?>
+        </fieldset>
+
         <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_user_attributes'); ?>
         <?php if ($userDefinedAttributes):?>
             <?php $userDefinedAttributes->setEntityType('customer')->setShowContainer(false);?>
