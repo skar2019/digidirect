@@ -31,19 +31,42 @@ define([
          * @return {*|String}
          */
         getPoints: function () {
-            var price = 0;
+            var giftcardaccount = 0;
+            var grand_total = 0;
+            var formattedPrice;
+            var points;
+            var total;
             
             if (this.totals()) {
-                price = totals.getSegment('grand_total').value;
-            }
-            var formattedPrice = Math.floor(price);
+ 
+                grand_total = totals.getSegment('grand_total').value;
             
-            var points = formattedPrice * 2;
+                if (totals.getSegment('giftcardaccount') != null){
                
-            return points.toLocaleString();
-            
+                giftcardaccount = totals.getSegment('giftcardaccount').value;
+               
+                total = grand_total + (-(giftcardaccount));
+                             
+                formattedPrice = Math.ceil(total);
+
+                points = formattedPrice * 2;
+
+                return points.toLocaleString();
+               
+                }else {
+                      formattedPrice = Math.ceil(grand_total);
+
+                      points = formattedPrice * 2;
+
+                      return points.toLocaleString();
+                    
+                }
+          
+           
+            }
+          
         },
-        
+
         /**
          * @return {*}
          */
