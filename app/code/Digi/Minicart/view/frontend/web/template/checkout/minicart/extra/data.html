@@ -1,5 +1,5 @@
 
 <div class="qantas-pts-wrapper-minicart">
             <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
-                Earn <span  data-bind="html: (Math.floor(cart().qantas_points)*2).toLocaleString()"></span> Qantas Points
+                Earn <span  data-bind="html: (Math.ceil(cart().qantas_points)*2).toLocaleString()"></span> Qantas Points
 </div>

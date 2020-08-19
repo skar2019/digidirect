@@ -8,6 +8,6 @@
   <span class="price-wrapper" data-bind="html: price"></span>
    <div class="qantas-pts-wrapper-minicart-price">
     <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />
-    <span class ="qantas-span">Earn <span class ="price-font" data-bind="html: (Math.floor(price.replace(/[^\d\.]/g, ''))*2).toLocaleString()"></span> Qantas Points </span>
+    <span class ="qantas-span">Earn <span class ="price-font" data-bind="html: (Math.ceil(price.replace(/[^\d\.]/g, ''))*2).toLocaleString()"></span> Qantas Points </span>
     <div>
 </div>
