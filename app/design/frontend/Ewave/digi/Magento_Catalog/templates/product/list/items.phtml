@@ -205,6 +205,10 @@ switch ($type = $block->getType()) {
                     $productId = $_item->getId();
                     $productName = $_item->getName();
                     $productUrl = $_item->getProductUrl();
+
+                    $points = $_item->getFinalPrice();
+                    $finalQffPoints = $_item->getPoints();
+                    
                     $ruleMessage = $block->getChildBlock('product.tile.extended.catalog.rule');
                     $available = '';
                     ?>
@@ -341,6 +345,10 @@ switch ($type = $block->getType()) {
                                         <?php endif; ?>
                                     </div>
                                 <?php endif; ?>
+                            </div>                       
+                            <div class="qantas-pts-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+                                <span>Earn <?= ceil($points *2);  ?> Qantas Points</span>
                             </div>
                         </div>
                     </li>

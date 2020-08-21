@@ -52,6 +52,10 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                         <?php
                             $productName = $_item->getName();
                             $productUrl = $block->getProductUrl($_item);
+
+                            $points = $_item->getFinalPrice();
+                            $finalQffPoints = $_item->getPoints();
+
                         ?>
                         <div class="product-item">
                             <div class="product-item-info" data-parent-product-id="<?= $_item->getId(); ?>">
@@ -178,6 +182,12 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                             ->toHtml();
                                         ?>
                                     </div>
+                                </div>
+
+                                
+                                <div class="qantas-pts-wrapper">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+                                    <span>Earn <?= ceil($points * 2) ?> Qantas Points</span>
                                 </div>
                             </div>
                         </div>

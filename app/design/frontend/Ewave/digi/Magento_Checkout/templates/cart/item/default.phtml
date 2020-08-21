@@ -13,6 +13,8 @@ $congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_
 $quoteHelper = $helper = $this->helper('Ewave\Digi\Helper\Quote');
 $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
 $preOrderStatus = \Ewave\PreOrder\Helper\Data::BACKORDERS_PREORDER_OPTION;
+$points = $product->getFinalPrice();
+$finalQffPoints = $product->getPoints();
 /**
  * @var $sddShippingChecker Ewave\Digi\Helper\SddShippingChecker
  */
@@ -98,6 +100,11 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
                     <span><?php /* @escapeNotVerified */ echo __("This product is available for delivery only."); ?></span>
                 </div>
             <?php endif; ?>
+                    
+            <div class="qantas-pts-wrapper push-left">
+                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+                <span>Earn <?= ceil($points*2); ?> Qantas Points</span>
+            </div>
         </div>
     </td>
 
