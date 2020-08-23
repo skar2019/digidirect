@@ -83,6 +83,7 @@ if ($exist = $block->getItems()->getSize()) {
                         $productId = $_item->getId();
                         $productName = $_item->getName();
                         $productUrl = $_item->getProductUrl();
+                        $points = $_item->getFinalPrice();
                         $ruleMessage = $block->getChildBlock('product.related.extended.catalog.rule');
                     ?>
                         <?php if ($iterator++ != 1) : ?></div><?php endif; ?>
@@ -186,11 +187,18 @@ if ($exist = $block->getItems()->getSize()) {
                                                     </span>
                                                 <?php endif; ?>
                                         </div>
-                                        <?php if ($rentBlock = $block->getChildBlock('product.related.rent')): ?>
+                                                <?php if ($rentBlock = $block->getChildBlock('product.related.rent')): ?>
                                             <?= $rentBlock->toHtml(); ?>
                                         <?php endif; ?>
-                                    </div>
+                                        
+                                        
                                 </div>
+                                    <div class="qantas-pts-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+                                        <span>Earn <?= ceil($points *2);  ?> Qantas Points</span>
+                                         </div>
+
+                                    </div>
                             </div>
                             <?= /* @escapeNotVerified */ ($iterator == count($items) + 1) ? '</div>' : '' ?>
                     <?php $i++; endforeach ?>

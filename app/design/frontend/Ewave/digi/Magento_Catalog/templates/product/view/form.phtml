@@ -18,6 +18,8 @@
 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $currencysymbol = $_objectManager->get('Magento\Store\Model\StoreManagerInterface');
 $currencyCode = $currencysymbol->getStore()->getCurrentCurrencyCode();
+$points = $_product->getFinalPrice();
+$finalQffPoints = $_product->getPoints();
 ?>
 
 <div class="product-add-form">
@@ -28,6 +30,12 @@ $currencyCode = $currencysymbol->getStore()->getCurrentCurrencyCode();
         <input type="hidden" name="selected_configurable_option" value="" />
         <input type="hidden" name="related_product" id="related-products-field" value="" />
         <input type="hidden" name="item"  value="<?= /* @noEscape */ $block->getRequest()->getParam('id') ?>" />
+        
+        
+        <div class="push-block-left qantas-pts-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+            <span>Earn <?= ceil($points * 2 ); ?> Qantas Points</span>
+        </div>
         <?= $block->getBlockHtml('formkey') ?>
         <?= $block->getChildHtml('form_top') ?>
         <?php if (!$block->hasOptions()):?>
