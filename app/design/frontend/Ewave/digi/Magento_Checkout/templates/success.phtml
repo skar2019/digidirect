@@ -15,8 +15,8 @@ $googleAnalytic = $this->helper('Ewave\Digi\Helper\GoogleAnalytics');
         <?php else : ?>
             <span class="title -addition"><?= __('Your order # <span>%1</span>', $block->escapeHtml($block->getOrderId())) ?></span>
         <?php endif; ?>
-        <p class="content"><?= /* @escapeNotVerified */__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
-    <?php endif; ?>
+        <p class="content"><?= /* @escapeNotVerified */__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>    
+        <?php endif; ?>
 
     <?= $block->getAdditionalInfoHtml() ?>
 
