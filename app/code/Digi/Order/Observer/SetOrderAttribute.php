@@ -39,7 +39,7 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface
          
        $customerEmail= $order->getCustomerEmail();
       
-       $customer = $this->_customerRepository->get($email);
+       $customer = $this->_customerRepository->get($customerEmail);
        
        $getQff = $customer->getQffNumber();
        
