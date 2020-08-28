@@ -34,4 +34,12 @@ class Order
     const ATTRIBUTE_PRONTO_ORDER_NUMBER = 'pronto_order_number';
     const ATTRIBUTE_PRONTO_ORDER_TRACKING_NUMBER = 'pronto_order_tracking_number';
     const ATTRIBUTE_PRONTO_MANIFEST_NUMBER = 'pronto_manifest_number';
+    
+    const QFF = 'QFF';
+    const QFF_SURNAME = 'QFFSURNAME';
+    
+    const CUSTOM_DATA = 'Custom-data';
+    const DATA = 'data';
+    const KEY = 'key';
+    const VALUE = 'value';
 }

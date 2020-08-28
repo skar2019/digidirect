@@ -594,6 +594,38 @@
                                         </item>
                                     </item>
                                 </item>
+                                <item name="custom-data" xsi:type="array"> 
+                                    
+                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::CUSTOM_DATA</item>
+                                       <item name="value" xsi:type="array">
+                                           
+                                           <item name="data" xsi:type="array"> 
+                                                <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::DATA</item>
+                                                 <item name="value" xsi:type="array">
+                                                     
+                                                      <item name="key" xsi:type="array">
+                                                        <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::KEY</item>
+                                                        <item name="value" xsi:type="array">
+                                                            <item name="key" xsi:type="array">
+                                                                
+                                                                <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::VALUE</item>
+                                                                  <item name="value" xsi:type="array">
+                                                                      
+                                                                      <item name="QFF" xsi:type="array">
+                                                                          
+                                                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::QFF</item>
+                                                                            <item name="value" xsi:type="string">{{var order.qff_number}}</item> 
+                                                                           
+                                                                    </item>
+                                                             </item>
+                                                         </item>  
+                                                      </item>
+                                                 </item> 
+                                            </item>
+                                       </item>
+
+                                 </item>
+                               </item>
                             </item>
                         </item>
                         <item name="detail" xsi:type="array">
