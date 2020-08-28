@@ -616,14 +616,21 @@
                                                                             <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::QFF</item>
                                                                             <item name="value" xsi:type="string">{{var order.qff_number}}</item> 
                                                                            
-                                                                    </item>
-                                                             </item>
+                                                                     </item>
+                                                                     
+                                                                     <item name="QFFSURNAME" xsi:type="array">
+                                                                          
+                                                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::QFF_SURNAME</item>
+                                                                            <item name="value" xsi:type="string">{{var order.qff_lastname}}</item> 
+                                                                           
+                                                                     </item>
+                                                              </item>
                                                          </item>  
                                                       </item>
                                                  </item> 
                                             </item>
                                        </item>
-
+                                       
                                  </item>
                                </item>
                             </item>

@@ -37,30 +37,33 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface
         /** @var \Magento\Sales\Model\Order $order */
        $order = $observer->getOrder();
          
-       $customerEmail= $order->getCustomerEmail();
+       $customerEmail = $order->getCustomerEmail();
       
        $customer = $this->_customerRepository->get($customerEmail);
        
-       $getQff = $customer->getQffNumber();
+       $getQffNumber = $customer->getQffNumber();
        
+       $getQffLastName = $customer->getQffLastName();
        
-       if  ($getQff == NULL ){
+       if  ($getQffNumber == NULL  && $getQffLastName == NULL  ){
+       
+          $order->setQffNumber('NULL')->save();  
            
-          
-           $saveQff = $order->setQffNumber('NULL');  
+           $order->setQffLastName('NULL')->save(); 
            
-          
-           $saveQff->save();
+
+         
            return $this;
        }   
-            
-       if ( $getQff !== NULL){
-    
-           $saveQff = $order->setQffNumber($getQff);  
-           
           
-           $saveQff->save();
-         
+       if ( $getQffNumber !== NULL && $getQffLastName !== NULL){
+ 
+             $order->setQffLastname($getQffNumber)->save();
+            
+            
+             $order->setQffNumber($getQffLastName)->save();
+            
+            
            return $this;
      }
         
