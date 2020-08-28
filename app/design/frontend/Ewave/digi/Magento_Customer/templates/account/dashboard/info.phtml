@@ -34,7 +34,7 @@
         
         <div class="box box-information">
             <strong class="box-title">
-                <span><?= $block->escapeHtml(__('Qantas Frequent Flyer')) ?></span>
+                <span><?= $block->escapeHtml(__('Qantas Frequent Flyer Details')) ?></span>
             </strong>
             <div class="box-content">
                 <?php if (!$block->getCustomer()->verifyQffDetails() && !empty($block->getCustomer()->getQffNumber())): ?>
