@@ -84,6 +84,10 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                             $(".qff-link-error").remove();
                                         }
                                         
+                                        if($(".qff-link-success").length > 0){
+                                            $(".qff-link-success").remove();
+                                        }
+                                        
                                         qff_number.attr("readonly", true);
                                         qff_lastname.attr("readonly", true);
                                         $("#qff-trigger").attr("data-action", "change");
@@ -95,6 +99,10 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                     else{
                                         if($(".qff-link-error").length > 0){
                                             $(".qff-link-error").remove();
+                                        }
+                                        
+                                         if($(".qff-link-success").length > 0){
+                                            $(".qff-link-success").remove();
                                         }
 
                                         var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
@@ -113,6 +121,9 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                         $(".qff-link-error").remove();
                                     }
 
+                                    if($(".qff-link-success").length > 0){
+                                            $(".qff-link-success").remove();
+                                        }
                                     var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
                                     $(error_message).insertAfter(qff_lastname);
 
