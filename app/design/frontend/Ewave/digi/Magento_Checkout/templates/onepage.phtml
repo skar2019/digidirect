@@ -43,6 +43,129 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
             return url.setBaseUrl('<?= /* @escapeNotVerified */ $block->getBaseUrl() ?>');
         })
     </script>
+    
+    <!--For Testing-->
+    <script type="text/javascript">
+        require([
+            "jquery",
+            "mage/mage",
+        ],function($) {
+            $(window).load(function(){
+                var checkExist = setInterval(function() {
+                    if ($("#qff_number").length) {
+                        
+                        clearInterval(checkExist);
+                        
+                        login_state = window.isCustomerLoggedIn;
+                        qff_form = $("#qff-form"); 
+                        qff_number = $("#qff_number"); 
+                        qff_lastname = $("#qff_lastname"); 
+                        qff_trigger = $("#qff-trigger");
+                        qff_error = $(".qff-link-error");
+                        function verifyQffDetails(action, action_url){
+                            $.ajax(
+                            {
+                                url: action_url,
+                                data: {
+                                    qff_number: qff_number.val(),
+                                    qff_lastname: qff_lastname.val(),
+                                    qff_action: action
+                                },
+                                type: "POST",
+                                dataType: "json",
+                                beforeSend: function(){
+                                    $("#qff-trigger").html("<span>Please wait</span>");
+                                    $("#qff-trigger").attr("disabled", true);
+                                },
+                                success: function(data){
+                                    if(data.result){
+                                        
+                                        if($(".qff-link-error").length > 0){
+                                            $(".qff-link-error").remove();
+                                        }
+                                        
+                                        qff_number.attr("readonly", true);
+                                        qff_lastname.attr("readonly", true);
+                                        $("#qff-trigger").attr("data-action", "change");
+                                        $("#qff-trigger").html("<span>Change</span>");
+                                        
+                                         var success_message = "<span class='qff-link-success'>Validation success.</span>";
+                                         $(success_message).insertAfter(qff_lastname);
+                                    }
+                                    else{
+                                        if($(".qff-link-error").length > 0){
+                                            $(".qff-link-error").remove();
+                                        }
+
+                                        var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
+                                        $(error_message).insertAfter(qff_lastname);
+
+                                        $("#qff-trigger").attr("data-action", "link");
+                                        $("#qff-trigger").html("<span>Validate</span>");
+                                    }
+                                    
+                                    $("#qff-trigger").attr("disabled", false);
+                                },
+                                error: function(){
+                                    $("#qff-trigger").attr("disabled", false);
+                                    
+                                    if($(".qff-link-error").length > 0){
+                                        $(".qff-link-error").remove();
+                                    }
+
+                                    var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
+                                    $(error_message).insertAfter(qff_lastname);
+
+                                    $("#qff-trigger").attr("data-action", "link");
+                                    $("#qff-trigger").html("<span>Validate</span>");
+                                }
+                            });
+                            
+                            qff_trigger.attr("disabled", false);
+                        }
+                        
+                        if(login_state){
+                            qff_number.val(window.customerData["qff_number"]);
+                            qff_lastname.val(window.customerData["qff_lastname"]);
+
+                            if(qff_number.val() != "" && qff_lastname.val() != ""){
+                                $("#qff-trigger").attr("data-action", "link");
+                                var action = "load";
+                                var action_url = "/customer/account/editpost";
+                                verifyQffDetails(action, action_url);
+                            }
+                        }
+
+                        $("#qff-trigger").click(function()
+                        {
+                            if(qff_error.length > 0){
+                                qff_error.remove();
+                            }
+                            
+                            if($("#qff-trigger").attr("data-action") == "link"){
+                                var action = "update";
+                                if(login_state){
+                                    var action_url = "/customer/account/editpost";
+                                }
+                                else{
+                                    var action_url = "/customer/index/qffaction/";
+                                }
+                                
+                                verifyQffDetails(action, action_url);
+                            }
+                            else{
+                                qff_number.attr("readonly", false);
+                                qff_lastname.attr("readonly", false);
+                                qff_trigger.attr("data-action", "link");
+                                qff_trigger.html("<span>Validate</span>");
+                            }
+                        });
+                    }
+                 }, 100); 
+            });
+        });
+    </script>
+    <!--End-->
     <?php $pickUpStoreCmsBlock = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('pick-up-store')->toHtml() ?>
     <?php $oneHourPickUpAvailable = $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('one-hour-pickup-available')->toHtml() ?>
     <script type="text/javascript">

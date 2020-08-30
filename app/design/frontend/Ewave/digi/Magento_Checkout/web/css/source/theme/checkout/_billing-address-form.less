@@ -86,5 +86,74 @@
             padding: 16px 15px 14px;
             width: 200px;
         }
+    }   
+    .qff-content{
+        &{
+            margin-bottom: 30px;
+        }
+        
+        input[type=text]{
+            width: 100%;
+        }
+        
+        input[readonly=readonly]{
+            background: #d3d3d3;
+        }
+        
+        fieldset{
+            padding-right: 30px;
+        }
+        
+        .form-title{
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            display: block;
+            border-bottom: 2px solid #e6e6e6;
+            padding-bottom: 15px;
+        }
+        
+        .qff-action-container{
+            float: left !important;
+            margin-top: 15px !important;
+        }
+        
+        button{
+            font-size: 16px;
+            padding: 15px 30px;
+        }
+        
+        .qantas-promo-box{
+            
+            &{
+                float: right;
+                max-width: 600px;
+            }
+            
+            .qff-logo-container{
+                background: url(../images/qff-logo.svg);
+                background-size: contain;
+                height: 45px;
+                display: inline-block;
+                background-repeat: no-repeat;
+                margin-bottom: 15px;
+                width: 200px;
+            }
+            
+            span{
+                display: inline-block;
+                max-width: 350px;
+                vertical-align: top;
+            }
+        }
+        
+        .qff-link-error{
+            font-weight: bold;
+            color: red;
+        }
+        .qff-link-success{
+            font-weight: bold;
+            color: #507f1d;
+        }
     }
 }
