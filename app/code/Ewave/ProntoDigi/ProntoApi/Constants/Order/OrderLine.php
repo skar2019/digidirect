@@ -15,4 +15,12 @@ class OrderLine
     const SOL_DISC_RATE = 'sol-disc-rate';
     const SOL_CHG_TYPE = 'sol-chg-type';
     const SOL_LINE_TOTAL_INC_TAX = 'sol-line-total-inc-tax';
+    
+    
+    const DATA = 'data';
+    const KEY = 'key';
+    const VALUE = 'value';
+    const QFF = 'QFF';
+    const QFF_SURNAME = 'QFFSURNAME';
+     
 }

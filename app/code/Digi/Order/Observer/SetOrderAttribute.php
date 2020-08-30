@@ -58,10 +58,10 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface
           
        if ( $getQffNumber !== NULL && $getQffLastName !== NULL){
  
-             $order->setQffLastname($getQffNumber)->save();
+             $order->setQffLastname($getQffLastName)->save();
             
             
-             $order->setQffNumber($getQffLastName)->save();
+             $order->setQffNumber($getQffNumber)->save();
             
             
            return $this;

@@ -600,35 +600,16 @@
                                        <item name="value" xsi:type="array">
                                            
                                            <item name="data" xsi:type="array"> 
-                                                <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::DATA</item>
-                                                 <item name="value" xsi:type="array">
-                                                     
-                                                      <item name="key" xsi:type="array">
-                                                        <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::KEY</item>
-                                                        <item name="value" xsi:type="array">
-                                                            <item name="key" xsi:type="array">
-                                                                
-                                                                <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::VALUE</item>
-                                                                  <item name="value" xsi:type="array">
-                                                                      
-                                                                      <item name="QFF" xsi:type="array">
-                                                                          
-                                                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::QFF</item>
-                                                                            <item name="value" xsi:type="string">{{var order.qff_number}}</item> 
-                                                                           
-                                                                     </item>
-                                                                     
-                                                                     <item name="QFFSURNAME" xsi:type="array">
-                                                                          
-                                                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::QFF_SURNAME</item>
-                                                                            <item name="value" xsi:type="string">{{var order.qff_lastname}}</item> 
-                                                                           
-                                                                     </item>
-                                                              </item>
-                                                         </item>  
-                                                      </item>
-                                                 </item> 
-                                            </item>
+                                                <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\OrderLine::DATA</item>
+                                                                  
+                                                       <item name="getter" xsi:type="array">
+                                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                        <item name="method" xsi:type="string">getQffs</item>
+                                                        <item name="arguments" xsi:type="array">
+                                                            <item name="order" xsi:type="string">{{var order}}</item>
+                                                        </item>
+                                                    </item>                      
+
                                        </item>
                                        
                                  </item>

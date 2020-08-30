@@ -514,4 +514,42 @@ class MapperHelper
 
         return $skus;
     }
-}
+    
+     public function getQffs(OrderInterface $order)
+    {
+        
+        $qff = [];
+        $qffSur = [];
+       
+           $qffNumber = $order->getQffNumber();
+            $qffLastname = $order->getQffLastname();
+            
+             if(!empty($qffNumber) && !empty($qffLastname) ){
+    
+           
+                $qffs [] = [ 
+                      OLConst::DATA,
+                      OLConst::KEY => 'QFF',
+                      OLConst::VALUE => $qffNumber,
+                       
+                       ];
+                
+                $qffSur[] = [
+                        OLConst::DATA,
+                        OLConst::KEY => 'QFFSURNAME',
+                        OLConst::VALUE => $qffLastname,
+                ];
+                
+                $merge = array_merge($qffs,$qffSur);
+                return $merge;
+         }else {
+             return 'NULL';
+         }
+        
+    }
+ 
+    
+    
+    } 
+    
+
