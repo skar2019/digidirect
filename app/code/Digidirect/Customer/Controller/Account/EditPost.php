@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * Copyright © Magento, Inc. All rights reserved.
@@ -8,78 +9,105 @@
 namespace Digidirect\Customer\Controller\Account;
 
 use Magento\Framework\App\ObjectManager;
+
 /**
  * Class EditPost
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class EditPost extends \Magento\Customer\Controller\Account\EditPost 
-{   
-    public function execute()
-    {      
-        if(isset($_POST["qff_action"])){
+class EditPost extends \Magento\Customer\Controller\Account\EditPost {
+
+    public function execute() {
+        
+        /**
+         * For AJAX Validation
+         */
+        if (isset($_POST["qff_action"])) {
             $data = array();
             
+            $data["result"] = false;
+
             $action = $_POST["qff_action"];
             $data["result"] = $this->verifyQffDetails($action);
 
             echo json_encode($data);
             exit;
-        }
-        else{
-//            
-//            
-  //$message = 'Validation unsuccessful.';
-//              $this->_messageManager->addError($message);
-             
-//          }
-//		return $resultRedirect;
+        } else {
             
-            /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
-       $resultRedirect = $this->resultRedirectFactory->create();
-//         $this->messageManager->addSuccess(__('Validation unsuccessful'));
-       $validationResult = false;
-       $action = '';
-         $validationResult = $this->verifyQffDetails($action);
-          if ($validationResult ){
-               
-                $this->messageManager->addSuccess(__('Validation Succesful.'));
-                 return $resultRedirect->setPath('customer/account');
-                 
-            }else{
-    
-                 $this->messageManager->addError(__('Validation Unsuccesful.'));
-                 return $resultRedirect->setPath('customer/account/edit/?a=link');
+            /*
+             * Post Validation
+             * 1. Confirm member credentials
+             * 
+             * if successful, save credentials
+             * 
+             * else
+             * show error prompt, if in case credentials is present, delete.
+             */
+            
+            $qff_number = $this->getRequest()->getParam('qff_number');
+            $qff_lastname = $this->getRequest()->getParam('qff_lastname');
+            
+            if ($qff_number != "" && $qff_lastname != "") {
+                $resultRedirect = $this->resultRedirectFactory->create();
+                $validationResult = false;
+                $action = ""; //Initialized action
 
+                $validationResult = $this->verifyQffDetails($action);
+                if ($validationResult) {
+                    $customerId = $this->session->getCustomerId();
+                    $customer = $this->customerRepository->getById($customerId);
+
+                    $customer->setCustomAttribute('qff_number', $qff_number);
+                    $customer->setCustomAttribute('qff_lastname', $qff_lastname);
+
+                    $this->customerRepository->save($customer);
+
+                    return parent::execute();
+                } else {
+
+                    $this->messageManager->addError(__('Qantas Fequent Fyler details are invalid.'));
+                    
+                    $this->session->start();
+                    
+                    $this->session->setCustomerFormData($this->getRequest()->getPostValue());
+                    
+                    $resultRedirect->setPath('*/*/edit/?a=link');
+                    return $resultRedirect;
+                }
+            }else{
+                //Pre caution in case if credentials is present. Delete QFF data.
+                $customerId = $this->session->getCustomerId();
+                $customer = $this->customerRepository->getById($customerId);
+
+                $customer->setCustomAttribute('qff_number', "");
+                $customer->setCustomAttribute('qff_lastname', "");
+                
+                return parent::execute();
             }
-       
-            
-            //return parent::execute();
         }
     }
-    
-    public function verifyQffDetails($action)
-    {
+
+    public function verifyQffDetails($action) {
         $serviceUrl = "https://api.services-stg.qantasloyalty.com/api/validation/members";
         $status = false;
-        
-        if(isset($_POST["qff_number"]) && !empty($_POST["qff_number"]) &&
-           isset($_POST["qff_lastname"]) && !empty($_POST["qff_lastname"])){
+
+        if (isset($_POST["qff_number"]) && !empty($_POST["qff_number"]) &&
+                isset($_POST["qff_lastname"]) && !empty($_POST["qff_lastname"])) {
             $qff_number = $_POST["qff_number"];
             $qff_lastname = $_POST["qff_lastname"];
-        
+
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-              CURLOPT_URL => $serviceUrl,
-              CURLOPT_RETURNTRANSFER => true,
-              CURLOPT_ENCODING => "",
-              CURLOPT_MAXREDIRS => 10,
-              CURLOPT_TIMEOUT => 30,
-              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-              CURLOPT_POSTFIELDS => "{\r\n \"memberId\" : \"$qff_number\",\r\n \"criteria\" : {\"surname\" : \"$qff_lastname\"}\r\n}\r\n",
-              CURLOPT_HTTPHEADER => array(
-                "authorization: Basic ZGlnaURpcmVjdDpzWUNsdm8wUjZsTGdFODg1"
-              ),
+                CURLOPT_URL => $serviceUrl,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_POSTFIELDS => "{\r\n \"memberId\" : \"$qff_number\",\r\n \"criteria\" : {\"surname\" : \"$qff_lastname\"}\r\n}\r\n",
+                CURLOPT_HTTPHEADER => array(
+                    "authorization: Basic ZGlnaURpcmVjdDpzWUNsdm8wUjZsTGdFODg1"
+                ),
             ));
 
             $initial_response = curl_exec($curl);
@@ -88,15 +116,13 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
 
             $status = false;
             $response = json_decode($initial_response);
-            if(!empty($response->status))
-            {
-                if($response->status == "ACTIVE")
-                {
+            if (!empty($response->status)) {
+                if ($response->status == "ACTIVE") {
                     $status = true;
-                    if($action === "update"){
+                    if ($action === "update") {
                         $customer = $this->customerRepository->getById($this->session->getCustomerId());
 
-                        if($qff_number != "" && $qff_lastname != ""){
+                        if ($qff_number != "" && $qff_lastname != "") {
                             $customerId = $this->session->getCustomerId();
                             $customer = $this->customerRepository->getById($customerId);
 
@@ -109,7 +135,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
                 }
             }
         }
-        
+
         return $status;
     }
 }

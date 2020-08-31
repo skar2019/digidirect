@@ -55,7 +55,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                     if ($("#qff_number").length) {
                         
                         clearInterval(checkExist);
-                        
+                      
                         login_state = window.isCustomerLoggedIn;
                         qff_form = $("#qff-form"); 
                         qff_number = $("#qff_number"); 
@@ -63,6 +63,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                         qff_trigger = $("#qff-trigger");
                         qff_error = $(".qff-link-error");
                         function verifyQffDetails(action, action_url){
+                            
                             $.ajax(
                             {
                                 url: action_url,
@@ -78,41 +79,45 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                     $("#qff-trigger").attr("disabled", true);
                                 },
                                 success: function(data){
-                                    if(data.result){
-                                        
-                                        if($(".qff-link-error").length > 0){
-                                            $(".qff-link-error").remove();
-                                        }
-                                        
-                                        if($(".qff-link-success").length > 0){
-                                            $(".qff-link-success").remove();
-                                        }
-                                        
-                                        qff_number.attr("readonly", true);
-                                        qff_lastname.attr("readonly", true);
-                                        $("#qff-trigger").attr("data-action", "change");
-                                        $("#qff-trigger").html("<span>Change</span>");
-                                        
-                                         var success_message = "<span class='qff-link-success'>Validation success.</span>";
-                                         $(success_message).insertAfter(qff_lastname);
-                                    }
-                                    else{
-                                        if($(".qff-link-error").length > 0){
-                                            $(".qff-link-error").remove();
-                                        }
-                                        
-                                         if($(".qff-link-success").length > 0){
-                                            $(".qff-link-success").remove();
-                                        }
-
-                                        var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
-                                        $(error_message).insertAfter(qff_lastname);
-
-                                        $("#qff-trigger").attr("data-action", "link");
-                                        $("#qff-trigger").html("<span>Validate</span>");
-                                    }
                                     
-                                    $("#qff-trigger").attr("disabled", false);
+                                    setTimeout(
+                                    function() 
+                                    {
+                                        if(data.result){
+                                            if($(".qff-link-error").length > 0){
+                                                $(".qff-link-error").remove();
+                                            }
+
+                                            if($(".qff-link-success").length > 0){
+                                                $(".qff-link-success").remove();
+                                            }
+
+                                            qff_number.attr("readonly", true);
+                                            qff_lastname.attr("readonly", true);
+                                            $("#qff-trigger").attr("data-action", "change");
+                                            $("#qff-trigger").html("<span>Change</span>");
+
+                                             var success_message = "<span class='qff-link-success'>Validation success.</span>";
+                                             $(success_message).insertAfter(qff_lastname);
+                                        }
+                                        else{
+                                            if($(".qff-link-error").length > 0){
+                                                $(".qff-link-error").remove();
+                                            }
+
+                                             if($(".qff-link-success").length > 0){
+                                                $(".qff-link-success").remove();
+                                            }
+
+                                            var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
+                                            $(error_message).insertAfter(qff_lastname);
+
+                                            $("#qff-trigger").attr("data-action", "link");
+                                            $("#qff-trigger").html("<span>Validate</span>");
+                                        }
+
+                                        $("#qff-trigger").attr("disabled", false);
+                                    }, 3000);
                                 },
                                 error: function(){
                                     $("#qff-trigger").attr("disabled", false);
@@ -131,11 +136,13 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                     $("#qff-trigger").html("<span>Validate</span>");
                                 }
                             });
-                            
-                            qff_trigger.attr("disabled", false);
                         }
                         
                         if(login_state){
+                            if(qff_error.length > 0){
+                                    qff_error.remove();
+                                }
+                        
                             qff_number.val(window.customerData["qff_number"]);
                             qff_lastname.val(window.customerData["qff_lastname"]);
 
@@ -143,7 +150,11 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                 $("#qff-trigger").attr("data-action", "link");
                                 var action = "load";
                                 var action_url = "/customer/account/editpost";
-                                verifyQffDetails(action, action_url);
+                                setTimeout(
+                                function() 
+                                {
+                                    verifyQffDetails(action, action_url);
+                                }, 3000);
                             }
                         }
 
