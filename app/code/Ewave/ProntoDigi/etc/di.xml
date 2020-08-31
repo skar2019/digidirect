@@ -594,7 +594,7 @@
                                         </item>
                                     </item>
                                 </item>
-                                    <item name="Custom-data" xsi:type="array"> 
+                                    <item name="custom-data" xsi:type="array"> 
 
                                         <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::CUSTOM_DATA</item>
                                        <item name="value" xsi:type="array">

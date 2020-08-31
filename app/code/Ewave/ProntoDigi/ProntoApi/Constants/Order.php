@@ -35,6 +35,6 @@ class Order
     const ATTRIBUTE_PRONTO_ORDER_TRACKING_NUMBER = 'pronto_order_tracking_number';
     const ATTRIBUTE_PRONTO_MANIFEST_NUMBER = 'pronto_manifest_number';
     
-    const CUSTOM_DATA = 'Custom-data';
+    const CUSTOM_DATA = 'custom-data';
     
 }
