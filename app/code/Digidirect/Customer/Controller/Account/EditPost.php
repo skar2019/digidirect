@@ -46,10 +46,20 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
 //		return $resultRedirect;
             
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
-        $resultRedirect = $this->resultRedirectFactory->create();
-         $this->messageManager->addError(__('Validation unsuccessful'));
-          return $resultRedirect->setPath('customer/account');
-            
+       $resultRedirect = $this->resultRedirectFactory->create();
+//         $this->messageManager->addSuccess(__('Validation unsuccessful'));
+       
+         $validationResult = $this->verifyQffDetails($action);
+          if ($validationResult ){
+               
+                $this->messageManager->addSuccess(__('Validation Succesful'));
+                 return $resultRedirect->setPath('customer/account');
+            }else{
+                 $this->messageManager->addError(__('Validation Unsuccesful'));
+                 return $resultRedirect->setPath('customer/account/edit/?a=link');
+
+            }
+       
             
             //return parent::execute();
         }
