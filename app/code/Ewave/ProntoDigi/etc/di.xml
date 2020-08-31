@@ -594,27 +594,27 @@
                                         </item>
                                     </item>
                                 </item>
-                                <item name="custom-data" xsi:type="array"> 
-                                    
-                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::CUSTOM_DATA</item>
+                                    <item name="Custom-data" xsi:type="array"> 
+
+                                        <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::CUSTOM_DATA</item>
                                        <item name="value" xsi:type="array">
-                                           
+                                          
                                            <item name="data" xsi:type="array"> 
                                                 <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\OrderLine::DATA</item>
-                                                                  
-                                                       <item name="getter" xsi:type="array">
-                                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
-                                                        <item name="method" xsi:type="string">getQffs</item>
-                                                        <item name="arguments" xsi:type="array">
-                                                            <item name="order" xsi:type="string">{{var order}}</item>
-                                                        </item>
-                                                    </item>                      
+
+                                                           <item name="getter" xsi:type="array">
+                                                            <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                            <item name="method" xsi:type="string">getQffs</item>
+                                                            <item name="arguments" xsi:type="array">
+                                                                <item name="order" xsi:type="string">{{var order}}</item>
+                                                            </item>
+                                                        </item>                      
 
                                        </item>
-                                       
-                                 </item>
-                               </item>
+                                  
                             </item>
+                        </item>
+                        </item>
                         </item>
                         <item name="detail" xsi:type="array">
                             <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::DETAIL</item>
