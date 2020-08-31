@@ -26,18 +26,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
             exit;
         }
         else{
-//            $qff_number = $this->getRequest()->getParam('qff_number');
-//            $qff_lastname = $this->getRequest()->getParam('qff_lastname');
-//
-//            if($qff_number != "" && $qff_lastname != ""){
-//                $customerId = $this->session->getCustomerId();
-//                $customer = $this->customerRepository->getById($customerId);
-//
-//                $customer->setCustomAttribute('qff_number', $qff_number);
-//                $customer->setCustomAttribute('qff_lastname', $qff_lastname);
-//
-//                $this->customerRepository->save($customer);
-//            }
+//            
 //            
   //$message = 'Validation unsuccessful.';
 //              $this->_messageManager->addError($message);
@@ -48,14 +37,17 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost
             /** @var \Magento\Framework\Controller\Result\Redirect $resultRedirect */
        $resultRedirect = $this->resultRedirectFactory->create();
 //         $this->messageManager->addSuccess(__('Validation unsuccessful'));
-       
+       $validationResult = false;
+       $action = '';
          $validationResult = $this->verifyQffDetails($action);
           if ($validationResult ){
                
-                $this->messageManager->addSuccess(__('Validation Succesful'));
+                $this->messageManager->addSuccess(__('Validation Succesful.'));
                  return $resultRedirect->setPath('customer/account');
+                 
             }else{
-                 $this->messageManager->addError(__('Validation Unsuccesful'));
+    
+                 $this->messageManager->addError(__('Validation Unsuccesful.'));
                  return $resultRedirect->setPath('customer/account/edit/?a=link');
 
             }
