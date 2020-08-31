@@ -67,6 +67,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                             $.ajax(
                             {
                                 url: action_url,
+                                async: false,
                                 data: {
                                     qff_number: qff_number.val(),
                                     qff_lastname: qff_lastname.val(),
