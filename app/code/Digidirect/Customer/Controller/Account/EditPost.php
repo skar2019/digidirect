@@ -9,6 +9,12 @@
 namespace Digidirect\Customer\Controller\Account;
 
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\App\Filesystem\DirectoryList as dir;
+use Magento\Framework\Filesystem as filesys;
+use Magento\Framework\File\Csv as csv;
+
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 
 /**
  * Class EditPost
@@ -17,13 +23,13 @@ use Magento\Framework\App\ObjectManager;
 class EditPost extends \Magento\Customer\Controller\Account\EditPost {
 
     public function execute() {
-        
+
         /**
          * For AJAX Validation
          */
         if (isset($_POST["qff_action"])) {
             $data = array();
-            
+
             $data["result"] = false;
 
             $action = $_POST["qff_action"];
@@ -32,7 +38,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
             echo json_encode($data);
             exit;
         } else {
-            
+
             /*
              * Post Validation
              * 1. Confirm member credentials
@@ -42,10 +48,10 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
              * else
              * show error prompt, if in case credentials is present, delete.
              */
-            
+
             $qff_number = $this->getRequest()->getParam('qff_number');
             $qff_lastname = $this->getRequest()->getParam('qff_lastname');
-            
+
             if ($qff_number != "" && $qff_lastname != "") {
                 $resultRedirect = $this->resultRedirectFactory->create();
                 $validationResult = false;
@@ -65,25 +71,30 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
                 } else {
 
                     $this->messageManager->addError(__('Qantas Fequent Fyler details are invalid.'));
-                    
+
                     $this->session->start();
-                    
+
                     $this->session->setCustomerFormData($this->getRequest()->getPostValue());
-                    
+
                     $resultRedirect->setPath('*/*/edit/?a=link');
                     return $resultRedirect;
                 }
-            }else{
+            } else {
                 //Pre caution in case if credentials is present. Delete QFF data.
                 $customerId = $this->session->getCustomerId();
                 $customer = $this->customerRepository->getById($customerId);
 
                 $customer->setCustomAttribute('qff_number', "");
                 $customer->setCustomAttribute('qff_lastname', "");
-                
+
                 return parent::execute();
             }
         }
+    }
+
+    function errorMessage() {
+        $error = $this->messageManager->addError(__('Qantas Fequent Flyer details are invalid.'));
+        return $error;
     }
 
     public function verifyQffDetails($action) {
@@ -116,6 +127,29 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
 
             $status = false;
             $response = json_decode($initial_response);
+
+
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $path= $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
+
+            $fileDirectoryPath = $path->getPath('var');
+
+
+            $filePath = $fileDirectoryPath . '/ProntoApi/';
+            if (!is_dir($filePath)) {
+                mkdir($filePath, 0777, true);
+            }
+
+            $handle = fopen($filePath . 'logs.txt', 'w');
+
+            fwrite($handle, $initial_response);
+
+            fclose($handle);
+
+
+
+
+
             if (!empty($response->status)) {
                 if ($response->status == "ACTIVE") {
                     $status = true;
@@ -138,4 +172,5 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
 
         return $status;
     }
+
 }
