@@ -37,26 +37,12 @@
                 <span><?= $block->escapeHtml(__('Qantas Frequent Flyer Details')) ?></span>
             </strong>
             <div class="box-content">
-                <?php if (!$block->getCustomer()->verifyQffDetails() && !empty($block->getCustomer()->getQffNumber())): ?>
+                <?php if (!empty($block->getCustomer()->getQffNumber())): ?>
                     <div class="qantas-pts-wrapper push-left">
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg> 
                         <span>QFF Number: <?= $block->escapeHtml($block->getCustomer()->getQffNumber())?><br></span>
                     </div>
                 
-                    <span class="qff-details-error">Details does not match our record. Please enter the correct details.</span>
-
-                    <div class="box-actions qantas-wrapper-action">
-                        <a class="action edit" href="<?= $block->escapeUrl($block->getUrl('customer/account/edit')) ?>?a=link">
-                            <span><?= $block->escapeHtml(__('Edit')) ?></span>
-                        </a>
-                    </div>
-                    
-                <?php elseif ($block->getCustomer()->verifyQffDetails()): ?>
-                    <div class="qantas-pts-wrapper push-left">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg> 
-                        <span>QFF Number: <?= $block->escapeHtml($block->getCustomer()->getQffNumber())?><br></span>
-                    </div>
-
                     <div class="box-actions qantas-wrapper-action">
                         <a class="action edit" href="<?= $block->escapeUrl($block->getUrl('customer/account/edit')) ?>?a=link">
                             <span><?= $block->escapeHtml(__('Edit')) ?></span>
