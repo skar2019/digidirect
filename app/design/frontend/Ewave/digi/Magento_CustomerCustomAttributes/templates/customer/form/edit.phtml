@@ -135,9 +135,9 @@
 </form>
 <script>
     require(['jquery'],function($){
-       
+    
             $('#submit').on('click',function (e){
-               
+                
                    var url = "<?php echo $block->getBaseUrl().'/customer/account/editpost'?>";
                    var qff_number =  $("#qff_number").val();
                    var qff_lastname = $("#qff_lastname").val();
@@ -157,7 +157,7 @@
                                         
                                       var res = data;
                                       var json = JSON.parse(res);
-                                      //console.log(json.result);
+                                      console.log(json.result);
                                       
                                       var test = json.result;
                                         if(test == true){
@@ -168,9 +168,10 @@
                                             if($(".qff-link-success").length > 0){
                                                 $(".qff-link-success").remove();
                                             }
-
+                                            
                                              var success_message = "<span class='qff-link-success'>Validation success.</span>";
-                                             $(success_message).insertAfter(qff_lastname);
+                                             $(success_message).insertAfter("#qff_lastname");
+                                            
                                         }
                                         else{
                                             console.log("false");
@@ -200,6 +201,8 @@
                     }
             });
       });
+  
+
   
 </script>
 
