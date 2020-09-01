@@ -226,10 +226,42 @@
                                         qff_lastname: qff_lastname,
                                         qff_action: action
                                     },
-                                    success: function(response){
+                                    success: function(data){
                                         
+                                      var res = data;
+                                      var json = JSON.parse(res);
+                                      //console.log(json.result);
+                                      
+                                      var test = json.result;
+                                        if(test == true){
+                                            if($(".qff-link-error").length > 0){
+                                                $(".qff-link-error").remove();
+                                            }
+                                            console.log("true");
+                                            if($(".qff-link-success").length > 0){
+                                                $(".qff-link-success").remove();
+                                            }
+
+                                             var success_message = "<span class='qff-link-success'>Validation success.</span>";
+                                             $(success_message).insertAfter(qff_lastname);
+                                        }
+                                        else{
+                                            console.log("false");
+                                            if($(".qff-link-error").length > 0){
+                                                $(".qff-link-error").remove();
+                                            }
+
+                                             if($(".qff-link-success").length > 0){
+                                                $(".qff-link-success").remove();
+                                            }
+
+                                            var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
+                                            $(error_message).insertAfter("#qff_lastname");
+
+                                        }
                                     },
                                     error: function(){
+                                     
                                         if($(".qff-link-error").length > 0){
                                             $(".qff-link-error").remove();
                                         }
