@@ -72,9 +72,6 @@
                 </div>
             </div>
             
-            <?php if (!$block->getCustomer()->verifyQffDetails() && !empty($block->getCustomer()->getQffNumber())): ?>
-                <span class="qff-details-error">Details does not match our record. Please enter the correct details.</span>
-            <?php endif;?>
         </fieldset>
 
         <?php $userDefinedAttributes = $block->getLayout()->getBlock('customer_form_user_attributes'); ?>
@@ -132,15 +129,65 @@
     </fieldset>
     <div class="actions-toolbar">
         <div class="primary">
-            <button type="submit" class="action save" title="<?= /* @escapeNotVerified */ __('Save') ?>"><span><?= /* @escapeNotVerified */ __('Save') ?></span></button>
+            <button id="submit" type="submit" class="action save" title="<?= /* @escapeNotVerified */ __('Save') ?>"><span><?= /* @escapeNotVerified */ __('Save') ?></span></button>
         </div>
     </div>
 </form>
+<script>
+    require(['jquery'],function($){
+       
+            $('#submit').on('click',function (e){
+               
+                   var url = "<?php echo $block->getBaseUrl().'customer/account/edit/'?>";
+                   var qff_number =  $("#qff_number").val();
+                   var qff_lastname = $("#qff_lastname").val();
+                   var action = "action";
+                   if (qff_number != "" && qff_lastname != ""){
+                    e.preventDefault();
+                                $.ajax({
+                                    url: url,
+                                    type: "POST",
+                                    async: false,
+                                    data: {
+                                        qff_number: qff_number,
+                                        qff_lastname: qff_lastname,
+                                        qff_action: action
+                                    },
+                                    success: function(response){
+                                        
+                                    },
+                                    error: function(){
+                                        if($(".qff-link-error").length > 0){
+                                            $(".qff-link-error").remove();
+                                        }
+                                        var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
+                                         
+                                          $(error_message).insertAfter("#qff_lastname");
+                                        }
+                                });
+                    }
+            });
+      });
+  
+</script>
+
 <script>
     require([
         "jquery",
         "mage/mage"
     ], function($){
+
+             
+        <?php if (isset($_GET["a"]) && $_GET["a"] == "link"): ?>
+            $("#change-qff-number").attr("checked", true);
+            $(".qff-fieldset").removeClass("hide");
+        <?php endif; ?>
+        
+        $("#change-qff-number").click(function()
+        {
+            $(".qff-fieldset").toggleClass("hide");
+        });
+        
         var dataForm = $('#form-validate');
         var ignore = <?= /* @escapeNotVerified */ $_dob->isEnabled() ? '\'input[id$="full"]\'' : 'null' ?>;
 

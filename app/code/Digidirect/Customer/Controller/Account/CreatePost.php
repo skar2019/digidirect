@@ -32,7 +32,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
                 $url = $this->urlModel->getUrl('customer/account/create');
                 
                 $message = __(
-                    'Qantas Fequent Fyler details are invalid',
+                    'Qantas Fequent Flyer details are invalid',
                     $url
                 );
                 

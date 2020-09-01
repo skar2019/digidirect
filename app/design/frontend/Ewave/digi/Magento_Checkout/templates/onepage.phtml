@@ -80,7 +80,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                     $("#qff-trigger").attr("disabled", true);
                                 },
                                 success: function(data){
-                                    
+
                                     setTimeout(
                                     function() 
                                     {
@@ -147,16 +147,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                             qff_number.val(window.customerData["qff_number"]);
                             qff_lastname.val(window.customerData["qff_lastname"]);
 
-                            if(qff_number.val() != "" && qff_lastname.val() != ""){
-                                $("#qff-trigger").attr("data-action", "link");
-                                var action = "load";
-                                var action_url = "/customer/account/editpost";
-                                setTimeout(
-                                function() 
-                                {
-                                    verifyQffDetails(action, action_url);
-                                }, 3000);
-                            }
+                           
                         }
 
                         $("#qff-trigger").click(function()

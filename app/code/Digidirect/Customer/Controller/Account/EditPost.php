@@ -70,13 +70,13 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
                     return parent::execute();
                 } else {
 
-                    $this->messageManager->addError(__('Qantas Fequent Fyler details are invalid.'));
+                    $this->messageManager->addError(__('Qantas Fequent Flyer details are invalid.'));
 
                     $this->session->start();
 
                     $this->session->setCustomerFormData($this->getRequest()->getPostValue());
 
-                    $resultRedirect->setPath('*/*/edit/?a=link');
+                    $resultRedirect->setPath('customer/account/edit/');
                     return $resultRedirect;
                 }
             } else {
@@ -93,7 +93,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
     }
 
     function errorMessage() {
-        $error = $this->messageManager->addError(__('Qantas Fequent Flyer details are invalid.'));
+        $error = "test";
         return $error;
     }
 
