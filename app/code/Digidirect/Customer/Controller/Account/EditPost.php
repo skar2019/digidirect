@@ -140,14 +140,11 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
                 mkdir($filePath, 0777, true);
             }
 
-            $handle = fopen($filePath . 'logs.txt', 'w');
+            $handle = fopen($filePath . 'logs.txt', 'a');
 
             fwrite($handle, $initial_response);
-
+            
             fclose($handle);
-
-
-
 
 
             if (!empty($response->status)) {
