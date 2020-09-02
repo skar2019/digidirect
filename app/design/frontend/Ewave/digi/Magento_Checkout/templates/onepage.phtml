@@ -51,6 +51,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
             "mage/mage",
         ],function($) {
             $(window).load(function(){
+                $("#qff-trigger").attr("data-action", "link");
                 var checkExist = setInterval(function() {
                     if ($("#qff_number").length) {
                         
@@ -150,10 +151,13 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                            
                         }
 
-                        $("#qff-trigger").click(function()
+                        $("#qff-trigger").click(function(e)
                         {
                             if(qff_error.length > 0){
                                 qff_error.remove();
+                            }
+                            if($(".qff-link-success").length > 0){
+                               $(".qff-link-success").remove();
                             }
                             
                             if($("#qff-trigger").attr("data-action") == "link"){
@@ -162,10 +166,11 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                     var action_url = "/customer/account/editpost";
                                 }
                                 else{
-                                    var action_url = "/customer/index/qffaction/";
+                                    var action_url = "/customer/index/qffaction";
                                 }
                                 
                                 verifyQffDetails(action, action_url);
+                                  e.preventDefault();
                             }
                             else{
                                 qff_number.attr("readonly", false);
