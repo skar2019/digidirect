@@ -19,7 +19,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
     {
         $qff_number = $this->getRequest()->getParam('qff_number');
         $qff_lastname = $this->getRequest()->getParam('qff_lastname');
-
+          
         if ($qff_number != "" && $qff_lastname != "") {
             $resultRedirect = $this->resultRedirectFactory->create();
             $validationResult = false;
@@ -32,7 +32,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
                 $url = $this->urlModel->getUrl('customer/account/create');
                 
                 $message = __(
-                    'Qantas Fequent Flyer details are invalid',
+                    'Qantas Frequent Flyer details are invalid',
                     $url
                 );
                 
@@ -51,7 +51,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
     {
         $serviceUrl = "https://api.services-stg.qantasloyalty.com/api/validation/members";
         $status = false;
-        
+      
         if(isset($_POST["qff_number"]) && !empty($_POST["qff_number"]) &&
            isset($_POST["qff_lastname"]) && !empty($_POST["qff_lastname"])){
             $qff_number = $_POST["qff_number"];
@@ -86,7 +86,7 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
                 }
             }
         }
-        
+     
         return $status;
     }
 }
