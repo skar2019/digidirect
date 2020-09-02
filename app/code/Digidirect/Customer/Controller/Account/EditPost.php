@@ -60,7 +60,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
     }
 
     public function verifyQffDetails($action) {
-        $serviceUrl = "https://api.services-stg.qantasloyalty.com/api/validation/members";
+        $serviceUrl = "https://api.services.qantasloyalty.com/api/validation/members";
         $status = false;
 
         if (isset($_POST["qff_number"]) && !empty($_POST["qff_number"]) &&
@@ -79,7 +79,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_POSTFIELDS => "{\r\n \"memberId\" : \"$qff_number\",\r\n \"criteria\" : {\"surname\" : \"$qff_lastname\"}\r\n}\r\n",
                 CURLOPT_HTTPHEADER => array(
-                    "authorization: Basic ZGlnaURpcmVjdDpzWUNsdm8wUjZsTGdFODg1"
+                    "authorization: Basic ZGlnaURpcmVjdDpTZzAyMFdDczFzdkZwakU3"
                 ),
             ));
 

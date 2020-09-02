@@ -21,7 +21,7 @@ class Customer extends \Magento\Customer\Model\Data\Customer implements \Digidir
     */
     public function verifyQffDetails()
     {
-        $serviceUrl = "https://api.services-stg.qantasloyalty.com/api/validation/members";
+        $serviceUrl = "https://api.services.qantasloyalty.com/api/validation/members";
         $qff_number = $this->_get(self::QFF_NUMBER);
         $qff_lastname = $this->_get(self::QFF_LASTNAME);
         
@@ -40,7 +40,7 @@ class Customer extends \Magento\Customer\Model\Data\Customer implements \Digidir
               CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
               CURLOPT_POSTFIELDS => "{\r\n \"memberId\" : \"$qff_number\",\r\n \"criteria\" : {\"surname\" : \"$qff_lastname\"}\r\n}\r\n",
               CURLOPT_HTTPHEADER => array(
-                "authorization: Basic ZGlnaURpcmVjdDpzWUNsdm8wUjZsTGdFODg1"
+                "authorization: Basic ZGlnaURpcmVjdDpTZzAyMFdDczFzdkZwakU3"
               ),
             ));
 
