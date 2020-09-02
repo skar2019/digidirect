@@ -59,6 +59,7 @@
     role="presentation">
     <div class="checkout-shipping-method">
         <div data-bind="i18n: 'Shipping Methods', css: 'step-title ' + titleClasses()" data-role="title"></div>
+        <span>Please note some delivery methods may be unavailable due to your shipping location and time of order.</span><br />
         <!-- ko foreach: getRegion('before-shipping-method-form') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- /ko -->
