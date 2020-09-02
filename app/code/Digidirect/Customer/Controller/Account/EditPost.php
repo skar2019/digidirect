@@ -34,11 +34,11 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
 
             $action = $_POST["qff_action"];
             $data["result"] = $this->verifyQffDetails($action);
-            
+            //$data["result"] = 1;
             if ($data["result"] === 1){
                 $qff_number = $_POST["qff_number"];
                 $qff_lastname = $_POST["qff_lastname"];
-               
+               $this->session->start();
                 $customerId = $this->session->getCustomerId();
                 $customer = $this->customerRepository->getById($customerId);
 
