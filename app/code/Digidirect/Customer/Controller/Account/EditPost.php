@@ -34,67 +34,32 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
 
             $action = $_POST["qff_action"];
             $data["result"] = $this->verifyQffDetails($action);
-
-            echo json_encode($data);
-            exit;
-        } else {
-
-            /*
-             * Post Validation
-             * 1. Confirm member credentials
-             * 
-             * if successful, save credentials
-             * 
-             * else
-             * show error prompt, if in case credentials is present, delete.
-             */
-
-            $qff_number = $this->getRequest()->getParam('qff_number');
-            $qff_lastname = $this->getRequest()->getParam('qff_lastname');
-
-            if ($qff_number != "" && $qff_lastname != "") {
-                $resultRedirect = $this->resultRedirectFactory->create();
-                $validationResult = false;
-                $action = ""; //Initialized action
-
-                $validationResult = $this->verifyQffDetails($action);
-                if ($validationResult) {
-                    $customerId = $this->session->getCustomerId();
-                    $customer = $this->customerRepository->getById($customerId);
-
-                    $customer->setCustomAttribute('qff_number', $qff_number);
-                    $customer->setCustomAttribute('qff_lastname', $qff_lastname);
-
-                    $this->customerRepository->save($customer);
-
-                    return parent::execute();
-                } else {
-
-                    $this->messageManager->addError(__('Qantas Fequent Flyer details are invalid.'));
-
-                    $this->session->start();
-
-                    $this->session->setCustomerFormData($this->getRequest()->getPostValue());
-
-                    $resultRedirect->setPath('customer/account/edit/');
-                    return $resultRedirect;
-                }
-            } else {
-                //Pre caution in case if credentials is present. Delete QFF data.
+            $data["result"] = 1;
+           
+            
+            if ($data["result"] === 1){
+                $qff_number = $_POST["qff_number"];
+                $qff_lastname = $_POST["qff_lastname"];
+               
                 $customerId = $this->session->getCustomerId();
                 $customer = $this->customerRepository->getById($customerId);
 
-                $customer->setCustomAttribute('qff_number', "");
-                $customer->setCustomAttribute('qff_lastname', "");
+                $customer->setCustomAttribute('qff_number', $qff_number);
+                $customer->setCustomAttribute('qff_lastname', $qff_lastname);
 
-                return parent::execute();
+                $this->customerRepository->save($customer);
+                
+                 
             }
+            
+            echo json_encode($data);
+            exit;
+            
+        } 
+        else {
+           return parent::execute();
+            
         }
-    }
-
-    function errorMessage() {
-        $error = "test";
-        return $error;
     }
 
     public function verifyQffDetails($action) {
@@ -149,20 +114,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
 
             if (!empty($response->status)) {
                 if ($response->status == "ACTIVE") {
-                    $status = true;
-                    if ($action === "update") {
-                        $customer = $this->customerRepository->getById($this->session->getCustomerId());
-
-                        if ($qff_number != "" && $qff_lastname != "") {
-                            $customerId = $this->session->getCustomerId();
-                            $customer = $this->customerRepository->getById($customerId);
-
-                            $customer->setCustomAttribute('qff_number', $qff_number);
-                            $customer->setCustomAttribute('qff_lastname', $qff_lastname);
-
-                            $this->customerRepository->save($customer);
-                        }
-                    }
+                    $status = true;                 
                 }
             }
         }

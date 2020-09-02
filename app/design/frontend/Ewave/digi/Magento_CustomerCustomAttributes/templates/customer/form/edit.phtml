@@ -143,7 +143,7 @@
                    var qff_lastname = $("#qff_lastname").val();
                    var action = "update";
                    if (qff_number != "" && qff_lastname != ""){
-                    e.preventDefault();
+                    
                                 $.ajax({
                                     url: url,
                                     type: "POST",
@@ -164,7 +164,7 @@
                                             if($(".qff-link-error").length > 0){
                                                 $(".qff-link-error").remove();
                                             }
-                                            console.log("true");
+                                            //console.log("true");
                                             if($(".qff-link-success").length > 0){
                                                 $(".qff-link-success").remove();
                                             }
@@ -174,7 +174,8 @@
                                             
                                         }
                                         else{
-                                            console.log("false");
+                                            //console.log("false");
+                                            e.preventDefault();
                                             if($(".qff-link-error").length > 0){
                                                 $(".qff-link-error").remove();
                                             }
@@ -185,7 +186,7 @@
 
                                             var error_message = "<span class='qff-link-error'>Details does not match our record. Please enter the correct details.</span>";
                                             $(error_message).insertAfter("#qff_lastname");
-
+                                            
                                         }
                                     },
                                     error: function(){
