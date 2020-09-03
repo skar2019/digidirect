@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
-	<group id="qantas_crongroup">
-		<job instance="Digi\Qantas\Controller\Index\Generate" method="execute" name="digi_qantas_cron">
-			<schedule>* * * * *</schedule>
-		</job>
-	</group>
-</config>
