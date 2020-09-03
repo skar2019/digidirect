@@ -543,7 +543,21 @@ class MapperHelper
                 $merge = array_merge($qffs,$qffSur);
                 return $merge;
          }else {
-             return 'NULL';
+             $qffs [] = [ 
+                      OLConst::DATA,
+                      OLConst::KEY => 'QFF',
+                      OLConst::VALUE => NULL,
+                       
+                       ];
+                
+                $qffSur[] = [
+                        OLConst::DATA,
+                        OLConst::KEY => 'QFFSURNAME',
+                        OLConst::VALUE => NULL,
+                ];
+                
+                $merge = array_merge($qffs,$qffSur);
+                return $merge;
          }
         
     }
