@@ -44,17 +44,15 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
         })
     </script>
     
-    <!--For Testing-->
     <script type="text/javascript">
         require([
             "jquery",
             "mage/mage",
         ],function($) {
             $(window).load(function(){
-                $("#qff-trigger").attr("data-action", "link");
+                
                 var checkExist = setInterval(function() {
                     if ($("#qff_number").length) {
-                        
                         clearInterval(checkExist);
                       
                         login_state = window.isCustomerLoggedIn;
