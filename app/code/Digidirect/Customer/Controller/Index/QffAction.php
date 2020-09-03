@@ -36,11 +36,9 @@ class QffAction extends \Magento\Framework\App\Action\Action
 
             $status = false;
             $response = json_decode($initial_response);
-            if(!empty($response->status))
-            {
-                if($response->status == "ACTIVE")
-                {
-                    $status = true;
+            if (!empty($response->message)) {
+                if ($response->message == "Account is Active") {
+                    $status = true;                 
                 }
             }
         }
