@@ -35,41 +35,44 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface
     {
        
         /** @var \Magento\Sales\Model\Order $order */
-       $order = $observer->getOrder();
+        $order = $observer->getOrder();
          
-       $customerEmail = $order->getCustomerEmail();
-      
-       $customer = $this->_customerRepository->get($customerEmail);
+        $customerEmail = $order->getCustomerEmail();
+        $isGuest = $order->getCustomerIsGuest();
        
-       $getQffNumber = $customer->getQffNumber();
-       
-       $getQffLastName = $customer->getQffLastName();
-       
-       if  ($getQffNumber == NULL  && $getQffLastName == NULL  ){
-       
-          $order->setQffNumber('NULL')->save();  
-           
-           $order->setQffLastName('NULL')->save(); 
-           
+        if($isGuest)
+        {
+            $order->setQffNumber('NULL')->save();  
 
-         
-           return $this;
-       }   
-          
-       if ( $getQffNumber !== NULL && $getQffLastName !== NULL){
- 
-             $order->setQffLastname($getQffLastName)->save();
-            
-            
-             $order->setQffNumber($getQffNumber)->save();
-            
-            
-           return $this;
-     }
-        
+            $order->setQffLastName('NULL')->save(); 
+
+            return $this;
+        }
+        else 
+        {
+            $customer = $this->_customerRepository->get($customerEmail);
        
-   }
-    
-    
-    
+            $getQffNumber = $customer->getQffNumber();
+
+            $getQffLastName = $customer->getQffLastName();
+
+            if  ($getQffNumber == NULL  && $getQffLastName == NULL  ){
+
+                $order->setQffNumber('NULL')->save();  
+
+                $order->setQffLastName('NULL')->save(); 
+
+                return $this;
+            }   
+
+            if ( $getQffNumber !== NULL && $getQffLastName !== NULL){
+
+                $order->setQffLastname($getQffLastName)->save();
+
+                $order->setQffNumber($getQffNumber)->save();
+
+                return $this;
+            }
+        }
+    }
 }
