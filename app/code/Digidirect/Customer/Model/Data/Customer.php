@@ -50,8 +50,8 @@ class Customer extends \Magento\Customer\Model\Data\Customer implements \Digidir
 
             $status = false;
             $response = json_decode($initial_response);
-            if (!empty($response->message)) {
-                if ($response->message == "Account is Active") {
+            if (!empty($response->status)) {
+                if ($response->status == "ACTIVE") {
                     $status = true;                 
                 }
             }

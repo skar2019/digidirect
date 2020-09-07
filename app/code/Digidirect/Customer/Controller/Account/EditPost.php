@@ -109,8 +109,8 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
             fclose($handle);
 
 
-            if (!empty($response->message)) {
-                if ($response->message == "Account is Active") {
+            if (!empty($response->status)) {
+                if ($response->status == "ACTIVE") {
                     $status = true;                 
                 }
             }
