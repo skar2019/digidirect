@@ -247,7 +247,9 @@ class MapperHelper {
         $method = $payment->getMethodInstance();
 
         $code = $method->getCode();
+
         if ($code == 'm2epropayment') {
+
             $componentMode = $payment->getAdditionalInformation('component_mode');
             $paymentMethod = $payment->getAdditionalInformation('payment_method');
             $code = $paymentMethod ? $componentMode . '-' . $paymentMethod : $componentMode;
@@ -547,12 +549,15 @@ class MapperHelper {
 
         $giftCardsAmount = round($baseGiftCardsAmount, 2);
         $grandTotal = round($baseGrandTotal, 2);
+        
         if (!empty($baseGiftCardsAmount) && !empty($baseGrandTotal)) {
-
+            $gifCardJson = $order->getGiftCards();
+            $gifCardtoArray = json_decode($gifCardJson, true);
+            $giftCardNumber = $gifCardtoArray[0]["c"];
 
             $giftCard [] = [
                 PayConst::PAYMENT_TYPE => 'VI',
-                PayConst::PAYMENT_REFERENCE => $getPaymentReference,
+                PayConst::PAYMENT_REFERENCE => $giftCardNumber,
                 PayConst::AMOUNT_TENDERED => $giftCardsAmount,
             ];
 
@@ -578,9 +583,12 @@ class MapperHelper {
         }
 
         if (empty($baseGrandTotal)) {
+            $gifCardJson = $order->getGiftCards();
+            $gifCardtoArray = json_decode($gifCardJson, true);
+            $giftCardNumber = $gifCardtoArray[0]["c"];
             $giftCard [] = [
                 PayConst::PAYMENT_TYPE => 'VI',
-                PayConst::PAYMENT_REFERENCE => $getPaymentReference,
+                PayConst::PAYMENT_REFERENCE => $giftCardNumber,
                 PayConst::AMOUNT_TENDERED => $giftCardsAmount,
             ];
             return $giftCard;
