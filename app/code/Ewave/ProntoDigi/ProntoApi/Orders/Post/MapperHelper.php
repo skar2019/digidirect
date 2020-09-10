@@ -18,9 +18,10 @@ use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Sales\Model\Order;
+use Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails as PayConst;
 
-class MapperHelper
-{
+class MapperHelper {
+
     /**
      * @var CheckoutFieldsDataHelper
      */
@@ -89,12 +90,12 @@ class MapperHelper
      * @param Config $config
      */
     public function __construct(
-        CheckoutFieldsDataHelper $checkoutFieldsDataHelper,
-        CustomerRepositoryInterface $customerRepository,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        SourceItemRepositoryInterface $sourceItemRepository,
-        AbstractEntityRepository $abstractEntityRepository,
-        Config $config
+            CheckoutFieldsDataHelper $checkoutFieldsDataHelper,
+            CustomerRepositoryInterface $customerRepository,
+            SearchCriteriaBuilder $searchCriteriaBuilder,
+            SourceItemRepositoryInterface $sourceItemRepository,
+            AbstractEntityRepository $abstractEntityRepository,
+            Config $config
     ) {
         $this->checkoutFieldsDataHelper = $checkoutFieldsDataHelper;
         $this->customerRepository = $customerRepository;
@@ -108,8 +109,7 @@ class MapperHelper
      * @param OrderInterface|Order $order
      * @return string
      */
-    public function getAccountName(OrderInterface $order)
-    {
+    public function getAccountName(OrderInterface $order) {
         $accountName = $this->getCustomerAttributeValue($order, CustomerAttributes::PRONTO_ACCOUNT_NAME);
         if (empty($accountName)) {
             $address = $order->getShippingAddress() ?? $order->getBillingAddress();
@@ -122,8 +122,7 @@ class MapperHelper
      * @param OrderInterface|Order $order
      * @return string
      */
-    public function getAccount(OrderInterface $order)
-    {
+    public function getAccount(OrderInterface $order) {
         return $this->getCustomerAttributeValue($order, CustomerAttributes::PRONTO_ACCOUNT_ID);
     }
 
@@ -131,9 +130,8 @@ class MapperHelper
      * @param OrderInterface $order
      * @return float
      */
-    public function getAmountTendered(OrderInterface $order)
-    {
-        $value = (float)$order->getBaseGiftCardsAmount();
+    public function getAmountTendered(OrderInterface $order) {
+        $value = (float) $order->getBaseGiftCardsAmount();
         $value = !empty($value) ? $value : $order->getBaseGrandTotal();
         return round($value, 2);
     }
@@ -142,8 +140,7 @@ class MapperHelper
      * @param OrderInterface $order
      * @return string
      */
-    public function getRep(OrderInterface $order)
-    {
+    public function getRep(OrderInterface $order) {
         if ($order->getShippingMethod() == Collectcarrier::COLLECT_SHIPPING_METHOD) {
             if ($collectPlaceId = $this->getCollectPlaceId($order)) {
                 $mapping = $this->config->getCollectPlaceToRepCodeMapping();
@@ -159,8 +156,7 @@ class MapperHelper
      * @param OrderInterface $order
      * @return int|null
      */
-    protected function getCollectPlaceId(OrderInterface $order)
-    {
+    protected function getCollectPlaceId(OrderInterface $order) {
         foreach ($order->getAllVisibleItems() as $item) {
             if ($collectPlaceId = $item->getCollectPlaceId()) {
                 return $collectPlaceId;
@@ -174,8 +170,7 @@ class MapperHelper
      * @return string
      * @throws \Magento\Framework\Exception\LocalizedException
      */
-    public function getWarehouse(OrderInterface $order)
-    {
+    public function getWarehouse(OrderInterface $order) {
         if (!isset($this->warehouseCode[$order->getEntityId()])) {
             $whse = '';
 
@@ -186,8 +181,7 @@ class MapperHelper
             } elseif ($order->getShippingAddress()) {
                 $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
                 $skus = $this->getProductsSkus($order);
-                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse])
-                    && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
+                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse]) && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
                     $whse = $this->relocateWarehouseMap[$whse];
                 }
             }
@@ -201,8 +195,7 @@ class MapperHelper
      * @param OrderInterface|Order $order
      * @return string
      */
-    public function getContactName(OrderInterface $order)
-    {
+    public function getContactName(OrderInterface $order) {
         $name = $order->getCustomerName();
         if ($order->getCustomerIsGuest()) {
             $address = $order->getShippingAddress() ?? $order->getBillingAddress();
@@ -215,9 +208,8 @@ class MapperHelper
      * @param OrderInterface|Order $order
      * @return string
      */
-    public function getPurchaseOrderNumber(OrderInterface $order)
-    {
-        return (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'delivery_number');
+    public function getPurchaseOrderNumber(OrderInterface $order) {
+        return (string) $this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'delivery_number');
     }
 
     /**
@@ -226,9 +218,8 @@ class MapperHelper
      * @param int|null $length
      * @return string
      */
-    public function getOrderComment(OrderInterface $order, $start, $length = null)
-    {
-        $data = (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'order_comment');
+    public function getOrderComment(OrderInterface $order, $start, $length = null) {
+        $data = (string) $this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'order_comment');
         return $length ? substr($data, $start, $length) : substr($data, $start);
     }
 
@@ -238,9 +229,8 @@ class MapperHelper
      * @param int|null $length
      * @return string
      */
-    public function getDeliveryNotes(OrderInterface $order, $start, $length = null)
-    {
-        $data = (string)$this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'delivery_notes');
+    public function getDeliveryNotes(OrderInterface $order, $start, $length = null) {
+        $data = (string) $this->checkoutFieldsDataHelper->getCustomCheckoutOrderFieldValue($order, 'delivery_notes');
         return $length ? substr($data, $start, $length) : substr($data, $start);
     }
 
@@ -249,8 +239,7 @@ class MapperHelper
      * @return string
      * @throws \Exception
      */
-    public function getPaymentType(OrderInterface $order)
-    {
+    public function getPaymentType(OrderInterface $order) {
         /**
          * @var \Magento\Payment\Model\Method\Adapter $method
          */
@@ -280,8 +269,7 @@ class MapperHelper
      * @return string|null
      * @throws \Exception
      */
-    public function getPaymentReference(OrderInterface $order)
-    {
+    public function getPaymentReference(OrderInterface $order) {
         /**
          * @var \Magento\Payment\Model\Method\Adapter $method
          */
@@ -306,8 +294,7 @@ class MapperHelper
      * @param OrderInterface|Order $order
      * @return array
      */
-    public function getOrderLines(OrderInterface $order)
-    {
+    public function getOrderLines(OrderInterface $order) {
         $orderLines = [];
 
         /** @var $item \Magento\Sales\Model\Order\Item */
@@ -323,8 +310,7 @@ class MapperHelper
      * @param OrderInterface|Order $order
      * @return float
      */
-    public function getOrderTotalIncTax(OrderInterface $order)
-    {
+    public function getOrderTotalIncTax(OrderInterface $order) {
         return $order->getBaseGrandTotal();
     }
 
@@ -332,8 +318,7 @@ class MapperHelper
      * @param \Magento\Sales\Model\Order\Item $item
      * @return array
      */
-    protected function getOrderLinesByOrderItem($item)
-    {
+    protected function getOrderLinesByOrderItem($item) {
         switch ($item->getProductType()) {
             case \Magento\Bundle\Model\Product\Type::TYPE_CODE:
                 return $this->getOrderLinesByBundle($item);
@@ -346,8 +331,7 @@ class MapperHelper
      * @param OrderItemInterface|\Magento\Sales\Model\Order\Item $item
      * @return array
      */
-    protected function getOrderLinesByBundle(OrderItemInterface $item)
-    {
+    protected function getOrderLinesByBundle(OrderItemInterface $item) {
         $orderLines = [];
         $children = $item->getChildrenItems();
         foreach ($children as $child) {
@@ -361,8 +345,7 @@ class MapperHelper
      * @param OrderItemInterface $item
      * @return array
      */
-    protected function getOrderLine(OrderItemInterface $item)
-    {
+    protected function getOrderLine(OrderItemInterface $item) {
         $orderLines = [];
         $discount = abs($item->getDiscountAmount());
         $lineType = 'SN';
@@ -386,8 +369,7 @@ class MapperHelper
      * @param OrderInterface $order
      * @return array
      */
-    protected function getShippingLine(OrderInterface $order)
-    {
+    protected function getShippingLine(OrderInterface $order) {
         $orderLines[] = [
             OLConst::LINE_TYPE => 'SC',
             OLConst::STOCK_CODE => '',
@@ -410,8 +392,7 @@ class MapperHelper
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    protected function getCustomerAttributeValue(OrderInterface $order, $attributeCode)
-    {
+    protected function getCustomerAttributeValue(OrderInterface $order, $attributeCode) {
         $result = '';
         if (!$order->getCustomerIsGuest() && !isset($this->customer[$order->getEntityId()])) {
             $this->customer[$order->getEntityId()] = $this->customerRepository->getById($order->getCustomerId());
@@ -430,8 +411,7 @@ class MapperHelper
      * @param string $regionCode
      * @return string
      */
-    protected function getWarehouseByRegionCode($regionCode)
-    {
+    protected function getWarehouseByRegionCode($regionCode) {
         return 'SWHS';
     }
 
@@ -440,8 +420,7 @@ class MapperHelper
      * @param array $productsSkus
      * @return bool
      */
-    protected function isProductsInStock($sourceCode, array $productsSkus)
-    {
+    protected function isProductsInStock($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
             if (!$sourceItem->getQuantity() || $sourceItem->getStatus() !== SourceItemInterface::STATUS_IN_STOCK) {
@@ -456,12 +435,11 @@ class MapperHelper
      * @param string $sku
      * @return SourceItemInterface[]
      */
-    protected function getSourceItemBySourceCodeAndSku($sourceCode, array $sku)
-    {
+    protected function getSourceItemBySourceCodeAndSku($sourceCode, array $sku) {
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter(SourceItemInterface::SOURCE_CODE, $sourceCode)
-            ->addFilter(SourceItemInterface::SKU, $sku, 'in')
-            ->create();
+                ->addFilter(SourceItemInterface::SOURCE_CODE, $sourceCode)
+                ->addFilter(SourceItemInterface::SKU, $sku, 'in')
+                ->create();
         $sourceItemsResult = $this->sourceItemRepository->getList($searchCriteria);
         return $sourceItemsResult->getItems();
     }
@@ -470,8 +448,7 @@ class MapperHelper
      * @param OrderInterface $order
      * @return array
      */
-    protected function getProductsSkus(OrderInterface $order)
-    {
+    protected function getProductsSkus(OrderInterface $order) {
         $skus = [];
         /** @var $item \Magento\Sales\Model\Order\Item */
         foreach ($order->getAllVisibleItems() as $item) {
@@ -487,8 +464,7 @@ class MapperHelper
      * @param OrderItemInterface $item
      * @return array
      */
-    protected function getSkusByProductType(OrderItemInterface $item)
-    {
+    protected function getSkusByProductType(OrderItemInterface $item) {
         switch ($item->getProductType()) {
             case \Magento\Bundle\Model\Product\Type::TYPE_CODE:
                 return $this->getOrderLinesByBundle($item);
@@ -501,8 +477,7 @@ class MapperHelper
      * @param OrderItemInterface $item
      * @return array
      */
-    protected function getSkusByBundle(OrderItemInterface $item)
-    {
+    protected function getSkusByBundle(OrderItemInterface $item) {
         /**
          * @var $item \Magento\Sales\Model\Order\Item
          */
@@ -514,56 +489,102 @@ class MapperHelper
 
         return $skus;
     }
-    
-     public function getQffs(OrderInterface $order)
-    {
-        
+
+    public function getQffs(OrderInterface $order) {
+
         $qff = [];
         $qffSur = [];
-       
-           $qffNumber = $order->getQffNumber();
-            $qffLastname = $order->getQffLastname();
-            
-             if(!empty($qffNumber) && !empty($qffLastname) ){
-    
-           
-                $qffs [] = [ 
-                      OLConst::DATA,
-                      OLConst::KEY => 'QFF',
-                      OLConst::VALUE => $qffNumber,
-                       
-                       ];
-                
-                $qffSur[] = [
-                        OLConst::DATA,
-                        OLConst::KEY => 'QFFSURNAME',
-                        OLConst::VALUE => $qffLastname,
-                ];
-                
-                $merge = array_merge($qffs,$qffSur);
-                return $merge;
-         }else {
-             $qffs [] = [ 
-                      OLConst::DATA,
-                      OLConst::KEY => 'QFF',
-                      OLConst::VALUE => NULL,
-                       
-                       ];
-                
-                $qffSur[] = [
-                        OLConst::DATA,
-                        OLConst::KEY => 'QFFSURNAME',
-                        OLConst::VALUE => NULL,
-                ];
-                
-                $merge = array_merge($qffs,$qffSur);
-                return $merge;
-         }
-        
-    }
- 
-    
-    
-    } 
-    
 
+        $qffNumber = $order->getQffNumber();
+        $qffLastname = $order->getQffLastname();
+
+        if (!empty($qffNumber) && !empty($qffLastname)) {
+
+
+            $qffs [] = [
+                OLConst::DATA,
+                OLConst::KEY => 'QFF',
+                OLConst::VALUE => $qffNumber,
+            ];
+
+            $qffSur[] = [
+                OLConst::DATA,
+                OLConst::KEY => 'QFFSURNAME',
+                OLConst::VALUE => $qffLastname,
+            ];
+
+            $merge = array_merge($qffs, $qffSur);
+            return $merge;
+        } else {
+
+            $qffs [] = [
+                OLConst::DATA,
+                OLConst::KEY => 'QFF',
+                OLConst::VALUE => NULL,
+            ];
+
+            $qffSur[] = [
+                OLConst::DATA,
+                OLConst::KEY => 'QFFSURNAME',
+                OLConst::VALUE => NULL,
+            ];
+
+            $merge = array_merge($qffs, $qffSur);
+
+            return $merge;
+        }
+    }
+
+    public function brainGift(OrderInterface $order) {
+        $giftCard = [];
+        $brainTree = [];
+
+        $getPaymentType = $this->getPaymentType($order);
+        $getPaymentReference = $this->getPaymentReference($order);
+
+        $baseGiftCardsAmount = (float) $order->getBaseGiftCardsAmount();
+        $baseGrandTotal = (float) $order->getBaseGrandTotal();
+
+        $giftCardsAmount = round($baseGiftCardsAmount, 2);
+        $grandTotal = round($baseGrandTotal, 2);
+        if (!empty($baseGiftCardsAmount) && !empty($baseGrandTotal)) {
+
+
+            $giftCard [] = [
+                PayConst::PAYMENT_TYPE => 'VI',
+                PayConst::PAYMENT_REFERENCE => $getPaymentReference,
+                PayConst::AMOUNT_TENDERED => $giftCardsAmount,
+            ];
+
+            $brainTree [] = [
+                PayConst::PAYMENT_TYPE => 'BT',
+                PayConst::PAYMENT_REFERENCE => $getPaymentReference,
+                PayConst::AMOUNT_TENDERED => $grandTotal,
+            ];
+
+            $merge = array_merge($giftCard, $brainTree);
+
+
+            return $merge;
+        }
+
+        if (empty($baseGiftCardsAmount)) {
+            $brainTree [] = [
+                PayConst::PAYMENT_TYPE => $getPaymentType,
+                PayConst::PAYMENT_REFERENCE => $getPaymentReference,
+                PayConst::AMOUNT_TENDERED => $grandTotal,
+            ];
+            return $brainTree;
+        }
+
+        if (empty($baseGrandTotal)) {
+            $giftCard [] = [
+                PayConst::PAYMENT_TYPE => 'VI',
+                PayConst::PAYMENT_REFERENCE => $getPaymentReference,
+                PayConst::AMOUNT_TENDERED => $giftCardsAmount,
+            ];
+            return $giftCard;
+        }
+    }
+
+}

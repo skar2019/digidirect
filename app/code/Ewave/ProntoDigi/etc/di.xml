@@ -558,45 +558,20 @@
                                     <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::PAYMENT_DETAILS</item>
                                     <item name="value" xsi:type="array">
                                         <item name="payment-detail" xsi:type="array">
-                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::PAYMENT_DETAIL</item>
-                                            <item name="value" xsi:type="array">
-                                                <item name="payment-type" xsi:type="array">
-                                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::PAYMENT_TYPE</item>
-                                                    <item name="getter" xsi:type="array">
-                                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
-                                                        <item name="method" xsi:type="string">getPaymentType</item>
-                                                        <item name="arguments" xsi:type="array">
-                                                            <item name="order" xsi:type="string">{{var order}}</item>
-                                                        </item>
-                                                    </item>
+                                            <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::PAYMENT_DETAIL</item>                                        
+                                            <item name="getter" xsi:type="array">
+                                                <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
+                                                <item name="method" xsi:type="string">brainGift</item>
+                                                <item name="arguments" xsi:type="array">
+                                                    <item name="order" xsi:type="string">{{var order}}</item>
                                                 </item>
-                                                <item name="payment-reference" xsi:type="array">
-                                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::PAYMENT_REFERENCE</item>
-                                                    <item name="getter" xsi:type="array">
-                                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
-                                                        <item name="method" xsi:type="string">getPaymentReference</item>
-                                                        <item name="arguments" xsi:type="array">
-                                                            <item name="order" xsi:type="string">{{var order}}</item>
-                                                        </item>
-                                                    </item>
-                                                </item>
-                                                <item name="amount-tendered" xsi:type="array">
-                                                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\PaymentDetails::AMOUNT_TENDERED</item>
-                                                    <item name="getter" xsi:type="array">
-                                                        <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Orders\Post\MapperHelper</item>
-                                                        <item name="method" xsi:type="string">getAmountTendered</item>
-                                                        <item name="arguments" xsi:type="array">
-                                                            <item name="order" xsi:type="string">{{var order}}</item>
-                                                        </item>
-                                                    </item>
-                                                </item>
-                                            </item>
+                                            </item>                                               
                                         </item>
                                     </item>
                                 </item>
                                 <item name="custom-data" xsi:type="array"> 
                                     <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order::CUSTOM_DATA</item>
-                                    <item name="value" xsi:type="array">
+                                    <item name="value" xsi:type="array">                                          
                                         <item name="data" xsi:type="array"> 
                                             <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Order\OrderLine::DATA</item>
                                             <item name="getter" xsi:type="array">
