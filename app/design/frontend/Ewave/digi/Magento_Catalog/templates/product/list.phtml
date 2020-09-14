@@ -51,7 +51,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                 $productId = $_product->getId();
                 $productName = $_helper->productAttribute($_product, $_product->getName(), 'name');
                 $productUrl = $_product->getProductUrl();
-                $price = $_product->getFinalPrice()* 2;               
+                $price = $_product->getFinalPrice()* 5; //clint, set to 5          
                 ?>
                 <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
                 <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
