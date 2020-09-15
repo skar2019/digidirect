@@ -37,7 +37,6 @@ class Magento extends \Ess\M2ePro\Helper\AbstractHelper
     protected $appState;
     protected $translatedLists;
     protected $countryFactory;
-    protected $notificationFactory;
     protected $entityStore;
     protected $objectManager;
     protected $appCache;
@@ -60,7 +59,6 @@ class Magento extends \Ess\M2ePro\Helper\AbstractHelper
         \Magento\Framework\App\State $appState,
         \Magento\Framework\Locale\TranslatedLists $translatedLists,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\AdminNotification\Model\InboxFactory $notificationFactory,
         \Magento\Eav\Model\Entity\Store $entityStore,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\App\CacheInterface $appCache,
@@ -82,7 +80,6 @@ class Magento extends \Ess\M2ePro\Helper\AbstractHelper
         $this->appState                     = $appState;
         $this->translatedLists              = $translatedLists;
         $this->countryFactory               = $countryFactory;
-        $this->notificationFactory          = $notificationFactory;
         $this->entityStore                  = $entityStore;
         $this->objectManager                = $objectManager;
         $this->appCache                     = $appCache;
@@ -272,25 +269,6 @@ class Magento extends \Ess\M2ePro\Helper\AbstractHelper
         return $this->_urlBuilder->getSecretKey();
     }
 
-    // ---------------------------------------
-
-    public function addGlobalNotification(
-        $title,
-        $description,
-        $type = null,
-        $url = null
-    ) {
-        $dataForAdd = [
-            'title' => $title !== null ? $title : $this->getHelper('Module\Translation')->__('M2E Pro Notification'),
-            'description' => $description,
-            'url' => $url !== null ? $url : 'http://m2epro.com/?' . sha1($title !== null ? $title : $description),
-            'severity' => $type !== null ? $type : \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL,
-            'date_added' => date('Y-m-d H:i:s')
-        ];
-
-        $this->notificationFactory->create()->parse([$dataForAdd]);
-    }
-
     //########################################
 
     public function isStaticContentExists($path = null)
@@ -340,6 +318,11 @@ class Magento extends \Ess\M2ePro\Helper\AbstractHelper
         return $this->translatedLists->getCountryTranslation($countryId);
     }
 
+    /**
+     * @param $countryCode
+     * @return array
+     * @throws \Ess\M2ePro\Model\Exception\Logic
+     */
     public function getRegionsByCountryCode($countryCode)
     {
         $result = [];
@@ -347,6 +330,7 @@ class Magento extends \Ess\M2ePro\Helper\AbstractHelper
         try {
             $country = $this->countryFactory->create()->loadByCode($countryCode);
         } catch (\Exception $e) {
+            $this->getHelper('Module_Exception')->process($e);
             return $result;
         }
 
@@ -357,7 +341,11 @@ class Magento extends \Ess\M2ePro\Helper\AbstractHelper
         $result = [];
         foreach ($country->getRegions() as $region) {
             /** @var \Magento\Directory\Model\Region $region */
-            $result[] = $region->toArray(['region_id', 'code', 'name']);
+            $result[] = [
+                'region_id' => $region->getRegionId(),
+                'code'      => $region->getCode(),
+                'name'      => $region->getName()
+            ];
         }
 
         if (empty($result) && $countryCode == 'AU') {
@@ -422,26 +410,6 @@ class Magento extends \Ess\M2ePro\Helper\AbstractHelper
     public function getModules()
     {
         return array_keys((array)$this->deploymentConfig->get('modules'));
-    }
-
-    // ---------------------------------------
-
-    public function getConflictedModules()
-    {
-        $modules = $this->moduleList->getAll();
-
-        $conflictedModules = [];
-
-        $result = [];
-        foreach ($conflictedModules as $expression => $description) {
-            foreach ($modules as $module => $data) {
-                if (preg_match($expression, $module)) {
-                    $result[$module] = array_merge($data, ['description' => $description]);
-                }
-            }
-        }
-
-        return $result;
     }
 
     public function getAllEventObservers()

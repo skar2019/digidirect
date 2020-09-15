@@ -150,6 +150,14 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstrac
     }
 
     /**
+     * @return float
+     */
+    public function getShippingPrice()
+    {
+        return (float)$this->getData('shipping_price');
+    }
+
+    /**
      * @return mixed
      */
     public function getCurrency()
@@ -187,15 +195,33 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstrac
 
     // ---------------------------------------
 
+    /**
+     * @return array
+     * @throws \Ess\M2ePro\Model\Exception\Logic
+     */
     public function getTaxDetails()
     {
         return $this->getSettings('tax_details');
     }
 
+    /**
+     * @return float
+     * @throws \Ess\M2ePro\Model\Exception\Logic
+     */
     public function getTaxAmount()
     {
         $taxDetails = $this->getTaxDetails();
         return isset($taxDetails['product']['value']) ? (float)$taxDetails['product']['value'] : 0.0;
+    }
+
+    /**
+     * @return float
+     * @throws \Ess\M2ePro\Model\Exception\Logic
+     */
+    public function getShippingTaxAmount()
+    {
+        $taxDetails = $this->getTaxDetails();
+        return isset($taxDetails['shipping']['value']) ? (float)$taxDetails['shipping']['value'] : 0.0;
     }
 
     // ---------------------------------------
