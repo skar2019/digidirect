@@ -75,6 +75,8 @@ class UpgradeData implements UpgradeDataInterface
         '1.5.0' => ['1.5.1'],
         '1.5.1' => ['1.6.0'],
         '1.6.0' => ['1.7.0'],
+        '1.7.0' => ['1.7.2'],
+        '1.7.2' => ['1.8.0'],
     ];
 
     //########################################
@@ -152,6 +154,8 @@ class UpgradeData implements UpgradeDataInterface
 
                 $this->setMagentoResourceVersion($versionTo);
             }
+
+            $this->setMagentoResourceVersion($this->getConfigVersion());
         } catch (\Exception $exception) {
             $this->logger->error($exception, ['source' => 'UpgradeData']);
             $this->helperFactory->getObject('Data\GlobalData')->setValue('is_setup_failed', true);

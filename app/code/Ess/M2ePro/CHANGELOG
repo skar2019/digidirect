@@ -1,6 +1,55 @@
-* 1.7.0 (r3968) (17/07/2020) 
+* 1.8.0 (r4150) (03/09/2020) 
 
-Common: [Added] Automatically set maintenance mode if the server connection fails
+Common: [Added] Registry Manager
+Common: [Added] Config helper
+Common: [Added] Enable/disable automatic synchronization manually
+Common: [Improved] MSI mode ON notification
+Common: [Improved] Health status review
+Common: [Improved] Do not store completely built online data in longtext fields
+Common: [Improved] Make logs the same on both M1 and M2
+Common: [Improved] Validation when moving 3rd Party item to M2E Pro Listing
+Common: [Improved] Create additional instructions for products with the error "Sorry, something went wrong. Please wait a moment and try again"
+Common: [Improved] M2E Pro Migration Process
+Common: [Improved] Use search by indexed column in `m2epro_operation_history` table
+Common: [Improved] Detailed Listing Product Log(s)
+Common: [Improved] Do not mute Magento notifications if static content was not deployed or health status found problems
+Common: [Fixed] Product is relisted with 0 in salable qty after last item was sold
+Common: [Fixed] Synchronization may stuck on MySQL versions <= 5.5 after upgrade from old versions
+Common: [Fixed] Channel orders may mistakenly get linked to wrong Magento Order
+eBay: [Added] Prefixes for eBay orders (by Marketplace)
+eBay: [Added] Create additional instructions for products with the error "Validation of the authentication token in API request failed"
+eBay: [Fixed] Wrong action was selected in Ebay\Connector\Item\ProcessingRunner
+eBay: [Fixed] Resolve Sku functionality does not work
+Amazon: [Added] ASIN Creator filter
+Amazon: [Improved] Automatic order data resend after an unexpected error on Channel
+Amazon: [Improved] Amazon refund include the shipping cost
+Amazon: [Fixed] Partially Shipped does not work
+Amazon: [Fixed] Link to Channel Order
+Walmart: [Improved] Using the same Marketplace when adding new Policy on Listing Creation Wizard
+Walmart: [Improved] Change order log type/content
+Walmart: [Improved] Automatic order data resend after an unexpected error on Channel
+Walmart: [Fixed] Undefined index: sku in Model/Walmart/Listing/Product/Action/ListAction/Processor.php
+Walmart: [Fixed] Uncaught Error: Cannot access private property Ess\M2ePro\Model\Walmart\Order\ProxyObject::$customerRepository
+
+* 1.7.2 (r4015) (03/08/2020)
+
+Common: [Fixed] 3rd party mapping settings are not being changed after Save action
+eBay: [Fixed] Listing is not available on Settings View mode
+eBay: [Fixed] Uncaught Error: Call to a member function getId() on null in Block/Adminhtml/Ebay/Listing/Template/Switcher.php
+eBay: [Fixed] Parse error in case of one of api tokens is expired
+Amazon: [Fixed] Automatic revise does not trigger after manual revise
+
+* 1.7.1 (r4009) (30/07/2020)
+
+Common: [Fixed] Inspect direct changes does not work
+eBay: [Fixed] Uncaught TypeError: Argument 2 passed to Magento\PageBuilder\Plugin\Filter\TemplatePlugin::afterFilter() must be of the type string, (compatibility with Magento Page Builder)
+eBay: [Fixed] In-Store Pickup region retrieving does not work
+Amazon: [Fixed] Partially Shipped does not work
+Walmart: [Fixed] Magento orders are not created automatically for Walmart orders
+
+* 1.7.0 (r3698) (17/07/2020)
+
+Common: [Added] Postpone server requests by a few minutes if the first connection attempt fails
 Common: [Added] New Active Record engine
 Common: [Added] Ability to reimport Orders
 Common: [Added] Analytics from M1
@@ -35,6 +84,7 @@ eBay: [Improved] Assign Category when importing 3rd party item from eBay
 eBay: [Improved] Transaction table display improvement
 Amazon: [Fixed] Notice: Undefined index: SKU in Model/Cron/Task/Amazon/Listing/Product/Channel/SynchronizeData/Responser.php on line 225
 Amazon: [Improved] Prevent oversell in special cases (skip qty change on background synchronization)
+Amazon: [Improved] Amazon cancel/refund reason - send default reason 'CustomerReturn' if order is Shipped
 Walmart: [Fixed] Wrong input type for attributes in some fields of selling policy
 Walmart: [Fixed] Exception on adding a listing on Canada Marketplace
 Walmart: [Fixed] No button "Show Sales Tax Codes" in Selling Policy for Canada Marketplace
