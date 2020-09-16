@@ -509,6 +509,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             ProductConstants::PRODUCT_ATTRIBUTE_STOCK_GROUP,
             ProductConstants::PRODUCT_ATTRIBUTE_STOCK_BRAND,
             ProductConstants::PRODUCT_APN,
+            ProductConstants::QFF_BASE_POINTS_PER_DOLLAR,
+            ProductConstants::QFF_BONUS_POINTS_PER_DOLLAR,
         ];
 
         foreach ($unsetKeys as $key) {

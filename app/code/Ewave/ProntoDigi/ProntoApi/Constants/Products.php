@@ -38,4 +38,8 @@ class Products
     const API_DESC3 = 'desc3';
 
     const DESCRIPTION_BEGINNING = 'Box of ';
+    
+    const QFF_BASE_POINTS_PER_DOLLAR = 'qff_base';
+    const QFF_BONUS_POINTS_PER_DOLLAR = 'qff_bonus_points';
+
 }

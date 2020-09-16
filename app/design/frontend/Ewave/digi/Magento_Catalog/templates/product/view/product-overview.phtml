@@ -4,6 +4,9 @@ $_product = $block->getProduct();
 $aeHelper = $this->helper('Ewave\Digi\Helper\AbstractEntities');
 $features = $aeHelper->getProductKeyFeatures($_product);
 $rulesBlock = $this->getChildHtml('block_rules');
+
+$finalQffBonusPoints = $_product->getBonusPoints();
+
 ?>
 
 <?php if ( $productSpec || $features || $rulesBlock): ?>
@@ -18,7 +21,7 @@ $rulesBlock = $this->getChildHtml('block_rules');
     <div data-role="content" class="tabpanel">
     <?php echo $rulesBlock;?>
     <?php if ( $productSpec || $features ): ?>
-        <span class="head"><?php echo $block->escapeHtml(__('product overview')); ?></span>
+        <span class="head" data-sample="<?php echo $qff_bonus_points ?>"><?php echo $block->escapeHtml(__('product overview')); ?></span>
     <?php endif; ?>
     <div class="short-desc">
         <?php echo $productSpec ?>
