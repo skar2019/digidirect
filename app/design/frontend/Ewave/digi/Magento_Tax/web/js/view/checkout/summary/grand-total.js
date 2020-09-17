@@ -49,14 +49,14 @@ define([
                              
                 formattedPrice = Math.ceil(total);
 
-                points = formattedPrice * 2;
+                points = formattedPrice * 5;
 
                 return points.toLocaleString();
                
                 }else {
                       formattedPrice = Math.ceil(grand_total);
 
-                      points = formattedPrice * 2;
+                      points = formattedPrice * 5;
 
                       return points.toLocaleString();
                     
