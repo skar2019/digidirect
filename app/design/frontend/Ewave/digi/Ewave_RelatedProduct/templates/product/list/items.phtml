@@ -83,7 +83,24 @@ if ($exist = $block->getItems()->getSize()) {
                         $productId = $_item->getId();
                         $productName = $_item->getName();
                         $productUrl = $_item->getProductUrl();
-                        $points = $_item->getFinalPrice();
+
+                        $finalProductPrice = $_item->getFinalPrice();
+                        $qff_bonus_points = 0;
+                        if ($_item->offsetExists("qff_bonus_points") && $_item->offsetExists("qff_base")) {
+                                $qff_bonus_points = $_item->getQffBonusPoints();
+                                $qff_base_points = $_item->getQffBase();
+                                $bonusPlusBase = $qff_bonus_points + $qff_base_points;
+
+                                $points = number_format($finalProductPrice * $bonusPlusBase);
+                            }else {
+                                if($_item->offsetExists("qff_base")){
+                                    $qff_base_points = $_item->getQffBase();
+                                    $points = number_format($finalProductPrice * $qff_base_points);
+                                } else {
+                                    $points = number_format($finalProductPrice * 2);
+                                }
+                            } 
+
                         $ruleMessage = $block->getChildBlock('product.related.extended.catalog.rule');
                     ?>
                         <?php if ($iterator++ != 1) : ?></div><?php endif; ?>
@@ -195,7 +212,9 @@ if ($exist = $block->getItems()->getSize()) {
                                 </div>
                                     <div class="qantas-pts-wrapper">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
-                                        <span>Earn <?= ceil($points *5);  ?> Qantas Points</span>
+
+                                        <span>Earn <?= $points  ?> Qantas Points</span>
+
                                          </div>
 
                                     </div>

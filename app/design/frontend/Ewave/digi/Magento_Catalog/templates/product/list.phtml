@@ -50,12 +50,35 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                 $blockMode = $block->getMode();
                 $productId = $_product->getId();
                 $productName = $_helper->productAttribute($_product, $_product->getName(), 'name');
-                $productUrl = $_product->getProductUrl();
-                $price = $_product->getFinalPrice()* 5; //clint, set to 5          
+                $qff_base = $_helper->productAttribute($_product, $_product->getQffBase(), 'qff_base');
+                $qff_bonus = $_helper->productAttribute($_product, $_product->getQffBonusPoints(), 'qff_bonus_points');
+                $stock = $_helper->productAttribute($_product, $_product->getPrice(), 'price');
+                
+                $finalProductPrice = $_product->getFinalPrice();
+                $qff_bonus_points = 0;
+                    if (!empty($qff_base) && !empty($qff_bonus)) {
+                        
+                        $bonusPlusBase = $qff_base + $qff_bonus;
+
+                        $points = number_format($finalProductPrice * $bonusPlusBase);
+                    }else {
+                        if(!empty($qff_bonus)){
+                           
+                            $points = number_format($finalProductPrice * $qff_bonus);
+                        } else {
+                            $points = number_format($finalProductPrice * 2);
+                        }
+                    }  
+
+                    $finalQffPoints = $_product->getPoints();
+                
+                $productUrl = $_product->getProductUrl(); 
+                
                 ?>
                 <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
                 <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
                      data-container="product-grid"
+                     data-qff-points="<?= $block->escapeHtml($qff_bonus_points); ?>"
                      data-parent-product-id="<?= $block->escapeHtml($productId); ?>">
                     <?php
                     $productImage = $block->getImage($_product, $image);
@@ -166,7 +189,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                     
                     <div class="qantas-pts-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
-                        <span>Earn <?= ceil($price); ?> Qantas Points</span>
+                        <span data-sample="<?= $qff_base?>">Earn <?= $points ?> Qantas Points</span>
                     </div>
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
