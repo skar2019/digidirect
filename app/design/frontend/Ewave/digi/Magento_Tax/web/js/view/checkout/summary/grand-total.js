@@ -23,48 +23,15 @@ define([
         },
         totals: quote.getTotals(),
         isTaxDisplayedInGrandTotal: window.checkoutConfig.includeTaxInGrandTotal || false,
-        
-        
-        
-        
+
         /**
          * @return {*|String}
          */
         getPoints: function () {
-            var giftcardaccount = 0;
-            var grand_total = 0;
-            var formattedPrice;
-            var points;
-            var total;
-            
-            if (this.totals()) {
- 
-                grand_total = totals.getSegment('grand_total').value;
-            
-                if (totals.getSegment('giftcardaccount') != null){
-               
-                giftcardaccount = totals.getSegment('giftcardaccount').value;
-               
-                total = grand_total + (-(giftcardaccount));
-                             
-                formattedPrice = Math.ceil(total);
 
-                points = formattedPrice * 5;
-
-                return points.toLocaleString();
-               
-                }else {
-                      formattedPrice = Math.ceil(grand_total);
-
-                      points = formattedPrice * 5;
-
-                      return points.toLocaleString();
-                    
-                }
-          
+           var qffPromotionPoints = window.checkoutConfig.qffPromotionPoints;
            
-            }
-          
+           return qffPromotionPoints;
         },
 
         /**
