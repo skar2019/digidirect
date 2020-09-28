@@ -3,4 +3,14 @@
     <type name="Magento\Checkout\CustomerData\Cart">
         <plugin name="qantas_points" type="Digi\Minicart\Plugin\Checkout\CustomerData\Cart"/>
     </type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="qff_points" type="Digi\Minicart\Plugin\ConfigProviderPlugin" />
+    </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="additional_provider" xsi:type="object">Digi\Minicart\Model\CustomConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

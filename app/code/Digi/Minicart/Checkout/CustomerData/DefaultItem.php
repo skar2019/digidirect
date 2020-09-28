@@ -77,32 +77,6 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
     public function doGetItemData() {
         $imageHelper = $this->imageHelper->init($this->getProductForThumbnail(), 'mini_cart_product_thumbnail');
         $productName = $this->escaper->escapeHtml($this->item->getProduct()->getName());
-        $qty = $this->item->getQty() * 1;
-        
-        $finalProductPrice =0;
-        if ($this->item->getPrice() == 0) {
-            $promotionPoints = 0;
-            
-        } else {
-            
-            $finalProductPrice = $this->item->getProduct()->getFinalPrice();
-        }
-        if ($this->item->getProduct()->offsetExists("qff_bonus_points") && $this->item->getProduct()->offsetExists("qff_base")) {
-
-            $qff_bonus_points = $this->item->getQffBonusPoints();
-            $qff_base_points = $this->item->getQffBase();
-
-            $pointsSum = $qff_bonus_points + $qff_base_points;
-            $promotionPoints = number_format($pointsSum * ($qty * $finalProductPrice));
-        } else {
-            if ($this->item->getProduct()->offsetExists("qff_base")) {
-                $qff_base_points = $this->item->getQffBase();
-
-                $promotionPoints = number_format($qff_base_points * ($qty * $finalProductPrice));
-            } else {
-                $promotionPoints = number_format(($qty * $finalProductPrice) * 2);
-            }
-        }
 
         return [
             'options' => $this->getOptionList(),
@@ -124,8 +98,52 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
                 'height' => $imageHelper->getHeight(),
             ],
             'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()),
-            'qantas_points' => $promotionPoints,
+            'qantas_points' => $this->getQffPoints(),
         ];
+    }
+
+    /**
+     * Get Qff Promotion Points
+     *
+     * 
+     * 
+     */
+    public function getQffPoints() {
+
+        $qty = $this->item->getQty() * 1;
+        
+        if ($this->item->getPrice() == 0) {
+            
+            $promotionPoints = 0;
+            
+        } else {
+
+            $finalProductPrice = $this->item->getProduct()->getFinalPrice();
+
+            if ($this->item->getProduct()->offsetExists("qff_bonus_points") && $this->item->getProduct()->offsetExists("qff_base")) {
+                
+                $qff_bonus_points = $this->item->getProduct()->getQffBonusPoints();
+                
+                $qff_base_points = $this->item->getProduct()->getQffBase();
+                
+                $pointsSum = $qff_bonus_points + $qff_base_points;
+                
+                $promotionPoints = number_format($pointsSum * ($qty * $finalProductPrice));
+                
+            } else {
+                if ($this->item->getProduct()->offsetExists("qff_base")) {
+                    
+                    $qff_base_points = $this->item->getProduct()->getQffBase();
+                    
+                    $promotionPoints = number_format($qff_base_points * ($qty * $finalProductPrice));
+                    
+                } else {
+                    
+                    $promotionPoints = number_format(($qty * $finalProductPrice) * 2);
+                }
+            }
+        }
+        return $promotionPoints;
     }
 
     /**

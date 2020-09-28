@@ -1,10 +1,11 @@
 <?php
+namespace Digi\Minicart\Plugin;
 
-namespace Digi\Minicart\Plugin\Checkout\CustomerData;
+class ConfigProviderPlugin extends \Magento\Framework\Model\AbstractModel
+{
 
-class Cart {
-
-    public function afterGetSectionData(\Magento\Checkout\CustomerData\Cart $subject, array $result) {
+    public function afterGetConfig(\Magento\Checkout\Model\DefaultConfigProvider $subject, array $result)
+    {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
@@ -38,10 +39,9 @@ class Cart {
             }
             $qffTotalPoints = array_sum($qffPoints);
         }
-
-
-        $result['qantas_points'] = number_format($qffTotalPoints);
-
+        
+        
+        $result['qffPromotionPoints'] = number_format($qffTotalPoints);
         return $result;
     }
 
