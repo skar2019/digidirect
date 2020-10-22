@@ -109,6 +109,7 @@ return [
         'Magento_Theme' => 1,
         'Apptrian_ImageOptimizer' => 1,
         'Criteo_OneTag' => 1,
+        'Ced_MPCatch' => 1,
         'Digi_Minicart' => 1,
         'Digi_Order' => 1,
         'Digi_Qantas' => 1,
