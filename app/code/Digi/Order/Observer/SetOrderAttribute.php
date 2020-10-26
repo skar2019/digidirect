@@ -1,80 +1,69 @@
 <?php
+
 namespace Digi\Order\Observer;
 
-class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface
-{
+class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
+
     /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
     protected $_customerRepository;
-    
-    
-    
     protected $customerSession;
-    
-    
+
     /**
-    * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
-    */
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+     */
     public function __construct(
-        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+            \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
             \Magento\Customer\Model\Session $customerSession
-    )
-    {
+    ) {
         $this->_customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
-        
     }
-    
-    
+
     /**
      * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
-    {
-       
+    public function execute(\Magento\Framework\Event\Observer $observer) {
+
         /** @var \Magento\Sales\Model\Order $order */
         $order = $observer->getOrder();
-         
+
         $customerEmail = $order->getCustomerEmail();
         $isGuest = $order->getCustomerIsGuest();
-       
-        if($isGuest)
-        {
-            $order->setQffNumber('NULL')->save();  
 
-            $order->setQffLastName('NULL')->save(); 
+        if ($isGuest) {
+            $order->setQffNumber('NULL')->save();
+
+            $order->setQffLastName('NULL')->save();
 
             return $this;
-        }
-        else 
-        {
-                    $customer = $this->_customerRepository->get($customerEmail);
-       
-                    $getQffNumber = $customer->getQffNumber();
+        } else {
+            $customer = $this->_customerRepository->get($customerEmail);
 
-                    $getQffLastName = $customer->getQffLastName();
+            $getQffNumber = $customer->getQffNumber();
 
-                    if  ($getQffNumber == NULL  && $getQffLastName == NULL  ){
+            $getQffLastName = $customer->getQffLastName();
 
-                        $order->setQffNumber('NULL')->save();  
+            if ($getQffNumber == NULL && $getQffLastName == NULL) {
 
-                        $order->setQffLastName('NULL')->save(); 
+                $order->setQffNumber('NULL')->save();
 
-                        return $this;
-                    }   
+                $order->setQffLastName('NULL')->save();
 
-                    if ( $getQffNumber !== NULL && $getQffLastName !== NULL){
-
-                        $order->setQffLastname($getQffLastName)->save();
-
-                        $order->setQffNumber($getQffNumber)->save();
-
-                        return $this;
-                    }
+                return $this;
             }
-            
+
+            if ($getQffNumber !== NULL && $getQffLastName !== NULL) {
+
+                $order->setQffLastname($getQffLastName)->save();
+
+                $order->setQffNumber($getQffNumber)->save();
+
+                return $this;
+            }
         }
     }
+
 }
