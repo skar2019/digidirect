@@ -50,29 +50,40 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface
         }
         else 
         {
-            $customer = $this->_customerRepository->get($customerEmail);
+            $pos = strpos($customerEmail, "catch.com.au");
+
+            if ($pos !== false) {
+                    $order->setQffNumber('NULL')->save();  
+
+                    $order->setQffLastName('NULL')->save(); 
+
+                    return $this;
+            } else {
+                    $customer = $this->_customerRepository->get($customerEmail);
        
-            $getQffNumber = $customer->getQffNumber();
+                    $getQffNumber = $customer->getQffNumber();
 
-            $getQffLastName = $customer->getQffLastName();
+                    $getQffLastName = $customer->getQffLastName();
 
-            if  ($getQffNumber == NULL  && $getQffLastName == NULL  ){
+                    if  ($getQffNumber == NULL  && $getQffLastName == NULL  ){
 
-                $order->setQffNumber('NULL')->save();  
+                        $order->setQffNumber('NULL')->save();  
 
-                $order->setQffLastName('NULL')->save(); 
+                        $order->setQffLastName('NULL')->save(); 
 
-                return $this;
-            }   
+                        return $this;
+                    }   
 
-            if ( $getQffNumber !== NULL && $getQffLastName !== NULL){
+                    if ( $getQffNumber !== NULL && $getQffLastName !== NULL){
 
-                $order->setQffLastname($getQffLastName)->save();
+                        $order->setQffLastname($getQffLastName)->save();
 
-                $order->setQffNumber($getQffNumber)->save();
+                        $order->setQffNumber($getQffNumber)->save();
 
-                return $this;
+                        return $this;
+                    }
             }
+            
         }
     }
 }
