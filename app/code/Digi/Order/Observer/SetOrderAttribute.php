@@ -50,15 +50,6 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface
         }
         else 
         {
-            $pos = strpos($customerEmail, "catch.com.au");
-
-            if ($pos !== false) {
-                    $order->setQffNumber('NULL')->save();  
-
-                    $order->setQffLastName('NULL')->save(); 
-
-                    return $this;
-            } else {
                     $customer = $this->_customerRepository->get($customerEmail);
        
                     $getQffNumber = $customer->getQffNumber();
