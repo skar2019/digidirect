@@ -88,10 +88,21 @@ class OrderPostExecutor
                 self::FAILED_VALIDATION_CODE
             );
         }
-
+        
         if ($order->getState() == Order::STATE_CANCELED) {
             throw new LocalizedException(
                 __('Order with increment ID %1 is canceled and cannot be sent to Pronto', $order->getIncrementId()),
+                null,
+                self::FAILED_VALIDATION_CODE
+            );
+        }
+        
+        $address = $order->getBillingAddress();
+        $strt = $address->getStreet();
+        
+        if (in_array("N/A", $strt)) {
+            throw new LocalizedException(
+                __('Order with increment ID %1 has no address and cannot be sent to Pronto', $order->getIncrementId()),
                 null,
                 self::FAILED_VALIDATION_CODE
             );
