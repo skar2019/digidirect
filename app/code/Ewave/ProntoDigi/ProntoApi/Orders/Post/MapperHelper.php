@@ -131,6 +131,16 @@ class MapperHelper {
      * @return float
      */
     public function getAmountTendered(OrderInterface $order) {
+         /**
+         * @var \Magento\Payment\Model\Method\Adapter $method
+         */
+        $payment = $order->getPayment();
+        $method = $payment->getMethodInstance();
+
+        $code = $method->getCode();
+        if ($code == 'paybympcatch') {
+            return $order->getGrandTotal();
+        }
         $value = (float) $order->getBaseGiftCardsAmount();
         $value = !empty($value) ? $value : $order->getBaseGrandTotal();
         return round($value, 2);
