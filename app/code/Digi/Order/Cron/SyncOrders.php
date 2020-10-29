@@ -40,6 +40,7 @@ class SyncOrders {
                 ->addAttributeToFilter('created_at',['from' => $date]);
 
         foreach ($orders as $key => $order) {
+            $this->orderPostExecutor->run($order);
             $this->orderPostExecutor->pushToQueue($order);
             $this->logger->info('Pronto Order Sync Runs');
         }
