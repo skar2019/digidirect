@@ -313,6 +313,16 @@ class MapperHelper {
      * @return float
      */
     public function getOrderTotalIncTax(OrderInterface $order) {
+         /**
+         * @var \Magento\Payment\Model\Method\Adapter $method
+         */
+        $payment = $order->getPayment();
+        $method = $payment->getMethodInstance();
+
+        $code = $method->getCode();
+        if ($code == 'paybympcatch') {
+            return $order->getGrandTotal();
+        }
         return $order->getBaseGrandTotal();
     }
 
