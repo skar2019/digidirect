@@ -568,8 +568,19 @@ class MapperHelper {
         $baseGrandTotal = (float) $order->getBaseGrandTotal();
 
         $giftCardsAmount = round($baseGiftCardsAmount, 2);
-        $grandTotal = round($baseGrandTotal, 2);
-        
+        /**
+         * @var \Magento\Payment\Model\Method\Adapter $method
+         */
+        $payment = $order->getPayment();
+        $method = $payment->getMethodInstance();
+
+        $code = $method->getCode();
+        if ($code == 'paybympcatch') {
+            $grandTotal = (float) $order->getGrandTotal();
+        } else {
+            $grandTotal = round($baseGrandTotal, 2);
+        }
+
         if (!empty($baseGiftCardsAmount) && !empty($baseGrandTotal)) {
             $gifCardJson = $order->getGiftCards();
             $gifCardtoArray = json_decode($gifCardJson, true);
