@@ -83,6 +83,10 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     protected $failedCategories = [];
 
     /**
+     * @var string
+     */
+    protected $Product;
+    /**
      * ResponseHandler constructor.
      * @param EavConfig $eavConfig
      * @param AttributeResource $attributeResource
@@ -113,7 +117,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         SourceItemsImport $sourceItemsImport,
         SourceItemFactory $sourceItemFactory,
         Config $configHelper,
-        MapperInterface $mapper = null
+        MapperInterface $mapper = null,
+        ProductModel $Product
     ) {
         parent::__construct(
             $validator,
@@ -131,6 +136,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $this->productImportFactory = $productImportFactory;
         $this->eavConfig = $eavConfig;
         $this->attributeResource = $attributeResource;
+        $this->Product = $Product;
     }
 
     /**
@@ -228,8 +234,22 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $productImport = $this->productImportFactory->create(['logger' => $this->logger]);
         // set updateOnDuplicate 'false' in order to set 'append' import behavior
         $productImport->saveBunch($products, false);
-        $this->saveSourceItems();
+        $this->saveSourceItems(); 
         $attribute = $this->eavConfig->getAttribute(ProductModel::ENTITY, self::BRAND_ATTRIBUTE_CODE);
+        
+        foreach ($products as $key => $product) {
+            $sku = $product['sku'];
+            $qff_base = $product['additional_attributes']['qff_base'];
+            $qff_bonus = $product['additional_attributes']['qff_bonus_points'];
+            $attributes = [$qff_base, $qff_bonus];
+            //$product = $this->Product->getSku($sku);
+            $product_model = $this->Product->loadByAttribute('sku', $sku);
+            if ($product_model->offsetExists('qff_base') && $product_model->offsetExists('qff_bonus_points')) {
+                $product_model->setCustomAttribute('qff_base', $qff_base);
+                $product_model->setCustomAttribute('qff_bonus_points', $qff_bonus);
+            }
+        }
+
         if ($attribute->getEntityId()) {
             $this->attributeResource->save($attribute);
         }
@@ -263,7 +283,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
                     $productData = $this->mapData($productData);
                     $sku = $productData[ProductInterface::SKU];
                     $name = $productData[ProductInterface::NAME];
-
+                    
                     $isAllowedMultiSource = $this->isAllowedMultiSourceInventoryForProductType(
                         $productData['product_type']
                     );
@@ -313,7 +333,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      */
     protected function isProductUpdatePossible(array $productData)
     {
-        $sku = $productData[ProductInterface::SKU];
+         $sku = $productData[ProductInterface::SKU];
         if (!empty($this->getExcludedSkus()[$sku])) {
             $this->logger->info(
                 __(
@@ -531,7 +551,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
 
         return $productData;
     }
-
+        
     /**
      * @param array $productData
      * @return array
@@ -596,6 +616,9 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         if ($this->disabledProductsCount || $existsCount) {
             $skusToDisable = $this->disabledProductsCount + $existsCount;
             $disabledPercent = round($skusToDisable / $this->countMagentoSkus * 100);
+            if ($disabledPercent <= 20){
+                return false;
+            }
             if ($disabledPercent > $this->configHelper->getProductsDisabledPercent()) {
                 $this->logger->warning(
                     __(
