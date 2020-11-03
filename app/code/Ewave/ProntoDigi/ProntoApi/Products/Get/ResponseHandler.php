@@ -215,7 +215,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         }
         return $result;
     }
-
+    
+    
     /**
      * @param array $products
      * @return $this
@@ -228,7 +229,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             $this->logger->info(__('There are no valid items to import.'));
             return $this;
         }
-
+        
         $start = microtime(true);
         /** @var $productImport ProductImport */
         $productImport = $this->productImportFactory->create(['logger' => $this->logger]);
@@ -236,7 +237,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $productImport->saveBunch($products, false);
         $this->saveSourceItems(); 
         $attribute = $this->eavConfig->getAttribute(ProductModel::ENTITY, self::BRAND_ATTRIBUTE_CODE);
-        
+        //foreach
         foreach ($products as $key => $product) {
             $sku = $product['sku'];
             $qff_base = $product['additional_attributes']['qff_base'];
