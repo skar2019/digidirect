@@ -68,7 +68,7 @@ class SyncOrders {
         try {
             $date = date("Y-m-d", strtotime('2020-10-22'));
             $orders = $this->orderModel->getCollection()
-                    ->addAttributeToFilter('pronto_order_number', ['eq' => ''])
+                    ->addAttributeToFilter('pronto_order_number', ['null' => true])
                     ->addAttributeToFilter('status', ['neq' => 'canceled'])
                     ->addAttributeToFilter('created_at', ['from' => $date]);
 
