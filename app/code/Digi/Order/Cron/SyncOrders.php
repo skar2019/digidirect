@@ -76,20 +76,33 @@ class SyncOrders {
                 $address = $order->getBillingAddress();
                 $strt = $address->getStreet();
                 $condition = in_array("N/A", $strt);
-                if ($condition) {
-                    $this->logger->error('Order with increment ID has no address and cannot be sent to Pronto: ' . $order->getIncrementId()); 
-                    continue;
-                } else {
-                    $this->engineFactory->create(
-                            [
-                                'processCode' => Post::PROCESS_CODE,
-                                'initiator' => self::class,
-                                'runOptions' => [
-                                    'order' => $order,
-                                ],
-                            ]
-                    )->run();
-                    $this->logger->info($order->getEntityId());
+                
+                
+                $payment = $order->getPayment();
+                $method = $payment->getMethodInstance();
+
+                $code = $method->getCode();
+                
+                $address = $order->getBillingAddress();
+                $strt = $address->getStreet();
+                
+                if($code == 'paybympcatch'){
+                    $this->logger->info(json_encode($payment));
+                    if ($condition) {
+                        $this->logger->error('Order with increment ID has no address and cannot be sent to Pronto: ' . $order->getIncrementId());
+                        continue;
+                    } else {
+                        $this->engineFactory->create(
+                                [
+                                    'processCode' => Post::PROCESS_CODE,
+                                    'initiator' => self::class,
+                                    'runOptions' => [
+                                        'order' => $order,
+                                    ],
+                                ]
+                        )->run();
+                        $this->logger->info($order->getEntityId());
+                    }
                 }
             }
         } catch (\Exception $e) {
