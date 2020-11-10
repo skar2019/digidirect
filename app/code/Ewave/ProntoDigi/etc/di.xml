@@ -205,10 +205,9 @@
                         </item>
                     </item>
                 </item>
-                <item name="qff_base" xsi:type="string">qff-bonus-points-per-dollar</item>
-                <item name="qff_bonus_points" xsi:type="string">qff-bonus-points-per-dollar</item>
-<!--                <item name="qff_base" xsi:type="array">
-                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::QFF_BASE_POINTS</item>
+                
+                 <item name="qff_base" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::QFF_BASE_POINTS_PER_DOLLAR</item>
                     <item name="getter" xsi:type="array">
                         <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
                         <item name="method" xsi:type="string">getQffBase</item>
@@ -216,9 +215,10 @@
                             <item name="qffBase" xsi:type="string">{{var qff-base-points-per-dollar}}</item>
                         </item>
                     </item>
-                </item>-->
-<!--                <item name="qff_bonus_points" xsi:type="array">
-                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::QFF_BONUS_POINTS</item>
+                </item>
+                
+                <item name="qff_bonus_points" xsi:type="array">
+                    <item name="key" xsi:type="const">Ewave\ProntoDigi\ProntoApi\Constants\Products::QFF_BONUS_POINTS_PER_DOLLAR</item>
                     <item name="getter" xsi:type="array">
                         <item name="class" xsi:type="object">Ewave\ProntoDigi\ProntoApi\Products\Get\MapperHelper</item>
                         <item name="method" xsi:type="string">getQffBonusPoints</item>
@@ -226,7 +226,7 @@
                             <item name="qffBonusPoints" xsi:type="string">{{var qff-bonus-points-per-dollar}}</item>
                         </item>
                     </item>
-                </item>-->
+                </item>
             </argument>
         </arguments>
     </virtualType>
@@ -603,7 +603,7 @@
                                                     <item name="order" xsi:type="string">{{var order}}</item>
                                                 </item>
                                             </item>                      
-                                        </item>
+                                        </item>                                 
                                     </item>
                                 </item>
                             </item>

@@ -26,7 +26,7 @@ use Magento\Eav\Model\Config as EavConfig;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Inventory\Model\SourceItemFactory;
 use Magento\InventoryConfigurationApi\Model\IsSourceItemManagementAllowedForProductTypeInterface;
-
+use Magento\Catalog\Api\ProductRepositoryInterface;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -36,6 +36,8 @@ class ResponseHandler extends ProductResponseHandlerAbstract
     const USE_CONFIG_BACKORDERS = 'use_config_backorders';
     const BACKORDERS = 'allow_backorders';
     const COL_ATTR_SET = 'attribute_set_code';
+    const QFF_BASE_POINTS = 'qff_base';
+    const QFF_BONUS_POINTS = 'qff_bonus_points';
 
     /**
      * @var array
@@ -86,6 +88,9 @@ class ResponseHandler extends ProductResponseHandlerAbstract
      * @var string
      */
     protected $Product;
+    
+    
+    protected $productRepo; 
     /**
      * ResponseHandler constructor.
      * @param EavConfig $eavConfig
@@ -118,8 +123,9 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         SourceItemFactory $sourceItemFactory,
         Config $configHelper,
         MapperInterface $mapper = null,
-        ProductModel $Product
-    ) {
+        ProductModel $Product,
+        ProductRepositoryInterface $productRepo
+) {
         parent::__construct(
             $validator,
             $productUrl,
@@ -137,6 +143,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $this->eavConfig = $eavConfig;
         $this->attributeResource = $attributeResource;
         $this->Product = $Product;
+        $this->productRepo = $productRepo;
     }
 
     /**
@@ -215,7 +222,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         }
         return $result;
     }
-    
+
     
     /**
      * @param array $products
@@ -237,17 +244,38 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $productImport->saveBunch($products, false);
         $this->saveSourceItems(); 
         $attribute = $this->eavConfig->getAttribute(ProductModel::ENTITY, self::BRAND_ATTRIBUTE_CODE);
-        //foreach
+        $qff_base = 0;
+        $qff_bonus = 0;
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         foreach ($products as $key => $product) {
             $sku = $product['sku'];
-            $qff_base = $product['additional_attributes']['qff_base'];
-            $qff_bonus = $product['additional_attributes']['qff_bonus_points'];
-            $attributes = [$qff_base, $qff_bonus];
-            //$product = $this->Product->getSku($sku);
-            $product_model = $this->Product->loadByAttribute('sku', $sku);
-            if ($product_model->offsetExists('qff_base') && $product_model->offsetExists('qff_bonus_points')) {
-                $product_model->setCustomAttribute('qff_base', $qff_base);
-                $product_model->setCustomAttribute('qff_bonus_points', $qff_bonus);
+            $qff_base = array_key_exists('qff_base', $product['additional_attributes']);
+            $qff_bonus = array_key_exists('qff_bonus_points', $product['additional_attributes']);
+            $storeId = 0;
+            if ($qff_base) {
+                $qff_base = $product['additional_attributes']['qff_base'];
+            }
+            
+            if ($qff_bonus) {
+                $qff_bonus = $product['additional_attributes']['qff_bonus_points'];
+            }
+             $product_model = $this->Product->loadByAttribute('sku', $sku);   
+                if ($product_model->offsetExists('qff_base') && $product_model->offsetExists('qff_bonus_points')) {
+                    
+                    $action = $objectManager->get('Magento\Catalog\Model\ResourceModel\Product\Action');
+                    $product = $this->productRepo->get($sku,false, null,true);
+                    
+                    if ($product->getSku()) {
+                    $updateAttributes['qff_base'] = $qff_base;
+                    $updateAttributes['qff_bonus_points'] = $qff_bonus;
+                    // in below code 0 is store Id
+                    $storeManager = $objectManager->create('Magento\Store\Model\StoreManagerInterface');
+                    $storeIds = array_keys($storeManager->getStores());
+
+                    foreach($storeIds as $storeId){
+                        $action->updateAttributes([$product->getId()], $updateAttributes, $storeId);
+                    }
+                }
             }
         }
 
@@ -268,6 +296,12 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         }
         $this->logger->info('TIME LOG: Import time: ' . round(microtime(true) - $start, 3) . ' sec.');
         return $this;
+    }
+    public function getProductBySku($sku) {
+        return $this->productRepo->get($sku);
+    }
+    public function getProductById($id) {
+        return $this->productRepo->getById($id);
     }
 
     /**
@@ -323,7 +357,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             }
             unset($response[$k]);
         }
-        $products = array_merge($newProducts, $existsProducts);
+         $products = array_merge($newProducts, $existsProducts);
         $this->newProducts = array_merge($this->newProducts, $newProducts);
         return $products;
     }

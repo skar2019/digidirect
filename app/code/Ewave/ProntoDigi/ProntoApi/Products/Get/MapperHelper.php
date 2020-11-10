@@ -219,4 +219,12 @@ class MapperHelper
         }
         return $sources;
     }
-}
+    
+    public function getQffBase($qffBase) {
+        return $qffBase;
+    }
+    
+    public function getQffBonusPoints($qffBonusPoints) {
+        return $qffBonusPoints;
+    }
+    }
