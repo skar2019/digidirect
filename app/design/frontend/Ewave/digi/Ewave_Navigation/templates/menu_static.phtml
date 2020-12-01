@@ -12,7 +12,10 @@ if (empty($menuArray)) {
 <nav data-mage-init='{"mainMenu": {}}' data-action="navigation" class="<?php echo $block->escapeHtml($block->getAreaSelector());?><?php echo
 $block->getResponsive()? ' -responsive -'.$block->getOffCanvasSide()  : ''?>">
     <ul class="<?php echo $block->getWrapperClass() ? ' ' . $block->escapeHtml($block->getWrapperClass()) : '';?><?php echo $block->getHorizontal() == 'true' ? ' -horizontal' : '';?><?php echo $block->getExpanded() == 'true' ? ' -expanded' : '';?>">
-        <?php $i = 1; $j = 1; foreach ($menuArray as $item) : ?>
+        <li class = "hot-deals-link ">
+                <a style="color: red; background-image:url('/media/wysiwyg/menu-icons/fire.svg')" class="link" title="Hot Deals" href="https://www.digidirect.com.au/hot-deals">Hot Deals</a>
+            </li>
+            <?php $i = 1; $j = 1; foreach ($menuArray as $item) : ?>
         <?php if (isset($item->cms_block_content)){
             $length = strlen($item->cms_block_content) ;
         } else {

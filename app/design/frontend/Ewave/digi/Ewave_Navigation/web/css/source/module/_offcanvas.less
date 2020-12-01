@@ -27,6 +27,55 @@
     [data-action='toggle-nav'] {
         display: none;
     }
+    .menu-wrapper > .hot-deals-link > .link[style*='background-image'] {
+        padding-left: 70px;
+        background-size: 38px;
+        background-repeat: no-repeat;
+        background-position: 14px 50%;
+    }
+    .hot-deals-link
+    {
+        border-bottom: 1px solid #e7e7e7;
+        .link{
+            position: relative;
+            padding-right: 40px;
+            padding: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+            text-transform: uppercase;
+            color: #222;
+            display: block;
+            text-decoration: none;
+            word-wrap: break-word;
+            cursor: pointer;
+        }
+    }
+    
+    .hot-deals-link > .link::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        width: 11px;
+        height: 20px;
+        background-size: auto 100%;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMS4wMDEgMjAuMDAxIj48cGF0aCBkPSJNLjIxMy4yMDVhLjY5NC42OTQgMCAwIDAgMCAuOTk5TDkuMjY1IDkuOTkuMjEzIDE4Ljc5NGEuNjkzLjY5MyAwIDAgMCAwIDEgLjc0MS43NDEgMCAwIDAgMS4wMjggMGw5LjU0Ny05LjI4N2EuNjguNjggMCAwIDAgLjIxMy0uNS43MS43MSAwIDAgMC0uMjEzLS41TDEuMjQxLjIyMkEuNzI2LjcyNiAwIDAgMCAuMjEzLjIwNSIvPjwvc3ZnPg==);
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        transform: translateY(-50%);
+    }
+    .nav-offcanvas .hot-deals-link{
+        display: none;
+    }
+
+    .footer-nav .hot-deals-link{
+        display: none;
+    }
+
+    .-horizontal .hot-deals-link{
+        display: none;
+    } 
 }
 
 //
