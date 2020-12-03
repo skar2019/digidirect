@@ -254,6 +254,7 @@ class Order extends \Magento\Framework\App\Helper\AbstractHelper
         try {
             $storeId = $this->config->getStore();
             $store = $this->storeManager->getStore($storeId);
+            $this->storeManager->setCurrentStore(0);
             $websiteId = $store->getWebsiteId();
 
             $orderList = $this->mpcatch->create(
