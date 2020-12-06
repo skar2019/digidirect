@@ -410,6 +410,8 @@ class Order extends \Magento\Framework\App\Helper\AbstractHelper
         $order = null,
         $count = 0
     ) {
+        $this->logger->error('Generate Quote Start' . $order['order_id'], ['path' => __METHOD__, 'quote_data' => json_encode($order)]);
+
         $shippingcost = 0;
         $cart_id = $this->cartManagementInterface->createEmptyCart();
         $quote = $this->cartRepositoryInterface->get($cart_id);
@@ -418,6 +420,9 @@ class Order extends \Magento\Framework\App\Helper\AbstractHelper
         $quote->setCustomerNoteNotify(false);
         $customer = $this->customerRepository->getById($customer->getId());
         $quote->assignCustomer($customer);
+
+        $this->logger->error('Generate Quote 1' . $order['order_id'], ['path' => __METHOD__, 'quote_data' => json_encode($quote->getData())]);
+
         $itemAccepted = 0;
         $subTotal = 0;
         $rejectItemsArray = $acceptItemsArray = [];
@@ -455,7 +460,13 @@ class Order extends \Magento\Framework\App\Helper\AbstractHelper
                                         ->setOriginalCustomPrice($price)
                                         ->setRowTotal($rowTotal)
                                         ->setBaseRowTotal($rowTotal);
+
+                                    $this->logger->error('Generate Quote 2' . $order['order_id'], ['path' => __METHOD__, 'quote_data' => json_encode($quote->getData()), 'product_data' => json_encode($product->getData())]);
+
                                     $quote->addProduct($product, (int)$qty);
+
+                                    $this->logger->error('Generate Quote 3' . $order['order_id'], ['path' => __METHOD__, 'quote_data' => json_encode($quote->getData()), 'product_data' => json_encode($product->getData())]);
+
                                     if($item['order_line_state'] == "WAITING_ACCEPTANCE") {
                                         $acceptItemsArray[] = [
                                             'order_line' => [
@@ -612,7 +623,13 @@ class Order extends \Magento\Framework\App\Helper\AbstractHelper
                             ->setShippingMethod('shipbympcatch_shipbympcatch');
                         $quote->setPaymentMethod('paybympcatch');
                         $quote->setInventoryProcessed(false);
+
+                        $this->logger->error('Generate Quote 4' . $order['order_id'], ['path' => __METHOD__, 'quote_data' => json_encode($quote->getData())]);
+
                         $quote->save();
+
+                        $this->logger->error('Generate Quote 5' . $order['order_id'], ['path' => __METHOD__, 'quote_data' => json_encode($quote->getData())]);
+
                         $quote->getPayment()->importData(
                             [
                             'method' => 'paybympcatch'
@@ -625,7 +642,13 @@ class Order extends \Magento\Framework\App\Helper\AbstractHelper
                             $item->setOriginalCustomPrice($item->getPrice())
                                 ->setOriginalPrice($item->getPrice())->save();
                         }
+
+                        $this->logger->error('Generate Quote 6' . $order['order_id'], ['path' => __METHOD__, 'quote_data' => json_encode($quote->getData())]);
+
                         $magentoOrder = $this->cartManagementInterface->submit($quote);
+
+                        $this->logger->error('Generate Quote End' . $order['order_id'], ['path' => __METHOD__, 'quote_data' => json_encode($magentoOrder->getData())]);
+
                         $magentoOrder->setShippingAmount($shippingcost)
                             ->setBaseShippingAmount($shippingcost)
                             ->setShippingInclTax($shippingcost)
