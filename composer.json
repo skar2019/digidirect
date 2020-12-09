@@ -18,7 +18,7 @@
         }
     },
     "require": {
-        "magento/magento-cloud-metapackage": "2.4.1",
+        "magento/magento-cloud-metapackage": ">=2.4.1 <2.4.2",
         "magento/product-enterprise-edition": "2.4.1"
     },
     "suggest": {
