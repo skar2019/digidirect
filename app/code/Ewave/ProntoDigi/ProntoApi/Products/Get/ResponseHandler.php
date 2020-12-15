@@ -223,7 +223,6 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         return $result;
     }
 
-    
     /**
      * @param array $products
      * @return $this
@@ -236,7 +235,7 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             $this->logger->info(__('There are no valid items to import.'));
             return $this;
         }
-        
+        //s
         $start = microtime(true);
         /** @var $productImport ProductImport */
         $productImport = $this->productImportFactory->create(['logger' => $this->logger]);
@@ -249,34 +248,40 @@ class ResponseHandler extends ProductResponseHandlerAbstract
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         foreach ($products as $key => $product) {
             $sku = $product['sku'];
+            //check if qff points exist in products
             $qff_base = array_key_exists('qff_base', $product['additional_attributes']);
             $qff_bonus = array_key_exists('qff_bonus_points', $product['additional_attributes']);
             $storeId = 0;
             if ($qff_base) {
                 $qff_base = $product['additional_attributes']['qff_base'];
             }
-            
+
             if ($qff_bonus) {
                 $qff_bonus = $product['additional_attributes']['qff_bonus_points'];
             }
+            
             $product_model = $this->Product->loadByAttribute('sku', $sku);
-            if (!$product_model->offsetExists('qff_base') && $product_model->offsetExists('qff_bonus_points')) {
-                continue;
-            } else {
-                $action = $objectManager->get('Magento\Catalog\Model\ResourceModel\Product\Action');
-                $product = $this->productRepo->get($sku, false, null, true);
+            
+            if ($product_model !== false) { //return false if sku does not exists
+                if ($product_model->offsetExists('qff_base') && $product_model->offsetExists('qff_bonus_points')) {
+                    
+                    $action = $objectManager->get('Magento\Catalog\Model\ResourceModel\Product\Action');
+                    $product = $this->productRepo->get($sku, false, null, true);
 
-                if ($product->getSku()) {
-                    $updateAttributes['qff_base'] = $qff_base;
-                    $updateAttributes['qff_bonus_points'] = $qff_bonus;
-                    // in below code 0 is store Id
-                    $storeManager = $objectManager->create('Magento\Store\Model\StoreManagerInterface');
-                    $storeIds = array_keys($storeManager->getStores());
+                    if ($product->getSku()) {
+                        $updateAttributes['qff_base'] = $qff_base;
+                        $updateAttributes['qff_bonus_points'] = $qff_bonus;
+                        // in below code 0 is store Id
+                        $storeManager = $objectManager->create('Magento\Store\Model\StoreManagerInterface');
+                        $storeIds = array_keys($storeManager->getStores());
 
-                    foreach ($storeIds as $storeId) {
-                        $action->updateAttributes([$product->getId()], $updateAttributes, $storeId);
+                        foreach ($storeIds as $storeId) {
+                            $action->updateAttributes([$product->getId()], $updateAttributes, $storeId);
+                        }
                     }
                 }
+            }else{
+                continue;
             }
         }
 
