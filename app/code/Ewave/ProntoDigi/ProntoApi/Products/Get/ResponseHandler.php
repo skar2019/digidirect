@@ -259,20 +259,21 @@ class ResponseHandler extends ProductResponseHandlerAbstract
             if ($qff_bonus) {
                 $qff_bonus = $product['additional_attributes']['qff_bonus_points'];
             }
-             $product_model = $this->Product->loadByAttribute('sku', $sku);   
-                if ($product_model->offsetExists('qff_base') && $product_model->offsetExists('qff_bonus_points')) {
-                    
-                    $action = $objectManager->get('Magento\Catalog\Model\ResourceModel\Product\Action');
-                    $product = $this->productRepo->get($sku,false, null,true);
-                    
-                    if ($product->getSku()) {
+            $product_model = $this->Product->loadByAttribute('sku', $sku);
+            if (!$product_model->offsetExists('qff_base') && $product_model->offsetExists('qff_bonus_points')) {
+                continue;
+            } else {
+                $action = $objectManager->get('Magento\Catalog\Model\ResourceModel\Product\Action');
+                $product = $this->productRepo->get($sku, false, null, true);
+
+                if ($product->getSku()) {
                     $updateAttributes['qff_base'] = $qff_base;
                     $updateAttributes['qff_bonus_points'] = $qff_bonus;
                     // in below code 0 is store Id
                     $storeManager = $objectManager->create('Magento\Store\Model\StoreManagerInterface');
                     $storeIds = array_keys($storeManager->getStores());
 
-                    foreach($storeIds as $storeId){
+                    foreach ($storeIds as $storeId) {
                         $action->updateAttributes([$product->getId()], $updateAttributes, $storeId);
                     }
                 }
