@@ -16,7 +16,8 @@ class QffAction extends \Magento\Framework\App\Action\Action
             $qff_action = $_POST["qff_action"];
             
              $_SESSION["qff_number"] = $qff_number;
-             $_SESSION["qff_lastname"] = $qff_lastname;            
+             $_SESSION["qff_lastname"] = $qff_lastname;  
+             
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
