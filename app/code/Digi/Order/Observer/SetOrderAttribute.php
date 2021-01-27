@@ -2,6 +2,8 @@
 
 namespace Digi\Order\Observer;
 
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
 class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
 
     /**
@@ -15,10 +17,16 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
      */
     public function __construct(
             \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
-            \Magento\Customer\Model\Session $customerSession
+            \Magento\Customer\Model\Session $customerSession,
+            \Magento\Framework\App\Filesystem\DirectoryList $directoryList,
+            \Magento\Framework\Filesystem $filesystem,
+            \Magento\Framework\File\Csv $csvProcessor
     ) {
         $this->_customerRepository = $customerRepository;
         $this->customerSession = $customerSession;
+        $this->directoryList = $directoryList;
+        $this->filesystem = $filesystem;
+        $this->csvProcessor = $csvProcessor;
     }
 
     /**
@@ -34,44 +42,70 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
         $isGuest = $order->getCustomerIsGuest();
 
         if ($isGuest) {
+            if (isset($_SESSION["qff_number"]) && isset($_SESSION["qff_lastname"])) {
+                $qff_number = $_SESSION["qff_number"];
+                $qff_lastname = $_SESSION["qff_lastname"];
+                
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $path = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
+
+                $fileDirectoryPath = $path->getPath('var');
+
+                $filePath = $fileDirectoryPath . '/Qantas/';
+                if (!is_dir($filePath)) {
+                    mkdir($filePath, 0777, true);
+                }
+
+                $handle = fopen($filePath . 'qantaslogs.txt', 'a');
+
+                fwrite($handle, $qff_number);
+
+                fclose($handle);
+                $order->setQffNumber($qff_number)->save();
+
+                $order->setQffLastname($qff_lastname)->save();
+                unset($_SESSION["qff_number"]);
+                unset($_SESSION["qff_lastname"]);
+            }
+
             $order->setQffNumber('NULL')->save();
 
-            $order->setQffLastName('NULL')->save();
+            $order->setQffLastname('NULL')->save();
 
             return $this;
         } else {
             $pos = strpos($customerEmail, "catch.com.au");
 
             if ($pos !== false) {
-                    $order->setQffNumber('NULL')->save();  
+                $order->setQffNumber('NULL')->save();
 
-                    $order->setQffLastName('NULL')->save(); 
+                $order->setQffLastname('NULL')->save();
 
-                    return $this;
+                return $this;
             } else {
-                    $customer = $this->_customerRepository->get($customerEmail);
-       
-                    $getQffNumber = $customer->getQffNumber();
+                $customer = $this->_customerRepository->get($customerEmail);
 
-                    $getQffLastName = $customer->getQffLastName();
+                $getQffNumber = $customer->getQffNumber();
+
+                $getQffLastName = $customer->getQffLastName();
 
                     if  ($getQffNumber == NULL  && $getQffLastName == NULL  ){
 
-                        $order->setQffNumber('NULL')->save();  
+                    $order->setQffNumber('NULL')->save();
 
-                        $order->setQffLastName('NULL')->save(); 
+                    $order->setQffLastname('NULL')->save();
 
-                        return $this;
-                    }   
+                    return $this;
+                }
 
                     if ( $getQffNumber !== NULL && $getQffLastName !== NULL){
 
-                        $order->setQffLastname($getQffLastName)->save();
+                    $order->setQffLastname($getQffLastName)->save();
 
-                        $order->setQffNumber($getQffNumber)->save();
+                    $order->setQffNumber($getQffNumber)->save();
 
-                        return $this;
-                    }
+                    return $this;
+                }
             }
         }
     }
