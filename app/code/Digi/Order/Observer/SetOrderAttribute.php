@@ -68,10 +68,6 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
                 unset($_SESSION["qff_lastname"]);
             }
 
-            $order->setQffNumber('NULL')->save();
-
-            $order->setQffLastname('NULL')->save();
-
             return $this;
         } else {
             $pos = strpos($customerEmail, "catch.com.au");
