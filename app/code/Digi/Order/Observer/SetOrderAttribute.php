@@ -66,6 +66,11 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
                 $order->setQffLastname($qff_lastname)->save();
                 unset($_SESSION["qff_number"]);
                 unset($_SESSION["qff_lastname"]);
+            } else {
+                $order->setQffNumber(' ')->save();
+
+                $order->setQffLastname(' ')->save();
+
             }
 
             return $this;
@@ -73,9 +78,9 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
             $pos = strpos($customerEmail, "catch.com.au");
 
             if ($pos !== false) {
-                $order->setQffNumber('NULL')->save();
+                $order->setQffNumber(' ')->save();
 
-                $order->setQffLastname('NULL')->save();
+                $order->setQffLastname(' ')->save();
 
                 return $this;
             } else {
@@ -87,9 +92,9 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
 
                     if  ($getQffNumber == NULL  && $getQffLastName == NULL  ){
 
-                    $order->setQffNumber('NULL')->save();
+                    $order->setQffNumber(' ')->save();
 
-                    $order->setQffLastname('NULL')->save();
+                    $order->setQffLastname(' ')->save();
 
                     return $this;
                 }
