@@ -1,0 +1,128 @@
+& when(@media-common = true){
+    .opc-progress-bar-item {
+        
+        background:#F8F8F8;
+        width: 50%!important;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        .box-shadow(~"rgb(0 0 0 / 5%) 0px 1px 2px 0px");
+        &:before {
+            .lib-css(background, none);
+        }
+
+        > span {
+            color: @digicolor-gray; 
+            padding-left:25px;
+
+            .lib-css(display,inline);
+            .lib-css(word-wrap,false);
+
+
+            &:before {
+                content: counter(i);
+                margin-right: 10px;
+                border: 1px solid #666;
+                counter-increment: i;
+                transition: all .4s ease-in-out;
+                transform: translate(-120%, 0%);
+
+            }  
+
+            &:after {
+                .lib-css(background, none);
+            }
+
+        }
+
+        &._active{
+            border-color: #e65300;
+            color: #e65300;
+            background-color: #fff;
+            border-bottom: 2px solid #e65300;
+            .box-shadow(~"rgb(0 0 0 / 5%) 0px 1px 2px 0px");
+            
+            &:before {
+                .lib-css(background, none);
+            }
+
+            > span {
+
+                &:after {
+                    .lib-css(font-family, @digi__font-name);                    
+                    .lib-css(background, none);
+                    content: '';
+                }
+
+                &:before {
+                    .lib-css(background, @digibutton-primary__color);                    
+                    border:none;
+                    color:@digicolor-white;
+                }
+            }
+        }
+    }
+    
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .opc-progress-bar-item {
+        > span {
+            
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxs) {
+
+    .opc-progress-bar-item{
+
+        > span {
+            font-size: 12px;
+            &:before {
+                height: 15px;
+                width: 15px;
+                line-height: 1.1;
+                border-radius:15px;
+            }
+        }
+    }
+
+
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .opc-progress-bar-item {
+
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__s) {
+
+    .opc-progress-bar-item {
+        > span {
+            font-size: 15px;
+            
+            &:before {
+                height: 20px;
+                width: 20px;
+            }
+        }
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__lg) {
+    .opc-progress-bar-item {
+        padding-top: 30px;
+        height: 40px;
+        > span {
+            font-size: 2rem;
+            &:before {
+                line-height: 1.1;
+                height: 25px;
+                width: 25px;
+                font-size: 2rem;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <body>
+<!--        <referenceBlock name="header" remove="true"/>
+        <referenceBlock name="logo" remove="true"/>
+        <referenceBlock name="top.links" remove="true"/>
+        <referenceBlock name="skip_to_content" remove="true"/>
+        <referenceContainer name="report.bugs" remove="true"/>
+        <referenceContainer name="copyright" remove="true"/>
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="footer_links" remove="true"/>
+        <referenceBlock name="catalog.topnav" remove="true"/>
+              
+        <move element="top.search" destination="header-wrapper" before="header.content.links"/>
+        <move element="minicart" destination="header-wrapper" after="-"/>
+        <move element="form.subscribe" destination="footer" />
+        <move element="digi.footer.partners" destination="form.subscribe" />
+        
+    
+        <referenceBlock name="store.menu">
+            <block class="Magento\Theme\Block\Html\Topmenu" name="catalog.topnav.without.ttl" template="Magento_Theme::html/topmenu.phtml" before="-"/>
+        </referenceBlock>
+        
+        <referenceContainer name="header.panel">
+            <block class="Magento\Cms\Block\Block" name="cms.top.learn">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">header-learn-more</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="cms.top.shipping">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">header-free-shipping</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="cms.top.links">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">header-top-links</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        
+        <referenceContainer name="header-wrapper">
+            <block class="Magento\Cms\Block\Block" name="digi.logo">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">digi-logo</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="header.content.links">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">header-content-links</argument>
+                </arguments>
+            </block>
+        </referenceContainer>-->
+        
+            
+        <referenceContainer name="main">
+<!--            <container name="digimaincontent" htmlTag="div" htmlClass="digi-main-content" >
+                <block class="Magento\Framework\View\Element\Template" name="digidirectmaincontent" template="Magento_Theme::homepage/content.phtml"/>               
+            </container>-->
+        </referenceContainer>
+
+<!--        <referenceContainer name="footer">
+            <block class="Magento\Cms\Block\Block" name="digi.footer">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">digi-footer-links</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="digi.footer.partners">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer_partners</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="digi.footer.bottom">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">footer_bottom</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Framework\View\Element\Template" name="footer-test" template="Magento_Theme::footer/footer-test.phtml"/>
+        </referenceContainer>-->
+
+
+    </body>
+
+
+</page>
