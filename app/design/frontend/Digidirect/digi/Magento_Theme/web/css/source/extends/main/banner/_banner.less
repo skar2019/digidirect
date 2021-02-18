@@ -1,0 +1,157 @@
+/*
+    Created on : Feb 8, 2021, 11:34:14 AM
+    Author     : Johnry Valeriano
+*/
+
+
+& when (@media-common = true) {
+    .hero-carousel-wrapper{
+        .owl-carousel .owl-dots{
+            position: absolute;
+            bottom: 30px;
+            
+            .owl-dot 
+            {
+                span{
+                    width: 12px;
+                    height: 12px;
+                    background: #fff;
+                }
+                
+                &.active{
+                    span{
+                        background: #f15a25;
+                    }
+                }
+            }
+        } 
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
+}
+
+//
+//  L +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .digi-print-banner-wrapper{
+        background: #ebebeb;
+        
+        .digi-print-banner-inner,
+        {
+            .inner-content{
+                display: flex;
+                align-items: center;
+                max-width: 1440px;
+                padding: 5px 0px;
+            }
+        }
+    }
+    
+    .digi-print-wrapper{
+        
+        .digi-print-wrapper-inner{
+            text-align: center;
+            
+            .mgz-element-inner{
+                text-align: right;
+                padding-right: 15px;
+            }
+        }
+        
+        img{
+            max-width: 280px;
+            width: 100%;
+        }
+    }
+    
+    .digi-print-call-to-action-wrapper {
+        
+        text-align: center;
+        
+        p{
+            color: #565656;
+            line-height: 0.9;
+        }
+        
+        .mgz-element-text p:first-child{
+            font-size: 20px;
+            font-weight: 300;
+        }
+        
+        .mgz-element-text p:last-child{
+            font-size: 30px;
+        }
+        
+        .mgz-button{
+            text-align: center;
+            
+            a.mgz-btn{
+                background: #f25a21;
+                color: #fff;
+                width: 100%;
+                margin: 0 auto;
+                max-width: 200px;
+                border-radius: 32px;
+                font-weight: 400;
+                text-transform: uppercase;
+                
+                &:hover{
+                    background: #fff;
+                    color: #f25a21;
+                }
+            }
+        }    
+    }
+    
+    .group-family-picture-wrapper
+    {   
+        .group-family-picture {
+        
+            text-align: center;
+            height: 170px;
+            img{
+                max-width: 350px;
+                width: 100%;
+            }
+            
+            .mgz-element-inner{
+                position: absolute;
+                top: -40px;
+            }
+        }
+    }
+    
+    
+    .scan-to-get-app-wrapper{
+        .mgz-element-inner{
+            text-align: center;
+            margin-bottom: 5px;
+            
+            p{
+                color: #565656;
+            }
+        }
+        
+        img{
+            max-width: 200px;
+            width: 100%;
+        }
+    }
+}
+

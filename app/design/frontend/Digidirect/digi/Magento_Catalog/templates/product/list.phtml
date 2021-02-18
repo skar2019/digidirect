@@ -48,23 +48,6 @@ $_helper = $block->getData('outputHelper');
         <ol class="products list items product-items ">
             <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
             <?php foreach ($_productCollection as $_product):?>
-             <?php
-                $qff_bonus_points = 0;
-                $qff_base_points = 0;
-                $qff_base_points = $_helper->productAttribute($_product, $_product->getQffBase(), 'qff_base');
-                $qff_bonus_points = $_helper->productAttribute($_product, $_product->getQffBonusPoints(), 'qff_bonus_points');
-                $finalProductPrice = $_product->getFinalPrice();
-                if (!empty($qff_base_points) && !empty($qff_bonus_points)) {
-                    $pointSum = $qff_base_points + $qff_bonus_points;
-                    $points = number_format($finalProductPrice * $pointSum);
-                } else {
-                    if (!empty($qff_base_points)) {
-                        $points = number_format($finalProductPrice * $qff_base_points);
-                    } else {
-                        $points = number_format($finalProductPrice * 2);
-                    }
-                }
-                ?>
             <li class="item product product-item card">
                 <div class="product-item-info card-body"
                      id="product-item-info_<?= /* @noEscape */ $_product->getId() ?>"
@@ -161,11 +144,6 @@ $_helper = $block->getData('outputHelper');
                                 </div>
                             <?php endif; ?>
                         </div>
-                    </div>
-                    <div class="qantas-pts-wrapper">
-                      
-                        <img class="qantas-logo" src=" <?= $block->getViewFileUrl('images/qantas.svg'); ?>"/>
-                        <span data-sample="<?= $qff_base_points?>">Earn <?= $points ?> Qantas Points</span>
                     </div>
                 </div>
                 <?= strpos($pos, $viewMode . '-actions') ?

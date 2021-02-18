@@ -11,7 +11,7 @@
         }
 
         > span {
-            color: @digicolor-gray; 
+            color: #303030; 
             padding-left:25px;
 
             .lib-css(display,inline);
@@ -48,7 +48,7 @@
             > span {
 
                 &:after {
-                    .lib-css(font-family, @digi__font-name);                    
+/*                    .lib-css(font-family, @digi__font-name);                    */
                     .lib-css(background, none);
                     content: '';
                 }
@@ -56,7 +56,7 @@
                 &:before {
                     .lib-css(background, @digibutton-primary__color);                    
                     border:none;
-                    color:@digicolor-white;
+                    color:#ffffff;
                 }
             }
         }
@@ -110,7 +110,7 @@
     }
 }
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__lg) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .opc-progress-bar-item {
         padding-top: 30px;
         height: 40px;
