@@ -76,7 +76,6 @@ class Product extends Extended
      * @param Registry $coreRegistry
      * @param ResourceConnection $resource
      * @param \Magento\Store\Model\System\Store $systemStore
-     * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magezon\Core\Helper\Data $coreHelper
      * @param ConditionsProcessor $processor
      * @param array $data
@@ -90,7 +89,6 @@ class Product extends Extended
         Registry $coreRegistry,
         ResourceConnection $resource,
         \Magento\Store\Model\System\Store $systemStore,
-        \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magezon\Core\Helper\Data $coreHelper,
         ConditionsProcessor $processor,
         array $data = []
@@ -101,7 +99,7 @@ class Product extends Extended
         $this->_productFactory = $productFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->systemStore = $systemStore;
-        $this->cacheState = $cacheState;
+        $this->cacheState = $context->getCacheState();
         $this->coreHelper = $coreHelper;
         $this->prosessor = $processor;
         parent::__construct($context, $backendHelper, $data);

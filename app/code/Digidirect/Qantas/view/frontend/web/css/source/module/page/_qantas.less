@@ -20,17 +20,18 @@
         .qantas-heading {
             h1 {
                 font-size:25px;
-                color:@digibutton-primary__color;
+/*                color:@digibutton-primary__color;*/
+                color:#000000;
             }
             p {
                 font-size:25px;
-                color:@digicolor-white;
+                color:#fff;
             }
         }
     }
 
     .qantas-join { 
-        color:@digicolor-white;
+        color:#fff;
 
         .qantas-frequent-logo {
             > img {
@@ -40,9 +41,10 @@
         }
 
         a {
-            color:@digicolor-white;
+            color:#fff;
             background-image: none;
-            background: @digibutton-primary__color;
+/*            background: @digibutton-primary__color;*/
+            background:#000000;
             border: 2px solid transparent;
             cursor: pointer;
             display: inline-block;
@@ -69,19 +71,19 @@
             > p {
                 letter-spacing: 1px;
             }
-        }
+        }/*        .box-shadow(~"rgba(33, 35, 38, 0.1) 0px 10px 10px -10px");*/
 
         > div {
             padding: 10px;
             min-height: 300px;
-            .box-shadow(~"rgba(0, 0, 0, 0.1) -4px 9px 25px -6px");
+/*            .box-shadow(~"rgba(0, 0, 0, 0.1) -4px 9px 25px -6px");*/
         }
     }
 
     .terms {
         padding: 10px;
         margin-top: 10px;
-        .box-shadow(~"rgba(33, 35, 38, 0.1) 0px 10px 10px -10px");
+
     }
 
     .faqantas-container {
@@ -94,7 +96,7 @@
         padding: 10px 0 5px;
         margin: 5px;
 
-        .box-shadow(~"rgb(27 31 35 / 4%) 0px 1px 0px, rgb(255 255 255 / 25%) 0px 1px 0px inset");
+/*        .box-shadow(~"rgb(27 31 35 / 4%) 0px 1px 0px, rgb(255 255 255 / 25%) 0px 1px 0px inset");*/
 
         &:after{
             content: "";
@@ -109,7 +111,7 @@
     }
 
     .faqantas-answer {
-        .box-shadow(~"rgb(0 0 0 / 8%) 0px 4px 12px");
+/*        .box-shadow(~"rgb(0 0 0 / 8%) 0px 4px 12px");*/
         padding: 40px 40px 40px;
     }
     
@@ -184,10 +186,10 @@
     }
 }
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__lg) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .qantas-banner-content {
         position: relative;
-        min-height: 50vh;
+        min-height: 50px;
 
         .banner-content-container {
             position:absolute;
@@ -228,7 +230,7 @@
     }
 }
 
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__lg) { 
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) { 
 
     .qantas-banner-content {
         position: relative; 
