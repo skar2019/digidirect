@@ -25,6 +25,7 @@
 !/dev/tools/grunt/configs
 !/pub
 !/pub/*/
+!/pub/media
 !/pub/media/**
 !/pub/media/wysiwyg/
 !/lib/**
