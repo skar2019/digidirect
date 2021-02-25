@@ -23,6 +23,8 @@
 !/update/.htaccess
 !/README.md
 !/dev/tools/grunt/configs
+!/pub
+!/pub/*/
 !/pub/media/**
 !/pub/media/wysiwyg/
 !/lib/**
