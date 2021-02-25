@@ -28,4 +28,6 @@
 !/pub/media
 !/pub/media/**
 !/pub/media/wysiwyg/
-!/lib/**
+!/lib
+!/lib/*/
+!/lib/internal/**
