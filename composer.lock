@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73bcc6e524de8e843b907f2288d3f833",
+    "content-hash": "e0a4bdb683b04c8f75e043ba1b637c6e",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -2671,52 +2671,6 @@
             ],
             "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
             "time": "2021-02-18T23:23:47+00:00"
-        },
-        {
-            "name": "klevu/module-mysqlcompat",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/klevu/mysqlcompat.git",
-                "reference": "da4c073ab88496d8344283e37e32fe9c9d637016"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/klevu/mysqlcompat/zipball/da4c073ab88496d8344283e37e32fe9c9d637016",
-                "reference": "da4c073ab88496d8344283e37e32fe9c9d637016",
-                "shasum": ""
-            },
-            "require": {
-                "magento/framework": "@stable",
-                "magento/module-backend": "@stable",
-                "magento/module-catalog": "@stable",
-                "magento/module-eav": "@stable",
-                "magento/module-store": "@stable",
-                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
-            },
-            "type": "magento-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Klevu\\MysqlCompat\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "OSL-3.0",
-                "AFL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Klevu Oy",
-                    "email": "niraj.aswani@klevu.com",
-                    "homepage": "https://www.klevu.com/"
-                }
-            ],
-            "description": "Klevu Search MySQL compatibility module from Magento 2.0 to Magento 2.3.x versions",
-            "time": "2020-08-12T09:48:07+00:00"
         },
         {
             "name": "klevu/module-productsearch",
