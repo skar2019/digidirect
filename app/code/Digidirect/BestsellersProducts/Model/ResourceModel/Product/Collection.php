@@ -32,7 +32,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
     public function getBestsellersProduct($storeId)
     {
         $this->getSelect()->join(
-            ['bestseller' => $this->getTable('sales_bestsellers_aggregated_yearly')],
+            ['bestseller' => $this->getTable('sales_bestsellers_aggregated_daily')],
             'e.entity_id = bestseller.product_id',
             ['SUM(bestseller.qty_ordered) as qty_ordered']
         )->where('bestseller.store_id = ?', (int)$storeId)->group('bestseller.product_id')->order('qty_ordered DESC');

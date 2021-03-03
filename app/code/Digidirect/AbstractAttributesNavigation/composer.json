@@ -1,0 +1,14 @@
+{
+    "name": "digidirect/abstractattributesnavigation",
+    "type": "magento2-module",
+    "description": "Digidirect Abstract Attributes Navigation Module",
+    "version": "1.0.1.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Digidirect\\AbstractAttributesNavigation\\": ""
+        }
+    }
+}

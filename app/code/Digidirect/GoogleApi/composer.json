@@ -1,0 +1,12 @@
+{
+  "name": "Digidirect/googleapi",
+  "type": "magento2-module",
+  "description": "Digidirect Google API Module",
+  "version": "1.0.0.0",
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Digidirect\\Googleapi\\": ""
+    }
+  }
+}

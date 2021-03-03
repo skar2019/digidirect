@@ -1,0 +1,3 @@
+// OFFCANVAS MODES
+export const OFFCANVAS_OFF = 'OFFCANVAS_OFF';
+export const OFFCANVAS_ON = 'OFFCANVAS_ON';

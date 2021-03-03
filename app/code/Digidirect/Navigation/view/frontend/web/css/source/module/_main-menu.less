@@ -1,0 +1,86 @@
+//
+//  Navigation styles
+//  _____________________________________________
+
+//
+//  Common Styles
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+
+    .menu-wrapper {
+        & {
+            .menu {
+                list-style: none;
+                cursor: default;
+                .lib-css(margin, @menu__margin);
+                .lib-css(padding, @menu__padding);
+            }
+
+            .digidirect-navigation-main-vertical-desktop();
+        }
+
+        //
+        //  Vertical Expanded
+        //  _____________________________________________
+
+        &.-expanded {
+            .digidirect-navigation-main-vertical-expanded-desktop();
+        }
+
+        //
+        //  Horizontal
+        //  _____________________________________________
+
+        &.-horizontal {
+            .digidirect-navigation-main-horizontal-desktop();
+        }
+
+        //
+        //  Horizontal Expanded
+        //  _____________________________________________
+
+        &.-horizontal.-expanded {
+            .digidirect-navigation-main-horizontal-expanded();
+        }
+    }
+
+    .navigation-wrapper {
+        .lib-vendor-prefix-flex-shrink(0);
+        .lib-css(margin-bottom, @navigation-wrapper__margin-bottom);
+    }
+
+    .sub-menu {
+        & {
+            position: absolute;
+            left: -9999px;
+            display: block;
+        }
+
+        &.-open {
+            position: static;
+            left: auto;
+        }
+
+        > .extra {
+            display: none;
+        }
+    }
+}
+
+//
+//  Desktop above
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .menu-wrapper {
+        &.-horizontal .sub-menu > .extra {
+            .navigation-content();
+        }
+        &.-horizontal .sub-menu > * {
+            .lib-css(display, @main-horizontal-submenu-desktop-block__display);
+            .lib-css(vertical-align, @main-horizontal-submenu-desktop-block__vertical-align);
+            .lib-css(white-space, @main-horizontal-submenu-desktop-block__white-space);
+        }
+    }
+}

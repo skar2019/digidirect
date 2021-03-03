@@ -1,0 +1,74 @@
+//
+//  Theme: PLP customizable options
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+/* stylelint-disable declaration-no-important */
+& when (@media-common = true) {
+    .product-options-wrapper .options-list {
+        > .field {
+            margin-bottom: 5px;
+        }
+
+        .radio:checked + .label {
+            &::after {
+                margin-left: 0;
+            }
+        }
+    }
+
+    .product-options-wrapper {
+        .mage-error {
+            margin-bottom: 15px;
+        }
+
+        .fieldset > .field > .label,
+        .fieldset > .legend {
+            .lib-font-size(12);
+            margin-bottom: 15px;
+        }
+
+        .field .note {
+            padding: 10px 0 15px;
+
+            &::before {
+                .lib-font-size(11);
+                content: '*';
+            }
+        }
+
+        .fieldset > .field:last-child {
+            margin-bottom: 23px;
+        }
+
+        .field.date .mage-error:not(.datetime-picker) {
+            display: none !important; //use important to overwrite dynamic inline style
+        }
+
+        .field.date .mage-error:last-child {
+            display: block !important; //use important to overwrite previous style for the last child
+        }
+
+        .field.required .checkbox + .label::after {
+            content: '';
+            margin: -10px 0 0;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .product-options-wrapper {
+        .options-list .label,
+        .fieldset > .field > .label,
+        .fieldset > .legend {
+            .lib-font-size(14);
+        }
+    }
+}

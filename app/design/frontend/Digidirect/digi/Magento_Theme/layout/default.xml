@@ -27,17 +27,37 @@
                     <block class="Magento\Framework\View\Element\Template" name="header.content.links" template="Magento_Theme::header/additional-links.phtml"/>  
                 </container>           
             </container>
+            
         </referenceContainer>
+        
+        <move element="messages" destination="header-wrapper" after='catalog.topnav' />
         
         <move element="authorization-link" destination="header.wrapper.links"/>
         <move element="my-account-link" destination="authorization-link"/>
         
          <referenceBlock name="store.menu">
             <block class="Magezon\NinjaMenus\Block\TopMenu" name="catalog.topnav" template="Magezon_NinjaMenus::topmenu.phtml" before="-">
-            <arguments>
-                <argument name="identifier" translate="true" xsi:type="string">topmenu</argument>
-            </arguments>
-        </block>
+                <arguments>
+                    <argument name="identifier" translate="true" xsi:type="string">topmenu</argument>
+                </arguments>
+                <container  name="main.menu.bottom" label="Main Menu Bottom">
+                    <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.one.menu">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">cms-helpful-info-1</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.two.menu">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">cms-helpful-info-2</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Cms\Block\Block" name="default.cms.helpful.info.three.menu">
+                        <arguments>
+                            <argument name="block_id" xsi:type="string">cms-helpful-info-3</argument>
+                        </arguments>
+                    </block>
+                </container>
+            </block>
         </referenceBlock>
         
         <referenceContainer name="after.body.start">
@@ -56,8 +76,6 @@
         </referenceContainer>
 
         <!-- FOOTER -->
-        
-        <!--<referenceBlock name="copyright" remove="true"/>-->
         
         <referenceBlock name="footer_links" remove="true"/>
         <move element="form.subscribe" destination="footer-links-wrapper" before="footer-partner"/>

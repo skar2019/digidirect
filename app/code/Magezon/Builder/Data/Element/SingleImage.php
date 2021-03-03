@@ -763,10 +763,6 @@ class SingleImage extends AbstractElement
             [
                 'label' => __('Open Video or Map'),
                 'value' => 'video_map'
-            ],
-            [
-                'label' => __('Open Media File'),
-                'value' => 'pdf'
             ]
         ];
     }

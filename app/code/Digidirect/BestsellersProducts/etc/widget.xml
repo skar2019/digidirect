@@ -22,7 +22,7 @@
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
-    <widget id="phpcuong_bestsellers_product"
+    <widget id="Digidirect_bestsellers_product"
             class="Digidirect\BestsellersProducts\Block\Widget\BestsellersProducts"
             placeholder_image="Magento_CatalogWidget::images/products_list.png" ttl="86400">
         <label translate="true">Bestsellers Products</label>
@@ -30,11 +30,11 @@
         <parameters>
             <parameter name="title" xsi:type="text" required="true" visible="true">
                 <label translate="true">Title</label>
-                <value>Bestsellers Products</value>
+                <value>New Arrivals</value>
             </parameter>
             <parameter name="qty" xsi:type="text" required="true" visible="true">
                 <label translate="true">Qty</label>
-                <value>5</value>
+                <value>25</value>
             </parameter>
         </parameters>
     </widget>

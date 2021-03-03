@@ -65,19 +65,6 @@ define([
                 },
                 speed: 300
             });
-
-            this.menu.find('.ninjamenus-lazy').each(function (index, el) {
-                if (!$(this).hasClass('ninjamenus-lazy-loaded')) {
-                    $(this).removeClass('ninjamenus-lazy-blur');
-                    var src = $(this).data('src');
-                    if (src) {
-                        $(this).attr('src', src);
-                        $(this).removeClass('ninjamenus-lazy-blur').addClass('ninjamenus-lazy-loaded');
-                    }
-                    $('.ninjamenus img[data-src="' + src + '"').attr('src', src);
-                    $('.ninjamenus img[data-src="' + src + '"').removeClass('ninjamenus-lazy-blur').addClass('ninjamenus-lazy-loaded');
-                }
-            });
         },
 
         disableDrillDown: function() {
@@ -157,7 +144,7 @@ define([
                     self.menu.find('.ninjamenus-tablet').removeClass('ninjamenus-tablet');
                 }
             }).resize();
-
+            
             if (type == 'accordion' || type == 'drilldown') {
 
             } else {
@@ -178,6 +165,7 @@ define([
                     });
                 }
             }
+            
             this.menu.on('click', '.nav-item > a', function (e) {
                 if ($(this).data('scrollto') && $($(this).data('scrollto')).length) {
                     $('html, body').animate({

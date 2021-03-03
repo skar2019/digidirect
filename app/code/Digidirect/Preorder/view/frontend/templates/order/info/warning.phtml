@@ -1,0 +1,5 @@
+<?php /** @var $block \Digidirect\PreOrder\Block\Order\Info\PreorderWarning */ ?>
+<?php $warningText = $block->getWarningText() ?>
+<?php if ($warningText) : ?>
+    <div class="note-msg"><?php echo $block->escapeHtml($warningText) ?></div>
+<?php endif; ?>

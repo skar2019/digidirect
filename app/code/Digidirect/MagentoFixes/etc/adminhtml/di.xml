@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="../../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+
+    <preference for="Magento\Framework\View\Element\UiComponentFactory"
+                type="Digidirect\MagentoFixes\Preference\Magento\Framework\View\Element\UiComponentFactory"/>
+
+    <type name="Digidirect\MagentoFixes\Preference\Magento\Framework\View\Element\UiComponentFactory">
+        <arguments>
+            <argument name="checkAclResources" xsi:type="array">
+                <item name="orders_content" xsi:type="string">Magento_Sales::actions_view</item>
+                <item name="newsletter_content" xsi:type="string">Magento_Newsletter::subscriber</item>
+                <item name="reviews_content" xsi:type="string">Magento_Review::reviews_all</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
