@@ -426,16 +426,16 @@
         },
         {
             "name": "christian-riesen/base32",
-            "version": "1.5.2",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristianRiesen/base32.git",
-                "reference": "a1cac38d50adb5ce9337a62019a0697cc5da3ca1"
+                "reference": "2e82dab3baa008e24a505649b0d583c31d31e894"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristianRiesen/base32/zipball/a1cac38d50adb5ce9337a62019a0697cc5da3ca1",
-                "reference": "a1cac38d50adb5ce9337a62019a0697cc5da3ca1",
+                "url": "https://api.github.com/repos/ChristianRiesen/base32/zipball/2e82dab3baa008e24a505649b0d583c31d31e894",
+                "reference": "2e82dab3baa008e24a505649b0d583c31d31e894",
                 "shasum": ""
             },
             "require": {
@@ -477,7 +477,7 @@
                 "encode",
                 "rfc4648"
             ],
-            "time": "2021-01-11T22:44:02+00:00"
+            "time": "2021-02-26T10:19:33+00:00"
         },
         {
             "name": "colinmollenhour/cache-backend-file",
@@ -1690,16 +1690,16 @@
         },
         {
             "name": "fastly/magento2",
-            "version": "1.2.153",
+            "version": "1.2.154",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastly/fastly-magento2.git",
-                "reference": "0833ebad7cea87c5d37a38632338b4ec37846b9b"
+                "reference": "3df90f09b62cc1db4f1142c8c88d2b6f1d2ace59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastly/fastly-magento2/zipball/0833ebad7cea87c5d37a38632338b4ec37846b9b",
-                "reference": "0833ebad7cea87c5d37a38632338b4ec37846b9b",
+                "url": "https://api.github.com/repos/fastly/fastly-magento2/zipball/3df90f09b62cc1db4f1142c8c88d2b6f1d2ace59",
+                "reference": "3df90f09b62cc1db4f1142c8c88d2b6f1d2ace59",
                 "shasum": ""
             },
             "require": {
@@ -1725,7 +1725,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Fastly CDN Module for Magento 2.x",
-            "time": "2021-01-11T20:43:59+00:00"
+            "time": "2021-02-25T16:48:03+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
