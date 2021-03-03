@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Digidirect\Navigation\Block\Menu">
+        <arguments>
+            <argument name="cacheKeyGenerator" xsi:type="object">Digidirect\Navigation\Model\Frontend\CacheKeyGenerator</argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\Navigation\Block\Widget\Set">
+        <arguments>
+            <argument name="template" xsi:type="string">Digidirect_Navigation::widget/default.phtml</argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\Navigation\Model\Frontend\MenuSetData">
+        <arguments>
+            <argument name="cacheKeyGenerator" xsi:type="object">Digidirect\Navigation\Model\Frontend\CacheKeyGenerator</argument>
+        </arguments>
+    </type>
+    <preference for="Digidirect\Navigation\Model\Frontend\CustomerSetInterface" type="Digidirect\Navigation\Model\Frontend\CustomerSet"/>
+</config>

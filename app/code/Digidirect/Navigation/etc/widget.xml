@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="digidirect_navigation_menu_set" class="Digidirect\Navigation\Block\Widget\Set">
+        <label translate="true">Navigation Set</label>
+        <description translate="true">Displays Navigation Menu Set</description>
+        <parameters>
+            <parameter xsi:type="select" name="set_code" visible="true" sort_order="30" source_model="Digidirect\Navigation\Model\Config\Source\SetCode" required="true">
+                <label translate="true">Select Menu Set</label>
+            </parameter>
+            <parameter xsi:type="select" name="widget_template" visible="true" sort_order="40" source_model="Digidirect\Navigation\Model\Widget\Options\Template" required="true">
+                <label translate="true">Select Template</label>
+            </parameter>
+            <parameter xsi:type="text" name="custom_template" visible="true" sort_order="50" required="true">
+                <label translate="true">Custom Template Name</label>
+                <description>Digidirect_Navigation::widget/set/{{custom_template}}.phtml</description>
+                <depends>
+                    <parameter name="widget_template" value="custom" />
+                </depends>
+            </parameter>
+            <parameter xsi:type="text" name="settings" visible="true" sort_order="50">
+                <label translate="true">Custom Settings</label>
+                <description>Developers custom options. Usage:  sub_menu_class:sub_menu_class; item_class:item_class</description>
+            </parameter>
+            <parameter xsi:type="text" name="cache_lifetime" visible="true" sort_order="50">
+                <label translate="true">Cache Lifetime(Seconds)</label>
+                <description>86400 by default, if not set. To refresh instantly, clear the Blocks HTML Output cache.</description>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

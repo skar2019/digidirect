@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Digidirect\Navigation\Model\ResourceModel\Menu">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="save_processors" xsi:type="array">
+                    <item name="abstract_attribute" xsi:type="string">Digidirect\AbstractAttributesNavigation\Model\ResourceModel\Processor</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\AbstractAttributesNavigation\Model\ResourceModel\Processor">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="fields" xsi:type="array">
+                    <item name="0" xsi:type="string">attribute_id</item>
+                    <item name="1" xsi:type="string">option_ids</item>
+                </item>
+                <item name="name" xsi:type="string">digidirect_navigation_menu_abstract_attribute_type</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\AbstractAttributesNavigation\Model\ResourceModel\Menu\AbstractAttribute">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="table_name" xsi:type="string">digidirect_navigation_menu_abstract_attribute_type</item>
+                <item name="fields" xsi:type="array">
+                    <item name="0" xsi:type="string">option_ids</item>
+                    <item name="1" xsi:type="string">attribute_id</item>
+                </item>
+                <item name="alias" xsi:type="string">store_abstract_attribute_type_info</item>
+                <item name="field_prefix" xsi:type="string">abstract_attribute_</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\Navigation\Model\Menu">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type_instance" xsi:type="array">
+                    <item name="abstract_attribute" xsi:type="string">Digidirect\AbstractAttributesNavigation\Model\Menu\Type\AbstractAttribute</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\Navigation\Model\ResourceModel\Menu\Collection">
+        <arguments>
+            <argument name="joinProcessors" xsi:type="array">
+                <item name="abstract_attribute" xsi:type="object">Digidirect\AbstractAttributesNavigation\Model\ResourceModel\Menu\AbstractAttribute</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

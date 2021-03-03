@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Digidirect\Navigation\Api\Data\SetSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Digidirect\Navigation\Api\Data\SetInterface" type="Digidirect\Navigation\Model\Set"/>
+    <preference for="Digidirect\Navigation\Api\SetRepositoryInterface" type="Digidirect\Navigation\Model\SetRepository"/>
+
+    <virtualType name="NavigationGirdFilterPool" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+
+    <virtualType name="CategoryTypeSaveProcessor" type="Digidirect\Navigation\Model\ResourceModel\Type\Processor">
+        <arguments>
+            <argument name="tableConfig" xsi:type="array">
+                <item name="fields" xsi:type="array">
+                    <item name="0" xsi:type="string">category_id</item>
+                    <item name="1" xsi:type="string">use_category_hierarchy</item>
+                    <item name="2" xsi:type="string">nesting_level</item>
+                </item>
+                <item name="name" xsi:type="string">digidirect_navigation_menu_category_type</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CmsBlockTypeSaveProcessor" type="Digidirect\Navigation\Model\ResourceModel\Type\Processor">
+        <arguments>
+            <argument name="tableConfig" xsi:type="array">
+                <item name="fields" xsi:type="array">
+                    <item name="0" xsi:type="string">cms_block_id</item>
+                    <item name="1" xsi:type="string">menu_item_is_link</item>
+                    <item name="2" xsi:type="string">link</item>
+                </item>
+                <item name="name" xsi:type="string">digidirect_navigation_menu_cms_block_type</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CustomLinkTypeSaveProcessor" type="Digidirect\Navigation\Model\ResourceModel\Type\Processor">
+        <arguments>
+            <argument name="tableConfig" xsi:type="array">
+                <item name="fields" xsi:type="array">
+                    <item name="0" xsi:type="string">link</item>
+                </item>
+                <item name="name" xsi:type="string">digidirect_navigation_menu_custom_link_type</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Digidirect\Navigation\Api\Data\SetInterface" xsi:type="string">Digidirect\Navigation\Api\SetRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Digidirect\Navigation\Api\Data\SetInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">digidirect_navigation_menu_set</item>
+                    <item name="identifierField" xsi:type="string">set_id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Digidirect\Navigation\Api\MenuRepositoryInterface" type="Digidirect\Navigation\Model\ResourceModel\MenuRepository" />
+    <type name="Digidirect\Navigation\Model\ResourceModel\Menu">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <!-- start save processors argument -->
+                <item name="save_processors" xsi:type="array">
+                    <item name="category" xsi:type="string">CategoryTypeSaveProcessor</item>
+                    <item name="cms_block" xsi:type="string">CmsBlockTypeSaveProcessor</item>
+                    <item name="custom_link" xsi:type="string">CustomLinkTypeSaveProcessor</item>
+                </item>
+                <!-- end save processors argument -->
+                <item name="tables_info" xsi:type="array">
+                    <item name="digidirect_navigation_menu_item_info" xsi:type="array">
+                        <item name="fields" xsi:type="array">
+                            <item name="to_save" xsi:type="array">
+                                <item name="0" xsi:type="string">title</item>
+                                <item name="1" xsi:type="string">custom_options</item>
+                                <item name="2" xsi:type="string">position</item>
+                                <item name="3" xsi:type="string">is_logged_in</item>
+                                <item name="4" xsi:type="string">status</item>
+                                <item name="content" xsi:type="string">content</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="CustomLinkJoinProcessor" type="Digidirect\Navigation\Model\ResourceModel\Menu\AbstractJoinType">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="table_name" xsi:type="string">digidirect_navigation_menu_custom_link_type</item>
+                <item name="fields" xsi:type="array">
+                    <item name="0" xsi:type="string">link</item>
+                </item>
+                <item name="alias" xsi:type="string">store_custom_link_type_info</item>
+                <item name="field_prefix" xsi:type="string">custom_link_</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CmsBlockJoinProcessor" type="Digidirect\Navigation\Model\ResourceModel\Menu\AbstractJoinType">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="table_name" xsi:type="string">digidirect_navigation_menu_cms_block_type</item>
+                <item name="fields" xsi:type="array">
+                    <item name="0" xsi:type="string">cms_block_id</item>
+                    <item name="2" xsi:type="string">menu_item_is_link</item>
+                    <item name="1" xsi:type="string">link</item>
+                </item>
+                <item name="alias" xsi:type="string">store_cms_block_type_info</item>
+                <item name="field_prefix" xsi:type="string">cms_block_</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CategoryJoinProcessor" type="Digidirect\Navigation\Model\ResourceModel\Menu\AbstractJoinType">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="table_name" xsi:type="string">digidirect_navigation_menu_category_type</item>
+                <item name="fields" xsi:type="array">
+                    <item name="0" xsi:type="string">category_id</item>
+                    <item name="1" xsi:type="string">nesting_level</item>
+                    <item name="2" xsi:type="string">use_category_hierarchy</item>
+                </item>
+                <item name="alias" xsi:type="string">store_category_type_info</item>
+                <item name="field_prefix" xsi:type="string">category_</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Digidirect\Navigation\Model\ResourceModel\Menu\Collection">
+        <arguments>
+            <argument name="joinProcessors" xsi:type="array">
+                <item name="category" xsi:type="object">CategoryJoinProcessor</item>
+                <item name="cms_block" xsi:type="object">CmsBlockJoinProcessor</item>
+                <item name="custom_link" xsi:type="object">CustomLinkJoinProcessor</item>
+            </argument>
+            <argument name="tablesData" xsi:type="array">
+                <item name="digidirect_navigation_menu_item_info" xsi:type="array">
+                    <item name="fields" xsi:type="array">
+                        <item name="0" xsi:type="string">id</item>
+                        <item name="2" xsi:type="string">title</item>
+                        <item name="3" xsi:type="string">level</item>
+                        <item name="4" xsi:type="string">custom_options</item>
+                        <item name="5" xsi:type="string">position</item>
+                        <item name="6" xsi:type="string">parent_menu_item_id</item>
+                        <item name="7" xsi:type="string">is_logged_in</item>
+                        <item name="8" xsi:type="string">status</item>
+                        <item name="9" xsi:type="string">path</item>
+                        <item name="10" xsi:type="string">store_id</item>
+                        <item name="content" xsi:type="string">content</item>
+                    </item>
+                    <item name="alias" xsi:type="string">store_menu_item_info</item>
+                    <item name="join_rules" xsi:type="array">
+                        <item name="callback" xsi:type="string">_joinMenuInfoByStore</item>
+                    </item>
+                    <item name="additional_prefix" xsi:type="string" />
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\Navigation\Model\Menu">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type_instance" xsi:type="array">
+                    <item name="cms_block" xsi:type="string">Digidirect\Navigation\Model\Menu\Type\CmsBlock</item>
+                    <item name="category" xsi:type="string">Digidirect\Navigation\Model\Menu\Type\Category</item>
+                    <item name="custom_link" xsi:type="string">Digidirect\Navigation\Model\Menu\Type\CustomLinkAbstract</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="digidirect_navigation_set_grid_data_source" xsi:type="string">Digidirect\Navigation\Model\ResourceModel\Set\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Cms\Model\ResourceModel\Block">
+        <plugin name="flush-abstract-cms-block-menu-cache" type="Digidirect\Navigation\Plugin\Magento\Cms\Model\ResourceModel\Block" />
+    </type>
+    <type name="Digidirect\Navigation\Plugin\Magento\Cms\Model\ResourceModel\Block">
+        <arguments>
+            <argument name="processor" xsi:type="object">CmsBlockTypeSaveProcessor</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\ResourceModel\Category">
+        <plugin name="flush-abstract-category-menu-cache" type="Digidirect\Navigation\Plugin\Magento\Catalog\Model\ResourceModel\Category" />
+    </type>
+    <type name="Digidirect\Navigation\Plugin\Magento\Catalog\Model\ResourceModel\Category">
+        <arguments>
+            <argument name="processor" xsi:type="object">CategoryTypeSaveProcessor</argument>
+        </arguments>
+    </type>
+
+    <!-- TODO: enterprise edition only -->
+    <type name="Digidirect\Navigation\Model\Acl">
+        <arguments>
+            <argument name="restrictor" xsi:type="object">Digidirect\Navigation\Model\Restrictor</argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\Navigation\Model\Admin\StoreDropdownAcl">
+        <arguments>
+            <argument name="restrictor" xsi:type="object">Digidirect\Navigation\Model\Admin\StoreDropdownRestrictor</argument>
+        </arguments>
+    </type>
+
+    <!-- TODO: EOF enterprise edition only-->
+
+    <type name="Digidirect\Navigation\Model\Type">
+        <arguments>
+            <argument name="typesConfiguration" xsi:type="array">
+                <item name="cms_block" xsi:type="string">1</item>
+                <item name="category" xsi:type="string">2</item>
+                <item name="custom_link" xsi:type="string">3</item>
+            </argument>
+        </arguments>
+    </type>
+
+
+    <!-- Widget. since 1.3.0  -->
+    <type name="Digidirect\Navigation\Model\Widget\Options\Template">
+        <arguments>
+            <argument name="optionsConfig" xsi:type="array">
+                <item name="default" xsi:type="array">
+                    <item name="label" xsi:type="string">Default</item>
+                </item>
+                <item name="custom" xsi:type="array">
+                    <item name="label" xsi:type="string">Custom</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>
