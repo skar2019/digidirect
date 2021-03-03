@@ -64,11 +64,11 @@ class InstallSchema implements InstallSchemaInterface
                 $installer->getFkName(
                     $stringTableName,
                     'abstract_entity_id',
-                    'Digidirect_abstractentity_entity',
+                    'digidirect_abstractentity_entity',
                     'entity_id'
                 ),
                 'abstract_entity_id',
-                $installer->getTable('Digidirect_abstractentity_entity'),
+                $installer->getTable('digidirect_abstractentity_entity'),
                 'entity_id',
                 \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
             )

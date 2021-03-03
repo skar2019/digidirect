@@ -85,7 +85,7 @@ class AbstractEntitySetup extends EavSetup
             AbstractEntity::ENTITY_TYPE => [
                 'entity_model' => 'Digidirect\AbstractEntity\Model\ResourceModel\AbstractEntity',
                 'attribute_model' => 'Digidirect\AbstractEntity\Model\ResourceModel\Eav\Attribute',
-                'table' => 'Digidirect_abstractentity_entity',
+                'table' => 'digidirect_abstractentity_entity',
                 'entity_attribute_collection' => 'Magento\Eav\Model\ResourceModel\Entity\Attribute\Collection',
                 'additional_attribute_table' => 'Digidirect_abstractentity_eav_attribute',
                 'attributes' => [

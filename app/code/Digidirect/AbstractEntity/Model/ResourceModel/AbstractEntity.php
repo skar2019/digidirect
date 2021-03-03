@@ -542,7 +542,7 @@ class AbstractEntity extends \Magento\Eav\Model\Entity\AbstractEntity
                 $staticTable,
                 $staticAttributes
             )->join(
-                ['e' => $this->getTable('Digidirect_abstractentity_entity')],
+                ['e' => $this->getTable('digidirect_abstractentity_entity')],
                 'e.' . $this->getLinkField() . ' = ' . $staticTable . '.' . $this->getLinkField()
             )->where(
                 'e.entity_id = :entity_id'
@@ -563,7 +563,7 @@ class AbstractEntity extends \Magento\Eav\Model\Entity\AbstractEntity
                 $select = $connection->select()
                     ->from(['default_value' => $table], ['attribute_id'])
                     ->join(
-                        ['e' => $this->getTable('Digidirect_abstractentity_entity')],
+                        ['e' => $this->getTable('digidirect_abstractentity_entity')],
                         'e.' . $this->getLinkField() . ' = ' . 'default_value.' . $this->getLinkField(),
                         ''
                     )->where('default_value.attribute_id IN (?)', array_keys($_attributes))

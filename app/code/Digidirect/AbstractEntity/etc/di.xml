@@ -21,7 +21,7 @@
         <arguments>
             <argument name="metadata" xsi:type="array">
                 <item name="Digidirect\AbstractEntity\Api\Data\AbstractEntityInterface" xsi:type="array">
-                    <item name="entityTableName" xsi:type="string">Digidirect_abstractentity_entity</item>
+                    <item name="entityTableName" xsi:type="string">digidirect_abstractentity_entity</item>
                     <item name="eavEntityType" xsi:type="string">Digidirect_abstractentity</item>
                     <item name="identifierField" xsi:type="string">entity_id</item>
                     <item name="entityContext" xsi:type="array">

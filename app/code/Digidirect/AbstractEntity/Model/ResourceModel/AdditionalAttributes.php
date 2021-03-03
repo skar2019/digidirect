@@ -62,7 +62,7 @@ class AdditionalAttributes extends AbstractDb implements RelationInterface
      */
     protected function _construct()
     {
-        $this->_init('Digidirect_abstractentity_entity_additional_attributes', AbstractEntityInterface::ATTRIBUTE_SET_ID);
+        $this->_init('digidirect_abstractentity_entity_additional_attributes', AbstractEntityInterface::ATTRIBUTE_SET_ID);
     }
 
     /**

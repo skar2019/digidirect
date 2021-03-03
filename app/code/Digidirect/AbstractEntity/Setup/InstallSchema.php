@@ -25,7 +25,7 @@ class InstallSchema implements InstallSchemaInterface
          * Create table 'brand_entity'
          */
         $table = $installer->getConnection()
-            ->newTable($installer->getTable('Digidirect_abstractentity_entity'))
+            ->newTable($installer->getTable('digidirect_abstractentity_entity'))
             ->addColumn(
                 'entity_id',
                 Table::TYPE_INTEGER,
@@ -58,10 +58,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create table 'Digidirect_abstractentity_entity_datetime'
+         * Create table 'digidirect_abstractentity_entity_datetime'
          */
         $table = $installer->getConnection()
-            ->newTable($installer->getTable('Digidirect_abstractentity_entity_datetime'))
+            ->newTable($installer->getTable('digidirect_abstractentity_entity_datetime'))
             ->addColumn(
                 'value_id',
                 Table::TYPE_INTEGER,
@@ -99,7 +99,7 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addIndex(
                 $installer->getIdxName(
-                    'Digidirect_abstractentity_entity_datetime',
+                    'digidirect_abstractentity_entity_datetime',
                     ['entity_id', 'attribute_id', 'store_id'],
                     AdapterInterface::INDEX_TYPE_UNIQUE
                 ),
@@ -107,16 +107,16 @@ class InstallSchema implements InstallSchemaInterface
                 ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_datetime', ['attribute_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_datetime', ['attribute_id']),
                 ['attribute_id']
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_datetime', ['store_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_datetime', ['store_id']),
                 ['store_id']
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_datetime',
+                    'digidirect_abstractentity_entity_datetime',
                     'attribute_id',
                     'eav_attribute',
                     'attribute_id'
@@ -128,18 +128,18 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_datetime',
+                    'digidirect_abstractentity_entity_datetime',
                     'entity_id',
-                    'Digidirect_abstractentity_entity',
+                    'digidirect_abstractentity_entity',
                     'entity_id'
                 ),
                 'entity_id',
-                $installer->getTable('Digidirect_abstractentity_entity'),
+                $installer->getTable('digidirect_abstractentity_entity'),
                 'entity_id',
                 Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $installer->getFkName('Digidirect_abstractentity_entity_datetime', 'store_id', 'store', 'store_id'),
+                $installer->getFkName('digidirect_abstractentity_entity_datetime', 'store_id', 'store', 'store_id'),
                 'store_id',
                 $installer->getTable('store'),
                 'store_id',
@@ -149,10 +149,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create table 'Digidirect_abstractentity_entity_decimal'
+         * Create table 'digidirect_abstractentity_entity_decimal'
          */
         $table = $installer->getConnection()
-            ->newTable($installer->getTable('Digidirect_abstractentity_entity_decimal'))
+            ->newTable($installer->getTable('digidirect_abstractentity_entity_decimal'))
             ->addColumn(
                 'value_id',
                 Table::TYPE_INTEGER,
@@ -190,7 +190,7 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addIndex(
                 $installer->getIdxName(
-                    'Digidirect_abstractentity_entity_decimal',
+                    'digidirect_abstractentity_entity_decimal',
                     ['entity_id', 'attribute_id', 'store_id'],
                     AdapterInterface::INDEX_TYPE_UNIQUE
                 ),
@@ -198,16 +198,16 @@ class InstallSchema implements InstallSchemaInterface
                 ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_decimal', ['store_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_decimal', ['store_id']),
                 ['store_id']
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_decimal', ['attribute_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_decimal', ['attribute_id']),
                 ['attribute_id']
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_decimal',
+                    'digidirect_abstractentity_entity_decimal',
                     'attribute_id',
                     'eav_attribute',
                     'attribute_id'
@@ -219,18 +219,18 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_decimal',
+                    'digidirect_abstractentity_entity_decimal',
                     'entity_id',
-                    'Digidirect_abstractentity_entity',
+                    'digidirect_abstractentity_entity',
                     'entity_id'
                 ),
                 'entity_id',
-                $installer->getTable('Digidirect_abstractentity_entity'),
+                $installer->getTable('digidirect_abstractentity_entity'),
                 'entity_id',
                 Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $installer->getFkName('Digidirect_abstractentity_entity_decimal', 'store_id', 'store', 'store_id'),
+                $installer->getFkName('digidirect_abstractentity_entity_decimal', 'store_id', 'store', 'store_id'),
                 'store_id',
                 $installer->getTable('store'),
                 'store_id',
@@ -240,10 +240,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create table 'Digidirect_abstractentity_entity_int'
+         * Create table 'digidirect_abstractentity_entity_int'
          */
         $table = $installer->getConnection()
-            ->newTable($installer->getTable('Digidirect_abstractentity_entity_int'))
+            ->newTable($installer->getTable('digidirect_abstractentity_entity_int'))
             ->addColumn(
                 'value_id',
                 Table::TYPE_INTEGER,
@@ -281,7 +281,7 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addIndex(
                 $installer->getIdxName(
-                    'Digidirect_abstractentity_entity_int',
+                    'digidirect_abstractentity_entity_int',
                     ['entity_id', 'attribute_id', 'store_id'],
                     AdapterInterface::INDEX_TYPE_UNIQUE
                 ),
@@ -289,16 +289,16 @@ class InstallSchema implements InstallSchemaInterface
                 ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_int', ['attribute_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_int', ['attribute_id']),
                 ['attribute_id']
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_int', ['store_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_int', ['store_id']),
                 ['store_id']
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_int',
+                    'digidirect_abstractentity_entity_int',
                     'attribute_id',
                     'eav_attribute',
                     'attribute_id'
@@ -310,18 +310,18 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_int',
+                    'digidirect_abstractentity_entity_int',
                     'entity_id',
-                    'Digidirect_abstractentity_entity',
+                    'digidirect_abstractentity_entity',
                     'entity_id'
                 ),
                 'entity_id',
-                $installer->getTable('Digidirect_abstractentity_entity'),
+                $installer->getTable('digidirect_abstractentity_entity'),
                 'entity_id',
                 Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $installer->getFkName('Digidirect_abstractentity_entity_int', 'store_id', 'store', 'store_id'),
+                $installer->getFkName('digidirect_abstractentity_entity_int', 'store_id', 'store', 'store_id'),
                 'store_id',
                 $installer->getTable('store'),
                 'store_id',
@@ -331,10 +331,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create table 'Digidirect_abstractentity_entity_text'
+         * Create table 'digidirect_abstractentity_entity_text'
          */
         $table = $installer->getConnection()
-            ->newTable($installer->getTable('Digidirect_abstractentity_entity_text'))
+            ->newTable($installer->getTable('digidirect_abstractentity_entity_text'))
             ->addColumn(
                 'value_id',
                 Table::TYPE_INTEGER,
@@ -372,7 +372,7 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addIndex(
                 $installer->getIdxName(
-                    'Digidirect_abstractentity_entity_text',
+                    'digidirect_abstractentity_entity_text',
                     ['entity_id', 'attribute_id', 'store_id'],
                     AdapterInterface::INDEX_TYPE_UNIQUE
                 ),
@@ -380,16 +380,16 @@ class InstallSchema implements InstallSchemaInterface
                 ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_text', ['attribute_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_text', ['attribute_id']),
                 ['attribute_id']
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_text', ['store_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_text', ['store_id']),
                 ['store_id']
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_text',
+                    'digidirect_abstractentity_entity_text',
                     'attribute_id',
                     'eav_attribute',
                     'attribute_id'
@@ -401,18 +401,18 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_text',
+                    'digidirect_abstractentity_entity_text',
                     'entity_id',
-                    'Digidirect_abstractentity_entity',
+                    'digidirect_abstractentity_entity',
                     'entity_id'
                 ),
                 'entity_id',
-                $installer->getTable('Digidirect_abstractentity_entity'),
+                $installer->getTable('digidirect_abstractentity_entity'),
                 'entity_id',
                 Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $installer->getFkName('Digidirect_abstractentity_entity_text', 'store_id', 'store', 'store_id'),
+                $installer->getFkName('digidirect_abstractentity_entity_text', 'store_id', 'store', 'store_id'),
                 'store_id',
                 $installer->getTable('store'),
                 'store_id',
@@ -422,10 +422,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create table 'Digidirect_abstractentity_entity_varchar'
+         * Create table 'digidirect_abstractentity_entity_varchar'
          */
         $table = $installer->getConnection()
-            ->newTable($installer->getTable('Digidirect_abstractentity_entity_varchar'))
+            ->newTable($installer->getTable('digidirect_abstractentity_entity_varchar'))
             ->addColumn(
                 'value_id',
                 Table::TYPE_INTEGER,
@@ -463,7 +463,7 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addIndex(
                 $installer->getIdxName(
-                    'Digidirect_abstractentity_entity_varchar',
+                    'digidirect_abstractentity_entity_varchar',
                     ['entity_id', 'attribute_id', 'store_id'],
                     AdapterInterface::INDEX_TYPE_UNIQUE
                 ),
@@ -471,16 +471,16 @@ class InstallSchema implements InstallSchemaInterface
                 ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_varchar', ['attribute_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_varchar', ['attribute_id']),
                 ['attribute_id']
             )
             ->addIndex(
-                $installer->getIdxName('Digidirect_abstractentity_entity_varchar', ['store_id']),
+                $installer->getIdxName('digidirect_abstractentity_entity_varchar', ['store_id']),
                 ['store_id']
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_varchar',
+                    'digidirect_abstractentity_entity_varchar',
                     'attribute_id',
                     'eav_attribute',
                     'attribute_id'
@@ -492,18 +492,18 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_entity_varchar',
+                    'digidirect_abstractentity_entity_varchar',
                     'entity_id',
-                    'Digidirect_abstractentity_entity',
+                    'digidirect_abstractentity_entity',
                     'entity_id'
                 ),
                 'entity_id',
-                $installer->getTable('Digidirect_abstractentity_entity'),
+                $installer->getTable('digidirect_abstractentity_entity'),
                 'entity_id',
                 Table::ACTION_CASCADE
             )
             ->addForeignKey(
-                $installer->getFkName('Digidirect_abstractentity_entity_varchar', 'store_id', 'store', 'store_id'),
+                $installer->getFkName('digidirect_abstractentity_entity_varchar', 'store_id', 'store', 'store_id'),
                 'store_id',
                 $installer->getTable('store'),
                 'store_id',
