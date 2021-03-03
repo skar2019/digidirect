@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Cache/etc/cache.xsd">
-    <type name="digidirect_navigation" translate="label,description" instance="Digidirect\Navigation\Model\MenuCache">
-        <label>Frontend Menu Cache</label>
-        <description>Menu cache by set, store and customer group</description>
-    </type>
-</config>
