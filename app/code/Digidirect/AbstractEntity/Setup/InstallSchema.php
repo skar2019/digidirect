@@ -513,11 +513,11 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         /**
-         * Create table 'Digidirect_abstractentity_eav_attribute'
+         * Create table 'digidirect_abstractentity_eav_attribute'
          */
         $table = $installer->getConnection()
             ->newTable(
-                $installer->getTable('Digidirect_abstractentity_eav_attribute')
+                $installer->getTable('digidirect_abstractentity_eav_attribute')
             )
             ->addColumn(
                 'attribute_id',
@@ -556,7 +556,7 @@ class InstallSchema implements InstallSchemaInterface
             )
             ->addForeignKey(
                 $installer->getFkName(
-                    'Digidirect_abstractentity_eav_attribute',
+                    'digidirect_abstractentity_eav_attribute',
                     'attribute_id',
                     'eav_attribute',
                     'attribute_id'

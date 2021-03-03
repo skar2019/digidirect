@@ -345,7 +345,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function addSourceEntityColumn()
     {
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             'source_entity_type',
             [
                 'type' => Table::TYPE_TEXT,
@@ -387,7 +387,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function _addColumnsForWysiwyg()
     {
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             'is_html_allowed_on_front',
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -399,7 +399,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             'is_wysiwyg_enabled',
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -419,7 +419,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function _addColumnForIndexingToAEAttributes()
     {
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             Attribute::KEY_USE_IN_INDEX_TABLE,
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -439,7 +439,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function _addColumnsForDisplayingInGrid()
     {
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             Attribute::KEY_IS_USED_IN_GRID,
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -451,7 +451,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             Attribute::KEY_IS_FILTERABLE_IN_GRID,
             [
                 'type' => Table::TYPE_SMALLINT,
