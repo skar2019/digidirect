@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-    <menu>
-        <add id="Digidirect_Navigation::navigation" title="Navigation" translate="title" module="Digidirect_Navigation" sortOrder="10" parent="Digidirect_Utilities::Digidirect" dependsOnModule="Digidirect_Utilities"  resource="Digidirect_Navigation::navigation"/>
-        <add id="Digidirect_Navigation::navigation_menu_items" title="Menu Items" module="Digidirect_Navigation" sortOrder="60" parent="Digidirect_Navigation::navigation" action="digidirect_navigation/menu/" resource="Digidirect_Navigation::navigation_menu_items"/>
-        <add id="Digidirect_Navigation::navigation_menu_sets" title="Menu Sets" module="Digidirect_Navigation" sortOrder="60" parent="Digidirect_Navigation::navigation" action="digidirect_navigation/set/" resource="Digidirect_Navigation::navigation_menu_sets"/>
-    </menu>
-</config>
