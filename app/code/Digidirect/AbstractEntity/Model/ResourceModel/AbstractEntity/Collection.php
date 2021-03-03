@@ -333,7 +333,7 @@ class Collection extends AbstractCollection
     {
         $select = $this->getConnection()->select()
             ->from(
-                ['main' => $this->getTable('Digidirect_abstractentity_eav_attribute')],
+                ['main' => $this->getTable('digidirect_abstractentity_eav_attribute')],
                 []
             )
             ->join(
