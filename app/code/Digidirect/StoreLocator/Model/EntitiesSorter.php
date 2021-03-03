@@ -14,7 +14,7 @@ class EntitiesSorter
 {
     const CHILD_ITEMS_KEY = 'child_items';
     const ENTITY_TYPE_KEY = 'entity_type';
-    const AE_MAIN_TABLE = 'digidirect_abstractentity_entity';
+    const AE_MAIN_TABLE = 'Digidirect_abstractentity_entity';
     const STATUS_ACTIVE = 1;
 
     /**
