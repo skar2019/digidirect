@@ -15,6 +15,9 @@
         <!--    <move element="form.subscribe" destination="footer" />
         <move element="digi.footer.partners" destination="form.subscribe" />-->
         
+        <referenceContainer name="header.panel.wrapper" remove="true" />
+        <referenceContainer name="header.panel" remove="true" />
+        
         <referenceContainer name="header-wrapper">
             <container name="top-header-wrapper" htmlTag="div" htmlClass="top-header-wrapper" after="header.content">
                 <block class="Magento\Framework\View\Element\Template" name="top-header" template="Magento_Theme::header/top-header.phtml"/>  
