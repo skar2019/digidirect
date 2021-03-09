@@ -1,0 +1,108 @@
+//
+//  Search block
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+@block-search__width: 644px;
+
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .block-search {
+        margin-left: auto;
+        padding: 19px 10px 0 0;
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .block-search {
+        .action.search {
+            display: none;
+        }
+
+        input {
+            width: 100%;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .block-search {
+        & {   
+            padding: 0 90px;
+            margin-left: 0;
+            width: 100%;
+            max-width: 1300px;
+        }
+        
+        .minisearch{
+            position: relative;
+            max-width: 800px;
+            margin: -2px auto;
+        }
+
+        .actions
+        {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            
+            .search {
+                background-image: none;
+                background: 0 0;
+                -moz-box-sizing: content-box;
+                border: 0;
+                box-shadow: none;
+                line-height: inherit;
+                margin: 0;
+                padding: 0;
+                text-decoration: none;
+                text-shadow: none;
+                font-weight: 400;
+                position: absolute;
+                top: 0;
+                right: 10px;
+                z-index: 1;
+                display: inline-block;
+                padding: 3.75px 0;
+            }
+            
+            .search::before {
+                display: none;
+            }
+        }
+        
+        .svg-icon {
+            width: 20px;
+            height: 22px;
+            margin-bottom: 4px;
+            display: inline-block;
+            fill: currentColor;
+            vertical-align: middle;
+        }
+        
+        .control{
+            padding: 0 15px;
+        }
+        
+        .input-text {
+            width: 100%;
+            border-radius: 40px;
+            left: 50px;
+            font-size: 1.6rem;
+            height: 50px;
+            padding: 0 45px 0 15px;
+        }
+    }
+}

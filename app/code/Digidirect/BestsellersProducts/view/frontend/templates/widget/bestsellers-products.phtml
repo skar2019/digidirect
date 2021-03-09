@@ -1,0 +1,153 @@
+<?php
+/**
+ * Author: Johnry Valeriano
+ */
+/** @var \Digidirect\BestsellersProducts\Block\Widget\BestsellersProducts $block */
+?>
+<?php
+if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())) {
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
+    $description = false;
+    
+    $title = __('Best Seller Products');
+}
+?>
+
+ <?php if ($exist) :?>
+    <div class="block widget block-new-products product-home-listing products-widget <?= /* @noEscape */ $mode ?>">
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <div id="best-seller-carousel" class="product-items product-carousel owl-carousel owl-theme<?= /* @noEscape */ $type ?>">
+                    <?php foreach ($items as $_item) :?>
+                    
+                    <?php
+                        $productName = $_item->getName();
+                        $productUrl = $block->getProductUrl($_item);
+                        $finalProductPrice = $_item->getFinalPrice();
+                        $qff_bonus_points = 0;
+                        if ($_item->offsetExists("qff_bonus_points") && $_item->offsetExists("qff_base")) {
+                            $qff_bonus_points = $_item->getQffBonusPoints();
+                            $qff_base_points = $_item->getQffBase();
+                            $bonusPlusBase = $qff_bonus_points + $qff_base_points;
+
+                            $points = number_format($finalProductPrice * $bonusPlusBase);
+                        }else {
+                            if($_item->offsetExists("qff_base")){
+                                $qff_base_points = $_item->getQffBase();
+                                $points = number_format($finalProductPrice * $qff_base_points);
+                            } else {
+                                $points = number_format($finalProductPrice * 2);
+                            }
+                        } 
+
+                        $finalQffPoints = $_item->getPoints();
+                    ?>
+                    
+                    <div class="product-item item">
+                        <div class="product-item-info">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                               class="product-item-photo">
+                                <?= $block->getImage($_item, $image)->toHtml() ?>
+                            </a>
+                            <div class="product-item-details">
+                                <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
+                                    
+                                    <div class="tag best-seller">
+                                        Best Seller
+                                    </div>
+                                    
+                                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                        <a href="#"
+                                        data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
+                                        class="action towishlist" data-action="add-to-wishlist"
+                                        title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                                <strong class="product-item-name">
+                                    <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                       class="product-item-link">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                </strong>
+                                <?= $block->getProductPriceHtml($_item, $type); ?>
+                                
+                                <?php if ($templateType) :?>
+                                    <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                <?php endif; ?>
+
+                                <?php if ($showWishlist || $showCompare || $showCart) :?>
+                                    <div class="product-item-actions">
+                                        <?php if ($showCart) :?>
+                                            <div class="actions-primary">
+                                                <?php if (!$_item->getTypeInstance()->isPossibleBuyFromList($_item)) :?>
+                                                    <button class="action tocart primary"
+                                                            data-mage-init='{"redirectUrl":{"url":"<?= $block->escapeUrl($block->getAddToCartUrl($_item)) ?>"}}'
+                                                            type="button"
+                                                            title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>">
+                                                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                                    </button>
+                                                <?php else :?>
+                                                    <?php
+                                                        $postDataHelper = $this->helper(Magento\Framework\Data\Helper\PostHelper::class);
+                                                        $postData = $postDataHelper->getPostData(
+                                                            $block->escapeUrl($block->getAddToCartUrl($_item)),
+                                                            ['product' => (int) $_item->getEntityId()]
+                                                        )
+                                                    ?>
+                                                    <button class="action tocart primary"
+                                                            data-post='<?= /* @noEscape */ $postData ?>'
+                                                            type="button"
+                                                            title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>">
+                                                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
+                                                    </button>
+                                                <?php endif; ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <div class="qantas-pts-wrapper">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+                                    <span>Earn <?= $points ?> Qantas Points</span>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                    <?php endforeach ?>
+                </div>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php endif;?>
+
+<script>
+    require(['jquery', 'owl_carousel'],
+        function ($) {
+            $(document).ready(function() {
+                $('#best-seller-carousel').owlCarousel({
+                    loop:false,
+                    nav:true,
+                    items: 4,
+                    dots:false,
+                    autoplay:true,
+                    autoplayTimeout:3000
+                })
+            });
+        }
+    );
+</script>

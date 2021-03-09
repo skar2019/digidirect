@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <digidirect_preorder>
+            <general>
+                <enabled>1</enabled>
+                <allowemptyqty>0</allowemptyqty>
+            </general>
+
+            <display>
+                <addtocartbuttontext>Pre Order</addtocartbuttontext>
+                <defaultpreordernote>Pre Order</defaultpreordernote>
+                <orderpreorderwarning>Please be aware this is a preorder. The products will be shipped to you once they become available.</orderpreorderwarning>
+            </display>
+
+            <additional>
+                <discovercompositeoptions>0</discovercompositeoptions>
+                <backordersforavailabilitydate>-1</backordersforavailabilitydate>
+            </additional>
+        </digidirect_preorder>
+    </default>
+</config>

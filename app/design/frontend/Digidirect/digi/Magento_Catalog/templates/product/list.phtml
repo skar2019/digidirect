@@ -1,0 +1,208 @@
+<?php
+use Magento\Framework\App\Action\Action;
+?>
+<?php
+/**
+ * Product list template
+ *
+ * @var $block \Magento\Catalog\Block\Product\ListProduct
+ * @var $_helper \Magento\Catalog\Helper\Output
+ */
+?>
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+?>
+<?= $block->getToolbarHtml() ?>
+<?= $block->getAdditionalHtml() ?>
+
+<?php if (!$_productCollection->count()): ?>
+    <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
+<?php else: ?>
+    <?php
+    if ($block->getMode() == 'grid') {
+        $viewMode = 'grid';
+        $image = 'category_page_grid';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    } else {
+        $viewMode = 'list';
+        $image = 'category_page_list';
+        $showDescription = false;
+        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+    }
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="products wrapper <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+        <?php $iterator = 1; ?>
+        <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
+            data-mage-init='{
+                "truncateCollection": {
+                    "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
+                }
+            }'>
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product): ?>
+                <?php
+                $blockMode = $block->getMode();
+                $productId = $_product->getId();
+                $productName = $_helper->productAttribute($_product, $_product->getName(), 'name');
+                $qff_base = $_helper->productAttribute($_product, $_product->getQffBase(), 'qff_base');
+                $qff_bonus = $_helper->productAttribute($_product, $_product->getQffBonusPoints(), 'qff_bonus_points');
+                $stock = $_helper->productAttribute($_product, $_product->getPrice(), 'price');
+                
+                $finalProductPrice = $_product->getFinalPrice();
+                $qff_bonus_points = 0;
+                    if (!empty($qff_base) && !empty($qff_bonus)) {
+                        
+                        $bonusPlusBase = $qff_base + $qff_bonus;
+
+                        $points = number_format($finalProductPrice * $bonusPlusBase);
+                    }else {
+                        if(!empty($qff_bonus)){
+                           
+                            $points = number_format($finalProductPrice * $qff_bonus);
+                        } else {
+                            $points = number_format($finalProductPrice * 2);
+                        }
+                    }  
+
+                    $finalQffPoints = $_product->getPoints();
+                
+                $productUrl = $_product->getProductUrl(); 
+                
+                ?>
+                <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
+                <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
+                     data-container="product-grid"
+                     data-qff-points="<?= $block->escapeHtml($qff_bonus_points); ?>"
+                     data-parent-product-id="<?= $block->escapeHtml($productId); ?>">
+                    <?php
+                    $productImage = $block->getImage($_product, $image);
+                    if ($pos != null) {
+                        $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;"';
+                    }
+                    ?>
+                    <?php // Product Image ?>
+                    <a href="<?= $block->escapeUrl($productUrl); ?>"
+                       title="<?= $block->escapeHtml($productName); ?>"
+                       class="product photo product-item-photo"
+                       tabindex="-1">
+                        <?= $productImage->toHtml(); ?>
+                    </a>
+                    <?php if($blockMode === 'grid'):?>
+                        <strong class="product name product-item-name -grid">
+                            <a href="<?= $block->escapeUrl($productUrl); ?>"
+                               title="<?= $block->escapeHtml($productName); ?>"
+                               class="product-item-link">
+                                <?= $block->escapeHtml($productName); ?>
+                            </a>
+                        </strong>
+                    <?php endif;?>
+                    <div class="product details product-item-details">
+                        <div class="no-display">
+                            <?php
+                                // Must be called for Preorder plugin
+                                echo $block->getReviewsSummaryHtml($_product);
+                            ?>
+                        </div>
+                        <?php if($blockMode === 'grid'):?>
+                            <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
+                                <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
+                            <?php endif; ?>
+                            <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                        <?php endif;?>
+                        <?php if($blockMode === 'list'):?>
+                            <strong class="product name product-item-name -list">
+                                <a href="<?= $block->escapeUrl($productUrl) ?>"
+                                   title="<?php  echo $block->escapeHtml($productName); ?>"
+                                   class="product-item-link">
+                                    <?= $block->escapeHtml($productName); ?>
+                                </a>
+                            </strong>
+                            <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
+                                <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
+                            <?php endif; ?>
+                            <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                        <?php endif;?>
+
+                        <div class="product-item-inner">
+                            <?= $block->getProductDetailsHtml($_product); ?>
+                            <div class="product actions product-item-actions"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
+                                <div class="actions-primary"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>
+                                    <?php if ($_product->isSaleable()): ?>
+                                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                        <form data-role="tocart-form"
+                                              data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
+                                              data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
+                                              action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post"
+                                        >
+                                            <input type="hidden"
+                                                   name="product"
+                                                   value="<?= /* @escapeNotVerified */ $postParams['data']['product']; ?>"/>
+                                            <input type="hidden"
+                                                   name="<?= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED; ?>"
+                                                   value="<?= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>"/>
+                                            <?= /* @escapeNotVerified */ $block->getBlockHtml('formkey'); ?>
+                                            <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                                <?= /* @escapeNotVerified */ $toCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                                            <?php endif; ?>
+                                            <button type="submit"
+                                                    title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
+                                                    class="action tocart">
+                                                <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span>
+                                            </button>
+                                        </form>
+                                    <?php else: ?>
+                                        <?php if ($_product->getIsSalable()): ?>
+                                            <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock'); ?></span></div>
+                                        <?php else: ?>
+                                            <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock'); ?></span></div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                                <div data-role="add-to-links"
+                                     class="actions-secondary"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-secondary') ? $position : ''; ?>>
+                                    <?php if ($addToBlock = $block->getChildBlock('addto')): ?>
+                                        <?= $addToBlock->setProduct($_product)->getChildHtml(); ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <?php if ($showDescription):?>
+                                <div class="product description product-item-description">
+                                    <?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
+                                <?= $rentBlock->toHtml(); ?>
+                            <?php endif; ?>
+                            <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
+                                <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <div class="qantas-pts-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+                        <span data-sample="<?= $qff_base?>">Earn <?= $points ?> Qantas Points</span>
+                    </div>
+                </div>
+                <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <?php if (!$block->isRedirectToCartEnabled()) : ?>
+        <script type="text/x-magento-init">
+        {
+            "[data-role=tocart-form], .form.map.checkout": {
+                "catalogAddToCart": {}
+            }
+        }
+        </script>
+    <?php endif; ?>
+<?php endif; ?>

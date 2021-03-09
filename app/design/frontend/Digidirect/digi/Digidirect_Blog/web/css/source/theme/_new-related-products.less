@@ -1,0 +1,51 @@
+//
+//  Blog (Related Products)
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .block.related {
+        & {
+            .lib-css(background, @color-3-8);
+            padding: 30px 10px 0;
+            margin-bottom: 0;
+        }
+
+        .block-title {
+            .lib-font-size(22);
+            .lib-css(color, @color-black);
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .block-title strong {
+            font-weight: bold;
+        }
+
+        .products.list .slick-list {
+            padding-top: 20px;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    .block.related {
+        & {
+            padding: 30px 70px 0;
+        }
+
+        .block-title {
+            .lib-font-size(28);
+            text-align: left;
+            padding-bottom: 20px;
+        }
+    }
+}

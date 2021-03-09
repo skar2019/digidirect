@@ -1,0 +1,14 @@
+{
+    "name": "digidirect/preorder",
+    "type": "magento2-module",
+    "description": "Digidirect PreOrder Module",
+    "version": "1.1.2.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Digidirect\\PreOrder\\": ""
+        }
+    }
+}

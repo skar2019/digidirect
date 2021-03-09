@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Digidirect\PreOrder\Api\Data\OrderPreorderInterface" type="Digidirect\PreOrder\Model\OrderPreorder"/>
+    <preference for="Digidirect\PreOrder\Api\Data\OrderItemPreorderInterface" type="Digidirect\PreOrder\Model\OrderItemPreorder"/>
+    <preference for="Digidirect\PreOrder\Api\Data\PreorderModelInterface" type="Digidirect\PreOrder\Model\Preorder\PreorderModel"/>
+    <preference for="Digidirect\PreOrder\Api\OrderPreorderRepositoryInterface" type="Digidirect\PreOrder\Model\OrderPreorderRepository"/>
+    <preference for="Digidirect\PreOrder\Api\OrderItemPreorderRepositoryInterface" type="Digidirect\PreOrder\Model\OrderItemPreorderRepository"/>
+    <preference for="Digidirect\PreOrder\Api\OrderPreorderManagementInterface" type="Digidirect\PreOrder\Model\OrderPreorderService"/>
+
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">sales_order_grid</argument>
+            <argument name="resourceModel" xsi:type="string">Magento\Sales\Model\ResourceModel\Order</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="orderPreOrderMetadata" type="Magento\Sales\Model\ResourceModel\Metadata">
+        <arguments>
+            <argument name="resourceClassName" xsi:type="string">Digidirect\PreOrder\Model\ResourceModel\OrderPreorder</argument>
+            <argument name="modelClassName" xsi:type="string">Digidirect\PreOrder\Model\OrderPreorder</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="orderItemPreOrderMetadata" type="Magento\Sales\Model\ResourceModel\Metadata">
+        <arguments>
+            <argument name="resourceClassName" xsi:type="string">Digidirect\PreOrder\Model\ResourceModel\OrderItemPreorder</argument>
+            <argument name="modelClassName" xsi:type="string">Digidirect\PreOrder\Model\OrderItemPreorder</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="SimplePreOrderModel" type="Digidirect\PreOrder\Model\Preorder\PreorderModel">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="const">Magento\Catalog\Model\Product\Type::TYPE_SIMPLE</item>
+                <item name="model" xsi:type="string">Digidirect\PreOrder\Model\Preorder\Product\Simple</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="GroupedPreOrderModel" type="Digidirect\PreOrder\Model\Preorder\PreorderModel">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="const">Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</item>
+                <item name="model" xsi:type="string">Digidirect\PreOrder\Model\Preorder\Product\Grouped</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ConfigurablePreOrderModel" type="Digidirect\PreOrder\Model\Preorder\PreorderModel">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="const">Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE</item>
+                <item name="model" xsi:type="string">Digidirect\PreOrder\Model\Preorder\Product\Configurable</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="BundlePreOrderModel" type="Digidirect\PreOrder\Model\Preorder\PreorderModel">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="const">Magento\Catalog\Model\Product\Type::TYPE_BUNDLE</item>
+                <item name="model" xsi:type="string">Digidirect\PreOrder\Model\Preorder\Product\Bundle</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Digidirect\PreOrder\Model\OrderPreorderRepository">
+        <arguments>
+            <argument name="metadata" xsi:type="object">orderPreOrderMetadata</argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\PreOrder\Model\OrderItemPreorderRepository">
+        <arguments>
+            <argument name="metadata" xsi:type="object">orderItemPreOrderMetadata</argument>
+        </arguments>
+    </type>
+
+    <type name="Digidirect\PreOrder\Model\Preorder\Mapper">
+        <arguments>
+            <argument name="preorders" xsi:type="array">
+                <item name="simple" xsi:type="object">SimplePreOrderModel</item>
+                <item name="grouped" xsi:type="object">GroupedPreOrderModel</item>
+                <item name="configurable" xsi:type="object">ConfigurablePreOrderModel</item>
+                <item name="bundle" xsi:type="object">BundlePreOrderModel</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\PreOrder\Helper\Data">
+        <arguments>
+            <argument name="availabilityDateTag" xsi:type="string">#availability_date#</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\CatalogInventory\Model\Source\Backorders">
+        <plugin name="Digidirect_PreOrder::toOptionArray" type="Digidirect\PreOrder\Plugin\CatalogInventoryBackorders"/>
+    </type>
+    <type name="Magento\CatalogInventory\Model\StockStateProvider">
+        <plugin name="Digidirect_PreOrder::stockState" type="Digidirect\PreOrder\Plugin\StockStateProvider"/>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <plugin name="Digidirect_PreOrder::injectCollection" type="Digidirect\PreOrder\Plugin\UiSearchResult"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Item">
+        <plugin name="Digidirect_PreOrder::addPreorderLabel" type="Digidirect\PreOrder\Plugin\SalesOrderItem"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\ListProduct">
+        <plugin name="Digidirect_PreOrder::addPreorderLabelToList" type="Digidirect\PreOrder\Plugin\ListProduct"/>
+    </type>
+    <type name="Magento\CatalogSearch\Block\SearchResult\ListProduct">
+        <plugin name="Digidirect_PreOrder::addPreorderLabelToSearchList" type="Digidirect\PreOrder\Plugin\ListProduct"/>
+    </type>
+    <type name="Magento\Sales\Model\Service\OrderService">
+        <plugin name="Digidirect_PreOrder::processNewOrderPreorder" type="Digidirect\PreOrder\Plugin\SalesOrderService"/>
+    </type>
+    <type name="Magento\CatalogWidget\Block\Product\ProductsList">
+        <plugin name="Digidirect_PreOrder::addPreorderLabelToWidgetProductsList" type="Digidirect\PreOrder\Plugin\ProductsList"/>
+    </type>
+    <type name="Magento\Catalog\Block\Product\AbstractProduct">
+        <plugin name="Digidirect_PreOrder::addPreorderLabelToRelatedProducts" type="Digidirect\PreOrder\Plugin\ProductsList"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Type\AbstractType">
+        <plugin name="Digidirect_PreOrder::addPreorderButtonIfProductOutOfStock"
+                type="Digidirect\PreOrder\Plugin\Magento\Catalog\Model\Product\Type\AbstractType"/>
+    </type>
+
+    <!-- Compatibility with Magento 2.3.1 -->
+    <type name="Magento\InventorySales\Model\ResourceModel\IsStockItemSalableCondition\IsStockItemSalableConditionChain">
+        <arguments>
+            <argument name="conditions" xsi:type="array">
+                <item name="preorder" xsi:type="object">Digidirect\PreOrder\Model\ResourceModel\IsStockItemSalableCondition\PreOrderCondition</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

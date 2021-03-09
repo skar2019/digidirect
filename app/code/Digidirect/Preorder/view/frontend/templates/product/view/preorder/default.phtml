@@ -1,0 +1,13 @@
+<?php /* @var $block \Digidirect\PreOrder\Block\Product\View\Preorder\ProductDefault */ ?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "preOrder": {
+            "autoEnable": "<?php echo $block->escapeHtml($block->isAutoEnabled()) ?>",
+            "preOrderNote": "<?php echo $block->escapeHtml($block->getPreorderNote()) ?>",
+            "addToCartLabel": "<?php echo $block->escapeHtml($block->getCartLabel()) ?>",
+            "addToCartForm": "#product_addtocart_form"
+        }
+    }
+}
+</script>
