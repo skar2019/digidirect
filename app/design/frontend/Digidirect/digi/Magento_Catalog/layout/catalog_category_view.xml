@@ -2,6 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="breadcrumbs" remove="false"/>
+        <referenceBlock name="category.cms" remove="true"/>
 
         <referenceBlock name="category.products.list">
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
