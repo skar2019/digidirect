@@ -80,8 +80,31 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .modes-mode {
+        
+        &{
+            float: left;
+            padding: 0;
+            border: none;
+            border-right: 0;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            color: #777;
+            border-right: none !important;
+        }
+        
         .label {
             display: none;
         }
+        
+        &::before {
+            display: none;
+        }
+    }
+    
+    .modes {
+        float: none;
+        display: flex;
+        margin-right: 0;
     }
 }
