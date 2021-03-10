@@ -7,7 +7,7 @@
 ?>
 <?php $isShowAlways = true; ?>
 <?php if ($block->getCollection()->getSize() || $isShowAlways): ?>
-    <div class="toolbar toolbar-products toolbar-wrapper" data-mage-init='<?php /* @escapeNotVerified */ echo $block->getWidgetOptionsJson(); ?>'>
+    <div class="toolbar toolbar-products toolbar-wrappers" data-mage-init='<?php /* @escapeNotVerified */ echo $block->getWidgetOptionsJson(); ?>'>
         <div class="mobile-row">
             <?= $block->getChildHtml('page.main.title');?>
             <?php if ($block->isExpanded()): ?>
