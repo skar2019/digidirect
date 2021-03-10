@@ -131,6 +131,13 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
                                     <span>Earn <?= $points ?> Qantas Points</span>
                                 </div>
+                                
+                                <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
+                                    <?= $rentBlock->toHtml(); ?>
+                                <?php endif; ?>
+                                <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
+                                    <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                      </div>
@@ -149,7 +156,23 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                 $('.product-carousel').owlCarousel({
                     loop:false,
                     nav:true,
-                    items:4,
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                        600:{
+                            items:3,
+                            nav:false
+                        },
+                        1000:{
+                            items:4,
+                            loop:false
+                        },
+                        1680:{
+                            items:5,
+                            loop:false
+                        }
+                    },
                     dots:false,
                     autoplay:true,
                     autoplayTimeout:3000

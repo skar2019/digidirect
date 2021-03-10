@@ -169,7 +169,7 @@
     
     .product-item-inner {
         margin-top: auto;
-        margin-bottom: 20px;
+        margin-bottom: 0;
     }
     
     .product-item-actions {
@@ -182,7 +182,19 @@
         }
     }
     
+    .product-items{
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-wrap: wrap;
+        flex-wrap: wrap;
+        margin-right: -5px;
+        margin-left: -5px;
+    }
+    
     .product-item {
+        /*max-width: 340px;*/
+        
         .tocart {
             .lib-font-size(13);
             width: 100%;
@@ -191,13 +203,11 @@
     }
     
     .cms-rent {
-        .lib-font-size(11);
         .lib-css(font-weight, @font-weight__bold);
-        line-height: 2;
-        margin-top: 13px;
         text-align: center;
-        text-transform: uppercase;
-        text-decoration: underline;
+        margin: 15px -15px 0;
+        padding: 10px 15px;
+        background: #f8f8f8;
     }
     
     .product-item-info.-list {
@@ -213,11 +223,6 @@
             width: 60%;
             height: 100%;
             margin-top: 0;
-        }
-        
-        .cms-rent {
-            text-align: left;
-            white-space: nowrap;
         }
     }
 
@@ -293,10 +298,6 @@
             .lib-vendor-prefix-flex-wrap(wrap);
             .digidirect-lib-box-align(space-between);
         }
-        
-        > .product-item {
-            .lib-css(width, @catalog-listing-product-item__width__l);
-        }
     }
     
     .product-item-info.-list {
@@ -337,16 +338,13 @@
             margin: 20px;
             padding: 15px 15px 0;
             border: 1px solid #e1e1e1;
+            width: calc(~"100% - 34px") !important;
         }
         
         &.-list {
             padding: 30px 30px 24px;
             flex-wrap: nowrap;
         }
-    }
-
-    .product-item-inner {
-        margin-bottom: 30px;
     }
 
     .studio19-list-wrapper {
@@ -457,12 +455,24 @@
     }
     
     .cms-rent {
-        .lib-font-size(12);
-        margin-top: 15px;
+        font-size: 14px;
+        border-top: 1px solid #e1e1e1;
+        margin-top: 0;
     }
 
     .catalogsearch-result-index .columns {
         margin-top: 40px;
+    }
+    
+    .product-category-listing{
+        &{
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .product-item-info {
+            margin: 0 auto;
+        }
     }
 }
 

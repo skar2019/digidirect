@@ -12,6 +12,7 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
+$showWishlist = true;
 ?>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
@@ -36,7 +37,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
      */
     $pos = $block->getPositioned();
     ?>
-    <div class="products wrapper <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
+    <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
             data-mage-init='{
@@ -104,6 +105,17 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                         </strong>
                     <?php endif;?>
                     <div class="product details product-item-details">
+                        
+                        <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
+                            <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                <a href="#"
+                                data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_product); ?>'
+                                class="action towishlist" data-action="add-to-wishlist"
+                                title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
+                                </a>
+                            <?php endif; ?>
+                        </div>
                         <div class="no-display">
                             <?php
                                 // Must be called for Preorder plugin
@@ -153,22 +165,10 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                                             <?php endif; ?>
                                             <button type="submit"
                                                     title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
-                                                    class="action tocart">
+                                                    class="action tocart primary">
                                                 <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span>
                                             </button>
                                         </form>
-                                    <?php else: ?>
-                                        <?php if ($_product->getIsSalable()): ?>
-                                            <div class="stock available"><span><?= /* @escapeNotVerified */ __('In stock'); ?></span></div>
-                                        <?php else: ?>
-                                            <div class="stock unavailable"><span><?= /* @escapeNotVerified */ __('Out of stock'); ?></span></div>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
-                                </div>
-                                <div data-role="add-to-links"
-                                     class="actions-secondary"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-secondary') ? $position : ''; ?>>
-                                    <?php if ($addToBlock = $block->getChildBlock('addto')): ?>
-                                        <?= $addToBlock->setProduct($_product)->getChildHtml(); ?>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -177,13 +177,6 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                                     <?= /* @escapeNotVerified */ $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?>
                                 </div>
                             <?php endif; ?>
-
-                            <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
-                                <?= $rentBlock->toHtml(); ?>
-                            <?php endif; ?>
-                            <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
-                                <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
-                            <?php endif; ?>
                         </div>
                     </div>
                     
@@ -191,6 +184,13 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
                         <span data-sample="<?= $qff_base?>">Earn <?= $points ?> Qantas Points</span>
                     </div>
+                    
+                    <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
+                        <?= $rentBlock->toHtml(); ?>
+                    <?php endif; ?>
+                    <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
+                        <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                    <?php endif; ?>
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
@@ -206,3 +206,9 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
         </script>
     <?php endif; ?>
 <?php endif; ?>
+
+<style>
+    .page-main {
+        background: #f5f5f5;
+    }
+</style>

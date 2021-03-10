@@ -142,7 +142,23 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                 $('#best-seller-carousel').owlCarousel({
                     loop:false,
                     nav:true,
-                    items: 4,
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                        600:{
+                            items:3,
+                            nav:false
+                        },
+                        1000:{
+                            items:4,
+                            loop:false
+                        },
+                        1680:{
+                            items:5,
+                            loop:false
+                        }
+                    },
                     dots:false,
                     autoplay:true,
                     autoplayTimeout:3000
