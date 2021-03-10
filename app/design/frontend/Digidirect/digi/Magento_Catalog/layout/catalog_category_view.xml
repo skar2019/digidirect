@@ -3,6 +3,8 @@
     <body>
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceBlock name="category.cms" remove="true"/>
+        
+        <referenceBlock name="page.main.title" remove="true"/>
 
         <referenceBlock name="category.products.list">
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
