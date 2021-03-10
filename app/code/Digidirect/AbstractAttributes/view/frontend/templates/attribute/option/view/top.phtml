@@ -10,13 +10,3 @@ $imageHelper = $this->helper('Digidirect\AbstractAttributes\Helper\Image');
              alt="<?php echo $block->escapeHtml($option->getLabel()); ?>"/>
     </div>
 <?php endif; ?>
-<?php if ($_description = $option->getDescription()): ?>
-    <div class="category-description">
-        <?php /* @escapeNotVerified */ echo $_description; ?>
-    </div>
-<?php endif; ?>
-<?php if ($_cmsBlock = $block->getCmsBlockContent()): ?>
-    <div class="category-cms">
-        <?php /* @escapeNotVerified */ echo $_cmsBlock; ?>
-    </div>
-<?php endif; ?>
