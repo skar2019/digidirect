@@ -22,7 +22,7 @@
         <move element="product.info.upsell" destination="content" after="-"/>
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
         <referenceContainer name="content">
-            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes _negative-gutter" after="product.info.media">
+            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media">
                 <container name="product.info.media.bar" htmlTag="div" htmlClass="right-bar">
                     <block class="Magento\Catalog\Block\Product\View\Description" name="product.attachments" template="Magento_Catalog::product/view/attachments.phtml">
                     </block>
