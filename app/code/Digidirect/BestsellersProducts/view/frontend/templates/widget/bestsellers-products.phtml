@@ -1,4 +1,7 @@
 <?php
+
+use Magento\Framework\App\Action\Action;
+
 /**
  * Author: Johnry Valeriano
  */
@@ -28,7 +31,19 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
         <div class="block-content">
             <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
             <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
-                <div id="best-seller-carousel" class="product-items product-carousel owl-carousel owl-theme<?= /* @noEscape */ $type ?>">
+                <div id="best-seller-carousel" 
+                    class="product-items product-carousel owl-carousel owl-theme 
+                    <?= /* @noEscape */ $type ?>"
+                    
+                    data-mage-init='{
+                      "productTile": {
+                          <?php if($block->isRedirectToCartEnabled()): ?>
+                          "isRedirectToCartEnabled": true,
+                          <?php endif; ?>
+                          "type":"<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>"
+                      }
+                     }'>
+                    
                     <?php foreach ($items as $_item) :?>
                     
                     <?php
@@ -90,33 +105,32 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                 <?php endif; ?>
 
                                 <?php if ($showWishlist || $showCompare || $showCart) :?>
-                                    <div class="product-item-actions">
-                                        <?php if ($showCart) :?>
-                                            <div class="actions-primary">
-                                                <?php if (!$_item->getTypeInstance()->isPossibleBuyFromList($_item)) :?>
-                                                    <button class="action tocart primary"
-                                                            data-mage-init='{"redirectUrl":{"url":"<?= $block->escapeUrl($block->getAddToCartUrl($_item)) ?>"}}'
-                                                            type="button"
-                                                            title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>">
-                                                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
-                                                    </button>
-                                                <?php else :?>
-                                                    <?php
-                                                        $postDataHelper = $this->helper(Magento\Framework\Data\Helper\PostHelper::class);
-                                                        $postData = $postDataHelper->getPostData(
-                                                            $block->escapeUrl($block->getAddToCartUrl($_item)),
-                                                            ['product' => (int) $_item->getEntityId()]
-                                                        )
-                                                    ?>
-                                                    <button class="action tocart primary"
-                                                            data-post='<?= /* @noEscape */ $postData ?>'
-                                                            type="button"
-                                                            title="<?= $block->escapeHtmlAttr(__('Add to Cart')) ?>">
-                                                        <span><?= $block->escapeHtml(__('Add to Cart')) ?></span>
-                                                    </button>
-                                                <?php endif; ?>
-                                            </div>
-                                        <?php endif; ?>
+                                    <div class="product-item-inner">
+                                        <div class="product actions product-item-actions">
+                                            <?php if ($showCart) :?>
+                                                <div class="actions-primary">
+                                                    <?php $addToCartUrl = $block->getAddToCartUrl($_item); ?>
+
+                                                    <form data-role="tocart-form"
+                                                            data-product-sku="<?=  /* @escapeNotVerified */ $_item->getSku(); ?>"
+                                                            data-mage-init='{"validation": {}}'
+                                                            action="<?= $block->escapeUrl($addToCartUrl); ?>"
+                                                            method="post">
+
+                                                            <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
+                                                            <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
+                                                            <?php echo $block->getBlockHtml('formkey')?>
+                                                                    <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                                                        <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
+                                                                    <?php endif; ?>
+                                                            <button class="action tocart primary"
+                                                                    type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                            </button>
+                                                      </form>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                 <?php endif; ?>
                                 
@@ -124,6 +138,13 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                     <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
                                     <span>Earn <?= $points ?> Qantas Points</span>
                                 </div>
+                                
+                                <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
+                                    <?= $rentBlock->toHtml(); ?>
+                                <?php endif; ?>
+                                <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
+                                    <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                      </div>
@@ -142,6 +163,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                 $('#best-seller-carousel').owlCarousel({
                     loop:false,
                     nav:true,
+                    navText:["<div class='nav-btn prev-slide'></div>","<div class='nav-btn next-slide'></div>"],
                     responsive:{
                         0:{
                             items:1
@@ -160,7 +182,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                         }
                     },
                     dots:false,
-                    autoplay:true,
+                    autoplay:false,
                     autoplayTimeout:3000
                 })
             });
