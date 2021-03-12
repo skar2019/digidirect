@@ -57,21 +57,22 @@ $showWishlist = true;
                 
                 $finalProductPrice = $_product->getFinalPrice();
                 $qff_bonus_points = 0;
-                    if (!empty($qff_base) && !empty($qff_bonus)) {
-                        
-                        $bonusPlusBase = $qff_base + $qff_bonus;
+                
+                if (!empty($qff_base) && !empty($qff_bonus)) {
 
-                        $points = number_format($finalProductPrice * $bonusPlusBase);
-                    }else {
-                        if(!empty($qff_bonus)){
-                           
-                            $points = number_format($finalProductPrice * $qff_bonus);
-                        } else {
-                            $points = number_format($finalProductPrice * 2);
-                        }
-                    }  
+                    $bonusPlusBase = $qff_base + $qff_bonus;
 
-                    $finalQffPoints = $_product->getPoints();
+                    $points = number_format($finalProductPrice * $bonusPlusBase);
+                }else {
+                    if(!empty($qff_bonus)){
+
+                        $points = number_format($finalProductPrice * $qff_bonus);
+                    } else {
+                        $points = number_format($finalProductPrice * 2);
+                    }
+                }  
+
+                $finalQffPoints = $_product->getPoints();
                 
                 $productUrl = $_product->getProductUrl(); 
                 
@@ -146,30 +147,28 @@ $showWishlist = true;
                             <?= $block->getProductDetailsHtml($_product); ?>
                             <div class="product actions product-item-actions"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
                                 <div class="actions-primary"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>
-                                    <?php if ($_product->isSaleable()): ?>
-                                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
-                                        <form data-role="tocart-form"
-                                              data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
-                                              data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
-                                              action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post"
-                                        >
-                                            <input type="hidden"
-                                                   name="product"
-                                                   value="<?= /* @escapeNotVerified */ $postParams['data']['product']; ?>"/>
-                                            <input type="hidden"
-                                                   name="<?= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED; ?>"
-                                                   value="<?= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>"/>
-                                            <?= /* @escapeNotVerified */ $block->getBlockHtml('formkey'); ?>
-                                            <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
-                                                <?= /* @escapeNotVerified */ $toCartFormBlock->setProduct($_product)->getChildHtml(); ?>
-                                            <?php endif; ?>
-                                            <button type="submit"
-                                                    title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
-                                                    class="action tocart primary">
-                                                <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span>
-                                            </button>
-                                        </form>
-                                    <?php endif; ?>
+                                    <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                    <form data-role="tocart-form"
+                                          data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
+                                          data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
+                                          action="<?= /* @escapeNotVerified */ $postParams['action']; ?>" method="post"
+                                    >
+                                        <input type="hidden"
+                                               name="product"
+                                               value="<?= /* @escapeNotVerified */ $postParams['data']['product']; ?>"/>
+                                        <input type="hidden"
+                                               name="<?= /* @escapeNotVerified */ Action::PARAM_NAME_URL_ENCODED; ?>"
+                                               value="<?= /* @escapeNotVerified */ $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>"/>
+                                        <?= /* @escapeNotVerified */ $block->getBlockHtml('formkey'); ?>
+                                        <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                            <?= /* @escapeNotVerified */ $toCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                                        <?php endif; ?>
+                                        <button type="submit"
+                                                title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
+                                                class="action tocart primary">
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             <?php if ($showDescription):?>
