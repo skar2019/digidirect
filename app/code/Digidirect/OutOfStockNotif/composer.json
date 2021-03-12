@@ -1,0 +1,14 @@
+{
+  "name": "digidirect/outofstocknotif",
+  "description": "Out Of Stock Notification",
+  "type": "magento2-module",
+  "version": "2.4.0.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Digidirect\\OutOfStockNotif\\": ""
+    }
+  }
+}
