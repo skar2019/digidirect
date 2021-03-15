@@ -1,0 +1,67 @@
+//
+//  My Order Items: Item Information
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@my-order-items-item-information__is-enabled: true;
+
+@my-order-items-item-information__display: false;
+@my-order-items-item-information__display__m: flex;
+@my-order-items-item-information__margin: 0 0 20px;
+@my-order-items-item-information__margin__m: false;
+@my-order-items-item-information__padding: false;
+@my-order-items-item-information__padding__m: 30px 0;
+
+@my-order-items-item-information-content__background: false;
+@my-order-items-item-information-content__background__m: fade(@color-black, 10%);
+@my-order-items-item-information-content__margin: false;
+@my-order-items-item-information-content__margin__m: false;
+@my-order-items-item-information-content__padding: 10px;
+@my-order-items-item-information-content__padding__m: 20px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@my-order-items-item-information__is-enabled = true) {
+        .item-information {
+            & {
+                .lib-css(display, @my-order-items-item-information__display);
+                .lib-css(margin, @my-order-items-item-information__margin);
+                .lib-css(padding, @my-order-items-item-information__padding);
+            }
+
+            > .content {
+                .lib-css(background, @my-order-items-item-information-content__background);
+                .lib-css(margin, @my-order-items-item-information-content__margin);
+                .lib-css(padding, @my-order-items-item-information-content__padding);
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@my-order-items-item-information__is-enabled = true) {
+        .item-information {
+            & {
+                .lib-css(display, @my-order-items-item-information__display__m);
+                .lib-css(margin, @my-order-items-item-information__margin__m);
+                .lib-css(padding, @my-order-items-item-information__padding__m);
+            }
+
+            > .content {
+                .lib-css(background, @my-order-items-item-information-content__background__m);
+                .lib-css(margin, @my-order-items-item-information-content__margin);
+                .lib-css(padding, @my-order-items-item-information-content__padding);
+            }
+        }
+    }
+}

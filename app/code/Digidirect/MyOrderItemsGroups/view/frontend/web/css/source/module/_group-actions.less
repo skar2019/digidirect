@@ -1,0 +1,25 @@
+//
+//  My Order Items Group: Group Actions
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@my-order-items-group-group-actions__is-enabled: true;
+
+@my-order-items-group-group-actions__display: flex;
+@my-order-items-group-group-actions__align-items: center;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@my-order-items-group-group-actions__is-enabled = true) {
+        .group-actions {
+            .lib-css(display, @my-order-items-group-group-actions__display);
+            .lib-css(align-items, @my-order-items-group-group-actions__align-items);
+        }
+    }
+}

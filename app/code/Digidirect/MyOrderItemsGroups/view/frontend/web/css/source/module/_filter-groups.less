@@ -1,0 +1,66 @@
+//
+//  My Order Items Group: Filter Groups
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@my-order-items-group-filter-groups__is-enabled: true;
+
+@my-order-items-group-filter-groups__position: relative;
+
+@my-order-items-group-filter-groups__title__color: false;
+@my-order-items-group-filter-groups__title__font-size: 2rem;
+@my-order-items-group-filter-groups__title__wont-weight: 700;
+
+@my-order-items-group-filter-groups__list__display: none;
+@my-order-items-group-filter-groups__list__position: absolute;
+@my-order-items-group-filter-groups__list__top: 100%;
+@my-order-items-group-filter-groups__list__right: 0;
+@my-order-items-group-filter-groups__list__min-width: 100%;
+@my-order-items-group-filter-groups__list__padding: 6px;
+@my-order-items-group-filter-groups__list__background: @color-white;
+@my-order-items-group-filter-groups__list__z-index: 1;
+@my-order-items-group-filter-groups__active__list__display: block;
+
+@my-order-items-group-filter-groups__item__display: block;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@my-order-items-group-filter-groups__is-enabled = true) {
+        .filter-groups {
+            & {
+                .lib-css(position, @my-order-items-group-filter-groups__position);
+            }
+
+            .title {
+                .lib-css(color, @my-order-items-group-filter-groups__title__color);
+                .lib-css(font-size, @my-order-items-group-filter-groups__title__font-size);
+                .lib-css(font-weight, @my-order-items-group-filter-groups__title__wont-weight);
+            }
+
+            .list {
+                .lib-css(display, @my-order-items-group-filter-groups__list__display);
+                .lib-css(position, @my-order-items-group-filter-groups__list__position);
+                .lib-css(top, @my-order-items-group-filter-groups__list__top);
+                .lib-css(right, @my-order-items-group-filter-groups__list__right);
+                .lib-css(min-width, @my-order-items-group-filter-groups__list__min-width);
+                .lib-css(padding, @my-order-items-group-filter-groups__list__padding);
+                .lib-css(background, @my-order-items-group-filter-groups__list__background);
+                .lib-css(z-index, @my-order-items-group-filter-groups__list__z-index);
+            }
+
+            &.active > .list {
+                .lib-css(display, @my-order-items-group-filter-groups__active__list__display);
+            }
+
+            .item {
+                .lib-css(display, @my-order-items-group-filter-groups__item__display);
+            }
+        }
+    }
+}

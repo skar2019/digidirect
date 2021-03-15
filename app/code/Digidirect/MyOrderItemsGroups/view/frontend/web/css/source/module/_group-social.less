@@ -1,0 +1,39 @@
+//
+//  My Order Items Group: Group Social
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@my-order-items-group-group-social__is-enabled: true;
+
+@my-order-items-group-group-social__display: flex;
+@my-order-items-group-group-social__align-items: center;
+@my-order-items-group-group-social__margin-right: 30px;
+
+@my-order-items-group-group-social-social-button__margin: 0 10px 0 0;
+@my-order-items-group-group-social-social-button__height: 20px;
+@my-order-items-group-group-social-social-button__width: false;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@my-order-items-group-group-social__is-enabled = true) {
+        .group-social {
+            & {
+                .lib-css(display, @my-order-items-group-group-social__display);
+                .lib-css(align-items, @my-order-items-group-group-social__align-items);
+                .lib-css(margin-right, @my-order-items-group-group-social__margin-right);
+            }
+
+            > .button-social {
+                .lib-css(margin, @my-order-items-group-group-social-social-button__margin);
+                .lib-css(height, @my-order-items-group-group-social-social-button__height);
+                .lib-css(width, @my-order-items-group-group-social-social-button__width);
+            }
+        }
+    }
+}

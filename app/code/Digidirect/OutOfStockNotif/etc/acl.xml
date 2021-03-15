@@ -10,7 +10,7 @@
                         </resource>
                     </resource>
                 </resource>
-                <resource id="Digidirect_Utilities::digidirect" sortOrder="100">
+                <resource id="Digidirect_Utilities::Digidirect" sortOrder="100">
                     <resource id="Digidirect_OutOfStockNotif::out_of_stock" title="Digidirect Out Of Stock Notification" sortOrder="10">
                         <resource id="Digidirect_OutOfStockNotif::out_of_stock_delete" title="Delete" sortOrder="10" />
                     </resource>

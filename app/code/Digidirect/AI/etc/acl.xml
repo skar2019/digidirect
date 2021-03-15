@@ -10,7 +10,7 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                <resource id="Digidirect_Utilities::digidirect" title="Digidirect Menu Content">
+                <resource id="Digidirect_Utilities::Digidirect" title="Digidirect Menu Content">
                     <resource id="Digidirect_AI::integrations" title="Digidirect AI Integrations">
                         <resource id="Digidirect_AI::process_list" title="Integrations list" sortOrder="10"/>
                         <resource id="Digidirect_AI::logs" title="Integrations Logs" sortOrder="20"/>

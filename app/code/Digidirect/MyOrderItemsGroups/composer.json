@@ -1,0 +1,15 @@
+{
+  "name": "digidirect/myorderitemsgroups",
+  "type": "magento2-module",
+  "description": "Digidirect My Order Items Groups",
+  "version": "1.0.4.0",
+  "suggest": {
+    "digidirect/myorderitems": "Digidirect My Order Items extension is required."
+  },
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Digidirect\\MyOrderItemsGroups\\": ""
+    }
+  }
+}

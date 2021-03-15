@@ -1,0 +1,31 @@
+//
+//  My Order Items Group: Group Header
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@my-order-items-group-group-header__is-enabled: true;
+
+@my-order-items-group-group-header__display: flex;
+@my-order-items-group-group-header__align-items: center;
+@my-order-items-group-group-header__justify-content: space-between;
+@my-order-items-group-group-header__margin: 0 0 20px;
+@my-order-items-group-group-header__padding: false;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@my-order-items-group-group-header__is-enabled = true) {
+        .group-header {
+            .lib-css(display, @my-order-items-group-group-header__display);
+            .lib-css(align-items, @my-order-items-group-group-header__align-items);
+            .lib-css(justify-content, @my-order-items-group-group-header__justify-content);
+            .lib-css(margin, @my-order-items-group-group-header__margin);
+            .lib-css(padding, @my-order-items-group-group-header__padding);
+        }
+    }
+}

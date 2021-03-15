@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Digidirect\MyOrderItems\Api\Data\StateSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Digidirect\MyOrderItems\Api\OrderItemStateRepositoryInterface" type="Digidirect\MyOrderItems\Model\OrderItemStateRepository" />
+    <preference for="Digidirect\MyOrderItems\Api\Data\OrderItemStateInterface" type="Digidirect\MyOrderItems\Model\OrderItemState" />
+    <type name="Digidirect\MyOrderItems\Model\UrlHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="myOrderItemsHandler" xsi:type="object">Digidirect\MyOrderItems\Model\UrlHandler\MyOrderItems</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\MyOrderItems\Helper\Data">
+        <arguments>
+            <argument name="additionalAttributes" xsi:type="array">
+                <item name="date_of_purchase" xsi:type="string">Date of Purchase</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

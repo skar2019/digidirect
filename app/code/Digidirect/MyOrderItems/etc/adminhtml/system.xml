@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="digidirect_myorderitems" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>My Order Items</label>
+            <tab>digidirect</tab>
+            <resource>Digidirect_MyOrderItems::digidirect_myorderitems</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="myorderitems_links" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Links on "All My Order Items" block</label>
+                    <frontend_model>Digidirect\MyOrderItems\Block\Adminhtml\Config\LinkMatrix</frontend_model>
+                    <backend_model>Digidirect\Utilities\Model\System\Config\Backend\DefaultOptionModel</backend_model>
+                    <comment>Text that should be displayed for the selected link and URL of the page to which you want to link. URL should be entered as a part after {base_url}.</comment>
+                </field>
+                <field id="attributes" translate="label comment" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Attributes</label>
+                    <source_model>Digidirect\MyOrderItems\Model\Config\Source\Attribute</source_model>
+                    <comment>Selected product attributes will be displayed on the "Product Detailed Info" section on "My Order Items" page</comment>
+                </field>
+                <field id="items_per_page" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Items per page</label>
+                    <comment>Quantity of my order items per page</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

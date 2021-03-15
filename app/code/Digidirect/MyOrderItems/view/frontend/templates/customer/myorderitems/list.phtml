@@ -1,0 +1,45 @@
+<?php
+/** @var \Digidirect\MyOrderItems\Block\Customer\MyOrderItems\ItemsList $block */
+$itemsList = $block->getItems();
+$itemsListCount = count($itemsList);
+$requestParams = $block->collectFilterParams();
+?>
+<?php if ($itemsListCount > 0): ?>
+    <?= $block->getCategoryFilterHtml() ?>
+    <div class="items-block">
+        <?php foreach ($itemsList as $salesItem): ?>
+            <?php $requestParams['item_id'] = $salesItem->getItemId(); ?>
+            <div class="item<?php if (!$salesItem->getStateStatus()) echo ' -disabled' ?>" data-item-id="<?= (int)$salesItem->getItemId(); ?>" data-role="draggable-item">
+                <?php if ($block->getChildBlock('my_order_items_moving_item')): ?>
+                    <?= $block->getChildHtml('my_order_items_moving_item'); ?>
+                <?php endif; ?>
+                <?php /** @var \Magento\Sales\Model\Order\Item $salesItem */ ?>
+                <h3 class="name"><?php echo $block->escapeHtml($salesItem->getName()); ?></h3>
+                <div class="image"><img src="<?php echo $block->escapeUrl($block->getDataHelper()->getImageFilePath($salesItem)) ?>" alt="<?php echo $block->escapeHtml($salesItem->getName()); ?>"></div>
+                <div class="actions-link">
+                    <?php if ($salesItem->getStateStatus()): ?>
+                        <a class="action" href="<?= $block->escapeUrl($block->getUrl('*/*/disable',  $requestParams)) ?>" title="<?php echo $block->escapeHtml(__('Disable')) ?>"><?php echo $block->escapeHtml(__('Disable')) ?></a>
+                    <?php else: ?>
+                        <a class="action" href="<?= $block->escapeUrl($block->getUrl('*/*/enable',  $requestParams)) ?>" title="<?php echo $block->escapeHtml(__('Enable')) ?>"><?php echo $block->escapeHtml(__('Enable')) ?></a>
+                    <?php endif ?>
+                </div>
+                <a class="details-link" href="<?= $block->escapeUrl($block->getUrl('*/*/*',  $requestParams)) ?>" title="<?php echo $block->escapeHtml(__('View Details')) ?>"><?php echo $block->escapeHtml(__('View Details')) ?></a>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php if($block->isPagerDisplayed()): ?>
+        <div data-block="order-items-pager-bottom" class="order-products-toolbar toolbar bottom">
+            <?= $block->getPagerHtml() ?>
+        </div>
+    <?php endif ?>
+    <?= $block->getChildHtml('my_order_item_info') ?>
+<?php else: ?>
+    <?php $links = $block->getConfigHelper()->getLinks(); ?>
+    <?php if(count($links)): ?>
+        <div class="items-block">
+            <?php foreach ($links as $link): ?>
+                <a class="link" href="<?php echo $block->escapeUrl($link['link']) ?>" title="<?php echo $block->escapeHtml($link['description']) ?>"><?php echo $block->escapeHtml($link['description']) ?></a>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

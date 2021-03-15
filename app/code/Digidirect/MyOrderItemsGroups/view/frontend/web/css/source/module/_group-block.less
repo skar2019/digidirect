@@ -1,0 +1,54 @@
+//
+//  My Order Items Group: Group Block
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@my-order-items-group-group-block__is-enabled: true;
+
+//  Rename Mode
+@my-order-items-group-group-block__rename__filter-groups__display: none;
+@my-order-items-group-group-block__rename__group-rename__display: block;
+
+//  Clear Mode
+@my-order-items-group-group-block__clear__group-actions__display: none;
+@my-order-items-group-group-block__clear__group-clear__display: flex;
+@my-order-items-group-group-block__clear__hidden-control__display: block;
+
+@my-order-items-group-group-block__selected__item-apply__display: block;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@my-order-items-group-group-block__is-enabled = true) {
+        .group-block {
+            &.-rename .filter-groups {
+                .lib-css(display, @my-order-items-group-group-block__rename__filter-groups__display);
+            }
+
+            &.-rename .group-rename {
+                .lib-css(display, @my-order-items-group-group-block__rename__group-rename__display);
+            }
+
+            &.-clear .group-actions {
+                .lib-css(display, @my-order-items-group-group-block__clear__group-actions__display);
+            }
+
+            &.-clear .group-clear {
+                .lib-css(display, @my-order-items-group-group-block__clear__group-clear__display);
+            }
+
+            &.-clear .hidden-control {
+                .lib-css(display, @my-order-items-group-group-block__clear__hidden-control__display);
+            }
+
+            &.-selected .-apply {
+                .lib-css(display, @my-order-items-group-group-block__selected__item-apply__display);
+            }
+        }
+    }
+}

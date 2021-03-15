@@ -1,0 +1,26 @@
+<?php
+/** @var \Digidirect\MyOrderItems\Block\Customer\MyOrderItems\ItemsList\Info $block */
+$salesItem = $block->getSaleItem();
+$itemInfoArray = $block->getItemInfo();
+$product = $block->getDataHelper()->getProduct($salesItem);
+?>
+<?php if (!empty($itemInfoArray)): ?>
+    <?php /** @var \Magento\Sales\Model\Order\Item $salesItem */ ?>
+    <div class="item-information">
+        <div class="image"><img src="<?php echo $block->escapeUrl($block->getDataHelper()->getImageFilePath($salesItem)) ?>" alt="<?php echo $block->escapeHtml($salesItem->getName()); ?>"></div>
+        <div class="content">
+            <h3 class="name"><?php echo $block->escapeHtml($salesItem->getName()); ?></h3>
+            <dl class="item-options">
+                <?php foreach ($itemInfoArray as $itemInfo): ?>
+                    <?php if ($itemInfo['value'] && !is_array($itemInfo['value'])): ?>
+                        <dt><?= $block->escapeHtml($itemInfo[\Digidirect\MyOrderItems\Helper\Data::LABEL]) ?>:</dt>
+                        <dd><?= $block->escapeHtml($itemInfo[\Digidirect\MyOrderItems\Helper\Data::VALUE]) ?></dd>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </dl>
+        </div>
+    </div>
+<?php endif; ?>
+<?php if (null !== $product): ?>
+    <?= $block->getChildHtml($block->getRelatedProductsBlockName()); ?>
+<?php endif; ?>

@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Digidirect\MyOrderItemsGroups\Api\Data\OrderItemGroupInterface" type="Digidirect\MyOrderItemsGroups\Model\OrderItemGroup" />
+    <preference for="Digidirect\MyOrderItemsGroups\Api\Data\OrderItemGroupLinkInterface" type="Digidirect\MyOrderItemsGroups\Model\OrderItemGroupLink" />
+    <preference for="Digidirect\MyOrderItemsGroups\Api\OrderItemGroupRepositoryInterface" type="Digidirect\MyOrderItemsGroups\Model\OrderItemGroupRepository" />
+    <preference for="Digidirect\MyOrderItemsGroups\Api\ItemGroupLinkRepositoryInterface" type="Digidirect\MyOrderItemsGroups\Model\ItemGroupLinkRepository" />
+    <type name="Digidirect\MyOrderItems\Model\UrlHandlerPool">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="myOrderItemsGroupsHandler" xsi:type="object">Digidirect\MyOrderItemsGroups\Model\UrlHandler\MyOrderItemsGroups</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Digidirect\MyOrderItemsGroups\Block\Customer\MyOrderItems\Group\AbstractBlock">
+        <arguments>
+            <argument name="configHelper" xsi:type="object">Digidirect\MyOrderItemsGroups\Helper\Config</argument>
+            <argument name="dataHelper" xsi:type="object">Digidirect\MyOrderItemsGroups\Helper\Data</argument>
+        </arguments>
+    </type>
+</config>

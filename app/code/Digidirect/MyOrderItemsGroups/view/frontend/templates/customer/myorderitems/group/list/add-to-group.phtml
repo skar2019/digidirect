@@ -1,0 +1,19 @@
+<?php
+/** @var \Digidirect\MyOrderItemsGroups\Block\Customer\MyOrderItems\Group\ItemsList\Groups $block */
+$groupList = $block->getGroups();
+$filterParams = $block->collectFilterParams([$block->getPageParameter()]);
+?>
+
+<div class="moving-groups">
+    <div class="title" data-toggle="dropdown" data-mage-init='{"dropdown": {}}'><?= $block->escapeHtml(__('Move to:')) ?></div>
+    <div class="list" data-target="dropdown">
+        <?php if (!$block->isEmptyGroup()): ?>
+            <?php foreach ($groupList as $groupId => $group): ?>
+                <?php $filterParams['group_id'] = $groupId ?>
+                <a class="item" data-role="add-to-group" title="<?= $block->escapeHtml($group) ?>" href="<?= $block->escapeUrl($block->getUrl('myorderitems/myorderitems/index',  $filterParams)) ?>" data-group-id="<?= (int)$groupId ?>"><?= $block->escapeHtml($group) ?></a>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <a class="item" data-role="add-to-group" title="<?php echo $block->escapeHtml(__('New Item Group')) ?>" href="<?= $block->escapeUrl($block->getUrl('myorderitems/myorderitems/index')) ?>"><?php echo $block->escapeHtml(__('New Item Group')) ?></a>
+        <?php endif; ?>
+    </div>
+</div>

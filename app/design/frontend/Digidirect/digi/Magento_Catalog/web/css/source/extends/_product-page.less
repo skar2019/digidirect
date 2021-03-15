@@ -255,6 +255,10 @@
         & {
             .lib-vendor-prefix-display(flex);
             .lib-vendor-prefix-flex-direction (column);
+            
+            width: 40%;
+            padding: 30px 56px 0 0;
+            float: unset;
         }
 
         .product-info-stock-sku {
@@ -901,10 +905,10 @@
 }
 
 //
-//  XM +
+//  Desktop large
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xm) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
     .product-basic {
         margin-bottom: 80px;
     }
@@ -1045,10 +1049,10 @@
 }
 
 //
-//  XXL +
+//  Desktop large
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
     .product-basic {
         .product.media {
             flex-grow: 1;

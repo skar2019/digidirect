@@ -1,0 +1,43 @@
+//
+//  My Order Items Group: Hidden Controls
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@my-order-items-group-hidden-control__is-enabled: true;
+
+@my-order-items-group-hidden-control__display: none;
+@my-order-items-group-hidden-control__position: absolute;
+@my-order-items-group-hidden-control__top: 0;
+@my-order-items-group-hidden-control__right: 0;
+@my-order-items-group-hidden-control__bottom: false;
+@my-order-items-group-hidden-control__left: false;
+@my-order-items-group-hidden-control__z-index: false;
+
+@my-order-items-group-hidden-control-label__padding-left: 20px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@my-order-items-group-hidden-control__is-enabled = true) {
+        .hidden-control {
+            & {
+                .lib-css(display, @my-order-items-group-hidden-control__display);
+                .lib-css(position, @my-order-items-group-hidden-control__position);
+                .lib-css(top, @my-order-items-group-hidden-control__top);
+                .lib-css(right, @my-order-items-group-hidden-control__right);
+                .lib-css(bottom, @my-order-items-group-hidden-control__bottom);
+                .lib-css(left, @my-order-items-group-hidden-control__left);
+                .lib-css(z-index, @my-order-items-group-hidden-control__z-index);
+            }
+
+            > .label {
+                .lib-css(paddibg-left, @my-order-items-group-hidden-control-label__padding-left);
+            }
+        }
+    }
+}
