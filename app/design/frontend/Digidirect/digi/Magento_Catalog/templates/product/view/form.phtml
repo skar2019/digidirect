@@ -46,7 +46,6 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         <input type="hidden" name="related_product" id="related-products-field" value="" />
         <input type="hidden" name="item"  value="<?= /* @noEscape */ $block->getRequest()->getParam('id') ?>" />
 
-
         <div class="push-block-left qantas-pts-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
             <span data-sample="<?php  echo $qff_bonus_points?>">Earn <?= $points ?> Qantas Points</span>
