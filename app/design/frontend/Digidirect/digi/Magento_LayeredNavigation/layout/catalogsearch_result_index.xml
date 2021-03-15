@@ -17,10 +17,10 @@
 
         <move element="catalogsearch.leftnav.clear" destination="catalogsearch.leftnav" before="-" />      
 
-        <move element="ewave.layerednavigation.apply" destination="catalogsearch.leftnav" before="-" />
+        <move element="digidirect.layerednavigation.apply" destination="catalogsearch.leftnav" before="-" />
 
-        <move element="ewave.categoryfilter.dropdown" destination="catalogsearch.leftnav" after="-" />
+        <move element="digidirect.categoryfilter.dropdown" destination="catalogsearch.leftnav" after="-" />
 
-        <move element="catalogsearch.leftnav" destination="offcanvasSidebar" after="ewave.categoryfilter.dropdown" />      
+        <move element="catalogsearch.leftnav" destination="offcanvasSidebar" after="digidirect.categoryfilter.dropdown" />      
     </body>
 </page>

@@ -35,15 +35,6 @@
     <type name="Magento\Quote\Model\Quote\Address">
         <plugin name="digidirect_collect_after_get_grouped_shipping" type="Digidirect\Collect\Model\Plugin\Quote\Address"/>
     </type>
-    <type name="Magento\Paypal\Model\Api\Nvp">
-        <plugin name="digidirect_collect_paypal_api_nvp" type="Digidirect\Collect\Model\Plugin\Paypal\Api\Nvp"/>
-    </type>
-    <type name="Magento\Paypal\Model\Express\Checkout">
-        <plugin name="digidirect_collect_paypal_express_checkout" type="Digidirect\Collect\Model\Plugin\Paypal\Express\Checkout"/>
-    </type>
-    <type name="Magento\Quote\Model\Quote\Payment">
-        <plugin name="digidirect_collect_paypal_express_checkout" type="Digidirect\Collect\Model\Plugin\Quote\Payment"/>
-    </type>
     <type name="Magento\Checkout\Model\Cart">
         <plugin name="digidirect_collect_add_to_cart" type="Digidirect\Collect\Model\Plugin\Checkout\Cart" />
     </type>

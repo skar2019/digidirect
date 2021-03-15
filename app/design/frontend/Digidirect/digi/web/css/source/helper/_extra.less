@@ -7,13 +7,13 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    ._negative-gutter {
+    .negative-gutter {
         .lib-css(margin-left, -@layout-indent__width);
         .lib-css(margin-right, -@layout-indent__width);
     }
     
     ._full-width-background {
-        &:extend(._negative-gutter);
+        &:extend(.negative-gutter);
 
         .lib-css(padding-left, @layout-indent__width);
         .lib-css(padding-right, @layout-indent__width);
@@ -101,7 +101,7 @@
 //  Desktop +
 //  ---------------------------------------------
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    ._negative-gutter {
+    .negative-gutter {
         .lib-css(margin-left, -(@layout-indent__width + @layout-columns__padding__l));
         .lib-css(margin-right, -(@layout-indent__width + @layout-columns__padding__l));
         .lib-css(padding-left, (@layout-indent__width + @layout-columns__padding__l));
@@ -109,7 +109,7 @@
     }
 
     ._full-width-background {
-        &:extend(._negative-gutter);
+        &:extend(.negative-gutter);
     }
     
     ._hide-for-desktop {

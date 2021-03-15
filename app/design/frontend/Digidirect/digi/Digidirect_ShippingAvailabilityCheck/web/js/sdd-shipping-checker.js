@@ -8,7 +8,7 @@ define([
   'use strict';
   return Component.extend({
     defaults: {
-      template: 'Ewave_ShippingAvailabilityCheck/sdd-checker',
+      template: 'Digidirect_ShippingAvailabilityCheck/sdd-checker',
       isSddAvailable: ko.observable(false),
       isCheckSddShipping: ko.observable(false),
       isAvailableData: ko.observable({}),
