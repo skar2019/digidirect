@@ -537,12 +537,9 @@ return [
         'Digidirect_MyStoreWidgetCollect' => 1,
         'Digidirect_OutOfStockNotif' => 1,
         'Digidirect_PreOrder' => 1,
-<<<<<<< HEAD
         'Digidirect_Pronto' => 1,
-=======
         'Digidirect_OutOfStockNotifPreOrder' => 1,
         'Digidirect_Qantas' => 1,
->>>>>>> f0440258ef5520550511f9af2fc396daf0911e71
         'Digidirect_QuickView' => 1,
         'Digidirect_ShippingAvailabilityCheck' => 1,
         'Digidirect_ShippingAvailabilityCheckCollect' => 1,
