@@ -5,7 +5,7 @@ use \Magento\Store\Model\ScopeInterface;
 
 class Pinterest extends \Digidirect\SocialSharing\Helper\Config
 {
-    const SOCIAL_SHARING_PIN = 'ewave_social_sharing/sharing_pin/';
+    const SOCIAL_SHARING_PIN = 'digidirect_social_sharing/sharing_pin/';
 
     /**
      * @return bool

@@ -5,7 +5,7 @@ use \Magento\Store\Model\ScopeInterface;
 
 class Facebook extends \Digidirect\SocialSharing\Helper\Config
 {
-    const SOCIAL_SHARING_FACEBOOK = 'ewave_social_sharing/sharing_facebook/';
+    const SOCIAL_SHARING_FACEBOOK = 'digidirect_social_sharing/sharing_facebook/';
 
     /**
      * @return mixed

@@ -5,7 +5,7 @@ use \Magento\Store\Model\ScopeInterface;
 
 class Google extends \Digidirect\SocialSharing\Helper\Config
 {
-    const SOCIAL_SHARING_GOOGLE = 'ewave_social_sharing/sharing_google/';
+    const SOCIAL_SHARING_GOOGLE = 'digidirect_social_sharing/sharing_google/';
 
     /**
      * @return bool

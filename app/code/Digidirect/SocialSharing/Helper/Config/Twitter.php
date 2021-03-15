@@ -5,7 +5,7 @@ use \Magento\Store\Model\ScopeInterface;
 
 class Twitter extends \Digidirect\SocialSharing\Helper\Config
 {
-    const SOCIAL_SHARING_TWITTER = 'ewave_social_sharing/sharing_twitter/';
+    const SOCIAL_SHARING_TWITTER = 'digidirect_social_sharing/sharing_twitter/';
 
     /**
      * @return bool

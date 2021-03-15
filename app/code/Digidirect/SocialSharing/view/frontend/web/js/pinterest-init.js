@@ -4,7 +4,7 @@ define([
 ], function ($) {
     'use strict';
 
-    $.widget('ewave.pinterestInit', {
+    $.widget('digidirect.pinterestInit', {
         options: {
             source: '//assets.pinterest.com/js/pinit.js'
         },
@@ -28,5 +28,5 @@ define([
         }
     });
 
-    return $.ewave.pinterestInit;
+    return $.digidirect.pinterestInit;
 });

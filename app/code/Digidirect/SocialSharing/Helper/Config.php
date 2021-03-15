@@ -3,7 +3,7 @@ namespace Digidirect\SocialSharing\Helper;
 
 class Config extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const SOCIAL_SHARING_ENABLED = 'ewave_social_sharing/general/enable';
+    const SOCIAL_SHARING_ENABLED = 'digidirect_social_sharing/general/enable';
 
     /**
      * @return mixed
