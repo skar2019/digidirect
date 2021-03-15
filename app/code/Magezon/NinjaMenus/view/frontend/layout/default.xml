@@ -18,10 +18,10 @@
 		<css src="Magezon_NinjaMenus::css/styles.css"/>
     </head>
     <body>
-         <referenceBlock name="store.menu">
-            <block class="Magezon\NinjaMenus\Block\TopMenu" name="catalog.topnav" template="Magezon_NinjaMenus::topmenu.phtml" before="-">
+        <referenceBlock name="store.menu">
+            <block class="Magezon\NinjaMenus\Block\TopMenu" name="catalog.topnav" template="topmenu.phtml" before="-">
                 <arguments>
-                    <argument name="identifier" translate="true" xsi:type="string">topmenu</argument>
+                    <argument name="identifier" translate="true" xsi:type="string">top-menu</argument>
                 </arguments>
             </block>
         </referenceBlock>

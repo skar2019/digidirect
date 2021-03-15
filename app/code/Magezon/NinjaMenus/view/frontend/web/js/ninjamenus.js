@@ -144,7 +144,7 @@ define([
                     self.menu.find('.ninjamenus-tablet').removeClass('ninjamenus-tablet');
                 }
             }).resize();
-            
+
             if (type == 'accordion' || type == 'drilldown') {
 
             } else {
@@ -165,7 +165,6 @@ define([
                     });
                 }
             }
-            
             this.menu.on('click', '.nav-item > a', function (e) {
                 if ($(this).data('scrollto') && $($(this).data('scrollto')).length) {
                     $('html, body').animate({
