@@ -3,7 +3,7 @@
     <acl>
         <resources>
             <resource id="Magento_Adminhtml::admin">
-                <resource id="Digidirect_Utilities::digidirect" sortOrder="100">
+                <resource id="Digidirect_Utilities::Digidirect" sortOrder="100">
                     <resource id="Magento_Adminhtml::stores">
                         <resource id="Magento_Adminhtml::stores_settings">
                             <resource id="Magento_Adminhtml::config">

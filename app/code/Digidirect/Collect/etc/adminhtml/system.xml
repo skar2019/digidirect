@@ -157,7 +157,7 @@
                     </depends>
                 </field>
             </group>
-            <resource>Digidirect_Utilities::digidirect_config</resource>
+            <resource>Digidirect_Utilities::Digidirect_config</resource>
         </section>
     </system>
 </config>
