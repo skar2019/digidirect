@@ -1,0 +1,9 @@
+<?php
+/**
+ * @var \Magezon\NinjaMenus\Block\Adminhtml\Menu\Scripts $block
+ */
+$builderConfig['categories'] = $block->getStoreCategories();
+?>
+<script>
+	window.ninjamenus = <?= json_encode($builderConfig) ?>;
+</script>
