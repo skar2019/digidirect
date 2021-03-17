@@ -278,6 +278,13 @@ switch ($type = $block->getType()) {
                                     <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
                                     <span>Earn <?= $points ?> Qantas Points</span>
                                 </div>
+                                
+                                <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
+                                    <?= $rentBlock->toHtml(); ?>
+                                <?php endif; ?>
+                                <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
+                                    <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach ?>
@@ -285,22 +292,16 @@ switch ($type = $block->getType()) {
             </div>
         </div>
     </div>
-    <?php if ($showQuickView): ?>
-        <div class="quickview-content" data-role="quickview-content">
-            <iframe class="quickview-iframe" src="" data-role="quickview-window" frameborder="0" name="quickview"></iframe>
-        </div>
-        <script type="text/x-magento-init">
-            {
-            ".products-widget": {
-            "quickView": {
-            "loaderIcon": "<?php echo $block->escapeUrl($this->helper('Digidirect\Utilities\Helper\Animation')->getImage()); ?>",
-            "loaderText": "<?php echo $block->escapeHtml($this->helper('Digidirect\Utilities\Helper\Animation')->getText()); ?>",
-            "isMobileEnabled": "<?php /* @escapeNotVerified */ echo $quickViewUseForMobile ? true : false ?>"
-            }
-            }
-            }
-        </script>
-    <?php endif; ?>
+<?php endif; ?>
+
+<?php if (!$block->isRedirectToCartEnabled()) : ?>
+    <script type="text/x-magento-init">
+    {
+        "[data-role=tocart-form], .form.map.checkout": {
+            "catalogAddToCart": {}
+        }
+    }
+    </script>
 <?php endif; ?>
 
 <script>
