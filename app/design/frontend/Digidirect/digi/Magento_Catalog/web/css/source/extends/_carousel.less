@@ -91,7 +91,74 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .product-upsell-listing.block {
+        background: #fff;
+        
+        .product-carousel{
+            padding: 0px;
+        }
+        
+        .title 
+        {
+            &{
+                text-align: left;
+            }
+            
+            strong{
+                font-size: 3.2rem !important;
+            }
+        }
+        
+        .product-image-wrapper{
+            padding-bottom: 125% !important;
+        }
+        
+        .product-image-container {
+            width: 100% !important;
+        }
+        
+        .product-item-info{
+            width: unset !important;
+            margin: 20px !important;
+        }
+        
+        .product-items {
+            display: block;
+            
+            .product-item{
+                margin: 0 !important;
+                display: inline-block;
+            }
+            
+            .owl-item{
+                text-align: center;
+            }
+        }
+        
+        .products-grid{
+            position: relative;
+        }
+    }
     
+    .product-carousel .product-item .product-item-info {
+        .price-final_price {
+            & {
+                position: relative;
+            }
+
+            .old-price-label {
+                position: absolute;
+                top: -15px;
+            }
+
+            .svg-icon.digidirectprice {
+                position: absolute;
+                right: 0;
+                top: -80px;
+                width: 80px;
+            }
+        }
+    }
 }
 
 //
