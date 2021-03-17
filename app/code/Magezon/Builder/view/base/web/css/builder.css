@@ -1755,6 +1755,7 @@ button.mgz-btn {
   clear: both;
 }
 .mgz__field .mgz__field-label {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 1.4rem;
   font-weight: 600;
   line-height: 3.2rem;
