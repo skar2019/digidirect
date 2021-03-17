@@ -273,8 +273,8 @@ class StoreLocatorEntitySetup extends StoreEntitySetup
             CongigHelper::ATTRIBUTE_OPENING_HOURS,
             CongigHelper::ATTRIBUTE_DESCRIPTION
         ];
-        $oldTableName = $this->getSetup()->getTable('digidirect_abstractentity_entity_varchar');
-        $newTableName = $this->getSetup()->getTable('digidirect_abstractentity_entity_text');
+        $oldTableName = $this->getSetup()->getTable('Digidirect_abstractentity_entity_varchar');
+        $newTableName = $this->getSetup()->getTable('Digidirect_abstractentity_entity_text');
         $fields = 'attribute_id, store_id, entity_id, value';
         foreach ($attributes as $attrCode) {
             $insertSql = "INSERT INTO $newTableName ($fields)

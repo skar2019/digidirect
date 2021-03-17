@@ -25,7 +25,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
      */
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
-        $customerStoreTable = $setup->getTable('digidirect_mystorewidget_customer_store');
+        $customerStoreTable = $setup->getTable('Digidirect_mystorewidget_customer_store');
 
         if (version_compare($context->getVersion(), '1.0.1', '<')) {
             $setup->getConnection()->dropForeignKey(

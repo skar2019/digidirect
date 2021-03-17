@@ -14,6 +14,6 @@ class MyStore extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('digidirect_mystorewidget_customer_store', 'id');
+        $this->_init('Digidirect_mystorewidget_customer_store', 'id');
     }
 }
