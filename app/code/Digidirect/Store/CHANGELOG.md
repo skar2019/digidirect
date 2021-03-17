@@ -14,8 +14,3 @@
 ==============
 * Improvements
    * Added source model to fetch all stores
-   
-1.2.1 
-=============
-* Bugfixes:
-    * [#294720](https://digidirect.tpondemand.com/entity/294720) -- [Store locator] It is impossible to create store with country=New Zealand  
