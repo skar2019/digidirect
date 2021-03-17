@@ -18,6 +18,7 @@
         }
     },
     "require": {
+        "m2epro/magento2-extension": "^1.10",
         "magento/magento-cloud-metapackage": ">=2.4.1 <2.4.2",
         "vlucas/valitron": "^1.4"
     },
