@@ -21,7 +21,7 @@ class InstallSchema implements InstallSchemaInterface
         $installer = $setup;
         $installer->startSetup();
 
-        $stringTableName = 'Digidirect_mystorewidget_customer_store';
+        $stringTableName = 'digidirect_mystorewidget_customer_store';
         $tableName = $installer->getTable($stringTableName);
         $table = $installer->getConnection()
             ->newTable($tableName)
