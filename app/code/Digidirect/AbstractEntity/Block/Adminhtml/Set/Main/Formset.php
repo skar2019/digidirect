@@ -9,7 +9,7 @@ use Magento\Config\Model\Config\Source\Yesno;
 
 class Formset extends \Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main\Formset
 {
-    const SAVE_ACTION = 'Digidirect_abstractentity/*/save';
+    const SAVE_ACTION = 'digidirect_abstractentity/*/save';
     const PARENT_ATTRIBUTE_SET_ID = 'parent_attribute_set_id';
 
     /**

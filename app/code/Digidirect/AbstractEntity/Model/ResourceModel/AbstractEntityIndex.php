@@ -19,7 +19,7 @@ use Digidirect\AbstractEntity\Model\Config\Source\FulltextSearchPattern;
  */
 class AbstractEntityIndex extends AbstractDb
 {
-    const TABLE_NAME = 'Digidirect_abstractentity_index_';
+    const TABLE_NAME = 'digidirect_abstractentity_index_';
     const SELECT = 'select';
     const TABLE_POSTFIX = 'table_postfix';
     const ENGINE = 'engine';

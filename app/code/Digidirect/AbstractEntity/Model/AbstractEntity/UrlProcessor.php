@@ -16,7 +16,7 @@ use Magento\UrlRewrite\Service\V1\Data\UrlRewriteFactory;
 class UrlProcessor
 {
     const URL_ENTITY_TYPE = 'abstractentity';
-    const ROUTE_PATH = 'Digidirect_abstractentity/abstractentity/view';
+    const ROUTE_PATH = 'digidirect_abstractentity/abstractentity/view';
     const TARGET_PATH_PATTERN = self::ROUTE_PATH . '/id/%s';
     const REQUEST_PATH_PATTERN = '%s';
 

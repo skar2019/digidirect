@@ -106,7 +106,7 @@ class Image extends \Digidirect\Utilities\Helper\Image
      */
     public function init($entity, $imageId, $attributes = [])
     {
-        parent::init($entity, 'Digidirect_abstractentity_default', $attributes);
+        parent::init($entity, 'digidirect_abstractentity_default', $attributes);
         $this->setImageFile($this->getAbstractEntityImage($entity, $imageId));
         return $this;
     }

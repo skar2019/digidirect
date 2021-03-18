@@ -59,7 +59,7 @@ class Delete extends \Magento\Catalog\Controller\Adminhtml\Product\Set
             $this->messageManager->addSuccessMessage(
                 __('The entity has been removed. Please clear invalid cache types.')
             );
-            $resultRedirect->setPath('Digidirect_abstractentity/*/');
+            $resultRedirect->setPath('digidirect_abstractentity/*/');
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage(__('We can\'t delete this entity right now.'));
             $resultRedirect->setUrl($this->_redirect->getRedirectUrl($this->getUrl('*')));

@@ -21,8 +21,8 @@
         <arguments>
             <argument name="metadata" xsi:type="array">
                 <item name="Digidirect\AbstractEntity\Api\Data\AbstractEntityInterface" xsi:type="array">
-                    <item name="entityTableName" xsi:type="string">Digidirect_abstractentity_entity</item>
-                    <item name="eavEntityType" xsi:type="string">Digidirect_abstractentity</item>
+                    <item name="entityTableName" xsi:type="string">digidirect_abstractentity_entity</item>
+                    <item name="eavEntityType" xsi:type="string">digidirect_abstractentity</item>
                     <item name="identifierField" xsi:type="string">entity_id</item>
                     <item name="entityContext" xsi:type="array">
                         <item name="store" xsi:type="string">Magento\Store\Model\StoreScopeProvider</item>
@@ -42,7 +42,7 @@
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="Digidirect_abstractentity_grid_data_source" xsi:type="string">Digidirect\AbstractEntity\Model\ResourceModel\AbstractEntity\Grid\Collection</item>
+                <item name="digidirect_abstractentity_grid_data_source" xsi:type="string">Digidirect\AbstractEntity\Model\ResourceModel\AbstractEntity\Grid\Collection</item>
             </argument>
         </arguments>
     </type>
@@ -96,10 +96,10 @@
     <type name="Digidirect\Utilities\Model\Media\Config">
         <arguments>
             <argument name="data" xsi:type="array">
-                <item name="baseMediaUrl" xsi:type="string">Digidirect/abstractentity/images</item>
-                <item name="baseMediaPath" xsi:type="string">Digidirect/abstractentity/images</item>
-                <item name="mediaUrl" xsi:type="string">Digidirect/abstractentity/images</item>
-                <item name="mediaPath" xsi:type="string">Digidirect/abstractentity/images</item>
+                <item name="baseMediaUrl" xsi:type="string">digidirect/abstractentity/images</item>
+                <item name="baseMediaPath" xsi:type="string">digidirect/abstractentity/images</item>
+                <item name="mediaUrl" xsi:type="string">digidirect/abstractentity/images</item>
+                <item name="mediaPath" xsi:type="string">digidirect/abstractentity/images</item>
             </argument>
         </arguments>
     </type>

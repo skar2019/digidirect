@@ -6,7 +6,7 @@ use Magento\Backend\Block\Widget\Button;
 
 class Main extends \Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Main
 {
-    const ADD_ACTION = 'Digidirect_abstractentity/*/add';
+    const ADD_ACTION = 'digidirect_abstractentity/*/add';
 
     /**
      * @return $this

@@ -61,7 +61,7 @@ class Image extends Column
                 $item[$fieldName . '_alt'] = $this->getAlt($item) ?: '';
                 $item[$fieldName . '_orig_src'] = $imageHelper->getOriginalImageUrl();
                 $item[$fieldName . '_link'] = $this->urlBuilder->getUrl(
-                    'Digidirect_abstractentity/abstractentity/edit',
+                    'digidirect_abstractentity/abstractentity/edit',
                     ['id' => $row->getEntityId()]
                 );
             }

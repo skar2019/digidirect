@@ -12,7 +12,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     {
         parent::_construct();
 
-        $this->setId('Digidirect_abstractentity_attribute_tabs');
+        $this->setId('digidirect_abstractentity_attribute_tabs');
         $this->setDestElementId('edit_form');
         $this->setTitle(__('Attribute Information'));
     }

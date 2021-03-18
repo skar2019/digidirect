@@ -104,7 +104,7 @@ class Save extends AbstractEntityController
                 }
 
                 $this->abstractEntityRepository->save($model);
-                $this->_eventManager->dispatch('adminhtml_Digidirect_abstractentity_save_after', [
+                $this->_eventManager->dispatch('adminhtml_digidirect_abstractentity_save_after', [
                     'entity' => $model
                 ]);
 

@@ -7,9 +7,9 @@ use Magento\Backend\Block\Widget\Button;
 
 class Main extends \Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main
 {
-    const BACK_ACTION = 'Digidirect_abstractentity/*/';
-    const MOVE_ACTION = 'Digidirect_abstractentity/set/save';
-    const DELETE_ACTION = 'Digidirect_abstractentity/set/delete';
+    const BACK_ACTION = 'digidirect_abstractentity/*/';
+    const MOVE_ACTION = 'digidirect_abstractentity/set/save';
+    const DELETE_ACTION = 'digidirect_abstractentity/set/delete';
 
     /**
      * @return void

@@ -2,13 +2,13 @@
 <form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">Digidirect_abstractentity_form.abstractentity_form_data_source</item>
-            <item name="deps" xsi:type="string">Digidirect_abstractentity_form.abstractentity_form_data_source</item>
+            <item name="provider" xsi:type="string">digidirect_abstractentity_form.abstractentity_form_data_source</item>
+            <item name="deps" xsi:type="string">digidirect_abstractentity_form.abstractentity_form_data_source</item>
         </item>
         <item name="label" translate="true" xsi:type="string">General Information</item>
         <item name="config" xsi:type="array">
             <item name="dataScope" xsi:type="string">data</item>
-            <item name="namespace" xsi:type="string">Digidirect_abstractentity_form</item>
+            <item name="namespace" xsi:type="string">digidirect_abstractentity_form</item>
         </item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
         <item name="buttons" xsi:type="array">
@@ -64,7 +64,7 @@
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="component" xsi:type="string">Digidirect_AbstractEntity/js/form/element/parent-entity-ajax-auto-complete</item>
-                    <item name="url" xsi:type="url" path="Digidirect_abstractentity/abstractentity/entitySearch"/>
+                    <item name="url" xsi:type="url" path="digidirect_abstractentity/abstractentity/entitySearch"/>
                     <item name="idAttribute" xsi:type="string">entity_id</item>
                     <item name="valueAttribute" xsi:type="string">name</item>
                     <item name="label" xsi:type="string" translate="true">Parent Entity</item>

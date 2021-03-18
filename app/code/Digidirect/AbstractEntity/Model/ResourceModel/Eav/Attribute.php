@@ -7,7 +7,7 @@ class Attribute extends \Magento\Catalog\Model\ResourceModel\Eav\Attribute
 {
     const MODULE_NAME = 'Digidirect_AbstractEntity';
 
-    const ENTITY = 'Digidirect_abstractentity_eav_attribute';
+    const ENTITY = 'digidirect_abstractentity_eav_attribute';
 
     const KEY_IS_GLOBAL = 'is_global';
 
@@ -47,7 +47,7 @@ class Attribute extends \Magento\Catalog\Model\ResourceModel\Eav\Attribute
 
     /**
      * Resolve conflict between 'default_value' column
-     * from 'eav_attribute' and 'Digidirect_abstractentity_eav_attribute' tables.
+     * from 'eav_attribute' and 'digidirect_abstractentity_eav_attribute' tables.
      * @return $this
      */
     protected function _afterLoad()

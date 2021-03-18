@@ -10,9 +10,9 @@ use Magento\Framework\Indexer\StateInterface;
 
 class Config extends AbstractHelper
 {
-    const XML_PATH_ENABLED = 'Digidirect_abstractentity/general/enable';
-    const XML_PATH_ENTITIES = 'Digidirect_abstractentity/general/entities';
-    const XML_PATH_FULLTEXT_SEARCH_PATTERN = 'Digidirect_abstractentity/general/fulltext_search_pattern';
+    const XML_PATH_ENABLED = 'digidirect_abstractentity/general/enable';
+    const XML_PATH_ENTITIES = 'digidirect_abstractentity/general/entities';
+    const XML_PATH_FULLTEXT_SEARCH_PATTERN = 'digidirect_abstractentity/general/fulltext_search_pattern';
 
     /**
      * @var array

@@ -13,7 +13,7 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
     /**
      * @var string
      */
-    protected $_module = 'Digidirect_abstractentity';
+    protected $_module = 'digidirect_abstractentity';
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context

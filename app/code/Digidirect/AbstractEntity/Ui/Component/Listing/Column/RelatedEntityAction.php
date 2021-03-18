@@ -15,7 +15,7 @@ use Digidirect\AbstractEntity\Model\Registry\Constants;
  */
 class RelatedEntityAction extends Column
 {
-    const URL_PATH_UNASSIGN = 'Digidirect_abstractentity/abstractentity/unassign';
+    const URL_PATH_UNASSIGN = 'digidirect_abstractentity/abstractentity/unassign';
 
     /**
      * @var UrlInterface

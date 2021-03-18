@@ -19,9 +19,9 @@ class Save extends Set
 {
     const ADMIN_RESOURCE = 'Digidirect_AbstractEntity::abstractentity_save';
 
-    const ADD_ACTION = 'Digidirect_abstractentity/*/add';
-    const EDIT_ACTION = 'Digidirect_abstractentity/*/edit';
-    const BACK_ACTION = 'Digidirect_abstractentity/*/';
+    const ADD_ACTION = 'digidirect_abstractentity/*/add';
+    const EDIT_ACTION = 'digidirect_abstractentity/*/edit';
+    const BACK_ACTION = 'digidirect_abstractentity/*/';
 
     /**
      * @var \Magento\Framework\View\LayoutFactory

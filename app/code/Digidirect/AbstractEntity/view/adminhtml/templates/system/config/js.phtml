@@ -11,16 +11,16 @@
             {
                 this.reload = false;
                 this.loader = new varienLoader(true);
-                this.entitiesUrl = "<?php echo $block->escapeUrl($block->getUrl('Digidirect_abstractentity/json/abstractEntity')) ?>";
+                this.entitiesUrl = "<?php echo $block->escapeUrl($block->getUrl('digidirect_abstractentity/json/abstractEntity')) ?>";
                 this.dataCache = [];
                 this.bindEntityAttributeRelation();
             },
             bindEntityAttributeRelation : function(parentId)
             {
                 if (parentId) {
-                    var entityElements = $$('#'+parentId+' .Digidirect_abstract_entities');
+                    var entityElements = $$('#'+parentId+' .digidirect_abstract_entities');
                 } else {
-                    var entityElements = $$('.Digidirect_abstract_entities');
+                    var entityElements = $$('.digidirect_abstract_entities');
                 }
                 for(var i=0; i<entityElements.size(); i++) {
                     Event.observe(entityElements[i], 'change', this.reloadAttributeFields.bind(this));
@@ -54,7 +54,7 @@
             },
             prepareData: function (data, element) {
                 var classList = element.classList,
-                    str = 'Digidirect_abstract_entities_attribute_',
+                    str = 'digidirect_abstract_entities_attribute_',
                     types = [],
                     key = 'all_types',
                     type ='',
@@ -129,7 +129,7 @@
             {
                 if (serverResponse) {
                     var data = eval('(' + serverResponse + ')');
-                    var attributeElements = $$('.Digidirect_abstract_entities_attributes');
+                    var attributeElements = $$('.digidirect_abstract_entities_attributes');
                     this.attributeElements = attributeElements;
                     for(var ci=0; ci<this.attributeElements.size(); ci++) {
                         var attributeElement = this.attributeElements[ci],
@@ -139,11 +139,11 @@
                         if (JSON.stringify(data) != "{}") {
                             var emptyValue = '';
                             var requiredClass = 'required-entry';
-                            if (attributeElement.hasClassName('Digidirect_add_empty_option')) {
+                            if (attributeElement.hasClassName('digidirect_add_empty_option')) {
                                 emptyValue = '<option value=""><?php /* @escapeNotVerified */ echo __('--Please Select--') ?></option>';
                                 requiredClass = '';
                             }
-                            var html = '<select name="' + attributeElement.name + '" id="' + attributeElement.id + '" class="Digidirect_abstract_entities_attributes select" + requiredClass + title="' + attributeElement.title + '"' + (disabled ? " disabled" : "") + '>';
+                            var html = '<select name="' + attributeElement.name + '" id="' + attributeElement.id + '" class="digidirect_abstract_entities_attributes select" + requiredClass + title="' + attributeElement.title + '"' + (disabled ? " disabled" : "") + '>';
                             if (emptyValue != '') {
                                 html += emptyValue;
                             }

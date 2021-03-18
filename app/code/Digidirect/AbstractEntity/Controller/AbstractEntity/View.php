@@ -18,8 +18,8 @@ use Magento\Framework\View\Result\Page;
 
 class View extends Action
 {
-    const ADDITIONAL_SET_HANDLE = 'Digidirect_abstractentity_view_abstractentity_';
-    const ADDITIONAL_HANDLE = 'Digidirect_abstractentity_view_';
+    const ADDITIONAL_SET_HANDLE = 'digidirect_abstractentity_view_abstractentity_';
+    const ADDITIONAL_HANDLE = 'digidirect_abstractentity_view_';
 
     /**
      * @var \Magento\Framework\View\Result\PageFactory

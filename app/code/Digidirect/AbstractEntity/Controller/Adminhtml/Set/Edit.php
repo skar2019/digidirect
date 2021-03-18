@@ -11,7 +11,7 @@ use Magento\Framework\View\Result\PageFactory;
 class Edit extends Set
 {
     const CURRENT_ATTRIBUTE_SET = 'current_attribute_set';
-    const BACK_ACTION = 'Digidirect_abstractentity/*/index';
+    const BACK_ACTION = 'digidirect_abstractentity/*/index';
 
     /**
      * @var AttributeSetRepositoryInterface

@@ -21,7 +21,7 @@ class Relation extends AbstractDb implements RelationInterface
      */
     protected function _construct()
     {
-        $this->_init('Digidirect_abstractentity_entity_relation', AbstractEntityInterface::ATTRIBUTE_SET_ID);
+        $this->_init('digidirect_abstractentity_entity_relation', AbstractEntityInterface::ATTRIBUTE_SET_ID);
     }
 
     /**

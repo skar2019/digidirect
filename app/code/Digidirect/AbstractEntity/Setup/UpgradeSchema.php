@@ -92,7 +92,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
      */
     protected function _getEntityTable()
     {
-        return $this->_setup->getTable('Digidirect_abstractentity_entity');
+        return $this->_setup->getTable('digidirect_abstractentity_entity');
     }
 
     /**
@@ -100,7 +100,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
      */
     protected function _getRelationTable()
     {
-        return $this->_setup->getTable('Digidirect_abstractentity_entity_relation');
+        return $this->_setup->getTable('digidirect_abstractentity_entity_relation');
     }
 
     /**
@@ -108,7 +108,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
      */
     protected function _getAdditionalAttributesTable()
     {
-        return $this->_setup->getTable('Digidirect_abstractentity_entity_additional_attributes');
+        return $this->_setup->getTable('digidirect_abstractentity_entity_additional_attributes');
     }
 
     /**
@@ -165,7 +165,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     }
 
     /**
-     * Create 'Digidirect_abstractentity_entity_relation' table
+     * Create 'digidirect_abstractentity_entity_relation' table
      * @return void
      * @throws \Zend_Db_Exception
      */
@@ -176,7 +176,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         }
 
         /**
-         * Create table 'Digidirect_abstractentity_entity_relation'
+         * Create table 'digidirect_abstractentity_entity_relation'
          */
         $table = $this->_setup->getConnection()
             ->newTable($this->_getRelationTable())
@@ -195,12 +195,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'Parent Attribute Set ID'
             )
             ->addIndex(
-                $this->_setup->getIdxName('Digidirect_abstractentity_entity_link', ['parent_attribute_set_id']),
+                $this->_setup->getIdxName('digidirect_abstractentity_entity_link', ['parent_attribute_set_id']),
                 ['parent_attribute_set_id']
             )
             ->addForeignKey(
                 $this->_setup->getFkName(
-                    'Digidirect_abstractentity_entity_link',
+                    'digidirect_abstractentity_entity_link',
                     'parent_attribute_set_id',
                     'eav_attribute_set',
                     'attribute_set_id'
@@ -212,7 +212,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             )
             ->addForeignKey(
                 $this->_setup->getFkName(
-                    'Digidirect_abstractentity_entity_link',
+                    'digidirect_abstractentity_entity_link',
                     'attribute_set_id',
                     'eav_attribute_set',
                     'attribute_set_id'
@@ -237,7 +237,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         }
 
         /**
-         * Create table 'Digidirect_abstractentity_entity_additional_attributes'
+         * Create table 'digidirect_abstractentity_entity_additional_attributes'
          */
         $table = $this->_setup->getConnection()
             ->newTable($this->_getAdditionalAttributesTable())
@@ -256,12 +256,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'Url Key'
             )
             ->addIndex(
-                $this->_setup->getIdxName('Digidirect_abstractentity_entity_link', ['attribute_set_id']),
+                $this->_setup->getIdxName('digidirect_abstractentity_entity_link', ['attribute_set_id']),
                 ['attribute_set_id']
             )
             ->addForeignKey(
                 $this->_setup->getFkName(
-                    'Digidirect_abstractentity_entity_additional_attributes',
+                    'digidirect_abstractentity_entity_additional_attributes',
                     'attribute_set_id',
                     'eav_attribute_set',
                     'attribute_set_id'
@@ -345,7 +345,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function addSourceEntityColumn()
     {
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             'source_entity_type',
             [
                 'type' => Table::TYPE_TEXT,
@@ -387,7 +387,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function _addColumnsForWysiwyg()
     {
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             'is_html_allowed_on_front',
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -399,7 +399,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             'is_wysiwyg_enabled',
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -419,7 +419,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function _addColumnForIndexingToAEAttributes()
     {
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             Attribute::KEY_USE_IN_INDEX_TABLE,
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -439,7 +439,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function _addColumnsForDisplayingInGrid()
     {
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             Attribute::KEY_IS_USED_IN_GRID,
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -451,7 +451,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         $this->_setup->getConnection()->addColumn(
-            'Digidirect_abstractentity_eav_attribute',
+            'digidirect_abstractentity_eav_attribute',
             Attribute::KEY_IS_FILTERABLE_IN_GRID,
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -471,7 +471,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function _modifyDecimalValueLength()
     {
         $this->_setup->getConnection()->modifyColumn(
-            $this->_setup->getTable('Digidirect_abstractentity_entity_decimal'),
+            $this->_setup->getTable('digidirect_abstractentity_entity_decimal'),
             'value',
             [
                 'type' => Table::TYPE_DECIMAL,

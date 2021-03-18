@@ -8,7 +8,7 @@
             <item name="provider" xsi:type="string">relation_listing.relation_listing_data_source</item>
             <item name="deps" xsi:type="string">relation_listing.relation_listing_data_source</item>
         </item>
-        <item name="spinner" xsi:type="string">Digidirect_abstractentity_columns</item>
+        <item name="spinner" xsi:type="string">digidirect_abstractentity_columns</item>
     </argument>
 
     <listingToolbar name="listing_top">
@@ -36,12 +36,12 @@
         <paging name="listing_paging"/>
     </listingToolbar>
 
-    <columns name="Digidirect_abstractentity_columns">
+    <columns name="digidirect_abstractentity_columns">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="childDefaults" xsi:type="array">
                     <item name="fieldAction" xsi:type="array">
-                        <item name="provider" xsi:type="string">relation_listing.relation_listing.Digidirect_abstractentity_columns_editor</item>
+                        <item name="provider" xsi:type="string">relation_listing.relation_listing.digidirect_abstractentity_columns_editor</item>
                         <item name="target" xsi:type="string">startEdit</item>
                         <item name="params" xsi:type="array">
                             <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>

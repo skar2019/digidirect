@@ -34,14 +34,14 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
      * Entity code.
      * Can be used as part of method name for entity processing
      */
-    const ENTITY_TYPE = 'Digidirect_abstractentity';
+    const ENTITY_TYPE = 'digidirect_abstractentity';
 
     /**
      * Prefix of model events names
      *
      * @var string
      */
-    protected $_eventPrefix = 'Digidirect_abstractentity';
+    protected $_eventPrefix = 'digidirect_abstractentity';
 
     /**
      * Parameter name in event

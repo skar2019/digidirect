@@ -17,7 +17,7 @@ use Magento\Store\Model\Store;
 
 abstract class AbstractMassAction extends AbstractEntityController
 {
-    const INDEX_ACTION = 'Digidirect_abstractentity/*/index';
+    const INDEX_ACTION = 'digidirect_abstractentity/*/index';
 
     /**
      * @var CollectionFactory

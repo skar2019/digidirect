@@ -6,7 +6,7 @@ use Digidirect\AbstractEntity\Model\AttributeSetRepository;
 
 class Reader
 {
-    const SET_ACTION = 'Digidirect_abstractentity/abstractentity/index/attribute_set_id/';
+    const SET_ACTION = 'digidirect_abstractentity/abstractentity/index/attribute_set_id/';
 
     /**
      * @var AttributeSetRepository

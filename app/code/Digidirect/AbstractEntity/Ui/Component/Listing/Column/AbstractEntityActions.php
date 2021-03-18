@@ -8,9 +8,9 @@ use Magento\Framework\UrlInterface;
 
 class AbstractEntityActions extends \Magento\Ui\Component\Listing\Columns\Column
 {
-    const URL_PATH_DETAILS = 'Digidirect_abstractentity/abstractentity/details';
-    const URL_PATH_EDIT = 'Digidirect_abstractentity/abstractentity/edit';
-    const URL_PATH_DELETE = 'Digidirect_abstractentity/abstractentity/delete';
+    const URL_PATH_DETAILS = 'digidirect_abstractentity/abstractentity/details';
+    const URL_PATH_EDIT = 'digidirect_abstractentity/abstractentity/edit';
+    const URL_PATH_DELETE = 'digidirect_abstractentity/abstractentity/delete';
 
     /**
      * @var \Magento\Framework\UrlInterface

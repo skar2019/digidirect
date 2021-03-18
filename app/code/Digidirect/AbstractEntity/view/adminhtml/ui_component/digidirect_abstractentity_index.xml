@@ -5,10 +5,10 @@
             <item name="add" xsi:type="string">Digidirect\AbstractEntity\Ui\Component\Listing\Button\AddButton</item>
         </item>
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">Digidirect_abstractentity_index.Digidirect_abstractentity_grid_data_source</item>
-            <item name="deps" xsi:type="string">Digidirect_abstractentity_index.Digidirect_abstractentity_grid_data_source</item>
+            <item name="provider" xsi:type="string">digidirect_abstractentity_index.digidirect_abstractentity_grid_data_source</item>
+            <item name="deps" xsi:type="string">digidirect_abstractentity_index.digidirect_abstractentity_grid_data_source</item>
         </item>
-        <item name="spinner" xsi:type="string">Digidirect_abstractentity_columns</item>
+        <item name="spinner" xsi:type="string">digidirect_abstractentity_columns</item>
     </argument>
 
     <listingToolbar name="listing_top">
@@ -36,7 +36,7 @@
         <massaction name="listing_massaction">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="selectProvider" xsi:type="string">Digidirect_abstractentity_index.Digidirect_abstractentity_index.Digidirect_abstractentity_columns.ids</item>
+                    <item name="selectProvider" xsi:type="string">digidirect_abstractentity_index.digidirect_abstractentity_index.digidirect_abstractentity_columns.ids</item>
                     <item name="indexField" xsi:type="string">entity_id</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
                 </item>
@@ -46,7 +46,7 @@
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">status_enable</item>
                         <item name="label" xsi:type="string" translate="true">Enable</item>
-                        <item name="action" xsi:type="string">Digidirect_abstractentity/abstractentity/massStatus</item>
+                        <item name="action" xsi:type="string">digidirect_abstractentity/abstractentity/massStatus</item>
                         <item name="params" xsi:type="array">
                             <item name="status" xsi:type="number">1</item>
                         </item>
@@ -58,7 +58,7 @@
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">status_disable</item>
                         <item name="label" xsi:type="string" translate="true">Disable</item>
-                        <item name="action" xsi:type="string">Digidirect_abstractentity/abstractentity/massStatus</item>
+                        <item name="action" xsi:type="string">digidirect_abstractentity/abstractentity/massStatus</item>
                         <item name="params" xsi:type="array">
                             <item name="status" xsi:type="number">0</item>
                         </item>
@@ -70,7 +70,7 @@
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">delete</item>
                         <item name="label" xsi:type="string" translate="true">Delete</item>
-                        <item name="action" xsi:type="string">Digidirect_abstractentity/abstractentity/massDelete</item>
+                        <item name="action" xsi:type="string">digidirect_abstractentity/abstractentity/massDelete</item>
                         <item name="params" xsi:type="array" />
                         <item name="confirm" xsi:type="array">
                             <item name="title" xsi:type="string" translate="true">Delete items</item>
@@ -83,12 +83,12 @@
         <paging name="listing_paging"/>
     </listingToolbar>
 
-    <columns name="Digidirect_abstractentity_columns" class="Digidirect\AbstractEntity\Ui\Component\Listing\Columns">
+    <columns name="digidirect_abstractentity_columns" class="Digidirect\AbstractEntity\Ui\Component\Listing\Columns">
         <argument name="data" xsi:type="array">
             <item name="config" xsi:type="array">
                 <item name="childDefaults" xsi:type="array">
                     <item name="fieldAction" xsi:type="array">
-                        <item name="provider" xsi:type="string">Digidirect_abstractentity_index.Digidirect_abstractentity_index.Digidirect_abstractentity_columns_editor</item>
+                        <item name="provider" xsi:type="string">digidirect_abstractentity_index.digidirect_abstractentity_index.digidirect_abstractentity_columns_editor</item>
                         <item name="target" xsi:type="string">startEdit</item>
                         <item name="params" xsi:type="array">
                             <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
@@ -165,10 +165,10 @@
             </argument>
         </actionsColumn>
     </columns>
-    <dataSource name="Digidirect_abstractentity_grid_data_source">
+    <dataSource name="digidirect_abstractentity_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class" xsi:type="string">Digidirect\AbstractEntity\Ui\DataProvider\AbstractEntityDataProvider</argument>
-            <argument name="name" xsi:type="string">Digidirect_abstractentity_grid_data_source</argument>
+            <argument name="name" xsi:type="string">digidirect_abstractentity_grid_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">

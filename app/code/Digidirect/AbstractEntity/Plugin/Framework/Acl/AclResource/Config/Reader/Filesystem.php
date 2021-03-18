@@ -47,11 +47,11 @@ class Filesystem
             if ($adminResource['id'] == 'Magento_Backend::admin') {
                 foreach ($adminResource['children'] as &$adminAcl) {
                     if ($adminAcl['id'] == 'Digidirect_Utilities::Digidirect') {
-                        foreach ($adminAcl['children'] as &$DigidirectAcl) {
-                            if ($DigidirectAcl['id'] == 'Digidirect_AbstractEntity::menu') {
+                        foreach ($adminAcl['children'] as &$digidirectAcl) {
+                            if ($digidirectAcl['id'] == 'Digidirect_AbstractEntity::menu') {
                                 foreach ($sets as $set) {
                                     $id = $set->getAttributeSetId();
-                                    $DigidirectAcl['children'][] = [
+                                    $digidirectAcl['children'][] = [
                                         'id' => AbstractEntityController::ADMIN_RESOURCE_PREFIX . $id,
                                         'title' => $set->getAttributeSetName(),
                                         'sortOrder' => $id * 10,

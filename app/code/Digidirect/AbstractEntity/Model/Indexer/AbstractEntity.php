@@ -11,7 +11,7 @@ use Digidirect\AbstractEntity\Helper\Config as ConfigHelper;
 
 class AbstractEntity implements IndexerActionInterface, MviewActionInterface
 {
-    const INDEXER_ID = 'Digidirect_abstractentity_index';
+    const INDEXER_ID = 'digidirect_abstractentity_index';
 
     /**
      * @var \Digidirect\AbstractEntity\Model\Indexer\AbstractEntity\Action

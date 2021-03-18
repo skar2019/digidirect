@@ -51,7 +51,7 @@ class Images extends AbstractModifier
                     $field['arguments']['data']['config']['componentType'] = 'fileUploader';
                     $field['arguments']['data']['config']['allowedExtensions'] = 'jpg jpeg gif png svg';
                     $field['arguments']['data']['config']['uploaderConfig']['url'] =
-                        'Digidirect_abstractentity/abstractentity/imageUpload';
+                        'digidirect_abstractentity/abstractentity/imageUpload';
                     $field['arguments']['data']['config']['notice'] =
                         __('Allowed file types: jpg, jpeg, gif, png.');
                 }

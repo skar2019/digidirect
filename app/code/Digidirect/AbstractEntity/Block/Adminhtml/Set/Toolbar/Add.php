@@ -7,7 +7,7 @@ use Magento\Framework\View\Element\AbstractBlock;
 
 class Add extends \Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Add
 {
-    const BACK_ACTION = 'Digidirect_abstractentity/*/';
+    const BACK_ACTION = 'digidirect_abstractentity/*/';
 
     /**
      * @var string

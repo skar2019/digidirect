@@ -7,8 +7,8 @@ class Config extends \Magento\Catalog\Model\Product\Media\Config
 {
     const VALID_TYPES = ['gif', 'jpeg', 'jpg', 'png'];
 
-    const MEDIA_URL = 'Digidirect/abstractentity/images';
-    const MEDIA_PATH = 'Digidirect/abstractentity/images';
+    const MEDIA_URL = 'digidirect/abstractentity/images';
+    const MEDIA_PATH = 'digidirect/abstractentity/images';
 
     /**
      * {@inheritdoc}
