@@ -70,6 +70,10 @@ trait AbstractRepositoryTrait
         $urlKey = $this->cleanUrlKey($item->getUrlKey());
         $this->validateUrlKey($urlKey);
         if (!$item->getId()) {
+            
+            
+            echo "<br/><br/><br/>URL KEY: ". $urlKey ."<br/><br/><br/>";
+            
             $alreadyExists = $this->getCollection()
                 ->addFieldToFilter('url_key', $urlKey)
                 ->setPageSize(1)
