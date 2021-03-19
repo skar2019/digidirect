@@ -13,10 +13,10 @@ use Magento\Framework\Serialize\Serializer\Json;
  */
 class WysiwygAllowedTypeSettings extends AbstractHelper
 {
-    const XML_PATH_ALLOWED_FILETYPES = 'Digidirect_utilities_config/wysiwyg/allowed_filetypes';
-    const XML_PATH_ALLOWED_TAGS = 'Digidirect_utilities_config/wysiwyg/allowed_tags';
-    const XML_PATH_WRAP_IN_PARENT_TAG = 'Digidirect_utilities_config/wysiwyg/wrap_in_parent_tag';
-    const XML_PATH_ALLOWED_CHILDS  = 'Digidirect_utilities_config/wysiwyg/allowed_childs';
+    const XML_PATH_ALLOWED_FILETYPES = 'digidirect_utilities_config/wysiwyg/allowed_filetypes';
+    const XML_PATH_ALLOWED_TAGS = 'digidirect_utilities_config/wysiwyg/allowed_tags';
+    const XML_PATH_WRAP_IN_PARENT_TAG = 'digidirect_utilities_config/wysiwyg/wrap_in_parent_tag';
+    const XML_PATH_ALLOWED_CHILDS  = 'digidirect_utilities_config/wysiwyg/allowed_childs';
     const ALLOWED_FILE_TYPES_KEY_EXTENSION = 'extension';
     const ALLOWED_FILE_TYPES_KEY_MIME = 'mimetype';
 

@@ -18,11 +18,11 @@
         <plugin name="Digidirect_Utilities::CatalogHelperImage" type="Digidirect\Utilities\Plugin\Catalog\Helper\Image" sortOrder="1"/>
     </type>
     <type name="Magento\ConfigurableProduct\Block\Product\View\Type\Configurable">
-        <plugin name="Digidirect_utilities_configurable_product_block_type_configurable"
+        <plugin name="digidirect_utilities_configurable_product_block_type_configurable"
                 type="Digidirect\Utilities\Plugin\ConfigurableProduct\Block\Product\View\Type\Configurable" sortOrder="1"/>
     </type>
     <type name="Magento\CatalogInventory\Model\StockStateProvider">
-        <plugin name="Digidirect_utilities_stock_state_provider_after_check_quote_item_qty"
+        <plugin name="digidirect_utilities_stock_state_provider_after_check_quote_item_qty"
                 type="Digidirect\Utilities\Plugin\Magento\CatalogInventory\Model\StockStateProvider" sortOrder="1"/>
     </type>
 
@@ -47,7 +47,7 @@
     <type name="Digidirect\Utilities\Plugin\Magento\Framework\Config\Dom\UrnResolver">
         <arguments>
             <argument name="overwrittenSchemas" xsi:type="array">
-                <item name="urn:magento:framework:Config/etc/view.xsd" xsi:type="string">urn:Digidirect:module:Digidirect_Utilities:etc/view.xsd</item>
+                <item name="urn:magento:framework:Config/etc/view.xsd" xsi:type="string">urn:digidirect:module:Digidirect_Utilities:etc/view.xsd</item>
             </argument>
         </arguments>
     </type>

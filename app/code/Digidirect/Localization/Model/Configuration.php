@@ -13,7 +13,7 @@ class Configuration
     /**
      * Phone codes mask configuration
      */
-    const XML_PATH_PHONE_CODES = 'Digidirect_localization/localization/phone_codes';
+    const XML_PATH_PHONE_CODES = 'digidirect_localization/localization/phone_codes';
 
     /**
      * Phone codes mask prefix

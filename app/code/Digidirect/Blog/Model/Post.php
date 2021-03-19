@@ -23,7 +23,7 @@ class Post extends \Magento\Framework\Model\AbstractModel implements PostInterfa
      *
      * @var string
      */
-    protected $_eventPrefix = 'Digidirect_blog_post';
+    protected $_eventPrefix = 'digidirect_blog_post';
 
     /**
      * @var ImageProcessor

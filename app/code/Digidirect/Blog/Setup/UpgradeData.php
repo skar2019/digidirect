@@ -47,7 +47,7 @@ class UpgradeData implements UpgradeDataInterface
     protected function changeSettingsPath($setup)
     {
         $connection = $setup->getConnection();
-        $select = $connection->select()->from($this->config->getMainTable())->where('path LIKE (?)', 'Digidirect_blog%');
+        $select = $connection->select()->from($this->config->getMainTable())->where('path LIKE (?)', 'digidirect_blog%');
         $result = $connection->fetchAll($select);
 
         foreach ($result as $item) {

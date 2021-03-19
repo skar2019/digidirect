@@ -1,7 +1,7 @@
 Blog
 ====================
 
-[wiki link](https://wiki.Digidirect.com/display/LEGO/Blog)
+[wiki link](https://wiki.digidirect.com/display/LEGO/Blog)
 
 ### Description
 Blog extension for Magento gives you a noteworthy opportunity to communicate with your regular customers and casual visitors.

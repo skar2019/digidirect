@@ -37,7 +37,7 @@ class Form
     protected function getExtVersionBySectionCode($sectionCode)
     {
         $element = $this->_configStructure->getElement($sectionCode);
-        if ($element->getAttribute('tab') == 'Digidirect') {
+        if ($element->getAttribute('tab') == 'digidirect') {
             $resource = $element->getAttribute('resource');
             list($moduleName) = explode('::', $resource);
             return $this->_helper->getModuleVersion($moduleName);

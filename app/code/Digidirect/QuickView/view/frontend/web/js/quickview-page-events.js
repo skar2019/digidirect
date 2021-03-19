@@ -9,7 +9,7 @@ define([
 ) {
     'use strict';
 
-    $.widget('Digidirect.quickViewPageEvents', {
+    $.widget('digidirect.quickViewPageEvents', {
         options: {
             openInNewWindow: true,
             compareLink: 'tocompare',
@@ -101,5 +101,5 @@ define([
             return isTopWindow ? window.top : this.targetWindow;
         }
     });
-    return $.Digidirect.quickViewPageEvents;
+    return $.digidirect.quickViewPageEvents;
 });

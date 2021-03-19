@@ -2,13 +2,13 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <tab id="Digidirect" translate="label" sortOrder="100">
+        <tab id="digidirect" translate="label" sortOrder="100">
             <label>Digidirect</label>
         </tab>
-        <section id="Digidirect_googleapi_config" translate="label" type="text" sortOrder="10" showInDefault="1"
+        <section id="digidirect_googleapi_config" translate="label" type="text" sortOrder="10" showInDefault="1"
                  showInWebsite="1" showInStore="1">
             <label>Google API</label>
-            <tab>Digidirect</tab>
+            <tab>digidirect</tab>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General Settings</label>
                 <field id="google_api_key" translate="label comment" type="text" sortOrder="20"  showInDefault="1" showInWebsite="1" showInStore="1">
@@ -16,7 +16,7 @@
                     <frontend_class>required-entry</frontend_class>
                 </field>
             </group>
-            <resource>Digidirect_Googleapi::Digidirect_config</resource>
+            <resource>Digidirect_Googleapi::digidirect_config</resource>
         </section>
     </system>
 </config>

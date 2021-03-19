@@ -7,8 +7,8 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <container name="Digidirect.wysiwyg.extend">
-            <block class="Digidirect\Utilities\Block\Wysiwyg" name="Digidirect.utilities.wysiwyg" template="Digidirect_Utilities::wysiwyg_extend_config.phtml" after="-" />
+        <container name="digidirect.wysiwyg.extend">
+            <block class="Digidirect\Utilities\Block\Wysiwyg" name="digidirect.utilities.wysiwyg" template="Digidirect_Utilities::wysiwyg_extend_config.phtml" after="-" />
         </container>
     </body>
 </page>

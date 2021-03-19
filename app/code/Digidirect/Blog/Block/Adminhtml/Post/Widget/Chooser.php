@@ -381,7 +381,7 @@ class Chooser extends Extended
     public function getGridUrl()
     {
         return $this->getUrl(
-            'Digidirect_blog/post_widget/chooser',
+            'digidirect_blog/post_widget/chooser',
             [
                 'posts_grid' => true,
                 '_current' => true,

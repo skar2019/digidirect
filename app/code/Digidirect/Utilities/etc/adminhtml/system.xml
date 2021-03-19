@@ -2,13 +2,13 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <tab id="Digidirect" translate="label" sortOrder="100">
+        <tab id="digidirect" translate="label" sortOrder="100">
             <label>Digidirect</label>
         </tab>
-        <section id="Digidirect_utilities_config" translate="label" type="text" sortOrder="100" showInDefault="1"
+        <section id="digidirect_utilities_config" translate="label" type="text" sortOrder="100" showInDefault="1"
                  showInWebsite="1" showInStore="1">
             <label>Utilities</label>
-            <tab>Digidirect</tab>
+            <tab>digidirect</tab>
             <group id="wysiwyg" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>WYSIWYG</label>
                 <field id="allowed_tags" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
@@ -93,7 +93,7 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
-            <resource>Digidirect_Utilities::Digidirect_config</resource>
+            <resource>Digidirect_Utilities::digidirect_config</resource>
         </section>
         <section id="design">
             <group id="loading_animation" translate="label" type="text" sortOrder="610" showInDefault="1" showInWebsite="1" showInStore="1">

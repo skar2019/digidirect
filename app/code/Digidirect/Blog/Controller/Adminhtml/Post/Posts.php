@@ -11,6 +11,6 @@ class Posts extends AbstractAjaxGird
      */
     protected function getBlockName()
     {
-        return 'admin.Digidirect_blog.related_posts.grid';
+        return 'admin.digidirect_blog.related_posts.grid';
     }
 }

@@ -12,10 +12,10 @@ use Digidirect\Utilities\Model\System\Config\Backend\DefaultOptionModel;
 
 class Data extends AbstractHelper
 {
-    const XML_PATH_TIMEZONE_MATRIX = 'Digidirect_localization/timezone/matrix';
-    const XML_PATH_HOLIDAY_MATRIX = 'Digidirect_localization/holiday/matrix';
-    const XML_PATH_PHONE_SUGGESTION = 'Digidirect_localization/localization/use_phone_prefix';
-    const XML_PATH_LENGTH_UNIT = 'Digidirect_localization/localization/length_unit';
+    const XML_PATH_TIMEZONE_MATRIX = 'digidirect_localization/timezone/matrix';
+    const XML_PATH_HOLIDAY_MATRIX = 'digidirect_localization/holiday/matrix';
+    const XML_PATH_PHONE_SUGGESTION = 'digidirect_localization/localization/use_phone_prefix';
+    const XML_PATH_LENGTH_UNIT = 'digidirect_localization/localization/length_unit';
 
     /**
      * @var DefaultOptionModel

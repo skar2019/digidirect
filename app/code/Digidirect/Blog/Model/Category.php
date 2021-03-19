@@ -17,7 +17,7 @@ class Category extends \Magento\Framework\Model\AbstractModel implements Categor
      *
      * @var string
      */
-    protected $_eventPrefix = 'Digidirect_blog_category';
+    protected $_eventPrefix = 'digidirect_blog_category';
 
     /**
      * @var UrlModel

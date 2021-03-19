@@ -86,7 +86,7 @@ abstract class AbstractMassAction extends Action
      */
     protected function getComponentRefererUrl()
     {
-        return $this->filter->getComponentRefererUrl() ?: 'Digidirect_blog/*/index';
+        return $this->filter->getComponentRefererUrl() ?: 'digidirect_blog/*/index';
     }
 
     /**

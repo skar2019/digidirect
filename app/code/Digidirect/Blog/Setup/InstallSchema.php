@@ -44,7 +44,7 @@ class InstallSchema implements InstallSchemaInterface
     protected function createBlogCategory(SchemaSetupInterface $installer)
     {
         $tableCat = $installer->getConnection()->newTable(
-            $installer->getTable('Digidirect_blog_category')
+            $installer->getTable('digidirect_blog_category')
         )->addColumn(
             'entity_id',
             Table::TYPE_INTEGER,
@@ -106,7 +106,7 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($tableCat);
 
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('Digidirect_blog_category_stores')
+            $installer->getTable('digidirect_blog_category_stores')
         )->addColumn(
             'category_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -123,18 +123,18 @@ class InstallSchema implements InstallSchemaInterface
             'Stores for posts'
         )->addIndex(
             $installer->getIdxName(
-                'Digidirect_blog_category_stores',
+                'digidirect_blog_category_stores',
                 ['store_id']
             ),
             ['store_id']
         )->addForeignKey(
-            $installer->getFkName('Digidirect_blog_category_stores', 'category_id', 'Digidirect_blog_category', 'entity_id'),
+            $installer->getFkName('digidirect_blog_category_stores', 'category_id', 'digidirect_blog_category', 'entity_id'),
             'category_id',
-            'Digidirect_blog_category',
+            'digidirect_blog_category',
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         )->addForeignKey(
-            $installer->getFkName('Digidirect_blog_category_stores', 'store_id', 'store', 'store_id'),
+            $installer->getFkName('digidirect_blog_category_stores', 'store_id', 'store', 'store_id'),
             'store_id',
             'store',
             'store_id',
@@ -154,7 +154,7 @@ class InstallSchema implements InstallSchemaInterface
     protected function createBlogPost(SchemaSetupInterface $installer)
     {
         $table = $installer->getConnection()->newTable(
-            $installer->getTable(PostInterface::Digidirect_BLOG_POST_TABLE)
+            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE)
         )->addColumn(
             'entity_id',
             Table::TYPE_INTEGER,
@@ -262,7 +262,7 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('Digidirect_blog_post_categories')
+            $installer->getTable('digidirect_blog_post_categories')
         )->addColumn(
             'post_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -279,25 +279,25 @@ class InstallSchema implements InstallSchemaInterface
             'Posts for stores'
         )->addIndex(
             $installer->getIdxName(
-                'Digidirect_blog_post_categories',
+                'digidirect_blog_post_categories',
                 ['category_id']
             ),
             ['category_id']
         )->addForeignKey(
             $installer->getFkName(
-                'Digidirect_blog_post_categories',
+                'digidirect_blog_post_categories',
                 'post_id',
-                PostInterface::Digidirect_BLOG_POST_TABLE,
+                PostInterface::EWAVE_BLOG_POST_TABLE,
                 'entity_id'
             ),
             'post_id',
-            PostInterface::Digidirect_BLOG_POST_TABLE,
+            PostInterface::EWAVE_BLOG_POST_TABLE,
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         )->addForeignKey(
-            $installer->getFkName('Digidirect_blog_post_categories', 'category_id', 'Digidirect_blog_category', 'entity_id'),
+            $installer->getFkName('digidirect_blog_post_categories', 'category_id', 'digidirect_blog_category', 'entity_id'),
             'category_id',
-            'Digidirect_blog_category',
+            'digidirect_blog_category',
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         );
@@ -314,7 +314,7 @@ class InstallSchema implements InstallSchemaInterface
     protected function createBlogComment(SchemaSetupInterface $installer)
     {
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('Digidirect_blog_comment')
+            $installer->getTable('digidirect_blog_comment')
         )->addColumn(
             'entity_id',
             Table::TYPE_INTEGER,
@@ -358,18 +358,18 @@ class InstallSchema implements InstallSchemaInterface
             [],
             'Comment Status'
         )->addIndex(
-            $installer->getIdxName('Digidirect_blog_comment', ['post_id']),
+            $installer->getIdxName('digidirect_blog_comment', ['post_id']),
             ['post_id']
         )->addForeignKey(
             $installer
                 ->getFkName(
-                    'Digidirect_blog_comment',
+                    'digidirect_blog_comment',
                     'post_id',
-                    PostInterface::Digidirect_BLOG_POST_TABLE,
+                    PostInterface::EWAVE_BLOG_POST_TABLE,
                     'entity_id'
                 ),
             'post_id',
-            $installer->getTable(PostInterface::Digidirect_BLOG_POST_TABLE),
+            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
             'entity_id',
             Table::ACTION_CASCADE
         )->setComment(
@@ -388,7 +388,7 @@ class InstallSchema implements InstallSchemaInterface
     protected function createRelatedProduct(SchemaSetupInterface $installer)
     {
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('Digidirect_blog_post_related_products')
+            $installer->getTable('digidirect_blog_post_related_products')
         )->addColumn(
             'post_id',
             Table::TYPE_INTEGER,
@@ -410,25 +410,25 @@ class InstallSchema implements InstallSchemaInterface
         )->addIndex(
             $installer
                 ->getIdxName(
-                    'Digidirect_blog_post_related_products',
+                    'digidirect_blog_post_related_products',
                     ['product_id']
                 ),
             ['product_id']
         )->addForeignKey(
             $installer
                 ->getFkName(
-                    'Digidirect_blog_post_related_products',
+                    'digidirect_blog_post_related_products',
                     'post_id',
-                    PostInterface::Digidirect_BLOG_POST_TABLE,
+                    PostInterface::EWAVE_BLOG_POST_TABLE,
                     'entity_id'
                 ),
             'post_id',
-            $installer->getTable(PostInterface::Digidirect_BLOG_POST_TABLE),
+            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
             'entity_id',
             Table::ACTION_CASCADE
         )->addForeignKey(
             $installer->getFkName(
-                'Digidirect_blog_post_related_products',
+                'digidirect_blog_post_related_products',
                 'product_id',
                 'catalog_product_entity',
                 'entity_id'
@@ -452,7 +452,7 @@ class InstallSchema implements InstallSchemaInterface
     protected function createRelatedPost(SchemaSetupInterface $installer)
     {
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('Digidirect_blog_post_related_post')
+            $installer->getTable('digidirect_blog_post_related_post')
         )->addColumn(
             'post_id',
             Table::TYPE_INTEGER,
@@ -474,30 +474,30 @@ class InstallSchema implements InstallSchemaInterface
         )->addIndex(
             $installer
                 ->getIdxName(
-                    'Digidirect_blog_post_related_post',
+                    'digidirect_blog_post_related_post',
                     ['related_id']
                 ),
             ['related_id']
         )->addForeignKey(
             $installer->getFkName(
-                'Digidirect_blog_post_related_post',
+                'digidirect_blog_post_related_post',
                 'post_id',
-                PostInterface::Digidirect_BLOG_POST_TABLE,
+                PostInterface::EWAVE_BLOG_POST_TABLE,
                 'entity_id'
             ),
             'post_id',
-            $installer->getTable(PostInterface::Digidirect_BLOG_POST_TABLE),
+            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
             'entity_id',
             Table::ACTION_CASCADE
         )->addForeignKey(
             $installer->getFkName(
-                'Digidirect_blog_post_related_post2',
+                'digidirect_blog_post_related_post2',
                 'related_id',
-                PostInterface::Digidirect_BLOG_POST_TABLE,
+                PostInterface::EWAVE_BLOG_POST_TABLE,
                 'entity_id'
             ),
             'related_id',
-            $installer->getTable(PostInterface::Digidirect_BLOG_POST_TABLE),
+            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
             'entity_id',
             Table::ACTION_CASCADE
         )->setComment(
@@ -515,7 +515,7 @@ class InstallSchema implements InstallSchemaInterface
     protected function createTag(SchemaSetupInterface $installer)
     {
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('Digidirect_blog_tags')
+            $installer->getTable('digidirect_blog_tags')
         )->addColumn(
             'entity_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -544,7 +544,7 @@ class InstallSchema implements InstallSchemaInterface
         $installer->getConnection()->createTable($table);
 
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('Digidirect_blog_post_tags')
+            $installer->getTable('digidirect_blog_post_tags')
         )->addColumn(
             'post_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -561,20 +561,20 @@ class InstallSchema implements InstallSchemaInterface
             'Tags for Posts'
         )->addIndex(
             $installer->getIdxName(
-                'Digidirect_blog_post_tags',
+                'digidirect_blog_post_tags',
                 ['tag_id']
             ),
             ['tag_id']
         )->addForeignKey(
-            $installer->getFkName('Digidirect_blog_post_tags', 'post_id', PostInterface::Digidirect_BLOG_POST_TABLE, 'entity_id'),
+            $installer->getFkName('digidirect_blog_post_tags', 'post_id', PostInterface::EWAVE_BLOG_POST_TABLE, 'entity_id'),
             'post_id',
-            PostInterface::Digidirect_BLOG_POST_TABLE,
+            PostInterface::EWAVE_BLOG_POST_TABLE,
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         )->addForeignKey(
-            $installer->getFkName('Digidirect_blog_post_tags', 'tag_id', 'Digidirect_blog_tags', 'entity_id'),
+            $installer->getFkName('digidirect_blog_post_tags', 'tag_id', 'digidirect_blog_tags', 'entity_id'),
             'tag_id',
-            'Digidirect_blog_tags',
+            'digidirect_blog_tags',
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         );

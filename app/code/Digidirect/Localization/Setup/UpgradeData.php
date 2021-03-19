@@ -50,7 +50,8 @@ class UpgradeData implements UpgradeDataInterface
     protected function getProcesses()
     {
         return [
-            '1.0.1' => 'checkAndRemoveDoubledStates'
+            '1.0.1' => 'checkAndRemoveDoubledStates',
+            '1.0.2' => 'addPuertoRicoCountry',
         ];
     }
 
@@ -96,9 +97,9 @@ class UpgradeData implements UpgradeDataInterface
             'iso3_code' => 'PRI'
         ];
 
-//        $this->setup->getConnection()->insert(
-//            $this->setup->getTable('directory_country'),
-//            $data
-//        );
+        $this->setup->getConnection()->insert(
+            $this->setup->getTable('directory_country'),
+            $data
+        );
     }
 }

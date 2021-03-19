@@ -7,7 +7,7 @@ define([
 ], function ($) {
     'use strict';
 
-    $.widget('Digidirect.localizationPhone', {
+    $.widget('digidirect.localizationPhone', {
         options: {
             config: {},
             input: '[data-role="localization-input"]',
@@ -149,5 +149,5 @@ define([
         }
     });
 
-    return $.Digidirect.localizationPhone;
+    return $.digidirect.localizationPhone;
 });

@@ -53,7 +53,7 @@ class ActionParamsModifier implements ModifierInterface
             'entity_id' => $this->getCurrentCategory()->getId(),
             CurrentStoreFetcher::PARAM_STORE => $this->currentStoreFetcher->getCurrentStoreId(),
         ];
-        $submitUrl = $this->urlBuilder->getUrl('Digidirect_blog/category/save', $actionParameters);
+        $submitUrl = $this->urlBuilder->getUrl('digidirect_blog/category/save', $actionParameters);
 
         $data = array_replace_recursive(
             $data,

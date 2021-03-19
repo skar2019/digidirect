@@ -6,7 +6,7 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="Digidirect_QuickView::config_Digidirect_quickview" title="Quick View" translate="title" />
+                            <resource id="Digidirect_QuickView::config_digidirect_quickview" title="Quick View" translate="title" />
                         </resource>
                     </resource>
                 </resource>

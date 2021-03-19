@@ -1,10 +1,10 @@
 {
-  "name": "Digidirect/localization",
+  "name": "digidirect/localization",
   "description": "Digidirect Localizations",
   "type": "magento2-module",
   "version": "1.6.0.0",
   "suggest": {
-    "Digidirect/utilities": "Digidirect Localization may use Digidirect/utilities methods"
+    "digidirect/utilities": "Digidirect Localization may use digidirect/utilities methods"
   },
   "autoload": {
     "files": [ "registration.php" ],

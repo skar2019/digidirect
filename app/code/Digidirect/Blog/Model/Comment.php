@@ -17,7 +17,7 @@ use Magento\Store\Model\Store;
  */
 class Comment extends \Magento\Framework\Model\AbstractModel implements CommentInterface, IdentityInterface
 {
-    const ADMIN_EMAIL_TEMPLATE = 'Digidirect_blog_comments_email_template';
+    const ADMIN_EMAIL_TEMPLATE = 'digidirect_blog_comments_email_template';
     const CACHE_PREFIX = 'blog_comment';
 
     /**
@@ -25,7 +25,7 @@ class Comment extends \Magento\Framework\Model\AbstractModel implements CommentI
      *
      * @var string
      */
-    protected $_eventPrefix = 'Digidirect_blog_comment';
+    protected $_eventPrefix = 'digidirect_blog_comment';
 
     /**
      * @var Data

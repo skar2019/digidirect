@@ -11,7 +11,7 @@ class Comment extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('Digidirect_blog_comment', 'entity_id');
+        $this->_init('digidirect_blog_comment', 'entity_id');
     }
 
     /**

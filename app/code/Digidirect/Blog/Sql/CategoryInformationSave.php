@@ -105,7 +105,7 @@ class CategoryInformationSave extends AbstractDb implements InformationSaveInter
      */
     protected function _construct()
     {
-        $this->_setMainTable(Category::Digidirect_BLOG_CATEGORY_INFORMATION_TABLE);
+        $this->_setMainTable(Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE);
     }
 
     /**
@@ -161,7 +161,7 @@ class CategoryInformationSave extends AbstractDb implements InformationSaveInter
      */
     public function getStoreViewSpecificTable(): string
     {
-        return Category::Digidirect_BLOG_CATEGORY_INFORMATION_TABLE;
+        return Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE;
     }
 
     /**

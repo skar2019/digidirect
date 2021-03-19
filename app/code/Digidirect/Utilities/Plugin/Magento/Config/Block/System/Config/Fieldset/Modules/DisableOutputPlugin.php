@@ -61,7 +61,7 @@ class DisableOutputPlugin
     protected function _getModuleVersion($moduleName)
     {
         $moduleVersion = '';
-        if (strpos($moduleName, Helper::Digidirect_EXTENSION_PREFIX) !== false) {
+        if (strpos($moduleName, Helper::EWAVE_EXTENSION_PREFIX) !== false) {
             $version = $this->_helper->getModuleVersion($moduleName);
             if ($version) {
                 $moduleVersion = ' (v' . $version . ')';

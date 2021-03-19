@@ -54,24 +54,24 @@
     </type>
     <type name="Digidirect\Blog\Model\ResourceModel\Post\Grid\Collection">
         <arguments>
-            <argument name="mainTable" xsi:type="string">Digidirect_blog_post</argument>
-            <argument name="eventPrefix" xsi:type="string">Digidirect_blog_post_grid_collection</argument>
+            <argument name="mainTable" xsi:type="string">digidirect_blog_post</argument>
+            <argument name="eventPrefix" xsi:type="string">digidirect_blog_post_grid_collection</argument>
             <argument name="eventObject" xsi:type="string">blog_post_grid_collection</argument>
             <argument name="resourceModel" xsi:type="string">Digidirect\Blog\Model\ResourceModel\Post</argument>
         </arguments>
     </type>
     <type name="Digidirect\Blog\Model\ResourceModel\Category\Grid\Collection">
         <arguments>
-            <argument name="mainTable" xsi:type="string">Digidirect_blog_category</argument>
-            <argument name="eventPrefix" xsi:type="string">Digidirect_blog_category_grid_collection</argument>
+            <argument name="mainTable" xsi:type="string">digidirect_blog_category</argument>
+            <argument name="eventPrefix" xsi:type="string">digidirect_blog_category_grid_collection</argument>
             <argument name="eventObject" xsi:type="string">blog_category_grid_collection</argument>
             <argument name="resourceModel" xsi:type="string">Digidirect\Blog\Model\ResourceModel\Category</argument>
         </arguments>
     </type>
     <type name="Digidirect\Blog\Model\ResourceModel\Comment\Grid\Collection">
         <arguments>
-            <argument name="mainTable" xsi:type="string">Digidirect_blog_comment</argument>
-            <argument name="eventPrefix" xsi:type="string">Digidirect_blog_comment_grid_collection</argument>
+            <argument name="mainTable" xsi:type="string">digidirect_blog_comment</argument>
+            <argument name="eventPrefix" xsi:type="string">digidirect_blog_comment_grid_collection</argument>
             <argument name="eventObject" xsi:type="string">blog_comment_grid_collection</argument>
             <argument name="resourceModel" xsi:type="string">Digidirect\Blog\Model\ResourceModel\Comment</argument>
         </arguments>
@@ -80,7 +80,7 @@
         <arguments>
             <argument name="metadata" xsi:type="array">
                 <item name="Digidirect\Blog\Api\Data\PostInterface" xsi:type="array">
-                    <item name="entityTableName" xsi:type="string">Digidirect_blog_post</item>
+                    <item name="entityTableName" xsi:type="string">digidirect_blog_post</item>
                     <item name="identifierField" xsi:type="string">entity_id</item>
                 </item>
             </argument>
@@ -93,8 +93,8 @@
     </type>
     <virtualType name="Digidirect\Blog\PostImageUpload" type="Digidirect\Blog\Model\ImageUploader">
         <arguments>
-            <argument name="baseTmpPath" xsi:type="string">Digidirect_blog/tmp/post</argument>
-            <argument name="basePath" xsi:type="string">Digidirect_blog/post</argument>
+            <argument name="baseTmpPath" xsi:type="string">digidirect_blog/tmp/post</argument>
+            <argument name="basePath" xsi:type="string">digidirect_blog/post</argument>
             <argument name="allowedExtensions" xsi:type="array">
                 <item name="jpg" xsi:type="string">jpg</item>
                 <item name="jpeg" xsi:type="string">jpeg</item>

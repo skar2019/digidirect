@@ -9,8 +9,8 @@ The module installs Australian states.
 1. Remove extra states in upgrade data
 
 ### VERSION 1.2.0
-1. https://Digidirect.tpondemand.com/entity/240434
-2. https://Digidirect.tpondemand.com/entity/241284
+1. https://digidirect.tpondemand.com/entity/240434
+2. https://digidirect.tpondemand.com/entity/241284
 
 ### VERSION 1.2.1
 1. Phone field sort order can be configured in layout

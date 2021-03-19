@@ -7,14 +7,14 @@ use Magento\Store\Model\ScopeInterface;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const GENERAL_SETTINGS = 'Digidirect_blog/general/';
-    const BLOG_SETTINGS    = 'Digidirect_blog/';
-    const COMMENT_SETTINGS = 'Digidirect_blog/comments/';
+    const GENERAL_SETTINGS = 'digidirect_blog/general/';
+    const BLOG_SETTINGS    = 'digidirect_blog/';
+    const COMMENT_SETTINGS = 'digidirect_blog/comments/';
     const ENABLE_DISPLAY_ALTERNATES_LOCALES_CATEGORY =
-        'Digidirect_blog/opengraph_settings/enable_display_alternative_locales_category_page';
+        'digidirect_blog/opengraph_settings/enable_display_alternative_locales_category_page';
 
     const ENABLE_DISPLAY_ALTERNATES_LOCALES_POST =
-        'Digidirect_blog/opengraph_settings/enable_display_alternative_locales_post_page';
+        'digidirect_blog/opengraph_settings/enable_display_alternative_locales_post_page';
 
     /**
      * @return bool

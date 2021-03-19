@@ -75,7 +75,7 @@
                     <item name="config" xsi:type="array">
                         <item name="type" xsi:type="string">delete</item>
                         <item name="label" xsi:type="string" translate="true">Delete</item>
-                        <item name="url" xsi:type="url" path="Digidirect_blog/comment/massDelete"/>
+                        <item name="url" xsi:type="url" path="digidirect_blog/comment/massDelete"/>
                         <item name="confirm" xsi:type="array">
                             <item name="title" xsi:type="string" translate="true">Delete items</item>
                             <item name="message" xsi:type="string" translate="true">Are you sure?</item>
@@ -94,14 +94,14 @@
                     <item name="0" xsi:type="array">
                         <item name="type" xsi:type="string">0</item>
                         <item name="label" xsi:type="string" translate="true">Approve</item>
-                        <item name="url" xsi:type="url" path="Digidirect_blog/comment/massStatus">
+                        <item name="url" xsi:type="url" path="digidirect_blog/comment/massStatus">
                             <param name="status">1</param>
                         </item>
                     </item>
                     <item name="1" xsi:type="array">
                         <item name="type" xsi:type="string">1</item>
                         <item name="label" xsi:type="string" translate="true">Disapprove</item>
-                        <item name="url" xsi:type="url" path="Digidirect_blog/comment/massStatus">
+                        <item name="url" xsi:type="url" path="digidirect_blog/comment/massStatus">
                             <param name="status">0</param>
                         </item>
                     </item>

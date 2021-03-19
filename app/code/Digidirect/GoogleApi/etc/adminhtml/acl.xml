@@ -7,7 +7,7 @@
                 <resource id="Magento_Adminhtml::stores">
                     <resource id="Magento_Adminhtml::stores_settings">
                         <resource id="Magento_Adminhtml::config">
-                            <resource id="Digidirect_Googleapi::Digidirect_config" title="Digidirect Google Api"/>
+                            <resource id="Digidirect_Googleapi::digidirect_config" title="Digidirect Google Api"/>
                         </resource>
                     </resource>
                 </resource>

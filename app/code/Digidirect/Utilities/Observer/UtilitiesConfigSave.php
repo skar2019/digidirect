@@ -116,7 +116,7 @@ class UtilitiesConfigSave implements ObserverInterface
     protected function isActive($scopeCode)
     {
         return (bool)$this->scopeConfig->getValue(
-            'Digidirect_utilities_config/sales_prefix/active',
+            'digidirect_utilities_config/sales_prefix/active',
             ScopeInterface::SCOPE_STORE,
             $scopeCode
         );
@@ -131,7 +131,7 @@ class UtilitiesConfigSave implements ObserverInterface
     protected function useStoreIdAsPrefix($scopeCode)
     {
         return (bool)$this->scopeConfig->getValue(
-            'Digidirect_utilities_config/sales_prefix/use_store_id_as_prefix',
+            'digidirect_utilities_config/sales_prefix/use_store_id_as_prefix',
             ScopeInterface::SCOPE_STORE,
             $scopeCode
         );
@@ -147,7 +147,7 @@ class UtilitiesConfigSave implements ObserverInterface
     protected function getPrefix($entityType, $scopeCode)
     {
         return $this->scopeConfig->getValue(
-            "Digidirect_utilities_config/sales_prefix/{$entityType}",
+            "digidirect_utilities_config/sales_prefix/{$entityType}",
             ScopeInterface::SCOPE_STORE,
             $scopeCode
         );

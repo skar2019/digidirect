@@ -123,7 +123,7 @@ class Index extends Action
             ]
         );
         $breadcrumbs->addCrumb(
-            'Digidirect_blog',
+            'digidirect_blog',
             [
                 'label' => __('Latest Blog Posts'),
                 'title' => __('Latest Blog Posts'),

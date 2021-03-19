@@ -1,5 +1,5 @@
 /* global Headers */
-import {callFetch} from 'DigidirectUtils';
+import {callFetch} from 'digidirectUtils';
 
 export default class Model {
     constructor () {

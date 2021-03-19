@@ -39,7 +39,7 @@ class PostInformationJoin implements InformationJoinInterface, CurrentStoreConte
     public function join(
         Select $select,
         int $storeId,
-        $mainTableAlias = PostInterface::Digidirect_BLOG_POST_TABLE,
+        $mainTableAlias = PostInterface::EWAVE_BLOG_POST_TABLE,
         $id = null,
         $fields = []
     ) {
@@ -47,7 +47,7 @@ class PostInformationJoin implements InformationJoinInterface, CurrentStoreConte
             $select,
             $storeId,
             $mainTableAlias,
-            PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE,
+            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
             '',
             $id
         );
@@ -66,8 +66,8 @@ class PostInformationJoin implements InformationJoinInterface, CurrentStoreConte
     protected function doJoin(
         Select $select,
         $storeId,
-        $mainTableAlias = PostInterface::Digidirect_BLOG_POST_TABLE,
-        $joinTableAlias = PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE,
+        $mainTableAlias = PostInterface::EWAVE_BLOG_POST_TABLE,
+        $joinTableAlias = PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
         $columnPrefix = '',
         $id = null
     ) {
@@ -84,9 +84,9 @@ class PostInformationJoin implements InformationJoinInterface, CurrentStoreConte
         }
 
         $select->joinLeft(
-            [$joinTableAlias => PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE],
+            [$joinTableAlias => PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE],
             $mainTableAlias . '.entity_id = ' . $joinTableAlias . '.'
-            . PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE_ID .
+            . PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID .
             ' AND ' . $joinTableAlias . '.' . PostContentInterface::STORE_ID . ' = ' . $storeId,
             $selectFields
         );
@@ -104,14 +104,14 @@ class PostInformationJoin implements InformationJoinInterface, CurrentStoreConte
     public function joinDefault(
         Select $select,
         $storeId = Store::DEFAULT_STORE_ID,
-        $mainTableAlias = PostInterface::Digidirect_BLOG_POST_TABLE,
+        $mainTableAlias = PostInterface::EWAVE_BLOG_POST_TABLE,
         $id = null
     ) {
         $this->doJoin(
             $select,
             $storeId,
             $mainTableAlias,
-            static::DEFAULT_STORE_COLUMN_PREFIX . PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE,
+            static::DEFAULT_STORE_COLUMN_PREFIX . PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
             static::DEFAULT_STORE_COLUMN_PREFIX,
             $id
         );

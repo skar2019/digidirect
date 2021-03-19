@@ -4,6 +4,6 @@
         <?php $googleMapsLibraries = '&libraries=' . $libraries ?>
     <?php endif ?>
     <script>
-        window.DigidirectGoogleMapsUrl = '<?php /* @escapeNotVerified */ echo $block->getMapsUrl() . '?key=' . $googleApiKey . $googleMapsLibraries ?>';
+        window.digidirectGoogleMapsUrl = '<?php /* @escapeNotVerified */ echo $block->getMapsUrl() . '?key=' . $googleApiKey . $googleMapsLibraries ?>';
     </script>
 <?php endif ?>

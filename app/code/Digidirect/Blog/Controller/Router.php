@@ -129,7 +129,7 @@ class Router implements RouterInterface
                 ['url_key' => $urlKey, 'continue' => true]
             );
             $this->eventManager->dispatch(
-                'Digidirect_blog_controller_router_match_before',
+                'digidirect_blog_controller_router_match_before',
                 ['router' => $this, 'condition' => $condition]
             );
             $urlKey = $condition->getUrlKey();

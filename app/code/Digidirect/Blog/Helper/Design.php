@@ -9,8 +9,8 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Design extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const PATH_XML_DESIGN_THEME = 'Digidirect_blog/design/theme';
-    const PATH_XML_DESIGN_UPDATE_XML_DATA = 'Digidirect_blog/design/update_xml';
+    const PATH_XML_DESIGN_THEME = 'digidirect_blog/design/theme';
+    const PATH_XML_DESIGN_UPDATE_XML_DATA = 'digidirect_blog/design/update_xml';
 
     /**
      * @return mixed

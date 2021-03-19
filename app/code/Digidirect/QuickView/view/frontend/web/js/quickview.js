@@ -4,7 +4,7 @@ define([
     'jquery/ui'
 ], function ($, Component) {
     'use strict';
-    $.widget('Digidirect.quickView', {
+    $.widget('digidirect.quickView', {
         options: {
             button: '[data-role=quickview-button]',
             contentContainer: '[data-role=quickview-content]',
@@ -22,5 +22,5 @@ define([
             new Component(this.options);     
         }
     });
-    return $.Digidirect.quickView;
+    return $.digidirect.quickView;
 });

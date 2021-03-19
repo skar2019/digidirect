@@ -1,6 +1,6 @@
 import Model from './../models/index';
 import {Store, Events} from './store';
-import {loadView} from 'DigidirectUtils';
+import {loadView} from 'digidirectUtils';
 
 export default class Component {
     constructor (options) {

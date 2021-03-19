@@ -28,7 +28,7 @@ class TagSave extends AbstractDb implements CurrentStoreContentCheckerInterface
      */
     protected function _construct()
     {
-        $this->_setMainTable('Digidirect_blog_post_tags');
+        $this->_setMainTable('digidirect_blog_post_tags');
     }
 
     /**

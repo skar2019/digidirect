@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <Digidirect_quickview>
+        <digidirect_quickview>
             <general>
                 <quickview_enabled>0</quickview_enabled>
             </general>
-        </Digidirect_quickview>
+        </digidirect_quickview>
     </default>
 </config>

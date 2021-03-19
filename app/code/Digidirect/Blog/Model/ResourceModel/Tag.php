@@ -12,7 +12,7 @@ use Magento\Store\Model\StoreManagerInterface;
  */
 class Tag extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
-    const TAG_POST_RELATION_TABLE = 'Digidirect_blog_post_tags';
+    const TAG_POST_RELATION_TABLE = 'digidirect_blog_post_tags';
 
     /**
      * Tag constructor.
@@ -31,7 +31,7 @@ class Tag extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('Digidirect_blog_tags', 'entity_id');
+        $this->_init('digidirect_blog_tags', 'entity_id');
     }
 
     /**

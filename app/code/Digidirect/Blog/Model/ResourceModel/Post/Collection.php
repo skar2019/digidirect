@@ -134,7 +134,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     protected function prepareDdl()
     {
         $array = [
-            PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE,
+            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
         ];
 
         foreach ($array as $table) {
@@ -159,8 +159,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             $select = $connection->select()
                 ->from(['rel' => $this->getTable($tableName)])
                 ->joinLeft(
-                    [Category::Digidirect_BLOG_CATEGORY_TABLE => $this->getTable(Category::Digidirect_BLOG_CATEGORY_TABLE)],
-                    Category::Digidirect_BLOG_CATEGORY_TABLE . '.entity_id = rel.category_id'
+                    [Category::EWAVE_BLOG_CATEGORY_TABLE => $this->getTable(Category::EWAVE_BLOG_CATEGORY_TABLE)],
+                    Category::EWAVE_BLOG_CATEGORY_TABLE . '.entity_id = rel.category_id'
                 )
                 ->where('rel.' . $linkField . ' IN (?)', $linkedIds);
             $this->categoryJoin->join(
@@ -239,7 +239,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $select = $connection->select()
             ->from(['tag_relation' => $this->getTable($tableName)], ['tag_relation.post_id'])
             ->joinLeft(
-                ['tag' => $this->getTable('Digidirect_blog_tags')],
+                ['tag' => $this->getTable('digidirect_blog_tags')],
                 'tag_relation.tag_id = tag.entity_id',
                 ['tag_name' => 'name']
             )
@@ -258,8 +258,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $this->getSelect()
             ->joinInner(['category' => Post::CATEGORY_RELATION_TABLE], 'main_table.entity_id = category.post_id', [])
             ->joinInner(
-                [Category::Digidirect_BLOG_CATEGORY_TABLE => $this->getTable(Category::Digidirect_BLOG_CATEGORY_TABLE)],
-                'category.category_id = ' . Category::Digidirect_BLOG_CATEGORY_TABLE . '.entity_id',
+                [Category::EWAVE_BLOG_CATEGORY_TABLE => $this->getTable(Category::EWAVE_BLOG_CATEGORY_TABLE)],
+                'category.category_id = ' . Category::EWAVE_BLOG_CATEGORY_TABLE . '.entity_id',
                 []
             )
             ->joinInner(['store' => Category::STORE_RELATION_TABLE], 'store.category_id = category.category_id', [])
@@ -268,19 +268,19 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
         $this->categoryJoin->join(
             $this->getSelect(),
             $this->currentStoreFetcher->getCurrentStoreId(),
-            Category::Digidirect_BLOG_CATEGORY_TABLE,
+            Category::EWAVE_BLOG_CATEGORY_TABLE,
             null,
             [CategoryContentInterface::CATEGORY_ID]
         );
         $this->categoryJoin->joinDefault(
             $this->getSelect(),
             Store::DEFAULT_STORE_ID,
-            Category::Digidirect_BLOG_CATEGORY_TABLE,
+            Category::EWAVE_BLOG_CATEGORY_TABLE,
             null,
             [CategoryContentInterface::CATEGORY_ID]
         );
 
-        $statusExpr = Category::Digidirect_BLOG_CATEGORY_INFORMATION_TABLE . '.status =' . $categoryStatus;
+        $statusExpr = Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE . '.status =' . $categoryStatus;
         $expr = $this->getConnection()->getIfNullSql(
             $statusExpr,
             CategoryInformationJoin::DEFAULT_STORE_COLUMN_PREFIX . $statusExpr
@@ -301,7 +301,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     {
         if (!$this->currentStoreFetcher->getIsDefault()) {
             $statusExp = sprintf(
-                PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE . '.status = "%s"',
+                PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.status = "%s"',
                 $status
             );
             $expr = $this->getConnection()->getIfNullSql(
@@ -312,7 +312,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
             return $this;
         }
         $this->addFieldToFilter(
-            PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE . '.' . PostInterface::FIELD_STATUS,
+            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.' . PostInterface::FIELD_STATUS,
             $status
         );
         return $this;

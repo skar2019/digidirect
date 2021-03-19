@@ -1,4 +1,4 @@
-define(['module', 'exports', 'DigidirectUtils'], function (module, exports, _DigidirectUtils) {
+define(['module', 'exports', 'digidirectUtils'], function (module, exports, _digidirectUtils) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -42,7 +42,7 @@ define(['module', 'exports', 'DigidirectUtils'], function (module, exports, _Dig
                 if (typeof url !== 'string') {
                     return false;
                 }
-                return (0, _DigidirectUtils.callFetch)(url, this.setOptions(), undefined, this.getFetchResponseHtml);
+                return (0, _digidirectUtils.callFetch)(url, this.setOptions(), undefined, this.getFetchResponseHtml);
             }
         }, {
             key: 'getFetchResponseHtml',

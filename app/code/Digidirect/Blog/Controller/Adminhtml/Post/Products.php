@@ -11,6 +11,6 @@ class Products extends AbstractAjaxGird
      */
     protected function getBlockName()
     {
-        return 'admin.Digidirect_blog.related_products.grid';
+        return 'admin.digidirect_blog.related_products.grid';
     }
 }

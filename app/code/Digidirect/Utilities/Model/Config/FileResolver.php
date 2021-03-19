@@ -7,7 +7,7 @@ namespace Digidirect\Utilities\Model\Config;
  */
 class FileResolver extends \Magento\Framework\App\Config\FileResolver
 {
-    const Digidirect_CUSTOM_DIRECTORY = 'Digidirect_xml';
+    const EWAVE_CUSTOM_DIRECTORY = 'digidirect_xml';
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\ReadFactory
@@ -51,7 +51,7 @@ class FileResolver extends \Magento\Framework\App\Config\FileResolver
          * @var $directory \Magento\Framework\Filesystem\Directory\Read
          */
         $root = $this->directoryList->getRoot();
-        $absolutePath = $root . '/' . self::Digidirect_CUSTOM_DIRECTORY;
+        $absolutePath = $root . '/' . self::EWAVE_CUSTOM_DIRECTORY;
         $directory = $this->readFactory->create($absolutePath);
         $absolutePaths = [];
         foreach ($directory->search('{' . $fileName . ',*/' . $fileName . '}') as $path) {

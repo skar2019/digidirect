@@ -201,7 +201,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('Digidirect_blog/post/posts', ['_current' => true]);
+        return $this->getUrl('digidirect_blog/post/posts', ['_current' => true]);
     }
 
     /**

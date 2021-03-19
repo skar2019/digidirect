@@ -20,9 +20,9 @@ use Magento\Store\Model\Store;
  */
 class Category extends AbstractDb
 {
-    const STORE_RELATION_TABLE = 'Digidirect_blog_category_stores';
-    const Digidirect_BLOG_CATEGORY_TABLE = 'Digidirect_blog_category';
-    const Digidirect_BLOG_CATEGORY_INFORMATION_TABLE = 'Digidirect_blog_category_information';
+    const STORE_RELATION_TABLE = 'digidirect_blog_category_stores';
+    const EWAVE_BLOG_CATEGORY_TABLE = 'digidirect_blog_category';
+    const EWAVE_BLOG_CATEGORY_INFORMATION_TABLE = 'digidirect_blog_category_information';
 
     /**
      * @var CurrentStoreFetcher
@@ -74,7 +74,7 @@ class Category extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init(self::Digidirect_BLOG_CATEGORY_TABLE, 'entity_id');
+        $this->_init(self::EWAVE_BLOG_CATEGORY_TABLE, 'entity_id');
     }
 
     /**
@@ -133,7 +133,7 @@ class Category extends AbstractDb
         $connection = $this->getConnection();
         $select = $this->getStoreRelationSelect();
         $select->reset(\Zend_Db_Select::COLUMNS)->columns('category_id');
-        $urlKeyExpr = sprintf(Category::Digidirect_BLOG_CATEGORY_INFORMATION_TABLE . '.url_key = "%s"', $urlKey);
+        $urlKeyExpr = sprintf(Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE . '.url_key = "%s"', $urlKey);
         $expr = $this->getConnection()->getIfNullSql(
             $urlKeyExpr,
             CategoryInformationJoin::DEFAULT_STORE_COLUMN_PREFIX . $urlKeyExpr
@@ -177,14 +177,14 @@ class Category extends AbstractDb
             ->select()
             ->from(['rel' => Post::CATEGORY_RELATION_TABLE], new \Zend_Db_Expr('COUNT(rel.post_id)'))
             ->joinLeft(
-                ['post' => $this->getTable(PostInterface::Digidirect_BLOG_POST_TABLE)],
+                ['post' => $this->getTable(PostInterface::EWAVE_BLOG_POST_TABLE)],
                 'rel.post_id = post.entity_id',
                 []
             );
 
         $this->postJoin->join($select, $storeId, 'post');
         $statusExp = sprintf(
-            PostContentInterface::Digidirect_BLOG_POST_INFORMATION_TABLE . '.status = "%s"',
+            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.status = "%s"',
             Status::STATUS_ENABLED
         );
         if ($storeId != Store::DEFAULT_STORE_ID) {

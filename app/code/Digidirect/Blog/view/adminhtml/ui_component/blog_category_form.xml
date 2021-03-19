@@ -36,7 +36,7 @@
             <argument name="requestFieldName" xsi:type="string">id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="submit_url" xsi:type="url" path="Digidirect_blog/category/save"/>
+                    <item name="submit_url" xsi:type="url" path="digidirect_blog/category/save"/>
                 </item>
             </argument>
             <argument name="fieldsetConfiguration" xsi:type="array">

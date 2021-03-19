@@ -8,7 +8,7 @@ interface CommentInterface
 {
     const CURRENT_ITEM = 'current_blog_comment';
     
-    const XML_PATH_EMAIL_RECIPIENT = 'Digidirect_blog/comments/admin_email';
+    const XML_PATH_EMAIL_RECIPIENT = 'digidirect_blog/comments/admin_email';
 
     const FIELD_POST_ID = 'post_id';
     

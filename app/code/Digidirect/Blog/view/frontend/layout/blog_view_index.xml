@@ -5,7 +5,7 @@
     <body>
         <referenceBlock name="head.additional">
             <block class="Magento\Framework\View\Element\Template"
-                   ifconfig="Digidirect_blog/opengraph_settings/enable_opengraph_on_post_page"
+                   ifconfig="digidirect_blog/opengraph_settings/enable_opengraph_on_post_page"
                    name="blog.opengraph.post">
                 <arguments>
                     <argument name="template" xsi:type="string">Digidirect_Blog::opengraph.phtml</argument>
@@ -31,22 +31,22 @@
             </block>
             <block class="Digidirect\Blog\Block\Post\Arrow" name="blog.post.arrow" as="arrow" template="Digidirect_Blog::post/arrow.phtml"/>
             <block class="Digidirect\Blog\Block\Post\RelatedPosts" name="blog.post.relatedposts" as="relatedposts" template="Digidirect_Blog::post/related_posts.phtml"/>
-            <block class="Digidirect\Blog\Block\Post\RelatedProducts" ifconfig="Digidirect_blog/related_products/enabled" name="blog.relatedproducts" as="relatedproducts" template="Digidirect_Blog::post/related_products.phtml"/>
+            <block class="Digidirect\Blog\Block\Post\RelatedProducts" ifconfig="digidirect_blog/related_products/enabled" name="blog.relatedproducts" as="relatedproducts" template="Digidirect_Blog::post/related_products.phtml"/>
         </referenceContainer>
         <referenceContainer name="sidebar.additional">
             <block class="Digidirect\Blog\Block\Widget\Search" name="blog.widget.search" template="widget/search.phtml"/>
-            <block class="Digidirect\Blog\Block\Widget\Categories" ifconfig="Digidirect_blog/view_page/category_onpost_right" name="blog.categorytree.right" template="widget/categories.phtml"/>
-            <block class="Digidirect\Blog\Block\Widget\Popular" ifconfig="Digidirect_blog/view_page/popular_onpost_right" name="blog.popular.right" template="widget/popular.phtml"/>
-            <block class="Digidirect\Blog\Block\Widget\Latest" ifconfig="Digidirect_blog/view_page/latest_onpost_right" name="blog.latest.right" template="widget/latest.phtml"/>
-            <block class="Digidirect\Blog\Block\Widget\Archive" ifconfig="Digidirect_blog/view_page/archive_onpost_right" name="blog.archive.right" template="widget/archive.phtml"/>
+            <block class="Digidirect\Blog\Block\Widget\Categories" ifconfig="digidirect_blog/view_page/category_onpost_right" name="blog.categorytree.right" template="widget/categories.phtml"/>
+            <block class="Digidirect\Blog\Block\Widget\Popular" ifconfig="digidirect_blog/view_page/popular_onpost_right" name="blog.popular.right" template="widget/popular.phtml"/>
+            <block class="Digidirect\Blog\Block\Widget\Latest" ifconfig="digidirect_blog/view_page/latest_onpost_right" name="blog.latest.right" template="widget/latest.phtml"/>
+            <block class="Digidirect\Blog\Block\Widget\Archive" ifconfig="digidirect_blog/view_page/archive_onpost_right" name="blog.archive.right" template="widget/archive.phtml"/>
             <block class="Digidirect\Blog\Block\Widget\TagsCloud" name="blog.sidebar.tags.cloud" template="Digidirect_Blog::widget/tags.phtml"/>
         </referenceContainer>
         <referenceContainer name="sidebar.main">
             <block class="Digidirect\Blog\Block\Widget\Search" name="blog.widget.search" template="widget/search.phtml"/>
-            <block class="Digidirect\Blog\Block\Widget\Categories" ifconfig="Digidirect_blog/view_page/category_onpost_left" name="blog.categorytree.left" template="widget/categories.phtml"/>
-            <block class="Digidirect\Blog\Block\Widget\Popular" ifconfig="Digidirect_blog/view_page/popular_onpost_left" name="blog.popular.left" template="widget/popular.phtml"/>
-            <block class="Digidirect\Blog\Block\Widget\Latest" ifconfig="Digidirect_blog/view_page/latest_onpost_left" name="blog.latest.left" template="widget/latest.phtml"/>
-            <block class="Digidirect\Blog\Block\Widget\Archive" ifconfig="Digidirect_blog/view_page/archive_onpost_left" name="blog.archive.left" template="widget/archive.phtml"/>
+            <block class="Digidirect\Blog\Block\Widget\Categories" ifconfig="digidirect_blog/view_page/category_onpost_left" name="blog.categorytree.left" template="widget/categories.phtml"/>
+            <block class="Digidirect\Blog\Block\Widget\Popular" ifconfig="digidirect_blog/view_page/popular_onpost_left" name="blog.popular.left" template="widget/popular.phtml"/>
+            <block class="Digidirect\Blog\Block\Widget\Latest" ifconfig="digidirect_blog/view_page/latest_onpost_left" name="blog.latest.left" template="widget/latest.phtml"/>
+            <block class="Digidirect\Blog\Block\Widget\Archive" ifconfig="digidirect_blog/view_page/archive_onpost_left" name="blog.archive.left" template="widget/archive.phtml"/>
             <block class="Digidirect\Blog\Block\Widget\TagsCloud" name="blog.sidebar.tags.cloud" template="Digidirect_Blog::widget/tags.phtml"/>
         </referenceContainer>
         <referenceBlock name="catalog.compare.sidebar" remove="true"/>

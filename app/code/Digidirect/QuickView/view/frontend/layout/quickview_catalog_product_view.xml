@@ -16,19 +16,19 @@
         <referenceBlock name="upsell_products_impression" remove="true" />
         <referenceBlock name="pageCache" remove="true" />
         <referenceBlock name="product.info.addtocart" template="Digidirect_QuickView::product/view/addtocart.phtml">
-            <action method="setData" ifconfig="Digidirect_quickview/general/close_after_add_to_cart">
+            <action method="setData" ifconfig="digidirect_quickview/general/close_after_add_to_cart">
                 <argument name="key" xsi:type="string">close_after_add_to_cart</argument>
                 <argument name="value" xsi:type="string">true</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="product.info.addtocart.additional" template="Digidirect_QuickView::product/view/addtocart.phtml">
-            <action method="setData" ifconfig="Digidirect_quickview/general/close_after_add_to_cart">
+            <action method="setData" ifconfig="digidirect_quickview/general/close_after_add_to_cart">
                 <argument name="key" xsi:type="string">close_after_add_to_cart</argument>
                 <argument name="value" xsi:type="string">true</argument>
             </action>
         </referenceBlock>
         <referenceBlock name="product.info.addtocart.bundle" template="Digidirect_QuickView::product/view/addtocart.phtml">
-            <action method="setData" ifconfig="Digidirect_quickview/general/close_after_add_to_cart">
+            <action method="setData" ifconfig="digidirect_quickview/general/close_after_add_to_cart">
                 <argument name="key" xsi:type="string">close_after_add_to_cart</argument>
                 <argument name="value" xsi:type="string">true</argument>
             </action>

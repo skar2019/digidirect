@@ -99,7 +99,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     {
         $storeId = $this->storeFetcher->getCurrentStoreId();
         $this->getSelect()->joinLeft(
-            ['p' => $this->getTable(PostInterface::Digidirect_BLOG_POST_TABLE)],
+            ['p' => $this->getTable(PostInterface::EWAVE_BLOG_POST_TABLE)],
             'main_table.post_id = p.entity_id',
             []
         );

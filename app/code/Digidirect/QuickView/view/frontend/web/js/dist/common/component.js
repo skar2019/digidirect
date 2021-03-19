@@ -1,4 +1,4 @@
-define(['module', 'exports', './../models/index', './store', 'DigidirectUtils'], function (module, exports, _index, _store, _DigidirectUtils) {
+define(['module', 'exports', './../models/index', './store', 'digidirectUtils'], function (module, exports, _index, _store, _digidirectUtils) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -79,7 +79,7 @@ define(['module', 'exports', './../models/index', './store', 'DigidirectUtils'],
         _createClass(Component, [{
             key: 'bind',
             value: function bind(options) {
-                (0, _DigidirectUtils.loadView)(options, this, 'Digidirect_QuickView/js/dist/view/index', 'Quick View');
+                (0, _digidirectUtils.loadView)(options, this, 'Digidirect_QuickView/js/dist/view/index', 'Quick View');
             }
         }, {
             key: 'watchers',

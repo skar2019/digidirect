@@ -4,7 +4,7 @@ define([
 ], function ($) {
     'use strict';
 
-    $.widget('Digidirect.blogTags', {
+    $.widget('digidirect.blogTags', {
         options: {
             tagList: $('.tag-list .admin__control-text'),
             tagItems: $('.post-tag')
@@ -32,5 +32,5 @@ define([
             }, this));
         }
     });
-    return $.Digidirect.blogTags;
+    return $.digidirect.blogTags;
 });

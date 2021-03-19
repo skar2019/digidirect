@@ -10,7 +10,7 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Config extends AbstractHelper
 {
-    const XML_PATH_GOOGLE_API_KEY = 'Digidirect_googleapi_config/general/google_api_key';
+    const XML_PATH_GOOGLE_API_KEY = 'digidirect_googleapi_config/general/google_api_key';
 
     /**
      * @return mixed

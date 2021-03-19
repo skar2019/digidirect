@@ -8,5 +8,5 @@ use Digidirect\Blog\Ui\Component\Actions;
  */
 class CommentActions extends Actions
 {
-    const URL_PATH_EDIT = 'Digidirect_blog/comment/edit';
+    const URL_PATH_EDIT = 'digidirect_blog/comment/edit';
 }

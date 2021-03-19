@@ -1,7 +1,7 @@
 Digidirect Utilities
 =====================
 
-[wiki link](https://wiki.Digidirect.com/display/LEGO/Utilities)
+[wiki link](https://wiki.digidirect.com/display/LEGO/Utilities)
 
 ### Description
 The extension expands standard Magento functionality
@@ -39,7 +39,7 @@ The extension expands standard Magento functionality
 
 ### VERSION 1.1.4.1
 
-  1. Added custom reader - provide ability to read xml configuration files from directory Digidirect_xml in root magento directory
+  1. Added custom reader - provide ability to read xml configuration files from directory digidirect_xml in root magento directory
 
 ### VERSION 1.1.4.2
 
@@ -148,7 +148,7 @@ The extension expands standard Magento functionality
     `<type name="Digidirect\Utilities\Plugin\Magento\Framework\Config\Dom\UrnResolver">
           <arguments>
               <argument name="overwrittenSchemas" xsi:type="array">
-                  <item name="urn:magento:framework:Config/etc/view.xsd" xsi:type="string">urn:Digidirect:module:Digidirect_Utilities:etc/view.xsd</item>
+                  <item name="urn:magento:framework:Config/etc/view.xsd" xsi:type="string">urn:digidirect:module:Digidirect_Utilities:etc/view.xsd</item>
               </argument>
           </arguments>
       </type>
@@ -247,7 +247,7 @@ The extension expands standard Magento functionality
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="component" xsi:type="string">Digidirect_Utilities/js/form/element/ajax-auto-complete</item>
-                    <item name="url" xsi:type="url" path="Digidirect_advancedpricing/advancedpricing/entitySearch"/>
+                    <item name="url" xsi:type="url" path="digidirect_advancedpricing/advancedpricing/entitySearch"/>
                     <item name="idAttribute" xsi:type="string">entity_id</item>
                     <item name="valueAttribute" xsi:type="string">name</item>
                     <item name="label" xsi:type="string" translate="true">Entity Name</item>

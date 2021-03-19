@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Config\Block\System\Config\Form">
-        <plugin name="Digidirect-add-extension-version" type="Digidirect\Utilities\Plugin\Magento\Config\Block\System\Config\Form" />
+        <plugin name="digidirect-add-extension-version" type="Digidirect\Utilities\Plugin\Magento\Config\Block\System\Config\Form" />
     </type>
     <type name="Digidirect\Utilities\Block\Adminhtml\System\Config\Form\Fieldset\Modules\DisableOutput">
-        <plugin name="Digidirect-add-disabled-config-module-version" type="Digidirect\Utilities\Plugin\Magento\Config\Block\System\Config\Fieldset\Modules\DisableOutputPlugin" />
+        <plugin name="digidirect-add-disabled-config-module-version" type="Digidirect\Utilities\Plugin\Magento\Config\Block\System\Config\Fieldset\Modules\DisableOutputPlugin" />
     </type>
     <!-- Widget noroute layout handle fix -->
     <type name="Magento\Widget\Model\ResourceModel\Widget\Instance">

@@ -1,7 +1,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <Digidirect_blog>
+        <digidirect_blog>
             <general>
                 <active>1</active>
                 <list_url>blog</list_url>
@@ -73,7 +73,7 @@
                 <latest_oncat_left>0</latest_oncat_left>
                 <latest_oncat_right>0</latest_oncat_right>
             </cat_page>
-        </Digidirect_blog>
+        </digidirect_blog>
         <!-- This setting is introduced as legacy but after update you should enable it if you need -->
         <dev>
             <blog>
