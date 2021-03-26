@@ -214,18 +214,13 @@
             padding: 20px 20px 24px;
         }
         
-        li.product-item{
-            margin-bottom: 30px;
-        }
-        
         .product-item-photo {
             width: 40%;
         }
         
         .product-item-details {
-            width: 100%;
+            width: calc(~'100% - 30px');
             height: 100%;
-            max-width: 500px;
             margin: 10px auto;
         }
         
@@ -309,6 +304,10 @@
             .lib-vendor-prefix-display(flex);
             .lib-vendor-prefix-flex-wrap(wrap);
             .digidirect-lib-box-align(space-between);
+            
+            li.item{
+                margin-bottom: 30px;
+            }
         }
     }
     
