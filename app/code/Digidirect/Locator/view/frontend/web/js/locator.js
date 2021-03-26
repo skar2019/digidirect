@@ -79,8 +79,8 @@ define([
             this.isMarkerClusterReady = false;
             this.list = [];
 
-            if (window.DigidirectGoogleMapsUrl || this.options.google.key) {
-                this._loadGoogleApi(window.DigidirectGoogleMapsUrl || '//maps.googleapis.com/maps/api/js?key=' + this.options.google.key + this.options.google.libraries);
+            if (window.digidirectGoogleMapsUrl || this.options.google.key) {
+                this._loadGoogleApi(window.digidirectGoogleMapsUrl || '//maps.googleapis.com/maps/api/js?key=' + this.options.google.key + this.options.google.libraries);
             } else {
                 console.warn('Google Map hasn\'t been loaded');
             }
