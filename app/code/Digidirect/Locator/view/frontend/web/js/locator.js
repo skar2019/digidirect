@@ -12,7 +12,7 @@ define([
 ], function ($, mageTemplate, setLocations, modal, events, infoBoxTmpl, alert) {
     'use strict';
 
-    $.widget('Digidirect.locator', {
+    $.widget('digidirect.locator', {
         options: {
             google: {
                 key: '',
@@ -679,5 +679,5 @@ define([
         }
     });
 
-    return $.Digidirect.locator;
+    return $.digidirect.locator;
 });

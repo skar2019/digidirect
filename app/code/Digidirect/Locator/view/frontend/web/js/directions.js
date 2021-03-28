@@ -7,7 +7,7 @@ define([
 ], function ($) {
     'use strict';
 
-    $.widget('Digidirect.locatorDirections', {
+    $.widget('digidirect.locatorDirections', {
         options: {
             locator: '.store-view',
             search: {
@@ -25,7 +25,7 @@ define([
             }
         },
         _create: function () {
-            this.locator = $(this.options.locator).data('Digidirect-locator');
+            this.locator = $(this.options.locator).data('digidirect-locator');
             this._bind();
         },
         _bind: function () {
@@ -124,5 +124,5 @@ define([
         }
     });
 
-    return $.Digidirect.locatorDirections;
+    return $.digidirect.locatorDirections;
 });
