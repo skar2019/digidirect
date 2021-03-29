@@ -1,0 +1,232 @@
+//
+//  Modals: Extend component
+//  _____________________________________________
+
+@modal-extend__is-enabled: true;
+
+@modal-title__font-size__m: 20px;
+@modal-sections__padding-horizontal__m: 28px;
+
+@modal-popup-inner-wrap__transform: translate(-50%, -50%);
+
+@modal-header__padding-top__m: 28px;
+@modal-header__padding-bottom__m: 27px;
+
+@modal-title__font-size__l: 24px;
+@modal-sections__padding-horizontal__l: 40px;
+@modal-header__padding-top__l: 36px;
+@modal-header__padding-bottom__l: 35px;
+@modal-content__padding-top__l: 40px;
+@modal-footer__padding-top__l: 40px;
+@modal-footer__padding-bottom__l: 40px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@modal-extend__is-enabled = true) {
+        .modal-title {
+            .lib-css(font-weight, @font-weight__heavier);
+        }
+
+        .modal-custom,
+        .modal-popup,
+        .modal-slide {
+            .action-close::before {
+                background-size: 100% auto;
+            }
+        }
+
+        .modal-footer {
+            button + button {
+                margin-left: 20px;
+            }
+        }
+
+        .modal-popup {
+            &._show .modal-inner-wrap {
+                .digidirect-lib-center(@horizontal: false, @vertical:true);
+            }
+
+            &.-content-scroll._show .modal-inner-wrap {
+                height: 100%;
+            }
+
+            @supports (display: -webkit-flex) or (display: -moz-flex) or (display: flex) {
+                &.-content-scroll._show .modal-inner-wrap {
+                    height: auto;
+                }
+            }
+        }
+
+        .modal-popup.confirm {
+            .modal-inner-wrap {
+                .lib-css(width, @modal-popup-confirm__width);
+                max-width: 1020px;
+            }
+
+            .modal-content {
+                .lib-font-size(18);
+                .lib-css(font-weight, @font-weight__heavier);
+                padding-bottom: 0;
+                text-align: center;
+            }
+
+            .modal-footer {
+                .lib-vendor-prefix-display(flex);
+                .lib-vendor-prefix-flex-direction(column);
+                padding-top: 10px;
+                padding-bottom: 52px;
+                border-top: none;
+            }
+
+            .action-dismiss {
+                order: 2;
+            }
+
+            .action-accept {
+                margin: 0 0 10px;
+            }
+        }
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@modal-extend__is-enabled = true) {
+        .modal-custom,
+        .modal-popup,
+        .modal-slide {
+            .action-close {
+                top: 18px;
+                right: 18px;
+            }
+            .action-close::before {
+                width: 23px;
+                height: 23px;
+            }
+        }
+
+        .modal-header,
+        .modal-content,
+        .modal-footer {
+            .lib-css(padding-right, @modal-sections__padding-horizontal__m);
+            .lib-css(padding-left, @modal-sections__padding-horizontal__m);
+        }
+
+        .modal-header {
+            .lib-css(padding-top, @modal-header__padding-top__m);
+            .lib-css(padding-bottom, @modal-header__padding-bottom__m);
+        }
+
+        .modal-title {
+            .lib-css(font-size, @modal-title__font-size__m);
+        }
+
+        .modal-popup {
+            .modal-inner-wrap {
+                max-width: 1440px;
+                width: 80%;
+            }
+            
+            &.modal-slide .modal-inner-wrap {
+                width: 95%;
+            }
+        }
+
+        .modal-popup.confirm {
+            .modal-content {
+                .lib-font-size(20);
+            }
+
+            .modal-footer {
+                .lib-vendor-prefix-flex-direction(row);
+                .digidirect-lib-box-align(center);
+                padding-top: 30px;
+                padding-bottom: 66px;
+            }
+
+            .action-accept {
+                margin: 0 20px 0 0;
+            }
+
+            .action-accept,
+            .action-dismiss {
+                .lib-font-size(14);
+                width: 180px;
+                padding: 13px 15px 12px;
+            }
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    & when (@modal-extend__is-enabled = true) {
+        .modal-custom,
+        .modal-popup,
+        .modal-slide {
+            .action-close {
+                top: 28px;
+                right: 28px;
+            }
+        }
+
+        .modal-popup {
+            &._show .modal-inner-wrap {
+                .digidirect-lib-center(@horizontal: true, @vertical:true);
+            }
+        }
+
+        .modal-header,
+        .modal-content,
+        .modal-footer {
+            .lib-css(padding-right, @modal-sections__padding-horizontal__l);
+            .lib-css(padding-left, @modal-sections__padding-horizontal__l);
+        }
+
+        .modal-header {
+            .lib-css(padding-top, @modal-header__padding-top__l);
+            .lib-css(padding-bottom, @modal-header__padding-bottom__l);
+        }
+
+        .modal-title {
+            .lib-css(font-size, @modal-title__font-size__l);
+        }
+
+        .modal-content {
+            .lib-css(padding-top, @modal-content__padding-top__l);
+        }
+
+        .modal-footer {
+            .lib-css(padding-top, @modal-footer__padding-top__l);
+            .lib-css(padding-bottom, @modal-footer__padding-bottom__l);
+        }
+
+        .modal-popup.confirm {
+            .modal-content {
+                .lib-font-size(24);
+                padding-top: 55px;
+            }
+
+            .modal-footer {
+                padding-top: 38px;
+                padding-bottom: 74px;
+            }
+
+            .action-accept,
+            .action-dismiss {
+                .lib-font-size(16);
+                width: 200px;
+                padding: 15px;
+            }
+        }
+    }
+}
