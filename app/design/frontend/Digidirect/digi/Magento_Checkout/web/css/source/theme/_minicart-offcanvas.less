@@ -58,7 +58,35 @@
     }
 
     .action.showcart {
-        /*.Digidirect-lib-offcanvas-trigger-overlay-only();*/
+        & {
+            position: relative;
+        }
+        
+        &::before{
+            display: none !important;
+        }
+        
+        &::after {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            visibility: hidden;
+            content: '';
+            opacity: 0;
+            z-index: 100;
+            -webkit-transition: opacity .9s;
+            -moz-transition: opacity .9s;
+            -ms-transition: opacity .9s;
+            transition: opacity .9s;
+        }
+        
+        &.-active::after {
+            visibility: visible;
+            opacity: .3;
+        }
     }
 
     .offcanvas-panel {
@@ -105,6 +133,7 @@
             .lib-vendor-prefix-display(flex);
             .lib-vendor-prefix-flex-direction(column);
             .lib-css(height, @minicart-offcanvas-wrapper__height);
+            display: unset !important;
             width: 100%;
         }
 
@@ -117,7 +146,7 @@
         .block-content {
             .lib-vendor-prefix-display(flex);
             .lib-vendor-prefix-flex-direction(column);
-            .lib-css(padding, @minicart-block-content__padding);
+            padding: 0;
             height: 100%;
         }
 
@@ -141,7 +170,7 @@
 
         .action.close::before,
         .action.close::after {
-            .lib-css(background, @color-white);
+            background: #2A2A2A;
             position: absolute;
             left: 20px;
             top: 4px;
@@ -404,7 +433,8 @@
     .offcanvas-panel {
         &.-minicart.offcanvas-right {
             .lib-css(width, @minicart-wrapper-block-minicart__width__xxl);
-            .lib-css(right, @minicart-offcanvas-right__right_xxl);
+            right: calc(~"-650px - 10%");
+            display: unset !important;
         }
     }
 
@@ -470,7 +500,8 @@
         }
 
         .action.close {
-            top: 43px;
+            top: -10px;
+            right: 0;
         }
 
         .actions .svg-icon.-paypal-logo {
@@ -481,6 +512,34 @@
         .subtotal .label,
         .subtotal-items .price-container .price {
             .lib-font-size(14);
+        }
+        
+        .actions{
+            .primary{
+                button{
+                background-image: none;
+                background: #e65300;
+                border: 2px solid transparent;
+                color: #fff;
+                cursor: pointer;
+                display: inline-block;
+                width: 100%;
+                font-weight: 700;
+                margin: 0;
+                padding: 10px 15px;
+                font-size: 1.3rem;
+                line-height: 1.6rem;
+                box-sizing: border-box;
+                vertical-align: middle;
+                font-family: 'Titillium Web', sans-serif;
+            
+                &:hover{
+                    opacity: 0.8;
+                    background: #e65300;
+                    border: 2px solid #e65300;
+                }
+            }
+            }
         }
     }
 }
