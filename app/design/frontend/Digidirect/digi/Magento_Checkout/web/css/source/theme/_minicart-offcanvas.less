@@ -227,6 +227,7 @@
             margin-bottom: 2rem; //do not touch , only on it also IE + mCustomScroll keeps.
             .lib-css(background-color, @minicart-product-item__background-color);
             .lib-css(border, @minicart-product-item__border);
+            padding: 0;
         }
 
         .product-item:last-of-type {
@@ -238,7 +239,7 @@
             flex-direction: row;
             flex-wrap: nowrap;
             align-items: flex-start;
-            margin: 0 20px 0 10px;
+            margin: 15px;
         }
 
         .product-item > .product .product.actions.-before {
@@ -255,18 +256,28 @@
         }
 
         .media-container .product.actions {
-            margin-top: 10px;
+            float: unset;
+            margin: 0;
+            text-align: center;
+            
+            a{
+                color: #2a2a2a;
+            }
         }
 
         .product-item-name {
             display: block;
             flex: none;
             height: auto;
-            .lib-css(margin, @minicart-items-product-item-name__margin);
+            margin: 0;
             .lib-css(font-weight, @minicart-items-product-item-name__font-weight);
             .lib-font-size(12);
             text-align: left;
             word-break: break-all;
+            
+            a{
+                color: #2a2a2a;
+            }
         }
 
         .action.delete {
@@ -347,7 +358,7 @@
     }
 
     .minicart-items-wrapper.mCustomScrollbar {
-        & {
+/*        & {
             margin-right: -16px;
         }
 
@@ -365,7 +376,7 @@
 
         .minicart-items {
             .lib-css(padding-bottom, @layout__width-xs-indent);
-        }
+        }*/
     }
 }
 
@@ -383,6 +394,7 @@
     .block-minicart {
         .block-title {
             .lib-css(padding, @minicart-block-title__padding__m);
+            background: #3c3c3c;
         }
 
         .block-content > .actions .action {

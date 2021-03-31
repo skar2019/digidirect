@@ -217,8 +217,18 @@
             margin-left: 0 !important
         }
         
+        .block-content{
+            padding: 15px;
+        }
+        
         .details-qty.qty {
             display: inline-block;
+        }
+        
+        .action.close::before{
+            font-size: 42px;
+            font-weight: bold;
+            color: #fff;
         }
 
         .pickup-available-wrapper {
@@ -258,6 +268,87 @@
         
         .svg-icon.cart{
             fill: #fff;
+        }
+        
+        .subtitle{
+            display: none !important;
+        }
+        
+        .subtotal{
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0 5px;
+
+            .label{
+                font-weight: bold;
+            }
+        }
+        
+        .qantas-pts-wrapper-minicart-price{
+            margin-top: 30px;
+        }
+        
+        .qantas-pts-wrapper-minicart-subtotal {
+            margin-bottom: 30px;
+        }
+        
+        .price-container .price{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        button{
+            background-image: none;
+            background: #e65300;
+            border: 2px solid transparent;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-weight: 700;
+            margin: 0;
+            padding: 20px 15px;
+            font-size: 2rem;
+            line-height: 1.6rem;
+            box-sizing: border-box;
+            vertical-align: middle;
+            font-family: 'Titillium Web', sans-serif;
+        }
+        
+        .viewcart{
+            text-align: center;
+            display: block;
+            color: #2a2a2a;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+    
+    .minicart-item-wrapper {
+        display: block;
+        height: 100vh;
+    }
+    
+    .minicart-items-wrapper{
+        margin: 0;
+        padding: 0;
+        
+        .product-item{
+            border: 1px solid #f1f1f1;
+        }
+    }
+    
+    .minicart-item-header{
+        background: #2a2a2a;
+        padding: 30px 15px;
+        font-size: 16px;
+        
+        span{
+            
+            &.text{
+                font-size: 16px !important;
+            }
+            
+            color: #fff !important;
         }
     }
 }

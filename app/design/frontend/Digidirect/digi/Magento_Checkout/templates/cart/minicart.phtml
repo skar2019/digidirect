@@ -34,7 +34,7 @@
     </div>
     <?php if ($block->getIsNeedToDisplaySideBar()): ?>
         <div id="minicartSidebar" class="offcanvas-panel offcanvas-right -minicart _unpadding block">
-            <div id="minicart-content-wrapper" class="minicart-wrapper" data-bind="scope: 'minicart_content'">
+            <div id="minicart-content-wrapper" class="minicart-item-wrapper" data-bind="scope: 'minicart_content'">
                 <!-- ko template: getTemplate() --><!-- /ko -->
             </div>
             <?=$block->getChildHtml('minicart.addons'); ?>

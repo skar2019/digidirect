@@ -4,18 +4,16 @@
  * See COPYING.txt for license details.
  */
 -->
-<div class="block-title _unmargin">
-    <strong>
-        <span class="text" translate="'Cart'"/>
-        <span class="qty empty"
-              text="getFormattedSummaryCount()"
-              data-bind="css: {
-                    empty: !!getCartParam('summary_count') == false },
-                    attr: { title: $t('Items in Cart')
-               }"
-        >
-        </span>
-    </strong>
+<div class="block-title minicart-item-header">
+    <span class="text" translate="'Cart'"/>
+    <span class="qty empty"
+          text="getFormattedSummaryCount()"
+          data-bind="css: {
+                empty: !!getCartParam('summary_count') == false },
+                attr: { title: $t('Items in Cart')
+           }"
+    >
+    </span>
 </div>
 
 <div class="block-content">
@@ -33,7 +31,6 @@
     </button>
 
     <if args="getCartParam('summary_count')">
-        <strong class="subtitle" translate="'Recently added item(s)'"/>
         <!-- data-action="scroll" -->
         <div  class="minicart-items-wrapper" data-bind="vertScrollbarMiniCart: this">
             <ol id="mini-cart" class="minicart-items" data-bind="foreach: { data: getCartItems(), as: 'item' }">
