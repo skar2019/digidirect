@@ -223,6 +223,11 @@
         
         .details-qty.qty {
             display: inline-block;
+            
+            span{
+                text-transform: uppercase;
+                font-size: 11px;
+            }
         }
         
         .action.close::before{
@@ -285,7 +290,18 @@
         }
         
         .qantas-pts-wrapper-minicart-price{
-            margin-top: 30px;
+            &{
+                margin-top: 15px;
+            }
+            
+            .qantas-logo{
+                height: 18px;
+            }
+            
+            .qantas-span{
+                font-weight: 600;
+                font-size: 11px;
+            }
         }
         
         .qantas-pts-wrapper-minicart-subtotal {
@@ -294,7 +310,7 @@
         
         .price-container .price{
             font-size: 20px;
-            font-weight: bold;
+            font-weight: 400;
         }
         
         button{

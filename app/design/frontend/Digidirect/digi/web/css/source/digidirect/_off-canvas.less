@@ -20,7 +20,7 @@
             .digidirect-lib-offcanvas-trigger();
         }*/
 
-        .offcanvas-panel:not(.-device-only) {
+        .offcanvas-panel:not(.device-only) {
             .lib-offcanvas-panel();
         }
 
@@ -76,7 +76,7 @@
             }
         }
 
-        .offcanvas-panel:not(.-device-only) {
+        .offcanvas-panel:not(.device-only) {
             .lib-css(width, @offcanvas__width__tablet);
             .lib-css(left, calc(-@offcanvas__width__tablet - @offcanvas__box-shadow-blur));
 
@@ -92,7 +92,7 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
-    .offcanvas-panel.-device-only {
+    .offcanvas-panel.device-only {
         .lib-offcanvas-panel();
     }
 }
@@ -148,7 +148,7 @@
             display: none;
         }
 
-        .offcanvas-panel.-device-only {
+        .offcanvas-panel.device-only {
             position: relative;
         }
     }
