@@ -1,4 +1,4 @@
-define(['module', 'exports', 'Digidirect_InfiniteScroll/js/dist/common/store'], function (module, exports, _store2) {
+define(['module', 'exports', 'digidirectStoreCatalog'], function (module, exports, _digidirectStoreCatalog) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -33,15 +33,8 @@ define(['module', 'exports', 'Digidirect_InfiniteScroll/js/dist/common/store'], 
 
         this.Store = _store.store;
         this.Events = _store.events;
-
-        _store2.Store.on(_store2.Events.DATA_FETCH_SUCCESS, function () {
-            _this.Store.emit(_this.Events.TRUNCATE_RAW_COLLECTION);
-        });
-        _store2.Store.on(_store2.Events.DATA_FETCH_FINISH, function () {
-            _this.Store.emit(_this.Events.TRUNCATE_RAW_COLLECTION);
-        });
-        _store2.Store.on(_store2.Events.RELOAD, function () {
-            _this.Store.emit(_this.Events.TRUNCATE_RAW_COLLECTION);
+        _digidirectStoreCatalog.GlobalStore.on(_digidirectStoreCatalog.GlobalEvents.PRODUCT_COLLECTION_UPDATE_START, function (data) {
+            _this.Store.emit(_this.Events.OFFCANVAS_CLOSE);
         });
     };
 
