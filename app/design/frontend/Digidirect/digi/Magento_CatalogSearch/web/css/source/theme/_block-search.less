@@ -11,9 +11,33 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    .block-search {
-        margin-left: auto;
-        padding: 19px 10px 0 0;
+    
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    &.block-search{
+        padding: 0 15px 0 200px;
+        margin: 0;
+        
+        .minisearch{
+            label{
+                &:before{
+                    content: "" !important;
+                }
+            }
+              
+            .field.search{
+                label{
+                  span{
+                        display: none;
+                    }  
+                }
+            }
+        } 
     }
 }
 
