@@ -11,6 +11,7 @@
             padding: 0 !important;
         }
     }
+    
     .page-header{
         background: #000;
     }
@@ -244,6 +245,11 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .page-header{
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+    
     .panel{
         &.wrapper {
             padding: 0 15px;
