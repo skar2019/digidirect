@@ -63,8 +63,7 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-    .qantas-promo-banner 
-    {   
+    .qantas-promo-banner{   
         &{
             padding: 10px !important;
         }
@@ -73,13 +72,17 @@
             display: block;
         }
         
-       .column-banner {
+       .column-banner{
             width: 100%;
             margin: 5px 0;
             max-width: unset;
             display: block;
             text-align: center;
         } 
+        
+        .action{
+            display: none;
+        }
         
         .image {
             width: 120px;
