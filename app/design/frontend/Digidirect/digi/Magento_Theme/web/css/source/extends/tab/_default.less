@@ -12,19 +12,78 @@
 }
 
 //
-//  L -
-//  ---------------------------------------------
+//  Mobile
+//  _____________________________________________
 
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .product-widget-wrapper {
+        margin: 0 -70px;
+    }
     
-}
+    .product-tab-navigation{
+        min-height: 600px;
+        
+        .mgz-tabs-nav > .mgz-tabs-tab-title,
+        .mgz-tabs-content > .mgz-tabs-tab-title{
+            
+            &{
+                position: relative;
+            }
+            
+            &:last-child
+            {
+                :before{
+                    content: " ";
+                    height: 30px;
+                    width: 3px;
+                    background: #d0c9c9;
+                    display: inline-block;
+                    position: absolute;
+                    top: 5px;
+                    left: -30px;
+                }
+                
+                > a{
+                    margin-left: 50px;
+                }
+            }
+            
+            & > a{
+                background: #fff;
+                border: 0;     
+                border-bottom: 3px solid #fff;
+                padding: 5px 0;
+                margin: 5px;
+                
+                &:hover{
+                    background: #fff;
+                    color: #f96c41;
+                    border-bottom: 3px solid;
+                    border-bottom-color: #f96c41 !important;
+                }
+            }
+           
+            
+            &.mgz-active > a{
+                color: #f96c41;
+                border-bottom: 3px solid;
+                border-bottom-color: #f96c41 !important;
+                border-radius: 0;
+            } 
 
-//
-//  L +
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    
+        }
+        
+        .mgz-tabs:not(.mgz-tabs-no-fill-content) .mgz-tabs-tab-content{
+            background: #fff;
+            border: 0;
+        }
+        
+        .mgz-tabs-tab-title{
+            font-size: 24px;
+            font-weight: 400;
+        }
+    }
 }
 
 //
@@ -81,6 +140,7 @@
                 color: #f96c41;
                 border-bottom: 3px solid;
                 border-bottom-color: #f96c41 !important;
+                border-radius: 0;
             } 
 
         }
