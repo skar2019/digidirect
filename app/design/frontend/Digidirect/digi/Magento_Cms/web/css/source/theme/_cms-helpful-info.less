@@ -69,6 +69,56 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .footer-helpful-info {
+
+        .block {
+            padding: 0 0 30px;
+        }
+        
+        img{
+            &{
+                margin-bottom: 15px;
+            }
+        }
+
+        .alink {
+            .lib-vendor-box-align(center);
+            .lib-font-size(24);
+            padding-top: 5px;
+            
+            span{
+                color: #222;
+                span{
+                    display: block;
+                }
+            }
+            
+            .alt{
+                font-weight: 700;
+            }
+            
+            &:hover{
+                span{
+                    color: #f15a25;
+                }
+            }
+        }
+
+        .small {
+            .lib-font-size(12);
+        }
+
+        .text {
+            .lib-font-size(18);
+        }
+    }
+}
+
+//
 //  Tablet
 //  ---------------------------------------------
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {

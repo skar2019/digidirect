@@ -7,11 +7,6 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    
-    .blog-categories-list-wrapper{
-        padding: 0 90px;
-    }
-    
     .categories-container {
         & {
             background: #fff;
@@ -20,6 +15,7 @@
 
         > .logo {
             width: 100%;
+            max-width: unset;
             display: flex;
             justify-content: center;
             padding-bottom: 15px;
@@ -80,6 +76,22 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .blog-categories-list-wrapper{
+        padding: 0 15px;
+    }
+    
+    .categories-container {
+        > .logo {
+            margin: 0;
+        }
+    }
+}
+
+//
 //  Tablet
 //  ---------------------------------------------
 
@@ -120,6 +132,11 @@
 //  Desktop
 //  ---------------------------------------------
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    
+    .blog-categories-list-wrapper{
+        padding: 0 90px;
+    }
+    
     .categories-container {
         margin-bottom: 30px;
         

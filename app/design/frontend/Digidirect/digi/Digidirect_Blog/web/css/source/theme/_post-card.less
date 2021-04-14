@@ -21,16 +21,6 @@
             padding: 19px 20px 10px;
         }
 
-        > .container > .title {
-            width: 100%;
-            font-size: 12px;
-            line-height: 1;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-top: 3px;
-            margin-bottom: 3px;
-        }
-
         > .container > .content,
         > .container > .post-homepage {
             max-width: 80%;
@@ -73,6 +63,33 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .post-card {
+        > .container {
+            background: #2A2A2A;
+        }
+        
+        > .container > .title {
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.5;
+            font-weight: 700;
+            margin-bottom: 0;
+            text-transform: uppercase;
+        }
+        
+        .mgz-element-inner{
+            margin-left: -3px;
+            margin-right: -3px;
+        }
+    }
+}
+
+//
 //  Desktop
 //  ---------------------------------------------
 
@@ -84,9 +101,13 @@
         }
 
         > .container > .title {
-            .lib-css(color, @color-white);
+            width: 100%;
             font-size: 26px;
+            line-height: 1;
             font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
 
         > .container > .content,
