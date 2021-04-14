@@ -27,7 +27,6 @@
 
         .block {
             & {
-                .lib-css(border-bottom, 1px solid @helpful-block-block__border-color);
                 padding: 9px 0;
                 width: 100%;
                 display: flex;
@@ -94,6 +93,8 @@
                 span{
                     display: block;
                 }
+                
+                font-size: 14px;
             }
             
             .alt{
@@ -183,7 +184,9 @@
     .footer-helpful-info {
 
         .block {
-            padding: 0 0 30px;
+            &{
+                padding: 0 0 30px;
+            }
         }
         
         img{
