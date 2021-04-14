@@ -118,7 +118,6 @@
     .footer-line {
         background-color: #000;
         width: 100%;
-        padding: 15px 70px;
         text-align: center;
         
         .footer-social{
@@ -212,8 +211,40 @@
         }
     
         .footer-content-block{
-            margin: 0 !important;
-            padding: 0 !important;
+            display: none !important;
         }
+    }
+    
+    .footer-line{
+        padding: 15px 0;
+        display: block;
+    }
+    
+    .footer-bottom .menu .item:first-child {
+        display: block;
+    }
+    
+    .footer-bottom .menu >.item
+    {
+        &{
+            font-size: 14px;
+        }
+        
+        a{
+            font-size: 14px;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+     .footer-line{
+        padding: 15px 70px;
+    }
+    
+    .footer-bottom .menu>.item {
+        display: inline;
     }
 }
