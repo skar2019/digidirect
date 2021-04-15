@@ -369,6 +369,36 @@
     }
 }
 
+
+
+//
+//  Mobile
+//  ---------------------------------------------
+
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .minicart-wrapper {
+        
+        .action{
+            &.showcart{
+                
+                .counter{
+                    &.qty{
+                        position: absolute;
+                        border-radius: 30px;
+                        font-size: 9px;
+                        min-width: 13px;
+                        height: 18px;
+                        line-height: 16px;
+                        right: 0;
+                        top: -10px;
+                    }
+                }
+            }
+        }
+    }
+}
+
 //
 //  Tablet +
 //  ---------------------------------------------
