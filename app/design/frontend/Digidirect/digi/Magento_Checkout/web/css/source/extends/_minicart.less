@@ -308,11 +308,6 @@
             margin-bottom: 30px;
         }
         
-        .price-container .price{
-            font-size: 20px;
-            font-weight: 400;
-        }
-        
         button{
             background-image: none;
             background: #e65300;
@@ -369,12 +364,9 @@
     }
 }
 
-
-
 //
 //  Mobile
 //  ---------------------------------------------
-
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .minicart-wrapper {
@@ -394,6 +386,24 @@
                         top: -10px;
                     }
                 }
+            }
+        }
+        
+        .price-container .price{
+            font-size: 12px;
+            font-weight: 300;
+        }
+    
+        .subtotal .price{
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: -5px;
+            display: inline-block;
+        }
+        
+        .qantas-pts-wrapper-minicart-subtotal{
+            strong{
+                font-weight: 400;
             }
         }
     }
@@ -485,5 +495,24 @@
             } 
         }
         
+        .price-container .price{
+            font-size: 20px;
+            font-weight: 400;
+        }
+    }
+}
+
+
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .minicart-wrapper {
+        .price-container .price{
+            font-size: 20px;
+            font-weight: 400;
+        }
     }
 }
