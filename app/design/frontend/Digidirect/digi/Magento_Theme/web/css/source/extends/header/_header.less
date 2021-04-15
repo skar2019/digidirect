@@ -122,7 +122,6 @@
         display: -ms-flexbox;
         display: flex;
         width: inherit;
-        align-items: center;
         justify-content: space-between;
         padding: 20px 30px;
         background: #fff;
@@ -131,9 +130,6 @@
             display: -webkit-flex;
             display: -ms-flexbox;
             display: flex;
-            -webkit-align-items: center;
-            -ms-align-items: center;
-            align-items: center;
             transition: all .5s ease;
 
             .authorization-link {
@@ -154,9 +150,6 @@
                 display: -webkit-flex;
                 display: -ms-flexbox;
                 display: flex;
-                -webkit-align-items: center;
-                -ms-align-items: center;
-                align-items: center;
                 font-size: 1.1rem;
                 font-weight: 700;
                 text-decoration: none;
@@ -265,8 +258,15 @@
             padding: 15px !important;
         }
         
-        .wrap-links span.text{
-            display: none;
+        .wrap-links 
+        {
+            &{
+                margin-top: 15px;
+            }
+            
+            span.text{
+                display: none;
+            }
         }
         
         .c-logo{
@@ -292,6 +292,18 @@
             img{
                 max-width: 200px;
                 padding-top: 10px;
+            }
+        }
+        
+        .wrap-links{
+            -webkit-align-items: center;
+            -ms-align-items: center;
+            align-items: center;
+            
+            .link {
+                -webkit-align-items: center;
+                -ms-align-items: center;
+                align-items: center;
             }
         }
     }
