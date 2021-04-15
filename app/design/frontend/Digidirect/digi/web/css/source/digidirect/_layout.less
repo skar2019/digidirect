@@ -55,10 +55,6 @@
 & when (@media-common = true) {
     
     .page-title-wrapper{
-        margin-left: 50px;
-        margin-right: 50px;
-        padding-top: 55px;
-        padding-bottom: 20px;
         
         &>.page-title {
             width: 100%;
@@ -139,6 +135,14 @@
             position: relative;
         }
     }
+    
+    .columns{
+        padding: 0 30px !important;
+    }
+    
+    .breadcrumbs{
+        margin: 15px 0;
+    }
 }
 
 //
@@ -163,6 +167,17 @@
         padding-left: @layout-indent__width;
         padding-right: @layout-indent__width;
         width: auto;
+    }
+    
+    .breadcrumbs{
+        margin: 15px 0 49px;
+    }
+    
+    .page-title-wrapper{
+        margin-left: 50px;
+        margin-right: 50px;
+        padding-top: 55px;
+        padding-bottom: 20px;
     }
 
     .page-main {

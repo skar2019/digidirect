@@ -330,6 +330,21 @@
 }
 
 //
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .push-block-left{
+        .svg-icon {
+            width: 28px;
+            height: 28px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
+
+//
 //  Desktop
 //  ---------------------------------------------
 
@@ -430,17 +445,6 @@
             text-align: left !important;
             margin-top: 15px;
         }
-        
-        &.qantas-pts-wrapper{
-            
-        }
-        
-        .svg-icon {
-            width: 28px;
-            height: 28px;
-            display: inline-block;
-            vertical-align: middle;
-        }
     }
     
     .push-block-right
@@ -450,8 +454,6 @@
             margin-top: 15px;
         }
     }
-    
-    
     
     .bonus-qantas-wrapper
     {

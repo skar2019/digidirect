@@ -136,7 +136,6 @@
         }
 
         .breadcrumbs {
-            margin: 15px 0 49px;
             
             .items 
             {
@@ -264,10 +263,6 @@
         & {
             .lib-vendor-prefix-display(flex);
             .lib-vendor-prefix-flex-direction (column);
-            
-            width: 40%;
-            padding: 30px 56px 0 0;
-            float: unset;
         }
 
         .product-info-stock-sku {
@@ -916,6 +911,18 @@
 
     .product-info-main .msiavailability-wrapper.sdd {
         padding-left: 5px;
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .product-info-main{
+        width: 40%;
+        padding: 30px 56px 0 0;
+        float: unset;
     }
 }
 

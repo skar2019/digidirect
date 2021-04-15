@@ -95,6 +95,35 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .section-center{
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    
+    .product-basic{
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+    
+    .page-title-wrapper {
+        margin-left: 0;
+        margin-right: 0;
+        padding-top: 0;
+        padding-bottom: 20px;
+    }
+}
+
+//
 //  Tablet +
 //  ---------------------------------------------
 
