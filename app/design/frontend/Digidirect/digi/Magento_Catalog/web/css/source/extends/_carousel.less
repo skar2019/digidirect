@@ -7,12 +7,6 @@
 //  ---------------------------------------------
 & when (@media-common = true) {
     
-    .product-tab-navigation-inner{
-        .mgz-tabs-nav{
-            padding: 0 20px;
-        }
-    }
-    
     .owl-carousel.product-carousel{
         padding: 0 20px;
         
@@ -91,6 +85,12 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .product-tab-navigation-inner{
+        .mgz-tabs-nav{
+            padding: 0 20px;
+        }
+    }
+    
     .product-widget-wrapper{
         margin: 0 -10px;
     }
