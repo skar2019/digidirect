@@ -9,7 +9,7 @@
 @catalog-modes__is-enabled: true; // Enable/disable styles
 
 @catalog-modes__float: left;
-@catalog-modes__display: none;
+@catalog-modes__display: flex;
 @catalog-modes__margin-right: @indent__base;
 @catalog-modes__display__m: inline-block;
 
@@ -60,8 +60,6 @@
         .modes-mode {
             .lib-css(float, @catalog-modes-mode__float);
             .lib-css(padding, @catalog-modes-mode__padding);
-            .lib-css(border, @catalog-modes-mode__border);
-            .lib-css(border-right, @catalog-modes-mode__border-right);
             .lib-css(font-weight, @catalog-modes-mode__font-weight);
             .lib-css(line-height, @catalog-modes-mode__line-height);
             .lib-css(text-align, @catalog-modes-mode__text-align);
@@ -83,9 +81,9 @@
                 }
             }
 
-            &:last-child {
+/*            &:last-child {
                 .lib-css(border-right, @catalog-modes-mode__last-child__border-right);
-            }
+            }*/
 
             &.active {
                 .lib-css(color, @catalog-modes-mode__active__color);
