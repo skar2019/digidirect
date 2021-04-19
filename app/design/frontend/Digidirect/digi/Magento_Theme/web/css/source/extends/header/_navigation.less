@@ -14,6 +14,10 @@
 //  _____________________________________________
 
 & when (@media-common = true) {
+    
+    .ninjamenus1-drilldown-container{
+        width: 100%;
+    }
 
     .panel.header {
         .links,
@@ -45,7 +49,20 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .nav-sections{
+        background: #fff;
+        
+        .nav-sections-item-title{
+            display: none;
+        }
+    }
+    
     .navigation {
+        
+        &{
+            background: #fff !important;
+        }
+        
         padding: 0;
 
         .parent {
@@ -257,17 +274,82 @@
         box-sizing: border-box;
         float: right;
         margin-left: -100%;
-        margin-top: 71px;
+        margin-top: 0;
         width: 100%;
 
         &.active {
             display: block;
         }
 
-        padding: @indent__m 0;
+        padding: 0;
     }
 
     .lib-main-navigation();
+    
+    .ninjamenus-top-triggered {
+        
+        &{
+            position: static !important;
+            width: auto;
+            padding-top: 15px;
+            padding-right: 15px;
+            box-sizing: content-box;
+            display: block !important;
+        }
+            
+        &::before{
+           display: none !important;
+       }
+        
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    
+    .ninjamenus.ninjamenus-mobile .nav-item > a
+    {   
+        .title{
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+    }
+    
+    .left-hand-category-wrapper{
+        &{
+            background: #fff;
+        }
+        
+        .mgz-element-inner{
+            padding: 0 !important;
+        }
+        
+        .nav-item > a{
+            padding: 0 15px;
+            border-bottom: 1px solid #d1d1d1;
+        }
+    }
+    
+    .ninjamenus-drilldown-back{
+        .drilldown-back{
+            &::before{
+                color: #fff;
+            }
+        }
+    }
+    
+    .ninjamenus-current-link{
+        background: #000;
+        color: #fff;
+    }
+    
+    .mgz-element-single_image,
+    .more-brand-wrapper,
+    .also-category-header,
+    .helpful-links{
+        display: none;
+    }
 }
 
 //
