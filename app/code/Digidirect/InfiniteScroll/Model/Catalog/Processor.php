@@ -53,12 +53,12 @@ class Processor implements ProcessorInterface
         $resultHtml = '';
         $totalCount = 0;
         $currentCount = 0;
-        $perPage = 8;
+        $perPage = 0;
         if ($block->getLoadedProductCollection()->getSize()) {
             $html = $block->toHtml();
 
             $totalCount = $this->getTotalSize();
-            $perPage = 8;
+            $perPage = $this->getLimit();
             $currentCount = $this->getCurrentSize();
 
             $dom = new \Zend_Dom_Query();
