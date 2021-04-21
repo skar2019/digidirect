@@ -166,7 +166,9 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
     <script type="text/x-magento-init">
     {
         "[data-role=tocart-form], .form.map.checkout": {
-            "catalogAddToCart": {}
+            "catalogAddToCart": {
+                "bindSubmit": true
+             }
         }
     }
     </script>
