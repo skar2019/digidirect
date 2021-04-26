@@ -102,6 +102,92 @@
     .opc-block-summary > .title {
         font-weight: bold;
     }
+    
+    .checkout-shipping-method{
+        .col span{
+            font-weight: bold;
+        }
+    }
+    
+    .shipping-methods 
+    {
+        .row{
+            background: #fff;
+        }
+        
+        .col-method{
+            &{
+                width: 40px !important;
+            }
+           
+            &::before{
+                display: none;
+            }
+        }
+    }
+    
+    .table-checkout-shipping-method{
+        &{
+            width: 100% !important;;
+        }
+        
+        tbody td{
+            position: relative;
+            padding: 10px;
+            vertical-align: middle;
+        }
+        
+        input.radio{
+            border: 0;
+            clip: rect(0,0,0,0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+            
+            +.label {
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                min-height: 20px;
+                transform: translateY(-50%);
+            }
+        }
+        
+        input[type=radio]:disabled {
+            opacity: .7;
+        }
+        
+        input[type=radio]:not([name*=ratings]):not(.-default)+label:before {
+            border: 2px solid #2A2A2A;
+        }
+        
+        input[type=radio]:not([name*=ratings]):not(.-default):checked+label:before {
+            border-color: #000;
+        }
+        
+        input[type=radio]:not([name*=ratings]):not(.-default)+label:before,
+        input[type=radio]:not([name*=ratings]):not(.-default)+label:after {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            margin-top: -10px;
+            top: 10px;
+            border-radius: 50%;
+            content: '';
+        }
+        
+        input[type=radio]:not([name*=ratings]):not(.-default):checked+label:after {
+            width: 16px;
+            height: 16px;
+            top: 14px;
+            left: 4px;
+            background-color: #000;
+        }
+    }
 }
 
 //
