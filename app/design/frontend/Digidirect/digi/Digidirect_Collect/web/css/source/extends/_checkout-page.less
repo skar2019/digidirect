@@ -73,6 +73,10 @@
             .lib-css(background-color, @color-black);
             .lib-css(color, @color-white);
             padding-left: 0;
+            
+            .svg-icon{
+                fill: #fff;
+            }
         }
 
         .svg-icon {
@@ -89,14 +93,14 @@
         }
 
         input:checked + .label.full-width > .svg-icon {
-            .lib-css(fill, @color-black);
+            fill: #fff;
         }
 
     }
 
     .checkout-container .table-checkout-shipping-method {
         .row.collect {
-            display: none; //should be presented on page but hidden according to requirement
+            display: none;
         }
     }
 

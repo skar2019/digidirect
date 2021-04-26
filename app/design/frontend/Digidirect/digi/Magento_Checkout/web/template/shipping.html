@@ -16,9 +16,6 @@
                 <!-- ko template: getTemplate() --><!-- /ko -->
                 <!--/ko-->
 
-
-
-
                 <!-- Address form pop up -->
                 <!-- ko if: (!isFormInline) -->
                 <button type="button"
@@ -51,15 +48,14 @@
     </div>
 </li>
 
-
 <!--Shipping method template-->
 <li id="opc-shipping_method"
     class="checkout-shipping-method"
     data-bind="fadeVisible: visible(), blockLoader: isLoading"
     role="presentation">
     <div class="checkout-shipping-method">
-        <div data-bind="i18n: 'Shipping Methods', css: 'step-title ' + titleClasses()" data-role="title"></div>
-        <span>Please note some delivery methods may be unavailable due to your shipping location and time of order.</span><br />
+        <div class="title" data-bind="i18n: 'Shipping Methods', css: 'step-title ' + titleClasses()" data-role="title"></div>
+        <span class="note-blurb">Please note some delivery methods may be unavailable due to your shipping location and time of order.</span><br />
         <!-- ko foreach: getRegion('before-shipping-method-form') -->
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- /ko -->

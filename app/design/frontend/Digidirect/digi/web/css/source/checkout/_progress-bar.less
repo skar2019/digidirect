@@ -110,10 +110,10 @@
                 .lib-css(margin, @checkout-progress-bar-item__margin);
                 .lib-css(text-align, @checkout-progress-bar-item__text-align);
                 .lib-css(vertical-align, @checkout-progress-bar-item__vertical-align);
-
-                &::before {
-                    display: none;
-                }
+            }
+            
+            &::before {
+                display: none !important;
             }
 
             > span {
@@ -130,42 +130,32 @@
                 .lib-css(padding-top, @checkout-progress-bar-item-element__padding-top);
                 .lib-css(word-wrap, @checkout-progress-bar-item-element__word-wrap);
 
-                &::before,
-                &::after {
+                &::before {
                     .lib-css(content, @checkout-progress-bar-item-element__pseudo__content);
                     .lib-css(position, @checkout-progress-bar-item-element__pseudo__position);
                     .lib-css(top, @checkout-progress-bar-item-element__pseudo__top);
                     .lib-css(left, @checkout-progress-bar-item-element__pseudo__left);
                     .lib-css(width, @checkout-progress-bar-item-element__pseudo__width);
                     .lib-css(height, @checkout-progress-bar-item-element__pseudo__height);
-                    .lib-css(margin-left, @checkout-progress-bar-item-element__pseudo__margin-left);
                     .lib-css(border-radius, @checkout-progress-bar-item-element__pseudo__border-radius);
                     .lib-css(background, @checkout-progress-bar-item-element__pseudo__background);
                 }
 
                 &::after {
-                    .lib-typography(
-                        @_color: @checkout-progress-bar-item-element__after__color,
-                        @_font-family: @checkout-progress-bar-item-element__after__font-family,
-                        @_font-style: @checkout-progress-bar-item-element__after__font-style,
-                        @_font-weight: @checkout-progress-bar-item-element__after__font-weight,
-                        @_font-size: @checkout-progress-bar-item-element__after__font-size,
-                        @_line-height: @checkout-progress-bar-item-element__after__line-height
-                    );
-                    .lib-css(content, @checkout-progress-bar-item-element__after__content);
-                    .lib-css(top, @checkout-progress-bar-item-element__after__top);
-                    .lib-css(width, @checkout-progress-bar-item-element__after__width);
-                    .lib-css(height, @checkout-progress-bar-item-element__after__height);
-                    .lib-css(margin-left, @checkout-progress-bar-item-element__after__margin-left);
-                    .lib-css(background, @checkout-progress-bar-item-element__after__background);
-                    .lib-css(counter-increment, @checkout-progress-bar-item-element__after__counter-increment);
+                    display: none !important;
                 }
             }
 
             //  Active State
             &._active {
+                background: #f5f5f5;
+                
                 &::before {
                     .lib-css(background, @checkout-progress-bar-item__active-before__background);
+                }
+                
+                &::after {
+                    display: none !important;
                 }
             }
             &._active > span {
@@ -174,12 +164,9 @@
                 &::before {
                     .lib-css(background, @checkout-progress-bar-item-element__active-before__background);
                 }
-
+                
                 &::after {
-                    .lib-css(content, @checkout-progress-bar-item-element__active-after__content);
-                    .lib-css(font-family, @checkout-progress-bar-item-element__active-after__font-family);
-                    .lib-font-size(@checkout-progress-bar-item-element__active-after__font-size);
-                    .lib-css(line-height, @checkout-progress-bar-item-element__active-after__line-height);
+                    display: none !important;
                 }
             }
 
@@ -189,15 +176,16 @@
             }
             &._complete > span {
                 .lib-css(color, @checkout-progress-bar-item-element__complete__color);
-
-                &::after {
-                    .lib-css(content, @checkout-progress-bar-item-element__complete-after__content);
-                    .lib-css(font-family, @checkout-progress-bar-item-element__complete-after__font-family);
-                    .lib-font-size(@checkout-progress-bar-item-element__complete-after__font-size);
-                    .lib-css(line-height, @checkout-progress-bar-item-element__complete-after__line-height);
-                }
             }
         }
+    }
+    
+    
+    //Removed because of requirement
+    .opc-progress-bar-item._active > span:after,
+    .opc-progress-bar-item > span:after,
+    .opc-progress-bar-item:before{
+        display: none !important;
     }
 }
 

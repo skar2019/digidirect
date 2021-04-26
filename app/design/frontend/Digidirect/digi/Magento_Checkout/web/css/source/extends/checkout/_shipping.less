@@ -92,3 +92,28 @@
 //@checkout-shipping-methods-table-row-error-td__padding-top: 0;
 //@checkout-shipping-methods-table-row-error-td__padding-bottom: @indent__s;
 //@checkout-shipping-methods-table-row-error-td__border-top: none;
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .opc-wrapper .step-title, 
+    .opc-block-summary > .title {
+        font-weight: bold;
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .opc-wrapper {
+        .form-login,
+        .form-shipping-address {
+            .lib-css(max-width, unset);
+            margin-top: 0;
+        }
+    }
+}

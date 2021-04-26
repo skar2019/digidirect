@@ -98,9 +98,6 @@
 
     .opc-wrapper,
     .form-shipping-address {
-        .field.street {
-            margin-bottom: 0;
-        }
 
         .field.street .field.additional {
             display: none;
@@ -197,6 +194,10 @@
         height: 0;
         overflow: hidden;
     }
+    
+    .note:before{
+        display: none !important;
+    }
 }
 
 //
@@ -244,7 +245,7 @@
         .field[name*='region'],
         .field.-postcode,
         .field.-region {
-            width: calc(~'25% - 15px');
+            width: calc(~'50% - 15px');
         }
 
         .field.-country,
