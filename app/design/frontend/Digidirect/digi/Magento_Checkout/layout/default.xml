@@ -8,5 +8,12 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <move element="minicart" destination="header.wrapper.links" after="-"/>
+        
+        <referenceContainer name="header-wrapper">
+            <container name="main-header-wrapper" htmlTag="div" htmlClass="main-header-wrapper">
+                <block class="Magento\Framework\View\Element\Template" name="header-logo" template="Magento_Checkout::header/header-content.phtml"/>  
+            </container>
+            
+        </referenceContainer>
     </body>
 </page>

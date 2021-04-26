@@ -56,11 +56,18 @@
                 .lib-css(position, @checkout-sidebar-shipping-information-title__position);
                 .lib-css(margin, @checkout-sidebar-shipping-information-title__margin);
             }
+            
+            span{
+                font-weight: bold;
+            }
 
             .action-edit {
                 & when (@checkout-sidebar-shipping-information-action-edit__use-action-button-as-link = true) {
                     &:extend(.abs-action-button-as-link all);
                 }
+                
+                color: #222 !important;
+                
                 .lib-css(position, @checkout-sidebar-shipping-information-action-edit__position);
                 .lib-css(top, @checkout-sidebar-shipping-information-action-edit__top);
                 .lib-css(right, @checkout-sidebar-shipping-information-action-edit__right);

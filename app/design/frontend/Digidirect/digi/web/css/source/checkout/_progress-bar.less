@@ -159,10 +159,12 @@
                 }
             }
             &._active > span {
-                .lib-css(color, @checkout-progress-bar-item-element__active__color);
+                .lib-css(color, #fff);
 
                 &::before {
-                    .lib-css(background, @checkout-progress-bar-item-element__active-before__background);
+                    border-color: #ffffff;
+                    color: #222;
+                    background-color: #ffffff;
                 }
                 
                 &::after {

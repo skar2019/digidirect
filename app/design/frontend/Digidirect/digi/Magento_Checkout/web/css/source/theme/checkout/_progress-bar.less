@@ -27,12 +27,15 @@
             .lib-css(border-bottom, 2px solid @color-3-2);
             .lib-css(color, @color-4-8);
             .lib-hover-out();
+            border-bottom: 1px solid #000000;
         }
 
         &._active {
-            .lib-css(border-color, @color-2-1);
-            .lib-css(color, @color-2-1);
-            .lib-css(background-color, @color-white);
+            border-color: #fff;
+            color: #fff;
+            background-color: #000000;
+            border-bottom: 1px solid #000000;
+
         }
 
         &._complete {
@@ -46,16 +49,20 @@
         }
 
         &._complete:hover {
-            .lib-checkout-tab-hover();
-            .lib-border-hover();
+            background: #000;
+            color: #fff;
+            z-index: 10;
+            border-color: #000;
         }
 
         &._complete:hover > span:before {
-            .lib-checkout-tabnumber-hover();
+            border-color: #fff;
+            color: #222;
+            background-color: #fff;
         }
 
         > span {
-            width: unset !important;
+            width: unset;
             
             &::before {
                 content: counter(i);
@@ -81,9 +88,9 @@
 
         &._active > span {
             &::before {
-                .lib-css(border-color, @color-2-1);
-                .lib-css(color, @color-white);
-                .lib-css(background-color, @color-2-1);
+                border-color: #fff;
+                color: #222;
+                background-color: #fff;
             }
         }
     }

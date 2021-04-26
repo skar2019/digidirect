@@ -108,7 +108,7 @@
         & {
             display: table-cell;
             vertical-align: middle;
-            padding: 16px 0;
+            padding: 15px 0 !important;
             .lib-font-size(14);
             line-height: 20px;
             .lib-css(font-weight, @font-weight__heavier);
@@ -116,6 +116,7 @@
             .lib-css(border-bottom, 2px solid @color-3-2);
             .lib-css(color, @color-4-8);
             .lib-hover-out();
+            background: #e7e7e7;
         }
 
         &._active {
@@ -124,7 +125,7 @@
             background-color: #f5f5f5;
             
             > span{
-                color: #e65401;
+                color: #fff;
             }
         }
 
@@ -133,21 +134,36 @@
         }
 
         &._complete:hover + &._active {
-            .lib-css(border-color, @color-3-2);
-            .lib-css(color, @color-4-8);
-            background-color: transparent;
+            
+            &{
+                background: #e7e7e7;
+            }
+            
+            > span{
+                color: #222;
+            }
         }
 
         &._complete:hover {
-            .lib-checkout-tab-hover();
-            .lib-border-hover();
+            background: #000;
+            color: #fff;
+            z-index: 10;
+            border-color: #000;
+            
+            > span{
+                color: #fff;
+            }
         }
 
         &._complete:hover > span:before {
-            .lib-checkout-tabnumber-hover();
+            border-color: #fff;
+            color: #222;
+            background-color: #fff;
         }
 
         > span {
+            color: #666;
+            
             &::before {
                 content: counter(i);
                 display: inline-block;
@@ -161,14 +177,16 @@
                 vertical-align: top;
                 counter-increment: i;
                 .lib-hover-out();
+                
+                background-color: #fff;
             }
         }
 
         &._active > span {
             &::before {
-                .lib-css(border-color, @color-2-1);
-                .lib-css(color, @color-white);
-                .lib-css(background-color, @color-2-1);
+                border-color: #fff;
+                color: #222;
+                background-color: #fff;
             }
         }
     }
