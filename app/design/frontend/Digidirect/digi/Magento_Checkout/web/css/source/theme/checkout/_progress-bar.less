@@ -55,6 +55,8 @@
         }
 
         > span {
+            width: unset !important;
+            
             &::before {
                 content: counter(i);
                 display: inline-block;
@@ -68,6 +70,12 @@
                 vertical-align: top;
                 counter-increment: i;
                 .lib-hover-out();
+                
+                margin-left: 0 !important;
+            }
+            
+            &::after{
+                margin-left: 0 !important;
             }
         }
 

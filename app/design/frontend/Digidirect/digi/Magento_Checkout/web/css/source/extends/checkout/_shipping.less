@@ -98,6 +98,11 @@
 //  _____________________________________________
 
 & when (@media-common = true) {
+    
+    .opc-wrapper {
+        padding: 30px 30px 50px !important;
+    }
+    
     .opc-wrapper .step-title, 
     .opc-block-summary > .title {
         font-weight: bold;
@@ -105,7 +110,12 @@
     
     .checkout-shipping-method{
         .col span{
-            font-weight: bold;
+            font-weight: 500;
+            font-size: 16px;
+            
+            &.price{
+                font-weight: bold;
+            }
         }
     }
     

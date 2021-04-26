@@ -53,8 +53,16 @@
             }
 
             .page-title-wrapper {
-                & when (@checkout-page-title-wrapper__use-visually-hidden = true) {
-                    &:extend(.abs-visually-hidden all);
+                color: #000;
+                height: unset;
+                width: unset;
+                position: unset;
+                
+                .page-title{
+                    margin-top: 50px;
+                    margin-bottom: 0;
+                    font-size: 3.4rem;
+                    line-height: 1;
                 }
             }
         }
