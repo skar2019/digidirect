@@ -18,10 +18,10 @@
         <label class="label" />
     </td>
     <td class="col col-details">
-        <each args="element.getRegion('price')" render="" />
-        
         <span attr="'id': 'label_carrier_' + method.method_code + '_' + method.carrier_code"
             text="method.carrier_title" />
+        
+        <each args="element.getRegion('price')" render="" />
     </td>
 </tr>
 <tr class="row row-error"
