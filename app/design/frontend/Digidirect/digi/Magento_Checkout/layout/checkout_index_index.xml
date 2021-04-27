@@ -6,6 +6,8 @@
         <referenceBlock name="footer-social-links" remove="true"/>
         
         <block class="Magento\Framework\View\Element\Template" name="checkout.cart.header" template="Magento_Checkout::header/header-content.phtml" />
+        
+        <block class="Magento\Framework\View\Element\Template" name="checkout.cart.footer" template="Magento_Checkout::footer/footer-content.phtml" />
 
         <referenceBlock name="page.main.title">
             <action method="setPageTitle">
@@ -18,6 +20,7 @@
         <move element="page.main.title" destination="content" before="-" />
         <move element="checkout.cart.menu" destination="content" before="page.main.title" />
         <move element="checkout.cart.header" destination="page.wrapper" before="-" />
+        <move element="checkout.cart.footer" destination="page.wrapper" after="-" />
 
         <referenceBlock name="checkout.root">
             <arguments>
@@ -199,11 +202,5 @@
                 </argument>
             </arguments>
         </referenceBlock>
-
-        <referenceContainer name="page.wrapper">
-            <container name="footer-line" as="footer-line" label="Page Footer Line" htmlTag="div" htmlClass="footer-line">
-                <container name="footer-bottom" as="footer-bottom" label="Page Footer Bottom" htmlTag="div" htmlClass="footer-bottom"/>
-            </container>
-        </referenceContainer>
     </body>
 </page>
