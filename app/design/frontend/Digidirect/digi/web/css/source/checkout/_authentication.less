@@ -200,14 +200,6 @@
             }
         }
 
-        .authentication-wrapper {
-            & when (@authentication-wrapper__use-column-width__m = true) {
-                .lib-column-width(@authentication-wrapper__column-width__m);
-            }
-
-            .lib-css(text-align, @authentication-wrapper__text-align__m);
-        }
-
         .block-authentication {
             .block-title {
                 .lib-css(border-bottom, @authentication-block-title__border-bottom__m);

@@ -4,16 +4,20 @@
         <referenceBlock name="cms.helpfullinfo.slider.block" remove="true"/>
         <referenceBlock name="digidirect.menu.footer.bottom" remove="true"/>
         <referenceBlock name="footer-social-links" remove="true"/>
+        
+        <block class="Magento\Framework\View\Element\Template" name="checkout.cart.header" template="Magento_Checkout::header/header-content.phtml" />
 
         <referenceBlock name="page.main.title">
             <action method="setPageTitle">
-                <argument translate="true" name="title" xsi:type="string">Secured Checkout</argument>
+                <argument translate="true" name="title" xsi:type="string">Secure Checkout</argument>
             </action>
         </referenceBlock>
+        
         <block class="Magento\Framework\View\Element\Template" name="checkout.cart.menu" template="Magento_Checkout::checkout-menu-mobile.phtml" />
 
         <move element="page.main.title" destination="content" before="-" />
         <move element="checkout.cart.menu" destination="content" before="page.main.title" />
+        <move element="checkout.cart.header" destination="page.wrapper" before="-" />
 
         <referenceBlock name="checkout.root">
             <arguments>
