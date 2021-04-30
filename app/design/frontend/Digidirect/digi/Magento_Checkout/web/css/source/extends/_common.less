@@ -24,23 +24,30 @@
             right: 35px;
         }
         
-        #payment_form_braintree .field > .control
-        {
-            &{
-                display: block;
-                margin-top: 30px;
+        #payment_form_braintree {
+            legend{
+                font-size: 22px;
             }
             
-            img{
-                display: none;
+            .field > .control{
+                &{
+                    display: block;
+                    margin-top: 30px;
+                }
+
+                img{
+                    display: none;
+                }
+            }
+
+            .braintree-card-control{
+                img{
+                    display: none;
+                }
             }
         }
         
-        .braintree-card-control{
-            img{
-                display: none;
-            }
-        }
+        
         
         .checkout-payment-method .credit-card-types{
             text-align: left;
@@ -50,6 +57,10 @@
             padding: 15px;
             padding-left: 10px !important;
             height: 25px;
+        }
+        
+        .payment-method-billing-address{
+            margin-bottom: 30px;
         }
     }
 }

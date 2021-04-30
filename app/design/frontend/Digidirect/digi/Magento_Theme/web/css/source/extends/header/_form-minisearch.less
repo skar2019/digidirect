@@ -12,11 +12,6 @@
             position: relative;
         }
 
-        &.active {
-            padding-bottom: 20px;    
-            margin-left: -70px;
-        }
-
         .input-text {
             .lib-font-size(16);
             .lib-css(color, @primary__color);
@@ -26,13 +21,6 @@
             &:focus {
                 box-shadow: none;
             }
-        }
-
-        &.active .input-text {
-            position: absolute;
-            width: inherit;
-            opacity: 1;
-            border: none;
         }
 
         .nested {
@@ -90,6 +78,23 @@
 
     .minicart-wrapper{
         margin-top: 0 !important;
+    }
+    
+    .form.minisearch {
+        & {
+            position: relative;
+        }
+
+        &.active {
+            padding-bottom: 20px;    
+            margin-left: -70px;
+        }
+        &.active .input-text {
+            position: absolute;
+            width: inherit;
+            opacity: 1;
+            border: none;
+        }
     }
 }
 
