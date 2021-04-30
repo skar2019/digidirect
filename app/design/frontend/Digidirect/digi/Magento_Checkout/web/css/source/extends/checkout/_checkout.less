@@ -53,6 +53,20 @@
 }
 
 //
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .collect-type{
+        input[type=radio]:not([name*=ratings]):not(.-default)+label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+//
 //  Desktop
 //  _____________________________________________
 

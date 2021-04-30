@@ -9,6 +9,14 @@
 
 & when (@media-common = true) {
     .checkout-index-index{
+        .field-tooltip{
+            display: none !important;
+        }
+        
+        .field .control._with-tooltip{
+            padding-right: 0 !important;
+        }
+        
         .authentication-wrapper{
             float: unset;
             margin-top: 0;
@@ -47,8 +55,6 @@
             }
         }
         
-        
-        
         .checkout-payment-method .credit-card-types{
             text-align: left;
         }
@@ -61,6 +67,36 @@
         
         .payment-method-billing-address{
             margin-bottom: 30px;
+        }
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .checkout-index-index{
+        .page-header {
+            background: #fff;
+            padding: 15px 15px 10px !important;
+        }
+        
+        .page-title-wrapper .page-title {
+            margin-top: 30px !important;
+            margin-bottom: 30px !important;
+            font-size: 2.4rem !important;
+        }
+    
+        .action-auth-toggle{
+            padding-left: 0;
+            line-height: 4px;
+        }
+    }
+    
+    .checkout-index-index{
+        .columns {
+            padding: 0 15px !important;
         }
     }
 }

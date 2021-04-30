@@ -167,10 +167,6 @@
 
         .checkout-menu .showcart .counter.qty {
             position: absolute;
-            top: -3px;
-            right: -4px;
-            min-width: 18px;
-            height: 18px;
             border-radius: 50%;
             transition: all .3s ease-in-out;
             display: flex;
@@ -206,6 +202,32 @@
 }
 
 //
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .checkout-index-index{
+        .checkout-menu{
+            .action
+            {
+                .svg-icon{
+                    width: 30px;
+                    height: 30px;
+                }
+                
+                .counter.qty{
+                    font-size: 11px;
+                    height: 23px;
+                    top: -8px;
+                    right: -14px;
+                    width: 16px;
+                }
+            }
+        }
+    }
+}
+
+//
 //  M +
 //  ---------------------------------------------
 
@@ -225,6 +247,25 @@
 
         .opc-block-summary .items-in-cart {
             display: block;
+        }
+    }
+}
+
+
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    
+    .checkout-index-index {
+        .checkout-menu .showcart .counter.qty {
+            position: absolute;
+            top: -3px;
+            right: -4px;
+            min-width: 18px;
+            height: 18px;
         }
     }
 }

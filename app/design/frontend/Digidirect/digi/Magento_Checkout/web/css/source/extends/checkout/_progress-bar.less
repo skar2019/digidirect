@@ -192,6 +192,45 @@
     }
 }
 
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .opc-progress-bar-item {
+        &{
+            line-height: 0;
+            padding: 0 !important;
+        }
+        
+        span{
+            font-size: 12px;
+            font-weight: bold;
+            padding-top: 0;
+    
+            &::before {
+                position: unset;
+                border-color: #222;
+                color: #222;
+                background-color: #fff;
+            }
+            
+            &::after{
+                position: unset;
+            }
+        }
+        
+        &._active > span {
+            &::before {
+                border-color: #222;
+                color: #222;
+                background-color: #fff;
+            }
+        }
+    }
+}
+
 //
 //  M +
 //  ---------------------------------------------
