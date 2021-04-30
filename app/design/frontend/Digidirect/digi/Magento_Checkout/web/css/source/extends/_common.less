@@ -77,6 +77,10 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .checkout-index-index{
+        .columns {
+            padding: 0 15px !important;
+        }
+        
         .page-header {
             background: #fff;
             padding: 15px 15px 10px !important;
@@ -92,11 +96,64 @@
             padding-left: 0;
             line-height: 4px;
         }
-    }
-    
-    .checkout-index-index{
-        .columns {
-            padding: 0 15px !important;
+        
+        .qff-content .form-title{
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        
+        .payment-methods .step-title{
+            font-size: 2.2rem;
+            font-weight: 700;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-bottom: 15px !important;
+        }
+        
+        .checkout-payment-method .fieldset.apply .actions-toolbar > .primary > .action-add, 
+        .checkout-payment-method .fieldset.apply .actions-toolbar > .magento_rma-returns-view .secondary .action > .action-add {
+            margin-top: 0;
+            padding: 20px;
+        }
+        
+        .checkout-payment-method .discount-code{
+            margin: 0 !important;
+            
+            .actions-toolbar {
+                margin-left: 0 !important;
+                
+                .primary > .action{
+                    margin-left: 0 !important;
+                    padding: 20px;
+                }
+            }
+        }
+        
+        .qantas-promo-box{
+            margin: 15px 0;
+            
+            .qff-logo-container {
+                background: url(../images/qff-logo.svg);
+                background-size: contain;
+                height: 20px;
+                display: inline-block;
+                background-repeat: no-repeat;
+                margin-bottom: 15px;
+                width: 200px;
+            }
+        }
+        
+        .qff-action-container{
+            margin-top: 15px;
+        }
+        
+        #payment_form_braintree .field > .control {
+            margin-top: 0 !important;
+        }
+        
+        .field.choice .label {
+            font-weight: bold;
         }
     }
 }
