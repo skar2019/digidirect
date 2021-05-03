@@ -1,0 +1,17 @@
+{
+  "name": "digidirect/faq",
+  "description": "FAQ",
+  "type": "magento2-module",
+  "version": "1.3.0.0",
+    "suggest": {
+    "digidirect/utilities": "Digidirect Faq DOES use digidirect/utilities methods. Please install digidirect/utilities extension version >= 1.16.3"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Digidirect\\Faq\\": ""
+    }
+  }
+}

@@ -1,0 +1,51 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="1column" >
+    <head>
+        <title>Frequently Asked Question</title>
+    </head>
+    <body>
+        <referenceBlock name="breadcrumbs">
+            <action method="addCrumb">
+                <argument name="crumbName" xsi:type="string" translate="true">home</argument>
+                <argument name="crumbInfo" xsi:type="array">
+                    <item name="title" xsi:type="string">Home</item>
+                    <item name="label" xsi:type="string">Home</item>
+                    <item name="link" xsi:type="string">/</item>
+                </argument>
+            </action>
+            <action method="addCrumb">
+                <argument name="crumbName" xsi:type="string" translate="true">faq</argument>
+                <argument name="crumbInfo" xsi:type="array">
+                    <item name="title" xsi:type="string">Frequent FAQs</item>
+                    <item name="label" xsi:type="string">Frequent FAQs</item>
+                </argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">FAQ Topics</argument>
+            </action>
+        </referenceBlock>
+
+        <referenceBlock name="root">
+            <action method="setHeaderTitle">
+                <argument translate="true" name="title" xsi:type="string">FAQ</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Digidirect\Faq\Block\Overview" name="faq" template="faq.phtml">
+                <block class="Digidirect\Faq\Block\Tag" name="faq.tags" template="tags.phtml" />
+                <block class="Digidirect\Faq\Block\Listfaq" name="faq.listing" template="list.phtml" />
+                <block class="Digidirect\Faq\Block\Pager" name="faq_list.toolbar">
+                    <arguments>
+                        <argument name="show_per_page" xsi:type="boolean">false</argument>
+                    </arguments>
+                </block>
+            </block>
+            <block class="Digidirect\Faq\Block\Question" name="faq.question" as="faq.question" template="question.phtml" ifconfig="digidirect_faq/customer_questions/enabled">
+                <container name="faq.question.form.additional.info" />
+            </block>
+        </referenceContainer>
+
+    </body>
+</page>

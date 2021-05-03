@@ -85,7 +85,7 @@
             
             min-height: 0;
             line-height: 26px;
-            padding: 8px 0;
+            padding: 16px 0;
             margin-bottom: 0;
             font-size: 1.6rem;
             
@@ -93,6 +93,11 @@
             &::before {
                 .lib-css(width, @collapsible-section-title__background__size__l);
                 .lib-css(height, @collapsible-section-title__background__size__l);
+            }
+            
+            &:hover{
+                color: #e65300;
+                text-decoration: none !important;
             }
         }
     }
