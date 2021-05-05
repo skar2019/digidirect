@@ -1,0 +1,265 @@
+//
+//  Theme: PayPal Review Page
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .braintree-paypal-review {
+        & {
+            .lib-css(background, @color-3-4);
+        }
+
+        .main {
+            .lib-css(background, @color-white);
+            padding: 20px 0;
+        }
+
+        .page-title-wrapper {
+            .lib-css(background, @color-3-4);
+            padding: 0;
+        }
+
+        .page-title {
+            padding: 0 20px;
+        }
+
+        .page-main {
+            margin-bottom: 20px;
+        }
+
+        .page-title-wrapper > .page-title {
+            width: 100%;
+            padding: 20px;
+            margin: 20px 0 0;
+            .lib-css(background, @color-white);
+            .lib-css(border-bottom, 1px solid @color-3-4);
+        }
+
+        .paypal-review {
+            padding: 0 20px;
+        }
+
+        .paypal-review-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .paypal-review > .block {
+            margin: 0;
+        }
+
+        .base {
+            .lib-font-size(22);
+            font-weight: 700;
+        }
+
+        .box-title {
+            .lib-font-size(16);
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .box-content {
+            .lib-font-size(12);
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .box-content > img {
+            margin: 10px 0;
+        }
+
+        .label {
+            font-weight: 500;
+        }
+
+        .select {
+            padding: 0 15px;
+            .lib-font-size(12);
+            font-weight: 400;
+            line-height: 38px;
+        }
+
+        .table-paypal-review-items .product-item-photo {
+            left: 0;
+        }
+
+        .paypal-review-items .table-paypal-review-items .item .col.item {
+            padding: 20px 20px 20px 120px;
+        }
+
+        .opc-block-summary td {
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        .action.primary {
+            width: 100%;
+        }
+    }
+
+    .paypal-review-discount {
+        & {
+            margin-bottom: 30px;
+        }
+
+        .field {
+            width: calc(~'100%  - 150px');
+            display: inline-block;
+            margin-bottom: 0;
+            vertical-align: bottom;
+        }
+
+        .actions-toolbar {
+            width: 150px;
+            display: inline-block;
+            vertical-align: bottom;
+            padding-left: 20px;
+        }
+    }
+
+    .paypal-review .paypal-review-edit-link {
+        .lib-css(font-weight, @font-weight__heavier);
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .cart.table-wrapper .table-paypal-review-items.items {
+        & {
+            table-layout: auto;
+            border-collapse: collapse;
+        }
+
+        .col.item {
+            position: relative;
+        }
+    }
+}
+
+//
+//  Tablet
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .braintree-paypal-review {
+        .main {
+            background: white;
+            padding: 20px 0;
+        }
+
+        .paypal-review-title {
+            padding-right: 30px;
+        }
+
+        .page-title-wrapper > .page-title {
+            display: block;
+            .lib-font-size(24);
+        }
+
+        .box-content {
+            .lib-font-size(13);
+            font-weight: 500;
+        }
+
+        .block-content {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .block-content > .box.box-order-shipping-method {
+            width: 100%;
+        }
+
+        .block-content > .box {
+            width: 50%;
+        }
+
+        .paypal-review-items .table-paypal-review-items .product-item-details {
+            margin-top: 15px;
+        }
+
+        .form.order-review-form .primary {
+            width: 200px;
+        }
+
+        .form.order-review-form .action.primary {
+            width: 100%;
+        }
+
+        .action.primary {
+            padding: 13px 15px 12px;
+        }
+
+        .order-review-form .actions-toolbar {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .paypal-review-items .table-paypal-review-items .item .col.item {
+            padding: 20px;
+        }
+    }
+
+    .table-paypal-review-items thead .col.name {
+        width: 40%;
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .braintree-paypal-review {
+        .page-title-wrapper {
+            padding: 0 50px;
+        }
+
+        .box-content,
+        .paypal-review-discount {
+            max-width: 50%;
+        }
+
+        .paypal-review-title {
+            padding-right: 60px;
+        }
+
+        .actions-toolbar .action {
+            .lib-font-size(16);
+        }
+
+        .block-content > .box {
+            width: 25%;
+        }
+
+        .discount .actions-toolbar {
+            .lib-font-size(16);
+        }
+
+        .action.primary {
+            padding: 16px 15px 14px;
+        }
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
+    .braintree-paypal-review {
+        .page-title-wrapper {
+            padding: 0;
+        }
+    }
+}
