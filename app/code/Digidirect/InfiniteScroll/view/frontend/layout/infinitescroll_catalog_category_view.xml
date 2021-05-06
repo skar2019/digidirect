@@ -2,8 +2,6 @@
 
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <move element="page.main.title" destination="infinitescroll.toolbar" before="-"/>
-        
         <referenceBlock name="digidirect.infinitescroll.core" template="Digidirect_InfiniteScroll::js/catalog-listing.phtml">
             <arguments>
                 <argument name="add_on" xsi:type="string">Digidirect_InfiniteScroll/js/dist/addons/catalog/index</argument>
