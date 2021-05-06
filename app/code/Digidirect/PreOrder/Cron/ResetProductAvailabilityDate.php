@@ -7,8 +7,6 @@ use Magento\Catalog\Model\Config as CatalogConfig;
 use Digidirect\PreOrder\Model\Source\Backorders as BackordersSource;
 use Digidirect\PreOrder\Api\Data\ProductAttributeInterface;
 use Digidirect\PreOrder\Helper\Config as HelperConfig;
-use Magento\Framework\Stdlib\DateTime\Timezone;
-
 
 /**
  * Class ResetProductAvailabilityDate
@@ -31,28 +29,20 @@ class ResetProductAvailabilityDate
     protected $catalogConfig;
 
     /**
-     * @var Timezone
-     */
-    private $timezone;
-
-    /**
      * OrderAutoValidation constructor.
      *
      * @param ProductCollectionFactory $productCollectionFactory
      * @param HelperConfig $helperConfig
      * @param CatalogConfig $catalogConfig
-     * @param Timezone $timezone
      */
     public function __construct(
         ProductCollectionFactory $productCollectionFactory,
         HelperConfig $helperConfig,
-        CatalogConfig $catalogConfig,
-        Timezone $timezone
+        CatalogConfig $catalogConfig
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->helperConfig = $helperConfig;
         $this->catalogConfig = $catalogConfig;
-        $this->timezone = $timezone;
     }
 
     /**
@@ -83,7 +73,7 @@ class ResetProductAvailabilityDate
         $productCollection->addAttributeToSelect($this->catalogConfig->getProductAttributes())
             ->addAttributeToFilter(
                 ProductAttributeInterface::CODE_PRODUCT_AVAILABILITY_DATE,
-                ['lteq' => $this->timezone->date()]
+                ['lteq' => new \DateTime()]
             );
 
         return $productCollection;

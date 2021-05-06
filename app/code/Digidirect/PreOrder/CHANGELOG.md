@@ -52,8 +52,3 @@
 * Bugfixes:
     * [#336529](https://digidirect.tpondemand.com/entity/336529) -- [Project: DigiDirect] "Product Availability Date" field doesn't pass validation after choosing date in the date pickup per
 
-1.1.2
-=============
-* Bugfixes:
-    * [#338336](https://digidirect.tpondemand.com/entity/338336) -- [Project: DigiDirect] "Backorder" status is not updated after date from the "Product Availability Date" field expires
-
