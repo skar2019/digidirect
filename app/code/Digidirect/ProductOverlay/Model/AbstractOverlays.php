@@ -267,9 +267,9 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
             $overlayRule->setProduct($product);
 
             $productIds = $overlayRule->getMatchingProductIds();
-            $inArray = array_key_exists($product->getId(), $productIds)
-                && (array_key_exists($product->getStore()->getId(), $productIds[$product->getId()]) ||
-                    array_key_exists(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $productIds[$product->getId()])
+            $inArray = property_exists($productIds, $product->getId())
+                && (property_exists($productIds[$product->getId()], $product->getStore()->getId()) ||
+                    property_exists($productIds[$product->getId()], \Magento\Store\Model\Store::DEFAULT_STORE_ID)
                 );
         }
 
