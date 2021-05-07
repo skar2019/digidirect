@@ -91,7 +91,7 @@ class Processor implements ProcessorInterface
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage,
-            'result' => $result
+            'result' => $result->count()
             
         ];
     }
