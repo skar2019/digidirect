@@ -56,13 +56,15 @@ class Processor implements ProcessorInterface
         $perPage = 0;
         
         if ($block->getLoadedProductCollection()->getSize()) {
-            
-            $html = $block->toHtml();
 
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
             
             $currentCount = $this->getCurrentSize($totalCount);
+            
+            $html = $block->toHtml();
+            
+            $html = preg_replace('/(<(script|style)\b[^>]*>).*?(<\/\2>)/is', "", $html);
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
@@ -88,7 +90,7 @@ class Processor implements ProcessorInterface
             'content' => $resultHtml,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
-            'perPageCount' => 28
+            'perPageCount' => $perPage
         ];
     }
 
@@ -190,6 +192,8 @@ class Processor implements ProcessorInterface
         $block = $this->_getBlock();
         $collection = $block->getLoadedProductCollection();
         $currentCount = $this->getLimit() * $collection->getCurPage();
+        
+        $collection->setPage($collection->getCurPage(), 12);
         
         if($currentCount >= $totalCount){
             $currentCount = $totalCount;
