@@ -59,7 +59,7 @@ class Processor implements ProcessorInterface
 
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
-            $currentCount = $this->getCurrentSize();
+            $currentCount = $this->getCurrentSize($perPage);
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
@@ -175,11 +175,11 @@ class Processor implements ProcessorInterface
     /**
      * @return int
      */
-    public function getCurrentSize()
+    public function getCurrentSize($perPage = 28)
     {
         /** @var ListProduct $block */
         $block = $this->_getBlock();
         $collection = $block->getLoadedProductCollection();
-        return $this->getLimit() * ($collection->getCurPage() - 1);
+        return $perPage + ($this->getLimit() * ($collection->getCurPage() - 1));
     }
 }
