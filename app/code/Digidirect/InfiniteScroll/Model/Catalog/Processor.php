@@ -82,7 +82,7 @@ class Processor implements ProcessorInterface
                     /** @var \DOMNode $node */
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
-                            if($runningValue > $stopper){
+                            if($runningValue < $stopper){
                                 $resultHtml .= $node->ownerDocument->saveHTML($node);
                                 $runningValue++;
                             }
