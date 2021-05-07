@@ -66,6 +66,7 @@ class Processor implements ProcessorInterface
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
             $result = $dom->query($this->_selector);
+            
             $resultHtml = '';
             if ($result->count()) {
                 foreach ($result as $match) {
@@ -77,6 +78,7 @@ class Processor implements ProcessorInterface
                     }
                 }
             }
+            
             $url = $this->_getNextPageUrl();
         }
 
@@ -130,7 +132,10 @@ class Processor implements ProcessorInterface
      */
     public function getNextPageUrl()
     {
-        return $this->_getNextPageUrl();
+        $block = $this->_getBlock();
+        $collection = $block->getLoadedProductCollection();
+        
+        return $this->_getNextPageUrl($collection->getCurPage() + 1);
     }
 
     /**
@@ -184,6 +189,10 @@ class Processor implements ProcessorInterface
         $block = $this->_getBlock();
         $collection = $block->getLoadedProductCollection();
         $currentCount = $collection->count() + ($this->getLimit() * ($collection->getCurPage() - 1));
+        
+        echo "Collection Count: " . $collection->count() . "<br/>";
+        echo "Current Count: " . $currentCount . "<br/>";
+        echo "Current Page: " . $collection->getCurPage();
         
         if($currentCount >= $totalCount){
             $currentCount = $totalCount;
