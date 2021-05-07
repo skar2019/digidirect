@@ -75,15 +75,16 @@ class Processor implements ProcessorInterface
             $resultHtml = '';
             if ($result->count()) {
                 
-                $runningValue = $currentCount;
+                $runningValue = $currentCount + 1;
+                $runningLimit = 0;
                 
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
-                            if($runningValue > $currentCount){
+                            if($runningValue > $currentCount && $currentCount < $runningLimit){
                                 $resultHtml .= $node->ownerDocument->saveHTML($node);
-                                $runningValue++;
+                                $runningLimit++;
                             }
                         }
                     }
