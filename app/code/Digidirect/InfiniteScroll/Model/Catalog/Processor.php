@@ -76,20 +76,15 @@ class Processor implements ProcessorInterface
             if ($result->count()) {
                 
                 $stopper = $currentCount;
-                $runningValue = $currentCount / 2;
-                $runningLimit = 0;
+                $runningValue = $currentCount - $perPage;
                 
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
                             if($runningValue > $stopper){
-                                if($perPage >= $runningLimit){
-                                    $resultHtml .= $node->ownerDocument->saveHTML($node);
-                                
-                                    $runningValue++;
-                                    $runningLimit++;
-                                }
+                                $resultHtml .= $node->ownerDocument->saveHTML($node);
+                                $runningValue++;
                             }
                         }
                     }
@@ -197,15 +192,32 @@ class Processor implements ProcessorInterface
         $block = $this->_getBlock();
         return $block->getLoadedProductCollection()->getSize();
     }
+    
+    /**
+     * @return int
+     */
+    public function getPreviousSize($totalCount = 0)
+    {
+        $currentPage = 0;
+        
+        if(isset($_GET["p"])){
+            $currentPage = $_GET["p"];
+        }
+        
+        $currentCount = $this->getLimit() * $currentPage;
+        
+        if($currentCount >= $totalCount){
+            $currentCount = $totalCount;
+        }
+        
+        return $currentCount;
+    }
 
     /**
      * @return int
      */
     public function getCurrentSize($totalCount = 0)
     {
-        /** @var ListProduct $block */
-        
-        $block = $this->_getBlock();
         $currentPage = 0;
         
         if(isset($_GET["p"])){
