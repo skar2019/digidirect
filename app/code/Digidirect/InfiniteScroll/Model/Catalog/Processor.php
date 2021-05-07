@@ -78,13 +78,18 @@ class Processor implements ProcessorInterface
                 $stopper = $currentCount;
                 $runningValue = $currentCount - $perPage;
                 
+                $runningLimit = 0;
+                
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
                             if($runningValue < $stopper){
-                                $resultHtml .= $node->ownerDocument->saveHTML($node);
-                                $runningValue++;
+                                if($runningLimit < $perPage){
+                                    $resultHtml .= $node->ownerDocument->saveHTML($node);
+                                    $runningValue++;
+                                    $runningLimit++;
+                                }
                             }
                         }
                     }
