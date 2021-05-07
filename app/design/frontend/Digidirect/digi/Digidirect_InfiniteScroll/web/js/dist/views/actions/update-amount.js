@@ -59,7 +59,15 @@ define(['module', 'exports', 'jquery'], function (module, exports, _jquery) {
             key: '_updateAmount',
             value: function _updateAmount() {
                 if (this._getLastNumber() > 1) {
-                    return 'Showing: 1 - ' + this.currentCount + ' of ' + this.totalCount;
+                    
+                    var totalCount = this.totalCount;
+                    var currentCount = this.currentCount;
+
+                    if(currentCount >= totalCount){
+                        currentCount = totalCount;
+                    }
+                    
+                    return 'Showing: 1 - ' + currentCount + ' of ' + totalCount;
                 } else if (this.totalCount === 1) {
                     return this.totalCount + ' Item';
                 } else {
