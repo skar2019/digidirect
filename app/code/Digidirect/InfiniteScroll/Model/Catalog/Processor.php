@@ -53,6 +53,8 @@ class Processor implements ProcessorInterface
         $resultHtml = '';
         $totalCount = 0;
         $currentCount = 0;
+        $runningValue = 0;
+        
         $perPage = 0;
         
         if ($block->getLoadedProductCollection()->getSize()) {
@@ -72,11 +74,17 @@ class Processor implements ProcessorInterface
             
             $resultHtml = '';
             if ($result->count()) {
+                
+                $runningValue = 0;
+                
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
-                            $resultHtml .= $node->ownerDocument->saveHTML($node);
+                            if($runningValue <= $currentCount){
+                                $resultHtml .= $node->ownerDocument->saveHTML($node);
+                                $runningValue++;
+                            }
                         }
                     }
                 }
