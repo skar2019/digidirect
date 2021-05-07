@@ -94,7 +94,8 @@ class Processor implements ProcessorInterface
             'content' => $resultHtml,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
-            'perPageCount' => $perPage
+            'perPageCount' => $perPage,
+            'result' => $result
             
         ];
     }
@@ -201,7 +202,7 @@ class Processor implements ProcessorInterface
             $currentPage = $_GET["p"];
         }
         
-        $currentCount = 12 * $currentPage;
+        $currentCount = $this->getLimit() * $currentPage;
         
         if($currentCount >= $totalCount){
             $currentCount = $totalCount;
