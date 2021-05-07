@@ -54,7 +54,6 @@ class Processor implements ProcessorInterface
         $totalCount = 0;
         $currentCount = 0;
         $perPage = 0;
-        
         if ($block->getLoadedProductCollection()->getSize()) {
             $html = $block->toHtml();
 
@@ -181,6 +180,6 @@ class Processor implements ProcessorInterface
         /** @var ListProduct $block */
         $block = $this->_getBlock();
         $collection = $block->getLoadedProductCollection();
-        return 28 + ($this->getLimit() * $collection->getCurPage());
+        return $collection->count() + ($this->getLimit() * ($collection->getCurPage() - 1));
     }
 }
