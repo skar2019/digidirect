@@ -87,7 +87,7 @@ class Processor implements ProcessorInterface
             'content' => $resultHtml,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
-            'perPageCount' => 24
+            'perPageCount' => 28
         ];
     }
 
@@ -188,7 +188,7 @@ class Processor implements ProcessorInterface
         
         $block = $this->_getBlock();
         $collection = $block->getLoadedProductCollection();
-        $currentCount = $collection->count() + ($this->getLimit() * ($collection->getCurPage() - 1));
+        $currentCount = $this->getLimit() * $collection->getCurPage();
         
         echo "Collection Count: " . $collection->count() . "<br/>";
         echo "Current Count: " . $currentCount . "<br/>";
