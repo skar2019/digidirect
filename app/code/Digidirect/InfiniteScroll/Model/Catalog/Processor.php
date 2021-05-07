@@ -87,7 +87,7 @@ class Processor implements ProcessorInterface
             'content' => $resultHtml,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
-            'perPageCount' => $perPage
+            'perPageCount' => 24
         ];
     }
 
