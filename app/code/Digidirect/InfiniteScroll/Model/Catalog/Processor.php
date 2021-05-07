@@ -190,13 +190,13 @@ class Processor implements ProcessorInterface
         $collection = $block->getLoadedProductCollection();
         $currentCount = $this->getLimit() * $collection->getCurPage();
         
-        echo "Collection Count: " . $collection->count() . "<br/>";
-        echo "Current Count: " . $currentCount . "<br/>";
-        echo "Current Page: " . $collection->getCurPage();
-        
         if($currentCount >= $totalCount){
             $currentCount = $totalCount;
         }
+        
+//        echo "Collection Count: " . $collection->count() . "<br/>";
+//        echo "Current Count: " . $currentCount . "<br/>";
+//        echo "Current Page: " . $collection->getCurPage();
         
         return $currentCount;
     }
