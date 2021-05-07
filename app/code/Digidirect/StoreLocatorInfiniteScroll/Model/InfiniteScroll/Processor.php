@@ -107,7 +107,7 @@ class Processor implements ProcessorInterface
      * @return int
      * @throws \Exception
      */
-    public function getCurrentSize()
+    public function getCurrentSize($totalCount = 0)
     {
        return null;
     }
