@@ -54,6 +54,7 @@ class Processor implements ProcessorInterface
         $totalCount = 0;
         $currentCount = 0;
         $perPage = 0;
+        
         if ($block->getLoadedProductCollection()->getSize()) {
             
             $html = $block->toHtml();
