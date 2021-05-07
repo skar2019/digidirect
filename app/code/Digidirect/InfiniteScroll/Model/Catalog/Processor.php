@@ -75,16 +75,21 @@ class Processor implements ProcessorInterface
             $resultHtml = '';
             if ($result->count()) {
                 
-                $runningValue = $currentCount + 1;
+                $stopper = $currentCount;
+                $runningValue = $currentCount / 2;
                 $runningLimit = 0;
                 
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
-                            if($runningValue > $currentCount && $currentCount < $runningLimit){
-                                $resultHtml .= $node->ownerDocument->saveHTML($node);
-                                $runningLimit++;
+                            if($runningValue > $stopper){
+                                if($perPage >= $runningLimit){
+                                    $resultHtml .= $node->ownerDocument->saveHTML($node);
+                                
+                                    $runningValue++;
+                                    $runningLimit++;
+                                }
                             }
                         }
                     }
@@ -100,7 +105,7 @@ class Processor implements ProcessorInterface
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage,
-            'result' => $result->count()
+            'runningValue' => $runningValue
             
         ];
     }
