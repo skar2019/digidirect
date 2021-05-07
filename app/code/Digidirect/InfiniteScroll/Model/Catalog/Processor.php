@@ -65,10 +65,6 @@ class Processor implements ProcessorInterface
             $currentCount = $this->getCurrentSize($totalCount);
             
             $html = $block->toHtml();
-            
-//            TO DO
-                
-            //GET ONLY html    
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
