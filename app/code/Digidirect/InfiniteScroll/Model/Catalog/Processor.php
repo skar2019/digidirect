@@ -76,7 +76,7 @@ class Processor implements ProcessorInterface
             if ($result->count()) {
                 
                 $stopper = $currentCount;
-                $runningValue = $currentCount - $perPage + 1;
+                $runningValue = $currentCount - $perPage;
                 
                 $runningLimit = 0;
                 $stop = false;
@@ -114,7 +114,8 @@ class Processor implements ProcessorInterface
             'currentCount' => $currentCount,
             'stopper' => $stopper,
             'perPageCount' => $perPage,
-            'runningValue' => $runningValue
+            'runningValue' => $runningValue,
+            'runningLimit' => $runningLimit,
             
         ];
     }
