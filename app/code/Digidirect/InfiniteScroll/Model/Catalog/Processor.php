@@ -88,7 +88,7 @@ class Processor implements ProcessorInterface
                         if (trim($node->nodeValue)) {
                             array_push($runningMatch, $node->ownerDocument->saveHTML($node));
                             
-                            if($runningValue <= $currentCount && $perPage => $runningLimit){
+                            if($runningValue <= $currentCount && $perPage >= $runningLimit){
                                 $resultHtml .= $node->ownerDocument->saveHTML($node);
                                 $runningLimit++;
                             }
