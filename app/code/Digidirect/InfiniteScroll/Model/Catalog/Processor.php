@@ -79,10 +79,10 @@ class Processor implements ProcessorInterface
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
                     
-                    array_push($runningMatch, $match);
-                    
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
+                            array_push($runningMatch, $node->ownerDocument->saveHTML($node));
+                            
                             $resultHtml .= $node->ownerDocument->saveHTML($node);
                         }
                     }
