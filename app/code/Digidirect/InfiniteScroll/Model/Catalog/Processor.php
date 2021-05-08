@@ -86,12 +86,13 @@ class Processor implements ProcessorInterface
                     
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
-                            array_push($runningMatch, $node->ownerDocument->saveHTML($node));
                             
                             if($runningValue <= $currentCount && $perPage >= $runningLimit){
                                 $resultHtml .= $node->ownerDocument->saveHTML($node);
                                 $runningValue++;
                                 $runningLimit++;
+                                
+                                array_push($runningMatch, $node->ownerDocument->saveHTML($node));
                             }
                         }
                     }
