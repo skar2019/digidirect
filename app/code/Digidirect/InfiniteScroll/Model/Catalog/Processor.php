@@ -66,6 +66,8 @@ class Processor implements ProcessorInterface
             
             $currentCount = $this->getCurrentSize($totalCount);
             
+            $previousCount = $this->getPreviousSize();
+            
             $html = $block->toHtml();
 
             $dom = new \Zend_Dom_Query();
@@ -73,6 +75,9 @@ class Processor implements ProcessorInterface
             $result = $dom->query($this->_selector);
             
             $runningMatch = array();
+            
+            $runningValue = $previousCount + 1;
+            $runningLimit = 0;
             
             $resultHtml = '';
             if ($result->count()) {
@@ -83,7 +88,10 @@ class Processor implements ProcessorInterface
                         if (trim($node->nodeValue)) {
                             array_push($runningMatch, $node->ownerDocument->saveHTML($node));
                             
-                            $resultHtml .= $node->ownerDocument->saveHTML($node);
+                            if($runningValue <= $currentCount && $perPage => $runningLimit){
+                                $resultHtml .= $node->ownerDocument->saveHTML($node);
+                                $runningLimit++;
+                            }
                         }
                     }
                 }
@@ -98,7 +106,9 @@ class Processor implements ProcessorInterface
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage,
-            'match' => $runningMatch
+            'match' => $runningMatch,
+            'runningValue' => $runningValue,
+            'runningLimit' => $runningLimit
             
         ];
     }
@@ -194,7 +204,7 @@ class Processor implements ProcessorInterface
     /**
      * @return int
      */
-    public function getPreviousSize($totalCount = 0)
+    public function getPreviousSize()
     {
         $currentPage = 0;
         
@@ -202,13 +212,9 @@ class Processor implements ProcessorInterface
             $currentPage = $_GET["p"];
         }
         
-        $currentCount = $this->getLimit() * $currentPage;
+        $currentPage = $this->getLimit() * ($currentPage - 1);
         
-        if($currentCount >= $totalCount){
-            $currentCount = $totalCount;
-        }
-        
-        return $currentCount;
+        return $currentPage;
     }
 
     /**
