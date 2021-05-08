@@ -72,33 +72,18 @@ class Processor implements ProcessorInterface
             $dom->setDocumentHtml($html, static::ENCODING);
             $result = $dom->query($this->_selector);
             
+            $runningMatch = array();
+            
             $resultHtml = '';
             if ($result->count()) {
-                
-                $stopper = $currentCount;
-                $runningValue = $currentCount - $perPage;
-                
-                $runningLimit = 0;
-                $stop = false;
-                
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
+                    
+                    array_push($runningMatch, $match);
+                    
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
-                            if($stopper > $runningValue){
-                                if($runningLimit >= $perPage){
-                                    break;
-                                }
-                                else{
-                                    $resultHtml .= $node->ownerDocument->saveHTML($node);
-                                    $runningValue++;
-                                    $runningLimit++;
-                                }
-                            }
-                        }
-                        
-                        if($stop == true){
-                            break;
+                            $resultHtml .= $node->ownerDocument->saveHTML($node);
                         }
                     }
                 }
@@ -112,10 +97,8 @@ class Processor implements ProcessorInterface
             'content' => $resultHtml,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
-            'stopper' => $stopper,
             'perPageCount' => $perPage,
-            'runningValue' => $runningValue,
-            'runningLimit' => $runningLimit,
+            'match' => $runningMatch
             
         ];
     }
