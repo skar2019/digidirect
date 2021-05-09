@@ -50,5 +50,5 @@ interface ProcessorInterface
      *
      * @return int
      */
-    public function getCurrentSize($totalCount = 0);
+    public function getCurrentSize();
 }

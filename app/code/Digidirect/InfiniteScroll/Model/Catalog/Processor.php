@@ -53,52 +53,28 @@ class Processor implements ProcessorInterface
         $resultHtml = '';
         $totalCount = 0;
         $currentCount = 0;
-        $runningValue = 0;
-        
         $perPage = 0;
-        
         if ($block->getLoadedProductCollection()->getSize()) {
+            $html = $block->toHtml();
 
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
-            
-            settype($perPage, "integer");
-            
-            $currentCount = $this->getCurrentSize($totalCount);
-            
-            $previousCount = $this->getPreviousSize();
-            
-            $html = $block->toHtml();
+            $currentCount = $this->getCurrentSize();
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
             $result = $dom->query($this->_selector);
-            
-            $runningMatch = array();
-            
-//            $runningValue = $currentCount + $perPage;
-            $runningLimit = 0;
-            
             $resultHtml = '';
             if ($result->count()) {
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
-                    
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
-                            
-//                            if($perPage >= $runningLimit){
-                                $resultHtml .= $node->ownerDocument->saveHTML($node);
-                                $runningValue++;
-                                $runningLimit++;
-                                
-                                array_push($runningMatch, $node->ownerDocument->saveHTML($node));
-//                            }
+                            $resultHtml .= $node->ownerDocument->saveHTML($node);
                         }
                     }
                 }
             }
-            
             $url = $this->_getNextPageUrl();
         }
 
@@ -107,11 +83,7 @@ class Processor implements ProcessorInterface
             'content' => $resultHtml,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
-            'perPageCount' => $perPage,
-            'match' => $runningMatch,
-            'runningValue' => $runningValue,
-            'runningLimit' => $runningLimit
-            
+            'perPageCount' => $perPage
         ];
     }
 
@@ -156,10 +128,7 @@ class Processor implements ProcessorInterface
      */
     public function getNextPageUrl()
     {
-        $block = $this->_getBlock();
-        $collection = $block->getLoadedProductCollection();
-        
-        return $this->_getNextPageUrl($collection->getCurPage() + 1);
+        return $this->_getNextPageUrl();
     }
 
     /**
@@ -202,40 +171,15 @@ class Processor implements ProcessorInterface
         $block = $this->_getBlock();
         return $block->getLoadedProductCollection()->getSize();
     }
-    
-    /**
-     * @return int
-     */
-    public function getPreviousSize()
-    {
-        $currentPage = 0;
-        
-        if(isset($_GET["p"])){
-            $currentPage = $_GET["p"];
-        }
-        
-        $currentPage = $this->getLimit() * ($currentPage - 1);
-        
-        return $currentPage;
-    }
 
     /**
      * @return int
      */
-    public function getCurrentSize($totalCount = 0)
+    public function getCurrentSize()
     {
-        $currentPage = 0;
-        
-        if(isset($_GET["p"])){
-            $currentPage = $_GET["p"];
-        }
-        
-        $currentCount = $this->getLimit() * $currentPage;
-        
-        if($currentCount >= $totalCount){
-            $currentCount = $totalCount;
-        }
-        
-        return $currentCount;
+        /** @var ListProduct $block */
+        $block = $this->_getBlock();
+        $collection = $block->getLoadedProductCollection();
+        return $collection->count() + ($this->getLimit() * ($collection->getCurPage() - 1));
     }
 }
