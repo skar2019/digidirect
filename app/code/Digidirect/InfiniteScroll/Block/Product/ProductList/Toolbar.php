@@ -19,6 +19,13 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
             if (!$this->getCollection()) {
                 $this->setCollection($this->getParentBlock()->getLoadedProductCollection());
             }
+            
+            $initialCurrentPage = 1;
+            
+            if(isset($_GET["p"])){
+                $initialCurrentPage = $_GET["p"];
+                settype($initialCurrentPage, "integer");
+            }
 
             $pagerBlock->setUseContainer(
                 false
@@ -40,6 +47,8 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
                 $this->getLimit()
             )->setCollection(
                 $this->getCollection()
+            )->setCurPage(
+                $initialCurrentPage
             );
 
             return $pagerBlock;
