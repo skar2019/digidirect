@@ -190,6 +190,8 @@ class Processor implements ProcessorInterface
         
         $currentPage = 1;
         
+        $initialCurrentPage = 1;
+        
         if(isset($_GET["p"])){
             $initialCurrentPage = $_GET["p"];
             settype($initialCurrentPage, "integer");
@@ -197,7 +199,7 @@ class Processor implements ProcessorInterface
             $currentPage = 28 * $initialCurrentPage;
         }
         
-        $collection->setPage($currentPage, 28);
+        $collection->setPage($initialCurrentPage, 28);
         
         return $currentPage;
 //        return $this->getLimit() * ($collection->getCurPage() - 1);
