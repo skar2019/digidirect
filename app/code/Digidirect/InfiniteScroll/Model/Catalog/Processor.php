@@ -76,7 +76,7 @@ class Processor implements ProcessorInterface
             
             $runningMatch = array();
             
-            $runningValue = $currentCount + $perPage;
+//            $runningValue = $currentCount + $perPage;
             $runningLimit = 0;
             
             $resultHtml = '';
@@ -87,13 +87,13 @@ class Processor implements ProcessorInterface
                     foreach ($match->childNodes as $node) {
                         if (trim($node->nodeValue)) {
                             
-                            if($runningValue <= $currentCount && $perPage >= $runningLimit){
+//                            if($perPage >= $runningLimit){
                                 $resultHtml .= $node->ownerDocument->saveHTML($node);
                                 $runningValue++;
                                 $runningLimit++;
                                 
                                 array_push($runningMatch, $node->ownerDocument->saveHTML($node));
-                            }
+//                            }
                         }
                     }
                 }
