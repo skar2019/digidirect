@@ -76,7 +76,7 @@ class Processor implements ProcessorInterface
             
             $runningMatch = array();
             
-            $runningValue = $previousCount + 1;
+            $runningValue = $currentCount + 1;
             $runningLimit = 0;
             
             $resultHtml = '';
