@@ -48,17 +48,19 @@ class Processor implements ProcessorInterface
     public function process()
     {
         /** @var ListProduct $block */
-        $block = $this->_getBlock();
         $url = false;
         $resultHtml = '';
         $totalCount = 0;
         $currentCount = 0;
+        
         $perPage = 0;
-        if ($block->getLoadedProductCollection()->getSize()) {
+//        if ($block->getLoadedProductCollection()->getSize()) {
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
             
             $currentCount = $this->getCurrentSize();
+            
+            $block = $this->_getBlock();
             
             $html = $block->toHtml();
             
@@ -79,7 +81,7 @@ class Processor implements ProcessorInterface
             }
             
             $url = $this->_getNextPageUrl();
-        }
+//        }
 
         return [
             'url' => $url,
@@ -155,7 +157,7 @@ class Processor implements ProcessorInterface
      */
     protected function _getLimit()
     {
-        return $this->_helper->getCatalogLimit();
+        return 28;
     }
 
     /**
@@ -199,7 +201,7 @@ class Processor implements ProcessorInterface
             $currentPage = 28 * $initialCurrentPage;
         }
         
-        $collection->setPage($initialCurrentPage, 28);
+        $collection->setCurPage($initialCurrentPage, 28)->load();
         
         return $currentPage;
 //        return $this->getLimit() * ($collection->getCurPage() - 1);
