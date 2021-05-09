@@ -14,16 +14,9 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
     public function getPager()
     {
         $pagerBlock = $this->getChildBlock('infinitescroll_product_list_toolbar_pager');
-        
-//        $pagerBlock->setAvailableLimit($this->getAvailableLimit());
-
-//        if ($pagerBlock instanceof \Magento\Framework\DataObject) {
+        if ($pagerBlock instanceof \Magento\Framework\DataObject) {
             /* @var $pagerBlock \Magento\Theme\Block\Html\Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());
-            
-            if (!$this->getCollection()) {
-                $this->setCollection($this->getParentBlock()->getLoadedProductCollection());
-            }
 
             $pagerBlock->setUseContainer(
                 false
@@ -47,10 +40,10 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
                 $this->getCollection()
             );
 
-            return $pagerBlock;
-//        }
-//
-//        return false;
+            return $pagerBlock->toHtml();
+        }
+
+        return false;
     }
 
     /**
