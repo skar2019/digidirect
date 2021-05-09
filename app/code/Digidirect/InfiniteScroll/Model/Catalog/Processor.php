@@ -71,7 +71,7 @@ class Processor implements ProcessorInterface
             $html = $block->toHtml();
 
             $dom = new \Zend_Dom_Query();
-            $dom->setDocumentHtml($html, static::ENCODING);
+            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
             $result = $dom->query($this->_selector);
             
             $runningMatch = array();
