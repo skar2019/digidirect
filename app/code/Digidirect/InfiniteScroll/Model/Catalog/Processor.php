@@ -97,7 +97,7 @@ class Processor implements ProcessorInterface
         $block = $this->_getBlock();
         /** @var \Digidirect\InfiniteScroll\Block\Product\ProductList\Toolbar $toolbar */
         $toolbar = $block->getToolbarBlock();
-        $pager = $toolbar->getPagerHtml();
+        $pager = $toolbar->getPager();
 
         $url = false;
         if ($pager && !$pager->isLastPage()) {

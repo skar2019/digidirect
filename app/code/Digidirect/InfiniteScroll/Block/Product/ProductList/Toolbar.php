@@ -8,7 +8,7 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
      *
      * @return \Magento\Theme\Block\Html\Pager
      */
-    public function getPagerHtml()
+    public function getPager()
     {
         $pagerBlock = $this->getChildBlock('infinitescroll_product_list_toolbar_pager');
 
