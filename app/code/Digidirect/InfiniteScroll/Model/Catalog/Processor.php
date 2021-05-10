@@ -100,6 +100,7 @@ class Processor implements ProcessorInterface
             if($count > 0){
                 foreach ($results as $result) {
                     $resultNode .= $result->nodeValue;
+                    $resultHtml .= $result->C14N();
                 }
             }
             
