@@ -75,15 +75,6 @@ class Processor implements ProcessorInterface
             $toolbar->nextPage();
             
             $html = $block->toHtml();
-            
-//            $dom = new \DOMDocument();
-//
-//            @$dom->loadHTML(html_entity_decode($html));
-//
-//            $xpath = new \DOMXPath($dom);
-//            $html = $xpath->query('//div[@class="products items product-items -grid"]');
-//            
-//            $resultHtml = $html;
 
 //            $dom = new \Zend_Dom_Query();
 //            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
@@ -99,19 +90,18 @@ class Processor implements ProcessorInterface
 //                }
 //            }
             
-            $dom = new \Zend_Dom_Query($html);
-//            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
+            $dom = new Zend_Dom_Query($html);
+            $results = $dom->query('.product-items');
             
-            $results = $dom->query(".product-items");
-
-            if (count($results)) {
-                 foreach ($results as $result) {
-                     $resultHtml = '';
-                     $children = $result->childNodes;
-                     foreach ($children as $child) {
-                         $resultHtml .= $child->ownerDocument->saveHTML($child);
-                     }
-                 }
+            $ctr = 0;
+            $resultHtml = "";
+            
+            foreach($results as $node){
+                if($node->hasChildnodes()) {
+                    $childNodes = $node->childNodes;
+                    $resultHtml = $childNodes->item($ctr)->C14N();
+                    $ctr++;
+                }
             }
         }
 
