@@ -91,31 +91,24 @@ class Processor implements ProcessorInterface
 //            }
             
             $dom = new \Zend_Dom_Query($html);
-            $results = $dom->execute('.product-items');
+            $results = $dom->query(".product-items");
+
+            $count = count($results); // get number of matches: 4
+            $resultHtml = "";
+            $resultNode = "";
             
-            $resultHtml = $results->getDocument();
-            
-            //To Do List
-//            1. List HTML properly - nodeValues
-//            2. Fixed Sorting
-            
-//            $dom = new \Zend_Dom_Query($html);
-//            $results = $dom->query(".product-items");
-//
-//            $count = count($results); // get number of matches: 4
-//            $resultHtml = "";
-//            
-//            if($count > 0){
-//                foreach ($results as $result) {
-//                    $resultHtml .= $result->ownerDocument->saveHTML($result);
-//                }
-//            }
+            if($count > 0){
+                foreach ($results as $result) {
+                    $resultNode .= $result->nodeValue;
+                }
+            }
             
         }
 
         return [
             'url' => $pagerData["url"],
             'content' => $resultHtml,
+            'resultNode' => $resultNode,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage
