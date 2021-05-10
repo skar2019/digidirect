@@ -62,13 +62,26 @@ class Processor implements ProcessorInterface
             
             $currentCount = $this->getCurrentSize();
             
+            $block->setData('show_pager', true);
+            
             $block->setData('products_per_page', $perPage);
+            
+            $initialCurrentPage = 1;
+        
+            if(isset($_GET["p"])){
+                $initialCurrentPage = $_GET["p"];
+                settype($initialCurrentPage, "integer");
+            }
+            
+            $block->setCurPage($initialCurrentPage);
+            
+            $block->setPageSize(12);
             
             $block->setProductsCount($currentCount);
             
             $html = $block->toHtml();
             
-            $resultHtml = "";
+            $resultHtml = $html;
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
@@ -170,6 +183,7 @@ class Processor implements ProcessorInterface
      */
     public function getLimit()
     {
+        
         return $this->_getLimit();
     }
 
@@ -203,10 +217,10 @@ class Processor implements ProcessorInterface
             $initialCurrentPage = $_GET["p"];
             settype($initialCurrentPage, "integer");
             
-            $currentPage = 28 * $initialCurrentPage;
+            $currentPage = $limit * $initialCurrentPage;
         }
         
-        $collection->setPage($initialCurrentPage, 28)->load();
+        $collection->setPage($initialCurrentPage, $limit)->load();
         
         return $currentPage;
 //        return $this->getLimit() * ($collection->getCurPage() - 1);
