@@ -98,8 +98,7 @@ class Processor implements ProcessorInterface
             
             foreach($results as $node){
                 $childNodes = $node->childNodes;
-                $resultHtml .= $childNodes->item($ctr)->C14N();
-                $ctr++;
+                $resultHtml .= $childNodes->C14N();
             }
             
 //            $dom = new \Zend_Dom_Query($html);
