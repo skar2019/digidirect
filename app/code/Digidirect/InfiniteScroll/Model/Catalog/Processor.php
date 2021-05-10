@@ -49,22 +49,43 @@ class Processor implements ProcessorInterface
     {
         /** @var ListProduct $block */
         $block = $this->_getBlock();
+         
         $url = false;
         $resultHtml = '';
         $totalCount = 0;
         $currentCount = 0;
+        
         $perPage = 0;
         if ($block->getLoadedProductCollection()->getSize()) {
-            $html = $block->toHtml();
-
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
+            
             $currentCount = $this->getCurrentSize();
+            
+            $block->setData('show_pager', true);
+            
+            $block->setData('products_per_page', $perPage);
+            
+            $initialCurrentPage = 1;
+        
+            if(isset($_GET["p"])){
+                $initialCurrentPage = $_GET["p"];
+                settype($initialCurrentPage, "integer");
+            }
+            
+            $block->setCurPage($initialCurrentPage);
+            
+            $block->setPageSize(12);
+            
+            $block->setProductsCount($currentCount);
+            
+            $html = $block->toHtml();
+            
+            $resultHtml = "";
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
             $result = $dom->query($this->_selector);
-            $resultHtml = '';
             if ($result->count()) {
                 foreach ($result as $match) {
                     /** @var \DOMNode $node */
@@ -75,6 +96,7 @@ class Processor implements ProcessorInterface
                     }
                 }
             }
+            
             $url = $this->_getNextPageUrl();
         }
 
@@ -119,6 +141,7 @@ class Processor implements ProcessorInterface
         if (!$block) {
             throw new \Exception('block not found');
         }
+        
         $block->setToolbarBlockName('infinitescroll.toolbar');
         return $block;
     }
@@ -160,6 +183,7 @@ class Processor implements ProcessorInterface
      */
     public function getLimit()
     {
+        
         return $this->_getLimit();
     }
 
@@ -180,6 +204,25 @@ class Processor implements ProcessorInterface
         /** @var ListProduct $block */
         $block = $this->_getBlock();
         $collection = $block->getLoadedProductCollection();
-        return $collection->count() + ($this->getLimit() * ($collection->getCurPage() - 1));
+        
+        $limit = $this->getLimit();
+        
+        settype($limit, "integer");
+        
+        $currentPage = 1;
+        
+        $initialCurrentPage = 1;
+        
+        if(isset($_GET["p"])){
+            $initialCurrentPage = $_GET["p"];
+            settype($initialCurrentPage, "integer");
+            
+            $currentPage = $limit * $initialCurrentPage;
+        }
+        
+        $collection->setPage($initialCurrentPage, $limit)->load();
+        
+        return $currentPage;
+//        return $this->getLimit() * ($collection->getCurPage() - 1);
     }
 }

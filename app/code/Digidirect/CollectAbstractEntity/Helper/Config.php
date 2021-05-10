@@ -185,3 +185,5 @@ class Config extends AbstractHelper
         return $storeLocatorItem->getData($storeEmailAttribute);
     }
 }
+
+//Digidirect\CollectAbstractEntityMSI\Plugin\Digidirect\CollectAbstractEntity\Model\CollectPlaceRepositoryPlugin

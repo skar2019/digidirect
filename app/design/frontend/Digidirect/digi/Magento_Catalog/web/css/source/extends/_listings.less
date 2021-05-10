@@ -250,6 +250,18 @@
         margin: auto;
         width: 100%;
     }
+    
+    .category-description{
+        margin-top: 30px;
+        margin-bottom: 0;
+        
+        [data-content-type=row],
+        [data-appearance=contained],
+        [data-element=inner]{
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+    }
 }
 
 //
@@ -330,10 +342,51 @@
 }
 
 //
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .push-block-left{
+        .svg-icon {
+            width: 28px;
+            height: 28px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+    
+    .product-upsell-listing{
+        margin-left: -30px !important;
+        margin-right: -30px !important;
+    }
+    
+    .attributes{
+        &.negative-gutter{
+            margin-left: -30px;
+            margin-right: -30px;
+        }
+    }
+    
+    .cms-rent{
+        margin: 0 -15px 0 !important;
+        font-size: 11px;
+    }
+}
+
+//
 //  Desktop
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .push-block-left{
+        .svg-icon {
+            width: 28px;
+            height: 28px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+    
     .product-items .product-item:hover > .product-item-info {  // IE fix
         .lib-css(box-shadow, 0 2px 8px 0 @catalog-listing-product-item__box-shadow-color);
         .lib-css(transform, @catalog-listing-product-item__transform);
@@ -430,17 +483,6 @@
             text-align: left !important;
             margin-top: 15px;
         }
-        
-        &.qantas-pts-wrapper{
-            
-        }
-        
-        .svg-icon {
-            width: 28px;
-            height: 28px;
-            display: inline-block;
-            vertical-align: middle;
-        }
     }
     
     .push-block-right
@@ -450,8 +492,6 @@
             margin-top: 15px;
         }
     }
-    
-    
     
     .bonus-qantas-wrapper
     {

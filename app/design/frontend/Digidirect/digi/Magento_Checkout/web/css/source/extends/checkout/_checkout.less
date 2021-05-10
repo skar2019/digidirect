@@ -1,0 +1,88 @@
+//
+//  Extend: Checkout: Checkout
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+//@checkout__is-enabled: true; // Enable/disable style
+//
+//@checkout-nav-elements__display: none;
+
+//  Logo
+@checkout-logo__margin: false;
+
+//  Page Title
+@checkout-page-title-wrapper__use-visually-hidden: false;
+
+//  Container
+//@checkout-container__use-add-clearfix: true;
+@checkout-container__margin: 0 0 30px;
+
+//  Wrapper
+@checkout-wrapper__margin: 0 0 30px;
+@checkout-wrapper__float__m: false;
+@checkout-wrapper__width__m: false;
+@checkout-wrapper__padding-right__m: false;
+
+//  List of Steps
+//@checkout-wrapper-opc__use-reset-list: true;
+
+//@checkout-step-title__use-checkout-title: true;
+@checkout-step-content__margin: false;
+
+@checkout-step-title__padding-bottom__s-only: false;
+@checkout-step-title__border-bottom__s-only: false;
+@checkout-step-title__font-size__s-only: false;
+
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .opc-wrapper .step-title, 
+    .opc-block-summary > .title {
+        font-weight: bold;
+    }
+    
+    .opc-wrapper .fieldset > .field > .label{
+        font-weight: 700;
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .collect-type{
+        input[type=radio]:not([name*=ratings]):not(.-default)+label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .opc-wrapper {
+        .form-login,
+        .form-shipping-address {
+            .lib-css(max-width, unset);
+        }
+    }
+    
+    .collect-type{
+        input[type=radio]:not([name*=ratings]):not(.-default)+label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}

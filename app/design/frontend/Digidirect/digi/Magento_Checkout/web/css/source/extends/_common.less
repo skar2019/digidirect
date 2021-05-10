@@ -1,0 +1,172 @@
+/*
+    Created on : 27 April 2021, 9:45:00 AM
+    Author     : Johnry
+*/
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .checkout-index-index{
+        .field-tooltip{
+            display: none !important;
+        }
+        
+        .field .control._with-tooltip{
+            padding-right: 0 !important;
+        }
+        
+        .authentication-wrapper{
+            float: unset;
+            margin-top: 0;
+            width: 100%;
+        }
+        
+        .footer-line{
+            padding: 0;
+        }
+        
+        .field-tooltip {
+            top: -5px;
+            right: 35px;
+        }
+        
+        #payment_form_braintree {
+            legend{
+                font-size: 22px;
+            }
+            
+            .field > .control{
+                &{
+                    display: block;
+                    margin-top: 30px;
+                }
+
+                img{
+                    display: none;
+                }
+            }
+
+            .braintree-card-control{
+                img{
+                    display: none;
+                }
+            }
+        }
+        
+        .checkout-payment-method .credit-card-types{
+            text-align: left;
+        }
+        
+        .payment-method-braintree .hosted-control{
+            padding: 15px;
+            padding-left: 10px !important;
+            height: 25px;
+        }
+        
+        .payment-method-billing-address{
+            margin-bottom: 30px;
+        }
+        
+        #qff-trigger.action-add.primary{
+            background: #000;
+            color: #fff;
+        }
+        
+        .payment-method.zipmoney{
+            .choice{
+                label{
+                    top: 20%;
+                }
+            }
+        }
+    }
+}
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .checkout-index-index{
+        .columns {
+            padding: 0 15px !important;
+        }
+        
+        .page-header {
+            background: #fff;
+            padding: 15px 15px 10px !important;
+        }
+        
+        .page-title-wrapper .page-title {
+            margin-top: 30px !important;
+            margin-bottom: 30px !important;
+            font-size: 2.4rem !important;
+        }
+    
+        .action-auth-toggle{
+            padding-left: 0;
+            line-height: 4px;
+        }
+        
+        .qff-content .form-title{
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        
+        .payment-methods .step-title{
+            font-size: 2.2rem;
+            font-weight: 700;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-bottom: 15px !important;
+        }
+        
+        .checkout-payment-method .fieldset.apply .actions-toolbar > .primary > .action-add, 
+        .checkout-payment-method .fieldset.apply .actions-toolbar > .magento_rma-returns-view .secondary .action > .action-add {
+            margin-top: 0;
+            padding: 20px;
+        }
+        
+        .checkout-payment-method .discount-code{
+            margin: 0 !important;
+            
+            .actions-toolbar {
+                margin-left: 0 !important;
+                
+                .primary > .action{
+                    margin-left: 0 !important;
+                    padding: 20px;
+                }
+            }
+        }
+        
+        .qantas-promo-box{
+            margin: 15px 0;
+            
+            .qff-logo-container {
+                background: url(../images/qff-logo.svg);
+                background-size: contain;
+                height: 20px;
+                display: inline-block;
+                background-repeat: no-repeat;
+                margin-bottom: 15px;
+                width: 200px;
+            }
+        }
+        
+        .qff-action-container{
+            margin-top: 15px;
+        }
+        
+        #payment_form_braintree .field > .control {
+            margin-top: 0 !important;
+        }
+        
+        .field.choice .label {
+            font-weight: bold;
+        }
+    }
+}

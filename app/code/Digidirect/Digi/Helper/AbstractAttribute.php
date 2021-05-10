@@ -64,7 +64,7 @@ class AbstractAttribute extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if (!isset($this->brandCache['row'][$brandUrlKey])) {
             $select = $this->connection->select()
-                ->from(['aa' => 'Digidirect_aa_options'], 'row_id')
+                ->from(['aa' => 'digidirect_aa_options'], 'row_id')
                 ->joinLeft(['eao' => 'eav_attribute_option'], 'aa.option_id = eao.option_id', [])
                 ->joinLeft(['eav' => 'eav_attribute'], 'eao.attribute_id = eav.attribute_id', [])
                 ->where('eav.attribute_code = :brand AND aa.url_key = :url_key')
@@ -90,7 +90,7 @@ class AbstractAttribute extends \Magento\Framework\App\Helper\AbstractHelper
         if (!isset($this->brandCache['label'][$rowId])) {
             $select = $this->connection->select()
                 ->from(['eao' => 'eav_attribute_option_value'], 'value')
-                ->joinLeft(['aa' => 'Digidirect_aa_options'], 'aa.option_id = eao.option_id', [])
+                ->joinLeft(['aa' => 'digidirect_aa_options'], 'aa.option_id = eao.option_id', [])
                 ->where('aa.row_id = :row_id AND eao.store_id IN (:store_id, 0)')
                 ->order('eao.store_id DESC')
                 ->limit(1);
@@ -120,7 +120,7 @@ class AbstractAttribute extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if (!isset($this->brandCache['option'][$brandUrlKey])) {
             $select = $this->connection->select()
-                ->from(['aa' => 'Digidirect_aa_options'], 'option_id')
+                ->from(['aa' => 'digidirect_aa_options'], 'option_id')
                 ->joinLeft(['eao' => 'eav_attribute_option'], 'aa.option_id = eao.option_id', [])
                 ->joinLeft(['eav' => 'eav_attribute'], 'eao.attribute_id = eav.attribute_id', [])
                 ->where('eav.attribute_code = :brand AND aa.url_key = :url_key')

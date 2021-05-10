@@ -1,0 +1,14 @@
+<!--@subject {{trans "New Question"}} @-->
+<!--@vars {
+"var data.question":"question",
+"var data.customer_email":"Sender Email",
+"var data.name":"Sender Name"
+} @-->
+{{template config_path="design/email/header_template"}}
+New question received.
+{{trans "Name: %name" name=$data.name}}
+{{trans "Email: %customer_email" customer_email=$data.customer_email}}
+
+{{trans "Question: %question" question=$data.question}}
+{{template config_path="design/email/footer_template"}}
+

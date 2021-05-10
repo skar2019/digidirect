@@ -15,6 +15,7 @@
         > .list {
             padding-left: 0;
             display: none;
+            margin-bottom: 0;
         }
 
         .logo {
@@ -45,13 +46,14 @@
         .logo .arrow > .svgi-action {
             width: 20px;
             height: 20px;
+            fill: #fff;
         }
 
         .logo .arrow {
             transform: rotate(-90deg);
             position: absolute;
-            right: 20px;
-            top: 18px;
+            right: 30px;
+            top: 14px;
         }
 
         .logo.active .arrow {
@@ -82,9 +84,43 @@
             padding-top: 35px;
         }
     }
+}
 
-    .faq-categories.secondary-nav.blog-categories > .logo {
-        min-height: 52px;
+
+//
+//  Mobile
+//  ---------------------------------------------
+
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .faq-categories.secondary-nav.blog-categories{
+        &{
+            margin: 0 -30px;
+        }
+        
+        > .logo {
+            min-height: 0;
+            padding: 15px 30px;
+            margin: 0;
+            max-width: 100%;
+        }
+    } 
+    
+    .blog-search{
+        padding: 0;
+        
+        form .input-group {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-align-items: flex-start;
+            -ms-align-items: flex-start;
+            align-items: flex-start;
+        }
+        
+        .control{
+            width: 100%;
+        }
     }
 }
 
@@ -145,6 +181,7 @@
             height: 91px;
             padding: 0 0 0 20px;
             cursor: default;
+            z-index: 1;
         }
 
         .logo .arrow {
@@ -194,11 +231,17 @@
             font-weight: 700;
         }
     }
+    
+    .faq-categories.secondary-nav.blog-categories{
+        > .logo {
+            min-height: 52px;
+        }
+    } 
 }
 
-//
-//  Desktop
-//  ---------------------------------------------
+    //
+    //  Desktop
+    //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .blog-category-index,
@@ -207,6 +250,14 @@
     .blog-index-index {
         .sidebar.sidebar-main {
             padding-right: 50px;
+        }
+    }
+    
+    .blog-search{
+        padding: 0;
+        
+        .control{
+            width: 100%;
         }
     }
 }

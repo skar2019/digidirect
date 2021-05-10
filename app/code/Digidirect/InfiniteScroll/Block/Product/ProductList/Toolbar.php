@@ -15,8 +15,18 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
         if ($pagerBlock instanceof \Magento\Framework\DataObject) {
             /* @var $pagerBlock \Magento\Theme\Block\Html\Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());
-            if (!$this->getCollection()) {
-                $this->setCollection($this->getParentBlock()->getLoadedProductCollection());
+            
+//            if (!$this->getCollection()) {
+//                $this->setCollection($this->getParentBlock()->getLoadedProductCollection());
+//            }
+            
+//            echo $this->getParentBlock()->getLoadedProductCollection();
+            
+            $initialCurrentPage = 1;
+            
+            if(isset($_GET["p"])){
+                $initialCurrentPage = $_GET["p"];
+                settype($initialCurrentPage, "integer");
             }
 
             $pagerBlock->setUseContainer(
@@ -39,6 +49,8 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
                 $this->getLimit()
             )->setCollection(
                 $this->getCollection()
+            )->setCurPage(
+                $initialCurrentPage
             );
 
             return $pagerBlock;

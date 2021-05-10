@@ -1,0 +1,8 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Digidirect_Faq::faq" title="FAQ" translate="title" module="Digidirect_Faq" sortOrder="10" parent="Digidirect_Utilities::Digidirect" dependsOnModule="Digidirect_Utilities"  resource="Digidirect_Faq::faq"/>
+        <add id="Digidirect_Faq::faq_category" title="Manage Category" module="Digidirect_Faq" sortOrder="60" parent="Digidirect_Faq::faq" action="digidirect_faq/category/" resource="Digidirect_Faq::faq_category"/>
+        <add id="Digidirect_Faq::faq_items" title="Manage FAQ" module="Digidirect_Faq" sortOrder="60" parent="Digidirect_Faq::faq" action="digidirect_faq/faq/" resource="Digidirect_Faq::faqitems"/>
+
+    </menu>
+</config>

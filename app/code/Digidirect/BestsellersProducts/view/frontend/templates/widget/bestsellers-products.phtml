@@ -166,7 +166,12 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                     navText:["<div class='nav-btn prev-slide'></div>","<div class='nav-btn next-slide'></div>"],
                     responsive:{
                         0:{
-                            items:1
+                            items:2,
+                            margin: 15,
+                            nav:false,
+                            loop:true,
+                            autoplay: true,
+                            autoplayTimeout:3000
                         },
                         600:{
                             items:3,

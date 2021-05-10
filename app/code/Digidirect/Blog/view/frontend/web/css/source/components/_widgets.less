@@ -47,12 +47,6 @@
             .lib-css(color, @blog-widgets-title__color);
         }
 
-        .list {
-            .lib-css(margin, @blog-widgets-list__margin);
-            .lib-css(padding, @blog-widgets-list__padding);
-            .lib-css(list-style, @blog-widgets-list__list-style);
-        }
-
         .list > .item {
             .lib-css(margin, @blog-widgets-list-item__margin);
             .lib-css(padding, @blog-widgets-list-item__padding);
@@ -62,6 +56,33 @@
         .list .link {
             .lib-css(text-decoration, @blog-widgets-list-link__text-decoration);
             .lib-css(color, @blog-widgets-list-link__color);
+        }
+    }
+}
+
+
+
+//
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .blog-widget {
+        .list {
+            padding: 5px;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .blog-widget {
+        .list {
+            .lib-css(margin, @blog-widgets-list__margin);
+            .lib-css(padding, @blog-widgets-list__padding);
+            .lib-css(list-style, @blog-widgets-list__list-style);
         }
     }
 }

@@ -11,9 +11,5 @@
             <argument name="after" xsi:type="string">order_history</argument>
         </action>
     </referenceBlock>
-    <referenceBlock name="order_additional_info">
-        <block class="Digidirect\Digi\Block\Adminhtml\Order\View\ProntoAdditionalInfo" name="pronto_attribute_info"
-               template="Digidirect_Digi::order/view/pronto_info.phtml"/>
-    </referenceBlock>
 </body>
 </page>

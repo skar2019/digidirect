@@ -14,7 +14,7 @@
         </arguments>
     </type>
 
-<!--    <type name="Magento\Framework\App\Router\NoRouteHandlerList">
+    <type name="Magento\Framework\App\Router\NoRouteHandlerList">
         <arguments>
             <argument name="handlerClassesList" xsi:type="array">
                 <item name="Digidirect_brand_filter" xsi:type="array">
@@ -23,14 +23,14 @@
                 </item>
             </argument>
         </arguments>
-    </type>-->
+    </type>
 
-<!--    <type name="Digidirect\LayeredNavigation\Helper\Meta">
-        <plugin name="layarednavigation.meta.after.pulugin"
+    <type name="Digidirect\LayeredNavigation\Helper\Meta">
+        <plugin name="layarednavigation.meta.after.plugin"
                 type="Digidirect\Digi\Plugin\Digidirect\LayeredNavigation\Helper\Meta"
                 sortOrder="1"
                 disabled="false" />
-    </type>-->
+    </type>
 
     <type name="Digidirect\Digi\Model\ShippingCheck\VsmCheckerService">
         <arguments>

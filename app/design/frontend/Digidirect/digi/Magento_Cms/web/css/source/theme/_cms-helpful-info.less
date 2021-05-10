@@ -27,7 +27,6 @@
 
         .block {
             & {
-                .lib-css(border-bottom, 1px solid @helpful-block-block__border-color);
                 padding: 9px 0;
                 width: 100%;
                 display: flex;
@@ -43,7 +42,6 @@
         .alink {
             .lib-font-size(18);
             .lib-css(font-weight, @font-weight__heavier);
-            padding: 6px 20px;
             text-decoration: none;
             border: none;
             width: auto;
@@ -64,6 +62,58 @@
             text-transform: lowercase;
             .lib-css(color, @color-black);
             padding-left: 3px;
+        }
+    }
+}
+
+//
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .footer-helpful-info {
+
+        .block {
+            padding: 0 0 30px;
+        }
+        
+        img{
+            &{
+                margin-bottom: 15px;
+            }
+        }
+
+        .alink {
+            .lib-vendor-box-align(center);
+            .lib-font-size(24);
+            padding: 5px;
+            
+            span{
+                color: #222;
+                span{
+                    display: block;
+                }
+                
+                font-size: 14px;
+            }
+            
+            .alt{
+                font-weight: 700;
+            }
+            
+            &:hover{
+                span{
+                    color: #f15a25;
+                }
+            }
+        }
+
+        .small {
+            .lib-font-size(12);
+        }
+
+        .text {
+            .lib-font-size(18);
         }
     }
 }
@@ -134,7 +184,9 @@
     .footer-helpful-info {
 
         .block {
-            padding: 0 0 30px;
+            &{
+                padding: 0 0 30px;
+            }
         }
         
         img{
@@ -146,7 +198,7 @@
         .alink {
             .lib-vendor-box-align(center);
             .lib-font-size(24);
-            padding-top: 5px;
+            padding: 6px 20px;
             
             span{
                 color: #222;

@@ -1,0 +1,141 @@
+//
+//  Theme: Checkout: Progress Bar
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .opc-progress-bar {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        &:extend(.abs-reset-list all);
+        counter-reset: i;
+    }
+
+    .opc-progress-bar-item {
+        & {
+            display: table-cell;
+            vertical-align: middle;
+            padding: 16px 0;
+            .lib-font-size(14);
+            line-height: 20px;
+            .lib-css(font-weight, @font-weight__heavier);
+            text-align: center;
+            .lib-css(border-bottom, 2px solid @color-3-2);
+            .lib-css(color, @color-4-8);
+            .lib-hover-out();
+            border-bottom: 2px solid #000000;
+        }
+
+        &._active {
+            border-color: #fff;
+            color: #fff;
+            background-color: #000000;
+            border-bottom: 1px solid #000000;
+
+        }
+
+        &._complete {
+            cursor: pointer;
+        }
+
+        &._complete:hover + &._active {
+            .lib-css(border-color, @color-3-2);
+            .lib-css(color, @color-4-8);
+            background-color: transparent;
+        }
+
+        &._complete:hover {
+            background: #000;
+            color: #fff;
+            z-index: 10;
+            border-color: #000;
+        }
+
+        &._complete:hover > span:before {
+            border-color: #fff;
+            color: #222;
+            background-color: #fff;
+        }
+
+        > span {
+            width: unset;
+            
+            &::before {
+                content: counter(i);
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+                .lib-css(border, 1px solid @color-4-8);
+                border-radius: 50%;
+                line-height: 18px;
+                text-align: center;
+                vertical-align: top;
+                counter-increment: i;
+                .lib-hover-out();
+                
+                margin-left: 0 !important;
+            }
+            
+            &::after{
+                margin-left: 0 !important;
+            }
+        }
+
+        &._active > span {
+            &::before {
+                border-color: #fff;
+                color: #222;
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+//
+//  M +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .opc-progress-bar-item {
+        & {
+            .lib-font-size(18);
+            line-height: 24px;
+        }
+
+        > span {
+            &::before {
+                width: 24px;
+                height: 24px;
+                line-height: 22px;
+            }
+        }
+    }
+}
+
+//
+//  L +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    .opc-progress-bar-item {
+        & {
+            padding-top: 21px;
+            padding-bottom: 21px;
+            .lib-font-size(20);
+            line-height: 30px;
+        }
+
+        > span {
+            &::before {
+                width: 30px;
+                height: 30px;
+                line-height: 28px;
+            }
+        }
+    }
+}

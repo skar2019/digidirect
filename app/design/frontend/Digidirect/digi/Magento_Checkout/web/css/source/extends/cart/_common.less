@@ -37,6 +37,29 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
+    input[type="text"], 
+    input[type="password"], 
+    input[type="url"],
+    input[type="tel"], 
+    input[type="search"], 
+    input[type="number"], 
+    input[type="datetime"],
+    input[type="email"]{
+        font-family: 'Titillium Web', sans-serif !important;
+        background: #fff;
+        background-clip: padding-box;
+        border: 2px solid #cfcfcf;
+        border-radius: 0;
+        color: #222;
+        font-size: 12px;
+        height: 40px;
+        line-height: 1.33;
+        padding: 0 15px;
+        vertical-align: baseline;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    
     .cart{
         .qantas-pts-wrapper{
             &{
@@ -243,6 +266,10 @@
         .cart.item.message.freegift-items {
             align-self: center;
             margin-right: auto;
+        }
+        
+        > .page-title{
+            font-size: 24px;
         }
     }
 }

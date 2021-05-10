@@ -88,7 +88,7 @@ class Data extends AbstractHelper
         return $this->scopeConfig->getValue(
             self::XML_PATH_CATALOG_PROCESSOR_LIMIT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) ?: $this->getLimit();
+        ) ?: 28;
     }
 
     /**
@@ -99,7 +99,7 @@ class Data extends AbstractHelper
         return $this->scopeConfig->getValue(
             self::XML_PATH_SEARCH_PROCESSOR_LIMIT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        ) ?: $this->getLimit();
+        ) ?: 28;
     }
 
     /**

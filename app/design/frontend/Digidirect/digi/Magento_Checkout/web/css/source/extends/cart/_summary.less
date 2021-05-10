@@ -137,6 +137,26 @@
             }
         }
         
+        .fieldset .action{
+            background-image: none !important;
+            background: transparent !important;
+            border: 2px solid #000 !important;
+            color: #000 !important;
+            cursor: pointer !important;
+            display: inline-block;
+            font-family: 'Titillium Web', sans-serif;
+            font-weight: 700;
+            padding: 10px 15px;
+            font-size: 1.3rem;
+            box-sizing: border-box;
+            vertical-align: middle;
+            margin-top: 15px;
+            
+            span{
+                color: #000 !important;
+            }
+        }
+        
         strong{
             font-weight: bold !important;
         }
@@ -256,6 +276,51 @@
 
         .svg-icon.-amex {
             .lib-css(fill, @color-5-3);
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .cart-summary {
+        .svg-icon{
+            width: 32px;
+            height: 32px;
+            display: inline-block;
+            fill: currentColor;
+            vertical-align: middle;
+        }
+    }
+    
+    .cart-summary {
+        .block.discount .fieldset{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            
+            .field{
+                width: 100% !important;
+                display: block;
+                
+                label{
+                    padding: 0 !important;
+                }
+            }
+            
+            .giftcard-number,
+            .giftcard-pin{
+                margin-bottom: 5px;
+            }
+        }
+        
+        .actions-toolbar {
+            padding-left: 0 !important;
+            width: 100% !important;
+            margin-bottom: 15px;
         }
     }
 }

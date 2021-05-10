@@ -13,8 +13,8 @@
                                             <item name="children" xsi:type="array">
                                                 <item name="shippingAddress" xsi:type="array">
                                                     <item name="config" xsi:type="array">
-                                                        <item name="shippingMethodItemTemplate" xsi:type="string">Digidirect_Checkout/overrides/shipping-address/shipping-method-item</item>
-                                                        <item name="shippingMethodListTemplate" xsi:type="string">Digidirect_Checkout/overrides/shipping-address/shipping-method-list</item>
+                                                        <item name="shippingMethodItemTemplate" xsi:type="string">Digidirect_Checkout/shipping-address/shipping-method-item</item>
+                                                        <item name="shippingMethodListTemplate" xsi:type="string">Digidirect_Checkout/shipping-address/shipping-method-list</item>
                                                     </item>
                                                 </item>
                                             </item>

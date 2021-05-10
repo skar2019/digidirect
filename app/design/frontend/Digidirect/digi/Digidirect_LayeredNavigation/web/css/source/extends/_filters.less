@@ -199,6 +199,136 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .page-products {
+        .offcanvas-panel.device-only {
+            .lib-css(width, @filters-offcanvas-panel__width);
+            .lib-css(left, -(@filters-offcanvas-panel__width + @layout-indent__width));
+            padding-top: 86px;
+        }
+        
+        .offcanvas-panel.device-only.offcanvas-left.-active {
+            left: 0;
+        }
+        
+        .offcanvas-panel.device-only.-active {
+            z-index: 101;
+        }
+        
+        .offcanvas-panel.device-only {
+            position: fixed;
+            top: 0;
+            left: calc(-80%);
+            width: 70%;
+            height: 100%;
+            padding: 20px;
+            background: #fff;
+            color: #000;
+            font-size: 14px;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            transition: all .3s;
+            box-shadow: 0 1px 10px #000;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .block.filter {
+            position: static;
+        }
+
+        .offcanvas-panel.device-only.-without-padding {
+            padding: 0;
+        }
+    }
+    
+    .block.filter {
+        > .sidedar-toolbar {
+            .lib-css(border-bottom, 1px solid @border-color__base);
+            z-index: 10;
+            position: static;
+            transform: none;
+            width: auto;
+            padding: 0;
+            margin-bottom: 8px;
+        }
+
+        > .sidedar-toolbar .clear.action {
+            width: 100%;
+            margin: -8px 0 20px;
+        }
+
+        > .sidedar-toolbar .ln-apply {
+            width: 100%;
+            margin: 0 0 15px;
+            position: relative;
+            top: 0;
+
+            &:hover {
+                .lib-css(background-color, @color-white);
+                .lib-css(color, @primary__color);
+                .lib-css(border-color, @primary__color);
+            }
+        }
+
+        > .sidedar-toolbar .button-holder {
+            width: 100%;
+            display: block;
+            text-align: left;
+        }
+
+        .ln-apply._sticky {
+            .lib-css(box-shadow, 0 0 30px 30px @color-white);
+            position: fixed;
+            z-index: 5;
+        }
+    }
+
+    .sidedar-toolbar {
+        & {
+            display: block !important;
+        }
+
+        > .title {
+            .lib-font-size(20);
+            .lib-css(color, darken(@color-4-6, 3%));
+
+            margin: 6px 0 12px;
+            display: block;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+    }
+
+    .filter-options-title {
+        .lib-font-size(16);
+        .lib-line-height(26);
+        margin-bottom: 6px;
+        margin-top: 14px;
+    }
+
+    .filter-content {
+        .filter-link .label {
+            .lib-font-size(14);
+
+            padding-top: 2px;
+        }
+
+        .more-wrapper .more-less {
+            .lib-font-size(14);
+        }
+
+        .filter-options-item {
+            padding-bottom: 10px
+        }
+    }
+}
+
+//
 //  Tablet -
 //  ---------------------------------------------
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
