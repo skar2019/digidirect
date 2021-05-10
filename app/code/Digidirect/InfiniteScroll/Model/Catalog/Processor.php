@@ -90,28 +90,24 @@ class Processor implements ProcessorInterface
 //                }
 //            }
             
+            $dom = new \Zend_Dom_Query($html);
+            $resultHtml = $dom->execute('.product-items');
+            
+            //To Do List
+//            1. List HTML properly - nodeValues
+//            2. Fixed Sorting
+            
 //            $dom = new \Zend_Dom_Query($html);
-//            $results = $dom->query('.product-items');
-//            
-//            $ctr = 0;
+//            $results = $dom->query(".product-items");
+//
+//            $count = count($results); // get number of matches: 4
 //            $resultHtml = "";
 //            
-//            foreach($results as $node){
-//                $childNodes = $node->childNodes;
-//                $resultHtml .= $childNodes->C14N();
+//            if($count > 0){
+//                foreach ($results as $result) {
+//                    $resultHtml .= $result->ownerDocument->saveHTML($result);
+//                }
 //            }
-            
-            $dom = new \Zend_Dom_Query($html);
-            $results = $dom->query(".product-items");
-
-            $count = count($results); // get number of matches: 4
-            $resultHtml = "";
-            
-            if($count > 0){
-                foreach ($results as $result) {
-                    $resultHtml .= $result->ownerDocument->saveHTML($result);
-                }
-            }
             
         }
 
