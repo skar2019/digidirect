@@ -75,10 +75,6 @@ class Processor implements ProcessorInterface
             
             $block->setCurPage($initialCurrentPage);
             
-            $block->setPageSize(12);
-            
-            $block->setProductsCount($currentCount);
-            
             $html = $block->toHtml();
             
             $resultHtml = "";
