@@ -62,22 +62,20 @@ class Processor implements ProcessorInterface
             
             $currentCount = $this->getCurrentSize();
             
-            $block->setData('show_pager', true);
-            
-            $block->setData('products_per_page', $perPage);
-            
             $initialCurrentPage = 1;
-        
+            
             if(isset($_GET["p"])){
                 $initialCurrentPage = $_GET["p"];
                 settype($initialCurrentPage, "integer");
             }
             
-            $block->setCurPage($initialCurrentPage);
+            $pagerData = $this->_getNextPageUrl();
             
-            $html = $block->toHtml();
+            $toolbar = $block->getToolbarBlock();
             
-            $resultHtml = "";
+            $newHtml = $toolbar->nextPage();
+            
+            $resultHtml = $block->toHtml();
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
@@ -92,12 +90,10 @@ class Processor implements ProcessorInterface
                     }
                 }
             }
-            
-            $url = $this->_getNextPageUrl();
         }
 
         return [
-            'url' => $url,
+            'url' => $pagerData["url"],
             'content' => $resultHtml,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
@@ -112,6 +108,8 @@ class Processor implements ProcessorInterface
     protected function _getNextPageUrl()
     {
         /** @var ListProduct $block */
+        $data = array();
+        
         $block = $this->_getBlock();
         /** @var \Digidirect\InfiniteScroll\Block\Product\ProductList\Toolbar $toolbar */
         $toolbar = $block->getToolbarBlock();
@@ -124,7 +122,11 @@ class Processor implements ProcessorInterface
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
             }
         }
-        return $url;
+        
+        $data["url"] = $url;
+        $data["html"] = $pager->toHtml();
+        
+        return $data;
     }
 
     /**
