@@ -60,6 +60,8 @@ class Processor implements ProcessorInterface
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
             
+            $pagerData = $this->_getNextPageUrl();
+            
             $currentCount = $this->getCurrentSize();
             
             $initialCurrentPage = 1;
@@ -69,27 +71,45 @@ class Processor implements ProcessorInterface
                 settype($initialCurrentPage, "integer");
             }
             
-            $pagerData = $this->_getNextPageUrl();
-            
             $toolbar = $block->getToolbarBlock();
-            
-            $newHtml = $toolbar->nextPage();
+            $toolbar->nextPage();
             
             $html = $block->toHtml();
+            
+//            $dom = new \DOMDocument();
+//
+//            @$dom->loadHTML(html_entity_decode($html));
+//
+//            $xpath = new \DOMXPath($dom);
+//            $html = $xpath->query('//div[@class="products items product-items -grid"]');
+//            
+//            $resultHtml = $html;
 
-            $dom = new \Zend_Dom_Query();
-            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
-            $result = $dom->query($this->_selector);
-            if ($result->count()) {
-                foreach ($result as $match) {
-                    /** @var \DOMNode $node */
-                    foreach ($match->childNodes as $node) {
-                        if (trim($node->nodeValue)) {
-                            $resultHtml .= $node->ownerDocument->saveHTML($node);
-                        }
-                    }
+//            $dom = new \Zend_Dom_Query();
+//            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
+//            $result = $dom->query($this->_selector);
+//            if ($result->count()) {
+//                foreach ($result as $match) {
+//                    /** @var \DOMNode $node */
+//                    foreach ($match->childNodes as $node) {
+//                        if (trim($node->nodeValue)) {
+//                            $resultHtml .= $node->ownerDocument->saveHTML($node);
+//                        }
+//                    }
+//                }
+//            }
+            
+            $dom = new \Zend_Dom_Query($html);
+            $results = $dom->query($this->_selector);
+
+            $count = count($results); // get number of matches: 4
+            
+            if($count > 0){
+                foreach ($results as $result) {
+                    $resultHtml .= $result;
                 }
             }
+            
         }
 
         return [

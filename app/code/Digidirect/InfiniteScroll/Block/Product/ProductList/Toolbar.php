@@ -46,7 +46,7 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
             )->setLimit(
                 $this->getLimit()
             )->setCollection(
-                $this->getCollection()
+                $this->_collection
             );
 
             return $pagerBlock;
@@ -76,24 +76,14 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
         }
         
         $this->_collection->load();
+        
         $this->_collection->setCurPage($initialCurrentPage);
         $this->_collection->setPageSize($this->getLimit());
         
-//        echo "Current Order: " . $this->getCurrentOrder() . "<br />";
-//        echo "Current Direction: " . $this->getCurrentDirection() . "<br />";
-        
-//        if (($this->getCurrentOrder()) == 'position') {
-//            $this->_collection->addAttributeToSort(
-//                $this->getCurrentOrder(),
-//                $this->getCurrentDirection()
-//            );
-//            
-//            echo "HERE IF" . "<br/>";
-//        } else {
-//            $this->_collection->setOrder($this->getCurrentOrder(), $this->getCurrentDirection());
-//            echo "HERE ELSE" . "<br/>";
-//        }
-        
+        $this->_collection->addAttributeToSort("name", "ASC");
+        $this->_collection->setOrder("name", "ASC");
+            
+            
         $this->_collection->clear();
         
         $pagerBlock = $this->getChildBlock('infinitescroll_product_list_toolbar_pager');
@@ -123,15 +113,21 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
                 $this->_collection
             );
         }
-
-
-        return $pagerBlock->toHtml();
+        
+//        foreach ($productCollection as $product) {
+//            print_r($product->getData());     
+//            echo "<br>";
+//        }
         
 //        $i = 1;
 //        foreach($this->_collection as $item){
 //            echo $i . ') ' . $item->getName() . "<br/>";
 //            $i++;
 //        }
+//        
+//        exit;
+
+        return $pagerBlock->toHtml();
     }
     
     public function setCollection($collection)
