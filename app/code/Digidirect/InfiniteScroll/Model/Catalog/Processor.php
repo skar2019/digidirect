@@ -90,31 +90,31 @@ class Processor implements ProcessorInterface
 //                }
 //            }
             
-//            $dom = new \Zend_Dom_Query($html);
-//            $results = $dom->query('.product-items');
-//            
-//            $ctr = 0;
-//            $resultHtml = "";
-//            
-//            foreach($results as $node){
-//                if($node->hasChildnodes()) {
-//                    $childNodes = $node->childNodes;
-//                    $resultHtml .= $childNodes->item($ctr)->C14N();
-//                    $ctr++;
-//                }
-//            }
-            
             $dom = new \Zend_Dom_Query($html);
-            $results = $dom->query(".product-items");
-
-            $count = count($results); // get number of matches: 4
+            $results = $dom->query('.product-items');
+            
+            $ctr = 0;
             $resultHtml = "";
             
-            if($count > 0){
-                foreach ($results as $result) {
-                    $resultHtml .= $result->nodeValue;
+            foreach($results as $node){
+                if($node->hasChildnodes()) {
+                    $childNodes = $node->childNodes;
+                    $resultHtml .= $childNodes->item($ctr)->C14N();
+                    $ctr++;
                 }
             }
+            
+//            $dom = new \Zend_Dom_Query($html);
+//            $results = $dom->query(".product-items");
+//
+//            $count = count($results); // get number of matches: 4
+//            $resultHtml = "";
+//            
+//            if($count > 0){
+//                foreach ($results as $result) {
+//                    $resultHtml .= $result->nodeValue;
+//                }
+//            }
             
         }
 
