@@ -81,7 +81,7 @@ class Processor implements ProcessorInterface
             
             $html = $block->toHtml();
             
-            $resultHtml = $html;
+            $resultHtml = "";
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
