@@ -226,7 +226,7 @@ class Save extends \Digidirect\ProductOverlay\Controller\Adminhtml\Overlays
         foreach ($imagesTypes as $type) {
             $path = $_helper->getOverlayImagePath();
             $field = $type . '_img';
-            $isRemove = array_key_exists('remove_' . $field, $data);
+            $isRemove = property_exists($data, 'remove_' . $field);
 
             try {
                 $file = $_helper->getFileForUpload($field);
