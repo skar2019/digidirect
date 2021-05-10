@@ -100,7 +100,7 @@ class Processor implements ProcessorInterface
 //            }
             
             $dom = new \Zend_Dom_Query($html);
-            $results = $dom->query($this->_selector);
+            $results = $dom->query(".product-items");
 
             $count = count($results); // get number of matches: 4
             
