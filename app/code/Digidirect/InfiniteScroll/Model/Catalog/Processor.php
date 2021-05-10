@@ -99,7 +99,7 @@ class Processor implements ProcessorInterface
             foreach($results as $node){
                 if($node->hasChildnodes()) {
                     $childNodes = $node->childNodes;
-                    $resultHtml = $childNodes->item($ctr)->C14N();
+                    $resultHtml .= $childNodes->item($ctr)->C14N();
                     $ctr++;
                 }
             }
