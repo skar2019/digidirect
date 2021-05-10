@@ -106,10 +106,10 @@ class Processor implements ProcessorInterface
 
             if (count($results)) {
                  foreach ($results as $result) {
-                     $innerHTML = '';
+                     $resultHtml = '';
                      $children = $result->childNodes;
                      foreach ($children as $child) {
-                         $innerHTML .= $child->ownerDocument->saveHTML($child);
+                         $resultHtml .= $child->ownerDocument->saveHTML($child);
                      }
                  }
             }
