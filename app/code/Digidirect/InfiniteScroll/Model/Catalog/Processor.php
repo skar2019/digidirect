@@ -106,7 +106,7 @@ class Processor implements ProcessorInterface
             
             if($count > 0){
                 foreach ($results as $result) {
-                    $resultHtml .= $result;
+                    $resultHtml .= $result->textContent;
                 }
             }
             
