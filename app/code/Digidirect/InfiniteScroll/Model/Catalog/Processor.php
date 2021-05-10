@@ -100,7 +100,7 @@ class Processor implements ProcessorInterface
 //            }
             
             $dom = new \Zend_Dom_Query($html);
-            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
+//            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
             
             $results = $dom->query(".product-items");
 
