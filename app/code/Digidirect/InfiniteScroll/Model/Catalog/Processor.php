@@ -75,7 +75,7 @@ class Processor implements ProcessorInterface
             
             $newHtml = $toolbar->nextPage();
             
-            $resultHtml = $block->toHtml();
+            $html = $block->toHtml();
 
             $dom = new \Zend_Dom_Query();
             $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
