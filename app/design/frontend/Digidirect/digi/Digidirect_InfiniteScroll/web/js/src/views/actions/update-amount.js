@@ -13,14 +13,6 @@ export default class Amount {
     }
     _updateAmount () {
         if (this._getLastNumber() > 1) {
-            
-            var totalCount = this.totalCount;
-            var currentCount = this.currentCount;
-            
-            if(currentCount >= totalCount){
-                currentCount = totalCount;
-            }
-            
             return `Showing: 1 - ${this.currentCount} of ${this.totalCount}`;
         } else if (this.totalCount === 1) {
             return `${this.totalCount} Item`;

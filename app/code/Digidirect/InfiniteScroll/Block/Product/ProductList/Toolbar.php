@@ -16,9 +16,11 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
             /* @var $pagerBlock \Magento\Theme\Block\Html\Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());
             
-            if (!$this->getCollection()) {
-                $this->setCollection($this->getParentBlock()->getLoadedProductCollection());
-            }
+//            if (!$this->getCollection()) {
+//                $this->setCollection($this->getParentBlock()->getLoadedProductCollection());
+//            }
+            
+//            echo $this->getParentBlock()->getLoadedProductCollection();
             
             $initialCurrentPage = 1;
             
