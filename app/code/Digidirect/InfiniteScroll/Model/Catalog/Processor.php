@@ -90,7 +90,7 @@ class Processor implements ProcessorInterface
 //                }
 //            }
             
-//            $dom = new Zend_Dom_Query($html);
+//            $dom = new \Zend_Dom_Query($html);
 //            $results = $dom->query('.product-items');
 //            
 //            $ctr = 0;
