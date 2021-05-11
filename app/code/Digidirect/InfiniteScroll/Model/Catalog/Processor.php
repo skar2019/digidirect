@@ -45,13 +45,14 @@ class Processor implements ProcessorInterface
      * @return array
      * @throws \Exception
      */
-    public function process()
-    {
+    public function process(){
         /** @var ListProduct $block */
         $block = $this->_getBlock();
          
         $url = false;
-        $resultHtml = '';
+        $resultHtml = "";
+        $resultNode = "";
+        
         $totalCount = 0;
         $currentCount = 0;
         
@@ -60,48 +61,38 @@ class Processor implements ProcessorInterface
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
             
+            $pagerData = $this->_getNextPageUrl();
+            
             $currentCount = $this->getCurrentSize();
             
-            $block->setData('show_pager', true);
-            
-            $block->setData('products_per_page', $perPage);
-            
             $initialCurrentPage = 1;
-        
+            
             if(isset($_GET["p"])){
                 $initialCurrentPage = $_GET["p"];
                 settype($initialCurrentPage, "integer");
             }
             
-            $block->setCurPage($initialCurrentPage);
-            
-            $block->setPageSize(12);
-            
-            $block->setProductsCount($currentCount);
+            $toolbar = $block->getToolbarBlock();
+            $toolbar->nextPage();
             
             $html = $block->toHtml();
             
-            $resultHtml = "";
-
-            $dom = new \Zend_Dom_Query();
-            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
-            $result = $dom->query($this->_selector);
-            if ($result->count()) {
-                foreach ($result as $match) {
-                    /** @var \DOMNode $node */
-                    foreach ($match->childNodes as $node) {
-                        if (trim($node->nodeValue)) {
-                            $resultHtml .= $node->ownerDocument->saveHTML($node);
-                        }
-                    }
-                }
-            }
+            $htmldom = new \DOMDocument();
             
-            $url = $this->_getNextPageUrl();
+            $html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
+            @ $htmldom->loadHTML($html);
+            
+            $x_path = new \DOMXPath($htmldom);
+
+            $nodes = $x_path->query("//ol//li");
+
+            foreach ($nodes as $node){
+                $resultHtml .= $node->ownerDocument->saveHTML($node);
+            }
         }
 
         return [
-            'url' => $url,
+            'url' => $pagerData["url"],
             'content' => $resultHtml,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
@@ -116,6 +107,8 @@ class Processor implements ProcessorInterface
     protected function _getNextPageUrl()
     {
         /** @var ListProduct $block */
+        $data = array();
+        
         $block = $this->_getBlock();
         /** @var \Digidirect\InfiniteScroll\Block\Product\ProductList\Toolbar $toolbar */
         $toolbar = $block->getToolbarBlock();
@@ -128,7 +121,11 @@ class Processor implements ProcessorInterface
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
             }
         }
-        return $url;
+        
+        $data["url"] = $url;
+        $data["html"] = $pager->toHtml();
+        
+        return $data;
     }
 
     /**
