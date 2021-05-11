@@ -88,12 +88,15 @@ class Processor implements ProcessorInterface
 
             foreach ($nodes as $node){
                 $resultHtml .= $node->ownerDocument->saveHTML($node);
+                
+                $resultNode .= $node->nodeValue;
             }
         }
 
         return [
             'url' => $pagerData["url"],
             'content' => $resultHtml,
+            'result_node' => $resultNode,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage

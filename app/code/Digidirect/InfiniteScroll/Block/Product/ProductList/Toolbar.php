@@ -69,79 +69,45 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
     
     public function nextPage()
     {
+        $pagerBlock = $this->getChildBlock('infinitescroll_product_list_toolbar_pager');
+        
+        $pagerBlock->getCollection();
+        
         $initialCurrentPage = 1;
         if(isset($_GET["p"])){
             $initialCurrentPage = $_GET["p"];
             settype($initialCurrentPage, "integer");
         }
         
-        $this->_collection->load();
+        $this->_collection = $pagerBlock->getCollection();
         
-        $this->_collection->setCurPage($initialCurrentPage);
+        $this->_collection->setCurPage(1);
+        
         $this->_collection->setPageSize($this->getLimit());
         
-        $this->_collection->addAttributeToSort("name", "ASC");
-        $this->_collection->setOrder("name", "ASC");
-            
-            
-        $this->_collection->clear();
+        $this->_collection->getSelect()->reset(\Zend_Db_Select::ORDER);
         
-        $pagerBlock = $this->getChildBlock('infinitescroll_product_list_toolbar_pager');
-        
-        if ($pagerBlock instanceof \Magento\Framework\DataObject) {
-            $pagerBlock->setUseContainer(
-                false
-            )->setShowPerPage(
-                false
-            )->setShowAmounts(
-                false
-            )->setFrameLength(
-                $this->_scopeConfig->getValue(
-                    'design/pagination/pagination_frame',
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                )
-            )->setJump(
-                $this->_scopeConfig->getValue(
-                    'design/pagination/pagination_frame_skip',
-                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                )
-            )->setLimit(
-                $this->getLimit()
-            )->setCurPage(
-                $initialCurrentPage
-            )->setCollection(
-                $this->_collection
-            );
+        if ($this->getCurrentOrder()) {
+            if (($this->getCurrentOrder()) == 'position') {
+                $this->_collection->addAttributeToSort(
+                    $this->getCurrentOrder(),
+                    $this->getCurrentDirection()
+                );
+            } else {
+                $this->_collection->setOrder($this->getCurrentOrder(), $this->getCurrentDirection());
+            }
         }
         
-//        foreach ($productCollection as $product) {
-//            print_r($product->getData());     
-//            echo "<br>";
-//        }
+        $this->_collection->clear();
         
-//        $i = 1;
-//        foreach($this->_collection as $item){
-//            echo $i . ') ' . $item->getName() . "<br/>";
-//            $i++;
-//        }
-//        
-//        exit;
-
-        return $pagerBlock->toHtml();
+        return $this;
     }
     
     public function setCollection($collection)
     {
         $this->_collection = $collection;
         
-        $initialCurrentPage = 1;
-            
-        if(isset($_GET["p"])){
-            $initialCurrentPage = $_GET["p"];
-            settype($initialCurrentPage, "integer");
-        }
-
-        $this->_collection->setCurPage($initialCurrentPage);
+        $this->_collection->setCurPage($this->getCurrentPage());
 
         // we need to set pagination only if passed value integer and more that 0
         $limit = (int)$this->getLimit();
