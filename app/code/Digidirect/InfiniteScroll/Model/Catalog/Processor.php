@@ -45,13 +45,14 @@ class Processor implements ProcessorInterface
      * @return array
      * @throws \Exception
      */
-    public function process()
-    {
+    public function process(){
         /** @var ListProduct $block */
         $block = $this->_getBlock();
          
         $url = false;
-        $resultHtml = '';
+        $resultHtml = "";
+        $resultNode = "";
+        
         $totalCount = 0;
         $currentCount = 0;
         
@@ -75,41 +76,24 @@ class Processor implements ProcessorInterface
             $toolbar->nextPage();
             
             $html = $block->toHtml();
-
-//            $dom = new \Zend_Dom_Query();
-//            $dom->setDocumentHtml(mb_convert_encoding($html, 'HTML-ENTITIES', static::ENCODING));
-//            $result = $dom->query($this->_selector);
-//            if ($result->count()) {
-//                foreach ($result as $match) {
-//                    /** @var \DOMNode $node */
-//                    foreach ($match->childNodes as $node) {
-//                        if (trim($node->nodeValue)) {
-//                            $resultHtml .= $node->ownerDocument->saveHTML($node);
-//                        }
-//                    }
-//                }
-//            }
             
-            $dom = new \Zend_Dom_Query($html);
-            $results = $dom->query(".product-items li");
-
-            $count = count($results); // get number of matches: 4
-            $resultHtml = "";
-            $resultNode = "";
+            $htmldom = new \DOMDocument();
             
-            if($count > 0){
-                foreach ($results as $result) {
-                    $resultNode .= $result->nodeValue;
-                    $resultHtml .= $results->ownerDocument()->saveHTML($result);
-                }
+            $html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
+            @ $htmldom->loadHTML($html);
+            
+            $x_path = new \DOMXPath($htmldom);
+
+            $nodes = $x_path->query("//ol//li");
+
+            foreach ($nodes as $node){
+                $resultHtml .= $node->ownerDocument->saveHTML($node);
             }
-            
         }
 
         return [
             'url' => $pagerData["url"],
             'content' => $resultHtml,
-            'resultNode' => $resultNode,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage
