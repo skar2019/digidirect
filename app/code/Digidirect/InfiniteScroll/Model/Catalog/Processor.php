@@ -92,6 +92,10 @@ class Processor implements ProcessorInterface
                 $resultNode .= $node->nodeValue;
             }
         }
+        
+        if($currentCount > $totalCount){
+            $currentCount = $totalCount;
+        }
 
         return [
             'url' => $pagerData["url"],
@@ -223,6 +227,5 @@ class Processor implements ProcessorInterface
         $collection->setPage($initialCurrentPage, $limit)->load();
         
         return $currentPage;
-//        return $this->getLimit() * ($collection->getCurPage() - 1);
     }
 }
