@@ -51,7 +51,6 @@ class Processor implements ProcessorInterface
          
         $url = false;
         $resultHtml = "";
-        $resultNode = "";
         
         $totalCount = 0;
         $currentCount = 0;
@@ -61,7 +60,7 @@ class Processor implements ProcessorInterface
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
             
-            $pagerData = $this->_getNextPageUrl();
+            $url = $this->_getNextPageUrl();
             
             $currentCount = $this->getCurrentSize();
             
@@ -73,14 +72,14 @@ class Processor implements ProcessorInterface
             }
             
             $toolbar = $block->getToolbarBlock();
-            $toolbar->nextPage();
+            $toolbar->getNextPage();
             
             $html = $block->toHtml();
             
             $htmldom = new \DOMDocument();
             
-            $html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
-            @ $htmldom->loadHTML($html);
+            $processedHtml = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
+            @ $htmldom->loadHTML($processedHtml);
             
             $x_path = new \DOMXPath($htmldom);
 
@@ -88,8 +87,6 @@ class Processor implements ProcessorInterface
 
             foreach ($nodes as $node){
                 $resultHtml .= $node->ownerDocument->saveHTML($node);
-                
-                $resultNode .= $node->nodeValue;
             }
         }
         
@@ -98,9 +95,8 @@ class Processor implements ProcessorInterface
         }
 
         return [
-            'url' => $pagerData["url"],
+            'url' => $url,
             'content' => $resultHtml,
-            'result_node' => $resultNode,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage
@@ -114,9 +110,8 @@ class Processor implements ProcessorInterface
     protected function _getNextPageUrl()
     {
         /** @var ListProduct $block */
-        $data = array();
-        
         $block = $this->_getBlock();
+        
         /** @var \Digidirect\InfiniteScroll\Block\Product\ProductList\Toolbar $toolbar */
         $toolbar = $block->getToolbarBlock();
         $pager = $toolbar->getPager();
@@ -129,10 +124,7 @@ class Processor implements ProcessorInterface
             }
         }
         
-        $data["url"] = $url;
-        $data["html"] = $pager->toHtml();
-        
-        return $data;
+        return $url;
     }
 
     /**

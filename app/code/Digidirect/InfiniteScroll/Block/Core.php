@@ -91,11 +91,11 @@ class Core extends \Magento\Framework\View\Element\Template
     public function getNextPageUrl()
     {
         $processor = $this->_initProcessor();
-        $data = $processor->getNextPageUrl();
-        if ($data["url"]) {
-            $data["url"] .= sprintf("&%s=%s", InfiniteScrollHelper::PARAM_NAME, $processor->getLimit());
+        $url = $processor->getNextPageUrl();
+        if ($url) {
+            $url .= sprintf("&%s=%s", InfiniteScrollHelper::PARAM_NAME, $processor->getLimit());
         }
-        return $data["url"];
+        return $url;
     }
 
     /**
