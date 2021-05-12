@@ -84,10 +84,6 @@ class Processor implements ProcessorInterface
                 
                 $resultNode .= $node->nodeValue;
             }
-            
-            foreach($collection as $product){
-                echo $product->getData("name") . " <br/>";
-            }
         }
         
         if($currentCount > $totalCount){
