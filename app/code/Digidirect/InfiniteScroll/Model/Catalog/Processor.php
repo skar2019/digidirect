@@ -64,13 +64,6 @@ class Processor implements ProcessorInterface
             
             $currentCount = $this->getCurrentSize();
             
-            $initialCurrentPage = 1;
-            
-            if(isset($_GET["p"])){
-                $initialCurrentPage = $_GET["p"];
-                settype($initialCurrentPage, "integer");
-            }
-            
             $toolbar = $block->getToolbarBlock();
             $toolbar->getNextPage();
             
