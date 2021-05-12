@@ -51,6 +51,7 @@ class Processor implements ProcessorInterface
          
         $url = false;
         $resultHtml = "";
+        $resultNode = "";
         
         $totalCount = 0;
         $currentCount = 0;
@@ -60,9 +61,9 @@ class Processor implements ProcessorInterface
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
             
-            $url = $this->_getNextPageUrl();
-            
             $currentCount = $this->getCurrentSize();
+            
+            $url = $this->_getNextPageUrl();
             
             $toolbar = $block->getToolbarBlock();
             $toolbar->getNextPage();
@@ -80,6 +81,12 @@ class Processor implements ProcessorInterface
 
             foreach ($nodes as $node){
                 $resultHtml .= $node->ownerDocument->saveHTML($node);
+                
+                $resultNode .= $node->nodeValue;
+            }
+            
+            foreach($collection as $product){
+                echo $product->getData("name") . " <br/>";
             }
         }
         
@@ -90,6 +97,7 @@ class Processor implements ProcessorInterface
         return [
             'url' => $url,
             'content' => $resultHtml,
+            'resultNode' => $resultNode,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage
