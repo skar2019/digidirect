@@ -68,7 +68,6 @@
                             <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
 
                             <?php if ($activeCount > 0 && !empty($activeLabels)) : ?>
-                                <?php $faceBookPixel->setBrandLabel($filter, $activeLabels); ?>
                                 <span class="value"><?php /* @escapeNotVerified */ echo implode(', ', $activeLabels) ?></span>
                                 <?php if ($isShowTitleCount): ?>
                                     <span class="count"><?php echo (int)$activeCount ?></span>
@@ -86,12 +85,5 @@
                 </div>
             <?php endif; ?>
         </div>
-<!--        <div class="init _hidden">
-            <script>
-                if (typeof fbq !== undefined) {
-                    fbq('trackCustom', 'ViewCategory', <?php echo $faceBookPixel->getViewCategoryData() ?>);
-                }
-            </script>
-        </div>-->
     </div>
 <?php endif; ?>
