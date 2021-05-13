@@ -49,16 +49,16 @@
         }
 
         > .primary,
-        > .button-holder {
+        > .call-to-action-wrapper {
             width: 50%;
             text-align: center;
         }
 
-        > .button-holder {
+        > .call-to-action-wrapper {
             display: inline-block;
         }
 
-        .button-holder + .primary {
+        .call-to-action-wrapper + .primary {
             margin-left: 20px;
         }
     }
@@ -92,12 +92,8 @@
         }
 
         .label .count {
-            .lib-css(background-color, @color-3-4);
             .lib-font-size(12);
-
             float: right;
-            padding: 4px 7px;
-            min-width: 33px;
             text-align: center;
             line-height: 1;
         }
@@ -197,15 +193,18 @@
             }
         }
     
-        .filter-clear.button{
+        a.filter-clear{
             &{
-                background: #000;
-                border: 1px solid #000;
+                display: inline-block;
+                font-weight: 300;
+                color: #2a2a2ab0;
+                float: right;
+                margin-top: 8px;
+                font-size: 12px;
             }
 
             &::hover{
-                background: #fff;
-                color: #000;
+                color: #e65401;
             }
         }
     }
@@ -288,7 +287,7 @@
             }
         }
 
-        > .sidedar-toolbar .button-holder {
+        > .sidedar-toolbar .call-to-action-wrapper {
             width: 100%;
             display: block;
             text-align: left;
@@ -311,7 +310,7 @@
             .lib-css(color, darken(@color-4-6, 3%));
 
             margin: 6px 0 12px;
-            display: block;
+            display: inline-block;
             font-weight: 700;
             margin-bottom: 20px;
         }
@@ -327,7 +326,6 @@
     .filter-content {
         .filter-link .label {
             .lib-font-size(14);
-
             padding-top: 2px;
         }
 
@@ -434,7 +432,7 @@
             }
         }
 
-        > .sidedar-toolbar .button-holder {
+        > .sidedar-toolbar .call-to-action-wrapper {
             width: 100%;
             display: block;
             text-align: left;
@@ -455,9 +453,8 @@
         > .title {
             .lib-font-size(20);
             .lib-css(color, darken(@color-4-6, 3%));
-
             margin: 6px 0 12px;
-            display: block;
+            display: inline-block;
             font-weight: 700;
             margin-bottom: 20px;
         }
@@ -467,7 +464,6 @@
         .lib-font-size(16);
         .lib-line-height(26);
         margin-bottom: 6px;
-        margin-top: 14px;
     }
 
     .filter-content {

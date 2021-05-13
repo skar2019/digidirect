@@ -8,7 +8,7 @@ $applyMobileOnly = $block->showApplyButtonOnMobileOnly();
     <div class="block filter" data-role="filter-remember"></div>
 <?php endif; ?>
 <?php if ($block->canShowBlock()): ?>
-<div class="button-holder">
+<div class="call-to-action-wrapper">
     <button id="ln-apply" class="primary button -size-l ln-apply<?php if ($isRemember): ?> -hide<?php endif; ?><?php if
     ($applyMobileOnly): ?> -mobile-only<?php endif; ?> -color-type-3" title="<?php echo
     $block->escapeHtml(__('Show Results')); ?>"

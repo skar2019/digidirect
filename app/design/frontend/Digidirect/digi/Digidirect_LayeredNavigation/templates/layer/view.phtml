@@ -19,8 +19,9 @@
             <strong class="title _hide-for-mobile-tablet-l">
                 <?php echo /* @noEscape */ __('Refine By'); ?>
             </strong>
-            <?php echo $block->getChildHtml('digidirect.layerednavigation.apply'); ?>
+            
             <?php echo $block->getChildHtml('catalog.leftnav.clear'); ?>
+            <?php echo $block->getChildHtml('digidirect.layerednavigation.apply'); ?>
         </div>
         <?php echo $block->getChildHtml('digidirect.categoryfilter.dropdown'); ?>
         <?php $allFilter = $block->getFilters();
