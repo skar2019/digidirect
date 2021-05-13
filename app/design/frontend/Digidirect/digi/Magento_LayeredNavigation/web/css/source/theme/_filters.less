@@ -144,6 +144,7 @@
             font-weight: 700;
             line-height: 16px;
             text-decoration: none;
+            color: #000;
         }
     }
 
@@ -186,6 +187,10 @@
     .sub-categories .item .link {
         text-decoration: none;
 
+        &::hover{
+            color: #e65401;
+        }
+        
         &.-all {
             .lib-css(font-weight, @font-weight__bold);
             .lib-font-size(14);
@@ -209,6 +214,21 @@
                 -webkit-appearance: none;
                 -moz-appearance: none;
                 appearance: none;
+            }
+        }
+        
+        a.filter-clear{
+            &{
+                display: inline-block;
+                font-weight: 300;
+                color: #2a2a2ab0;
+                float: right;
+                margin-top: 8px;
+                font-size: 12px;
+            }
+
+            &::hover{
+                color: #e65401;
             }
         }
     }
@@ -267,6 +287,18 @@
     .sidebar-main {
         .offcanvas-panel {
             .lib-css(background, @color-white);
+        }
+        
+        li.item{
+            margin: 5px 0;
+            
+            a{
+                transition: all .5s ease;
+                
+                &:hover{
+                    color: #e65300;
+                }
+            }
         }
     }
 
