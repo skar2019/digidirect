@@ -9,11 +9,9 @@
     <span class="qty empty"
           text="getFormattedSummaryCount()"
           data-bind="css: {
-                empty: !!getCartParam('summary_count') == false },
-                attr: { title: $t('Items in Cart')
-           }"
-    >
-    </span>
+                empty: !getCartParam('summary_count') == false },
+                attr: { title: $t('Items in Cart')}"
+    />
 </div>
 
 <div class="block-content">
@@ -66,8 +64,8 @@
     </if>
 
     <ifnot args="getCartParam('summary_count')">
-        <strong class="subtitle empty"
-                translate="'Your cart is empty.'"
+        <p class="minicart empty text"
+                text="'Your cart is empty.'"
         />
         <div class="actions secondary">
             <div class="secondary">

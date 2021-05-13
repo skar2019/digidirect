@@ -72,7 +72,12 @@ define(['module', 'exports', 'jquery', 'ko', 'digidirectStoreCheckout', 'mCustom
             var _this = this;
 
             return _ko2.default.pureComputed(function () {
-                return +_this.getCartParam('summary_count') === 1 ? '(' + _this.getCartParam('summary_count') + ' ' + _jquery2.default.mage.__('item') + ')' : '(' + _this.getCartParam('summary_count') + ' ' + _jquery2.default.mage.__('items') + ')';
+                
+                if(_this.getCartParam('summary_count') == undefined){
+                    return "";
+                }
+                
+                return + _this.getCartParam('summary_count') === 1 ? '(' + _this.getCartParam('summary_count') + ' ' + _jquery2.default.mage.__('item') + ')' : '(' + _this.getCartParam('summary_count') + ' ' + _jquery2.default.mage.__('items') + ')';
             });
         },
         closeMinicart: function closeMinicart() {
