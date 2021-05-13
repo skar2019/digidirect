@@ -8,6 +8,7 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
      *
      * @return \Magento\Theme\Block\Html\Pager
      */
+    
     public function getPager()
     {
         $pagerBlock = $this->getChildBlock('infinitescroll_product_list_toolbar_pager');
@@ -46,7 +47,7 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
             )->setLimit(
                 $this->getLimit()
             )->setCollection(
-                $this->_collection
+                $this->getCollection()
             );
 
             return $pagerBlock;
@@ -68,20 +69,16 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
     }
     
     public function nextPage()
-    {
-        $pagerBlock = $this->getChildBlock('infinitescroll_product_list_toolbar_pager');
-        
-        $pagerBlock->getCollection();
-        
+    {   
         $initialCurrentPage = 1;
         if(isset($_GET["p"])){
             $initialCurrentPage = $_GET["p"];
             settype($initialCurrentPage, "integer");
         }
         
-        $this->_collection = $pagerBlock->getCollection();
+        $this->_collection = $this->getCollection();
         
-        $this->_collection->setCurPage(1);
+        $this->_collection->setCurPage($initialCurrentPage);
         
         $this->_collection->setPageSize($this->getLimit());
         
@@ -104,7 +101,7 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
     }
     
     public function setCollection($collection)
-    {
+    {   
         $this->_collection = $collection;
         
         $this->_collection->setCurPage($this->getCurrentPage());
@@ -114,6 +111,8 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
         if ($limit) {
             $this->_collection->setPageSize($limit);
         }
+        
+        $this->_collection->getSelect()->reset(\Zend_Db_Select::ORDER);
         
         if ($this->getCurrentOrder()) {
             if (($this->getCurrentOrder()) == 'position') {
@@ -125,6 +124,8 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
                 $this->_collection->setOrder($this->getCurrentOrder(), $this->getCurrentDirection());
             }
         }
+        
+        $this->_collection->clear();
         
         return $this;
     }
