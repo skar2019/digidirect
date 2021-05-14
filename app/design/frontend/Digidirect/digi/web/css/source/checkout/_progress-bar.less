@@ -187,13 +187,47 @@
     
     //Removed because of requirement
     .opc-progress-bar-item._active > span:after,
-    .opc-progress-bar-item > span:after,
-    .opc-progress-bar-item:before{
+    .opc-progress-bar-item > span:after{
         display: none !important;
     }
     
-    .opc-progress-bar-item:before{
+    .opc-progress-bar{
         
+        .opc-progress-bar-item:first-child{
+            text-align: right;
+            padding-right: 140px;
+        }
+        
+        .opc-progress-bar-item:last-child{
+            text-align: left;
+            padding-left: 140px;
+        }
+        
+        li.opc-progress-bar-item:first-child:before{
+            display: none !important;
+        }
+        
+        li.opc-progress-bar-item:first-child:after{
+            content: " ";   
+            width: calc(~"100% - 300px");
+            height: 5px;
+            background: #e65200;
+            position: absolute;
+            top: 35px;
+            right: 0;
+            z-index: 0;
+        }
+        
+        li.opc-progress-bar-item:last-child:before{
+            content: " ";   
+            width: calc(~"100% - 300px");
+            height: 5px;
+            background: #7d7d7d;
+            position: absolute;
+            top: 35px;
+            left: 0;
+            z-index: 0;
+        }
     }
 }
 
