@@ -51,7 +51,6 @@
 
     .checkout-container .collect-type {
         & {
-            .lib-css(border-bottom, 2px solid @color-black);
             border-top: none;
             margin-top: 28px;
             margin-left: 0;
@@ -78,17 +77,27 @@
             .lib-font-size(12);
             padding-top: 12px;
             padding-bottom: 6px;
-            .lib-css(background-color, @color-3-5);
+            .lib-css(background-color, @color-3-5);    
+            margin: 2px;
+            border-radius: 4px;
+        }
+        
+        label:first-child{
+            margin: 2px 2px 0 2px;
+        }
+        
+        label:last-child{
+            margin: 2px 0 2px 2px;
         }
 
         > input:checked + label {
-            .lib-css(border-bottom, 2px solid @color-black);
-            .lib-css(background-color, @color-black);
-            .lib-css(color, @color-white);
+            border: 1px solid #e65200;
+            background-color: #fff;
+            color: #e65200;
             padding-left: 0;
             
             .svg-icon{
-                fill: #fff;
+                fill: #e65200;
             }
         }
 
