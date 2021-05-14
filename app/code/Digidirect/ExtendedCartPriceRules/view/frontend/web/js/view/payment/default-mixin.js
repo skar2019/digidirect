@@ -27,7 +27,7 @@ define([
             
             if (this.isRemoveItemRuleApplied()) {
                 this.isPlaceOrderActionAllowed(false);
-                this.isEnabledPaymentButton(false);
+//                this.isEnabledPaymentButton(false);
             }
             quote.totals.subscribe(function () {
                 if (this.isRemoveItemRuleApplied()) {
@@ -69,10 +69,10 @@ define([
 
             if (this.isRemoveItemRuleApplied()) {
                 this.isPlaceOrderActionAllowed(false);
-                this.isEnabledPaymentButton(false);
+//                this.isEnabledPaymentButton(false);
             } else {
                 this.isPlaceOrderActionAllowed(quote.billingAddress() != null);
-                this.isEnabledPaymentButton(quote.billingAddress() != null);
+//                this.isEnabledPaymentButton(quote.billingAddress() != null);
             }
 
             return true;
@@ -86,7 +86,7 @@ define([
                 availablePaymentMethods.some(function (payment) {
                     if (payment.method == selectedPaymentMethod) {
                         self.isPlaceOrderActionAllowed(isEnable);
-                        self.isEnabledPaymentButton(isEnable);
+//                        self.isEnabledPaymentButton(isEnable);
                     }
                 });
             }

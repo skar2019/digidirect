@@ -22,6 +22,12 @@
             display: block;
             position: relative;
             cursor: pointer;
+            text-transform: uppercase;
+            
+            strong{
+                font-weight: bold;
+                font-size: 14px;
+            }
 
             &::after,
             &::before {
@@ -50,6 +56,8 @@
                 transform: scale3d(-.1, -.1, -.1);
                 transition: transform .5s linear;
                 backface-visibility: hidden;
+                
+                content: " " !important;
             }
         }
 
