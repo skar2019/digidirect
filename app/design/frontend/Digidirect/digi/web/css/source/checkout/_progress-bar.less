@@ -103,13 +103,8 @@
         }
 
         .opc-progress-bar-item {
-            & {
-                .lib-css(position, @checkout-progress-bar-item__position);
-                .lib-css(display, @checkout-progress-bar-item__display);
-                .lib-css(width, @checkout-progress-bar-item__width);
-                .lib-css(margin, @checkout-progress-bar-item__margin);
-                .lib-css(text-align, @checkout-progress-bar-item__text-align);
-                .lib-css(vertical-align, @checkout-progress-bar-item__vertical-align);
+            &{
+                position: relative;
             }
             
             &::before {
@@ -117,6 +112,12 @@
             }
 
             > span {
+                
+                &{
+                    text-transform: uppercase;
+                    font-weight: 500;
+                }
+                
                 .lib-typography(
                     @_color: @checkout-progress-bar-item-element__pseudo__background,
                     @_font-family: @checkout-progress-bar-item-element__font-family,
@@ -158,14 +159,9 @@
                     display: none !important;
                 }
             }
+            
             &._active > span {
                 .lib-css(color, #fff);
-
-                &::before {
-                    border-color: #ffffff;
-                    color: #222;
-                    background-color: #ffffff;
-                }
                 
                 &::after {
                     display: none !important;
@@ -176,8 +172,14 @@
             &._complete {
                 .lib-css(cursor, @checkout-progress-bar-item__complete__cursor);
             }
+            
             &._complete > span {
                 .lib-css(color, @checkout-progress-bar-item-element__complete__color);
+                cursor: pointer;
+                
+                &:before{
+                    content: "\2713";
+                }
             }
         }
     }
@@ -188,6 +190,10 @@
     .opc-progress-bar-item > span:after,
     .opc-progress-bar-item:before{
         display: none !important;
+    }
+    
+    .opc-progress-bar-item:before{
+        
     }
 }
 

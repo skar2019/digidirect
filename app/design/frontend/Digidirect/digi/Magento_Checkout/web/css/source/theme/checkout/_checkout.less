@@ -261,7 +261,7 @@
 
     .opc-wrapper,
     .opc-sidebar {
-        padding-top: 30px;
+        padding-top: 20px;
     }
 
     .opc-wrapper.-hide-methods {
@@ -313,13 +313,23 @@
         .wrapper-order.-open > input {
             height: 50px;
         }
+        
+        .grand.totals{
+            font-size: 20px;
+            font-weight: bold;
+        }
     }
 
     .checkout-container {
         margin-bottom: 40px;
     }
-
-    .opc-progress-bar,
+    
+    .opc-progress-bar{
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto 30px auto;
+    }
+    
     .opc-wrapper,
     .checkout-container > .messages {
         width: 65%;
@@ -333,7 +343,8 @@
 
     .opc-wrapper .step-title,
     .opc-block-summary > .title {
-        .lib-font-size(28);
+        .lib-font-size(20);
         line-height: 1;
+        text-transform: uppercase;
     }
 }
