@@ -51,7 +51,7 @@
 
             &::after {
                 z-index: 2;
-                .lib-css(background-image, @collapsible-section-title-opened__background);
+                /*.lib-css(background-image, @collapsible-section-title-opened__background);*/
                 background-size: contain;
                 transform: scale3d(-.1, -.1, -.1);
                 transition: transform .5s linear;
@@ -101,7 +101,8 @@
             
             &::after,
             &::before {
-                .lib-css(width, @collapsible-section-title__background__size__l);
+                width: 20px;
+                top: 22px;
             }
             
             &:hover{
