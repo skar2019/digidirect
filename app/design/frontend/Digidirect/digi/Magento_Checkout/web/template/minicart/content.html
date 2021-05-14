@@ -61,6 +61,14 @@
                 <div data-bind="html: getCartParam('extra_actions')"></div>
             </div>
         </div>
+    
+        <div class="actions secondary">
+            <div class="secondary">
+                <button class="action secondary _full-width" data-bind="click: closeMinicart()">
+                    <span translate="'Continue Shopping'"/>
+                </button>
+            </div>
+        </div>
     </if>
 
     <ifnot args="getCartParam('summary_count')">
@@ -85,14 +93,6 @@
             </div>
         </if>
     </ifnot>
-    
-    <div class="actions secondary">
-        <div class="secondary">
-            <button class="action secondary _full-width" data-bind="click: closeMinicart()">
-                <span translate="'Continue Shopping'"/>
-            </button>
-        </div>
-    </div>
 
     <div class="actions" if="getCartParam('summary_count')">
         <div class="secondary">
