@@ -52,11 +52,11 @@
                         data-action="close"
                         data-bind="
                             attr: {
-                                title: $t('Proceed to Checkout')
+                                title: $t('Go to Checkout')
                             },
                             click: closeMinicart()
                         "
-                        translate="'Proceed to Checkout'"
+                        translate="'Go to Checkout'"
                 />
                 <div data-bind="html: getCartParam('extra_actions')"></div>
             </div>
@@ -65,7 +65,7 @@
 
     <ifnot args="getCartParam('summary_count')">
         <p class="minicart empty text"
-                text="'Your cart is empty.'"
+                translate="'Your cart is empty.'"
         />
         <div class="actions secondary">
             <div class="secondary">
@@ -85,6 +85,14 @@
             </div>
         </if>
     </ifnot>
+    
+    <div class="actions secondary">
+        <div class="secondary">
+            <button class="action secondary _full-width" data-bind="click: closeMinicart()">
+                <span translate="'Continue Shopping'"/>
+            </button>
+        </div>
+    </div>
 
     <div class="actions" if="getCartParam('summary_count')">
         <div class="secondary">

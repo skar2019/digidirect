@@ -42,7 +42,7 @@ define([
                     this.isEnabledPaymentButton(false);
                 } else {
                     this.isPlaceOrderActionAllowed(address !== null);
-                    this.isEnabledPaymentButton(address !== null);
+//                    this.isEnabledPaymentButton(address !== null);
                 }
             }, this);
 

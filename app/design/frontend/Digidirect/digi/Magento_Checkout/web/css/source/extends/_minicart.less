@@ -230,10 +230,17 @@
             }
         }
         
-        .action.close::before{
-            font-size: 42px;
-            font-weight: bold;
-            color: #222;
+        .action.close
+        {
+            &::before{
+                font-size: 42px;
+                font-weight: bold;
+                color: #222;
+            }
+            
+            &:hover:before{
+                color: #000
+            }
         }
 
         .pickup-available-wrapper {
@@ -283,6 +290,14 @@
             display: flex;
             justify-content: space-between;
             margin: 30px 0 5px;
+            font-family: 'Titillium Web', sans-serif;
+            font-size: 20px;
+            
+            .subtotal-items{
+                .price-container .price{
+                    font-size: 20px;
+                }
+            }
 
             .label{
                 font-weight: bold;
@@ -299,13 +314,14 @@
             }
             
             .qantas-span{
-                font-weight: 600;
-                font-size: 11px;
+                font-weight: 400;
+                font-size: 13px;
             }
         }
         
         .qantas-pts-wrapper-minicart-subtotal {
             margin-bottom: 30px;
+            font-family: 'Titillium Web', sans-serif;
         }
         
         button{
@@ -352,12 +368,12 @@
         padding: 0;
         
         .product-item{
-            border: 1px solid #f1f1f1;
+            border: none !important;
         }
     }
     
     .minicart-item-header{
-        background: #ebebeb;
+        background: #dcdcdc;
         padding: 30px 15px;
         font-size: 16px;
         
@@ -516,8 +532,8 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .minicart-wrapper {
         .price-container .price{
-            font-size: 20px;
-            font-weight: 400;
+            font-size: 16px;
+            font-weight: bold;
         }
     }
 }
