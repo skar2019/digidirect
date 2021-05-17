@@ -27,6 +27,41 @@
             margin-bottom: 20px;
             padding-top: 10px;
         }
+        
+        .block{
+            .block-title{
+                text-transform: uppercase;
+            }
+        }
+        
+        .actions-toolbar{
+            .primary{
+                a.button{
+                    font-size: 16px;
+                    
+                    &:hover{
+                        background: #ce6e3a !important;
+                    }
+                }
+            }
+        }
+        
+        .actions-toolbar{
+            .secondary{
+                a.action{
+                    color: #222;
+                    font-weight: bold;
+                    
+                    span{
+                        color: #222;
+                    }
+                    
+                    &:hover{
+                        background: #ce6e3a !important;
+                    }
+                }
+            }
+        }
     }
 
     .block.-vast {
@@ -87,7 +122,7 @@
             .block{
                 .block-title{
                     &.-great {
-                        font-size: 2.6rem;
+                        font-size: 18px;
                         margin: 0 0 30px;
                     } 
                     
@@ -120,7 +155,8 @@
     
     .actions-toolbar{
         .primary{
-           .action{
+           .action,
+           a.button{
                width: 100%;
                 background-image: none;
                 background: #e65300;
@@ -130,8 +166,8 @@
                 display: inline-block;
                 font-weight: 700;
                 margin: 0;
-                padding: 15px;
-                font-size: 16px;
+                padding: 10px 15px;
+                font-size: 16px !important;
                 line-height: 1.6rem;
                 box-sizing: border-box;
                 vertical-align: middle;
