@@ -14,7 +14,7 @@ $ajaxCategoryLoading = $helper->isAjaxEnabled();
 /*    echo $this->escapeHtml($this->helper('Digidirect\Utilities\Helper\Data')->getConfig('general/store_information/phone'));
 */?>
 
-<div class="faq-wrapper" data-testid="faq-wrapper-container" data-mage-init='{"faq": {"url": "<?php echo $block->escapeUrl($block->getUrl('faq/index/ajaxview')); ?>", "baseUrl": "<?php echo $block->escapeUrl($block->getUrl($helper->getFaqUrl())); ?>"}}'>
+<div class="faq-wrapper" data-mage-init='{"faq": {"url": "<?php echo $block->escapeUrl($block->getUrl('faq/index/ajaxview')); ?>", "baseUrl": "<?php echo $block->escapeUrl($block->getUrl($helper->getFaqUrl())); ?>"}}'>
     <div id="faq-container" class="faq-container<?php if ($id): ?> -active<?php endif; ?>" data-mage-init='{"loader": { "icon": "<?php /* @escapeNotVerified */ echo $block->escapeUrl($this->helper('Digidirect\Utilities\Helper\Animation')->getImage()); ?>"
             <?php if($_loaderText = $this->helper('Digidirect\Utilities\Helper\Animation')->getText()): ?>, "texts" : {"loaderText" : "<?php /* @escapeNotVerified */ echo $_loaderText; ?>"} <?php endif; ?>}}'>
         <div class="sidebar">
@@ -22,7 +22,7 @@ $ajaxCategoryLoading = $helper->isAjaxEnabled();
                 <?php $iterator = 1; foreach ($categories as $category): ?>
                     <?php /** @var $category Digidirect\Faq\Model\Category */ ?>
                     <a class="item<?php if(!$faqType && $iterator == 1 || $faqType == 'category' && $faqId ==
-                        $category->getId()): ?> -active<?php endif; ?>" data-testid="faq-category-item"
+                        $category->getId()): ?> -active<?php endif; ?>"
                         <?php if($ajaxCategoryLoading): ?> data-role="faq-item" <?php endif; ?> data-type="category" <?php if($ajaxCategoryLoading): ?> data-category-id="<?php echo $block->escapeHtml($category->getId()); ?>" <?php endif; ?> data-page="1"
                         href="<?php echo $block->escapeHtml($block->getUrl($category->getRequestPath())); ?>"
                         title="<?php echo $block->escapeHtml($category->getTitle()); ?>">
@@ -53,10 +53,10 @@ $ajaxCategoryLoading = $helper->isAjaxEnabled();
                           action="<?php /* @escapeNotVerified */ echo $block->escapeUrl($block->getUrl('faq/index/ajaxview')) ?>">
                         <div class="input-group">
                             <div class="control">
-                                <input type="text" name="keyword" id="keyword" data-testid="faq-search-key" placeholder="<?php /* @escapeNotVerified */ echo __('Search FAQ') ?>"
+                                <input type="text" name="keyword" id="keyword" placeholder="<?php /* @escapeNotVerified */ echo __('Search FAQ') ?>"
                                        class="input" size="30" maxlength="150" data-validate="{required: true}"/>
                             </div>
-                            <button class="button" data-testid="faq-search-button" title="<?php /* @escapeNotVerified */ echo __('Search'); ?>">
+                            <button class="button" title="<?php /* @escapeNotVerified */ echo __('Search'); ?>">
                                 <?php /* @escapeNotVerified */ echo __('Search'); ?>
                             </button>
                         </div>
