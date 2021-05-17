@@ -34,7 +34,7 @@
         </referenceBlock>
         <referenceContainer name="content">
             <block class="Digidirect\Faq\Block\Overview" name="faq" template="faq.phtml">
-                <block class="Digidirect\Faq\Block\Tag" name="faq.tags" template="tags.phtml" />
+                <block class="Digidirect\Faq\Block\Tag" name="faq.tags" template="tags.phtml"/>
                 <block class="Digidirect\Faq\Block\Listfaq" name="faq.listing" template="list.phtml" />
                 <block class="Digidirect\Faq\Block\Pager" name="faq_list.toolbar">
                     <arguments>
