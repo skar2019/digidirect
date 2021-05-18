@@ -283,10 +283,47 @@
 }
 
 //
+//Tablet
+//
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .page-header{
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .main-header-wrapper {
+        &{
+            padding: 15px !important;
+        }
+        
+        .c-logo{
+            img{
+                max-width: 200px;
+                padding-top: 10px;
+            }
+        }
+        
+        .wrap-links{
+            -webkit-align-items: center;
+            -ms-align-items: center;
+            align-items: center;
+            
+            .link {
+                -webkit-align-items: center;
+                -ms-align-items: center;
+                align-items: center;
+            }
+        }
+    }
+  
+}
+
+//
 //  Desktop
 //  _____________________________________________
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .main-header-wrapper {
         .c-logo{
             img{
