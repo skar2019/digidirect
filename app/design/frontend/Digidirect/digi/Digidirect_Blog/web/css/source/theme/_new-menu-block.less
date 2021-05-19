@@ -8,8 +8,21 @@
 
 & when (@media-common = true) {
     .blog-categories {
+        
+        &{
+            margin-top: 0 !important;
+        }
+        
         > .list > .item {
             display: flex;
+                
+            &:hover{
+                border-color: #fff !important;
+            }
+            
+            .link{
+                padding: 10px 0;
+            }
         }
 
         > .list {
@@ -20,9 +33,8 @@
 
         .logo {
             .lib-css(color, @color-white);
-            .lib-css(background, @color-black);
             text-align: left;
-            padding: 18px 20px 16px;
+            padding: 0;
             font-weight: 700;
             font-size: 1.4rem;
             cursor: pointer;
@@ -38,7 +50,7 @@
         }
 
         .link {
-            .lib-css(color, @color-white);
+            color: #222;
             text-decoration: none;
             width: 100%;
         }
@@ -83,6 +95,10 @@
         .blog-search {
             padding-top: 35px;
         }
+    }
+    
+    .more-title{
+        color: #000;
     }
 }
 
@@ -177,9 +193,8 @@
             top: 0;
             left: 0;
             width: 100%;
-            .lib-css(background, @color-black);
             height: 91px;
-            padding: 0 0 0 20px;
+            padding: 0;
             cursor: default;
             z-index: 1;
         }
@@ -204,6 +219,10 @@
 
         > .list > .item {
             padding-left: 0;
+            
+            &::hover{
+                border-color: #fff;
+            }
         }
 
         .count {
@@ -211,8 +230,9 @@
         }
 
         .link {
-            .lib-css(color, @color-white);
+            color: #222;
             text-decoration: none;
+            padding: 15px;
         }
 
         .link.-active:after {
