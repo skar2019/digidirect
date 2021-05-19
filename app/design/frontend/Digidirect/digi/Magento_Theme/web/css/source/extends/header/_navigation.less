@@ -48,7 +48,7 @@
 //  Mobile
 //  _____________________________________________
 
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {   
     .nav-sections{
         background: #fff;
         
@@ -303,7 +303,7 @@
     }
     
     .ninjamenus.ninjamenus-mobile .nav-item > a
-    {   
+    {
         .title{
             font-weight: bold;
             text-transform: uppercase;
@@ -348,13 +348,113 @@
 }
 
 //
+//Tablet
+//
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+
+    .nav-sections {
+        display: none;
+    }
+    
+    //Testing
+/*    .nav-sections-item-content {
+        .lib-clearfix();
+        box-sizing: border-box;
+        float: right;
+        margin-left: -100%;
+        margin-top: 0;
+        width: 100%;
+
+        &.active {
+            display: block;
+        }
+
+        padding: 0;
+    }
+    
+    .lib-main-navigation();*/
+    //Testing
+    
+    
+    
+    .ninjamenus-top-triggered {
+        
+        &{
+            position: static !important;
+            width: auto;
+            padding-top: 15px;
+            padding-right: 15px;
+            box-sizing: content-box;
+            display: block !important;
+        }
+            
+        &::before{
+           display: none !important;
+       }
+        
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    
+    .ninjamenus.ninjamenus-mobile .nav-item > a
+    {   
+        .title{
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+    }
+    
+    .left-hand-category-wrapper{
+        &{
+            background: #fff;
+        }
+        
+        .mgz-element-inner{
+            padding: 0 !important;
+        }
+        
+        .nav-item > a{
+            padding: 0 15px;
+            border-bottom: 1px solid #d1d1d1;
+        }
+    }
+    
+    .ninjamenus-drilldown-back{
+        .drilldown-back{
+            &::before{
+                color: #fff;
+            }
+        }
+    }
+    
+    .ninjamenus-current-link{
+        background: #000;
+        color: #fff;
+    }
+    
+}
+
+
+//
 //  Desktop
 //  _____________________________________________
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     
     .nav-toggle {
         display: none;
+    }
+    
+    .ninjamenus-top-triggered {
+        
+        &{
+            display: none !important;
+        }
+           
     }
     
     .ninjamenus{
@@ -385,7 +485,9 @@
     
     .nav-sections {
        background: #000;
-        margin: 0 0 0 0 !important;
+       margin: 0 0 0 0 !important;
+       display: inline-block !important;
+       //width: 80%;
     }
     
     .mega.nav-item > a{
