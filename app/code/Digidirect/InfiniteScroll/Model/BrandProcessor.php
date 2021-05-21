@@ -201,4 +201,45 @@ class BrandProcessor
         }
         return $lastPath;
     }
+    
+    /**
+     * @param null|string $currentUrl
+     * @return bool
+     */
+    
+    public function isFiltered($currentUrl = null)
+    {
+        $isFiltered = true;
+
+        $currentUrl = $currentUrl ?: $this->url->getCurrentUrl();
+
+        $path = preg_replace('/\?.*/i', '', $currentUrl);
+        if (!preg_match('/^(.*)\/' . Url::FILTERS_DELIMITER . '\/(.*)$/', $path, $matches)) {
+            $isFiltered = false;
+        } else {
+            if ($this->isOnlyBrandInFilter($matches[2])) {
+                $isFiltered = false;
+            }
+        }
+
+        return $isFiltered;
+    }
+
+    /**
+     * @param string $seoPart
+     * @return bool
+     */
+    private function isOnlyBrandInFilter($seoPart)
+    {
+        $params = explode('/', $seoPart);
+
+        if (count($params) > 2
+            || $params[0] != self::BRAND_ATTR_CODE
+            || strpos($params[1], ',') !== false
+        ) {
+            return false;
+        }
+
+        return true;
+    }
 }
