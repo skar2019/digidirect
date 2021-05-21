@@ -20,7 +20,7 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
             if (!$this->getCollection()) {
                 $this->setCollection($this->getParentBlock()->getLoadedProductCollection());
             }
-
+            
             $pagerBlock->setUseContainer(
                 false
             )->setShowPerPage(
@@ -115,5 +115,13 @@ class Toolbar extends \Magento\Catalog\Block\Product\ProductList\Toolbar
         $this->_collection->clear();
         
         return $this;
+    }
+    
+    public function nextPageCount(){
+        return $this->getCurrentPage() + 1;
+    }
+    
+    public function getPageLimit(){
+        return $this->getLimit();
     }
 }
