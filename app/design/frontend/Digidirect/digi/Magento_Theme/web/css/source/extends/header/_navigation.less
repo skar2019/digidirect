@@ -352,9 +352,7 @@
 //
 
 //.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-& when (@media-target = 'desktop'), (@media-target = 'all') {
-    @media all and (min-width: @screen__m) {
-
+@media screen and (min-width: @screen__m) and (max-width: @screen__l){
     .nav-sections{
         background: #fff;
         
@@ -585,7 +583,7 @@
         padding: 0;
     }
 
-    .lib-main-navigation();
+    //.lib-main-navigation();
     
     .ninjamenus-top-triggered {
         
@@ -661,7 +659,6 @@
     }
 }
 
-}
 
 
 
@@ -671,7 +668,6 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-//@media only screen and (min-width: 1280px) {
     
 /*    .ninjamenus1-drilldown-container{
         display: none;
