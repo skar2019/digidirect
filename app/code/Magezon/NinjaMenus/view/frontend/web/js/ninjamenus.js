@@ -102,7 +102,7 @@ define([
                     $(this).children('a').after(self.options.openerHtml);
                 }
             });
-
+            
             $(window).resize(function () {
                 if ($(this).width() < self.options.mobileBreakpoint) {
                     if (mobileType == 'drilldown') {
