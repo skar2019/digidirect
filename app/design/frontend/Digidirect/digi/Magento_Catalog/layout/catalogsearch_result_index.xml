@@ -3,16 +3,6 @@
     <body>
         <referenceContainer name="div.sidebar.additional" remove="true" />
 
-        <referenceContainer name="div.sidebar.main">
-            <container name="help-block-container" htmlTag="div" htmlClass="block cms-container hide-for-mobile-tablet-l" before="-">
-                <block class="Magento\Cms\Block\Block" name="help-block">
-                    <arguments>
-                        <argument name="block_id" xsi:type="string">help-block</argument>
-                    </arguments>
-                </block>
-            </container>
-        </referenceContainer>
-
         <referenceBlock name="search_result_list">
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
                 <arguments>

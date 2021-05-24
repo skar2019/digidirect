@@ -4,6 +4,7 @@ namespace Digidirect\InfiniteScroll\Model\Catalog;
 
 use Digidirect\InfiniteScroll\Helper\Data as InfiniteScrollHelper;
 use Digidirect\InfiniteScroll\Model\ProcessorInterface;
+use Digidirect\InfiniteScroll\Model\BrandProcessor as BrandModel;
 use Magento\Catalog\Block\Product\ListProduct;
 use Magento\Catalog\Model\Product\ProductList\Toolbar as CatalogToolbar;
 use Magento\Framework\View\LayoutInterface;
@@ -34,11 +35,13 @@ class Processor implements ProcessorInterface
      * @param LayoutInterface $layout
      * @param array $data
      */
-    public function __construct(InfiniteScrollHelper $helper, LayoutInterface $layout, $data)
+    public function __construct(InfiniteScrollHelper $helper, LayoutInterface $layout, $data, BrandModel $brandModel)
     {
         $this->_selector = $data['selector'];
         $this->_helper = $helper;
         $this->_layout = $layout;
+        
+        $this->_brandModel = $brandModel;
     }
 
     /**
@@ -64,9 +67,6 @@ class Processor implements ProcessorInterface
             $currentCount = $this->getCurrentSize();
             
             $url = $this->_getNextPageUrl();
-            
-            $toolbar = $block->getToolbarBlock();
-            $toolbar->getNextPage();
             
             $html = $block->toHtml();
             
@@ -111,11 +111,27 @@ class Processor implements ProcessorInterface
         
         /** @var \Digidirect\InfiniteScroll\Block\Product\ProductList\Toolbar $toolbar */
         $toolbar = $block->getToolbarBlock();
+        
+        $brand_id = $this->_brandModel->getCurrentOption();
+        
         $pager = $toolbar->getPager();
 
         $url = false;
         if ($pager && !$pager->isLastPage()) {
-            $url = htmlspecialchars_decode($pager->getNextPageUrl());
+            if($brand_id > 0){
+                $page = "p=" . $toolbar->nextPageCount();
+                
+                $limit = "&_is=" .$this->getLimit();
+
+                $url = $this->_brandModel->getCanonicalUrl() . "?" . $page;
+                
+                if (strpos($url, $limit) === false) {
+                    $url = $url . $limit;
+                }
+            }else{
+                $url = htmlspecialchars_decode($pager->getNextPageUrl());
+            }
+            
             if (strpos($url, CatalogToolbar::DIRECTION_PARAM_NAME) === false) {
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
             }
@@ -176,7 +192,6 @@ class Processor implements ProcessorInterface
      */
     public function getLimit()
     {
-        
         return $this->_getLimit();
     }
 
