@@ -23,6 +23,10 @@
         span{
             display: inline-block;
             margin: 8px 4px;
+            
+            &.note{
+                margin: 8px 0;
+            }
         }
     }
 
@@ -125,7 +129,13 @@
     .shipping-methods {
         .row {
             padding: 20px 20px 20px 50px;
+            background: #f5f5f5;
             .lib-font-size(14);
+            border: 2px solid #f5f5f5;
+            
+            &:hover{
+                border-color: #e65200;
+            }
         }
     }
 }
