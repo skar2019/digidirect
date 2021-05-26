@@ -50,37 +50,39 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     const CONDITION_REFURBISHED            = 'Refurbished';
     const CONDITION_CLUB                   = 'Club';
 
-    const CONDITION_NOTE_MODE_NONE             = 3;
-    const CONDITION_NOTE_MODE_CUSTOM_VALUE     = 1;
+    const CONDITION_NOTE_MODE_NONE         = 3;
+    const CONDITION_NOTE_MODE_CUSTOM_VALUE = 1;
 
-    const IMAGE_MAIN_MODE_NONE           = 0;
-    const IMAGE_MAIN_MODE_PRODUCT        = 1;
-    const IMAGE_MAIN_MODE_ATTRIBUTE      = 2;
+    const IMAGE_MAIN_MODE_NONE      = 0;
+    const IMAGE_MAIN_MODE_PRODUCT   = 1;
+    const IMAGE_MAIN_MODE_ATTRIBUTE = 2;
 
-    const GALLERY_IMAGES_MODE_NONE       = 0;
-    const GALLERY_IMAGES_MODE_PRODUCT    = 1;
-    const GALLERY_IMAGES_MODE_ATTRIBUTE  = 2;
+    const GALLERY_IMAGES_MODE_NONE      = 0;
+    const GALLERY_IMAGES_MODE_PRODUCT   = 1;
+    const GALLERY_IMAGES_MODE_ATTRIBUTE = 2;
 
-    const GALLERY_IMAGES_COUNT_MAX       = 5;
+    const GALLERY_IMAGES_COUNT_MAX = 5;
 
     const HANDLING_TIME_MODE_NONE             = 3;
     const HANDLING_TIME_MODE_RECOMMENDED      = 1;
     const HANDLING_TIME_MODE_CUSTOM_ATTRIBUTE = 2;
 
-    const RESTOCK_DATE_MODE_NONE              = 1;
-    const RESTOCK_DATE_MODE_CUSTOM_VALUE      = 2;
-    const RESTOCK_DATE_MODE_CUSTOM_ATTRIBUTE  = 3;
+    const RESTOCK_DATE_MODE_NONE             = 1;
+    const RESTOCK_DATE_MODE_CUSTOM_VALUE     = 2;
+    const RESTOCK_DATE_MODE_CUSTOM_ATTRIBUTE = 3;
 
-    const GIFT_WRAP_MODE_NO = 0;
-    const GIFT_WRAP_MODE_YES = 1;
+    const GIFT_WRAP_MODE_NO        = 0;
+    const GIFT_WRAP_MODE_YES       = 1;
     const GIFT_WRAP_MODE_ATTRIBUTE = 2;
 
-    const GIFT_MESSAGE_MODE_NO = 0;
-    const GIFT_MESSAGE_MODE_YES = 1;
+    const GIFT_MESSAGE_MODE_NO        = 0;
+    const GIFT_MESSAGE_MODE_YES       = 1;
     const GIFT_MESSAGE_MODE_ATTRIBUTE = 2;
 
     const ADDING_MODE_ADD_AND_CREATE_NEW_ASIN_NO  = 0;
     const ADDING_MODE_ADD_AND_CREATE_NEW_ASIN_YES = 1;
+
+    const CREATE_LISTING_SESSION_DATA = 'amazon_listing_create';
 
     //########################################
 
@@ -140,6 +142,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     public function save()
     {
         $this->getHelper('Data_Cache_Permanent')->removeTagValues('listing');
+
         return parent::save();
     }
 
@@ -152,6 +155,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         $temp = parent::delete();
         $temp && $this->sellingFormatTemplateModel = null;
         $temp && $this->synchronizationTemplateModel = null;
+
         return $temp;
     }
 
@@ -235,7 +239,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
      */
     public function setSellingFormatTemplate(\Ess\M2ePro\Model\Template\SellingFormat $instance)
     {
-         $this->sellingFormatTemplateModel = $instance;
+        $this->sellingFormatTemplateModel = $instance;
     }
 
     // ---------------------------------------
@@ -261,7 +265,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
      */
     public function setSynchronizationTemplate(\Ess\M2ePro\Model\Template\Synchronization $instance)
     {
-         $this->synchronizationTemplateModel = $instance;
+        $this->synchronizationTemplateModel = $instance;
     }
 
     // ---------------------------------------
@@ -280,6 +284,53 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     public function getAmazonSynchronizationTemplate()
     {
         return $this->getSynchronizationTemplate()->getChildObject();
+    }
+    // ---------------------------------------
+
+    /**
+     * @return int
+     */
+    public function getTemplateShippingId()
+    {
+        return (int)($this->getData('template_shipping_id'));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isExistShippingTemplate()
+    {
+        return $this->getTemplateShippingId() > 0;
+    }
+
+    /**
+     * @return \Ess\M2ePro\Model\Amazon\Template\Shipping | null
+     */
+    public function getShippingTemplate()
+    {
+        if (!$this->isExistShippingTemplate()) {
+            return null;
+        }
+
+        return $this->activeRecordFactory->getCachedObjectLoaded(
+            'Amazon_Template_Shipping',
+            $this->getTemplateShippingId()
+        );
+    }
+
+    // ---------------------------------------
+
+    /**
+     * @param \Ess\M2ePro\Model\Magento\Product $magentoProduct
+     * @return \Ess\M2ePro\Model\Amazon\Template\Shipping\Source
+     */
+    public function getShippingTemplateSource(\Ess\M2ePro\Model\Magento\Product $magentoProduct)
+    {
+        if (!$this->isExistShippingTemplate()) {
+            return null;
+        }
+
+        return $this->getShippingTemplate()->getSource($magentoProduct);
     }
 
     //########################################
@@ -423,11 +474,19 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     // ---------------------------------------
 
     /**
+     * @return int
+     */
+    public function getGenerateSkuMode()
+    {
+        return (int)$this->getData('generate_sku_mode');
+    }
+
+    /**
      * @return bool
      */
     public function isGenerateSkuModeNo()
     {
-        return (int)$this->getData('generate_sku_mode') == self::GENERATE_SKU_MODE_NO;
+        return $this->getGenerateSkuMode() == self::GENERATE_SKU_MODE_NO;
     }
 
     /**
@@ -435,7 +494,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
      */
     public function isGenerateSkuModeYes()
     {
-        return (int)$this->getData('generate_sku_mode') == self::GENERATE_SKU_MODE_YES;
+        return $this->getGenerateSkuMode() == self::GENERATE_SKU_MODE_YES;
     }
 
     // ---------------------------------------
@@ -583,7 +642,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         foreach ($tempConstants as $key => $value) {
             $prefixKey = strtolower(substr($key, 0, 14));
             if (substr($prefixKey, 0, 10) != 'condition_' ||
-                in_array($prefixKey, ['condition_mode','condition_note'])) {
+                in_array($prefixKey, ['condition_mode', 'condition_note'])) {
                 continue;
             }
             $values[] = $value;
@@ -626,8 +685,8 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     public function getConditionNoteSource()
     {
         return [
-            'mode'      => $this->getConditionNoteMode(),
-            'value'     => $this->getData('condition_note_value')
+            'mode'  => $this->getConditionNoteMode(),
+            'value' => $this->getData('condition_note_value')
         ];
     }
 
@@ -688,7 +747,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     public function getImageMainSource()
     {
         return [
-            'mode'     => $this->getImageMainMode(),
+            'mode'      => $this->getImageMainMode(),
             'attribute' => $this->getData('image_main_attribute')
         ];
     }
@@ -930,7 +989,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     public function getGiftWrapSource()
     {
         return [
-            'mode' => $this->getGiftWrapMode(),
+            'mode'      => $this->getGiftWrapMode(),
             'attribute' => $this->getData('gift_wrap_attribute')
         ];
     }
@@ -987,7 +1046,7 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
     public function getGiftMessageSource()
     {
         return [
-            'mode' => $this->getGiftMessageMode(),
+            'mode'      => $this->getGiftMessageMode(),
             'attribute' => $this->getData('gift_message_attribute')
         ];
     }
@@ -1005,6 +1064,18 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         }
 
         return $attributes;
+    }
+
+    /**
+     * @return array
+     * @throws \Ess\M2ePro\Model\Exception\Logic
+     */
+    public function getAddedListingProductsIds()
+    {
+        $ids = $this->getData('product_add_ids');
+        $ids = array_filter((array)$this->getHelper('Data')->jsonDecode($ids));
+
+        return array_values(array_unique($ids));
     }
 
     //########################################
@@ -1079,12 +1150,14 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
 
         if ($amazonListingOther->isRepricing()) {
             $listingProductRepricing = $this->activeRecordFactory->getObject('Amazon_Listing_Product_Repricing');
-            $listingProductRepricing->setData([
-                'listing_product_id' => $listingProduct->getId(),
-                'is_online_disabled' => $amazonListingOther->isRepricingDisabled(),
-                'update_date'        => $this->getHelper('Data')->getCurrentGmtDate(),
-                'create_date'        => $this->getHelper('Data')->getCurrentGmtDate(),
-            ]);
+            $listingProductRepricing->setData(
+                [
+                    'listing_product_id' => $listingProduct->getId(),
+                    'is_online_disabled' => $amazonListingOther->isRepricingDisabled(),
+                    'update_date'        => $this->getHelper('Data')->getCurrentGmtDate(),
+                    'create_date'        => $this->getHelper('Data')->getCurrentGmtDate(),
+                ]
+            );
             $listingProductRepricing->save();
         }
 
@@ -1101,6 +1174,115 @@ class Listing extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abst
         $instruction->save();
 
         return $listingProduct;
+    }
+
+    public function addProductFromAnotherAmazonSite(
+        \Ess\M2ePro\Model\Listing\Product $sourceListingProduct,
+        \Ess\M2ePro\Model\Listing $sourceListing
+    ) {
+        /** @var \Ess\M2ePro\Model\Listing\Product $listingProduct */
+        $listingProduct = $this->getParentObject()->addProduct(
+            $sourceListingProduct->getProductId(),
+            \Ess\M2ePro\Helper\Data::INITIATOR_USER,
+            false,
+            false
+        );
+
+        /** @var \Ess\M2ePro\Model\Listing\Log $logModel */
+        $logModel = $this->activeRecordFactory->getObject('Listing_Log');
+        $logModel->setComponentMode($this->getComponentMode());
+
+        $logMessage = $this->getHelper('Module\Translation')->__(
+            'Product was copied from %previous_listing_name% (%previous_marketplace%)
+            Listing to %current_listing_name% (%current_marketplace%) Listing.',
+            $sourceListing->getTitle(),
+            $sourceListing->getMarketplace()->getCode(),
+            $this->getParentObject()->getTitle(),
+            $this->getMarketplace()->getCode()
+        );
+
+        if ($listingProduct instanceof \Ess\M2ePro\Model\Listing\Product) {
+            $logModel->addProductMessage(
+                $sourceListing->getId(),
+                $sourceListingProduct->getProductId(),
+                $sourceListingProduct->getId(),
+                \Ess\M2ePro\Helper\Data::INITIATOR_USER,
+                $logModel->getResource()->getNextActionId(),
+                \Ess\M2ePro\Model\Listing\Log::ACTION_SELL_ON_ANOTHER_SITE,
+                $logMessage,
+                \Ess\M2ePro\Model\Log\AbstractModel::TYPE_NOTICE
+            );
+
+            $listingProduct->getChildObject()->setData(
+                'general_id',
+                $sourceListingProduct->getChildObject()->getGeneralId()
+            );
+
+            $listingProduct->getChildObject()->setData(
+                'is_general_id_owner',
+                $sourceListingProduct->getChildObject()->isGeneralIdOwner()
+            );
+
+            $sourceAdditionalData = $sourceListingProduct->getSettings('additional_data');
+            $additionalData = $listingProduct->getSettings('additional_data');
+            $keys = [
+                'variation_product_attributes',
+                'variation_virtual_channel_attributes',
+                'variation_channel_variations',
+                'variation_channel_attributes_sets',
+                'variation_virtual_product_attributes',
+                'variation_matched_attributes'
+            ];
+
+            foreach ($keys as $key) {
+                if (!isset($sourceAdditionalData[$key])) {
+                    continue;
+                }
+
+                $additionalData[$key] = $sourceAdditionalData[$key];
+            }
+
+            $listingProduct->setSettings('additional_data', $additionalData);
+
+            if ($sourceListing->getMarketplaceId() == $this->getParentObject()->getMarketplaceId()) {
+                $listingProduct->getChildObject()->setData(
+                    'template_description_id',
+                    $sourceListingProduct->getChildObject()->getTemplateDescriptionId()
+                );
+                $listingProduct->getChildObject()->setData(
+                    'template_shipping_id',
+                    $sourceListingProduct->getChildObject()->getTemplateShippingId()
+                );
+                $listingProduct->getChildObject()->setData(
+                    'template_product_tax_code_id',
+                    $sourceListingProduct->getChildObject()->getTemplateProductTaxCodeId()
+                );
+            }
+
+            // @codingStandardsIgnoreLine
+            $listingProduct->getChildObject()->save();
+            $listingProduct->save();
+
+            return $listingProduct;
+        }
+
+        $logMessage = $this->getHelper('Module\Translation')->__(
+            'Product already exists in the %listing_name% Listing.',
+            $this->getParentObject()->getTitle()
+        );
+
+        $logModel->addProductMessage(
+            $sourceListing->getId(),
+            $sourceListingProduct->getProductId(),
+            $sourceListingProduct->getId(),
+            \Ess\M2ePro\Helper\Data::INITIATOR_USER,
+            $logModel->getResource()->getNextActionId(),
+            \Ess\M2ePro\Model\Listing\Log::ACTION_SELL_ON_ANOTHER_SITE,
+            $logMessage,
+            \Ess\M2ePro\Model\Log\AbstractModel::TYPE_ERROR
+        );
+
+        return false;
     }
 
     public function addProductFromListing(

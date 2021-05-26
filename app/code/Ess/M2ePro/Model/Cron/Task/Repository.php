@@ -149,6 +149,14 @@ class Repository extends \Ess\M2ePro\Model\AbstractModel
             'component' => \Ess\M2ePro\Helper\Component\Ebay::NICK,
             'group'     => self::GROUP_EBAY,
         ],
+        \Ess\M2ePro\Model\Cron\Task\Ebay\Order\Cancel::NICK => [
+            'component' => \Ess\M2ePro\Helper\Component\Ebay::NICK,
+            'group'     => self::GROUP_EBAY,
+        ],
+        \Ess\M2ePro\Model\Cron\Task\Ebay\Order\Refund::NICK => [
+            'component' => \Ess\M2ePro\Helper\Component\Ebay::NICK,
+            'group'     => self::GROUP_EBAY,
+        ],
         \Ess\M2ePro\Model\Cron\Task\Ebay\PickupStore\ScheduleForUpdate::NICK => [
             'component' => \Ess\M2ePro\Helper\Component\Ebay::NICK,
             'group'     => self::GROUP_EBAY,
@@ -164,19 +172,7 @@ class Repository extends \Ess\M2ePro\Model\AbstractModel
             'component' => \Ess\M2ePro\Helper\Component\Amazon::NICK,
             'group'     => self::GROUP_AMAZON,
         ],
-        \Ess\M2ePro\Model\Cron\Task\Amazon\Listing\Other\Channel\SynchronizeData::NICK => [
-            'component' => \Ess\M2ePro\Helper\Component\Amazon::NICK,
-            'group'     => self::GROUP_AMAZON,
-        ],
-        \Ess\M2ePro\Model\Cron\Task\Amazon\Listing\Other\Channel\SynchronizeData\Blocked::NICK => [
-            'component' => \Ess\M2ePro\Helper\Component\Amazon::NICK,
-            'group'     => self::GROUP_AMAZON,
-        ],
-        \Ess\M2ePro\Model\Cron\Task\Amazon\Listing\Product\Channel\SynchronizeData::NICK => [
-            'component' => \Ess\M2ePro\Helper\Component\Amazon::NICK,
-            'group'     => self::GROUP_AMAZON,
-        ],
-        \Ess\M2ePro\Model\Cron\Task\Amazon\Listing\Product\Channel\SynchronizeData\Blocked::NICK => [
+        \Ess\M2ePro\Model\Cron\Task\Amazon\Listing\SynchronizeInventory::NICK => [
             'component' => \Ess\M2ePro\Helper\Component\Amazon::NICK,
             'group'     => self::GROUP_AMAZON,
         ],
@@ -206,6 +202,10 @@ class Repository extends \Ess\M2ePro\Model\AbstractModel
             'group'     => self::GROUP_AMAZON,
         ],
         \Ess\M2ePro\Model\Cron\Task\Amazon\Order\Receive\Details::NICK => [
+            'component' => \Ess\M2ePro\Helper\Component\Amazon::NICK,
+            'group'     => self::GROUP_AMAZON,
+        ],
+        \Ess\M2ePro\Model\Cron\Task\Amazon\Order\Receive\InvoiceDataReport::NICK => [
             'component' => \Ess\M2ePro\Helper\Component\Amazon::NICK,
             'group'     => self::GROUP_AMAZON,
         ],
@@ -274,15 +274,7 @@ class Repository extends \Ess\M2ePro\Model\AbstractModel
 
         //----------------------------------------
 
-        \Ess\M2ePro\Model\Cron\Task\Walmart\Listing\Product\Channel\SynchronizeData::NICK => [
-            'component' => \Ess\M2ePro\Helper\Component\Walmart::NICK,
-            'group'     => self::GROUP_WALMART,
-        ],
-        \Ess\M2ePro\Model\Cron\Task\Walmart\Listing\Product\Channel\SynchronizeData\Blocked::NICK => [
-            'component' => \Ess\M2ePro\Helper\Component\Walmart::NICK,
-            'group'     => self::GROUP_WALMART,
-        ],
-        \Ess\M2ePro\Model\Cron\Task\Walmart\Listing\Other\Channel\SynchronizeData::NICK => [
+        \Ess\M2ePro\Model\Cron\Task\Walmart\Listing\SynchronizeInventory::NICK    => [
             'component' => \Ess\M2ePro\Helper\Component\Walmart::NICK,
             'group'     => self::GROUP_WALMART,
         ],

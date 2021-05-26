@@ -69,7 +69,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
 
         // Initialization block
         // ---------------------------------------
-        $this->setId('walmartListingViewWalmartGrid'.$this->listing['id']);
+        $this->setId('walmartListingViewGrid'.$this->listing['id']);
         // ---------------------------------------
 
         $this->showAdvancedFilterProductsOption = false;
@@ -304,46 +304,39 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
 
         $this->getMassactionBlock()->addItem('list', [
             'label'    => $this->__('List Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('revise', [
             'label'    => $this->__('Revise Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('relist', [
             'label'    => $this->__('Relist Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('stop', [
             'label'    => $this->__('Stop Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('stopAndRemove', [
             'label'    => $this->__('Stop on Channel / Remove from Listing'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('deleteAndRemove', [
             'label'    => $this->__('Retire on Channel / Remove from Listing'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         // ---------------------------------------
 
         $this->getMassactionBlock()->addItem('resetProducts', [
             'label'    => $this->__('Reset Inactive (Blocked) Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'other');
 
         return parent::_prepareMassaction();
@@ -447,9 +440,9 @@ HTML;
             $value .= '</div>';
 
             $linkContent = $this->__('Manage Variations');
-            $vpmt = $this->__('Manage Variations of &quot;%s%&quot; ', $productTitle);
-            $vpmt = addslashes($vpmt);
-
+            $vpmt = $this->getHelper('Data')->escapeJs(
+                $this->__('Manage Variations of "'. $productTitle . '" ')
+            );
             if (!empty($gtin)) {
                 $vpmt .= '('. $gtin .')';
             }
@@ -476,10 +469,26 @@ HTML;
             $value .= <<<HTML
 <div style="float: left; margin: 0 0 0 7px">
     <a {$problemStyle}href="javascript:"
-    onclick="ListingGridObj.variationProductManageHandler.openPopUp({$listingProductId}, '{$vpmt}')"
+    onclick="ListingGridObj.variationProductManageHandler.openPopUp(
+            {$listingProductId}, '{$this->getHelper('Data')->escapeHtml($vpmt)}'
+        )"
     title="{$linkTitle}">{$linkContent}</a>&nbsp;{$problemIcon}
 </div>
 HTML;
+
+            if ($childListingProductIds = $this->getRequest()->getParam('child_listing_product_ids')) {
+                $this->js->add(<<<JS
+    (function() {
+
+         Event.observe(window, 'load', function() {
+             ListingGridObj.variationProductManageHandler.openPopUp(
+                {$listingProductId}, '{$vpmt}', 'searched_by_child', '{$childListingProductIds}'
+             );
+         });
+    })();
+JS
+                );
+            }
 
             return $value;
         }

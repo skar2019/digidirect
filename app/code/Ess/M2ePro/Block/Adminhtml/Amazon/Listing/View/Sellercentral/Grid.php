@@ -56,7 +56,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
 
         // Initialization block
         // ---------------------------------------
-        $this->setId('amazonListingViewSellercentralGrid'.$this->listing['id']);
+        $this->setId('amazonListingViewGrid'.$this->listing['id']);
         // ---------------------------------------
 
         $this->showAdvancedFilterProductsOption = false;
@@ -227,7 +227,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
             'filter_condition_callback' => [$this, 'callbackFilterTitle']
         ]);
 
-        $this->addColumn('sku', [
+        $this->addColumn('amazon_sku', [
             'header'       => $this->__('SKU'),
             'align'        => 'left',
             'width'        => '150px',
@@ -323,44 +323,37 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
 
         $this->getMassactionBlock()->addItem('revise', [
             'label'    => $this->__('Revise Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('relist', [
             'label'    => $this->__('Relist Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('stop', [
             'label'    => $this->__('Stop Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('stopAndRemove', [
             'label'    => $this->__('Stop on Channel / Remove from Listing'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('deleteAndRemove', [
             'label'    => $this->__('Remove from Channel & Listing'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('switchToAfn', [
             'label'    => $this->__('Switch to AFN'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'edit_fulfillment');
 
         $this->getMassactionBlock()->addItem('switchToMfn', [
             'label'    => $this->__('Switch to MFN'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'edit_fulfillment');
 
         /** @var \Ess\M2ePro\Model\Account $account */
@@ -404,13 +397,10 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
         $productTitle = $this->getHelper('Data')->escapeHtml($productTitle);
 
         $value = '<span>'.$productTitle.'</span>';
-        $sku = $row->getData('sku');
 
-        if ($sku === null) {
-            $sku = $this->modelFactory->getObject('Magento\Product')
-                ->setProductId($row->getData('entity_id'))
-                ->getSku();
-        }
+        $sku = $this->modelFactory->getObject('Magento\Product')
+            ->setProductId($row->getData('entity_id'))
+            ->getSku();
 
         $value .= '<br/><strong>'.$this->__('SKU') .
             ':</strong> '.$this->getHelper('Data')->escapeHtml($sku) . '<br/>';
@@ -682,8 +672,9 @@ HTML;
 
         $collection->addFieldToFilter(
             [
-                ['attribute'=>'sku','like'=>'%'.$value.'%'],
-                ['attribute'=>'name', 'like'=>'%'.$value.'%']
+                ['attribute' => 'sku', 'like' => '%' . $value . '%'],
+                ['attribute' => 'amazon_sku', 'like' => '%' . $value . '%'],
+                ['attribute' => 'name', 'like' => '%' . $value . '%']
             ]
         );
     }

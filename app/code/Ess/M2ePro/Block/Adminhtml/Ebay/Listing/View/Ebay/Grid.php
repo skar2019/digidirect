@@ -47,10 +47,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
 
         $this->setDefaultSort(false);
 
-        // Initialization block
-        // ---------------------------------------
-        $this->setId('ebayListingViewGridEbay' . $this->listing->getId());
-        // ---------------------------------------
+        $this->setId('ebayListingViewGrid' . $this->listing->getId());
 
         $this->showAdvancedFilterProductsOption = false;
     }
@@ -287,38 +284,32 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
 
         $this->getMassactionBlock()->addItem('list', [
             'label' => $this->__('List Item(s) on eBay'),
-            'url' => '',
-            'confirm' => $this->__('Are you sure?'),
+            'url' => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('revise', [
             'label' => $this->__('Revise Item(s) on eBay'),
-            'url' => '',
-            'confirm' => $this->__('Are you sure?')
+            'url' => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('relist', [
             'label' => $this->__('Relist Item(s) on eBay'),
-            'url' => '',
-            'confirm' => $this->__('Are you sure?')
+            'url' => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('stop', [
             'label' => $this->__('Stop Item(s) on eBay'),
             'url' => '',
-            'confirm' => $this->__('Are you sure?')
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('stopAndRemove', [
             'label' => $this->__('Stop on eBay / Remove From Listing'),
-            'url' => '',
-            'confirm' => $this->__('Are you sure?')
+            'url' => ''
         ], 'actions');
 
         $this->getMassactionBlock()->addItem('previewItems', [
             'label' => $this->__('Preview Items'),
-            'url' => '',
-            'confirm' => $this->__('Are you sure?')
+            'url' => ''
         ], 'other');
         // ---------------------------------------
 
@@ -376,9 +367,9 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
         $valueHtml .= '</div>';
 
         $linkContent = $this->__('Manage Variations');
-        $vpmt = $this->__('Manage Variations of &quot;%s%&quot; ', $title);
-        $vpmt = addslashes($vpmt);
-
+        $vpmt = $this->getHelper('Data')->escapeJs(
+            $this->__('Manage Variations of "'. $title . '" ')
+        );
         $itemId = $this->getData('item_id');
 
         if (!empty($itemId)) {
@@ -391,10 +382,26 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
         $valueHtml .= <<<HTML
 <div style="float: left; margin: 0 0 0 7px">
 <a href="javascript:"
-onclick="EbayListingViewEbayGridObj.variationProductManageHandler.openPopUp({$listingProductId}, '{$vpmt}')"
+onclick="EbayListingViewEbayGridObj.variationProductManageHandler.openPopUp(
+        {$listingProductId}, '{$this->getHelper('Data')->escapeHtml($vpmt)}'
+    )"
 title="{$linkTitle}">{$linkContent}</a>&nbsp;
 </div>
 HTML;
+
+        if ($childVariationIds = $this->getRequest()->getParam('child_variation_ids')) {
+            $this->js->add(<<<JS
+    (function() {
+
+         Event.observe(window, 'load', function() {
+             EbayListingViewEbayGridObj.variationProductManageHandler.openPopUp(
+                {$listingProductId}, '{$vpmt}', 'searched_by_child', '{$childVariationIds}'
+             );
+         });
+    })();
+JS
+            );
+        }
 
         return $valueHtml;
     }
@@ -619,7 +626,7 @@ JS
         $this->jsTranslator->addTranslations([
             'task_completed_message' => $this->__('Task completed. Please wait ...'),
 
-            'task_completed_success_message' => $this->__('"%task_title%" task has successfully completed.'),
+            'task_completed_success_message' => $this->__('"%task_title%" task has completed.'),
 
             'task_completed_warning_message' => $this->__($taskCompletedWarningMessage),
             'task_completed_error_message' => $this->__($taskCompletedErrorMessage),

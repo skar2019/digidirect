@@ -17,10 +17,10 @@ class Module extends AbstractHelper
 {
     const IDENTIFIER = 'Ess_M2ePro';
 
-    const SERVER_MESSAGE_TYPE_NOTICE  = 0;
-    const SERVER_MESSAGE_TYPE_ERROR   = 1;
-    const SERVER_MESSAGE_TYPE_WARNING = 2;
-    const SERVER_MESSAGE_TYPE_SUCCESS = 3;
+    const MESSAGE_TYPE_NOTICE  = 0;
+    const MESSAGE_TYPE_ERROR   = 1;
+    const MESSAGE_TYPE_WARNING = 2;
+    const MESSAGE_TYPE_SUCCESS = 3;
 
     const ENVIRONMENT_PRODUCTION     = 'production';
     const ENVIRONMENT_DEVELOPMENT    = 'development';
@@ -38,6 +38,11 @@ class Module extends AbstractHelper
     protected $resourceConnection;
     protected $componentRegistrar;
 
+    /** @var \Magento\Backend\Model\UrlInterface $urlBuilder */
+    protected $urlBuilder;
+
+    protected $areImportantTablesExist;
+
     //########################################
 
     public function __construct(
@@ -52,7 +57,8 @@ class Module extends AbstractHelper
         \Ess\M2ePro\Helper\Factory $helperFactory,
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\ResourceConnection $resourceConnection,
-        \Magento\Framework\Component\ComponentRegistrar $componentRegistrar
+        \Magento\Framework\Component\ComponentRegistrar $componentRegistrar,
+        \Magento\Backend\Model\UrlInterface $urlBuilder
     ) {
         $this->activeRecordFactory = $activeRecordFactory;
         $this->config = $config;
@@ -64,6 +70,7 @@ class Module extends AbstractHelper
         $this->moduleResource = new \Magento\Framework\Module\ModuleResource($dbContext);
         $this->resourceConnection = $resourceConnection;
         $this->componentRegistrar = $componentRegistrar;
+        $this->urlBuilder = $urlBuilder;
 
         parent::__construct($helperFactory, $context);
     }
@@ -130,9 +137,10 @@ class Module extends AbstractHelper
     {
         $setupCollection = $this->activeRecordFactory->getObject('Setup')->getCollection();
         $setupCollection->addFieldToFilter('version_from', ['null' => true])
-                        ->addFieldToFilter('version_to', ['notnull' => true])
-                        ->addFieldToFilter('is_completed', 1)
-                        ->setOrder('id', \Magento\Framework\Data\Collection\AbstractDb::SORT_ORDER_ASC);
+            ->addFieldToFilter('version_to', ['notnull' => true])
+            ->addFieldToFilter('is_completed', 1)
+            ->setOrder('id', \Magento\Framework\Data\Collection\AbstractDb::SORT_ORDER_ASC);
+
         return $setupCollection->setPageSize(1)->getFirstItem()->getUpdateDate();
     }
 
@@ -140,9 +148,10 @@ class Module extends AbstractHelper
     {
         $setupCollection = $this->activeRecordFactory->getObject('Setup')->getCollection();
         $setupCollection->addFieldToFilter('version_from', ['notnull' => true])
-                        ->addFieldToFilter('version_to', ['notnull' => true])
-                        ->addFieldToFilter('is_completed', 1)
-                        ->setOrder('id', \Magento\Framework\Data\Collection\AbstractDb::SORT_ORDER_DESC);
+            ->addFieldToFilter('version_to', ['notnull' => true])
+            ->addFieldToFilter('is_completed', 1)
+            ->setOrder('id', \Magento\Framework\Data\Collection\AbstractDb::SORT_ORDER_DESC);
+
         return $setupCollection->setPageSize(1)->getFirstItem()->getUpdateDate();
     }
 
@@ -158,22 +167,26 @@ class Module extends AbstractHelper
     public function isReadyToWork()
     {
         return $this->areImportantTablesExist() &&
-               $this->getHelper('Component')->getEnabledComponents() &&
-               ($this->getHelper('View\Ebay')->isInstallationWizardFinished() ||
-               $this->getHelper('View\Amazon')->isInstallationWizardFinished() ||
-               $this->getHelper('View\Walmart')->isInstallationWizardFinished());
+            $this->getHelper('Component')->getEnabledComponents() &&
+            ($this->getHelper('View\Ebay')->isInstallationWizardFinished() ||
+                $this->getHelper('View\Amazon')->isInstallationWizardFinished() ||
+                $this->getHelper('View\Walmart')->isInstallationWizardFinished());
     }
 
     public function areImportantTablesExist()
     {
+        if ($this->areImportantTablesExist !== null) {
+            return $this->areImportantTablesExist;
+        }
+
         foreach (['m2epro_config', 'm2epro_setup'] as $table) {
             $tableName = $this->getHelper('Module_Database_Structure')->getTableNameWithPrefix($table);
             if (!$this->resourceConnection->getConnection()->isTableExists($tableName)) {
-                return false;
+                return $this->areImportantTablesExist = false;
             }
         }
 
-        return true;
+        return $this->areImportantTablesExist = true;
     }
 
     // ---------------------------------------
@@ -224,14 +237,15 @@ class Module extends AbstractHelper
         $magentoHelper = $this->getHelper('Magento');
         $moduleDir = \Ess\M2ePro\Helper\Module::IDENTIFIER . DIRECTORY_SEPARATOR;
 
-        if (!$magentoHelper->isStaticContentExists($moduleDir.'css') ||
-            !$magentoHelper->isStaticContentExists($moduleDir.'fonts') ||
-            !$magentoHelper->isStaticContentExists($moduleDir.'images') ||
-            !$magentoHelper->isStaticContentExists($moduleDir.'js')) {
+        if (!$magentoHelper->isStaticContentExists($moduleDir . 'css') ||
+            !$magentoHelper->isStaticContentExists($moduleDir . 'fonts') ||
+            !$magentoHelper->isStaticContentExists($moduleDir . 'images') ||
+            !$magentoHelper->isStaticContentExists($moduleDir . 'js')) {
             $result = false;
         }
 
         $this->getHelper('Data_Cache_Runtime')->setValue(__METHOD__, $result);
+
         return $result;
     }
 
@@ -241,13 +255,49 @@ class Module extends AbstractHelper
     {
         $messages = $this->getRegistry()->getValueFromJson('/server/messages/');
 
-        $messages = array_filter($messages, [$this,'getServerMessagesFilterModuleMessages']);
+        $messages = array_filter($messages, [$this, 'getMessagesFilterModuleMessages']);
         !is_array($messages) && $messages = [];
 
         return $messages;
     }
 
-    public function getServerMessagesFilterModuleMessages($message)
+    public function getUpgradeMessages()
+    {
+        $messages = $this->getRegistry()->getValueFromJson('/upgrade/messages/');
+
+        $messages = array_filter($messages, [$this, 'getMessagesFilterModuleMessages']);
+        !is_array($messages) && $messages = [];
+
+        foreach ($messages as &$message) {
+
+            preg_match_all('/%[\w\d]+%/', $message['text'], $placeholders);
+            $placeholders = array_unique($placeholders[0]);
+
+            foreach ($placeholders as $placeholder) {
+                $key = substr(substr($placeholder, 1), 0, -1);
+                if (!isset($message[$key])) {
+                    continue;
+                }
+
+                if (!strripos($placeholder, 'url')) {
+                    $message['text'] = str_replace($placeholder, $message[$key], $message['text']);
+                    continue;
+                }
+
+                $message[$key] = $this->urlBuilder->getUrl(
+                    $message[$key],
+                    isset($message[$key . '_args']) ? $message[$key . '_args'] : null
+                );
+
+                $message['text'] = str_replace($placeholder, $message[$key], $message['text']);
+            }
+        }
+        unset($message);
+
+        return $messages;
+    }
+
+    public function getMessagesFilterModuleMessages($message)
     {
         if (!isset($message['text']) || !isset($message['type'])) {
             return false;

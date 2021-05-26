@@ -204,14 +204,12 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
         // ---------------------------------------
         $this->getMassactionBlock()->addItem('assignGeneralId', [
             'label'    => $this->__('Search ASIN/ISBN automatically'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ]);
 
         $this->getMassactionBlock()->addItem('unassignGeneralId', [
             'label'    => $this->__('Reset ASIN/ISBN information'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ]);
         // ---------------------------------------
 
@@ -222,10 +220,6 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
 
     public function callbackColumnProductTitle($productTitle, $row, $column, $isExport)
     {
-        if (strlen($productTitle) > 60) {
-            $productTitle = substr($productTitle, 0, 60) . '...';
-        }
-
         $productTitle = $this->getHelper('Data')->escapeHtml($productTitle);
 
         $value = '<span>'.$productTitle.'</span>';

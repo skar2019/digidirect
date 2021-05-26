@@ -33,7 +33,13 @@ class AfterGetToken extends Account
         $accountId = (int)$this->getHelper('Data\Session')->getValue('get_token_account_id', true);
 
         if ($accountId == 0) {
-            $this->_redirect('*/*/new', ['_current' => true]);
+            $this->_redirect(
+                '*/*/new',
+                [
+                    'is_show_tables' => true,
+                    '_current'       => true
+                ]
+            );
         } else {
             $data = [];
             $data['mode'] = $this->getHelper('Data\Session')->getValue('get_token_account_mode');
@@ -42,7 +48,7 @@ class AfterGetToken extends Account
             $data = $this->sendDataToServer($accountId, $data);
             $id = $this->updateAccount($accountId, $data);
 
-            $this->messageManager->addSuccess($this->__('Token was successfully saved'));
+            $this->messageManager->addSuccess($this->__('Token was saved'));
             $this->_redirect('*/*/edit', ['id' => $id, '_current' => true]);
         }
         // ---------------------------------------

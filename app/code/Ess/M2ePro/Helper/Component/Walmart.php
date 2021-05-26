@@ -135,7 +135,7 @@ class Walmart extends \Ess\M2ePro\Helper\AbstractHelper
             ->getCachedObjectLoaded('Marketplace', $marketplaceId)
             ->getUrl();
 
-        return 'https://'.$domain.'/ip/'.$productItemId;
+        return 'https://www.'.$domain.'/ip/'.$productItemId;
     }
 
     //todo is not correct. there are no orders to check
@@ -176,10 +176,17 @@ class Walmart extends \Ess\M2ePro\Helper\AbstractHelper
     public function getCarriers()
     {
         return [
-            'usps'  => 'USPS',
-            'ups'   => 'UPS',
-            'fedex' => 'FedEx',
-            'dhl'   => 'DHL',
+            'ups'      => 'UPS',
+            'usps'     => 'USPS',
+            'fedex'    => 'FedEx',
+            'airborne' => 'Airborne',
+            'ontrac'   => 'OnTrac',
+            'dhl'      => 'DHL',
+            'ng'       => 'NG',
+            'ls'       => 'LS',
+            'uds'      => 'UDS',
+            'upsmi'    => 'UPSMI',
+            'fdx'      => 'FDX'
         ];
     }
 

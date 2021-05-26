@@ -64,7 +64,7 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
         $this->appendHelpBlock([
             'content' => $this->__(
                 <<<HTML
-                <p>The list below shows the 3rd Party Listings imported from a particular Account and Marketplace.
+                <p>The list below shows the Unmanaged Listings imported from a particular Account and Marketplace.
                 It contains the functionality of manual and automatic Item Mapping and Moving. After the imported
                 Items are Mapped to Magento Products, they can be Moved into an M2E Pro
                 Listing for further management.</p><br>
@@ -127,7 +127,7 @@ HTML
 
         $someProductsWereNotMappedMessage = $this->__(
             'Some Items were not mapped. Please edit <i>Product Mapping Settings</i> under
-            <i>Configuration > Account > 3rd Party Listings</i> or try to map manually.'
+            <i>Configuration > Account > Unmanaged Listings</i> or try to map manually.'
         );
 
         $createListing = $this->__(
@@ -141,7 +141,7 @@ HTML
             ),
             'Product does not exist.' => $this->__('Product does not exist.'),
             'Please enter correct Product ID.' => $this->__('Please enter correct Product ID.'),
-            'Product(s) was successfully Mapped.' => $this->__('Product(s) was successfully Mapped.'),
+            'Product(s) was Mapped.' => $this->__('Product(s) was Mapped.'),
             'Please enter correct Product ID or SKU' => $this->__('Please enter correct Product ID or SKU'),
 
             'Current version only supports Simple Products. Please, choose Simple Product.' => $this->__(
@@ -157,16 +157,16 @@ HTML
             'popup_title' => $this->__('Moving Amazon Items'),
             'confirm' => $this->__('Are you sure?'),
 
-            'not_enough_data' => $this->__('Not enough data'),
-            'successfully_unmapped' => $this->__('Product(s) was successfully Unmapped.'),
-            'successfully_removed' => $this->__('Product(s) was successfully Removed.'),
+            'Not enough data' => $this->__('Not enough data'),
+            'Product(s) was Unmapped.' => $this->__('Product(s) was Unmapped.'),
+            'Product(s) was Removed.' => $this->__('Product(s) was Removed.'),
 
             'select_items_message' => $this->__('Please select the Products you want to perform the Action on.'),
             'select_action_message' => $this->__('Please select Action.'),
 
             'automap_progress_title' => $this->__('Map Item(s) to Products'),
             'processing_data_message' => $this->__('Processing %product_title% Product(s).'),
-            'successfully_mapped' => $this->__('Product was successfully Mapped.'),
+            'Product was Mapped.' => $this->__('Product was Mapped.'),
             'failed_mapped' => $someProductsWereNotMappedMessage,
 
             'success_word' => $this->__('Success'),
@@ -202,7 +202,7 @@ HTML
 
         AmazonListingOtherGridObj.movingHandler.setProgressBar('listing_other_progress_bar');
         AmazonListingOtherGridObj.movingHandler.setGridWrapper('listing_other_content_container');
-        
+
         AmazonListingOtherGridObj.autoMappingHandler.setProgressBar('listing_other_progress_bar');
         AmazonListingOtherGridObj.autoMappingHandler.setGridWrapper('listing_other_content_container');
 

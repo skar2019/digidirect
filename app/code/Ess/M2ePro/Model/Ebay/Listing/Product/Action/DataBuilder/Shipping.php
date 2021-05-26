@@ -94,37 +94,13 @@ class Shipping extends AbstractModel
             return $shippingData;
         }
 
-        if ($this->getShippingTemplate()->isLocalShippingCalculatedEnabled()) {
-            $shippingData['calculated'] = $this->getCalculatedData();
-        }
-
         if ($this->getShippingTemplate()->isInternationalShippingFlatEnabled() ||
             $this->getShippingTemplate()->isInternationalShippingCalculatedEnabled()) {
             $shippingData['international'] = $this->getInternationalShippingData();
-
-            if ($this->getShippingTemplate()->isInternationalShippingCalculatedEnabled()) {
-                if (!isset($shippingData['calculated'])) {
-                    $shippingData['calculated'] = $this->getCalculatedData();
-                }
-            }
         }
 
-        if (!isset($shippingData['calculated'])) {
-            if (($this->getShippingTemplate()->isLocalShippingFlatEnabled() &&
-                    $this->getShippingTemplate()->isLocalShippingRateTableEnabled($this->getAccount())) ||
-                ($this->getShippingTemplate()->isInternationalShippingFlatEnabled() &&
-                    $this->getShippingTemplate()->isInternationalShippingRateTableEnabled($this->getAccount()))) {
-                $calculatedData = $this->getCalculatedData();
-                unset($calculatedData['package_size']);
-                unset($calculatedData['dimensions']);
-                $shippingData['calculated'] = $calculatedData;
-            }
-
-            if ($this->isClickAndCollectAvailable() && $this->getShippingTemplate()->isClickAndCollectEnabled()) {
-                $calculatedData = $this->getCalculatedData();
-                unset($calculatedData['package_size']);
-                $shippingData['calculated'] = $calculatedData;
-            }
+        if ($calculatedData = $this->getCalculatedData()) {
+            $shippingData['calculated'] = $calculatedData;
         }
 
         return $shippingData;
@@ -143,19 +119,29 @@ class Shipping extends AbstractModel
             return [];
         }
 
-        $data = [
-            'package_size' => $this->getCalculatedShippingSource()->getPackageSize(),
-            'dimensions' => $this->getCalculatedShippingSource()->getDimension(),
-            'weight' => $this->getCalculatedShippingSource()->getWeight()
-        ];
+        $data = [];
 
-        switch ($this->getCalculatedShippingTemplate()->getMeasurementSystem()) {
-            case \Ess\M2ePro\Model\Ebay\Template\Shipping\Calculated::MEASUREMENT_SYSTEM_ENGLISH:
-                $data['measurement_system'] = self::MEASUREMENT_SYSTEM_ENGLISH;
-                break;
-            case \Ess\M2ePro\Model\Ebay\Template\Shipping\Calculated::MEASUREMENT_SYSTEM_METRIC:
-                $data['measurement_system'] = self::MEASUREMENT_SYSTEM_METRIC;
-                break;
+        if ($this->getCalculatedShippingTemplate()->isPackageSizeSet()) {
+            $data['package_size'] = $this->getCalculatedShippingSource()->getPackageSize();
+        }
+
+        if ($this->getCalculatedShippingTemplate()->isDimensionSet()) {
+            $data['dimensions'] = $this->getCalculatedShippingSource()->getDimension();
+        }
+
+        if ($this->getCalculatedShippingTemplate()->isWeightSet()) {
+            $data['weight'] = $this->getCalculatedShippingSource()->getWeight();
+        }
+
+        if (!empty($data)) {
+            switch ($this->getCalculatedShippingTemplate()->getMeasurementSystem()) {
+                case \Ess\M2ePro\Model\Ebay\Template\Shipping\Calculated::MEASUREMENT_SYSTEM_ENGLISH:
+                    $data['measurement_system'] = self::MEASUREMENT_SYSTEM_ENGLISH;
+                    break;
+                case \Ess\M2ePro\Model\Ebay\Template\Shipping\Calculated::MEASUREMENT_SYSTEM_METRIC:
+                    $data['measurement_system'] = self::MEASUREMENT_SYSTEM_METRIC;
+                    break;
+            }
         }
 
         return $this->calculatedShippingData = $data;
@@ -191,16 +177,13 @@ class Shipping extends AbstractModel
                 $this->getListingProduct()->getListing()->getAccountId()
             );
 
-        if ($this->getShippingTemplate()->isLocalShippingFlatEnabled()) {
+        if ($this->getShippingTemplate()->isLocalShippingFlatEnabled() &&
+            $this->getShippingTemplate()->isLocalShippingRateTableEnabled($this->getAccount())) {
             $data['rate_table_mode'] = $this->getShippingTemplate()
                 ->getLocalShippingRateTableMode($this->getAccount());
             $data['rate_table_enabled'] = $this->getShippingTemplate()
                 ->isLocalShippingRateTableEnabled($this->getAccount());
             $data['rate_table_id'] = $this->getShippingTemplate()->getLocalShippingRateTableId($this->getAccount());
-
-            if ($this->isClickAndCollectAvailable()) {
-                $data['click_and_collect_enabled'] = $this->getShippingTemplate()->isClickAndCollectEnabled();
-            }
         }
 
         if ($this->getShippingTemplate()->isLocalShippingCalculatedEnabled()) {
@@ -258,18 +241,6 @@ class Shipping extends AbstractModel
 
                 $tempDataMethod['cost_additional'] = $service->getSource($this->getMagentoProduct())
                     ->getCostAdditional($store);
-
-                if (!$this->getShippingTemplate()->isLocalShippingRateTableEnabled($this->getAccount()) &&
-                    in_array(
-                        $this->getShippingTemplate()->getMarketplaceId(),
-                        [
-                            \Ess\M2ePro\Helper\Component\Ebay::MARKETPLACE_US,
-                            \Ess\M2ePro\Helper\Component\Ebay::MARKETPLACE_MOTORS,
-                        ]
-                    ) && preg_match('/(FedEx|UPS)/', $service->getShippingValue())) {
-                    $tempDataMethod['cost_surcharge'] = $service->getSource($this->getMagentoProduct())
-                        ->getCostSurcharge($store);
-                }
             }
 
             if ($this->getShippingTemplate()->isLocalShippingCalculatedEnabled()) {
@@ -301,7 +272,9 @@ class Shipping extends AbstractModel
                 $this->getListingProduct()->getListing()->getAccountId()
             );
 
-        if ($this->getShippingTemplate()->isInternationalShippingFlatEnabled()) {
+        if ($this->getShippingTemplate()->isInternationalShippingFlatEnabled() &&
+            $this->getShippingTemplate()->isInternationalShippingRateTableEnabled($this->getAccount())
+        ) {
             $data['rate_table_mode'] = $this->getShippingTemplate()
                 ->getInternationalShippingRateTableMode($this->getAccount());
             $data['rate_table_enabled'] = $this->getShippingTemplate()
@@ -364,27 +337,6 @@ class Shipping extends AbstractModel
         }
 
         return $services;
-    }
-
-    //########################################
-
-    protected function isClickAndCollectAvailable()
-    {
-        if (!$this->getMarketplace()->getChildObject()->isClickAndCollectEnabled()) {
-            return false;
-        }
-
-        if (!$this->getShippingTemplate()->isLocalShippingFlatEnabled() &&
-            !$this->getShippingTemplate()->isLocalShippingCalculatedEnabled()
-        ) {
-            return false;
-        }
-
-        if ($this->getShippingSource()->getDispatchTime() > 3) {
-            return false;
-        }
-
-        return true;
     }
 
     //########################################

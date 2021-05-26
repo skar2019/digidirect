@@ -22,8 +22,8 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
     const STATUS_CANCELED            = 5;
     const STATUS_INVOICE_UNCONFIRMED = 6;
 
-    const DOCUMENT_TYPE_INVOICE = 'invoice';
-    const DOCUMENT_TYPE_CREDIT_NOTE = 'credit_note';
+    const INVOICE_SOURCE_MAGENTO = 'magento';
+    const INVOICE_SOURCE_EXTENSION = 'extension';
 
     //########################################
 
@@ -39,9 +39,13 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
 
     private $grandTotalPrice = null;
 
+    /** @var \Ess\M2ePro\Model\ActiveRecord\Component\Parent\Amazon\Factory $amazonFactory */
+    protected $amazonFactory;
+
     //########################################
 
     public function __construct(
+        \Ess\M2ePro\Model\ActiveRecord\Component\Parent\Amazon\Factory $amazonFactory,
         \Ess\M2ePro\Model\Magento\Order\ShipmentFactory $shipmentFactory,
         \Ess\M2ePro\Model\Amazon\Order\ShippingAddressFactory $shippingAddressFactory,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
@@ -56,6 +60,7 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
         array $data = []
     ) {
+        $this->amazonFactory = $amazonFactory;
         $this->shipmentFactory = $shipmentFactory;
         $this->shippingAddressFactory = $shippingAddressFactory;
         $this->orderSender = $orderSender;
@@ -500,7 +505,7 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
         $channelItems = $this->getParentObject()->getChannelItems();
 
         if (count($channelItems) == 0) {
-            // 3rd party order
+            // Unmanaged order
             // ---------------------------------------
             $storeId = $this->getAmazonAccount()->getMagentoOrdersListingsOtherStoreId();
             // ---------------------------------------
@@ -593,11 +598,6 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
      */
     public function canCreateInvoice()
     {
-        if ($this->getAmazonAccount()->isVatCalculationServiceEnabled() &&
-            $this->getAmazonAccount()->isMagentoInvoiceCreationDisabled()) {
-            return false;
-        }
-
         if (!$this->getAmazonAccount()->isMagentoOrdersInvoiceEnabled()) {
             return false;
         }
@@ -739,13 +739,25 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
             $trackingDetails['fulfillment_date'] = $this->getHelper('Data')->getCurrentGmtDate();
         }
 
-        $params = [
+        if (!empty($trackingDetails['carrier_code'])) {
+            $trackingDetails['carrier_title'] = $this->getHelper('Component_Amazon')->getCarrierTitle(
+                $trackingDetails['carrier_code'],
+                isset($trackingDetails['carrier_title']) ? $trackingDetails['carrier_title'] : ''
+            );
+        }
+
+        if (!empty($trackingDetails['carrier_title'])) {
+            if ($trackingDetails['carrier_title'] == \Ess\M2ePro\Model\Order\Shipment\Handler::CUSTOM_CARRIER_CODE &&
+                !empty($trackingDetails['shipping_method'])) {
+                $trackingDetails['carrier_title'] = $trackingDetails['shipping_method'];
+            }
+        }
+
+        $params = array_merge([
             'amazon_order_id'  => $this->getAmazonOrderId(),
             'fulfillment_date' => $trackingDetails['fulfillment_date'],
             'items'            => []
-        ];
-
-        $params = array_merge($params, $trackingDetails);
+        ], $trackingDetails);
 
         foreach ($items as $item) {
             if (!isset($item['amazon_order_item_id']) || !isset($item['qty'])) {
@@ -762,39 +774,31 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
             ];
         }
 
-        $orderId     = $this->getParentObject()->getId();
-        $action      = \Ess\M2ePro\Model\Order\Change::ACTION_UPDATE_SHIPPING;
-
         /** @var \Ess\M2ePro\Model\Order\Change $change */
         $change = $this->activeRecordFactory
-                       ->getObject('Order\Change')
-                       ->getCollection()
-                       ->addFieldToFilter('order_id', $orderId)
-                       ->addFieldToFilter('action', $action)
-                       ->addFieldToFilter('processing_attempt_count', 0)
-                       ->getFirstItem();
+            ->getObject('Order_Change')
+            ->getCollection()
+            ->addFieldToFilter('order_id', $this->getParentObject()->getId())
+            ->addFieldToFilter('action', \Ess\M2ePro\Model\Order\Change::ACTION_UPDATE_SHIPPING)
+            ->addFieldToFilter('processing_attempt_count', 0)
+            ->getFirstItem();
 
-        if ($change->getId() && empty($trackingDetails['tracking_number'])) {
-            $this->updateOrderChange($change, $params);
-        } else {
-            $this->activeRecordFactory->getObject('Order\Change')->create(
-                $orderId,
-                $action,
+        $existingParams = $change->getParams();
+
+        $newTrackingNumber = !empty($trackingDetails['tracking_number']) ? $trackingDetails['tracking_number'] : '';
+        $oldTrackingNumber = !empty($existingParams['tracking_number']) ? $existingParams['tracking_number'] : '';
+
+        if (!$change->getId() || $newTrackingNumber !== $oldTrackingNumber) {
+            $this->activeRecordFactory->getObject('Order_Change')->create(
+                $this->getParentObject()->getId(),
+                \Ess\M2ePro\Model\Order\Change::ACTION_UPDATE_SHIPPING,
                 $this->getParentObject()->getLog()->getInitiator(),
                 \Ess\M2ePro\Helper\Component\Amazon::NICK,
                 $params
             );
+            return true;
         }
 
-        return true;
-    }
-
-    /**
-     * @param \Ess\M2ePro\Model\Order\Change $change
-     * @param array $params
-     */
-    private function updateOrderChange(\Ess\M2ePro\Model\Order\Change $change, array $params)
-    {
         $existingParams = $change->getParams();
         foreach ($params['items'] as $newItem) {
             foreach ($existingParams['items'] as &$existingItem) {
@@ -802,25 +806,28 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
                     $newQtyTotal = $newItem['qty'] + $existingItem['qty'];
 
                     $maxQtyTotal  = $this->activeRecordFactory
-                                         ->getObject('Amazon_Order_Item')
-                                         ->getCollection()
-                                         ->addFieldToFilter(
-                                             'amazon_order_item_id',
-                                             $existingItem['amazon_order_item_id']
-                                         )
-                                         ->getFirstItem()
-                                         ->getQtyPurchased();
+                        ->getObject('Amazon_Order_Item')
+                        ->getCollection()
+                        ->addFieldToFilter(
+                            'amazon_order_item_id',
+                            $existingItem['amazon_order_item_id']
+                        )
+                        ->getFirstItem()
+                        ->getQtyPurchased();
                     $newQtyTotal >= $maxQtyTotal && $newQtyTotal = $maxQtyTotal;
                     $existingItem['qty'] = $newQtyTotal;
                     continue 2;
                 }
             }
+
             unset($existingItem);
             $existingParams['items'][] = $newItem;
         }
 
         $change->setData('params', $this->getHelper('Data')->jsonEncode($existingParams));
         $change->save();
+
+        return true;
     }
 
     //########################################
@@ -858,7 +865,9 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
             'items'    => $items,
         ];
 
-        $totalItemsCount = $this->getParentObject()->getItemsCollection()->getSize();
+        $totalItemsCount = $this->amazonFactory->getObject('Order_Item')->getCollection()
+            ->addFieldToFilter('order_id', $this->getParentObject()->getId())
+            ->getSize();
 
         $orderId     = $this->getParentObject()->getId();
 
@@ -896,13 +905,17 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
     /**
      * @return bool
      */
-    public function canSendCreditmemo()
+    public function canSendMagentoCreditmemo()
     {
-        if (!$this->getAmazonAccount()->getMarketplace()->getChildObject()->isUploadInvoicesAvailable()) {
+        if (!$this->getAmazonAccount()->getMarketplace()->getChildObject()->isVatCalculationServiceAvailable()) {
             return false;
         }
 
-        if (!$this->getAmazonAccount()->isUploadInvoicesEnabled()) {
+        if ($this->getAmazonAccount()->isAutoInvoicingDisabled()) {
+            return false;
+        }
+
+        if (!$this->getAmazonAccount()->isUploadMagentoInvoices()) {
             return false;
         }
 
@@ -929,13 +942,123 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
 
     public function sendCreditmemo()
     {
-        if (!$this->canSendCreditmemo()) {
+        if (!$this->canSendMagentoCreditmemo()) {
             return false;
         }
 
         $params = [
-            'document_type' => self::DOCUMENT_TYPE_CREDIT_NOTE
+            'invoice_source' => self::INVOICE_SOURCE_MAGENTO,
+            'document_type' => \Ess\M2ePro\Model\Amazon\Order\Invoice::DOCUMENT_TYPE_CREDIT_NOTE
         ];
+
+        $this->sendInvoiceDocument($params);
+
+        return true;
+    }
+
+    //########################################
+
+    /**
+     * @return bool
+     */
+    public function canSendMagentoInvoice()
+    {
+        if (!$this->getAmazonAccount()->getMarketplace()->getChildObject()->isVatCalculationServiceAvailable()) {
+            return false;
+        }
+
+        if ($this->getAmazonAccount()->isAutoInvoicingDisabled()) {
+            return false;
+        }
+
+        if (!$this->getAmazonAccount()->isUploadMagentoInvoices()) {
+            return false;
+        }
+
+        $magentoOrder = $this->getParentObject()->getMagentoOrder();
+        if ($magentoOrder === null) {
+            return false;
+        }
+
+        if (!$magentoOrder->hasInvoices()) {
+            return false;
+        }
+
+        /** @var \Magento\Sales\Model\ResourceModel\Order\Invoice\Collection $invoices */
+        $invoices = $magentoOrder->getInvoiceCollection();
+        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+        $invoice = $invoices->getLastItem();
+
+        if ($this->getGrandTotalPrice() !== round($invoice->getGrandTotal(), 2)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function sendInvoice()
+    {
+        if (!$this->canSendMagentoInvoice()) {
+            return false;
+        }
+
+        $params = [
+            'invoice_source' => self::INVOICE_SOURCE_MAGENTO,
+            'document_type' => \Ess\M2ePro\Model\Amazon\Order\Invoice::DOCUMENT_TYPE_INVOICE
+        ];
+
+        $this->sendInvoiceDocument($params);
+
+        return true;
+    }
+
+    //########################################
+
+    public function canSendInvoiceFromReport()
+    {
+        if (!$this->getAmazonAccount()->getMarketplace()->getChildObject()->isVatCalculationServiceAvailable()) {
+            return false;
+        }
+
+        if (!$this->getAmazonAccount()->isVatCalculationServiceEnabled()) {
+            return false;
+        }
+
+        if (!$this->getAmazonAccount()->isInvoiceGenerationByExtension()) {
+            return false;
+        }
+
+        $reportData = $this->getSettings('invoice_data_report');
+        if (empty($reportData)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function sendInvoiceFromReport()
+    {
+        if (!$this->canSendInvoiceFromReport()) {
+            return false;
+        }
+
+        $params = [
+            'invoice_source' => self::INVOICE_SOURCE_EXTENSION,
+            'document_type' => ''
+        ];
+
+        $this->sendInvoiceDocument($params);
+
+        return true;
+    }
+
+    //########################################
+
+    public function sendInvoiceDocument(array $params)
+    {
+        if (empty($params['invoice_source'])) {
+            throw new \Ess\M2ePro\Model\Exception\Logic('invoice source param not found.');
+        }
 
         $this->activeRecordFactory->getObject('Order\Change')->create(
             $this->getParentObject()->getId(),
@@ -950,59 +1073,16 @@ class Order extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstra
 
     //########################################
 
-    /**
-     * @return bool
-     */
-    public function canSendInvoice()
+    public function delete()
     {
-        if (!$this->getAmazonAccount()->getMarketplace()->getChildObject()->isUploadInvoicesAvailable()) {
-            return false;
+        /** @var \Ess\M2ePro\Model\ResourceModel\Amazon\Order\Invoice\Collection $invoiceCollection */
+        $invoiceCollection = $this->activeRecordFactory->getObject('Amazon_Order_Invoice')->getCollection();
+        $invoiceCollection->addFieldToFilter('order_id', $this->getId());
+        foreach ($invoiceCollection->getItems() as $invoice) {
+            $invoice->delete();
         }
 
-        if (!$this->getAmazonAccount()->isUploadInvoicesEnabled()) {
-            return false;
-        }
-
-        $magentoOrder = $this->getParentObject()->getMagentoOrder();
-        if ($magentoOrder === null) {
-            return false;
-        }
-
-        if (!$this->getParentObject()->getMagentoOrder()->hasInvoices()) {
-            return false;
-        }
-
-        /** @var \Magento\Sales\Model\ResourceModel\Order\Invoice\Collection $invoices */
-        $invoices = $this->getParentObject()->getMagentoOrder()->getInvoiceCollection();
-        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-        $invoice = $invoices->getLastItem();
-
-        if ($this->getGrandTotalPrice() !== round($invoice->getGrandTotal(), 2)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function sendInvoice()
-    {
-        if (!$this->canSendInvoice()) {
-            return false;
-        }
-
-        $params = [
-            'document_type' => self::DOCUMENT_TYPE_INVOICE
-        ];
-
-        $this->activeRecordFactory->getObject('Order\Change')->create(
-            $this->getParentObject()->getId(),
-            \Ess\M2ePro\Model\Order\Change::ACTION_SEND_INVOICE,
-            $this->getParentObject()->getLog()->getInitiator(),
-            \Ess\M2ePro\Helper\Component\Amazon::NICK,
-            $params
-        );
-
-        return true;
+        return parent::delete();
     }
 
     //########################################

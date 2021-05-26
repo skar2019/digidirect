@@ -231,7 +231,7 @@ class Builder extends \Ess\M2ePro\Model\Ebay\Template\AbstractBuilder
                     $fileDriver->deleteFile($watermarkPath);
                 }
             }
-        } elseif (!empty($this->rawData['old_watermark_image']) && !isset($data['id'])) {
+        } elseif (!empty($this->rawData['old_watermark_image']) && isset($data['id'])) {
             $data['watermark_image'] = base64_decode($this->rawData['old_watermark_image']);
         }
 
@@ -282,8 +282,8 @@ class Builder extends \Ess\M2ePro\Model\Ebay\Template\AbstractBuilder
                     'ean'   => ['mode' => Description::PRODUCT_DETAILS_MODE_NONE, 'attribute' => ''],
                     'brand' => ['mode' => Description::PRODUCT_DETAILS_MODE_NONE, 'attribute' => ''],
                     'mpn'   => ['mode' => Description::PRODUCT_DETAILS_MODE_DOES_NOT_APPLY, 'attribute' => ''],
-                    'include_description' => 1,
-                    'include_image'       => 1,
+                    'include_ebay_details' => 1,
+                    'include_image'        => 1,
                 ]
             ),
 

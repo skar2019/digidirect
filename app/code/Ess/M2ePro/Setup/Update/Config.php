@@ -20,11 +20,14 @@ class Config extends AbstractConfig
     public function getFeaturesList()
     {
         return [
-            'dev' => [
+            'dev'     => [
                 'ChangeDevelopVersion',
                 'ReinstallHookWithFix',
                 'PrimaryConfigs',
-                'ModuleConfigs'
+                'ModuleConfigs',
+                'AddAmazonCollects',
+                'AddGermanyInStorePickUpForDevelop',
+                'DisableInStorePickUpCanadaFr'
             ],
             'y19_m01' => [
                 'NewUpgradesEngine',
@@ -117,7 +120,54 @@ class Config extends AbstractConfig
             'y20_m07' => [
                 'EbayTemplateStoreCategory',
                 'HashLongtextFields',
+                'EbayTemplateCustomTemplateId',
+                'WalmartKeywordsFields',
                 'WalmartOrderItemQty'
+            ],
+            'y20_m08' => [
+                'EbayManagedPayments',
+                'GroupedProduct',
+                'AmazonSkipTax',
+                'AmazonTR',
+                'VCSLiteInvoices'
+            ],
+            'y20_m09' => [
+                'AmazonSE',
+                'SellOnAnotherSite',
+                'InventorySynchronization'
+            ],
+            'y20_m10' => [
+                'ChangeSingleItemOption',
+                'AddInvoiceAndShipment',
+                'SellOnAnotherSite',
+                'AddShipmentToAmazonListing',
+                'AddGermanyInStorePickUp',
+                'AddITCAShippingRateTable',
+                'DefaultValuesInSyncPolicy'
+            ],
+            'y20_m11' => [
+                'WalmartCustomCarrier',
+                'RemoteFulfillmentProgram',
+                'EbayRemoveCustomTemplates',
+                'SynchronizeInventoryConfigs',
+                'DisableVCSOnNL',
+                'AmazonDuplicatedMarketplaceFeature',
+                'AddSkipEvtinSetting',
+                'EbayOrderCancelRefund'
+            ],
+            'y21_m01' => [
+                'AmazonJP',
+                'WalmartCancelRefundOption',
+                'EbayRemoveClickAndCollect'
+            ],
+            'y21_m02' => [
+                'MoveAUtoAsiaPacific',
+                'AmazonPL',
+                'EbayManagedPayments'
+            ],
+            'y21_m03' => [
+                'IncludeeBayProductDetails',
+                'EbayMotorsAddManagedPayments'
             ]
         ];
     }

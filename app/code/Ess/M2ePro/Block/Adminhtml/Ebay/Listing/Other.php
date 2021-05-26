@@ -8,12 +8,29 @@
 
 namespace Ess\M2ePro\Block\Adminhtml\Ebay\Listing;
 
+use Ess\M2ePro\Model\Cron\Task\Ebay\Listing\Other\Channel\SynchronizeData;
+
 /**
  * Class \Ess\M2ePro\Block\Adminhtml\Ebay\Listing\Other
  */
 class Other extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
 {
     //########################################
+
+    /** @var \Ess\M2ePro\Model\ActiveRecord\Component\Parent\Ebay\Factory $ebayFactory */
+    protected $ebayFactory;
+
+    //########################################
+
+    public function __construct(
+        \Ess\M2ePro\Model\ActiveRecord\Component\Parent\Ebay\Factory $ebayFactory,
+        \Ess\M2ePro\Block\Adminhtml\Magento\Context\Widget $context,
+        array $data = []
+    ) {
+        $this->ebayFactory = $ebayFactory;
+
+        parent::__construct($context, $data);
+    }
 
     public function _construct()
     {
@@ -29,24 +46,52 @@ class Other extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
         $this->buttonList->remove('save');
         $this->buttonList->remove('edit');
 
+        $label = 'Reset Unmanaged Listings';
+        $disabled = false;
+
+        /** @var \Ess\M2ePro\Model\ResourceModel\Account\Collection $accounts */
+        $accounts = $this->ebayFactory->getObject('Account')->getCollection();
+        $accounts->addFieldToFilter('other_listings_synchronization', 1);
+        foreach ($accounts->getItems() as $account) {
+
+            /** @var \Ess\M2ePro\Model\Lock\Item\Manager $lockItemManager */
+            $lockItemManager = $this->modelFactory->getObject(
+                'Lock_Item_Manager',
+                [
+                    'nick' => SynchronizeData::LOCK_ITEM_PREFIX . '_' . $account->getId()
+                ]
+            );
+
+            if ($lockItemManager->isExist()) {
+                $label = 'Products import is in progress';
+                $disabled = true;
+                break;
+            }
+        }
+
         $url = $this->getUrl('*/ebay_listing_other/reset');
-        $this->addButton('reset_other_listings', [
-            'label'   => $this->__('Reset 3rd Party Listings'),
-            'onclick' => "ListingOtherObj.showResetPopup('".$url."');",
-            'class'   => 'action-primary'
-        ]);
+        $this->addButton(
+            'reset_other_listings',
+            [
+                'label'    => $this->__($label),
+                'onclick'  => "ListingOtherObj.showResetPopup('{$url}');",
+                'class'    => 'action-primary',
+                'disabled' => $disabled
+            ]
+        );
     }
 
     protected function _prepareLayout()
     {
-        $this->appendHelpBlock([
-            'content' => $this->__(
-                <<<HTML
+        $this->appendHelpBlock(
+            [
+                'content' => $this->__(
+                    <<<HTML
                 <p>The list below displays groups of Items combined together based on their belonging to a
-                specific Marketplace and Account. The number of the 3rd Party Listings available for each of
+                specific Marketplace and Account. The number of the Unmanaged Listings available for each of
                 the groups is also available.</p><br>
 
-                <p>3rd Party Listings are the Items which were placed directly on the Channel or by using a tool
+                <p>Unmanaged Listings are the Items which were placed directly on the Channel or by using a tool
                 other than M2E Pro. These Items are imported according to Account settings which means the settings
                 can be managed for different Accounts separately.</p><br>
 
@@ -55,8 +100,9 @@ class Other extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
                 them into M2E Pro Listings.</p>
 
 HTML
-            )
-        ]);
+                )
+            ]
+        );
 
         return parent::_prepareLayout();
     }
@@ -85,11 +131,13 @@ JS
     <div id="reset_other_listings_popup_content" class="block_notices m2epro-box-style"
      style="display: none; margin-bottom: 0;">
         <div>
-            <h3>{$this->__('Confirm the 3rd Party Listings reset')}</h3>
-            <p>{$this->__('This action will remove all the items from eBay 3rd Party Listings.
-             It will take some time to import them again.')}</p>
+            <h3>{$this->__('Confirm the Unmanaged Listings reset')}</h3>
+            <p>{$this->__(
+            'This action will remove all the items from eBay Unmanaged Listings.
+             It will take some time to import them again.'
+        )}</p>
              <br>
-            <p>{$this->__('Do you want to reset the 3rd Party Listings?')}</p>
+            <p>{$this->__('Do you want to reset the Unmanaged Listings?')}</p>
         </div>
     </div>
 </div>

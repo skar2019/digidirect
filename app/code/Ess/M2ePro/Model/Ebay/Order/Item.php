@@ -360,7 +360,7 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\AbstractM
 
         // ---------------------------------------
 
-        // 3rd party Item
+        // Unmanaged Item
         // ---------------------------------------
         $sku = $this->getSku();
         if (strlen($this->getVariationSku()) > 0) {
@@ -401,7 +401,9 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\AbstractM
     protected function createProduct()
     {
         if (!$this->getEbayAccount()->isMagentoOrdersListingsOtherProductImportEnabled()) {
-            throw new \Ess\M2ePro\Model\Exception('Product Import is disabled in Account Settings.');
+            throw new \Ess\M2ePro\Model\Exception($this->getHelper('Module\Translation')->__(
+                'Product creation is disabled in "Account > Orders > Product Not Found".'
+            ));
         }
 
         $order = $this->getParentObject()->getOrder();
@@ -465,60 +467,6 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\AbstractM
                 'order_item' => $this->getParentObject(),
             ]);
         }
-    }
-
-    //########################################
-
-    /**
-     * @param array $trackingDetails
-     * @return bool
-     */
-    public function updateShippingStatus(array $trackingDetails = [])
-    {
-        if (!$this->getEbayOrder()->canUpdateShippingStatus($trackingDetails)) {
-            return false;
-        }
-
-        $params = [
-            'item_id' => $this->getId(),
-        ];
-
-        if (!empty($trackingDetails['carrier_code'])) {
-            $trackingDetails['carrier_title'] = $this->getHelper('Component\Ebay')->getCarrierTitle(
-                $trackingDetails['carrier_code'],
-                isset($trackingDetails['carrier_title']) ? $trackingDetails['carrier_title'] : ''
-            );
-        }
-
-        if (!empty($trackingDetails['carrier_title'])) {
-            if ($trackingDetails['carrier_title'] == \Ess\M2ePro\Model\Order\Shipment\Handler::CUSTOM_CARRIER_CODE &&
-                !empty($trackingDetails['shipping_method'])) {
-                $trackingDetails['carrier_title'] = $trackingDetails['shipping_method'];
-            }
-
-            // remove unsupported by eBay symbols
-            $trackingDetails['carrier_title'] = str_replace(
-                ['\'', '"', '+', '(', ')'],
-                [],
-                $trackingDetails['carrier_title']
-            );
-        }
-
-        $params = array_merge($params, $trackingDetails);
-
-        $action = \Ess\M2ePro\Model\Order\Change::ACTION_UPDATE_SHIPPING;
-        $creator = $this->getEbayOrder()->getParentObject()->getLog()->getInitiator();
-        $component = \Ess\M2ePro\Helper\Component\Ebay::NICK;
-
-        $this->activeRecordFactory->getObject('Order\Change')->create(
-            $this->getParentObject()->getOrderId(),
-            $action,
-            $creator,
-            $component,
-            $params
-        );
-
-        return true;
     }
 
     //########################################

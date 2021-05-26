@@ -127,7 +127,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
         ]);
 
         $this->addColumn('title', [
-            'header'                    => $this->__('Title / SKU'),
+            'header'                    => $this->__('Product Title / Product SKU / eBay Category'),
             'align'                     => 'left',
             'type'                      => 'text',
             'index'                     => 'title',
@@ -232,24 +232,20 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
 
         $this->getMassactionBlock()->addItem('autoMapping', [
             'label'   => $this->__('Map Item(s) Automatically'),
-            'url'     => '',
-            'confirm' => $this->__('Are you sure?')
+            'url'     => ''
         ], 'mapping');
 
         $this->getMassactionBlock()->addItem('moving', [
             'label'   => $this->__('Move Item(s) to Listing'),
-            'url'     => '',
-            'confirm' => $this->__('Are you sure?')
+            'url'     => ''
         ], 'other');
         $this->getMassactionBlock()->addItem('removing', [
             'label'   => $this->__('Remove Item(s)'),
-            'url'     => '',
-            'confirm' => $this->__('Are you sure?')
+            'url'     => ''
         ], 'other');
         $this->getMassactionBlock()->addItem('unmapping', [
             'label'   => $this->__('Unmap Item(s)'),
-            'url'     => '',
-            'confirm' => $this->__('Are you sure?')
+            'url'     => ''
         ], 'mapping');
         // ---------------------------------------
 
@@ -438,7 +434,12 @@ HTML;
             return;
         }
 
-        $collection->getSelect()->where('second_table.title LIKE ? OR second_table.sku LIKE ?', '%'.$value.'%');
+        $collection->getSelect()->where(
+            'second_table.title LIKE ? OR
+             second_table.sku LIKE ? OR
+              second_table.online_main_category LIKE ?',
+            '%'.$value.'%'
+        );
     }
 
     //########################################

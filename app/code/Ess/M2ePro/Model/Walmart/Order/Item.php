@@ -265,7 +265,7 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstra
         }
         // ---------------------------------------
 
-        // 3rd party Item
+        // Unmanaged Item
         // ---------------------------------------
         $sku = $this->getSku();
         if ($sku != '' && strlen($sku) <= \Ess\M2ePro\Helper\Magento\Product::SKU_MAX_LENGTH) {
@@ -304,7 +304,9 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Walmart\Abstra
     private function createProduct()
     {
         if (!$this->getWalmartAccount()->isMagentoOrdersListingsOtherProductImportEnabled()) {
-            throw new \Ess\M2ePro\Model\Exception('Product Import is disabled in Walmart Account Settings.');
+            throw new \Ess\M2ePro\Model\Exception($this->getHelper('Module\Translation')->__(
+                'Product creation is disabled in "Account > Orders > Product Not Found".'
+            ));
         }
 
         $storeId = $this->getWalmartAccount()->getMagentoOrdersListingsOtherStoreId();

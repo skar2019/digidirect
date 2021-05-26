@@ -66,7 +66,7 @@ class View extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractContainer
         $this->appendHelpBlock([
             'content' => $this->__(
                 <<<HTML
-                <p>The list below shows the 3rd Party Listings imported from a particular Account and Marketplace.
+                <p>The list below shows the Unmanaged Listings imported from a particular Account and Marketplace.
                 It contains the functionality of manual and automatic Item Mapping and Moving. After the imported
                 Items are Mapped to Magento Products, they can be Moved into an M2E Pro
                 Listing for further management.</p><br>
@@ -111,18 +111,19 @@ HTML
 
         $someProductsWereNotMappedMessage = $this->__(
             'Some Items were not mapped. Please edit <i>Product Mapping Settings</i> under
-            <i>Configuration > Account > 3rd Party Listings</i> or try to map manually.'
+            <i>Configuration > Account > Unmanaged Listings</i> or try to map manually.'
         );
 
         $this->jsUrl->addUrls($helper->getControllerActions('Listing\Other'));
         $this->jsUrl->addUrls([
             'listing_other_mapping/map' => $this->getUrl('*/listing_other_mapping/map'),
             'mapAutoToProduct' => $this->getUrl('*/listing_other_mapping/autoMap'),
+            'ebay_listing/view' => $this->getUrl('*/ebay_listing/view'),
 
             'prepareData' => $this->getUrl('*/listing_other_moving/prepareMoveToListing'),
             'moveToListingGridHtml' => $this->getUrl('*/listing_other_moving/moveToListingGrid'),
             'moveToListing' => $this->getUrl('*/ebay_listing_other/moveToListing'),
-            'categorySettings' => $this->getUrl('*/ebay_listing_product_category_settings/index'),
+            'categorySettings' => $this->getUrl('*/ebay_listing_product_category_settings/otherCategories'),
 
             'removingProducts' => $this->getUrl('*/ebay_listing_other/removing'),
             'unmappingProducts' => $this->getUrl('*/listing_other_mapping/unmapping')
@@ -135,11 +136,11 @@ HTML
             ),
             'Product does not exist.' => $this->__('Product does not exist.'),
             'Please enter correct Product ID.' => $this->__('Please enter correct Product ID.'),
-            'Product(s) was successfully Mapped.' => $this->__('Product(s) was successfully Mapped.'),
+            'Product(s) was Mapped.' => $this->__('Product(s) was Mapped.'),
             'Please enter correct Product ID or SKU' => $this->__('Please enter correct Product ID or SKU'),
             'Add New Listing' => $this->__('Add New Listing'),
             'failed_mapped' => $someProductsWereNotMappedMessage,
-            'successfully_mapped' => $this->__('Product was successfully Mapped.'),
+            'Product was Mapped.' => $this->__('Product was Mapped.'),
             'mapping_product_title' => $this->__('Mapping Product'),
             'product_does_not_exist' => $this->__('Product does not exist.'),
             'select_simple_product' => $this->__(
@@ -150,9 +151,9 @@ HTML
             'automap_progress_title' => $this->__('Map Item(s) to Products'),
             'processing_data_message' => $this->__('Processing %product_title% Product(s).'),
             'popup_title' => $this->__('Moving eBay Items'),
-            'not_enough_data' => $this->__('Not enough data.'),
-            'successfully_unmapped' => $this->__('Product(s) was successfully Unmapped.'),
-            'successfully_removed' => $this->__('Product(s) was successfully Removed.'),
+            'Not enough data' => $this->__('Not enough data.'),
+            'Product(s) was Unmapped.' => $this->__('Product(s) was Unmapped.'),
+            'Product(s) was Removed.' => $this->__('Product(s) was Removed.'),
             'task_completed_message' => $this->__('Task completed. Please wait ...'),
             'sending_data_message' => $this->__('Sending %product_title% Product(s) data on eBay.'),
             'listing_locked_message' => $this->__('The Listing was locked by another process. Please try again later.'),

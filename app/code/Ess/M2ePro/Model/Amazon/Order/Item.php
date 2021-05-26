@@ -348,7 +348,7 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstrac
         }
         // ---------------------------------------
 
-        // 3rd party Item
+        // Unmanaged Item
         // ---------------------------------------
         $sku = $this->getSku();
         if ($sku != '' && strlen($sku) <=\Ess\M2ePro\Helper\Magento\Product::SKU_MAX_LENGTH) {
@@ -387,7 +387,9 @@ class Item extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Amazon\Abstrac
     protected function createProduct()
     {
         if (!$this->getAmazonAccount()->isMagentoOrdersListingsOtherProductImportEnabled()) {
-            throw new \Ess\M2ePro\Model\Exception('Product Import is disabled in Amazon Account Settings.');
+            throw new \Ess\M2ePro\Model\Exception($this->getHelper('Module\Translation')->__(
+                'Product creation is disabled in "Account > Orders > Product Not Found".'
+            ));
         }
 
         $storeId = $this->getAmazonAccount()->getMagentoOrdersListingsOtherStoreId();

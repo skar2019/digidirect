@@ -45,7 +45,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
 
         $this->listing = $this->getHelper('Data\GlobalData')->getValue('view_listing');
 
-        $this->setId('amazonListingViewSettingsGrid' . $this->listing['id']);
+        $this->setId('amazonListingViewGrid' . $this->listing['id']);
 
         $this->showAdvancedFilterProductsOption = false;
     }
@@ -221,7 +221,9 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
             'type'           => 'text',
             'index'          => 'general_id',
             'filter_index'   => 'general_id',
-            'frame_callback' => [$this, 'callbackColumnGeneralId']
+            'filter'         => '\Ess\M2ePro\Block\Adminhtml\Amazon\Grid\Column\Filter\GeneralId',
+            'frame_callback' => [$this, 'callbackColumnGeneralId'],
+            'filter_condition_callback' => [$this, 'callbackFilterGeneralId']
         ]);
 
         $this->addColumn('description_template', [
@@ -238,9 +240,12 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
             'header'         => 'Shipping Policy',
             'align'          => 'left',
             'width'          => '170px',
-            'type'           => 'text',
-            'index'          => 'template_shipping_title',
-            'filter_index'   => 'template_shipping_title',
+            'type'          => 'options',
+            'options'       => [
+                0 => $this->__('Use from Listing Settings'),
+                1 => $this->__('Policies')
+            ],
+            'filter_condition_callback' => [$this, 'callbackFilterShippingSettings'],
             'frame_callback' => [$this, 'callbackColumnTemplateShipping']
         ]);
 
@@ -369,26 +374,22 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
 
         $this->getMassactionBlock()->addItem('assignTemplateDescriptionId', [
             'label'    => $this->__('Assign'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'description_policy');
 
         $this->getMassactionBlock()->addItem('unassignTemplateDescriptionId', [
             'label'    => $this->__('Unassign'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'description_policy');
 
         $this->getMassactionBlock()->addItem('assignTemplateShippingId', [
             'label'   => $this->__('Assign'),
-            'url'     => '',
-            'confirm' => $this->__('Are you sure?')
+            'url'     => ''
         ], 'shipping_policy');
 
         $this->getMassactionBlock()->addItem('unassignTemplateShippingId', [
             'label'   => $this->__('Unassign'),
-            'url'     => '',
-            'confirm' => $this->__('Are you sure?')
+            'url'     => ''
         ], 'shipping_policy');
 
         if ($this->listing->getMarketplace()->getChildObject()->isProductTaxCodePolicyAvailable() &&
@@ -396,27 +397,28 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
         ) {
             $this->getMassactionBlock()->addItem('assignTemplateProductTaxCodeId', [
                 'label'   => $this->__('Assign'),
-                'url'     => '',
-                'confirm' => $this->__('Are you sure?')
+                'url'     => ''
             ], 'edit_template_product_tax_code');
 
             $this->getMassactionBlock()->addItem('unassignTemplateProductTaxCodeId', [
                 'label'   => $this->__('Unassign'),
-                'url'     => '',
-                'confirm' => $this->__('Are you sure?')
+                'url'     => ''
             ], 'edit_template_product_tax_code');
         }
 
         $this->getMassactionBlock()->addItem('moving', [
             'label'    => $this->__('Move Item(s) to Another Listing'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'other');
 
         $this->getMassactionBlock()->addItem('duplicate', [
             'label'    => $this->__('Duplicate'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
+        ], 'other');
+
+        $this->getMassactionBlock()->addItem('transferring', [
+            'label' => $this->__('Sell on Another Marketplace'),
+            'url' => ''
         ], 'other');
         // ---------------------------------------
 
@@ -430,13 +432,10 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Listing\View\Grid
         $productTitle = $this->getHelper('Data')->escapeHtml($productTitle);
 
         $value = '<span>'.$productTitle.'</span>';
-        $sku = $row->getData('sku');
 
-        if ($sku === null) {
-            $sku = $this->modelFactory->getObject('Magento\Product')
-                ->setProductId($row->getData('entity_id'))
-                ->getSku();
-        }
+        $sku = $this->modelFactory->getObject('Magento\Product')
+            ->setProductId($row->getData('entity_id'))
+            ->getSku();
 
         $value .= '<br/><strong>'.$this->__('SKU') .
             ':</strong> '.$this->getHelper('Data')->escapeHtml($sku) . '<br/>';
@@ -614,6 +613,13 @@ HTML;
             return <<<HTML
 <a target="_blank" href="{$url}">{$templateTitle}</a>
 HTML;
+        } elseif ($this->listing->getChildObject()->getData('template_shipping_id')) {
+            $shippingSettings = $this->__('Use from Listing Settings');
+            return <<<HTML
+<div style="padding: 4px">
+    <span style="color: #666666">{$shippingSettings}</span><br/>
+</div>
+HTML;
         }
 
         return $html;
@@ -656,6 +662,32 @@ HTML;
         );
     }
 
+    protected function callbackFilterGeneralId($collection, $column)
+    {
+        $inputValue = $column->getFilter()->getValue('input');
+        if ($inputValue !== null) {
+            $collection->addFieldToFilter('general_id', ['like' => '%' . $inputValue . '%']);
+        }
+
+        $selectValue = $column->getFilter()->getValue('select');
+        if ($selectValue !== null) {
+            $collection->addFieldToFilter('is_general_id_owner', $selectValue);
+        }
+    }
+
+    protected function callbackFilterShippingSettings($collection, $column)
+    {
+        $value = $column->getFilter()->getValue();
+
+        if ($value) {
+            $collection->addFieldToFilter('template_shipping_id', ['notnull' => true]);
+        } else {
+            if ($this->listing->getChildObject()->getData('template_shipping_id')) {
+                $collection->addFieldToFilter('template_shipping_id', ['null' => true]);
+            }
+        }
+    }
+
     //########################################
 
     public function getRowUrl($row)
@@ -667,6 +699,17 @@ HTML;
 
     protected function _toHtml()
     {
+        $this->js->add(<<<JS
+    require([
+        'M2ePro/Amazon/Listing/Transferring'
+    ],function() {
+        window.AmazonListingTransferringObj = new AmazonListingTransferring(
+            {$this->listing->getId()}
+        );
+    });
+JS
+        );
+
         if ($this->getRequest()->isXmlHttpRequest()) {
             $this->js->add(
                 <<<JS

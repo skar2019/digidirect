@@ -48,13 +48,10 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
     {
         parent::_construct();
 
-        // Initialization block
-        // ---------------------------------------
         $this->setId('walmartVariationProductManageGrid');
         $this->setDefaultSort('id');
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
-        // ---------------------------------------
     }
 
     //########################################
@@ -79,15 +76,12 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
 
     protected function _prepareCollection()
     {
-        // Get collection
-        // ---------------------------------------
         $collection = $this->walmartFactory->getObject('Listing\Product')->getCollection();
         $collection->getSelect()->distinct();
         $collection->getSelect()->where(
             "`second_table`.`variation_parent_id` = ?",
             (int)$this->getListingProduct()->getId()
         );
-        // ---------------------------------------
 
         $collection->getSelect()->columns([
             'online_price' => 'second_table.online_price'
@@ -113,7 +107,13 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
             ]
         );
 
-        // Set collection to grid
+        if ($this->getParam($this->getVarNameFilter()) == 'searched_by_child'){
+            $collection->addFieldToFilter(
+                'second_table.listing_product_id',
+                ['in' => explode(',', $this->getRequest()->getParam('listing_product_id_filter'))]
+            );
+        }
+
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
@@ -250,44 +250,37 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
         // ---------------------------------------
         $this->getMassactionBlock()->addItem('list', [
             'label'    => $this->__('List Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ]);
 
         $this->getMassactionBlock()->addItem('revise', [
             'label'    => $this->__('Revise Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ]);
 
         $this->getMassactionBlock()->addItem('relist', [
             'label'    => $this->__('Relist Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ]);
 
         $this->getMassactionBlock()->addItem('stop', [
             'label'    => $this->__('Stop Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ]);
 
         $this->getMassactionBlock()->addItem('stopAndRemove', [
             'label'    => $this->__('Stop on Channel / Remove from Listing'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ]);
 
         $this->getMassactionBlock()->addItem('deleteAndRemove', [
             'label'    => $this->__('Retire on Channel / Remove from Listing'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ]);
 
         $this->getMassactionBlock()->addItem('resetProducts', [
             'label'    => $this->__('Reset Inactive (Blocked) Item(s)'),
-            'url'      => '',
-            'confirm'  => $this->__('Are you sure?')
+            'url'      => ''
         ], 'other');
 
         // ---------------------------------------
@@ -301,7 +294,7 @@ class Grid extends \Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid
     {
         $html = '';
 
-        /** @var \Ess\M2ePro\Model\Walmart\Listing\Product\Variation\Manager\Type\Relation\ChildRelation $typeModel */
+        /** @var \Ess\M2ePro\Model\Walmart\Listing\Product\Variation\Manager\Type\Relation\Child $typeModel */
         $typeModel = $row->getChildObject()->getVariationManager()->getTypeModel();
 
         $html .= '<div class="product-options-main" style="font-size: 11px; color: grey; margin-left: 7px">';
@@ -673,7 +666,7 @@ HTML;
         foreach ($this->getChildListingProducts() as $childListingProduct) {
             /** @var \Ess\M2ePro\Model\Listing\Product $childListingProduct */
 
-            /** @var ChildRelation $childTypeModel */
+            /** @var \Ess\M2ePro\Model\Walmart\Listing\Product\Variation\Manager\Type\Relation\Child $childTypeModel */
             $childTypeModel = $childListingProduct->getChildObject()->getVariationManager()->getTypeModel();
 
             if (!$childTypeModel->isVariationProductMatched()) {
@@ -740,10 +733,24 @@ CSS
     ], function(){
 
         ListingProductVariationManageVariationsGridObj.afterInitPage();
+        ListingProductVariationManageVariationsGridObj.actionHandler.messageObj.clear();
 
     });
 JS
         );
+
+        if ($this->getParam($this->getVarNameFilter()) == 'searched_by_child'){
+            $noticeMessage = $this->__('This list includes a Product you are searching for.');
+            $this->js->add(
+                <<<JS
+    require([
+        'M2ePro/Walmart/Listing/Product/Variation/Manage/Tabs/Variations/Grid'
+    ], function(){
+        ListingProductVariationManageVariationsGridObj.actionHandler.messageObj.addNotice('{$noticeMessage}');
+    });
+JS
+            );
+        }
 
         return parent::_toHtml();
     }
@@ -800,7 +807,7 @@ JS
     {
         $unusedVariations = $this->getUnusedProductVariations();
 
-        /** @var ChildRelation $childTypeModel */
+        /** @var \Ess\M2ePro\Model\Walmart\Listing\Product\Variation\Manager\Type\Relation\Child $childTypeModel */
         $childTypeModel = $childProduct->getChildObject()->getVariationManager()->getTypeModel();
 
         if ($childTypeModel->isVariationProductMatched()) {

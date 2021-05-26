@@ -15,7 +15,7 @@ class Configuration extends \Ess\M2ePro\Helper\AbstractHelper
 {
     const UPLOAD_IMAGES_MODE_AUTO = 1;
     const UPLOAD_IMAGES_MODE_SELF = 2;
-    const UPLOAD_IMAGES_MODE_EPS = 3;
+    const UPLOAD_IMAGES_MODE_EPS  = 3;
 
     const CONFIG_GROUP = '/ebay/configuration/';
 
@@ -135,31 +135,6 @@ class Configuration extends \Ess\M2ePro\Helper\AbstractHelper
         );
     }
 
-    /**
-     * @param string $value
-     *
-     * @return $this
-     * @throws \Ess\M2ePro\Model\Exception\Logic
-     */
-    public function setSellOnAnotherMarketplaceTutorialShown($value)
-    {
-        $this->getHelper('Module')->getConfig()->setGroupValue(
-            self::CONFIG_GROUP,
-            'sell_on_another_marketplace_tutorial_shown',
-            $value
-        );
-
-        return $this;
-    }
-
-    public function getSellOnAnotherMarketplaceTutorialShown()
-    {
-        return $this->getHelper('Module')->getConfig()->getGroupValue(
-            self::CONFIG_GROUP,
-            'sell_on_another_marketplace_tutorial_shown'
-        );
-    }
-
     //########################################
 
     public function getViewTemplateSellingFormatShowTaxCategory()
@@ -239,7 +214,7 @@ class Configuration extends \Ess\M2ePro\Helper\AbstractHelper
             $motorsAttributes[] = $values['ktypes_attribute'];
         }
 
-        if (count($motorsAttributes) != count(array_unique($motorsAttributes))) {
+        if (count(array_filter($motorsAttributes)) != count(array_unique(array_filter($motorsAttributes)))) {
             throw new \Ess\M2ePro\Model\Exception\Logic('Motors Attributes can not be the same.');
         }
 

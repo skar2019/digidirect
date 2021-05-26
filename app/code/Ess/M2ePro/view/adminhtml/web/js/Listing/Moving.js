@@ -190,6 +190,9 @@ define([
 
         submit: function (listingId, onSuccess) {
             var self = this;
+
+            $$('.loading-mask').invoke('setStyle', {visibility: 'visible'});
+
             new Ajax.Request(M2ePro.url.get('moveToListing'), {
                 method: 'post',
                 parameters: {
@@ -203,8 +206,10 @@ define([
 
                     var response = transport.responseText.evalJSON();
 
+                    $$('.loading-mask').invoke('setStyle', {visibility: 'hidden'});
                     if (response.result) {
-                        onSuccess.bind(self.gridHandler)(listingId);
+                        var hasOnlineCategory = response.hasOnlineCategory || false;
+                        onSuccess.bind(self.gridHandler)(listingId, hasOnlineCategory);
                         if (response.message) {
                             if (response.isFailed) {
                                 MessagesObj.addError(response.message);

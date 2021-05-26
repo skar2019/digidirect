@@ -12,6 +12,8 @@ use \Ess\M2ePro\Block\Adminhtml\Ebay\Listing\Product\Category\Settings\Mode as C
 use \Ess\M2ePro\Controller\Adminhtml\Ebay\Listing\Product\Category\Settings;
 use \Ess\M2ePro\Helper\Component\Ebay\Category as eBayCategory;
 use \Ess\M2ePro\Model\Ebay\Template\Category as TemplateCategory;
+use Ess\M2ePro\Block\Adminhtml\Ebay\Listing\Product\Add\SourceMode as SourceModeBlock;
+
 
 /**
  * Class \Ess\M2ePro\Controller\Adminhtml\Ebay\Listing\Product\Category\Settings\Index
@@ -108,6 +110,10 @@ class Index extends Settings
         }
 
         $source = $this->listing->getSetting('additional_data', 'source');
+
+        if ($source == SourceModeBlock::MODE_OTHER) {
+            return $this->_redirect('*/*/otherCategories', ['_current' => true]);
+        }
 
         if ($this->getRequest()->isPost()) {
             $mode = $this->getRequest()->getParam('mode');
@@ -524,12 +530,12 @@ class Index extends Settings
         \Ess\M2ePro\Model\Ebay\Template\StoreCategory $storeSecondaryTpl,
         $remember
     ) {
-        $this->assignTemplatesToProducts(
+        $this->activeRecordFactory->getObject('Ebay_Listing_Product')->assignTemplatesToProducts(
+            $this->getEbayListingFromRequest()->getAddedListingProductsIds(),
             $categoryTpl->getId(),
             $categorySecondaryTpl->getId(),
             $storeTpl->getId(),
-            $storeSecondaryTpl->getId(),
-            $this->getEbayListingFromRequest()->getAddedListingProductsIds()
+            $storeSecondaryTpl->getId()
         );
 
         if ($remember) {

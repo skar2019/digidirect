@@ -17,31 +17,31 @@ namespace Ess\M2ePro\Model\Ebay\Template;
  */
 class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
 {
-    const COUNTRY_MODE_CUSTOM_VALUE = 1;
+    const COUNTRY_MODE_CUSTOM_VALUE     = 1;
     const COUNTRY_MODE_CUSTOM_ATTRIBUTE = 2;
 
-    const POSTAL_CODE_MODE_NONE = 0;
-    const POSTAL_CODE_MODE_CUSTOM_VALUE = 1;
+    const POSTAL_CODE_MODE_NONE             = 0;
+    const POSTAL_CODE_MODE_CUSTOM_VALUE     = 1;
     const POSTAL_CODE_MODE_CUSTOM_ATTRIBUTE = 2;
 
-    const ADDRESS_MODE_NONE = 0;
-    const ADDRESS_MODE_CUSTOM_VALUE = 1;
+    const ADDRESS_MODE_NONE             = 0;
+    const ADDRESS_MODE_CUSTOM_VALUE     = 1;
     const ADDRESS_MODE_CUSTOM_ATTRIBUTE = 2;
 
-    const SHIPPING_TYPE_FLAT = 0;
-    const SHIPPING_TYPE_CALCULATED = 1;
-    const SHIPPING_TYPE_FREIGHT = 2;
-    const SHIPPING_TYPE_LOCAL = 3;
+    const SHIPPING_TYPE_FLAT             = 0;
+    const SHIPPING_TYPE_CALCULATED       = 1;
+    const SHIPPING_TYPE_FREIGHT          = 2;
+    const SHIPPING_TYPE_LOCAL            = 3;
     const SHIPPING_TYPE_NO_INTERNATIONAL = 4;
 
-    const DISPATCH_TIME_MODE_VALUE = 1;
+    const DISPATCH_TIME_MODE_VALUE     = 1;
     const DISPATCH_TIME_MODE_ATTRIBUTE = 2;
 
-    const SHIPPING_RATE_TABLE_ACCEPT_MODE = 1;
+    const SHIPPING_RATE_TABLE_ACCEPT_MODE     = 1;
     const SHIPPING_RATE_TABLE_IDENTIFIER_MODE = 2;
 
-    const CROSS_BORDER_TRADE_NONE = 0;
-    const CROSS_BORDER_TRADE_NORTH_AMERICA = 1;
+    const CROSS_BORDER_TRADE_NONE           = 0;
+    const CROSS_BORDER_TRADE_NORTH_AMERICA  = 1;
     const CROSS_BORDER_TRADE_UNITED_KINGDOM = 2;
 
     /**
@@ -119,10 +119,6 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
 
         return (bool)$this->activeRecordFactory->getObject('Ebay\Listing')
                 ->getCollection()
-                ->addFieldToFilter(
-                    'template_shipping_mode',
-                    \Ess\M2ePro\Model\Ebay\Template\Manager::MODE_TEMPLATE
-                )
                 ->addFieldToFilter('template_shipping_id', $this->getId())
                 ->getSize() ||
             (bool)$this->activeRecordFactory->getObject('Ebay_Listing_Product')
@@ -140,6 +136,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function save()
     {
         $this->getHelper('Data_Cache_Permanent')->removeTagValues('ebay_template_shipping');
+
         return parent::save();
     }
 
@@ -161,9 +158,9 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
             $service->delete();
         }
 
-        $this->marketplaceModel = null;
+        $this->marketplaceModel        = null;
         $this->calculatedShippingModel = null;
-        $this->shippingSourceModels = [];
+        $this->shippingSourceModels    = [];
 
         $this->getHelper('Data_Cache_Permanent')->removeTagValues('ebay_template_shipping');
 
@@ -340,8 +337,8 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getCountrySource()
     {
         return [
-            'mode' => $this->getCountryMode(),
-            'value' => $this->getCountryCustomValue(),
+            'mode'      => $this->getCountryMode(),
+            'value'     => $this->getCountryCustomValue(),
             'attribute' => $this->getCountryCustomAttribute()
         ];
     }
@@ -352,7 +349,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getCountryAttributes()
     {
         $attributes = [];
-        $src = $this->getCountrySource();
+        $src        = $this->getCountrySource();
 
         if ($src['mode'] == \Ess\M2ePro\Model\Ebay\Template\Shipping::COUNTRY_MODE_CUSTOM_ATTRIBUTE) {
             $attributes[] = $src['attribute'];
@@ -387,8 +384,8 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getPostalCodeSource()
     {
         return [
-            'mode' => $this->getPostalCodeMode(),
-            'value' => $this->getPostalCodeCustomValue(),
+            'mode'      => $this->getPostalCodeMode(),
+            'value'     => $this->getPostalCodeCustomValue(),
             'attribute' => $this->getPostalCodeCustomAttribute()
         ];
     }
@@ -399,7 +396,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getPostalCodeAttributes()
     {
         $attributes = [];
-        $src = $this->getPostalCodeSource();
+        $src        = $this->getPostalCodeSource();
 
         if ($src['mode'] == \Ess\M2ePro\Model\Ebay\Template\Shipping::POSTAL_CODE_MODE_CUSTOM_ATTRIBUTE) {
             $attributes[] = $src['attribute'];
@@ -434,8 +431,8 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getAddressSource()
     {
         return [
-            'mode' => $this->getAddressMode(),
-            'value' => $this->getAddressCustomValue(),
+            'mode'      => $this->getAddressMode(),
+            'value'     => $this->getAddressCustomValue(),
             'attribute' => $this->getAddressCustomAttribute()
         ];
     }
@@ -446,7 +443,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getAddressAttributes()
     {
         $attributes = [];
-        $src = $this->getAddressSource();
+        $src        = $this->getAddressSource();
 
         if ($src['mode'] == \Ess\M2ePro\Model\Ebay\Template\Shipping::ADDRESS_MODE_CUSTOM_ATTRIBUTE) {
             $attributes[] = $src['attribute'];
@@ -474,9 +471,9 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
      */
     public function isLocalShippingRateTableEnabled(\Ess\M2ePro\Model\Account $account)
     {
-        $rateTable = $this->getRateTable('local', $account);
-
-        if (empty($rateTable)) {
+        try {
+            $rateTable = $this->getRateTable('local', $account);
+        } catch (\Ess\M2ePro\Model\Exception\Logic $e) {
             return null;
         }
 
@@ -491,6 +488,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getLocalShippingRateTableMode(\Ess\M2ePro\Model\Account $account)
     {
         $rateTable = $this->getLocalShippingRateTable($account);
+
         return $rateTable['mode'];
     }
 
@@ -502,6 +500,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getLocalShippingRateTableId(\Ess\M2ePro\Model\Account $account)
     {
         $rateTable = $this->getLocalShippingRateTable($account);
+
         return $rateTable['value'];
     }
 
@@ -522,9 +521,9 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
      */
     public function isInternationalShippingRateTableEnabled(\Ess\M2ePro\Model\Account $account)
     {
-        $rateTable = $this->getRateTable('international', $account);
-
-        if (empty($rateTable)) {
+        try {
+            $rateTable = $this->getRateTable('international', $account);
+        } catch (\Ess\M2ePro\Model\Exception\Logic $e) {
             return false;
         }
 
@@ -539,6 +538,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getInternationalShippingRateTableMode(\Ess\M2ePro\Model\Account $account)
     {
         $rateTable = $this->getInternationalShippingRateTable($account);
+
         return $rateTable['mode'];
     }
 
@@ -550,6 +550,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getInternationalShippingRateTableId(\Ess\M2ePro\Model\Account $account)
     {
         $rateTable = $this->getInternationalShippingRateTable($account);
+
         return $rateTable['value'];
     }
 
@@ -560,7 +561,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
      */
     public function getInternationalShippingRateTable(\Ess\M2ePro\Model\Account $account)
     {
-        return (bool)$this->getData('local_shipping_rate_table_mode');
+        return $this->getRateTable('international', $account);
     }
 
     /**
@@ -580,7 +581,16 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
             }
         }
 
-        return false;
+        throw new \Ess\M2ePro\Model\Exception\Logic(
+            $this->getHelper('Module\Translation')->__(
+                'Domestic or International Shipping Rate Table data is not found for this account. 
+                Make sure to <a href="%url%" target="_blank">download Rate Tables from eBay</a> 
+                in the M2E Pro Shipping Policy.',
+                $this->getHelper('Module\Support')->getDocumentationArticleUrl(
+                    "x/z4R8AQ#eBayGuaranteedDelivery-HowtodownloadeBayShippingRateTablestoM2EPro?"
+                )
+            )
+        );
     }
 
     //########################################
@@ -609,8 +619,8 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getDispatchTimeSource()
     {
         return [
-            'mode' => $this->getDispatchTimeMode(),
-            'value' => $this->getDispatchTimeValue(),
+            'mode'      => $this->getDispatchTimeMode(),
+            'value'     => $this->getDispatchTimeValue(),
             'attribute' => $this->getDispatchTimeAttribute()
         ];
     }
@@ -621,7 +631,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     public function getDispatchTimeAttributes()
     {
         $attributes = [];
-        $src = $this->getDispatchTimeSource();
+        $src        = $this->getDispatchTimeSource();
 
         if ($src['mode'] == \Ess\M2ePro\Model\Ebay\Template\Shipping::DISPATCH_TIME_MODE_ATTRIBUTE) {
             $attributes[] = $src['attribute'];
@@ -687,16 +697,6 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
         return !isset($data[$accountId]) ? null : $data[$accountId];
     }
 
-    // ---------------------------------------
-
-    /**
-     * @return bool
-     */
-    public function isClickAndCollectEnabled()
-    {
-        return (bool)$this->getData('click_and_collect_mode');
-    }
-
     //########################################
 
     /**
@@ -755,6 +755,7 @@ class Shipping extends \Ess\M2ePro\Model\ActiveRecord\Component\AbstractModel
     {
         $excludedLocations = $this->getData('excluded_locations');
         is_string($excludedLocations) && $excludedLocations = $this->getHelper('Data')->jsonDecode($excludedLocations);
+
         return is_array($excludedLocations) ? $excludedLocations : [];
     }
 

@@ -11,7 +11,7 @@ namespace Ess\M2ePro\Block\Adminhtml\Ebay\Order\View;
 use Ess\M2ePro\Block\Adminhtml\Magento\Grid\AbstractGrid;
 
 /**
- * Class \Ess\M2ePro\Block\Adminhtml\Ebay\Order\View\Item
+ * Class Ess\M2ePro\Block\Adminhtml\Ebay\Order\View\Item
  */
 class Item extends AbstractGrid
 {
@@ -124,6 +124,15 @@ class Item extends AbstractGrid
             'frame_callback' => [$this, 'callbackColumnTaxPercent']
         ]);
 
+        $this->addColumn('ebay_collect_tax', [
+                'header'         => $this->__('Collect and Remit taxes'),
+                'align'          => 'left',
+                'width'          => '80px',
+                'filter'         => false,
+                'sortable'       => false,
+                'frame_callback' => [$this, 'callbackColumnEbayCollectTax']
+            ]);
+
         $this->addColumn('row_total', [
             'header'    => $this->__('Row Total'),
             'align'     => 'left',
@@ -139,93 +148,90 @@ class Item extends AbstractGrid
     //########################################
 
     /**
-     * @param $value
-     * @param $row \Ess\M2ePro\Model\Order\Item
-     * @param $column
-     * @param $isExport
+     * @param string $value
+     * @param \Ess\M2ePro\Model\Order\Item $row
+     * @param \Magento\Backend\Block\Widget\Grid\Column\Extended $column
+     * @param bool $isExport
      *
      * @return string
+     * @throws \Ess\M2ePro\Model\Exception\Logic
      */
     public function callbackColumnProduct($value, $row, $column, $isExport)
     {
-        $html = '<b>'.$this->getHelper('Data')->escapeHtml($row->getChildObject()->getTitle()).'</b><br/>';
+        /** @var \Ess\M2ePro\Helper\Data $dataHelper */
+        $dataHelper = $this->getHelper('Data');
 
-        $variation = $row->getChildObject()->getVariationOptions();
+        /** @var \Ess\M2ePro\Helper\Module\Translation $translationHelper */
+        $translationHelper = $this->getHelper('Module_Translation');
+
+        $eBayOrderItem = $row->getChildObject();
+        $variationHtml = '';
+        $variation = $eBayOrderItem->getVariationOptions();
         if (!empty($variation)) {
             foreach ($variation as $optionName => $optionValue) {
-                $optionNameHtml = $this->getHelper('Data')->escapeHtml($optionName);
-                $optionValueHtml = $this->getHelper('Data')->escapeHtml($optionValue);
-
-                $html .= <<<HTML
+                $variationHtml .= <<<HTML
 <span style="font-weight: bold; font-style: italic; padding-left: 10px;">
-{$optionNameHtml}:&nbsp;
+{$dataHelper->escapeHtml($optionName)}:&nbsp;
 </span>
-{$optionValueHtml}<br/>
+{$dataHelper->escapeHtml($optionValue)}<br/>
 HTML;
             }
         }
 
-        $itemUrl = $this->getHelper('Component\Ebay')->getItemUrl(
-            $row->getChildObject()->getData('item_id'),
+        $itemUrl = $this->getHelper('Component_Ebay')->getItemUrl(
+            $eBayOrderItem->getItemId(),
             $this->order->getAccount()->getChildObject()->getMode(),
             $this->order->getMarketplaceId()
         );
-
-        $itemLink = '<a href="'.$itemUrl.'" class="external-link" target="_blank">'.$this->__('View on eBay').'</a>';
-
-        $productLink = '';
-
-        if ($productId = $row->getData('product_id')) {
-            $productUrl = $this->getUrl('catalog/product/edit', [
-                'id'    => $productId,
-                'store' => $row->getOrder()->getStoreId()
-            ]);
-            $productLink .= ' | <a href="'.$productUrl.'" target="_blank">'.$this->__('View').'</a>';
-        }
-
-        $html .= <<<HTML
-<div style="float: left;">
-{$itemLink}{$productLink}
-</div>
+        $eBayLink = <<<HTML
+<a href="{$itemUrl}" class="external-link" target="_blank">{$translationHelper->__('View on eBay')}</a>
 HTML;
 
-        $orderItemId = (int)$row->getId();
-        $gridId = $this->getId();
+        $productLink = '';
+        if ($row->getProductId()) {
+            $productUrl = $this->getUrl('catalog/product/edit', [
+                'id'    => $row->getProductId(),
+                'store' => $row->getOrder()->getStoreId()
+            ]);
+            $productLink = <<<HTML
+<a href="{$productUrl}" target="_blank">{$translationHelper->__('View')}</a>
+HTML;
+        }
+
+        $eBayLink && $productLink && $eBayLink .= '&nbsp;|&nbsp;';
+        $jsTemplate = <<<HTML
+<a class="gray" href="javascript:void(0);" onclick="
+{OrderEditItemObj.%s('{$this->getId()}', {$row->getId()});}
+">%s</a>
+HTML;
 
         $editLink = '';
-        if (!$row->getProductId() || $row->getMagentoProduct()->isProductWithVariations()) {
-            if (!$row->getProductId()) {
-                $action = $this->__('Map to Magento Product');
-            } else {
-                $action = $this->__('Set Options');
-            }
+        if (!$row->getProductId()) {
+            $editLink = sprintf($jsTemplate, 'edit', $translationHelper->__('Map to Magento Product'));
+        }
 
-            $class = 'class="gray"';
+        $isPretendedToBeSimple = false;
+        if ($eBayOrderItem->getParentObject()->getMagentoProduct() !== null &&
+            $eBayOrderItem->getParentObject()->getMagentoProduct()->isGroupedType() &&
+            $eBayOrderItem->getChannelItem() !== null) {
+            $isPretendedToBeSimple = $eBayOrderItem->getChannelItem()->isGroupedProductModeSet();
+        }
 
-            $js = "{OrderEditItemObj.edit('{$gridId}', {$orderItemId});}";
-            $editLink = '<a href="javascript:void(0);" onclick="'.$js.'" '.$class.'>'.$action.'</a>';
+        if ($row->getProductId() && $row->getMagentoProduct()->isProductWithVariations() && !$isPretendedToBeSimple) {
+            $editLink = sprintf($jsTemplate, 'edit', $translationHelper->__('Set Options')) . '&nbsp;|&nbsp;';
         }
 
         $discardLink = '';
         if ($row->getProductId()) {
-            $action = $this->__('Unmap');
-
-            $js = "{OrderEditItemObj.unassignProduct('{$gridId}', {$orderItemId});}";
-            $discardLink = '<a href="javascript:void(0);" onclick="'.$js.'" class="gray">'.$action.'</a>';
-
-            if ($editLink) {
-                $discardLink = '&nbsp;|&nbsp;' . $discardLink;
-            }
+            $discardLink = sprintf($jsTemplate, 'unassignProduct', $translationHelper->__('Unmap'));
         }
 
-        $html .= <<<HTML
-<div style="float: right;">
-{$editLink}{$discardLink}
-</div>
-<div style="clear: both;"></div>
+        return <<<HTML
+<b>{$dataHelper->escapeHtml($eBayOrderItem->getTitle())}</b><br/>
+{$variationHtml}
+<div style="float: left;">{$eBayLink}{$productLink}</div>
+<div style="float: right;">{$editLink}{$discardLink}</div>
 HTML;
-
-        return $html;
     }
 
     public function callbackColumnIsInStock($value, $row, $column, $isExport)
@@ -297,6 +303,20 @@ HTML;
         }
 
         return sprintf('%s%%', $taxDetails['rate']);
+    }
+
+    public function callbackColumnEbayCollectTax($value, $row, $column, $isExport)
+    {
+        $collectTax = $this->getHelper('Data')->jsonDecode($row->getData('tax_details'));
+
+        if (isset($collectTax['ebay_collect_taxes'])) {
+            return $this->modelFactory->getObject('Currency')->formatPrice(
+                $this->order->getChildObject()->getCurrency(),
+                $collectTax['ebay_collect_taxes']
+            );
+        }
+
+        return '0';
     }
 
     public function callbackColumnRowTotal($value, $row, $column, $isExport)

@@ -2,10 +2,12 @@
 
 namespace Ess\M2ePro\Model\ControlPanel\Inspection\Inspector;
 
+use Ess\M2ePro\Helper\Component\Ebay;
 use Ess\M2ePro\Model\ControlPanel\Inspection\AbstractInspection;
 use Ess\M2ePro\Model\ControlPanel\Inspection\FixerInterface;
 use Ess\M2ePro\Model\ControlPanel\Inspection\InspectorInterface;
 use Ess\M2ePro\Model\ControlPanel\Inspection\Manager;
+use Ess\M2ePro\Model\Listing\Product;
 
 class EbayItemIdStructure extends AbstractInspection implements InspectorInterface, FixerInterface
 {
@@ -36,25 +38,35 @@ class EbayItemIdStructure extends AbstractInspection implements InspectorInterfa
         $issues = [];
 
         /** @var $collection \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection */
-        $collection = $this->activeRecordFactory->getObject('Order\Item')->getCollection();
+        $collection = $this->parentFactory->getObject(Ebay::NICK, 'Listing\Product')->getCollection();
         $collection->getSelect()->joinLeft(
-            ['mo' => $this->activeRecordFactory->getObject('Order')->getResource()->getMainTable()],
-            'main_table.order_id=mo.id',
-            []
+            ['ei' => $this->activeRecordFactory->getObject('Ebay\Item')->getResource()->getMainTable()],
+            '`second_table`.`ebay_item_id` = `ei`.`id`',
+            ['item_id' => 'item_id']
         );
-        $collection->addFieldToFilter('mo.id', ['null' => true]);
+        $collection->addFieldToFilter(
+            'status',
+            [
+                'nin' => [
+                    Product::STATUS_NOT_LISTED,
+                    Product::STATUS_UNKNOWN
+                ]
+            ]
+        );
+
+        $collection->addFieldToFilter('item_id', ['null' => true]);
 
         if ($total = $collection->getSize()) {
-            $brokenOrdersItem = [
+            $this->brokenData = [
                 'total' => $total,
-                'ids' => $collection->getAllIds()
+                'ids'   => $collection->getAllIds()
             ];
         }
 
-        if (!empty($brokenOrdersItem)) {
+        if (!empty($this->brokenData)) {
             $issues[] = $this->resultFactory->createError(
                 $this,
-                'Has broken order item',
+                'Ebay item id N\A',
                 $this->renderMetadata($this->brokenData)
             );
         }
@@ -66,7 +78,7 @@ class EbayItemIdStructure extends AbstractInspection implements InspectorInterfa
     {
         $formKey = $this->formKey->getFormKey();
         $currentUrl = $this->urlBuilder
-            ->getUrl('m2epro/controlPanel_tools_m2ePro/general', ['action' => 'repairOrderItemStructure']);
+            ->getUrl('m2epro/controlPanel_tools_m2ePro/general', ['action' => 'repairEbayItemIdStructure']);
 
         $html = <<<HTML
     <form method="POST" action="{$currentUrl}">
@@ -87,7 +99,7 @@ HTML;
 </tr>
 HTML;
         $html .= '</table>
-<input style="margin-top: 10px" type="submit" value="Delete broken items">
+<button type="button" onclick="ControlPanelInspectionObj.removeRow(this)">Delete broken items</button>
 </form>';
 
         return $html;
@@ -96,11 +108,11 @@ HTML;
     public function fix($ids)
     {
         /** @var $collection \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection */
-        $collection = $this->activeRecordFactory->getObject('Order\Item')->getCollection();
+        $collection = $this->parentFactory->getObject(Ebay::NICK, 'Listing\Product')->getCollection();
         $collection->addFieldToFilter('id', ['in' => $ids]);
 
         while ($item = $collection->fetchItem()) {
-            $item->delete();
+            $item->setData('status', Product::STATUS_NOT_LISTED)->save();
         }
     }
 

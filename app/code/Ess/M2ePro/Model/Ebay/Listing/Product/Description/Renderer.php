@@ -272,16 +272,16 @@ class Renderer extends \Ess\M2ePro\Model\AbstractModel
     {
         $conditions = array_combine(
             [
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_NEW,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_NEW_OTHER,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_NEW_WITH_DEFECT,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_MANUFACTURER_REFURBISHED,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_SELLER_REFURBISHED,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_USED,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_VERY_GOOD,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_GOOD,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_ACCEPTABLE,
-               \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_NOT_WORKING,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_NEW,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_NEW_OTHER,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_NEW_WITH_DEFECT,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_CERTIFIED_REFURBISHED,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_SELLER_REFURBISHED,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_USED,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_VERY_GOOD,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_GOOD,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_ACCEPTABLE,
+                \Ess\M2ePro\Model\Ebay\Template\Description::CONDITION_EBAY_NOT_WORKING,
             ],
             [
                 $this->getHelper('Module\Translation')->__('New'),

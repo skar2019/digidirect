@@ -1,4 +1,217 @@
-* 1.8.0 (r4150) (03/09/2020) 
+* 1.12.3 (r4706) (31/03/2021) 
+
+Common: [Fixed] SQLSTATE[HY000]: General error in zendframework1/library/Zend/Db/Statement/Pdo.php:254 after upgrade [M2-1141]
+
+* 1.12.2 (r4701) (31/03/2021)
+
+Common: [Added] Support for migration from 6.11.* and 6.12.* versions [M2-1157]
+
+* 1.12.1 (r4674) (23/03/2021)
+
+eBay: [Fixed] "Use eBay Catalog Item Data" option is set to Yes in Description Policy despite the value in "m2epro_ebay_template_description" table [M2-1106]
+eBay: [Improved] Managed Payments option for Italy, France, Spain, eBay Motors marketplaces [M2-1041]
+
+* 1.12.0 (r4665) (11/03/2021)
+
+Common: [Improved] Behavior of Insert Attributes actions in M2E Pro Policies [M2-850]
+Common: [Improved] Message is displayed when the import of Unmanaged products is in progress [M2-1046]
+Common: [Improved] Health Status - Logs filtration of Channel orders that do not have Magento orders created for them [M2-940]
+Common: [Improved] Migration of online data to md5 values [M2-1103]
+Common: [Added] Skip button in the Initial Configuration Wizard [M2-859]
+Common: [Added] Filter by unique Order/Product ID and Description on the Logs & Events page [M2-1031]
+Common: [Fixed] Table m2epro_config is not found during migration if postfix is used in databases [M2-1064]
+Common: [Fixed] Unexpected relist actions after order creation [M2-1001]
+Common: [Fixed] Exception is displayed once the search for Order logs by the Creation Date is initiated (Magento v2.4.1) [M2-1060]
+Common: [Fixed] The form_key is removed when orders are filtered and mass actions are submitted on the Orders page [M2-1088]
+Common: [Fixed] Uncaught Error: Call to undefined method Ess\M2ePro\Model\Exception\Connection::getHelper() [M2-1098]
+eBay: [Improved] Moving Unmanaged Listings to M2E Pro Listings when the category was not present in M2E Pro before [M2-998]
+eBay: [Improved] Listing grid in the Settings View Mode [M2-932]
+eBay: [Improved] Extra validation by email if a new Magento customer is created for the order [M2-1074]
+eBay: [Fixed] Status filter doesn't work in the eBay Order grid [M2-1078]
+eBay: [Fixed] Unable to save multiple custom values when adding Item Specifics [M2-1096]
+eBay: [Fixed] SKU of Unmanaged products is not displayed on the Search Products page [M2-1093]
+eBay: [Fixed] Fields are not displayed on the Specifics page after clicking on the Add Specific button (Magento v2.4.1) [M2-1094]
+eBay: [Fixed] SKU of Unmanaged products is not displayed on the Search Products page [M2-1093]
+Amazon: [Added] Amazon Poland Marketplace (PL) [M2-952]
+Amazon: [Fixed] "No Magento Order Created" option is selected after checking the No Invoice/CreditMemo Sent box [M2-1097]
+Walmart: [Fixed] Successful message on product actions in spite of errors happened [M2-1099]
+
+* 1.11.0 (r4622) (19/02/2021)
+
+Common: [Improved] Create Product and Order feature [M2-660]
+Common: [Fixed] License Page link redirects to Dashboard [M2-1010]
+Common: [Fixed] Confirmation pop-up is displayed after any action was applied to Product [M2-1065]
+eBay: [Improved] Move Australia marketplace from Australia Region to Asia / Pacific [M2-1018]
+eBay: [Improved] Add Calculated Data for all shipping types except Local pickup and Freight [M2-810]
+eBay: [Fixed] Confirmation pop-up is displayed after Stop action was applied to Product [M2-1059]
+eBay: [Fixed] Notice: Trying to access array offset on the value of type bool in Model/Ebay/Template/Shipping.php on line 494 in case Shipping Rate Tables were not downloaded [M2-990]
+eBay: [Added] Ability to Cancel/Refund eBay orders [M2-573]
+eBay: [Removed] Click and Collect option from eBay Shipping Policy [M2-810]
+Amazon: [Improved] Move Australia marketplace from Australia Region to Asia / Pacific [M2-1018]
+Amazon: [Improved] Remove duplicated feature options for Amazon Marketplaces [M2-874]
+Amazon: [Fixed] Magento Invoice Creation/Magento Shipment Creation settings are set to Disabled after upgrade to 1.10.0 [M2-1054]
+Amazon: [Added] Add Amazon Japan marketplace (ASIN assignment only) [M2-984]
+Walmart: [Fixed] Confirmation pop-up is displayed after the Product was duplicated [M2-1045]
+Walmart: [Added] Cancel or Refund if Credit Memo is Created option [M2-835]
+
+* 1.10.1 (r4669) (11/03/2021)
+Common: [Improved] Boost loading time of Magento pages
+
+* 1.10.0 (r4552) (28/01/2021)
+
+Common: [Improved] Selling Policy creation
+Common: [Improved] Refactor create/edit Listing
+Common: [Improved] Add 'is empty', 'is not empty' options to Advanced Conditions of Synchronization Policy
+Common: [Improved] Error message "Server IP is not defined" in some cases
+Common: [Improved] MSI mode - default values in Synchronization Policy
+Common: [Improved] Automatic Magento order creation for City-states
+Common: [Improved] Summarize common PHPStorm settings for code styling
+Common: [Improved] Empty array is returned if unserialization error occurs
+Common: [Improved] Remove ‘Single Item’ option for QTY in Selling Policy
+Common: [Improved] Add support for migration from 6.10.* versions
+Common: [Fixed] Sell on Another Marketplace feature does not work if more than 100 items are selected
+Common: [Fixed] "Item was deleted from Magento and hidden on the Channel. You can find and manage the item in Unmanaged Listings." log is displayed in the Listing Logs after ‘Not Listed’ product was deleted from Magento
+Common: [Fixed] Exception ‘Magento Product does not exist’ is displayed on the Orders page after deleting Magento product
+Common: [Fixed] Fatal error occurs when performing actions with the product deleted from Magento
+Common: [Fixed] DomainException ‘Missed phrase in Block/Adminhtml/Magento/Form/Element/Boolean.php:22’ when running bin/magento i18n:collect-phrases
+eBay: [Improved] Import eBay categories for Unmanaged products
+eBay: [Improved] Billing address usage
+eBay: [Improved] Log for ‘Move product to another listing’
+eBay: [Improved] Ability to skip eVTN in eBay orders
+eBay: [Improved] Add In-Store pickup for Germany and Canada marketplaces
+eBay: [Improved] eBay categories are preselected for items moved from Unmanaged Listing
+eBay: [Improved] Hide item on the Channel if ‘Out of stock control’ is enabled and the product is removed from Magento
+eBay: [Improved] Add Shipping Rate Tables for Italy, Canada, and Canada (FR) marketplaces
+eBay: [Improved] Do not use separate fields for template_custom_template_id
+eBay: [Improved] Add 'Collect and Remit taxes' field to eBay order details
+eBay: [Improved] 'Use Description From eBay Catalog' field is changed to 'Use eBay catalog Item data' in Description Policy
+eBay: [Improved] Newly added Magento customers are validated by eBay User ID
+eBay: [Improved] Add 'Invoices & Shipments' tab to Account Settings
+eBay: [Improved] Remove Highlight from eBay Description Policy
+eBay: [Fixed] Canada is displayed twice in the ‘Country’ drop-down when adding a new Store
+eBay: [Fixed] The Hint lacks Germany and Canada when adding a new Store
+eBay: [Fixed] Exception "Please correct the country code: ." occurs when clicking on the ‘Add Store’ button
+eBay: [Fixed] Unable to get Sell API Details Token for eBay account
+eBay: [Fixed] Confirmation pop-up is not shown when Sell on another Marketplace functionality is used for one eBay Account
+eBay: [Fixed] 'Select Attribute' value is impossible to be saved for two and more of Parts Compatibility blocks
+eBay: [Fixed] Error with no text is shown when trying to save two or more same Parts Compatibility attributes
+eBay: [Fixed] JS error "TypeError: Cannot read property 'update' of null js/eBay/Listing/Create/General.js:162" occurs when adding new listing
+eBay: [Fixed] Notice: ‘Trying to access array offset on value of type bool in .../M2ePro/Model/eBay/Template/Shipping.php’ occurs when adding Shipping Policy
+eBay: [Fixed] Redirect to eBay Sandbox does not work after clicking on the Item ID link in the Listing grid
+eBay: [Added] Item condition ID 2000 for Manufacturer Refurbished
+eBay: [Removed] Custom settings for eBay Listings
+Amazon: [Improved] Allow 'Multi-select' attribute type for selection as a keyword
+Amazon: [Improved] Disable the Invoice Uploading functionality (Netherlands)
+Amazon: [Improved] Ability to assign Shipping Policy in Listing Settings
+Amazon: [Improved] Extra line is added between 'VAT Invoice Creation' and 'Magento Invoice Creation' in Account Configuration
+Amazon: [Improved] Display more than 60 characters for Title when adding product to the Listing
+Amazon: [Fixed] Sending VAT invoices does not work
+Amazon: [Fixed] No empty row in Shipping Policy drop-down in the Selling Settings of Amazon listing
+Amazon: [Fixed] Confirmation pop-up is not shown when Sell on another Marketplace functionality is used for one Amazon account
+Amazon: [Fixed] 'Magento Invoice Creation' option is not saved if 'Invoice Uploading to Amazon' is selected as 'Use VAT Calculation Service' in Account Configuration
+Amazon: [Added] Ability to send SwitchFulfillmentTo in Inventory Feed
+Amazon: [Added] Upload VCS Invoices/Credit Memos to Amazon
+Walmart: [Improved] Tracking details are sent when order status is updated to ‘Shipped’
+Walmart: [Improved] Add 'Invoices & Shipments' tab to Account Settings
+Walmart: [Fixed] URL field is not indicated as ‘required’ if the Title field is entered
+Walmart: [Fixed] ‘Other Carrier #1’ block is not separated with a line from ‘Magento Shipment Creation’ block
+Walmart: [Fixed] The page is reloaded before the sync is completed on Walmart Wizard
+Walmart: [Added] Custom shipping carriers for US and Canada marketplaces
+
+* 1.9.5 (r4467) (24/12/2020)
+
+Common:  [Fixed] Dynamic behavior compatibility in Magento 2.4.* and 2.3.*
+Common:  [Fixed] "TypeError: Cannot read property 'readAttribute' of undefined js/Marketplace.js:100" is occured when try to Update Now Marketplace on eBay/Amazon/Walmart -> Configuration -> Marketplaces (magento version 2.4)
+Common:  [Fixed] Remove button does not work for Promotions and Override Mode in Walmart Selling Policy and for Shipping Methods in Ebay Shipping Policy if second field was added (magento version 2.4)
+eBay:    [Fixed] International Shipping Services are not shown in eBay Shipping policy (magento version 2.3, 2.4)
+eBay:    [Fixed] Incorrect view of Weight field in eBay Shipping Policy (magento version 2.4)
+eBay:    [Fixed] Error Invalid block type: Ess\M2ePro\Block\Adminhtml\Ebay\Grid\Column\Renderer\ViewLogIcon\Listing when try to Assign Products to Stores on eBay listing
+Amazon:  [Fixed] New tab is opened when try to redirect to Amazon during Account creation process (magento version 2.4)
+Walmart: [Fixed] "SyntaxError: Failed to execute 'querySelector' on 'Document': '#shipping_override_rule_service_%i%' is not a valid selector." is occured when Selling Policy was opened (magento version 2.4)
+Walmart: [Fixed] Locale, Action, Mode, Cost fields are disappeared after add new Override (magento version 2.4)
+
+* 1.9.4 (r4414) (09/12/2020)
+
+Common:  [Fixed] Video screenshot is sent as a preview image to the channel
+Common:  [Fixed] ASIN and Price data get unset if the same SKU is used on a different account
+eBay:    [Fixed] Incorrect behavior when changing the category of 2 products using mass action
+eBay:    [Fixed] Product may be duplicated to target listing if its moving from 3rd party was interrupted
+eBay:    [Fixed] Watermark file setting is stripped after clicking the Save and Continue Edit button
+Amazon:  [Fixed] Notice: Trying to access array offset on value of type null in Block/Adminhtml/Amazon/Template/Shipping/Edit/Form.php on line 191 at the step of creating Shipping Policy
+Amazon:  [Fixed] Store View for Amazon orders mistakenly changed after upgrade from 1.8 to 1.9.1
+Amazon:  [Fixed] Exception: Notice: Undefined index: row_format in m2epro_setup
+Walmart: [Fixed] Product may be duplicated to target listing if its moving from 3rd party was interrupted
+
+* 1.9.3 (r4412) (07/12/2020)
+
+Common: [Fixed] Uncaught TypeError: Argument 2 passed to Magento\InventoryShipping\Model\SourceDeductionRequestFromShipmentFactory::execute() must be of the type string, integer given
+Common: [Fixed] Syntax error or access violation: 1118 Row size too large
+eBay:   [Fixed] Remove admin__control-checkbox css class from excluded location checkboxes
+
+* 1.9.2 (r4400) (02/12/2020)
+
+eBay: [Fixed] 'Instance does not exist' error occurs because of non-existent suggested category template
+
+* 1.9.1 (r4359) (12/11/2020)
+
+Amazon: [Fixed] Uncaught Error: Call to undefined method Ess\M2ePro\Helper\Module\Support::getHowToGuideUrl()
+
+* 1.9.0 (r4339) (04/11/2020)
+
+Common: [Added] Grouped Product Improvement
+Common: [Added] Sell on another Marketplace
+Common: [Added] Notification if M2 Synchronization is disabled
+Common: [Fixed] Duplicate tracking number is created when Mark order as shipped
+Common: [Fixed] Selected items are not displayed/Reset filter button displays selected items
+Common: [Fixed] Exception is displayed during New Listing Creation
+Common: [Fixed] Only Mapped Products must be selected
+Common: [Improved] Save filtered conditions when switching between Listings view modes
+Common: [Improved] Change error message content
+Common: [Improved] Partial data download optimization
+Common: [Improved] Ability to find Child in the Listing Search
+Common: [Improved] Orders reimport optimization
+Common: [Improved] Review System > Configurations > M2E Pro menus
+Common: [Improved] Third party and listing products synchronization
+Common: [Improved] Delete old records in operation history table once day
+Common: [Improved] Add support for migration from 6.9.* versions
+Common: [Improved] Notification if M2 Synchronization wasn’t enabled on the last Migration Wizard Step
+Common: [Removed] 'successfully' word from all messages
+eBay: [Added] eBay Managed Payments
+eBay: [Fixed] The Next Step is displayed if the required field is empty
+eBay: [Fixed] Pop-up is not displayed on the "M2E Pro Listing Settings" page after clicking on the "Save as New Policy" button
+eBay: [Fixed] Unable to save eBay item specifics multi-choice
+eBay: [Improved] Change text in Help block
+eBay: [Improved] eBay order - Tracking details view improvement
+eBay: [Improved] Change Manufacturer Refurbished (ConditionID 2000) to Seller Refurbished (ConditionID 2500)
+eBay: [Removed] ShippingSurcharge eBay
+Amazon: [Added] Ability to skip tax for Amazon USA orders in some States
+Amazon: [Added] Add Amazon Turkey (TR) Marketplace
+Amazon: [Added] Add Amazon Sweden (SE) Marketplace
+Amazon: [Fixed] The fatal error is displayed on the "View Amazon Listing" page after changing to the "Settings" View Mode
+Amazon: [Fixed] Refund Action instead of Cancel is written in order_change table if Credit Memo was created for Unshipped Order
+Amazon: [Fixed] Error when try to update Amazon account
+Amazon: [Fixed] Wrong output SKU
+Amazon: [Fixed] Filter does not work by sku magento
+Amazon: [Fixed] Numeric SKU value indicated as not listed
+Amazon: [Fixed] Undefined index: in Model/Listing/SynchronizeInventory/Amazon/ListingProductsHandler.php on line 59
+Walmart: [Fixed] Exception is occurred after new Walmart Account was saved
+Walmart: [Fixed] Exception is occurred during order downloading
+Walmart: [Fixed] Every order item is being shipped separately
+Walmart: [Improved] Keywords improvement - add attribute with 'Text Area' input type
+
+* 1.8.1 (r4218) (02/10/2020)
+
+Common: [Fixed] Email notification settings can't be disabled
+Common: [Fixed] Not working link in enable secure key
+Common: [Fixed] Notice: Trying to access array offset on value of type null in .../Block/Adminhtml/Ebay/Listing/Product/Add/Category/Tree.php on line 340
+Common: [Fixed] Every order item is being shipped separately
+eBay: [Fixed] Trying to access array offset on value of type bool error on Magento 2.4.0
+eBay: [Fixed] eBay flat shipping package details
+Amazon: [Fixed] Child products go to Not Listed status after upgrade on 1.8.0
+Amazon: [Fixed] Not all item qty is sent along with shipment info
+Walmart: [Fixed] Item id link leads to invalid url
+
+* 1.8.0 (r4150) (02/09/2020)
 
 Common: [Added] Registry Manager
 Common: [Added] Config helper

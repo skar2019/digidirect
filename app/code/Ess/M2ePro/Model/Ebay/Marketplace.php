@@ -146,6 +146,14 @@ class Marketplace extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\Ab
     /**
      * @return bool
      */
+    public function isManagedPaymentsEnabled()
+    {
+        return (bool)(int)$this->getData('is_managed_payments');
+    }
+
+    /**
+     * @return bool
+     */
     public function isCashOnDeliveryEnabled()
     {
         return (bool)(int)$this->getData('is_cash_on_delivery');
@@ -181,14 +189,6 @@ class Marketplace extends \Ess\M2ePro\Model\ActiveRecord\Component\Child\Ebay\Ab
     public function isCharityEnabled()
     {
         return (bool)(int)$this->getData('is_charity');
-    }
-
-    /**
-     * @return bool
-     */
-    public function isClickAndCollectEnabled()
-    {
-        return (bool)(int)$this->getData('is_click_and_collect');
     }
 
     /**

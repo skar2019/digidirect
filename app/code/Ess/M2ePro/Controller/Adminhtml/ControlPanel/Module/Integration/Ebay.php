@@ -34,7 +34,7 @@ class Ebay extends Command
     //########################################
 
     /**
-     * @title "Stop 3rd Party"
+     * @title "Stop Unmanaged"
      * @description "[in order to resolve the problem with duplicates]"
      * @new_line
      */
@@ -139,7 +139,7 @@ class Ebay extends Command
                 ->save();
         }
 
-        $this->getMessageManager()->addSuccess("Successfully set for {$affected} affected Products.");
+        $this->getMessageManager()->addSuccess("Set for {$affected} affected Products.");
         return $this->_redirect($this->getHelper('View\ControlPanel')->getPageModuleTabUrl());
     }
 

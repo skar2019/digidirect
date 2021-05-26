@@ -35,7 +35,7 @@ class Builder extends \Ess\M2ePro\Model\ActiveRecord\AbstractBuilder
             }
         }
 
-        // tab: 3rd party listings
+        // tab: Unmanaged listings
         // ---------------------------------------
         $keys = [
             'related_store_id',
@@ -146,7 +146,7 @@ class Builder extends \Ess\M2ePro\Model\ActiveRecord\AbstractBuilder
             }
         }
 
-        // 3rd party orders settings
+        // Unmanaged orders settings
         // ---------------------------------------
         $tempKey = 'listing_other';
         $tempSettings = !empty($this->rawData['magento_orders_settings'][$tempKey])
@@ -252,6 +252,21 @@ class Builder extends \Ess\M2ePro\Model\ActiveRecord\AbstractBuilder
             }
         }
 
+        if (isset($tempSettings['amazon_collects'])) {
+            if ($this->isNeedExcludeStates()) {
+                $data['magento_orders_settings'][$tempKey]['amazon_collects'] = $tempSettings['amazon_collects'];
+            } else {
+                $data['magento_orders_settings'][$tempKey]['amazon_collects'] = 0;
+            }
+        }
+
+        if (isset($tempSettings['excluded_states'])) {
+            $data['magento_orders_settings'][$tempKey]['excluded_states'] = explode(
+                ',',
+                $tempSettings['excluded_states']
+            );
+        }
+
         // customer settings
         // ---------------------------------------
         $tempKey = 'customer';
@@ -277,9 +292,7 @@ class Builder extends \Ess\M2ePro\Model\ActiveRecord\AbstractBuilder
         ];
         $tempSettings = !empty($tempSettings['notifications']) ? $tempSettings['notifications'] : [];
         foreach ($notificationsKeys as $key) {
-            if (in_array($key, $tempSettings)) {
-                $data['magento_orders_settings'][$tempKey]['notifications'][$key] = true;
-            }
+            $data['magento_orders_settings'][$tempKey]['notifications'][$key] = in_array($key, $tempSettings);
         }
 
         // status mapping settings
@@ -299,40 +312,20 @@ class Builder extends \Ess\M2ePro\Model\ActiveRecord\AbstractBuilder
             }
         }
 
-        // invoice/shipment settings
-        // ---------------------------------------
-        $temp = Account::MAGENTO_ORDERS_STATUS_MAPPING_MODE_CUSTOM;
-        if (isset($this->rawData['magento_orders_settings']['status_mapping']['mode']) &&
-            $this->rawData['magento_orders_settings']['status_mapping']['mode'] == $temp
-        ) {
-            $data['magento_orders_settings']['invoice_mode'] = 1;
-            $data['magento_orders_settings']['shipment_mode'] = 1;
-
-            if (!isset($this->rawData['magento_orders_settings']['invoice_mode'])) {
-                $data['magento_orders_settings']['invoice_mode'] = 0;
-            }
-
-            if (!isset($this->rawData['magento_orders_settings']['shipment_mode'])) {
-                $data['magento_orders_settings']['shipment_mode'] = 0;
-            }
-        }
-
         $data['magento_orders_settings'] = $this->getHelper('Data')->jsonEncode($data['magento_orders_settings']);
 
         // tab: vat calculation service
         // ---------------------------------------
         $keys = [
             'auto_invoicing',
-            'is_magento_invoice_creation_disabled',
+            'invoice_generation',
+            'create_magento_invoice',
+            'create_magento_shipment',
         ];
         foreach ($keys as $key) {
             if (isset($this->rawData[$key])) {
                 $data[$key] = $this->rawData[$key];
             }
-        }
-
-        if (empty($data['auto_invoicing'])) {
-            $data['is_magento_invoice_creation_disabled'] = false;
         }
 
         return $data;
@@ -342,34 +335,34 @@ class Builder extends \Ess\M2ePro\Model\ActiveRecord\AbstractBuilder
     {
         return [
             // general
-            'title'          => '',
-            'marketplace_id' => 0,
-            'merchant_id'    => '',
-            'token'          => '',
+            'title'            => '',
+            'marketplace_id'   => 0,
+            'merchant_id'      => '',
+            'token'            => '',
 
             // listing_other
             'related_store_id' => 0,
 
-            'other_listings_synchronization' => 1,
-            'other_listings_mapping_mode' => 1,
+            'other_listings_synchronization'  => 1,
+            'other_listings_mapping_mode'     => 1,
             'other_listings_mapping_settings' => [],
 
             // order
-            'magento_orders_settings' => [
-                'listing' => [
-                    'mode' => 1,
+            'magento_orders_settings'         => [
+                'listing'                 => [
+                    'mode'       => 1,
                     'store_mode' => Account::MAGENTO_ORDERS_LISTINGS_STORE_MODE_DEFAULT,
-                    'store_id' => null
+                    'store_id'   => null
                 ],
-                'listing_other' => [
-                    'mode' => 1,
-                    'product_mode' => Account::MAGENTO_ORDERS_LISTINGS_OTHER_PRODUCT_MODE_IMPORT,
+                'listing_other'           => [
+                    'mode'                 => 1,
+                    'product_mode'         => Account::MAGENTO_ORDERS_LISTINGS_OTHER_PRODUCT_MODE_IGNORE,
                     'product_tax_class_id' => \Ess\M2ePro\Model\Magento\Product::TAX_CLASS_ID_NONE,
-                    'store_id' => null,
+                    'store_id'             => null,
                 ],
-                'number' => [
-                    'source' => Account::MAGENTO_ORDERS_NUMBER_SOURCE_MAGENTO,
-                    'prefix' => [
+                'number'                  => [
+                    'source'          => Account::MAGENTO_ORDERS_NUMBER_SOURCE_MAGENTO,
+                    'prefix'          => [
                         'mode'         => 0,
                         'prefix'       => '',
                         'afn-prefix'   => '',
@@ -378,43 +371,113 @@ class Builder extends \Ess\M2ePro\Model\ActiveRecord\AbstractBuilder
                     ],
                     'apply_to_amazon' => 0
                 ],
-                'tax' => [
-                    'mode' => Account::MAGENTO_ORDERS_TAX_MODE_MIXED
+                'tax'                     => [
+                    'mode'            => Account::MAGENTO_ORDERS_TAX_MODE_MIXED,
+                    'amazon_collects' => 1,
+                    'excluded_states' => $this->getGeneralExcludedStates()
                 ],
-                'customer' => [
-                    'mode' => Account::MAGENTO_ORDERS_CUSTOMER_MODE_GUEST,
-                    'id' => null,
-                    'website_id' => null,
-                    'group_id' => null,
-                    'notifications' => [
+                'customer'                => [
+                    'mode'                 => Account::MAGENTO_ORDERS_CUSTOMER_MODE_GUEST,
+                    'id'                   => null,
+                    'website_id'           => null,
+                    'group_id'             => null,
+                    'notifications'        => [
                         'invoice_created' => false,
-                        'order_created' => false
+                        'order_created'   => false
                     ],
                     'billing_address_mode' =>
-                        Account::MAGENTO_ORDERS_BILLING_ADDRESS_MODE_SHIPPING_IF_SAME_CUSTOMER_AND_RECIPIENT
+                        Account::USE_SHIPPING_ADDRESS_AS_BILLING_IF_SAME_CUSTOMER_AND_RECIPIENT
                 ],
-                'status_mapping' => [
-                    'mode' => Account::MAGENTO_ORDERS_STATUS_MAPPING_MODE_DEFAULT,
+                'status_mapping'          => [
+                    'mode'       => Account::MAGENTO_ORDERS_STATUS_MAPPING_MODE_DEFAULT,
                     'processing' => Account::MAGENTO_ORDERS_STATUS_MAPPING_PROCESSING,
-                    'shipped' => Account::MAGENTO_ORDERS_STATUS_MAPPING_SHIPPED,
+                    'shipped'    => Account::MAGENTO_ORDERS_STATUS_MAPPING_SHIPPED,
                 ],
-                'qty_reservation' => [
+                'qty_reservation'         => [
                     'days' => 1
                 ],
                 'refund_and_cancellation' => [
                     'refund_mode' => 1,
                 ],
-                'fba' => [
+                'fba'                     => [
                     'mode'       => 1,
                     'stock_mode' => 0
-                ],
-                'invoice_mode'  => 1,
-                'shipment_mode' => 1
+                ]
             ],
 
             // vcs_upload_invoices
-            'auto_invoicing' => 0,
-            'is_magento_invoice_creation_disabled' => 0,
+            'auto_invoicing'                  => 0,
+            'invoice_generation'              => 0,
+            'create_magento_invoice'          => 1,
+            'create_magento_shipment'         => 1
+        ];
+    }
+
+    private function isNeedExcludeStates()
+    {
+        if ($this->rawData['marketplace_id'] != \Ess\M2ePro\Helper\Component\Amazon::MARKETPLACE_US) {
+            return false;
+        }
+
+        if ($this->rawData['magento_orders_settings']['listing']['mode'] == 0 &&
+            $this->rawData['magento_orders_settings']['listing_other']['mode'] == 0) {
+            return false;
+        }
+
+        if (!isset($this->rawData['magento_orders_settings']['tax']['excluded_states'])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private function getGeneralExcludedStates()
+    {
+        return [
+            'AL',
+            'AK',
+            'AZ',
+            'AR',
+            'CA',
+            'CO',
+            'CT',
+            'DC',
+            'GA',
+            'HI',
+            'ID',
+            'IL',
+            'IN',
+            'IA',
+            'KY',
+            'LA',
+            'ME',
+            'MD',
+            'MA',
+            'MI',
+            'MN',
+            'MS',
+            'NE',
+            'NV',
+            'NJ',
+            'NM',
+            'NY',
+            'NC',
+            'ND',
+            'OH',
+            'OK',
+            'PA',
+            'PR',
+            'RI',
+            'SC',
+            'SD',
+            'TX',
+            'UT',
+            'VT',
+            'VA',
+            'WA',
+            'WV',
+            'WI',
+            'WY',
         ];
     }
 
