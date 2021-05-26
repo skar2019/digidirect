@@ -1,9 +1,3 @@
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-/*browser:true*/
-/*global define*/
 define([
     'jquery',
     'underscore',
@@ -328,7 +322,7 @@ define([
          */
         getShippingAddress: function () {
             var address = quote.shippingAddress();
-            
+           
             if (typeof address.street !== 'undefined' && address.street.length > 0) {
                 return {
                     recipientName: address.firstname + ' ' + address.lastname,
@@ -456,4 +450,3 @@ define([
         }
     });
 });
-
