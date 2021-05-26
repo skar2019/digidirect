@@ -27,7 +27,7 @@
 & when (@media-common = true) {
     & when (@modal-extend__is-enabled = true) {
         .modal-title {
-            .lib-css(font-weight, @font-weight__heavier);
+            font-weight: 600;
         }
 
         .modal-custom,
@@ -131,12 +131,14 @@
         .modal-popup,
         .modal-slide {
             .action-close {
-                top: 18px;
-                right: 18px;
+                top: 15px;
+                right: 0;
             }
             .action-close::before {
-                width: 23px;
-                height: 23px;
+                width: 48px;
+                height: 48px;
+                font-size: 48px;
+                font-weight: bold;
             }
         }
 
