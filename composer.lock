@@ -1409,53 +1409,6 @@
             "time": "2017-10-22T18:56:00+00:00"
         },
         {
-            "name": "ewave/abstractentity",
-            "version": "3.4.3.0",
-            "dist": {
-                "type": "path",
-                "url": "C:/Users/april/projects/production-may2021/vendor/ewave/abstractentity",
-                "reference": "e9498822ffc488f8470bff65ae67f86d86f2e5f8"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\AbstractEntity\\": ""
-                }
-            },
-            "description": "Abstract Entity",
-            "transport-options": {
-                "relative": false
-            }
-        },
-        {
-            "name": "ewave/ai",
-            "version": "1.15.8.0",
-            "dist": {
-                "type": "path",
-                "url": "C:/Users/april/projects/production-may2021/vendor/ewave/ai",
-                "reference": "9d40e2c3be2becb4aabb6bab9112b98d218c6bc1"
-            },
-            "require": {
-                "vlucas/valitron": "^1.4"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Ewave\\AI\\": ""
-                }
-            },
-            "description": "Integration Engine.",
-            "transport-options": {
-                "relative": false
-            }
-        },
-        {
             "name": "fastly/magento2",
             "version": "1.2.119",
             "source": {
