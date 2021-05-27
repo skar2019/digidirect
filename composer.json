@@ -14,7 +14,6 @@
     "require": {
         "dotmailer/dotmailer-magento2-extension": "4.3.4 as 3.1.1",
         "dotmailer/dotmailer-magento2-extension-enterprise": "1.0.5 as 1.0.3",
-        "ewave/ai": "@dev",
         "fastly/magento2": "1.2.119",
         "klevu/module-search": "^2.2",
         "livechat/module-magento-livechat": "dev-master",
