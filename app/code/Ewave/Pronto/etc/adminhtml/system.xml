@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ewave_pronto" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>Pronto Integration</label>
+            <tab>ewave</tab>
+            <resource>Ewave_Pronto::config</resource>
+            <group id="api" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Pronto</label>
+                <field id="endpoint" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Endpoint</label>
+                    <comment>We will disable this feature if the value is empty. </comment>
+                </field>
+                <field id="compcode" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Compcode</label>
+                    <comment>The company code where this request should be processed. This has to be a valid Pronto Xi company code.</comment>
+                </field>
+                <field id="user" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>User</label>
+                    <comment>The user name making the request. This user should be a valid Pronto Xi user.</comment>
+                </field>
+                <field id="token" translate="label comment" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Token</label>
+                    <comment>This is the system generated user token in Pronto Xi</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="timezone" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Timezone</label>
+                    <source_model>Magento\Config\Model\Config\Source\Locale\Timezone</source_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Locale\Timezone</backend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
