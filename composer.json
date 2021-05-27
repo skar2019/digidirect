@@ -76,10 +76,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise.git"
-        },
-        {
-            "type": "path",
-            "url": "/app/6ycwrjafqqprk/vendor/ewave/ai"
         }
     ],
     "extra": {
