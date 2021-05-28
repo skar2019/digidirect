@@ -1,11 +1,10 @@
 define([
-    'jquery',
     'underscore',
     'ko',
     'Magento_GiftCardAccount/js/view/summary/gift-card-account',
     'Magento_Checkout/js/model/quote',
-    'Digidirect_AbstractGiftCard/js/action/remove-gift-card-from-quote',
-], function ($, _, ko, Component, quote, removeAction) {
+    'Magento_GiftCardAccount/js/action/remove-gift-card-from-quote'
+], function (_, ko, Component, quote, removeAction) {
     'use strict';
 
     return Component.extend({
@@ -124,14 +123,7 @@ define([
         removeGiftCard: function (card, e) {
             e.preventDefault();
             if (card.cardNumber) {
-                removeAction(card.cardNumber, "single");
-            }
-        },
-        
-        removeAllGiftCards: function (card, e) { 
-            e.preventDefault();
-            if (card.cardNumber) {
-                removeAction(card.cardNumber, "multiple");
+                removeAction(card.cardNumber);
             }
         }
     });

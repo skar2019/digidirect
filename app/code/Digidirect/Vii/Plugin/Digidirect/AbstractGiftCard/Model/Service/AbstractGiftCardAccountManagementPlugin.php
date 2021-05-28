@@ -111,20 +111,10 @@ class AbstractGiftCardAccountManagementPlugin extends AbstractGiftCardAccountMan
         if ($serviceInstance->canHold()) {
             try {
                 $serviceInstance->setStore($quote->getStoreId());
-                
-                /**
-                * Updated by Johnry Valeriano, Aug. 26, 2010
-                * Used total current balance for Base Amount so the system can use all current balance when price is updating.
-                */
-                
-                $serviceInstance->validate()->checkStatus();
-                $availableBalance = $serviceInstance->getGiftCardAccount()->getBalance();
-                
-                $serviceInstance->validate()->hold($availableBalance);
+                $serviceInstance->validate()->hold($quote->getBaseGrandTotal());
                 if ($this->helperData->isCustomerAsGuest($quote)) {
                     $this->helperData->saveVisitorData($quote);
                 }
-                
             } catch (LocalizedException $e) {
                 $availableBalance = $serviceInstance->getAvailableBalance();
                 if (!$availableBalance) {

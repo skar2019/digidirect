@@ -45,9 +45,6 @@ define([
             this._super()
                 .observe('giftCartCode')
                 .observe('giftCardPin');
-        
-            //Temporarily removed
-        
 //            this.giftCardAccount.isDefault(this.showDefaultForm());
 //            this.giftCardAccount.isVisible(this.showGiftCardBlock());
             return this;
@@ -101,7 +98,7 @@ define([
         },
         /**
          * Show gift card block
-         * @returns {boolean}˙
+         * @returns {boolean}
          */
         showGiftCardBlock: function () {
             if (this.isAbstractConfig() && !this.showDefaultForm() && this.getActiveServiceCount() === 0) {
