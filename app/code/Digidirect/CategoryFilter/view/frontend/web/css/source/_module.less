@@ -65,6 +65,11 @@
     }
     
     .sidebar-main{
+        &{
+            position: relative;
+            z-index: 1;
+        }
+        
         .block{
             margin-bottom: 0;
         }
@@ -89,6 +94,11 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .sidebar-main{
+        &{
+            position: relative;
+            z-index: 1;
+        }
+        
         li{
             color: #222;
         }
