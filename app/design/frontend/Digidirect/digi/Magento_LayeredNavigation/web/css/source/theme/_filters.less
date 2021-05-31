@@ -265,19 +265,19 @@
 //  Tablet +
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+/*.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .ln-apply {
         &.-mobile-only {
             display: inline-block;
         }
     }
-}
+}*/
 
 //
 //  Desktop +
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .page-products {
         .sidebar-main .filter.block {
             margin-bottom: 0;
@@ -339,7 +339,7 @@
 
         > .sidedar-toolbar .call-to-action-wrapper {
             width: 100%;
-            display: block;
+            display: none;
             text-align: left;
         }
 
@@ -377,6 +377,7 @@
             .lib-font-size(14);
             position: relative;
             padding-top: 2px;
+            display: inline-block;
         }
 
         .more-wrapper .more-less {
@@ -386,5 +387,60 @@
         .filter-options-item {
             padding-bottom: 0
         }
+    }
+    
+    input[type=checkbox]+label:before {
+        border: 2px solid #cfcfcf;
+    }
+    
+    input[type=checkbox]+label:before, 
+    input[type=checkbox]+label:after {
+        position: absolute;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        top: 10px;
+        content: '';
+    }
+    
+    input[type=checkbox]+label:before, input[type=checkbox]+label:after {
+        position: absolute;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        top: 10px;
+        content: '';
+    }
+    
+    input[type=checkbox] {
+        border: 0;
+        clip: rect(0,0,0,0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+    
+    input[type=checkbox]:checked+label:before {
+        border-color: #000;
+        background-color: #000;
+    }
+    
+    input[type=checkbox]:checked+label:after {
+        top: 15px;
+        left: 4px;
+        width: 11px;
+        height: 6px;
+        border-left: 2px solid #fff;
+        border-bottom: 2px solid #fff;
+        transform: rotate(-45deg);
+    }
+    
+    .sidebar-main a {
+        color: #222;
     }
 }

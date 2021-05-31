@@ -59,8 +59,26 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-    .category-view{
+/*    .category-view{
         display: none;
+    }*/
+    .category-view {
+        .main-image {
+            margin-right: 85px;
+        }
+
+        .description-block {
+            max-width: 172px;
+            padding-left: 0;
+        }
+        
+        .page-title-wrapper{   
+            &{
+                .page-title{
+                    color: #fff;
+                }
+            }
+        }
     }
 }
 
@@ -78,6 +96,14 @@
         .description-block {
             max-width: 172px;
             padding-left: 0;
+        }
+        
+        .page-title-wrapper{   
+            &{
+                .page-title{
+                    color: #fff;
+                }
+            }
         }
     }
 }
