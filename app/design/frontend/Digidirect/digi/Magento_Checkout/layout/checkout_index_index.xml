@@ -11,7 +11,7 @@
 
         <referenceBlock name="page.main.title">
             <action method="setPageTitle">
-                <argument translate="true" name="title" xsi:type="string">Secure Checkout</argument>
+                <argument translate="true" name="title" xsi:type="string">Secured Checkout</argument>
             </action>
         </referenceBlock>
         

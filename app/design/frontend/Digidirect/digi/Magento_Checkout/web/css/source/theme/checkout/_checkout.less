@@ -67,7 +67,7 @@
             width: 100%;
             height: 20px;
             font-size: 12px;
-            font-weight: 500;
+            font-weight: bold;
             text-decoration: underline;
             cursor: pointer;
             .lib-hover-out();
@@ -82,6 +82,13 @@
 
         .wrapper-order.-open:after {
             transform: rotate(-180deg);
+        }
+        
+        select[name=shipping-address-select]{
+            padding: 15px 10px;
+            height: auto;
+            border: 1px solid #e65401;
+            border-radius: 5px;
         }
     }
 
@@ -250,7 +257,7 @@
 
         .field.-country,
         .field.-telephone {
-            margin-bottom: 0;
+            margin-bottom: 15px;
         }
 
         .field.-telephone + .field.choice {
@@ -273,6 +280,7 @@
         .form-shipping-address .field.-telephone {
             float: none;
             width: 100%;
+            margin-bottom: 15px;
         }
     }
 

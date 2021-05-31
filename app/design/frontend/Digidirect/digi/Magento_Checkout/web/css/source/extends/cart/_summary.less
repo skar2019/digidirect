@@ -87,9 +87,6 @@
         
         .-collect.action.primary,
         .giftcard .action.primary{
-            background-image: none;
-            background: transparent;
-            border: 2px solid #000;
             color: #000;
             cursor: pointer;
             display: inline-block;    
@@ -99,16 +96,6 @@
             font-size: 1.3rem;
             box-sizing: border-box;
             vertical-align: middle;
-            
-            &:hover{
-                background: #000;
-                border: 2px solid #000;
-                color: #fff;
-                
-                span{
-                    color: #fff;
-                }
-            }
         }
         
         .checkout{
@@ -138,10 +125,7 @@
         }
         
         .fieldset .action{
-            background-image: none !important;
-            background: transparent !important;
-            border: 2px solid #000 !important;
-            color: #000 !important;
+            background: #e65300;
             cursor: pointer !important;
             display: inline-block;
             font-family: 'Titillium Web', sans-serif;
@@ -153,7 +137,7 @@
             margin-top: 15px;
             
             span{
-                color: #000 !important;
+                color: #fff !important;
             }
         }
         
@@ -161,7 +145,19 @@
             font-weight: bold !important;
         }
     }
+    
+    .braintree-paypal-logo{
+        margin-top: 15px;
+    }
 
+    .braintree-googlepay-button{
+        background-repeat: no-repeat !important;
+        background-position: center center !important;
+        margin: 15px 0 !important;
+        width: 100% !important;
+        padding: 26px !important;
+    }
+    
     .cart-summary .collect_place_class {
         & {
             margin-bottom: 0;
@@ -482,22 +478,22 @@
             }
             
             .action.primary{
-                background: transparent;
-                border: 2px solid #2a2a2a;
-                color: #2a2a2a;
-                
-                span{
-                    color: #2a2a2a !important;
+                &{
+                    background: #e65202;
+                    border: 2px solid #fff;
+                    color: #fff; 
                 }
                 
+                &.remove-gift-card{
+                    color: #fff !important;
+                }
+                
+                span{
+                    color: #fff !important;
+                }
                 
                 &:hover{
-                    background: #2a2a2a;
-                    color: #fff !important;
-                    
-                    span{
-                        color: #fff !important;
-                    }
+                    background: #ea7543;
                 }
             }
         }
