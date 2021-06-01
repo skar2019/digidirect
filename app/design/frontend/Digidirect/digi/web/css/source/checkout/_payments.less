@@ -149,8 +149,8 @@
                 }
             }
             .checkout-billing-address .billing-address-details {
-                .lib-css(padding, @checkout-payment-method-checkout-billing-address-details__padding);
-                .lib-css(line-height, @checkout-payment-method-checkout-billing-address-details__line-height);
+                padding: 10px;
+                line-height: 25px;
             }
 
             .payment-method-note + .checkout-billing-address {
@@ -176,6 +176,60 @@
             .payments .legend {
                 & when (@checkout-payment-method-payments-legend__use-visually-hidden = true) {
                     &:extend(.abs-visually-hidden all);
+                }
+            }
+        }
+        
+        .checkout-billing-address{
+            .fieldset > .field {
+                margin: 0 5px 20px !important;
+            }
+            
+            .billing-address-form .field[name*='lastname'], 
+            .billing-address-form .field[name*='telephone'] {
+                float: left;
+                width: 50%;
+            }
+            
+            .billing-address-form .field[name*='firstname'], 
+            .billing-address-form .field[name*='city'],
+            .billing-address-form .field[name*='country_id'],
+            .billing-address-form .field[name*='country'] {
+                float: left;
+                width: calc(~"50% - 20px");
+            }
+            
+            billing-address-form .field[name*='postcode'] {
+                float: left;
+                margin-left: 15px !important;
+            }
+            
+            .billing-address-form .field[name*='region']{
+                margin-left: 10px !important;
+                margin-right: 0 !important;
+                 width: calc(~"50% - 5px");
+            }
+            
+            .billing-address-form .field[name*='postcode'] {
+                width: calc(~"50% - 5px");
+            }
+            
+            .actions-toolbar{
+                .primary{
+                    &{
+                        display: flex;
+                    }
+                    
+                    .action{
+                        &{
+                            margin: 5px
+                        }
+
+                        &:hover{
+                            background: #c94901 !important;
+                            border: 2px solid #c94901 !important;
+                        }
+                    }
                 }
             }
         }

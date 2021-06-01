@@ -48,8 +48,8 @@
         .wrapper-order:after {
             content: '';
             position: absolute;
-            top: -15px;
-            left: 170px;
+            top: 6px;
+            left: 160px;
             display: block;
             color: black;
             z-index: 9;
@@ -67,7 +67,7 @@
             width: 100%;
             height: 20px;
             font-size: 12px;
-            font-weight: 500;
+            font-weight: bold;
             text-decoration: underline;
             cursor: pointer;
             .lib-hover-out();
@@ -82,6 +82,13 @@
 
         .wrapper-order.-open:after {
             transform: rotate(-180deg);
+        }
+        
+        select[name=shipping-address-select]{
+            padding: 15px 10px;
+            height: auto;
+            border: 1px solid #e65401;
+            border-radius: 5px;
         }
     }
 
@@ -212,7 +219,7 @@
 
         .wrapper-order:before {
             font-size: 14px;
-            top: -20px;
+            top: 0;
         }
     }
 
@@ -250,7 +257,7 @@
 
         .field.-country,
         .field.-telephone {
-            margin-bottom: 0;
+            margin-bottom: 15px;
         }
 
         .field.-telephone + .field.choice {
@@ -261,7 +268,7 @@
 
     .opc-wrapper,
     .opc-sidebar {
-        padding-top: 30px;
+        padding-top: 20px;
     }
 
     .opc-wrapper.-hide-methods {
@@ -273,6 +280,7 @@
         .form-shipping-address .field.-telephone {
             float: none;
             width: 100%;
+            margin-bottom: 15px;
         }
     }
 
@@ -313,13 +321,34 @@
         .wrapper-order.-open > input {
             height: 50px;
         }
+        
+        .grand.totals{
+            font-size: 20px;
+            font-weight: bold;
+            
+            strong{
+                font-size: 20px;
+                font-weight: bold;
+            }
+            
+        }
+        
+        .delivery-notes label span{
+            font-weight: bold;
+            margin: 0;
+        }
     }
 
     .checkout-container {
         margin-bottom: 40px;
     }
-
-    .opc-progress-bar,
+    
+    .opc-progress-bar{
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto 30px auto;
+    }
+    
     .opc-wrapper,
     .checkout-container > .messages {
         width: 65%;
@@ -333,7 +362,8 @@
 
     .opc-wrapper .step-title,
     .opc-block-summary > .title {
-        .lib-font-size(28);
+        .lib-font-size(20);
         line-height: 1;
+        text-transform: uppercase;
     }
 }

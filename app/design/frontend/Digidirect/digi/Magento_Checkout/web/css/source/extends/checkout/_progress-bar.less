@@ -7,86 +7,6 @@
 //  ---------------------------------------------
 
 @checkout-progress-bar__is-enabled: fasle; // Enable/disable style
-
-//@checkout-progress-bar__use-reset-list: true;
-//@checkout-progress-bar__margin: 0 0 @indent__base;
-//@checkout-progress-bar__font-size: 0;
-//@checkout-progress-bar__counter-reset: i;
-//
-////  Item
-//@checkout-progress-bar-item__position: relative;
-//@checkout-progress-bar-item__display: inline-block;
-//@checkout-progress-bar-item__width: 50%;
-//@checkout-progress-bar-item__margin: 0 0 @indent__s;
-//@checkout-progress-bar-item__text-align: center;
-//@checkout-progress-bar-item__vertical-align: top;
-//@checkout-progress-bar-item__width__m: 185px;
-//
-////  Pseudo Common
-//@checkout-progress-bar-item-element__pseudo__content: ' ';
-//@checkout-progress-bar-item-element__pseudo__position: absolute;
-//@checkout-progress-bar-item-element__pseudo__top: 0;
-//@checkout-progress-bar-item-element__pseudo__left: 50%;
-//@checkout-progress-bar-item-element__pseudo__width: 38px;
-//@checkout-progress-bar-item-element__pseudo__height: @checkout-progress-bar-item-element__pseudo__width;
-//@checkout-progress-bar-item-element__pseudo__margin-left: -(@checkout-progress-bar-item-element__pseudo__width/2);
-//@checkout-progress-bar-item-element__pseudo__border-radius: 50%;
-//@checkout-progress-bar-item-element__pseudo__background: @color-gray-middle1;
-//
-////  Item Pseudo: Before
-//@checkout-progress-bar-item__before__content: ' ';
-//@checkout-progress-bar-item__before__position: absolute;
-//@checkout-progress-bar-item__before__left: 0;
-//@checkout-progress-bar-item__before__width: 100%;
-//@checkout-progress-bar-item__before__height: 7px;
-//
-////  Active State: Item
-//@checkout-progress-bar-item__active-before__background: @color-orange-red1;
-//
-////  Complete State: Item
-//@checkout-progress-bar-item__complete__cursor: pointer;
-//
-////  Item Element
-//@checkout-progress-bar-item-element__font-family: false;
-//@checkout-progress-bar-item-element__font-size: 18px;
-//@checkout-progress-bar-item-element__font-weight: @font-weight__light;
-//@checkout-progress-bar-item-element__line-height: false;
-//@checkout-progress-bar-item-element__font-style: false;
-//@checkout-progress-bar-item-element__display: inline-block;
-//@checkout-progress-bar-item-element__width: 100%;
-//@checkout-progress-bar-item-element__padding-top: 45px;
-//@checkout-progress-bar-item-element__word-wrap: break-word;
-//
-////  Item Element: After
-//@checkout-progress-bar-item-element__after__content: counter(i);
-//@checkout-progress-bar-item-element__after__top: 6px;
-//@checkout-progress-bar-item-element__after__width: @checkout-progress-bar-item-element__pseudo__width - (@checkout-progress-bar-item-element__after__top * 2);
-//@checkout-progress-bar-item-element__after__height: @checkout-progress-bar-item-element__after__width;
-//@checkout-progress-bar-item-element__after__margin-left: -(@checkout-progress-bar-item-element__after__width/2);
-//@checkout-progress-bar-item-element__after__counter-increment: i;
-//@checkout-progress-bar-item-element__after__font-family: false;
-//@checkout-progress-bar-item-element__after__font-style: false;
-//@checkout-progress-bar-item-element__after__font-weight: @font-weight__semibold;
-//@checkout-progress-bar-item-element__after__font-size: @checkout-progress-bar-item-element__font-size;
-//@checkout-progress-bar-item-element__after__line-height: false;
-//@checkout-progress-bar-item-element__after__color: @checkout-progress-bar-item-element__active__color;
-//@checkout-progress-bar-item-element__after__background: @page__background-color;
-//
-////  Active State: Item Element
-//@checkout-progress-bar-item-element__active__color: @primary__color;
-//@checkout-progress-bar-item-element__active-before__background: @checkout-progress-bar-item__active-before__background;
-//@checkout-progress-bar-item-element__active-after__content: false;
-//@checkout-progress-bar-item-element__active-after__font-family: false;
-//@checkout-progress-bar-item-element__active-after__font-size: false;
-//@checkout-progress-bar-item-element__active-after__line-height: false;
-//
-////  Complete State: Item Element
-//@checkout-progress-bar-item-element__complete__color: @checkout-progress-bar-item-element__active__color;
-//@checkout-progress-bar-item-element__complete-after__content: @checkout-progress-bar-item-element__active-after__content;
-//@checkout-progress-bar-item-element__complete-after__font-family: @checkout-progress-bar-item-element__active-after__font-family;
-//@checkout-progress-bar-item-element__complete-after__font-size: @checkout-progress-bar-item-element__active-after__font-size;
-//@checkout-progress-bar-item-element__complete-after__line-height: @checkout-progress-bar-item-element__active-after__line-height;
-
 //
 //  Theme: Checkout: Progress Bar
 //  _____________________________________________
@@ -105,27 +25,11 @@
     }
 
     .opc-progress-bar-item {
-        & {
-            display: table-cell;
-            vertical-align: middle;
-            padding: 15px 0 !important;
-            .lib-font-size(14);
-            line-height: 20px;
-            .lib-css(font-weight, @font-weight__heavier);
-            text-align: center;
-            .lib-css(border-bottom, 2px solid @color-3-2);
-            .lib-css(color, @color-4-8);
-            .lib-hover-out();
-            background: #e7e7e7;
-        }
-
         &._active {
-            .lib-css(border-color, @color-2-1);
             .lib-css(color, @color-2-1);
-            background-color: #f5f5f5;
             
             > span{
-                color: #fff;
+                color: #f15a25;
             }
         }
 
@@ -133,32 +37,10 @@
             cursor: pointer;
         }
 
-        &._complete:hover + &._active {
-            
-            &{
-                background: #e7e7e7;
-            }
-            
-            > span{
-                color: #222;
-            }
-        }
-
-        &._complete:hover {
-            background: #000;
-            color: #fff;
-            z-index: 10;
-            border-color: #000;
-            
-            > span{
-                color: #fff;
-            }
-        }
-
         &._complete:hover > span:before {
             border-color: #fff;
-            color: #222;
-            background-color: #fff;
+            color: #fff;
+            background-color: #e65300;
         }
 
         > span {
@@ -184,9 +66,9 @@
 
         &._active > span {
             &::before {
-                border-color: #222;
-                color: #222;
-                background-color: #fff;
+                border-color: #fff;
+                color: #fff;
+                background-color: #e65300;
             }
         }
     }

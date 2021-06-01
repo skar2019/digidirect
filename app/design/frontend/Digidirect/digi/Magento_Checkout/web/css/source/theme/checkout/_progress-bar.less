@@ -20,49 +20,37 @@
             display: table-cell;
             vertical-align: middle;
             padding: 16px 0;
-            .lib-font-size(14);
             line-height: 20px;
-            .lib-css(font-weight, @font-weight__heavier);
             text-align: center;
-            .lib-css(border-bottom, 2px solid @color-3-2);
-            .lib-css(color, @color-4-8);
+            color: #222;
+            .lib-font-size(14);
             .lib-hover-out();
-            border-bottom: 2px solid #000000;
         }
 
         &._active {
-            border-color: #fff;
-            color: #fff;
-            background-color: #000000;
-            border-bottom: 1px solid #000000;
-
+            color: #e65300;
         }
+        
+        &._complete{
+            &::hover {
+                color: #e65300;
+                z-index: 10;
+                
+                span{
+                    color: #e65300;
+                }
+            }
 
-        &._complete {
-            cursor: pointer;
-        }
-
-        &._complete:hover + &._active {
-            .lib-css(border-color, @color-3-2);
-            .lib-css(color, @color-4-8);
-            background-color: transparent;
-        }
-
-        &._complete:hover {
-            background: #000;
-            color: #fff;
-            z-index: 10;
-            border-color: #000;
-        }
-
-        &._complete:hover > span:before {
-            border-color: #fff;
-            color: #222;
-            background-color: #fff;
+            span{
+                &:before{
+                    content: "\2713";
+                }
+            }
         }
 
         > span {
             width: unset;
+            text-transform: uppercase;
             
             &::before {
                 content: counter(i);
@@ -83,14 +71,6 @@
             
             &::after{
                 margin-left: 0 !important;
-            }
-        }
-
-        &._active > span {
-            &::before {
-                border-color: #fff;
-                color: #222;
-                background-color: #fff;
             }
         }
     }

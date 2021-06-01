@@ -48,40 +48,51 @@ class Order extends AbstractHelper
             $counter++;
             //var_dump($order);
             /* @var $order \Magento\Sales\Model\Order */
-            foreach ($order->getAllVisibleItems() as $item) {
-                /* @var $item \Magento\Sales\Model\Order\Item */
-                $sku = $item->getSku();
-                $name = $item->getName();
-                $price = (double) $item->getBasePriceInclTax();
-                $qty = (double) $item->getQtyOrdered();
-                if (!isset($piwikItems[$sku])) {
-                    $piwikItems[$sku] = [$sku, $name, $price * $qty, $qty];
-                } else {
-                    // Aggregate row total instead of unit price in case there
-                    // are different prices for the same SKU.
-                    $piwikItems[$sku][2] += $price * $qty;
-                    $piwikItems[$sku][3] += $qty;
-                }
-            }
+//            foreach ($order->getAllVisibleItems() as $item) {
+//                /* @var $item \Magento\Sales\Model\Order\Item */
+//                $sku = $item->getSku();
+//                $name = $item->getName();
+//                $price = (double) $item->getBasePriceInclTax();
+//                $qty = (double) $item->getQtyOrdered();
+//                if (!isset($piwikItems[$sku])) {
+//                    $piwikItems[$sku] = [$sku, $name, $price * $qty, $qty];
+//                } else {
+//                    // Aggregate row total instead of unit price in case there
+//                    // are different prices for the same SKU.
+//                    $piwikItems[$sku][2] += $price * $qty;
+//                    $piwikItems[$sku][3] += $qty;
+//                }
+//            }
             
             $orderId = $order->getIncrementId();
-            echo "orderId ".$orderId ."<br />";
+            //if($orderId == '000001174')
+            //{
+                
+            
+            echo "<br />orderId ".$orderId ."<br />";
             $accountname = $order->getCustomerFirstname().$order->getCustomerLastname();
             $contactname = $order->getCustomerFirstname()." ".$order->getCustomerLastname();
+            //check pronto if customer has an account.
+            //if not, create customer account to pronto
             $data['sales-order']['header']['accountname'] = $accountname;
             $data['sales-order']['header']['account'] = $order->getCustomerId();
+            
             $data['sales-order']['header']['order-date'] = "";
             $data['sales-order']['header']['warehouse'] = "SWHS";
             $data['sales-order']['header']['territory'] = "WEBS";
             $data['sales-order']['header']['rep'] = "85";
             $data['sales-order']['header']['contactname'] = $contactname;
             $data['sales-order']['header']['email'] = $order->getCustomerEmail();
+            $data['sales-order']['header']['reference'] = $orderId;
+            $data['sales-order']['header']['set-on-status'] = "I"; //TO DO get status
+            
             
             $grandTotal = (double) $order->getBaseGrandTotal();
             $subTotal = (double) $order->getBaseSubtotalInclTax();
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
             $discount = abs((double) $order->getBaseDiscountAmount());
+            //below not yet used 
             if (empty($piwikOrder)) {
                 $piwikOrder = [$orderId, $grandTotal, $subTotal, $tax, $shipping, $discount];
             } else {
@@ -93,23 +104,47 @@ class Order extends AbstractHelper
                 $piwikOrder[5] += $discount;
             }
             
+            $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
+            
+            $address = $order->getBillingAddress();
+            
+            
+            $strt = $address->getStreet();
+            if(is_array($strt))
+            {
+                $street = implode(",", $strt);
+            }
+            $postcode = $address->getPostcode();
+            $countrycode = $address->getCountryid();
+            $phone = $address->getPhone();
+            $mobile = $address->getMobile();
+            $paymentInstance = $order->getPayment();
+            
+            $data['sales-order']['header']['billing-address']['line-1'] = $street;
+            $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
+            $data['sales-order']['header']['billing-address']['country-code'] = $countrycode;
+            $data['sales-order']['header']['billing-address']['phone'] = $phone;
+            $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
+            
+            echo "paymemt - ". $paymentInstance->getMethod();
+            if ($paymentInstance->getMethod() == "banktransfer") {
+                unset($data);
+                continue;
+            }
+            //var_dump($data);
             if($counter == 2)
             {
                 //var_dump($order);
                 break;
             }
              
+            //}//if order id 000001174
         }
         //should be inside the foreach above
         //create xml of order data here
         $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
         
         echo $xml;
-        
-        // sample params for testing
-        $params = [
-            'sales-orders[sales-order][header][accountname]' => "test"
-          ];
         
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/login';
         $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders';
@@ -127,14 +162,22 @@ class Order extends AbstractHelper
         $result = $this->curl->getBody();
         
         
-        var_dump($result);
+        //var_dump($result);
         // echo $result;
-        //$json = $this->jsonSerializer->unserialize($result);
-       // var_dump($json);
-        if($json['response']['status'] == 'FAIL')
+        $json = $this->jsonSerializer->unserialize($result);
+        //var_dump($json);
+        if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
         {
             echo $json['response']['message'];
             exit;
+        }
+        else {
+            //success
+            //update order data with pronto order-no below
+            //$json['sales-order']['sales-order']['order-no']
+            echo "success";
+            $order->setState("processing")->setStatus("processing");
+            $order->save();
         }
         
     }   

@@ -59,8 +59,26 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-    .category-view{
+/*    .category-view{
         display: none;
+    }*/
+    .category-view {
+        .main-image {
+            margin-right: 85px;
+        }
+
+        .description-block {
+            max-width: 172px;
+            padding-left: 0;
+        }
+        
+        .page-title-wrapper{   
+            &{
+                .page-title{
+                    color: #fff;
+                }
+            }
+        }
     }
 }
 
@@ -79,6 +97,14 @@
             max-width: 172px;
             padding-left: 0;
         }
+        
+        .page-title-wrapper{   
+            &{
+                .page-title{
+                    color: #fff;
+                }
+            }
+        }
     }
 }
 //
@@ -88,8 +114,30 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .category-view {
         & {
-            padding: 15px 20px 130px;
-            margin-bottom: -82px;
+            padding: 100px 30px;
+            margin: 30px 50px;
+        }
+        
+        &.category-background{
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        
+        .page-title-wrapper{
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            margin: 0 0;
+            padding: 0;
+            transform: translate(-50%, -50%);
+            
+            &{
+                .page-title{
+                    color: #fff;
+                }
+            }
         }
 
         .main-image {

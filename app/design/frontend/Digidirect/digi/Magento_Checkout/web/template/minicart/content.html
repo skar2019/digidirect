@@ -9,11 +9,9 @@
     <span class="qty empty"
           text="getFormattedSummaryCount()"
           data-bind="css: {
-                empty: !!getCartParam('summary_count') == false },
-                attr: { title: $t('Items in Cart')
-           }"
-    >
-    </span>
+                empty: !getCartParam('summary_count') == false },
+                attr: { title: $t('Items in Cart')}"
+    />
 </div>
 
 <div class="block-content">
@@ -54,19 +52,27 @@
                         data-action="close"
                         data-bind="
                             attr: {
-                                title: $t('Proceed to Checkout')
+                                title: $t('Go to Checkout')
                             },
                             click: closeMinicart()
                         "
-                        translate="'Proceed to Checkout'"
+                        translate="'Go to Checkout'"
                 />
                 <div data-bind="html: getCartParam('extra_actions')"></div>
+            </div>
+        </div>
+    
+        <div class="actions secondary">
+            <div class="secondary">
+                <button class="action secondary _full-width" data-bind="click: closeMinicart()">
+                    <span translate="'Continue Shopping'"/>
+                </button>
             </div>
         </div>
     </if>
 
     <ifnot args="getCartParam('summary_count')">
-        <strong class="subtitle empty"
+        <p class="minicart empty text"
                 translate="'Your cart is empty.'"
         />
         <div class="actions secondary">

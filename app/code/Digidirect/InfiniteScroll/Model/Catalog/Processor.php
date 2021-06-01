@@ -4,6 +4,7 @@ namespace Digidirect\InfiniteScroll\Model\Catalog;
 
 use Digidirect\InfiniteScroll\Helper\Data as InfiniteScrollHelper;
 use Digidirect\InfiniteScroll\Model\ProcessorInterface;
+use Digidirect\InfiniteScroll\Model\BrandProcessor as BrandModel;
 use Magento\Catalog\Block\Product\ListProduct;
 use Magento\Catalog\Model\Product\ProductList\Toolbar as CatalogToolbar;
 use Magento\Framework\View\LayoutInterface;
@@ -34,11 +35,13 @@ class Processor implements ProcessorInterface
      * @param LayoutInterface $layout
      * @param array $data
      */
-    public function __construct(InfiniteScrollHelper $helper, LayoutInterface $layout, $data)
+    public function __construct(InfiniteScrollHelper $helper, LayoutInterface $layout, $data, BrandModel $brandModel)
     {
         $this->_selector = $data['selector'];
         $this->_helper = $helper;
         $this->_layout = $layout;
+        
+        $this->_brandModel = $brandModel;
     }
 
     /**
@@ -61,26 +64,16 @@ class Processor implements ProcessorInterface
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
             
-            $pagerData = $this->_getNextPageUrl();
-            
             $currentCount = $this->getCurrentSize();
             
-            $initialCurrentPage = 1;
-            
-            if(isset($_GET["p"])){
-                $initialCurrentPage = $_GET["p"];
-                settype($initialCurrentPage, "integer");
-            }
-            
-            $toolbar = $block->getToolbarBlock();
-            $toolbar->nextPage();
+            $url = $this->_getNextPageUrl();
             
             $html = $block->toHtml();
             
             $htmldom = new \DOMDocument();
             
-            $html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
-            @ $htmldom->loadHTML($html);
+            $processedHtml = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
+            @ $htmldom->loadHTML($processedHtml);
             
             $x_path = new \DOMXPath($htmldom);
 
@@ -88,12 +81,19 @@ class Processor implements ProcessorInterface
 
             foreach ($nodes as $node){
                 $resultHtml .= $node->ownerDocument->saveHTML($node);
+                
+                $resultNode .= $node->nodeValue;
             }
+        }
+        
+        if($currentCount > $totalCount){
+            $currentCount = $totalCount;
         }
 
         return [
-            'url' => $pagerData["url"],
+            'url' => $url,
             'content' => $resultHtml,
+            'resultNode' => $resultNode,
             'totalCount' => $totalCount,
             'currentCount' => $currentCount,
             'perPageCount' => $perPage
@@ -107,25 +107,37 @@ class Processor implements ProcessorInterface
     protected function _getNextPageUrl()
     {
         /** @var ListProduct $block */
-        $data = array();
-        
         $block = $this->_getBlock();
+        
         /** @var \Digidirect\InfiniteScroll\Block\Product\ProductList\Toolbar $toolbar */
         $toolbar = $block->getToolbarBlock();
+        
+        $brand_id = $this->_brandModel->getCurrentOption();
+        
         $pager = $toolbar->getPager();
 
         $url = false;
         if ($pager && !$pager->isLastPage()) {
-            $url = htmlspecialchars_decode($pager->getNextPageUrl());
+            if($brand_id > 0){
+                $page = "p=" . $toolbar->nextPageCount();
+                
+                $limit = "&_is=" .$this->getLimit();
+
+                $url = $this->_brandModel->getCanonicalUrl() . "?" . $page;
+                
+                if (strpos($url, $limit) === false) {
+                    $url = $url . $limit;
+                }
+            }else{
+                $url = htmlspecialchars_decode($pager->getNextPageUrl());
+            }
+            
             if (strpos($url, CatalogToolbar::DIRECTION_PARAM_NAME) === false) {
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
             }
         }
         
-        $data["url"] = $url;
-        $data["html"] = $pager->toHtml();
-        
-        return $data;
+        return $url;
     }
 
     /**
@@ -180,7 +192,6 @@ class Processor implements ProcessorInterface
      */
     public function getLimit()
     {
-        
         return $this->_getLimit();
     }
 
@@ -220,6 +231,5 @@ class Processor implements ProcessorInterface
         $collection->setPage($initialCurrentPage, $limit)->load();
         
         return $currentPage;
-//        return $this->getLimit() * ($collection->getCurPage() - 1);
     }
 }

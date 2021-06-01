@@ -19,5 +19,7 @@
             </block>
         </referenceBlock>
         <move element="faq.question" destination="faq" after="-" />
+        
+        <move element="faq.tags" destination="faq" after="faq_list.toolbar" />
     </body>
 </page>

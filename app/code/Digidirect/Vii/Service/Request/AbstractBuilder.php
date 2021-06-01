@@ -123,10 +123,6 @@ abstract class AbstractBuilder extends Builder
         $this->requestParams = [
             self::REQUEST_TYPE_FIELD => $this->getRequestType(),
             self::REQUEST_USERNAME_FIELD => $this->getUserName($storeId),
-            
-            //Temporary Storage for Password
-            
-//            self::REQUEST_PASSWORD_FIELD => "9ubasRknals235A@jKKIs",
             self::REQUEST_PASSWORD_FIELD => $this->getPassword($storeId),
             self::REQUEST_TRAN_ID_FIELD => $this->getTransactionId(),
             self::REQUEST_STORE_ID_FIELD => $this->getAccountId($storeId),

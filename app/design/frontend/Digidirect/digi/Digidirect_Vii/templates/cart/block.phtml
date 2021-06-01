@@ -7,7 +7,7 @@ $total = $block->getTotals();
 $grandTotal = !empty($total['grand_total']) ? (int)$total['grand_total']->getValue() : 0;
 $cards = $block->getQuoteCards();
 ?>
-<div class="abstract-giftcardcart">
+<div class="abstract-giftcardcart cart-gift-card">
     <?php if (count($cards)) : ?>
         <div class="cards-list">
             <?php foreach ($cards as $card): ?>
@@ -29,8 +29,8 @@ $cards = $block->getQuoteCards();
                         </div>
                     </div>
                     <div class="actions-toolbar">
-                        <a class="action add primary" data-mage-init='{ "Digidirect_Vii/js/remove-giftcard": {
-                        "removeUrl": "<?php echo $block->escapeUrl($block->getRemoveUrl($card)); ?>"} }'
+                        <a class="action add primary remove-gift-card" data-mage-init='{ "Digidirect_Vii/js/remove-giftcard": {
+                        "cardNumber": "<?php echo $block->escapeHtml($card['c']); ?>"} }'
                            href="#" title="<?php echo $block->escapeHtml(__('Remove')); ?>">
                             <?php echo $block->escapeHtml(__('Remove')); ?>
                         </a>

@@ -259,6 +259,7 @@ class Xml
      */
     private static function _assocToXml($data, SimplexmlEl $xml)
     {
+        //var_dump($data);
         foreach ($data as $key => $value) {
             if ($key == '@' || is_numeric($key)) {
                 continue;

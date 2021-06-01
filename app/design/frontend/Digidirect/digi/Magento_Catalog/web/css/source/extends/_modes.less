@@ -127,22 +127,32 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) { 
+    .modes {
+        margin-right: 0 !important;
+    }
+}
+
+//
 //  Tablet +
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+/*.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     & when (@catalog-modes__is-enabled = true) {
         .modes {
             .lib-css(display, @catalog-modes__display__m);
         }
     }
-}
+}*/
 
 //
 //  Desktop
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .modes-mode {
         
         &{

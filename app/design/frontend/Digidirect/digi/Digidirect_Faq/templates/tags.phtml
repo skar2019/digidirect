@@ -14,12 +14,12 @@ $count = 0;
 
         <?php foreach ($tags as $tag) : ?>
             <?php if ($count < $tag_number) : ?>
-                <span data-role="faq-item" data-testid="faq-tag-item" title="<?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>" data-type="tag"
+                <span data-role="faq-item" title="<?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>" data-type="tag"
                       data-category-id="<?php echo (int)$tag->getId() ?>" data-page="1" class="tag">
                     <?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>
                 </span>
             <?php else : ?>
-                <span data-role="faq-item" data-testid="faq-tag-item" title="<?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>" data-type="tag"
+                <span data-role="faq-item" title="<?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>" data-type="tag"
                       data-category-id="<?php echo (int)$tag->getId() ?>" data-page="1" class="tag -extra">
                     <?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>
                 </span>

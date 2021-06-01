@@ -16,7 +16,7 @@ var config = {
             'Magento_Checkout/js/view/shipping': {
                 'Digidirect_ExtendedCartPriceRules/js/view/shipping-mixin': true
             },
-            'Magento_Braintree/js/paypal/button': {
+            'PayPal_Braintree/js/paypal/button': {
                 'Digidirect_ExtendedCartPriceRules/js/paypal/button-mixin': true
             },
             'Magento_Paypal/js/in-context/button': {
@@ -25,7 +25,7 @@ var config = {
             'Magento_Checkout/js/view/payment/default': {
                 'Digidirect_ExtendedCartPriceRules/js/view/payment/default-mixin': true
             },
-            'Magento_Braintree/js/view/payment/method-renderer/paypal': {
+            'PayPal_Braintree/js/view/payment/method-renderer/paypal': {
                 'Digidirect_ExtendedCartPriceRules/js/view/payment/method-renderer/paypal-mixin': true
             }
         }

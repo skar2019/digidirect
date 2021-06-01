@@ -104,7 +104,24 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .form.minisearch {
+        & {
+            width: inherit;
+            padding-left: 30px;
+            //padding-right: 30px;
+        }
+        
+        .input-text {
+            width: 100%;
+            opacity: 1;    
+        }
+        
         .label {
+            width: 1px;
+            height: 1px;
+            position: absolute;
+        }
+
+/*        .label {
             width: inherit;
             height: inherit;
             position: static;
@@ -117,8 +134,38 @@
             left: 50px;
             margin: 15px 0;
             background-color: transparent;
-        }
+        }*/
     }
+
+/*    .form.minisearch {
+        & {
+            width: 344px;
+        }
+
+        .input-text {
+            width: 100%;
+            opacity: 1;
+        }
+
+        .label {
+            width: 1px;
+            height: 1px;
+            position: absolute;
+        }
+
+        &.active {
+            padding-bottom: 0;
+        }
+
+        .input-text {
+            margin: 0;
+        }
+
+        &.active .input-text {
+            position: static;
+            width: 100%;
+        }
+    }*/
 
     body .klevu-fluid > .klevu-pt-rs-hover {
         width: 232px!important;

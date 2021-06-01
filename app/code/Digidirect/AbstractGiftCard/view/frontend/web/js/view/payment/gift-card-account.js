@@ -46,10 +46,8 @@ define([
                 .observe('giftCartCode')
                 .observe('giftCardPin');
         
-            //Temporarily removed
-        
-//            this.giftCardAccount.isDefault(this.showDefaultForm());
-//            this.giftCardAccount.isVisible(this.showGiftCardBlock());
+                this.giftCardAccount.isDefault(this.showDefaultForm());
+                this.giftCardAccount.isVisible(this.showGiftCardBlock());
             return this;
         },
         setGiftCard: function () {
@@ -101,7 +99,7 @@ define([
         },
         /**
          * Show gift card block
-         * @returns {boolean}˙
+         * @returns {boolean}
          */
         showGiftCardBlock: function () {
             if (this.isAbstractConfig() && !this.showDefaultForm() && this.getActiveServiceCount() === 0) {

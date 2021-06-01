@@ -19,8 +19,9 @@
             <strong class="title _hide-for-mobile-tablet-l">
                 <?php echo /* @noEscape */ __('Refine By'); ?>
             </strong>
-            <?php echo $block->getChildHtml('digidirect.layerednavigation.apply'); ?>
+            
             <?php echo $block->getChildHtml('catalog.leftnav.clear'); ?>
+            <?php echo $block->getChildHtml('digidirect.layerednavigation.apply'); ?>
         </div>
         <?php echo $block->getChildHtml('digidirect.categoryfilter.dropdown'); ?>
         <?php $allFilter = $block->getFilters();
@@ -68,7 +69,6 @@
                             <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
 
                             <?php if ($activeCount > 0 && !empty($activeLabels)) : ?>
-                                <?php $faceBookPixel->setBrandLabel($filter, $activeLabels); ?>
                                 <span class="value"><?php /* @escapeNotVerified */ echo implode(', ', $activeLabels) ?></span>
                                 <?php if ($isShowTitleCount): ?>
                                     <span class="count"><?php echo (int)$activeCount ?></span>
@@ -86,12 +86,5 @@
                 </div>
             <?php endif; ?>
         </div>
-<!--        <div class="init _hidden">
-            <script>
-                if (typeof fbq !== undefined) {
-                    fbq('trackCustom', 'ViewCategory', <?php echo $faceBookPixel->getViewCategoryData() ?>);
-                }
-            </script>
-        </div>-->
     </div>
 <?php endif; ?>

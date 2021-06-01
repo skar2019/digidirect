@@ -113,6 +113,11 @@
     }
     
     .faq-wrapper{
+        &{
+            margin-top: 30px;
+            margin-bottom: 36px;
+        }
+        
         .page-title-wrapper
         {
             &{
@@ -129,7 +134,7 @@
     //  Categories
     .faq-categories {
         & {
-            .lib-css(margin, @faq-categories__margin);
+            margin-top: 90px;
             .lib-css(padding, @faq-categories__padding);
             .lib-css(border, @faq-categories__border);
             .lib-css(list-style, @faq-categories__list-style);
@@ -216,6 +221,7 @@
                 .lib-css(margin, @faq-tags__margin);
                 .lib-css(padding, @faq-tags__padding);
                 .lib-css(text-align, @faq-tags__text-align);
+                font-family: 'Titillium Web', sans-serif;
             }
 
             > .title {
@@ -223,6 +229,7 @@
                 .lib-css(padding, @faq-tags-title__padding);
                 .lib-css(text-align, @faq-tags-title__text-align);
                 .lib-css(color, @faq-tags-title__color);
+                font-family: 'Titillium Web', sans-serif !important;
             }
 
             > .tag {
@@ -230,8 +237,6 @@
                 .lib-css(margin, @faq-tag__margin);
                 .lib-css(padding, @faq-tag__padding);
                 .lib-css(border, @faq-tag__border);
-                .lib-css(color, @faq-tag__color);
-                .lib-css(background, @faq-tag__background);
                 cursor: pointer;
             }
             > .tag:hover,

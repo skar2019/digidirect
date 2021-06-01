@@ -4,7 +4,7 @@
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceBlock name="category.cms" remove="true"/>
         
-        <move element="page.main.title" destination="infinitescroll.toolbar" before="-"/>
+        <move element="page.main.title" destination="category.view.container" before="-"/>
 
         <referenceBlock name="category.products.list">
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
@@ -16,7 +16,7 @@
 
         <referenceContainer name="div.sidebar.additional" remove="true" />
 
-        <referenceContainer name="category.view.container" htmlClass="category-view full-width-background">
+        <referenceContainer name="category.view.container" htmlClass="category-view full-width-background category-background">
             <block class="Magento\Framework\View\Element\Template" name="category.view.bg"
                    after="-"
                    template="Magento_Catalog::category/category-bg.phtml">
