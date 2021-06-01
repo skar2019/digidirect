@@ -37,58 +37,58 @@ define([
     };
 
     return function (messageContainer, paymentData, skipBilling) {
-//        var serviceUrl,
-//            payload,
-//            headers = {};
-//
-//        paymentData = filterTemplateData(paymentData);
-//        skipBilling = skipBilling || false;
-//        payload = {
-//            cartId: quote.getQuoteId(),
-//            paymentMethod: paymentData
-//        };
-//
-//        /**
-//         * Checkout for guest and registered customer.
-//         */
-//        if (!customer.isLoggedIn()) {
-//            
-//            console.log("Guest");
-//            
-//            serviceUrl = urlBuilder.createUrl('/guest-carts/:cartId/set-payment-information', {
-//                cartId: quote.getQuoteId()
-//            });
-//            payload.email = quote.guestEmail;
-//        } else {
-//            
-//            console.log("Not Guest");
-//            
-//            serviceUrl = urlBuilder.createUrl('/carts/mine/set-payment-information', {});
-//        }
-//
-//        if (skipBilling === false) {
-//            payload.billingAddress = quote.billingAddress();
-//        }
-//
-//        fullScreenLoader.startLoader();
-//
-//        _.each(hooks.requestModifiers, function (modifier) {
-//            modifier(headers, payload);
-//        });
-//
-//        return storage.post(
-//            serviceUrl, JSON.stringify(payload), true, 'application/json', headers
-//        ).fail(
-//            function (response) {
-//                errorProcessor.process(response, messageContainer);
-//            }
-//        ).always(
-//            function () {
-//                fullScreenLoader.stopLoader();
-//                _.each(hooks.afterRequestListeners, function (listener) {
-//                    listener();
-//                });
-//            }
-//        );
+        var serviceUrl,
+            payload,
+            headers = {};
+
+        paymentData = filterTemplateData(paymentData);
+        skipBilling = skipBilling || false;
+        payload = {
+            cartId: quote.getQuoteId(),
+            paymentMethod: paymentData
+        };
+
+        /**
+         * Checkout for guest and registered customer.
+         */
+        if (!customer.isLoggedIn()) {
+            
+            console.log("Guest");
+            
+            serviceUrl = urlBuilder.createUrl('/guest-carts/:cartId/set-payment-information', {
+                cartId: quote.getQuoteId()
+            });
+            payload.email = quote.guestEmail;
+        } else {
+            
+            console.log("Not Guest");
+            
+            serviceUrl = urlBuilder.createUrl('/carts/mine/set-payment-information', {});
+        }
+
+        if (skipBilling === false) {
+            payload.billingAddress = quote.billingAddress();
+        }
+
+        fullScreenLoader.startLoader();
+
+        _.each(hooks.requestModifiers, function (modifier) {
+            modifier(headers, payload);
+        });
+
+        return storage.post(
+            serviceUrl, JSON.stringify(payload), true, 'application/json', headers
+        ).fail(
+            function (response) {
+                errorProcessor.process(response, messageContainer);
+            }
+        ).always(
+            function () {
+                fullScreenLoader.stopLoader();
+                _.each(hooks.afterRequestListeners, function (listener) {
+                    listener();
+                });
+            }
+        );
     };
 });
