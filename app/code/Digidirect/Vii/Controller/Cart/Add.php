@@ -88,7 +88,16 @@ class Add extends \Digidirect\AbstractGiftCard\Controller\AbstractController
 
             if ($serviceInstance->canHold()) {
                 try {
-                    $serviceInstance->validate()->hold($quote->getBaseGrandTotal());
+                    
+                    /**
+                    * Updated by Johnry Valeriano, Aug. 26, 2010
+                    * Used total current balance for Base Amount so the system can use all current balance when price is updating.
+                    */
+
+                    $serviceInstance->validate()->checkStatus();
+                    $availableBalance = $serviceInstance->getGiftCardAccount()->getBalance();
+                    
+                    $serviceInstance->validate()->hold($availableBalance);
                     if ($this->helperData->isCustomerAsGuest($quote)) {
                         $this->helperData->saveVisitorData($quote);
                     }
