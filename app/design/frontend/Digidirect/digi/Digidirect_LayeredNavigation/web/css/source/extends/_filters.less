@@ -1,6 +1,7 @@
 //
 //  Layered Navigation
 //  _____________________________________________
+
 //
 //  Variables
 //  ---------------------------------------------
@@ -133,6 +134,8 @@
             margin: 0 0 15px;
             position: relative;
             top: 0;
+            background: #e65300 !important;
+            border-color: #e65300 !important;
 
             &:hover {
                 .lib-css(background-color, @color-white);
@@ -149,8 +152,10 @@
 
         .ln-apply._sticky {
             .lib-css(box-shadow, 0 0 30px 30px @color-white);
-            position: fixed;
+            //position: fixed;
+            position: absolute;
             z-index: 5;
+            background: #e65300;
         }
     }
 

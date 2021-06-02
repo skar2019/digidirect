@@ -1,7 +1,8 @@
-/*
+ /*
     Created on : Feb 8, 2021, 11:34:14 AM
     Author     : Johnry Valeriano
 */
+
 & when(@media-common = true){
     
     @media (min-width: 768px){
@@ -284,6 +285,12 @@
 //
 //Tablet
 //
+
+@media screen and (min-width: @screen__m) and (max-width: 992px){
+    .header-content-links{
+        display: none !important;
+    }
+}
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .page-header{
