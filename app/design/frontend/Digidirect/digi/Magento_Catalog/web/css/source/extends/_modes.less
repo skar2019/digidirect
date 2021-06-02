@@ -113,7 +113,7 @@
             }
 
             &.mode-grid {
-                padding-right: 5px;
+                padding-right: 20px;
             }
         }
 
@@ -132,7 +132,6 @@
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) { 
     .modes {
         margin-right: 0 !important;
-        padding-top: 3px !important;
     }
 }
 
@@ -173,10 +172,6 @@
         
         &::before {
             display: none;
-        }
-        
-        &.mode-grid {
-            padding-right: 20px;
         }
     }
     
