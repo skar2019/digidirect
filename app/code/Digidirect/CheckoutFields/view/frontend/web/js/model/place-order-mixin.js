@@ -10,8 +10,6 @@ define([
         return wrapper.wrap(placeOrderAction, function (originalAction, paymentData, messageContainer) {
             customFieldsAssigner(paymentData);
 
-            console.log("HERE");
-
             return originalAction(paymentData, messageContainer);
         });
     };

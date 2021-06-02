@@ -9,8 +9,6 @@ define([
         /** Override place-order-mixin for set-payment-information action as they differs only by method signature */
         return wrapper.wrap(placeOrderAction, function (originalAction, messageContainer, paymentData) {
             customFieldsAssigner(paymentData);
-            
-            console.log("HERE");
 
             return originalAction(messageContainer, paymentData);
         });

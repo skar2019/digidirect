@@ -14,7 +14,6 @@ define([
     return function (placeOrderAction) {
 
         return wrapper.wrap(placeOrderAction, function (originalAction, paymentData, messageContainer) {
-            console.log("HERE DIN");
 
             return originalAction(paymentData, messageContainer);
         });
