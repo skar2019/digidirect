@@ -88,12 +88,13 @@
         &.active {
             padding-bottom: 20px;    
             margin-left: -70px;
-        }
-        &.active .input-text {
-            position: absolute;
-            width: inherit;
-            opacity: 1;
-            border: none;
+            
+            .input-text {
+                position: absolute;
+                width: inherit;
+                opacity: 1;
+                border: none;
+            }
         }
     }
 }
@@ -106,8 +107,6 @@
     .form.minisearch {
         & {
             width: inherit;
-            padding-left: 30px;
-            //padding-right: 30px;
         }
         
         .input-text {
@@ -120,52 +119,7 @@
             height: 1px;
             position: absolute;
         }
-
-/*        .label {
-            width: inherit;
-            height: inherit;
-            position: static;
-            overflow: visible;
-            margin: 0;
-        }
-
-        .input-text {
-            .lib-input-placeholder(@color-gray64);
-            left: 50px;
-            margin: 15px 0;
-            background-color: transparent;
-        }*/
     }
-
-/*    .form.minisearch {
-        & {
-            width: 344px;
-        }
-
-        .input-text {
-            width: 100%;
-            opacity: 1;
-        }
-
-        .label {
-            width: 1px;
-            height: 1px;
-            position: absolute;
-        }
-
-        &.active {
-            padding-bottom: 0;
-        }
-
-        .input-text {
-            margin: 0;
-        }
-
-        &.active .input-text {
-            position: static;
-            width: 100%;
-        }
-    }*/
 
     body .klevu-fluid > .klevu-pt-rs-hover {
         width: 232px!important;
@@ -209,10 +163,6 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .form.minisearch {
-        & {
-            width: 344px;
-        }
-
         .input-text {
             width: 100%;
             opacity: 1;
@@ -250,7 +200,9 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
     .form.minisearch {
-        .lib-css(width, @block-search__width);
+        width: 100%;
+        max-width: 650px;
+        margin-top: 3px
     }
 
     body .klevu-fluid .klevu-pt-rs-hover,
