@@ -96,11 +96,11 @@ class OrderSaveAfter implements ObserverInterface
         ) { // order wasn't paid
             return;
         } 
-        */
 
         if (!in_array($state, [Order::STATE_PROCESSING, Order::STATE_COMPLETE])) { //accept only for these states
             return;
         }
+        */
 
         $cards = $this->_giftCAHelper->getCards($order);
         if (!is_array($cards) || empty($cards)) { //there is no abstract gift card
