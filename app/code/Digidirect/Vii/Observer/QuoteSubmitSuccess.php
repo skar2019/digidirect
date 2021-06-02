@@ -87,18 +87,26 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
                 $amount = $giftCard[Giftcardaccount::AUTHORIZED];
                 $entityOrderData = new \Magento\Framework\DataObject(['status' => $entity->getStatus()]);
                 
-                //Update 08/11/2020** 
-                //Needs to execute redemption as long as it is execute Pre Auth 
-//               if ($this->isAcceptAvailable($order, $entity, $giftCard)) { //here
-//
-//               }
+                /*Update 08/11/2020** 
+                Needs to execute redemption as long as it is execute Pre Auth 
+                if ($dbState == $state && !$isAcceptForPaid) { //state was not changed
+                     return;
+                }
+                if ($this->isAcceptAvailable($order, $entity, $giftCard)) {
+                    $service = $entity->getService();
+                    $service->setStore($order->getStoreId());
+                    $service->setOrder($order);
+                    $service->validate()->accept($amount, $entity->getToken());
+                    $entityOrderData->setStatus(AbstractGiftCardEntity::STATUS_ACCEPT);
+                }
+                */
                 
                 $service = $entity->getService();
                 $service->setStore($order->getStoreId());
                 $service->setOrder($order);
                 $service->validate()->accept($amount, $entity->getToken());
                 $entityOrderData->setStatus(AbstractGiftCardEntity::STATUS_ACCEPT);
-
+                
                 $entityOrderData->setOrderId($order->getId());
                 $entityOrderData->setAmount($amount);
                 $entityOrderData->setToken($entity->getToken());

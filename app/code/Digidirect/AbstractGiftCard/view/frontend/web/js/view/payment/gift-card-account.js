@@ -45,8 +45,8 @@ define([
             this._super()
                 .observe('giftCartCode')
                 .observe('giftCardPin');
-//            this.giftCardAccount.isDefault(this.showDefaultForm());
-//            this.giftCardAccount.isVisible(this.showGiftCardBlock());
+            this.giftCardAccount.isDefault(this.showDefaultForm());
+            this.giftCardAccount.isVisible(this.showGiftCardBlock());
             return this;
         },
         setGiftCard: function () {

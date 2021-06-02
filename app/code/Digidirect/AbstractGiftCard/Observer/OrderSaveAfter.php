@@ -84,18 +84,19 @@ class OrderSaveAfter implements ObserverInterface
             return;
         }
 
-        //Update 08/11/2020** 
-        //Needs to execute redemption as long as it is execute Pre Auth 
-//        if ($dbState == $state && !$isAcceptForPaid) { //state was not changed
-//             return;
-//        }
+        /*Update 08/11/2020** 
+        Needs to execute redemption as long as it is execute Pre Auth 
+        if ($dbState == $state && !$isAcceptForPaid) { //state was not changed
+             return;
+        }
 
-//        if ($isAcceptForPaid
-//            && $storeData[OrderInterface::BASE_TOTAL_DUE] == $order->getBaseTotalDue()
-//            && $order->getBaseTotalDue() != 0
-//        ) { // order wasn't paid
-//            return;
-//        }
+        if ($isAcceptForPaid
+            && $storeData[OrderInterface::BASE_TOTAL_DUE] == $order->getBaseTotalDue()
+            && $order->getBaseTotalDue() != 0
+        ) { // order wasn't paid
+            return;
+        } 
+        */
 
         if (!in_array($state, [Order::STATE_PROCESSING, Order::STATE_COMPLETE])) { //accept only for these states
             return;
