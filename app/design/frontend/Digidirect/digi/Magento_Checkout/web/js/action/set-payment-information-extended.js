@@ -48,6 +48,8 @@ define([
             paymentMethod: paymentData
         };
 
+        console.log(paymentData);
+
         /**
          * Checkout for guest and registered customer.
          */
