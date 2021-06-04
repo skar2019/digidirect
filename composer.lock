@@ -1409,6 +1409,1430 @@
             "time": "2017-10-22T18:56:00+00:00"
         },
         {
+            "name": "ewave/abstractattributes",
+            "version": "dev-release/3.0.8",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractattributes.git",
+                "reference": "f52bdc820430577c81af44f77f47507b585ae077"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\AbstractAttributes\\": ""
+                }
+            },
+            "description": "Ewave Abstract Attributes Module",
+            "time": "2019-05-31T11:52:30+00:00"
+        },
+        {
+            "name": "ewave/abstractattributesnavigation",
+            "version": "dev-release/1.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractattributesnavigation.git",
+                "reference": "b8c88b06261d824cbed312d422c4655dca271819"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\AbstractAttributesNavigation\\": ""
+                }
+            },
+            "description": "Ewave Abstract Attributes Navigation Module",
+            "time": "2019-05-27T08:20:00+00:00"
+        },
+        {
+            "name": "ewave/abstractentity",
+            "version": "dev-release/3.4.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractentity.git",
+                "reference": "73972a4db91b057960eee153e6c85e54de2a0717"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\AbstractEntity\\": ""
+                }
+            },
+            "description": "Abstract Entity",
+            "time": "2019-12-11T08:44:09+00:00"
+        },
+        {
+            "name": "ewave/abstractgiftcardlogger",
+            "version": "dev-release/1.0.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_abstractgiftcardlogger.git",
+                "reference": "601d3654ba04a6c713f978e2308705e680dccbd6"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\AbstractGiftCardLogger\\": ""
+                }
+            },
+            "description": "Ewave AbstractGiftCard Logger",
+            "time": "2019-09-05T06:14:36+00:00"
+        },
+        {
+            "name": "ewave/addressverification",
+            "version": "dev-release/2.0.11",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_addressverification.git",
+                "reference": "8fef05fc818ab357448ddeb188119974f358928a"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\AddressVerification\\": ""
+                }
+            },
+            "description": "Address suggestions with Google places API",
+            "time": "2019-05-15T11:31:51+00:00"
+        },
+        {
+            "name": "ewave/ai",
+            "version": "dev-release/1.15.8",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_ai.git",
+                "reference": "dcd54163e29b0cce7dbebcc75db6fb9e8cfbbefb"
+            },
+            "require": {
+                "vlucas/valitron": "^1.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\AI\\": ""
+                }
+            },
+            "description": "Integration Engine.",
+            "time": "2019-06-17T08:51:31+00:00"
+        },
+        {
+            "name": "ewave/banner",
+            "version": "dev-release/4.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_banner.git",
+                "reference": "431bc5b73d8688bc222daf5f91d86992002b8b37"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave Banner extension may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Banner\\": ""
+                }
+            },
+            "description": "Banner extended with attributes",
+            "time": "2019-04-19T07:18:41+00:00"
+        },
+        {
+            "name": "ewave/blog",
+            "version": "dev-release/3.1.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_blog.git",
+                "reference": "c8e98364a8b2d0bf48a188f194e760e9fc5cbf26"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave Blog may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Blog\\": ""
+                }
+            },
+            "description": "Blog",
+            "time": "2019-10-11T08:42:10+00:00"
+        },
+        {
+            "name": "ewave/bloginfinitescroll",
+            "version": "dev-release/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_bloginfinitescroll.git",
+                "reference": "d6377880c25ec0bc9cb65ca88072a778651cbc2d"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\BlogInfiniteScroll\\": ""
+                }
+            },
+            "description": "Ewave Infinite Scroll solution for blog",
+            "time": "2017-09-12T13:48:59+00:00"
+        },
+        {
+            "name": "ewave/categoryfilter",
+            "version": "dev-release/1.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_categoryfilter.git",
+                "reference": "323eed6c5c9fa1aa47f950f00eed63c609f44cd2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\CategoryFilter\\": ""
+                }
+            },
+            "description": "[Layered Navigation] Category Filter",
+            "time": "2018-10-22T12:32:39+00:00"
+        },
+        {
+            "name": "ewave/checkoutfields",
+            "version": "dev-release/2.1.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_checkoutfields.git",
+                "reference": "f49fde29ceb9229cc5ced2063aeb331d522afeef"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\CheckoutFields\\": ""
+                }
+            },
+            "time": "2019-05-29T12:07:02+00:00"
+        },
+        {
+            "name": "ewave/cms-upgrade",
+            "version": "dev-release/1.2.8",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_cmsupgrade.git",
+                "reference": "424056ef10ac9b45490baaf41e2c220481172b28"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave CmsUpgrade may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\CmsUpgrade\\": ""
+                }
+            },
+            "description": "Upgrade cms data",
+            "time": "2019-04-19T07:23:38+00:00"
+        },
+        {
+            "name": "ewave/collect",
+            "version": "dev-release/2.16.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collect.git",
+                "reference": "84573a3b0ae3d04f7b9ddf5188837616d6e7cc1b"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Collect\\": ""
+                }
+            },
+            "description": "Ewave Click and Collect Module",
+            "time": "2020-04-02T09:06:25+00:00"
+        },
+        {
+            "name": "ewave/collectabstractentity",
+            "version": "dev-release/1.3.5",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_collectabstractentity.git",
+                "reference": "ca6872e0125633528c15a8c13f8fb9042e6fc623"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\CollectAbstractEntity\\": ""
+                }
+            },
+            "description": "Ewave CollectAbstractEntity",
+            "time": "2019-06-04T05:11:49+00:00"
+        },
+        {
+            "name": "ewave/criteoonetag",
+            "version": "dev-release/1.0.2",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_criteoonetag.git",
+                "reference": "dad547d2b16b178959a12e0f53268e4f928e3b9a"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\CriteoOneTag\\": ""
+                }
+            },
+            "description": "Criteo OneTag",
+            "time": "2019-05-21T06:06:47+00:00"
+        },
+        {
+            "name": "ewave/customsitemaplinks",
+            "version": "dev-release/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_customsitemaplinks.git",
+                "reference": "6a2a464ad669db108f5d562d6ab35c7d88416dec"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\CustomSitemapLinks\\": ""
+                }
+            },
+            "description": "Ewave Custom Sitemap Links",
+            "time": "2019-06-10T12:30:40+00:00"
+        },
+        {
+            "name": "ewave/defaulttheme",
+            "version": "dev-release/1.3.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_defaulttheme.git",
+                "reference": "dfa4174b6dbeedcd796aca9fe6241660c7a87297"
+            },
+            "require": {
+                "ewave/legobasetheme": "*"
+            },
+            "type": "magento2-theme",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ]
+            },
+            "license": [
+                "Commercial"
+            ],
+            "description": "Default theme",
+            "time": "2019-04-04T12:33:23+00:00"
+        },
+        {
+            "name": "ewave/email",
+            "version": "dev-release/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_email.git",
+                "reference": "d1ba2d050054d57acf20cb3d067a1d90dc9457f0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Email\\": ""
+                }
+            },
+            "description": "Ewave Email",
+            "time": "2017-06-21T13:22:35+00:00"
+        },
+        {
+            "name": "ewave/emailblocker",
+            "version": "dev-release/1.0.5",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_emailblocker.git",
+                "reference": "f2d99a9464ee5988b322453d659dc116e9461d27"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Emailblocker\\": ""
+                }
+            },
+            "description": "Email Blocker",
+            "time": "2018-10-22T12:04:44+00:00"
+        },
+        {
+            "name": "ewave/extendedcartpricerulesmsi",
+            "version": "dev-release/1.0.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcartpricerulesmsi.git",
+                "reference": "548cb8b58ec5ceb3b0866d4a4e54ea1042d59eb2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedCartPriceRulesMSI\\": ""
+                }
+            },
+            "description": "Ewave ExtendedCartPriceRulesMSI",
+            "time": "2020-05-05T08:28:13+00:00"
+        },
+        {
+            "name": "ewave/extendedcatalogpricerule",
+            "version": "dev-release/1.2.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcatalogpricerule.git",
+                "reference": "2c4a7148fb62b489a8843ef9763bf40163ea7111"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedCatalogPriceRule\\": ""
+                }
+            },
+            "description": "Ewave Extended Catalog Price Rule",
+            "time": "2019-05-24T10:56:20+00:00"
+        },
+        {
+            "name": "ewave/extendedcatalogpriceruleproductcalculator",
+            "version": "dev-release/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedcatalogpriceruleproductcalculator.git",
+                "reference": "812d3819f43e921436d7819db2d608a9d5e8cf8e"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedCatalogPriceRuleProductCalculator\\": ""
+                }
+            },
+            "description": "ExtendedCatalogPriceRuleProductCalculator",
+            "time": "2019-04-01T05:56:21+00:00"
+        },
+        {
+            "name": "ewave/extendedminicart",
+            "version": "dev-release/1.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedminicart.git",
+                "reference": "2cae037162a314fc3c9e2021ba0bc070cab2853d"
+            },
+            "suggest": {
+                "ewave/utilities": "Extension may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedMiniCart\\": ""
+                }
+            },
+            "description": "Ewave ExtendedMiniCart",
+            "time": "2018-12-13T11:03:17+00:00"
+        },
+        {
+            "name": "ewave/extendedshippingrates",
+            "version": "dev-release/1.5.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedshippingrates.git",
+                "reference": "a11535d2b1c4331f9faa8852aa63504e6f01bf69"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedShippingRates\\": ""
+                }
+            },
+            "description": "Ewave Extended Shipping Rates",
+            "time": "2019-10-18T06:54:59+00:00"
+        },
+        {
+            "name": "ewave/extendedshippingrateslocalization",
+            "version": "dev-release/1.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedshippingrateslocalization.git",
+                "reference": "e6a7876d596a4eda44233068439b240e08cfe344"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedShippingRatesLocalization\\": ""
+                }
+            },
+            "description": "Ewave ExtendedShippingRatesLocalization",
+            "time": "2019-06-14T08:31:00+00:00"
+        },
+        {
+            "name": "ewave/extendedshippingratesshippingavailability",
+            "version": "dev-release/1.1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_extendedshippingratesshippingavailability.git",
+                "reference": "de3a062edd20ad85322b14022498c42f9a5eed3b"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ExtendedShippingRatesShippingAvailability\\": ""
+                }
+            },
+            "description": "Ewave Extended Shipping Rates Shipping Availability",
+            "time": "2019-10-29T10:36:28+00:00"
+        },
+        {
+            "name": "ewave/faq",
+            "version": "dev-release/1.3.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_faq.git",
+                "reference": "29b735936ff1d2d98810fad071ab6059e8332866"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave Faq DOES use ewave/utilities methods. Please install ewave/utilities extension version >= 1.16.3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Faq\\": ""
+                }
+            },
+            "description": "FAQ",
+            "time": "2019-05-31T10:02:15+00:00"
+        },
+        {
+            "name": "ewave/feed",
+            "version": "dev-release/1.2.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_feeds.git",
+                "reference": "c3603fbc8ed9bc987ac4317458ac9a5214180d41"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Feed\\": ""
+                }
+            },
+            "description": "Shopping Feeds",
+            "time": "2019-07-11T13:43:02+00:00"
+        },
+        {
+            "name": "ewave/freegift",
+            "version": "dev-release/1.11.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_freegift.git",
+                "reference": "93a354a95cf5dd194763d45afd8935dc993fb9dd"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\FreeGift\\": ""
+                }
+            },
+            "description": "Free gift",
+            "time": "2019-05-28T05:01:00+00:00"
+        },
+        {
+            "name": "ewave/giftcardimage",
+            "version": "dev-release/1.1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_giftcardimage.git",
+                "reference": "7740c3fb48afa470569f30798f05dad5b997a4a2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\GiftCardImage\\": ""
+                }
+            },
+            "description": "Ewave Gift Card Image",
+            "time": "2018-12-20T11:08:54+00:00"
+        },
+        {
+            "name": "ewave/googleapi",
+            "version": "dev-release/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_googleapi.git",
+                "reference": "8a2a96679621d6b7dd4b97cf275578500fb39521"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Googleapi\\": ""
+                }
+            },
+            "description": "Ewave Google API Module",
+            "time": "2017-12-27T11:24:36+00:00"
+        },
+        {
+            "name": "ewave/infinitescroll",
+            "version": "dev-release/1.2.4",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_infinitescroll.git",
+                "reference": "8954f6c30471d80620de5739bf33b006d5b3cead"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\InfiniteScroll\\": ""
+                },
+                "psr-0": {
+                    "Zend_": "Library/zendframework1"
+                }
+            },
+            "description": "Ewave Infinite Scroll Module",
+            "time": "2019-05-23T12:26:08+00:00"
+        },
+        {
+            "name": "ewave/invoiceincrementid",
+            "version": "dev-release/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_invoiceincrementid.git",
+                "reference": "3d10c22a1ca0a2b0ebb256c8f482a95cda3b1569"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\InvoiceIncrementId\\": ""
+                }
+            },
+            "description": "Ewave Invoice Increment Id",
+            "time": "2019-06-05T13:18:07+00:00"
+        },
+        {
+            "name": "ewave/layerednavigation",
+            "version": "dev-release/1.7.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_layerednavigation.git",
+                "reference": "adbfa1fdd9b002da125a02e666f4b8d681360c5a"
+            },
+            "require": {
+                "magento/module-layered-navigation": "*"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\LayeredNavigation\\": ""
+                }
+            },
+            "license": [
+                "Commercial"
+            ],
+            "description": "Layered Navigation",
+            "time": "2019-07-09T13:56:25+00:00"
+        },
+        {
+            "name": "ewave/legobasetheme",
+            "version": "dev-release/1.23.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/lego-base-theme.git",
+                "reference": "0105e5652d36781fe2c93297dff9cf2081ea0c9d"
+            },
+            "type": "magento2-theme",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ]
+            },
+            "license": [
+                "Commercial"
+            ],
+            "description": "Lego Base theme",
+            "time": "2019-07-05T10:50:37+00:00"
+        },
+        {
+            "name": "ewave/localization",
+            "version": "dev-release/1.6.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_localization.git",
+                "reference": "88369b4bb9f2404e98d27ad9c288b7457b33ed3e"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave Localization may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Localization\\": ""
+                }
+            },
+            "description": "Ewave Localizations",
+            "time": "2019-06-24T08:21:40+00:00"
+        },
+        {
+            "name": "ewave/locator",
+            "version": "dev-release/1.7.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_locator.git",
+                "reference": "53832909ea725c0f73be3cb27dfc1d1ca25146a1"
+            },
+            "suggest": {
+                "ewave/googleapi": "Ewave Locator does use ewave/googleapi methods.",
+                "ewave/utilities": "Ewave Locator may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Locator\\": ""
+                }
+            },
+            "description": "Ewave Locator Module",
+            "time": "2019-07-23T05:39:47+00:00"
+        },
+        {
+            "name": "ewave/magentofixes",
+            "version": "dev-digidirect_develop",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_magentofixes.git",
+                "reference": "89ba95f26e26caa80203505b9871e75bb8ae320f"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\MagentoFixes\\": ""
+                }
+            },
+            "description": "Magento Fixes",
+            "time": "2019-02-20T14:38:14+00:00"
+        },
+        {
+            "name": "ewave/msi",
+            "version": "dev-release/1.0.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_msi.git",
+                "reference": "05ec40ea44eb378e68a047590c82a3c9b9001156"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\MSI\\": ""
+                }
+            },
+            "description": "Ewave MSI",
+            "time": "2019-05-23T06:24:52+00:00"
+        },
+        {
+            "name": "ewave/mystorewidget",
+            "version": "dev-release/2.2.2",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_mystorewidget.git",
+                "reference": "a90fdac5dff3e35c95aa5c20b174d9718467c03c"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\MyStoreWidget\\": ""
+                }
+            },
+            "description": "Ewave MyStoreWidget module",
+            "time": "2020-05-05T13:02:08+00:00"
+        },
+        {
+            "name": "ewave/mystorewidgetcollect",
+            "version": "dev-release/1.1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_mystorewidgetcollect.git",
+                "reference": "18ce7d3424fae95a42fc36f4fc8a47086eb2b01c"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\MyStoreWidgetCollect\\": ""
+                }
+            },
+            "description": "Ewave MyStoreWidget + Click&Collect Add-on",
+            "time": "2020-04-02T09:06:59+00:00"
+        },
+        {
+            "name": "ewave/navigation",
+            "version": "dev-release/1.3.2",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_navigation.git",
+                "reference": "88d25baea0f18b074ca3f1563268d9fc4d1426f0"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave Navigation may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Navigation\\": ""
+                }
+            },
+            "description": "Navigation",
+            "time": "2018-10-22T12:28:36+00:00"
+        },
+        {
+            "name": "ewave/navigationcmsupgrade",
+            "version": "dev-release/1.0.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_navigationcmsupgrade.git",
+                "reference": "a12cfe14139d864a4b474ae2a20218ff0d5f1d16"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\NavigationCMSUpgrade\\": ""
+                }
+            },
+            "description": "Upgrade script generator for Ewave_Navigation module",
+            "time": "2018-11-20T13:08:03+00:00"
+        },
+        {
+            "name": "ewave/newsletter",
+            "version": "dev-release/1.3.2",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_newsletter.git",
+                "reference": "8355d4b2f410ce22458502755a4c7fd0285ff62e"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Newsletter\\": ""
+                }
+            },
+            "description": "Ewave Newsletter",
+            "time": "2019-05-15T13:59:52+00:00"
+        },
+        {
+            "name": "ewave/orderimages",
+            "version": "dev-release/1.3.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_orderimages.git",
+                "reference": "2f8b714056c443359faabd1df122f71712606384"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\OrderImages\\": ""
+                }
+            },
+            "description": "Ewave Product Images on Order Detail",
+            "time": "2019-03-22T07:02:50+00:00"
+        },
+        {
+            "name": "ewave/outofstocknotif",
+            "version": "dev-release/2.4.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_outofstocknotif.git",
+                "reference": "11617948af654392801f6e33bb890b7e351c9b4f"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\OutOfStockNotif\\": ""
+                }
+            },
+            "description": "Out Of Stock Notification",
+            "time": "2019-09-25T07:39:17+00:00"
+        },
+        {
+            "name": "ewave/outofstocknotifpreorder",
+            "version": "dev-release/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_outofstocknotifpreorder.git",
+                "reference": "c7f97e1d51a4accf5c70b0cf978362cab06f9ea9"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\OutOfStockNotifPreOrder\\": ""
+                }
+            },
+            "description": "Out Of Stock Notification, Ewave PreOrder Module",
+            "time": "2019-03-28T07:11:12+00:00"
+        },
+        {
+            "name": "ewave/preorder",
+            "version": "dev-release/1.1.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_preorder.git",
+                "reference": "1e9ef30ea100dd32aedf03f98da01ea777c84a66"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\PreOrder\\": ""
+                }
+            },
+            "description": "Ewave PreOrder Module",
+            "time": "2019-10-25T05:38:44+00:00"
+        },
+        {
+            "name": "ewave/productattachment",
+            "version": "dev-release/1.1.2",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productattachment.git",
+                "reference": "cc9fac94e9154fb50216d123164b134d9f27eac7"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ProductAttachment\\": ""
+                }
+            },
+            "description": "Product Attachment",
+            "time": "2018-09-19T13:50:41+00:00"
+        },
+        {
+            "name": "ewave/productcalculator",
+            "version": "dev-release/1.6.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productcalculator.git",
+                "reference": "a78db44d13bdccf060335c7c54c5bbc34d2751f1"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ProductCalculator\\": ""
+                }
+            },
+            "description": "Ewave ProductCalculator",
+            "time": "2019-04-16T12:12:25+00:00"
+        },
+        {
+            "name": "ewave/productfilter",
+            "version": "dev-release/1.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productfilter.git",
+                "reference": "cf213a215ab6867dbe1045a74389dce6cc50e031"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ProductFilter\\": ""
+                }
+            },
+            "description": "Ewave Product Filter Module",
+            "time": "2019-09-30T05:42:59+00:00"
+        },
+        {
+            "name": "ewave/productmultiview",
+            "version": "dev-release/1.1.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productmultiview.git",
+                "reference": "482f8aaa6e4015d53775d2d7fd7d72d93a449e0b"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ProductMultiView\\": ""
+                }
+            },
+            "license": [
+                "Commercial"
+            ],
+            "description": "Product Multi-View",
+            "time": "2019-04-01T06:31:40+00:00"
+        },
+        {
+            "name": "ewave/productoverlay",
+            "version": "dev-release/2.6.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productoverlay.git",
+                "reference": "0189e716393e264851a27a8d9e02219975112458"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave ProductOverlay may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ProductOverlay\\": ""
+                }
+            },
+            "description": "Product Overlays",
+            "time": "2019-09-19T13:53:04+00:00"
+        },
+        {
+            "name": "ewave/productpriority",
+            "version": "dev-release/1.0.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_productpriority.git",
+                "reference": "8814f503dca7fdbc4393e0282d7390515a477ef5"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ProductPriority\\": ""
+                }
+            },
+            "description": "Product Priority",
+            "time": "2018-10-22T12:36:49+00:00"
+        },
+        {
+            "name": "ewave/pronto",
+            "version": "dev-release/1.0.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_pronto.git",
+                "reference": "767a253f464e1c6348a51f57a3156f1fd02a3adf"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Pronto\\": ""
+                }
+            },
+            "description": "Ewave Pronto",
+            "time": "2019-06-10T11:36:38+00:00"
+        },
+        {
+            "name": "ewave/quickview",
+            "version": "dev-release/1.2.4",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_quickview.git",
+                "reference": "af65dde114d659646eafbcf2006eb5cedd0022bd"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\QuickView\\": ""
+                }
+            },
+            "description": "Ewave Quick View",
+            "time": "2019-03-11T05:32:46+00:00"
+        },
+        {
+            "name": "ewave/relatedproduct",
+            "version": "dev-release/2.4.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_relatedproduct.git",
+                "reference": "c6147c1c5f31ecafe2d42605a2cfdd8aa987b21f"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\RelatedProduct\\": ""
+                }
+            },
+            "description": "Ewave Related Product",
+            "time": "2019-10-03T05:55:35+00:00"
+        },
+        {
+            "name": "ewave/security",
+            "version": "dev-release/1.0.6",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_security.git",
+                "reference": "4b85987258ffb7f5171918e1eae8bb940050ce10"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave Security may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Security\\": ""
+                }
+            },
+            "description": "Security extension allows to restrict access to back-end for visitors by IP or IP mask.",
+            "time": "2018-04-25T12:55:25+00:00"
+        },
+        {
+            "name": "ewave/seo",
+            "version": "dev-release/1.6.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_seo.git",
+                "reference": "a5b617a2405a8d2077aab7dd29cd652354dcfbf6"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave Seo may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\SEO\\": ""
+                }
+            },
+            "description": "SEO",
+            "time": "2019-03-26T06:03:50+00:00"
+        },
+        {
+            "name": "ewave/shippingavailabilitycheck",
+            "version": "dev-release/1.4.3",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_shippingavailabilitycheck.git",
+                "reference": "ff95cc5183eee388bc004363b7b4f47f8b2e8324"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ShippingAvailabilityCheck\\": ""
+                }
+            },
+            "description": "Ewave ShippingAvailabilityCheck",
+            "time": "2019-02-28T06:21:57+00:00"
+        },
+        {
+            "name": "ewave/shippingavailabilitycheckcollect",
+            "version": "dev-release/1.1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_shippingavailabilitycheckcollect.git",
+                "reference": "8c8bfb6d2dbf4f1c98301e497ce98cfe163ce20d"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\ShippingAvailabilityCheckCollect\\": ""
+                }
+            },
+            "description": "Ewave ShippingAvailabilityCheckCollect",
+            "time": "2019-06-14T11:37:12+00:00"
+        },
+        {
+            "name": "ewave/sitemapwidget",
+            "version": "dev-release/1.1.0",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_sitemapwidget.git",
+                "reference": "6b1b17cc438959170213d4a6550a6c05492cbcf6"
+            },
+            "suggest": {
+                "ewave/utilities": "Ewave SitemapWidget may use ewave/utilities methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\SitemapWidget\\": ""
+                }
+            },
+            "description": "Ewave Sitemap Widget Module",
+            "time": "2019-01-21T13:40:12+00:00"
+        },
+        {
+            "name": "ewave/socialsharing",
+            "version": "dev-release/1.1.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_socialsharing.git",
+                "reference": "597cf042a77a2210c24f8addd250459dec018a64"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\SocialSharing\\": ""
+                }
+            },
+            "description": "Social Sharing",
+            "time": "2018-10-22T12:39:53+00:00"
+        },
+        {
+            "name": "ewave/store",
+            "version": "dev-release/1.2.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_store.git",
+                "reference": "44a600e552a947ba2bf78d55119aa4d8a6958d36"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Store\\": ""
+                }
+            },
+            "description": "Add-on for Abstract Entity",
+            "time": "2019-05-10T13:17:44+00:00"
+        },
+        {
+            "name": "ewave/storelocator",
+            "version": "dev-release/1.10.2",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_storelocator.git",
+                "reference": "ebba59054171838c4ba2dae33b11855e9c9e93ea"
+            },
+            "suggest": {
+                "ewave/abstractentity": "Ewave StoreLocator is useless without ewave/abstractentity extension. If your version >=1.4.0 you must use ewave/abstractentity version >= 2.9.1",
+                "ewave/locator": "Ewave StoreLocator does use ewave/locator methods. If you use version >=1.4.0 you must install ewave/locator version >= 1.2.0",
+                "ewave/store": "ewave/store will create Store abstract entity for you",
+                "ewave/utilities": "Ewave StoreLocator may use ewave/utilities (version >= 1.16.5) methods"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\StoreLocator\\": ""
+                }
+            },
+            "description": "Store Locator",
+            "time": "2019-05-31T11:16:55+00:00"
+        },
+        {
+            "name": "ewave/storelocatorinfinitescroll",
+            "version": "dev-release/1.0.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_storelocatorinfinitescroll.git",
+                "reference": "8db9709d1d2b4091815e3a37d1acabd0613ada6a"
+            },
+            "suggest": {
+                "ewave/infinitescroll": "Ewave StoreLocatorInfiniteScroll does use ewave/infinitescroll methods.",
+                "ewave/storelocator": "Ewave StoreLocatorInfiniteScroll may use ewave/storelocator methods."
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\StoreLocatorInfiniteScroll\\": ""
+                }
+            },
+            "description": "Ewave StoreLocatorInfiniteScroll Module",
+            "time": "2019-05-11T11:47:59+00:00"
+        },
+        {
+            "name": "ewave/styleguide",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_styleguide.git",
+                "reference": "c90bd1bfa36b0a614890bd2764c4c6510ffda8a3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\StyleGuide\\": ""
+                }
+            },
+            "description": "Style Guide",
+            "time": "2018-12-17T07:08:38+00:00"
+        },
+        {
+            "name": "ewave/utilities",
+            "version": "dev-release/1.20.1",
+            "source": {
+                "type": "git",
+                "url": "ssh://git@stash.ewave.com:7999/lego/ewave_utilities.git",
+                "reference": "7d03c1442e749bf1bc75f337bfde04031ff8d636"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Ewave\\Utilities\\": ""
+                }
+            },
+            "description": "Ewave Utilities Module",
+            "time": "2019-04-24T13:24:42+00:00"
+        },
+        {
             "name": "fastly/magento2",
             "version": "1.2.119",
             "source": {
