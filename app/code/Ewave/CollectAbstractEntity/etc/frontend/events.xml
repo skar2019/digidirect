@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+
+    <!-- Prepare collect places data for front-end rendering -->
+    <event name="ewave_collect_after_get_places_by_data_from_storage">
+        <observer name="ewave_collect_prepare_places_result"
+                  instance="Ewave\CollectAbstractEntity\Observer\Collect\FormatCollectPlacesResult" />
+    </event>
+
+</config>
