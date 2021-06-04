@@ -1,7 +1,7 @@
 var config = {
     map: {
         '*': {
-            modalMystorewidget: 'Ewave_MyStoreWidget/js/modal-mystorewidget'
+            modalMystorewidget: 'Ewave_MyStoreWidget/js/modal-MyStoreWidget'
         }
     },
     config: {
