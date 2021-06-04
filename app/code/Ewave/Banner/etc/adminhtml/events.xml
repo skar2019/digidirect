@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="clean_catalog_images_cache_after">
+        <observer name="ewave_clean_catalog_images_cache_after" instance="Ewave\Banner\Observer\Admin\CleanImagesAfter"/>
+    </event>
+    <event name="banner_edit_tab_properties_after_prepare_form">
+        <observer name="ewave_adminhtml_banner_edit_tab_content_before_prepare_form" instance="Ewave\Banner\Observer\Admin\BannerEditTabContentBeforePrepareForm"/>
+    </event>
+</config>

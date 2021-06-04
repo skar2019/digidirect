@@ -1,0 +1,17 @@
+{
+  "name": "ewave/blog",
+  "description": "Blog",
+  "type": "magento2-module",
+  "version": "3.1.1",
+  "suggest": {
+    "ewave/utilities": "Ewave Blog may use ewave/utilities methods"
+  },
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ewave\\Blog\\": ""
+    }
+  }
+}

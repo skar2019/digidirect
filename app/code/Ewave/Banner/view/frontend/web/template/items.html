@@ -1,0 +1,23 @@
+<!-- ko if: $data.format == "media" -->
+    <!-- ko foreach: {data: $parent.getRegion('mediaContainer'), as: 'region'} -->
+        <!-- ko template: {name: getTemplate() } --><!-- /ko -->
+    <!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: $data.format == "video" -->
+    <!-- ko foreach: {data: $parent.getRegion('videoContainer'), as: 'region'} -->
+        <!-- ko template: {name: getTemplate() } --><!-- /ko -->
+    <!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: $data.format == "image" -->
+    <!-- ko foreach: {data: $parent.getRegion('imageContainer'), as: 'region'} -->
+        <!-- ko template: {name: getTemplate() } --><!-- /ko -->
+    <!-- /ko -->
+<!-- /ko -->
+
+<!-- ko if: $data.format == "default" -->
+    <!-- ko foreach: $parent.getRegion('defaultContainer') -->
+        <!-- ko template: {name: getTemplate() }  --><!-- /ko -->
+    <!-- /ko -->
+<!-- /ko -->

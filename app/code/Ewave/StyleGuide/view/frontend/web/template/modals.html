@@ -1,0 +1,34 @@
+<div>
+    <p><button class="button" data-js-modal="trigger-simple-popup">Simple Popup</button></p>
+
+    <div data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'trigger': '[data-js-modal=trigger-simple-popup]'
+        }}">
+
+        This is <strong>simple</strong> popup's content: <br>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+    </div>
+</div>
+
+<div>
+    <p><button class="button" data-js-modal="trigger-slide-popup">Slide Popup</button></p>
+
+    <div data-bind="mageInit: {
+        'Magento_Ui/js/modal/modal':{
+            'type': 'slide',
+            'trigger': '[data-js-modal=trigger-slide-popup]'
+        }}">
+
+        This is <strong>slide</strong> popup's content: <br>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+    </div>
+</div>

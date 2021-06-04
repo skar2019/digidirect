@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_category_load_after">
+        <observer name="ewave_seo_set_category_metadata" instance="Ewave\SEO\Observer\SetCategoryMetadata"/>
+    </event>
+
+    <event name="layout_generate_blocks_after">
+        <observer name="ewave_infinityscroll" instance="Ewave\SEO\Observer\NextPrevLinkObserver" shared="false"/>
+    </event>
+</config>

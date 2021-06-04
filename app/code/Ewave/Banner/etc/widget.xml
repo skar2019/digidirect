@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="magento_banner">
+        <label translate="true">Responsive Banner</label>
+        <parameters>
+            <parameter xsi:type="select" name="lazy_load" required="true" visible="true" sort_order="10">
+                <label translate="true">Lazy Load</label>
+                <description>Enables "Lazy Load" behavior for banner images (images in visible area will be loaded first, other will be loaded on page scroll)</description>
+                <options>
+                    <option name="yes" value="1">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0" selected="true">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter xsi:type="text" name="rotation_speed" required="true" visible="true" sort_order="8">
+                <label translate="true">Rotation Speed</label>
+                <description>Banners will be rotated on the widget with the specified frequency (in seconds)</description>
+                <depends>
+                    <parameter name="rotate" value="random,series,shuffle"/>
+                </depends>
+            </parameter>
+            <parameter xsi:type="select" name="autoplay" required="false" visible="true" sort_order="9">
+                <label translate="true">Autoplay</label>
+                <description>If enabled, rotation will start automatically</description>
+                <depends>
+                    <parameter name="rotate" value="random,series,shuffle"/>
+                </depends>
+                <options>
+                    <option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter xsi:type="select" name="loop" required="true" visible="true" sort_order="10">
+                <label translate="true">Loop</label>
+                <description>If "Yes" option is selected after the last banner user will see the first banner,
+                    If "No" option is selected after the last banner user will see previous banner</description>
+                <depends>
+                    <parameter name="rotate" value="random,series,shuffle"/>
+                </depends>
+                <options>
+                    <option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter xsi:type="select" name="is_static_template" required="true" visible="true" sort_order="10">
+                <label translate="true">Use static template</label>
+                <description>Used only when insert widget in wysiwyg. When create on widget creation page you can select static template in layout section</description>
+                <options>
+                    <option name="yes" value="1" selected="true">
+                        <label translate="true">Yes</label>
+                    </option>
+                    <option name="no" value="0">
+                        <label translate="true">No</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter xsi:type="select" name="template" required="true" visible="false">
+                <options>
+                    <option name="custom" value="custom">
+                        <label translate="true">Custom</label>
+                    </option>
+                    <option name="static" value="Ewave_Banner::widget/static/banner.phtml">
+                        <label translate="true">Static</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter xsi:type="text" name="arrow_previous" visible="true" sort_order="35">
+                <label translate="true">Previous Arrow</label>
+                <description>Previous banner widget button. Will be applied only for Static template. Should contain HTML code to work properly</description>
+                <value><![CDATA[<span role="button" class="slick-prev" aria-label="Previous">&larr;</span>]]></value>
+            </parameter>
+            <parameter xsi:type="text" name="arrow_next" visible="true" sort_order="40">
+                <label translate="true">Next Arrow</label>
+                <description>Next banner widget button. Will be applied only for Static template. Should contain HTML code to work properly</description>
+                <value><![CDATA[<span role="button" class="slick-next" aria-label="Next">&rarr;</span>]]></value>
+            </parameter>
+            <parameter xsi:type="text" name="custom_template" visible="true" sort_order="50" required="false">
+                <label translate="true">Custom Template</label>
+                <description>You can specify widget's custom template: "Ewave_Banner::widget/{{custom_template}}.phtml"</description>
+            </parameter>
+            <parameter xsi:type="select" name="breadcrumbs_type" required="false" visible="true" sort_order="11">
+                <label translate="true">Enable Breadcrumbs</label>
+                <description>If "Bullets" option is selected bullets will be displayed at the bottom of the banner.
+                    If "Navigation titles" is selected, navigation items with the text will be displayed on the widget.</description>
+                <depends>
+                    <parameter name="rotate" value="random,series,shuffle"/>
+                </depends>
+                <options>
+                    <option name="no" value="no" selected="true">
+                        <label translate="true">No</label>
+                    </option>
+                    <option name="bullets" value="bullets">
+                        <label translate="true">Bullets</label>
+                    </option>
+                    <option name="content" value="content">
+                        <label translate="true">Navigation titles</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

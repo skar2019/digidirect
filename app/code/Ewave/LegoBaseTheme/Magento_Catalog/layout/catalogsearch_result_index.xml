@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="search_result_list">
+            <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="tocart.form" as="tocart_form"/>
+            <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="tocart.form.after" as="tocart_form.after"/>
+            <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="after.product.price.container" as="after.product.price.container"/>
+        </referenceBlock>
+    </body>
+</page>

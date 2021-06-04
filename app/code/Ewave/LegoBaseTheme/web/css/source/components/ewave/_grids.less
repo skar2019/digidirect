@@ -1,0 +1,44 @@
+//
+//  Grids
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@grid-row__is-enabled = true) {
+        .ewave-lib-grid-classes(@_column-gutter: @grid-row-column__mobile__gutter);
+        .ewave-lib-grid-size(@_size: small, @_column-gutter: @grid-row-column__mobile__gutter);
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@grid-row__is-enabled = true) {
+        .ewave-lib-grid-size(@_size: medium, @_column-gutter: @grid-row-column__tablet__gutter);
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    & when (@grid-row__is-enabled = true) {
+        .ewave-lib-grid-size(@_size: large, @_column-gutter: @grid-row-column__desktop__gutter);
+    }
+}
+
+//
+//  Large Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@grid-row-include-xl-html-grid-classes) and (@extremum = 'min') and (@break = @screen__xl) {
+    & when (@grid-row__is-enabled = true) {
+        .ewave-lib-grid-size(@_size: xlarge, @_column-gutter: @grid-row-column__xlarge__gutter);
+    }
+}

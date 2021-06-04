@@ -1,0 +1,173 @@
+//
+//  Banner
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@ewave-banner__min-height: 250px;
+
+//  Items list
+@ewave-banner-items__overflow: hidden;
+@ewave-banner-items__white-space: nowrap;
+
+//  Item
+@ewave-banner-item__display: inline-block;
+@ewave-banner-item__width: 100%;
+@ewave-banner-item__vertical-align: top;
+
+//  Content
+@ewave-banner-item-content__position: absolute;
+@ewave-banner-item-content__top: 50%;
+@ewave-banner-item-content__left: 50%;
+@ewave-banner-item-content__margin: false;
+@ewave-banner-item-content__padding: 10px;
+@ewave-banner-item-content__font-size: 24px;
+@ewave-banner-item-content__line-height: 1.1;
+@ewave-banner-item-content__text-align: center;
+@ewave-banner-item-content__color: @color-blue1;
+@ewave-banner-item-content__background: false;
+@ewave-banner-item-content-image__display: inline-block;
+@ewave-banner-item-picture__display: block;
+@ewave-banner-item-picture__text-align: center;
+@ewave-banner-item-picture-img__margin: 0 auto;
+
+//  Video
+@use-banner-video: true;
+
+@ewave-banner-video__display: block;
+@ewave-banner-video__width: 100%;
+@ewave-banner-video__height: false;
+@ewave-banner-video__margin: 0 auto;
+
+@ewave-banner-modal-video__display: @ewave-banner-video__display;
+@ewave-banner-modal-video__width: @ewave-banner-video__width;
+@ewave-banner-modal-video__height: @ewave-banner-video__height;
+@ewave-banner-modal-video__margin: @ewave-banner-video__margin;
+
+@ewave-video-popup-content-ie__height: 100%;
+
+//
+//  Imports
+//  ---------------------------------------------
+
+@import 'vendor/_video-js.less';
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .block-banners {
+        & {
+            position: relative;
+            .lib-css(min-height, @ewave-banner__min-height);
+        }
+
+        > .loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            .lib-css(transform, translate(-50%, -50%), 1);
+        }
+
+        .banner-items > .banner-item {
+            .lib-css(display, @ewave-banner-item__display);
+            .lib-css(width, @ewave-banner-item__width);
+            .lib-css(vertical-align, @ewave-banner-item__vertical-align);
+        }
+    }
+
+    .banner-items {
+        &.-loaded + .loader {
+            display: none;
+        }
+        &:not(.slick-slider) {
+            .lib-css(overflow, @ewave-banner-items__overflow);
+            .lib-css(white-space, @ewave-banner-items__white-space);
+        }
+    }
+
+    .banner-item {
+        & {
+            position: relative;
+        }
+
+        > .link {
+            display: block;
+            text-decoration: none;
+        }
+
+        .content {
+            .lib-css(margin, @ewave-banner-item-content__margin);
+            .lib-css(padding, @ewave-banner-item-content__padding);
+            .lib-css(font-size, @ewave-banner-item-content__font-size);
+            .lib-css(line-height, @ewave-banner-item-content__line-height);
+            .lib-css(text-align, @ewave-banner-item-content__text-align);
+            .lib-css(color, @ewave-banner-item-content__color);
+            .lib-css(background, @ewave-banner-item-content__background);
+        }
+        .content:not(.-alone) {
+            .lib-css(position, @ewave-banner-item-content__position);
+            .lib-css(top, @ewave-banner-item-content__top);
+            .lib-css(left, @ewave-banner-item-content__left);
+            .lib-css(transform, translate(-50%, -50%), 1);
+        }
+        .content img {
+            .lib-css(display, @ewave-banner-item-content-image__display);
+        }
+
+        .picture {
+            .lib-css(display, @ewave-banner-item-picture__display);
+            .lib-css(text-align, @ewave-banner-item-picture__text-align);
+        }
+        .picture img {
+            .lib-css(margin, @ewave-banner-item-picture-img__margin);
+        }
+    }
+
+    .banner-picture,
+    .banner-video {
+        &.-hide {
+            display: none;
+        }
+    }
+
+    .banner-video {
+        > .video {
+            .lib-css(display, @ewave-banner-video__display);
+            .lib-css(width, @ewave-banner-video__width);
+            .lib-css(height, @ewave-banner-video__height);
+            .lib-css(margin, @ewave-banner-video__margin);
+        }
+
+        .play-button when (@use-banner-video = true) {
+            &:extend(.vjs-big-play-button);
+        }
+    }
+
+    .modal-popup {
+        &.-video .video {
+            .lib-css(display, @ewave-banner-modal-video__display);
+            .lib-css(width, @ewave-banner-modal-video__width);
+            .lib-css(height, @ewave-banner-modal-video__height);
+            .lib-css(margin, @ewave-banner-modal-video__margin);
+        }
+    }
+
+    //  Dirty fix IE11 video bug
+    .ie11 {
+        .slick-slider .banner-item .banner-video > .video {
+            visibility: hidden;
+        }
+
+        .slick-slider .banner-item.slick-active .banner-video > .video {
+            visibility: visible;
+        }
+
+        .modal-popup.-video .modal-content {
+            .lib-css(height, @ewave-video-popup-content-ie__height);
+        }
+    }
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="ewave_collect_quote_to_order_item" type="Ewave\Collect\Model\Plugin\Quote\Item\AroundConvert"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address\ToOrderAddress">
+        <plugin name="ewave_collect_quote_to_order_item" type="Ewave\Collect\Model\Plugin\Quote\Address\ToOrderAddress"/>
+    </type>
+    <type name="Magento\Quote\Model\QuoteValidator">
+        <plugin name="ewave_collect_after_quote_validator" type="Ewave\Collect\Model\Plugin\Quote\AroundQuoteValidate"/>
+    </type>
+    <type name="Magento\Checkout\Block\Cart\Item\Renderer\Actions\Edit">
+        <plugin name="ewave_collect_change_edit_link" type="Ewave\Collect\Block\Plugin\AfterGetConfigureUrl"/>
+    </type>
+    <type name="Magento\Checkout\CustomerData\DefaultItem">
+        <plugin name="ewave_collect_change_edit_link_default_item" type="Ewave\Collect\Block\Plugin\AroundGetItemData"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item">
+        <plugin name="ewave_collect_quote_item_plugin" type="Ewave\Collect\Model\Plugin\Quote\Item" sortOrder="100" disabled="false"/>
+    </type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="ewave_collect_checkout_default_config_provider" type="Ewave\Collect\Model\Plugin\Checkout\DefaultConfigProvider" sortOrder="100" disabled="false"/>
+    </type>
+    <type name="Magento\Checkout\Model\PaymentInformationManagement">
+        <plugin name="ewave_collect_checkout_payment_information" type="Ewave\Collect\Model\Plugin\Quote\PaymentInformationManagement" sortOrder="100" disabled="false"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Address\Total\Shipping">
+        <plugin name="ewave_collect_address_total_shipping" type="Ewave\Collect\Model\Plugin\Quote\Address\Total\Shipping" sortOrder="100" disabled="false"/>
+    </type>
+    <type name="Magento\Quote\Model\ShippingMethodManagement">
+        <plugin name="ewave_collect_after_estimate_by_address" type="Ewave\Collect\Model\Plugin\Quote\ShippingMethodManagement\AfterEstimateByAddressId"/>
+        <plugin name="ewave_collect_after_estimate_by_extended_address" type="Ewave\Collect\Model\Plugin\Quote\ShippingMethodManagement\AfterEstimateByExtendedAddress"/>
+    </type>
+    <type name="\Magento\Quote\Model\Quote\Address">
+        <plugin name="ewave_collect_after_get_grouped_shipping" type="Ewave\Collect\Model\Plugin\Quote\Address"/>
+    </type>
+</config>

@@ -1,0 +1,47 @@
+//
+//  Block Grid
+//  _____________________________________________
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@block-grid__is-enabled = true) {
+        .ewave-lib-block-grid-classes(@_size: small, @_gutter: @block-grid__mobile__gutter, @_global: true);
+        .ewave-lib-block-grid-size(@_size: small, @_gutter: @block-grid__mobile__gutter);
+    }
+}
+
+//
+//  Tablet +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    & when (@block-grid__is-enabled = true) {
+        .ewave-lib-block-grid-classes(@_size: medium, @_gutter: @block-grid__tablet__gutter);
+        .ewave-lib-block-grid-size(@_size: medium, @_gutter: @block-grid__tablet__gutter);
+    }
+}
+
+//
+//  Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    & when (@block-grid__is-enabled = true) {
+        .ewave-lib-block-grid-classes(@_size: large, @_gutter: @block-grid__desktop__gutter);
+        .ewave-lib-block-grid-size(@_size: large, @_gutter: @block-grid__desktop__gutter);
+    }
+}
+
+//
+//  Large Desktop +
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@block-grid-include-xl-html-block-grid-classes) and (@extremum = 'min') and (@break = @screen__xl) {
+    & when (@block-grid__is-enabled = true) {
+        .ewave-lib-block-grid-classes(@_size: xlarge, @_gutter: @block-grid__xlarge__gutter);
+        .ewave-lib-block-grid-size(@_size: xlarge, @_gutter: @block-grid__xlarge__gutter);
+    }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Ewave_AbstractEntity::menu" module="Ewave_AbstractEntity" resource="Ewave_AbstractEntity::menu" parent="Ewave_Utilities::ewave" sortOrder="10" title="Abstract Entity"/>
+        <add action="ewave_abstractentity/set/index" id="Ewave_AbstractEntity::abstractentity_view" module="Ewave_AbstractEntity" parent="Ewave_AbstractEntity::menu" resource="Ewave_AbstractEntity::abstractentity_view" sortOrder="1" title="Manage Abstract Entities"/>
+        <add action="ewave_abstractentity/attribute/index" id="Ewave_AbstractEntity::abstractentity_attribute" module="Ewave_AbstractEntity" parent="Ewave_AbstractEntity::menu" resource="Ewave_AbstractEntity::abstractentity_attribute" sortOrder="2" title="Manage Attributes"/>
+    </menu>
+</config>

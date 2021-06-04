@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @package Ewave_Emailblocker
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Store/etc/config.xsd">
+    <default>
+        <ewave_emailblocker>
+            <general>
+                <exeptional_domains>ewave.com,madebyewave.com</exeptional_domains>
+            </general>
+        </ewave_emailblocker>
+    </default>
+</config>

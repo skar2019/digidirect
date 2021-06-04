@@ -1,0 +1,54 @@
+<?php
+/**
+ * @var $block \Ewave\Banner\Block\Widget\StaticWidget\Renderer\Video
+ */
+$banner = $block->getBanner();
+$mediaQuery = $block->getMediaQuery();
+$videos = $block->getVideo();
+$navigationTitle = $block->getCustomSetting('navigation_title');
+$navigationImage = $block->getCustomSetting('navigation_image');
+$link = $block->getCustomSetting('target_id');
+$alt = $block->getCustomSetting('alt');
+$title = $block->getCustomSetting('title');
+$content = $banner['content'];
+?>
+<div class="banner-item -type-video"
+     data-testid="bannerRotator-banner"
+     data-banner-id="<?= /* @noEscape */ $banner['id']; ?>"
+     data-format="video"
+     data-banner-navigation-title="<?= $block->escapeHtml($navigationTitle); ?>"
+    <?php if ($navigationImage) : ?> data-banner-navigation-image="<?= /* @noEscape */ $navigationImage; ?>"<?php endif; ?>>
+    <?php if ($link) : ?><a class="link" href="<?= $block->escapeUrl($link); ?>" title="<?= $block->escapeHtml($title); ?>"><?php endif; ?>
+        <div class="banner-video" data-role="banner-video" data-testid="bannerRotator-banner-video">
+            <?php foreach ($videos as $video): ?>
+                <video class="video"
+                       preload="metadata"
+                       playsinline
+                       <?php if ($video['use_video_as_a_preview'] == '0') : ?>poster="<?= /* @noEscape */ $video['preview_image']; ?>"<?php endif; ?>
+                       <?php if ($video['allow_video_popup'] == '0') : ?>controls="controls"<?php endif; ?>
+                       <?php if ($video['play_video_in_a_loop'] == '1') : ?>loop="loop"<?php endif; ?>
+                       data-video-popup="<?php if ($video['allow_video_popup'] == '0') : ?>false<?php else: ?>true<?php endif; ?>"
+                       data-autoplay="<?php if ($video['play_video_automatically_for_mobile'] == '0') : ?>false<?php else: ?>true<?php endif; ?>"
+                       data-autoplay-large="<?php if ($video['play_video_automatically_for_desktop'] == '0') : ?>false<?php else: ?>true<?php endif; ?>"
+                       data-autoplay-delay="<?= /* @noEscape */ $video['play_video_after']; ?>"
+                       data-video-id="video-<?= /* @noEscape */ $video['banner_id'] . '-' . $video['video_id']; ?>"
+                       data-modal-active="false"
+                       data-modal-loaded="false"
+                       data-config='<?= /* @noEscape */ $block->getWidget()->jsonEncode($video) ?>'
+                >
+                    <source src="<?= /* @noEscape */ $video['video']; ?>" type="video/mp4">
+                </video>
+                <?php if ($video['allow_video_popup'] == '1') : ?>
+                    <button type="button" class="play-button" title="<?= $block->escapeHtml(__('Play')) ?>">
+                        <?= $block->escapeHtml(__('Play')) ?>
+                    </button>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+        <?php if ($content) : ?>
+            <div class="content -image" data-testid="bannerRotator-banner-content">
+                <?= /* @noEscape */ $content; ?>
+            </div>
+        <?php endif; ?>
+    <?php if ($link) : ?></a><?php endif; ?>
+</div>

@@ -1,0 +1,15 @@
+{
+  "name": "ewave/localization",
+  "description": "Ewave Localizations",
+  "type": "magento2-module",
+  "version": "1.6.0.0",
+  "suggest": {
+    "ewave/utilities": "Ewave Localization may use ewave/utilities methods"
+  },
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Ewave\\Localization\\": ""
+    }
+  }
+}

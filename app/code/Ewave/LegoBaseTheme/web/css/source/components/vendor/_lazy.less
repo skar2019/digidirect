@@ -1,0 +1,23 @@
+//
+//  Lazy load
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@lazyload__is-enabled: true; // Enable/disable styles
+
+@lazyload__content: url('@{baseDir}images/loader-2.gif');
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@lazyload__is-enabled = true) {
+        img.lazyload {
+            .lib-css(content, @lazyload__content);
+        }
+    }
+}

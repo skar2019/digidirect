@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\Faq\Controller\Adminhtml\Category\Save">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item name="invalidate_cache_types" xsi:type="array">
+                    <item name="0" xsi:type="string">block_html</item>
+                    <item name="1" xsi:type="string">full_page</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="FaqCsvConverter" type="Magento\Ui\Model\Export\ConvertToCsv">
+        <arguments>
+            <argument name="metadataProvider" xsi:type="object">Ewave\Faq\Model\Export\MetadataProvider</argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\Faq\Controller\Adminhtml\Category\GridToCsv">
+        <arguments>
+            <argument name="converter" xsi:type="object">FaqCsvConverter</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="FaqExcelIterator" type="Magento\Framework\Convert\ExcelFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">Ewave\Faq\Model\Export\Excel\MetadataProvider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="FaqXmlConverter" type="Magento\Ui\Model\Export\ConvertToXml">
+        <arguments>
+            <argument name="excelFactory" xsi:type="object">FaqExcelIterator</argument>
+        </arguments>
+    </virtualType>
+    <type name="Ewave\Faq\Controller\Adminhtml\Category\GridToXml">
+        <arguments>
+            <argument name="converter" xsi:type="object">FaqXmlConverter</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\Faq\Model\ResourceModel\Category">
+        <plugin name="ewave_faq_category_url_rewrite_plugin" type="Ewave\Faq\Plugin\Faq\Model\ResourceModel\Category"/>
+    </type>
+</config>

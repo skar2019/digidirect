@@ -1,0 +1,25 @@
+<?php if ($this->helper('\Ewave\StyleGuide\Helper\Data')->getShowMode() === 'enable'): ?>
+<aside class="styleguide-offcanvas _clearfix" data-block="styleguide-offcanvas">
+    <div class="styleguide" data-block="styleguide">
+        <?= $block->getChildHtml() ?>
+    </div>
+    <hr class="resizer" data-action="resize" draggable="true">
+    <button class="button" data-action="toggle">
+        <?= $block->escapeHtml(__('Styleguide')); ?>
+    </button>
+</aside>
+
+<script type="text/x-magento-init">
+    {
+        "[data-block='styleguide-offcanvas']": {
+            "Ewave_StyleGuide/js/draggable-offcanvas": {
+                "toggleSelector": "[data-action=toggle]",
+                "resizerSelector": "[data-action=resize]",
+                "activeClass": "-active",
+                "initialMaxHeight": 300,
+                "styleguide": "[data-block=styleguide]"
+            }
+        }
+    }
+</script>
+<?php endif; ?>

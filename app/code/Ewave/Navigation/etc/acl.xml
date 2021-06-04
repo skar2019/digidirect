@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Ewave_Utilities::ewave" sortOrder="100">
+                    <resource id="Ewave_Navigation::navigation" title="Navigation" sortOrder="10">
+                        <resource id="Ewave_Navigation::navigation_menu_sets" title="Navigation Menu Sets" sortOrder="10">
+                            <resource id="Ewave_Navigation::navigation_menu_sets_delete" title="Delete" sortOrder="10" />
+                            <resource id="Ewave_Navigation::navigation_menu_sets_save" title="Save" sortOrder="20" />
+                        </resource>
+                        <resource id="Ewave_Navigation::navigation_menu_items" title="Navigation Menu Items" sortOrder="10">
+                            <resource id="Ewave_Navigation::navigation_menu_items_delete" title="Delete" sortOrder="10" />
+                            <resource id="Ewave_Navigation::navigation_menu_items_save" title="Save" sortOrder="20" />
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -1,0 +1,202 @@
+//
+//  StyleGuide Template Styles
+//  _____________________________________________
+
+@styleguide__color-white: #fff;
+@styleguide__color-black: #000;
+@styleguide__box-shadow-color: rgba(44, 54, 67, .1);
+@styleguide__border-color: #edf2f5;
+
+@resizer__background-color: #f3f3f3;
+@resizer__box-shadow: #eee;
+@resizer__linear-gradient-from: #ddd;
+@resizer__gradient-from: rgba(0, 0, 0, .5);
+@resizer__gradient-to: rgba(0, 0, 0, .3);
+
+@styleguide-block__background: #f5f5f5;
+
+@styleguide-nav-link__hover__background: #f9f9f9;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .styleguide-offcanvas {
+        & {
+            .lib-css(transition, transform ease 0.3s);
+            .lib-css(transform, translateY(-100%));
+            .lib-css(background-color, @styleguide__color-white);
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            will-change: transform;
+        }
+
+        &.-active {
+            .lib-css(transform, translateY(0));
+        }
+
+        > .styleguide {
+            overflow: auto;
+            max-height: 300px;
+        }
+
+        > .styleguide > .guide {
+            .lib-css(border-bottom, 1px solid @styleguide__color-black);
+            padding: 20px;
+        }
+
+        > .styleguide > .guide:last-child {
+            border-bottom: none;
+        }
+
+        > .styleguide > .guide > .title {
+            font-size: 30px;
+            text-align: center;
+        }
+
+        > .resizer {
+            .lib-css(background-image,
+            -webkit-repeating-radial-gradient(center center, @resizer__gradient-from 0px, @resizer__gradient-to 1px, transparent 0px, transparent 100%),
+            linear-gradient(0, @resizer__linear-gradient-from, @styleguide__color-white));
+            .lib-css(background-color, @resizer__background-color);
+            .lib-css(box-shadow, 0 2px 5px 1px @resizer__box-shadow, 0 0 10px -5px inset);
+            position: absolute;
+            bottom: 0;
+            z-index: 1; // for default tabs guide
+            width: 100%;
+            height: 21px;
+            border: 0;
+            margin: 0;
+            background-size: 5px 5px, 100% 100%;
+            cursor: ns-resize;
+        }
+
+        > .button {
+            .lib-css(transform, translate3d(-50%, 0, 0));
+            .lib-css(transition, transform ease 0.3s);
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            z-index: 1;
+            backface-visibility: hidden;
+            will-change: transform;
+        }
+
+        > .button::before {
+            content: 'Show ';
+        }
+
+        > .button.-initialized {
+            .lib-css(transform, translate3d(-50%, 100%, 0));
+        }
+
+        &.-active > .button::before {
+            content: 'Hide ';
+        }
+    }
+
+    .styleguide-block {
+        & {
+            .lib-css(background, @styleguide-block__background);
+            padding: 20px;
+            margin: 0;
+        }
+
+        > .nav {
+            .lib-css(background, @styleguide__color-white);
+            .lib-css(box-shadow, 0 0 1px 0 @styleguide__box-shadow-color);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            list-style: none;
+            padding: 0;
+        }
+
+        > .nav > .item {
+            .lib-css(border-bottom, 1px solid @styleguide__border-color);
+            margin: 0;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        > .nav > .item > .link {
+            display: block;
+            padding: 12px 15px;
+
+            &:hover {
+                .lib-css(background, @styleguide-nav-link__hover__background);
+                text-decoration: none;
+            }
+        }
+    }
+
+    .styleguide-item {
+        & {
+            .lib-css(background, @styleguide__color-white);
+            .lib-css(box-shadow, 0 0 1px 0 @styleguide__box-shadow-color);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            padding: 1px 20px 20px;
+        }
+
+        > .title {
+            .lib-font-size(26);
+            .lib-css(border-bottom, 1px solid @styleguide__border-color);
+            margin: 0 0 20px;
+            padding: 20px 0;
+            text-transform: capitalize;
+        }
+
+        > .output {
+            margin-bottom: 20px;
+        }
+    }
+
+    .code-viewer {
+        > .pre {
+            padding: 0;
+        }
+
+        &.-closed > .pre,
+        &.-closed > .copy {
+            display: none;
+        }
+
+        > .pre > .code {
+            padding: 10px;
+            border-radius: 4px;
+        }
+    }
+}
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .styleguide-block {
+        & {
+            padding-left: 220px;
+        }
+
+        > .nav {
+            width: 180px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            max-height: ~'calc(100% - 40px)';
+            overflow: auto;
+        }
+    }
+
+    .styleguide-item {
+        > .title {
+            .lib-font-size(35);
+            padding: 30px 0;
+        }
+    }
+}

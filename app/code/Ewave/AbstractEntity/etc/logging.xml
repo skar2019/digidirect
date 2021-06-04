@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<logging xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Logging:etc/logging.xsd">
+    <groups>
+        <group name="ewave_abstractentity">
+            <label translate="true">Ewave Abstract Entities</label>
+            <expected_models>
+                <expected_model class="Magento\Eav\Model\Entity\Attribute\Set" />
+            </expected_models>
+            <events>
+                <event controller_action="ewave_abstractentity_set_edit" action_alias="view" />
+                <event controller_action="ewave_abstractentity_set_save" action_alias="save" />
+                <event controller_action="ewave_abstractentity_set_delete" action_alias="delete" />
+            </events>
+        </group>
+        <group name="ewave_abstractentity_option">
+            <label translate="true">Ewave Abstract Entities Options</label>
+            <expected_models>
+                <expected_model class="Ewave\AbstractEntity\Model\AbstractEntity" />
+            </expected_models>
+            <events>
+                <event controller_action="ewave_abstractentity_abstractentity_edit" action_alias="view" />
+                <event controller_action="ewave_abstractentity_abstractentity_save" action_alias="save" />
+                <event controller_action="ewave_abstractentity_abstractentity_delete" action_alias="delete" />
+            </events>
+        </group>
+    </groups>
+</logging>

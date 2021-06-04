@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Ewave_AbstractAttributes::attributes" title="Attributes" translate="title"
+             module="Ewave_AbstractAttributes" sortOrder="10" parent="Ewave_Utilities::ewave"
+             dependsOnModule="Ewave_Utilities" resource="Ewave_AbstractAttributes::attributes"/>
+        <add id="Ewave_AbstractAttributes::manage" title="Manage Attributes Options" translate="title"
+             module="Ewave_AbstractAttributes" action="eaa/option/grid" sortOrder="20"
+             parent="Ewave_AbstractAttributes::attributes" resource="Ewave_AbstractAttributes::manage"/>
+    </menu>
+</config>

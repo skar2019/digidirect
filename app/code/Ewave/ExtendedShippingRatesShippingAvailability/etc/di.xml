@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\ExtendedShippingRatesShippingAvailability\Api\ZoneCheckManagementInterface" type="Ewave\ExtendedShippingRatesShippingAvailability\Model\ZoneCheckManagement"/>
+
+    <type name="Ewave\ShippingAvailabilityCheck\Model\CheckManagement">
+        <plugin name="Ewave_ExtendedShippingRatesShippingAvailability::CheckManagement"
+                type="Ewave\ExtendedShippingRatesShippingAvailability\Plugin\ShippingAvailabilityCheck\Model\CheckManagement" sortOrder="10"/>
+    </type>
+</config>

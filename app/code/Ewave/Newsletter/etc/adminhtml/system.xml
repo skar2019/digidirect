@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="newsletter">
+            <tab>customer</tab>
+            <group id="subscription">
+                <field id="enable_subscribe_on_checkout" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Subscribe on Checkout</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="subscribe_on_checkout_text" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Subscribe Checkbox Text</label>
+                    <depends>
+                        <field id="enable_subscribe_on_checkout">1</field>
+                    </depends>
+                    <frontend_class>required-entry</frontend_class>
+                </field>
+                <field id="storefront_fields" translate="label" type="multiselect" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Additional Fields To Be Shown On Storefront</label>
+                    <source_model>Ewave\Newsletter\Model\Config\StoreFrontFields</source_model>
+                </field>
+                <field id="use_billing_info_for_guest" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Use Billing Address First And Last Name For Guest Customer Newsletter</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable_subscribe_on_checkout">1</field>
+                    </depends>
+                </field>
+                <field id="enable_success_email" translate="label" type="select" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Success Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_unsubscribtion_email" translate="label" type="select" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Enable Unsubscription Email</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="enable_subscribe_on_paypal_review_page" translate="label" type="select" sortOrder="310" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Subscribe on PayPal Review Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="subscribers_grid_additional_customer_attributes" translate="label" type="multiselect" sortOrder="400" showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>Newsletter Subscribers Grid Additional Customer Attributes</label>
+                    <source_model>Ewave\Newsletter\Model\Config\CustomerAttributes</source_model>
+                    <comment>Selected attributes will be added to the Newsletter Subscribers grid in backoffice and will be used in CSV file export</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

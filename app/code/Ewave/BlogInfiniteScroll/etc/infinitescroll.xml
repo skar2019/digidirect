@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:ewave:module:Ewave_InfiniteScroll:etc/infinitescroll.xsd">
+    <scroll name="blog_post">
+        <config handle="blog_index_index" instance="Ewave\BlogInfiniteScroll\Model\Blog\Processor" selector=".product-items"/>
+    </scroll>
+    <scroll name="blog_category">
+        <config handle="blog_category_index" instance="Ewave\BlogInfiniteScroll\Model\BlogCategory\Processor" selector=".product-items"/>
+    </scroll>
+</config>

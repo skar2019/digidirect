@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Ewave_ExtendedShippingRates::extendedshippingrates"
+             title="Extended Shipping Rates"
+             module="Ewave_ExtendedShippingRates"
+             parent="Ewave_Utilities::ewave"
+             sortOrder="10"
+             resource="Ewave_ExtendedShippingRates::extendedshippingrates"/>
+        <add id="Ewave_ExtendedShippingRates::extendedshippingrates_quote"
+             title="Shipping Rules &amp; Restrictions"
+             module="Ewave_ExtendedShippingRates"
+             parent="Ewave_ExtendedShippingRates::extendedshippingrates"
+             sortOrder="10"
+             action="ewave_extendedshippingrates/extendedshippingrates_quote/"
+             dependsOnModule="Magento_Sales"
+             resource="Ewave_ExtendedShippingRates::quote"
+        />
+        <add id="Ewave_ExtendedShippingRates::extendedshippingrates_carrier"
+             title="Shipping Carriers"
+             module="Ewave_ExtendedShippingRates"
+             parent="Ewave_ExtendedShippingRates::extendedshippingrates"
+             sortOrder="15"
+             action="ewave_extendedshippingrates/extendedshippingrates_carrier/"
+             dependsOnModule="Magento_Sales"
+             resource="Ewave_ExtendedShippingRates::carrier"
+                />
+        <add id="Ewave_ExtendedShippingRates::extendedshippingrates_method"
+             title="Shipping Methods"
+             module="Ewave_ExtendedShippingRates"
+             parent="Ewave_ExtendedShippingRates::extendedshippingrates"
+             sortOrder="20"
+             action="ewave_extendedshippingrates/extendedshippingrates_method/"
+             dependsOnModule="Magento_Sales"
+             resource="Ewave_ExtendedShippingRates::carrier"
+                />
+        <add id="Ewave_ExtendedShippingRates::extendedshippingrates_zone"
+             title="Shipping Zones"
+             module="Ewave_ExtendedShippingRates"
+             parent="Ewave_ExtendedShippingRates::extendedshippingrates"
+             sortOrder="25"
+             action="ewave_extendedshippingrates/extendedshippingrates_zone/"
+             dependsOnModule="Magento_Sales"
+             resource="Ewave_ExtendedShippingRates::zone"
+                />
+    </menu>
+</config>

@@ -1,0 +1,212 @@
+//
+//  Navigation variables
+//  _____________________________________________
+
+//
+//  General Variables
+//  ---------------------------------------------
+
+@menu__margin: 0;
+@menu__padding: 0;
+@navigation-wrapper__margin-bottom: 20px;
+@main-nav-horizontal__padding: 0 8px;
+@main-nav-horizontal__background-color: @secondary__color__light;
+
+//
+//  Items' Variables
+//  ---------------------------------------------
+
+@main-nav-desktop-level0-item__line-height: 53px;
+@main-nav-desktop-horizontal-level0-item__font-size: 15px;
+@main-nav-desktop-horizontal-level0-item__font-weight: @font-weight__bold;
+@main-nav-desktop-level0-item__margin: 0 @indent__s 0 0;
+@main-nav-desktop-level0-item__padding: 0 12px;
+@main-nav-desktop-item__text-transform: uppercase;
+@main-nav-desktop-level0-item__color: @color-gray34;
+@main-nav-desktop-level0-item__text-transform: none;
+@main-nav-desktop-level0-item__text-decoration: none;
+@main-nav-desktop-level0-item__hover__text-decoration: none;
+@main-nav-desktop-level0-item__active__border-color: @color-orange-red1;
+@main-nav-desktop-level0-item__active__border-style: solid;
+@main-nav-desktop-level0-item__active__border-width: 0 0 3px;
+
+//
+//  Sub Menu Variables
+//  ---------------------------------------------
+
+@main-submenu-desktop__background: @page__background-color;
+@main-submenu-desktop__border-width: @border-width__base;
+@main-submenu-desktop__border-style: solid;
+@main-submenu-desktop__border-color: @border-color__base;
+@main-submenu-desktop__box-shadow: 0 @indent__xs @indent__xs rgba(0, 0, 0, .19);
+@main-submenu-desktop__font-size: 16px;
+@main-submenu-desktop__font-weight: @font-weight__regular;
+@main-submenu-desktop__min-width: 230px;
+
+//
+//  Horizontal Sub Menu Mixin Variables
+//  ---------------------------------------------
+
+@main-horizontal-submenu-desktop__background: @main-submenu-desktop__background;
+@main-horizontal-submenu-desktop__border-width: @border-width__base;
+@main-horizontal-submenu-desktop__border-style: solid;
+@main-horizontal-submenu-desktop__border-color: @main-submenu-desktop__border-color;
+@main-horizontal-submenu-desktop__box-shadow: 0 @indent__xs @indent__xs rgba(0, 0, 0, .19);
+@main-horizontal-submenu-desktop__font-size: 16px;
+@main-horizontal-submenu-desktop__font-weight: @font-weight__regular;
+@main-horizontal-submenu-desktop__min-width: 230px;
+@main-horizontal-submenu-desktop__padding: 0 0 15px;
+@main-horizontal-submenu-desktop__white-space: nowrap;
+@main-horizontal-submenu-desktop__inner__top: 0;
+@main-horizontal-submenu-desktop__z-index: 10;
+@main-horizontal-submenu-desktop__display: block;
+@main-horizontal-submenu-desktop__left: -9999px;
+@main-horizontal-submenu-desktop__top: auto;
+@main-horizontal-submenu-desktop__open__left: auto;
+@main-horizontal-submenu-desktop-block__display: table-cell;
+@main-horizontal-submenu-desktop-block__vertical-align: top;
+@main-horizontal-submenu-desktop-block__white-space: normal;
+@main-horizontal-submenu-desktop-item__padding: 8px @indent__base;
+@main-horizontal-submenu-desktop-item__color: @main-nav-desktop-level0-item__color;
+@main-horizontal-submenu-desktop-item__text-decoration: none;
+@main-horizontal-submenu-desktop-item__hover__background: @secondary__color;
+@main-horizontal-submenu-desktop-item__hover__color: @primary__color;
+@main-horizontal-submenu-desktop-item__hover__text-decoration: none;
+@main-horizontal-submenu-desktop-item__active__border-color: @main-nav-desktop-level0-item__active__border-color;
+@main-horizontal-submenu-desktop-item__active__border-style: @main-nav-desktop-level0-item__active__border-style;
+@main-horizontal-submenu-desktop-item__active__border-width: @main-submenu-desktop-item__active__border-width;
+@main-horizontal-submenu-desktop-item__active__text-decoration: none;
+@main-horizontal-submenu-nesting-desktop__open__left: 100%;
+
+//
+//  Horizontal Menu Mixin Variables
+//  ---------------------------------------------
+
+@main-nav-horizontal-desktop__padding: @main-nav-horizontal__padding;
+@main-nav-horizontal-desktop__background-color: @main-nav-horizontal__background-color;
+@main-nav-horizontal-desktop-level0-item__font-size: 15px;
+@main-nav-horizontal-desktop-level0-item__font-weight: @font-weight__bold;
+@main-nav-horizontal-desktop-level0-item__line-height: @main-nav-desktop-level0-item__line-height;
+@main-nav-horizontal-desktop-level0-item__margin: @main-nav-desktop-level0-item__margin;
+@main-nav-horizontal-desktop-level0-item__padding: @main-nav-desktop-level0-item__padding;
+@main-nav-horizontal-desktop-level0-item__color: @main-nav-desktop-level0-item__color;
+@main-nav-horizontal-desktop-level0-item__text-transform: none;
+@main-nav-horizontal-desktop-level0-item__text-decoration: none;
+@main-nav-horizontal-desktop-level0-item__hover__text-decoration: none;
+@main-nav-horizontal-desktop-level0-item__active__border-color: @main-nav-desktop-level0-item__active__border-color;
+@main-nav-horizontal-desktop-level0-item__active__border-style: @main-nav-desktop-level0-item__active__border-style;
+@main-nav-horizontal-desktop-level0-item__active__border-width: 0 0 3px;
+@main-nav-horizontal-desktop-item__hover__color: @primary__color;
+
+//
+//  Vertical Expanded Menu Mixin Variables
+//  ---------------------------------------------
+
+@main-nav-vertical-expanded__background-color: @secondary__color__light;
+@main-nav-vertical-expanded-level0-item__padding: 8px 40px 8px 15px;
+@main-nav-vertical-expanded-level0-item__color: @main-nav-desktop-level0-item__color;
+@main-nav-vertical-expanded-level0-item__text-decoration: none;
+@main-nav-vertical-expanded-level0-item__border-color: @border-color__base;
+@main-nav-vertical-expanded-level0-item__border-style: solid;
+@main-nav-vertical-expanded-level0-item__border-width: 1px 0 0;
+@main-nav-vertical-expanded-level0-item__font-weight: 700;
+@main-nav-vertical-expanded-level0-item__font-size: 1.6rem;
+@main-nav-vertical-expanded-level0-item__text-transform: uppercase;
+@main-nav-vertical-expanded-submenu__border-color: @border-color__base;
+@main-nav-vertical-expanded-submenu-item__active__border-width: @main-submenu-desktop-item__active__border-width;
+@main-nav-vertical-expanded-submenu-item__active__border-color: @main-nav-desktop-level0-item__active__border-color;
+@main-nav-vertical-expanded-submenu-item__active__border-style: @main-nav-desktop-level0-item__active__border-style;
+@main-nav-vertical-expanded-submenu__padding: 0 0 0 15px;
+
+//
+//  Vertical Menu Mixin Variables
+//  ---------------------------------------------
+
+@main-nav-vertical__background-color: @secondary__color__light;
+@main-nav-vertical__width: 230px;
+@main-nav-vertical-item-level0__font-weight: 700;
+@main-nav-vertical-item-level0__text-transform: uppercase;
+@main-nav-vertical-item-level0__hover__color: @primary__color;
+@main-nav-vertical-item-level0__hover__text-decoration: none;
+@main-nav-vertical-item-level0__active__border-color: @main-nav-desktop-level0-item__active__border-color;
+@main-nav-vertical-item-level0__active__border-style: @main-nav-desktop-level0-item__active__border-style;
+@main-nav-vertical-item-level0__active__border-width: @main-submenu-desktop-item__active__border-width;
+@main-nav-vertical-item__padding: 8px 40px 8px 15px;
+@main-nav-vertical-item__font-size: 16px;
+@main-nav-vertical-item__text-decoration: none;
+@main-nav-vertical-item__color: @main-nav-desktop-level0-item__color;
+@main-nav-vertical-sub-menu__background-color: @color-white-fog;
+@main-nav-vertical-sub-menu__border-style: @main-submenu-desktop-item__active__border-width;
+@main-nav-vertical-sub-menu__border-width: @border-width__base;
+@main-nav-vertical-sub-menu__border-color: @border-color__base;
+@main-nav-vertical-sub-menu-inner__top: 0;
+@main-nav-vertical-sub-menu__z-index: 100;
+@main-nav-vertical-sub-menu__min-width: 230px;
+@main-nav-vertical-sub-menu__hover__background: @secondary__color__light;
+@main-nav-vertical-sub-menu__active__border-width: @main-submenu-desktop-item__active__border-width;
+@main-nav-vertical-sub-menu__active__border-color: @main-nav-desktop-level0-item__active__border-color;
+@main-nav-vertical-sub-menu__active__border-style: @main-nav-desktop-level0-item__active__border-style;
+
+//
+//  Sub Menu items' Variables
+//  ---------------------------------------------
+
+@main-nav-item_defaul_padding: 8px 40px 8px 15px;
+@main-submenu-desktop-item__padding: 8px @indent__base;
+@main-submenu-desktop-item__color: @main-nav-desktop-level0-item__color;
+@main-submenu-desktop-item__text-decoration: none;
+@main-submenu-desktop-item__hover__background: @secondary__color;
+@main-submenu-desktop-item__hover__color: @primary__color;
+@main-submenu-desktop-item__hover__text-decoration: none;
+@main-submenu-expanded-padding: 0 0 0 15px;
+@main-submenu-desktop-item__active__border-color: @main-nav-desktop-level0-item__active__border-color;
+@main-submenu-desktop-item__active__border-style: @main-nav-desktop-level0-item__active__border-style;
+@main-submenu-desktop-item__active__border-width: 0 0 0 3px;
+@main-submenu-desktop-item__active__text-decoration: none;
+
+//
+//  Off Canvas Variables
+//  ---------------------------------------------
+
+@offcanvas-menu-indent: 50px;
+@navigation-wrapper-offcanvas__width: 85%;
+@navigation-wrapper-offcanvas__background-color: @color-white;
+
+@offcanvas-toggler__left: 15px;
+@offcanvas-toggler__top: 15px;
+@offcanvas-toggler__background-color: #fff;
+@offcanvas-toggler__width: 30px;
+@offcanvas-toggler__height: 30px;
+@offcanvas-toggler__font-size: 0;
+@offcanvas-toggler__z-index: 14;
+@offcanvas-toggler__after__background-color: rgba(0, 0, 0, .5);
+
+//
+//  CMS Variables
+//  ---------------------------------------------
+
+@nav-cms-block__padding: 0 10px;
+@nav-cms-block__margin: 0 10px;
+@nav-cms-block__text-transform: none;
+@nav-cms-block__background: @color-white;
+
+@nav-cms-block__color: @color-black;
+
+//
+//  Vertical Links Mixin Variables
+//  ---------------------------------------------
+
+@menu-item__active__color : #000;
+@menu-item__active__text-decoration: none;
+
+//
+//  Menu Item: Content
+//  ---------------------------------------------
+
+@nav-content-block__position: false;
+@nav-content-block__min-width: 200px;
+@nav-content-block__max-width: 300px;
+@nav-content-block__margin: false;
+@nav-content-block__padding: 10px 20px 10px 50px;
+@nav-content-block__color: false;
+@nav-content-block__background: false;

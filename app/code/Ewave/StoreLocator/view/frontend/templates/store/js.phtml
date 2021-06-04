@@ -1,0 +1,22 @@
+<?php
+/** @var \Ewave\StoreLocator\Block\ListStore\DetailPage $block */
+$currentApi = $this->helper('Ewave\StoreLocator\Helper\Config')->getApi();
+?>
+<?php if ($currentApi === 'google') : ?>
+    <script type="text/x-magento-init">
+        {
+            ".store-view": {
+                "locator": {
+                    "defaultAddress": "<?php echo $block->escapeHtml($block->getDefaultCountry()) ?>",
+                    "defaultCountryCode": "<?php echo $block->escapeHtml($block->getDefaultCountryCode()) ?>",
+                    "search": {"onLoad": false},
+                    "mapInline": {
+                        "enable": true,
+                        "item": <?php /* @escapeNotVerified */ echo $block->getStoreData() ?>
+                    },
+                    "radius": {"enable": false}
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

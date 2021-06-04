@@ -1,0 +1,6 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Ewave_GiftCardImage::gift_card_image_section" title="Gift Card Images" translate="title" module="Ewave_GiftCardImage" sortOrder="60" parent="Ewave_Utilities::ewave" dependsOnModule="Ewave_Utilities" resource="Ewave_GiftCardImage::gift_card_image" />
+        <add id="Ewave_GiftCardImage::gift_card_image" title="Gift Card Images" translate="title" module="Ewave_GiftCardImage" sortOrder="60" parent="Ewave_GiftCardImage::gift_card_image_section" dependsOnModule="Ewave_Utilities" resource="Ewave_GiftCardImage::gift_card_image" action="ewave_giftcardimage" />
+    </menu>
+</config>

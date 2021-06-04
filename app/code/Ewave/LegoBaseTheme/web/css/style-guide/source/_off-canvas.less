@@ -1,0 +1,203 @@
+//  # Off-canvas Component
+
+//  Represents the decision for off-canvas element.
+//  Use <code>.trigger-offcanvas</code> for trigger and <code>.offcanvas-panel</code> for offcanvas panels.
+//  Class <code>.-move-body</code> can be added for global wrapper (default one is body) if moveBodyOnOpen js setting is setted to true.
+
+//  ## Basic Off-canvas
+//```html
+//    <div class="trigger-offcanvas" data-container="#example-panel-1" data-mage-init='{"offcanvas": {}}'>
+//      Trigger of #example-panel-1 panel</div>
+//    <div class="trigger-offcanvas" data-container=".example-panel-2" data-mage-init='{"offcanvas": {"trigger": "[data-action=trigger-offcanvas]"}}'>
+//      Trigger of .example-panel-2 panel
+//    </div>
+//
+//    <div id="example-panel-1" class="offcanvas-panel offcanvas-left" aria-hidden="true">
+//      I am the First offcanvas panel.
+//    </div>
+//
+//    <div class="offcanvas-panel offcanvas-right example-panel-2" aria-hidden="true">
+//      I am the Second offcanvas panel.
+//      <button type="button" data-container="#example-panel-1" data-action="trigger-offcanvas">Close</button>
+//    </div>
+//```
+
+@import "../../source/components/ewave/_off-canvas.less";
+
+//  # Mixins
+
+//  <p><strong>ewave-lib-offcanvas-trigger();</strong><br />
+//  Contains default styles for offcanvas trigger element <br />
+//  <strong>@_active-class</strong> - common active class for off-canvas component<br />
+//  <strong>@_width</strong> - wight of the trigger element, ex: 10px <br />
+//  <strong>@_height</strong> - height of the trigger element, ex: 10px <br />
+//  <strong>@_background</strong> - background color of the trigger element <br />
+//  <strong>@_color</strong> - text color of the trigger element<br />
+//  <strong>@_text-align</strong> - text align of the trigger element<br />
+//  <strong>@_cursor</strong> - cursor type of hover state of the trigger element <br />
+//  <strong>@_overlay-background</strong> - overlay's background color of the trigger element <br />
+//  <strong>@_overlay-z-index</strong> - overlay's z-index of the trigger element<br />
+//  <strong>@_overlay-opacity</strong> - overlay's opacity of the trigger element</p> <br />
+
+// # Default variables
+
+//  <pre>
+//    <table>
+//        <tr>
+//            <th class="vars_head">Component variable</th>
+//            <th class="vars_head">Default value</th>
+//            <th class="vars_head">Allowed values</th>
+//            <th class="vars_head">Comment</th>
+//        </tr>
+//        <tr>
+//            <th>@hide-offcanvas__desktop</th>
+//            <td>true</td>
+//            <td>false | true</td>
+//            <td>Hide trigger elements, if offcanvas hidden for desktop. Desktop offcanvas styles will not generated, if TRUE is setted. </td>
+//        </tr>
+//        <tr>
+//            <th>@hide-offcanvas__tablet</th>
+//            <td>true</td>
+//            <td>false | true</td>
+//            <td>Hide trigger elements, if offcanvas hidden for tablet. Tablet offcanvas styles will not generated, if TRUE is setted. </td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__active-class</th>
+//            <td>.-active</td>
+//            <td>String value</td>
+//            <td>Common active class for all offcanvas elements defines active state. Should be the same as JS setting value. </td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__width</th>
+//            <td>70%</td>
+//            <td>Xpx, X%</td>
+//            <td>Offcanvas panels common(mobile) width.</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__width__tablet</th>
+//            <td>40%</td>
+//            <td>Xpx, X%</td>
+//            <td>Offcanvas panels tablet width.</td>
+//        </tr>
+//        <tr>
+//            <th>@@offcanvas__width__desktop</th>
+//            <td>30%</td>
+//            <td>Xpx, X%</td>
+//            <td>Offcanvas panels desktop width.</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__height/th>
+//            <td>100%</td>
+//            <td>Xpx, X%</td>
+//            <td>Offcanvas panels height</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__position</th>
+//            <td>fixed</td>
+//            <td>Fixed, absolute, static, etc </td>
+//            <td>Offcanvas panels position</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__top</th>
+//            <td>0</td>
+//            <td>Xpx</td>
+//            <td>Offcanvas panels top position</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__color</th>
+//            <td>@color-black</td>
+//            <td>Any color value</td>
+//            <td>Offcanvas panels text color</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__font-size</th>
+//            <td>14px</td>
+//            <td>Xpx</td>
+//            <td>Offcanvas panels font size</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__font-family</th>
+//            <td>@font-family__base</td>
+//            <td>Any font family value</td>
+//            <td>Offcanvas panels font family</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__padding</th>
+//            <td>10px</td>
+//            <td>Xpx</td>
+//            <td>Offcanvas panels padding value</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__box-shadow-blur</th>
+//            <td>10px</td>
+//            <td>Xpx</td>
+//            <td>Offcanvas panels box shadow blur value</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas__box-shadow</th>
+//            <td>0 1px @offcanvas__box-shadow-blur @color-black</td>
+//            <td>Value for box-shadow property</td>
+//            <td>Offcanvas panels box shadow </td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-trigger__width</th>
+//            <td>30px</td>
+//            <td>Xpx</td>
+//            <td>Offcanvas trigger width</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-trigger__height</th>
+//            <td>30px</td>
+//            <td>Xpx</td>
+//            <td>Offcanvas trigger height</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-trigger__color</th>
+//            <td>@color-white</td>
+//            <td>Any color value</td>
+//            <td>Offcanvas trigger text color</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-trigger__background-color</th>
+//            <td>@color-black</td>
+//            <td>Any color value</td>
+//            <td>Offcanvas trigger background color</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-trigger__cursor</th>
+//            <td>pointer</td>
+//            <td>Any cursor value</td>
+//            <td>Offcanvas trigger hover cursor value</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-trigger__cursor</th>
+//            <td>pointer</td>
+//            <td>Any cursor value</td>
+//            <td>Offcanvas trigger hover cursor value</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-trigger__text-align</th>
+//            <td>center</td>
+//            <td>Any text align value</td>
+//            <td>Offcanvas trigger center</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-overlay__background-color</th>
+//            <td>@color-black</td>
+//            <td>Any color value</td>
+//            <td>Offcanvas overlay background color</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-overlay__opacity</th>
+//            <td>.3</td>
+//            <td>X</td>
+//            <td>Offcanvas overlay opacity</td>
+//        </tr>
+//        <tr>
+//            <th>@offcanvas-overlay__z-index</th>
+//            <td>100</td>
+//            <td>X</td>
+//            <td>Offcanvas overlay _z-index</td>
+//        </tr>
+//    </table>
+//  </pre>

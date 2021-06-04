@@ -1,0 +1,667 @@
+//
+//  Video js
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+//  Video
+@vjs-video__position: false;
+@vjs-video__top: false;
+@vjs-video__left: false;
+@vjs-video__width: 100%;
+@vjs-video__height: 100%;
+@vjs-video__background: transparent;
+
+@vjs-video-fullscreen__background: @color-black;
+
+//  Text track display
+@vjs-text-track-display__position: absolute;
+@vjs-text-track-display__top: 0;
+@vjs-text-track-display__left: 0;
+@vjs-text-track-display__bottom: 30px;
+@vjs-text-track-display__right: 0;
+@vjs-text-track-display__pointer-events: none;
+
+//  Slider
+@vjs-slider__position: relative;
+@vjs-slider__padding: 0;
+@vjs-slider__margin: 0 5px;
+@vjs-slider__background: @color-gray60;
+@vjs-slider__cursor: pointer;
+
+//  Play progress
+@vjs-play-progress__position: relative;
+@vjs-play-progress__height: 100%;
+@vjs-play-progress__background: @color-white-smoke;
+
+@vjs-play-progress-before__content: ' ';
+@vjs-play-progress-before__position: absolute;
+@vjs-play-progress-before__top: -3px;
+@vjs-play-progress-before__right: -3px;
+@vjs-play-progress-before__width: 9px;
+@vjs-play-progress-before__height: 9px;
+@vjs-play-progress-before__background: @vjs-play-progress__background;
+@vjs-play-progress-before__border-radius: 100%;
+
+//  Control progress
+@vjs-progress-control__display: flex;
+@vjs-progress-control__flex: auto;
+@vjs-progress-control__align-items: center;
+@vjs-progress-control__float: false;
+@vjs-progress-control__width: false;
+@vjs-progress-control__height: false;
+@vjs-progress-control__min-width: 40px;
+@vjs-progress-control__font-size: 9px;
+
+//  Holder progress
+@vjs-progress-holder__display: flex;
+@vjs-progress-holder__flex: auto;
+@vjs-progress-holder__padding: false;
+@vjs-progress-holder__margin: false;
+@vjs-progress-holder__width: false;
+@vjs-progress-holder__height: 3px;
+@vjs-progress-holder__background: false;
+@vjs-progress-holder__cursor: pointer;
+
+//  Load progress
+@vjs-progress-load__position: absolute;
+@vjs-progress-load__display: block;
+@vjs-progress-load__margin: 0;
+@vjs-progress-load__padding: 0;
+@vjs-progress-load__top: 0;
+@vjs-progress-load__left: 0;
+@vjs-progress-load__width: 0;
+@vjs-progress-load__height: 100%;
+
+//  Control
+@vjs-control__position: relative;
+@vjs-control__float: left;
+@vjs-control__padding: 0;
+@vjs-control__margin: 0;
+@vjs-control__width: 40px;
+@vjs-control__height: 100%;
+@vjs-control__font-size: false;
+@vjs-control__text-align: center;
+@vjs-control__background: false;
+@vjs-control__border: none;
+@vjs-control__border-radius: 0;
+
+@vjs-control-before__position: relative;
+@vjs-control-before__top: 0;
+@vjs-control-before__left: 0;
+@vjs-control-before__width: false;
+@vjs-control-before__height: false;
+@vjs-control-before__font-size: 8px;
+@vjs-control-before__line-height: normal;
+@vjs-control-before__text-align: center;
+
+//  Bar control
+@vjs-control-bar__display: none;
+@vjs-control-bar__position: absolute;
+@vjs-control-bar__left: 0;
+@vjs-control-bar__right: 0;
+@vjs-control-bar__bottom: 0;
+@vjs-control-bar__width: 100%;
+@vjs-control-bar__height: 30px;
+@vjs-control-bar__background: @color-gray34;
+
+@vjs-control-bar-started__display: flex;
+@vjs-control-bar-disabled__display: none;
+
+//  Text control
+@vjs-control-text__position: false;
+@vjs-control-text__display: none;
+@vjs-control-text__padding: false;
+@vjs-control-text__margin: false;
+@vjs-control-text__font-size: false;
+@vjs-control-text__line-height: false;
+
+//  Play control
+@vjs-play-control__display: false;
+@vjs-play-control__position: false;
+@vjs-play-control__padding: false;
+@vjs-play-control__margin: false;
+@vjs-play-control__width: false;
+@vjs-play-control__height: false;
+@vjs-play-control__overflow: false;
+@vjs-play-control__color: false;
+@vjs-play-control__font-size: false;
+@vjs-play-control__line-height: false;
+@vjs-play-control__text-align: false;
+@vjs-play-control__background: false;
+@vjs-play-control__border: false;
+@vjs-play-control__border-radius: false;
+@vjs-play-control__content: 'Play';
+
+@vjs-play-control__hover__color: false;
+@vjs-play-control__hover__background: false;
+
+//  Pause control
+@vjs-pause-control__content: 'Pause';
+
+//  Big play control
+@vjs-big-play-control__display: false;
+@vjs-big-play-control-playing__display: none;
+@vjs-big-play-control__position: absolute;
+@vjs-big-play-control__top: 60%;
+@vjs-big-play-control__right: false;
+@vjs-big-play-control__left: 50%;
+@vjs-big-play-control__z-index: 5;
+@vjs-big-play-control__width: 60px;
+@vjs-big-play-control__margin: -16px 0 0 -30px;
+@vjs-big-play-control__padding: 10px;
+@vjs-big-play-control__overflow: false;
+@vjs-big-play-control__font-size: 12px;
+@vjs-big-play-control__line-height: 1;
+@vjs-big-play-control__text-indent: false;
+@vjs-big-play-control__text-align: center;
+@vjs-big-play-control__color: @color-white;
+@vjs-big-play-control__background: @color-blue1;
+@vjs-big-play-control__border: none;
+@vjs-big-play-control__border-radius: 0;
+@vjs-big-play-control__content: 'Play';
+
+@vjs-big-play-control__hover__color: false;
+@vjs-big-play-control__hover__background: false;
+
+//  Fullscreen control
+@vjs-fullscreen-control__display: false;
+@vjs-fullscreen-control__position: false;
+@vjs-fullscreen-control__padding: false;
+@vjs-fullscreen-control__margin: false;
+@vjs-fullscreen-control__width: false;
+@vjs-fullscreen-control__height: false;
+@vjs-fullscreen-control__overflow: false;
+@vjs-fullscreen-control__font-size: false;
+@vjs-fullscreen-control__line-height: false;
+@vjs-fullscreen-control__text-align: false;
+@vjs-fullscreen-control__color: false;
+@vjs-fullscreen-control__background: false;
+@vjs-fullscreen-control__border: false;
+@vjs-fullscreen-control__border-radius: false;
+
+@vjs-fullscreen-control-enter__content: 'Full';
+@vjs-fullscreen-control-exit__content: 'Exit';
+
+//  Volume
+@vjs-volume-panel__position: false;
+@vjs-volume-panel__display: false;
+@vjs-volume-panel__padding: false;
+@vjs-volume-panel__margin: false;
+@vjs-volume-panel__width: auto;
+@vjs-volume-panel__height: false;
+
+@vjs-volume-panel-mobile__display: none;
+
+@vjs-volume-control__position: false;
+@vjs-volume-control__display: false;
+@vjs-volume-control__top: false;
+@vjs-volume-control__left: false;
+@vjs-volume-control__padding: false;
+@vjs-volume-control__margin: false;
+@vjs-volume-control__width: auto;
+@vjs-volume-control__height: false;
+
+@vjs-volume-mute-control__position: false;
+@vjs-volume-mute-control__display: false;
+@vjs-volume-mute-control__padding: false;
+@vjs-volume-mute-control__margin: false;
+@vjs-volume-mute-control__width: false;
+@vjs-volume-mute-control__height: false;
+@vjs-volume-mute-control__cursor: false;
+
+@vjs-volume-mute-control-muted__content: 'Muted';
+@vjs-volume-mute-control-low__content: 'Low';
+@vjs-volume-mute-control-mid__content: 'Mid';
+@vjs-volume-mute-control-high__content: 'High';
+
+@vjs-volume-bar__position: false;
+@vjs-volume-bar__display: false;
+@vjs-volume-bar__padding: false;
+@vjs-volume-bar__margin: 13.5px 15px;
+@vjs-volume-bar__width: 50px;
+@vjs-volume-bar__height: 3px;
+@vjs-volume-bar__background: false;
+
+@vjs-volume-level__position: absolute;
+@vjs-volume-level__padding: false;
+@vjs-volume-level__margin: false;
+@vjs-volume-level__width: 100%;
+@vjs-volume-level__height: 3px;
+@vjs-volume-level__background: @vjs-play-progress__background;
+
+@vjs-volume-level-before__content: ' ';
+@vjs-volume-level-before__position: absolute;
+@vjs-volume-level-before__display: block;
+@vjs-volume-level-before__font-size: inherit;
+@vjs-volume-level-before__width: 9px;
+@vjs-volume-level-before__height: 9px;
+@vjs-volume-level-before__top: -3px;
+@vjs-volume-level-before__right: -3px;
+@vjs-volume-level-before__border-radius: 100%;
+@vjs-volume-level-before__background: @vjs-play-progress__background;
+
+//  Time controls
+@vjs-time-control__position: false;
+@vjs-time-control__display: false;
+@vjs-time-control__padding: false;
+@vjs-time-control__margin: false;
+@vjs-time-control__width: false;
+@vjs-time-control__height: false;
+@vjs-time-control__color: @color-white-smoke;
+@vjs-time-control__font-size: 12px;
+@vjs-time-control__line-height: 30px;
+@vjs-time-control__text-align: false;
+
+//  Current time
+@vjs-current-time__position: false;
+@vjs-current-time__display: flex;
+@vjs-current-time__flex: none;
+@vjs-current-time__padding: 0 10px;
+@vjs-current-time__margin: false;
+@vjs-current-time__width: auto;
+@vjs-current-time__height: false;
+@vjs-current-time__color: false;
+@vjs-current-time__font-size: false;
+@vjs-current-time__line-height: false;
+@vjs-current-time__text-align: false;
+
+//  Remaining time
+@vjs-remaining-time__position: false;
+@vjs-remaining-time__display: block;
+@vjs-remaining-time__flex: false;
+@vjs-remaining-time__padding: false;
+@vjs-remaining-time__margin: false;
+@vjs-remaining-time__width: false;
+@vjs-remaining-time__height: false;
+@vjs-remaining-time__color: false;
+@vjs-remaining-time__font-size: false;
+@vjs-remaining-time__line-height: false;
+@vjs-remaining-time__text-align: false;
+
+//  Tooltip time
+@vjs-tooltip-time__display: none;
+
+@vjs-custom-control-spacer__display: none;
+@vjs-hidden__display: none;
+
+//
+//  Common
+//  ---------------------------------------------
+& when (@use-banner-video = true) {
+    & when (@media-common = true) {
+
+        .video {
+            .lib-css(background, @vjs-video__background);
+
+            &.vjs-fullscreen {
+                .lib-css(background, @vjs-video-fullscreen__background);
+            }
+
+            &.vjs-playing .vjs-big-play-button {
+                .lib-css(display, @vjs-big-play-control-playing__display);
+            }
+
+            &.vjs-controls-disabled {
+                .vjs-control-bar {
+                    .lib-css(display, @vjs-control-bar-disabled__display);
+                }
+            }
+        }
+
+        .vjs-tech {
+            .lib-css(position, @vjs-video__position);
+            .lib-css(top, @vjs-video__top);
+            .lib-css(left, @vjs-video__left);
+            .lib-css(width, @vjs-video__width);
+            .lib-css(height, @vjs-video__height);
+        }
+
+        .vjs-control-bar {
+            .lib-css(display, @vjs-control-bar__display);
+            .lib-css(position, @vjs-control-bar__position);
+            .lib-css(left, @vjs-control-bar__left);
+            .lib-css(right, @vjs-control-bar__right);
+            .lib-css(bottom, @vjs-control-bar__bottom);
+            .lib-css(width, @vjs-control-bar__width);
+            .lib-css(height, @vjs-control-bar__height);
+            .lib-css(background, @vjs-control-bar__background);
+        }
+
+        .vjs-has-started {
+            > .vjs-control-bar {
+                .lib-css(display, @vjs-control-bar-started__display);
+            }
+        }
+
+        .vjs-slider {
+            .lib-css(position, @vjs-slider__position);
+            .lib-css(padding, @vjs-slider__padding);
+            .lib-css(margin, @vjs-slider__margin);
+            .lib-css(background, @vjs-slider__background);
+            .lib-css(cursor, @vjs-slider__cursor);
+        }
+
+        .vjs-text-track-display {
+            .lib-css(position, @vjs-text-track-display__position);
+            .lib-css(top, @vjs-text-track-display__top);
+            .lib-css(left, @vjs-text-track-display__left);
+            .lib-css(bottom, @vjs-text-track-display__bottom);
+            .lib-css(right, @vjs-text-track-display__right);
+            .lib-css(pointer-events, @vjs-text-track-display__pointer-events);
+        }
+
+        .vjs-control {
+            .lib-css(position, @vjs-control__position);
+            .lib-css(float, @vjs-control__float);
+            .lib-css(padding, @vjs-control__padding);
+            .lib-css(margin, @vjs-control__margin);
+            .lib-css(width, @vjs-control__width);
+            .lib-css(height, @vjs-control__height);
+            .lib-css(font-size, @vjs-control__font-size);
+            .lib-css(text-align, @vjs-control__text-align);
+            .lib-css(background, @vjs-control__background);
+            .lib-css(border, @vjs-control__border);
+            .lib-css(border-radius, @vjs-control__border-radius);
+
+            &::before {
+                .lib-css(position, @vjs-control-before__position);
+                .lib-css(top, @vjs-control-before__top);
+                .lib-css(left, @vjs-control-before__left);
+                .lib-css(width, @vjs-control-before__width);
+                .lib-css(height, @vjs-control-before__height);
+                .lib-css(font-size, @vjs-control-before__font-size);
+                .lib-css(line-height, @vjs-control-before__line-height);
+                .lib-css(text-align, @vjs-control-before__text-align);
+            }
+        }
+
+        .vjs-play-control {
+            .lib-css(display, @vjs-play-control__display);
+            .lib-css(position, @vjs-play-control__position);
+            .lib-css(padding, @vjs-play-control__padding);
+            .lib-css(margin, @vjs-play-control__margin);
+            .lib-css(width, @vjs-play-control__width);
+            .lib-css(height, @vjs-play-control__height);
+            .lib-css(overflow, @vjs-play-control__overflow);
+            .lib-css(font-size, @vjs-play-control__font-size);
+            .lib-css(line-height, @vjs-play-control__line-height);
+            .lib-css(text-align, @vjs-play-control__text-align);
+            .lib-css(color, @vjs-play-control__color);
+            .lib-css(background, @vjs-play-control__background);
+            .lib-css(border, @vjs-play-control__border);
+            .lib-css(border-radius, @vjs-play-control__border-radius);
+
+            &::before {
+                .lib-css(content, @vjs-play-control__content);
+            }
+        }
+
+        .vjs-playing .vjs-play-control {
+            &::before {
+                .lib-css(content, @vjs-pause-control__content);
+            }
+        }
+
+        .vjs-big-play-button {
+            .lib-css(display, @vjs-big-play-control__display);
+            .lib-css(position, @vjs-big-play-control__position);
+            .lib-css(top, @vjs-big-play-control__top);
+            .lib-css(right, @vjs-big-play-control__right);
+            .lib-css(left, @vjs-big-play-control__left);
+            .lib-css(z-index, @vjs-big-play-control__z-index);
+            .lib-css(width, @vjs-big-play-control__width);
+            .lib-css(margin, @vjs-big-play-control__margin);
+            .lib-css(padding, @vjs-big-play-control__padding);
+            .lib-css(border, @vjs-big-play-control__border);
+            .lib-css(overflow, @vjs-big-play-control__overflow);
+            .lib-css(font-size, @vjs-big-play-control__font-size);
+            .lib-css(line-height, @vjs-big-play-control__line-height);
+            .lib-css(text-align, @vjs-big-play-control__text-align);
+            .lib-css(text-indent, @vjs-big-play-control__text-indent);
+            .lib-css(color, @vjs-big-play-control__color);
+            .lib-css(background, @vjs-big-play-control__background);
+            .lib-css(border, @vjs-big-play-control__border);
+            .lib-css(border-radius, @vjs-big-play-control__border-radius);
+
+            &:hover {
+                .lib-css(color, @vjs-big-play-control__hover__color);
+                .lib-css(background, @vjs-big-play-control__hover__background);
+            }
+
+            &::before {
+                .lib-css(content, @vjs-big-play-control__content);
+            }
+        }
+
+        .vjs-fullscreen-control {
+            .lib-css(display, @vjs-fullscreen-control__display);
+            .lib-css(position, @vjs-fullscreen-control__position);
+            .lib-css(padding, @vjs-fullscreen-control__padding);
+            .lib-css(margin, @vjs-fullscreen-control__margin);
+            .lib-css(width, @vjs-fullscreen-control__width);
+            .lib-css(height, @vjs-fullscreen-control__height);
+            .lib-css(font-size, @vjs-fullscreen-control__font-size);
+            .lib-css(line-height, @vjs-fullscreen-control__line-height);
+            .lib-css(text-align, @vjs-fullscreen-control__text-align);
+            .lib-css(color, @vjs-fullscreen-control__color);
+            .lib-css(background, @vjs-fullscreen-control__background);
+            .lib-css(border, @vjs-fullscreen-control__border);
+            .lib-css(border-radius, @vjs-fullscreen-control__border-radius);
+
+            &::before {
+                .lib-css(content, @vjs-fullscreen-control-enter__content);
+            }
+        }
+
+        .vjs-fullscreen .vjs-fullscreen-control::before {
+            .lib-css(content, @vjs-fullscreen-control-exit__content);
+        }
+
+        .vjs-control-text {
+            .lib-css(position, @vjs-control-text__position);
+            .lib-css(display, @vjs-control-text__display);
+            .lib-css(padding, @vjs-control-text__padding);
+            .lib-css(margin, @vjs-control-text__margin);
+            .lib-css(font-size, @vjs-control-text__font-size);
+            .lib-css(line-height, @vjs-control-text__line-height);
+        }
+
+        .vjs-play-progress {
+            .lib-css(position, @vjs-play-progress__position);
+            .lib-css(height, @vjs-play-progress__height);
+            .lib-css(background, @vjs-play-progress__background);
+
+            &::before {
+                .lib-css(content, @vjs-play-progress-before__content);
+                .lib-css(position, @vjs-play-progress-before__position);
+                .lib-css(top, @vjs-play-progress-before__top);
+                .lib-css(right, @vjs-play-progress-before__right);
+                .lib-css(width, @vjs-play-progress-before__width);
+                .lib-css(height, @vjs-play-progress-before__height);
+                .lib-css(background, @vjs-play-progress-before__background);
+                .lib-css(border-radius, @vjs-play-progress-before__border-radius);
+            }
+        }
+
+        .vjs-progress-control {
+            .lib-css(display, @vjs-progress-control__display);
+            .lib-css(flex, @vjs-progress-control__flex);
+            .lib-css(align-items, @vjs-progress-control__align-items);
+            .lib-css(float, @vjs-progress-control__float);
+            .lib-css(width, @vjs-progress-control__width);
+            .lib-css(height, @vjs-progress-control__height);
+            .lib-css(min-width, @vjs-progress-control__min-width);
+            .lib-css(font-size, @vjs-progress-control__font-size);
+        }
+
+        .vjs-progress-holder {
+            .lib-css(display, @vjs-progress-holder__display);
+            .lib-css(flex, @vjs-progress-holder__flex);
+            .lib-css(padding, @vjs-progress-holder__padding);
+            .lib-css(margin, @vjs-progress-holder__margin);
+            .lib-css(width, @vjs-progress-holder__width);
+            .lib-css(height, @vjs-progress-holder__height);
+            .lib-css(background, @vjs-progress-holder__background);
+            .lib-css(cursor, @vjs-progress-holder__cursor);
+        }
+
+        .vjs-load-progress {
+            .lib-css(position, @vjs-progress-load__position);
+            .lib-css(display, @vjs-progress-load__display);
+            .lib-css(margin, @vjs-progress-load__margin);
+            .lib-css(padding, @vjs-progress-load__padding);
+            .lib-css(top, @vjs-progress-load__top);
+            .lib-css(left, @vjs-progress-load__left);
+            .lib-css(width, @vjs-progress-load__width);
+            .lib-css(height, @vjs-progress-load__height);
+        }
+
+        .vjs-volume-panel {
+            .lib-css(position, @vjs-volume-panel__position);
+            .lib-css(display, @vjs-volume-panel__display);
+            .lib-css(padding, @vjs-volume-panel__padding);
+            .lib-css(margin, @vjs-volume-panel__margin);
+            .lib-css(width, @vjs-volume-panel__width);
+            .lib-css(height, @vjs-volume-panel__height);
+        }
+
+        .vjs-volume-control {
+            .lib-css(position, @vjs-volume-control__position);
+            .lib-css(display, @vjs-volume-control__display);
+            .lib-css(top, @vjs-volume-control__top);
+            .lib-css(left, @vjs-volume-control__left);
+            .lib-css(padding, @vjs-volume-control__padding);
+            .lib-css(margin, @vjs-volume-control__margin);
+            .lib-css(width, @vjs-volume-control__width);
+            .lib-css(height, @vjs-volume-control__height);
+        }
+
+        .vjs-volume-bar {
+            .lib-css(position, @vjs-volume-bar__position);
+            .lib-css(display, @vjs-volume-bar__display);
+            .lib-css(padding, @vjs-volume-bar__padding);
+            .lib-css(margin, @vjs-volume-bar__margin);
+            .lib-css(width, @vjs-volume-bar__width);
+            .lib-css(height, @vjs-volume-bar__height);
+            .lib-css(background, @vjs-volume-bar__background);
+        }
+
+        .vjs-volume-level {
+            .lib-css(position, @vjs-volume-level__position);
+            .lib-css(padding, @vjs-volume-level__padding);
+            .lib-css(margin, @vjs-volume-level__margin);
+            .lib-css(width, @vjs-volume-level__width);
+            .lib-css(height, @vjs-volume-level__height);
+            .lib-css(background, @vjs-volume-level__background);
+
+            &::before {
+                .lib-css(content, @vjs-volume-level-before__content);
+                .lib-css(position, @vjs-volume-level-before__position);
+                .lib-css(display, @vjs-volume-level-before__display);
+                .lib-css(font-size, @vjs-volume-level-before__font-size);
+                .lib-css(width, @vjs-volume-level-before__width);
+                .lib-css(height, @vjs-volume-level-before__height);
+                .lib-css(top, @vjs-volume-level-before__top);
+                .lib-css(right, @vjs-volume-level-before__right);
+                .lib-css(border-radius, @vjs-volume-level-before__border-radius);
+                .lib-css(background, @vjs-volume-level-before__background);
+            }
+        }
+
+        .vjs-mute-control {
+            .lib-css(position, @vjs-volume-mute-control__position);
+            .lib-css(display, @vjs-volume-mute-control__display);
+            .lib-css(padding, @vjs-volume-mute-control__padding);
+            .lib-css(margin, @vjs-volume-mute-control__margin);
+            .lib-css(width, @vjs-volume-mute-control__width);
+            .lib-css(height, @vjs-volume-mute-control__height);
+            .lib-css(cursor, @vjs-volume-mute-control__cursor);
+
+            &::before {
+                .lib-css(content, @vjs-volume-mute-control-high__content);
+            }
+
+            &.vjs-vol-0::before {
+                .lib-css(content, @vjs-volume-mute-control-muted__content);
+            }
+
+            &.vjs-vol-1::before {
+                .lib-css(content, @vjs-volume-mute-control-low__content);
+            }
+
+            &.vjs-vol-2::before {
+                .lib-css(content, @vjs-volume-mute-control-mid__content);
+            }
+
+            &.vjs-vol-3::before {
+                .lib-css(content, @vjs-volume-mute-control-high__content);
+            }
+        }
+
+        .vjs-time-control {
+            .lib-css(position, @vjs-time-control__position);
+            .lib-css(display, @vjs-time-control__display);
+            .lib-css(padding, @vjs-time-control__padding);
+            .lib-css(margin, @vjs-time-control__margin);
+            .lib-css(width, @vjs-time-control__width);
+            .lib-css(height, @vjs-time-control__height);
+            .lib-css(color, @vjs-time-control__color);
+            .lib-css(font-size, @vjs-time-control__font-size);
+            .lib-css(line-height, @vjs-time-control__line-height);
+            .lib-css(text-align, @vjs-time-control__text-align);
+        }
+
+        .vjs-current-time {
+            .lib-css(position, @vjs-current-time__position);
+            .lib-css(display, @vjs-current-time__display);
+            .lib-css(flex, @vjs-current-time__flex);
+            .lib-css(padding, @vjs-current-time__padding);
+            .lib-css(margin, @vjs-current-time__margin);
+            .lib-css(width, @vjs-current-time__width);
+            .lib-css(height, @vjs-current-time__height);
+            .lib-css(color, @vjs-current-time__color);
+            .lib-css(font-size, @vjs-current-time__font-size);
+            .lib-css(line-height, @vjs-current-time__line-height);
+            .lib-css(text-align, @vjs-current-time__text-align);
+        }
+
+        .vjs-remaining-time {
+            .lib-css(position, @vjs-remaining-time__position);
+            .lib-css(display, @vjs-remaining-time__display);
+            .lib-css(flex, @vjs-remaining-time__flex);
+            .lib-css(padding, @vjs-remaining-time__padding);
+            .lib-css(margin, @vjs-remaining-time__margin);
+            .lib-css(width, @vjs-remaining-time__width);
+            .lib-css(height, @vjs-remaining-time__height);
+            .lib-css(color, @vjs-remaining-time__color);
+            .lib-css(font-size, @vjs-remaining-time__font-size);
+            .lib-css(line-height, @vjs-remaining-time__line-height);
+            .lib-css(text-align, @vjs-remaining-time__text-align);
+        }
+
+        .vjs-time-tooltip {
+            .lib-css(display, @vjs-tooltip-time__display);
+        }
+
+        .vjs-custom-control-spacer {
+            .lib-css(display, @vjs-custom-control-spacer__display);
+        }
+
+        .vjs-hidden {
+            .lib-css(display, @vjs-hidden__display);
+        }
+    }
+
+    //
+    //  Mobile
+    //  ---------------------------------------------
+
+    .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+        .vjs-volume-panel {
+            .lib-css(display, @vjs-volume-panel-mobile__display);
+        }
+    }
+}

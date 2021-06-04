@@ -1,0 +1,275 @@
+// # Loaders
+
+//  A page loader is an animation a visitor sees while the page or an element is loaded. During this time a page is blocked with overlay.
+
+// ####Default loader markup
+//```html
+//     <div class="loading-mask" data-role="loader">
+//      <div class="loader">
+//        <img alt="loading" src="./images/loader_example.gif">
+//        <p>Your text</p>
+//      </div>
+//    </div>
+// ```
+.loading-mask {
+    & {
+        .lib-css(background, @ewaveloader-mask__background);
+        .lib-loading-mask();
+    }
+
+    .loader {
+        .loader();
+    }
+}
+
+//
+//  ####In block example
+//  ```html
+//
+//  <div style="width: 100%; height: 150px; background: grey">
+//  <div class="_block-content-loading" style="width: 50%;height: 100%; background-color: red;" >
+//      <div data-role="loader" class="loading-mask">
+//          <div class="loader">
+//              <img src="./images/loader_example.gif" alt="loading">
+//              <p>Your text<p>
+//          </div>
+//      </div>
+//  </div>
+// </div>
+//
+//
+//
+//
+//
+//  ```
+//
+
+._block-content-loading {
+    & {
+        position: relative;
+    }
+
+    > .loading-mask {
+        .lib-css(position, @block-loading-mask__position);
+        .lib-css(width, @block-loading-mask__width);
+        .lib-css(height, @block-loading-mask__height);
+    }
+
+    > .loading-mask > .loader {
+        .lib-css(position, @block-loader__position);
+    }
+
+    > .loading-mask > .loader > p {
+        .lib-css(display, @block-loader-text__display);
+    }
+}
+
+//   # Default loader variables
+//
+//   <pre>
+//       <table>
+//           <tr>
+//               <th class="vars_head">Mixin variable</th>
+//               <th class="vars_head">Global variable</th>
+//               <th class="vars_head">Default value</th>
+//               <th class="vars_head">Allowed values</th>
+//               <th class="vars_head">Comment</th>
+//           </tr>
+//           <tr>
+//               <th>@_loader__position</th>
+//               <td>@ewaveloader__position</td>
+//               <td class="vars_value">fixed</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader container positioning</td>
+//           </tr>
+//           <tr>
+//               <th>@_loader__top</th>
+//               <td>@ewaveloader__top</td>
+//               <td class="vars_value">50%</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader container top position</td>
+//           </tr>
+//           <tr>
+//               <th>@_loader__left</th>
+//               <td>@ewaveloader__left</td>
+//               <td class="vars_value">50%</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader container left position</td>
+//           </tr>
+//           <tr>
+//               <th>@_loader__padding</th>
+//               <td>@ewaveloader__padding</td>
+//               <td class="vars_value">0</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader container padding</td>
+//           </tr>
+//           <tr>
+//               <th>@_loader__margin</th>
+//               <td>@ewaveloader__margin</td>
+//               <td class="vars_value">0</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader container margin</td>
+//           </tr>
+//           <tr>
+//               <th>@_loader__background</th>
+//               <td>@ewaveloader__background</td>
+//               <td class="vars_value">false</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader container background</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader__border-width</th>
+//               <td>@ewaveloader__border-width</td>
+//               <td class="vars_value">false</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader container border width</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader__border-style</th>
+//               <td>@ewaveloader__border-style</td>
+//               <td class="vars_value">false</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader container border style</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader__border-color</th>
+//               <td>@ewaveloader__border-color</td>
+//               <td class="vars_value">false</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader icon icon color</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__margin</th>
+//               <td>@ewaveloader-text__margin</td>
+//               <td class="vars_value">0</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text margin</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__padding</th>
+//               <td>@ewaveloader-text__padding</td>
+//               <td class="vars_value">0</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text padding</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__color</th>
+//               <td>@ewaveloader-text__color</td>
+//               <td class="vars_value">@primary__color</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text color</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__background</th>
+//               <td>@ewaveloader-text__background</td>
+//               <td class="vars_value">false</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text background</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__border-width</th>
+//               <td>@ewaveloader-text__border-width</td>
+//               <td class="vars_value">false</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text border width</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__border-style</th>
+//               <td>@ewaveloader-text__border-style</td>
+//               <td class="vars_value">false</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text border style</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__border-color</th>
+//               <td>@ewaveloader-text__border-color</td>
+//               <td class="vars_value">false</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text border color</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__font-size</th>
+//               <td>@ewaveloader-text__font-size</td>
+//               <td class="vars_value">@font-size__base</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text font size</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__font-family</th>
+//               <td>@ewaveloader-text__font-family</td>
+//               <td class="vars_value">@font-family__base</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text font family</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__font-weight</th>
+//               <td>@ewaveloader-text__font-weight</td>
+//               <td class="vars_value">@font-weight__regular</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text font weight</td>
+//           </tr>
+//           <tr>
+//               <th nowrap="nowrap">@_loader-text__font-style</th>
+//               <td>@ewaveloader-text__font-style</td>
+//               <td class="vars_value">@font-style__base</td>
+//               <td class="vars_value">'' | false | value</td>
+//               <td>Loader text font style</td>
+//           </tr>
+//       </table>
+//   </pre>
+
+.loader (
+    @_loader__position: @ewaveloader__position;
+    @_loader__top: @ewaveloader__top;
+    @_loader__left: @ewaveloader__left;
+    @_loader__padding: @ewaveloader__padding;
+    @_loader__margin: @ewaveloader__margin;
+    @_loader__background: @ewaveloader__background;
+    @_loader__border-width: @ewaveloader__border-width;
+    @_loader__border-style: @ewaveloader__border-style;
+    @_loader__border-color: @ewaveloader__border-color;
+
+    @_loader-img__margin: @ewaveloader-img__margin;
+
+    @_loader-text__margin: @ewaveloader-text__margin;
+    @_loader-text__padding: @ewaveloader-text__padding;
+    @_loader-text__color: @ewaveloader-text__color;
+    @_loader-text__background: @ewaveloader-text__background;
+    @_loader-text__border-width: @ewaveloader-text__border-width;
+    @_loader-text__border-style: @ewaveloader-text__border-style;
+    @_loader-text__border-color: @ewaveloader-text__border-color;
+    @_loader-text__font-size: @ewaveloader-text__font-size;
+    @_loader-text__font-family: @ewaveloader-text__font-family;
+    @_loader-text__font-weight: @ewaveloader-text__font-weight;
+    @_loader-text__font-style: @ewaveloader-text__font-style;
+) {
+    .lib-css(position, @_loader__position);
+    .lib-css(top, @_loader__top);
+    .lib-css(left, @_loader__left);
+    .lib-css(padding, @_loader__padding);
+    .lib-css(margin, @_loader__margin);
+    .lib-css(background, @_loader__background);
+    .lib-css(border-width, @_loader__border-width);
+    .lib-css(border-style, @_loader__border-style);
+    .lib-css(border-color, @_loader__border-color);
+    .lib-css(transform, translate3d(-50%, -50%, 0), 1);
+    text-align: center;
+
+    > img {
+        .lib-css(margin, @_loader-img__margin);
+    }
+
+    > p {
+        .lib-css(margin, @_loader-text__margin);
+        .lib-css(padding, @_loader-text__padding);
+        .lib-css(color, @_loader-text__color);
+        .lib-css(background, @_loader-text__background);
+        .lib-css(border-width, @_loader-text__border-width);
+        .lib-css(border-style, @_loader-text__border-style);
+        .lib-css(border-color, @_loader-text__border-color);
+        .lib-css(font-size, @_loader-text__font-size);
+        .lib-css(font-family, @_loader-text__font-family);
+        .lib-css(font-weight, @_loader-text__font-weight);
+        .lib-css(font-style, @_loader-text__font-style);
+    }
+}

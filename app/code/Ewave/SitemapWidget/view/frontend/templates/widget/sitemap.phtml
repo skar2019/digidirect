@@ -1,0 +1,45 @@
+<?php
+/**  @var \Ewave\SitemapWidget\Block\Widget\Sitemap $block */
+$products = $block->getProducts();
+$categories = $block->getCategories();
+$cmsPages = $block->getCMSPages();
+$additionalEntities = $block->getAdditionalEntities();
+?>
+
+<h1><?= /* @escapeNotVerified */ __('Sitemap') ?></h1>
+
+<?php if ($block->getShowProducts() && !empty($products)) : ?>
+    <h3><?= /* @escapeNotVerified */ __('Products') ?></h3>
+    <ul>
+        <?php foreach ($products as $product) : ?>
+            <li>
+                <a href="<?= /* @escapeNotVerified */ $product['url'] ?>"><?= $block->escapeHtml($product['name']) ?></a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<?php if ($block->getShowCategories() && !empty($categories)) : ?>
+    <h3><?= /* @escapeNotVerified */ __('Categories') ?></h3>
+    <?php echo $block->categoriesTreeToHtml($categories) ?>
+<?php endif; ?>
+
+<?php if (!empty($cmsPages)) : ?>
+    <h3><?= /* @escapeNotVerified */ __('Pages') ?></h3>
+    <ul>
+        <?php foreach ($cmsPages as $cmsPage) : ?>
+            <li>
+                <a href="<?= /* @escapeNotVerified */ $cmsPage['url'] ?>"><?= $block->escapeHtml($cmsPage['title']) ?></a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<?php if (!empty($additionalEntities)) : ?>
+    <?php foreach ($additionalEntities as $additionalEntity) : ?>
+        <h3><?= /* @escapeNotVerified */ $additionalEntity->getTitle() ?></h3>
+        <ul>
+            <?php echo $block->entitiesTreeToHtml($additionalEntity); ?>
+        </ul>
+    <?php endforeach; ?>
+<?php endif; ?>

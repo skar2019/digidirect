@@ -1,0 +1,59 @@
+//
+//  Banner
+//  _____________________________________________
+
+@banner-textarea__width: 100%;
+
+& when (@media-common = true) {
+    .admin__field {
+        & textarea {
+            .lib-css(width, @banner-textarea__width);
+        }
+    }
+
+    #row_ewave_banner_developer_banner_configuration {
+        .label {
+            width: 0;
+            display: none;
+        }
+        .value {
+            width: 100%;
+            padding-right: 0;
+        }
+
+        tr td:nth-child(3) {
+            width: 7%;
+        }
+        tr td:nth-child(4) {
+            width: 8%;
+        }
+        tr td:nth-child(5) {
+            width: 10%;
+        }
+        tr td:nth-child(7) {
+            width: 15%;
+        }
+        tr td:nth-child(8) {
+            width: 6%;
+        }
+
+        li {
+            list-style: none;
+        }
+    }
+
+    .banner-imagepanel {
+        & {
+            position: relative;
+        }
+        .admin__field-label {
+            .lib-css(text-transform, capitalize);
+        }
+        .loading-mask {
+            position: absolute;
+        }
+        .loader {
+            background-color: transparent;
+        }
+    }
+}

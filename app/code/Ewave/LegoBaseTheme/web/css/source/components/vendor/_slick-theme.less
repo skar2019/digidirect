@@ -1,0 +1,179 @@
+//
+//  Slick Theme
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@slick-theme__is-enabled: true; // Enable/disable styles
+
+@slick-loader-path: @baseDir;
+@slick-loader__background: #fff url('@{slick-loader-path}images/loader-2.gif') 50% 50% no-repeat;
+
+@slick-arrow-left__left: 0;
+@slick-arrow-right__right: 0;
+@slick-arrow__top: 50%;
+@slick-arrow__z-index: 2;
+@slick-arrow__width: 32px;
+@slick-arrow__height: @slick-arrow__width;
+@slick-arrow__margin: false;
+@slick-arrow__padding: 0 5px;
+@slick-arrow__border: false;
+@slick-arrow__font-size: 12px;
+@slick-arrow__line-height: @slick-arrow__height;
+@slick-arrow__text-align: center;
+@slick-arrow__color: @color-white;
+@slick-arrow__background: @color-black;
+@slick-arrow__hover__border: @slick-arrow__border;
+@slick-arrow__hover__color: @color-black;
+@slick-arrow__hover__background: @color-white;
+@slick-arrow__disabled__border: @slick-arrow__border;
+@slick-arrow__disabled__color: @color-black;
+@slick-arrow__disabled__background: #ccc;
+
+@slick-dot__bottom: 0;
+@slick-dot__padding: 0;
+@slick-dot__margin: 0;
+@slick-dot__width: 100%;
+@slick-dot-item__display: inline-block;
+@slick-dot-item__margin: 0 5px;
+@slick-dot-item__padding: 5px;
+@slick-dot-item__border: 1px solid #fff;
+@slick-dot-item__font-size: 10px;
+@slick-dot-item__line-height: 1;
+@slick-dot-item__vertical-align: top;
+@slick-dot-item__color: #fff;
+@slick-dot-item__background: #000;
+@slick-dot-item__active__border: 1px solid #000;
+@slick-dot-item__active__color: #000;
+@slick-dot-item__active__background: #fff;
+@slick-dot-button__width: 10px;
+@slick-dot-button__height: @slick-dot-button__width;
+
+@slick-opacity-default: 1;
+@slick-opacity-on-hover: .8;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    & when (@slick-theme__is-enabled = true) {
+        .slick-loading {
+            .slick-list {
+                .lib-css(background, @slick-loader__background);
+            }
+        }
+
+        // Arrows
+        .slick-prev,
+        .slick-next {
+            & {
+                position: absolute;
+                .lib-css(top, @slick-arrow__top);
+                .lib-css(z-index, @slick-arrow__z-index);
+                .lib-css(height, @slick-arrow__height);
+                .lib-css(width, @slick-arrow__width);
+                .lib-css(margin, @slick-arrow__margin);
+                .lib-css(padding, @slick-arrow__padding);
+                .lib-css(border, @slick-arrow__border);
+                .lib-css(line-height, @slick-arrow__line-height);
+                .lib-css(font-size, @slick-arrow__font-size);
+                .lib-css(text-align, @slick-arrow__text-align);
+                cursor: pointer;
+                .lib-css(transform, translate(0, -50%), 1);
+                .lib-css(color, @slick-arrow__color);
+                .lib-css(background, @slick-arrow__background);
+            }
+
+            &:hover,
+            &:focus {
+                .lib-css(border, @slick-arrow__hover__border);
+                .lib-css(color, @slick-arrow__hover__color);
+                .lib-css(background, @slick-arrow__hover__background);
+            }
+
+            &.slick-disabled {
+                .lib-css(border, @slick-arrow__disabled__border);
+                .lib-css(color, @slick-arrow__disabled__color);
+                .lib-css(background, @slick-arrow__disabled__background);
+                cursor: default;
+            }
+        }
+
+        .slick-prev {
+            & {
+                .lib-css(left, @slick-arrow-left__left);
+            }
+
+            &[dir='rtl'] {
+                left: auto;
+                .lib-css(right, @slick-arrow-right__right);
+            }
+        }
+
+        .slick-next {
+            & {
+                .lib-css(right, @slick-arrow-right__right);
+            }
+
+            &[dir='rtl'] {
+                .lib-css(left, @slick-arrow-left__left);
+                right: auto;
+            }
+        }
+
+        // Dots
+        .slick-dots {
+            & {
+                position: absolute;
+                .lib-css(bottom, @slick-dot__bottom);
+                .lib-css(width, @slick-dot__width);
+                .lib-css(margin, @slick-dot__margin);
+                .lib-css(padding, @slick-dot__padding);
+                list-style: none;
+                text-align: center;
+            }
+
+            li {
+                position: relative;
+                .lib-css(display, @slick-dot-item__display);
+                .lib-css(margin, @slick-dot-item__margin);
+                .lib-css(padding, @slick-dot-item__padding);
+                .lib-css(border, @slick-dot-item__border);
+                .lib-css(font-size, @slick-dot-item__font-size);
+                .lib-css(line-height, @slick-dot-item__line-height);
+                .lib-css(vertical-align, @slick-dot-item__vertical-align);
+                .lib-css(color, @slick-dot-item__color);
+                .lib-css(background, @slick-dot-item__background);
+                cursor: pointer;
+                .lib-css(opacity, @slick-opacity-default);
+
+                &:hover,
+                &:focus {
+                    .lib-css(opacity, @slick-opacity-on-hover);
+                }
+            }
+            li button {
+                display: block;
+                .lib-css(width, @slick-dot-button__width);
+                .lib-css(height, @slick-dot-button__height);
+                margin: 0;
+                padding: 0;
+                border: 0;
+                .lib-css(line-height, @slick-dot-button__height);
+                overflow: hidden;
+                color: transparent;
+                background: transparent;
+            }
+            li.slick-active {
+                .lib-css(border, @slick-dot-item__active__border);
+                .lib-css(color, @slick-dot-item__active__color);
+                .lib-css(background, @slick-dot-item__active__background);
+                cursor: default;
+                .lib-css(opacity, @slick-opacity-default);
+            }
+        }
+    }
+}

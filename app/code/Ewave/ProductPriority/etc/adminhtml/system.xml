@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="product_priority" translate="label" sortOrder="15"
+                 showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Product Priority</label>
+            <tab>ewave</tab>
+            <resource>Ewave_ProductPriority::product_priority_config</resource>
+            <group id="sort_settings" translate="label" type="text" sortOrder="10"
+                   showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Product Priority Settings</label>
+                <field id="is_active" translate="label" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Product Priority</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="sort_by" translate="label" type="select" sortOrder="20"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Sort By</label>
+                    <source_model>Ewave\ProductPriority\Model\Config\Source\Sort</source_model>
+                </field>
+                <field id="sort_by_period" translate="label" type="select" sortOrder="30"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Period For Sort By</label>
+                    <source_model>Ewave\ProductPriority\Model\Config\Source\PeriodForSortBy</source_model>
+                </field>
+                <field id="push_out_of_stock_bottom" translate="label" type="select" sortOrder="40"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Push Out of Stock to the Bottom</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="push_new_product_to_the_top" translate="label" type="select" sortOrder="40"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Push New Products to the Top</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="period_for_new_products" translate="label" type="select" sortOrder="40"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Period For New Products</label>
+                    <source_model>Ewave\ProductPriority\Model\Config\Source\PeriodForNewProducts</source_model>
+                </field>
+                <field id="start_calculate" translate="label" sortOrder="50"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Recalculate Product Priority</label>
+                    <frontend_model>Ewave\ProductPriority\Block\Adminhtml\System\Config\Form\CalculateButton</frontend_model>
+                </field>
+            </group>
+            <group id="cron_settings" translate="label" type="text" sortOrder="20"
+                   showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Cron Settings</label>
+                <field id="cron_value" translate="label" type="select" sortOrder="10"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Cron execution time</label>
+                    <source_model>Ewave\ProductPriority\Model\Config\Source\CronTime</source_model>
+                </field>
+                <field id="cron_time" translate="label" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

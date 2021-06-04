@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="ewave_preorder">
+        <job name="ewave_preorder_cron_resetproductavailabilitydate" instance="Ewave\PreOrder\Cron\ResetProductAvailabilityDate" method="execute">
+            <schedule>0 0 * * *</schedule>
+        </job>
+    </group>
+</config>

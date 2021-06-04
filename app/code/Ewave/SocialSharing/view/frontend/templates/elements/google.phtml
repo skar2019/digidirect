@@ -1,0 +1,24 @@
+<?php
+/**
+ * @var $block \Ewave\SocialSharing\Block\Sharing
+ * @var $sharingHelper \Ewave\SocialSharing\Helper\Config\Google
+ */
+?>
+<?php
+$sharingHelper = $this->helper('Ewave\SocialSharing\Helper\Config\Google');
+?>
+<?php if ($sharingHelper->isEnabled() || $sharingHelper->isShareEnabled()): ?>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <?php $countGoogleButton = ($sharingHelper->isDisplayCountSettings()) ? 'bubble' : 'none'; ?>
+    <?php if ($sharingHelper->isEnabled()): ?>
+        <div class="google_button social_button">
+            <div class="g-plusone" data-size="medium" data-annotation="<?php echo $block->escapeHtml($countGoogleButton); ?>"></div>
+        </div>
+    <?php endif; ?>
+    <?php if ($sharingHelper->isShareEnabled()): ?>
+        <div class="googleshare_button social_button">
+            <div class="g-plus" data-action="share" data-size="medium"
+                 data-annotation="<?php echo $block->escapeHtml($countGoogleButton); ?>"></div>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>

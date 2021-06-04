@@ -1,0 +1,30 @@
+//  # Documentation
+//  This file was created for documentation generation. It contains includes of all documentation files.
+
+@import '../../source/lib/_lib.less'; // Library files
+@import '../../source/_variables.less'; // Theme variables
+@import '../../source/_theme.less'; // Theme overrides
+
+//  Extended default responsive lib less. Added special media query for style guide correct work.
+@import '../lib/_responsive.less'; // Media queries collector
+
+//  Add styles for styleguide pages
+@import '../styles/_examples.less';
+
+@baseDir: '/pub/static/frontend/Ewave/lego-base/en_US/';
+
+@import '../../source/_reset.less'; // Lego reset
+@import '../../source/lib/ewave/_lib.less'; // Lego Library files
+
+// Lego components
+@import '_block-grid.less';
+@import '_loaders.less';
+@import '_form.less';
+@import '_grids.less';
+@import '_off-canvas.less';
+@import '_back-to-top.less';
+
+body {
+    padding: 16px;
+    background-image: none;
+}

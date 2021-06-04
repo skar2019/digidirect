@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Ewave\Collect\Api\Data\PostCodeInterface" type="Ewave\Collect\Model\PostCode" />
+    <preference for="Ewave\Collect\Api\DeliveryAddToCartValidationInterface"
+                type="Ewave\Collect\Model\DeliveryAddToCartValidation" />
+    <preference for="Ewave\Collect\Api\CollectAddToCartValidationInterface"
+                type="Ewave\Collect\Model\CollectAddToCartValidation" />
+
+    <preference for="Ewave\Collect\Api\ApplyDeliveryInterface" type="Ewave\Collect\Model\ApplyDelivery" />
+    <preference for="Ewave\Collect\Api\ApplyCollectPlaceInterface" type="Ewave\Collect\Model\ApplyCollectPlace" />
+
+    <type name="Ewave\Collect\Model\Config\Data">
+        <arguments>
+            <argument name="reader" xsi:type="object">Ewave\Collect\Model\Config\Reader</argument>
+            <argument name="cacheId" xsi:type="string">ewave_collectplaces</argument>
+        </arguments>
+    </type>
+    <type name="Ewave\Collect\Model\Config\Reader">
+        <arguments>
+            <argument name="converter" xsi:type="object">Ewave\Collect\Model\Config\Converter</argument>
+            <argument name="schemaLocator" xsi:type="object">Ewave\Collect\Model\Config\SchemaLocator</argument>
+            <argument name="fileName" xsi:type="string">ewave_collectplaces.xml</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Checkout\Model\GuestShippingInformationManagement">
+        <plugin name="ewave_collect_order_plugin" type="Ewave\Collect\Model\Plugin\Checkout\GuestShippingInformationManagement" sortOrder="100" disabled="false"/>
+    </type>
+
+    <type name="\Magento\Quote\Model\QuoteManagement">
+        <plugin name="ewave_collect_quote_management" type="Ewave\Collect\Model\Plugin\Quote\QuoteManagement"/>
+    </type>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Info">
+        <plugin name="ewave_collect_quote_management" type="Ewave\Collect\Block\Plugin\Adminhtml\Order\View\Info"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote\Item\Compare">
+        <plugin name="Ewave_Collect::QuoteItemCompare" type="Ewave\Collect\Plugin\Model\Quote\Item\Compare"/>
+    </type>
+    <type name="Magento\Quote\Model\Quote">
+        <plugin name="Ewave_Collect::QuoteModelQuote" type="Ewave\Collect\Plugin\Quote\Model\Quote"/>
+    </type>
+</config>

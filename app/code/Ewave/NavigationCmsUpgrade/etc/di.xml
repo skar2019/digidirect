@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Ewave\CmsUpgrade\Model\SetupProcessorFactory">
+        <plugin name="navigation-processor-plugin" type="Ewave\NavigationCMSUpgrade\Plugin\Ewave\CmsUpgrade\Model\SetupProcessFactory" />
+    </type>
+    <type name="Ewave\NavigationCMSUpgrade\Plugin\Ewave\CmsUpgrade\Model\SetupProcessFactory">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="menu_item" xsi:type="string">Ewave\NavigationCMSUpgrade\Model\Processor\MenuItem\MenuItem</item>
+                <item name="set" xsi:type="string">Ewave\NavigationCMSUpgrade\Model\Processor\Set\Set</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\NavigationCMSUpgrade\Model\Processor\MenuItem\MenuItem">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="entity_table" xsi:type="array">
+                    <item name="class" xsi:type="object">Ewave\NavigationCMSUpgrade\Model\Processor\MenuItem\Column\Entity\Proxy</item>
+                    <item name="fields" xsi:type="array">
+                        <item name="entity_id" xsi:type="array">
+                            <item name="callback" xsi:type="string">getEntityIdByCode</item>
+                        </item>
+                        <item name="menu_item_code" xsi:type="array" />
+                        <item name="type_id" xsi:type="array" />
+                    </item>
+                </item>
+                <item name="category" xsi:type="array">
+                    <item name="class" xsi:type="object">Ewave\NavigationCMSUpgrade\Model\Processor\MenuItem\Column\Category\Proxy</item>
+                    <item name="fields" xsi:type="array">
+                        <item name="category_id" xsi:type="array"/>
+                        <item name="use_category_hierarchy" xsi:type="array" />
+                        <item name="nesting_level" xsi:type="array" />
+                    </item>
+                </item>
+                <item name="cms_block" xsi:type="array">
+                    <item name="class" xsi:type="object">Ewave\NavigationCMSUpgrade\Model\Processor\MenuItem\Column\CmsBlock\Proxy</item>
+                    <item name="fields" xsi:type="array">
+                        <item name="cms_block_id" xsi:type="array">
+                            <item name="callback" xsi:type="string">getCmsBlockIdByIdentifier</item>
+                        </item>
+                        <item name="menu_item_is_link" xsi:type="array" />
+                        <item name="link" xsi:type="array" />
+                    </item>
+                </item>
+                <item name="custom_link" xsi:type="array">
+                    <item name="class" xsi:type="object">Ewave\NavigationCMSUpgrade\Model\Processor\MenuItem\Column\CustomLink\Proxy</item>
+                    <item name="fields" xsi:type="array">
+                        <item name="link" xsi:type="array" />
+                    </item>
+                </item>
+                <item name="info" xsi:type="array">
+                    <item name="class" xsi:type="object">Ewave\NavigationCMSUpgrade\Model\Processor\MenuItem\Column\Info\Proxy</item>
+                    <item name="fields" xsi:type="array">
+                        <item name="store_id" xsi:type="array" />
+                        <item name="stores" xsi:type="array">
+                            <item name="callback" xsi:type="string">getStores</item>
+                        </item>
+                        <item name="status" xsi:type="array" />
+                        <item name="title" xsi:type="array" />
+                        <item name="position" xsi:type="array" />
+                        <item name="is_logged_in" xsi:type="array" />
+                        <item name="custom_options" xsi:type="array" />
+                        <item name="level" xsi:type="array" />
+                        <item name="parent_menu_item_id" xsi:type="array">
+                            <item name="callback" xsi:type="string">getParentMenuItemId</item>
+                        </item>
+                        <item name="menu_store_id" xsi:type="array" />
+                    </item>
+                </item>
+                <item name="set" xsi:type="array">
+                    <item name="class" xsi:type="object">Ewave\NavigationCMSUpgrade\Model\Processor\MenuItem\Column\Set\Proxy</item>
+                    <item name="fields" xsi:type="array">
+                        <item name="set_id" xsi:type="array">
+                            <item name="callback" xsi:type="string">getSets</item>
+                        </item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Ewave\NavigationCMSUpgrade\Model\Processor\Set\Set">
+        <arguments>
+            <argument name="config" xsi:type="array">
+                <item name="entity_table" xsi:type="array">
+                    <item name="class" xsi:type="object">Ewave\NavigationCMSUpgrade\Model\Processor\Set\Column\Entity\Proxy</item>
+                    <item name="fields" xsi:type="array">
+                        <item name="set_id" xsi:type="array">
+                            <item name="callback" xsi:type="string">getEntityIdByCode</item>
+                        </item>
+                        <item name="set_code" xsi:type="array" />
+                        <item name="status" xsi:type="array" />
+                        <item name="name" xsi:type="array" />
+                        <item name="store_id" xsi:type="array" />
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/view.xsd">
+    <vars module="Ewave_Banner">
+        <!-- Set roles using mobile-first approach (from small to large) -->
+        <var name="rotator_mobile">
+            <var name="width">767</var>
+            <var name="height">1152</var>
+            <var name="srcset_title">Responsive Banner - Mobile</var>
+            <var name="srcset_value">100vw</var>
+            <var name="media">(max-width: 767px)</var>
+            <var name="widget_code">responsive_banner</var>
+        </var>
+        <var name="rotator_tablet">
+            <var name="width">1200</var>
+            <var name="height">466</var>
+            <var name="srcset_title">Responsive Banner - Tablet</var>
+            <var name="srcset_value">100vw</var>
+            <var name="media">(min-width: 768px) and (max-width: 1199px)</var>
+            <var name="widget_code">responsive_banner</var>
+        </var>
+        <var name="rotator_desktop">
+            <var name="width">1920</var>
+            <var name="height">744</var>
+            <var name="srcset_title">Responsive Banner - Desktop</var>
+            <var name="srcset_value">100vw</var>
+            <var name="media">(min-width: 1200px)</var>
+            <var name="widget_code">responsive_banner</var>
+        </var>
+    </vars>
+</view>

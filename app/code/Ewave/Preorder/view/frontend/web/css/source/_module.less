@@ -1,0 +1,23 @@
+//
+//  Pre-order
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@preorder-note__display: false;
+@preorder-note__font: false;
+@preorder-note__color: false;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .preorder-note {
+        .lib-css(display, @preorder-note__display);
+        .lib-css(font, @preorder-note__font);
+        .lib-css(color, @preorder-note__color);
+    }
+}

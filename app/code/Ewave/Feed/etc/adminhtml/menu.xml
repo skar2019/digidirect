@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Ewave_Feed::feed" module="Ewave_Feed" resource="Ewave_Feed::feed"
+             sortOrder="50" title="Shopping Feeds" parent="Ewave_Utilities::ewave" dependsOnModule="Ewave_Utilities"/>
+
+        <add id="Ewave_Feed::feed_feed" title="Feeds" module="Ewave_Feed"
+             sortOrder="10" action="ewave_feed/feed/index" resource="Ewave_Feed::feed_feed"
+             parent="Ewave_Feed::feed"/>
+
+        <add id="Ewave_Feed::feed_template" title="Templates"
+             module="Ewave_Feed" sortOrder="20" action="ewave_feed/template/index"
+             resource="Ewave_Feed::feed_template" parent="Ewave_Feed::feed"/>
+
+        <add id="Ewave_Feed::feed_rule" title="Manage Filters" module="Ewave_Feed"
+             sortOrder="25" action="ewave_feed/rule/index" resource="Ewave_Feed::feed_rule"
+             parent="Ewave_Feed::feed"/>
+
+        <add id="Ewave_feed::feed_dynamic_attribute" title="Dynamic Attributes"
+             module="Ewave_Feed" sortOrder="28" action="ewave_feed/dynamic_attribute/index"
+             resource="Ewave_Feed::feed_dynamic_attribute"
+             parent="Ewave_Feed::feed"/>
+
+        <add id="Ewave_feed::feed_dynamic_category" title="Category Mapping"
+             module="Ewave_Feed" sortOrder="30" action="ewave_feed/dynamic_category/index"
+             resource="Ewave_Feed::feed_dynamic_category"
+             parent="Ewave_Feed::feed"/>
+
+        <add id="Ewave_Feed::feed_report" title="Reports" module="Ewave_Feed"
+             sortOrder="40" action="ewave_feed/report/view" resource="Ewave_Feed::feed_report"
+             parent="Ewave_Feed::feed"/>
+    </menu>
+</config>

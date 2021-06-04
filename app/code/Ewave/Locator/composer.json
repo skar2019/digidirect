@@ -1,0 +1,16 @@
+{
+  "name": "ewave/locator",
+  "type": "magento2-module",
+  "description": "Ewave Locator Module",
+  "version": "1.7.1.0",
+  "suggest": {
+    "ewave/utilities": "Ewave Locator may use ewave/utilities methods",
+    "ewave/googleapi": "Ewave Locator does use ewave/googleapi methods."
+  },
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Ewave\\Locator\\": ""
+    }
+  }
+}

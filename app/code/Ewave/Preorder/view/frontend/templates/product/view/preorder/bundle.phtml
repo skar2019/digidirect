@@ -1,0 +1,15 @@
+<?php /* @var $block \Ewave\PreOrder\Block\Product\View\Preorder\ProductBundle */ ?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "preOrderBundle": {
+            "preOrderNote": "<?php echo $block->escapeHtml($block->getPreorderNote()) ?>",
+            "addToCartLabel": "<?php echo $block->escapeHtml($block->getCartLabel()) ?>",
+            "isAllProductsPreorder": <?php echo (int)$block->isAllProductsPreorder()?>,
+            "map": <?php /* @escapeNotVerified */ echo json_encode($block->getMap())?>,
+            "optionsData": <?php /* @escapeNotVerified */ echo json_encode($block->getBundleOptionsData())?>,
+            "addToCartForm": "#product_addtocart_form"
+        }
+    }
+}
+</script>

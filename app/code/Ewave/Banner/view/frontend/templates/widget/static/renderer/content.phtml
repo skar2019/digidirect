@@ -1,0 +1,31 @@
+<?php
+/**
+ * @var $block \Ewave\Banner\Block\Widget\StaticWidget\Renderer\Content
+ *
+ * Available useful methods:
+ * 1) current banner  - $block->getBanner()
+ * 2) widget itself -> $block->getWidget()
+ * 3) If you wanna get some value from banner use $block->getRootSetting(string $key, $defaultValueToBeReturned)
+ * 4) banner content - $block->getContent()
+ *
+ */
+$banner = $block->getBanner();
+$widget = $block->getWidget();
+$content = $block->getContent();
+$navigationTitle = $block->getCustomSetting('navigation_title');
+$navigationImage = $block->getCustomSetting('navigation_image');
+$link = $block->getCustomSetting('target_id');
+$title = $block->getCustomSetting('title');
+?>
+<div class="banner-item -type-default"
+     data-testid="bannerRotator-banner"
+     data-banner-id="<?= /* @noEscape */ $banner['id']; ?>"
+     data-format="default"
+     data-banner-navigation-title="<?= $block->escapeHtml($navigationTitle); ?>"
+    <?php if ($navigationImage) : ?> data-banner-navigation-image="<?= /* @noEscape */ $navigationImage; ?>"<?php endif; ?>>
+    <?php if ($link) : ?><a class="link" href="<?= $block->escapeUrl($link); ?>" title="<?= $block->escapeHtml($title); ?>"><?php endif; ?>
+    <div class="content -alone" data-testid="bannerRotator-banner-content">
+        <?= /* @noEscape */ $content; ?>
+    </div>
+    <?php if ($link) : ?></a><?php endif; ?>
+</div>

@@ -1,0 +1,14 @@
+{
+  "name": "ewave/abstractentity",
+  "description": "Abstract Entity",
+  "type": "magento2-module",
+  "version": "3.4.3.0",
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ewave\\AbstractEntity\\": ""
+    }
+  }
+}

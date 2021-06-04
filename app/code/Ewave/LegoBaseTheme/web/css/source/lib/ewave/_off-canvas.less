@@ -1,0 +1,48 @@
+//
+//  Off Canvas Trigger Mixin
+//  _____________________________________________
+
+.ewave-lib-offcanvas-trigger(
+    @_active-class: @offcanvas__active-class,
+    @_width: @offcanvas-trigger__width,
+    @_height: @offcanvas-trigger__height,
+    @_background: @offcanvas-trigger__background-color,
+    @_color: @offcanvas-trigger__color,
+    @_text-align: @offcanvas-trigger__text-align,
+    @_cursor: @offcanvas-trigger__cursor,
+    @_overlay-background: @offcanvas-overlay__background-color,
+    @_overlay-z-index: @offcanvas-overlay__z-index,
+    @_overlay-opacity: @offcanvas-overlay__opacity
+) {
+    & {
+        position: relative;
+        .lib-css(width, @_width);
+        .lib-css(height, @_height);
+        .lib-css(text-align, @_text-align);
+        .lib-css(background-color, @_background);
+        .lib-css(color, @_color);
+
+        &:hover {
+            .lib-css(cursor, @_cursor);
+        }
+
+        &::after {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            .lib-css(background, @_overlay-background);
+            visibility: hidden;
+            content: '';
+            opacity: 0;
+            .lib-css(z-index, @_overlay-z-index);
+            .lib-css(transition, opacity .3s, 1);
+        }
+    }
+
+    &@{_active-class}::after {
+        visibility: visible;
+        .lib-css(opacity, @_overlay-opacity);
+    }
+}

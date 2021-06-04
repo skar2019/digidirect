@@ -1,0 +1,51 @@
+<form class="form" data-bind="mageInit: {'validation':{}}">
+    <div class="fieldset">
+        <div class="field required">
+            <label for="form_el_0" class="label"><span data-bind="i18n: 'Name'"></span></label>
+            <div class="control">
+                <input id="form_el_0" name="name"
+                       type="text"
+                       class="input-text"
+                       data-bind="attr: { 'data-validate': JSON.stringify({'required-entry':true})}">
+            </div>
+        </div>
+
+        <div class="field email required">
+            <label class="label" for="form_el_1"><span data-bind="i18n: 'Email Address'"></span></label>
+            <div class="control">
+                <input id="form_el_1" name="username"
+                       type="email"
+                       class="input-text"
+                       data-bind="attr: {'data-validate': JSON.stringify({'required-entry':true, 'validate-email':true})}">
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label" for="form_el_2">
+                <span>Field label (input text error)</span>
+            </label>
+            <div class="control">
+                <select id="form_el_2" name="select">
+                    <option value="">Choose an Option...</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 1</option>
+                    <option value="3">Option 2</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="field choice">
+            <input type="checkbox" name="checkbox" id="form_el_3" value="1" title="checkbox" class="checkbox"
+                   data-bind="attr: { 'data-validate': JSON.stringify({'required':true})}"/>
+            <label class="label" for="form_el_3">Please check if you like it</label>
+        </div>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button type="submit" class="action">
+                    <span data-bind="i18n: 'Submit'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
