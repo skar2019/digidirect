@@ -17,7 +17,7 @@ if ($exist = $block->getItems()->getSize()) {
     $_quickViewHelper = $this->helper('Digidirect\QuickView\Helper\Data');
 
     $initialFilter = '';
-    $isShowFilterContent = true;
+    $isShowFilterContent = false;
     $showQuickView = $_quickViewHelper->isModuleEnabled();
     $quickViewUseForMobile = true;
     $quickViewLabel = __('Quick View');
