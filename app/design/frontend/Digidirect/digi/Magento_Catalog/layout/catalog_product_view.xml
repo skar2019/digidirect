@@ -66,18 +66,18 @@
             </container>
         </referenceContainer>
         <move element="product.info.social" destination="product.info.main" after="-" />
-<!--        <referenceContainer name="product.info.price">
+        <referenceContainer name="product.info.price">
             <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="-">
                 <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
             </container>
-        </referenceContainer>-->
+        </referenceContainer>
         
-<!--        <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
+        <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
         <referenceContainer name="product.info.extrahint">
             <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" >
                  <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
             </container>
-        </referenceContainer>-->
+        </referenceContainer>
         
 <!--        <move element="product.info.extrahint" destination="product.info.price" before="product.info.stock.sku" />-->
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
