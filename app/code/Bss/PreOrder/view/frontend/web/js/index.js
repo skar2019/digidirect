@@ -84,7 +84,7 @@ define([
             parent_element.find(self.options.addToCartButtonText).text(self.options.buttonText);
             parent_element.find(self.options.addToCartButtonSelector).attr('title', self.options.buttonText);
             parent_element.find('form').prepend(self.options.preOrderInput);
-            parent_element.find(self.options.AddToCartContainer).css('margin', '5px 0 10px');
+            parent_element.find(self.options.AddToCartContainer).css('margin', '10px 0');
             var formElement = parent_element.parent().find(self.options.AddToCartContainer).first();
             $(elemnt).find('.mess-preorder').detach().insertBefore(formElement);
         }
