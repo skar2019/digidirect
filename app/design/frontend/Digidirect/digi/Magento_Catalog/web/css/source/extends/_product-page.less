@@ -275,10 +275,10 @@
         }
 
         .old-price-label {
-            .lib-css(color, @color-4-7);
-            .lib-font-size(12);
+            font-style: italic;
+            color: #2a2a2a;
+            font-weight: 300;
             display: inline-block;
-            text-transform: uppercase;
             line-height: 1.58;
             position: absolute;
             top: 5px;
@@ -332,10 +332,22 @@
         }
 
         .product-addto-links .action.towishlist {
-            font-weight:  600;
+            font-weight: 700;
             color: #2a2a2a;
             font-size: 12px;
             text-decoration: underlined;
+            position: relative;
+            padding: 0 0 0 25px;
+            
+            &::before{
+                content: " ";
+                background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYuMDAwMDAwMDAwMDAwMDEiIGhlaWdodD0iOTYuMDAwMDAwMDAwMDAwMDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMyMjIyMjIiIGlkPSJzdmdfMSIgZD0ibTg3LjU5OCwxNS4wMjljLTkuMzczLC05LjM3MyAtMjQuNTY4LC05LjM3MyAtMzMuOTQsMGwtNS42NTgsNS42NTdsLTUuNjU3LC01LjY1NmMtOS4zNzMsLTkuMzczIC0yNC41NjksLTkuMzczIC0zMy45NDEsMGMtOS4zNzMsOS4zNzMgLTkuMzczLDI0LjU2OCAwLDMzLjk0MWw1LjY1Nyw1LjY1NGwzMy45NDEsMzMuOTQxbDMzLjk0MSwtMzMuOTQxbDUuNjU2LC01LjY1NGM5LjM3NCwtOS4zNzMgOS4zNzQsLTI0LjU2OSAwLjAwMSwtMzMuOTQyem0tMTYuOTcxLDM5LjU5OGwtMjIuNjI3LDIyLjYyN2wtMjIuNjI2LC0yMi42MjdsLTExLjMxMywtMTEuMzEzYy02LjI0OSwtNi4yNDggLTYuMjQ5LC0xNi4zNzkgMCwtMjIuNjI5YzYuMjQ5LC02LjI0OCAxNi4zNzksLTYuMjQ4IDIyLjYyNywwbDExLjMxMiwxMS4zMTVsMTEuMzE0LC0xMS4zMTRjNi4yNDgsLTYuMjQ4IDE2LjM3OSwtNi4yNDggMjIuNjI3LDBjNi4yNDgsNi4yNSA2LjI0OCwxNi4zNzkgMCwyMi42MjlsLTExLjMxNCwxMS4zMTJ6Ii8+CiA8L2c+Cjwvc3ZnPg==');
+                background-size: 20px 20px;
+                height: 20px;
+                width: 20px;
+                position: absolute;
+                left: 0;
+            }
         }
 
         .product-extra {
@@ -813,10 +825,9 @@
         cursor: pointer;
 
         .live-chat-additional-link {
-            .lib-css(font-weight, @font-weight__heavier);
-            .lib-css(color, @color-black);
-            .lib-font-size(12);
-            text-decoration: underline;
+            font-weight: 700;
+            color: #2a2a2a;
+            font-size: 14px;
             display: inline;
         }
 
@@ -826,7 +837,7 @@
             width: 17px;
             height: 17px;
             left: -20px;
-            top: 0;
+            top: 2px;
         }
     }
 
