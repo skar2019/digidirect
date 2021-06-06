@@ -18,6 +18,7 @@
         "klevu/module-search": "^2.2",
         "livechat/module-magento-livechat": "dev-master",
         "magento/magento-cloud-metapackage": "2.3.1",
+        "magento/module-braintree": "^100.3",
         "vlucas/valitron": "^1.4",
         "zipmoney/magento2": "^1.0"
     },
