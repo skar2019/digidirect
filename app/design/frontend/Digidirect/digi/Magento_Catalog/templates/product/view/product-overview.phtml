@@ -26,50 +26,5 @@ $finalQffBonusPoints = $_product->getBonusPoints();
     <div class="short-desc">
         <?php echo $productSpec ?>
     </div>
-    <?php if ( $features ): ?>
-        <div class="entity" data-mage-init='{
-                                "slickInit":{
-                                    "arrows": true,
-                                    "slidesToShow": 6,
-                                    "slidesToScroll": 1,
-                                    "infinite": true,
-                                    "swipeToSlide": true,
-                                    "dots": false,
-                                    "responsive": [
-                                        {
-                                            "breakpoint": 1439,
-                                            "settings": {
-                                                "slidesToShow": 6
-                                            }
-                                        },
-                                        {
-                                            "breakpoint": 1023,
-                                            "settings": {
-                                                "slidesToShow": 4
-                                            }
-                                        },
-                                        {
-                                            "breakpoint": 767,
-                                            "settings": {
-                                                "slidesToShow": 6
-                                            }
-                                        },
-                                        {
-                                            "breakpoint": 319,
-                                            "settings": {
-                                                "slidesToShow": 3
-                                            }
-                                        }
-                                    ]
-                                }
-                            }'>
-            <?php foreach ($features as $item): ?>
-                <div class="item">
-                    <img src="<?= $item->getImageUrl() ?>" alt="<?= $item->getName() ?>" class="img">
-                    <span class="title"><?= $item->getName() ?></span>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    <?php endif; ?>
 </div>
 <?php endif; ?>

@@ -54,3 +54,15 @@
     }
     </script>
 </div>
+
+<script type="text/javascript">
+    require(['jquery'], function ($) {
+        $('.minicart-wrapper').on('contentLoading', function (event) {
+            $('[data-block="minicart"]').on('contentUpdated', function () {
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+                $('.action.showcart').addClass("-active");
+                $('#minicartSidebar').addClass("-active");
+            });
+        });
+    });
+</script>
