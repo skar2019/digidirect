@@ -22,7 +22,7 @@ $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
 ?>
 <?php if ($block->hasSpecialPrice()): ?>
-    <span class="old-price-label"><?= /* @escapeNotVerified */ __('Don\'t pay')?></span>
+    <span class="old-price-label"><?= /* @escapeNotVerified */ __('Was')?></span>
     <span class="old-price">
         <?php /* @escapeNotVerified */ echo $block->renderAmount($priceModel->getAmount(), [
             'display_label'     => __(''),

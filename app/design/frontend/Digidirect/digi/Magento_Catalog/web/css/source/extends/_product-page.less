@@ -273,9 +273,8 @@
         }
 
         .old-price-label {
-            font-style: italic;
             color: #2a2a2a;
-            font-weight: 300;
+            font-weight: bold;
             display: inline-block;
             line-height: 1.58;
             position: absolute;
@@ -868,6 +867,20 @@
         background-color: #f78e6d !important;
         border-color: #f78e6d !important;
     }
+    
+    .review-field-rating{
+        label{
+            font-weight: bold;
+            padding-left: 0 !important;
+        }
+    }
+    
+    .review-form .action.submit.primary, 
+    .review-form .action.submit.magento_rma-returns-view .secondary .action {
+        background: #e65300;
+        border: 2px solid transparent;
+        color: #fff;
+    }
 }
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xs){
@@ -977,7 +990,7 @@
     .product-info-main {
         & {
             width: 50%;
-            padding: 30px 0;
+            padding: 30px 10em 30px 0;
         }
 
         .stock {
@@ -1053,6 +1066,8 @@
             position: absolute;
             top: 5px;
             left: 0;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
         .price-box span.old-price {
@@ -1109,20 +1124,6 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    .catalog-product-view .products-widget {
-        & {
-            padding-bottom: 60px;
-        }
-
-        .slick-prev {
-            left: -45px;
-        }
-
-        .slick-next {
-            right: -45px;
-        }
-    }
-
     .product-info-main .msiavailability-wrapper .availability-wrapper {
         min-height: 60px;
     }
