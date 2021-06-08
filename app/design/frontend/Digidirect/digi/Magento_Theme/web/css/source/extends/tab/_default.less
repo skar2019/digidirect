@@ -16,7 +16,7 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-    .product-widget-wrapper {
+/*    .product-widget-wrapper {
         margin: 15px -30px 0;
     }
     
@@ -82,7 +82,7 @@
             font-size: 24px;
             font-weight: 400;
         }
-    }
+    }*/
 }
 
 //
@@ -101,8 +101,8 @@
                 position: relative;
             }
             
-            &:last-child
-            {
+            //&:last-child
+            &{
                 :before{
                     content: " ";
                     height: 30px;
@@ -116,6 +116,12 @@
                 
                 > a{
                     margin-left: 50px;
+                }
+            }
+            
+            &:first-child{
+                :before{
+                    display: none;
                 }
             }
             
@@ -133,7 +139,7 @@
                     border-bottom-color: #f96c41 !important;
                 }
             }
-           
+                     
             
             &.mgz-active > a{
                 color: #f96c41;
@@ -152,6 +158,7 @@
         .mgz-tabs-tab-title{
             font-size: 34px;
             font-weight: 400;
+            margin-right: 30px;
         }
     }
 }

@@ -38,7 +38,7 @@
 @faq-tags__margin: false;
 @faq-tags-title__margin: false;
 @faq-tags-title__padding: false;
-@faq-tag__margin: 0 0 0 10px;
+@faq-tag__margin: 10px 0 0 10px;
 @faq-tag__padding: false;
 @faq-tag__border: false;
 @faq-tag__hover-active__border: false;
@@ -193,6 +193,30 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    
+    .faq-search .button {
+        margin-left: 5px;
+    }
+    
+    .secondary-nav.-open > .item {
+        margin-right: 20px;
+        border-bottom: solid;
+        border-left: solid;
+        border-right: solid;
+        border-width: .1px;
+        border-color: black;
+    }
+    
+    .secondary-nav .item {
+        background-color: white;
+    }
+}
+
+//
 //  Tablet
 //  ---------------------------------------------
 
@@ -203,7 +227,7 @@
         }
 
         .button {
-            margin-left: 20px;
+            //margin-left: 20px;
         }
     }
 
@@ -237,7 +261,7 @@
         }
     }
 
-    .faq-answer {
+/*    .faq-answer {
         .lib-font-size(13);
         line-height: 1.38;
     }
@@ -247,7 +271,7 @@
         .lib-font-size(14);
         line-height: 1.7rem;
         padding: 12px;
-    }
+    }*/
 
     .question-form {
         .legend {
@@ -257,6 +281,32 @@
         .input-text.-question {
             height: 102px;
         }
+    }
+    
+    .faq-answer {
+        .lib-font-size(14);
+        line-height: 1.36;
+    }
+
+    .ask-button,
+    .faq-search .button {
+        padding: 11px;
+        .lib-font-size(16);
+        line-height: 2.4rem;
+        margin-left: 5px;
+    }
+    
+    .secondary-nav.-open > .item {
+        margin-right: 60px;
+        border-bottom: solid;
+        border-left: solid;
+        border-right: solid;
+        border-width: .1px;
+        border-color: black;
+    }
+    
+    .secondary-nav .item {
+        background-color: white;
     }
 }
 
@@ -398,6 +448,7 @@
 
         .button {
             width: 200px;
+            margin-left: 5px;
         }
         
         .control{
