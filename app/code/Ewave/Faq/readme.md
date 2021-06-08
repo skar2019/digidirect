@@ -39,3 +39,6 @@ The extension allows create unlimited FAQ categories & Q&A topics
   
 ### VERSION 1.2.4
   1. Add query caching
+
+### VERSION
+  1. changes for redeploy
