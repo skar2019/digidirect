@@ -69,7 +69,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                         $finalQffPoints = $_item->getPoints();
                     ?>
                     
-                    <div class="product-item item">
+                    <div class="product-item item <?= $block->getVisibleProductCategories($_item); ?>">
                         <div class="product-item-info">
                             <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                class="product-item-photo">
@@ -139,12 +139,11 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                     <span>Earn <?= $points ?> Qantas Points</span>
                                 </div>
                                 
-                                <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
-                                    <?= $rentBlock->toHtml(); ?>
-                                <?php endif; ?>
-                                <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
-                                    <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
-                                <?php endif; ?>
+                                <?php echo $this->getLayout()
+                                    ->createBlock('Magento\Cms\Block\Block')
+                                    ->setBlockId('product-tile-rent')
+                                    ->toHtml();
+                                ?>
                             </div>
                         </div>
                      </div>

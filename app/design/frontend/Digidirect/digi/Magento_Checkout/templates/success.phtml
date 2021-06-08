@@ -25,13 +25,13 @@ $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
             <a class="action primary continue" title="Continue Shopping" href="<?= /* @escapeNotVerified */$block->getContinueUrl() ?>"><span><?= /* @escapeNotVerified */__('Continue Shopping') ?></span></a>
         </div>
     </div>
-    <div class="init _hidden">
+<!--    <div class="init _hidden">
         <script>
             if (typeof fbq !== undefined) {
                 fbq('trackCustom', 'Purchase', <?php echo $faceBookPixel->getPurchaseData() ?>);
             }
         </script>
-    </div>
+    </div>-->
 </div>
 
 <script>

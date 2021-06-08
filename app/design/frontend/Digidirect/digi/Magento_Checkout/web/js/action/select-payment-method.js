@@ -18,8 +18,6 @@ define([
             };
         }
         
-        console.log("BlackPink in your areas");
-        
         quote.paymentMethod(paymentMethod);
     };
 });

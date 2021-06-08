@@ -1430,20 +1430,21 @@ body.catalog-product-compare-index .action.print {
   display: none;
 }
 .review-form .action.submit.primary {
-  background: #f2f2f2;
-  border: 1px solid #cdcdcd;
-  color: #333;
+  background: #f05a25;
+  border: 1px solid #f05a25;
+  color: #fff;
+  font-family: 'Titillium Web', sans-serif;
 }
 .review-form .action.submit.primary:focus,
 .review-form .action.submit.primary:active {
-  background: #e2e2e2;
-  border: 1px solid #cdcdcd;
-  color: #333;
+  background: #e08868;
+  border: 1px solid #e08868;
+  color: #fff;
 }
 .review-form .action.submit.primary:hover {
-  background: #e2e2e2;
-  border: 1px solid #cdcdcd;
-  color: #555;
+  background: #e08868;
+  border: 1px solid #e08868;
+  color: #fff;
 }
 .fieldset .review-legend.legend {
   margin-bottom: 20px;

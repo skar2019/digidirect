@@ -52,17 +52,11 @@ define([
          * Checkout for guest and registered customer.
          */
         if (!customer.isLoggedIn()) {
-            
-            console.log("Guest");
-            
             serviceUrl = urlBuilder.createUrl('/guest-carts/:cartId/set-payment-information', {
                 cartId: quote.getQuoteId()
             });
             payload.email = quote.guestEmail;
         } else {
-            
-            console.log("Not Guest");
-            
             serviceUrl = urlBuilder.createUrl('/carts/mine/set-payment-information', {});
         }
 

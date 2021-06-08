@@ -88,13 +88,13 @@ class QuoteSubmitSuccess implements ObserverInterface
 
                 $amount = $giftCard[Giftcardaccount::AUTHORIZED];
                 $entityOrderData = new \Magento\Framework\DataObject(['status' => $entity->getStatus()]);
-                if ($this->isAcceptAvailable($order, $entity, $giftCard)) {
+//                if ($this->isAcceptAvailable($order, $entity, $giftCard)) {
                     $service = $entity->getService();
                     $service->setStore($order->getStoreId());
                     $service->setOrder($order);
                     $service->validate()->accept($amount, $entity->getToken());
                     $entityOrderData->setStatus(AbstractGiftCardEntity::STATUS_ACCEPT);
-                }
+//                }
 
                 $entityOrderData->setOrderId($order->getId());
                 $entityOrderData->setAmount($amount);

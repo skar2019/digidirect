@@ -145,12 +145,11 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                     <span>Earn <?= $points ?> Qantas Points</span>
                                 </div>
                                 
-                                <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
-                                    <?= $rentBlock->toHtml(); ?>
-                                <?php endif; ?>
-                                <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
-                                    <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
-                                <?php endif; ?>
+                                <?php echo $this->getLayout()
+                                    ->createBlock('Magento\Cms\Block\Block')
+                                    ->setBlockId('product-tile-rent')
+                                    ->toHtml();
+                                ?>
                             </div>
                         </div>
                      </div>
@@ -195,7 +194,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                             nav:false
                         },
                         1000:{
-                            items:4,
+                            items:5,
                             loop:false
                         },
                         1680:{

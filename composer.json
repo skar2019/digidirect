@@ -18,10 +18,15 @@
         }
     },
     "require": {
+        "klevu/module-search": "^2.3",
         "m2epro/magento2-extension": "^1.10",
         "magento/magento-cloud-metapackage": ">=2.4.1 <2.4.2",
         "vlucas/valitron": "^1.4",
-        "zipmoney/magento2": "^1.1"
+        "zipmoney/magento2": "^1.1",
+        "livechat/module-magento-livechat": "dev-master"
+    },
+    "replace": {
+        "klevu/module-mysqlcompat": "*"
     },
     "suggest": {
         "ext-pcntl": "Need for run processes in parallel mode"

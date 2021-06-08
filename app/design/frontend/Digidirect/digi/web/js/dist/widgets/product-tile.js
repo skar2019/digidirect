@@ -61,7 +61,7 @@ define(['jquery', 'jquery/ui', 'domReady!', 'catalogAddToCart', 'truncateCollect
 
             switch (this.options.type) {
                 case PRODUCT_TILE_SLIDER:
-                    this.initSlider();
+//                    this.initSlider();
                     break;
                 case PRODUCT_TILE_FILTERED_SLIDER:
                     this.initFilteredSlider();
@@ -76,22 +76,22 @@ define(['jquery', 'jquery/ui', 'domReady!', 'catalogAddToCart', 'truncateCollect
         initSlider: function initSlider() {
             var _this = this;
 
-            require(['jquery', 'jquery/ui', 'slickInit', 'catalogPriceRuleModal'], function ($) {
-                $(_this.element).on('init', function () {
-                    _this.initAsyncAddToCart().initPriceRuleModal().truncateProductsName();
-                }).slickInit(_this.options.slickConfig);
-            });
+//            require(['jquery', 'jquery/ui', 'slickInit', 'catalogPriceRuleModal'], function ($) {
+//                $(_this.element).on('init', function () {
+//                    _this.initAsyncAddToCart().initPriceRuleModal().truncateProductsName();
+//                }).slickInit(_this.options.slickConfig);
+//            });
 
             return this;
         },
         initFilteredSlider: function initFilteredSlider() {
             var _this2 = this;
 
-            require(['jquery', 'jquery/ui', 'slickFilter', 'catalogPriceRuleModal'], function ($) {
-                $(_this2.element).on('init', function () {
-                    _this2.initAsyncAddToCart().initPriceRuleModal().truncateProductsName();
-                }).slickFilterInit(_this2.options.slickFilterConfig);
-            });
+//            require(['jquery', 'jquery/ui', 'slickFilter', 'catalogPriceRuleModal'], function ($) {
+//                $(_this2.element).on('init', function () {
+//                    _this2.initAsyncAddToCart().initPriceRuleModal().truncateProductsName();
+//                }).slickFilterInit(_this2.options.slickFilterConfig);
+//            });
 
             return this;
         },
