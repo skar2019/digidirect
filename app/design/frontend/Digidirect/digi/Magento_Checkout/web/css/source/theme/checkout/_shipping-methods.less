@@ -7,6 +7,15 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
+    .checkout-index-index{
+        .note{
+            font-size: 13px;
+            color: #666;
+            font-weight: 400;
+            font-style: italic;
+        }
+    }
+    
     .checkout-shipping-method {
         &{
             margin-top: 20px;
@@ -43,8 +52,7 @@
     .shipping-methods {
         & {
             margin-top: 20px;
-            margin-bottom: 14px;    
-            border-radius: 4px;
+            margin-bottom: 14px; 
         }
 
         .row {
@@ -54,7 +62,8 @@
             .lib-font-size(12);
             line-height: 20px;
             background: #fff;
-            .lib-transition(background-color);
+            .lib-transition(background-color);   
+            border-radius: 4px;
         }
 
         .row.-active {
@@ -144,6 +153,7 @@
             background: #f5f5f5;
             .lib-font-size(14);
             border: 2px solid #f5f5f5;
+            border-radius: 4px;
             
             &:hover{
                 border-color: #e65200;

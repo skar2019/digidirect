@@ -29,7 +29,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 </div>
 
 <div data-bind="css: 'collect-block -visible'" data-role="collect-block" data-collect-type="delivery">
-    <div data-bind="i18n: 'For shipping methods and times see below.'"></div>
+    <div class="note" data-bind="i18n: 'For shipping methods and times see below.'"></div>
 </div>
 
 <!-- ko ifnot: isWebOnly() -->

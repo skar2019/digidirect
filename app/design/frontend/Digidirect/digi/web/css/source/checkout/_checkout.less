@@ -48,9 +48,26 @@
                 .lib-css(display, @checkout-nav-elements__display);
             }
             
+            .amount{
+                font-weight: 700;
+            }
+            
             .page-header{
-                background: #fff;
-                padding: 30px 30px 0;
+                background: #222;
+                padding: 30px;
+                
+                .svg-icon{
+                    fill: #fff;
+                    color: #fff;
+                }
+            }
+            
+            .action-auth-toggle > .svg-icon.icon-login{
+                position: absolute;
+                top: -10px;
+                left: -20px;
+                width: 30px;
+                height: 44px;
             }
 
             .page-header .logo {
