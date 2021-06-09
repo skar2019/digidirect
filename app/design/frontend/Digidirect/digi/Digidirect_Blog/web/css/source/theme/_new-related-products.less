@@ -25,10 +25,6 @@
         .block-title strong {
             font-weight: bold;
         }
-
-        .products.list .slick-list {
-            padding-top: 20px;
-        }
     }
 }
 
@@ -46,6 +42,35 @@
             .lib-font-size(28);
             text-align: left;
             padding-bottom: 20px;
+        }
+    }
+    
+    .block-related-products{
+        &{
+            width: 100%;
+            display: block;
+            margin-top: 30px !important;
+        }
+        
+        .block-content{
+            padding: 0 30px;
+        }
+        
+        .block-title.title{
+            
+            strong{
+                font-size: 28px !important;
+            }
+        }
+        
+        .product-carousel {
+            &{
+                padding: 0 !important;
+            }
+            
+            .product-item-info{
+                margin: 0 !important;
+            }
         }
     }
 }

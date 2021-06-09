@@ -1,4 +1,7 @@
 <?php
+
+use Magento\Framework\App\Action\Action;
+
 /**
  * @var \Digidirect\Blog\Block\Post\RelatedProducts $block
  */
@@ -6,8 +9,9 @@ if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
     $type = 'related';
     $class = $type;
 
-    $image = 'related_products_list';
-    $title = __('Related Products');
+    $mode = "grid";
+    $image = 'new_products_content_widget_grid';
+    $title = __('Products Featured in this Article');
     $items = $block->getItems();
     $limit = 0;
     $shuffle = 0;
@@ -21,124 +25,171 @@ if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
 }
 ?>
 
-<?php if ($exist): ?>
+<?php if ($exist) :?>
+    <div class="block widget block-related-products products-widget <?= /* @noEscape */ $mode ?>">
+        
+        <div class="block-title title">
+            <strong id="block-<?php echo $block->escapeHtml($class) ?>-heading" role="heading"><?php echo $block->escapeHtml($title); ?></strong>
+        </div>
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <div id="related-product-carousel"
+                     class="product-items product-carousel owl-carousel owl-theme 
+                    <?= /* @noEscape */ $type ?>"
 
-    <?php if ($type == 'related' || $type == 'upsell'): ?>
-        <?php if ($type == 'related'): ?>
-            <div class="block <?php echo $block->escapeHtml($class); ?>" data-mage-init='{"relatedProducts":{"relatedCheckbox":".related.checkbox"}}' data-limit="<?php echo $block->escapeHtml($limit); ?>" data-shuffle="<?php echo $block->escapeHtml($shuffle); ?>">
-        <?php else: ?>
-            <div class="block <?php echo $block->escapeHtml($class); ?>" data-mage-init='{"upsellProducts":{}}' data-limit="<?php echo $block->escapeHtml($limit); ?>" data-shuffle="<?php echo $block->escapeHtml($shuffle); ?>">
-        <?php endif; ?>
-    <?php else: ?>
-        <div class="block <?php echo $block->escapeHtml($class); ?>">
-    <?php endif; ?>
-    <div class="block-title title">
-        <strong id="block-<?php echo $block->escapeHtml($class) ?>-heading" role="heading" aria-level="2"><?php echo $block->escapeHtml($title); ?></strong>
-    </div>
-    <div class="block-content content" aria-labelledby="block-<?php echo $block->escapeHtml($class) ?>-heading">
+                     data-mage-init='{
+                      "productTile": {
+                          <?php if($block->isRedirectToCartEnabled()): ?>
+                          "isRedirectToCartEnabled": true,
+                          <?php endif; ?>
+                          "type":"<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>"
+                      }
+                     }'>
 
-        <div class="products wrapper grid products-grid products-<?php echo $block->escapeHtml($type); ?>">
-            <ol class="products list items product-items" id="related-slider">
-                <?php $iterator = 1; ?>
-                <?php $i = 0; ?>
-                <?php foreach ($items as $_item): ?>
-                    <?php $available = ''; ?>
-                    <?php if ($i > 9) {
-                        break;
-                    } ?>
-                    <?php if (!$_item->isComposite() && $_item->isSaleable() && $type == 'related'): ?>
-                        <?php if (!$_item->getRequiredOptions()): ?>
-                            <?php $available = 'related-available'; ?>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                    <?php if ($type == 'related' || $type == 'upsell'): ?>
-                        <?php /* @escapeNotVerified */ echo ($iterator++ == 1) ? '<li class="item product product-item" style="display: none;">' : '</li><li class="item product product-item" style="display: none;">' ?>
-                    <?php else: ?>
-                        <?php /* @escapeNotVerified */ echo ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
-                    <?php endif; ?>
-                    <div class="product-item-info <?php echo $block->escapeHtml($available); ?>">
-                        <?php echo '<!-- ' . $block->escapeHtml($image) . '-->' ?>
-                        <a href="<?php echo $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product photo product-item-photo">
-                            <?php echo $block->getImage($_item, $image)->toHtml(); ?>
-                        </a>
-                        <div class="product details product-item-details">
-                            <strong class="product name product-item-name"><a class="product-item-link"
-                                                                              title="<?php echo $block->escapeHtml($_item->getName()) ?>"
-                                                                              href="<?php echo $block->escapeUrl($block->getProductUrl($_item)) ?>">
-                                    <?php echo $block->escapeHtml($_item->getName()) ?></a>
-                            </strong>
+                    <?php foreach ($items as $_item) :?>
 
-                            <?php /* @escapeNotVerified */  echo $block->getProductPrice($_item); ?>
+                        <?php
+                        $productName = $_item->getName();
+                        $productUrl = $block->getProductUrl($_item);
+                        $finalProductPrice = $_item->getFinalPrice();
+                        $qff_bonus_points = 0;
+                        if ($_item->offsetExists("qff_bonus_points") && $_item->offsetExists("qff_base")) {
+                            $qff_bonus_points = $_item->getQffBonusPoints();
+                            $qff_base_points = $_item->getQffBase();
+                            $bonusPlusBase = $qff_bonus_points + $qff_base_points;
 
-                            <?php if ($templateType): ?>
-                                <?php /* @escapeNotVerified */  echo $block->getReviewsSummaryHtml($_item, $templateType) ?>
-                            <?php endif; ?>
+                            $points = number_format($finalProductPrice * $bonusPlusBase);
+                        }else {
+                            if($_item->offsetExists("qff_base")){
+                                $qff_base_points = $_item->getQffBase();
+                                $points = number_format($finalProductPrice * $qff_base_points);
+                            } else {
+                                $points = number_format($finalProductPrice * 2);
+                            }
+                        }
 
-                            <?php if ($showWishlist || $showCompare || $showCart): ?>
-                                <div class="product actions product-item-actions">
-                                    <?php if ($showCart): ?>
-                                        <div class="actions-primary">
-                                            <?php if ($_item->isSaleable()): ?>
-                                                <?php $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
-                                                $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item),
-                                                    ['product' => $_item->getEntityId()])
-                                                ?>
-                                                <button class="action tocart"
-                                                        data-post='<?php /* @escapeNotVerified */ echo $postData; ?>'
-                                                        type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                    <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
-                                                </button>
-                                            <?php else: ?>
-                                                <?php if ($_item->getIsSalable()): ?>
-                                                    <div class="stock available">
-                                                        <span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
-                                                <?php else: ?>
-                                                    <div class="stock unavailable">
-                                                        <span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+                        $finalQffPoints = $_item->getPoints();
+                        ?>
+
+                        <div class="product-item item">
+                            <div class="product-item-info">
+                                <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                   class="product-item-photo">
+                                    <?= $block->getImage($_item, $image)->toHtml() ?>
+                                </a>
+                                <div class="product-item-details">
+                                    <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
+
+                                        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                            <a href="#"
+                                               data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
+                                               class="action towishlist" data-action="add-to-wishlist"
+                                               title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                    <strong class="product-item-name">
+                                        <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                           href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                           class="product-item-link">
+                                            <?= $block->escapeHtml($_item->getName()) ?>
+                                        </a>
+                                    </strong>
+                                    <?= $block->getProductPrice($_item); ?>
+
+                                    <?php if ($templateType) :?>
+                                        <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                    <?php endif; ?>
+
+                                    <?php if ($showWishlist || $showCompare || $showCart) :?>
+                                        <div class="product-item-inner">
+                                            <div class="product actions product-item-actions">
+                                                <?php if ($showCart) :?>
+                                                    <div class="actions-primary">
+                                                        <?php $addToCartUrl = $block->getAddToCartUrl($_item); ?>
+
+                                                        <form data-role="tocart-form"
+                                                              data-product-sku="<?=  /* @escapeNotVerified */ $_item->getSku(); ?>"
+                                                              data-mage-init='{"validation": {}}'
+                                                              action="<?= $block->escapeUrl($addToCartUrl); ?>"
+                                                              method="post">
+
+                                                            <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
+                                                            <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
+                                                            <?php echo $block->getBlockHtml('formkey')?>
+                                                            <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                                                <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
+                                                            <?php endif; ?>
+                                                            <button class="action tocart primary"
+                                                                    type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                            </button>
+                                                        </form>
+                                                    </div>
                                                 <?php endif; ?>
-                                            <?php endif; ?>
+                                            </div>
                                         </div>
                                     <?php endif; ?>
 
-                                    <?php if ($showWishlist || $showCompare): ?>
-                                        <div class="secondary-addto-links actions-secondary" data-role="add-to-links">
-                                            <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
-                                                <a href="#"
-                                                   data-post='<?php /* @escapeNotVerified */ echo $block->getAddToWishlistParams($_item); ?>'
-                                                   class="action towishlist" data-action="add-to-wishlist"
-                                                   title="<?php /* @escapeNotVerified */ echo __('Add to Wish List') ?>">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
-                                                </a>
-                                            <?php endif; ?>
-                                            <?php if ($block->getAddToCompareUrl() && $showCompare): ?>
-                                                <?php
-                                                $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
-                                                ?>
-                                                <a href="#" class="action tocompare"
-                                                   data-post='<?php /* @escapeNotVerified */ echo $compareHelper->getPostDataParams($_item); ?>'
-                                                   data-role="add-to-links"
-                                                   title="<?php /* @escapeNotVerified */ echo __('Add to Compare'); ?>">
-                                                    <span><?php /* @escapeNotVerified */ echo __('Add to Compare') ?></span>
-                                                </a>
-                                            <?php endif; ?>
-                                        </div>
-                                    <?php endif; ?>
+                                    <div class="qantas-pts-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+                                        <span>Earn <?= $points ?> Qantas Points</span>
+                                    </div>
+
+                                    <?php echo $this->getLayout()
+                                        ->createBlock('Magento\Cms\Block\Block')
+                                        ->setBlockId('product-tile-rent')
+                                        ->toHtml();
+                                    ?>
                                 </div>
-                            <?php endif; ?>
+                            </div>
                         </div>
-                    </div>
-                    <?php /* @escapeNotVerified */ echo ($iterator == count($items) + 1) ? '</li>' : '' ?>
-                    <?php $i++; ?>
-                <?php endforeach ?>
-            </ol>
+                    <?php endforeach ?>
+                </div>
+            </div>
         </div>
     </div>
-    </div>
-<?php endif; ?>
-<script type="text/x-magento-init">
-    {
-        "*": {
-            "Digidirect_Blog/js/related-slider": {}
+<?php endif;?>
+
+<script>
+    require(['jquery', 'owl_carousel'],
+        function ($) {
+            $(document).ready(function() {
+                $('#related-product-carousel').owlCarousel({
+                    loop:false,
+                    nav:true,
+                    navText:["<div class='nav-btn prev-slide'></div>","<div class='nav-btn next-slide'></div>"],
+                    responsive:{
+                        0:{
+                            items:2,
+                            margin: 15,
+                            nav:false,
+                            loop:true,
+                            autoplay: true,
+                            autoplayTimeout:3000
+                        },
+                        600:{
+                            items:3,
+                            nav:false
+                        },
+                        1000:{
+                            items:4,
+                            margin: 15,
+                            loop:false
+                        },
+                        1680:{
+                            items:4,
+                            margin: 15,
+                            loop:false
+                        }
+                    },
+                    dots:false,
+                    autoplay:false,
+                    autoplayTimeout:3000
+                })
+            });
         }
-    }
+    );
 </script>
