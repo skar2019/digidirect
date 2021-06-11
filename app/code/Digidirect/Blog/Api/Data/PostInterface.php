@@ -18,5 +18,5 @@ interface PostInterface
 
     const FIELD_UPDATED_AT = 'updated_at';
 
-    const EWAVE_BLOG_POST_TABLE = 'digidirect_blog_post';
+    const DIGIDIRECT_BLOG_POST_TABLE = 'digidirect_blog_post';
 }

@@ -154,7 +154,7 @@ class InstallSchema implements InstallSchemaInterface
     protected function createBlogPost(SchemaSetupInterface $installer)
     {
         $table = $installer->getConnection()->newTable(
-            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE)
+            $installer->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE)
         )->addColumn(
             'entity_id',
             Table::TYPE_INTEGER,
@@ -287,11 +287,11 @@ class InstallSchema implements InstallSchemaInterface
             $installer->getFkName(
                 'digidirect_blog_post_categories',
                 'post_id',
-                PostInterface::EWAVE_BLOG_POST_TABLE,
+                PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
                 'entity_id'
             ),
             'post_id',
-            PostInterface::EWAVE_BLOG_POST_TABLE,
+            PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         )->addForeignKey(
@@ -365,11 +365,11 @@ class InstallSchema implements InstallSchemaInterface
                 ->getFkName(
                     'digidirect_blog_comment',
                     'post_id',
-                    PostInterface::EWAVE_BLOG_POST_TABLE,
+                    PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
                     'entity_id'
                 ),
             'post_id',
-            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+            $installer->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE),
             'entity_id',
             Table::ACTION_CASCADE
         )->setComment(
@@ -419,11 +419,11 @@ class InstallSchema implements InstallSchemaInterface
                 ->getFkName(
                     'digidirect_blog_post_related_products',
                     'post_id',
-                    PostInterface::EWAVE_BLOG_POST_TABLE,
+                    PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
                     'entity_id'
                 ),
             'post_id',
-            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+            $installer->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE),
             'entity_id',
             Table::ACTION_CASCADE
         )->addForeignKey(
@@ -482,22 +482,22 @@ class InstallSchema implements InstallSchemaInterface
             $installer->getFkName(
                 'digidirect_blog_post_related_post',
                 'post_id',
-                PostInterface::EWAVE_BLOG_POST_TABLE,
+                PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
                 'entity_id'
             ),
             'post_id',
-            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+            $installer->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE),
             'entity_id',
             Table::ACTION_CASCADE
         )->addForeignKey(
             $installer->getFkName(
                 'digidirect_blog_post_related_post2',
                 'related_id',
-                PostInterface::EWAVE_BLOG_POST_TABLE,
+                PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
                 'entity_id'
             ),
             'related_id',
-            $installer->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+            $installer->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE),
             'entity_id',
             Table::ACTION_CASCADE
         )->setComment(
@@ -566,9 +566,9 @@ class InstallSchema implements InstallSchemaInterface
             ),
             ['tag_id']
         )->addForeignKey(
-            $installer->getFkName('digidirect_blog_post_tags', 'post_id', PostInterface::EWAVE_BLOG_POST_TABLE, 'entity_id'),
+            $installer->getFkName('digidirect_blog_post_tags', 'post_id', PostInterface::DIGIDIRECT_BLOG_POST_TABLE, 'entity_id'),
             'post_id',
-            PostInterface::EWAVE_BLOG_POST_TABLE,
+            PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         )->addForeignKey(

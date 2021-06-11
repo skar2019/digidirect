@@ -17,7 +17,7 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Autocomplete extends AbstractHelper
 {
-    const EWAVE_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH = 'digidirect_address_suggestion/general';
+    const DIGIDIRECT_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH = 'digidirect_address_suggestion/general';
 
     const ALL_COUNTRIES = 'all';
 
@@ -64,7 +64,7 @@ class Autocomplete extends AbstractHelper
     public function getType()
     {
         return $this->scopeConfig->getValue(
-            self::EWAVE_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH . '/enabled',
+            self::DIGIDIRECT_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH . '/enabled',
             ScopeInterface::SCOPE_STORE
         );
     }
@@ -107,7 +107,7 @@ class Autocomplete extends AbstractHelper
     public function getApiKey()
     {
         return $this->scopeConfig->getValue(
-            self::EWAVE_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH . '/api_key',
+            self::DIGIDIRECT_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH . '/api_key',
             ScopeInterface::SCOPE_STORE
         );
     }

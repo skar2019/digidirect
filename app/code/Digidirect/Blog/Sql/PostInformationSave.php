@@ -34,7 +34,7 @@ class PostInformationSave extends AbstractDb implements InformationSaveInterface
      */
     protected function _construct()
     {
-        $this->_setMainTable(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE);
+        $this->_setMainTable(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE);
     }
 
     /**
@@ -62,7 +62,7 @@ class PostInformationSave extends AbstractDb implements InformationSaveInterface
     {
         $data = [
             PostContentInterface::STORE_ID => $this->currentStore->getCurrentStoreId(),
-            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID => $entity->getId(),
+            PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID => $entity->getId(),
         ];
 
         foreach ($entity->getData() as $key => $value) {
@@ -125,7 +125,7 @@ class PostInformationSave extends AbstractDb implements InformationSaveInterface
             $select = $this->getConnection()->select()
                 ->from($this->getMainTable())
                 ->where(PostContentInterface::STORE_ID . '= ?', $storeId)
-                ->where(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID . '= ?', $entityId);
+                ->where(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID . '= ?', $entityId);
             $has = $this->getConnection()->fetchRow($select);
 
             $this->cacheByEntity[$cacheKey] = !empty($has);

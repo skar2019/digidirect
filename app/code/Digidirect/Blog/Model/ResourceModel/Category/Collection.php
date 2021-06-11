@@ -156,7 +156,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     protected function prepareDdl()
     {
         $array = [
-            Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE,
+            Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE,
         ];
         try {
             foreach ($array as $table) {

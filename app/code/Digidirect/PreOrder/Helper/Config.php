@@ -9,19 +9,19 @@ namespace Digidirect\PreOrder\Helper;
  */
 class Config extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const EWAVE_PREORDER = 'digidirect_preorder';
+    const DIGIDIRECT_PREORDER = 'digidirect_preorder';
 
-    const XML_PATH_SECTION_GENERAL = self::EWAVE_PREORDER . '/general/';
+    const XML_PATH_SECTION_GENERAL = self::DIGIDIRECT_PREORDER . '/general/';
     const XML_PATH_ENABLED = self::XML_PATH_SECTION_GENERAL . 'enabled';
     const XML_PATH_ALLOW_EMPTY_QTY = self::XML_PATH_SECTION_GENERAL . 'allowemptyqty';
     const XML_PATH_DISABLE_FOR_POSITIVE_QTY = self::XML_PATH_SECTION_GENERAL . 'disableforpositiveqty';
 
-    const XML_PATH_SECTION_DISPLAY = self::EWAVE_PREORDER . '/display/';
+    const XML_PATH_SECTION_DISPLAY = self::DIGIDIRECT_PREORDER . '/display/';
     const XML_PATH_ADD_TO_CART_BUTTON_TEXT = self::XML_PATH_SECTION_DISPLAY . 'addtocartbuttontext';
     const XML_PATH_DEFAULT_PREORDER_NOTE = self::XML_PATH_SECTION_DISPLAY . 'defaultpreordernote';
     const XML_PATH_ORDER_PREORDER_WARNING = self::XML_PATH_SECTION_DISPLAY . 'orderpreorderwarning';
 
-    const XML_PATH_SECTION_ADDITIONAL = self::EWAVE_PREORDER . '/additional/';
+    const XML_PATH_SECTION_ADDITIONAL = self::DIGIDIRECT_PREORDER . '/additional/';
     const XML_PATH_DISCOVER_COMPOSITE_OPTIONS = self::XML_PATH_SECTION_ADDITIONAL . 'discovercompositeoptions';
     const XML_PATH_BACKORDERS_FOR_AVAILABILITY_DATE
         = self::XML_PATH_SECTION_ADDITIONAL.'backordersforavailabilitydate';

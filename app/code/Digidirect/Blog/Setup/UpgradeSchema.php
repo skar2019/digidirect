@@ -79,7 +79,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function modifyCreatedAtFieldInPosts(SchemaSetupInterface $setup)
     {
         $setup->getConnection()->modifyColumn(
-            $setup->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+            $setup->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE),
             'created_at',
             $this->getDateFieldparams('Created At')
         );
@@ -95,9 +95,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
         $createdAtComment = 'Created At';
         $updatedAt = 'updated_at';
         $updatedAtComment = 'Updated At';
-        $this->addDateField($setup, Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE, $createdAt, $createdAtComment);
-        $this->addDateField($setup, Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE, $updatedAt, $updatedAtComment);
-        $this->addDateField($setup, PostInterface::EWAVE_BLOG_POST_TABLE, $updatedAt, $updatedAtComment);
+        $this->addDateField($setup, Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE, $createdAt, $createdAtComment);
+        $this->addDateField($setup, Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE, $updatedAt, $updatedAtComment);
+        $this->addDateField($setup, PostInterface::DIGIDIRECT_BLOG_POST_TABLE, $updatedAt, $updatedAtComment);
     }
 
     /**
@@ -146,7 +146,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function addTrendingImage(SchemaSetupInterface $setup)
     {
         $setup->getConnection()->addColumn(
-            $setup->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+            $setup->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE),
             'image_trending',
             [
                 'type' => Table::TYPE_TEXT,
@@ -198,7 +198,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function createCategoryInformationTable(): self
     {
         $tableCat = $this->getConnection()->newTable(
-            $this->getTable(Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE)
+            $this->getTable(Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE)
         )->addColumn(
             CategoryContentInterface::CATEGORY_ID,
             Table::TYPE_INTEGER,
@@ -249,7 +249,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'Store Id'
         )->addIndex(
             $this->setup->getIdxName(
-                Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE,
+                Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE,
                 [CategoryContentInterface::STORE_ID, CategoryContentInterface::CATEGORY_ID],
                 AdapterInterface::INDEX_TYPE_UNIQUE
             ),
@@ -257,18 +257,18 @@ class UpgradeSchema implements UpgradeSchemaInterface
             ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
         )->addForeignKey(
             $this->getFkName(
-                Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE,
+                Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE,
                 CategoryContentInterface::CATEGORY_ID,
-                Category::EWAVE_BLOG_CATEGORY_TABLE,
+                Category::DIGIDIRECT_BLOG_CATEGORY_TABLE,
                 'entity_id'
             ),
             CategoryContentInterface::CATEGORY_ID,
-            Category::EWAVE_BLOG_CATEGORY_TABLE,
+            Category::DIGIDIRECT_BLOG_CATEGORY_TABLE,
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         )->addForeignKey(
             $this->getFkName(
-                Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE,
+                Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE,
                 CategoryContentInterface::STORE_ID,
                 'store',
                 'store_id'
@@ -293,27 +293,27 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function _createPostInformationTable(SchemaSetupInterface $setup)
     {
         $newTable = $setup->getConnection()->newTable(
-            $setup->getTable(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE)
+            $setup->getTable(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE)
         )->addColumn(
-            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID,
+            PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID,
             Table::TYPE_INTEGER,
             10,
             ['unsigned' => true, 'nullable' => false],
             'Post ID'
         )->addColumn(
-            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_TITLE,
+            PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_TITLE,
             Table::TYPE_TEXT,
             255,
             ['nullable' => false],
             'Title'
         )->addColumn(
-            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_CONTENT,
+            PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_CONTENT,
             Table::TYPE_TEXT,
             '2M',
             ['nullable' => false],
             'Content'
         )->addColumn(
-            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_SHORT_CONTENT,
+            PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_SHORT_CONTENT,
             Table::TYPE_TEXT,
             '2M',
             ['nullable' => false],
@@ -344,26 +344,26 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'Store Id'
         )->addIndex(
             $setup->getIdxName(
-                PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
-                [PostContentInterface::STORE_ID, PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID],
+                PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE,
+                [PostContentInterface::STORE_ID, PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID],
                 AdapterInterface::INDEX_TYPE_UNIQUE
             ),
-            [PostContentInterface::STORE_ID, PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID],
+            [PostContentInterface::STORE_ID, PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID],
             ['type' => AdapterInterface::INDEX_TYPE_UNIQUE]
         )->addForeignKey(
             $setup->getFkName(
-                PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
-                PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID,
-                PostInterface::EWAVE_BLOG_POST_TABLE,
+                PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE,
+                PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID,
+                PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
                 'entity_id'
             ),
-            PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID,
-            PostInterface::EWAVE_BLOG_POST_TABLE,
+            PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID,
+            PostInterface::DIGIDIRECT_BLOG_POST_TABLE,
             'entity_id',
             AdapterInterface::FK_ACTION_CASCADE
         )->addForeignKey(
             $setup->getFkName(
-                PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
+                PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE,
                 PostContentInterface::STORE_ID,
                 'store',
                 'store_id'
@@ -408,7 +408,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'url_key',
         ];
         foreach ($columns as $column) {
-            $this->getConnection()->dropColumn($this->getTable(Category::EWAVE_BLOG_CATEGORY_TABLE), $column);
+            $this->getConnection()->dropColumn($this->getTable(Category::DIGIDIRECT_BLOG_CATEGORY_TABLE), $column);
         }
 
         return $this;
@@ -429,7 +429,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'meta_description',
         ];
         foreach ($columns as $column) {
-            $setup->getConnection()->dropColumn($setup->getTable(PostInterface::EWAVE_BLOG_POST_TABLE), $column);
+            $setup->getConnection()->dropColumn($setup->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE), $column);
         }
 
         return $this;
@@ -442,7 +442,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function addColumnToPostInformationForStoreView($setup)
     {
         $setup->getConnection()->addColumn(
-            $setup->getTable(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE),
+            $setup->getTable(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE),
             'url_key',
             [
                 'type' => Table::TYPE_TEXT,
@@ -452,7 +452,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             ]
         );
         $setup->getConnection()->addColumn(
-            $setup->getTable(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE),
+            $setup->getTable(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE),
             'status',
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -475,13 +475,13 @@ class UpgradeSchema implements UpgradeSchemaInterface
             'status'
         ];
         $adapter = $setup->getConnection();
-        $tableDescription = $adapter->describeTable(PostInterface::EWAVE_BLOG_POST_TABLE);
+        $tableDescription = $adapter->describeTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE);
         $fieldsToSelect = array_keys($tableDescription);
         $fieldsToSelect = array_intersect($columns, $fieldsToSelect);
         if (!empty($fieldsToSelect)) {
             $fieldsToSelect[] = PostInterface::FIELD_ID;
             $select = $adapter->select()
-                ->from(PostInterface::EWAVE_BLOG_POST_TABLE)
+                ->from(PostInterface::DIGIDIRECT_BLOG_POST_TABLE)
                 ->reset(\Zend_Db_Select::COLUMNS)
                 ->columns($fieldsToSelect);
             $result = $adapter->fetchAll($select);
@@ -493,18 +493,18 @@ class UpgradeSchema implements UpgradeSchemaInterface
             }
 
             $select = $adapter->select()
-                ->from(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE)
+                ->from(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE)
                 ->reset(\Zend_Db_Select::COLUMNS)
                 ->columns([
-                    PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID,
+                    PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID,
                     PostContentInterface::STORE_ID,
-                    PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_URL_KEY,
+                    PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_URL_KEY,
                     PostInterface::FIELD_STATUS
                 ]);
             $result = $adapter->fetchAll($select);
             foreach ($result as $key => &$row) {
-                $newData = !empty($oldData[$row[PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID]])
-                    ? $oldData[$row[PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE_ID]]
+                $newData = !empty($oldData[$row[PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID]])
+                    ? $oldData[$row[PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID]]
                     : [];
                 if (empty($newData)) {
                     unset($result[$key]);
@@ -512,14 +512,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 $row = array_merge($row, $newData);
             }
             $adapter->insertOnDuplicate(
-                PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE,
+                PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE,
                 $result,
                 $columns
             );
 
             foreach ($columns as $column) {
                 $setup->getConnection()->dropColumn(
-                    $setup->getTable(PostInterface::EWAVE_BLOG_POST_TABLE),
+                    $setup->getTable(PostInterface::DIGIDIRECT_BLOG_POST_TABLE),
                     $column
                 );
             }
@@ -535,9 +535,9 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function updateBlogPostTagTable($setup)
     {
         $setup->getConnection()->addIndex(
-            TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+            TagInterface::DIGIDIRECT_BLOG_POST_TAG_TABLE,
             $setup->getIdxName(
-                TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+                TagInterface::DIGIDIRECT_BLOG_POST_TAG_TABLE,
                 ['post_id']
             ),
             ['post_id']
@@ -552,7 +552,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function updatePostTagsTableForStoreView($setup)
     {
         $setup->getConnection()->addColumn(
-            $setup->getTable(TagInterface::EWAVE_BLOG_POST_TAG_TABLE),
+            $setup->getTable(TagInterface::DIGIDIRECT_BLOG_POST_TAG_TABLE),
             'store_id',
             [
                 'type' => Table::TYPE_SMALLINT,
@@ -564,14 +564,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
         );
 
         $setup->getConnection()->dropIndex(
-            TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+            TagInterface::DIGIDIRECT_BLOG_POST_TAG_TABLE,
             'primary'
         );
 
         $setup->getConnection()->addIndex(
-            TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+            TagInterface::DIGIDIRECT_BLOG_POST_TAG_TABLE,
             $setup->getIdxName(
-                TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+                TagInterface::DIGIDIRECT_BLOG_POST_TAG_TABLE,
                 ['post_id', 'tag_id', 'store_id']
             ),
             ['post_id', 'tag_id', 'store_id'],
@@ -580,12 +580,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $setup->getConnection()->addForeignKey(
             $setup->getFkName(
-                TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+                TagInterface::DIGIDIRECT_BLOG_POST_TAG_TABLE,
                 'store_id',
                 'store',
                 'store_id'
             ),
-            TagInterface::EWAVE_BLOG_POST_TAG_TABLE,
+            TagInterface::DIGIDIRECT_BLOG_POST_TAG_TABLE,
             'store_id',
             'store',
             'store_id'

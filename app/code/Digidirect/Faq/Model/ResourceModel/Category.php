@@ -18,7 +18,7 @@ use Magento\Framework\EntityManager\EntityManager;
  */
 class Category extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
-    const EWAVE_FAQ_CATEGORY_ITEM_INFO_TABLE = 'digidirect_faq_category';
+    const DIGIDIRECT_FAQ_CATEGORY_ITEM_INFO_TABLE = 'digidirect_faq_category';
 
     /**
      * @var MetadataPool
@@ -196,7 +196,7 @@ class Category extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _getMainInfoTable()
     {
-        return $this->getTable(self::EWAVE_FAQ_CATEGORY_ITEM_INFO_TABLE);
+        return $this->getTable(self::DIGIDIRECT_FAQ_CATEGORY_ITEM_INFO_TABLE);
     }
 
     /**

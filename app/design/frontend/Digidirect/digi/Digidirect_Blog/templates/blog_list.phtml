@@ -11,7 +11,7 @@ $blogHelper = $this->helper('Digidirect\Digi\Helper\Blog');
 $categoriesArrayNames = [];
 ?>
 <?php if ($block->isListPageMode()): ?>
-    <div class="blog-list blog-pg">
+    <div class="blog-list blog-pg blogger">
         <?php foreach ($block->getCollection() as $post): ?>
             <article class="post-card item">
                 <?php if (!empty($post->getImageUrl())): ?>

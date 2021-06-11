@@ -38,7 +38,7 @@ class CategoryInformationJoin implements InformationJoinInterface, CurrentStoreC
     public function join(
         Select $select,
         int $storeId,
-        $mainTableAlias = Category::EWAVE_BLOG_CATEGORY_TABLE,
+        $mainTableAlias = Category::DIGIDIRECT_BLOG_CATEGORY_TABLE,
         $id = null,
         $fields = []
     ) {
@@ -46,7 +46,7 @@ class CategoryInformationJoin implements InformationJoinInterface, CurrentStoreC
             $select,
             $storeId,
             $mainTableAlias,
-            Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE,
+            Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE,
             '',
             $id,
             $fields
@@ -66,8 +66,8 @@ class CategoryInformationJoin implements InformationJoinInterface, CurrentStoreC
     protected function doJoin(
         Select $select,
         int $storeId,
-        $mainTableAlias = Category::EWAVE_BLOG_CATEGORY_TABLE,
-        $joinTableAlias = Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE,
+        $mainTableAlias = Category::DIGIDIRECT_BLOG_CATEGORY_TABLE,
+        $joinTableAlias = Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE,
         $columnPrefix = '',
         $id = null,
         $fields = []
@@ -89,7 +89,7 @@ class CategoryInformationJoin implements InformationJoinInterface, CurrentStoreC
         }
 
         $select->joinLeft(
-            [$joinTableAlias => Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE],
+            [$joinTableAlias => Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE],
             $mainTableAlias . '.entity_id = ' . $joinTableAlias . '.' . CategoryContentInterface::CATEGORY_ID .
             ' AND ' . $joinTableAlias . '.' . CategoryContentInterface::STORE_ID . ' = ' . $storeId,
             $selectFields
@@ -108,7 +108,7 @@ class CategoryInformationJoin implements InformationJoinInterface, CurrentStoreC
     public function joinDefault(
         Select $select,
         int $storeId = Store::DEFAULT_STORE_ID,
-        $mainTableAlias = Category::EWAVE_BLOG_CATEGORY_TABLE,
+        $mainTableAlias = Category::DIGIDIRECT_BLOG_CATEGORY_TABLE,
         $id = null,
         $fields = []
     ) {
@@ -116,7 +116,7 @@ class CategoryInformationJoin implements InformationJoinInterface, CurrentStoreC
             $select,
             $storeId,
             $mainTableAlias,
-            static::DEFAULT_STORE_COLUMN_PREFIX . Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE,
+            static::DEFAULT_STORE_COLUMN_PREFIX . Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE,
             static::DEFAULT_STORE_COLUMN_PREFIX,
             $id,
             $fields

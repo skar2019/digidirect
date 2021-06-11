@@ -55,7 +55,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
                 $resultPage->getConfig()->setPageLayout($pageLayout);
             }
 
-            $resultPage->addHandle(['type' => 'EWAVE_FAQ_CATEGORY_' . $category->getId()]);
+            $resultPage->addHandle(['type' => 'DIGIDIRECT_FAQ_CATEGORY_' . $category->getId()]);
             if ($layoutUpdate = trim($category->getLayoutUpdateXml())) {
                 $resultPage->addUpdate($layoutUpdate);
             }

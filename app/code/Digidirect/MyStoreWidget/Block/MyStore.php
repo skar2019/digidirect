@@ -161,7 +161,7 @@ class MyStore extends \Magento\Framework\View\Element\Template implements Identi
      */
     public function getStoreHtmlSelect($name = 'abstract_entity_id', $id = 'mystorewidget', $title = null)
     {
-        $cacheKey = 'EWAVE_SELECT_MYSTORE_' . $this->_storeManager->getStore()->getCode();
+        $cacheKey = 'DIGIDIRECT_SELECT_MYSTORE_' . $this->_storeManager->getStore()->getCode();
         $cache = $this->configCacheType->load($cacheKey);
         $defaultValue = $this->getStore() ? $this->getStore()->getId() : '';
         if ($cache) {
