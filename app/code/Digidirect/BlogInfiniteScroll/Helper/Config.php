@@ -11,9 +11,9 @@ use Magento\Store\Model\ScopeInterface;
  */
 class Config extends AbstractHelper
 {
-    const EWAVE_BLOG_INFINITE_CATEGORY_ENABLED = 'digidirect_blog/infinite_scroll/enable_category_listing';
-    const EWAVE_BLOG_INFINITE_POST_ENABLED = 'digidirect_blog/infinite_scroll/enable_post_listing';
-    const EWAVE_BLOG_INFINITE_POST_LIMIT = 'digidirect_blog/general/postonlist';
+    const DIGIDIRECT_BLOG_INFINITE_CATEGORY_ENABLED = 'digidirect_blog/infinite_scroll/enable_category_listing';
+    const DIGIDIRECT_BLOG_INFINITE_POST_ENABLED = 'digidirect_blog/infinite_scroll/enable_post_listing';
+    const DIGIDIRECT_BLOG_INFINITE_POST_LIMIT = 'digidirect_blog/general/postonlist';
 
     const TYPE_POST = 'post';
     const TYPE_CATEGORY = 'category';
@@ -39,7 +39,7 @@ class Config extends AbstractHelper
     public function isCategoryEnabled()
     {
         return $this->scopeConfig->isSetFlag(
-            self::EWAVE_BLOG_INFINITE_CATEGORY_ENABLED,
+            self::DIGIDIRECT_BLOG_INFINITE_CATEGORY_ENABLED,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
@@ -50,7 +50,7 @@ class Config extends AbstractHelper
     public function isPostEnabled()
     {
         return $this->scopeConfig->isSetFlag(
-            self::EWAVE_BLOG_INFINITE_POST_ENABLED,
+            self::DIGIDIRECT_BLOG_INFINITE_POST_ENABLED,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
@@ -68,7 +68,7 @@ class Config extends AbstractHelper
      */
     public function getLimit()
     {
-        return $this->getConfigValue(self::EWAVE_BLOG_INFINITE_POST_LIMIT);
+        return $this->getConfigValue(self::DIGIDIRECT_BLOG_INFINITE_POST_LIMIT);
     }
 
     /**
