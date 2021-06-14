@@ -33,7 +33,7 @@
                 <field id="enable" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label><![CDATA[Enable]]></label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment><![CDATA[Version 1.1.8]]></comment>
+                    <comment><![CDATA[Version 1.1.9]]></comment>
                 </field>
                 <field id="mix" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label><![CDATA[Allow Mixing Order]]></label>
@@ -51,7 +51,6 @@
                 </field>
                 <field id="note" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label><![CDATA[Note for Pre-Order Products in Cart/Order]]></label>
-                    <comment><![CDATA[{preorder_date} can be used as the Pre-order Button Availability period in each product detail page.]]></comment>
                     <validate>required-entry</validate>
                 </field>
                 <field id="mess" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">

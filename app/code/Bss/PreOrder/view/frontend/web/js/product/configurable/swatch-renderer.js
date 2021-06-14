@@ -19,7 +19,6 @@ define([
     'underscore',
     'mage/translate',
     'mage/template',
-    'jquery/ui',
     'jquery/jquery.parsequery'
 ], function ($, _, $t, template) {
     'use strict';
@@ -30,7 +29,7 @@ define([
             options: {
                 addToCartButtonText: '.action.tocart.primary span',
                 addToCartButtonSelector: '.action.tocart.primary',
-                stockSelector: '.product-info-stock-sku .stock span',
+                stockSelector: '.product-info-stock-sku .stock',
                 productPageContainer: '.product-info-main',
                 otherPageContainer: '.product-item-details',
                 preOrderInput: '<input type="hidden" name="is_preorder" value="1">',
@@ -133,7 +132,7 @@ define([
                         let messageHtml = messageTemplate({message: availabilityMessage});
                         let elementAvailMessage = $($widget.element).parents(parent).find($widget.options.availabilityMessageClass);
                         if (!elementAvailMessage.length) {
-                            $($widget.element).parents(parent).find($widget.options.stockSelector).after(messageHtml);
+                            $($widget.element).parents(parent).find($widget.options.stockSelector).html($($widget.element).parents(parent).find($widget.options.stockSelector).html() + messageHtml);
                         } else {
                             elementAvailMessage.text(availabilityMessage);
                         }

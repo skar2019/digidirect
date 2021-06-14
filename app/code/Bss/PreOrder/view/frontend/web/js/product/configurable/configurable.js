@@ -28,7 +28,7 @@ define([
             options: {
                 addToCartButtonText: '.action.tocart.primary span',
                 addToCartButtonSelector: '.action.tocart.primary',
-                stockSelector: '.product-info-stock-sku .stock span',
+                stockSelector: '.product-info-stock-sku .stock',
                 productPageContainer: '.product-info-main',
                 otherPageContainer: '.product-item-details',
                 preOrderInput: '<input type="hidden" name="is_preorder" value="1">',
@@ -41,7 +41,9 @@ define([
              * @private
              */
             _create: function () {
-                var $widget = this;
+                var $widget = this,
+                    count = 0,
+                    size =0;
 
                 // eslint-disable-next-line max-len
                 // _configureElement will run before in $widget._super();, so change default text add tocart
@@ -69,16 +71,20 @@ define([
                     childProductData = this.options.spConfig.preorder,
                     $parent = ".product-info-main";
 
-                if (productId && childProductData['child'].hasOwnProperty(productId)) {
-                    $widget._UpdatePreOrder(
-                        childProductData['child'][productId]['stock_status'],
-                        childProductData['child'][productId]['preorder'],
-                        childProductData['child'][productId]['availability_preorder'],
-                        childProductData['child'][productId]['message'],
-                        childProductData['child'][productId]['button'],
-                        childProductData['child'][productId]['availability_message'],
-                        $parent
-                    );
+                if (productId) {
+                    if (childProductData['child']) {
+                        if (childProductData['child'].hasOwnProperty(productId)) {
+                            $widget._UpdatePreOrder(
+                                childProductData['child'][productId]['stock_status'],
+                                childProductData['child'][productId]['preorder'],
+                                childProductData['child'][productId]['availability_preorder'],
+                                childProductData['child'][productId]['message'],
+                                childProductData['child'][productId]['button'],
+                                childProductData['child'][productId]['availability_message'],
+                                $parent
+                            );
+                        }
+                    }
                 } else {
                     $widget._ResetPreOrder($parent);
                 }
@@ -109,7 +115,7 @@ define([
                         let messageHtml = messageTemplate({message: availabilityMessage});
                         let elementAvailMessage = $($widget.element).parents(parent).find($widget.options.availabilityMessageClass);
                         if (!elementAvailMessage.length) {
-                            $($widget.element).parents(parent).find($widget.options.stockSelector).after(messageHtml);
+                            $($widget.element).parents(parent).find($widget.options.stockSelector).html($($widget.element).parents(parent).find($widget.options.stockSelector).html() + messageHtml);
                         } else {
                             elementAvailMessage.text(availabilityMessage);
                         }

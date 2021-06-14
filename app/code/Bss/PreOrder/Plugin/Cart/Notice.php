@@ -70,15 +70,10 @@ class Notice
                 $isInStock = $this->helper->getIsInStock($product->getId());
                 $preOrder = $product->getData('preorder');
 
-                $message = $this->helper->replaceVariableX(
-                    $this->helper->getNote(),
-                    $this->helper->formatDate($product->getData('pre_oder_from_date')),
-                    $this->helper->formatDate($product->getData('pre_oder_to_date'))
-                );
                 $availabilityPreOrder = $this->helper->isAvailablePreOrder($product->getId());
                 $show_mess = $this->helper->isPreOrder($preOrder, $isInStock, $availabilityPreOrder);
 
-                if ($preOrder == Order::ORDER_OUT_OF_STOCK && $isInStock) {
+                if ($preOrder == Order::ORDER_OUT_OF_STOCK && !$isInStock) {
                     $stock = $this->helper->getStockItem($product->getId())->getQty();
                     if (!$this->helper->checkVersion()) {
                         $stockData =  $this->factory->create()->execute($item->getSku());
@@ -89,7 +84,7 @@ class Notice
                     }
                 }
                 if ($show_mess) {
-                    $item->setMessage($message);
+                    $item->setMessage($this->helper->getNote());
                 }
             } catch (NoSuchEntityException $e) {
                 return [$item];

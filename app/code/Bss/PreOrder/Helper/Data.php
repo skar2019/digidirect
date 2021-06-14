@@ -12,14 +12,17 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2021 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Helper;
 
 use Magento\Catalog\Model\ProductFactory;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\ProductMetadataInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -39,6 +42,16 @@ class Data extends AbstractHelper
         'message',
         'availability_message'
     ];
+
+    /**
+     * @var boolean
+     */
+    protected $preOrderItem;
+
+    /**
+     * @var boolean
+     */
+    protected $preOrderCartItem;
 
     /**
      * @var \Magento\Framework\Registry
@@ -96,6 +109,16 @@ class Data extends AbstractHelper
     protected $multiSourceInventory;
 
     /**
+     * @var \Magento\Framework\App\Request\Http
+     */
+    protected $request;
+
+    /**
+     * @var Configurable
+     */
+    private $configurable;
+
+    /**
      * Data constructor.
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\App\Helper\Context $context
@@ -110,6 +133,7 @@ class Data extends AbstractHelper
      * @param ProductFactory $productFactory
      * @param \Magento\Framework\Serialize\SerializerInterface $serializer
      * @param \Bss\PreOrder\Model\Factory $multiSourceInventory
+     * @param \Magento\Framework\App\Request\Http $request
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -125,8 +149,12 @@ class Data extends AbstractHelper
         \Magento\Framework\Module\Manager $moduleManager,
         ProductFactory $productFactory,
         \Magento\Framework\Serialize\SerializerInterface $serializer,
+        \Magento\Framework\App\Request\Http $request,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurable,
         \Bss\PreOrder\Model\Factory $multiSourceInventory
     ) {
+        $this->request = $request;
+        $this->configurable = $configurable;
         $this->registry = $registry;
         parent::__construct($context);
         $this->stockItemRepository = $stockItemRepository;
@@ -399,7 +427,7 @@ class Data extends AbstractHelper
      */
     public function isMix()
     {
-        return $this->scopeConfig->isSetFlag(
+        return $this->isEnable() && $this->scopeConfig->isSetFlag(
             'preorder/general/mix',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
@@ -440,19 +468,6 @@ class Data extends AbstractHelper
     {
         return $this->scopeConfig->getValue(
             'preorder/general/note',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-        );
-    }
-
-    /**
-     * Get Cart Message
-     *
-     * @return string
-     */
-    public function getCartMess()
-    {
-        return $this->scopeConfig->getValue(
-            'preorder/general/cartmess',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
@@ -503,7 +518,7 @@ class Data extends AbstractHelper
         $timezone = null,
         $pattern = 'd MMM Y'
     ) {
-        if ($date) {
+        if ($date && strtotime($date)) {
             return $this->timezone->formatDateTime(
                 $date,
                 $format,
@@ -527,15 +542,15 @@ class Data extends AbstractHelper
      */
     public function replaceVariableX($mess, $fromDate, $toDate)
     {
-        $fromDate = $this->formatDate($fromDate);
-        $toDate = $this->formatDate($toDate);
-        $preOrderDate = "from " . $fromDate . " to " . $toDate;
-        $mess = str_replace(
-            ["{preorder_date}"],
-            [$preOrderDate],
-            $mess
-        );
-        return $mess;
+        $preOrderDate = '';
+        if (trim($fromDate) != '' && trim($toDate) != '') {
+            $preOrderDate = __('from %1 to %2', $fromDate, $toDate);
+        } elseif (trim($fromDate) != '' && trim($toDate) == '') {
+            $preOrderDate = __('from %1', $fromDate);
+        } elseif (trim($fromDate) == '' && trim($toDate) != '') {
+            $preOrderDate = __('to %1', $toDate);
+        }
+        return str_replace(["{preorder_date}"], [$preOrderDate], $mess);
     }
 
     /**
@@ -565,18 +580,11 @@ class Data extends AbstractHelper
      */
     public function getAvailabilityMessage($product)
     {
-        $message = $product->getData('availability_message');
+        $mess = $product->getData('availability_message');
         $preOrderFromDate = $this->formatDate($product->getData('pre_oder_from_date'));
         $preOrderToDate = $this->formatDate($product->getData('pre_oder_to_date'));
-        if ($message) {
-            $message = str_replace(
-                '{preorder_date}',
-                'from ' . $preOrderFromDate . ' to ' . $preOrderToDate,
-                $message
-            );
-        }
 
-        return $message;
+        return $this->replaceVariableX($mess, $preOrderFromDate, $preOrderToDate);
     }
 
     /**
@@ -587,14 +595,7 @@ class Data extends AbstractHelper
      */
     public function getAvailMessageFromFlatData($message, $preOrderFromDate, $preOrderToDate)
     {
-        if ($message) {
-            $message = str_replace(
-                '{preorder_date}',
-                'from ' . $preOrderFromDate . ' to ' . $preOrderToDate,
-                $message
-            );
-        }
-        return $message;
+        return $this->replaceVariableX($message, $preOrderFromDate, $preOrderToDate);
     }
 
     /**
@@ -610,6 +611,7 @@ class Data extends AbstractHelper
         }
         return false;
     }
+
     /**
      * Check is enable Module CPGridView
      *
@@ -653,5 +655,259 @@ class Data extends AbstractHelper
             return $message;
         }
         return '';
+    }
+
+    /**
+     * @param $product
+     * @param $requestInfo
+     * @param false $needCheck
+     * @return array
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    public function checkPreOrderItem($product, $requestInfo, $needCheck = false)
+    {
+        $isPreOrderItem = $this->request->getParam('is_preorder');
+        if ($needCheck || !$isPreOrderItem) {
+            $isPreOrderItem = $this->getPreOrder($product->getId()) == 1
+                && $this->isAvailablePreOrder($product->getId());
+        }
+        $qtyOrder = isset($requestInfo['qty']) ? $requestInfo['qty'] : 1;
+        $productId = $requestInfo['product'];
+        if (!$isPreOrderItem && $productId) {
+            if ($product->getTypeId() == Configurable::TYPE_CODE) {
+                $product = $this->getProductById($productId);
+                $product = $this->configurable->getProductByAttributes(
+                    $requestInfo['super_attribute'],
+                    $product
+                );
+                $productId = $product->getId();
+            }
+            $preOrderProduct = $this->getPreOrder($productId);
+            $qtyProduct = $this->getProductSalableQty($product, $productId);
+            if ($preOrderProduct == 2 && $qtyOrder > $qtyProduct) {
+                $isPreOrderItem = 1;
+            }
+        }
+        return [
+            'isPreOrderItem' => (bool)$isPreOrderItem,
+            'qtyOrder' => $qtyOrder,
+            'productId' => $productId
+        ];
+    }
+
+    /**
+     * Validate Request Product With Items In Cart
+     *
+     * @param array $cartItems
+     * @param array $preOrderItem
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    public function validateWithCart($cartItems, $preOrderItem)
+    {
+        $typeConfi = Configurable::TYPE_CODE;
+        $isPreOrderItem = $preOrderItem['isPreOrderItem'];
+        foreach ($cartItems as $item) {
+            $productId = $item->getProduct()->getId();
+            $product = $item;
+            if ($item->getProduct()->getTypeId() == $typeConfi) {
+                $requestInfo =$item->getBuyRequest();
+                $product = $this->getProductById($productId);
+                $product = $this->configurable->getProductByAttributes(
+                    $requestInfo['super_attribute'],
+                    $product
+                );
+                $productId = $product->getId();
+                $preOrderProduct = $this->getPreOrder($productId);
+                $qtyProduct = $this->getProductSalableQty($product, $productId);
+                if (!$isPreOrderItem && $preOrderItem['productId'] == $productId
+                    && ($preOrderItem['qtyOrder'] +$requestInfo['qty'] > $qtyProduct)) {
+                    $this->preOrderItem = true;
+                    continue;
+                }
+                if ($preOrderProduct == 2 && $requestInfo['qty'] > $qtyProduct) {
+                    $this->isPreOrderCart($isPreOrderItem, 1);
+                    $this->preOrderCartItem = true;
+                    continue;
+                }
+            }
+            $isPreOrderCart = $this->checkPreOrderCartItem($product, $productId, $preOrderItem);
+            if ($productId == $preOrderItem['productId']) {
+                continue;
+            }
+            $this->isPreOrderCart($isPreOrderItem, $isPreOrderCart);
+        }
+        $this->checkDisplayMessage();
+    }
+
+    /**
+     * @param $productIds
+     * @param $cartItems
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    public function validateAddRelatedProduct($productIds, $cartItems)
+    {
+        foreach ($productIds as $productId) {
+            $productId = (int) $productId;
+            if (!$productId) {
+                continue;
+            }
+            $currentProduct = $this->getProductById($productId);
+            if ($currentProduct && $currentProduct->isVisibleInCatalog()) {
+                $stockItem = $this->getStockItem(
+                    $productId,
+                    $this->storeManager->getStore()->getWebsiteId()
+                );
+                $qty = 1;
+                $minQty = $stockItem->getMinSaleQty();
+                if ($minQty && $minQty > 0) {
+                    $qty = $minQty;
+                }
+            }
+            $requestInfo = [
+                'qty' => $qty,
+                'product' => $currentProduct->getId()
+            ];
+            $preOrderItem = $this->checkPreOrderItem($currentProduct, $requestInfo, true);
+            $this->validateWithCart($cartItems, $preOrderItem);
+        }
+    }
+
+    /**
+     * Validate For Group Product
+     *
+     * @param array $cartItems
+     * @param array $requestInfo
+     * @throws LocalizedException
+     */
+    public function validateForGroupProduct($cartItems, $requestInfo)
+    {
+        $countNormalProduct = $countPreOrder = 0;
+        foreach ($requestInfo['super_group'] as $key => $value) {
+            if ($value) {
+                if (!empty($cartItems)) {
+                    /* Validate with product in Cart */
+                    $preOrderItem = $this->checkPreOrderGroup($key, $value);
+                    $this->validateWithCart($cartItems, $preOrderItem);
+                } else {
+                    /* Validate with other child product in request if Cart no items */
+                    $isPreOrderItem = $this->checkPreOrderGroup($key, $value)['isPreOrderItem'];
+                    if ($isPreOrderItem) {
+                        $countPreOrder++;
+                    } else {
+                        $countNormalProduct++;
+                    }
+                }
+            }
+        }
+        if (empty($cartItems)) {
+            if ($countNormalProduct && $countPreOrder) {
+                $this->returnErrorMess();
+            }
+        }
+    }
+
+    /**
+     * @throws LocalizedException
+     */
+    private function checkDisplayMessage()
+    {
+        if ($this->preOrderItem && $this->preOrderCartItem) {
+            $this->preOrderItem = false;
+            $this->preOrderCartItem = false;
+            $this->returnErrorMess();
+        }
+    }
+
+    /**
+     * Validate
+     *
+     * @param bool $isPreOrderItem
+     * @param bool $isPreOrderCart
+     * @throws LocalizedException
+     */
+    protected function isPreOrderCart($isPreOrderItem, $isPreOrderCart)
+    {
+        if (($isPreOrderItem && !$isPreOrderCart) || (!$isPreOrderItem && $isPreOrderCart)) {
+            $this->returnErrorMess();
+        }
+    }
+
+    /**
+     * Return Error Message
+     *
+     * @throws LocalizedException
+     */
+    protected function returnErrorMess()
+    {
+        $message = "We could not add both pre-order and regular items to an order.";
+        throw new LocalizedException(__($message));
+    }
+
+    /**
+     * @param mixed $item
+     * @param int $productId
+     * @param array $preOrderItem
+     * @return bool
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    protected function checkPreOrderCartItem($item, $productId, $preOrderItem)
+    {
+        $preOrderCart = $this->getPreOrder($productId);
+        $inStockCart = $this->getIsInStock($productId);
+        $availabilityPreOrder = $this->isAvailablePreOrder($productId);
+        $isPreOrderCart = $this->isPreOrder($preOrderCart, $inStockCart, $availabilityPreOrder);
+        if ($inStockCart && $preOrderCart == 2) {
+            $qtyProduct = $this->getProductSalableQty($item, $productId);
+            if ($item->getQty() > $qtyProduct) {
+                $isPreOrderCart = true;
+            }
+            $isPreOrderItem = $preOrderItem['isPreOrderItem'];
+            if (!$isPreOrderItem && $preOrderItem['productId'] == $productId
+                && ($preOrderItem['qtyOrder'] + $item->getQty() > $qtyProduct)) {
+                $this->preOrderItem = true;
+            }
+        }
+        if (!$isPreOrderCart) {
+            $this->preOrderCartItem = true;
+        }
+        return $isPreOrderCart;
+    }
+
+    /**
+     * @param int $key
+     * @param float $value
+     * @return array
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    protected function checkPreOrderGroup($key, $value)
+    {
+        $isPreOrderItem = $this->request->getParam('is_preorder_group_' . $key);
+        $productId = $key;
+        if (!$isPreOrderItem) {
+            $product = $this->getProductById($key);
+            $preOrderProduct = $this->getPreOrder($productId);
+            $qtyProduct = $this->getProductSalableQty($product, $productId);
+            if ($preOrderProduct == 2 && $value > $qtyProduct) {
+                $isPreOrderItem = 1;
+            }
+        }
+        return [
+            'isPreOrderItem' => (bool)$isPreOrderItem,
+            'qtyOrder' => $value,
+            'productId' => $productId
+        ];
+    }
+
+    /**
+     * @return \Magento\Framework\Registry
+     */
+    public function getRegistry()
+    {
+        return $this->registry;
     }
 }

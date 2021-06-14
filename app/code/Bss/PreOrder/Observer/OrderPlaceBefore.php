@@ -73,7 +73,7 @@ class OrderPlaceBefore implements ObserverInterface
     protected function checkItemPreOrder($product, &$order, $item, $listProductPreOrder)
     {
         $productId = $product->getId();
-        $isInStock = $this->preOrderHelper->getStockItem($productId)->getIsInStock();
+        $isInStock = $this->preOrderHelper->getIsInStock($productId);
         $preOrder = $this->preOrderHelper->getPreOrder($productId, $order->getStoreId());
         $message = $this->preOrderHelper->replaceVariableX(
             $this->preOrderHelper->getNote(),

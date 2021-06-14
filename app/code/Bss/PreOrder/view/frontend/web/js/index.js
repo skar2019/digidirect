@@ -24,7 +24,7 @@ define([
         options: {
             addToCartButtonText: '.action.tocart.primary span',
             addToCartButtonSelector: '.action.tocart.primary',
-            stockSelector: '.product-info-stock-sku .stock span',
+            stockSelector: '.product-info-stock-sku .stock',
             productPageContainer: '#maincontent',
             otherPageContainer: '.product-item-details',
             AddToCartContainer: '.product-item-actions',
@@ -64,6 +64,11 @@ define([
             }
             $(elemnt).parents(self.options.productPageContainer).find('#product_addtocart_form ' + self.options.addToCartButtonText).text(self.options.buttonText);
             $(elemnt).parents(self.options.productPageContainer).find('#product_addtocart_form ' + self.options.addToCartButtonSelector).attr('title', self.options.buttonText);
+            if (self.options.stock_status != undefined) {
+                if (self.options.stock_status == '0') {
+                    $(elemnt).parents(self.options.productPageContainer + ' .product-info-main').find(self.options.stockSelector).html($t('Out Of Stock'));
+                }
+            }
             if (self.options.availability_message) {
                 let availabilityMessage = $t(self.options.availability_message);
                 let messageTemplate = template(self.options.tmplAvailabilityMessage);
@@ -84,7 +89,7 @@ define([
             parent_element.find(self.options.addToCartButtonText).text(self.options.buttonText);
             parent_element.find(self.options.addToCartButtonSelector).attr('title', self.options.buttonText);
             parent_element.find('form').prepend(self.options.preOrderInput);
-            parent_element.find(self.options.AddToCartContainer).css('margin', '10px 0');
+            parent_element.find(self.options.AddToCartContainer).css('margin', '5px 0 10px');
             var formElement = parent_element.parent().find(self.options.AddToCartContainer).first();
             $(elemnt).find('.mess-preorder').detach().insertBefore(formElement);
         }

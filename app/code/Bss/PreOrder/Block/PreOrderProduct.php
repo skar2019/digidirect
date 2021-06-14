@@ -9,14 +9,15 @@
  * It is also available through the world-wide-web at this URL:
  * http://bsscommerce.com/Bss-Commerce-License.txt
  *
- * @category   BSS
- * @package    Bss_PreOrder
- * @author     Extension Team
- * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
- * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ * @category  BSS
+ * @package   Bss_PreOrder
+ * @author    Extension Team
+ * @copyright Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Block;
 
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\View\Element\Template;
 
 class PreOrderProduct extends Template
@@ -29,9 +30,9 @@ class PreOrderProduct extends Template
     /**
      * PreOrderProduct constructor.
      *
-     * @param Template\Context $context
+     * @param Template\Context          $context
      * @param \Bss\PreOrder\Helper\Data $helper
-     * @param array $data
+     * @param array                     $data
      */
     public function __construct(
         Template\Context $context,
@@ -58,7 +59,10 @@ class PreOrderProduct extends Template
             $toDate
         );
 
-        if ($typeId == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
+        if ($typeId == Configurable::TYPE_CODE
+            || ($typeId == ""
+            && $this->getProduct()->getTypeId() == Configurable::TYPE_CODE)
+        ) {
             return "";
         }
 
@@ -150,16 +154,6 @@ class PreOrderProduct extends Template
         }
 
         return $note;
-    }
-
-    /**
-     * Get Cart Message
-     *
-     * @return string
-     */
-    public function getCartMess()
-    {
-        return $this->helper->getCartMess();
     }
 
     /**
