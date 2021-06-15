@@ -66,6 +66,8 @@ define([
                     if (rule.pdp_description) {
                         rule.pdp_description = this.decodeEscapedHtml(rule.pdp_description);
                     }
+                    
+                    console.log("TESTAFDF");
 
                     var $promotionLabel,
                         $promotionHtml = $(mageTemplate(messageTemplate, {
