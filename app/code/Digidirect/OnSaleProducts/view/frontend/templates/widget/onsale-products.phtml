@@ -41,7 +41,10 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                           "isRedirectToCartEnabled": true,
                           <?php endif; ?>
                           "type":"<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>"
-                      }
+                      },
+                      "truncateCollection": {
+                            "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
+                        }
                      }'>
                     
                     <?php foreach ($items as $_item) :?>
@@ -91,11 +94,16 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                         </a>
                                     <?php endif; ?>
                                 </div>
+                                
                                 <strong class="product-item-name">
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"
                                        href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                        class="product-item-link">
-                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                        
+                                        <?= 
+                                            $name = $block->escapeHtml($_item->getName());
+                                            echo $name = strlen($name ) > 50 ? substr($name ,0,50)."..." : $name ;
+                                        ?>
                                     </a>
                                 </strong>
                                 <?= $block->getProductPriceHtml($_item, $type); ?>
