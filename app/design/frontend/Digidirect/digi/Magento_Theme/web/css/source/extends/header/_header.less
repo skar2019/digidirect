@@ -1,4 +1,4 @@
-/*
+ /*
     Created on : Feb 8, 2021, 11:34:14 AM
     Author     : Johnry Valeriano
 */
@@ -286,6 +286,12 @@
 //Tablet
 //
 
+@media screen and (min-width: @screen__m) and (max-width: 992px){
+    .header-content-links{
+        display: none !important;
+    }
+}
+
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .page-header{
         margin-bottom: 0;
@@ -325,6 +331,10 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .main-header-wrapper {
+        &{
+            padding: 20px 30px !important;
+        }
+        
         .c-logo{
             img{
                 max-width: 200px;

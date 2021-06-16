@@ -78,24 +78,24 @@ $.widget('digidirect.productTile', {
         return PRODUCT_TILE_TYPES.indexOf(this.options.type) !== -1;
     },
     initSlider() {
-        require(['jquery', 'jquery/ui', 'slickInit', 'catalogPriceRuleModal'], ($) => {
-            $(this.element).on('init', () => {
-                this.initAsyncAddToCart()
-                    .initPriceRuleModal()
-                    .truncateProductsName();
-            }).slickInit(this.options.slickConfig);
-        });
+//        require(['jquery', 'jquery/ui', 'slickInit', 'catalogPriceRuleModal'], ($) => {
+//            $(this.element).on('init', () => {
+//                this.initAsyncAddToCart()
+//                    .initPriceRuleModal()
+//                    .truncateProductsName();
+//            }).slickInit(this.options.slickConfig);
+//        });
 
         return this;
     },
     initFilteredSlider() {
-        require(['jquery', 'jquery/ui', 'slickFilter', 'catalogPriceRuleModal'], ($) => {
-            $(this.element).on('init', () => {
-                this.initAsyncAddToCart()
-                    .initPriceRuleModal()
-                    .truncateProductsName();
-            }).slickFilterInit(this.options.slickFilterConfig);
-        });
+//        require(['jquery', 'jquery/ui', 'slickFilter', 'catalogPriceRuleModal'], ($) => {
+//            $(this.element).on('init', () => {
+//                this.initAsyncAddToCart()
+//                    .initPriceRuleModal()
+//                    .truncateProductsName();
+//            }).slickFilterInit(this.options.slickFilterConfig);
+//        });
 
         return this;
     },

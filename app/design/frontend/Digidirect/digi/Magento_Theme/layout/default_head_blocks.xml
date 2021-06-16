@@ -17,9 +17,6 @@
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="theme-color" content="#ffffff" />
         
-        <css src="css/owl.carousel.min.css"/>
-        
         <link src_type="url" type="text/css" src="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&amp;display=swap" rel="stylesheet" />
-        
     </head>
 </page>

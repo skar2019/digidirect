@@ -225,10 +225,9 @@
             }
 
             .svg-icon.digidirectprice {
-                display: block;
+                display: block;    
+                margin-top: 15px;
             }
-            
-            
         }
         
         .pad-top {
@@ -236,9 +235,8 @@
             }
         .block-extendedrule {
             & {
-                float: right;
-                border: solid 2px #e65300;
-                padding: 8px 24px 0 12px;
+                float: right; 
+                margin-top: 15px;
             }
 
             &.-cashback .price-container > .before-cashback {
@@ -251,9 +249,9 @@
             }
 
             .price-box .price-wrapper .price {
-                .lib-css(font-weight, @font-weight__heavier);
-                .lib-css(color, @color-4-1);
-                .lib-font-size(22);
+                font-weight: bold;
+                color: #222;
+                font-size: 2.2rem;
                 line-height: 1.09;
             }
         }
@@ -275,10 +273,9 @@
         }
 
         .old-price-label {
-            .lib-css(color, @color-4-7);
-            .lib-font-size(12);
+            color: #2a2a2a;
+            font-weight: bold;
             display: inline-block;
-            text-transform: uppercase;
             line-height: 1.58;
             position: absolute;
             top: 5px;
@@ -301,7 +298,7 @@
         }
 
         .after-cashback span.price-label-pf {
-            .lib-css(font-weight, @font-weight__heavier);
+            font-weight: bold;
             .lib-css(color, @color-4-1);
             .lib-font-size(12);
             line-height: 2;
@@ -332,10 +329,26 @@
         }
 
         .product-addto-links .action.towishlist {
-            font-weight:  600;
+            font-weight: 700;
             color: #2a2a2a;
             font-size: 12px;
             text-decoration: underlined;
+            position: relative;
+            padding: 0 0 0 25px;
+            border: none;
+            background: none;
+            font-family: 'Titillium Web', sans-serif;
+            
+            &::before{
+                content: " ";
+                background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTYuMDAwMDAwMDAwMDAwMDEiIGhlaWdodD0iOTYuMDAwMDAwMDAwMDAwMDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CgogPGc+CiAgPHRpdGxlPmJhY2tncm91bmQ8L3RpdGxlPgogIDxyZWN0IGZpbGw9Im5vbmUiIGlkPSJjYW52YXNfYmFja2dyb3VuZCIgaGVpZ2h0PSI0MDIiIHdpZHRoPSI1ODIiIHk9Ii0xIiB4PSItMSIvPgogPC9nPgogPGc+CiAgPHRpdGxlPkxheWVyIDE8L3RpdGxlPgogIDxwYXRoIGZpbGw9IiMyMjIyMjIiIGlkPSJzdmdfMSIgZD0ibTg3LjU5OCwxNS4wMjljLTkuMzczLC05LjM3MyAtMjQuNTY4LC05LjM3MyAtMzMuOTQsMGwtNS42NTgsNS42NTdsLTUuNjU3LC01LjY1NmMtOS4zNzMsLTkuMzczIC0yNC41NjksLTkuMzczIC0zMy45NDEsMGMtOS4zNzMsOS4zNzMgLTkuMzczLDI0LjU2OCAwLDMzLjk0MWw1LjY1Nyw1LjY1NGwzMy45NDEsMzMuOTQxbDMzLjk0MSwtMzMuOTQxbDUuNjU2LC01LjY1NGM5LjM3NCwtOS4zNzMgOS4zNzQsLTI0LjU2OSAwLjAwMSwtMzMuOTQyem0tMTYuOTcxLDM5LjU5OGwtMjIuNjI3LDIyLjYyN2wtMjIuNjI2LC0yMi42MjdsLTExLjMxMywtMTEuMzEzYy02LjI0OSwtNi4yNDggLTYuMjQ5LC0xNi4zNzkgMCwtMjIuNjI5YzYuMjQ5LC02LjI0OCAxNi4zNzksLTYuMjQ4IDIyLjYyNywwbDExLjMxMiwxMS4zMTVsMTEuMzE0LC0xMS4zMTRjNi4yNDgsLTYuMjQ4IDE2LjM3OSwtNi4yNDggMjIuNjI3LDBjNi4yNDgsNi4yNSA2LjI0OCwxNi4zNzkgMCwyMi42MjlsLTExLjMxNCwxMS4zMTJ6Ii8+CiA8L2c+Cjwvc3ZnPg==');
+                background-size: 20px 20px;
+                height: 20px;
+                width: 20px;
+                position: absolute;
+                left: 0;
+                top: -3px;
+            }
         }
 
         .product-extra {
@@ -605,7 +618,8 @@
         }
 
         .special-price .price-container.price-final_price .price-wrapper .price {
-            .lib-css(color, @color-black);
+            color: #f15a25;
+            font-size: 32px;
         }
 
         #check_sdd {
@@ -645,6 +659,8 @@
             clear: both;
             vertical-align: middle;
             margin-top: 10px;
+            width: 100%;
+            max-width: 380px;
         }
 
         #product_addtocart_form .field.qty {
@@ -725,7 +741,7 @@
         }
 
         .action.towishlist {
-            .lib-css(font-weight, @font-weight__heavier);
+            font-weight: bold;
             text-align: right;
         }
     }
@@ -802,7 +818,7 @@
     }
 
     .catalog-product-view .product-info-main .live-chat-additional {
-        .lib-css(font-weight, @font-weight__heavier);
+        font-weight: bold;
         .lib-font-size(12);
         display: inline-block;
         text-align: left;
@@ -812,10 +828,9 @@
         cursor: pointer;
 
         .live-chat-additional-link {
-            .lib-css(font-weight, @font-weight__heavier);
-            .lib-css(color, @color-black);
-            .lib-font-size(12);
-            text-decoration: underline;
+            font-weight: 700;
+            color: #2a2a2a;
+            font-size: 14px;
             display: inline;
         }
 
@@ -825,7 +840,7 @@
             width: 17px;
             height: 17px;
             left: -20px;
-            top: 0;
+            top: 2px;
         }
     }
 
@@ -841,16 +856,32 @@
         left: -20px;
     }
     
-    button:focus, 
-    button:active, 
+    .checkout.methods button:focus, 
+    .checkout.methods button:hover, 
+    .checkout.methods button:active, 
     .cart.table-wrapper .actions-toolbar > .action:focus, 
+    .cart.table-wrapper .actions-toolbar > .action:hover, 
     .cart.table-wrapper .actions-toolbar > .action:active, 
-    .action-gift:focus, .action-gift:active, 
+    .action-gift:hover,  
     .action-gift:focus, 
     .action-gift:active{
-        color: #222 !important;
+        color: #fff !important;
         background-color: #f78e6d !important;
         border-color: #f78e6d !important;
+    }
+    
+    .review-field-rating{
+        label{
+            font-weight: bold;
+            padding-left: 0 !important;
+        }
+    }
+    
+    .review-form .action.submit.primary, 
+    .review-form .action.submit.magento_rma-returns-view .secondary .action {
+        background: #e65300;
+        border: 2px solid transparent;
+        color: #fff;
     }
 }
 
@@ -935,6 +966,10 @@
         width: 40%;
         padding: 30px 56px 0 0;
         float: unset;
+        
+        .price-box .price-wrapper .price{
+            font-size: 32px;
+        }
     }
 }
 
@@ -957,7 +992,7 @@
     .product-info-main {
         & {
             width: 50%;
-            padding: 30px 0;
+            padding: 30px;
         }
 
         .stock {
@@ -971,19 +1006,32 @@
             
             h1{
                 text-align: left;
-                display: inline-block;
+                display: inline;
                 width: unset;
+                font-size: 34px;
+                font-weight: bold;
             }
             
             .attribute.sku{
                 &{
                     display: inline-block;
+                    margin-top: 5px;
+                    font-size: 12px;
                 }
                 
                 .type{
                     display: none;
                 }
             }
+        }
+        
+        .price-box .price-wrapper .price{
+            font-size: 32px;
+            color: #f15a25;
+        }
+
+        .product-info-price .price-box .old-price span.price{
+            color: #222 !important;
         }
     }
 
@@ -1025,6 +1073,8 @@
             position: absolute;
             top: 5px;
             left: 0;
+            text-transform: uppercase;
+            font-weight: bold;
         }
 
         .price-box span.old-price {
@@ -1081,20 +1131,6 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    .catalog-product-view .products-widget {
-        & {
-            padding-bottom: 60px;
-        }
-
-        .slick-prev {
-            left: -45px;
-        }
-
-        .slick-next {
-            right: -45px;
-        }
-    }
-
     .product-info-main .msiavailability-wrapper .availability-wrapper {
         min-height: 60px;
     }
@@ -1126,6 +1162,10 @@
         width: 100%;
         max-width: 671px;
         margin-bottom: 0;
+        
+        .title{
+            font-weight: bold;
+        }
     }
     
     .fotorama__nav-wrap .fotorama_horizontal_ratio .fotorama__img{

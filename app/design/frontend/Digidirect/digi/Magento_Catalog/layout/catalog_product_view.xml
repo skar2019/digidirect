@@ -66,18 +66,17 @@
             </container>
         </referenceContainer>
         <move element="product.info.social" destination="product.info.main" after="-" />
-<!--        <referenceContainer name="product.info.price">
+        <referenceContainer name="product.info.price">
             <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="-">
                 <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
             </container>
-        </referenceContainer>-->
+        </referenceContainer>
         
-<!--        <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
+        <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
+        
         <referenceContainer name="product.info.extrahint">
-            <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" >
-                 <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
-            </container>
-        </referenceContainer>-->
+            <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" />
+        </referenceContainer>
         
 <!--        <move element="product.info.extrahint" destination="product.info.price" before="product.info.stock.sku" />-->
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
@@ -87,11 +86,6 @@
         <move element="product.info.addto" destination="product.info.price" after="live.chat.additional.link" />
 
         <referenceBlock name="product.info.upsell">
-            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
-                </arguments>
-            </block>
             <block name="product.tile.extended.catalog.rule"
                    class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
@@ -110,10 +104,10 @@
             </container>
         </referenceBlock>
         <referenceContainer name="before.body.end">
-         
-            <block class="Magento\Framework\View\Element\Template" name="quickview.init" template="Digidirect_QuickView::product/list/quickview/quickview.phtml" after="-" ifconfig="digidirect_quickview/general/quickview_enabled">
+            
+            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
                 <arguments>
-                    <argument name="use_for_mobile" xsi:type="boolean">true</argument>
+                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
                 </arguments>
             </block>
         </referenceContainer>
@@ -136,18 +130,5 @@
         <referenceBlock name="product.places" remove="true" /><!--    Free shipping on orders over $99    -->
         <referenceBlock name="product.info.attachment" remove="true" />
         <referenceBlock name="collect_places_detail" remove="true" /><!--   PICKUP in STORE FORM     -->
-
-        <!-- <referenceContainer name="product.info.main">
-            <container name="qantas" htmlTag="div" htmlId="qantas-earn-points" htmlClass="qantas-earn-points" after="product.extra" > 
-            <block class="Digidirect\Digi\Block\Places" name="product.places.helper"
-                   template="Magento_Catalog::product/view/product_places.phtml">
-            
-            </container>
-        </referenceContainer> -->
-       
-
-        
-    
-
     </body>
 </page>

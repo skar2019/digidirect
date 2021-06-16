@@ -20,6 +20,7 @@
                 </arguments>
                 <block class="Digidirect\Blog\Block\Post" name="blog.post.share" template="Digidirect_Blog::post/share.phtml"/>
             </block>
+            <block class="Digidirect\Blog\Block\Post\RelatedProducts" ifconfig="digidirect_blog/related_products/enabled" name="blog.relatedproducts" as="relatedproducts" template="Digidirect_Blog::post/related_products.phtml"/>
             <block class="Digidirect\Blog\Block\Post\Comments" name="blog.comment" template="Digidirect_Blog::post/comments.phtml">
                 <block class="Digidirect\Blog\Block\Post\Comments\DefaultType" name="default.comment.type" as="default.comment.type" template="Digidirect_Blog::post/comments/default.phtml">
                     <block class="Magento\Theme\Block\Html\Pager" name="comment_list_pager" as="comment_list_pager"/>
@@ -31,7 +32,7 @@
             </block>
             <block class="Digidirect\Blog\Block\Post\Arrow" name="blog.post.arrow" as="arrow" template="Digidirect_Blog::post/arrow.phtml"/>
             <block class="Digidirect\Blog\Block\Post\RelatedPosts" name="blog.post.relatedposts" as="relatedposts" template="Digidirect_Blog::post/related_posts.phtml"/>
-            <block class="Digidirect\Blog\Block\Post\RelatedProducts" ifconfig="digidirect_blog/related_products/enabled" name="blog.relatedproducts" as="relatedproducts" template="Digidirect_Blog::post/related_products.phtml"/>
+            
         </referenceContainer>
         <referenceContainer name="sidebar.additional">
             <block class="Digidirect\Blog\Block\Widget\Search" name="blog.widget.search" template="widget/search.phtml"/>

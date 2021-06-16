@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aeec9fa74e1ddc3b4245bea9f3c3b8cc",
+    "content-hash": "5de038ed7db243196492d4a8785349f4",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -1696,16 +1696,16 @@
         },
         {
             "name": "fastly/magento2",
-            "version": "1.2.156",
+            "version": "1.2.157",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastly/fastly-magento2.git",
-                "reference": "707ffb3779a1d3c7921b81a88a69c5613490a702"
+                "reference": "7e7888186473d388b1fd68a59ac77c2608bc92c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastly/fastly-magento2/zipball/707ffb3779a1d3c7921b81a88a69c5613490a702",
-                "reference": "707ffb3779a1d3c7921b81a88a69c5613490a702",
+                "url": "https://api.github.com/repos/fastly/fastly-magento2/zipball/7e7888186473d388b1fd68a59ac77c2608bc92c8",
+                "reference": "7e7888186473d388b1fd68a59ac77c2608bc92c8",
                 "shasum": ""
             },
             "require": {
@@ -1731,7 +1731,7 @@
                 "BSD-3-Clause"
             ],
             "description": "Fastly CDN Module for Magento 2.x",
-            "time": "2021-04-08T13:19:23+00:00"
+            "time": "2021-05-21T14:34:06+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
@@ -2586,6 +2586,227 @@
                 "Apache-2.0"
             ],
             "description": "Klarna Order Management Magento 2 Extension"
+        },
+        {
+            "name": "klevu/module-addtocart",
+            "version": "2.3.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/klevu/addtocart.git",
+                "reference": "3a203fe44ddbb6bb3b905d56bb3858385efb6252"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/klevu/addtocart/zipball/3a203fe44ddbb6bb3b905d56bb3858385efb6252",
+                "reference": "3a203fe44ddbb6bb3b905d56bb3858385efb6252",
+                "shasum": ""
+            },
+            "require": {
+                "magento/framework": "@stable",
+                "magento/module-backend": "@stable",
+                "magento/module-catalog": "@stable",
+                "magento/module-eav": "@stable",
+                "magento/module-store": "@stable",
+                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
+            },
+            "type": "magento-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Klevu\\Addtocart\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Klevu Oy",
+                    "email": "niraj.aswani@klevu.com",
+                    "homepage": "https://www.klevu.com/"
+                }
+            ],
+            "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
+            "time": "2021-02-18T23:23:18+00:00"
+        },
+        {
+            "name": "klevu/module-content",
+            "version": "2.3.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/klevu/content.git",
+                "reference": "2b23ad96083c21511aa7399fab1600a434d0e031"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/klevu/content/zipball/2b23ad96083c21511aa7399fab1600a434d0e031",
+                "reference": "2b23ad96083c21511aa7399fab1600a434d0e031",
+                "shasum": ""
+            },
+            "require": {
+                "magento/framework": "@stable",
+                "magento/module-backend": "@stable",
+                "magento/module-catalog": "@stable",
+                "magento/module-eav": "@stable",
+                "magento/module-store": "@stable",
+                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
+            },
+            "type": "magento-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Klevu\\Content\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Klevu Oy",
+                    "email": "niraj.aswani@klevu.com",
+                    "homepage": "https://www.klevu.com/"
+                }
+            ],
+            "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
+            "time": "2021-02-18T23:23:47+00:00"
+        },
+        {
+            "name": "klevu/module-productsearch",
+            "version": "2.3.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/klevu/productsearch.git",
+                "reference": "e6f9b4153c663741f8fb71d47f6dbf4e06974115"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/klevu/productsearch/zipball/e6f9b4153c663741f8fb71d47f6dbf4e06974115",
+                "reference": "e6f9b4153c663741f8fb71d47f6dbf4e06974115",
+                "shasum": ""
+            },
+            "require": {
+                "magento/framework": "@stable",
+                "magento/module-backend": "@stable",
+                "magento/module-catalog": "@stable",
+                "magento/module-eav": "@stable",
+                "magento/module-store": "@stable",
+                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
+            },
+            "type": "magento-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Klevu\\Search\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Klevu Oy",
+                    "email": "niraj.aswani@klevu.com",
+                    "homepage": "https://www.klevu.com/"
+                }
+            ],
+            "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
+            "time": "2021-02-18T23:24:03+00:00"
+        },
+        {
+            "name": "klevu/module-search",
+            "version": "2.3.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/klevu/klevu-smart-search-M2.git",
+                "reference": "0b9a7f3b1f992550a20570a87d33d8993f268fd4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/klevu/klevu-smart-search-M2/zipball/0b9a7f3b1f992550a20570a87d33d8993f268fd4",
+                "reference": "0b9a7f3b1f992550a20570a87d33d8993f268fd4",
+                "shasum": ""
+            },
+            "require": {
+                "klevu/module-addtocart": "2.3.16",
+                "klevu/module-content": "2.3.16",
+                "klevu/module-mysqlcompat": "1.0.0",
+                "klevu/module-productsearch": "2.3.16",
+                "klevu/module-troubleshoot": "1.0.0"
+            },
+            "type": "metapackage",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Klevu Oy",
+                    "email": "niraj.aswani@klevu.com",
+                    "homepage": "https://www.klevu.com/"
+                }
+            ],
+            "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
+            "time": "2021-02-18T23:24:27+00:00"
+        },
+        {
+            "name": "klevu/module-troubleshoot",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/klevu/magento-troubleshoot.git",
+                "reference": "c48b1baf9b402b1400f7e9111bc922984e8db702"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/klevu/magento-troubleshoot/zipball/c48b1baf9b402b1400f7e9111bc922984e8db702",
+                "reference": "c48b1baf9b402b1400f7e9111bc922984e8db702",
+                "shasum": ""
+            },
+            "require": {
+                "magento/framework": "@stable",
+                "magento/module-backend": "@stable",
+                "magento/module-catalog": "@stable",
+                "magento/module-eav": "@stable",
+                "magento/module-store": "@stable",
+                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
+            },
+            "type": "magento-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Klevu\\Troubleshoot\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Klevu Oy",
+                    "email": "niraj.aswani@klevu.com",
+                    "homepage": "https://www.klevu.com/"
+                }
+            ],
+            "description": "Klevu Troubleshoot module for trouble shooting data synchronisation issues",
+            "time": "2021-02-18T22:51:31+00:00"
         },
         {
             "name": "laminas/laminas-captcha",
@@ -5055,6 +5276,46 @@
                 "library"
             ],
             "time": "2020-01-29T07:08:12+00:00"
+        },
+        {
+            "name": "livechat/module-magento-livechat",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/livechat/magento-livechat.git",
+                "reference": "0203b17a50e1ac91f0ef0261b1d89f9441d6c3ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/livechat/magento-livechat/zipball/0203b17a50e1ac91f0ef0261b1d89f9441d6c3ab",
+                "reference": "0203b17a50e1ac91f0ef0261b1d89f9441d6c3ab",
+                "shasum": ""
+            },
+            "require": {
+                "magento/framework": "100.*|101.*|102.*|103.*",
+                "magento/module-backend": "100.*|101.*|102.*",
+                "magento/module-checkout": "100.*",
+                "magento/module-config": "100.*|101.*",
+                "magento/module-customer": "100.*|101.*|102.*|103.*",
+                "magento/module-sales": "100.*|101.*|102.*|103.*",
+                "magento/module-store": "100.*|101.*",
+                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "LiveChat\\LiveChat\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "time": "2020-11-16T09:02:51+00:00"
         },
         {
             "name": "m2epro/magento2-extension",
@@ -25177,7 +25438,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "alpha",
-    "stability-flags": [],
+    "stability-flags": {
+        "livechat/module-magento-livechat": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],

@@ -2,6 +2,7 @@
 //  Toolbar-sorter
 //  _____________________________________________
 
+//  ____________________________________________
 //
 //  Common
 //  ---------------------------------------------
@@ -47,8 +48,9 @@
 
         .sort-label-wrapper {
             display: block;
-            flex-basis: 50%;
-            .lib-css(border-right, 1px solid @color-4-3);
+            flex-basis: 100%;
+            .lib-css(border-right, 0px solid @color-4-3);
+            min-width: 80px;
         }
 
         .sorter-trigger {
@@ -59,6 +61,7 @@
 
         .sorter-mobile-wrapper {
             flex-basis: 50%;
+            min-width: 100px;
         }
 
         .sort-label-mobile {
@@ -80,3 +83,9 @@
     }
 }
 
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .sorter-mobile-wrapper {
+        flex-basis: 50%;
+        min-width: none;
+    }
+}

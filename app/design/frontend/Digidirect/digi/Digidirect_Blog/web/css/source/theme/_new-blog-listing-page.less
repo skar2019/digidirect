@@ -20,7 +20,7 @@
 
     .container > .tags {
         & {
-            width: calc(~'100% - 100px');
+            width: 100%;
             margin-left: 50px;
             position: relative;
         }
@@ -41,6 +41,8 @@
     .blog-pg {
         .post-card > .container .link {
             text-decoration: none;
+            color: #222;
+            font-weight: bold;
         }
 
         .posted {
@@ -75,7 +77,6 @@
             margin: 10px 0;
             font-size: 12px;
             font-weight: 700;
-            text-decoration: underline;
             text-transform: capitalize;
         }
 
@@ -90,8 +91,8 @@
 
         .svg-icon.svgi-arrow {
             width: 23px;
-            height: 20px;
-            margin-left: 10px;
+            height: 10px;
+            margin-left: 0;
         }
 
         .categories > .item {
@@ -144,29 +145,43 @@
 
     .blog-tags.blog-widget {
         & {
-            .lib-css(background, @color-black);
+            .lib-css(background, @color-white);
             margin-bottom: 20px;
+            padding: 0;
         }
 
         > .list {
             display: flex;
             flex-wrap: wrap;
-            padding: 15px 15px 0;
+            padding: 0;
         }
 
         .title {
-            .lib-css(color, @color-white);
-            width: calc(~'100% - 40px');
-            margin: 0 20px;
-            padding: 13px 0 20px;
-            font-size: 15px;
+            color: #222;
+            width: 100%;
+            margin: 0;
+            padding: 0 0 20px;
+            font-size: 1.8rem;
             font-weight: bold;
-            .lib-css(border-bottom, 1px solid @color-4-8);
         }
 
         .item {
             padding: 5px;
             list-style-type: none;
+            
+            a{
+                background: #e65401;
+                padding: 5px 10px;
+                border-radius: 30px;
+                display: block;
+                color: #fff;
+                font-weight: bold;
+                
+                &:hover{
+                    color: #fff;
+                    text-decoration: none;
+                }
+            }
         }
     }
 
@@ -372,6 +387,7 @@
 
         .button.action {
             height: 50px;
+            margin-left: 5px;
         }
     }
 
