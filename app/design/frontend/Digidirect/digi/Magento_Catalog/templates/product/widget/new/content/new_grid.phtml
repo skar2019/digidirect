@@ -104,10 +104,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"
                                        href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                        class="product-item-link">
-                                        <?= 
-                                            $name = $block->escapeHtml($_item->getName());
-                                            echo $name = strlen($name ) > 50 ? substr($name ,0,50)."..." : $name ;
-                                        ?>
+                                        <?= $block->escapeHtml($_item->getName()); ?>
                                     </a>
                                 </strong>
                                 <?= $block->getProductPriceHtml($_item, $type); ?>

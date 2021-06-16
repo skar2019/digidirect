@@ -36,16 +36,10 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                     <?= /* @noEscape */ $type ?>"
                     
                     data-mage-init='{
-                      "productTile": {
-                          <?php if($block->isRedirectToCartEnabled()): ?>
-                          "isRedirectToCartEnabled": true,
-                          <?php endif; ?>
-                          "type":"<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>"
-                      },
-                      "truncateCollection": {
+                        "truncateCollection": {
                             "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
                         }
-                     }'>
+                    }'>
                     
                     <?php foreach ($items as $_item) :?>
                     
@@ -98,10 +92,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"
                                        href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                        class="product-item-link">
-                                        <?= 
-                                            $name = $block->escapeHtml($_item->getName());
-                                            echo $name = strlen($name ) > 50 ? substr($name ,0,50)."..." : $name ;
-                                        ?>
+                                        <?= $block->escapeHtml($_item->getName()); ?>
                                     </a>
                                 </strong>
                                 <?= $block->getProductPriceHtml($_item, $type); ?>
