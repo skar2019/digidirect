@@ -76,7 +76,7 @@ class ProductViewCounter
                 $isInStock = $product->getData('is_salable');
                 $fromDate =  $product->getData('pre_oder_from_date');
                 $toDate =  $product->getData('pre_oder_to_date');
-                $parentStockCheck = $this->helperProduct->isPreOrderForAllChild($product);
+                $parentStockCheck = $this->helperProduct->isPreOrderForAllChild($product) ? false : true;
                 $availabilityPreOrder = $this->helper->isAvailablePreOrderFromFlatData($fromDate, $toDate);
                 if ($this->helper->isPreOrder($preOrder, $isInStock, $availabilityPreOrder, $parentStockCheck)) {
                     $currentProductData['items'][$productId]['add_to_cart_button']['pre-order'] = $label;

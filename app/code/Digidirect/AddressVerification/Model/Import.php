@@ -121,7 +121,7 @@ class Import extends DataObject
     {
         $scopeInfo = $this->helper->getScopeInfo($storeId, $websiteId);
         $this->resourceConfig->saveConfig(
-            Autocomplete::EWAVE_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH . '/address_data_file',
+            Autocomplete::DIGIDIRECT_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH . '/address_data_file',
             null,
             $scopeInfo->getScopeType(),
             $scopeInfo->getScopeId()

@@ -181,7 +181,11 @@ class Grouped extends \Magento\GroupedProduct\Model\Product\Type\Grouped
                 if ($isStrictProcessMode && !$subProduct->getQty()) {
                     return __('Please specify the quantity of product(s).')->render();
                 }
-                $productsInfo[$productId] = $subProduct->getData('is_salable') ? (float)$subProduct->getQty() : 0;
+                if (!$preOrderCart) {
+                    $productsInfo[$productId] = $subProduct->getData('is_salable') ? (float)$subProduct->getQty() : 0;
+                } else {
+                    $productsInfo[$productId] = (float)$subProduct->getQty();
+                }
             }
         }
         return $productsInfo;
@@ -207,6 +211,7 @@ class Grouped extends \Magento\GroupedProduct\Model\Product\Type\Grouped
     ) {
         $products = [];
         $associatedProductsInfo = [];
+        $isPreOrderCart = false;
         $isStrictProcessMode = $this->_isStrictProcessMode($processMode);
         $productsInfo = $this->getProductInfo($buyRequest, $product, $isStrictProcessMode);
         if (is_string($productsInfo)) {
@@ -261,6 +266,7 @@ class Grouped extends \Magento\GroupedProduct\Model\Product\Type\Grouped
                         ]
                     )
                 );
+                $_result[0]->setData('is_pre_order', $isPreOrderCart);
                 $products[] = $_result[0];
             } else {
                 $associatedProductsInfo[] = [$subProduct->getId() => $qty];

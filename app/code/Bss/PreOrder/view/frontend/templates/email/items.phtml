@@ -26,16 +26,18 @@ $_order = $block->getOrder();
 /** @var \Bss\PreOrder\Helper\Data $preOrderHelper */
 $preOrderHelper = $this->helper('Bss\PreOrder\Helper\Data');
 $notePreOrder = $preOrderHelper->getNote();
-$listPreOrder = $_order->getProductPreOrder();
-if ($listPreOrder) {
-    $listPreOrder = $preOrderHelper->serializeClass()->unserialize($listPreOrder);
-    $listPreOrder = array_keys($listPreOrder);
-} else {
-    $listPreOrder = [];
-}
 ?>
 <?php if ($_order) : ?>
-    <?php $_items = $_order->getAllItems(); ?>
+    <?php
+        $_items = $_order->getAllItems();
+        $listPreOrder = $_order->getProductPreOrder();
+        if ($listPreOrder) {
+            $listPreOrder = $preOrderHelper->serializeClass()->unserialize($listPreOrder);
+            $listPreOrder = array_keys($listPreOrder);
+        } else {
+            $listPreOrder = [];
+        }
+    ?>
     <table class="email-items">
         <thead>
         <tr>
@@ -54,18 +56,22 @@ if ($listPreOrder) {
             <?php if (!$_item->getParentItem()) : ?>
                 <tbody>
                 <?= $block->getItemHtml($_item) ?>
-                </tbody>
                 <?php $productModel = $_item->getProduct();
                 if ($_item->getProductType() == 'configurable') {
                     $productModel = $preOrderHelper->getProductBySku($_item->getProductOptionByCode('simple_sku'));
                 }
                 ?>
                 <?php if ($productModel && in_array($productModel->getId(), $listPreOrder)): ?>
-                    <div>
-                        <div><?= $notePreOrder ?></div>
-                        <div><?= $preOrderHelper->getAvailabilityMessage($productModel) ?></div>
-                    </div>
+                <tr>
+                    <td>
+                        <p><?= $notePreOrder ?></p>
+                        <p><?= $preOrderHelper->getAvailabilityMessage($productModel) ?></p>
+                    </td>
+                    <td></td>
+                    <td></td>
+                </tr>
                 <?php endif; ?>
+                </tbody>
             <?php endif; ?>
         <?php endforeach; ?>
         <tfoot class="order-totals">

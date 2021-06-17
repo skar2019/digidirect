@@ -129,7 +129,7 @@ class Aupost extends AbstractHelper
     public function getAuPostFile($storeId = null, $scope = ScopeInterface::SCOPE_STORE)
     {
         return $this->scopeConfig->getValue(
-            Autocomplete::EWAVE_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH . '/address_data_file',
+            Autocomplete::DIGIDIRECT_ADDRESS_VERIFICATION_GENERAL_CONFIG_PATH . '/address_data_file',
             $scope,
             $storeId
         );

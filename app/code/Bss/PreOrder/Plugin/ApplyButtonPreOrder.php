@@ -9,11 +9,11 @@
  * It is also available through the world-wide-web at this URL:
  * http://bsscommerce.com/Bss-Commerce-License.txt
  *
- * @category   BSS
- * @package    Bss_PreOrder
- * @author     Extension Team
- * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
- * @license    http://bsscommerce.com/Bss-Commerce-License.txt
+ * @category  BSS
+ * @package   Bss_PreOrder
+ * @author    Extension Team
+ * @copyright Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Plugin;
 
@@ -59,12 +59,13 @@ class ApplyButtonPreOrder
 
     /**
      * ApplyButtonPreOrder constructor.
-     * @param \Bss\PreOrder\Helper\Data $helper
-     * @param \Magento\Framework\App\Request\Http $request
-     * @param \Bss\PreOrder\Helper\ProductData $helperProduct
+     *
+     * @param \Bss\PreOrder\Helper\Data             $helper
+     * @param \Magento\Framework\App\Request\Http   $request
+     * @param \Bss\PreOrder\Helper\ProductData      $helperProduct
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory
-     * @param \Magento\Framework\Registry $registry
-     * @param ProductRepositoryInterface $productRepository
+     * @param \Magento\Framework\Registry           $registry
+     * @param ProductRepositoryInterface            $productRepository
      */
     public function __construct(
         \Bss\PreOrder\Helper\Data $helper,
@@ -85,8 +86,8 @@ class ApplyButtonPreOrder
     /**
      * Apply Button Pre Order For Product.
      *
-     * @param FinalPriceBox $subject
-     * @param string $result
+     * @param  FinalPriceBox $subject
+     * @param  string        $result
      * @return string
      * @throws LocalizedException
      */
@@ -97,27 +98,34 @@ class ApplyButtonPreOrder
             $product = $subject->getSaleableItem();
 
             $this->getProductConfigurableWishList($subject, $product);
-            $preorder = $product->getData('preorder');
+            $preorder = $this->getPreOrderOfProductType($product);
             $isInStock = $product->getData('is_salable');
 
             $parentStatusCheck = $this->checkPreOrderForParent($product);
 
             $parentType = "";
             if ($currentProduct) {
-                /* For Product Page */
-                $parentType = $currentProduct->getTypeId();
-                $isInStock = $this->helper->getIsInStock($currentProduct->getId());
+                if ($currentProduct->getTypeId() == Grouped::TYPE_CODE
+                    || $currentProduct->getId() == $product->getId()
+                ) {
+                    /* For Product Page */
+                    $parentType = $currentProduct->getTypeId();
+                    if ($currentProduct->getId() == $product->getId()) {
+                        $isInStock = $this->helper->getIsInStock($currentProduct->getId());
+                    }
+                }
             }
 
             $productType = $product->getTypeId();
             /**
              * @purpose check compatible with cp grid module
-             * @reason cp grid call to many time to func toHtml() on simple and configurable
+             * @reason  cp grid call to many time to func toHtml() on simple and configurable
              * we need to call on configurable product only
              */
-            if ($this->helper->checkProductConfigurableGridView() &&
-                $parentType == Configurable::TYPE_CODE &&
-                $productType == "simple") {
+            if ($this->helper->checkProductConfigurableGridView()
+                && $parentType == Configurable::TYPE_CODE
+                && $productType == "simple"
+            ) {
                 return $result;
             }
             $isAvailablePreOrder = $this->helper->isAvailablePreOrderFromFlatData(
@@ -139,13 +147,26 @@ class ApplyButtonPreOrder
     }
 
     /**
-     * @param int|bool $isInStock
-     * @param int|bool $preorder
-     * @param int|bool $isAvailablePreOrder
-     * @param mixed|string $result
-     * @param mixed $product
-     * @param string $parentType
-     * @param int|bool $parentStatusCheck
+     * @param  $product
+     * @return false
+     */
+    private function getPreOrderOfProductType($product)
+    {
+        $allowType = ['simple', 'downloadable', 'virtual'];
+        if (in_array($product->getTypeId(), $allowType)) {
+            return $product->getData('preorder');
+        }
+        return false;
+    }
+
+    /**
+     * @param  int|bool     $isInStock
+     * @param  int|bool     $preorder
+     * @param  int|bool     $isAvailablePreOrder
+     * @param  mixed|string $result
+     * @param  mixed        $product
+     * @param  string       $parentType
+     * @param  int|bool     $parentStatusCheck
      * @return mixed|string
      */
     private function addHtml(
@@ -157,8 +178,8 @@ class ApplyButtonPreOrder
         $parentType,
         $parentStatusCheck
     ) {
-        if ((!$isInStock && $preorder == Order::ORDER_OUT_OF_STOCK) ||
-            ($preorder == Order::ORDER_YES && $isAvailablePreOrder) || $parentStatusCheck
+        if ((!$isInStock && $preorder == Order::ORDER_OUT_OF_STOCK)
+            || ($preorder == Order::ORDER_YES && $isAvailablePreOrder) || $parentStatusCheck
         ) {
             $block  = $this->getReturnResults($product, $parentType, $parentStatusCheck);
             $result .= $block;
@@ -168,7 +189,7 @@ class ApplyButtonPreOrder
 
     /**
      * @param FinalPriceBox $subject
-     * @param Product $product
+     * @param Product       $product
      */
     protected function getProductConfigurableWishList($subject, &$product)
     {
@@ -184,7 +205,7 @@ class ApplyButtonPreOrder
     }
 
     /**
-     * @param Product $product
+     * @param  Product $product
      * @return bool
      * @throws LocalizedException
      */
@@ -199,9 +220,9 @@ class ApplyButtonPreOrder
     }
 
     /**
-     * @param Product $product
-     * @param string $parentType
-     * @param boolean $parentStatusCheck
+     * @param  Product $product
+     * @param  string  $parentType
+     * @param  boolean $parentStatusCheck
      * @return string
      */
     protected function getReturnResults($product, $parentType, $parentStatusCheck)

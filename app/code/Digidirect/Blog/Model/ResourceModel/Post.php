@@ -86,7 +86,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init(PostInterface::EWAVE_BLOG_POST_TABLE, 'entity_id');
+        $this->_init(PostInterface::DIGIDIRECT_BLOG_POST_TABLE, 'entity_id');
     }
 
     /**
@@ -99,7 +99,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     {
         $connection = $this->getConnection();
         return $connection->update(
-            $this->getTable(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE),
+            $this->getTable(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE),
             [
                 'status' => $status,
             ],
@@ -189,7 +189,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 []
             )
             ->join(
-                ['category' => $this->getTable(Category::EWAVE_BLOG_CATEGORY_TABLE)],
+                ['category' => $this->getTable(Category::DIGIDIRECT_BLOG_CATEGORY_TABLE)],
                 'post_category.category_id = category.entity_id',
                 ['category_name' => 'name', 'category_status' => 'category.status']
             )
@@ -208,7 +208,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 
         if ($activeOnly) {
             $select->where(
-                Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE . '.status = ?',
+                Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE . '.status = ?',
                 Status::STATUS_ENABLED
             );
         }
@@ -324,7 +324,7 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
             $storeIds[] = Store::DEFAULT_STORE_ID;
         }
         $select->joinInner(
-            [Aliases::CATEGORY_ENTITY_TABLE_ALIAS => $this->getTable(Category::EWAVE_BLOG_CATEGORY_TABLE)],
+            [Aliases::CATEGORY_ENTITY_TABLE_ALIAS => $this->getTable(Category::DIGIDIRECT_BLOG_CATEGORY_TABLE)],
             'cat_rel.category_id = ' . Aliases::CATEGORY_ENTITY_TABLE_ALIAS . '.entity_id'
         )
             ->joinInner(
@@ -333,8 +333,8 @@ class Post extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
             )
             ->where('cat_stores.store_id IN (?)', $storeIds);
 
-        $urlKeyExp = sprintf(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.url_key = "%s"', $urlKey);
-        $statusExp = sprintf(PostContentInterface::EWAVE_BLOG_POST_INFORMATION_TABLE . '.status = "%s"', $status);
+        $urlKeyExp = sprintf(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE . '.url_key = "%s"', $urlKey);
+        $statusExp = sprintf(PostContentInterface::DIGIDIRECT_BLOG_POST_INFORMATION_TABLE . '.status = "%s"', $status);
         if ($storeId != Store::DEFAULT_STORE_ID) {
             $this->postJoin->joinDefault($select, Store::DEFAULT_STORE_ID, 'posts');
             $urlKeyExp = $this->getConnection()->getIfNullSql(

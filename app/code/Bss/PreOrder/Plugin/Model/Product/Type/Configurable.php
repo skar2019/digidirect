@@ -12,7 +12,7 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2021 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Plugin\Model\Product\Type;
@@ -51,7 +51,12 @@ class Configurable
         $result,
         \Magento\Framework\Pricing\SaleableInterface $salableItem
     ) {
-        if ($salableItem->getTypeId() == 'configurable' && !$result && $this->helper->isEnable()) {
+        if ($salableItem->getTypeId() == 'configurable'
+            && !$result
+            && $this->helper->isEnable()
+            && !$this->helper->getRegistry()->registry('check_parent_stock_status')
+            //skip check isSalable of preorder when get stock status title configurable
+        ) {
             $listChildProduct = $subject->getUsedProducts($salableItem);
             foreach ($listChildProduct as $child) {
                 $isInStock = $child->getData('is_salable');
@@ -66,6 +71,7 @@ class Configurable
                 }
             }
         }
+        $this->helper->getRegistry()->unregister('check_parent_stock_status');
         return $result;
     }
 }

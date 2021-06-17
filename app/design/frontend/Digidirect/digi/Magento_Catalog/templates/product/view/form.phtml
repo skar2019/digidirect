@@ -21,6 +21,10 @@ $points = $_product->getFinalPrice();
 $finalQffPoints = $_product->getPoints();
 $finalProductPrice = $_product->getFinalPrice();
 $qff_bonus_points = 0;
+
+$sourceDataBySku = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\InventoryCatalogAdminUi\Model\GetSourceItemsDataBySku::class);
+
+
 if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_base")) {
     $qff_bonus_points = $_product->getQffBonusPoints();
     $qff_base_points = $_product->getQffBase();
@@ -36,6 +40,27 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     }
 } 
 ?>
+
+<?php
+    $productData = $sourceDataBySku->execute($_product->getSku());
+    $productQuantity = 0;
+
+    foreach($productData as $key => $value){
+        if($value["source_status"] == true){
+            $productQuantity += $value["quantity"];
+        }
+    }
+?>
+
+<?php if ($productQuantity > 0):?>
+    <div class="shipping-notice stock available">
+        <span class="stock-availability"><?= $escaper->escapeHtml(__('Leaves warehouse in 3-5 business days.')) ?></span>
+    </div>
+<?php else:?>
+    <div class="shipping-notice stock unavailable">
+        <span class="stock-availability"><?= $escaper->escapeHtml(__('Temporarily out of stock. Order today and we\'ll deliver in 9-12 business days.')) ?></span>
+    </div>
+<?php endif; ?>
 
 <div class="product-add-form">
     <form data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
@@ -58,26 +83,13 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
             <?php if ($_product->isSaleable() && $block->getOptionsContainer() == 'container1'):?>
                 <?= $block->getChildChildHtml('options_container') ?>
             <?php endif;?>
-            <?php endif; ?>
+        <?php endif; ?>
 
         <?php if ($_product->isSaleable() && $block->hasOptions() && $block->getOptionsContainer() == 'container2'):?>
             <?= $block->getChildChildHtml('options_container') ?>
         <?php endif;?>
         <?= $block->getChildHtml('form_bottom') ?>
     </form>
-
-<!--    <div class="init _hidden">
-        <script>
-            if (typeof fbq !== undefined) {
-                fbq('track', 'ViewContent', {
-                    content_name: '<?php echo $block->escapeHtml($_product->getName()); ?>',
-                    content_id: '<?php echo $block->escapeHtml($_product->getSku()); ?>',
-                    currency: '<?php echo $block->escapeHtml($currencyCode); ?>',
-                    content_type: 'product'
-                });
-            }
-        </script>
-    </div>-->
 </div>
 
 <script type="text/x-magento-init">

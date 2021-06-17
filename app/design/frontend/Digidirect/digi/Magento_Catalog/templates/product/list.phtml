@@ -123,6 +123,12 @@ $showWishlist = true;
                                 echo $block->getReviewsSummaryHtml($_product);
                             ?>
                         </div>
+                        <?= $this->getLayout()
+                            ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                            ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                            ->setProduct($_product)
+                            ->toHtml();
+                        ?>
                         <?php if($blockMode === 'grid'):?>
                             <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
                                 <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>

@@ -101,7 +101,6 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
     {
         $result = [];
         if ($this->helper->isEnable()) {
-            $messageDefault =  $this->helper->getMess();
             $hasButton = $this->helper->getButton();
 
             foreach ($allowProduct as $item) {
@@ -118,26 +117,18 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
                     $childProduct['pre_oder_to_date']
                 );
                 $messageProduct = $item->getData('message');
-                $childProduct['availability_message'] = $this->helper->getAvailMessageFromFlatData(
+                $childProduct['availability_message'] = $this->helper->replaceVariableX(
                     $item->getData('availability_message'),
                     $childProduct['pre_oder_from_date'],
                     $childProduct['pre_oder_to_date']
                 );
 
-                $message = $this->helper->replaceVariableX(
-                    $messageProduct,
+                $template_mess = !empty(trim($messageProduct))? $messageProduct : $this->helper->getMess();
+                $childProduct['message'] = $this->helper->replaceVariableX(
+                    $template_mess,
                     $childProduct['pre_oder_from_date'],
                     $childProduct['pre_oder_to_date']
                 );
-                if ($message == "") {
-                    $message = $this->helper->replaceVariableX(
-                        $messageDefault,
-                        $childProduct['pre_oder_from_date'],
-                        $childProduct['pre_oder_to_date']
-                    );
-                }
-
-                $childProduct['message'] = $message;
 
                 $button = __("Pre-Order");
                 if ($hasButton) {
@@ -188,7 +179,7 @@ class ProductData extends \Magento\Framework\Url\Helper\Data
                 $isInStock = $item->getData('is_salable');
                 if ($preOrder == Order::ORDER_NO ||
                     ($preOrder == Order::ORDER_OUT_OF_STOCK && $isInStock) ||
-                    !$this->helper->isAvailablePreOrderFromFlatData(
+                    $preOrder == Order::ORDER_YES && !$this->helper->isAvailablePreOrderFromFlatData(
                         $this->helper->formatDate($item->getData('pre_oder_from_date')),
                         $this->helper->formatDate($item->getData('pre_oder_to_date'))
                     )

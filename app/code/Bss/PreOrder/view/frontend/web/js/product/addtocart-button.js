@@ -15,15 +15,18 @@
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 define(
-    [],
-    function () {
+    ['mage/translate'],
+    function ($t) {
         'use strict';
 
         return function (Component) {
             return Component.extend({
                 isSalable: function (row) {
+                    window.labelNotPreOrder = $t('Add to Cart');
                     if (row['add_to_cart_button']['pre-order']) {
                         this.label = row['add_to_cart_button']['pre-order'];
+                    } else {
+                        this.label = window.labelNotPreOrder;
                     }
                     return this._super(row);
                 }

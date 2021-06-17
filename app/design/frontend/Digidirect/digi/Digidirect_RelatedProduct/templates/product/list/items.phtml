@@ -141,6 +141,10 @@ $mode = "grid";
                                         <?= $block->escapeHtml($_item->getName()) ?>
                                     </a>
                                 </strong>
+                                
+                                <?php if ($ruleMessage): ?>
+                                    <?= $ruleMessage->setProduct($_item)->toHtml(); ?>
+                                <?php endif; ?>
 
                                 <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>
 

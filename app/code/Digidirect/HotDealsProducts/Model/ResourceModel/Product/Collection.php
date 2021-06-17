@@ -7,13 +7,7 @@
 
 namespace Digidirect\HotDealsProducts\Model\ResourceModel\Product;
 
-class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
-{
-    /**
-     *
-     * @param int $storeId
-     * @return $this
-     */
+class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection{
     public function getHotDealsProduct()
     {
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();

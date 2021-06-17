@@ -138,6 +138,29 @@
         .price-label {
             text-transform: uppercase;
         }
+        
+        .block-extendedrule.-cashback{
+            .price-box{
+                &{
+                    min-height: auto;
+                    margin: 0;
+                    padding: 0;
+                }
+                
+                .price-container{
+                     .before-cashback,
+                     .after-cashback{
+                         position: relative;
+                         
+                         .price-label{
+                            position: absolute;
+                            top: -8px;
+                            font-size: 9px;
+                         }
+                     }
+                }
+            }
+        }
     }
 
     .product-item-info {

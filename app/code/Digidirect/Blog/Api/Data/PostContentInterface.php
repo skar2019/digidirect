@@ -9,12 +9,12 @@ interface PostContentInterface extends StoreViewSpecificInterface
 {
 
     const STORE_ID = 'information_store_id';
-    const EWAVE_BLOG_POST_INFORMATION_TABLE = 'digidirect_blog_post_information';
-    const EWAVE_BLOG_POST_INFORMATION_TABLE_ID = 'information_post_id';
-    const EWAVE_BLOG_POST_INFORMATION_TABLE_TITLE = 'title';
-    const EWAVE_BLOG_POST_INFORMATION_TABLE_CONTENT = 'content';
-    const EWAVE_BLOG_POST_INFORMATION_TABLE_SHORT_CONTENT = 'short_content';
-    const EWAVE_BLOG_POST_INFORMATION_TABLE_URL_KEY = 'url_key';
+    const DIGIDIRECT_BLOG_POST_INFORMATION_TABLE = 'digidirect_blog_post_information';
+    const DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_ID = 'information_post_id';
+    const DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_TITLE = 'title';
+    const DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_CONTENT = 'content';
+    const DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_SHORT_CONTENT = 'short_content';
+    const DIGIDIRECT_BLOG_POST_INFORMATION_TABLE_URL_KEY = 'url_key';
 
     /**
      * @return string

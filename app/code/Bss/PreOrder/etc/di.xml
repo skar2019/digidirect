@@ -48,4 +48,11 @@
     <type name="Magento\Checkout\Controller\Cart\UpdateItemOptions">
         <plugin name="bss_preorder_check_update_cart" type="Bss\PreOrder\Plugin\Checkout\Controller\Cart\UpdateItemOptions" />
     </type>
+    <preference for="Magento\GroupedCatalogInventory\Plugin\OutOfStockFilter" type="Bss\PreOrder\Override\OutOfStockFilter"/>
+    <type name="Magento\Checkout\Observer\LoadCustomerQuoteObserver">
+        <plugin name="preorder_logins_check" type="Bss\PreOrder\Plugin\LoadCustomerQuoteObserver" sortOrder="10"/>
+    </type>
+    <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator">
+        <plugin name="skip_validate" type="Bss\PreOrder\Plugin\SkipValidate" />
+    </type>
 </config>

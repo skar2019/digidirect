@@ -36,13 +36,10 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                     <?= /* @noEscape */ $type ?>"
                     
                     data-mage-init='{
-                      "productTile": {
-                          <?php if($block->isRedirectToCartEnabled()): ?>
-                          "isRedirectToCartEnabled": true,
-                          <?php endif; ?>
-                          "type":"<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>"
-                      }
-                     }'>
+                        "truncateCollection": {
+                            "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
+                        }
+                    }'>
                     
                     <?php foreach ($items as $_item) :?>
                     
@@ -91,13 +88,22 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                         </a>
                                     <?php endif; ?>
                                 </div>
+                                
                                 <strong class="product-item-name">
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"
                                        href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                        class="product-item-link">
-                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                        <?= $block->escapeHtml($_item->getName()); ?>
                                     </a>
                                 </strong>
+                                
+                                <?= $this->getLayout()
+                                    ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                                    ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                                    ->setProduct($_item)
+                                    ->toHtml();
+                                ?>
+                                
                                 <?= $block->getProductPriceHtml($_item, $type); ?>
                                 
                                 <?php if ($templateType) :?>

@@ -188,7 +188,7 @@ class Collection extends CategoryCollection implements SearchResultInterface
     public function _beforeLoad()
     {
         $this->getSelect()->joinLeft(
-            ['parent' => $this->getTable(Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE)],
+            ['parent' => $this->getTable(Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE)],
             'main_table.parent_id = parent.'
             . CategoryContentInterface::CATEGORY_ID
             . ' AND parent.information_store_id = '
@@ -216,7 +216,7 @@ class Collection extends CategoryCollection implements SearchResultInterface
      */
     protected function getInformationTable(): string
     {
-        return $this->getTable(Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE);
+        return $this->getTable(Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE);
     }
 
     /**
@@ -226,7 +226,7 @@ class Collection extends CategoryCollection implements SearchResultInterface
     {
         parent::_initSelect();
         $this->getSelect()->where(
-            Category::EWAVE_BLOG_CATEGORY_INFORMATION_TABLE . '.' . CategoryContentInterface::STORE_ID . '= ?',
+            Category::DIGIDIRECT_BLOG_CATEGORY_INFORMATION_TABLE . '.' . CategoryContentInterface::STORE_ID . '= ?',
             $this->currentStoreFetcher->getCurrentStoreId()
         );
         return $this;

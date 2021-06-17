@@ -236,13 +236,16 @@ switch ($type = $block->getType()) {
                                     </div>
                                 </div>
                                 
-                                <strong class="product-item-name">
+                                <strong class="product-item-name here oh">
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"
                                        href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                        class="product-item-link">
                                         <?= $block->escapeHtml($_item->getName()) ?>
                                     </a>
                                 </strong>
+                                <?php if ($ruleMessage): ?>
+                                    <?= $ruleMessage->setProduct($_item)->toHtml(); ?>
+                                <?php endif; ?>
 
                                 <?= /* @escapeNotVerified */ $block->getProductPrice($_item) ?>
                                 

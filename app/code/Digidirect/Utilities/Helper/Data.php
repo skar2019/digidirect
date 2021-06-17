@@ -15,7 +15,7 @@ use Magento\Variable\Model\Variable;
 
 class Data extends AbstractHelper
 {
-    const EWAVE_EXTENSION_PREFIX = 'Digidirect_';
+    const DIGIDIRECT_EXTENSION_PREFIX = 'Digidirect_';
 
     /**
      * DeploymentConfig
@@ -139,7 +139,7 @@ class Data extends AbstractHelper
      * @param string|null $vendor
      * @return array
      */
-    public function getEnabledExtensions($vendor = self::EWAVE_EXTENSION_PREFIX)
+    public function getEnabledExtensions($vendor = self::DIGIDIRECT_EXTENSION_PREFIX)
     {
         $result = [];
         $extensions = array_keys($this->_moduleList->getAll());

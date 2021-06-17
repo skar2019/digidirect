@@ -12,7 +12,6 @@ $freeGift = ($_item->getPrice()==0) ? '-free-gift':'';
 $congigProductClass = ($isVisibleProduct && $block->getItem()->getData('product_type')!='simple') ? '-config':'';
 $quoteHelper = $helper = $this->helper('Digidirect\Digi\Helper\Quote');
 $isProductWebOnly = $quoteHelper->isProductWebOnly($product);
-$preOrderStatus = \Digidirect\PreOrder\Helper\Data::BACKORDERS_PREORDER_OPTION;
 $qff_base_points = 0;
 $qff_bonus_points = 0;
 $qty = $block->getQty();
@@ -68,22 +67,6 @@ $isSddAvailable = $sddShippingChecker->getCheckResult($productData);
             <?php /* @escapeNotVerified */ echo $block->getActions($_item) ?>
         </span>
         <div class="product-item-details">
-            <?php $checkExtensionAttr = $product->getExtensionAttributes(); ?>
-            <?php if (!empty($checkExtensionAttr)): ?>
-            <?php  $checkIsPreOrderStatus = $product->getExtensionAttributes()->getStockItem()->getBackOrders();?>
-                <?php if ($checkIsPreOrderStatus == $preOrderStatus): ?>
-                    <div class="preorder-title">
-                        <span><?php /* @escapeNotVerified */ echo __("Pre-order"); ?></span>
-                    </div>
-                    <div class="preorder-note-txt">
-                        <?php $addInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
-                        <?php if ($addInfoBlock): ?>
-                            <?php echo $addInfoBlock->setItem($_item)->toHtml() ?>
-                        <?php endif;?>
-                    </div>
-                <?php endif; ?>
-            <?php endif; ?>
-            
             <strong class="product-item-name">
                 <?php if ($block->hasProductUrl()):?>
                     <a href="<?php /* @escapeNotVerified */ echo $block->getProductUrl() ?>"><?php echo $block->escapeHtml($block->getProductName()) ?></a>

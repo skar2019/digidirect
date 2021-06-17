@@ -21,7 +21,7 @@ use Bss\PreOrder\Helper\Data as PreOrderHelper;
 use Bss\PreOrder\Model\Attribute\Source\Order;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
 use Magento\Checkout\Model\ConfigProviderInterface;
-use Magento\Checkout\Model\Session;
+use Magento\Checkout\Model\SessionFactory;
 
 /**
  * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
@@ -39,24 +39,24 @@ class PreOrderProducts implements ConfigProviderInterface
     protected $preOrderHelper;
 
     /**
-     * @var Session
+     * @var SessionFactory
      */
-    protected $session;
+    protected $sessionFactory;
 
     /**
      * PreOrderProducts constructor.
      * @param ProductCollectionFactory $productCollectionFactory
      * @param PreOrderHelper $preOrderHelper
-     * @param Session $session
+     * @param SessionFactory $sessionFactory
      */
     public function __construct(
         ProductCollectionFactory $productCollectionFactory,
         PreOrderHelper $preOrderHelper,
-        Session $session
+        SessionFactory $sessionFactory
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->preOrderHelper = $preOrderHelper;
-        $this->session = $session;
+        $this->sessionFactory = $sessionFactory;
     }
 
     /**
@@ -67,8 +67,9 @@ class PreOrderProducts implements ConfigProviderInterface
     public function getConfig()
     {
         return [
+            'pre_order_enable' => $this->preOrderHelper->isEnable(),
             'pre_order_ids' => $this->getJsonPreOrderProducts(),
-            'pre_order_note' => $this->preOrderHelper->getNote() ?: 'Pre-Ordered Product'
+            'pre_order_note' => $this->preOrderHelper->getNote() ?: __('Pre-Ordered Product')
         ];
     }
 
@@ -79,8 +80,8 @@ class PreOrderProducts implements ConfigProviderInterface
     {
         /** @var \Magento\Catalog\Model\ResourceModel\Product\Collection $productCollection */
         $productCollection = $this->productCollectionFactory->create();
-        $productCollection->addAttributeToFilter('preorder', ['neq' => 0])
-            ->addStoreFilter($this->preOrderHelper->getStoreId());
+        $productCollection->setStoreId($this->preOrderHelper->getStoreId());
+        $productCollection->addAttributeToFilter('preorder', ['neq' => 0]);
         if ($productCollection->getSize()) {
             return $productCollection->getItems();
         }
@@ -98,7 +99,7 @@ class PreOrderProducts implements ConfigProviderInterface
         $dataAfter = [];
 
         if ($products) {
-            $quoteItems = $this->session->getQuote()->getItems();
+            $quoteItems = $this->sessionFactory->create()->getQuote()->getItems();
             /** @var \Magento\Quote\Api\Data\CartItemInterface $item */
             foreach ($quoteItems as $item) {
                 foreach ($products as $product) {

@@ -41,6 +41,9 @@
                 	<?php if ($availabilityMess): ?>
                 		"availability_message" : "<?= $availabilityMess ?>",
                 	<?php endif; ?>
+                    <?php if ($block->getProduct()->getExtensionAttributes()->getStockItem()) : ?>
+                    "stock_status" : "<?= (int)$block->getProduct()->getExtensionAttributes()->getStockItem()->getIsInStock(); ?>",
+                	<?php endif; ?>
                 	"buttonText" : "<?= $button; ?>"
             	}
             }

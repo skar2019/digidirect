@@ -16,8 +16,7 @@
  */
 define([
     'jquery',
-    'mage/translate',
-    'jquery/ui'
+    'mage/translate'
 ], function ($) {
     'use strict';
     return function (widget) {

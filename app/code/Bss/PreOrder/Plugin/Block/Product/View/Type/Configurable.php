@@ -70,6 +70,7 @@ class Configurable
         $childProduct = $this->linkData->getAllData($subject->getAllowProducts());
         $config = $this->jsonDecoder->decode($result);
         $config["preorder"] = $childProduct;
+        $config["preorder_allow_mixin"] = $this->helper->isMix();
         $config["isEnabledPackage"] = $this->helper->checkProductConfigurableGridView();
         return $this->jsonEncoder->encode($config);
     }

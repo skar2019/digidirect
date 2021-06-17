@@ -281,6 +281,13 @@ class UpgradeData implements UpgradeDataInterface
                 'comment' => 'Product PreOrder'
             ]
         );
+        $connection->modifyColumn(
+            $table,
+            'product_pre_order',
+            [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT, '4G'
+            ]
+        );
         $eavSetup->updateAttribute(
             \Magento\Catalog\Model\product::ENTITY,
             'pre_oder_from_date',

@@ -66,7 +66,7 @@ class Status
                     $status = $this->checkStatusPending($subject, $status, $state);
                     if ($this->checkHasPreOrderProduct($preOrder, $productId, $isInStock)) {
                         if ($state == \Magento\Sales\Model\Order::STATE_PROCESSING
-                            && in_array($productId, $listPreOrder)) {
+                            && in_array($productId, $listPreOrder) && $subject->getStatus() != 'processing_preorder') {
                             $status = 'processing_preorder';
                         }
                     }

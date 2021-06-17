@@ -19,6 +19,7 @@ namespace Bss\PreOrder\Plugin;
 
 use Magento\CatalogInventory\Model\Quote\Item\QuantityValidator;
 use Magento\Framework\Event\Observer;
+use Bss\PreOrder\Model\Attribute\Source\Order;
 
 class SkipValidate
 {
@@ -50,6 +51,14 @@ class SkipValidate
     {
         if ($this->helper->isEnable()) {
             $is_preorder = $observer->getEvent()->getData('is_preorder');
+            if ($is_preorder === null) {
+                $quoteItem = $observer->getEvent()->getItem();
+                $productId = $quoteItem->getProductId();
+                $preOrder = $this->helper->getPreOrder($productId);
+                if ($preOrder == Order::ORDER_YES || $preOrder == Order::ORDER_OUT_OF_STOCK) {
+                    return;
+                }
+            }
             if ($is_preorder) {
                 return;
             }

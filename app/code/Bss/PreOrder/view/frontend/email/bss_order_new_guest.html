@@ -56,9 +56,7 @@
             <p>{{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$created_at_formatted |raw}}</p>
         </td>
     </tr>
-    {{depend pre_order_enabled}}
-    <p>{{var pre_order_message}}</p>
-    {{/depend}}
+
     <tr class="email-information">
         <td>
             {{depend order_data.email_customer_note}}

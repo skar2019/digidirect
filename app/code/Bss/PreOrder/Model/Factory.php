@@ -16,6 +16,11 @@ class Factory
     protected $dataBySku = null;
 
     /**
+     * @var mixed
+     */
+    protected $sourceListItem = null;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
@@ -45,5 +50,30 @@ class Factory
             $this->dataBySku = $this->create();
         }
         return $this->dataBySku;
+    }
+
+    /**
+     * @return \Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku|mixed
+     */
+    protected function createSourceList()
+    {
+        return $this->_objectManager->create(\Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku::class);
+    }
+
+    /**
+     * @param $sku
+     * @return float|int|null
+     */
+    public function getSalableQtyBySource($sku)
+    {
+        if ($this->sourceListItem == null) {
+            $this->sourceListItem = $this->createSourceList();
+        }
+        $sourceItems = $this->sourceListItem->execute($sku);
+        $qty = 0;
+        foreach ($sourceItems as $sourceItem) {
+            $qty += $sourceItem->getQuantity();
+        }
+        return $qty;
     }
 }

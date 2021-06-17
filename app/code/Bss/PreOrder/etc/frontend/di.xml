@@ -24,9 +24,6 @@
     <type name="Magento\Catalog\Pricing\Render\FinalPriceBox">
         <plugin name="bss_apply_preorder_button" type="Bss\PreOrder\Plugin\ApplyButtonPreOrder" />
     </type>
-    <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator">
-        <plugin name="skip_validate" type="Bss\PreOrder\Plugin\SkipValidate" />
-    </type>
     <type name="Magento\Checkout\Model\Cart">
         <plugin name="check_preorder_before_add" type="Bss\PreOrder\Plugin\CheckBeforeAdd" />
     </type>

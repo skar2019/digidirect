@@ -19,7 +19,7 @@ use Magento\Framework\EntityManager\EntityManager;
  */
 class Faq extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
-    const EWAVE_FAQ_FAQ_ITEM_INFO_TABLE = 'digidirect_faq';
+    const DIGIDIRECT_FAQ_FAQ_ITEM_INFO_TABLE = 'digidirect_faq';
 
     /**
      * @var EntityManager
@@ -140,7 +140,7 @@ class Faq extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _getMainInfoTable()
     {
-        return $this->getTable(self::EWAVE_FAQ_FAQ_ITEM_INFO_TABLE);
+        return $this->getTable(self::DIGIDIRECT_FAQ_FAQ_ITEM_INFO_TABLE);
     }
 
     /**
