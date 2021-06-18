@@ -1,23 +1,41 @@
 <?php
 /**
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this extension to newer
- * version in the future.
- *
- * @category    Digidirect
- * @package     Digidirect_OnSaleProducts
- */
+*
+* DISCLAIMER
+*
+* Do not edit or add to this file if you wish to upgrade this extension to newer
+* version in the future.
+*
+* @category    Digidirect
+* @package     Digidirect_OnSaleProducts
+*/
 
 namespace Digidirect\OnSaleProducts\Model\ResourceModel\Product;
 
 class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection{
-    public function getOnSaleProduct(){
-        $this->getSelect()->joinLeft(
-                ['catalogrule' => $this->getTable('catalogrule_product')],
-                'e.entity_id = catalogrule.product_id'
-        )->where('e.entity_id IS NOT NULL')->group('e.entity_id')->limit(25);
-        return $this;
-    }
+   public function getOnSaleProduct(){
+       $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
+           '\Magento\Store\Model\StoreManagerInterface'
+       );
+       $catalogRule = \Magento\Framework\App\ObjectManager::getInstance()->create(
+            '\Magento\CatalogRule\Model\RuleFactory'
+       );
+
+       $websiteId = $storeManager->getStore()->getWebsiteId();//current Website Id
+
+       $resultProductIds = [];
+       $catalogRuleCollection = $catalogRule->create()->getCollection()->setOrder('rule_id','DSC');
+       $catalogRuleCollection->addIsActiveFilter(1);//filter for active rules only
+       foreach ($catalogRuleCollection as $catalogRule) {
+           $productIdsAccToRule = $catalogRule->getMatchingProductIds();
+           foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
+               if (!empty($ruleProductArray[$websiteId])) {
+                   $resultProductIds[$productId] = $productId;
+               }
+           }
+       }
+       $this->getSelect()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+       return $this;
+       
+   }
 }
