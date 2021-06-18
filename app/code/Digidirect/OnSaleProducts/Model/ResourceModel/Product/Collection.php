@@ -34,7 +34,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
                }
            }
        }
-       $this->getSelect()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(25);
+       $this->getSelect()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
        return $this;
        
    }
