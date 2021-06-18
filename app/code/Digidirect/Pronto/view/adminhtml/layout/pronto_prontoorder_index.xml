@@ -7,7 +7,7 @@
     </referenceBlock>
     <body>
         <referenceContainer name="content">
-            <block class="Magento\Backend\Block\Template" template="Digidirect_Pronto::helloworld.phtml"/>
+            <block class="Magento\Backend\Block\Template" template="Digidirect_Pronto::prontoorder.phtml"/>
         </referenceContainer>
     </body>
 </page>

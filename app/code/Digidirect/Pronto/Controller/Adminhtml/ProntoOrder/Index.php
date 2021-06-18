@@ -1,5 +1,5 @@
 <?php
-namespace Digidirect\Pronto\Controller\Adminhtml\HelloWorld;
+namespace Digidirect\Pronto\Controller\Adminhtml\ProntoOrder;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
@@ -12,7 +12,7 @@ use Magento\Framework\View\Result\PageFactory;
  */
 class Index extends Action implements HttpGetActionInterface
 {
-    const MENU_ID = 'Digidirect_Pronto::pronto_helloworld';
+    const MENU_ID = 'Digidirect_Pronto::pronto_prontoorder';
 
     /**
      * @var PageFactory
@@ -43,7 +43,7 @@ class Index extends Action implements HttpGetActionInterface
     {
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu(static::MENU_ID);
-        $resultPage->getConfig()->getTitle()->prepend(__('Hello World'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Pronto Orders'));
 
         return $resultPage;
     }
