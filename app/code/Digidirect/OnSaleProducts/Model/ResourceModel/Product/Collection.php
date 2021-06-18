@@ -14,6 +14,8 @@ namespace Digidirect\OnSaleProducts\Model\ResourceModel\Product;
 
 class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection{
    public function getOnSaleProduct(){
+       
+       $excluded_products = array(11491, 12063, 12967, 19457, 23505, 27211);
        $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
            '\Magento\Store\Model\StoreManagerInterface'
        );
@@ -30,7 +32,10 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
            $productIdsAccToRule = $catalogRule->getMatchingProductIds();
            foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
                if (!empty($ruleProductArray[$websiteId])) {
-                   $resultProductIds[$productId] = $productId;
+                   
+                   if(!in_array($productId, $excluded_products)){
+                       $resultProductIds[$productId] = $productId;
+                   }
                }
            }
        }
