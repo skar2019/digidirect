@@ -28,6 +28,8 @@
 !/pub/media
 !/pub/media/**
 !/pub/media/wysiwyg/
+!/pub/bridge2cart
+!/pub/bridge2cart/**
 !/lib
 !/lib/*/
 !/lib/internal/**
