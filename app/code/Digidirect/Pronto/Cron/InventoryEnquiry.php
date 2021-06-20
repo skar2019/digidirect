@@ -3,7 +3,7 @@ namespace Digidirect\Pronto\Controller\Index;
 
 use Digidirect\Pronto\Helper\Inventory;
 
-class Test extends \Magento\Framework\App\Action\Action
+class InventoryEnquiry extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
 
@@ -17,7 +17,6 @@ class Test extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-		echo "Hello Pronto <br />";
                 $this->helper->enquireInventory();
 		exit;
 	}
