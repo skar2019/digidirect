@@ -9,6 +9,8 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\InventoryApi\Api\Data\SourceItemInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
@@ -78,6 +80,16 @@ class Order extends AbstractHelper
      */
     protected $incrementIdUpdater;
     
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+    
+    /**
+     * @var CustomerInterface[]|array
+     */
+    protected $customer = [];
+    
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -88,7 +100,8 @@ class Order extends AbstractHelper
                         SearchCriteriaBuilder $searchCriteriaBuilder,
                         SourceItemRepositoryInterface $sourceItemRepository,
                         AbstractEntityRepository $abstractEntityRepository,
-                        IncrementIdUpdater $incrementIdUpdater)
+                        IncrementIdUpdater $incrementIdUpdater,
+                        CustomerRepositoryInterface $customerRepository)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -100,6 +113,7 @@ class Order extends AbstractHelper
                         $this->sourceItemRepository = $sourceItemRepository;
                         $this->abstractEntityRepository = $abstractEntityRepository;
                         $this->incrementIdUpdater = $incrementIdUpdater;
+                        $this->customerRepository = $customerRepository;
 
     }
 
@@ -124,19 +138,15 @@ class Order extends AbstractHelper
             $orderId = $order->getIncrementId();
             
             echo "<br />orderId ".$orderId;
-            $accountname = $order->getCustomerFirstname().$order->getCustomerLastname();
-            $contactname = $order->getCustomerFirstname()." ".$order->getCustomerLastname();
+            echo "<br />customerId ".$order->getCustomerId();
+            $accountname = $this->getAccountName($order);
+            echo "<br> accountname - ".$accountname. "<br>";
+            $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
-            
-            if(empty($accountname))
-            {
-                echo "<br> empty accountname <br>";
-                continue;
-            }
+
             $data['sales-order']['header']['accountname'] = $accountname;
-            $data['sales-order']['header']['account'] = $order->getCustomerId();
-            
+            $data['sales-order']['header']['account'] = $this->getAccount($order);
             $data['sales-order']['header']['order-date'] = "";
             $data['sales-order']['header']['warehouse'] = $this->getWarehouse($order);
             $data['sales-order']['header']['territory'] = "WEBS";
@@ -297,6 +307,13 @@ class Order extends AbstractHelper
                 $order->setData('pronto_status_code',$prontostatus);
                 $order->save();
                 
+                $account = $json['sales-orders']['sales-order']['account'];
+                if (!empty($account) && !$order->getCustomerIsGuest()) {
+                    $customer = $this->customerRepository->getById($order->getCustomerId());
+                    $customer->setData('pronto_account_id', $account);
+                    $customer->setCustomAttribute('pronto_account_id', $account);
+                    $this->customerRepository->save($customer);
+                }
                 /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                 $invoice = $order->getInvoiceCollection()->getFirstItem();
                 $this->incrementIdUpdater->update($invoice, $invoiceno);
@@ -462,4 +479,56 @@ class Order extends AbstractHelper
         }
         return null;
     }
+    
+    /**
+     * @param OrderInterface $order
+     * @param string $attributeCode
+     * @return mixed|string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    protected function getCustomerAttributeValue(OrderInterface $order, $attributeCode) {
+        $result = '';
+        if (!$order->getCustomerIsGuest() && !isset($this->customer[$order->getEntityId()])) {
+            echo "<br/>not guest";
+            try {
+                $this->customer[$order->getEntityId()] = $this->customerRepository->getById($order->getCustomerId());
+            } catch (Exception $ex) {
+                return $result;
+            }
+            
+        }
+
+        if (isset($this->customer[$order->getEntityId()])) {
+            echo "<br />get entity";
+            $customer = $this->customer[$order->getEntityId()];
+            $attribute = $customer->getCustomAttribute($attributeCode);
+            $result = $attribute ? $attribute->getValue() : '';
+        }
+
+        return $result;
+    }
+    
+    /**
+     * @param OrderInterface|Order $order
+     * @return string
+     */
+    public function getAccountName(OrderInterface $order) {
+        echo "<br /> get accountname. ";
+        $accountName = $this->getCustomerAttributeValue($order, 'pronto_account_name');
+        if (empty($accountName)) {
+            $address = $order->getShippingAddress() ?? $order->getBillingAddress();
+            $accountName = $address->getName();
+        }
+        return $accountName;
+    }
+
+    /**
+     * @param OrderInterface|Order $order
+     * @return string
+     */
+    public function getAccount(OrderInterface $order) {
+        return $this->getCustomerAttributeValue($order, 'pronto_account_id');
+    }
+    
 }      
