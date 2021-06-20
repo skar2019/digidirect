@@ -5,7 +5,13 @@ namespace Digidirect\Pronto\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
-
+use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Api\Data\OrderItemInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\InventoryApi\Api\Data\SourceItemInterface;
+use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
+use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
+use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
 
 class Order extends AbstractHelper
 {
@@ -16,14 +22,73 @@ class Order extends AbstractHelper
     protected $curl;
     
     protected $_orderCollectionFactory;
+    
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+    
+    /**
+     * @var array
+     */
+    protected $relocateWarehouseMap = [
+        'MELB' => 'SWHS',
+        'CANN' => 'SWHS',
+        'SWHS' => 'MELB'
+    ];
+    
+    /**
+     * @var array
+     */
+    protected $repCodeForPickUp = [
+        '11' => 'S7P',
+        '13' => 'B4P',
+        '17' => 'M1P',
+        '21' => 'M6P',
+        '19' => 'B5P',
+        '23' => 'C3P'
+    ];
 
+    /**
+     * @var array
+     */
+    protected $repDispatchWarehouseMap = [
+        'MELB' => '85',
+        'CANN' => 'C3W',
+        'SWHS' => 'C9W'
+    ];
+    
+    /**
+     * @var array
+     */
+    protected $warehouseCode = [];
+    
+    /**
+     * @var SourceItemRepositoryInterface
+     */
+    protected $sourceItemRepository;
+    
+    /**
+     * @var AbstractEntityRepository
+     */
+    protected $abstractEntityRepository;
+    
+    /**
+     * @var IncrementIdUpdater
+     */
+    protected $incrementIdUpdater;
+    
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
                         \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
                         \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
                         \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
-                        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory ) 
+                        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
+                        SearchCriteriaBuilder $searchCriteriaBuilder,
+                        SourceItemRepositoryInterface $sourceItemRepository,
+                        AbstractEntityRepository $abstractEntityRepository,
+                        IncrementIdUpdater $incrementIdUpdater)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -31,13 +96,16 @@ class Order extends AbstractHelper
                         $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
                         $this->sourceItemFactory = $sourceItemFactory;
                         $this->_orderCollectionFactory = $orderCollectionFactory;
+                        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+                        $this->sourceItemRepository = $sourceItemRepository;
+                        $this->abstractEntityRepository = $abstractEntityRepository;
+                        $this->incrementIdUpdater = $incrementIdUpdater;
 
     }
 
     public function sendOrder() 
     {
  
-        
         $piwikItems = array();
         $piwikOrder = array();
         //get order data
@@ -70,9 +138,9 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['account'] = $order->getCustomerId();
             
             $data['sales-order']['header']['order-date'] = "";
-            $data['sales-order']['header']['warehouse'] = "SWHS";
+            $data['sales-order']['header']['warehouse'] = $this->getWarehouse($order);
             $data['sales-order']['header']['territory'] = "WEBS";
-            $data['sales-order']['header']['rep'] = "85";
+            $data['sales-order']['header']['rep'] = $this->getRep($order);
             $data['sales-order']['header']['contactname'] = $contactname;
             $data['sales-order']['header']['email'] = $order->getCustomerEmail();
             $data['sales-order']['header']['reference'] = $orderId;
@@ -138,7 +206,27 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
             $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference;
             $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-            //exit;
+            
+            //CUSTOM DATA
+            $qffNumber = $order->getQffNumber();
+            $qffLastname = $order->getQffLastname();
+            if (!empty($qffNumber) && !empty($qffLastname)) {
+                $data['sales-order']['header']['custom-data']['data']['key'] = 'QFF';
+                $data['sales-order']['header']['custom-data']['data']['value'] = $qffNumber;
+                $data['sales-order']['header']['custom-data']['data']['key'] = 'QFFSURNAME';
+                $data['sales-order']['header']['custom-data']['data']['value'] = $qffLastname;
+            }
+            else 
+            {
+                $data['sales-order']['header']['custom-data']['data']['key'] = 'QFF';
+                $data['sales-order']['header']['custom-data']['data']['value'] = NULL;
+                $data['sales-order']['header']['custom-data']['data']['key'] = 'QFFSURNAME';
+                $data['sales-order']['header']['custom-data']['data']['value'] = NULL;
+            }
+            
+            $data['sales-order']['header']['custom-data']['data']['key'] = 'magento-order-number';
+            $data['sales-order']['header']['custom-data']['data']['value'] = $orderId;
+            
             //product lines
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
@@ -203,23 +291,29 @@ class Order extends AbstractHelper
                 echo "<br>";
                 //$order->setState("processing")->setStatus("processing");
                 $pronto = $json['sales-orders']['sales-order']['order-no'];
+                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
                 $order->setData('pronto_order_number',$pronto);
+                $order->setData('pronto_status_code',$prontostatus);
                 $order->save();
+                
+                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+                $invoice = $order->getInvoiceCollection()->getFirstItem();
+                $this->incrementIdUpdater->update($invoice, $invoiceno);
                 var_dump($json);
                 exit; //for testing;
             }
-            
-            
-            
         }
         
     }   
     
     public function getOrderCollection()
     {
-       $collection = $this->_orderCollectionFactory->create()
-         ->addAttributeToSelect('*')
-         ->addFieldToFilter('pronto_order_number', array('null' => true)); //Add condition if you wish
+        $now = new \DateTime();
+        $collection = $this->_orderCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter('pronto_order_number', array('null' => true)); //Add condition if you wish
+            //->addFieldToFilter('created_at',$now->format('Y-m-d'));
      
      return $collection;
      
@@ -258,5 +352,114 @@ class Order extends AbstractHelper
             }
         }
         return $type;
+    }
+    
+    public function getWarehouse(OrderInterface $order) {
+        if (!isset($this->warehouseCode[$order->getEntityId()])) {
+            $whse = '';
+
+            if ($order->getShippingMethod() == 'collect_collect') {
+                if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+                    $whse = $this->repCodeForPickUp[$collectPlaceId];
+                }
+            } elseif ($order->getShippingAddress()) {
+                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
+                $skus = $this->getProductsSkus($order);
+                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse]) && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
+                    $whse = $this->relocateWarehouseMap[$whse];
+                }
+            }
+
+            $this->warehouseCode[$order->getEntityId()] = $whse;
+        }
+        
+        return $this->warehouseCode[$order->getEntityId()];
+    }
+    
+    public function getRep(OrderInterface $order) {
+        if ($order->getShippingMethod() == 'collect_collect') {
+            if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+                $mapping = $this->repCodeForPickUp;
+                return $mapping[$collectPlaceId] ?? '';
+            }
+            return '';
+        }
+        echo 'Rep - '. $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
+        return $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
+    }
+    
+    protected function getWarehouseByRegionCode($regionCode) {
+        return 'SWHS';
+    }
+    
+    /**
+     * @param OrderInterface $order
+     * @return array
+     */
+    protected function getProductsSkus(OrderInterface $order) {
+        $skus = [];
+        /** @var $item \Magento\Sales\Model\Order\Item */
+        foreach ($order->getAllVisibleItems() as $item) {
+            if (!$item->getIsVirtual()) {
+                $skus = array_merge($skus, $this->getSkusByProductType($item));
+            }
+        }
+
+        return $skus;
+    }
+    
+     /**
+     * @param string $sourceCode
+     * @param array $productsSkus
+     * @return bool
+     */
+    protected function isProductsInStock($sourceCode, array $productsSkus) {
+        $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
+        foreach ($sourceItems as $sourceItem) {
+            if (!$sourceItem->getQuantity() || $sourceItem->getStatus() !== SourceItemInterface::STATUS_IN_STOCK) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * @param OrderItemInterface $item
+     * @return array
+     */
+    protected function getSkusByProductType(OrderItemInterface $item) {
+        switch ($item->getProductType()) {
+            case \Magento\Bundle\Model\Product\Type::TYPE_CODE:
+                return $this->getOrderLinesByBundle($item);
+            default:
+                return [$item->getSku()];
+        }
+    }
+    
+    /**
+     * @param string $sourceCode
+     * @param string $sku
+     * @return SourceItemInterface[]
+     */
+    protected function getSourceItemBySourceCodeAndSku($sourceCode, array $sku) {
+        $searchCriteria = $this->searchCriteriaBuilder
+                ->addFilter(SourceItemInterface::SOURCE_CODE, $sourceCode)
+                ->addFilter(SourceItemInterface::SKU, $sku, 'in')
+                ->create();
+        $sourceItemsResult = $this->sourceItemRepository->getList($searchCriteria);
+        return $sourceItemsResult->getItems();
+    }
+    
+    /**
+     * @param OrderInterface $order
+     * @return int|null
+     */
+    protected function getCollectPlaceId(OrderInterface $order) {
+        foreach ($order->getAllVisibleItems() as $item) {
+            if ($collectPlaceId = $item->getCollectPlaceId()) {
+                return $collectPlaceId;
+            }
+        }
+        return null;
     }
 }      
