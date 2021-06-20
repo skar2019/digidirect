@@ -1,23 +1,27 @@
 <?php
-namespace Digidirect\Pronto\Controller\Index;
+namespace Digidirect\Pronto\Cron;
 
+use Psr\Log\LoggerInterface;
 use Digidirect\Pronto\Helper\Inventory;
 
-class InventoryEnquiry extends \Magento\Framework\App\Action\Action
+class InventoryEnquiry
 {
-	protected $_pageFactory;
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
-	public function __construct(
-		\Magento\Framework\App\Action\Context $context,
-                Inventory $helper)
-	{
-                $this->helper = $helper;
-		return parent::__construct($context);
-	}
+    public function __construct(
+            LoggerInterface $logger,
+            Order $helper)
+    {
+        $this->logger = $logger;
+        $this->helper = $helper;
+    }
 
-	public function execute()
-	{
-                $this->helper->enquireInventory();
-		exit;
-	}
+    public function execute()
+    {
+        $this->helper->enquireInventory();
+        exit;
+    }
 }
