@@ -66,18 +66,19 @@ define([
             $(elemnt).parents(self.options.productPageContainer).find('#product_addtocart_form ' + self.options.addToCartButtonSelector).attr('title', self.options.buttonText);
             if (self.options.stock_status != undefined) {
                 if (self.options.stock_status == '0') {
-                    $(elemnt).parents(self.options.productPageContainer + ' .product-info-main').find(self.options.stockSelector).html($t('Out Of Stock'));
+                    $(elemnt).parents(self.options.productPageContainer + ' .product-info-main .product-info-price').find(self.options.stockSelector).html($t('Out Of Stock'));
                 }
             }
             if (self.options.availability_message) {
                 let availabilityMessage = $t(self.options.availability_message);
                 let messageTemplate = template(self.options.tmplAvailabilityMessage);
                 let messageHtml = messageTemplate({message: availabilityMessage});
-                $(elemnt).parents(self.options.productPageContainer + ' .product-info-main').find(self.options.stockSelector).before(messageHtml);
+                $(elemnt).parents(self.options.productPageContainer + ' .product-info-main .product-info-price').find(self.options.stockSelector).before(messageHtml);
             }
             var formElement = $(elemnt).parents(self.options.productPageContainer).find('#product_addtocart_form').first();
             formElement.prepend(self.options.preOrderInput);
-            $(elemnt).find('.mess-preorder').detach().insertBefore(formElement);
+            
+            $(elemnt).find('.mess-preorder').detach().appendTo(".product-info-main .product-info-price");
         },
 
         _ApplyForOther: function (elemnt) {
