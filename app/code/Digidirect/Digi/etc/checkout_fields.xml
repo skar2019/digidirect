@@ -33,7 +33,7 @@
         <class>delivery-notes</class>
     </field>
     <field id="order_comment">
-        <frontend_name>Order Comment</frontend_name>
+        <frontend_name>Add Comment</frontend_name>
         <frontend_input>textarea</frontend_input>
         <sort_order>65</sort_order>
         <validation>
