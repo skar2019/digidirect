@@ -11,6 +11,11 @@ class SendOrder
      */
     protected $logger;
 
+    /**
+     * @var Inventory
+     */
+    protected $helper;
+    
     public function __construct(
             LoggerInterface $logger,
             Order $helper)
