@@ -62,9 +62,13 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     </div>-->
 <?php endif; ?>
 
-<div class="qantas-pts-wrapper">
-    <span>Earn <?= $points ?> Qantas Points</span>
-</div>
+<?php if($points > 0):?>
+    <div class="qantas-pts-wrapper">
+        <a href="/qantas">
+            <span>Earn <?= $points ?> Qantas Points</span>
+        </a>
+    </div>
+<?php endif; ?>
 
 <div class="product-add-form">
     <form data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
