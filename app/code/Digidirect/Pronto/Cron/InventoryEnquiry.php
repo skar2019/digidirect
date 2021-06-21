@@ -10,10 +10,15 @@ class InventoryEnquiry
      * @var LoggerInterface
      */
     protected $logger;
-
+    
+    /**
+     * @var Inventory
+     */
+    protected $helper;
+    
     public function __construct(
             LoggerInterface $logger,
-            Order $helper)
+            Inventory $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;
