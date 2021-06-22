@@ -347,7 +347,7 @@
                 width: 20px;
                 position: absolute;
                 left: 0;
-                top: -3px;
+                top: 0;
             }
         }
 
@@ -733,14 +733,7 @@
             width: 100%;
         }
 
-        #product_addtocart_form 
-        {
-            &{
-                background: #f5f5f5;
-                padding: 20px;
-                border-radius: 4px;
-            }
-            
+        #product_addtocart_form {   
             .field.qty {
                 padding-right: 15px;
             }
@@ -1054,6 +1047,12 @@
         padding: 30px 56px 0 0;
         float: unset;
         
+        .fieldset{
+            padding: 30px;
+            background: #f3f3f3;
+            margin: 0;
+        }
+        
         .qantas-pts-wrapper{
             a{
                 &{
@@ -1061,8 +1060,6 @@
                     width: 100%;
                     background: #ee4242;
                     padding: 20px 0;
-                    margin-bottom: 15px;
-                    border-radius: 4px;
                 }
                 
                 &:hover{
