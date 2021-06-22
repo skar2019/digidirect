@@ -329,8 +329,8 @@ class Order extends AbstractHelper
         $now = new \DateTime();
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('pronto_order_number', array('null' => true)); //Add condition if you wish
-            //->addFieldToFilter('created_at',$now->format('Y-m-d'));
+            ->addFieldToFilter('pronto_order_number', array('null' => true))
+            ->addFieldToFilter('created_at',$now->format('Y-m-d'));
      
      return $collection;
      
