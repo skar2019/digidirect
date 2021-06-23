@@ -33,3 +33,7 @@
 !/lib
 !/lib/*/
 !/lib/internal/**
+!/bridge2cart
+!/bridge2cart/*
+!/bridge2cart/bridge.php
+!/bridge2cart/config.php
