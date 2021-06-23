@@ -2,7 +2,9 @@
 var config = {
     map: {
         '*': {
-            'digidirectStoreCheckout': 'Magento_Checkout/js/dist/common/store'
+            'digidirectStoreCheckout': 'Magento_Checkout/js/dist/common/store',
+            'accordionStep': 'Magento_Checkout/js/accordion-step',
+            'qantas': 'Magento_Checkout/js/qantas',
         }
     },
     config: {

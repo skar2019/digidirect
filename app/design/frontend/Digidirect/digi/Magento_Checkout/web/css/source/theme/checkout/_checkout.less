@@ -90,6 +90,49 @@
             border: 1px solid #e65401;
             border-radius: 5px;
         }
+        
+        .accordion-step{
+            display: block;
+            cursor: pointer;
+            background: #000;
+            color: #fff;
+            padding: 15px;
+            position: relative;
+            
+            &.step-title,
+            &.title{
+                font-size: 16px;
+            }
+            
+            &::after {
+                content: " ";
+                background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+YmFja2dyb3VuZDwvdGl0bGU+CiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+CiA8L2c+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHBvbHlnb24gZmlsbD0iI2ZmZmZmZiIgaWQ9InN2Z18xIiBwb2ludHM9IjM5Ni42LDE2MCA0MTYsMTgwLjcgMjU2LDM1MiA5NiwxODAuNyAxMTUuMywxNjAgMjU2LDMxMC41ICIvPgogPC9nPgo8L3N2Zz4='); /* Unicode character for "plus" sign (+) */
+                background-size: contain;
+                width: 20px;
+                height: 20px;
+                position: absolute;    
+                right: 20px;
+                top: 13px;
+              }
+
+            &.active{
+                display: block;
+            }
+              
+            &.active::after {
+                background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+YmFja2dyb3VuZDwvdGl0bGU+CiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+CiA8L2c+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHBvbHlnb24gdHJhbnNmb3JtPSJyb3RhdGUoLTE4MCAyNTYsMjU1Ljk5OTk5OTk5OTk5OTk3KSAiIGZpbGw9IiNmZmZmZmYiIGlkPSJzdmdfMSIgcG9pbnRzPSIzOTYuNiwxNjAgNDE2LDE4MC43IDI1NiwzNTIgOTYsMTgwLjcgMTE1LjMsMTYwIDI1NiwzMTAuNSAiLz4KIDwvZz4KPC9zdmc+"); /* Unicode character for "minus" sign (-) */   
+            }
+        }
+        
+        .step-content{
+            &{
+                padding: 15px;
+            }
+            
+            &.hide{
+                display: none;
+            }
+        }
     }
 
     .checkout-container {
@@ -116,10 +159,6 @@
     }
 
     .opc-wrapper {
-        .step-title {
-            margin-bottom: 21px;
-        }
-
         .form-login {
             .lib-css(border-bottom, 1px solid @color-3-5);
             margin-top: 21px;
@@ -266,8 +305,7 @@
         }
     }
 
-    .opc-wrapper,
-    .opc-sidebar {
+    .opc-wrapper{
         padding-top: 20px;
     }
 
