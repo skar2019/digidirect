@@ -31,9 +31,6 @@
                 <div class="no-quotes-block" data-bind="visible: isPaymentMethodsAvailable() == false">
                     <!-- ko i18n: 'No Payment method available.'--><!-- /ko -->
                 </div>
-                <!-- ko foreach: getRegion('afterMethods') -->
-                    <!-- ko template: getTemplate() --><!-- /ko -->
-                <!-- /ko -->
                 
             </fieldset>
         </form>
@@ -52,5 +49,19 @@
         <!-- ko template: getTemplate() --><!-- /ko -->
         <!-- /ko -->
         
+    </div>
+</li>
+
+<li id="comments-wrapper" role="presentation" class="comments-wrapper" data-bind="fadeVisible: isVisible">
+    <div class="step-title accordion-step" data-bind="i18n: 'Comments'" data-role="title" data-step="checkout-comments-wrapper"></div>
+    <div id="checkout-comments-wrapper"
+        class="step-content hide"
+        data-role="content"
+        role="tabpanel"
+        aria-hidden="false">
+
+        <!-- ko foreach: getRegion('afterMethods') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
     </div>
 </li>
