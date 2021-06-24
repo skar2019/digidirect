@@ -1,5 +1,5 @@
 <?php
-namespace Digidirect\CustomOptions\Controller\Adminhtml\Create;
+namespace Digidirect\CustomOptions\Controller\Adminhtml\Delete;
 class Index extends \Magento\Backend\App\Action
 {
          protected $resultPageFactory = false;      
@@ -16,10 +16,10 @@ class Index extends \Magento\Backend\App\Action
          } 
          public function execute()
          {
-                 $this->customOption->saveCustomOption(43);
+                 $this->customOption->deleteCustomOption(43);
                  $resultPage = $this->resultPageFactory->create();
                  $resultPage->setActiveMenu('Magento_Catalog::catalog');
-                 $resultPage->getConfig()->getTitle()->prepend(__('Customizable Options Created'));
+                 $resultPage->getConfig()->getTitle()->prepend(__('Customizable Options Deleted'));
                  return $resultPage;
          }
          protected function _isAllowed()
