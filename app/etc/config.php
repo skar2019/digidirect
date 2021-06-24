@@ -547,6 +547,7 @@ return [
         'Digidirect_MyStoreWidget' => 1,
         'Digidirect_MyStoreWidgetCollect' => 1,
         'Digidirect_PreOrder' => 1,
+        'Digidirect_Pronto' => 1,
         'Digidirect_Qantas' => 1,
         'Digidirect_QuickView' => 1,
         'Digidirect_ShippingAvailabilityCheck' => 1,
