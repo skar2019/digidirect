@@ -127,6 +127,8 @@
         .step-content{
             &{
                 padding: 15px;
+                border: 1px solid #000;
+                border-top: none;
             }
             
             &.hide{
@@ -270,7 +272,7 @@
     .form-shipping-address,
     .form-address-edit {
         .field.-half {
-            float: left;
+            display: inline-block;
             width: calc(~'50% - 10px');
         }
 
@@ -280,18 +282,20 @@
 
         .field[name*='region'],
         .field.-region {
-            margin-left: 20px;
-            float: left;
+            float: right;
+            display: inline-block;
         }
 
         .field.-postcode {
+            display: inline-block;
             float: right;
+            margin-left: 20px;
         }
 
         .field[name*='region'],
         .field.-postcode,
         .field.-region {
-            width: calc(~'50% - 15px');
+            width: calc(~'25% - 15px');
         }
 
         .field.-country,

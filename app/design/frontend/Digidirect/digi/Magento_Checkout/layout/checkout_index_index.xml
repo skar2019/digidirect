@@ -58,30 +58,40 @@
                                                                         <item name="additionalClasses" xsi:type="string">-half</item>
                                                                     </item>
                                                                 </item>
+                                                                <item name="unit_number" xsi:type="array">
+                                                                    <item name="config" xsi:type="array">
+                                                                        <item name="additionalClasses" xsi:type="string">unit-number</item>
+                                                                    </item>
+                                                                </item>
                                                                 <item name="city" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="additionalClasses" xsi:type="string">-half</item>
                                                                     </item>
+                                                                    <item name="sortOrder" xsi:type="string">78</item>
                                                                 </item>
                                                                 <item name="region" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="additionalClasses" xsi:type="string">-region</item>
                                                                     </item>
+                                                                    <item name="sortOrder" xsi:type="string">80</item>
                                                                 </item>
                                                                 <item name="region_id" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="additionalClasses" xsi:type="string">-region</item>
                                                                     </item>
+                                                                    <item name="sortOrder" xsi:type="string">78</item>
                                                                 </item>
                                                                 <item name="postcode" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="additionalClasses" xsi:type="string">-postcode</item>
                                                                     </item>
+                                                                    <item name="sortOrder" xsi:type="string">78</item>
                                                                 </item>
                                                                 <item name="country_id" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
                                                                         <item name="additionalClasses" xsi:type="string">-half -country</item>
                                                                     </item>
+                                                                    <item name="sortOrder" xsi:type="string">90</item>
                                                                 </item>
                                                                 <item name="telephone" xsi:type="array">
                                                                     <item name="config" xsi:type="array">
