@@ -104,10 +104,38 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
+    button:focus, 
+    button:active{
+        background: #c94901 !important;
+        border: 1px solid #f15a25 !important;
+    }
+    
     .opc-block-summary {
         &._block-content-loading {
             .loading-mask {
-                position: fixed!important;
+                position: fixed !important;
+            }
+        }
+    }
+    
+    .action-extension-toolbar{
+        .extension-action{
+            font-size: 18px !important;
+            margin-top: 15px !important;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 4px;
+            float: right;
+            border: 1px solid #f15a25 !important;
+            font-family: 'Titillium Web', sans-serif;
+            padding: 5px 15px !important;
+            transition: all 0.4s ease-in-out;
+
+            &::hover,
+            &::active,
+            &::focus{
+                background: #c94901 !important;
+                border: 1px solid #f15a25 !important;
             }
         }
     }

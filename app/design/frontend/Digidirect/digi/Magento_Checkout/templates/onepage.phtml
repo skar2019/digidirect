@@ -48,9 +48,20 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
     
     <script type="text/javascript">
         require(['jquery', 
-                 'accordionStep'], 
-        function($, accordionStep) {
-            
+                 'accordionStep',
+                 'qantasLoader'], 
+        function($, accordionStep, qantasLoader) {
+            $("body").on("click", ".extension-action", function(){
+                console.log("Triggered");
+                
+                $(".checkout-shipping-address .accordion-step").addClass("active");
+                $(".checkout-shipping-method .accordion-step").addClass("active");
+                
+                $(".checkout-shipping-address .step-content").removeClass("hide");
+                $(".checkout-shipping-method .step-content").removeClass("hide");
+                
+                $("#shipping-method-buttons-container .continue").trigger("click");
+            });
         });
     </script>
     <!--End-->
@@ -66,7 +77,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
             "Magento_Checkout/js/order-field": {}
         }
     }
-</script>
+    </script>
 </div>
 
 <?php if ($hasWebOnly) : ?>

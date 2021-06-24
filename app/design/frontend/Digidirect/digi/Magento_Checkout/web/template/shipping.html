@@ -1,6 +1,6 @@
 <li id="shipping" class="checkout-shipping-address" data-bind="fadeVisible: visible()">
     <div data-bind="fadeVisible: isShippingVisible">
-        <div class="step-title accordion-step active" data-bind="i18n: 'Shipping Address'" data-role="title" data-step="checkout-step-shipping"></div>
+        <div class="step-title accordion-step active" data-bind="i18n: 'Shipping Information'" data-role="title" data-step="checkout-step-shipping"></div>
         <div id="checkout-step-shipping"
              class="step-content"
              data-role="content">
@@ -54,16 +54,16 @@
     data-bind="fadeVisible: visible(), blockLoader: isLoading"
     role="presentation">
     <div class="checkout-shipping-method">
-        <div data-bind="i18n: 'Shipping Methods', css: 'step-title accordion-step ' + titleClasses()" data-role="title" data-step="checkout-step-shipping_method"></div>
+        <div data-bind="i18n: 'Shipping Method', css: 'step-title accordion-step active' + titleClasses()" data-role="title" data-step="checkout-step-shipping_method"></div>
         <div id="checkout-step-shipping_method"
-             class="step-content hide"
+             class="step-content"
              data-role="content"
              role="tabpanel"
              aria-hidden="false">
             <!-- ko if: rates().length  -->
             <form class="form methods-shipping" id="co-shipping-method-form" data-bind="submit: setShippingInformation" novalidate="novalidate">
                 <div id="checkout-shipping-method-load" data-bind="css: methodListClasses()">
-                    
+                    <span>Please note some delivery methods may be unavailable due to your shipping location and time of order.</span><br />
                     <ul class="shipping-methods table-checkout-shipping-method items">
                         <!-- ko foreach: { data: rates(), as: 'method'} -->
                         <li class="row" data-bind="click: $parent.selectShippingMethod, css: method.carrier_code ">
@@ -155,6 +155,14 @@
             </form>
             <!-- /ko -->
             <!-- ko ifnot: rates().length > 0 --><div data-bind="css: 'no-quotes-block ' + methodListClasses()"><!-- ko i18n: 'Sorry, no quotes are available for this order at this time'--><!-- /ko --></div><!-- /ko -->
+        </div>
+    </div>
+    
+    <div class="action-extension-toolbar">
+        <div class="primary">
+            <button class="extension-action button continue primary" type="button">
+                <span><!-- ko i18n: 'Continue'--><!-- /ko --></span>
+            </button>
         </div>
     </div>
 </li>
