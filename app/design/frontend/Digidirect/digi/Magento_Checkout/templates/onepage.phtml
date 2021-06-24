@@ -51,8 +51,8 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                  'accordionStep',
                  'qantasLoader'], 
         function($, accordionStep, qantasLoader) {
-            $("body").on("click", ".extension-action", function(){
-                console.log("Triggered");
+            $("body").on("click", "#shipping-button-extension", function(){
+                console.log("Shipping button triggered");
                 
                 $(".checkout-shipping-address .accordion-step").addClass("active");
                 $(".checkout-shipping-method .accordion-step").addClass("active");
@@ -61,6 +61,12 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                 $(".checkout-shipping-method .step-content").removeClass("hide");
                 
                 $("#shipping-method-buttons-container .continue").trigger("click");
+            });
+            
+            $("body").on("click", "#payment-button-extension", function(){
+                console.log("Payment button triggered");
+                
+                $(".order-trigger").trigger("click");
             });
         });
     </script>
