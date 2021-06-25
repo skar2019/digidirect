@@ -5,6 +5,7 @@
  */
 -->
 <li id="payment" role="presentation" class="checkout-payment-method" data-bind="fadeVisible: isVisible">
+    <div class="step-title accordion-step active" data-bind="i18n: 'Payment Information'" data-role="title" data-step="checkout-step-payment"></div>
     <div id="checkout-step-payment"
          class="step-content"
          data-role="content"
@@ -16,14 +17,9 @@
             <!--/ko-->
         <!--/ko-->
         
-        
-        
         <form id="co-payment-form" class="form payments" novalidate="novalidate">
             <input data-bind='attr: {value: getFormKey()}' type="hidden" name="form_key"/>
             <fieldset class="fieldset">
-                <legend class="legend">
-                    <span data-bind="i18n: 'Payment Information'"></span>
-                </legend><br />
                 <!-- ko foreach: getRegion('beforeMethods') -->
                     <!-- ko template: getTemplate() --><!-- /ko -->
                 <!-- /ko -->
@@ -35,16 +31,45 @@
                 <div class="no-quotes-block" data-bind="visible: isPaymentMethodsAvailable() == false">
                     <!-- ko i18n: 'No Payment method available.'--><!-- /ko -->
                 </div>
-                <!-- ko foreach: getRegion('earnPoints') -->
-                <!-- ko template: getTemplate() --><!-- /ko -->
-                <!-- /ko -->
-             
-                <!-- ko foreach: getRegion('afterMethods') -->
-                    <!-- ko template: getTemplate() --><!-- /ko -->
-                <!-- /ko -->
-                
                 
             </fieldset>
         </form>
+    </div>
+</li>
+
+<li id="qantas-wrapper" role="presentation" class="checkout-qantas-wrapper" data-bind="fadeVisible: isVisible">
+    <div class="step-title accordion-step" data-bind="i18n: 'Earn Points'" data-role="title" data-step="checkout-qantas-wrapper"></div>
+    <div id="checkout-qantas-wrapper"
+        class="step-content hide"
+        data-role="content"
+        role="tabpanel"
+        aria-hidden="false">
+
+        <!-- ko foreach: getRegion('earnPoints') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+        
+    </div>
+</li>
+
+<li id="comments-wrapper" role="presentation" class="comments-wrapper" data-bind="fadeVisible: isVisible">
+    <div class="step-title accordion-step" data-bind="i18n: 'Comment'" data-role="title" data-step="checkout-comments-wrapper"></div>
+    <div id="checkout-comments-wrapper"
+        class="step-content hide"
+        data-role="content"
+        role="tabpanel"
+        aria-hidden="false">
+
+        <!-- ko foreach: getRegion('afterMethods') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </div>
+    
+    <div class="action-extension-toolbar">
+        <div class="primary">
+            <button id="payment-button-extension" class="extension-action button continue primary" type="button">
+                <span>Place Your Order</span>
+            </button>
+        </div>
     </div>
 </li>

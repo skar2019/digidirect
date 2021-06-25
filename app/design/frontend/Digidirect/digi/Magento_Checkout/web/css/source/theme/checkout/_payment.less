@@ -22,7 +22,8 @@
 
     .checkout-payment-method {
         .payment-option-title {
-            .lib-css(border-top, 1px solid @color-3-2);
+            border-top: none;
+            padding-top: 0 !important;
             .lib-css(font-weight, @font-weight__heavier);
             text-decoration: underline;
 
@@ -60,7 +61,6 @@
 
     .payment-group {
         .lib-css(border-bottom, 1px solid @color-3-2);
-        margin-bottom: 40px;
     }
 
     .payment-group .payment-method {
@@ -184,10 +184,6 @@
         .payment-method-title > .label {
             .lib-css(font-weight, @font-weight__bold);
         }
-    }
-
-    .payment-group {
-        margin-bottom: 30px;
     }
 
     .payment-methods .step-title {
