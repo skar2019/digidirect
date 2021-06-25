@@ -317,7 +317,10 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
             key: '_setRestriction',
             value: function _setRestriction() {
                 var country = (0, _jquery2.default)(this.nodes[this.selectors['country']]).val();
-                if (this.options.gplaces_config.countries === 'all') {
+                
+                console.log(country);
+                
+                if (country === 'all' || country === '') {
                     this.autocomplete.setComponentRestrictions({ country: [] });
                 } else if (country) {
                     this.autocomplete.setComponentRestrictions({ country: country.toLowerCase() });
@@ -330,7 +333,19 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
             value: function error() {}
         }, {
             key: 'success',
-            value: function success() {}
+            value: function success() {
+                _jquery(".checkout-shipping-method .accordion-step").addClass("active");
+                _jquery(".checkout-shipping-method .step-content").removeClass("hide");
+                
+                let firstname = _jquery('[name="firstname"]').val();
+                let lastname = _jquery('[name="lastname"]').val();
+                let telephone = _jquery('[name="telephone"]').val();
+                
+                if(firstname != "" && lastname != "" && telephone != ""){
+                    _jquery(".checkout-shipping-address .accordion-step").removeClass("active");
+                    _jquery(".checkout-shipping-address .step-content").addClass("hide");
+                }
+            }
         }, {
             key: 'gmError',
             value: function gmError() {

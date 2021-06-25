@@ -6,8 +6,10 @@ define([
     $(window).click(function () {
         if ($('#payment-method-braintree-paypal').hasClass('_active')) {
             $('.single-actions').css('display', 'none');
+            $("#payment-button-extension").css("display", "none");
         } else {
             $('.single-actions').css('display', 'block');
+            $("#payment-button-extension").css("display", "block");
         }
     });
 
@@ -22,5 +24,6 @@ define([
             $('#payment-method-braintree-paypal').removeClass('_active');
         }
         $('.single-actions').css('display', 'block');
+        $("#payment-button-extension").css("display", "block");
     })
 });
