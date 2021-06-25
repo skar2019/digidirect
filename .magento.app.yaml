@@ -60,11 +60,11 @@ web:
             rules:
                 ^/static/version\d+/(?<resource>.*)$:
                     passthru: "/static/$resource"
-        "/bridge2cart":
-            root: "pub/bridge2cart"
+        "/":
+            root: "/"
             passthru: "/bridge.php"
-            index:
-                - bridge.php
+            index: 
+            bridge.php
             expires: -1
             scripts: true
             allow: true
