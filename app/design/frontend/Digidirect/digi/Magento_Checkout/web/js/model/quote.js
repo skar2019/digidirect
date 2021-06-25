@@ -23,8 +23,6 @@ define([
                     data[index] = element;
                 });
             }
-            
-            console.log("KOWT");
 
             return data;
         },
