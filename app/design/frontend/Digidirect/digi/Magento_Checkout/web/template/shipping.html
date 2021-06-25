@@ -54,9 +54,9 @@
     data-bind="fadeVisible: visible(), blockLoader: isLoading"
     role="presentation">
     <div class="checkout-shipping-method">
-        <div data-bind="i18n: 'Shipping Method', css: 'step-title accordion-step active' + titleClasses()" data-role="title" data-step="checkout-step-shipping_method"></div>
+        <div data-bind="i18n: 'Shipping Method', css: 'step-title accordion-step' + titleClasses()" data-role="title" data-step="checkout-step-shipping_method"></div>
         <div id="checkout-step-shipping_method"
-             class="step-content"
+             class="step-content hide"
              data-role="content"
              role="tabpanel"
              aria-hidden="false">
