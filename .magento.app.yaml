@@ -63,8 +63,8 @@ web:
         "/bridge2cart":
             root: "/"
             passthru: "/bridge.php"
-            index: 
-            bridge.php
+            index:
+                - bridge.php
             expires: -1
             scripts: true
             allow: true
