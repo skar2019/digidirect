@@ -25,8 +25,6 @@ define([
         $(".comments-wrapper .accordion-step").addClass("active");
         $(".comments-wrapper .step-content").removeClass("hide");
         
-        console.log(paymentMethod.method)
-        
         if(paymentMethod.method == "banktransfer" || paymentMethod.method == "zipmoneypayment" || paymentMethod.method == "klarna_pay_later"){
             $(".checkout-payment-method .accordion-step").removeClass("active");
             $(".checkout-payment-method .step-content").addClass("hide");

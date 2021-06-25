@@ -50,21 +50,24 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
         require(['jquery', 
                  'accordionStep'], 
         function($, accordionStep) {
+            $("body").on("click", ".shipping-methods.table-checkout-shipping-method.items li:not('.collect')", function(){
+                $(".checkout-shipping-address .accordion-step").removeClass("active");
+                $(".checkout-shipping-address .step-content").addClass("hide");
+            });
+            
             $("body").on("click", "#shipping-button-extension", function(){
-                console.log("Shipping button triggered");
-                
-                $(".checkout-shipping-address .accordion-step").addClass("active");
-                $(".checkout-shipping-method .accordion-step").addClass("active");
-                
-                $(".checkout-shipping-address .step-content").removeClass("hide");
-                $(".checkout-shipping-method .step-content").removeClass("hide");
-                
                 $("#shipping-method-buttons-container .continue").trigger("click");
+                
+                if($(".field-error").length > 0){
+                    $(".checkout-shipping-address .accordion-step").addClass("active");
+                    $(".checkout-shipping-method .accordion-step").addClass("active");
+
+                    $(".checkout-shipping-address .step-content").removeClass("hide");
+                    $(".checkout-shipping-method .step-content").removeClass("hide");
+                }
             });
             
             $("body").on("click", "#payment-button-extension", function(){
-                console.log("Payment button triggered");
-                
                 $(".order-trigger").trigger("click");
             });
             
