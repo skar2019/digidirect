@@ -69,17 +69,17 @@ class RateManagement implements \Digidirect\ExtendedShippingRates\Api\RateManage
         /** @var array $disabledShippingMethods */
         $disabledShippingMethods = (array)$shippingAddress->getDisabledShippingMethods();
 
-        $hidedMethods = $this->configHelper->getHidedMethods();
-        if ($hidedMethods) {
-            /** @var array of \Magento\Quote\Model\Quote\Address\Rate\Interceptor $rates */
-            $rates = $shippingAddress->getAllShippingRates();
-
-            $disabledShippingMethods = $this->applyHiddenMethods(
-                $disabledShippingMethods,
-                $hidedMethods,
-                $rates
-            );
-        }
+//        $hidedMethods = $this->configHelper->getHidedMethods();
+//        if ($hidedMethods) {
+//            /** @var array of \Magento\Quote\Model\Quote\Address\Rate\Interceptor $rates */
+//            $rates = $shippingAddress->getAllShippingRates();
+//
+//            $disabledShippingMethods = $this->applyHiddenMethods(
+//                $disabledShippingMethods,
+//                $hidedMethods,
+//                $rates
+//            );
+//        }
 
         return $disabledShippingMethods;
     }
