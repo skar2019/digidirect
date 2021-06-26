@@ -67,7 +67,7 @@
         </referenceContainer>
         <move element="product.info.social" destination="product.info.main" after="-" />
         <referenceContainer name="product.info.price">
-            <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="-">
+            <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="product.addto.wishlist">
                 <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
             </container>
         </referenceContainer>
@@ -83,7 +83,7 @@
         <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
         <move element="product.info.addtocart.zipmoney.productimage" destination="product.info.bottom" before="-" />
-        <move element="product.info.addto" destination="product.info.price" after="live.chat.additional.link" />
+        <move element="product.info.addto" destination="product.info.price" before="live.chat.additional.link" />
 
         <referenceBlock name="product.info.upsell">
             <block name="product.tile.extended.catalog.rule"
