@@ -320,9 +320,18 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
                 
                 console.log("Current Country: " + country);
                 
-                let city = _jquery('[name="city"]').val();
+                let street = _jquery('[name="street[0]"]');
                 
-                if(city != ""){
+                street.blur(function() {
+                    setTimeout(function()
+                    { 
+                        _jquery(".checkout-shipping-method .accordion-step").addClass("active");
+                        _jquery(".checkout-shipping-method .step-content").removeClass("hide");
+                    }, 2000);
+                });
+                
+                let postcode = _jquery('[name="postcode"]').val();
+                if(postcode != ""){
                     _jquery(".checkout-shipping-method .accordion-step").addClass("active");
                     _jquery(".checkout-shipping-method .step-content").removeClass("hide");
                 }
