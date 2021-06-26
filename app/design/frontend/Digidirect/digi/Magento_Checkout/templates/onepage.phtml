@@ -58,15 +58,13 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                 let street = $('[name="street[0]"]').val();
                 let city = $('[name="city"]').val();
                 let postcode = $('[name="postcode"]').val();
-                let telephone = $('[name="telephone"]').val();
                 
                 if(firstname != "" 
                    && lastname != "" 
                    && telephone != ""
                    && street != ""
                    && city != ""
-                   && postcode != ""
-                   && telephone != ""){
+                   && postcode != ""){
                     $(".checkout-shipping-address .accordion-step").removeClass("active");
                     $(".checkout-shipping-address .step-content").addClass("hide");
                 }
