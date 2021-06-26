@@ -341,15 +341,13 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
                 let street = _jquery('[name="street[0]"]').val();
                 let city = _jquery('[name="city"]').val();
                 let postcode = _jquery('[name="postcode"]').val();
-                let telephone = _jquery('[name="telephone"]').val();
                 
                 if(firstname != "" 
                    && lastname != "" 
                    && telephone != ""
                    && street != ""
                    && city != ""
-                   && postcode != ""
-                   && telephone != ""){
+                   && postcode != ""){
                     _jquery(".checkout-shipping-address .accordion-step").removeClass("active");
                     _jquery(".checkout-shipping-address .step-content").addClass("hide");
                 }
