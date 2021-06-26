@@ -40,7 +40,7 @@ class Product extends AbstractHelper
     public function fullEnquiry() {
  
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/login';
-        $startitem = 120000;
+        $startitem = 131000;
         $limit = 500;
         $enditem = $startitem + $limit;
         $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem;
@@ -59,7 +59,7 @@ class Product extends AbstractHelper
         $result = $this->curl->getBody();
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
-        
+
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
             try {
@@ -70,45 +70,49 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 $product->setBrand($prod['stk-brand']);
                 
-                //set barcode
-                if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
+                if(isset($prod['gtins']['gtin']))
                 {
-                    $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
-                }
-                else
-                {
-                    $x =1;
-                    foreach ($prod['gtins']['gtin'] as $gtin) {
-                        $att = 'barcode'.$x;
-                        $product->setCustomAttribute($att, $gtin['id']);
-                        $x++;
+                    //set barcode
+                    if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
+                    {
+                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
                     }
+                    else
+                    {
+                        $x =1;
+                        foreach ($prod['gtins']['gtin'] as $gtin) {
+                            $att = 'barcode'.$x;
+                            $product->setCustomAttribute($att, $gtin['id']);
+                            $x++;
+                        }
+                    }
+
+
+                    $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                    $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
+                    $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+
+                    $this->productRepository->save($product);
+                    echo "Updated - " .$prod['code'] . "<br />";
+    //                
+    //                $proddetail = $this->productRepository->get($prod['code']);
+    //                $prodattri = $proddetail->getAttributes();
+    //                
+    //                foreach($prodattri as $attribute)
+    //                {
+    //                    echo $attribute->getName(). " - ";
+    //                    if($attribute->getName() == 'category_ids' || $attribute->getName() == 'media_gallery' || $attribute->getName() == 'tier_price')
+    //                    {
+    //                        echo "is object <br />";
+    //                    }
+    //                    else 
+    //                    {
+    //                        echo $attribute->getAttributeCode() . " - " .$attribute->getFrontend()->getValue($proddetail). "<br />";
+    //                    }
+    //                    
+    //                }
                 }
                 
-                
-                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
-                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-
-                $this->productRepository->save($product);
-                echo "Updated - " .$prod['code'] . "<br />";
-//                
-//                $proddetail = $this->productRepository->get($prod['code']);
-//                $prodattri = $proddetail->getAttributes();
-//                
-//                foreach($prodattri as $attribute)
-//                {
-//                    echo $attribute->getName(). " - ";
-//                    if($attribute->getName() == 'category_ids' || $attribute->getName() == 'media_gallery' || $attribute->getName() == 'tier_price')
-//                    {
-//                        echo "is object <br />";
-//                    }
-//                    else 
-//                    {
-//                        echo $attribute->getAttributeCode() . " - " .$attribute->getFrontend()->getValue($proddetail). "<br />";
-//                    }
-//                    
-//                }
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
                 // insert your error handling here
                 echo "Insert here- " .$prod['code'] . "<br />";
@@ -123,7 +127,9 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-//
+                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
+                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $product = $this->productRepository->save($product);
                 
 //                $stockItem = $this->stockRegistry->getStockItemBySku($product->getSku());
@@ -140,7 +146,6 @@ class Product extends AbstractHelper
             exit;
         }
         
-        curl_close($this->curl);
 
     }   
     
