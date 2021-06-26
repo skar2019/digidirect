@@ -318,6 +318,15 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
             value: function _setRestriction() {
                 var country = (0, _jquery2.default)(this.nodes[this.selectors['country']]).val();
                 
+                console.log("Current Country: " + country);
+                
+                let city = _jquery('[name="city"]').val();
+                
+                if(city != ""){
+                    _jquery(".checkout-shipping-method .accordion-step").addClass("active");
+                    _jquery(".checkout-shipping-method .step-content").removeClass("hide");
+                }
+                
                 if (country === 'all' || country === '') {
                     this.autocomplete.setComponentRestrictions({ country: [] });
                 } else if (country) {
