@@ -27,6 +27,12 @@
 & when (@media-common = true) {
     .catalogsearch-result-index .products .product-item-info,
     .catalog-category-view .products .product-item-info {
+        
+        .old-price-wrapper,
+        .current-price-wrapper{
+            position: relative;
+        }
+        
         .price-final_price {
             & {
                 position: relative;
@@ -34,7 +40,8 @@
 
             .old-price-label {
                 position: absolute;
-                top: 0;
+                top: -10px;
+                left: 0;
                 font-size: 11px;
                 text-transform: uppercase;
                 font-weight: bold;
@@ -43,7 +50,7 @@
             .svg-icon.digidirectprice {
                 position: absolute;
                 right: 0;
-                top: -65px;
+                top: -78px;
                 width: 80px;
             }
         }

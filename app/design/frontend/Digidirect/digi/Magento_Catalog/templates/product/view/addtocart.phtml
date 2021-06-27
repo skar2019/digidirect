@@ -12,36 +12,43 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
-<div class="box-tocart">
-    <div class="fieldset">
-        <?php if ($block->shouldRenderQuantity()): ?>
-        <div class="field qty">
-            <label class="label" for="qty"><span><?= /* @escapeNotVerified */ __('Qty') ?></span></label>
-            <div class="control">
-                <input type="number"
-                       name="qty"
-                       id="qty"
-                       value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
-                       title="<?= /* @escapeNotVerified */ __('Qty') ?>"
-                       class="input-text qty"
-                       data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
-                       />
+    <div class="box-tocart">
+        <div class="fieldset">
+            <?php if ($block->shouldRenderQuantity()): ?>
+            <div class="field qty">
+                <label class="label" for="qty"><span><?= /* @escapeNotVerified */ __('Qty') ?></span></label>
+                <div class="control">
+                    <input type="number"
+                           name="qty"
+                           id="qty"
+                           value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
+                           title="<?= /* @escapeNotVerified */ __('Qty') ?>"
+                           class="input-text qty"
+                           data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                           />
+                </div>
+            </div>
+            <?php endif; ?>
+            <div class="actions">
+                <button type="submit"
+                        title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
+                        class="action tocart"
+                        id="product-addtocart-button"
+                        data-action="add-to-cart-action"
+                        >
+                    <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                </button>
+                <?= $block->getChildHtml('', true) ?>
+                
+                <?php echo $this->getLayout()
+                    ->createBlock('Magento\Cms\Block\Block')
+                    ->setBlockId('secure-pay')
+                    ->toHtml();
+                ?>
             </div>
         </div>
-        <?php endif; ?>
-        <div class="actions">
-            <button type="submit"
-                    title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
-                    class="action tocart"
-                    id="product-addtocart-button"
-                    data-action="add-to-cart-action"
-                    >
-                <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
-            </button>
-            <?= $block->getChildHtml('', true) ?>
-        </div>
     </div>
-</div>
+
     <div class="btn-wrapper-pdp">
         <div class="price">
             <?php
