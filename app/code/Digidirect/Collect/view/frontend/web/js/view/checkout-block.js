@@ -12,8 +12,8 @@ define([
     'Digidirect_Locator/js/model/locations',
     'mage/storage',
     'Magento_Checkout/js/model/quote',
-    'Magento_Ui/js/lib/core/events',
-], function ($, _, ko, Component, $t, modal, formPopUpState, collectPlaces, setBlockPlaces, urlBuilder, locations, storage, quote, events) {
+    'Magento_Ui/js/lib/core/events'
+], function ($, _, ko, Component, $t, modal, formPopUpState, collectPlaces, setBlockPlaces, urlBuilder, store_locations, storage, quote, events) {
     'use strict';
 
     var singleCartPopUp = null,
@@ -39,22 +39,22 @@ define([
         defaultPerPage: 10,
         pageFrame: 5,
         pageJump: 2,
-        locations: locations,
+        store_locations: store_locations,
         modules: {
             details: 'locator_details'
         },
         initialize: function () {
             setBlockPlaces();
-            
-            window.selectStore = ko.observable(false);
 
             this._super();
+            this.renderItems();
+            
+            console.log("Block initialized");
 
             this.setPreselectedStore();
             this.checkIsCollectSelected();
             this.onSubscribe();
             this.setPlacesToQuote();
-            this.renderItems();
         },
         formItemId: '',
         isSingleCartFormPopUpVisible: formPopUpState.isVisible,
@@ -72,8 +72,6 @@ define([
             }
         },
         renderItems: function () {
-            var self = this;
-            
             if (this.isPaginationEnable) {
                 this.pageFrame--;
                 this.paginationObservable();
@@ -81,14 +79,15 @@ define([
                 this.perPage = function () {
                     return this.defaultPerPage;
                 };
-                this.locationList = locations.items;
+                this.locationList = store_locations.items;
             }
+            
         },
         onSubscribe: function () {
-//            var self = this;
+            var self = this;
             this.isSingleCartFormPopUpVisible.subscribe(function (value) {
                 if (value) {
-//                    self.getPopUp().openModal();
+                    self.getPopUp().openModal();
                 }
             });
         },
@@ -96,6 +95,8 @@ define([
             var self = this;
 
             $('#collect_quote_item_id').val(this.formItemId);
+            
+            console.log("Pop up modal triggered");
 
             if (!singleCartPopUp) { 
                 this.popUpForm.options.buttons = [];
@@ -260,19 +261,19 @@ define([
             self.frameEnd = ko.observable(1 + this.pageFrame);
 
             self.perPage = ko.computed(function () {
-                if (locations.settings() !== undefined && locations.settings().stores_on_locator_page) {
-                    return locations.settings().stores_on_locator_page;
+                if (store_locations.settings() !== undefined && store_locations.settings().stores_on_locator_page) {
+                    return store_locations.settings().stores_on_locator_page;
                 }
                 return self.defaultPerPage;
             });
 
             self.locationList = ko.computed(function () {
                 var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
-                return locations.items().slice(startIndex, startIndex + self.perPage());
+                return store_locations.items().slice(startIndex, startIndex + self.perPage());
             });
 
             self.totalItemCount = ko.computed(function () {
-                return locations.items().length;
+                return store_locations.items().length;
             });
 
             self.lastPage = ko.computed(function () {
@@ -320,8 +321,8 @@ define([
         getFrameEnd: function () {
             return Math.ceil(this.pageFrame / 2);
         },
-        currentPage: locations.currentPage,
-        locations: locations,
+        currentPage: store_locations.currentPage,
+        locations: store_locations,
         prevItem: function () {
             this.currentPage(this.currentPage() - 1);
         },
@@ -367,15 +368,14 @@ define([
 
             return null;
         },
-        showDetails: function (locations, e) {
-            if (!locations.settings().open_in_popup) return true;
+        showDetails: function (location, e) {
+            if (!store_locations.settings().open_in_popup) return true;
 
             e.preventDefault();
-            this.details().location = locations;
-            events.trigger('location.show', locations, locations.settings());
+            this.details().location = location;
+            events.trigger('location.show', location, store_locations.settings());
         },
         onRenderList: function () {
-//            this.getPopUp().closeModal();
         }
     });
 });

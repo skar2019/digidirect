@@ -178,8 +178,8 @@
         }
 
         .field.captcha .nested {
-            position: relative;
             margin-top: 10px;
+            position: relative;
         }
 
         .field.captcha .captcha-img {
@@ -189,11 +189,19 @@
             width: 140px;
             height: 40px;
         }
+        
+        .store-locator-wrapper{
+            display: none;
+        }
     }
 
     .opc-wrapper.-hide-methods {
         & {
             padding-bottom: 35px;
+        }
+        
+        .store-locator-wrapper{
+            display: block !important;
         }
 
         .field[name*='company'],

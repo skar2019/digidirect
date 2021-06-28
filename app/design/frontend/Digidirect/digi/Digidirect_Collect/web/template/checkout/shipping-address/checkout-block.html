@@ -35,6 +35,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 <!-- ko ifnot: isWebOnly() -->
 <div data-bind="css: 'collect-block'" data-role="collect-block"
      data-collect-type="collect">
+    
     <!-- ko if: isVsmAvailable -->
     <div class="pickup-available-wrapper">
         <div id="one-hour-cms" class="pickup-cms" data-bind="html: window.oneHourPickUpAvailable"></div>
@@ -70,16 +71,6 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
             <div class="title" data-bind="i18n: 'Your selected Store'"></div>
             <div data-bind="i18n: 'No store selected'"></div>
         </div>
-        <!-- ko if: getDeliveryPlace(collectPlaces()[0]) -->
-        <a class="link -change action primary"
-           href="#collect-block-modal-checkout"
-           data-bind="click: function(data, event) { showFormPopUp(data, event) }"></a>
-        <!-- /ko -->
-        <!-- ko ifnot: getDeliveryPlace(collectPlaces()[0]) -->
-        <a class="link -collect action primary"
-           href="#collect-block-modal-checkout"
-           data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Choose Your Store'"></a>
-        <!-- /ko -->
     </div>
 
     <!-- /ko -->
@@ -87,7 +78,38 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 </div>
 <!-- /ko-->
 
-<div id="collect-block-modal-checkout" data-bind="visible: isSingleCartFormPopUpVisible()">
+<div class="store-locator-wrapper">
+    <!-- ko if: locationList().length -->
+    <div class="store-section">
+        <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
+            <div class="locator-items items content" data-role="content"
+                 data-bind="foreach: { data: locationList(), as: 'item' }, afterRender: onRenderList">
+                <!-- ko foreach: $parent.getRegion('locator_items') -->
+                <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
+                <!--/ko-->
+            </div>
+        </div>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: isPaginationEnable && pager().length && pager().length > 1 -->
+        <!-- ko foreach: getRegion('locator_pagination') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+    <!--/ko-->
+
+    <!-- ko foreach: getRegion('locator_after') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+    <!--/ko-->
+
+
+    <!-- /ko -->
+</div>
+
+<div id="collect-block-modal-checkout" data-bind="visible: false">
     <!-- ko template: collectFormTemplate --><!-- /ko -->
 </div>
-<!-- /ko -->
+
+<div data-role="locator-list" class="locator-list" data-bind="scope: 'locator_list'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
