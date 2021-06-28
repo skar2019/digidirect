@@ -318,8 +318,6 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
             value: function _setRestriction() {
                 var country = (0, _jquery2.default)(this.nodes[this.selectors['country']]).val();
                 
-                console.log("Current Country: " + country);
-                
                 let street = _jquery('[name="street[0]"]');
                 
                 street.blur(function() {
