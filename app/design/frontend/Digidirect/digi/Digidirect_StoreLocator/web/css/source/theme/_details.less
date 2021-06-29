@@ -29,6 +29,10 @@
             width: 25px;
             float: left;
         }
+        
+        > .item.-hours > .icon {
+            padding-top: 8px;
+        }
 
         > .item > .icon + div,
         > .item > .icon + address {
@@ -114,8 +118,10 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
     .locator-details {
         .name {
-            font-size: 2.4rem;
+            font-size: 18px;
             font-weight: bold;
+            color: #e65401;
+            font-family: 'Titillium Web', sans-serif;
         }
 
         .stores-gallery {
