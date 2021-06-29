@@ -4,7 +4,7 @@ namespace Digidirect\Pronto\Controller\Index;
 //use Digidirect\Pronto\Helper\Inventory;
 use Digidirect\Pronto\Helper\Product;
 
-class ProductEnquiry extends \Magento\Framework\App\Action\Action
+class ProductEnquiryTwo extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
 
@@ -18,8 +18,8 @@ class ProductEnquiry extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-		echo "Pronto Product <br />";
-                $this->helper->productEnquiry();
+		echo "Pronto Product Two<br />";
+                $this->helper->productEnquiryTwo();
 		exit;
 	}
 }
