@@ -10,6 +10,7 @@
     .checkout-shipping-address {
         .collect-block .wrapper-title {
             width: ~'calc(100% - 40px)';
+            font-weight: bold;
         }
 
         .collect-block .pickup-available-wrapper {
@@ -37,13 +38,15 @@
         
         .-collect.action.primary{
             &{    
-                background: #000;
-                border: #000;
+                background: #e65401;
+                border: #e65401;
+                font-family: 'Titillium Web', sans-serif;
+                transition: all .5s ease;
             }
               
-            &::hover{
-                background: #fff;
-                color: #222;
+            &:hover{
+                background: #c94901 !important;
+                color: #fff !important;
             }
         }
     }
@@ -182,7 +185,7 @@
         }
 
         .collect-block .wrapper-title {
-            .lib-font-size(12);
+            font-size: 16px;
             padding-left: 13px;
         }
 
