@@ -65,8 +65,18 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                    && street != ""
                    && city != ""
                    && postcode != ""){
-                    $(".checkout-shipping-address .accordion-step").removeClass("active");
-                    $(".checkout-shipping-address .step-content").fadeOut("slow", "swing");
+               
+                   var target = $('.checkout-shipping-address');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        
+                        $(".checkout-shipping-address .accordion-step").removeClass("active");
+                        $(".checkout-shipping-address .step-content").fadeOut("slow", "swing");
+                        
+                        return false;
+                    }
                 }
                 else{
                     $("#shipping-method-buttons-container .continue").trigger("click");
