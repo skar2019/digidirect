@@ -8,7 +8,7 @@ use Magento\Quote\Model\Quote\Address\RateRequest;
 use Magento\Shipping\Model\Carrier\AbstractCarrier;
 use Magento\Shipping\Model\Carrier\CarrierInterface;
 use Magento\Shipping\Model\Rate\Result;
-
+use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 /**
  * Class Artificial
  *
@@ -89,6 +89,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         \Digidirect\ExtendedShippingRates\Model\ResourceModel\Carrier\CollectionFactory $collectionFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Digidirect\ExtendedShippingRates\Helper\Config $configHelper = null,
+        GetSourceItemsBySku $getSourceItemsBySku,
         array $data = []
     ) {
         $this->_rateResultFactory = $rateResultFactory;
@@ -98,7 +99,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         $this->_storeManager = $storeManager;
         $this->_configHelper = $configHelper
             ?? ObjectManager::getInstance()->get(\Digidirect\ExtendedShippingRates\Helper\Config::class);
-
+        $this->getSourceItemsBySku = $getSourceItemsBySku;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
 
         $this->prepareCarriers();
@@ -304,8 +305,36 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         } elseif ($disableMethodWithoutValidRates) {
             return null;
         } else {
-            $method->setMethodTitle($methodData->getData('title'));
-            $method->setPrice($methodData->getData('price'));
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+
+        $items = $cart->getQuote()->getAllItems();
+
+        $qty = 0;
+        foreach ($items as $item) {
+            
+            $prodId = $item->getProductId();
+            $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+
+            $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+            foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                
+                    $qty .= $sourceItem->getQuantity();
+                }
+        }
+
+        if($qty > 0)
+        {
+            $method->setMethodTitle($methodData->getData('title')." *4-7 days");
+        }
+        else 
+        {
+            $method->setMethodTitle($methodData->getData('title')." *7-12 days");
+        }
+            //$method->setMethodTitle($methodData->getData('title'));
+             $method->setPrice($methodData->getData('price'));
         }
 
         return $method;
