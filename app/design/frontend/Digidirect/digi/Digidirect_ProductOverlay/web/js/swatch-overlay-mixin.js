@@ -36,7 +36,7 @@ define([
                     this.options.isLoaded = true;
                 }
 
-                overlayProduct.addClass('-hide');
+//                overlayProduct.addClass('-hide');
                 if (simpleProductId && typeof this.options.applicableSimple[simpleProductId] !== 'undefined' && counter === 1) {
                     $.each(this.options.applicableSimple[simpleProductId], function (i, overlay) {
                         //Change child product id to parent if exist (simpleProductId to parentProductId)

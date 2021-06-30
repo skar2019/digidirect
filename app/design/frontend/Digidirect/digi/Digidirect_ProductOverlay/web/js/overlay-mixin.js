@@ -22,7 +22,7 @@ define([
                     return;
                 }
                 if (this.options.hideForConfigurable) {
-                    this.element.addClass('-hide');
+//                    this.element.addClass('-hide');
                 }
             },
             showOnlyParentProductOverlay: function () {
@@ -31,7 +31,7 @@ define([
                     this.element.removeClass('-hide');
                     return;
                 }
-                this.element.addClass('-hide');
+//                this.element.addClass('-hide');
             },
             getParentProductId: function () {
                 return this.element.closest(this.options.productConteiner).data('parent-product-id') || undefined;

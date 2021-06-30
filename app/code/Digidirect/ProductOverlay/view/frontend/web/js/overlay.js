@@ -150,7 +150,9 @@ define([
 
             // hide overlay if it does not have use for parent flag
             if (this.options.hideForConfigurable) {
-                this.element.addClass('-hide');
+//                this.element.addClass('-hide');
+
+                console.log("why hiding");
             }
         }
     });

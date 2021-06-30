@@ -105,7 +105,7 @@ define([
              * @param overlays
              */
             hideAllOverlays: function (overlays) {
-                overlays.addClass('-hide');
+//                overlays.addClass('-hide');
             },
 
             getProductCounter: function () {
