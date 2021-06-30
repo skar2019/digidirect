@@ -317,25 +317,6 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
             key: '_setRestriction',
             value: function _setRestriction() {
                 var country = (0, _jquery2.default)(this.nodes[this.selectors['country']]).val();
-                
-                console.log("Current Country: " + country);
-                
-                let street = _jquery('[name="street[0]"]');
-                
-                street.blur(function() {
-                    setTimeout(function()
-                    { 
-                        _jquery(".checkout-shipping-method .accordion-step").addClass("active");
-                        _jquery(".checkout-shipping-method .step-content").removeClass("hide");
-                    }, 2000);
-                });
-                
-                let postcode = _jquery('[name="postcode"]').val();
-                if(postcode != ""){
-                    _jquery(".checkout-shipping-method .accordion-step").addClass("active");
-                    _jquery(".checkout-shipping-method .step-content").removeClass("hide");
-                }
-                
                 if (country === 'all' || country === '') {
                     this.autocomplete.setComponentRestrictions({ country: [] });
                 } else if (country) {
@@ -350,25 +331,7 @@ define(['module', 'exports', 'jquery', './../common/store'], function (module, e
         }, {
             key: 'success',
             value: function success() {
-                _jquery(".checkout-shipping-method .accordion-step").addClass("active");
-                _jquery(".checkout-shipping-method .step-content").removeClass("hide");
                 
-                let firstname = _jquery('[name="firstname"]').val();
-                let lastname = _jquery('[name="lastname"]').val();
-                let telephone = _jquery('[name="telephone"]').val();
-                let street = _jquery('[name="street[0]"]').val();
-                let city = _jquery('[name="city"]').val();
-                let postcode = _jquery('[name="postcode"]').val();
-                
-                if(firstname != "" 
-                   && lastname != "" 
-                   && telephone != ""
-                   && street != ""
-                   && city != ""
-                   && postcode != ""){
-                    _jquery(".checkout-shipping-address .accordion-step").removeClass("active");
-                    _jquery(".checkout-shipping-address .step-content").addClass("hide");
-                }
             }
         }, {
             key: 'gmError',

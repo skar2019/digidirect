@@ -96,7 +96,7 @@
         }
         
         .address {
-            .lib-font-size(12);
+            font-size: 14px;
         }
     
         .details > .link {
@@ -162,15 +162,15 @@
         }
         
         .address {
-            .lib-font-size(13);
-    
-            min-height: 36px;
+            font-size: 14px;
         }
     
         .details > .link {
             .lib-font-size(12);
-    
-            font-weight: 500;
+            font-weight: 600;
+            color: #222;
+            margin-top: 15px;
+            display: inline-block;
         }
     }
 }
@@ -180,9 +180,9 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    .Digidirect_storelocator-index-index.simple-structure {
-        .page-title-wrapper {
-            padding-top: 55px;
+    .digidirect_storelocator-index-index.simple-structure {
+        .locator-items {
+            padding-left: 20px;
         }
     }
     
@@ -202,7 +202,7 @@
         }
     
         .locator-item {
-            margin-left: 6.6%;
+            margin-left: 0;
         }
     
         .locator-item .image {
@@ -212,10 +212,6 @@
         .locator-wrapper {
             padding-bottom: 20px;
         }
-    
-        .mCustomScrollBox {
-            padding-right: 16px;
-        }
         
         .mCSB_scrollTools {
             right: 0;
@@ -223,6 +219,18 @@
         
         .locator-wrapper > .locator-items {
             margin-right: 16px;
+        }
+        
+        .action.-select{
+            border-radius: 4px;
+            color: #fff;
+            transition: all .5s ease;
+            float: right;
+            border: 2px solid #e65401 !important;
+            
+            &::hover{
+                border: 2px solid #e65504 !important;
+             }
         }
     }
     
@@ -244,9 +252,7 @@
         }
         
         .address {
-            .lib-font-size(16);
-            
-            min-height: 52px;
+            font-size: 14px;
             margin-bottom: 0;
         }
     }

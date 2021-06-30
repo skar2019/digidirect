@@ -9,9 +9,11 @@ define([
     'Digidirect_Collect/js/model/block',
     'Digidirect_Collect/js/action/set-block-places',
     'Magento_Checkout/js/model/url-builder',
+    'Digidirect_Locator/js/model/locations',
     'mage/storage',
-    'Magento_Checkout/js/model/quote'
-], function ($, _, ko, Component, $t, modal, formPopUpState, collectPlaces, setBlockPlaces, urlBuilder, storage, quote) {
+    'Magento_Checkout/js/model/quote',
+    'Magento_Ui/js/lib/core/events',
+], function ($, _, ko, Component, $t, modal, formPopUpState, collectPlaces, setBlockPlaces, urlBuilder, locations, storage, quote, events) {
     'use strict';
 
     var singleCartPopUp = null,
@@ -33,8 +35,18 @@ define([
         isCollectSelected: ko.observable(false),
         collectPlaceRows: ko.observableArray([]),
         isInProgress: false,
+        isPaginationEnable: true,
+        defaultPerPage: 10,
+        pageFrame: 5,
+        pageJump: 2,
+        locations: locations,
+        modules: {
+            details: 'locator_details'
+        },
         initialize: function () {
             setBlockPlaces();
+            
+            window.selectStore = ko.observable(false);
 
             this._super();
 
@@ -42,6 +54,7 @@ define([
             this.checkIsCollectSelected();
             this.onSubscribe();
             this.setPlacesToQuote();
+            this.renderItems();
         },
         formItemId: '',
         isSingleCartFormPopUpVisible: formPopUpState.isVisible,
@@ -58,11 +71,24 @@ define([
                 quote.isCollectSelected = false;
             }
         },
-        onSubscribe: function () {
+        renderItems: function () {
             var self = this;
+            
+            if (this.isPaginationEnable) {
+                this.pageFrame--;
+                this.paginationObservable();
+            } else {
+                this.perPage = function () {
+                    return this.defaultPerPage;
+                };
+                this.locationList = locations.items;
+            }
+        },
+        onSubscribe: function () {
+//            var self = this;
             this.isSingleCartFormPopUpVisible.subscribe(function (value) {
                 if (value) {
-                    self.getPopUp().openModal();
+//                    self.getPopUp().openModal();
                 }
             });
         },
@@ -71,7 +97,7 @@ define([
 
             $('#collect_quote_item_id').val(this.formItemId);
 
-            if (!singleCartPopUp) {
+            if (!singleCartPopUp) { 
                 this.popUpForm.options.buttons = [];
                 this.popUpForm.options.closed = function () {
                     self.isSingleCartFormPopUpVisible(false);
@@ -166,6 +192,8 @@ define([
             } else {
                 this.isCollectSelected(true);
                 quote.isCollectSelected = true;
+                
+                this.showFormPopUp();
             }
         },
         applyDeliveryToAllItems: function () {
@@ -224,6 +252,130 @@ define([
                 }.bind(this));
             }
             return null;
+        },
+        paginationObservable: function () {
+            var self = this;
+
+            self.frameStart = ko.observable(1);
+            self.frameEnd = ko.observable(1 + this.pageFrame);
+
+            self.perPage = ko.computed(function () {
+                if (locations.settings() !== undefined && locations.settings().stores_on_locator_page) {
+                    return locations.settings().stores_on_locator_page;
+                }
+                return self.defaultPerPage;
+            });
+
+            self.locationList = ko.computed(function () {
+                var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
+                return locations.items().slice(startIndex, startIndex + self.perPage());
+            });
+
+            self.totalItemCount = ko.computed(function () {
+                return locations.items().length;
+            });
+
+            self.lastPage = ko.computed(function () {
+                return Math.floor((self.totalItemCount() - 1) / self.perPage()) + 1;
+            });
+
+            self.hasNextPage = ko.computed(function () {
+                return self.currentPage() < self.lastPage();
+            });
+
+            self.hasPrevPage = ko.computed(function () {
+                return self.currentPage() > 1;
+            });
+
+            self.pager = ko.computed(function () {
+                var pagesArray = [],
+                    i,
+                    pageCount = self.lastPage(),
+                    from = Math.max(1, self.currentPage() - self.getFrameStart()),
+                    to = Math.min(pageCount, self.currentPage() + self.getFrameEnd()),
+                    pageFrom = Math.max(1, Math.min(to - self.pageFrame, from)),
+                    pageTo = Math.min(pageCount, Math.max(from + self.pageFrame, to));
+
+                self.frameStart(pageFrom);
+                self.frameEnd(pageTo);
+
+                for (i = pageFrom; i <= pageTo; i++) {
+                    pagesArray.push(i);
+                }
+
+                return pagesArray;
+            });
+
+            self.canShowPreviousJump = ko.computed(function () {
+                return self.getPreviousJumpPage() !== null;
+            });
+
+            self.canShowNextJump = ko.computed(function () {
+                return self.getNextJumpPage() !== null;
+            });
+        },
+        getFrameStart: function () {
+            return Math.floor(this.pageFrame / 2);
+        },
+        getFrameEnd: function () {
+            return Math.ceil(this.pageFrame / 2);
+        },
+        currentPage: locations.currentPage,
+        locations: locations,
+        prevItem: function () {
+            this.currentPage(this.currentPage() - 1);
+        },
+        nextItem: function () {
+            this.currentPage(this.currentPage() + 1);
+        },
+        isCurrentPage: function (item) {
+            return item === this.currentPage();
+        },
+        goToPage: function (page) {
+            this.currentPage(page);
+        },
+        getJump: function () {
+            return parseInt(this.pageJump, 10);
+        },
+        canShowFirst: function () {
+            return this.getJump() > 1 && this.frameStart() > 1;
+        },
+        canShowLast: function () {
+            return this.getJump() > 1 && this.frameEnd() < this.lastPage();
+        },
+        getPreviousJumpPage: function () {
+            if (!this.getJump()) {
+                return null;
+            }
+
+            var $frameStart = this.frameStart();
+            if ($frameStart - 1 > 1) {
+                return Math.max(2, $frameStart - this.getJump());
+            }
+
+            return null;
+        },
+        getNextJumpPage: function () {
+            if (!this.getJump()) {
+                return null;
+            }
+
+            var $frameEnd = this.frameEnd();
+            if (this.lastPage() - $frameEnd > 1) {
+                return Math.min(this.lastPage() - 1, $frameEnd + this.getJump());
+            }
+
+            return null;
+        },
+        showDetails: function (locations, e) {
+            if (!locations.settings().open_in_popup) return true;
+
+            e.preventDefault();
+            this.details().location = locations;
+            events.trigger('location.show', locations, locations.settings());
+        },
+        onRenderList: function () {
+//            this.getPopUp().closeModal();
         }
     });
 });

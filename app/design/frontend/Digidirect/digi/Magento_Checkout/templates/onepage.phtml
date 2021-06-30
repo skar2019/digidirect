@@ -65,8 +65,21 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                    && street != ""
                    && city != ""
                    && postcode != ""){
-                    $(".checkout-shipping-address .accordion-step").removeClass("active");
-                    $(".checkout-shipping-address .step-content").addClass("hide");
+               
+                   var target = $('.checkout-shipping-address');
+                    if (target.length) {
+                        $('html,body').animate({
+                            scrollTop: target.offset().top
+                        }, 1000);
+                        
+                        $(".checkout-shipping-address .accordion-step").removeClass("active");
+                        $(".checkout-shipping-address .step-content").fadeOut("slow", "swing");
+                        
+                        return false;
+                    }
+                }
+                else{
+                    $("#shipping-method-buttons-container .continue").trigger("click");
                 }
             });
             
@@ -77,8 +90,8 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                     $(".checkout-shipping-address .accordion-step").addClass("active");
                     $(".checkout-shipping-method .accordion-step").addClass("active");
 
-                    $(".checkout-shipping-address .step-content").removeClass("hide");
-                    $(".checkout-shipping-method .step-content").removeClass("hide");
+                    $(".checkout-shipping-address .step-content").fadeIn("slow", "swing");
+                    $(".checkout-shipping-method .step-content").fadeIn("slow", "swing");
                 }
             });
             

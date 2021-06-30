@@ -14,7 +14,7 @@ define([
             
             var stepElement = $(this).attr("data-step");
 
-            $("#" + stepElement).toggleClass("hide");
+            $("#" + stepElement).fadeToggle("slow");
         });
     }
 });
