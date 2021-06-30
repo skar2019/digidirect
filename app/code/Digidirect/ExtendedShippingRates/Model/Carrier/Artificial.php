@@ -305,34 +305,40 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         } elseif ($disableMethodWithoutValidRates) {
             return null;
         } else {
+            /**
+            * Modification
+            * Check stocks sources from cart and display days 
+            */
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
 
-        $items = $cart->getQuote()->getAllItems();
+            $items = $cart->getQuote()->getAllItems();
 
-        $qty = 0;
-        foreach ($items as $item) {
+            $qty = 0;
+            foreach ($items as $item) {
             
-            $prodId = $item->getProductId();
-            $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+                $prodId = $item->getProductId();
+                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
-            $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
-            foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                
+                foreach ($sourceItems as $sourceItemId => $sourceItem) {
+
                     $qty .= $sourceItem->getQuantity();
                 }
-        }
+            }
 
-        if($qty > 0)
-        {
-            $method->setMethodTitle($methodData->getData('title')." *4-7 days");
-        }
-        else 
-        {
-            $method->setMethodTitle($methodData->getData('title')." *7-12 days");
-        }
+            if($qty > 0)
+            {
+                $method->setMethodTitle($methodData->getData('title')." *4-7 days");
+            }
+            else 
+            {
+                $method->setMethodTitle($methodData->getData('title')." *7-12 days");
+            }
+            //end modification
+            //
             //$method->setMethodTitle($methodData->getData('title'));
              $method->setPrice($methodData->getData('price'));
         }
