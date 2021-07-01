@@ -113,7 +113,7 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
                 }
 
                 try {
-                    echo "<br>try - ".$sku;
+                    
                     $option = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Catalog\Model\Product\Option');
                     $this->_productRepository->setHasOptions(1);
                     $this->_productRepository->setCanSaveCustomOptions(true);
@@ -129,15 +129,17 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
                     echo $exception;
                     //throw new \Magento\Framework\Exception\NoSuchEntityException(__('Something went wrong'));
                 }
+                $x++;
             }
-            $x++;
             
-            if($x > 500){
-                return "added custom options";
+            
+            if($x > 100){
+                echo "added custom options - ".$sku;
+                return;
             }
                 
         }
-        return "added custom options";
+        return;
 
     }
     
@@ -146,6 +148,7 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
         $x = 0;
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $products = $objectManager->get('\Magento\Catalog\Model\Product')->getCollection();
+        $productId = "";
         foreach ($products as $product) {
             $productId = $product->getId();
             //$product = $objectManager->get('\Magento\Catalog\Model\Product')->load($product->getId());
@@ -158,11 +161,11 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
                 $x++;
             }
             
-            if($x > 500){
-                return "delete custom options";
+            if($x > 100){
+                return "delete custom options".$productId;
             }   
         }
-        return "delete custom option";
+        return;
 
     }
 
