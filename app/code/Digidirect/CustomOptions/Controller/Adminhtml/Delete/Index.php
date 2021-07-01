@@ -23,11 +23,11 @@ class Index extends Action implements HttpGetActionInterface
          } 
          public function execute()
          {
-                 $this->customOption->deleteCustomOption();
-                 $resultPage = $this->resultPageFactory->create();
-                 $resultPage->setActiveMenu('Magento_Catalog::catalog');
-                 $resultPage->getConfig()->getTitle()->prepend(__('Customizable Options Deleted'));
-                 return $resultPage;
+            $this->customOption->deleteCustomOption();
+            $resultPage = $this->resultPageFactory->create();
+            $resultPage->setActiveMenu('Magento_Catalog::catalog');
+            $resultPage->getConfig()->getTitle()->prepend(__('Customizable Options Deleted'));
+            return $resultPage;
 
          }
          
