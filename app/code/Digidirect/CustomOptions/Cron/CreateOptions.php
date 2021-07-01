@@ -1,5 +1,5 @@
 <?php
-namespace Digidirect\Pronto\Cron;
+namespace Digidirect\CustomOptions\Cron;
 
 use Psr\Log\LoggerInterface;
 use Digidirect\CustomOptions\Helper\CronCustomOption;

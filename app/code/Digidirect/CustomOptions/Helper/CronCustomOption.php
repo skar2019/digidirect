@@ -1,5 +1,5 @@
 <?php
-namespace Digidirect\CustomOptions\Model;
+namespace Digidirect\CustomOptions\Helper;
 
 use Magento\Catalog\Api\Data\ProductCustomOptionInterface;
  
