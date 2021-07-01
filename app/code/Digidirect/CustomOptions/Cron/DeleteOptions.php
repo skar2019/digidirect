@@ -12,7 +12,7 @@ class DeleteOptions
     protected $logger;
     
     /**
-     * @var Inventory
+     * @var CronCustomOption
      */
     protected $helper;
     

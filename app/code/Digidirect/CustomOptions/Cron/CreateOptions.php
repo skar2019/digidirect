@@ -12,7 +12,7 @@ class CreateOptions
     protected $logger;
 
     /**
-     * @var Inventory
+     * @var CronCustomOption
      */
     protected $helper;
     
