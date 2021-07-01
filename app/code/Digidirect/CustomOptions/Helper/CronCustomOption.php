@@ -3,7 +3,7 @@ namespace Digidirect\CustomOptions\Helper;
 
 use Magento\Catalog\Api\Data\ProductCustomOptionInterface;
  
-class CreateOptions extends \Magento\Framework\Model\AbstractModel
+class CronCustomOption extends \Magento\Framework\Model\AbstractModel
 {
     protected $_productOptions;
     protected $_productRepositoryInterface;
