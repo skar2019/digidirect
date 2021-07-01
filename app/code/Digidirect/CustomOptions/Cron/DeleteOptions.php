@@ -18,7 +18,7 @@ class DeleteOptions
     
     public function __construct(
             LoggerInterface $logger,
-            Inventory $helper)
+            CronCustomOption $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;

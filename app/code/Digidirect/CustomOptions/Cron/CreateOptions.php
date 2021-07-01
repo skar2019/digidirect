@@ -18,7 +18,7 @@ class CreateOptions
     
     public function __construct(
             LoggerInterface $logger,
-            Order $helper)
+            CronCustomOption $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;
