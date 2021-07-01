@@ -3,10 +3,10 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="digidirect_customoptions">
         <job name="customoptions_deleteoptions" instance="Digidirect\CustomOptions\Cron\DeleteOptions" method="execute">
-            <schedule>0 0 * * *</schedule>
+            <schedule>0 45 * * *</schedule>
         </job>
         <job name="customoptions_createoptions" instance="Digidirect\CustomOptions\Cron\CreateOptions" method="execute">
-            <schedule>15 0 * * *</schedule>
+            <schedule>5 1 * * *</schedule>
         </job>
     </group>
 </config>
