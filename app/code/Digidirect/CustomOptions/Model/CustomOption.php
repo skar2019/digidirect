@@ -35,10 +35,8 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
         $collection->addAttributeToFilter('stock_group', array('neq' => 'D1A1'));
         //$collection->addCategoriesFilter(['in' => $id]);
         //might check 'stock_status' => string '171'
-
+        $x = 0;
         foreach ($collection as $item) {
-
-
             $this->_productRepositoryInterface->getById($item->getId());
             $this->_productRepository->load($item->getId());
 
@@ -132,10 +130,14 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
                     //throw new \Magento\Framework\Exception\NoSuchEntityException(__('Something went wrong'));
                 }
             }
-
-
+            $x++;
+            
+            if($x > 500){
+                return "added custom options";
+            }
+                
         }
-        echo "added custom options";
+        return "added custom options";
 
     }
     
@@ -156,8 +158,11 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
                 $x++;
             }
             
+            if($x > 500){
+                return "delete custom options";
+            }   
         }
-        echo "delete custom option";
+        return "delete custom option";
 
     }
 
