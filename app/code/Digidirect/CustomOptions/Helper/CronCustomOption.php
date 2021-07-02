@@ -33,6 +33,10 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
         $collection->addAttributeToFilter('type_id', array('eq' => 'simple'));
         $collection->addAttributeToFilter('brand', array('neq' => 'LEICA'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Leica'));
+        $collection->addAttributeToFilter('brand', array('neq' => 'Canon'));
+        $collection->addAttributeToFilter('brand', array('neq' => 'DJI'));
+        $collection->addAttributeToFilter('brand', array('neq' => 'Zhiyun-Tech'));
+        $collection->addAttributeToFilter('brand', array('neq' => 'Zhiyun'));
         $collection->addAttributeToFilter('stock_group', array('neq' => 'D1A1'));
         //$collection->addCategoriesFilter(['in' => $id]);
         //might check 'stock_status' => string '171'
