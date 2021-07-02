@@ -1,9 +1,9 @@
 <?php
-namespace Digidirect\CustomOptions\Model;
+namespace Digidirect\CustomOptions\Helper;
 
 use Magento\Catalog\Api\Data\ProductCustomOptionInterface;
  
-class CustomOption extends \Magento\Framework\Model\AbstractModel
+class CronCustomOption extends \Magento\Framework\Model\AbstractModel
 {
     protected $_productOptions;
     protected $_productRepositoryInterface;
@@ -131,14 +131,9 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
                 }
                 $x++;
             }
-            
-            
-            if($x > 10){
-                echo "added custom options - ".$sku;
-                return;
-            }
                 
         }
+        echo "added ".$x;
         return;
 
     }
@@ -160,11 +155,9 @@ class CustomOption extends \Magento\Framework\Model\AbstractModel
                 }
                 $x++;
             }
-            
-            if($x > 100){
-                return "delete custom options".$productId;
-            }   
+              
         }
+        echo "deleted ".$x;
         return;
 
     }

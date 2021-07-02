@@ -1,6 +1,13 @@
 <?php
 namespace Digidirect\CustomOptions\Controller\Adminhtml\Delete;
-class Index extends \Magento\Backend\App\Action
+
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\View\Result\Page;
+use Magento\Framework\View\Result\PageFactory;
+
+class Index extends Action implements HttpGetActionInterface
 {
          protected $resultPageFactory = false;      
          protected $customOption;
@@ -16,12 +23,14 @@ class Index extends \Magento\Backend\App\Action
          } 
          public function execute()
          {
-                 $this->customOption->deleteCustomOption(43);
-                 $resultPage = $this->resultPageFactory->create();
-                 $resultPage->setActiveMenu('Magento_Catalog::catalog');
-                 $resultPage->getConfig()->getTitle()->prepend(__('Customizable Options Deleted'));
-                 return $resultPage;
+            $this->customOption->deleteCustomOption();
+            $resultPage = $this->resultPageFactory->create();
+            $resultPage->setActiveMenu('Magento_Catalog::catalog');
+            $resultPage->getConfig()->getTitle()->prepend(__('Customizable Options Deleted'));
+            return $resultPage;
+
          }
+         
          protected function _isAllowed()
          {
                  return $this->_authorization->isAllowed('Magento_Catalog::catalog');

@@ -2,6 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
         <add id="Digidirect_CustomOptions::custom_options" title="Customizable Options" module="Digidirect_CustomOptions" sortOrder="50" resource="Digidirect_CustomOptions::custom_options" parent="Magento_Catalog::catalog"/>
+        <add id="Digidirect_CustomOptions::customoptions_interface" title="Custom Options Interface" module="Digidirect_CustomOptions" sortOrder="10" action="customoptions/interface/index" resource="Digidirect_CustomOptions::custom_options" parent="Digidirect_CustomOptions::custom_options"/>
         <add id="Digidirect_CustomOptions::create_custom_options" title="Create Custom Options" module="Digidirect_CustomOptions" sortOrder="20" action="customoptions/create/index" resource="Digidirect_CustomOptions::create_custom_options" parent="Digidirect_CustomOptions::custom_options"/>
         <add id="Digidirect_CustomOptions::delete_custom_options" title="Delete Custom Options" module="Digidirect_CustomOptions" sortOrder="30" action="customoptions/delete/index" resource="Digidirect_CustomOptions::delete_custom_options" parent="Digidirect_CustomOptions::custom_options"/>
     </menu>
