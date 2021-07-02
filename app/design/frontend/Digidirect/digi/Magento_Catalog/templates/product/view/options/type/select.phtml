@@ -12,19 +12,22 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
 ?>
 <div class="field<?= /* @noEscape */ $class ?>">
     <?php
-        if ($_option->getTitle() == 'DigiProtect') {?>
+        if ($_option->getTitle() == 'digiProtect') {?>
         <div class="tooltip">
-            <img class="digiprotect-info-logo "data-bind="attr: { src: require.toUrl('images/info-icon.svg') }" />
-            <span class="tooltiptext">DigiProtect Information</span>
+            <img class="digiprotect-info-logo" data-bind="attr: { src: require.toUrl('images/digiProtect.png') }" />
+            <span class="tooltiptext">digiProtect Information</span>
         </div>
             
     <?php
         } ?>
+    <?php
+        if ($_option->getTitle() != 'digiProtect') {?>
+        <label class="label" for="select_<?= $block->escapeHtmlAttr($_option->getId()) ?>">
+            <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+        </label> 
+    <?php
+        } ?>
             
-    <label class="label" for="select_<?= $block->escapeHtmlAttr($_option->getId()) ?>">
-        <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
-    </label>
-    
     <div class="control">
         <?= $block->getValuesHtml() ?>
         <?php if ($_option->getIsRequire()) :?>
