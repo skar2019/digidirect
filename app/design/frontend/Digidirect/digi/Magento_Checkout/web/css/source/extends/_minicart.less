@@ -388,20 +388,52 @@
     
     .klarna-widget{
         &{
-            display: block;
-            text-align: center;
-            background: #ffb3c7;
+            display: flex;
             border-radius: 4px;
-            margin: 10px 0;
-            padding: 2px 0;
+            background: #ffb3c7;
+            text-align: center;
+            margin: 15px 0;
+            
+            &:hover{
+                background: #f5c5d2;
+            }
         }
         
-        .svg-icon{
-            width: 100% !important;
-            max-width: 80px !important;
-            height: 55px !important;
+        a{
+            display: block;
+            position: relative;
+            margin: 0 auto;
+            width: 100%;
+            padding-right: 45px;
+            font-weight: 500;
+            color: #000;
+            height: 100%;
+            padding: 18px;
+            font-family: 'Titillium Web', sans-serif;
+
+            &:hover,
+            &:hover span{
+                text-decoration: none !important;
+            }
+
+            span{
+
+                position: relative;
+                padding-right: 90px;
+
+                &::after{
+                    position: absolute;
+                    right: 0;
+                    content: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODEiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggY2xhc3M9ImZpbGwiIGQ9Ik03OC4zMzUgMTQuMzNhMi4yOTUgMi4yOTUgMCAxIDAgMCA0LjU5IDIuMjk1IDIuMjk1IDAgMCAwIDAtNC41OU03MC43OTYgNy4yMjh2LS43ODFoMy42NTd2MTIuMjE1aC0zLjY1N3YtLjc4YTYuNDQ1IDYuNDQ1IDAgMSAxIDAtMTAuNjUzem0tMy4zMjYgOC40N2MxLjgzIDAgMy4zMTQtMS40MDggMy4zMTQtMy4xNDMgMC0xLjczNi0xLjQ4NC0zLjE0My0zLjMxNC0zLjE0M3MtMy4zMTQgMS40MDctMy4zMTQgMy4xNDNjMCAxLjczNSAxLjQ4NCAzLjE0MiAzLjMxNCAzLjE0MnpNNTQuMjI2IDYuMTE4Yy0xLjQ2IDAtMi44NDMuNDU0LTMuNzY4IDEuNzA1VjYuNDQ3aC0zLjY0MXYxMi4yMTVoMy42ODZ2LTYuNDJjMC0xLjg1NyAxLjI0Ni0yLjc2NiAyLjc0Ni0yLjc2NiAxLjYwNyAwIDIuNTMuOTYgMi41MyAyLjc0MXY2LjQ0NWgzLjY1NHYtNy43NjhjMC0yLjg0My0yLjI2LTQuNzc2LTUuMjA3LTQuNzc2TTQxLjUyOCA4LjAzOFY2LjQ0N2gtMy43NDV2MTIuMjE1aDMuNzUzdi01LjcwM2MwLTEuOTI0IDIuMDg2LTIuOTU5IDMuNTMzLTIuOTU5bC4wNDMuMDAyVjYuNDQ4Yy0xLjQ4NSAwLTIuODUxLjYzNi0zLjU4NCAxLjU5TTMyLjIxMyA3LjIyOHYtLjc4MWgzLjY1N3YxMi4yMTVoLTMuNjU3di0uNzhhNi40NDUgNi40NDUgMCAxIDEgMC0xMC42NTN6bS0zLjMyNiA4LjQ3YzEuODMgMCAzLjMxNC0xLjQwOCAzLjMxNC0zLjE0MyAwLTEuNzM2LTEuNDg0LTMuMTQzLTMuMzE0LTMuMTQzcy0zLjMxNCAxLjQwNy0zLjMxNCAzLjE0M2MwIDEuNzM1IDEuNDg0IDMuMTQyIDMuMzE0IDMuMTQyek0xNi44MTUgMTguNjYyaDMuODI4VjEuMDAzaC0zLjgyOHpNMTQuMTc3IDFIMTAuMjFjMCAzLjI1MS0xLjQ5NCA2LjIzNS00LjEgOC4xODdsLTEuNTcyIDEuMTc3IDYuMDkgOC4zMDNoNS4wMDZsLTUuNjAzLTcuNjRDMTIuNjg3IDguMzgzIDE0LjE3NyA0LjgyNSAxNC4xNzcgMU0wIDE4LjY2N2g0LjA1M1YxSDB6IiBmaWxsPSJyZ2JhKDIzLCAxOCwgMTUsIDEpIj48L3BhdGg+PC9zdmc+);
+                }
+            }
         }
     }
+       
+    .braintree-googlepay-button{
+        margin: 0 !important;
+    }
+    
     .minicart-item-wrapper{
         .action.secondary{
             border-radius: 4px;

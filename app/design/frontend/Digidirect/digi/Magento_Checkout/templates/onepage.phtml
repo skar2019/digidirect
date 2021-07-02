@@ -79,7 +79,23 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                     }
                 }
                 else{
-                    $("#shipping-method-buttons-container .continue").trigger("click");
+                    if($("#shipping-address-select").length > 0){
+                        var target = $('.checkout-shipping-address');
+                        if (target.length) {
+                            $('html,body').animate({
+                                scrollTop: target.offset().top
+                            }, 1000);
+
+                            $(".checkout-shipping-address .accordion-step").removeClass("active");
+                            $(".checkout-shipping-address .step-content").fadeOut("slow", "swing");
+
+                            return false;
+                        }
+                    }
+                    else{
+                        $("#shipping-method-buttons-container .continue").trigger("click");
+                    }
+                    
                 }
             });
             
@@ -187,17 +203,51 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
 
                         if(login_state){
                             if(qff_error.length > 0){
-                                    qff_error.remove();
-                                }
+                                qff_error.remove();
+                            }
 
                             qff_number.val(window.customerData["qff_number"]);
                             qff_lastname.val(window.customerData["qff_lastname"]);
-
-
                         }
+                        
+                        $("body").on("focus", "#qff-form input[type=text]", function(){
+                            var target = $('.checkout-payment-method');
+                            if (target.length) {
+                                $('html,body').animate({
+                                    scrollTop: target.offset().top
+                                }, 1000);
+
+                                $(".checkout-payment-method .accordion-step").removeClass("active");
+                                $(".checkout-payment-method .step-content").fadeOut("slow", "swing");
+
+                                return false;
+                            }
+                        });
+                        
+                        $("body").on("focus", ".order-comment", function(){
+                            var target = $('.checkout-payment-method');
+                            if (target.length) {
+                                $('html,body').animate({
+                                    scrollTop: target.offset().top
+                                }, 1000);
+
+                                $(".checkout-qantas-wrapper .accordion-step").removeClass("active");
+                                $(".checkout-qantas-wrapper .step-content").fadeOut("slow", "swing");
+                                
+                                $(".checkout-payment-method .accordion-step").removeClass("active");
+                                $(".checkout-payment-method .step-content").fadeOut("slow", "swing");
+
+                                return false;
+                            }
+                        });
 
                         $("#qff-trigger").click(function(e)
                         {
+                            if($(".checkout-payment-method").length > 0){
+                                $(".checkout-payment-method .accordion-step").removeClass("active");
+                                $(".checkout-payment-method .step-content").fadeOut("slow", "swing");
+                            }
+
                             if(qff_error.length > 0){
                                 qff_error.remove();
                             }
