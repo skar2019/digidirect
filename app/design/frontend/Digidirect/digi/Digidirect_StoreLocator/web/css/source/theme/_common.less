@@ -27,6 +27,12 @@
         
         .grid-row {
             display: flex;
+            margin-top: 30px;
+        }
+        
+        .store-view.grid-row > .column.-main {
+            align-items: unset;
+            justify-content: unset;
         }
         
         .grid-row > .column.-left {
@@ -35,10 +41,16 @@
         
         .grid-row > .column.-main {
             .lib-css(flex-basis, (@screen__xl - @locator-items-column__width__l) / @screen__xl * 100%);
+            display: none;
+        }
+        
+        .store-view.grid-row > .column.-main {
+            display: block;
         }
         
         .locator-search {
             margin-bottom: 38px;
+            display: none;
         }
     }
 }

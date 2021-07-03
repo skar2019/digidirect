@@ -54,6 +54,11 @@
             margin-bottom: 0;
             padding-bottom: 18px;
         }
+        
+        .wrap-block{
+            position: relative;
+            padding-left: 20px;
+        }
 
 
         .block.shipping {
@@ -68,6 +73,20 @@
 
         .checkout-methods-items {
             margin-bottom: 20px;
+            
+            .braintree-paypal-logo{
+                max-height: 50px;
+            }
+            
+            .braintree-googlepay-button{
+                padding: 20px !important;
+            }
+        }
+           
+        .klarna-widget{
+            a{
+                padding: 13px;
+            }
         }
 
         .svg-icon.-paypal-logo {
@@ -391,10 +410,10 @@
         }
 
         .svg-icon {
-            min-width: 40px;
+/*            min-width: 40px;
             width: 40px;
             height: 40px;
-            margin-right: 18px;
+            margin-right: 18px;*/
         }
 
         .collect-block.-visible {
@@ -431,18 +450,16 @@
             }
 
             .svg-icon {
-                max-width: 20px;
                 width: 100%;
-                height: 18px;
+                max-width: 15px;
+                height: 15px;
                 margin-right: 0;
                 vertical-align: top;
-                padding-top: 5px;
             }
         }
 
         .action.checkout,
         .paypal.checkout .action {
-            padding: 20px;
             line-height: 1;
             border-radius: 4px;
         }
