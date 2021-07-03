@@ -299,7 +299,7 @@ class Order extends AbstractHelper
                 //$json['sales-order']['sales-order']['order-no']
                 echo "success";
                 echo "<br>";
-                //$order->setState("processing")->setStatus("processing");
+                $order->setState("complete")->setStatus("complete");
                 $pronto = $json['sales-orders']['sales-order']['order-no'];
                 $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                 $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];

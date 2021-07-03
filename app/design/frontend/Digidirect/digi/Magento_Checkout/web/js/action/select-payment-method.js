@@ -17,13 +17,6 @@ define([
             paymentMethod.__disableTmpl = {
                 title: true
             };
-
-            if ('method' in paymentMethod) {
-                if(paymentMethod.method == "banktransfer" || paymentMethod.method == "zipmoneypayment" || paymentMethod.method == "klarna_pay_later"){
-                    $(".checkout-payment-method .accordion-step").removeClass("active");
-                    $(".checkout-payment-method .step-content").fadeOut("slow", "swing");
-                }
-            }
         }
         
         quote.paymentMethod(paymentMethod);

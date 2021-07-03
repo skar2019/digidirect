@@ -24,7 +24,7 @@ class Index extends Action implements HttpGetActionInterface
     public function execute()
     {
 
-        $this->customOption->saveCustomOption();
+        //$this->customOption->saveCustomOption();
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu('Magento_Catalog::catalog');
         $resultPage->getConfig()->getTitle()->prepend(__('Customizable Options Created'));
