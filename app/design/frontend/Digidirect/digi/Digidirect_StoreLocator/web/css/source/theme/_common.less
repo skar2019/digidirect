@@ -28,6 +28,8 @@
         .grid-row {
             display: flex;
             margin-top: 30px;
+            align-items: center;
+            justify-content: center;
         }
         
         .store-view.grid-row > .column.-main {
@@ -36,7 +38,11 @@
         }
         
         .grid-row > .column.-left {
-            .lib-css(flex-basis, @locator-items-column__width__l);
+            flex-basis: 700px;
+        }
+        
+        .store-view.grid-row > .column.-left {
+            flex-basis: 512px;
         }
         
         .grid-row > .column.-main {
