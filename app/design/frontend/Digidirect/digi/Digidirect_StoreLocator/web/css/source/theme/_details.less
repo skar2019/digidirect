@@ -24,6 +24,19 @@
             margin-bottom: 14px;
             position: relative;
             padding-left: 25px;
+            
+            .collapsible-table table > thead > tr > th, 
+            .collapsible-table table > tbody > tr > th, 
+            .collapsible-table table > tfoot > tr > th, 
+            .collapsible-table table > thead > tr > td, 
+            .collapsible-table table > tbody > tr > td, 
+            .collapsible-table table > tfoot > tr > td{
+                padding: 0 0 8px;
+            }
+            
+            .collapsible-table::after{
+                top: 0;
+            }
         }
 
         > .item > .icon {
@@ -34,15 +47,6 @@
             .svg-icon{
                 width: 15px;
                 height: 15px;
-            }
-            
-            table > thead > tr > th, 
-            table > tbody > tr > th, 
-            table > tfoot > tr > th, 
-            table > thead > tr > td, 
-            table > tbody > tr > td, 
-            table > tfoot > tr > td{
-                padding: 8px 0;
             }
         }
         
