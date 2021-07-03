@@ -8,11 +8,6 @@
 <?php $isShowAlways = true; ?>
 <?php if ($block->getCollection()->getSize() || $isShowAlways): ?>
     <div class="toolbar toolbar-products" data-mage-init='<?php /* @escapeNotVerified */ echo $block->getWidgetOptionsJson(); ?>'>
-        <div class="mobile-row">
-            <?php if ($block->isExpanded()): ?>
-                <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/viewmode.phtml')) ?>
-            <?php endif; ?>
-        </div>
         <div class="desktop-row">
             <div class="filter filter-trigger -mobile" data-container="#catalogSidebar" data-mage-init='{ "offcanvas": {"addOn":
             "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Filter');?>
