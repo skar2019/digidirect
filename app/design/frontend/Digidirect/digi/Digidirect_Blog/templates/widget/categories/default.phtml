@@ -6,11 +6,11 @@
 $categories = $block->getCategoriesTree();
 ?>
 <div class="categories-container blog-widget widget negative-gutter full-width-background">
-    <div class="logo">
+    <a class="logo" href="/blogs">
         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-blog-widget">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-logo-digi-life"></use>
         </svg>
-    </div>
+    </a>
     <ul class="list blog-categories-list">
         <?php $function = function ($category) use (&$function, $block) { ?>
             <?php if(!empty($category) && $block->showCategory($category)): ?>

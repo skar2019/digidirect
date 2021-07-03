@@ -43,6 +43,11 @@
             </arguments>
         </referenceBlock>
         <referenceContainer name="cart.summary">
+            <block class="Magento\Cms\Block\Block" name="cart.klarna.widget">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">klarna-widget</argument>
+                </arguments>
+            </block>
             <block class="Magento\Cms\Block\Block" name="cart.secure.pay">
                 <arguments>
                     <argument name="block_id" xsi:type="string">secure-pay</argument>
@@ -59,13 +64,5 @@
         </referenceBlock>
 
         <move element="checkout.cart.form" destination="checkout.cart.container" after="checkout.cart.page.title"/>
-
-        <referenceBlock name="crosssell.product.addto">
-            <block class="Digidirect\QuickView\Block\Product\ListProduct\QuickView\Button" name="quickview.button" template="Digidirect_QuickView::product/list/quickview/button.phtml" after="-" ifconfig="digidirect_quickview/general/quickview_enabled">
-                <arguments>
-                    <argument name="button_label" xsi:type="string">Quick View</argument>
-                </arguments>
-            </block>
-        </referenceBlock>
     </body>
 </page>

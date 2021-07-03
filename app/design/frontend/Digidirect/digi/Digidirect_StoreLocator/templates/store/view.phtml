@@ -2,11 +2,11 @@
 /** @var $block \Digidirect\StoreLocator\Block\ListStore\DetailPage */
 ?>
 <div class="grid-row store-view">
-    <div class="medium-4 column -left">
+    <div class="store-wrapper column -left">
         <?php echo $block->getChildHtml('abstractentity_additional_info'); ?>
         <?php echo $block->getChildHtml('storelocator.details'); ?>
     </div>
-    <div class="medium-8 column -main">
+    <div class="google-map-wrapper column -main">
         <?php echo $block->getChildHtml('storelocator.map'); ?>
     </div>
 </div>

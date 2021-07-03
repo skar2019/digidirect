@@ -8,5 +8,29 @@
         <job name="pronto_inventory_sync" instance="Digidirect\Pronto\Cron\InventoryEnquiry" method="execute">
             <schedule>*/11 * * * *</schedule>
         </job>
+        <job name="pronto_product_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="productSet">
+            <schedule>0 0 * * *</schedule>
+        </job>
+        <job name="pronto_product1_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="productSet1">
+            <schedule>5 0 * * *</schedule>
+        </job>
+        <job name="pronto_product2_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="productSet2">
+            <schedule>10 0 * * *</schedule>
+        </job>
+        <job name="pronto_product3_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="productSet3">
+            <schedule>15 0 * * *</schedule>
+        </job>
+        <job name="pronto_product4_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="productSet4">
+            <schedule>20 0 * * *</schedule>
+        </job>
+        <job name="pronto_product5_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="productSet5">
+            <schedule>25 0 * * *</schedule>
+        </job>
+        <job name="pronto_product6_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="productSet6">
+            <schedule>30 0 * * *</schedule>
+        </job>
+        <job name="pronto_product7_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="productSet7">
+            <schedule>35 0 * * *</schedule>
+        </job>
     </group>
 </config>
