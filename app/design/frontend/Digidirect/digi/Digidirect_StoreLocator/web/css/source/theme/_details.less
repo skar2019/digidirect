@@ -21,13 +21,29 @@
         
         > .item {
             .lib-css(line-height, @locator-item-icon__size);
-    
             margin-bottom: 14px;
+            position: relative;
+            padding-left: 25px;
         }
 
         > .item > .icon {
-            width: 25px;
-            float: left;
+            left: 0;
+            top: 0;
+            position: absolute;
+            
+            .svg-icon{
+                width: 15px;
+                height: 15px;
+            }
+            
+            table > thead > tr > th, 
+            table > tbody > tr > th, 
+            table > tfoot > tr > th, 
+            table > thead > tr > td, 
+            table > tbody > tr > td, 
+            table > tfoot > tr > td{
+                padding: 8px 0;
+            }
         }
         
         > .item.-hours > .icon {
@@ -38,10 +54,6 @@
         > .item > .icon + address {
             overflow: hidden;
         }
-
-/*        .item.-address .svg-icon {
-            margin-top: -5px;
-        }*/
         
         .name {
             .lib-font-size(13);
@@ -66,10 +78,7 @@
         }
         
         .item > .icon .svg-icon {
-            .lib-css(width, @locator-item-icon__size);
-            .lib-css(height, @locator-item-icon__size);
-    
-            transform: translate3d(0, 0, 5px);
+            
         }
     }
 
