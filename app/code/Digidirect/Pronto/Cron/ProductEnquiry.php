@@ -18,7 +18,7 @@ class ProductEnquiry
     
     public function __construct(
             LoggerInterface $logger,
-            Inventory $helper)
+            Product $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;

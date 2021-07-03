@@ -103,23 +103,7 @@ class Product extends AbstractHelper
 
                     $this->productRepository->save($product);
                     echo "Updated - " .$prod['code'] . "<br />";
-    //                
-    //                $proddetail = $this->productRepository->get($prod['code']);
-    //                $prodattri = $proddetail->getAttributes();
-    //                
-    //                foreach($prodattri as $attribute)
-    //                {
-    //                    echo $attribute->getName(). " - ";
-    //                    if($attribute->getName() == 'category_ids' || $attribute->getName() == 'media_gallery' || $attribute->getName() == 'tier_price')
-    //                    {
-    //                        echo "is object <br />";
-    //                    }
-    //                    else 
-    //                    {
-    //                        echo $attribute->getAttributeCode() . " - " .$attribute->getFrontend()->getValue($proddetail). "<br />";
-    //                    }
-    //                    
-    //                }
+
                 }
                 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
@@ -157,10 +141,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $product = $this->productRepository->save($product);
                 echo "Insert here- " .$prod['code'] . " - ".$url."<br />";
-//                $stockItem = $this->stockRegistry->getStockItemBySku($product->getSku());
-//                $stockItem->setIsInStock($isInStock);
-//                $stockItem->setQty($stockQty);
-//                $this->stockRegistry->updateStockItemBySku($product->getSku(), $stockItem);
+
             }
             
             
