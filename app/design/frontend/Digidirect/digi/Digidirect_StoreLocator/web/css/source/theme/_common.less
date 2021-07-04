@@ -101,6 +101,14 @@
             font-weight: bold;
         }
     }
+    
+    .message.info > *:first-child::before, 
+    .message.error > *:first-child::before, 
+    .message.warning > *:first-child::before, 
+    .message.notice > *:first-child::before, 
+    .message.success > *:first-child::before{
+        transform: unset !important;
+    }
 }
 
 //
