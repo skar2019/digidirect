@@ -16,6 +16,10 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .product-item .price-box .price-label:after{
+        display: none;
+    }
+    
     .product-widget-wrapper {
         margin: 15px -30px 0;
     }
