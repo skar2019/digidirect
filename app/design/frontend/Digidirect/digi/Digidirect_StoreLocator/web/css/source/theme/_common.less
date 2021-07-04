@@ -14,6 +14,14 @@
 //
 //  Common
 //  ---------------------------------------------
+& when (@media-common = true) {
+    .store-locator {
+        .locator-details .name,
+        .locator-item .name{
+            font-family: 'Titillium Web', sans-serif;
+        }
+    }
+}
 
 //
 //  Desktop +
@@ -87,7 +95,8 @@
             font-weight: bold;
         }
         
-        .locator-details .name{
+        .locator-details .name,
+        .locator-item .name{
             font-size: 18px;
             font-weight: bold;
         }
