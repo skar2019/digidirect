@@ -266,11 +266,6 @@
             a{
                 display: none;
             }
-            
-/*            a:after{
-                content: "" !important;
-                padding: 0 !important;
-            }*/
         }
         
         &.header{
@@ -357,6 +352,33 @@
     .header-content-links{
         display: none !important;
     }
+    
+    .panel{
+        &.wrapper {
+            padding: 0 15px;
+        } 
+        
+        .header-links{
+            a{
+                display: none;
+            }
+        }
+        
+        &.header{
+            
+            .store-locator-link,
+            .call-us-link{
+                display: unset;
+            }
+            
+            .call-us-link{
+                .company-number{
+                    display: none;
+                }
+            }
+            
+        }
+    } 
 }
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
