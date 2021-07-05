@@ -64,6 +64,7 @@
         .product-items{
             .actions-primary{
                 width: 100%;
+                padding-bottom: 15px;
             }
             
             .action.primary {
@@ -169,6 +170,12 @@
         .products-grid > .product-items .product-item {
             .lib-css(min-width, @catalog-products-grid-product-item__flex-basis__3);
             .lib-vendor-prefix-flex-basis(@catalog-products-grid-product-item__flex-basis__3);
+        }
+        
+        .product-items {
+            .actions-primary {
+                padding-bottom: 0px;
+            }
         }
     }
 
