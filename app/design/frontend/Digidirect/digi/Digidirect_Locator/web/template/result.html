@@ -4,9 +4,6 @@
         <!-- ko text: locations.items().length --><!-- /ko -->
         <!-- ko i18n: 'Store(s)' --><!-- /ko -->
     </div>
-    <div class="count _hide-for-desktop" data-role="title"  role="heading">
-        <!-- ko i18n: 'All Stores' --><!-- /ko -->
-    </div>
     <div data-bind="mageInit:{'customScrollbarInit':{}}" class="locator-wrapper">
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">

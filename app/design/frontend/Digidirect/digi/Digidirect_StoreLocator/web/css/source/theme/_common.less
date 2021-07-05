@@ -14,6 +14,14 @@
 //
 //  Common
 //  ---------------------------------------------
+& when (@media-common = true) {
+    .store-locator {
+        .locator-details .name,
+        .locator-item .name{
+            font-family: 'Titillium Web', sans-serif;
+        }
+    }
+}
 
 //
 //  Desktop +
@@ -58,6 +66,48 @@
             margin-bottom: 38px;
             display: none;
         }
+    }
+}
+
+//
+//  Mobile Only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .store-locator {
+        .locator-search {
+            display: none;
+        }
+        
+        .grid-row {
+            display: flex;
+            margin-top: 30px;
+            justify-content: center;
+        }
+        
+        .store-view.grid-row > .column.-main {
+            align-items: unset;
+            justify-content: unset;
+        }
+        
+        .locator-list .details > .link{
+            color: #222;
+            font-weight: bold;
+        }
+        
+        .locator-details .name,
+        .locator-item .name{
+            font-size: 18px;
+            font-weight: bold;
+        }
+    }
+    
+    .message.info > *:first-child::before, 
+    .message.error > *:first-child::before, 
+    .message.warning > *:first-child::before, 
+    .message.notice > *:first-child::before, 
+    .message.success > *:first-child::before{
+        transform: unset !important;
     }
 }
 
