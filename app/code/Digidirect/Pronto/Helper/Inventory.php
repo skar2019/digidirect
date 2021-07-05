@@ -5,7 +5,7 @@ namespace Digidirect\Pronto\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
-
+use Psr\Log\LoggerInterface;
 
 class Inventory extends AbstractHelper
 {
@@ -15,18 +15,25 @@ class Inventory extends AbstractHelper
     */
     protected $curl;
 
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+    
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
                         \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
                         \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
-                        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory) 
+                        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
+                        LoggerInterface $logger) 
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
                         $this->sourceItemsBySku = $sourceItemsBySku;
                         $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
                         $this->sourceItemFactory = $sourceItemFactory;
+                        $this->logger = $logger;
 
     }
 
@@ -54,40 +61,40 @@ class Inventory extends AbstractHelper
 
         if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
         {
-            echo $json['response']['message'];
-            exit;
+            $msg =  $json['response']['message'];
+            $this->logger->error('Pronto Order Sync', array('info' => $msg));
         }
         //var_dump($json['stockmaster']['stockcode']['warehouse']);
         foreach ($json['stockmaster']['stockcode'] as $prodRes)
         {
-
+            
             $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
             $sku =  $prodRes['code'];
-            echo "<br />SKU : ". $sku;
+            //echo "<br />SKU : ". $sku;
             //pricing
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // instance of object manager
             $product = $objectManager->create('\Magento\Catalog\Model\Product');
 
             $prod = $product->loadByAttribute('sku', $sku);
-            echo "<br /> Pronto Retail Price: " .$retail;
-            echo "<br /> Magento Price : ". $prod->getPrice() ."<br />";
+            //echo "<br /> Pronto Retail Price: " .$retail;
+            //echo "<br /> Magento Price : ". $prod->getPrice() ."<br />";
 
             $prod->setPrice($retail);
             $prod->save();
             //end pricing
 
             //quantity by source
-            echo "<br />Quantity before update <br />";
+            //echo "<br />Quantity before update <br />";
             $sourceItemList = $this->getSourceItemBySku($sku);
             foreach ($sourceItemList as $source) {
                 $var = $source->getData();
-                echo "<br />".$var['source_code'] . " => ". $var['quantity'];
+                //echo "<br />".$var['source_code'] . " => ". $var['quantity'];
             }
 
             //loop from
             foreach ($prodRes['warehouse']['whse'] as $qt)
             {
-                echo "<br />".$qt['code']." - " .$qt['qty_available'];
+                //echo "<br />".$qt['code']." - " .$qt['qty_available'];
                 $sourceItem = $this->sourceItemFactory->create();
                 $sourceItem->setSourceCode($qt['code']);
                 $sourceItem->setSku($sku);
@@ -95,12 +102,15 @@ class Inventory extends AbstractHelper
                 $sourceItem->setQuantity($qt['qty_available']);
                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
             }
-            echo "<br /><br /> Quantity after update <br />";
+            //echo "<br /><br /> Quantity after update <br />";
             $sourceItemList2 = $this->getSourceItemBySku($sku);
             foreach ($sourceItemList2 as $source) {
                 $var = $source->getData();
-                echo "<br />".$var['source_code'] . " => ". $var['quantity'];
+                //echo "<br />".$var['source_code'] . " => ". $var['quantity'];
             }
+            
+            $msg =  $json['response']['message'];
+            $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
         }
 
     }   
