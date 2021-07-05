@@ -661,10 +661,6 @@
     }
 }
 
-
-
-
-
 //
 //  Desktop
 //  _____________________________________________
@@ -739,7 +735,7 @@
             color: #222;
             margin: 0;
             padding: 0;
-            //font-size: 18px;
+            font-size: 14px;
         }
         
         &:hover{
@@ -928,10 +924,11 @@
     }
 }
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+//Extra Large Desktop
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xll) {
     
     .mega.nav-item > a{
-        
         span.title{
             font-size: 18px;
         }
