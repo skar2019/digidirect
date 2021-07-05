@@ -89,7 +89,6 @@ hooks:
         php ./bin/magento maintenance:enable
         php ./vendor/bin/ece-tools deploy
         php ./bin/magento maintenance:disable
-        php ./bin/magento ewave:cms_upgrade
         php ./bin/magento cache:enable
     # We run post deploy hook to clean and warm the cache. Available with ECE-Tools 2002.0.10.
     post_deploy: |
