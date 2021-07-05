@@ -1,0 +1,46 @@
+<?php
+/**
+ * Mageplaza
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Mageplaza.com license that is
+ * available through the world-wide-web at this URL:
+ * https://www.mageplaza.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Mageplaza
+ * @package     Mageplaza_ProductLabels
+ * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+ * @license     https://www.mageplaza.com/LICENSE.txt
+ */
+
+/** @var \Mageplaza\ProductLabels\Block\Listing\Label $block */
+$product = $block->getProduct();
+$productId = $product->getId();
+$helper = $block->_helperData;
+$dataLabels = $block->getDataLabels($product);
+?>
+
+<?php if (!empty($dataLabels)): ?>
+    <?php foreach ($dataLabels as $data): ?>
+        <div id="design-labels-<?= /** @noEscape */ $data['rule_id'] ?>-<?= /** @noEscape */ $productId ?>"
+             class="mpproductlabel-label" style="<?= /** @noEscape */ $block->getLabelPosition($data) ?>; display: none;">
+            <?php if ($block->getImgSrc($data)): ?>
+                <img id="design-label-image-<?= /** @noEscape */ $data['rule_id'] ?>-<?= /** @noEscape */ $productId ?>"
+                     class="mpproductlabel-img-label" src="<?= /** @noEscape */ $block->getImgSrc($data) ?>"
+                     alt="<?= /** @noEscape */ __('Product Label') ?>">
+            <?php endif; ?>
+            <span id="design-label-text-<?= /** @noEscape */ $data['rule_id'] ?>-<?= /** @noEscape */ $productId ?>"
+                  class="mpproductlabel-text-label"
+                  style="<?= /** @noEscape */ $data['label_style'] ?>"><?= /** @noEscape */ $helper->getCategoryProductLabel($data['label'], $product) ?></span>
+        </div>
+        <style><?= /** @noEscape */ $data['custom_css'] ?></style>
+        <?php if ($data['stop_process']) {break;} ?>
+    <?php endforeach ?>
+<?php endif; ?>
+

@@ -1,0 +1,35 @@
+<?php
+/** @var \Digidirect\Faq\Block\Tag $block */
+$tags = $block->getAllTags();
+$tag_number = 0;
+if ($tag_number == null || $tag_number == 0) {
+    $tag_number = 20;
+}
+$count = 0;
+?>
+
+<?php if ($this->helper('Digidirect\Faq\Helper\Data')->isTagsEnabled() && count($tags)) : ?>
+    <div class="faq-tags">
+        <div class="title"><?php /* @escapeNotVerified */ echo __('Popular Tags') ?></div>
+
+        <?php foreach ($tags as $tag) : ?>
+            <?php if ($count < $tag_number) : ?>
+                <span data-role="faq-item" data-testid="faq-tag-item" title="<?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>" data-type="tag"
+                      data-category-id="<?php echo (int)$tag->getId() ?>" data-page="1" class="tag">
+                    <?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>
+                </span>
+            <?php else : ?>
+                <span data-role="faq-item" data-testid="faq-tag-item" title="<?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>" data-type="tag"
+                      data-category-id="<?php echo (int)$tag->getId() ?>" data-page="1" class="tag -extra">
+                    <?php /* @escapeNotVerified */ echo $block->stripTags($tag->getTitle()); ?>
+                </span>
+            <?php endif; ?>
+            <?php $count++; endforeach; ?>
+
+        <?php if ($count > $tag_number) : ?>
+            <span class="tags-toggle" role="button" title="<?php /* @escapeNotVerified */ echo __('View All Tags') ?>">
+                <?php /* @escapeNotVerified */ echo __('View All Tags') ?>
+            </span>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
