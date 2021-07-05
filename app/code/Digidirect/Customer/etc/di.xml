@@ -1,9 +1,0 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\Customer\Model\Data\Customer" type="Digidirect\Customer\Model\Data\Customer" />
-    <preference for="Magento\Customer\Controller\Account\EditPost" type="Digidirect\Customer\Controller\Account\EditPost" />
-    <preference for="Magento\Customer\Controller\Account\CreatePost" type="Digidirect\Customer\Controller\Account\CreatePost" />
-    
-    <type name="Digidirect\Customer\Controller\Index\QffAction">
-        <plugin name="Digidirect_Customer_Plugin" type="Digidirect\Customer\Plugin\QffActionPlugin" sortOrder="100" disabled="false"  />
-    </type>
-</config>
