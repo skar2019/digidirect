@@ -42,14 +42,17 @@ class Inventory extends AbstractHelper
         //date today
         $now = new \DateTime();
         $prontofilter = $now->format('dmY'.'000000');
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y';
+        // testing$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y';
+        //live - port :8084
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y';
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "UA1");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("compcode", "UA1"); //test
         $this->curl->addHeader("user", "clint.mercado");
         $this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
