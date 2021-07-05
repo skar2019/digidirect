@@ -35,6 +35,7 @@ use Magento\Framework\Registry;
 use Magento\Store\Model\System\Store;
 use Mageplaza\ProductFeed\Block\Adminhtml\Feed\Edit\Tab\Renderer\Time;
 use Mageplaza\ProductFeed\Helper\Data;
+use Mageplaza\ProductFeed\Model\Config\Source\CompressFileType;
 use Mageplaza\ProductFeed\Model\Config\Source\DaysOfMonth;
 use Mageplaza\ProductFeed\Model\Config\Source\DaysOfWeek;
 use Mageplaza\ProductFeed\Model\Config\Source\ExecutionMode;
@@ -88,6 +89,11 @@ class General extends Generic implements TabInterface
     protected $daysOfMonth;
 
     /**
+     * @var CompressFileType
+     */
+    protected $compressFileType;
+
+    /**
      * General constructor.
      *
      * @param Context $context
@@ -101,6 +107,7 @@ class General extends Generic implements TabInterface
      * @param ExecutionMode $executionMode
      * @param DaysOfWeek $daysOfWeek
      * @param DaysOfMonth $daysOfMonth
+     * @param CompressFileType $compressFileType
      * @param array $data
      */
     public function __construct(
@@ -115,18 +122,20 @@ class General extends Generic implements TabInterface
         ExecutionMode $executionMode,
         DaysOfWeek $daysOfWeek,
         DaysOfMonth $daysOfMonth,
+        CompressFileType $compressFileType,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $formFactory, $data);
-
-        $this->enabledisable = $enableDisable;
-        $this->systemStore = $systemStore;
-        $this->helperData = $helperData;
+        $this->enabledisable     = $enableDisable;
+        $this->systemStore       = $systemStore;
+        $this->helperData        = $helperData;
         $this->collectionFactory = $collectionFactory;
-        $this->frequency = $frequency;
-        $this->executionMode = $executionMode;
-        $this->daysOfWeek = $daysOfWeek;
-        $this->daysOfMonth = $daysOfMonth;
+        $this->frequency         = $frequency;
+        $this->executionMode     = $executionMode;
+        $this->daysOfWeek        = $daysOfWeek;
+        $this->daysOfMonth       = $daysOfMonth;
+        $this->compressFileType  = $compressFileType;
+
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**
@@ -144,37 +153,44 @@ class General extends Generic implements TabInterface
 
         $fieldset = $form->addFieldset('base_fieldset', [
             'legend' => __('General Information'),
-            'class' => 'fieldset-wide'
+            'class'  => 'fieldset-wide'
         ]);
 
         $fieldset->addField('name', 'text', [
-            'name' => 'name',
-            'label' => __('Name'),
-            'title' => __('Name'),
+            'name'     => 'name',
+            'label'    => __('Name'),
+            'title'    => __('Name'),
             'required' => true
         ]);
 
         $fieldset->addField('status', 'select', [
-            'name' => 'status',
-            'label' => __('Status'),
-            'title' => __('Status'),
+            'name'   => 'status',
+            'label'  => __('Status'),
+            'title'  => __('Status'),
             'values' => $this->enabledisable->toOptionArray()
         ]);
 
         /** @var RendererInterface $rendererBlock */
         $rendererBlock = $this->getLayout()->createBlock(Element::class);
         $fieldset->addField('store_id', 'select', [
-            'name' => 'store_id',
-            'label' => __('Store Views'),
-            'title' => __('Store Views'),
+            'name'   => 'store_id',
+            'label'  => __('Store Views'),
+            'title'  => __('Store Views'),
             'values' => $this->systemStore->getStoreValuesForForm(false, true)
         ])->setRenderer($rendererBlock);
 
         $fieldset->addField('file_name', 'text', [
-            'name' => 'file_name',
-            'label' => __('File Name'),
-            'title' => __('File Name'),
+            'name'     => 'file_name',
+            'label'    => __('File Name'),
+            'title'    => __('File Name'),
             'required' => true
+        ]);
+
+        $fieldset->addField('compress_file', 'select', [
+            'name'     => 'compress_file',
+            'label'    => __('Compress File'),
+            'title'    => __('Compress File'),
+            'values'   => $this->compressFileType->toOptionArray()
         ]);
 
         if (($feedId = $feed->getId()) && ($feed->getId() !== 'copy')) {
@@ -191,70 +207,70 @@ class General extends Generic implements TabInterface
                 );
 
                 $fieldset->addField('file_url', 'link', [
-                    'name' => 'file_url',
-                    'href' => $fileUrl,
+                    'name'  => 'file_url',
+                    'href'  => $fileUrl,
                     'label' => __('Generated File URL'),
                     'title' => __('Generated File URL'),
-                    'value' => $fileUrl
+                    'value' => $this->helperData->getFileUrl($history->getFile())
                 ]);
                 $fieldset->addField('product_count', 'label', [
-                    'name' => 'product_count',
+                    'name'  => 'product_count',
                     'label' => __('Number of exported Products'),
                     'title' => __('Number of exported Products'),
                     'value' => $history->getProductCount()
                 ]);
                 $fieldset->addField('generated_on', 'label', [
-                    'name' => 'generated_on',
+                    'name'  => 'generated_on',
                     'label' => __('Generated On'),
                     'title' => __('Generated On'),
                     'value' => $this->helperData->convertToLocaleTime($history->getCreatedAt()),
                 ]);
                 $fieldset->addField('error_message', 'label', [
-                    'name' => 'error_message',
-                    'value' => $history->getErrorMessage(),
+                    'name'               => 'error_message',
+                    'value'              => $history->getErrorMessage(),
                     'after_element_html' => '<style>.field-error_message{color: red}</style>'
                 ]);
             }
         }
 
-        $generateFieldset = $form->addFieldset('delivery_fieldset', [
+        $generateFieldset  = $form->addFieldset('delivery_fieldset', [
             'legend' => __('Generate Config'),
-            'class' => 'fieldset-wide'
+            'class'  => 'fieldset-wide'
         ]);
 
-        $executionMode = $generateFieldset->addField('execution_mode', 'select', [
-            'name' => 'execution_mode',
-            'label' => __('Execution Mode'),
-            'title' => __('Execution Mode'),
+        $executionMode     = $generateFieldset->addField('execution_mode', 'select', [
+            'name'   => 'execution_mode',
+            'label'  => __('Execution Mode'),
+            'title'  => __('Execution Mode'),
             'values' => $this->executionMode->toOptionArray(),
-            'note' => __('Select <b>Cron</b> to generate the feed automatically. Select <b>Manual</b> to generate the feed manually'),
+            'note'   => __('Select <b>Cron</b> to generate the feed automatically. Select <b>Manual</b> to generate the feed manually'),
         ]);
-        $frequency = $generateFieldset->addField('frequency', 'select', [
-            'name' => 'frequency',
-            'label' => __('Frequency'),
-            'title' => __('Frequency'),
+        $frequency         = $generateFieldset->addField('frequency', 'select', [
+            'name'   => 'frequency',
+            'label'  => __('Frequency'),
+            'title'  => __('Frequency'),
             'values' => $this->frequency->toOptionArray(),
-            'note' => __('How often the feed is generated')
+            'note'   => __('How often the feed is generated')
         ]);
-        $cronRunDayOfWeek = $generateFieldset->addField('cron_run_day_of_week', 'select', [
-            'name' => 'cron_run_day_of_week',
-            'label' => __('Day'),
-            'title' => __('Day'),
+        $cronRunDayOfWeek  = $generateFieldset->addField('cron_run_day_of_week', 'select', [
+            'name'   => 'cron_run_day_of_week',
+            'label'  => __('Day'),
+            'title'  => __('Day'),
             'values' => $this->daysOfWeek->toOptionArray(),
-            'note' => __('Day of week')
+            'note'   => __('Day of week')
         ]);
         $cronRunDayOfMonth = $generateFieldset->addField('cron_run_day_of_month', 'select', [
-            'name' => 'cron_run_day_of_month',
-            'label' => __('Date'),
-            'title' => __('Date'),
+            'name'   => 'cron_run_day_of_month',
+            'label'  => __('Date'),
+            'title'  => __('Date'),
             'values' => $this->daysOfMonth->toOptionArray(),
-            'note' => __('Date of month')
+            'note'   => __('Date of month')
         ]);
-        $cronRunTime = $generateFieldset->addField('cron_run_time', Time::class, [
-            'name' => 'cron_run_time',
+        $cronRunTime       = $generateFieldset->addField('cron_run_time', Time::class, [
+            'name'  => 'cron_run_time',
             'label' => __('Cron Run Time'),
             'title' => __('Cron Run Time'),
-            'note' => __('Time zone UTC')
+            'note'  => __('Time zone UTC')
         ]);
 
         $this->setChild(
