@@ -52,6 +52,17 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .category-promotion._full-width-background {
+        margin-left: 0 !important; 
+        margin-right: 0 !important;
+    }
+}
+
+//
 //  Tablet
 //  ---------------------------------------------
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
