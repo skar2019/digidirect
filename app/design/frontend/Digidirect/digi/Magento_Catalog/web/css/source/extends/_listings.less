@@ -87,6 +87,10 @@
         }
     }
     
+    .product-items .action.towishlist::before {
+        display: none!important;
+    }
+    
     .product-item-name, 
     .product.name a {
         font-weight: bold;
@@ -197,6 +201,10 @@
             width: 100%;
             bottom: -12px;
             text-transform: uppercase;
+            
+            a {
+                font-size: 10px;
+            }
         }
     }
     
@@ -312,6 +320,8 @@
         bottom: 150%;
         left: 50%;
         margin-left: -60px;
+        transition-duration: 1s;
+        transition-delay: 1s;
     }
 
     .tooltip .tooltiptext::after {
@@ -438,8 +448,12 @@
         font-size: 11px;
     }
     
-    .page-products .product-item-info {
-        z-index: -1;
+    .product-items{
+        .product.name,
+        .product-item-name {
+            height: 40px;
+            flex: 0 0 40px;
+        }
     }
 }
 

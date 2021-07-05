@@ -143,3 +143,14 @@
 
     }
 }
+
+//
+//  Mobile only
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    #shipping-button-extension,
+    #payment-button-extension{
+        display: none;
+    }
+}

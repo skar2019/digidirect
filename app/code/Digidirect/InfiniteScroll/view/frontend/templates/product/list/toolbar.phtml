@@ -7,10 +7,6 @@
 ?>
 <?php if ($block->getCollection()->getSize()): ?>
     <div class="toolbar toolbar-products test" data-mage-init='<?php /* @escapeNotVerified */ echo $block->getWidgetOptionsJson(); ?>'>
-        <?php if ($block->isExpanded()): ?>
-            <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/viewmode.phtml')) ?>
-        <?php endif; ?>
-        
         <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/amount.phtml')) ?>
 
         <?php if ($block->isExpanded()): ?>

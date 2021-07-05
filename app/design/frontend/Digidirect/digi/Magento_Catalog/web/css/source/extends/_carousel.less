@@ -9,6 +9,10 @@
     
     .owl-carousel.product-carousel{
         
+        .product-item .price-box .price-label:after{
+            display: none !important;
+        }
+        
         .owl-nav{
             .owl-prev {
                 -webkit-transform: translate(0, -50%);
@@ -49,6 +53,36 @@
             }
         }
     }
+    
+    .product-carousel .product-item .product-item-info {
+        
+        .qantas-pts-wrapper span{
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        
+        .price-final_price {
+            & {
+                position: relative;
+            }
+
+            .old-price-label {
+                position: absolute;
+                top: -8px;
+                font-size: 11px;
+                text-transform: uppercase;
+                font-weight: bold;
+                left: 0;
+            }
+
+            .svg-icon.digidirectprice {
+                position: absolute;
+                right: 0;
+                top: -80px;
+                width: 80px;
+            }
+        }
+    }
 }
 
 //
@@ -68,6 +102,12 @@
     .owl-carousel{
         &.product-carousel{
             padding: 0;
+        }
+    }
+    
+    .product-tab-navigation-inner{
+        .taeqsk2-s{
+            padding: 20px 0 !important;
         }
     }
 }
@@ -107,7 +147,7 @@
     }
     
     .product-widget-wrapper{
-        margin: 0 -10px;
+        margin: 0 30px;
     }
     
     .product-upsell-listing.block {

@@ -35,7 +35,7 @@
         > .container > .post-homepage {
             max-width: 80%;
             font-weight: 300;
-            font-size: 20px;
+            font-size: 17px;
             padding: 0 0 10px;
             margin-bottom: 0;
         }
@@ -81,12 +81,29 @@
 //  Mobile
 //  ---------------------------------------------
 
-
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .post-card {
         > .container {
             background: #2A2A2A;
             padding: 15px !important;
+            
+            > .content,
+            > .post-homepage{
+                font-size: 14px !important;
+                color: #fff;
+            }
+            
+            .link{
+                color: #fff !important;
+            }
+        }
+        
+        .posted{
+            color: #fff;
+        }
+        
+        .svgi-arrow{
+            fill: #fff;
         }
         
         > .container > .title {
@@ -103,6 +120,18 @@
             margin-left: -3px;
             margin-right: -3px;
         }
+        
+        .more-title{
+            color: #fff !important;
+        }
+    }
+    
+    .blog-pg .post-card > .container .link{
+        color: #fff;
+    }
+    
+    .container > .tags .label{
+        color: #fff;
     }
 }
 
