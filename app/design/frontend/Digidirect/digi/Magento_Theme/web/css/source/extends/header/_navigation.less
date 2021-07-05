@@ -739,7 +739,7 @@
             color: #222;
             margin: 0;
             padding: 0;
-            font-size: 18px;
+            //font-size: 18px;
         }
         
         &:hover{
@@ -926,4 +926,15 @@
     .helpful-links{
         background: #f5f5f5;
     }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    
+    .mega.nav-item > a{
+        
+        span.title{
+            font-size: 18px;
+        }
+    }
+    
 }
