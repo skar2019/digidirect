@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="view_block_abstract_to_html_before">
-        <observer name="rename_module" instance="Ewave\CmsUpgrade\Observer\RenameModule"/>
-    </event>
-    <event name="backend_block_widget_grid_prepare_grid_before">
-        <observer name="banner_grid_massaction" instance="Ewave\CmsUpgrade\Observer\BannerGrid"/>
-    </event>
-</config>

@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
-        <referenceContainer name="paypal.express.review.newsletter.subscribe">
-            <block class="Ewave\Newsletter\Block\Paypal\Review" name="paypal.subscribe" as="paypal_subscribe" template="Ewave_Newsletter::paypal_subscribe.phtml" />
-        </referenceContainer>
-    </body>
-</page>

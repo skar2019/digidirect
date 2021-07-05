@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-    <menu>
-        <add id="Ewave_Navigation::navigation" title="Navigation" translate="title" module="Ewave_Navigation" sortOrder="10" parent="Ewave_Utilities::ewave" dependsOnModule="Ewave_Utilities"  resource="Ewave_Navigation::navigation"/>
-        <add id="Ewave_Navigation::navigation_menu_items" title="Menu Items" module="Ewave_Navigation" sortOrder="60" parent="Ewave_Navigation::navigation" action="ewave_navigation/menu/" resource="Ewave_Navigation::navigation_menu_items"/>
-        <add id="Ewave_Navigation::navigation_menu_sets" title="Menu Sets" module="Ewave_Navigation" sortOrder="60" parent="Ewave_Navigation::navigation" action="ewave_navigation/set/" resource="Ewave_Navigation::navigation_menu_sets"/>
-    </menu>
-</config>

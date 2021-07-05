@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
-        <referenceBlock name="paypal.express.review">
-            <container name="paypal.express.review.shipping.edit" label="Paypal Express Review - Shipping Edit" />
-            <container name="paypal.express.review.newsletter.subscribe" label="Paypal Express Review - Subscribe Newsletter" />
-        </referenceBlock>
-    </body>
-</page>

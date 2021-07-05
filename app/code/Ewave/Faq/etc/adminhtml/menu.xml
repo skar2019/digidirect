@@ -1,8 +1,0 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-    <menu>
-        <add id="Ewave_Faq::faq" title="FAQ" translate="title" module="Ewave_Faq" sortOrder="10" parent="Ewave_Utilities::ewave" dependsOnModule="Ewave_Utilities"  resource="Ewave_Faq::faq"/>
-        <add id="Ewave_Faq::faq_category" title="Manage Category" module="Ewave_Faq" sortOrder="60" parent="Ewave_Faq::faq" action="ewave_faq/category/" resource="Ewave_Faq::faq_category"/>
-        <add id="Ewave_Faq::faq_items" title="Manage FAQ" module="Ewave_Faq" sortOrder="60" parent="Ewave_Faq::faq" action="ewave_faq/faq/" resource="Ewave_Faq::faqitems"/>
-
-    </menu>
-</config>

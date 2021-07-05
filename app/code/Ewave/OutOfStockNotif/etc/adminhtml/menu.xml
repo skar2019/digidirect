@@ -1,6 +1,0 @@
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-    <menu>
-        <add id="Ewave_OutOfStockNotif::out_of_stock_section" title="Out Of Stock Notification" translate="title" module="Ewave_OutOfStockNotif" sortOrder="50" parent="Ewave_Utilities::ewave" dependsOnModule="Ewave_Utilities" resource="Ewave_OutOfStockNotif::out_of_stock_section" />
-        <add id="Ewave_OutOfStockNotif::out_of_stock" title="Out Of Stock Notification" translate="title" module="Ewave_OutOfStockNotif" sortOrder="50" parent="Ewave_OutOfStockNotif::out_of_stock_section" dependsOnModule="Ewave_Utilities" resource="Ewave_OutOfStockNotif::out_of_stock" action="ewave_outofstock" />
-    </menu>
-</config>
