@@ -5,6 +5,11 @@
 
 
 & when (@media-common = true) {
+    a.button{
+        -moz-appearance: unset !important;
+        -webkit-appearance: unset !important;
+        appearance: unset !important;
+    }
     
     .mgz-carousel-nav-position-center_split .owl-nav [class*=owl-]{
         opacity: 1 !important;
