@@ -195,22 +195,22 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
             
             //payment details
-            
-            $is_bank = false;
-            
-            $methodInst = $paymentInstance->getMethodInstance();
-            echo "<br> payment - ". $paymentInstance->getMethod();
-            $methodTitle = $methodInst->getTitle();
-            echo "<br >method - ".$methodTitle;
-            
-            if ($paymentInstance->getMethod() == "banktransfer") {
-                unset($data);
-                $is_bank = true;
-            }
-
-            if($is_bank){
-                continue;
-            }
+            //bank should sync as confirmed by Michael from Emmanuel
+//            $is_bank = false;
+//            
+//            $methodInst = $paymentInstance->getMethodInstance();
+//            //echo "<br> payment - ". $paymentInstance->getMethod();
+//            $methodTitle = $methodInst->getTitle();
+//            //echo "<br >method - ".$methodTitle;
+//            
+//            if ($paymentInstance->getMethod() == "banktransfer") {
+//                unset($data);
+//                $is_bank = true;
+//            }
+//
+//            if($is_bank){
+//                continue;
+//            }
             
             $payment_reference = $paymentInstance->getLastTransId();
             echo "<br >payment_reference - ".$payment_reference;
