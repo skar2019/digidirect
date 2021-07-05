@@ -2,7 +2,7 @@
     "name": "magento/project-enterprise-edition",
     "description": "eCommerce Platform for Growth (Enterprise Edition)",
     "type": "project",
-    "version": "2.3.0",
+    "version": "2.4.1",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
@@ -12,25 +12,16 @@
         "sort-packages": true
     },
     "require": {
-        "dotmailer/dotmailer-magento2-extension": "4.3.4 as 3.1.1",
-        "dotmailer/dotmailer-magento2-extension-enterprise": "1.0.5 as 1.0.3",
-        "fastly/magento2": "1.2.119",
-        "klevu/module-search": "^2.2",
+        "klevu/module-search": "^2.3",
         "livechat/module-magento-livechat": "dev-master",
-        "magento/magento-cloud-metapackage": "2.3.1",
-        "magento/module-braintree": "^100.3",
+        "m2epro/magento2-extension": "^1.13",
+        "magento/composer-root-update-plugin": "~1.0",
+        "magento/magento-cloud-metapackage": ">=2.4.1 <2.4.2",
         "vlucas/valitron": "^1.4",
-        "zipmoney/magento2": "^1.0"
+        "zipmoney/magento2": "^1.1"
     },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "~2.13.0",
-        "lusitanian/oauth": "~0.8.10",
-        "magento/magento2-functional-testing-framework": "2.3.9",
-        "pdepend/pdepend": "2.5.2",
-        "phpmd/phpmd": "@stable",
-        "phpunit/phpunit": "~6.5.0",
-        "sebastian/phpcpd": "~3.0.0",
-        "squizlabs/php_codesniffer": "3.3.1"
+    "replace": {
+        "klevu/module-mysqlcompat": "*"
     },
     "autoload": {
         "psr-4": {
@@ -69,14 +60,6 @@
         {
             "type": "composer",
             "url": "https://repo.magento.com/"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise.git"
         }
     ],
     "extra": {
