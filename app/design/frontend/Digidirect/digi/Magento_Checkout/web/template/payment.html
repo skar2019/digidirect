@@ -1,0 +1,109 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<li id="payment" role="presentation" class="checkout-payment-method" data-bind="fadeVisible: isVisible">
+    <div class="step-title accordion-step active" data-bind="i18n: 'Payment Information'" data-role="title" data-step="checkout-step-payment"></div>
+    <div id="checkout-step-payment"
+         class="step-content"
+         data-role="content"
+         role="tabpanel"
+         aria-hidden="false">
+        <!-- ko if: (quoteIsVirtual) -->
+            <!-- ko foreach: getRegion('customer-email') -->
+                <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        <!--/ko-->
+        
+        <form id="co-payment-form" class="form payments" novalidate="novalidate">
+            <input data-bind='attr: {value: getFormKey()}' type="hidden" name="form_key"/>
+            <fieldset class="fieldset">
+                <!-- ko foreach: getRegion('beforeMethods') -->
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                <!-- /ko -->
+                <div id="checkout-payment-method-load" class="opc-payment" data-bind="visible: isPaymentMethodsAvailable">
+                    <!-- ko foreach: getRegion('payment-methods-list') -->
+                        <!-- ko template: getTemplate() --><!-- /ko -->
+                    <!-- /ko -->
+                </div>
+                <div class="no-quotes-block" data-bind="visible: isPaymentMethodsAvailable() == false">
+                    <!-- ko i18n: 'No Payment method available.'--><!-- /ko -->
+                </div>
+                
+            </fieldset>
+        </form>
+    </div>
+</li>
+
+<li id="qantas-wrapper" role="presentation" class="checkout-qantas-wrapper" data-bind="fadeVisible: isVisible">
+    <div class="step-title accordion-step active" data-bind="i18n: 'Earn Points'" data-role="title" data-step="checkout-qantas-wrapper"></div>
+    <div id="checkout-qantas-wrapper"
+        class="step-content"
+        data-role="content"
+        role="tabpanel"
+        aria-hidden="false">
+
+        <div class="qff-content" data-role="content">
+            <form id="qff-form" class="form" novalidate="novalidate">
+                <div class="qantas-promo-box">
+                    <div class="qff-logo-container"></div>
+                    <span><strong>Earn 2 Qantas Points</strong> per $1 spent when you add a valid Qantas Frequent Flyer number.</a>
+                    <a href="/qantas" target="_blank" rel="noopener">Learn more</a>
+                </div>
+
+                <fieldset class="fieldset create info">
+                    <div class="field">
+                        <label for="qff_number" class="label">Qantas Frequent Flyer Number</label>
+                        <div class="control">
+                            <input type="text" 
+                                   name="qff_number" 
+                                   id="qff_number" 
+                                   title="Qantas Frequent Flyer Number" class="input-text"/>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="qff_lastname" class="label">Qantas Frequent Flyer Last Name</label>
+                        <div class="control">
+                            <input type="text" 
+                                   name="qff_lastname" 
+                                   id="qff_lastname" 
+                                   title="Qantas Frequent Flyer Last Name" 
+                                   class="input-text"/>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="actions-toolbar">
+                    <div class="primary qff-action-container">
+                        <button id="qff-trigger" type="button" class="action action-add primary" data-action="link">
+                            <span>Validate</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</li>
+
+<li id="comments-wrapper" role="presentation" class="comments-wrapper" data-bind="fadeVisible: isVisible">
+    <div class="step-title accordion-step active" data-bind="i18n: 'Comment'" data-role="title" data-step="checkout-comments-wrapper"></div>
+    <div id="checkout-comments-wrapper"
+        class="step-content"
+        data-role="content"
+        role="tabpanel"
+        aria-hidden="false">
+
+        <!-- ko foreach: getRegion('afterMethods') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+    </div>
+    
+    <div class="action-extension-toolbar">
+        <div class="primary">
+            <button id="payment-button-extension" class="extension-action button continue primary" type="button">
+                <span>Place Your Order</span>
+            </button>
+        </div>
+    </div>
+</li>

@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="breadcrumbs" remove="false"/>
+        <referenceBlock name="view.addto.compare" remove="true" />
+        <referenceBlock name="product.info.mailto" remove="true" />
+        <referenceBlock name="product.info.overview" remove="true" />
+        <referenceBlock name="product.info.addtocart.additional.zipmoney.productimage" remove="false" />
+        <!-- in case us/288107-->
+        <referenceBlock name="product.attributes" remove="true" />
+        <!-- in case us/288107-->
+        <move element="breadcrumbs" destination="product.section" before="-"/>
+        <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
+        <move element="page.main.title" destination="product.info.main" before="-" />
+        <move element="product.info.sku" destination="page.main.title" />
+        <!--<move element="product.info.review" destination="product.info.holder" after="page.main.title" />-->
+        <move element="product.info.stock.sku" destination="product.info.price" after="-" />
+        <move element="product.info.main" destination="product.view.top" after="-" />
+        <move element="product.info.media" destination="product.view.media.overview" before="-" />
+        <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
+        <move element="catalog.product.related" destination="content" before="-"/>
+        <move element="product.info.upsell" destination="content" after="-"/>
+        <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
+        <referenceContainer name="content">
+            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
+            <referenceBlock name="product.info.details" >
+                <referenceBlock name="product.info.description">
+                    <arguments>
+                        <argument name="title" translate="true" xsi:type="string">Description</argument>
+                    </arguments>
+                </referenceBlock>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec" as="spec" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info" after="product.info.description">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Specs</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox" as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.review">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+        </referenceContainer>
+        <referenceContainer name="page.wrapper">
+            <!-- htmlClass "column main" added special for JS swatches logic -->
+            <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
+                <container name="product.section" htmlTag="div" htmlClass="section-center">
+                    <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
+
+                    <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
+                        <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area"></container>
+                    </container>
+                </container>
+            </container>
+        </referenceContainer>
+        <referenceContainer name="product.info.media">
+            <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
+                   template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
+            </block>
+            <container name="social.additional.block" htmlTag="div" htmlClass="social-wrapper" after="-">
+                <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.additional" before="product.info.mailto" template="sharing.phtml">
+                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.facebook.additional" template="elements/facebook.phtml"/>
+                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.pin.additional" template="elements/pin.phtml"/>
+                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.twitter.additional" template="elements/twitter.phtml"/>
+                </block>
+            </container>
+        </referenceContainer>
+        <move element="product.info.social" destination="product.info.main" after="-" />
+        <referenceContainer name="product.info.price">
+            <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="product.addto.wishlist">
+                <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
+            </container>
+        </referenceContainer>
+        
+        <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
+        
+        <referenceContainer name="product.info.extrahint">
+            <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" />
+        </referenceContainer>
+        
+<!--        <move element="product.info.extrahint" destination="product.info.price" before="product.info.stock.sku" />-->
+        <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
+        <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />
+        <move element="qantas.points" destination="product.info.main" after="page.main.title" />
+        <move element="product.info.addtocart.zipmoney.productimage" destination="product.info.bottom" before="-" />
+        <move element="product.info.addto" destination="product.info.price" before="live.chat.additional.link" />
+
+        <referenceBlock name="product.info.upsell">
+            <block name="product.tile.extended.catalog.rule"
+                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
+                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
+        </referenceBlock>
+        <referenceBlock name="product.info.main">
+            <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
+                   name="digidirectextended.catalog.price.rule.product.view.core"
+                   before="-"
+                   template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
+
+            <!--    OVERVIEW        -->
+            <container name="product.view.overview" htmlTag="div" htmlClass="product-overview" htmlId="productOverview" after="product.info.main">
+                <block class="Magento\Catalog\Block\Product\View\Description" name="pdp.short.description" template="Magento_Catalog::product/view/product-overview.phtml">
+                    <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" as="block_rules" name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" />
+                </block>
+            </container>
+        </referenceBlock>
+        <referenceContainer name="before.body.end">
+            
+            <block class="Magento\Cms\Block\Block" name="product.tile.rent">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">product-tile-rent</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <container name="product.places" htmlTag="div" htmlClass="product-places">
+            <block class="Digidirect\Digi\Block\Places" name="product.places.helper"
+                   template="Magento_Catalog::product/view/product_places.phtml">
+                <block class="Magento\Cms\Block\Block" name="product.delivery.message">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">product-detail-delivery-tab-message</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Cms\Block\Block" name="web.only.message">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">web-only-message</argument>
+                    </arguments>
+                </block>
+            </block>
+        </container>
+        <!--Temporary solution -->
+        <referenceBlock name="product.places" remove="true" /><!--    Free shipping on orders over $99    -->
+        <referenceBlock name="product.info.attachment" remove="true" />
+        <referenceBlock name="collect_places_detail" remove="true" /><!--   PICKUP in STORE FORM     -->
+    </body>
+</page>

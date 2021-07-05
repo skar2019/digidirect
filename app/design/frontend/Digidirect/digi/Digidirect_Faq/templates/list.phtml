@@ -1,0 +1,31 @@
+<?php
+/**
+ * @var \Digidirect\Faq\Block\Listfaq $block
+ * @var $utilitiesHelper \Digidirect\Utilities\Helper\Cms
+ */
+$faqs = $block->getFaqCollection();
+$utilitiesHelper = $this->helper(\Digidirect\Utilities\Helper\Cms::class);
+?>
+
+<?php if ($faqs->getSize()) : ?>
+    <?php foreach ($faqs as $faq) : ?>
+        <div class="faq-item" data-collapsible="true">
+            <a class="faq-question" data-role="title" href="#faq-answer-<?php echo (int)$faq->getId(); ?>" data-question-id="<?php echo
+            (int)$faq->getId(); ?>" id="faq-question-<?php echo
+            (int)$faq->getId(); ?>" title="<?php echo $block->escapeHtml($faq->getQuestion()); ?>">
+                <?php /* @escapeNotVerified */ echo $block->stripTags($faq->getQuestion()); ?>
+            </a>
+            <div class="faq-answer" id="faq-answer-<?php echo (int)$faq->getId(); ?>" data-role="content">
+                <?php /* @escapeNotVerified */ echo $utilitiesHelper->getCmsFilterContent($faq->getAnswer()); ?>
+            </div>
+        </div>
+    <?php endforeach; ?>
+<?php else: ?>
+    <div class="message info empty"><span><?php /* @escapeNotVerified */ echo __('No FAQ found!') ?></span></div>
+<?php endif; ?>
+
+<?php if ($_toolbar = $block->getChildHtml('toolbar')) : ?>
+    <div class="toolbar faq-toolbar">
+        <?php /* @escapeNotVerified */ echo $_toolbar ?>
+    </div>
+<?php endif; ?>

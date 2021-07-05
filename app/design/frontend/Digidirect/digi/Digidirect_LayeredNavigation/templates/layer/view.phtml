@@ -1,0 +1,90 @@
+<?php
+/**
+ * Category layered navigation
+ *
+ * @var $block \Magento\LayeredNavigation\Block\Navigation
+ * @var $faceBookPixel \Digidirect\Digi\Helper\FaceBookPixel
+ */
+?>
+<?php
+    $isShowState = false; // Show/Hide filters state
+    $isShowTitleCount = false; // Show/Hide Title Count
+    $brandLabels = false;
+    $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
+    $filterExclusions = ['cat'];
+?>
+<?php if ($block->canShowBlock()): ?>
+    <div class="block filter">
+        <div class="sidedar-toolbar">
+            <strong class="title _hide-for-mobile-tablet-l">
+                <?php echo /* @noEscape */ __('Refine By'); ?>
+            </strong>
+            
+            <?php echo $block->getChildHtml('catalog.leftnav.clear'); ?>
+            <?php echo $block->getChildHtml('digidirect.layerednavigation.apply'); ?>
+        </div>
+        <?php echo $block->getChildHtml('digidirect.categoryfilter.dropdown'); ?>
+        <?php $allFilter = $block->getFilters();
+        $filterWithCodeName = array_reduce($allFilter, static function ($acc, $filter) use ($filterExclusions) {
+            $filterRequestVar = $filter->getRequestVar();
+            if (!empty($filterRequestVar) && !in_array($filterRequestVar, $filterExclusions)) {
+                $acc[$filterRequestVar] = $filter;
+                return $acc;
+            }
+            return $acc;
+        }, []);
+        ?>
+
+        <div class="block-content filter-content">
+            <?php if ($isShowState): ?>
+                <?php echo $block->getChildHtml('state') ?>
+            <?php endif; ?>
+            <?php $allFilter = $block->getFilters();
+            $filterWithCodeName = array_reduce($allFilter, static function ($acc, $filter) {
+                $filterRequestVar = $filter->getRequestVar();
+                if (!empty($filterRequestVar)) {
+                    $acc[$filterRequestVar] = $filter;
+                    return $acc;
+                }
+                $acc[] = $filter;
+                return $acc;
+            }, []);
+            ?>
+            <?php $wrapOptions = false; ?>
+            <?php $i = 0; foreach ($filterWithCodeName as $filter): ?>
+            <?php $activeCount = (int)$block->getChildBlock('renderer')->getActiveCount($filter); ?>
+            <?php $isTabActive = ($i == 0 || $i == 1 || $activeCount) ? true : false; ?>
+                <?php if (!$wrapOptions): ?>
+                    <div class="filter-options" data-role="content" id="narrow-by-list">
+                <?php $wrapOptions = true; ?>
+                <?php endif; ?>
+                <?php if ($filter->getItemsCount()): ?>
+                    <div data-role="collapsible" data-mage-init='{"collapsible":{"openedState": "active",
+                    "active":"<?php echo $isTabActive?>", "saveState": false, "animate": "200"}}'
+                         class="filter-options-item
+                    collapsible-section">
+                        <strong role="heading" aria-level="3" data-role="title" class="filter-options-title title"
+                           data-testid="sln-filter-title">
+                            <?php echo $block->escapeHtml(__($filter->getName())) ?>
+                            <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
+
+                            <?php if ($activeCount > 0 && !empty($activeLabels)) : ?>
+                                <span class="value"><?php /* @escapeNotVerified */ echo implode(', ', $activeLabels) ?></span>
+                                <?php if ($isShowTitleCount): ?>
+                                    <span class="count"><?php echo (int)$activeCount ?></span>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </strong>
+                        <div class="filter-options-content content" data-role="content"
+                             data-testid="sln-filter-content"><?php /* @escapeNotVerified
+                             */ echo $block->getChildBlock('renderer')->render($filter); ?></div>
+                    </div>
+                    <?php $i++; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <?php if ($wrapOptions): ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>

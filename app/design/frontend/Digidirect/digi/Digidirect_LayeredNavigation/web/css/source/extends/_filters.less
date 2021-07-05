@@ -1,0 +1,199 @@
+//
+//  Layered Navigation
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+@filters-offcanvas-panel__width: 308px;
+
+//  Show more/less
+@ln-more-less__display: inline-block;
+@ln-more-less__margin: false;
+@ln-more-less__padding: false;
+@ln-more-less__text-align: false;
+@ln-more-less__color: false;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .filter-trigger.-mobile {
+        .digidirect-lib-offcanvas-trigger-overlay-only();
+    }
+
+    .sidedar-toolbar {
+        > .primary,
+        > .call-to-action-wrapper {
+            width: 50%;
+            text-align: center;
+        }
+
+        > .call-to-action-wrapper {
+            display: inline-block;
+        }
+
+        .call-to-action-wrapper + .primary {
+            margin-left: 20px;
+        }
+    }
+
+    .filter-content {
+        .filter-link .label {
+            .lib-font-size(12);
+
+            margin-top: 2px;
+            clear: both;
+            display: block;
+            cursor: pointer;
+            padding-left: 34px;
+        }
+
+        .label .count {
+            .lib-font-size(12);
+            float: right;
+            text-align: center;
+            line-height: 1;
+        }
+    }
+
+    .sub-category-block {
+        .items {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+//
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .page-products {
+        .offcanvas-panel.device-only {
+            .lib-css(width, @filters-offcanvas-panel__width);
+            .lib-css(left, -(@filters-offcanvas-panel__width + @layout-indent__width));
+            padding-top: 86px;
+        }
+        
+        .offcanvas-panel.device-only.offcanvas-left.-active {
+            left: 0;
+        }
+        
+        .offcanvas-panel.device-only.-active {
+            z-index: 101;
+        }
+        
+        .offcanvas-panel.device-only {
+            position: fixed;
+            top: 0;
+            left: calc(-80%);
+            width: 70%;
+            height: 100%;
+            padding: 20px;
+            background: #fff;
+            color: #000;
+            font-size: 14px;
+            -webkit-transition: all .3s;
+            -moz-transition: all .3s;
+            -ms-transition: all .3s;
+            transition: all .3s;
+            box-shadow: 0 1px 10px #000;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .block.filter {
+            position: static;
+        }
+
+        .offcanvas-panel.device-only.-without-padding {
+            padding: 0;
+        }
+    }
+    
+    .block.filter {
+        > .sidedar-toolbar {
+            .lib-css(border-bottom, 1px solid @border-color__base);
+            z-index: 10;
+            position: static;
+            transform: none;
+            width: auto;
+            padding: 0;
+            margin-bottom: 8px;
+        }
+
+        > .sidedar-toolbar .clear.action {
+            width: 100%;
+            margin: -8px 0 20px;
+        }
+
+        > .sidedar-toolbar .ln-apply {
+            width: 100%;
+            margin: 0 0 15px;
+            position: relative;
+            top: 0;
+            background: #e65300 !important;
+            border-color: #e65300 !important;
+
+            &:hover {
+                .lib-css(background-color, @color-white);
+                .lib-css(color, @primary__color);
+                .lib-css(border-color, @primary__color);
+            }
+        }
+
+        > .sidedar-toolbar .call-to-action-wrapper {
+            width: 100%;
+            display: block;
+            text-align: left;
+        }
+
+        .ln-apply._sticky {
+            .lib-css(box-shadow, 0 0 30px 30px @color-white);
+            //position: fixed;
+            position: absolute;
+            z-index: 5;
+            background: #e65300;
+        }
+    }
+
+    .sidedar-toolbar {
+        & {
+            display: block !important;
+        }
+
+        > .title {
+            .lib-font-size(20);
+            .lib-css(color, darken(@color-4-6, 3%));
+
+            margin: 6px 0 12px;
+            display: inline-block;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+    }
+
+    .filter-options-title {
+        .lib-font-size(16);
+        .lib-line-height(26);
+        margin-bottom: 6px;
+        margin-top: 14px;
+    }
+
+    .filter-content {
+        .filter-link .label {
+            .lib-font-size(14);
+            padding-top: 2px;
+        }
+
+        .more-wrapper .more-less {
+            .lib-font-size(14);
+        }
+
+        .filter-options-item {
+            padding-bottom: 10px
+        }
+    }
+}

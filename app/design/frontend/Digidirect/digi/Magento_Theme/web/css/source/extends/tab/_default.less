@@ -1,0 +1,175 @@
+//
+//  Tab: Default
+//  _____________________________________________
+
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .product-item .price-box .price-label:after{
+        display: none;
+    }
+    
+    .product-widget-wrapper {
+        margin: 15px -30px 0;
+    }
+    
+    .product-tab-navigation{
+        max-height: 630px;
+        
+        .mgz-tabs-nav > .mgz-tabs-tab-title,
+        .mgz-tabs-content > .mgz-tabs-tab-title{
+            
+            &{
+                position: relative;
+            }
+            
+            &
+            {
+                :before{
+                    content: " ";
+                    height: 30px;
+                    width: 3px;
+                    background: #d0c9c9;
+                    display: inline-block;
+                    position: absolute;
+                    top: 6px;
+                    left: -10px;
+                }
+                
+                > a{
+                    margin-left: 50px;
+                }
+            }
+            
+            &:first-child{
+                :before{
+                    display: none;
+                }
+            }
+            
+            & > a{
+                background: #fff !important;
+                border: 0;     
+                border-bottom: 3px solid #fff;
+                padding: 5px 0;
+                margin: 5px 5px 5px 15px;
+                font-size: 22px;
+                
+                &:hover{
+                    background: #fff;
+                    color: #f96c41;
+                    border-bottom: 3px solid;
+                    border-bottom-color: #f96c41 !important;
+                }
+            }
+           
+            
+            &.mgz-active > a{
+                color: #f96c41;
+                border-bottom: 3px solid;
+                border-bottom-color: #f96c41 !important;
+                border-radius: 0;
+            } 
+
+        }
+        
+        .mgz-tabs:not(.mgz-tabs-no-fill-content) .mgz-tabs-tab-content{
+            background: #fff;
+            border: 0;
+        }
+        
+        .mgz-tabs-tab-title{
+            font-size: 24px;
+            font-weight: 400;
+        }
+    }
+}
+
+//
+//  Desktop
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .product-tab-navigation{
+        margin: 60px 0 0 0;
+        min-height: 600px;
+        
+        .mgz-tabs-nav > .mgz-tabs-tab-title,
+        .mgz-tabs-content > .mgz-tabs-tab-title{
+            
+            &{
+                position: relative;
+            }
+            
+            //&:last-child
+            &{
+                :before{
+                    content: " ";
+                    height: 30px;
+                    width: 3px;
+                    background: #d0c9c9;
+                    display: inline-block;
+                    position: absolute;
+                    top: 15px;
+                    left: -30px;
+                }
+                
+                > a{
+                    margin-left: 50px;
+                }
+            }
+            
+            &:first-child{
+                :before{
+                    display: none;
+                }
+            }
+            
+            & > a{
+                background: #fff;
+                border: 0;     
+                border-bottom: 3px solid #fff;
+                padding: 5px 0;
+                margin: 30px;
+                
+                &:hover{
+                    background: #fff;
+                    color: #f96c41;
+                    border-bottom: 3px solid;
+                    border-bottom-color: #f96c41 !important;
+                }
+            }
+                     
+            
+            &.mgz-active > a{
+                color: #f96c41;
+                border-bottom: 3px solid;
+                border-bottom-color: #f96c41 !important;
+                border-radius: 0;
+            } 
+
+        }
+        
+        .mgz-tabs:not(.mgz-tabs-no-fill-content) .mgz-tabs-tab-content{
+            background: #fff;
+            border: 0;
+        }
+        
+        .mgz-tabs-tab-title{
+            font-size: 34px;
+            font-weight: 400;
+            margin-right: 30px;
+        }
+    }
+}

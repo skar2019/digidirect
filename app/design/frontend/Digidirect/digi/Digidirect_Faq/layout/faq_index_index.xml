@@ -1,0 +1,25 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd"
+      layout="1column" >
+    <head>
+        <title>Frequently Asked Questions</title>
+    </head>
+    <body>
+        <referenceContainer name="main.content" htmlClass="page-main cms-bg-block" />
+        <move element="page.main.title" destination="faq" />
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Frequently Asked Questions</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="faq">
+            <block class="Magento\Cms\Block\Block" name="page.cms.bg" >
+                <arguments>
+                    <argument name="block_id" xsi:type="string">cms-bg-title</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <move element="faq.question" destination="faq" after="-" />
+        
+        <move element="faq.tags" destination="faq" after="faq_list.toolbar" />
+    </body>
+</page>

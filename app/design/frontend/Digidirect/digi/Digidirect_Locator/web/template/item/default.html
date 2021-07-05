@@ -1,0 +1,35 @@
+<div class="locator-item item" data-bind="css: { 'store-wrapper column': $parents[2].locations.settings().open_in_popup }">
+    <!-- ko if: $data.image -->
+    <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}"/>
+    <!-- /ko -->
+    <!-- ko ifnot: $data.image -->
+    <!-- ko if: $parents[2].locations.settings().default_image -->
+    <img class="image  _hide-for-mobile" data-bind="attr: {src: $parents[2].locations.settings().default_image, alt: name}"/>
+    <!-- /ko -->
+    <!-- /ko -->
+    <div class="details">
+        <span class="name"><!-- ko text: name --><!-- /ko --></span>
+        <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-building"></use>
+            </svg>
+        </span>
+        <address class="address">
+            <!-- ko text: street --><!-- /ko -->
+            <!-- ko text: city --><!-- /ko -->
+            <!-- ko text: state --><!-- /ko -->
+            <!-- ko text: postcode --><!-- /ko -->
+        </address>
+        <a class="link" data-bind="attr: {href: url_key, title: $t('View Details')}, text: $t('View Details'), click: $parents[2].showDetails.bind($parents[2])"></a>
+        <a class="link" data-bind="attr: {href: url_key+'#directions', title: $t('Directions')}, text: $t('Directions')"></a>
+
+        <span class="pin">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>
+            </svg>
+        </span>
+    </div>
+    <!-- ko foreach: $parent.getRegion('itemEnd') -->
+    <!-- ko template: getTemplate() --><!-- /ko -->
+    <!-- /ko -->
+</div>
