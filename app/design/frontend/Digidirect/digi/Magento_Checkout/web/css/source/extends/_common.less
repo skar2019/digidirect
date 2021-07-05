@@ -107,6 +107,12 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .checkout-index-index{
+        .c-logo{
+            img{
+                max-width: 100px;
+            }
+        }
+        
         .columns {
             padding: 0 15px !important;
         }
@@ -125,6 +131,11 @@
         .action-auth-toggle{
             padding-left: 0;
             line-height: 4px;
+            
+            > .svg-icon.icon-login {
+                top: -25px !important;
+                left: -40px !important;
+            }
         }
         
         .qff-content .form-title{
@@ -185,6 +196,31 @@
         
         .field.choice .label {
             font-weight: bold;
+        }
+        
+        .page-title{
+            span{
+                &::before{
+                    top: 0 !important;
+                }
+            }
+        }
+        
+        .opc-progress-bar{
+            margin-bottom: 15px;
+            
+            .opc-progress-bar-item{
+                text-align: center !important;
+            }
+        }
+        
+        .wrapper-order.-open{
+            padding-top: 10px;
+        }
+        
+        .wrapper-order:after {
+            left: 140px !important;
+            top: -15px !important;
         }
     }
 }
