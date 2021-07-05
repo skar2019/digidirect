@@ -926,12 +926,34 @@
 
 //Extra Large Desktop
 
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
+    
+    .mega.nav-item > a{
+        span.title{
+            font-size: 14px;
+        }
+    }
+    
+}
+
+//Extra Large Desktop
+
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xll) {
+    
+    .mega.nav-item > a{
+        span.title{
+            font-size: 16px;
+        }
+    }
+}
+
+//Extra Large Desktop
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
     
     .mega.nav-item > a{
         span.title{
             font-size: 18px;
         }
     }
-    
 }
