@@ -44,3 +44,12 @@
 !/pub/static/.htaccess
 !/var/.htaccess
 !/generated/.htaccess
+
+!/pub/media
+!/pub/media/**
+!/pub/media/wysiwyg/
+
+!/bridge2cart
+!/bridge2cart/*
+!/bridge2cart/bridge.php
+!/bridge2cart/config.php
