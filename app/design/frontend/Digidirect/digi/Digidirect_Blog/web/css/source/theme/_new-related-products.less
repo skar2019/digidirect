@@ -29,6 +29,17 @@
 }
 
 //
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .block.related{
+        background: #fff !important;
+        padding: 0 !important;
+    }
+}
+
+//
 //  Desktop +
 //  ---------------------------------------------
 
@@ -42,6 +53,10 @@
             .lib-font-size(28);
             text-align: left;
             padding-bottom: 20px;
+        }
+        
+        .related-filters{
+            text-align: center;
         }
     }
     
