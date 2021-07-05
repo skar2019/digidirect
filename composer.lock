@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1d8014cd5f3182578919226f1d94cc3",
+    "content-hash": "eec2c5603ed107471dc15733643fae4a",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -5423,39 +5423,6 @@
                 "AFL-3.0"
             ],
             "description": "Magento composer library helps to instantiate Composer application and run composer commands."
-        },
-        {
-            "name": "magento/composer-root-update-plugin",
-            "version": "1.1.2",
-            "dist": {
-                "type": "zip",
-                "url": "https://repo.magento.com/archives/magento/composer-root-update-plugin/magento-composer-root-update-plugin-1.1.2.0.zip",
-                "shasum": "530c345bf02e17456d42e3c919fd0430649866d8"
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "composer/composer": "<=1.11 || >=2.0.0 <=2.1"
-            },
-            "suggest": {
-                "magento/framework": "Enables the Magento Composer Root Update Plugin's functionality for the Web Setup Wizard"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Magento\\ComposerRootUpdatePlugin\\Plugin\\PluginDefinition"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Magento\\ComposerRootUpdatePlugin\\": ""
-                },
-                "files": [
-                    "registration.php"
-                ]
-            },
-            "license": [
-                "OSL-3.0",
-                "AFL-3.0"
-            ],
-            "description": "Plugin to look ahead for Magento project root changes when running composer update for new Magento versions"
         },
         {
             "name": "magento/ece-tools",
