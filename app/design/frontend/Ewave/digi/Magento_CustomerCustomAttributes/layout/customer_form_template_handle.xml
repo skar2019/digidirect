@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
-        <referenceBlock name="customer_form_template">
-            <block class="Ewave\Digi\Block\CustomAttributeManagement\Form\Renderer\AIPPNumber" name="customer_form_template_aipp_number" as="aipp-number" template="Magento_CustomerCustomAttributes::form/renderer/aipp-number.phtml"/>
-        </referenceBlock>
-    </body>
-</page>

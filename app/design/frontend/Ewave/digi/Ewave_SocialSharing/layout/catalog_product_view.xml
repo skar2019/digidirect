@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
-        <move element="ewave.social.sharing.twitter" destination="ewave.social.sharing" after="ewave.social.sharing.facebook" />
-        <move element="ewave.social.sharing.pin" destination="ewave.social.sharing" after="ewave.social.sharing.twitter" />
-        <referenceBlock name="ewave.social.sharing.google" remove="true" />
-    </body>
-</page>
