@@ -105,7 +105,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
                     $this->productRepository->save($product);
-                    echo "Updated - " .$prod['code'] . "<br />";
+                    //echo "Updated - " .$prod['code'] . "<br />";
 
                 }
                 
