@@ -127,7 +127,11 @@ class Order extends AbstractHelper
 
     public function sendOrder() 
     {
- 
+        
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/tec.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $logger->info('Order Sync');
         $piwikItems = array();
         $piwikOrder = array();
         //get order data
@@ -283,8 +287,8 @@ class Order extends AbstractHelper
             $this->curl->addHeader("Accept", "application/json");
             $this->curl->addHeader("compcode", "DIG"); //live
             //$this->curl->addHeader("compcode", "UA1"); //test
-            $this->curl->addHeader("user", "clint.mercado");
-            $this->curl->addHeader("token", "849cd5080faff5ce");
+            $this->curl->addHeader("user", "ewaveapi");
+            $this->curl->addHeader("token", "904241bdbf10efa9");
             $this->curl->post($url, $xml);
 
             $result = $this->curl->getBody();
@@ -298,11 +302,13 @@ class Order extends AbstractHelper
             {
                 $msg =  $json['response']['message'];
                 $this->logger->error('Pronto Order Sync', array('info' => $msg));
+                $logger->info('Error '.$msg);
                 
             }
             else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                 $msg =  $json['sales-orders']['response']['message'];
                 $this->logger->error('Pronto Order Sync', array('info' => $msg));
+                $logger->info('Error '.$msg);
             }
             else {
                 //success
@@ -319,7 +325,7 @@ class Order extends AbstractHelper
                 $order->save();
                 
                 $this->logger->info('Pronto Order Sync', $json['sales-orders']['sales-order']);
-                
+                $logger->info('Pronto Order Sync '.$pronto);
                 $account = $json['sales-orders']['sales-order']['account'];
                 if (!empty($account) && !$order->getCustomerIsGuest()) {
                     $customer = $this->customerRepository->getById($order->getCustomerId());

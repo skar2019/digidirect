@@ -39,6 +39,10 @@ class Inventory extends AbstractHelper
 
     public function enquireInventory() {
  
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/tec.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $logger->info('Inverntory Sync');
         //date today
         $now = new \DateTime();
         $prontofilter = $now->format('dmY'.'000000');
@@ -53,8 +57,8 @@ class Inventory extends AbstractHelper
         $this->curl->addHeader("Accept", "application/json");
         $this->curl->addHeader("compcode", "DIG"); //live
         //$this->curl->addHeader("compcode", "UA1"); //test
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
         // get method
         $this->curl->get($url);
 
@@ -66,12 +70,11 @@ class Inventory extends AbstractHelper
         {
             $msg =  $json['response']['message'];
             $this->logger->error('Pronto Inventory Sync', array('info' => $msg));
+            $logger->info('Inverntory Error '.$msg);
         }
         //var_dump($json['stockmaster']['stockcode']['warehouse']);
         foreach ($json['stockmaster']['stockcode'] as $prodRes)
         {
-            
-            
             $sku =  $prodRes['code'];
             //echo "<br />SKU : ". $sku;
             //pricing
@@ -100,6 +103,7 @@ class Inventory extends AbstractHelper
             }
             
             $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
+            $logger->info('Pronto Inventory Sync '.$sku);
         }
 
     }   
