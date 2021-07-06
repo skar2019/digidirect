@@ -112,7 +112,6 @@ class Inventory extends AbstractHelper
                 //echo "<br />".$var['source_code'] . " => ". $var['quantity'];
             }
             
-            $msg =  $json['response']['message'];
             $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
         }
 
