@@ -213,12 +213,12 @@ class Order extends AbstractHelper
 //            }
             
             $payment_reference = $paymentInstance->getLastTransId();
-            echo "<br >payment_reference - ".$payment_reference;
+            //echo "<br >payment_reference - ".$payment_reference;
             $payment_type = $this->getPaymentType($paymentInstance);
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
             
-            echo "<br >amount_tendered - " .$amount_tendered;
+            //echo "<br >amount_tendered - " .$amount_tendered;
             
             
             $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
@@ -351,7 +351,7 @@ class Order extends AbstractHelper
     
     public function getPaymentType($paymentInstance){
         
-        echo "<br >get payment type ". $paymentInstance->getMethod();
+        //echo "<br >get payment type ". $paymentInstance->getMethod();
         $payment = $paymentInstance->getMethod();
         switch ($payment) {
             case "braintree":
@@ -368,6 +368,9 @@ class Order extends AbstractHelper
               break;
           case "braintree_paypal":
               $type = 'PY';
+              break;
+          case "banktransfer":
+              $type = 'Y';
               break;
             default:
               break;
