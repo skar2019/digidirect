@@ -1118,12 +1118,17 @@
                     display: none;
                 }
                 
+                > price .price-wrapper{
+                    padding-left: 15px;
+                }
+                
                .price-promotional{
                     .special-price{
                         display: none;
                     }
 
                     .special-price:first-child{
+                        padding-left: 5px;
                         display: block !important;
                     }
                 } 
@@ -1136,6 +1141,32 @@
         .product-upsell-listing{
             margin-left: 0 !important;
             margin-right: 0 !important;
+        }
+        
+        .product-options-wrapper{
+            margin-top: 15px;
+            
+            .tooltip{
+                margin-top: -3px;
+            }
+            
+            .fieldset{
+                .digiprotect-info-logo{
+                    height: unset;
+                    width: 100%;
+                    max-width: 100px;
+                    display: inline-block;
+                }
+                
+                .control{
+                    width: calc(~"100% - 110px");
+                    margin-left: auto;
+                }
+                
+                .field.choice .label{
+                    padding-left: 0;
+                }
+            }
         }
     }
     
