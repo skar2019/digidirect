@@ -54,8 +54,8 @@ class Product extends AbstractHelper
         $this->curl->addHeader("Accept", "application/json");
         $this->curl->addHeader("compcode", "DIG"); //live
         //$this->curl->addHeader("compcode", "UA1"); //test
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
         // get method
         $this->curl->get($url);
 
