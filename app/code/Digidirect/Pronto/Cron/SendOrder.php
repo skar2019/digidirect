@@ -32,5 +32,6 @@ class SendOrder
         } catch (\Exception $e) {
             $this->logger->critical($e);
         }
+        exit;
     }
 }

@@ -127,11 +127,7 @@ class Order extends AbstractHelper
 
     public function sendOrder() 
     {
-        
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/tec.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
-        $logger->info('Order Sync');
+        $this->logger->warning('Pronto Order Sync');
         $piwikItems = array();
         $piwikOrder = array();
         //get order data
@@ -148,7 +144,7 @@ class Order extends AbstractHelper
             }
             
             $orderId = $order->getIncrementId();
-            
+            $this->logger->warning('Pronto Order Sync- '.$orderId);
             //echo "<br />orderId ".$orderId;
             //echo "<br />customerId ".$order->getCustomerId();
             $accountname = $this->getAccountName($order);
@@ -302,13 +298,13 @@ class Order extends AbstractHelper
             {
                 $msg =  $json['response']['message'];
                 $this->logger->error('Pronto Order Sync', array('info' => $msg));
-                $logger->info('Error '.$msg);
+                
                 
             }
             else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                 $msg =  $json['sales-orders']['response']['message'];
                 $this->logger->error('Pronto Order Sync', array('info' => $msg));
-                $logger->info('Error '.$msg);
+
             }
             else {
                 //success
