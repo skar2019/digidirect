@@ -96,6 +96,18 @@ $showWishlist = true;
                        tabindex="-1">
                         <?= $productImage->toHtml(); ?>
                     </a>
+                        
+                    <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
+                        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                            <a href="#"
+                            data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_product); ?>'
+                            class="action towishlist" data-action="add-to-wishlist"
+                            title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
+                            </a>
+                        <?php endif; ?>
+                    </div>
+                    
                     <?php if($blockMode === 'grid'):?>
                         <strong class="product name product-item-name -grid">
                             <a href="<?= $block->escapeUrl($productUrl); ?>"
@@ -106,17 +118,6 @@ $showWishlist = true;
                         </strong>
                     <?php endif;?>
                     <div class="product details product-item-details">
-                        
-                        <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
-                            <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
-                                <a href="#"
-                                data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_product); ?>'
-                                class="action towishlist" data-action="add-to-wishlist"
-                                title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
-                                </a>
-                            <?php endif; ?>
-                        </div>
                         <div class="no-display">
                             <?php
                                 // Must be called for Preorder plugin

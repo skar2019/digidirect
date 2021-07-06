@@ -1,6 +1,6 @@
- /*
-    Created on : Feb 8, 2021, 11:34:14 AM
-    Author     : Johnry Valeriano
+/*
+   Created on : Feb 8, 2021, 11:34:14 AM
+   Author     : Johnry Valeriano
 */
 
 //
@@ -14,7 +14,7 @@
 //  _____________________________________________
 
 & when (@media-common = true) {
-    
+
     .ninjamenus1-drilldown-container{
         width: 100%;
     }
@@ -25,14 +25,14 @@
             display: none;
         }
     }
-    
+
     .nav-toggle {
         .lib-icon-font(
         @icon-menu,
         @_icon-font-size: 28px,
-        @_icon-font-color: @header-icons-color,
-        @_icon-font-color-hover: @header-icons-color-hover
-        );
+            @_icon-font-color: @header-icons-color,
+            @_icon-font-color-hover: @header-icons-color-hover
+            );
         .lib-icon-text-hide();
         cursor: pointer;
         display: block;
@@ -51,17 +51,17 @@
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {   
     .nav-sections{
         background: #fff;
-        
+
         .nav-sections-item-title{
             display: none;
         }
     }
-    
+
     .navigation {
         &{
             background: #fff !important;
         }
-        
+
         padding: 0;
 
         .parent {
@@ -69,10 +69,10 @@
                 position: relative;
                 .lib-icon-font(
                 @_icon-font-content: @icon-down,
-                @_icon-font-size: 42px,
-                @_icon-font-position: after,
-                @_icon-font-display: block
-                );
+                    @_icon-font-size: 42px,
+                    @_icon-font-position: after,
+                    @_icon-font-display: block
+                    );
 
                 &:after {
                     position: absolute;
@@ -83,8 +83,8 @@
                 &.ui-state-active {
                     .lib-icon-font-symbol(
                     @_icon-font-content: @icon-up,
-                    @_icon-font-position: after
-                    );
+                        @_icon-font-position: after
+                        );
                 }
             }
         }
@@ -123,10 +123,10 @@
                 position: relative;
                 .lib-icon-font(
                 @_icon-font-content: @icon-down,
-                @_icon-font-size: 42px,
-                @_icon-font-position: after,
-                @_icon-font-display: block
-                );
+                    @_icon-font-size: 42px,
+                    @_icon-font-position: after,
+                    @_icon-font-display: block
+                    );
 
                 &:after {
                     position: absolute;
@@ -138,17 +138,17 @@
             &.active strong {
                 .lib-icon-font-symbol(
                 @_icon-font-content: @icon-up,
-                @_icon-font-position: after
-                );
+                    @_icon-font-position: after
+                    );
             }
         }
-        
+
         .switcher-dropdown {
             .lib-list-reset-styles();
             display: none;
             padding: @indent__s 0;
         }
-        
+
         .switcher-options {
             &.active {
                 .switcher-dropdown {
@@ -280,9 +280,9 @@
     }
 
     .lib-main-navigation();
-    
+
     .ninjamenus-top-triggered {
-        
+
         &{
             position: static !important;
             width: auto;
@@ -291,17 +291,17 @@
             box-sizing: content-box;
             display: block !important;
         }
-            
+
         &::before{
-           display: none !important;
-       }
-        
+            display: none !important;
+        }
+
         .svg-icon {
             width: 20px;
             height: 20px;
         }
     }
-    
+
     .ninjamenus.ninjamenus-mobile .nav-item > a
     {
         .title{
@@ -310,21 +310,21 @@
             font-size: 16px;
         }
     }
-    
+
     .left-hand-category-wrapper{
         &{
             background: #fff;
         }
-        
+
         .mgz-element-inner{
             padding: 0 !important;
         }
-        
+
         .nav-item > a{
             padding: 0 15px;
         }
     }
-    
+
     .ninjamenus-drilldown-back{
         .drilldown-back{
             &::before{
@@ -332,12 +332,12 @@
             }
         }
     }
-    
+
     .ninjamenus-current-link{
         background: #000;
         color: #fff;
     }
-    
+
     .mgz-element-single_image,
     .more-brand-wrapper,
     .also-category-header,
@@ -354,18 +354,18 @@
 @media screen and (min-width: @screen__m) and (max-width: @screen__l){
     .nav-sections{
         background: #fff;
-        
+
         .nav-sections-item-title{
             display: none;
         }
     }
-    
+
     .navigation {
-        
+
         &{
             background: #fff !important;
         }
-        
+
         padding: 0;
 
         .parent {
@@ -373,10 +373,10 @@
                 position: relative;
                 .lib-icon-font(
                 @_icon-font-content: @icon-down,
-                @_icon-font-size: 42px,
-                @_icon-font-position: after,
-                @_icon-font-display: block
-                );
+                    @_icon-font-size: 42px,
+                    @_icon-font-position: after,
+                    @_icon-font-display: block
+                    );
 
                 &:after {
                     position: absolute;
@@ -387,8 +387,8 @@
                 &.ui-state-active {
                     .lib-icon-font-symbol(
                     @_icon-font-content: @icon-up,
-                    @_icon-font-position: after
-                    );
+                        @_icon-font-position: after
+                        );
                 }
             }
         }
@@ -428,10 +428,10 @@
                 position: relative;
                 .lib-icon-font(
                 @_icon-font-content: @icon-down,
-                @_icon-font-size: 42px,
-                @_icon-font-position: after,
-                @_icon-font-display: block
-                );
+                    @_icon-font-size: 42px,
+                    @_icon-font-position: after,
+                    @_icon-font-display: block
+                    );
 
                 &:after {
                     position: absolute;
@@ -443,8 +443,8 @@
             &.active strong {
                 .lib-icon-font-symbol(
                 @_icon-font-content: @icon-up,
-                @_icon-font-position: after
-                );
+                    @_icon-font-position: after
+                    );
             }
         }
         .switcher-dropdown {
@@ -586,9 +586,9 @@
     }
 
     //.lib-main-navigation();
-    
+
     .ninjamenus-top-triggered {
-        
+
         &{
             position: static !important;
             width: auto;
@@ -597,17 +597,17 @@
             box-sizing: content-box;
             display: block !important;
         }
-            
+
         &::before{
-           display: none !important;
-       }
-        
+            display: none !important;
+        }
+
         .svg-icon {
             width: 20px;
             height: 20px;
         }
     }
-    
+
     .ninjamenus.ninjamenus-mobile .nav-item > a
     {
         .title{
@@ -616,26 +616,26 @@
             font-size: 16px;
         }
     }
-    
+
     .left-hand-category-wrapper{
         &{
             background: #fff;
             width: 100%;
         }
-        
+
         .mgz-element-inner{
             padding: 0 !important;
         }
-        
+
         .nav-item > a{
             padding: 0 15px;
         }
-        
+
         .mgz-element {
             width: 100%;
         }
     }
-    
+
     .ninjamenus-drilldown-back{
         .drilldown-back{
             &::before{
@@ -643,49 +643,45 @@
             }
         }
     }
-    
+
     .ninjamenus-current-link{
         background: #000;
         color: #fff;
     }
-    
+
     .mgz-element-single_image,
     .more-brand-wrapper,
     .also-category-header,
     .helpful-links{
         display: none;
     }
-    
+
     .nav-item {
         width: 100%;
     }
 }
-
-
-
-
 
 //
 //  Desktop
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    
-/*    .ninjamenus1-drilldown-container{
-        display: none;
-    }*/
+
+    /*    .ninjamenus1-drilldown-container{
+            display: none;
+        }*/
     .nav-toggle {
         display: none;
     }
-    
+
     .ninjamenus-top-triggered {
-        
+
         &{
             display: none !important;
         }
-           
+
     }
-    
+
     .ninjamenus{
         &{
             display: flex;
@@ -696,7 +692,7 @@
             width: 100%;
             margin: 0 !important;
         }
-        
+
         .magezon-builder{
             display: flex;
             justify-content: center;
@@ -706,19 +702,19 @@
             width: 100%;
             margin: 0 !important;
         }
-        
+
         .mega.nav-item{
             flex: 1;
         }
     }
-    
+
     .nav-sections {
-       background: #fff;
-       margin: 0 0 0 0 !important;
-       display: inline-block !important;
-       //width: 100%;
+        background: #fff;
+        margin: 0 0 0 0 !important;
+        display: inline-block !important;
+        //width: 100%;
     }
-    
+
     .mega.nav-item > a{
         display: flex;
         align-items: center;
@@ -731,20 +727,20 @@
         font-weight: 500  !important;
         text-transform: uppercase;
         font-weight: bold !important;
-        
+
         background-color: #fff !important;
-        
+
         span.title{
             display: inline-block;
             color: #222;
             margin: 0;
             padding: 0;
-            //font-size: 18px;
+            font-size: 14px;
         }
-        
+
         &:hover{
             background-color: #222 !important;
-            
+
             span.title{
                 color: #fff !important;
             }
@@ -787,16 +783,16 @@
             display: inline-block;
         }
     }
-    
+
     .item-hovered > a{
-        
+
         background-color: #fff !important;
-        
+
         span.title{
             color: #000 !important;
         }
     }
-    
+
     .inner-content{
         &{
             width: 100% !important;
@@ -808,15 +804,15 @@
             display: block;
             text-transform: unset;
         }
-        
+
         .mega.nav-item > a span.title{
             color: #000 !important;
         }
-        
+
         .mega.nav-item > a:hover span.title{
             color: #f15a25 !important;
         }
-        
+
         .catetegoy-thumbanail-wrapper{
             &{
                 position: relative;
@@ -826,63 +822,63 @@
                 text-align: center;
             }
         }
-        
+
         .item-hovered > a:hover span.title{
             color: #f15a25 !important;
         }
-        
+
         .category-thumbnail-wrapper
         {   
             border: 3px solid #ffffff;   
             transition: all .4s ease-in-out;
-            
+
             &:hover{
                 border: 3px solid #f15a25;
-                
+
                 .category-thumbnail-link > a span.title{
                     color: #f15a25 !important;
                 }
             }
         }
-        
+
         .category-thumbnail-link > a{
             line-height: 1.5;
             text-align: center !important;
         }
-        
+
         .brands-heading .mgz-element-heading-text span,
         .also-category-header .mgz-element-heading-text span{
             font--weight: 800 !important;
             font-family: 'Titillium Web', sans-serif !important;
         }
     }
-    
+
     .mgz-element-column > .mgz-element-inner{
         padding: 0;
     }
-    
+
     .mgz-element-inner{
         .image-menu-title h2{
             font-size: 14px;
             font-weight: 500;
         }
     }
-    
+
     .category-images-wrapper{
         padding: 15px;
         /*margin-bottom: 30px;
         border-bottom: 1px solid #eaeaea;*/
-        
+
         .mgz-element-inner{
             text-align: center;
         }
     }
-    
+
     .more-category-wrapper{
         &{
             margin: 30px;
         }
-        
+
         h2{
             margin: 0 0 24px;
             font-size: 20px;
@@ -892,12 +888,12 @@
             color: #222;
         }
     }
-    
+
     .more-brand-wrapper{
         &{
             margin: 30px;
         }
-         
+
         h2{
             margin: 0 0 24px;
             font-size: 20px;
@@ -907,34 +903,45 @@
             color: #222;
         }
     }
-    
+
     .left-hand-category-wrapper{
         &{
             border-right: 1px solid #eaeaea;
         }
     }
-    
+
     .category-promo-wrapper{
         padding: 15px;
     }
-    
+
     .item-submenu{
         box-shadow: none !important;
         padding: 0 !important; 
     }
-    
+
     .helpful-links{
         background: #f5f5f5;
     }
 }
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
-    
+//Extra Large Desktop
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xll) {
+
     .mega.nav-item > a{
-        
+        span.title{
+            font-size: 16px;
+        }
+    }
+}
+
+//Extra Large Desktop
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xxl) {
+
+    .mega.nav-item > a{
         span.title{
             font-size: 18px;
         }
     }
-    
 }

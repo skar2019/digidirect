@@ -14,6 +14,7 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
+use Psr\Log\LoggerInterface;
 
 class Order extends AbstractHelper
 {
@@ -90,6 +91,11 @@ class Order extends AbstractHelper
      */
     protected $customer = [];
     
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+    
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -101,7 +107,8 @@ class Order extends AbstractHelper
                         SourceItemRepositoryInterface $sourceItemRepository,
                         AbstractEntityRepository $abstractEntityRepository,
                         IncrementIdUpdater $incrementIdUpdater,
-                        CustomerRepositoryInterface $customerRepository)
+                        CustomerRepositoryInterface $customerRepository,
+                        LoggerInterface $logger)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -114,6 +121,7 @@ class Order extends AbstractHelper
                         $this->abstractEntityRepository = $abstractEntityRepository;
                         $this->incrementIdUpdater = $incrementIdUpdater;
                         $this->customerRepository = $customerRepository;
+                        $this->logger = $logger;
 
     }
 
@@ -137,10 +145,10 @@ class Order extends AbstractHelper
             
             $orderId = $order->getIncrementId();
             
-            echo "<br />orderId ".$orderId;
-            echo "<br />customerId ".$order->getCustomerId();
+            //echo "<br />orderId ".$orderId;
+            //echo "<br />customerId ".$order->getCustomerId();
             $accountname = $this->getAccountName($order);
-            echo "<br> accountname - ".$accountname. "<br>";
+            //echo "<br> accountname - ".$accountname. "<br>";
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
@@ -187,22 +195,22 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
             
             //payment details
-            
-            $is_bank = false;
-            
-            $methodInst = $paymentInstance->getMethodInstance();
-            echo "<br> payment - ". $paymentInstance->getMethod();
-            $methodTitle = $methodInst->getTitle();
-            echo "<br >method - ".$methodTitle;
-            
-            if ($paymentInstance->getMethod() == "banktransfer") {
-                unset($data);
-                $is_bank = true;
-            }
-
-            if($is_bank){
-                continue;
-            }
+            //bank should sync as confirmed by Michael from Emmanuel
+//            $is_bank = false;
+//            
+//            $methodInst = $paymentInstance->getMethodInstance();
+//            //echo "<br> payment - ". $paymentInstance->getMethod();
+//            $methodTitle = $methodInst->getTitle();
+//            //echo "<br >method - ".$methodTitle;
+//            
+//            if ($paymentInstance->getMethod() == "banktransfer") {
+//                unset($data);
+//                $is_bank = true;
+//            }
+//
+//            if($is_bank){
+//                continue;
+//            }
             
             $payment_reference = $paymentInstance->getLastTransId();
             echo "<br >payment_reference - ".$payment_reference;
@@ -261,7 +269,7 @@ class Order extends AbstractHelper
             //create xml of order data here
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
-            echo $xml;
+            //echo $xml;
 
             //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/login';
             $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders';
@@ -282,23 +290,23 @@ class Order extends AbstractHelper
             // echo $result;
             $json = $this->jsonSerializer->unserialize($result);
             //var_dump($json);
-            echo "<br>";
+            //echo "<br>";
             if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
             {
-                echo $json['response']['message'];
-                echo "<br>";
+                $msg =  $json['response']['message'];
+                $this->logger->error('Pronto Order Sync', array('info' => $msg));
                 
             }
             else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-                echo $json['sales-orders']['response']['message'];
-                echo "<br>";
+                $msg =  $json['sales-orders']['response']['message'];
+                $this->logger->error('Pronto Order Sync', array('info' => $msg));
             }
             else {
                 //success
                 //update order data with pronto order-no below
                 //$json['sales-order']['sales-order']['order-no']
-                echo "success";
-                echo "<br>";
+                //echo "success";
+                //echo "<br>";
                 $order->setState("complete")->setStatus("complete");
                 $pronto = $json['sales-orders']['sales-order']['order-no'];
                 $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
@@ -306,6 +314,8 @@ class Order extends AbstractHelper
                 $order->setData('pronto_order_number',$pronto);
                 $order->setData('pronto_status_code',$prontostatus);
                 $order->save();
+                
+                $this->logger->info('Pronto Order Sync', $json['sales-orders']['sales-order']);
                 
                 $account = $json['sales-orders']['sales-order']['account'];
                 if (!empty($account) && !$order->getCustomerIsGuest()) {
@@ -317,8 +327,8 @@ class Order extends AbstractHelper
                 /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                 $invoice = $order->getInvoiceCollection()->getFirstItem();
                 $this->incrementIdUpdater->update($invoice, $invoiceno);
-                var_dump($json);
-                exit; //for testing;
+                //var_dump($json);
+                //exit; //for testing;
             }
         }
         
@@ -490,7 +500,7 @@ class Order extends AbstractHelper
     protected function getCustomerAttributeValue(OrderInterface $order, $attributeCode) {
         $result = '';
         if (!$order->getCustomerIsGuest() && !isset($this->customer[$order->getEntityId()])) {
-            echo "<br/>not guest";
+            //echo "<br/>not guest";
             try {
                 $this->customer[$order->getEntityId()] = $this->customerRepository->getById($order->getCustomerId());
             } catch (Exception $ex) {
@@ -500,7 +510,7 @@ class Order extends AbstractHelper
         }
 
         if (isset($this->customer[$order->getEntityId()])) {
-            echo "<br />get entity";
+            //echo "<br />get entity";
             $customer = $this->customer[$order->getEntityId()];
             $attribute = $customer->getCustomAttribute($attributeCode);
             $result = $attribute ? $attribute->getValue() : '';
@@ -514,7 +524,7 @@ class Order extends AbstractHelper
      * @return string
      */
     public function getAccountName(OrderInterface $order) {
-        echo "<br /> get accountname. ";
+        //echo "<br /> get accountname. ";
         $accountName = $this->getCustomerAttributeValue($order, 'pronto_account_name');
         if (empty($accountName)) {
             $address = $order->getShippingAddress() ?? $order->getBillingAddress();

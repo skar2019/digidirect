@@ -182,7 +182,17 @@
         padding-right: 151px;
         
         .link{
-            font-size: x-large;
+            font-size: 18px;
+        }
+    }
+}
+
+//Extra Large Desktop
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xll) {
+    .blog-widget .blog-categories-list {
+        .link{
+            font-size: 26px;
         }
     }
 }
