@@ -564,7 +564,7 @@ return [
         'Digidirect_StoreLocatorInfiniteScroll' => 1,
         'Digidirect_AbstractGiftCardLogger' => 1,
         'Digidirect_Vii' => 1,
-        'Dotdigitalgroup_Email' => 0,
+        'Dotdigitalgroup_Email' => 1,
         'Dotdigitalgroup_Chat' => 1,
         'Dotdigitalgroup_Enterprise' => 1,
         'Ess_M2ePro' => 1,
