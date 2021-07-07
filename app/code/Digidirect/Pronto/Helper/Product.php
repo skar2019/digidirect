@@ -37,11 +37,11 @@ class Product extends AbstractHelper
 
     }
 
-    public function productPronto($var = 0) {
+    public function productPronto($args = 0) {
  
-        if(isset($var))
+        if(isset($args))
         {
-            $startitem = $var; //100425 started   
+            $startitem = $args; //100425 started   
         }
         else 
         {
