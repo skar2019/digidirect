@@ -47,7 +47,7 @@ class ShippingMethodManagement {
         if ($showMethod) {
             
             if($qty == 0){
-                return $free;
+                return $showMethod;
             }
         }
         return $output;
