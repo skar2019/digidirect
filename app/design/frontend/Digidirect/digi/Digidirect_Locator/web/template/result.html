@@ -1,10 +1,10 @@
 <!-- ko if: locationsList().length -->
-<div data-bind="mageInit:{'collapsible':{'openedState': 'active'}}" class="store-section">
+<div class="store-section">
     <div class="count _hide-for-mobile-tablet-l">
         <!-- ko text: locations.items().length --><!-- /ko -->
         <!-- ko i18n: 'Store(s)' --><!-- /ko -->
     </div>
-    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="locator-wrapper">
+    <div class="locator-wrapper">
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko foreach: $parent.getRegion('locator_items') -->
