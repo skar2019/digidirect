@@ -34,6 +34,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
         $collection->addAttributeToFilter('brand', array('neq' => 'LEICA'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Leica'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Canon'));
+        $collection->addAttributeToFilter('brand', array('neq' => 'CANON'));
         $collection->addAttributeToFilter('brand', array('neq' => 'DJI'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Zhiyun-Tech'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Zhiyun'));

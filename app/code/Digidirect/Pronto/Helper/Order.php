@@ -160,7 +160,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['contactname'] = $contactname;
             $data['sales-order']['header']['email'] = $order->getCustomerEmail();
             $data['sales-order']['header']['reference'] = $orderId;
-            $data['sales-order']['header']['set-on-status'] = "I"; //TO DO get status
+            $data['sales-order']['header']['set-on-status'] = "H";//$this->prontoStatus($order);
             
             
             $grandTotal = (double) $order->getBaseGrandTotal();
@@ -270,23 +270,23 @@ class Order extends AbstractHelper
             //echo $xml;
 
             //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/login';
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //test
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //test
             
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders'; //LIVE
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders'; //LIVE
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
 
             $this->curl->addHeader("Content-Type", "application/xml");
             $this->curl->addHeader("Accept", "application/json");
-            $this->curl->addHeader("compcode", "DIG"); //LIVE
-            $this->curl->addHeader("user", "ewaveapi");
-            $this->curl->addHeader("token", "904241bdbf10efa9");
+            //$this->curl->addHeader("compcode", "DIG"); //LIVE
+            //$this->curl->addHeader("user", "ewaveapi");
+            //$this->curl->addHeader("token", "904241bdbf10efa9");
             //
-            //$this->curl->addHeader("compcode", "UA1"); //test
-            //$this->curl->addHeader("user", "clint.mercado");
-            //$this->curl->addHeader("token", "849cd5080faff5ce");
+            $this->curl->addHeader("compcode", "UA1"); //test
+            $this->curl->addHeader("user", "clint.mercado");
+            $this->curl->addHeader("token", "849cd5080faff5ce");
             $this->curl->post($url, $xml);
 
             $result = $this->curl->getBody();
@@ -312,7 +312,7 @@ class Order extends AbstractHelper
                 //update order data with pronto order-no below
                 //$json['sales-order']['sales-order']['order-no']
 
-                $order->setState("complete")->setStatus("complete");
+                //$order->setState("complete")->setStatus("complete");
                 $pronto = $json['sales-orders']['sales-order']['order-no'];
                 $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                 $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
@@ -344,7 +344,7 @@ class Order extends AbstractHelper
     public function getOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = "2021-07-01";
+        $fromDate = "2021-07-06";
         $toDate = $now->format('Y-m-d');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
@@ -352,6 +352,7 @@ class Order extends AbstractHelper
             //->addFieldToFilter('created_at',$now->format('Y-m-d'));
             ->addFieldToFilter('created_at', array('gteq' => $fromDate))
             ->addFieldToFilter('created_at', array('lteq' => $toDate));
+
      
      return $collection;
      
@@ -360,28 +361,32 @@ class Order extends AbstractHelper
     public function getPaymentType($paymentInstance){
         
         //echo "<br >get payment type ". $paymentInstance->getMethod();
+        $type = "";
         $payment = $paymentInstance->getMethod();
         switch ($payment) {
             case "braintree":
-              $type = 'BT';
-              break;
+                $type = 'BT';
+                break;
             case "checkmo":
-              $type = 'H';
-              break;
+                $type = 'H';
+                break;
             case "free":
-              $type = 'VI';
-              break;
+                $type = 'VI';
+                break;
             case "m2epropayment":
               $type = 'EB';
               break;
-          case "braintree_paypal":
+            case "braintree_paypal":
               $type = 'PY';
               break;
-          case "banktransfer":
-              $type = 'Y';
-              break;
+            case "banktransfer":
+                $type = 'Y';
+                break;
+            case "paybympcatch":
+                $type = 'CA';
+                 break;
             default:
-              break;
+          break;
         }
         
         if($type == 'BT')
@@ -555,6 +560,17 @@ class Order extends AbstractHelper
         return $this->getCustomerAttributeValue($order, 'pronto_account_id');
     }
     
+    public function prontoStatus(OrderInterface $order) {
+        $status = $order->getState();
+        $prontoStatus = "I";
+        if($status == "holded")
+        {
+            $prontoStatus = "H";
+        }
+        
+        return $prontoStatus;
+    }
+    
     public function orderPostTec() 
     {
         $piwikItems = array();
@@ -591,7 +607,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['contactname'] = $contactname;
             $data['sales-order']['header']['email'] = $order->getCustomerEmail();
             $data['sales-order']['header']['reference'] = $orderId;
-            $data['sales-order']['header']['set-on-status'] = "I"; //TO DO get status
+            $data['sales-order']['header']['set-on-status'] = "H"; //TO DO get status
             
             
             $grandTotal = (double) $order->getBaseGrandTotal();
@@ -616,6 +632,8 @@ class Order extends AbstractHelper
             $phone = $address->getPhone();
             $mobile = $address->getMobile();
             $paymentInstance = $order->getPayment();
+            $status = $order->getState();
+            echo "<br>".$status;
             
             $data['sales-order']['header']['billing-address']['line-1'] = $street;
             $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
@@ -699,73 +717,73 @@ class Order extends AbstractHelper
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
        
             //TEST
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
             
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
             
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
 
-            $this->curl->addHeader("Content-Type", "application/xml");
-            $this->curl->addHeader("Accept", "application/json");
-            $this->curl->addHeader("compcode", "DIG"); //live
-            $this->curl->addHeader("user", "ewaveapi");
-            $this->curl->addHeader("token", "904241bdbf10efa9");
-            //
-            //$this->curl->addHeader("compcode", "UA1"); //test
-            //$this->curl->addHeader("user", "clint.mercado");
-            //$this->curl->addHeader("token", "849cd5080faff5ce");
-            $this->curl->post($url, $xml);
-
-            $result = $this->curl->getBody();
-
-            //var_dump($result);
-            // echo $result;
-            $json = $this->jsonSerializer->unserialize($result);
-            //var_dump($json);
-            //echo "<br>";
-            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
-            {
-                $msg =  $json['response']['message'];
-                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-                
-            }
-            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-                $msg =  $json['sales-orders']['response']['message'];
-                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-
-            }
-            else {
-                //success
-                //update order data with pronto order-no below
-                //$json['sales-order']['sales-order']['order-no']
-                echo "success";
-                echo "<br>";
-                $order->setState("complete")->setStatus("complete");
-                $pronto = $json['sales-orders']['sales-order']['order-no'];
-                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                $order->setData('pronto_order_number',$pronto);
-                $order->setData('pronto_status_code',$prontostatus);
-                $order->save();
-                
-                $this->logger->info('Pronto Order Sync', $json['sales-orders']['sales-order']);
-                
-                $account = $json['sales-orders']['sales-order']['account'];
-                if (!empty($account) && !$order->getCustomerIsGuest()) {
-                    $customer = $this->customerRepository->getById($order->getCustomerId());
-                    $customer->setData('pronto_account_id', $account);
-                    $customer->setCustomAttribute('pronto_account_id', $account);
-                    $this->customerRepository->save($customer);
-                }
-                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-                $invoice = $order->getInvoiceCollection()->getFirstItem();
-                $this->incrementIdUpdater->update($invoice, $invoiceno);
-                var_dump($json);
-                exit; //for testing;
-            }
+//            $this->curl->addHeader("Content-Type", "application/xml");
+//            $this->curl->addHeader("Accept", "application/json");
+//            //$this->curl->addHeader("compcode", "DIG"); //live
+//            //$this->curl->addHeader("user", "ewaveapi");
+//            //$this->curl->addHeader("token", "904241bdbf10efa9");
+//            //
+//            $this->curl->addHeader("compcode", "UA1"); //test
+//            $this->curl->addHeader("user", "clint.mercado");
+//            $this->curl->addHeader("token", "849cd5080faff5ce");
+//            $this->curl->post($url, $xml);
+//
+//            $result = $this->curl->getBody();
+//
+//            //var_dump($result);
+//            // echo $result;
+//            $json = $this->jsonSerializer->unserialize($result);
+//            //var_dump($json);
+//            //echo "<br>";
+//            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+//            {
+//                $msg =  $json['response']['message'];
+//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+//                
+//            }
+//            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
+//                $msg =  $json['sales-orders']['response']['message'];
+//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+//
+//            }
+//            else {
+//                //success
+//                //update order data with pronto order-no below
+//                //$json['sales-order']['sales-order']['order-no']
+//                echo "success";
+//                echo "<br>";
+//                $order->setState("complete")->setStatus("complete");
+//                $pronto = $json['sales-orders']['sales-order']['order-no'];
+//                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+//                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+//                $order->setData('pronto_order_number',$pronto);
+//                $order->setData('pronto_status_code',$prontostatus);
+//                $order->save();
+//                
+//                $this->logger->info('Pronto Order Sync', $json['sales-orders']['sales-order']);
+//                
+//                $account = $json['sales-orders']['sales-order']['account'];
+//                if (!empty($account) && !$order->getCustomerIsGuest()) {
+//                    $customer = $this->customerRepository->getById($order->getCustomerId());
+//                    $customer->setData('pronto_account_id', $account);
+//                    $customer->setCustomAttribute('pronto_account_id', $account);
+//                    $this->customerRepository->save($customer);
+//                }
+//                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+//                $invoice = $order->getInvoiceCollection()->getFirstItem();
+//                $this->incrementIdUpdater->update($invoice, $invoiceno);
+//                var_dump($json);
+//                exit; //for testing;
+//            }
             //var_dump($json);
             //exit; //for testing;
         }
