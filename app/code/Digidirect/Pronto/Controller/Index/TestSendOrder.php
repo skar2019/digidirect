@@ -3,7 +3,7 @@ namespace Digidirect\Pronto\Controller\Index;
 
 use Digidirect\Pronto\Helper\Order;
 
-class SendOrder extends \Magento\Framework\App\Action\Action
+class TestSendOrder extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
 
