@@ -148,7 +148,6 @@ define([
         showDetails: function (location, e) {
             if (!locations.settings().open_in_popup) return true;
 
-            e.preventDefault();
             this.details().location = location;
             events.trigger('location.show', location, locations.settings());
         },
