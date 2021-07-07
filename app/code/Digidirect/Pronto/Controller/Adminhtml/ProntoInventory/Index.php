@@ -16,6 +16,7 @@ class Inventory
     }
     public function func()
     {
-        $this->helper->makeACurlRequest();
+        //disable
+        //$this->helper->makeACurlRequest();
     }
 }       

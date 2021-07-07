@@ -39,19 +39,26 @@ class Inventory extends AbstractHelper
 
     public function enquireInventory() {
  
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/tec.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $logger->info('Inverntory Sync');
         //date today
         $now = new \DateTime();
         $prontofilter = $now->format('dmY'.'000000');
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y';
+        // testing$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y';
+        //live - port :8084
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y';
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "UA1");
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
         // get method
         $this->curl->get($url);
 
@@ -62,13 +69,12 @@ class Inventory extends AbstractHelper
         if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
         {
             $msg =  $json['response']['message'];
-            $this->logger->error('Pronto Order Sync', array('info' => $msg));
+            $this->logger->error('Pronto Inventory Sync', array('info' => $msg));
+            $logger->info('Inverntory Error '.$msg);
         }
         //var_dump($json['stockmaster']['stockcode']['warehouse']);
         foreach ($json['stockmaster']['stockcode'] as $prodRes)
         {
-            
-            $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
             $sku =  $prodRes['code'];
             //echo "<br />SKU : ". $sku;
             //pricing
@@ -78,20 +84,13 @@ class Inventory extends AbstractHelper
             $prod = $product->loadByAttribute('sku', $sku);
             //echo "<br /> Pronto Retail Price: " .$retail;
             //echo "<br /> Magento Price : ". $prod->getPrice() ."<br />";
-
-            $prod->setPrice($retail);
-            $prod->save();
-            //end pricing
-
-            //quantity by source
-            //echo "<br />Quantity before update <br />";
-            $sourceItemList = $this->getSourceItemBySku($sku);
-            foreach ($sourceItemList as $source) {
-                $var = $source->getData();
-                //echo "<br />".$var['source_code'] . " => ". $var['quantity'];
+            if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
+            {
+                $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                $prod->setPrice($retail);
+                $prod->save();
             }
-
-            //loop from
+            
             foreach ($prodRes['warehouse']['whse'] as $qt)
             {
                 //echo "<br />".$qt['code']." - " .$qt['qty_available'];
@@ -102,15 +101,9 @@ class Inventory extends AbstractHelper
                 $sourceItem->setQuantity($qt['qty_available']);
                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
             }
-            //echo "<br /><br /> Quantity after update <br />";
-            $sourceItemList2 = $this->getSourceItemBySku($sku);
-            foreach ($sourceItemList2 as $source) {
-                $var = $source->getData();
-                //echo "<br />".$var['source_code'] . " => ". $var['quantity'];
-            }
             
-            $msg =  $json['response']['message'];
             $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
+            $logger->info('Pronto Inventory Sync '.$sku);
         }
 
     }   

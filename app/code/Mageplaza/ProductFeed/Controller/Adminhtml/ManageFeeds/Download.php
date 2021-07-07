@@ -25,12 +25,16 @@ use Exception;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Archive\Bz;
+use Magento\Framework\Archive\Gz;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Registry;
 use Mageplaza\ProductFeed\Controller\Adminhtml\AbstractManageFeeds;
 use Mageplaza\ProductFeed\Helper\Data;
+use Mageplaza\ProductFeed\Model\Config\Source\CompressFileType;
 use Mageplaza\ProductFeed\Model\FeedFactory;
+use ZipArchive;
 
 /**
  * Class Download
@@ -39,19 +43,19 @@ use Mageplaza\ProductFeed\Model\FeedFactory;
 class Download extends AbstractManageFeeds
 {
     /**
-     * @var Data
-     */
-    protected $helperData;
-
-    /**
      * @var FileFactory
      */
     protected $fileFactory;
 
     /**
-     * @var
+     * @var Gz
      */
-    protected $redirectFactory;
+    protected $gzArchive;
+
+    /**
+     * @var Bz
+     */
+    protected $bzArchive;
 
     /**
      * Download constructor.
@@ -60,17 +64,20 @@ class Download extends AbstractManageFeeds
      * @param Registry $coreRegistry
      * @param Context $context
      * @param FileFactory $fileFactory
-     * @param Data $helperData
+     * @param Gz $gzArchive
+     * @param Bz $bzArchive
      */
     public function __construct(
         FeedFactory $feedFactory,
         Registry $coreRegistry,
         Context $context,
         FileFactory $fileFactory,
-        Data $helperData
+        Gz $gzArchive,
+        Bz $bzArchive
     ) {
         $this->fileFactory = $fileFactory;
-        $this->helperData = $helperData;
+        $this->gzArchive   = $gzArchive;
+        $this->bzArchive   = $bzArchive;
 
         parent::__construct($feedFactory, $coreRegistry, $context);
     }
@@ -89,11 +96,36 @@ class Download extends AbstractManageFeeds
         }
 
         try {
+            $isCompress       = true;
+            $fileName         = $feed->getFileName() . '.' . $feed->getFileType();
+            $compressFileName = $feed->getFileName() . '.' . $feed->getCompressFile();
+            if (in_array($feed->getCompressFile(), [CompressFileType::BZ, CompressFileType::GZ], true)) {
+                $compressFileName = $feed->getFileName() . '.' . $feed->getFileType() . '.' . $feed->getCompressFile();
+            }
+            $fileUrl          = Data::FEED_FILE_PATH . $fileName;
+            $compressFileUrl  = Data::FEED_FILE_PATH . $compressFileName;
+
+            switch ($feed->getCompressFile()) {
+                case CompressFileType::ZIP:
+                case CompressFileType::RAR:
+                    $destination = $this->packToZip($fileUrl, $compressFileUrl);
+                    break;
+                case CompressFileType::GZ:
+                    $destination = $this->gzArchive->pack($fileUrl, $compressFileUrl);
+                    break;
+                case CompressFileType::BZ:
+                    $destination = $this->bzArchive->pack($fileUrl, $compressFileUrl);
+                    break;
+                default:
+                    $destination = 'mageplaza/feed/' . $fileName;
+                    $isCompress  = false;
+            }
+
             return $this->fileFactory->create(
-                $feed->getFileName() . '.' . $feed->getFileType(),
+                $isCompress ? $compressFileName : $fileName,
                 [
-                    'type' => 'filename',
-                    'value' => 'mageplaza/feed/' . $feed->getFileName() . '.' . $feed->getFileType()
+                    'type'  => 'filename',
+                    'value' => $destination
                 ],
                 'media'
             );
@@ -102,5 +134,21 @@ class Download extends AbstractManageFeeds
 
             return $this->resultRedirectFactory->create()->setPath($this->_redirect->getRefererUrl());
         }
+    }
+
+    /**
+     * @param string $source
+     * @param string $destination
+     *
+     * @return string
+     */
+    public function packToZip($source, $destination)
+    {
+        $zip = new ZipArchive();
+        $zip->open($destination, ZipArchive::CREATE);
+        $zip->addFile($source, basename($source));
+        $zip->close();
+
+        return $destination;
     }
 }

@@ -20,14 +20,18 @@
  */
 ?>
 <div class="preview-product">
-    <a id="preview-product-btn" class="btn"><?= __('Preview Products') ?></a>
+    <a id="preview-product-btn" class="btn"><?= $block->escapeHtml(__('Preview Products')) ?></a>
 </div>
 <div class="product-list"></div>
 <script type="text/x-magento-init">
 {
     "*": {
         "Mageplaza_ProductFeed/js/feed/initConditionsTab":{
-            "url": "<?= $block->getUrl('mpproductfeed/managefeeds/products', ['form_key' => $block->getFormKey(), 'loadGrid' => 1]) ?>"
+            "url": "<?= /** @noEscape */ $block->getUrl(
+                'mpproductfeed/managefeeds/products',
+                ['form_key' => $block->getFormKey(),
+                 'loadGrid' => 1]
+            ) ?>"
         }
     }
 }
