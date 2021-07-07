@@ -166,6 +166,8 @@ define([
                 }
             }
             this.menu.on('click', '.nav-item > a', function (e) {
+                e.preventDefault();
+                
                 if ($(this).data('scrollto') && $($(this).data('scrollto')).length) {
                     $('html, body').animate({
                         scrollTop: $($(this).data('scrollto')).offset().top
@@ -231,12 +233,12 @@ define([
         },
 
         onMouseLeave: function(item) {
-            item.removeClass('item-hovered');
-            if (!this.isMobile) {
-                this._hideDropdown(item);
-                this._caret(item);
-                this._icon(item);
-            }
+//            item.removeClass('item-hovered');
+//            if (!this.isMobile) {
+//                this._hideDropdown(item);
+//                this._caret(item);
+//                this._icon(item);
+//            }
         },
 
         isIpad: function() {

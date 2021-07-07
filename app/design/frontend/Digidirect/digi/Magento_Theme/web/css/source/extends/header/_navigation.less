@@ -831,12 +831,36 @@
         {   
             border: 3px solid #ffffff;   
             transition: all .4s ease-in-out;
+            padding-bottom: 30px;
 
             &:hover{
                 border: 3px solid #f15a25;
 
                 .category-thumbnail-link > a span.title{
                     color: #f15a25 !important;
+                }
+            }
+            
+            .mgz-element-inner{
+                position: relative;
+            }
+            
+            .category-thumbnail-link{
+                position: absolute;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                
+                a{
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: transparent !important;
+                    
+                    span.title{
+                        padding-top: 120px;
+                    }
                 }
             }
         }
@@ -866,8 +890,6 @@
 
     .category-images-wrapper{
         padding: 15px;
-        /*margin-bottom: 30px;
-        border-bottom: 1px solid #eaeaea;*/
 
         .mgz-element-inner{
             text-align: center;
