@@ -270,23 +270,23 @@ class Order extends AbstractHelper
             //echo $xml;
 
             //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/login';
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //test
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //test
             
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders'; //LIVE
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders'; //LIVE
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
 
             $this->curl->addHeader("Content-Type", "application/xml");
             $this->curl->addHeader("Accept", "application/json");
-            $this->curl->addHeader("compcode", "DIG"); //LIVE
-            $this->curl->addHeader("user", "ewaveapi");
-            $this->curl->addHeader("token", "904241bdbf10efa9");
+            //$this->curl->addHeader("compcode", "DIG"); //LIVE
+            //$this->curl->addHeader("user", "ewaveapi");
+            //$this->curl->addHeader("token", "904241bdbf10efa9");
             //
-            //$this->curl->addHeader("compcode", "UA1"); //test
-            //$this->curl->addHeader("user", "clint.mercado");
-            //$this->curl->addHeader("token", "849cd5080faff5ce");
+            $this->curl->addHeader("compcode", "UA1"); //test
+            $this->curl->addHeader("user", "clint.mercado");
+            $this->curl->addHeader("token", "849cd5080faff5ce");
             $this->curl->post($url, $xml);
 
             $result = $this->curl->getBody();
@@ -344,7 +344,7 @@ class Order extends AbstractHelper
     public function getOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = "2021-07-01";
+        $fromDate = "2021-07-06";
         $toDate = $now->format('Y-m-d');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
@@ -607,7 +607,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['contactname'] = $contactname;
             $data['sales-order']['header']['email'] = $order->getCustomerEmail();
             $data['sales-order']['header']['reference'] = $orderId;
-            $data['sales-order']['header']['set-on-status'] = "I"; //TO DO get status
+            $data['sales-order']['header']['set-on-status'] = "H"; //TO DO get status
             
             
             $grandTotal = (double) $order->getBaseGrandTotal();
