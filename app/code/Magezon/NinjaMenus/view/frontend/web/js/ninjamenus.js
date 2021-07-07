@@ -166,6 +166,11 @@ define([
                 }
             }
             this.menu.on('click', '.nav-item > a', function (e) {
+                
+                if($(this).attr("href") == "#"){
+                     e.preventDefault();
+                }
+                
                 if ($(this).data('scrollto') && $($(this).data('scrollto')).length) {
                     $('html, body').animate({
                         scrollTop: $($(this).data('scrollto')).offset().top
