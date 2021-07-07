@@ -52,8 +52,6 @@
 & when (@media-common = true) {
     .locator-wrapper {
         & {
-            .lib-css(max-height, @locator-items-parent__max-height);
-            
             padding-top: 20px;
             overflow: hidden;
         }
@@ -187,9 +185,7 @@
     }
     
     .locator-wrapper {
-        max-height: 100%;
-        .lib-css(height, @locator-items-parent__max-height__l);
-        .lib-css(border, 2px solid @color-3-1);
+        margin-bottom: 30px;
     }
     
     .locator-map {
@@ -219,6 +215,13 @@
         
         .locator-wrapper > .locator-items {
             margin-right: 16px;
+            
+            .details{
+                .name{
+                    font-size: 22px;
+                    font-weight: bold;
+                }
+            }
         }
         
         .action.-select{
@@ -236,11 +239,10 @@
     
     .store-section {
         > .count {
-            .lib-font-size(20);
-    
-            padding: 12px;
-            text-align: center;
-            font-weight: 500;
+            font-size: 22px;
+            padding: 20px 20px 0;
+            text-align: left;
+            font-weight: bold;
         }
     }
     
