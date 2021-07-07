@@ -5,7 +5,7 @@ namespace Digidirect\Pronto\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
-
+use Psr\Log\LoggerInterface;
 
 class Product extends AbstractHelper
 {
@@ -24,7 +24,8 @@ class Product extends AbstractHelper
                         \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
                         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
                         \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
-                        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+                        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+                        LoggerInterface $logger
                     ){
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -34,6 +35,7 @@ class Product extends AbstractHelper
                         $this->productRepository = $productRepository;
                         $this->productFactory = $productFactory;
                         $this->stockRegistry = $stockRegistry;
+                        $this->logger = $logger;
 
     }
 
@@ -48,6 +50,7 @@ class Product extends AbstractHelper
             $startitem = 0; //100425 started
         }
         $lastCode = 0;
+        $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem;
