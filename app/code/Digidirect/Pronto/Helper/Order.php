@@ -344,8 +344,8 @@ class Order extends AbstractHelper
     public function getOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = date('Y-m-d',strtotime("-1 days"));
-        $toDate = $now->format('Y-m-d');
+        $fromDate = date('Y-m-d h:i:s',strtotime("-1 days"));
+        $toDate = $now->format('Y-m-d h:i:s');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
