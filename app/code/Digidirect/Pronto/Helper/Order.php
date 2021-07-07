@@ -49,7 +49,15 @@ class Order extends AbstractHelper
         '17' => 'M1P',
         '21' => 'M6P',
         '19' => 'B5P',
-        '23' => 'C3P'
+        '23' => 'C3P',
+        '1'  => 'S7P',
+        '4'  => 'B4P',
+        '7'  => 'M1P',
+        '10' => 'B5P',
+        '13' => 'M6P',
+        '16' => 'C3P',
+        '19' => 'B5P'
+        
     ];
 
     /**
@@ -351,8 +359,8 @@ class Order extends AbstractHelper
             ->addFieldToFilter('pronto_order_number', array('null' => true))
             //->addFieldToFilter('created_at',$now->format('Y-m-d'));
             ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-            ->addFieldToFilter('created_at', array('lteq' => $toDate));
-
+            ->addFieldToFilter('created_at', array('lteq' => $toDate))
+            ->setOrder('created_at', 'desc');
      
      return $collection;
      
@@ -576,7 +584,7 @@ class Order extends AbstractHelper
         $piwikItems = array();
         $piwikOrder = array();
         //get order data
-        $orders = $this->getOrderCollection();
+        $orders = $this->getTestOrderCollection();
         $counter = 0;
         foreach ($orders as $order) {
             $data = array();
@@ -788,5 +796,22 @@ class Order extends AbstractHelper
             //exit; //for testing;
         }
         
-    }   
+    }
+    
+    public function getTestOrderCollection()
+    {
+        $now = new \DateTime();
+        $fromDate = '2021-07-04';//date('Y-m-d h:i:s',strtotime("-1 days"));
+        $toDate = $now->format('Y-m-d h:i:s');
+        $collection = $this->_orderCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter('pronto_order_number', array('null' => true))
+            //->addFieldToFilter('created_at',$now->format('Y-m-d'));
+            ->addFieldToFilter('created_at', array('gteq' => $fromDate))
+            ->addFieldToFilter('created_at', array('lteq' => $toDate))
+            ->setOrder('created_at', 'desc');
+     
+     return $collection;
+     
+    }
 }      
