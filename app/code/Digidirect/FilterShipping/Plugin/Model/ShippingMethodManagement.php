@@ -38,13 +38,13 @@ class ShippingMethodManagement {
             }
         }
         
-        $free = [];
+        $showMethod = [];
         foreach ($output as $shippingMethod) {
             if ($shippingMethod->getCarrierCode() == 'shipping') {
-                $free[] = $shippingMethod;
+                $showMethod[] = $shippingMethod;
             }
         }
-        if ($free) {
+        if ($showMethod) {
             
             if($qty == 0){
                 return $free;
