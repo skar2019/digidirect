@@ -17,8 +17,8 @@ class SendOrder extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-		echo "Pronto Send Order <br />";
-                $this->helper->sendOrder();
-		exit;
+            //echo "Pronto Send Order <br />";
+            $this->helper->orderPostTec();
+            exit;
 	}
 }
