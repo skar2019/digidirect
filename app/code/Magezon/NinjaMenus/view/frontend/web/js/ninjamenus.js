@@ -233,12 +233,12 @@ define([
         },
 
         onMouseLeave: function(item) {
-//            item.removeClass('item-hovered');
-//            if (!this.isMobile) {
-//                this._hideDropdown(item);
-//                this._caret(item);
-//                this._icon(item);
-//            }
+            item.removeClass('item-hovered');
+            if (!this.isMobile) {
+                this._hideDropdown(item);
+                this._caret(item);
+                this._icon(item);
+            }
         },
 
         isIpad: function() {
