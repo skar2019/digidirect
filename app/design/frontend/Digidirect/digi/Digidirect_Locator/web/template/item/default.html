@@ -20,8 +20,8 @@
             <!-- ko text: state --><!-- /ko -->
             <!-- ko text: postcode --><!-- /ko -->
         </address>
-        <a class="link" data-bind="attr: {href: url_key, title: $t('View Details')}, text: $t('View Details'), click: $parents[2].showDetails.bind($parents[2])"></a>
-        <a class="link" data-bind="attr: {href: url_key+'#directions', title: $t('Directions')}, text: $t('Directions')"></a>
+        <a class="link" data-bind="attr: {href: url_key, title: $t('View Details')}, text: $t('View Details'), click: function() { return true;}, clickBubble: false"></a>
+        <a class="link" data-bind="attr: {href: url_key+'#directions', title: $t('Directions')}, text: $t('Directions'), click: function() { return true;}, clickBubble: false""></a>
 
         <span class="pin">
             <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
