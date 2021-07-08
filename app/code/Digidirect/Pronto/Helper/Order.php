@@ -744,10 +744,10 @@ class Order extends AbstractHelper
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
             
             //TEST
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
             
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
             
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
@@ -755,13 +755,13 @@ class Order extends AbstractHelper
 
             $this->curl->addHeader("Content-Type", "application/xml");
             $this->curl->addHeader("Accept", "application/json");
-            $this->curl->addHeader("compcode", "DIG"); //live
-            $this->curl->addHeader("user", "ewaveapi");
-            $this->curl->addHeader("token", "904241bdbf10efa9");
+            //$this->curl->addHeader("compcode", "DIG"); //live
+            //$this->curl->addHeader("user", "ewaveapi");
+            //$this->curl->addHeader("token", "904241bdbf10efa9");
             //
-            //$this->curl->addHeader("compcode", "UA1"); //test
-            //$this->curl->addHeader("user", "clint.mercado");
-            //$this->curl->addHeader("token", "849cd5080faff5ce");
+            $this->curl->addHeader("compcode", "UA1"); //test
+            $this->curl->addHeader("user", "clint.mercado");
+            $this->curl->addHeader("token", "849cd5080faff5ce");
             
             $this->curl->post($url, $xml);
 
@@ -797,7 +797,7 @@ class Order extends AbstractHelper
                 $order->setData('pronto_status_code',$prontostatus);
                 $order->save();
                 
-                $this->logger->info('Pronto Order Sync', $json['sales-orders']['sales-order']);
+                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
                 
                 $account = $json['sales-orders']['sales-order']['account'];
                 if (!empty($account) && !$order->getCustomerIsGuest()) {
@@ -809,6 +809,7 @@ class Order extends AbstractHelper
                 /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                 $invoice = $order->getInvoiceCollection()->getFirstItem();
                 $this->incrementIdUpdater->update($invoice, $invoiceno);
+                //var_dump($json);
                 exit; //for testing;
             }
             //var_dump($json);
@@ -820,7 +821,7 @@ class Order extends AbstractHelper
     public function getTestOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = '2021-07-01 00:00:00';//date('Y-m-d h:i:s',strtotime("-1 days"));
+        $fromDate = date('Y-m-d h:i:s',strtotime("-1 days"));
         $toDate = $now->format('Y-m-d h:i:s');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
