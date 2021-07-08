@@ -34,7 +34,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
         foreach ($catalogRuleCollection as $catalogRule) {
             $productIdsAccToRule = $catalogRule->getMatchingProductIds();
 
-            if ($limit == 15) {
+            if ($limit == 30) {
                 break;
             }
 
@@ -43,18 +43,17 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
                     if (array_key_exists($productId, $productIdsAccToRule)) {
                         $discount_amount = $catalogRule->getData('discount_amount');
 
-                        if ($limit == 15) {
+                        if ($limit == 30) {
                             break;
                         }
 
-                        if ($discount_amount > 0) {
-                            $resultProductIds[$productId] = $productId;
-                            $limit++;
-                        }
+                        $resultProductIds[$productId] = $productId;
+                        $limit++;
                     }
                 }
             }
         }
+
 
         $this->getSelect()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
         return $this;
