@@ -326,7 +326,7 @@ class Order extends AbstractHelper
                 //update order data with pronto order-no below
                 //$json['sales-order']['sales-order']['order-no']
 
-                //$order->setState("complete")->setStatus("complete");
+
                 $pronto = $json['sales-orders']['sales-order']['order-no'];
                 $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                 $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
@@ -789,7 +789,7 @@ class Order extends AbstractHelper
                 //$json['sales-order']['sales-order']['order-no']
                 //echo "success";
                 //echo "<br>";
-                $order->setState("complete")->setStatus("complete");
+
                 $pronto = $json['sales-orders']['sales-order']['order-no'];
                 $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                 $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
