@@ -608,7 +608,7 @@ class Order extends AbstractHelper
             
             $orderId = $order->getIncrementId();
             $this->logger->warning('Pronto Order Sync - '.$orderId);
-            echo "<br />orderId ".$orderId;
+            //echo "<br />orderId ".$orderId;
             //echo "<br />customerId ".$order->getCustomerId();
             $accountname = $this->getAccountName($order);
             //echo "<br> accountname - ".$accountname. "<br>";
@@ -630,7 +630,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['on-hold-reason-code'] = "01"; //TO DO get status
             $data['sales-order']['header']['set-on-status'] = "H"; //TO DO get status
             
-            echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
+            //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
             $grandTotal = (double) $order->getBaseGrandTotal();
             $subTotal = (double) $order->getBaseSubtotalInclTax();
             $tax = (double) $order->getBaseTaxAmount();
@@ -654,7 +654,7 @@ class Order extends AbstractHelper
             $mobile = $address->getMobile();
             $paymentInstance = $order->getPayment();
             $status = $order->getState();
-            echo "<br>".$status;
+            //echo "<br>".$status;
             
             $data['sales-order']['header']['billing-address']['line-1'] = $street;
             $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
@@ -668,7 +668,7 @@ class Order extends AbstractHelper
 //            
             $methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-            echo "<br> payment - ". $method;
+            //echo "<br> payment - ". $method;
 //            $methodTitle = $methodInst->getTitle();
 //            //echo "<br >method - ".$methodTitle;
 //            
@@ -762,7 +762,8 @@ class Order extends AbstractHelper
             //$this->curl->addHeader("compcode", "UA1"); //test
             //$this->curl->addHeader("user", "clint.mercado");
             //$this->curl->addHeader("token", "849cd5080faff5ce");
-            //$this->curl->post($url, $xml);
+            
+            $this->curl->post($url, $xml);
 
             $result = $this->curl->getBody();
 
@@ -786,8 +787,8 @@ class Order extends AbstractHelper
                 //success
                 //update order data with pronto order-no below
                 //$json['sales-order']['sales-order']['order-no']
-                echo "success";
-                echo "<br>";
+                //echo "success";
+                //echo "<br>";
                 $order->setState("complete")->setStatus("complete");
                 $pronto = $json['sales-orders']['sales-order']['order-no'];
                 $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
