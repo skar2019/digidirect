@@ -762,7 +762,8 @@ class Order extends AbstractHelper
             //$this->curl->addHeader("compcode", "UA1"); //test
             //$this->curl->addHeader("user", "clint.mercado");
             //$this->curl->addHeader("token", "849cd5080faff5ce");
-            //$this->curl->post($url, $xml);
+            
+            $this->curl->post($url, $xml);
 
             $result = $this->curl->getBody();
 
