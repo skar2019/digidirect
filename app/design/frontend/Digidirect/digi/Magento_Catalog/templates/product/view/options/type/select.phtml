@@ -28,8 +28,8 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
     <script>
         require(['jquery'], 
         function($) {
-            $(".digiprotect-info-logo").mouseover(function() {
-                $(".protect-tooltip .tooltiptext").fadeIn();
+            $(".digiprotect-info-logo").click(function() {
+                $(".protect-tooltip .tooltiptext").fadeToggle();
             });
             
             $(".close-tooltip-trigger").click(function(){
