@@ -761,7 +761,7 @@ class Order extends AbstractHelper
             //$this->curl->addHeader("compcode", "UA1"); //test
             //$this->curl->addHeader("user", "clint.mercado");
             //$this->curl->addHeader("token", "849cd5080faff5ce");
-            //$this->curl->post($url, $xml);
+            $this->curl->post($url, $xml);
 
             $result = $this->curl->getBody();
 
@@ -807,11 +807,10 @@ class Order extends AbstractHelper
                 /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                 $invoice = $order->getInvoiceCollection()->getFirstItem();
                 $this->incrementIdUpdater->update($invoice, $invoiceno);
-                var_dump($json);
                 exit; //for testing;
             }
             //var_dump($json);
-            //exit; //for testing;
+            exit; //for testing;
         }
         
     }

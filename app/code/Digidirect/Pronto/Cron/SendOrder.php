@@ -26,7 +26,12 @@ class SendOrder
 
     public function execute()
     {
-        $this->helper->orderPost(); //use date today as parameter
+        $this->helper->orderPost();
 
+    }
+    
+    public function testSync()
+    {
+        $this->helper->orderPostTec();   
     }
 }
