@@ -423,7 +423,8 @@ class Order extends AbstractHelper
 
             if ($order->getShippingMethod() == 'collect_collect') {
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-                    $whse = $this->repCodeForPickUp[$collectPlaceId];
+                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+                    //$whse = $this->repCodeForPickUp[$collectPlaceId];
                 }
             } elseif ($order->getShippingAddress()) {
                 $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
@@ -629,7 +630,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['on-hold-reason-code'] = "01"; //TO DO get status
             $data['sales-order']['header']['set-on-status'] = "H"; //TO DO get status
             
-            
+            echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
             $grandTotal = (double) $order->getBaseGrandTotal();
             $subTotal = (double) $order->getBaseSubtotalInclTax();
             $tax = (double) $order->getBaseTaxAmount();
@@ -761,7 +762,7 @@ class Order extends AbstractHelper
             //$this->curl->addHeader("compcode", "UA1"); //test
             //$this->curl->addHeader("user", "clint.mercado");
             //$this->curl->addHeader("token", "849cd5080faff5ce");
-            $this->curl->post($url, $xml);
+            //$this->curl->post($url, $xml);
 
             $result = $this->curl->getBody();
 
