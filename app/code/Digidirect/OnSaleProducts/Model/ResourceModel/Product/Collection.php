@@ -14,8 +14,6 @@ namespace Digidirect\OnSaleProducts\Model\ResourceModel\Product;
 
 class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection{
    public function getOnSaleProduct(){
-       
-       $excluded_products = array(11491, 12063, 12967, 19457, 23505, 27211);
        $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
            '\Magento\Store\Model\StoreManagerInterface'
        );
@@ -26,21 +24,36 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        $websiteId = $storeManager->getStore()->getWebsiteId();//current Website Id
 
        $resultProductIds = [];
-       $catalogRuleCollection = $catalogRule->create()->getCollection()->setOrder('rule_id','DSC');
+       $catalogRuleCollection = $catalogRule->create()->getCollection()->setOrder('rule_id','ASC');
        $catalogRuleCollection->addIsActiveFilter(1);//filter for active rules only
+
+       $catalogRuleCollection->setCurPage(1);//filter for active rules only
+
+       $limit = 0;
+
        foreach ($catalogRuleCollection as $catalogRule) {
            $productIdsAccToRule = $catalogRule->getMatchingProductIds();
+
+           if($limit == 15){
+               break;
+           }
+
            foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
                if (!empty($ruleProductArray[$websiteId])) {
-                   
-                   if(!in_array($productId, $excluded_products)){
-                       $resultProductIds[$productId] = $productId;
+                   if (array_key_exists($productId, $productIdsAccToRule)) {
+
+                        if($limit == 15){
+                            break;
+                        }
+
+                        $resultProductIds[$productId] = $productId;
+                        $limit++;
                    }
                }
            }
        }
-       $this->getSelect()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
-       return $this;
-       
+
+        $this->getSelect()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+        return $this;
    }
 }
