@@ -320,7 +320,7 @@ class TestPronto extends AbstractHelper
 
                     //should be inside the foreach above
                     
-                    $toJson['data'] = $data['sales-orders']; 
+                    $toJson['data'] = $data['sales-order']; 
                     $this->logger->info('Pronto Order Sync Data - '.json_encode($toJson['data']));
                     //create xml of order data here
                     $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
