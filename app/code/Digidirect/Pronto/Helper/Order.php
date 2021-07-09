@@ -318,7 +318,8 @@ class Order extends AbstractHelper
             
             //should be inside the foreach above
             //create xml of order data here
-            $this->logger->info('Pronto Order Sync Data - '.$data['sales-orders']);
+            $toJson['data'] = $data['sales-orders']; 
+            $this->logger->info('Pronto Order Sync Data - '.json_encode($toJson['data']));
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
             //TEST
