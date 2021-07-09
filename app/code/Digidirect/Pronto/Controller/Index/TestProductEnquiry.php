@@ -19,7 +19,7 @@ class TestProductEnquiry extends \Magento\Framework\App\Action\Action
 	public function execute()
 	{
 		echo "Pronto Product <br />";
-                $this->helper->productEnquiry();
+                $this->helper->productTestProntoSet();
 		exit;
 	}
 }
