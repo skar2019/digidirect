@@ -320,7 +320,7 @@ class TestPronto extends AbstractHelper
 
                     //should be inside the foreach above
                     //create xml of order data here
-                    $this->logger->info('Pronto Order Sync Data - '.$data['sales-order']);
+                    $this->logger->info('Pronto Order Sync Data');
                     $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
                     //TEST
