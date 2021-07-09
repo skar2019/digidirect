@@ -86,7 +86,7 @@ class Product extends AbstractHelper
             try {
                 
                 $product = $this->productRepository->get($prod['code']);
-                
+                $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $product->setBrand($prod['stk-brand']);
@@ -130,6 +130,7 @@ class Product extends AbstractHelper
                 // insert your error handling here
                 
                 $prodname = $prod['desc1']. " ".$prod['desc2'];
+                $this->logger->info('Pronto Product insert: '.$prodname);
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
@@ -222,7 +223,7 @@ class Product extends AbstractHelper
             try {
                 
                 $product = $this->productRepository->get($prod['code']);
-                
+                $this->logger->info('Pronto Product update'.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $product->setBrand($prod['stk-brand']);
@@ -266,6 +267,7 @@ class Product extends AbstractHelper
                 // insert your error handling here
                 
                 $prodname = $prod['desc1']. " ".$prod['desc2'];
+                $this->logger->info('Pronto Product insert'.$prodname);
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
