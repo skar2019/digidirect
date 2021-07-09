@@ -384,9 +384,8 @@ class TestPronto extends AbstractHelper
                         $this->incrementIdUpdater->update($invoice, $invoiceno);
 
                     }
-                    
             }
-            
+            $this->logger->info('Pronto Order End Sync');
 
         }
         
