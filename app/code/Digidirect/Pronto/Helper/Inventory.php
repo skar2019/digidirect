@@ -124,6 +124,7 @@ class Inventory extends AbstractHelper
                         $this->sourceItemsSaveInterface->execute([$sourceItem]);
                     }
                 } catch (Exception $ex) {
+                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
                     continue;
                 }
                 
@@ -167,6 +168,7 @@ class Inventory extends AbstractHelper
                         $this->sourceItemsSaveInterface->execute([$sourceItem]);
                     }
                 } catch (Exception $ex) {
+                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
                     continue;
                 }
 
