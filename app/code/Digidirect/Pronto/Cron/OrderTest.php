@@ -18,7 +18,7 @@ class OrderTest
     
     public function __construct(
             LoggerInterface $logger,
-            Order $helper)
+            TestPronto $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;
