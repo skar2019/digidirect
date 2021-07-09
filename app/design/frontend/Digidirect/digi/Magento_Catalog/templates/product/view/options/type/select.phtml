@@ -26,17 +26,18 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
         </div>
     
     <script>
-        require(['jquery'], 
-        function($) {
-            $(".digiprotect-info-logo").click(function() {
-                $(".protect-tooltip .tooltiptext").fadeToggle();
-            });
-            
-            $(".close-tooltip-trigger").click(function(){
-                $(".protect-tooltip .tooltiptext").fadeOut();
-            });
-        });
-    </script>
+       require(['jquery'],
+       function($) {
+           $(".digiprotect-info-logo").click(function() {
+               $(".protect-tooltip .tooltiptext").fadeToggle();
+           });
+           
+           $(".close-tooltip-trigger").click(function(e){
+               e.preventDefault(e);
+               $(".protect-tooltip .tooltiptext").fadeOut();
+           });
+       });
+   </script>
             
     <?php
         } ?>
