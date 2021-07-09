@@ -162,7 +162,12 @@ class Product extends AbstractHelper
                 $this->productRepository->save($product);
             }
             
-            $this->productPronto($prod['code']);
+            if($startitem == $lastCode)
+            {
+                exit;
+            }
+            
+            $this->productProntoSet($lastCode);
             
         }
         
@@ -175,22 +180,34 @@ class Product extends AbstractHelper
 
     }
     
-    public function productEnquiryOne() {
+     public function productProntoSet($args = 0) {
  
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/login';
-        $startitem = 105001; //100425 started
-        $limit = 5000;
-        $enditem = $startitem + $limit;
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem;
+        if(isset($args))
+        {
+            $startitem = $args; //100425 started   
+        }
+        else 
+        {
+            $startitem = 0; //100425 started
+        }
+        $lastCode = 0;
+        $this->logger->info('Pronto Product Sync - start item: '.$startitem);
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
+        //live port :8084
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "UA1");
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
+        
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -200,6 +217,13 @@ class Product extends AbstractHelper
 
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
+            if(!isset($prod['code']))
+            {
+                exit;
+            }
+            
+            $lastCode = $prod['code'];
+                
             try {
                 
                 $product = $this->productRepository->get($prod['code']);
@@ -240,24 +264,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
                     $this->productRepository->save($product);
-                    echo "Updated - " .$prod['code'] . "<br />";
-    //                
-    //                $proddetail = $this->productRepository->get($prod['code']);
-    //                $prodattri = $proddetail->getAttributes();
-    //                
-    //                foreach($prodattri as $attribute)
-    //                {
-    //                    echo $attribute->getName(). " - ";
-    //                    if($attribute->getName() == 'category_ids' || $attribute->getName() == 'media_gallery' || $attribute->getName() == 'tier_price')
-    //                    {
-    //                        echo "is object <br />";
-    //                    }
-    //                    else 
-    //                    {
-    //                        echo $attribute->getAttributeCode() . " - " .$attribute->getFrontend()->getValue($proddetail). "<br />";
-    //                    }
-    //                    
-    //                }
+
                 }
                 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
@@ -275,7 +282,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prod['code'] .'-'.$prodname;
+                $toUrl = $prodname;
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -293,16 +300,18 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                $product = $this->productRepository->save($product);
-                echo "Insert here- " .$prod['code'] . " - ".$url."<br />";
-//                $stockItem = $this->stockRegistry->getStockItemBySku($product->getSku());
-//                $stockItem->setIsInStock($isInStock);
-//                $stockItem->setQty($stockQty);
-//                $this->stockRegistry->updateStockItemBySku($product->getSku(), $stockItem);
+                $this->productRepository->save($product);
             }
             
+            if($startitem == $lastCode)
+            {
+                exit;
+            }
+            
+            $this->productProntoSet($lastCode);
             
         }
+        
         if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
         {
             echo $json['response']['message'];
@@ -310,7 +319,7 @@ class Product extends AbstractHelper
         }
         
 
-    }   
+    } 
     
     public function productEnquiryTwo() {
  
