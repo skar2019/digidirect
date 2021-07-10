@@ -239,15 +239,29 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
             
+            $shipaddress = $order->getShippingAddress();
+            $shipstrt = $shipaddress->getStreet();
+            if(is_array($shipstrt))
+            {
+                $shipstreet = implode(",", $shipstrt);
+            }
+            $shipcity = $shipaddress->getCity();
+            $shipregion = $shipaddress->getRegion();
+            $shippostcode = $shipaddress->getPostcode();
+            $shipcountrycode = $shipaddress->getCountryid();
+            $shipphone = $shipaddress->getPhone();
+            $shipmobile = $shipaddress->getMobile();
+            $shipcompany = $shipaddress->getCompany();
+            
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
-            $data['sales-order']['header']['delivery-address']['line-2'] = $company;
-            $data['sales-order']['header']['delivery-address']['line-3'] = $street;
-            $data['sales-order']['header']['delivery-address']['line-4'] = $city;
-            $data['sales-order']['header']['delivery-address']['line-5'] = $region;
-            $data['sales-order']['header']['delivery-address']['postcode'] = $postcode;
-            $data['sales-order']['header']['delivery-address']['country-code'] = $countrycode;
-            $data['sales-order']['header']['delivery-address']['phone'] = $phone;
-            $data['sales-order']['header']['delivery-address']['mobile'] = $mobile;
+            $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
+            $data['sales-order']['header']['delivery-address']['line-3'] = $shipstreet;
+            $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
+            $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
+            $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
+            $data['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
+            $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
+            $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
             
             $paymentInstance = $order->getPayment();
             //payment details
