@@ -157,23 +157,33 @@ class Order extends AbstractHelper
             $wrehs = "";
             $territory = "WEBS";
             $accountname = $this->getAccountName($order);
-            
             $is_am_order = false;
             if (strpos($orderId, 'AM') !== false) {
                 $is_am_order = true;
             }
             
             if($is_am_order){
+                $rep = "AMAZON FBA";
+                if($accountname == "N/A N/A")
+                {
+                    $rep = "AMAZON MFH";
+                }
                 $account = "AMAZ00";
                 $wrehs = "AWHS";
                 $territory = "AWHS";
-                $rep = "AMAZON FBA";
             }
             else
             {
                 $wrehs = $this->getWarehouse($order);
                 $account = $this->getAccount($order);
                 $rep = $this->getRep($order);
+                if (strpos($orderId, 'EB') !== false) {
+                    $rep ="EBAY";
+                }
+                else if (strpos($orderId, 'CATCH') !== false) {
+                    $rep ="CATCH";
+                }
+                
             }
             
             $contactname = $accountname;
