@@ -45,6 +45,7 @@ class Info
             $prefix = __('Store: %1 (ID #%2)', $storeLocatorItem->getName(), $storeLocatorItem->getId());
         }
 
-        return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $proceed($address);
+        //return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $proceed($address);
+        return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $storeLocatorItem->getAddress();
     }
 }
