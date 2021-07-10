@@ -12,6 +12,8 @@ class Cart {
         $items = $cart->getQuote()->getAllItems();
 
         $qffPoints = [];
+        
+        $qffTotalPoints = 0;
 
         foreach ($items as $item) {
 
