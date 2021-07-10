@@ -311,9 +311,11 @@ class Order extends AbstractHelper
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
-                
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
+                $discount = (double) $item->getDiscountAmount();
+                $total = ($price * $qty) - $discount;
+
                 $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 $data['sales-order']['detail']['line'][$x]['stock-code'] = $item->getSku();
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
@@ -321,10 +323,22 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                 $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
                 $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $price * $qty;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
+                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
             }
+            
+            //shipping details
+            $shippingprice = (double) $order->getShippingAmount();
+            
+            $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+            $data['sales-order']['detail']['line'][$x]['description'] = $order->getShippingDescription();
+            $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+            $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+            $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
+            $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
             
             //should be inside the foreach above
             //create xml of order data here
