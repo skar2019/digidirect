@@ -34,18 +34,17 @@ class Info
      * @throws \Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-//    public function aroundGetFormattedAddress(
-//        \Magento\Sales\Block\Adminhtml\Order\View\Info $subject,
-//        \Closure $proceed,
-//        Address $address
-//    ) {
-//        if ($address->getAddressType() == 'shipping'
-//            && $storeLocatorItem = $this->orderStoreLocatorInfo->getStoreLocatorItemByOrder($address->getOrder())
-//        ) {
-//            $prefix = __('Store: %1 (ID #%2)', $storeLocatorItem->getName(), $storeLocatorItem->getId());
-//        }
-//
-//        return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $proceed($address);
-//        //return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $storeLocatorItem->getAddress();
-//    }
+    public function aroundGetFormattedAddress(
+        \Magento\Sales\Block\Adminhtml\Order\View\Info $subject,
+        \Closure $proceed,
+        Address $address
+    ) {
+        if ($address->getAddressType() == 'shipping'
+            && $storeLocatorItem = $this->orderStoreLocatorInfo->getStoreLocatorItemByOrder($address->getOrder())
+        ) {
+            $prefix = __('Store: %1 (ID #%2)', $storeLocatorItem->getName(), $storeLocatorItem->getId());
+        }
+
+        return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $proceed($address);
+    }
 }
