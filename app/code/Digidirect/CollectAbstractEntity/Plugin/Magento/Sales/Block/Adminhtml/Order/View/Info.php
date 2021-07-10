@@ -42,10 +42,10 @@ class Info
         if ($address->getAddressType() == 'shipping'
             && $storeLocatorItem = $this->orderStoreLocatorInfo->getStoreLocatorItemByOrder($address->getOrder())
         ) {
-            $prefix = __('Store: %1 (ID #%2)', $storeLocatorItem->getName(), $storeLocatorItem->getId());
+            $prefix = __('Store: %1 (ID #%2)', $storeLocatorItem->getAddress(), $storeLocatorItem->getId());
         }
 
-        return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $proceed($storeLocatorItem->getAddress());
+        return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $proceed($address);
         //return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $storeLocatorItem->getAddress();
     }
 }
