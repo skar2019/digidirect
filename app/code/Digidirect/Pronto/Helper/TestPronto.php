@@ -436,7 +436,7 @@ class TestPronto extends AbstractHelper
     public function getOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = date('Y-m-d h:i:s',strtotime("-3 days"));
+        $fromDate = date('Y-m-d 00:00:00',strtotime("2021-07-07"));
         $toDate = $now->format('Y-m-d h:i:s');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
@@ -992,7 +992,7 @@ class TestPronto extends AbstractHelper
     public function getTestOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = date('Y-m-d h:i:s',strtotime("-10 days"));
+        $fromDate = date('Y-m-d 00:00:00',strtotime("2021-07-01"));
         $toDate = $now->format('Y-m-d h:i:s');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
