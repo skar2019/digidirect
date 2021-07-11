@@ -252,17 +252,18 @@ class Product extends AbstractHelper
                             $x++;
                         }
                     }
-                    
-                    foreach ($prod['warehouse']['whse'] as $qt)
+                    if(isset($prod['warehouse']['whse']))
                     {
-                        $sourceItem = $this->sourceItemFactory->create();
-                        $sourceItem->setSourceCode($qt['code']);
-                        $sourceItem->setSku($prod['code']);
-                        $sourceItem->setStatus(1);
-                        $sourceItem->setQuantity($qt['qty_available']);
-                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        foreach ($prod['warehouse']['whse'] as $qt)
+                        {
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($qt['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($qt['qty_available']);
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
                     }
-
                     $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
