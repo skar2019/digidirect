@@ -39,7 +39,7 @@ class Info
         \Closure $proceed,
         Address $address
     ) {
-        $billingAddress = $address->getOrder()->getBillingAddress();
+        $billingAddress = $address->getOrder()->getShippingMethod();
         if ($address->getAddressType() == 'shipping'
             && $storeLocatorItem = $this->orderStoreLocatorInfo->getStoreLocatorItemByOrder($address->getOrder())
         ) {
