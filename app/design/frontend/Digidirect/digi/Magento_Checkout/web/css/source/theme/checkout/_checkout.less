@@ -207,23 +207,28 @@
         .store-locator-wrapper{
             display: block !important;
         }
-
-        .field[name*='company'],
-        .checkout-shipping-method,
-        .field.addresses {
-            display: none;
-        }
-
-        .action.edit-address-link {
+        
+        .checkout-shipping-method{
             display: none !important;
         }
 
-        .field.delivery-number,
-        .field.street,
-        .field.-region,
-        .field.choice,
-        .field.unit-number{
-            display: none;
+        .checkout-shipping-address{
+            .field[name*='company'],
+            .field.addresses {
+                display: none;
+            }
+
+            .action.edit-address-link {
+                display: none !important;
+            }
+
+            .field.delivery-number,
+            .field.street,
+            .field.unit-number,
+            .field.-region,
+            .field.choice{
+                display: none;
+            }
         }
     }
 
