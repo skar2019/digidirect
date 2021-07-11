@@ -21,7 +21,7 @@ class Customer extends \Magento\Customer\Model\Data\Customer implements \Digidir
     */
     public function verifyQffDetails()
     {
-        $serviceUrl = "https://api.services-stg.qantasloyalty.com/api/validation/members";
+        $serviceUrl = "https://api.services.qantasloyalty.com/api/validation/members";
         $qff_number = $this->_get(self::QFF_NUMBER);
         $qff_lastname = $this->_get(self::QFF_LASTNAME);
         
