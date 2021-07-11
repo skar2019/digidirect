@@ -84,22 +84,22 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
             $response = json_decode($initial_response);
 
 
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $path = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
-
-            $fileDirectoryPath = $path->getPath('var');
-
-
-            $filePath = $fileDirectoryPath . '/ProntoApi/';
-            if (!is_dir($filePath)) {
-                mkdir($filePath, 0777, true);
-            }
-
-            $handle = fopen($filePath . 'logs.txt', 'a');
-
-            fwrite($handle, $initial_response);
-
-            fclose($handle);
+//            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+//            $path = $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
+//
+//            $fileDirectoryPath = $path->getPath('var');
+//
+//
+//            $filePath = $fileDirectoryPath . '/ProntoApi/';
+//            if (!is_dir($filePath)) {
+//                mkdir($filePath, 0777, true);
+//            }
+//
+//            $handle = fopen($filePath . 'logs.txt', 'a');
+//
+//            fwrite($handle, $initial_response);
+//
+//            fclose($handle);
 
 
             if (!empty($response->status)) {
