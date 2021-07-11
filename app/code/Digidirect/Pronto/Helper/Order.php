@@ -163,10 +163,10 @@ class Order extends AbstractHelper
             }
             
             if($is_am_order){
-                $rep = "AMAZON FBA";
+                $rep = "AMAZON MFH";
                 if($accountname == "N/A N/A")
                 {
-                    $rep = "AMAZON MFH";
+                    $rep = "AMAZON FBA";
                 }
                 $account = "AMAZ00";
                 $wrehs = "AWHS";
@@ -285,16 +285,23 @@ class Order extends AbstractHelper
             //echo "<br >payment_reference - ".$payment_reference;
             $method = $paymentInstance->getMethod();
             $payment_type = $this->getPaymentType($paymentInstance, $orderId);
+            $cc = "";
+            if($payment_type == 'BT')
+            {
+                $cc = $paymentInstance->getCcType();
+            }
+            
             $payment_reference = $paymentInstance->getLastTransId();
+
             if (empty($payment_reference) && ($method == 'm2epropayment')) {
                 $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
             }
+
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
-            
             if(!$is_am_order){
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference;
+                $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                 $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
             }
             

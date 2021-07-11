@@ -161,10 +161,10 @@ class TestPronto extends AbstractHelper
                     $accountname = $this->getAccountName($order);
 
                     if($is_am_order){
-                        $rep = "AMAZON FBA";
+                        $rep = "AMAZON MFH";
                         if($accountname == "N/A N/A")
                         {
-                            $rep = "AMAZON MFH";
+                            $rep = "AMAZON FBA";
                         }
                         $account = "AMAZ00";
                         $wrehs = "AWHS";
@@ -283,16 +283,22 @@ class TestPronto extends AbstractHelper
                     //echo "<br >payment_reference - ".$payment_reference;
                     $method = $paymentInstance->getMethod();
                     $payment_type = $this->getPaymentType($paymentInstance, $orderId);
+                    $cc = "";
+                    if($payment_type == 'BT')
+                    {
+                        $cc = $paymentInstance->getCcType();
+                    }
                     $payment_reference = $paymentInstance->getLastTransId();
+
                     if (empty($payment_reference) && ($method == 'm2epropayment')) {
                         $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                     }
+
                     $amount_tendered = $order->getBaseGrandTotal();
                     $amount_tendered = round($amount_tendered, 2);
-
                     if(!$is_am_order){
                         $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                         $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                     }
 
@@ -478,19 +484,10 @@ class TestPronto extends AbstractHelper
           break;
         }
         
-        if($type == 'BT')
-        {
-            $cc = $paymentInstance->getCcType();
-            if($cc == 'AE')
-            {
-                $type = 'X';
-            }
-        }
         return $type;
     }
     
     public function getWarehouse(OrderInterface $order) {
-        echo "getWarehouse <br/>";
         if (!isset($this->warehouseCode[$order->getEntityId()])) {
             $whse = '';
 
@@ -509,7 +506,6 @@ class TestPronto extends AbstractHelper
             }
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
-        echo "whse ".$this->warehouseCode[$order->getEntityId()]."<br/>";
         return $this->warehouseCode[$order->getEntityId()];
     }
     
@@ -681,6 +677,14 @@ class TestPronto extends AbstractHelper
             
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
+            $is_am_order = false;
+            if (strpos($orderId, 'AM') !== false) {
+                $is_am_order = true;
+            }
+            if($is_am_order)
+            {
+                
+            
             $this->logger->warning('Pronto Order Sync - '.$orderId);
             echo "<br />orderId ".$orderId;
             echo "<br />entityID ".$entityId;
@@ -695,10 +699,10 @@ class TestPronto extends AbstractHelper
             }
             
             if($is_am_order){
-                $rep = "AMAZON FBA";
+                $rep = "AMAZON MFH";
                 if($accountname == "N/A N/A")
                 {
-                    $rep = "AMAZON MFH";
+                    $rep = "AMAZON FBA";
                 }
                 $account = "AMAZ00";
                 $wrehs = "AWHS";
@@ -772,8 +776,6 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
             
-            var_dump($data['sales-order']['header']['billing-address']);
-            
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
             if(is_array($shipstrt))
@@ -798,7 +800,6 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
-            var_dump($data['sales-order']['header']['delivery-address']);
             
 
             $paymentInstance = $order->getPayment();
@@ -824,20 +825,26 @@ class TestPronto extends AbstractHelper
             
             
             $payment_type = $this->getPaymentType($paymentInstance, $orderId);
+            $cc = "";
+            if($payment_type == 'BT')
+            {
+                $cc = $paymentInstance->getCcType();
+            }
             $payment_reference = $paymentInstance->getLastTransId();
             
             if (empty($payment_reference) && ($method == 'm2epropayment')) {
                 $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
             }
-            
+              
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
             if(!$is_am_order){
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference;
+                $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                 $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
             }
             
+            var_dump($data['sales-order']['header']);
             
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
@@ -862,7 +869,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
             $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
             
-            //var_dump($data['sales-order']['header']);
+            var_dump($data['sales-order']['header']['custom-data']);
             //product lines
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
@@ -872,9 +879,7 @@ class TestPronto extends AbstractHelper
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
-                echo "<br />discount - ".$discount;
                 $total = ($price * $qty) - $discount;
-                echo "<br /> total:".$total;
                 $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 $data['sales-order']['detail']['line'][$x]['stock-code'] = $item->getSku();
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
@@ -897,86 +902,87 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
-            //var_dump($data['sales-order']);
+            var_dump($data['sales-order']['detail']);
             //should be inside the foreach above
             //create xml of order data here
-//            $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
-//            $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
-//            
-//            //TEST
-//            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
-//            
-//            //LIVE - port :8084
-//            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
-//            
-//            $username = 'clint.mercado';
-//            $password = '849cd5080faff5ce';
-//            $jsonData = '{}';
-//
-//            $this->curl->addHeader("Content-Type", "application/xml");
-//            $this->curl->addHeader("Accept", "application/json");
-//            //$this->curl->addHeader("compcode", "DIG"); //live
-//            //$this->curl->addHeader("user", "ewaveapi");
-//            //$this->curl->addHeader("token", "904241bdbf10efa9");
-//            //
-//            $this->curl->addHeader("compcode", "UA1"); //test
-//            $this->curl->addHeader("user", "clint.mercado");
-//            $this->curl->addHeader("token", "849cd5080faff5ce");
-//            
-//            $this->curl->post($url, $xml);
-//
-//            $result = $this->curl->getBody();
-//
-//            //var_dump($result);
-//            // echo $result;
-//            $json = $this->jsonSerializer->unserialize($result);
-//            //var_dump($json);
-//            //echo "<br>";
-//            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
-//            {
-//                $msg =  $json['response']['message'];
-//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-//                
-//            }
-//            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-//                $msg =  $json['sales-orders']['response']['message'];
-//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-//
-//            }
-//            else {
-//                //success
-//                //update order data with pronto order-no below
-//                //$json['sales-order']['sales-order']['order-no']
-//                //echo "success";
-//                //echo "<br>";
-//
-//                $pronto = $json['sales-orders']['sales-order']['order-no'];
-//                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-//                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-//                $order->setData('pronto_order_number',$pronto);
-//                $order->setData('pronto_status_code',$prontostatus);
-//                $order->save();
-//                
-//                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
-//                
-////                $account = $json['sales-orders']['sales-order']['account'];
-////                if (!empty($account) && !$order->getCustomerIsGuest()) {
-////                    $customer = $this->customerRepository->getById($order->getCustomerId());
-////                    $customer->setData('pronto_account_id', $account);
-////                    $customer->setCustomAttribute('pronto_account_id', $account);
-////                    $this->customerRepository->save($customer);
-////                }
-//                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-////                $invoice = $order->getInvoiceCollection()->getFirstItem();
-////                $this->incrementIdUpdater->update($invoice, $invoiceno);
-//                var_dump($json);
-//                exit; //for testing;
-//            }
+            $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+            $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
+            
+            //TEST
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            
+            //LIVE - port :8084
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            
+            $username = 'clint.mercado';
+            $password = '849cd5080faff5ce';
+            $jsonData = '{}';
+
+            $this->curl->addHeader("Content-Type", "application/xml");
+            $this->curl->addHeader("Accept", "application/json");
+            //$this->curl->addHeader("compcode", "DIG"); //live
+            //$this->curl->addHeader("user", "ewaveapi");
+            //$this->curl->addHeader("token", "904241bdbf10efa9");
+            //
+            $this->curl->addHeader("compcode", "UA1"); //test
+            $this->curl->addHeader("user", "clint.mercado");
+            $this->curl->addHeader("token", "849cd5080faff5ce");
+            
+            $this->curl->post($url, $xml);
+
+            $result = $this->curl->getBody();
+
+            //var_dump($result);
+            // echo $result;
+            $json = $this->jsonSerializer->unserialize($result);
             //var_dump($json);
-//            if($counter > 10)
-//            {
-//                exit;
-//            }
+            //echo "<br>";
+            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+            {
+                $msg =  $json['response']['message'];
+                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+                
+            }
+            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
+                $msg =  $json['sales-orders']['response']['message'];
+                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+
+            }
+            else {
+                //success
+                //update order data with pronto order-no below
+                //$json['sales-order']['sales-order']['order-no']
+                //echo "success";
+                //echo "<br>";
+
+                $pronto = $json['sales-orders']['sales-order']['order-no'];
+                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                $order->setData('pronto_order_number',$pronto);
+                $order->setData('pronto_status_code',$prontostatus);
+                $order->save();
+                
+                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
+                
+//                $account = $json['sales-orders']['sales-order']['account'];
+//                if (!empty($account) && !$order->getCustomerIsGuest()) {
+//                    $customer = $this->customerRepository->getById($order->getCustomerId());
+//                    $customer->setData('pronto_account_id', $account);
+//                    $customer->setCustomAttribute('pronto_account_id', $account);
+//                    $this->customerRepository->save($customer);
+//                }
+                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+//                $invoice = $order->getInvoiceCollection()->getFirstItem();
+//                $this->incrementIdUpdater->update($invoice, $invoiceno);
+                var_dump($json);
+                exit; //for testing;
+            }
+            var_dump($json);
+            if($counter > 10)
+            {
+                exit;
+            }
+            }//end if am
             
         }
         exit; //for testing;
@@ -987,7 +993,6 @@ class TestPronto extends AbstractHelper
     {
         $now = new \DateTime();
         $fromDate = date('Y-m-d h:i:s',strtotime("-10 days"));
-        echo $fromDate;
         $toDate = $now->format('Y-m-d h:i:s');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
@@ -1000,4 +1005,19 @@ class TestPronto extends AbstractHelper
      return $collection;
      
     }
+    
+    public function getCCType($paymentInstance)
+    {
+        if($type == 'BT')
+        {
+            $cc = $paymentInstance->getCcType();
+            if($cc == 'AE')
+            {
+                $type = 'X';
+            }
+        }
+        
+        return;
+    }
+            
 }      
