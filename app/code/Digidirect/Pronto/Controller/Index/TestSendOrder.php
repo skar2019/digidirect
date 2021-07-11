@@ -1,7 +1,7 @@
 <?php
 namespace Digidirect\Pronto\Controller\Index;
 
-use Digidirect\Pronto\Helper\Order;
+use Digidirect\Pronto\Helper\TestPronto;
 
 class TestSendOrder extends \Magento\Framework\App\Action\Action
 {
@@ -9,7 +9,7 @@ class TestSendOrder extends \Magento\Framework\App\Action\Action
 
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
-                Order $helper)
+                TestPronto $helper)
 	{
                 $this->helper = $helper;
 		return parent::__construct($context);
