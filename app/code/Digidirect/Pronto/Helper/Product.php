@@ -231,7 +231,7 @@ class Product extends AbstractHelper
             try {
                 
                 $product = $this->productRepository->get($prod['code']);
-                $this->logger->info('Pronto Product update'.$lastCode);
+                $this->logger->info('Pronto Product update '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $product->setBrand($prod['stk-brand']);
@@ -400,7 +400,8 @@ class Product extends AbstractHelper
                             $x++;
                         }
                     }
-                    
+                     if(isset($prod['warehouse']['whse']))
+                    {
                     foreach ($prod['warehouse']['whse'] as $qt)
                     {
                         $sourceItem = $this->sourceItemFactory->create();
@@ -410,7 +411,7 @@ class Product extends AbstractHelper
                         $sourceItem->setQuantity($qt['qty_available']);
                         $this->sourceItemsSaveInterface->execute([$sourceItem]);
                     }
-
+                    }
                     $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
