@@ -37,7 +37,6 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Rule\Model\AbstractModel;
 use Mageplaza\ProductFeed\Helper\Data;
 use Mageplaza\ProductFeed\Model\ResourceModel\Feed as FeedResource;
-use Zend_Serializer_Exception;
 
 /**
  * Class Feed
@@ -57,6 +56,7 @@ use Zend_Serializer_Exception;
  * @method getCampaignContent()
  * @method getCategoryMap()
  * @method getName()
+ * @method getCompressFile()
  * @method getStatus()
  * @method getCronRunTime()
  * @method getLastCron()
@@ -110,7 +110,7 @@ class Feed extends AbstractModel
     protected $productCollection = [];
 
     /**
-     * @var
+     * @var array
      */
     protected $productIds;
 
@@ -160,10 +160,10 @@ class Feed extends AbstractModel
         array $data = []
     ) {
         $this->resourceIterator = $resourceIterator;
-        $this->productFactory = $productFactory;
-        $this->request = $request;
-        $this->backendSession = $backendSession;
-        $this->helperData = $helperData;
+        $this->productFactory   = $productFactory;
+        $this->request          = $request;
+        $this->backendSession   = $backendSession;
+        $this->helperData       = $helperData;
 
         parent::__construct($context, $registry, $formFactory, $localeDate, $resource, $resourceCollection, $data);
     }
@@ -195,21 +195,20 @@ class Feed extends AbstractModel
     }
 
     /**
-     * @return array|null
-     * @throws Zend_Serializer_Exception
+     * @return array
      */
     public function getMatchingProductIds()
     {
         if ($this->productIds === null) {
-            $data = $this->request->getPost('rule');
+            $data    = $this->request->getPost('rule');
             $storeId = isset($this->request->getPost('feed')['store_id'])
                 ? $this->request->getPost('feed')['store_id']
                 : $this->getStoreId();
 
             if ($data) {
                 $this->backendSession->setProductFeedData(['rule' => $data, 'store_id' => $storeId]);
-            } elseif ($productFeedData = $this->backendSession->getProductFeedData()) {
-                $data = $productFeedData['rule'];
+            } elseif($productFeedData = $this->backendSession->getProductFeedData()) {
+                $data    = $productFeedData['rule'];
                 $storeId = $productFeedData['store_id'];
             }
             if (!$data) {
@@ -227,7 +226,22 @@ class Feed extends AbstractModel
             /** @var $productCollection Collection */
             $productCollection = $this->productFactory->create()->getCollection();
             $productCollection->addAttributeToSelect('*')
-                ->addAttributeToFilter('status', 1)->addStoreFilter($storeId);
+                ->addAttributeToFilter('status', 1)->addStoreFilter($storeId)
+                ->joinField(
+                    'qty',
+                    'cataloginventory_stock_item',
+                    'qty',
+                    'product_id=entity_id',
+                    '{{table}}.stock_id=1',
+                    'left'
+                ) ->joinField(
+                    'is_in_stock',
+                    'cataloginventory_stock_item',
+                    'is_in_stock',
+                    'product_id=entity_id',
+                    '{{table}}.stock_id=1',
+                    'left'
+                );
 
             $this->setConditionsSerialized($this->helperData->serialize($this->getConditions()->asArray()));
             $this->getConditions()->collectValidatedAttributes($productCollection);
@@ -236,7 +250,7 @@ class Feed extends AbstractModel
                 [[$this, 'callbackValidateProductConditions']],
                 [
                     'attributes' => $this->getCollectedAttributes(),
-                    'product' => $this->productFactory->create()
+                    'product'    => $this->productFactory->create()
                 ]
             );
         }
@@ -254,6 +268,7 @@ class Feed extends AbstractModel
     public function callbackValidateProductConditions($args)
     {
         $product = clone $args['product'];
+        $args['row']['quantity_and_stock_status'] = $args['row']['qty'];
         $product->setData($args['row']);
 
         if ($this->getConditions()->validate($product)) {

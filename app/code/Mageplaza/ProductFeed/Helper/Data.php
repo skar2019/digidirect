@@ -34,6 +34,7 @@ use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 use Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\DataObject;
@@ -53,10 +54,13 @@ use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\Url as UrlAbstract;
 use Magento\Review\Model\Review;
 use Magento\Review\Model\Review\SummaryFactory;
 use Magento\Review\Model\ReviewFactory;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Mageplaza\Core\Helper\AbstractData as CoreHelper;
 use Mageplaza\ProductFeed\Block\Adminhtml\LiquidFilters;
 use Mageplaza\ProductFeed\Model\Config\Source\Delivery;
@@ -74,8 +78,8 @@ use RuntimeException;
 class Data extends CoreHelper
 {
     const CONFIG_MODULE_PATH = 'product_feed';
-    const XML_PATH_EMAIL = 'email';
-    const FEED_FILE_PATH = BP . '/pub/media/mageplaza/feed/';
+    const XML_PATH_EMAIL     = 'email';
+    const FEED_FILE_PATH     = BP . '/pub/media/mageplaza/feed/';
 
     /**
      * @var ProductFactory
@@ -183,6 +187,16 @@ class Data extends CoreHelper
     private $driverFile;
 
     /**
+     * @var UrlAbstract
+     */
+    private $urlModel;
+
+    /**
+     * @var UrlFinderInterface
+     */
+    protected $urlFinder;
+
+    /**
      * Data constructor.
      *
      * @param Context $context
@@ -207,8 +221,10 @@ class Data extends CoreHelper
      * @param FeedFactory $feedFactory
      * @param PriceCurrencyInterface $priceCurrency
      * @param CollectionFactory $prdAttrCollectionFactory
+     * @param UrlFinderInterface $urlFinder
      * @param Session $session
      * @param DriverFile $driverFile
+     * @param UrlAbstract $urlModel
      */
     public function __construct(
         Context $context,
@@ -233,36 +249,40 @@ class Data extends CoreHelper
         FeedFactory $feedFactory,
         PriceCurrencyInterface $priceCurrency,
         CollectionFactory $prdAttrCollectionFactory,
+        UrlFinderInterface $urlFinder,
         Session $session,
-        DriverFile $driverFile
+        DriverFile $driverFile,
+        UrlAbstract $urlModel
     ) {
-        $this->productFactory = $productFactory;
-        $this->file = $file;
-        $this->liquidFilters = $liquidFilters;
+        $this->productFactory            = $productFactory;
+        $this->file                      = $file;
+        $this->liquidFilters             = $liquidFilters;
         $this->categoryCollectionFactory = $categoryCollectionFactory;
-        $this->ftp = $ftp;
-        $this->sftp = $sftp;
-        $this->messageManager = $messageManager;
-        $this->date = $date;
-        $this->historyFactory = $historyFactory;
-        $this->transportBuilder = $transportBuilder;
-        $this->reviewFactory = $reviewFactory;
-        $this->reviewSummaryFactory = $reviewSummaryFactory;
-        $this->feedFactory = $feedFactory;
-        $this->resolver = $resolver;
-        $this->timezone = $timezone;
-        $this->backendUrl = $backendUrl;
-        $this->stockState = $stockState;
-        $this->priceCurrency = $priceCurrency;
-        $this->prdAttrCollectionFactory = $prdAttrCollectionFactory;
-        $this->session = $session;
-        $this->driverFile = $driverFile;
+        $this->ftp                       = $ftp;
+        $this->sftp                      = $sftp;
+        $this->messageManager            = $messageManager;
+        $this->date                      = $date;
+        $this->historyFactory            = $historyFactory;
+        $this->transportBuilder          = $transportBuilder;
+        $this->reviewFactory             = $reviewFactory;
+        $this->reviewSummaryFactory      = $reviewSummaryFactory;
+        $this->feedFactory               = $feedFactory;
+        $this->resolver                  = $resolver;
+        $this->timezone                  = $timezone;
+        $this->backendUrl                = $backendUrl;
+        $this->stockState                = $stockState;
+        $this->priceCurrency             = $priceCurrency;
+        $this->prdAttrCollectionFactory  = $prdAttrCollectionFactory;
+        $this->session                   = $session;
+        $this->driverFile                = $driverFile;
+        $this->urlModel                  = $urlModel;
+        $this->urlFinder                 = $urlFinder;
 
         parent::__construct($context, $objectManager, $storeManager);
     }
 
     /**
-     * @param $time
+     * @param string $time
      *
      * @return \DateTime|string
      * @throws Exception
@@ -291,9 +311,9 @@ class Data extends CoreHelper
 
     /**
      * @param array $sendTo
-     * @param $mes
-     * @param $emailTemplate
-     * @param $storeId
+     * @param string $mes
+     * @param string $emailTemplate
+     * @param int $storeId
      *
      * @return bool
      * @throws Exception
@@ -310,12 +330,12 @@ class Data extends CoreHelper
             $this->transportBuilder
                 ->setTemplateIdentifier($emailTemplate)
                 ->setTemplateOptions([
-                    'area' => Area::AREA_FRONTEND,
+                    'area'  => Area::AREA_FRONTEND,
                     'store' => $storeId,
                 ])
                 ->setTemplateVars([
                     'viewLogUrl' => $this->backendUrl->getUrl('mpproductfeed/logs/'),
-                    'mes' => $mes
+                    'mes'        => $mes
                 ])
                 ->setFrom('general');
             foreach ($sendTo as $email) {
@@ -356,8 +376,8 @@ class Data extends CoreHelper
             return;
         }
 
-        $status = Status::ERROR;
-        $delivery = Delivery::ERROR;
+        $status       = Status::ERROR;
+        $delivery     = Delivery::ERROR;
         $productCount = 0;
         try {
             $productCount = $this->generateLiquidTemplate($feed, $isUseCache);
@@ -396,7 +416,7 @@ class Data extends CoreHelper
             }
         }
         $successMessage = [];
-        $errorMessage = [];
+        $errorMessage   = [];
 
         foreach ($this->messageManager->getMessages()->getItems() as $message) {
             if ($message->getType() === 'success') {
@@ -406,7 +426,7 @@ class Data extends CoreHelper
             }
         }
         $successMessage = implode("\n", $successMessage);
-        $errorMessage = implode("\n", $errorMessage);
+        $errorMessage   = implode("\n", $errorMessage);
 
         if ($this->getEmailConfig('enabled')) {
             $generateStt = $status === Status::SUCCESS ? Events::GENERATE_SUCCESS : Events::GENERATE_ERROR;
@@ -420,8 +440,8 @@ class Data extends CoreHelper
                 ? '<p style="color: green">' . __('%1 feed delivery successful', $feed->getName()) . '</p>'
                 : ($deliveryStt === Events::DELIVERY_ERROR
                     ? ('<p style="color: red">' . __('%1 feed delivery fail', $feed->getName()) . '</p>') : '');
-            $events = explode(',', $this->getEmailConfig('events'));
-            $sendTo = empty($this->getEmailConfig('send_to'))
+            $events      = explode(',', $this->getEmailConfig('events'));
+            $sendTo      = empty($this->getEmailConfig('send_to'))
                 ? null : explode(',', $this->getEmailConfig('send_to'));
             if (in_array($generateStt, $events, true) || in_array($deliveryStt, $events, true)) {
                 $this->sendMail(
@@ -435,15 +455,15 @@ class Data extends CoreHelper
 
         $history = $this->historyFactory->create();
         $history->setData([
-            'feed_id' => $feed->getId(),
-            'feed_name' => $feed->getName(),
-            'status' => $status,
-            'delivery' => $delivery,
-            'type' => $isCron ? 'cron' : 'manual',
-            'product_count' => $productCount,
-            'file' => $feed->getFileName() . '.' . $feed->getFileType(),
+            'feed_id'         => $feed->getId(),
+            'feed_name'       => $feed->getName(),
+            'status'          => $status,
+            'delivery'        => $delivery,
+            'type'            => $isCron ? 'cron' : 'manual',
+            'product_count'   => $productCount,
+            'file'            => $feed->getFileName() . '.' . $feed->getFileType(),
             'success_message' => $successMessage,
-            'error_message' => $errorMessage
+            'error_message'   => $errorMessage
         ])->save();
 
         if ($isCron) {
@@ -452,11 +472,11 @@ class Data extends CoreHelper
     }
 
     /**
-     * @param $protocol
-     * @param $host
-     * @param $passive
-     * @param $user
-     * @param $pass
+     * @param string $protocol
+     * @param string $host
+     * @param string $passive
+     * @param string $user
+     * @param string $pass
      *
      * @return int
      */
@@ -478,11 +498,11 @@ class Data extends CoreHelper
             }
 
             $open = $this->ftp->open([
-                'host' => $host,
-                'user' => $user,
+                'host'     => $host,
+                'user'     => $user,
                 'password' => $pass,
-                'ssl' => true,
-                'passive' => $passive
+                'ssl'      => true,
+                'passive'  => $passive
             ]);
 
             return $open ? 1 : 0;
@@ -498,14 +518,19 @@ class Data extends CoreHelper
      */
     public function deliveryFeed($feed)
     {
-        $host = $feed->getHostName();
-        $username = $feed->getUserName();
-        $password = $feed->getPassword();
-        $timeout = '20';
-        $passiveMode = $feed->getPassiveMode();
-        $fileName = $feed->getFileName() . '.' . $feed->getFileType();
-        $fileUrl = $this->getFileUrl($fileName);
+        $host          = $feed->getHostName();
+        $username      = $feed->getUserName();
+        $password      = $feed->getPassword();
+        $timeout       = '20';
+        $passiveMode   = $feed->getPassiveMode();
+        $fileName      = $feed->getFileName() . '.' . $feed->getFileType();
+        $fileUrl       = $this->getFileUrl($fileName);
         $directoryPath = $feed->getDirectoryPath() . $fileName;
+
+        if (!$host || !$username || !$password) {
+            throw new Exception(__('Please check the Delivery information again.'));
+        }
+
         if ($feed->getProtocol() === 'sftp') {
             // Fix Magento bug in 2.1.x
             if (!isset($args['timeout'])) {
@@ -521,7 +546,7 @@ class Data extends CoreHelper
                 throw new RuntimeException(__('Unable to open SFTP connection as %1@%2', $username, $password));
             }
             $content = $this->file->read($fileUrl);
-            $mode = is_readable($content)
+            $mode    = is_readable($fileName)
                 ? \phpseclib\Net\SFTP::SOURCE_LOCAL_FILE : \phpseclib\Net\SFTP::SOURCE_STRING;
             $connection->put($directoryPath, $content, $mode);
             $connection->disconnect();
@@ -539,11 +564,11 @@ class Data extends CoreHelper
 
         } else {
             $open = $this->ftp->open([
-                'host' => $host,
-                'user' => $username,
+                'host'     => $host,
+                'user'     => $username,
                 'password' => $password,
-                'ssl' => true,
-                'passive' => $passiveMode
+                'ssl'      => true,
+                'passive'  => $passiveMode
             ]);
             if ($open) {
                 $content = $this->file->read($fileUrl);
@@ -565,7 +590,7 @@ class Data extends CoreHelper
      */
     public function prepareTemplate($feed, $templateHtml = null, $saveCache = false, $isUseCache = false)
     {
-        $template = new Template;
+        $template       = new Template;
         $filtersMethods = $this->liquidFilters->getFiltersMethods();
 
         $template->registerFilter($this->liquidFilters);
@@ -593,45 +618,48 @@ class Data extends CoreHelper
      */
     public function getTemplateHtml($feed)
     {
-        $fileType = $feed->getFileType();
+        $fileType     = $feed->getFileType();
+        $templateHtml = '';
 
         if ($fileType === 'xml') {
             $templateHtml = $feed->getTemplateHtml();
         } else {
             $fieldSeparate = $feed->getFieldSeparate() === 'tab' ? "\t"
                 : ($feed->getFieldSeparate() === 'comma' ? ',' : ';');
-            $fieldAround = $feed->getFieldAround() === 'none' ? ''
+            $fieldAround   = $feed->getFieldAround() === 'none' ? ''
                 : ($feed->getFieldAround() === 'quote' ? "'" : '"');
             $includeHeader = $feed->getIncludeHeader();
-            $fieldsMap = self::jsonDecode($feed->getFieldsMap());
-            $row = [];
-            foreach ($fieldsMap as $field) {
-                $row[0][] = $field['col_name'];
+            $fieldsMap     = self::jsonDecode($feed->getFieldsMap());
+            if ($fieldsMap) {
+                $row           = [];
+                foreach ($fieldsMap as $field) {
+                    $row[0][] = $field['col_name'];
 
-                if ($field['col_type'] === 'attribute') {
-                    $row[1][] = $fieldAround . $field['col_val'] . $fieldAround;
-                } else {
-                    $row[1][] = $fieldAround . $field['col_pattern_val'] . $fieldAround;
+                    if ($field['col_type'] === 'attribute') {
+                        $row[1][] = $fieldAround . $field['col_val'] . $fieldAround;
+                    } else {
+                        $row[1][] = $fieldAround . $field['col_pattern_val'] . $fieldAround;
+                    }
                 }
-            }
 
-            $row[0] = implode($fieldSeparate, $row[0]);
-            $row[1] = implode($fieldSeparate, $row[1]);
+                $row[0] = implode($fieldSeparate, $row[0]);
+                $row[1] = implode($fieldSeparate, $row[1]);
 
-            if ($includeHeader) {
-                $templateHtml = $row[0] . '
+                if ($includeHeader) {
+                    $templateHtml = $row[0] . '
 ' . '{% for product in products %}' . $row[1] . '
 {% endfor %}';
-            } else {
-                $templateHtml = '{% for product in products %}' . $row[1] . '
+                } else {
+                    $templateHtml = '{% for product in products %}' . $row[1] . '
 {% endfor %}';
-            }
+                }
 
-            $templateHtml = str_replace(
-                '}}',
-                "| mpCorrect: '" . $feed->getFieldAround() . "', '" . $feed->getFieldSeparate() . "'}}",
-                $templateHtml
-            );
+                $templateHtml = str_replace(
+                    '}}',
+                    "| mpCorrect: '" . $feed->getFieldAround() . "', '" . $feed->getFieldSeparate() . "'}}",
+                    $templateHtml
+                );
+            }
         }
 
         return $templateHtml;
@@ -648,32 +676,32 @@ class Data extends CoreHelper
      */
     public function generateLiquidTemplate($feed, $isUseCache = false)
     {
-        $feedId = $feed->getId();
+        $feedId       = $feed->getId();
         $templateHtml = $isUseCache ? $this->getFeedSessionData($feedId, 'template_html') : null;
-        $template = $this->prepareTemplate($feed, $templateHtml, false, $isUseCache);
+        $template     = $this->prepareTemplate($feed, $templateHtml, false, $isUseCache);
         if ($isUseCache) {
             $prdAttr = $this->getFeedSessionData($feedId, 'product_attributes');
         } else {
             $prdAttr = [];
-            $root = $template->getRoot();
+            $root    = $template->getRoot();
             $prdAttr = $this->getProductAttr($root->getNodelist(), $prdAttr);
         }
 
-        $productCollection = $isUseCache
+        $productCollectionData = $isUseCache
             ? []
             : $this->getProductsData($feed, $prdAttr);
 
         $reviewCollection = $this->getReviewCollection();
-        $content = $template->render([
-            'products' => $productCollection,
-            'store' => $this->getStoreData($feed->getStoreId()),
-            'reviews' => $reviewCollection,
-            'feed_id' => $feedId
+        $content          = $template->render([
+            'products' => $productCollectionData,
+            'store'    => $this->getStoreData($feed->getStoreId()),
+            'reviews'  => $reviewCollection,
+            'feed_id'  => $feedId
         ]);
 
         $this->createFeedFile($feed, $content);
 
-        return $isUseCache ? $this->getFeedSessionData($feedId, 'product_count') : count($productCollection);
+        return $isUseCache ? $this->getFeedSessionData($feedId, 'product_count') : count($productCollectionData);
     }
 
     /**
@@ -686,7 +714,7 @@ class Data extends CoreHelper
     {
         $this->file->checkAndCreateFolder(self::FEED_FILE_PATH);
         $fileName = $feed->getFileName() . '.' . $feed->getFileType();
-        $fileUrl = self::FEED_FILE_PATH . '/' . $fileName;
+        $fileUrl  = self::FEED_FILE_PATH . '/' . $fileName;
         $this->file->write($fileUrl, $content);
     }
 
@@ -721,11 +749,11 @@ class Data extends CoreHelper
      */
     public function getStoreData($id)
     {
-        $store = $this->storeManager->getStore($id);
-        $locale = $this->resolver->getLocale();
+        $store     = $this->storeManager->getStore($id);
+        $locale    = $this->resolver->getLocale();
         $storeData = [
             'locale_code' => $locale,
-            'base_url' => $store->getBaseUrl()
+            'base_url'    => $store->getBaseUrl()
         ];
 
         return $storeData;
@@ -770,7 +798,7 @@ class Data extends CoreHelper
 
         $categoryMap = $this->unserialize($feed->getCategoryMap());
 
-        $allCategory = $this->categoryCollectionFactory->create()->addAttributeToSelect('name');
+        $allCategory    = $this->categoryCollectionFactory->create()->addAttributeToSelect('name');
         $categoriesName = [];
         /** @var $item Category */
         foreach ($allCategory as $item) {
@@ -782,14 +810,14 @@ class Data extends CoreHelper
             ->getColumnValues('attribute_code');
 
         $matchingProductIds = !empty($productIds) ? $productIds : $feed->getMatchingProductIds();
-        $productCollection = $this->productFactory->create()->getCollection()
+        $productCollection  = $this->productFactory->create()->getCollection()
             ->addAttributeToSelect($productAttributes)->addStoreFilter($feed->getStoreId())
             ->addFieldToFilter('entity_id', ['in' => $matchingProductIds])->addMediaGalleryData();
 
         $result = [];
         /** @var $product Product */
         foreach ($productCollection as $product) {
-            $typeInstance = $product->getTypeInstance();
+            $typeInstance           = $product->getTypeInstance();
             $childProductCollection = $typeInstance->getAssociatedProducts($product);
             if ($childProductCollection) {
                 $associatedData = [];
@@ -801,12 +829,12 @@ class Data extends CoreHelper
                 $product->setAssociatedProducts([]);
             }
 
-            $stockItem = $this->stockState->getStockItem(
+            $stockItem       = $this->stockState->getStockItem(
                 $product->getId(),
                 $feed->getStoreId()
             );
-            $qty = $stockItem->getQty();
-            $categories = $product->getCategoryCollection()->addAttributeToSelect('*');
+            $qty             = $stockItem->getQty();
+            $categories      = $product->getCategoryCollection()->addAttributeToSelect('*');
             $relatedProducts = [];
             foreach ($product->getRelatedProducts() as $item) {
                 $relatedProducts[] = $item->getData();
@@ -819,16 +847,15 @@ class Data extends CoreHelper
             foreach ($product->getUpSellProducts() as $item) {
                 $upSellProducts[] = $item->getData();
             }
-            $finalPrice = $this->convertPrice($product->getFinalPrice(), $feed->getStoreId());
-
-            $storeId = $feed->getStoreId() ?: $this->storeManager->getDefaultStoreView()->getId();
+            $oriProduct = $this->productFactory->create()->load($product->getId());
+            $finalPrice = $this->convertPrice($oriProduct->getFinalPrice(), $feed->getStoreId());
+            $storeId    = $feed->getStoreId() ?: $this->storeManager->getDefaultStoreView()->getId();
             $product->setStoreId($storeId);
-            $productLink = $product->getUrlModel()->getUrlInStore($product, ['_escape' => true]) . $campaignUrl;
-
-            $imageLink = $this->storeManager->getStore($feed->getStoreId())
-                    ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA)
-                . 'catalog/product' . $product->getImage();
-            $images = $product->getMediaGalleryImages()->getSize() ? $product->getMediaGalleryImages() : [[]];
+            $productLink = $this->getProductUrl($oriProduct, $storeId) . $campaignUrl;
+            $imageLink = $oriProduct->getImage() ? $this->storeManager->getStore($feed->getStoreId())
+                    ->getBaseUrl(UrlAbstract::URL_TYPE_MEDIA)
+                . 'catalog/product' . $oriProduct->getImage() : '';
+            $images    = $product->getMediaGalleryImages()->getSize() ? $product->getMediaGalleryImages() : [[]];
             if (is_object($images)) {
                 $imagesData = [];
                 foreach ($images->getItems() as $item) {
@@ -837,13 +864,13 @@ class Data extends CoreHelper
                 $images = $imagesData;
             }
             /** @var $category Category */
-            $lv = 0;
-            $categoryPath = '';
-            $cat = new DataObject();
+            $lv             = 0;
+            $categoryPath   = '';
+            $cat            = new DataObject();
             $categoriesData = [];
             foreach ($categories as $category) {
                 if ($lv < $category->getLevel()) {
-                    $lv = $category->getLevel();
+                    $lv  = $category->getLevel();
                     $cat = $category;
                 }
                 $categoriesData[] = $category->getData();
@@ -861,7 +888,7 @@ class Data extends CoreHelper
                 }
             }
 
-            $product->isAvailable() ? $product->setData('quantity_and_stock_status', 'in stock')
+            $oriProduct->isAvailable() ? $product->setData('quantity_and_stock_status', 'in stock')
                 : $product->setData('quantity_and_stock_status', 'out of stock');
 
             $noneAttr = [
@@ -931,7 +958,7 @@ class Data extends CoreHelper
             $storeId = $this->storeManager->getStore()->getStoreId();
         }
 
-        return (float)$this->priceCurrency->convert($amount, $storeId);
+        return (float) $this->priceCurrency->convert($amount, $storeId);
     }
 
     /**
@@ -942,7 +969,7 @@ class Data extends CoreHelper
     public function getFileUrl($filename)
     {
         return $this->_urlBuilder->getBaseUrl([
-                '_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
+                '_type' => UrlAbstract::URL_TYPE_MEDIA
             ]) . 'mageplaza/feed/' . $filename;
     }
 
@@ -957,12 +984,12 @@ class Data extends CoreHelper
         $feedId = $feed->getId();
         $this->resetFeedSessionData($feedId);
         $template = $this->prepareTemplate($feed, null, true);
-        $root = $template->getRoot();
-        $prdAttr = [];
-        $prdAttr = $this->getProductAttr($root->getNodelist(), $prdAttr);
+        $root     = $template->getRoot();
+        $prdAttr  = [];
+        $prdAttr  = $this->getProductAttr($root->getNodelist(), $prdAttr);
         $this->setFeedSessionData($feedId, 'product_attributes', $prdAttr);
         $productIds = $feed->getMatchingProductIds();
-        $chunk = array_chunk($productIds, 1000);
+        $chunk      = array_chunk($productIds, 1000);
         $this->setFeedSessionData($feedId, 'product_chunk', $chunk);
         try {
             $this->driverFile->deleteDirectory(self::FEED_FILE_PATH . 'collection/' . $feedId . '/');
@@ -984,20 +1011,20 @@ class Data extends CoreHelper
      */
     public function prepareProductData($feed)
     {
-        $feedId = $feed->getId();
-        $productAttr = $this->getFeedSessionData($feedId, 'product_attributes');
+        $feedId       = $feed->getId();
+        $productAttr  = $this->getFeedSessionData($feedId, 'product_attributes');
         $productChunk = $this->getFeedSessionData($feedId, 'product_chunk');
-        $productCount = (int)$this->getFeedSessionData($feedId, 'product_count');
-        $ids = array_shift($productChunk);
-        $collection = $this->getProductsData($feed, $productAttr, $ids);
+        $productCount = (int) $this->getFeedSessionData($feedId, 'product_count');
+        $ids          = array_shift($productChunk);
+        $collection   = $this->getProductsData($feed, $productAttr, $ids);
         $productCount += count($collection);
-        $name = current($ids) . end($ids);
+        $name         = $ids ? current($ids) . end($ids) : '0';
         $this->createFeedCollectionFile($feedId, self::jsonEncode($collection), $name);
         $this->setFeedSessionData($feedId, 'product_chunk', $productChunk);
         $this->setFeedSessionData($feedId, 'product_count', $productCount);
 
         return [
-            'complete' => empty($productChunk),
+            'complete'      => empty($productChunk),
             'product_count' => $productCount
         ];
     }
@@ -1022,7 +1049,7 @@ class Data extends CoreHelper
      */
     public function setFeedSessionData($feedId, $path, $value)
     {
-        $data = $this->session->getData("mp_product_feed_data_{$feedId}");
+        $data        = $this->session->getData("mp_product_feed_data_{$feedId}");
         $data[$path] = $value;
         $this->session->setData("mp_product_feed_data_{$feedId}", $data);
     }
@@ -1065,7 +1092,7 @@ class Data extends CoreHelper
         }
 
         return [
-            'error' => true,
+            'error'   => true,
             'message' => __('Something went wrong while generating feed')
         ];
     }
@@ -1093,14 +1120,14 @@ class Data extends CoreHelper
     public function getFeedCollectionPaths($feedId)
     {
         $directoryUrl = self::FEED_FILE_PATH . 'collection/' . $feedId . '/';
-        $paths = $this->driverFile->readDirectory($directoryUrl);
+        $paths        = $this->driverFile->readDirectory($directoryUrl);
 
         usort($paths, function ($pathA, $pathB) {
             $pathArrayA = explode('/', $pathA);
-            $valueA = end($pathArrayA);
+            $valueA     = end($pathArrayA);
 
             $pathArrayB = explode('/', $pathB);
-            $valueB = end($pathArrayB);
+            $valueB     = end($pathArrayB);
 
             return $valueB < $valueA;
         });
@@ -1116,5 +1143,53 @@ class Data extends CoreHelper
     public function readFile($path)
     {
         return $this->file->read($path);
+    }
+
+    /**
+     * Get product view url
+     *
+     * @param Product $product
+     * @param int $storeId
+     *
+     * @return string
+     */
+    public function getProductUrl($product, $storeId)
+    {
+        if ($storeId) {
+            $this->urlModel->setScope($storeId);
+        }
+
+        $productLink            = '';
+        $routeParams['id']      = $product->getId();
+        $routeParams['s']       = $product->getUrlKey();
+        $routeParams['_nosid']  = true;
+        $routeParams['_escape'] = true;
+        $categoryId             = null;
+
+        if ($product->getCategoryId() && !$product->getDoNotUseCategoryId()) {
+            $categoryId = $product->getCategoryId();
+        }
+        if ($categoryId) {
+            $routeParams['category'] = $categoryId;
+        }
+
+        $requestPath = $product->getRequestPath();
+        if (empty($requestPath) && $requestPath !== false) {
+            $filterData = [
+                UrlRewrite::ENTITY_ID   => $product->getId(),
+                UrlRewrite::ENTITY_TYPE => ProductUrlRewriteGenerator::ENTITY_TYPE,
+                UrlRewrite::STORE_ID    => $storeId,
+            ];
+
+            $rewrite = $this->urlFinder->findOneByData($filterData);
+
+            if ($rewrite) {
+                $productLink = $product->getUrlModel()->getUrlInStore($product, $routeParams);
+            } else {
+                $productLink = $this->urlModel->getUrl('catalog/product/view', $routeParams);
+            }
+        }
+
+        return $productLink;
     }
 }

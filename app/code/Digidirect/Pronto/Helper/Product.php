@@ -43,16 +43,19 @@ class Product extends AbstractHelper
         $startitem = 100000; //100425 started
         $limit = 5000;
         $enditem = $startitem + $limit;
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem;
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
+        //live port :8084
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "UA1");
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
         // get method
         $this->curl->get($url);
 
@@ -102,7 +105,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
                     $this->productRepository->save($product);
-                    echo "Updated - " .$prod['code'] . "<br />";
+                    //echo "Updated - " .$prod['code'] . "<br />";
 
                 }
                 

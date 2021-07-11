@@ -27,6 +27,6 @@ class InventoryEnquiry
     public function execute()
     {
         $this->helper->enquireInventory();
-        exit;
+
     }
 }
