@@ -150,6 +150,10 @@ class QuoteManagement
         } elseif ($this->collectHelper->isCollectItems($quote->getId()) &&
             !$this->collectHelper->isDeliveryItems($quote->getId())
         ) {
+            $qouteShippingAddress = $quote->getShippingAddress();
+
+            $shippingMethod = $quote->getShippingAddress()->getShippingMethod();
+
             $address = $this->addressHelper->applyDummyAddress($quote->getShippingAddress());
             $address->setShippingMethod(Collectcarrier::COLLECT_SHIPPING_METHOD);
             $rate = $address->getShippingRateByCode($address->getShippingMethod());

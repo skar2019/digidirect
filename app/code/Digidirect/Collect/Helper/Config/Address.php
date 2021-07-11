@@ -264,7 +264,9 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function applyDummyAddress(\Magento\Quote\Model\Quote\Address $address)
     {
-        $address->addData($this->getDefaultAddressArray());
+        $qouteAddress = (array) $address;
+
+        $address->addData($qouteAddress);
         return $address;
     }
 
