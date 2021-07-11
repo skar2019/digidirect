@@ -43,7 +43,8 @@ class Info
             && $storeLocatorItem = $this->orderStoreLocatorInfo->getStoreLocatorItemByOrder($address->getOrder())
         ) {
             $prefix = __('Store: %1 (ID #%2)', $storeLocatorItem->getName(), $storeLocatorItem->getId());
-            return (!empty($prefix) ? $prefix . '<br /><br />' : '') . " Testing Address!";
+            
+            return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $address->getOrder()->getBillingAddress();
         }
 
         return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $proceed($address);
