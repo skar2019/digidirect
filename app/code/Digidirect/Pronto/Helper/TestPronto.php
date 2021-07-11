@@ -159,7 +159,11 @@ class TestPronto extends AbstractHelper
                     $wrehs = "";
                     $territory = "WEBS";
                     $accountname = $this->getAccountName($order);
-
+                    $is_am_order = false;
+                    if (strpos($orderId, 'AM') !== false) {
+                        $is_am_order = true;
+                    }
+                    
                     if($is_am_order){
                         $rep = "AMAZON MFH";
                         if($accountname == "N/A N/A")
@@ -282,7 +286,7 @@ class TestPronto extends AbstractHelper
 
                     //echo "<br >payment_reference - ".$payment_reference;
                     $method = $paymentInstance->getMethod();
-                    $payment_type = $this->getPaymentType($paymentInstance, $orderId);
+                    $payment_type = $this->getPaymentType($paymentInstance);
                     $cc = "";
                     if($payment_type == 'BT')
                     {
@@ -450,7 +454,7 @@ class TestPronto extends AbstractHelper
      
     }
     
-    public function getPaymentType($paymentInstance, $orderId){
+    public function getPaymentType($paymentInstance){
         
         //echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
@@ -698,7 +702,7 @@ class TestPronto extends AbstractHelper
                 $is_am_order = true;
             }
             
-            if($is_am_order){
+
                 $rep = "AMAZON MFH";
                 if($accountname == "N/A N/A")
                 {
@@ -824,7 +828,7 @@ class TestPronto extends AbstractHelper
 //            }
             
             
-            $payment_type = $this->getPaymentType($paymentInstance, $orderId);
+            $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
             if($payment_type == 'BT')
             {
@@ -982,7 +986,7 @@ class TestPronto extends AbstractHelper
             {
                 exit;
             }
-            }//end if am
+
             
         }
         exit; //for testing;
