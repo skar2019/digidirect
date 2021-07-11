@@ -72,29 +72,31 @@ class ShippingInformationManagementPlugin
         $cartId,
         ShippingInformationInterface $addressInformation
     ) {
-        if ($this->configHelper->verifyShippingAddressOnCheckout()) {
-            /** @var DataObject $address */
-            $address = $addressInformation->getShippingAddress();
-            $storeByAddress = $this->myStoreRepository->getStoreByAddress($address);
-            if (!$storeByAddress) {
-                throw new LocalizedException(__(
-                    $this->getMessage('There is no Store match your Shipping Address. Please, check entered data.')
-                ));
-            }
-
-            $currentStore = $this->helper->getCurrentStore();
-            if (!$currentStore || ($currentStore->getId() != $storeByAddress->getId())) {
-                $this->helper->setCurrentStore($storeByAddress->getId());
-
-                $quote = $this->checkoutSession->getQuote();
-                if ($quote->getId()) {
-                    $quote->collectTotals()->save();
-                }
-
-                $message = 'Your cart has been changed according to your Shipping Address. Please check your Cart.';
-                throw new LocalizedException(__($this->getMessage($message)));
-            }
-        }
+        
+//        if ($this->configHelper->verifyShippingAddressOnCheckout()) {
+//            /** @var DataObject $address */
+//            $address = $addressInformation->getShippingAddress();
+//            $storeByAddress = $this->myStoreRepository->getStoreByAddress($address);
+//            if (!$storeByAddress) {
+//                throw new LocalizedException(__(
+//                    $this->getMessage('There is no Store match your Shipping Address. Please, check entered data.')
+//                ));
+//            }
+//
+//            $currentStore = $this->helper->getCurrentStore();
+//            if (!$currentStore || ($currentStore->getId() != $storeByAddress->getId())) {
+//                $this->helper->setCurrentStore($storeByAddress->getId());
+//
+//                $quote = $this->checkoutSession->getQuote();
+//                if ($quote->getId()) {
+//                    $quote->collectTotals()->save();
+//                }
+//
+//                $message = 'Your cart has been changed according to your Shipping Address. Please check your Cart.';
+//                throw new LocalizedException(__($this->getMessage($message)));
+//            }
+//        }
+        
         return [$cartId, $addressInformation];
     }
 
