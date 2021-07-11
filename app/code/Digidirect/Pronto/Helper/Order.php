@@ -436,7 +436,7 @@ class Order extends AbstractHelper
     public function getOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = date('Y-m-d h:i:s',strtotime("-1 days"));
+        $fromDate = date('Y-m-d 00:00:00',strtotime("2021-07-07"));
         $toDate = $now->format('Y-m-d h:i:s');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
