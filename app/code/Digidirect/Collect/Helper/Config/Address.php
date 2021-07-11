@@ -268,7 +268,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
             $qouteAddress = (array) $address;
             $address->addData($qouteAddress);
         }else{
-            $address->addData($qouteAddress);
+            $address->addData($this->getDefaultAddressArray());
         }
 
         return $address;

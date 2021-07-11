@@ -53,7 +53,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
     }
 
     public function verifyQffDetails($action) {
-        $serviceUrl = "https://api.services.qantasloyalty.com/api/validation/members";
+        $serviceUrl = "https://api.services-stg.qantasloyalty.com/api/validation/members";
         $status = false;
 
         if (isset($_POST["qff_number"]) && !empty($_POST["qff_number"]) &&
