@@ -12,10 +12,10 @@
             <schedule>0 0 * * *</schedule>
         </job>
         <job name="pronto_test_sync" instance="Digidirect\Pronto\Cron\OrderTest" method="execute">
-            <schedule>*/15 * * * *</schedule>
+            <schedule>0 1 * * *</schedule>
         </job>
         <job name="pronto_shipping_sync" instance="Digidirect\Pronto\Cron\ProntoShipping" method="execute">
-            <schedule>0 1 * * *</schedule>
+            <schedule>*/15 * * * *</schedule>
         </job>
         
     </group>
