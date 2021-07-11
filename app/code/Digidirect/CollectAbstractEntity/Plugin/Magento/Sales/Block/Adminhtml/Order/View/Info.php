@@ -39,14 +39,10 @@ class Info
         \Closure $proceed,
         Address $address
     ) {
-        //$billingAddress = $address->getOrder()->getShippingMethod();
         if ($address->getAddressType() == 'shipping'
             && $storeLocatorItem = $this->orderStoreLocatorInfo->getStoreLocatorItemByOrder($address->getOrder())
         ) {
             $prefix = __('Store: %1 (ID #%2)', $storeLocatorItem->getName(), $storeLocatorItem->getId());
-            
-            return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $storeLocatorItem->getAddress();
-            
         }
 
         return (!empty($prefix) ? $prefix . '<br /><br />' : '') . $proceed($address);
