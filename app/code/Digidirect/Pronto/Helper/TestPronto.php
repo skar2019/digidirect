@@ -151,7 +151,7 @@ class TestPronto extends AbstractHelper
             }
             
             $orderId = $order->getIncrementId();
-            if($orderId == 'AM000157990' || $orderId == '000628159' || $orderId == 'EB000157984' || $orderId == 'CATCH--000628132' || $orderId == 'AM000158002' || $orderId == '000628156')
+            if($orderId == '000628743' || $orderId == '000628890' || $orderId == 'EB000158343' || $orderId == '000628740' || $orderId == 'CATCH--000628773' || $orderId == 'AM000158433')
             {
                     $entityId = $order->getId();
                     $this->logger->info('Pronto Order Sync - '.$orderId);
