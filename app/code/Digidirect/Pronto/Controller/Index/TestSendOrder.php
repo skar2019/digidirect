@@ -17,11 +17,16 @@ class TestSendOrder extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
+            $orderId = 0;
+            $date = 0;
             if(isset($_GET["p"])){
                 $orderId = $_GET["p"];
             }
-            echo "Pronto Send Order - ".$orderId." <br />";
-            $this->helper->orderPostTec($orderId);
+            if(isset($_GET["date"])){
+                $date = $_GET["date"];
+            }
+            echo "Pronto Send Order - ".$orderId." - ".$date."<br />";
+            $this->helper->orderPostTec($orderId, $date);
             exit;
 	}
 }

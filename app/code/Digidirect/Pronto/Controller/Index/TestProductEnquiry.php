@@ -18,8 +18,11 @@ class TestProductEnquiry extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-		echo "Pronto Product <br />";
-                $this->helper->productTestProntoSet();
-		exit;
+            if(isset($_GET["p"])){
+                $startItem = $_GET["p"];
+            }
+            echo "Pronto Product <br />";
+            $this->helper->productTestProntoSet($startItem);
+            exit;
 	}
 }

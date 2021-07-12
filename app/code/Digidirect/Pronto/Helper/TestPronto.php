@@ -673,13 +673,13 @@ class TestPronto extends AbstractHelper
         return $prontoStatus;
     }
     
-    public function orderPostTec($orderId) 
+    public function orderPostTec($orderId, $date) 
     {
         echo "orderPostTec <br/>";
         $piwikItems = array();
         $piwikOrder = array();
         //get order data
-        $orders = $this->getTestOrderCollection($orderId);
+        $orders = $this->getTestOrderCollection($orderId,$date);
         $counter = 0;
         foreach ($orders as $order) {
             $data = array();
@@ -847,8 +847,6 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
             }
             
-            var_dump($data['sales-order']['header']);
-            
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
@@ -888,7 +886,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
                 $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
@@ -910,7 +908,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['description'] = $order->getShippingDescription();
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
             $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+            $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
@@ -924,7 +922,7 @@ class TestPronto extends AbstractHelper
             $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
             
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
             
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
@@ -932,13 +930,13 @@ class TestPronto extends AbstractHelper
 
             $this->curl->addHeader("Content-Type", "application/xml");
             $this->curl->addHeader("Accept", "application/json");
-            $this->curl->addHeader("compcode", "DIG"); //live
-            $this->curl->addHeader("user", "ewaveapi");
-            $this->curl->addHeader("token", "904241bdbf10efa9");
+            //$this->curl->addHeader("compcode", "DIG"); //live
+            //$this->curl->addHeader("user", "ewaveapi");
+            //$this->curl->addHeader("token", "904241bdbf10efa9");
             //
-            //$this->curl->addHeader("compcode", "UA1"); //test
-            //$this->curl->addHeader("user", "clint.mercado");
-            //$this->curl->addHeader("token", "849cd5080faff5ce");
+            $this->curl->addHeader("compcode", "UA1"); //test
+            $this->curl->addHeader("user", "clint.mercado");
+            $this->curl->addHeader("token", "849cd5080faff5ce");
             
             $this->curl->post($url, $xml);
 
@@ -952,11 +950,13 @@ class TestPronto extends AbstractHelper
             if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
             {
                 $msg =  $json['response']['message'];
+                echo $msg;
                 $this->logger->error('Pronto Order Sync', array('info' => $msg));
                 
             }
             else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                 $msg =  $json['sales-orders']['response']['message'];
+                echo $msg;
                 $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
             }
@@ -994,14 +994,30 @@ class TestPronto extends AbstractHelper
         
     }
     
-    public function getTestOrderCollection($orderId)
+    public function getTestOrderCollection($orderId,$date)
     {
+        if($orderId != 0)
+        {
+            $collection = $this->_orderCollectionFactory->create()
+                ->addAttributeToSelect('*')
+                ->addFieldToFilter('increment_id', array('eq' => $orderId));
 
-        $collection = $this->_orderCollectionFactory->create()
-            ->addAttributeToSelect('*')
-            ->addFieldToFilter('increment_id', array('eq' => $orderId));
-     
-        return $collection;
+            return $collection;
+        }
+        if($date != 0)
+        {
+            $fromDate = date('Y-m-d'. '00:00:00',strtotime($date));
+            $toDate = date('Y-m-d'. '23:59:59',strtotime($date));
+            echo $fromDate . " - ". $toDate;
+            $collection = $this->_orderCollectionFactory->create()
+                ->addAttributeToSelect('*')
+                ->addFieldToFilter('pronto_order_number', array('null' => true))
+                ->addFieldToFilter('created_at', array('gteq' => $fromDate))
+                ->addFieldToFilter('created_at', array('lteq' => $toDate));
+
+            return $collection;
+        }
+        
     }
     
     public function getCCType($paymentInstance)

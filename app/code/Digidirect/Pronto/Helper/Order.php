@@ -343,7 +343,7 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
                 $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
@@ -366,7 +366,7 @@ class Order extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
             $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+            $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
