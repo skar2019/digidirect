@@ -38,29 +38,29 @@ class Shipping extends AbstractHelper
 
     }
 
-    public function getShipping() 
+    public function getShipping($pronto) 
     {
         //get order data
-        $orders = $this->getOrderCollection();
-        $counter = 0;
-        foreach ($orders as $order) {
-            $data = array();
-            $counter++;
+        //$orders = $this->getOrderCollection($pronto);
+        //$counter = 0;
+        //foreach ($orders as $order) {
+        //    $data = array();
+        //    $counter++;
             //var_dump($order);
             /* @var $order \Magento\Sales\Model\Order */
             
-            if ($order->getState() == 'canceled') {
-                continue;
-            }
+        //    if ($order->getState() == 'canceled') {
+        //        continue;
+        //    }
             
-            $prontoOrderNumber = $order->getData('pronto_order_number');
+        //    $prontoOrderNumber = $order->getData('pronto_order_number');
             
-            $this->logger->info('Pronto Order Shipping - '.$prontoOrderNumber);
+            $this->logger->info('Pronto Order Shipping - '.$pronto);
 
             //TEST
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=get_order&order-no='.$prontoOrderNumber; //test
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=get_order&order-no='.$pronto; //test
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=get_order&order-no='.$prontoOrderNumber; //LIVE
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=get_order&order-no='.$prontoOrderNumber; //LIVE
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
@@ -96,10 +96,11 @@ class Shipping extends AbstractHelper
 
                 }
                 else {
-                    //success
+                    echo "success";
                     //update order data with pronto data
                     //$json['sales-order']['sales-order']['header'];
-                    if (!empty($json['sales-order']['sales-order']['header']['so-consignment-note'])) {
+                    var_dump($json['sales-order']['header']);
+                    if (!empty($json['sales-order']['header']['so-consignment-note'])) {
                         $order->setData('pronto_order_tracking_number', $json['sales-order']['header']['so-consignment-note']);
                         $this->orderResource->saveAttribute($order, 'pronto_order_tracking_number');
                     } else {
@@ -114,7 +115,11 @@ class Shipping extends AbstractHelper
                     }
                 }
             }
-        }
+            else 
+            {
+                echo "no result";
+            }
+        //}
         
     }   
     

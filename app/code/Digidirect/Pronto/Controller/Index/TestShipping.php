@@ -17,8 +17,11 @@ class TestShipping extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-		echo "Pronto Shipping Sync<br />";
-                $this->helper->getShipping();
-		exit;
+            if(isset($_GET["p"])){
+                $pronto = $_GET["p"];
+            }
+            echo "Pronto Shipping Sync<br />";
+            $this->helper->getShipping($pronto);
+            exit;
 	}
 }

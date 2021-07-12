@@ -673,12 +673,13 @@ class TestPronto extends AbstractHelper
         return $prontoStatus;
     }
     
-    public function orderPostTec() 
+    public function orderPostTec($orderId) 
     {
+        echo "orderPostTec <br/>";
         $piwikItems = array();
         $piwikOrder = array();
         //get order data
-        $orders = $this->getTestOrderCollection();
+        $orders = $this->getTestOrderCollection($orderId);
         $counter = 0;
         foreach ($orders as $order) {
             $data = array();
@@ -693,8 +694,6 @@ class TestPronto extends AbstractHelper
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
             $this->logger->warning('Pronto Order Sync - '.$orderId);
-            echo "<br />orderId ".$orderId;
-            echo "<br />entityID ".$entityId;
             
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
@@ -729,7 +728,6 @@ class TestPronto extends AbstractHelper
 
             }
             
-            echo "<br> accountname - ".$accountname. "<br>";
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
@@ -816,7 +814,6 @@ class TestPronto extends AbstractHelper
 //            
             $methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-            echo "<br> payment - ". $method;
 //            $methodTitle = $methodInst->getTitle();
 //            //echo "<br >method - ".$methodTitle;
 //            
@@ -927,7 +924,7 @@ class TestPronto extends AbstractHelper
             $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
             
             //LIVE - port :8084
-            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
             
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
@@ -935,13 +932,13 @@ class TestPronto extends AbstractHelper
 
             $this->curl->addHeader("Content-Type", "application/xml");
             $this->curl->addHeader("Accept", "application/json");
-            //$this->curl->addHeader("compcode", "DIG"); //live
-            //$this->curl->addHeader("user", "ewaveapi");
-            //$this->curl->addHeader("token", "904241bdbf10efa9");
+            $this->curl->addHeader("compcode", "DIG"); //live
+            $this->curl->addHeader("user", "ewaveapi");
+            $this->curl->addHeader("token", "904241bdbf10efa9");
             //
-            $this->curl->addHeader("compcode", "UA1"); //test
-            $this->curl->addHeader("user", "clint.mercado");
-            $this->curl->addHeader("token", "849cd5080faff5ce");
+            //$this->curl->addHeader("compcode", "UA1"); //test
+            //$this->curl->addHeader("user", "clint.mercado");
+            //$this->curl->addHeader("token", "849cd5080faff5ce");
             
             $this->curl->post($url, $xml);
 
@@ -970,55 +967,41 @@ class TestPronto extends AbstractHelper
                 //echo "success";
                 //echo "<br>";
 
-                //$pronto = $json['sales-orders']['sales-order']['order-no'];
-                //$invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-                //$prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                //$order->setData('pronto_order_number',$pronto);
-                //$order->setData('pronto_status_code',$prontostatus);
-                //$order->save();
+                $pronto = $json['sales-orders']['sales-order']['order-no'];
+                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                $order->setData('pronto_order_number',$pronto);
+                $order->setData('pronto_status_code',$prontostatus);
+                $order->save();
                 
                 $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
                 
-//                $account = $json['sales-orders']['sales-order']['account'];
-//                if (!empty($account) && !$order->getCustomerIsGuest()) {
-//                    $customer = $this->customerRepository->getById($order->getCustomerId());
-//                    $customer->setData('pronto_account_id', $account);
-//                    $customer->setCustomAttribute('pronto_account_id', $account);
-//                    $this->customerRepository->save($customer);
-//                }
+                $account = $json['sales-orders']['sales-order']['account'];
+                if (!empty($account) && !$order->getCustomerIsGuest()) {
+                    $customer = $this->customerRepository->getById($order->getCustomerId());
+                    $customer->setData('pronto_account_id', $account);
+                    $customer->setCustomAttribute('pronto_account_id', $account);
+                    $this->customerRepository->save($customer);
+                }
                 /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-//                $invoice = $order->getInvoiceCollection()->getFirstItem();
-//                $this->incrementIdUpdater->update($invoice, $invoiceno);
-                //var_dump($json);
+                $invoice = $order->getInvoiceCollection()->getFirstItem();
+                $this->incrementIdUpdater->update($invoice, $invoiceno);
+                var_dump($json);
                 //exit; //for testing;
             }
-            //var_dump($json);
-            if($counter > 10)
-            {
-                exit;
-            }
-
-            
         }
         exit; //for testing;
         
     }
     
-    public function getTestOrderCollection()
+    public function getTestOrderCollection($orderId)
     {
-        $now = new \DateTime();
-        $fromDate = date('Y-m-d 00:00:00',strtotime("2021-06-01"));
-        $toDate = $now->format('Y-m-d h:i:s');
+
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('pronto_order_number', array('null' => true))
-            //->addFieldToFilter('created_at',$now->format('Y-m-d'));
-            ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-            ->addFieldToFilter('created_at', array('lteq' => $toDate))
-            ->setOrder('created_at', 'desc');
+            ->addFieldToFilter('increment_id', array('eq' => $orderId));
      
-     return $collection;
-     
+        return $collection;
     }
     
     public function getCCType($paymentInstance)

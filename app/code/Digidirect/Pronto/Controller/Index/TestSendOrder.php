@@ -17,8 +17,11 @@ class TestSendOrder extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-            //echo "Pronto Send Order <br />";
-            $this->helper->orderPostTec();
+            if(isset($_GET["p"])){
+                $orderId = $_GET["p"];
+            }
+            echo "Pronto Send Order - ".$orderId." <br />";
+            $this->helper->orderPostTec($orderId);
             exit;
 	}
 }
