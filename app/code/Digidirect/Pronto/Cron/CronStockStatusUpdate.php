@@ -3,7 +3,7 @@ namespace Digidirect\Pronto\Cron;
 
 use Digidirect\Pronto\Helper\Product;
 
-class StockStatusUpdate extends \Magento\Framework\App\Action\Action
+class CronStockStatusUpdate extends \Magento\Framework\App\Action\Action
 {
     protected $_pageFactory;
 
