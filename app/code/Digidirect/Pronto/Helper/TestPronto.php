@@ -188,8 +188,6 @@ class TestPronto extends AbstractHelper
 
                     }
                     
-                    
-                        
                     $contactname = $accountname;
                     //check pronto if customer has an account.
                     //if not, create customer account to pronto
@@ -202,6 +200,7 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['warehouse'] = $wrehs;
                     $data['sales-order']['header']['customer-type'] = "WC";
                     $data['sales-order']['header']['so-cust-type'] = "WC";
+                    $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
                     $data['sales-order']['header']['territory'] = $territory;
                     $data['sales-order']['header']['rep'] = $rep;
                     $data['sales-order']['header']['contactname'] = $contactname;
@@ -354,9 +353,19 @@ class TestPronto extends AbstractHelper
 
                     //shipping details
                     $shippingprice = (double) $order->getShippingAmount();
-
+                    
+                    $shippingDesc = $order->getShippingDescription();
+                    if($shippingDesc == "Express - (1 to 3 Days)")
+                    {
+                        $shippingDesc = "Australia Post – express";
+                    }
+                    else if($shippingDesc == "Standard - (4 to 7 Days)")
+                    {
+                        $shippingDesc = "Australia Post – eParcel";
+                    }
+                   
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                    $data['sales-order']['detail']['line'][$x]['description'] = $order->getShippingDescription();
+                    $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
                     $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
                     $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
                     $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
