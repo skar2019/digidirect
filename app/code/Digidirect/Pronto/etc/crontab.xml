@@ -17,6 +17,9 @@
         <job name="pronto_shipping_sync" instance="Digidirect\Pronto\Cron\ProntoShipping" method="execute">
             <schedule>*/15 * * * *</schedule>
         </job>
+        <job name="pronto_productstock_sync" instance="Digidirect\Pronto\Cron\CronStockStatusUpdate" method="execute">
+            <schedule>0 2 * * *</schedule>
+        </job>
         
     </group>
 </config>
