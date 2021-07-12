@@ -357,7 +357,8 @@ class Order extends AbstractHelper
             {
                 $shippingDesc = "Australia Post – express";
             }
-            else if($shippingDesc == "Standard - (4 to 7 Days)"){
+            else if($shippingDesc == "Standard - (4 to 7 Days)")
+            {
                 $shippingDesc = "Australia Post – eParcel";
             }
 
