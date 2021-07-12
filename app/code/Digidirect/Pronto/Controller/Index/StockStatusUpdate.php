@@ -34,11 +34,20 @@ class StockStatusUpdate extends \Magento\Framework\App\Action\Action
 //        2. Iterate collection and check source status by SKU
 //        3. Update stock status to 1 if current is 0
 
+        $page_number = 1;
+
+        if(isset($_GET["p"])){
+            $page_number = $_GET["p"];
+            settype($page_number, "integer");
+        }
+
         /*Get in stock product collection*/
         $collection = $this->_productCollectionFactory->create()->addFieldToSelect('*')
             ->setFlag('has_stock_status_filter', false)
 //            ->addAttributeToFilter('sku', array('like' => '109429%'))
             ->addAttributeToFilter('status', ['in' => $this->productStatus->getVisibleStatusIds()])
+            ->setCurPage($page_number)
+            ->setPageSize(1000)
             ->joinField('stock_item', 'cataloginventory_stock_item', 'is_in_stock', 'product_id=entity_id');
 
         foreach ($collection as $key => $product) {
