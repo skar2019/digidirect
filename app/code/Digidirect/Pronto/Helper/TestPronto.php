@@ -156,9 +156,11 @@ class TestPronto extends AbstractHelper
                     $entityId = $order->getId();
                     $this->logger->info('Pronto Order Sync - '.$orderId);
                     //Amazon Logic
-                    $wrehs = "";
+                    $wrehs = $this->getWarehouse($order);
                     $territory = "WEBS";
                     $accountname = $this->getAccountName($order);
+                    $account = $this->getAccount($order);
+                    
                     $is_am_order = false;
                     if (strpos($orderId, 'AM') !== false) {
                         $is_am_order = true;
@@ -169,15 +171,13 @@ class TestPronto extends AbstractHelper
                         if($accountname == "N/A N/A")
                         {
                             $rep = "AMAZON FBA";
+                            $account = "AMAZ00";
+                            $wrehs = "AWHS";
+                            $territory = "AWHS";
                         }
-                        $account = "AMAZ00";
-                        $wrehs = "AWHS";
-                        $territory = "AWHS";
                     }
                     else
                     {
-                        $wrehs = $this->getWarehouse($order);
-                        $account = $this->getAccount($order);
                         $rep = $this->getRep($order);
                         if (strpos($orderId, 'EB') !== false) {
                             $rep ="EBAY";
@@ -187,7 +187,9 @@ class TestPronto extends AbstractHelper
                         }
 
                     }
-
+                    
+                    
+                        
                     $contactname = $accountname;
                     //check pronto if customer has an account.
                     //if not, create customer account to pronto
