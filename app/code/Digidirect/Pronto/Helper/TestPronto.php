@@ -451,7 +451,7 @@ class TestPronto extends AbstractHelper
     public function getOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = date('Y-m-d h:i:s',strtotime("-6 days"));
+        $fromDate = date('Y-m-d 00:00:00',strtotime("2021-07-05"));
         $toDate = $now->format('Y-m-d h:i:s');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
@@ -692,42 +692,33 @@ class TestPronto extends AbstractHelper
             
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
-            $is_am_order = false;
-            if (strpos($orderId, 'AM') !== false) {
-                $is_am_order = true;
-            }
-            if($is_am_order)
-            {
-                
-            
             $this->logger->warning('Pronto Order Sync - '.$orderId);
             echo "<br />orderId ".$orderId;
             echo "<br />entityID ".$entityId;
             
             //Amazon Logic
-            $wrehs = "";
+            $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
             $accountname = $this->getAccountName($order);
+            $account = $this->getAccount($order);
+            
             $is_am_order = false;
             if (strpos($orderId, 'AM') !== false) {
                 $is_am_order = true;
             }
             
-
+            if($is_am_order){
                 $rep = "AMAZON MFH";
                 if($accountname == "N/A N/A")
                 {
                     $rep = "AMAZON FBA";
+                    $account = "AMAZ00";
+                    $wrehs = "AWHS";
+                    $territory = "AWHS";
                 }
-                $account = "AMAZ00";
-                $wrehs = "AWHS";
-                $territory = "AWHS";
-                
             }
             else
             {
-                $wrehs = $this->getWarehouse($order);
-                $account = $this->getAccount($order);
                 $rep = $this->getRep($order);
                 if (strpos($orderId, 'EB') !== false) {
                     $rep ="EBAY";
@@ -735,7 +726,7 @@ class TestPronto extends AbstractHelper
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
                 }
-                
+
             }
             
             echo "<br> accountname - ".$accountname. "<br>";
@@ -908,6 +899,15 @@ class TestPronto extends AbstractHelper
             }
             
             $shippingprice = (double) $order->getShippingAmount();
+            $shippingDesc = $order->getShippingDescription();
+            if($shippingDesc == "Express - (1 to 3 Days)")
+            {
+                $shippingDesc = "Australia Post – express";
+            }
+            else if($shippingDesc == "Standard - (4 to 7 Days)")
+            {
+                $shippingDesc = "Australia Post – eParcel";
+            }
             //shipping details
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $order->getShippingDescription();
@@ -970,12 +970,12 @@ class TestPronto extends AbstractHelper
                 //echo "success";
                 //echo "<br>";
 
-                $pronto = $json['sales-orders']['sales-order']['order-no'];
-                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                $order->setData('pronto_order_number',$pronto);
-                $order->setData('pronto_status_code',$prontostatus);
-                $order->save();
+                //$pronto = $json['sales-orders']['sales-order']['order-no'];
+                //$invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+                //$prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                //$order->setData('pronto_order_number',$pronto);
+                //$order->setData('pronto_status_code',$prontostatus);
+                //$order->save();
                 
                 $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
                 
@@ -989,10 +989,10 @@ class TestPronto extends AbstractHelper
                 /** @var \Magento\Sales\Model\Order\Invoice $invoice */
 //                $invoice = $order->getInvoiceCollection()->getFirstItem();
 //                $this->incrementIdUpdater->update($invoice, $invoiceno);
-                var_dump($json);
-                exit; //for testing;
+                //var_dump($json);
+                //exit; //for testing;
             }
-            var_dump($json);
+            //var_dump($json);
             if($counter > 10)
             {
                 exit;
@@ -1007,7 +1007,7 @@ class TestPronto extends AbstractHelper
     public function getTestOrderCollection()
     {
         $now = new \DateTime();
-        $fromDate = date('Y-m-d 00:00:00',strtotime("2021-07-01"));
+        $fromDate = date('Y-m-d 00:00:00',strtotime("2021-06-01"));
         $toDate = $now->format('Y-m-d h:i:s');
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
