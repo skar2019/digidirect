@@ -1,15 +1,15 @@
 <?php
 namespace Digidirect\Pronto\Controller\Index;
 
-use Digidirect\Pronto\Helper\Inventory;
+use Digidirect\Pronto\Helper\Shipping;
 
-class Test extends \Magento\Framework\App\Action\Action
+class TestShipping extends \Magento\Framework\App\Action\Action
 {
 	protected $_pageFactory;
 
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
-                Inventory $helper)
+                Shipping $helper)
 	{
                 $this->helper = $helper;
 		return parent::__construct($context);
@@ -17,8 +17,8 @@ class Test extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-		echo "Hello Pronto <br />";
-                $this->helper->enquireInventoryTest();
+		echo "Pronto Shipping Sync<br />";
+                $this->helper->getShipping();
 		exit;
 	}
 }

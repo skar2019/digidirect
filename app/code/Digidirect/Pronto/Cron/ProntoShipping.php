@@ -2,7 +2,7 @@
 namespace Digidirect\Pronto\Cron;
 
 use Psr\Log\LoggerInterface;
-use Digidirect\Pronto\Helper\Order;
+use Digidirect\Pronto\Helper\Shipping;
 
 class SendOrder
 {
@@ -18,7 +18,7 @@ class SendOrder
     
     public function __construct(
             LoggerInterface $logger,
-            Order $helper)
+            Shipping $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;
@@ -26,7 +26,7 @@ class SendOrder
 
     public function execute()
     {
-        $this->helper->orderPost();
+        $this->helper->getShipping();
 
     }
     

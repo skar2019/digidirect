@@ -2,9 +2,9 @@
 namespace Digidirect\Pronto\Cron;
 
 use Psr\Log\LoggerInterface;
-use Digidirect\Pronto\Helper\Order;
+use Digidirect\Pronto\Helper\TestPronto;
 
-class SendOrder
+class OrderTest
 {
     /**
      * @var LoggerInterface
@@ -18,7 +18,7 @@ class SendOrder
     
     public function __construct(
             LoggerInterface $logger,
-            Order $helper)
+            TestPronto $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;
@@ -26,7 +26,7 @@ class SendOrder
 
     public function execute()
     {
-        $this->helper->orderPost();
+        $this->helper->testordersync();
 
     }
     
