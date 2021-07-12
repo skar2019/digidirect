@@ -300,11 +300,11 @@ class Order extends AbstractHelper
 
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
-            if(!$is_am_order){
+            //if(!$is_am_order){
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                 $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-            }
+            //}
             
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
@@ -344,7 +344,7 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                 $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                $data['sales-order']['detail']['line'][$x]['backordered'] = 1;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;

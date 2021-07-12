@@ -834,18 +834,18 @@ class TestPronto extends AbstractHelper
                 $cc = $paymentInstance->getCcType();
             }
             $payment_reference = $paymentInstance->getLastTransId();
-            
+
             if (empty($payment_reference) && ($method == 'm2epropayment')) {
                 $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
             }
-              
+
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
-            if(!$is_am_order){
+            //if(!$is_am_order){
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                 $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-            }
+            //}
             
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
@@ -885,8 +885,8 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
-                $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                $data['sales-order']['detail']['line'][$x]['backordered'] = 1;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
@@ -917,10 +917,10 @@ class TestPronto extends AbstractHelper
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
             
             //TEST
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
             
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
             
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
@@ -936,57 +936,57 @@ class TestPronto extends AbstractHelper
             //$this->curl->addHeader("user", "clint.mercado");
             //$this->curl->addHeader("token", "849cd5080faff5ce");
             
-            $this->curl->post($url, $xml);
-
-            $result = $this->curl->getBody();
-
-            //var_dump($result);
-            // echo $result;
-            $json = $this->jsonSerializer->unserialize($result);
-            //var_dump($json);
-            //echo "<br>";
-            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
-            {
-                $msg =  $json['response']['message'];
-                echo $msg;
-                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-                
-            }
-            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-                $msg =  $json['sales-orders']['response']['message'];
-                echo $msg;
-                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-
-            }
-            else {
-                //success
-                //update order data with pronto order-no below
-                //$json['sales-order']['sales-order']['order-no']
-                //echo "success";
-                //echo "<br>";
-
-                $pronto = $json['sales-orders']['sales-order']['order-no'];
-                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                $order->setData('pronto_order_number',$pronto);
-                $order->setData('pronto_status_code',$prontostatus);
-                $order->save();
-                
-                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
-                
-                $account = $json['sales-orders']['sales-order']['account'];
-                if (!empty($account) && !$order->getCustomerIsGuest()) {
-                    $customer = $this->customerRepository->getById($order->getCustomerId());
-                    $customer->setData('pronto_account_id', $account);
-                    $customer->setCustomAttribute('pronto_account_id', $account);
-                    $this->customerRepository->save($customer);
-                }
-                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-                $invoice = $order->getInvoiceCollection()->getFirstItem();
-                $this->incrementIdUpdater->update($invoice, $invoiceno);
-                var_dump($json);
-                //exit; //for testing;
-            }
+//            $this->curl->post($url, $xml);
+//
+//            $result = $this->curl->getBody();
+//
+//            //var_dump($result);
+//            // echo $result;
+//            $json = $this->jsonSerializer->unserialize($result);
+//            //var_dump($json);
+//            //echo "<br>";
+//            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+//            {
+//                $msg =  $json['response']['message'];
+//                echo $msg;
+//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+//                
+//            }
+//            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
+//                $msg =  $json['sales-orders']['response']['message'];
+//                echo $msg;
+//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+//
+//            }
+//            else {
+//                //success
+//                //update order data with pronto order-no below
+//                //$json['sales-order']['sales-order']['order-no']
+//                //echo "success";
+//                //echo "<br>";
+//
+//                $pronto = $json['sales-orders']['sales-order']['order-no'];
+//                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+//                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+//                $order->setData('pronto_order_number',$pronto);
+//                $order->setData('pronto_status_code',$prontostatus);
+//                $order->save();
+//                
+//                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
+//                
+//                $account = $json['sales-orders']['sales-order']['account'];
+//                if (!empty($account) && !$order->getCustomerIsGuest()) {
+//                    $customer = $this->customerRepository->getById($order->getCustomerId());
+//                    $customer->setData('pronto_account_id', $account);
+//                    $customer->setCustomAttribute('pronto_account_id', $account);
+//                    $this->customerRepository->save($customer);
+//                }
+//                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+//                $invoice = $order->getInvoiceCollection()->getFirstItem();
+//                $this->incrementIdUpdater->update($invoice, $invoiceno);
+//                var_dump($json);
+//                //exit; //for testing;
+//            }
         }
         exit; //for testing;
         
@@ -994,7 +994,7 @@ class TestPronto extends AbstractHelper
     
     public function getTestOrderCollection($orderId,$date)
     {
-        if($orderId != 0)
+        if($orderId != '0')
         {
             $collection = $this->_orderCollectionFactory->create()
                 ->addAttributeToSelect('*')
