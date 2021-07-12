@@ -805,7 +805,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
             
-
+            var_dump($data['sales-order']['header']);
             $paymentInstance = $order->getPayment();
 
             //payment details
@@ -870,7 +870,6 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
             $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
             
-            var_dump($data['sales-order']['header']['custom-data']);
             //product lines
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
@@ -886,7 +885,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
                 $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
@@ -908,11 +907,10 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['description'] = $order->getShippingDescription();
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
             $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
-            var_dump($data['sales-order']['detail']);
             //should be inside the foreach above
             //create xml of order data here
             $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
@@ -1006,8 +1004,8 @@ class TestPronto extends AbstractHelper
         }
         if($date != 0)
         {
-            $fromDate = date('Y-m-d'. '00:00:00',strtotime($date));
-            $toDate = date('Y-m-d'. '23:59:59',strtotime($date));
+            $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
+            $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
             echo $fromDate . " - ". $toDate;
             $collection = $this->_orderCollectionFactory->create()
                 ->addAttributeToSelect('*')
