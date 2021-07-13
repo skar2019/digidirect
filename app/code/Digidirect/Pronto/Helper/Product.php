@@ -2270,7 +2270,7 @@ class Product extends AbstractHelper
     } 
     
     public function productProntoSingle($startItem) {
- 
+        set_time_limit(300);
         
         $lastCode = 0;
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
