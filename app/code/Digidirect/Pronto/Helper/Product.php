@@ -6,15 +6,17 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 use Psr\Log\LoggerInterface;
+use Magento\Catalog\Model\ResourceModel\Product as ProductResource;
 
 class Product extends AbstractHelper
 {
- 
+    const BRAND_ATTRIBUTE_CODE = 'brand';
     /**
     * @var Curl
     */
     protected $curl;
     protected $productRepository;
+    protected $attributeOptions = [];
     
     public function __construct(
                         Curl $curl,
@@ -25,7 +27,8 @@ class Product extends AbstractHelper
                         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
                         \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
                         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-                        LoggerInterface $logger
+                        LoggerInterface $logger,
+                        ProductResource $productResource
                     ){
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -36,6 +39,7 @@ class Product extends AbstractHelper
                         $this->productFactory = $productFactory;
                         $this->stockRegistry = $stockRegistry;
                         $this->logger = $logger;
+                        $this->productResource = $productResource;
 
     }
 
@@ -89,7 +93,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -228,7 +236,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -281,7 +293,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -367,7 +384,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -420,7 +441,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -506,7 +532,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -559,7 +589,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -645,7 +680,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -698,7 +737,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -784,7 +828,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -837,7 +885,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -923,7 +976,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -976,7 +1033,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -1062,7 +1124,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1115,7 +1181,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -1201,7 +1272,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1254,7 +1329,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -1340,7 +1420,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1393,7 +1477,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -1479,7 +1568,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1532,7 +1625,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -1618,7 +1716,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1671,7 +1773,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -1757,7 +1864,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update: '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1810,7 +1921,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -1903,7 +2019,11 @@ class Product extends AbstractHelper
                 $this->logger->info('Pronto Product update '.$lastCode);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1953,7 +2073,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -2130,7 +2255,7 @@ class Product extends AbstractHelper
     
     public function productProntoBulk($startItem, $endItem) {
  
-        
+        set_time_limit(300);
         $lastCode = 0;
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
@@ -2172,10 +2297,14 @@ class Product extends AbstractHelper
             try {
                 
                 $product = $this->productRepository->get($prod['code']);
-                
+
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -2204,9 +2333,9 @@ class Product extends AbstractHelper
                         $sourceItem->setStatus(1);
                         $sourceItem->setQuantity($qt['qty_available']);
                         $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                        echo "W- HSE CODE:".$qt['code'];
-                        echo " SKU: ".$prod['code'];
-                        echo " QTY: ".$qt['qty_available'];
+                        echo " / WHSE CODE:".$qt['code'];
+                        echo " / SKU: ".$prod['code'];
+                        echo " / QTY: ".$qt['qty_available'];
                         echo "<br/>";
                     }
                     }
@@ -2229,7 +2358,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -2313,10 +2447,12 @@ class Product extends AbstractHelper
             try {
                 
                 $product = $this->productRepository->get($prod['code']);
-                
+                $brandName = strtolower($prod['stk-brand']);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -2344,9 +2480,9 @@ class Product extends AbstractHelper
                         $sourceItem->setStatus(1);
                         $sourceItem->setQuantity($qt['qty_available']);
                         $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                        echo "WHSE CODE:".$qt['code'];
-                        echo " SKU: ".$prod['code'];
-                        echo " QTY: ".$qt['qty_available'];
+                        echo "/ WHSE CODE:".$qt['code'];
+                        echo "/ SKU: ".$prod['code'];
+                        echo "/ QTY: ".$qt['qty_available'];
                         echo "<br/>";
                     }
                     }
@@ -2369,7 +2505,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                $this->attributeOptions = $this->getOptionHash('brand');
+                $brandCode = $this->attributeOptions[strtolower($brandName)];
+                $product->setBrand($brandCode);
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -2413,4 +2554,21 @@ class Product extends AbstractHelper
     {
         return $this->sourceItemsBySku->execute($sku);
     }
+    
+    
+    protected function getOptionHash(string $attributeCode): array
+    {
+        $result = [];
+        $attribute = $this->productResource->getAttribute($attributeCode);
+        $options = $attribute->getSource()->getAllOptions(false);
+        foreach ($options as $option) {
+            if (!isset($option['value']) || !strlen($option['value'])) {
+                continue;
+            }
+            $result[strtolower($option['label'])] = $option['value'];
+        }
+        return $result;
+    }
+    
+    
 }      
