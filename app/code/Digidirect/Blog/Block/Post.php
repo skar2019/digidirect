@@ -100,7 +100,16 @@ class Post extends Template implements IdentityInterface
      */
     public function getDescription()
     {
-        return $this->filterProvider->getBlockFilter()->filter($this->getPost()->getContent());
+        $initial_description = $this->filterProvider->getBlockFilter()->filter($this->getPost()->getContent());
+        
+        $initial_description = str_replace("ÔÇØ", "'", $initial_description);
+        $initial_description = str_replace("ÔÇ£", "'", $initial_description);
+        $initial_description = str_replace("ÔÇÖ", "'", $initial_description);
+        $initial_description = str_replace("ÔÇÿ", "'", $initial_description);
+        $initial_description = str_replace("ÔÇô", "'", $initial_description);
+        $description         = str_replace("ÔÇª", ".", $initial_description);
+
+        return $description;
     }
 
     /**
