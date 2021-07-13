@@ -297,7 +297,11 @@ class Order extends AbstractHelper
             if (empty($payment_reference) && ($method == 'm2epropayment')) {
                 $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
             }
-
+            
+            if(($is_am_order) && ($payment_type == "EB")){
+                $payment_type = "AM";
+            }
+            
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
             //if(!$is_am_order){
