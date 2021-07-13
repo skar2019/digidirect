@@ -507,7 +507,6 @@ class TestPronto extends AbstractHelper
             $whse = '';
 
             if ($order->getShippingMethod() == 'collect_collect') {
-                echo "collect_collect <br/>";
                 if ($collectPlaceId = $this->getCollectPlaceId($order)) {
                     $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
                     //$whse = $this->repCodeForPickUp[$collectPlaceId];
@@ -892,7 +891,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                 $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                $data['sales-order']['detail']['line'][$x]['backordered'] = 1;
+                $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
@@ -1012,7 +1011,6 @@ class TestPronto extends AbstractHelper
         {
             $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
             $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
-            echo $fromDate . " - ". $toDate;
             $collection = $this->_orderCollectionFactory->create()
                 ->addAttributeToSelect('*')
                 ->addFieldToFilter('pronto_order_number', array('null' => true))
