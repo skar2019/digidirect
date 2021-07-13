@@ -207,7 +207,7 @@
                 </item>
             </argument>
         </column>
-        <column name="publish_date" class="Magento\Ui\Component\Listing\Columns\Date">
+<!--        <column name="publish_date" class="Magento\Ui\Component\Listing\Columns\Date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">dateRange</item>
@@ -218,8 +218,8 @@
                     <item name="timezone" xsi:type="boolean">false</item>
                 </item>
             </argument>
-        </column>
-        <column name="url_key">
+        </column>-->
+<!--        <column name="url_key">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
@@ -227,8 +227,8 @@
                     <item name="label" xsi:type="string" translate="true">Url Key</item>
                 </item>
             </argument>
-        </column>
-        <column name="content">
+        </column>-->
+<!--        <column name="content">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
@@ -236,8 +236,8 @@
                     <item name="label" xsi:type="string" translate="true">Content</item>
                 </item>
             </argument>
-        </column>
-        <column name="short_content">
+        </column>-->
+<!--        <column name="short_content">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">text</item>
@@ -245,8 +245,8 @@
                     <item name="label" xsi:type="string" translate="true">Short Content</item>
                 </item>
             </argument>
-        </column>
-        <column name="status">
+        </column>-->
+<!--        <column name="status">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Digidirect\Blog\Model\Config\Source\Status</item>
                 <item name="config" xsi:type="array">
@@ -258,7 +258,7 @@
                     <item name="sortOrder" xsi:type="number">4</item>
                 </item>
             </argument>
-        </column>
+        </column>-->
         <actionsColumn name="actions" class="Digidirect\Blog\Ui\Component\Listing\Post\Columns\PostActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
