@@ -79,7 +79,7 @@ class Data extends CoreHelper
 {
     const CONFIG_MODULE_PATH = 'product_feed';
     const XML_PATH_EMAIL     = 'email';
-    const FEED_FILE_PATH     = BP . '/pub/media/mageplaza/feed/';
+    const FEED_FILE_PATH     = BP . '/pub/media/feed/';
 
     /**
      * @var ProductFactory
