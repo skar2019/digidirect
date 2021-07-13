@@ -53,6 +53,7 @@ class Product extends AbstractHelper
         {
             $startitem = 0; //100425 started
         }
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -60,7 +61,7 @@ class Product extends AbstractHelper
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
-        $jsonData = '{}';
+        $jsonData = '{}'; 
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
@@ -95,9 +96,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -150,7 +153,14 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                
+                $brandName = strtolower($prod['stk-brand']);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
+                
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -195,7 +205,7 @@ class Product extends AbstractHelper
     public function productProntoOne() {
  
         $startitem = 106156; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -238,9 +248,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -295,9 +307,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -343,7 +357,7 @@ class Product extends AbstractHelper
     public function productProntoTwo() {
  
         $startitem = 114773; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -386,9 +400,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -443,9 +459,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -491,7 +509,7 @@ class Product extends AbstractHelper
     public function productProntoThree() {
  
         $startitem = 120409; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -534,9 +552,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -591,9 +611,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -639,7 +661,7 @@ class Product extends AbstractHelper
     public function productProntoFour() {
  
         $startitem = 123432; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -682,9 +704,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -739,9 +763,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -787,7 +813,7 @@ class Product extends AbstractHelper
     public function productProntoFive() {
  
         $startitem = 126304; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -830,9 +856,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -887,9 +915,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -935,7 +965,7 @@ class Product extends AbstractHelper
     public function productProntoSix() {
  
         $startitem = 128787; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -978,9 +1008,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1035,9 +1067,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -1083,7 +1117,7 @@ class Product extends AbstractHelper
     public function productProntoSeven() {
  
         $startitem = 130469; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -1126,9 +1160,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1183,9 +1219,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -1231,7 +1269,7 @@ class Product extends AbstractHelper
     public function productProntoEight() {
  
         $startitem = 132662; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -1274,9 +1312,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1331,9 +1371,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -1379,7 +1421,7 @@ class Product extends AbstractHelper
     public function productProntoNine() {
  
         $startitem = 134410; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -1422,9 +1464,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1479,9 +1523,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -1527,7 +1573,7 @@ class Product extends AbstractHelper
     public function productProntoTen() {
  
         $startitem = 135924; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -1570,9 +1616,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1627,9 +1675,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -1675,7 +1725,7 @@ class Product extends AbstractHelper
     public function productProntoEleven() {
  
         $startitem = 137346; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -1718,9 +1768,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1775,9 +1827,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -1823,7 +1877,7 @@ class Product extends AbstractHelper
     public function productProntoTwelve() {
  
         $startitem = 138630; //100425 started
-        
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -1866,9 +1920,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -1923,9 +1979,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -1979,6 +2037,7 @@ class Product extends AbstractHelper
         {
             $startitem = 0; //100425 started
         }
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
@@ -2021,9 +2080,11 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -2075,9 +2136,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -2127,6 +2190,7 @@ class Product extends AbstractHelper
  
         
         $lastCode = 0;
+        $this->attributeOptions = $this->getOptionHash('brand');
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
@@ -2169,7 +2233,12 @@ class Product extends AbstractHelper
                 
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                $product->setBrand($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand']);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -2218,7 +2287,12 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
-                $product->setBrand($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand']);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
@@ -2257,6 +2331,7 @@ class Product extends AbstractHelper
  
         set_time_limit(300);
         $lastCode = 0;
+        $this->attributeOptions = $this->getOptionHash('brand');
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
@@ -2293,7 +2368,6 @@ class Product extends AbstractHelper
             
             $lastCode = $prod['code'];
             
-            echo $lastCode ."<br/>";
             try {
                 
                 $product = $this->productRepository->get($prod['code']);
@@ -2302,9 +2376,13 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                echo "Brand ".$brandName." / ";
+
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -2360,9 +2438,11 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
@@ -2406,6 +2486,7 @@ class Product extends AbstractHelper
     public function productProntoSingle($startItem) {
         set_time_limit(300);
         
+        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
@@ -2443,16 +2524,18 @@ class Product extends AbstractHelper
             
             $lastCode = $prod['code'];
             
-            echo $lastCode ."<br/>";
             try {
                 
                 $product = $this->productRepository->get($prod['code']);
                 $brandName = strtolower($prod['stk-brand']);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                echo "Brand ".$brandName." / ";
+
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -2507,9 +2590,13 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4); // Default attribute set for products
                 
                 $brandName = strtolower($prod['stk-brand']);
-                $this->attributeOptions = $this->getOptionHash('brand');
-                $brandCode = $this->attributeOptions[strtolower($brandName)];
-                $product->setBrand($brandCode);
+                echo "Brand ".$brandName." / ";
+                
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
                 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
