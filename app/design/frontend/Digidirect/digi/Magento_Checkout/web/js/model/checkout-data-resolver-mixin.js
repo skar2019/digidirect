@@ -34,9 +34,7 @@ define([
             }
             
             if (ratesData.length > 1) {
-                //set shipping rate if we have only one available shipping rate
                 selectShippingMethodAction(shippingExist[0]);
-
                 return;
             }
 
