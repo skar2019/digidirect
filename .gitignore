@@ -49,6 +49,8 @@
 !/pub/media/**
 !/pub/media/wysiwyg/
 !/pub/media/wysiwyg/**
+!/pub/bridge2cart
+!/pub/bridge2cart/*
 !/bridge2cart
 !/bridge2cart/*
 !/bridge2cart/bridge.php
