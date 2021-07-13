@@ -32,6 +32,13 @@ define([
 
                 return;
             }
+            
+            if (ratesData.length > 1) {
+                //set shipping rate if we have only one available shipping rate
+                selectShippingMethodAction(shippingExist[0]);
+
+                return;
+            }
 
             if (quote.shippingMethod()) {
                 availableRate = _.find(ratesData, function (rate) {
@@ -82,11 +89,12 @@ define([
 //                }
 //            }
 
-            if (freeshippingExist.length > 0 && !availableRate) {
-                selectShippingMethodAction(freeshippingExist[0]);
-            } else if(flaterateExist.length > 0 &&!availableRate) {
-                selectShippingMethodAction(flaterateExist[0]);
-            }
+//Commented out by Ron
+//            if (freeshippingExist.length > 0 && !availableRate) {
+//                selectShippingMethodAction(freeshippingExist[0]);
+//            } else if(flaterateExist.length > 0 &&!availableRate) {
+//                selectShippingMethodAction(flaterateExist[0]);
+//            }
 
             function checkoutMobileCart () {
 
