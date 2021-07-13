@@ -160,6 +160,7 @@ class Order extends AbstractHelper
             $account = $this->getAccount($order);
 
             $is_am_order = false;
+            $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
                 $is_am_order = true;
             }
@@ -172,6 +173,7 @@ class Order extends AbstractHelper
                     $account = "AMAZ00";
                     $wrehs = "AWHS";
                     $territory = "AWHS";
+                    $is_am_fba = true;
                 }
             }
             else
@@ -304,11 +306,11 @@ class Order extends AbstractHelper
             
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
-            //if(!$is_am_order){
+            if(!$is_am_fba){
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                 $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-            //}
+            }
             
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
