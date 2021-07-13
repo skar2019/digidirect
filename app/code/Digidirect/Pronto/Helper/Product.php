@@ -2128,6 +2128,146 @@ class Product extends AbstractHelper
         }
     } 
     
+    public function productProntoSingle($startItem) {
+ 
+        
+        $lastCode = 0;
+        echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
+        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
+        //live port :8084
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$startItem;
+        $username = 'clint.mercado';
+        $password = '849cd5080faff5ce';
+        $jsonData = '{}';
+        
+        $this->curl->addHeader("Content-Type", "application/json");
+        $this->curl->addHeader("Accept", "application/json");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
+        
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        // get method
+        $this->curl->get($url);
+
+        $result = $this->curl->getBody();
+        // echo $result;
+        $json = $this->jsonSerializer->unserialize($result);
+        //var_dump($json['stockmaster']['stockcode']);
+        //var_dump($json);
+        
+        foreach ($json['stockmaster'] as $prod)
+        {
+            if(!isset($prod['code']))
+            {
+                exit;
+            }
+            
+            $lastCode = $prod['code'];
+            
+            echo $lastCode ."<br/>";
+            try {
+                
+                $product = $this->productRepository->get($prod['code']);
+                
+                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $product->setStockStatus($prod['stk-stock-status']);
+                $product->setBrand($prod['stk-brand']);
+                
+                if(isset($prod['gtins']['gtin']))
+                {
+                    //set barcode
+                    if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
+                    {
+                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
+                    }
+                    else
+                    {
+                        $x =1;
+                        foreach ($prod['gtins']['gtin'] as $gtin) {
+                            $att = 'barcode'.$x;
+                            $product->setCustomAttribute($att, $gtin['id']);
+                            $x++;
+                        }
+                    }
+                     if(isset($prod['warehouse']['whse']))
+                    {
+                    foreach ($prod['warehouse']['whse'] as $qt)
+                    {
+                        $sourceItem = $this->sourceItemFactory->create();
+                        $sourceItem->setSourceCode($qt['code']);
+                        $sourceItem->setSku($prod['code']);
+                        $sourceItem->setStatus(1);
+                        $sourceItem->setQuantity($qt['qty_available']);
+                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        echo "WHSE CODE:".$qt['code'];
+                        echo " SKU: ".$prod['code'];
+                        echo " QTY: ".$qt['qty_available'];
+                        echo "<br/>";
+                    }
+                    }
+                    $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                    $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
+                    $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+
+                    $this->productRepository->save($product);
+                    echo "update ".$lastCode ."<br/>";
+                }
+                
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+                // insert your error handling here
+                
+                $prodname = $prod['desc1']. " ".$prod['desc2'];
+                $product = $this->productFactory->create();
+                $product->setSku($prod['code']);
+                $product->setName($prodname);
+                $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
+                $product->setVisibility(4);
+                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $product->setAttributeSetId(4); // Default attribute set for products
+                $product->setBrand($prod['stk-brand']);
+                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+//                // If desired, you can set a tax class like so:
+//                //$product->setCustomAttribute('tax_class_id', $taxClassId);
+                $toUrl = $prodname;
+                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $url = strtolower($url);
+                $product->setUrlKey($url);
+                
+                foreach ($prod['warehouse']['whse'] as $qt)
+                {
+                    $sourceItem = $this->sourceItemFactory->create();
+                    $sourceItem->setSourceCode($qt['code']);
+                    $sourceItem->setSku($prod['code']);
+                    $sourceItem->setStatus(1);
+                    $sourceItem->setQuantity($qt['qty_available']);
+                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                    echo "WHSE CODE:".$qt['code'];
+                    echo " SKU: ".$prod['code'];
+                    echo " QTY: ".$qt['qty_available'];
+                    echo "<br/>";
+                }
+                    
+                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
+                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                $this->productRepository->save($product);
+                echo "insert ".$lastCode ."<br/>";
+            }
+        }
+        
+        
+        if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
+        {
+            echo $json['response']['message'];
+            
+        }
+        exit;
+    } 
+    
     public function getSourceItemBySku($sku)
     {
         return $this->sourceItemsBySku->execute($sku);
