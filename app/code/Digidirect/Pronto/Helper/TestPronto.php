@@ -1015,8 +1015,8 @@ class TestPronto extends AbstractHelper
                 ->addAttributeToSelect('*')
                 ->addFieldToFilter('pronto_order_number', array('null' => true))
                 ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-                ->addFieldToFilter('created_at', array('lteq' => $toDate));
-
+                ->addFieldToFilter('created_at', array('lteq' => $toDate))
+                ->setPageSize(10);
             return $collection;
         }
         
