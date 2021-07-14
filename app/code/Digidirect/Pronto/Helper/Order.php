@@ -306,11 +306,15 @@ class Order extends AbstractHelper
             
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
-            if((!$is_am_fba) || ($payment_type != "Y"))
+            if((!$is_am_fba))
             {
-                $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-                $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                if(($payment_type != "Y"))
+                {
+                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                }
+                
             }
             
             //CUSTOM DATA

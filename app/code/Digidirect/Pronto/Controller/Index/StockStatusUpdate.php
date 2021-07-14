@@ -29,52 +29,20 @@ class StockStatusUpdate extends \Magento\Framework\App\Action\Action
     }
 
     public function execute(){
-
-//        1. Get enabled Product SKU.
-//        2. Iterate collection and check source status by SKU
-//        3. Update stock status to 1 if current is 0
-
-        $page_number = 1;
-
-        if(isset($_GET["p"])){
-            $page_number = $_GET["p"];
-            settype($page_number, "integer");
-        }
-
-        /*Get in stock product collection*/
+        set_time_limit(300);
         $collection = $this->_productCollectionFactory->create()->addFieldToSelect('*')
             ->setFlag('has_stock_status_filter', false)
 //            ->addAttributeToFilter('sku', array('like' => '109429%'))
             ->addAttributeToFilter('status', ['in' => $this->productStatus->getVisibleStatusIds()])
-            ->setCurPage($page_number)
-            ->setPageSize(1000)
             ->joinField('stock_item', 'cataloginventory_stock_item', 'is_in_stock', 'product_id=entity_id');
 
         foreach ($collection as $key => $product) {
 
-            $sku = $product->getSku();
-
-            $source_status = $this->sourceDataBySku->execute($sku);
-            foreach($source_status as $key => $source_data){
-                $source_code = $source_data["source_code"];
-                $source_qty = $source_data["quantity"];
-
-                settype($source_qty, "integer");
-
-                $source_status = $source_data["status"];
-
-                if($source_status == 0){
-                    $sourceItem = $this->sourceItemFactory->create();
-                    $sourceItem->setSourceCode($source_code);
-                    $sourceItem->setSku($sku);
-                    $sourceItem->setStatus(1);
-
-                    $sourceItem->setQuantity($source_qty);
-                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                }
+            $brand_text = $product->getAttributeText("brand");
+           
+            if(empty($brand_text)){
+                echo $product->getName() . " - "  . $product->getSku() . " <br />";
             }
-
-            echo $product->getName() . " - "  . $product->getSku() . " <br />";
         }
 
         exit();

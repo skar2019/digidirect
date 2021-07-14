@@ -1002,6 +1002,7 @@ class TestPronto extends AbstractHelper
                 echo 'success -'.$pronto;
                 //exit; //for testing;
             }
+            echo "<br>";
         }
         exit; //for testing;
         
