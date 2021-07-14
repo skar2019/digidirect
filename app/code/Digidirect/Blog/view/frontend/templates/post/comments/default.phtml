@@ -55,7 +55,7 @@
     <?php else: ?>
         <p><?php /* @escapeNotVerified */ echo __('No Comments yet. Be the first to comment.') ?></p>
     <?php endif; ?>
-    <?php if ($toolbar = $block->getChildHtml('toolbar')) : ?>
+    <?php if ($toolbar = $block->getChildHtml('blog_toolbar')) : ?>
         <div class="toolbar blog-toolbar">
             <?php /* @escapeNotVerified */ echo $toolbar ?>
         </div>

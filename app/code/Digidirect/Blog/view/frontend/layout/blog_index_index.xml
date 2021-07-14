@@ -4,7 +4,7 @@
     <body>
         <referenceContainer name="content">
             <block class="Digidirect\Blog\Block\Blog" name="blog.list" template="blog_list.phtml">
-                <block class="Magento\Theme\Block\Html\Pager" name="post_list_pager" as="post_list_pager"/>
+                <block class="Magento\Theme\Block\Html\Pager" name="post_list_pager.toolbar"/>
                 <arguments>
                     <argument name="limit" xsi:type="helper" helper="Digidirect\Blog\Helper\Data::getPostPerPage"/>
                     <argument name="show_category_name" xsi:type="boolean">true</argument>

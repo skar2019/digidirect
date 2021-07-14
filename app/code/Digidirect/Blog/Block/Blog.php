@@ -190,15 +190,53 @@ class Blog extends Template
     {
         parent::_prepareLayout();
         /** @var \Magento\Theme\Block\Html\Pager $toolbar */
-        $toolbar = $this->getLayout()->getBlock('post_list_pager');
+        $toolbar = $this->getLayout()->getBlock('post_list_pager.toolbar');
         if ($toolbar) {
-            $toolbar->setShowPerPage(false);
-            $toolbar->setLimit($this->getPostPerPage());
+            $postPerPage = $this->getPostPerPage();
+
+            $toolbar->setLimit($postPerPage)->setShowPerPage(true);
             $collection = $this->getCollection();
+
             $toolbar->setCollection($collection);
-            $this->setChild('toolbar', $toolbar);
+            $this->setChild('blog_toolbar', $toolbar);
         }
+
         return $this;
+    }
+
+    public function getPagerHtml(){
+        $pager = "";
+
+        $collection = $this->getCollection();
+        $total_size = $collection->getSize();
+        $per_page = $this->dataHelper->getPostPerPage();
+
+        $total_pages = ceil($total_size/$per_page);
+
+        $current_page_number = 1;
+        $page_number_param = $this->getRequest()->getParams("p");
+
+        if(isset($page_number_param["p"])){
+            $current_page_number = $page_number_param["p"];
+        }
+
+        //To do GET Correct URL
+        $currentUrl = $this->urlModel->getBlogListUrl(false);
+        if($total_pages > 1){
+            for ($x = 1; $x <= $per_page; $x++) {
+                $current_item = "";
+                $page_number = "<a href='".$currentUrl."?p=".$x."'>".$x."</a>";
+
+                if($current_page_number == $x){
+                    $current_item = "current";
+                    $page_number = "<span>".$x."</span>";
+                }
+
+                $pager .= "<li class=\"item $current_item\"><strong class=\"page\">". $page_number ."</strong></li>";
+            }
+        }
+
+        return $pager;
     }
 
     /**
