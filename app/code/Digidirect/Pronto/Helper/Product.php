@@ -356,7 +356,7 @@ class Product extends AbstractHelper
     
     public function productProntoTwo() {
  
-        $startitem = 114773; //100425 started
+        $startitem = 114573; //100425 started
         $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $this->logger->info('Pronto Product Sync - start item: '.$startitem);

@@ -495,6 +495,12 @@ class TestPronto extends AbstractHelper
             case "zipmoneypayment":
                 $type = "ZM";
                 break;
+            case "braintree_googlepay":
+                $type = "BT";
+                break;
+            case "klarna_kp":
+                $type = "KL";
+                break;
             default:
           break;
         }
@@ -845,7 +851,7 @@ class TestPronto extends AbstractHelper
             
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
-            if(!$is_am_fba)
+            if((!$is_am_fba) || ($payment_type != "Y"))
             {
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;

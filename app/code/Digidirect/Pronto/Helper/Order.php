@@ -306,7 +306,8 @@ class Order extends AbstractHelper
             
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
-            if(!$is_am_fba){
+            if((!$is_am_fba) || ($payment_type != "Y"))
+            {
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                 $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                 $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
@@ -495,6 +496,12 @@ class Order extends AbstractHelper
                  break;
             case "zipmoneypayment":
                 $type = "ZM";
+            case "braintree_googlepay":
+                $type = "BT";
+                break;
+            case "klarna_kp":
+                $type = "KL";
+                break;
                 break;
             default:
           break;
