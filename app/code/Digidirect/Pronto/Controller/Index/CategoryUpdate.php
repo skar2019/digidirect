@@ -57,8 +57,9 @@ class CategoryUpdate extends \Magento\Framework\App\Action\Action
                 $isProductUnassigned = $this->categoryLinkRepository->deleteByIds($categoryId, $sku);
                 echo $sku." - ".$isProductUnassigned."<br>";
             } catch (Exception $ex) {
-                continue;
+                echo $ex->getMessage();
                 echo $sku." - ".$isProductUnassigned."<br>";
+                continue;
             }
             
             
