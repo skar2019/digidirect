@@ -43,7 +43,7 @@ class GetMetaTitle extends \Magento\Framework\App\Action\Action
         
         /*Get in stock product collection*/
         $collection = $this->_productCollectionFactory->create()->addFieldToSelect('*')
-            ->setPageSize(500) // only get 10 products
+            ->setPageSize(1000) // only get 10 products
             ->setCurPage($page_number)  // first page (means limit 0,10)
             ->setFlag('has_stock_status_filter', false);
         
