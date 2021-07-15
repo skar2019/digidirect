@@ -46,7 +46,7 @@ class CategoryUpdate extends \Magento\Framework\App\Action\Action
         $categoryId = 339; //Paper ID
         $category = $this->categoryFactory->create()->load($categoryId);
         $categoryProducts = $category->getProductCollection()
-                ->addAttributeToSelect('*')
+                ->addAttributeToSelect('sku')
                 ->setPageSize(100)
                 ->setCurPage($page_number);
         
