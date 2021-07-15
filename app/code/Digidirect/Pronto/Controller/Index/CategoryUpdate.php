@@ -46,10 +46,11 @@ class CategoryUpdate extends \Magento\Framework\App\Action\Action
             if(isset($_GET['p']))
             {
                 $page_number = $_GET['p'];
+                $size = $_GET['size'];
                 $category = $this->categoryFactory->create()->load($categoryId);
                 $categoryProducts = $category->getProductCollection()
                         ->addAttributeToSelect('sku')
-                        ->setPageSize(10)
+                        ->setPageSize($size)
                         ->setCurPage($page_number);
 
                 $isProductUnassigned = false;
