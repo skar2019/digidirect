@@ -2377,7 +2377,10 @@ class Product extends AbstractHelper
                 
                 $brandName = strtolower($prod['stk-brand']);
                 echo "Brand ".$brandName." / ";
-
+                if($brandName == "thinktank")
+                {
+                    $brandName = "think tank";
+                }
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
                     echo "update brand /";
