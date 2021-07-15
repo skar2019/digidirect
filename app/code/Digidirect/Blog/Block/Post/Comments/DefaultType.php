@@ -108,7 +108,7 @@ class DefaultType extends AbstractCommentType
             $toolbar->setLimit($commentsPerPage);
             $collection = $this->getCommentsCollection();
             $toolbar->setCollection($collection);
-            $this->setChild('toolbar', $toolbar);
+            $this->setChild('blog_toolbar', $toolbar);
         }
         return $this;
     }
