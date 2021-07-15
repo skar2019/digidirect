@@ -958,7 +958,6 @@ class TestPronto extends AbstractHelper
                 }
             }
             
-            
             $shippingprice = (double) $order->getShippingAmount();
             $shippingDesc = $order->getShippingDescription();
             if($shippingDesc == "Express - (1 to 3 Days)")
@@ -1026,11 +1025,6 @@ class TestPronto extends AbstractHelper
 
             }
             else {
-                //success
-                //update order data with pronto order-no below
-                //$json['sales-order']['sales-order']['order-no']
-                //echo "success";
-                //echo "<br>";
 
                 $pronto = $json['sales-orders']['sales-order']['order-no'];
                 $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
@@ -1052,7 +1046,7 @@ class TestPronto extends AbstractHelper
                 $invoice = $order->getInvoiceCollection()->getFirstItem();
                 $this->incrementIdUpdater->update($invoice, $invoiceno);
                 echo 'success -'.$pronto;
-                //exit; //for testing;
+
             }
             echo "<br>";
         }
