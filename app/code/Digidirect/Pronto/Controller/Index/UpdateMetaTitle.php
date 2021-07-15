@@ -33,30 +33,31 @@ class UpdateMetaTitle extends \Magento\Framework\App\Action\Action
     }
 
     public function execute(){
-        
-        set_time_limit(600);
+       
+        set_time_limit(300);
         $page_number = 1;
-        
+       
         if(isset($_GET["p"])){
             $page_number = $_GET["p"];
         }
-        
+       
         /*Get in stock product collection*/
         $collection = $this->_productCollectionFactory->create()->addFieldToSelect('*')
             ->setPageSize(500) // only get 10 products
             ->setCurPage($page_number)  // first page (means limit 0,10)
             ->setFlag('has_stock_status_filter', false);
-        
+       
         $concat = " | Buy at digiDirect";
         $counter = 0;
+        $existing_counter = 0;
 
         foreach ($collection as $key => $product) {
             $sku = $product->getSku();
             $productName = $product->getName();
             $meta_title = $product->getMetaTitle();
-            
+           
             $existing_meta_title = $productName . $concat;
-            
+           
             if($meta_title != $existing_meta_title){
                 $meta_title = $productName . $concat;
 
@@ -67,9 +68,15 @@ class UpdateMetaTitle extends \Magento\Framework\App\Action\Action
                 echo $productName . " - "  . $sku . " <br />" . $existing_meta_title . "<br /><br />";
                 $counter++;
             }
+            else{
+               
+                $existing_counter++;
+                echo $productName . " - "  . $sku . " <br />" . $meta_title . "<br /><br />";
+            }
         }
-        
+       
         echo "Total updated SKUs: " . $counter;
+        echo "Total not updated SKUs: " . $existing_counter;
 
         exit();
     }

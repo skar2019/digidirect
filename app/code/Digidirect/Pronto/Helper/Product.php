@@ -2381,6 +2381,14 @@ class Product extends AbstractHelper
                 {
                     $brandName = "think tank";
                 }
+                if($brandName == "peak")
+                {
+                    $brandName = "peak design";
+                }
+                if($brandName == "3lt")
+                {
+                    $brandName = "3 legged thing";
+                }
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
                     echo "update brand /";

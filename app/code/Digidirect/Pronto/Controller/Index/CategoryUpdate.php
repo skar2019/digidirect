@@ -42,7 +42,7 @@ class CategoryUpdate extends \Magento\Framework\App\Action\Action
         if(isset($_GET["cat"])){
             $categoryId = $_GET["cat"];
         }
-        set_time_limit(600);
+        set_time_limit(300);
         //$categoryId = 339; //Paper ID
         $category = $this->categoryFactory->create()->load($categoryId);
         $categoryProducts = $category->getProductCollection()
