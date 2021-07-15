@@ -46,8 +46,7 @@ class CategoryUpdate extends \Magento\Framework\App\Action\Action
         //$categoryId = 339; //Paper ID
         $category = $this->categoryFactory->create()->load($categoryId);
         $categoryProducts = $category->getProductCollection()
-                ->addAttributeToSelect('*')
-                ->setPageSize(500);
+                ->addAttributeToSelect('*');
         
         $isProductUnassigned = false;
         foreach ($categoryProducts as $product) {
