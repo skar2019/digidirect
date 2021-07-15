@@ -344,21 +344,69 @@ class Order extends AbstractHelper
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
+                $skus = array();
+                $productSku = "";
+                $digiProtect = "";
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
+                
+                $digiProtectPrice = 0;
+                $digiProtectQty = 0;
+                $digiProtectdiscount = 0;
+                $digiProtectTotal = 0;
+                
+                $sku = $item->getSku();
+                if(strpos($sku, '-') !== false)
+                {
+                    $skus = explode('-', $sku);
+                    $productSku = $skus[0];
+                    $digiProtect = $skus[1];
+                    
+                    $price = (double) $item->getBasePriceInclTax();
+                    $orig = (double) $item->getOriginalPrice();
+                    $digiProtectPrice = $price - $orig;
+                    $digiProtectQty = (double) $item->getQtyOrdered();
+                    $digiProtectdiscount = (double) $item->getDiscountAmount();
+                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
 
+                }
+                else 
+                {
+                    $productSku = $sku;
+                    
+                }
+                
+                
                 $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
-                $data['sales-order']['detail']['line'][$x]['stock-code'] = $item->getSku();
+                $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                 $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                $data['sales-order']['detail']['line'][$x]['backordered'] = 1;
+                $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
+                
+                if(!empty($digiProtect))
+                {
+                    $price = (double) $item->getBasePriceInclTax();
+                    $qty = (double) $item->getQtyOrdered();
+                    $discount = (double) $item->getDiscountAmount();
+                    $total = ($price * $qty) - $discount;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+                    $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
+                    $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
+                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $digiProtectPrice;
+                    $data['sales-order']['detail']['line'][$x]['ordered'] = $digiProtectQty;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                    $data['sales-order']['detail']['line'][$x]['backordered'] = $digiProtectQty;
+                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $digiProtectdiscount;
+                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
+                    $x++;
+                }
             }
             
             //shipping details

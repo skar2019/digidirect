@@ -2380,6 +2380,7 @@ class Product extends AbstractHelper
 
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
+                    echo "update brand /";
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
                     $product->setBrand($brandCode);
                 }
@@ -2403,19 +2404,19 @@ class Product extends AbstractHelper
                     
                     if(isset($prod['warehouse']['whse']))
                     {
-                    foreach ($prod['warehouse']['whse'] as $qt)
-                    {
-                        $sourceItem = $this->sourceItemFactory->create();
-                        $sourceItem->setSourceCode($qt['code']);
-                        $sourceItem->setSku($prod['code']);
-                        $sourceItem->setStatus(1);
-                        $sourceItem->setQuantity($qt['qty_available']);
-                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                        echo " / WHSE CODE:".$qt['code'];
-                        echo " / SKU: ".$prod['code'];
-                        echo " / QTY: ".$qt['qty_available'];
-                        echo "<br/>";
-                    }
+                        foreach ($prod['warehouse']['whse'] as $qt)
+                        {
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($qt['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($qt['qty_available']);
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            echo " / WHSE CODE:".$qt['code'];
+                            echo " / SKU: ".$prod['code'];
+                            echo " / QTY: ".$qt['qty_available'];
+                            echo "<br/>";
+                        }
                     }
                     $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
