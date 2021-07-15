@@ -891,12 +891,45 @@ class TestPronto extends AbstractHelper
                 /* @var $item \Magento\Sales\Model\Order\Item */
 
                 //var_dump($item);
+                $skus = array();
+                $productSku = "";
+                $digiProtect = "";
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
+                
+                $digiProtectPrice = 0;
+                $digiProtectQty = 0;
+                $digiProtectdiscount = 0;
+                $digiProtectTotal = 0;
+                
+                $sku = $item->getSku();
+                if(strpos($sku, '-') !== false)
+                {
+                    $skus = explode('-', $sku);
+                    $productSku = $skus[0];
+                    $digiProtect = $skus[1];
+                    
+                    $price = (double) $item->getBasePriceInclTax();
+                    $orig = (double) $item->getOriginalPrice();
+                    $digiProtectPrice = $price - $orig;
+                    $digiProtectQty = (double) $item->getQtyOrdered();
+                    $digiProtectdiscount = (double) $item->getDiscountAmount();
+                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    
+                    echo "<br />SKU - ".$productSku;
+                    echo " / digiProtect - ".$digiProtect;
+                }
+                else 
+                {
+                    $productSku = $sku;
+                    
+                }
+                
+                
                 $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
-                $data['sales-order']['detail']['line'][$x]['stock-code'] = $item->getSku();
+                $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
                 $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
@@ -905,7 +938,26 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
+                
+                if(!empty($digiProtect))
+                {
+                    $price = (double) $item->getBasePriceInclTax();
+                    $qty = (double) $item->getQtyOrdered();
+                    $discount = (double) $item->getDiscountAmount();
+                    $total = ($price * $qty) - $discount;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+                    $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
+                    $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
+                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $digiProtectPrice;
+                    $data['sales-order']['detail']['line'][$x]['ordered'] = $digiProtectQty;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                    $data['sales-order']['detail']['line'][$x]['backordered'] = $digiProtectQty;
+                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $digiProtectdiscount;
+                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
+                    $x++;
+                }
             }
+            
             
             $shippingprice = (double) $order->getShippingAmount();
             $shippingDesc = $order->getShippingDescription();
@@ -941,68 +993,68 @@ class TestPronto extends AbstractHelper
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
 
-            $this->curl->addHeader("Content-Type", "application/xml");
-            $this->curl->addHeader("Accept", "application/json");
-            $this->curl->addHeader("compcode", "DIG"); //live
-            $this->curl->addHeader("user", "ewaveapi");
-            $this->curl->addHeader("token", "904241bdbf10efa9");
-            //
-            //$this->curl->addHeader("compcode", "UA1"); //test
-            //$this->curl->addHeader("user", "clint.mercado");
-            //$this->curl->addHeader("token", "849cd5080faff5ce");
-            
-            $this->curl->post($url, $xml);
-
-            $result = $this->curl->getBody();
-
-            //var_dump($result);
-            // echo $result;
-            $json = $this->jsonSerializer->unserialize($result);
-            //var_dump($json);
-            //echo "<br>";
-            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
-            {
-                $msg =  $json['response']['message'];
-                echo $msg."<br>";
-                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-                
-            }
-            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-                $msg =  $json['sales-orders']['response']['message'];
-                echo $msg ."<br>";
-                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-
-            }
-            else {
-                //success
-                //update order data with pronto order-no below
-                //$json['sales-order']['sales-order']['order-no']
-                //echo "success";
-                //echo "<br>";
-
-                $pronto = $json['sales-orders']['sales-order']['order-no'];
-                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                $order->setData('pronto_order_number',$pronto);
-                $order->setData('pronto_status_code',$prontostatus);
-                $order->save();
-                
-                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
-                
-                $account = $json['sales-orders']['sales-order']['account'];
-                if (!empty($account) && !$order->getCustomerIsGuest()) {
-                    $customer = $this->customerRepository->getById($order->getCustomerId());
-                    $customer->setData('pronto_account_id', $account);
-                    $customer->setCustomAttribute('pronto_account_id', $account);
-                    $this->customerRepository->save($customer);
-                }
-                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-                $invoice = $order->getInvoiceCollection()->getFirstItem();
-                $this->incrementIdUpdater->update($invoice, $invoiceno);
-                echo 'success -'.$pronto;
-                //exit; //for testing;
-            }
-            echo "<br>";
+//            $this->curl->addHeader("Content-Type", "application/xml");
+//            $this->curl->addHeader("Accept", "application/json");
+//            $this->curl->addHeader("compcode", "DIG"); //live
+//            $this->curl->addHeader("user", "ewaveapi");
+//            $this->curl->addHeader("token", "904241bdbf10efa9");
+//            //
+//            //$this->curl->addHeader("compcode", "UA1"); //test
+//            //$this->curl->addHeader("user", "clint.mercado");
+//            //$this->curl->addHeader("token", "849cd5080faff5ce");
+//            
+//            $this->curl->post($url, $xml);
+//
+//            $result = $this->curl->getBody();
+//
+//            //var_dump($result);
+//            // echo $result;
+//            $json = $this->jsonSerializer->unserialize($result);
+//            //var_dump($json);
+//            //echo "<br>";
+//            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+//            {
+//                $msg =  $json['response']['message'];
+//                echo $msg."<br>";
+//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+//                
+//            }
+//            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
+//                $msg =  $json['sales-orders']['response']['message'];
+//                echo $msg ."<br>";
+//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+//
+//            }
+//            else {
+//                //success
+//                //update order data with pronto order-no below
+//                //$json['sales-order']['sales-order']['order-no']
+//                //echo "success";
+//                //echo "<br>";
+//
+//                $pronto = $json['sales-orders']['sales-order']['order-no'];
+//                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+//                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+//                $order->setData('pronto_order_number',$pronto);
+//                $order->setData('pronto_status_code',$prontostatus);
+//                $order->save();
+//                
+//                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
+//                
+//                $account = $json['sales-orders']['sales-order']['account'];
+//                if (!empty($account) && !$order->getCustomerIsGuest()) {
+//                    $customer = $this->customerRepository->getById($order->getCustomerId());
+//                    $customer->setData('pronto_account_id', $account);
+//                    $customer->setCustomAttribute('pronto_account_id', $account);
+//                    $this->customerRepository->save($customer);
+//                }
+//                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+//                $invoice = $order->getInvoiceCollection()->getFirstItem();
+//                $this->incrementIdUpdater->update($invoice, $invoiceno);
+//                echo 'success -'.$pronto;
+//                //exit; //for testing;
+//            }
+//            echo "<br>";
         }
         exit; //for testing;
         
