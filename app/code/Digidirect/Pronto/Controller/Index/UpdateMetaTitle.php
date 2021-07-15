@@ -56,24 +56,30 @@ class UpdateMetaTitle extends \Magento\Framework\App\Action\Action
         //$storeManager = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
 
         foreach ($collection as $key => $product) {
-            $productId = $product->getId();
+           $productId = $product->getId();
 
-            $sku = $product->getSku();
-            $productName = $product->getName();
-            $meta_title = $product->getMetaTitle();
+           $sku = $product->getSku();
+           $productName = $product->getName();
+           $meta_title = $product->getMetaTitle();
 
-            $existing_meta_title = $productName . $concat;
+           $existing_meta_title = $productName . $concat;
+           
+           if($meta_title != $existing_meta_title){
+               $meta_title = $productName . $concat;
+               
+               $productRepo = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
+               $productRepo->setStoreId(0);
+               $productRepo->setMetaTitle($meta_title);
+               $productRepo->save();
 
-            $meta_title = $productName . $concat;
-
-            $productRepo = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
-            $productRepo->setStoreId(0);
-            $productRepo->setMetaTitle($meta_title);
-            $productRepo->save();
-
-            echo $productName . " - "  . $sku . " <br />" . $existing_meta_title . "<br /><br />";
-            $counter++;
-        }
+               echo $productName . " - "  . $sku . " <br />" . $meta_title . "<br /><br />";
+               $counter++;
+           }
+           else{
+               echo $productName . " - "  . $sku . " <br />" . $meta_title . " OKAY<br /><br />";
+               $counter++;
+           }
+       }
 
         exit();
     }
