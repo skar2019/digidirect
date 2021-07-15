@@ -68,6 +68,8 @@ class Blog extends Template
      */
     protected $_isShowCategoryNames = null;
 
+    protected $_urlInterface;
+
     /**
      * Blog constructor.
      *
@@ -93,7 +95,8 @@ class Blog extends Template
         CategoryHelper $categoryHelper,
         Arrow $arrowHelper,
         UrlModel $urlModel,
-        array $data = []
+        array $data = [],
+        \Magento\Framework\UrlInterface $urlInterface
     ) {
         parent::__construct($context, $data);
         $this->dataHelper = $dataHelper;
@@ -104,6 +107,7 @@ class Blog extends Template
         $this->categoryHelper = $categoryHelper;
         $this->arrowHelper = $arrowHelper;
         $this->urlModel = $urlModel;
+        $this->_urlInterface = $urlInterface;
     }
 
     /**
@@ -204,6 +208,20 @@ class Blog extends Template
         return $this;
     }
 
+    public function showPager(){
+        $pager = false;
+
+        $collection = $this->getCollection();
+        $total_size = $collection->getSize();
+        $per_page = $this->dataHelper->getPostPerPage();
+
+        if($total_size > $per_page){
+            $pager = true;
+        }
+
+        return $pager;
+    }
+
     public function getPagerHtml(){
         $pager = "";
 
@@ -221,7 +239,12 @@ class Blog extends Template
         }
 
         //To do GET Correct URL
-        $currentUrl = $this->urlModel->getBlogListUrl(false);
+//        $currentUrl = $this->urlModel->getBlogListUrl(true);
+
+        $initialUrl = $this->_urlInterface->getCurrentUrl(false);
+
+        $currentUrl = strtok($initialUrl, "?");
+
         if($total_pages > 1){
             for ($x = 1; $x <= $per_page; $x++) {
                 $current_item = "";
