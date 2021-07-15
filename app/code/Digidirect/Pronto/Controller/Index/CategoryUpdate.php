@@ -39,33 +39,63 @@ class CategoryUpdate extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        if(isset($_GET["cat"])){
-            $page_number = $_GET["cat"];
-        }
         set_time_limit(300);
-        $categoryId = 339; //Paper ID
-        $category = $this->categoryFactory->create()->load($categoryId);
-        $categoryProducts = $category->getProductCollection()
-                ->addAttributeToSelect('sku')
-                ->setPageSize(100)
-                ->setCurPage($page_number);
-        
-        $isProductUnassigned = false;
-        foreach ($categoryProducts as $product) {
-            $sku = $product->getSku();
-
-            try 
+        if(isset($_GET["cat"])){
+            
+            $categoryId = $_GET["cat"];
+            if(isset($_GET['p']))
             {
-                $isProductUnassigned = $this->categoryLinkRepository->deleteByIds($categoryId, $sku);
-                echo $sku." - ".$isProductUnassigned."<br>";
-            } catch (Exception $ex) {
-                echo $ex->getMessage();
-                echo $sku." - ".$isProductUnassigned."<br>";
-                continue;
+                $page_number = $_GET['p'];
+                $category = $this->categoryFactory->create()->load($categoryId);
+                $categoryProducts = $category->getProductCollection()
+                        ->addAttributeToSelect('sku')
+                        ->setPageSize(10)
+                        ->setCurPage($page_number);
+
+                $isProductUnassigned = false;
+                foreach ($categoryProducts as $product) {
+                    $sku = $product->getSku();
+
+                    try 
+                    {
+                        $isProductUnassigned = $this->categoryLinkRepository->deleteByIds($categoryId, $sku);
+                        echo $sku." - ".$isProductUnassigned."<br>";
+                    } catch (Exception $ex) {
+                        echo $ex->getMessage();
+                        echo $sku." - ".$isProductUnassigned."<br>";
+                        continue;
+                    }
+
+
+                }
+            }
+            else
+            {
+                $category = $this->categoryFactory->create()->load($categoryId);
+                $categoryProducts = $category->getProductCollection()
+                        ->addAttributeToSelect('sku')
+                        ->setPageSize(100);
+
+                $isProductUnassigned = false;
+                foreach ($categoryProducts as $product) {
+                    $sku = $product->getSku();
+
+                    try 
+                    {
+                        //$isProductUnassigned = $this->categoryLinkRepository->deleteByIds($categoryId, $sku);
+                        echo $sku." - ".$isProductUnassigned."<br>";
+                    } catch (Exception $ex) {
+                        echo $ex->getMessage();
+                        echo $sku." - ".$isProductUnassigned."<br>";
+                        continue;
+                    }
+
+
+                }
             }
             
-            
         }
+        
 
         exit();
     }

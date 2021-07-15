@@ -3,7 +3,7 @@ namespace Digidirect\Pronto\Controller\Index;
 
 use Digidirect\Pronto\Helper\Product;
 
-class UpdateMetaTitle extends \Magento\Framework\App\Action\Action
+class GetMetaTitle extends \Magento\Framework\App\Action\Action
 {
     protected $_pageFactory;
 
@@ -33,47 +33,32 @@ class UpdateMetaTitle extends \Magento\Framework\App\Action\Action
     }
 
     public function execute(){
-
+        
         set_time_limit(600);
         $page_number = 1;
-
+        
         if(isset($_GET["p"])){
             $page_number = $_GET["p"];
         }
-
+        
         /*Get in stock product collection*/
         $collection = $this->_productCollectionFactory->create()->addFieldToSelect('*')
-            ->setPageSize(2) // only get 10 products
+            ->setPageSize(500) // only get 10 products
             ->setCurPage($page_number)  // first page (means limit 0,10)
             ->setFlag('has_stock_status_filter', false);
-
-        $concat = " | Buy at digiDirect";
+        
         $counter = 0;
-        $existing_counter = 0;
-
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-
-        //$storeManager = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
 
         foreach ($collection as $key => $product) {
-            $productId = $product->getId();
-
             $sku = $product->getSku();
             $productName = $product->getName();
             $meta_title = $product->getMetaTitle();
-
-            $existing_meta_title = $productName . $concat;
-
-            $meta_title = $productName . $concat;
-
-            $productRepo = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
-            $productRepo->setStoreId(0);
-            $productRepo->setMetaTitle($meta_title);
-            $productRepo->save();
-
-            echo $productName . " - "  . $sku . " <br />" . $existing_meta_title . "<br /><br />";
+            
+            echo $productName . " - "  . $sku . " <br />" . $meta_title . "<br /><br />";
             $counter++;
         }
+        
+        echo "Total updated SKUs: " . $counter;
 
         exit();
     }
