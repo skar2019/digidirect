@@ -1096,5 +1096,34 @@ class TestPronto extends AbstractHelper
         
         return;
     }
+    
+    public function populateMagento($orderId, $pronto) 
+    {
+        
+        $orders = $this->getOrderToPopulate($orderId);
+        $counter = 0;
+        foreach ($orders as $order) {
+
+            echo 'Magento Order Sync - '.$orderId.' with '.$pronto.'<br>';
+            
+            $order->setData('pronto_order_number',$pronto);
+            $order->save();
+
+            exit; //for testing;
+        }   
+        
+    }
+    
+    public function getOrderToPopulate($orderId)
+    {
+        
+        $collection = $this->_orderCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter('increment_id', array('eq' => $orderId));
+
+        return $collection;
+        
+        
+    }
             
 }      
