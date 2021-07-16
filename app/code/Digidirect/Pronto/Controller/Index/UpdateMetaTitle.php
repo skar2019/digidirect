@@ -40,46 +40,61 @@ class UpdateMetaTitle extends \Magento\Framework\App\Action\Action
         if(isset($_GET["p"])){
             $page_number = $_GET["p"];
         }
+       
+        $limit = 1000;
+
+        if(isset($_GET["limit"])){
+            $limit = $_GET["limit"];
+        }
+       
+        $store = false;
+
+        if(isset($_GET["store"])){
+            $store = true;
+        }
 
         /*Get in stock product collection*/
         $collection = $this->_productCollectionFactory->create()->addFieldToSelect('*')
-            ->setPageSize(1000) // only get 10 products
+            ->setPageSize($limit) // only get 10 products
             ->setCurPage($page_number)  // first page (means limit 0,10)
             ->setFlag('has_stock_status_filter', false);
 
         $concat = " | Buy at digiDirect";
         $counter = 0;
-        $existing_counter = 0;
 
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
         //$storeManager = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
 
         foreach ($collection as $key => $product) {
-           $productId = $product->getId();
+            $productId = $product->getId();
 
-           $sku = $product->getSku();
-           $productName = $product->getName();
-           $meta_title = $product->getMetaTitle();
+            $sku = $product->getSku();
+            $productName = $product->getName();
+            $meta_title = $product->getMetaTitle();
 
-           $existing_meta_title = $productName . $concat;
+            $existing_meta_title = $productName . $concat;
            
-           if($meta_title != $existing_meta_title){
-               $meta_title = $productName . $concat;
+            if($meta_title != $existing_meta_title){
+                $meta_title = $productName . $concat;
                
-               $productRepo = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
-               $productRepo->setStoreId(0);
-               $productRepo->setMetaTitle($meta_title);
-               $productRepo->save();
+                $productRepo = $this->productRepository->get($sku);
+               
+                if($store == true){
+                    $productRepo->setStoreId(0); // Comment out for digidirectAu store view update
+                }
 
-               echo $productName . " - "  . $sku . " <br />" . $meta_title . "<br /><br />";
-               $counter++;
-           }
-           else{
-               echo $productName . " - "  . $sku . " <br />" . $meta_title . " OKAY<br /><br />";
-               $counter++;
-           }
-       }
+                $productRepo->setMetaTitle($meta_title);
+                $this->productRepository->save($productRepo);
+
+                echo $productName . " - "  . $sku . " <br />" . $meta_title . " - Updated <br /><br />";
+                $counter++;
+            }
+            else{
+                echo $productName . " - "  . $sku . " <br />" . $meta_title . " OKAY<br /><br />";
+                $counter++;
+            }
+        }
 
         exit();
     }

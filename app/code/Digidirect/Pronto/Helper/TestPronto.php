@@ -678,13 +678,12 @@ class TestPronto extends AbstractHelper
         return $prontoStatus;
     }
     
-    public function orderPostTec($orderId, $date) 
+    public function orderPostTec($orderId, $date, $size, $page) 
     {
-        echo "orderPost <br/>";
         $piwikItems = array();
         $piwikOrder = array();
         //get order data
-        $orders = $this->getTestOrderCollection($orderId,$date);
+        $orders = $this->getTestOrderCollection($orderId, $date, $size, $page);
         $counter = 0;
         foreach ($orders as $order) {
             $data = array();
@@ -917,9 +916,7 @@ class TestPronto extends AbstractHelper
                     $digiProtectQty = (double) $item->getQtyOrdered();
                     $digiProtectdiscount = (double) $item->getDiscountAmount();
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
-                    
-                    echo "SKU - ".$productSku;
-                    echo " / digiProtect - ".$digiProtect."<br/>";
+
                 }
                 else 
                 {
@@ -1015,12 +1012,16 @@ class TestPronto extends AbstractHelper
             {
                 $msg =  $json['response']['message'];
                 echo $msg."<br>";
+                $order->setData('pronto_order_number',$msg);
+                $order->save();
                 $this->logger->error('Pronto Order Sync', array('info' => $msg));
                 
             }
             else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                 $msg =  $json['sales-orders']['response']['message'];
                 echo $msg ."<br>";
+                $order->setData('pronto_order_number',$msg);
+                $order->save();
                 $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
             }
@@ -1054,7 +1055,7 @@ class TestPronto extends AbstractHelper
         
     }
     
-    public function getTestOrderCollection($orderId,$date)
+    public function getTestOrderCollection($orderId, $date, $size, $page)
     {
         if($orderId != '0')
         {
@@ -1066,6 +1067,8 @@ class TestPronto extends AbstractHelper
         }
         if($date != 0)
         {
+            settype($size,"integer");
+            settype($limit,"integer");
             $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
             $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
             $collection = $this->_orderCollectionFactory->create()
@@ -1073,7 +1076,8 @@ class TestPronto extends AbstractHelper
                 ->addFieldToFilter('pronto_order_number', array('null' => true))
                 ->addFieldToFilter('created_at', array('gteq' => $fromDate))
                 ->addFieldToFilter('created_at', array('lteq' => $toDate))
-                ->setPageSize(10);
+                ->setPageSize($size)
+                ->setCurPage($page);
             return $collection;
         }
         
