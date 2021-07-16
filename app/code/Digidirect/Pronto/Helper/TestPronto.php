@@ -738,6 +738,7 @@ class TestPronto extends AbstractHelper
             //check pronto if customer has an account.
             //if not, create customer account to pronto
             $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
+            echo " / ".$orderdate."<br/>";
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
             $data['sales-order']['header']['account'] = $account;

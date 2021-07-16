@@ -37,7 +37,7 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
             if ($data["result"] == true){
                 $qff_number = $_POST["qff_number"];
                 $qff_lastname = $_POST["qff_lastname"];
-               $this->session->start();
+                   $this->session->start();
                 $customerId = $this->session->getCustomerId();
                 $customer = $this->customerRepository->getById($customerId);
 
@@ -45,17 +45,17 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
                 $customer->setCustomAttribute('qff_lastname', $qff_lastname);
 
                 $this->customerRepository->save($customer);
-                
-                 
+
+
             }
-            
+
             echo json_encode($data);
             exit;
-            
-        } 
+
+        }
         else {
            return parent::execute();
-            
+
         }
     }
 
@@ -71,16 +71,16 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => $serviceUrl,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_POSTFIELDS => "{\r\n \"memberId\" : \"$qff_number\",\r\n \"criteria\" : {\"surname\" : \"$qff_lastname\"}\r\n}\r\n",
-                CURLOPT_HTTPHEADER => array(
-                    "authorization: Basic ZGlnaURpcmVjdDpTZzAyMFdDczFzdkZwakU3"
-                ),
+              CURLOPT_URL => $serviceUrl,
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => "",
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 30,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_POSTFIELDS => "{\r\n \"memberId\" : \"$qff_number\",\r\n \"criteria\" : {\"surname\" : \"$qff_lastname\"}\r\n}\r\n",
+              CURLOPT_HTTPHEADER => array(
+                "authorization: Basic ZGlnaURpcmVjdDpTZzAyMFdDczFzdkZwakU3"
+              ),
             ));
 
             $initial_response = curl_exec($curl);
@@ -91,27 +91,25 @@ class EditPost extends \Magento\Customer\Controller\Account\EditPost {
             $response = json_decode($initial_response);
 
 
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $path= $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
+//            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+//            $path= $objectManager->get('Magento\Framework\App\Filesystem\DirectoryList');
 
-            $fileDirectoryPath = $path->getPath('var');
-
-
-            $filePath = $fileDirectoryPath . '/ProntoApi/';
-            if (!is_dir($filePath)) {
-                mkdir($filePath, 0777, true);
-            }
-
-            $handle = fopen($filePath . 'logs.txt', 'a');
-
-            fwrite($handle, $initial_response);
-            
-            fclose($handle);
-
+//            $fileDirectoryPath = $path->getPath('var');
+//
+//            $filePath = $fileDirectoryPath . '/ProntoApi/';
+//            if (!is_dir($filePath)) {
+//                mkdir($filePath, 0777, true);
+//            }
+//
+//            $handle = fopen($filePath . 'logs.txt', 'a');
+//
+//            fwrite($handle, $initial_response);
+//
+//            fclose($handle);
 
             if (!empty($response->status)) {
                 if ($response->status == "ACTIVE") {
-                    $status = true;                 
+                    $status = true;
                 }
             }
         }
