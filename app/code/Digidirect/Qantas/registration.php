@@ -1,8 +1,6 @@
 <?php
-use Magento\Framework\Component\ComponentRegistrar;
-
-ComponentRegistrar::register(
-    ComponentRegistrar::MODULE,
-    'Digi_Qantas',
-    __DIR__
-);
+    \Magento\Framework\Component\ComponentRegistrar::register(
+        \Magento\Framework\Component\ComponentRegistrar::MODULE,
+        'Digidirect_Qantas',
+        __DIR__
+    );
