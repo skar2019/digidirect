@@ -23,20 +23,7 @@ class ProductEnquiry
         $this->logger = $logger;
         $this->helper = $helper;
     }
-
-    //102904
-   //
-   //
-   //
-   //
-   //
-   //
-   //
-   //
-   //
-   //
    
-
     
     public function execute()
     {
