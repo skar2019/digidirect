@@ -3,5 +3,4 @@
     <preference for="\Magento\Checkout\CustomerData\DefaultItem" type="Digidirect\Qantas\Overrides\CustomerData\DefaultItem" />
     <preference for="Magento\Customer\Model\Data\Customer" type="Digidirect\Qantas\Model\Data\Customer" /> 
     <preference for="Magento\Customer\Controller\Account\EditPost" type="Digidirect\Qantas\Controller\Account\EditPost" />
-    <preference for="Magento\Customer\Controller\Account\CreatePost" type="Digidirect\Qantas\Controller\Account\CreatePost" />
 </config>
