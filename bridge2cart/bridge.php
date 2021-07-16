@@ -1,4 +1,5 @@
 <?php
+
 interface M1_Platform_Actions
 {
   /**
@@ -50,6 +51,20 @@ interface M1_Platform_Actions
    * @return mixed
    */
   public function getActiveModules(array $a2cData);
+
+  /**
+   * @param array $a2cData Data
+   *
+   * @return mixed
+   */
+  public function getImagesUrls(array $a2cData);
+
+  /**
+   * @param array $a2cData Data
+   *
+   * @return mixed
+   */
+  public function orderUpdate(array $a2cData);
 
 }
 
@@ -780,6 +795,22 @@ class M1_Config_Adapter implements M1_Platform_Actions
   }
 
   /**
+   * @inheritDoc
+   */
+  public function getImagesUrls(array $a2cData)
+  {
+    return array('error' => 'Action is not supported', 'data' => false);
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public function orderUpdate(array $a2cData)
+  {
+    return array('error' => 'Action is not supported', 'data' => false);
+  }
+
+  /**
    * Get Card ID string from request parameters
    * @return string
    */
@@ -880,7 +911,8 @@ class M1_Config_Adapter implements M1_Platform_Actions
         }
       case 'Magento1212':
         if (file_exists(M1_STORE_BASE_DIR . 'app/etc/local.xml')
-          || @file_exists(M1_STORE_BASE_DIR . 'app/etc/env.php')
+          || file_exists(M1_STORE_BASE_DIR . 'app/etc/env.php')
+          || file_exists(M1_STORE_BASE_DIR . '/../app/etc/env.php')//if pub is a document root
         ) {
           return "Magento1212";
         }
@@ -1611,8 +1643,9 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
           if (isset($constants['WP_CONTENT_URL'])) {
             $this->cartVars['wp_content_url'] =  $constants['WP_CONTENT_URL'];
           }
+        } elseif (isset($constants['WP_CONTENT_URL'])) {
+          $this->cartVars['wp_content_url'] =  $constants['WP_CONTENT_URL'];
         }
-
       }
     } else {
       $this->_tryLoadConfigs();
@@ -1823,6 +1856,8 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
         if (defined('WP_CONTENT_URL')) {
           $this->cartVars['wp_content_url'] = WP_CONTENT_URL;
         }
+      } elseif (defined('WP_CONTENT_URL')) {
+        $this->cartVars['wp_content_url'] = WP_CONTENT_URL;
       }
 
       if (isset($table_prefix)) {
@@ -2082,11 +2117,11 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
    */
   public function setOrderNotes(array $a2cData)
   {
-    $response = [
+    $response = array(
       'error_code' => self::ERROR_CODE_SUCCESS,
       'error' => null,
       'result' => array()
-    ];
+    );
 
     $reportError = function ($e) use ($response) {
       $response['error'] = $e->getMessage();
@@ -2167,9 +2202,132 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
     return $response;
   }
 
+  /**
+   * @param array $a2cData
+   *
+   * @return array
+   */
+  public function getImagesUrls(array $a2cData)
+  {
+    $response = array(
+      'error_code' => self::ERROR_CODE_SUCCESS,
+      'error' => null,
+      'result' => array()
+    );
+
+    $reportError = function ($e) use ($response) {
+      $response['error'] = $e->getMessage();
+      $response['error_code'] = self::ERROR_CODE_INTERNAL_ERROR;
+
+      return $response;
+    };
+
+    try {
+      require_once M1_STORE_BASE_DIR . '/wp-load.php';
+
+      foreach ($a2cData as $imagesCollection) {
+        if (function_exists('switch_to_blog')) {
+          switch_to_blog($imagesCollection['store_id']);
+        }
+
+        $images = array();
+        foreach ($imagesCollection['ids'] as $id) {
+          $images[$id] = wp_get_attachment_url($id);
+        }
+
+        $response['result'][$imagesCollection['store_id']] = array('images' => $images);
+      }
+    } catch (Exception $e) {
+      return $reportError($e);
+    } catch (Throwable $e) {
+      return $reportError($e);
+    }
+
+    return $response;
+  }
+
+  /**
+   * @param array $a2cData Data
+   *
+   * @return array
+   */
+  public function orderUpdate(array $a2cData)
+  {
+    $response = array(
+      'error_code' => self::ERROR_CODE_SUCCESS,
+      'error' => null,
+      'result' => array()
+    );
+
+    $reportError = function ($e) use ($response) {
+      $response['error'] = $e->getMessage();
+      $response['error_code'] = self::ERROR_CODE_INTERNAL_ERROR;
+
+      return $response;
+    };
+
+    try {
+      require_once M1_STORE_BASE_DIR . '/wp-load.php';
+
+      if (function_exists('switch_to_blog')) {
+        switch_to_blog($a2cData['order']['store_id']);
+      }
+
+      $entity = WC()->order_factory->get_order($a2cData['order']['id']);
+
+      if (isset($a2cData['order']['notify_customer']) && $a2cData['order']['notify_customer'] === false) {
+        $disableEmails = function () {
+          return false;
+        };
+
+        add_filter('woocommerce_email_enabled_customer_completed_order', $disableEmails, 100, 0);
+        add_filter('woocommerce_email_enabled_customer_invoice', $disableEmails, 100, 0);
+        add_filter('woocommerce_email_enabled_customer_note', $disableEmails, 100, 0);
+        add_filter('woocommerce_email_enabled_customer_on_hold_order', $disableEmails, 100, 0);
+        add_filter('woocommerce_email_enabled_customer_processing_order', $disableEmails, 100, 0);
+        add_filter('woocommerce_email_enabled_customer_refunded_order', $disableEmails, 100, 0);
+      }
+
+      if (isset($a2cData['order']['status']['id'])) {
+        $entity->set_status(
+          $a2cData['order']['status']['id'],
+          isset($a2cData['order']['status']['transition_note']) ? $a2cData['order']['status']['transition_note'] : '',
+          true
+        );
+      }
+
+      if (isset($a2cData['order']['completed_date'])) {
+        $entity->set_date_completed($a2cData['order']['completed_date']);
+      }
+
+      if (isset($a2cData['order']['admin_comment'])) {
+        wp_set_current_user($a2cData['order']['admin_comment']['admin_user_id']);
+        $entity->add_order_note($a2cData['order']['admin_comment']['text'], 1);
+      }
+
+      if (isset($a2cData['order']['customer_note'])) {
+        $entity->set_customer_note($a2cData['order']['customer_note']);
+      }
+
+      if (isset($a2cData['order']['admin_private_comment'])) {
+        wp_set_current_user($a2cData['order']['admin_private_comment']['admin_user_id']);
+        $entity->add_order_note($a2cData['order']['admin_private_comment']['text'], 0, true);
+      }
+
+      $entity->save();
+
+      $response['result'] = true;
+
+    } catch (Exception $e) {
+      return $reportError($e);
+    } catch (Throwable $e) {
+      return $reportError($e);
+    }
+
+    return $response;
+  }
+
 }
-
-
 
 /**
  * Class M1_Config_Adapter_WebAsyst
@@ -4055,12 +4213,20 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
    */
   public function __construct()
   {
-    if (file_exists(M1_STORE_BASE_DIR . 'app/etc/env.php')) {
+    if (file_exists(M1_STORE_BASE_DIR . '../app/etc/env.php')) {
+      define('M1_STORE_ROOT_DIR', realpath(M1_STORE_BASE_DIR . '..') . '/');
       $this->_magento2();
       $this->_magentoVersionMajor = 2;
     } else {
-      $this->_magento1();
-      $this->_magentoVersionMajor = 1;
+      define('M1_STORE_ROOT_DIR', M1_STORE_BASE_DIR);
+
+      if (file_exists(M1_STORE_BASE_DIR . 'app/etc/env.php')) {
+        $this->_magento2();
+        $this->_magentoVersionMajor = 2;
+      } else {
+        $this->_magento1();
+        $this->_magentoVersionMajor = 1;
+      }
     }
   }
 
@@ -4087,9 +4253,9 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
 
     if ($this->_magentoVersionMajor === 2) {
       try {
-        require M1_STORE_BASE_DIR . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'bootstrap.php';
+        require M1_STORE_ROOT_DIR . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-        $bootstrap = \Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+        $bootstrap = \Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
         $objectManager = $bootstrap->getObjectManager();
         $state = $objectManager->get('Magento\Framework\App\State');
         $state->setAreaCode('global');
@@ -4209,9 +4375,9 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
    */
   private function _productUpdateMage2(array $data)
   {
-    require M1_STORE_BASE_DIR . DIRECTORY_SEPARATOR  . 'app' . DIRECTORY_SEPARATOR . 'bootstrap.php';
+    require M1_STORE_ROOT_DIR . DIRECTORY_SEPARATOR  . 'app' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-    $bootstrap = \Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+    $bootstrap = \Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
     $objectManager = $bootstrap->getObjectManager();
     $state = $objectManager->get('Magento\Framework\App\State');
     $state->setAreaCode('global');
@@ -4497,8 +4663,8 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
     /**
      * @var SimpleXMLElement
      */
-    $config = simplexml_load_file(M1_STORE_BASE_DIR . 'app/etc/local.xml');
-    $statuses = simplexml_load_file(M1_STORE_BASE_DIR . 'app/code/core/Mage/Sales/etc/config.xml');
+    $config = simplexml_load_file(M1_STORE_ROOT_DIR . 'app/etc/local.xml');
+    $statuses = simplexml_load_file(M1_STORE_ROOT_DIR . 'app/code/core/Mage/Sales/etc/config.xml');
 
     $version = $statuses->modules->Mage_Sales->version;
     $result  = array();
@@ -4509,8 +4675,8 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
       }
     }
 
-    if (file_exists(M1_STORE_BASE_DIR . "app/Mage.php")) {
-      $ver = file_get_contents(M1_STORE_BASE_DIR . "app/Mage.php");
+    if (file_exists(M1_STORE_ROOT_DIR . "app/Mage.php")) {
+      $ver = file_get_contents(M1_STORE_ROOT_DIR . "app/Mage.php");
       if (preg_match("/getVersionInfo[^}]+\'major\' *=> *\'(\d+)\'[^}]+\'minor\' *=> *\'(\d+)\'[^}]+\'revision\' *=> *\'(\d+)\'[^}]+\'patch\' *=> *\'(\d+)\'[^}]+}/s", $ver, $match) == 1 ) {
         $mageVersion = $match[1] . '.' . $match[2] . '.' . $match[3] . '.' . $match[4];
         $this->cartVars['dbVersion'] = $mageVersion;
@@ -4532,7 +4698,7 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
     $this->categoriesImagesDir    = $this->imagesDir . "catalog/category/";
     $this->productsImagesDir      = $this->imagesDir . "catalog/product/";
     $this->manufacturersImagesDir = $this->imagesDir;
-    @unlink(M1_STORE_BASE_DIR . 'app/etc/use_cache.ser');
+    @unlink(M1_STORE_ROOT_DIR . 'app/etc/use_cache.ser');
   }
 
   /**
@@ -4543,9 +4709,7 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
     /**
      * @var array
      */
-    $config = @include(M1_STORE_BASE_DIR . 'app/etc/env.php');
-
-    $this->cartVars['AdminUrl'] = (string)$config['backend']['frontName'];
+    $config = @include(M1_STORE_ROOT_DIR . 'app/etc/env.php');
 
     $db = array();
     foreach ($config['db']['connection'] as $connection) {
@@ -4568,8 +4732,8 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
     $this->tblPrefix = (string)$config['db']['table_prefix'];
 
     $version = '';
-    if (file_exists(M1_STORE_BASE_DIR . 'composer.json')) {
-      $string = file_get_contents(M1_STORE_BASE_DIR . 'composer.json');
+    if (file_exists(M1_STORE_ROOT_DIR . 'composer.json')) {
+      $string = file_get_contents(M1_STORE_ROOT_DIR . 'composer.json');
       $json = json_decode($string, true);
 
       if (isset($json['require']['magento/product-community-edition'])) {
@@ -4583,9 +4747,9 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
 
     if (!$version || preg_match('/[\^*\-<>=~|]/', $version)) {
       try {
-        require M1_STORE_BASE_DIR . 'app/bootstrap.php';
+        require M1_STORE_ROOT_DIR . 'app/bootstrap.php';
 
-        $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+        $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
         $objectManager = $bootstrap->getObjectManager();
         $magentoVersion = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
         $edition = ($magentoVersion->getEdition() === 'Enterprise' ? 'EE.' : '');
@@ -4595,8 +4759,8 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
       }
     }
 
-    if (!$version && file_exists(M1_STORE_BASE_DIR . 'vendor/magento/framework/AppInterface.php')) {
-      @include M1_STORE_BASE_DIR . 'vendor/magento/framework/AppInterface.php';
+    if (!$version && file_exists(M1_STORE_ROOT_DIR . 'vendor/magento/framework/AppInterface.php')) {
+      @include M1_STORE_ROOT_DIR . 'vendor/magento/framework/AppInterface.php';
 
       if (defined('\Magento\Framework\AppInterface::VERSION')) {
         $version = \Magento\Framework\AppInterface::VERSION;
@@ -5263,7 +5427,7 @@ class M1_Bridge_Action_SetProductStores
         try {
           $version = str_replace('EE.', '', $bridge->config->cartVars['dbVersion']);
           if (version_compare($version, '2.0.0', '<')) {
-            require M1_STORE_BASE_DIR . '/app/Mage.php';
+            require M1_STORE_ROOT_DIR . '/app/Mage.php';
             Mage::app();
             Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID); //required
 
@@ -5272,8 +5436,8 @@ class M1_Bridge_Action_SetProductStores
             $product->save();
             $response['data'] = true;
           } else {
-            require M1_STORE_BASE_DIR . '/app/bootstrap.php';
-            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+            require M1_STORE_ROOT_DIR . '/app/bootstrap.php';
+            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
             $objectManager = $bootstrap->getObjectManager();
 
             $state = $objectManager->get('\Magento\Framework\App\State');
@@ -5320,16 +5484,16 @@ class M1_Bridge_Action_Send_Notification
     try {
       switch ($_POST['cartId']) {
         case 'Magento1212' :
-          if (!file_exists(M1_STORE_BASE_DIR . '/app/etc/env.php')) {
+          if (!file_exists(M1_STORE_ROOT_DIR . '/app/etc/env.php')) {
 
-            include_once M1_STORE_BASE_DIR . 'includes/config.php';
-            include_once M1_STORE_BASE_DIR . 'app/bootstrap.php';
-            include_once M1_STORE_BASE_DIR . 'app/Mage.php';
+            include_once M1_STORE_ROOT_DIR . 'includes/config.php';
+            include_once M1_STORE_ROOT_DIR . 'app/bootstrap.php';
+            include_once M1_STORE_ROOT_DIR . 'app/Mage.php';
             Mage::init();
           } else {
-            include_once M1_STORE_BASE_DIR . 'app/bootstrap.php';
+            include_once M1_STORE_ROOT_DIR . 'app/bootstrap.php';
 
-            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
             $obj = $bootstrap->getObjectManager();
 
             $state = $obj->get('Magento\Framework\App\State');
@@ -5337,7 +5501,7 @@ class M1_Bridge_Action_Send_Notification
 
           switch ($_POST['data_notification']['method']) {
             case 'order.update' :
-              if (!file_exists(M1_STORE_BASE_DIR . '/app/etc/env.php')) {
+              if (!file_exists(M1_STORE_ROOT_DIR . '/app/etc/env.php')) {
                 $order = Mage::getModel('sales/order')->load($_POST['orderId']);
                 $order->sendOrderUpdateEmail(true, $_POST['data_notification']['comment']);
                 $order->save();
@@ -5354,7 +5518,7 @@ class M1_Bridge_Action_Send_Notification
                 break;
               }
             case 'order.shipment.add' :
-              if (!file_exists(M1_STORE_BASE_DIR . '/app/etc/env.php')) {
+              if (!file_exists(M1_STORE_ROOT_DIR . '/app/etc/env.php')) {
                 $shipment = Mage::getModel('sales/order_shipment')
                   ->loadByIncrementId($_POST['data_notification']['shipment_id']);
                 $shipment->sendEmail();
@@ -5855,7 +6019,7 @@ class M1_Bridge_Action_ReindexProduct
           $version = str_replace('EE.', '', $bridge->config->cartVars['dbVersion']);
 
           if (version_compare($version, '2.0.0', '<')) {
-            require M1_STORE_BASE_DIR . '/app/Mage.php';
+            require M1_STORE_ROOT_DIR . '/app/Mage.php';
 
             Mage::app();
             $product = Mage::getModel('catalog/product')->load($productId);
@@ -5872,9 +6036,9 @@ class M1_Bridge_Action_ReindexProduct
 
           } else {
             $_SERVER['REQUEST_URI'] = '';
-            require M1_STORE_BASE_DIR . '/app/bootstrap.php';
+            require M1_STORE_ROOT_DIR . '/app/bootstrap.php';
 
-            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
             $objectManager = $bootstrap->getObjectManager();
             $state = $objectManager->get('\Magento\Framework\App\State');
             $state->setAreaCode('frontend'); //required
@@ -6126,12 +6290,12 @@ class M1_Bridge_Action_m2eExtensionNotify
 
       $version = str_replace('EE.', '', $bridge->config->cartVars['dbVersion']);
       if (version_compare($version, '2.0.0', '<')) {
-        require M1_STORE_BASE_DIR . '/app/Mage.php';
+        require M1_STORE_ROOT_DIR . '/app/Mage.php';
         Mage::app();
         $model = Mage::getModel('M2ePro/PublicServices_Product_SqlChange');
       } else {
-        require M1_STORE_BASE_DIR . '/app/bootstrap.php';
-        $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+        require M1_STORE_ROOT_DIR . '/app/bootstrap.php';
+        $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
         $objectManager = $bootstrap->getObjectManager();
         $model = $objectManager->create('\Ess\M2ePro\PublicServices\Product\SqlChange');
       }
@@ -6385,13 +6549,13 @@ class M1_Bridge_Action_GetShipmentProviders
 
           $version = str_replace('EE.', '', $bridge->config->cartVars['dbVersion']);
           if (version_compare($version, '2.0.0', '<')) {
-            require M1_STORE_BASE_DIR . '/app/Mage.php';
+            require M1_STORE_ROOT_DIR . '/app/Mage.php';
             Mage::app();
             $carriers = Mage::getSingleton('shipping/config')->getAllCarriers();
 
           } else {
-            require M1_STORE_BASE_DIR . '/app/bootstrap.php';
-            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+            require M1_STORE_ROOT_DIR . '/app/bootstrap.php';
+            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
             $objectManager = $bootstrap->getObjectManager();
 
             $state = $objectManager->get('\Magento\Framework\App\State');
@@ -6512,12 +6676,12 @@ class M1_Bridge_Action_GetCartWeight
         $quoteId = $_POST['quote_id'];
         $version = str_replace('EE.', '', $bridge->config->cartVars['dbVersion']);
         if (version_compare($version, '2.0.0', '<')) {
-          require M1_STORE_BASE_DIR . '/app/Mage.php';
+          require M1_STORE_ROOT_DIR . '/app/Mage.php';
           Mage::app();
           $quote = Mage::getModel('sales/quote')->load($quoteId);
         } else {
-          require M1_STORE_BASE_DIR . '/app/bootstrap.php';
-          $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+          require M1_STORE_ROOT_DIR . '/app/bootstrap.php';
+          $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
           $objectManager = $bootstrap->getObjectManager();
 
           $state = $objectManager->get('\Magento\Framework\App\State');
@@ -6607,12 +6771,12 @@ class M1_Bridge_Action_DispatchCartEvents
 
             $version = str_replace('EE.', '', $bridge->config->cartVars['dbVersion']);
             if (version_compare($version, '2.0.0', '<')) {
-              require M1_STORE_BASE_DIR . '/app/Mage.php';
+              require M1_STORE_ROOT_DIR . '/app/Mage.php';
               Mage::app();
               $mageVersion = 1;
             } else {
-              require M1_STORE_BASE_DIR . '/app/bootstrap.php';
-              $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+              require M1_STORE_ROOT_DIR . '/app/bootstrap.php';
+              $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
               $objectManager = $bootstrap->getObjectManager();
               $state = $objectManager->get('\Magento\Framework\App\State');
               $state->setAreaCode('frontend');
@@ -6996,7 +7160,7 @@ class M1_Bridge_Action_CreateRefund
 
           $version = str_replace('EE.', '', $bridge->config->cartVars['dbVersion']);
           if (version_compare($version, '2.0.0', '<')) {
-            require M1_STORE_BASE_DIR . '/app/Mage.php';
+            require M1_STORE_ROOT_DIR . '/app/Mage.php';
             Mage::app();
 
             $order = Mage::getModel('sales/order')->load($orderId);
@@ -7088,8 +7252,8 @@ class M1_Bridge_Action_CreateRefund
             }
           } else {
 
-            require M1_STORE_BASE_DIR . '/app/bootstrap.php';
-            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+            require M1_STORE_ROOT_DIR . '/app/bootstrap.php';
+            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
             $this->_m2objectManager = $bootstrap->getObjectManager();
 
             $state = $this->_m2objectManager->get('\Magento\Framework\App\State');
@@ -7299,11 +7463,11 @@ class M1_Bridge_Action_Collect_Totals
     try {
       switch ($_POST['cartId']) {
         case 'Magento1212' :
-          if (!file_exists(M1_STORE_BASE_DIR . '/app/etc/env.php')) {
+          if (!file_exists(M1_STORE_ROOT_DIR . '/app/etc/env.php')) {
 
-            include_once M1_STORE_BASE_DIR . 'includes/config.php';
-            include_once M1_STORE_BASE_DIR . 'app/bootstrap.php';
-            include_once M1_STORE_BASE_DIR . 'app/Mage.php';
+            include_once M1_STORE_ROOT_DIR . 'includes/config.php';
+            include_once M1_STORE_ROOT_DIR . 'app/bootstrap.php';
+            include_once M1_STORE_ROOT_DIR . 'app/Mage.php';
             Mage::init();
 
             $quote = Mage::getModel('sales/quote');
@@ -7314,9 +7478,9 @@ class M1_Bridge_Action_Collect_Totals
             echo json_encode($responce);
             break;
           } else {
-            include_once M1_STORE_BASE_DIR . 'app/bootstrap.php';
+            include_once M1_STORE_ROOT_DIR . 'app/bootstrap.php';
 
-            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+            $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
             $obj = $bootstrap->getObjectManager();
 
             $state = $obj->get('Magento\Framework\App\State');
@@ -7462,9 +7626,9 @@ class M1_Bridge_Action_Clearcache
 
           if (version_compare($version, '2.0.0', '>=')) {
             $_SERVER['REQUEST_URI'] = '';
-            require M1_STORE_BASE_DIR . 'app' . DIRECTORY_SEPARATOR . 'bootstrap.php';
+            require M1_STORE_ROOT_DIR . 'app' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-            $bootstrap = Magento\Framework\App\Bootstrap::create(rtrim(M1_STORE_BASE_DIR, DIRECTORY_SEPARATOR), $_SERVER);
+            $bootstrap = Magento\Framework\App\Bootstrap::create(rtrim(M1_STORE_ROOT_DIR, DIRECTORY_SEPARATOR), $_SERVER);
             $objectManager = $bootstrap->getObjectManager();
 
             if (isset($_POST['product_id'])) {
@@ -7494,7 +7658,7 @@ class M1_Bridge_Action_Clearcache
 
             } elseif (isset($_POST['cache_type'])) {
 
-              require_once M1_STORE_BASE_DIR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';
+              require_once M1_STORE_ROOT_DIR . 'app' . DIRECTORY_SEPARATOR . 'Mage.php';
               Mage::app('admin');
               umask(0);
 
@@ -7821,12 +7985,12 @@ class M1_Bridge_Action_GetShippingRates
         $quoteId = $_POST['quote_id'];
         $version = str_replace('EE.', '', $bridge->config->cartVars['dbVersion']);
         if (version_compare($version, '2.0.0', '<')) {
-          require M1_STORE_BASE_DIR . '/app/Mage.php';
+          require M1_STORE_ROOT_DIR . '/app/Mage.php';
           Mage::app();
           $quote = Mage::getModel('sales/quote')->load($quoteId);
         } else {
-          require M1_STORE_BASE_DIR . '/app/bootstrap.php';
-          $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_BASE_DIR, $_SERVER);
+          require M1_STORE_ROOT_DIR . '/app/bootstrap.php';
+          $bootstrap = Magento\Framework\App\Bootstrap::create(M1_STORE_ROOT_DIR, $_SERVER);
           $objectManager = $bootstrap->getObjectManager();
 
           $state = $objectManager->get('\Magento\Framework\App\State');
@@ -7854,7 +8018,7 @@ class M1_Bridge_Action_GetShippingRates
 }
 
 
-define('M1_BRIDGE_VERSION', '109');
+define('M1_BRIDGE_VERSION', '113');
 define('M1_BRIDGE_DOWNLOAD_LINK', 'https://clientfiles.intelligentreach.com/global/bridge2cart/bridge.download.file');
 define('M1_BRIDGE_CHECK_REQUEST_KEY_LINK', 'https://clientfiles.intelligentreach.com/global/bridge2cart/check.json');
 define('M1_BRIDGE_DIRECTORY_NAME', basename(getcwd()));
@@ -7948,8 +8112,17 @@ if (version_compare(phpversion(), '7.4', '<') && get_magic_quotes_gpc()) {
 }
 
 if (isset($_POST['store_root'])) {
+  if (empty($_POST['store_root'])) {
+    die('ERROR_INVALID_STORE_ROOT');
+  }
+
   $path = preg_replace('/\\' . DIRECTORY_SEPARATOR . '+/', DIRECTORY_SEPARATOR, $_POST['store_root']);
-  if (!empty($_POST['store_root']) && $_POST['store_root'] === realpath($path)) {
+  $absPath = realpath($path);
+
+  if (is_link($path) && strpos(realpath(dirname(__FILE__)), $absPath) === 0) {
+    //bridge is contained in store's root or subdirectories
+    define("M1_STORE_BASE_DIR", $absPath . DIRECTORY_SEPARATOR);
+  } elseif ($_POST['store_root'] === $absPath) {
     define("M1_STORE_BASE_DIR", $_POST['store_root'] . DIRECTORY_SEPARATOR);
   } else {
     die('ERROR_INVALID_STORE_ROOT');

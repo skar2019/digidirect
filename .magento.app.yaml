@@ -65,7 +65,7 @@ web:
                 ^/static/version\d+/(?<resource>.*)$:
                     passthru: "/static/$resource"
         "/bridge2cart":
-            root: "bridge2cart"
+            root: "pub/bridge2cart"
             passthru: "/bridge.php"
             index:
                 - bridge.php
