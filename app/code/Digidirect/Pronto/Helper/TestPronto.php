@@ -738,6 +738,7 @@ class TestPronto extends AbstractHelper
             //check pronto if customer has an account.
             //if not, create customer account to pronto
             $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
+            echo " / ".$orderdate."<br/>";
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
             $data['sales-order']['header']['account'] = $account;
@@ -1095,6 +1096,35 @@ class TestPronto extends AbstractHelper
         }
         
         return;
+    }
+    
+    public function populateMagento($orderId, $pronto) 
+    {
+        
+        $orders = $this->getOrderToPopulate($orderId);
+        $counter = 0;
+        foreach ($orders as $order) {
+
+            echo 'Magento Order Sync - '.$orderId.' with '.$pronto.'<br>';
+            
+            $order->setData('pronto_order_number',$pronto);
+            $order->save();
+
+            exit; //for testing;
+        }   
+        
+    }
+    
+    public function getOrderToPopulate($orderId)
+    {
+        
+        $collection = $this->_orderCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter('increment_id', array('eq' => $orderId));
+
+        return $collection;
+        
+        
     }
             
 }      
