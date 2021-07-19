@@ -101,6 +101,27 @@
             line-height: 16px;
         }
     }
+    
+    .product-basic{
+        .product-overlay {
+            width: 100%;
+            max-width: 120px;
+            padding: 5px;
+        }
+    }
+}
+
+//
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .product-item{
+        .product-overlay.-top-left {
+            top: 15px;
+            left: 15px;
+        }
+    }
 }
 
 //
