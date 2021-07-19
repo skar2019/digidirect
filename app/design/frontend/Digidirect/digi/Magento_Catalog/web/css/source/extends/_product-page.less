@@ -1073,6 +1073,10 @@
             }
         }
         
+        .product-carousel .product-item .product-item-info .qantas-pts-wrapper span {
+            font-size: 10px;
+        }
+        
         .box-tocart .secure-pay .svg-icon {
             width: 30px;
             height: 30px;
@@ -1091,6 +1095,36 @@
         
         .product.attributes{
             width: 100%;
+        }
+        
+        .product-upsell-listing.block .product-image-wrapper {
+            padding-bottom: 125% !important;
+        }
+        
+        .product-overlay.-top-left, .product-overlay.-bottom-left {
+            left: 10px;
+            top: 10px;
+        }
+        
+        .product-item .qantas-pts-wrapper {
+            margin: 5px -10px -10px;
+        }
+        
+        .footer-content-block{
+            margin: 30px 30px;
+        }
+        
+        .paypal-button-fundingicons {
+            display: block;
+            height: 0;
+        }
+    }
+}
+
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: 1280px) and (max-width: (@screen__xl - 1)) {
+        .product-item .qantas-pts-wrapper {
+            margin: 5px -15px 0;
         }
     }
 }
