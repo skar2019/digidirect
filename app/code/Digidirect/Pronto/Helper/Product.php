@@ -136,34 +136,6 @@ class Product extends AbstractHelper
                     $product->setBrand($brandCode);
                 }
                 
-                //set categories
-                $productCategoryIds = $product->getCategoryIds();
-                if(count($productCategoryIds) < 2)
-                {
-
-                    if (count($getCategoryList)) {
-                        foreach ($getCategoryList as $id => $category)
-                        {
-                            if($category['name'] == $prod['web-category1'])
-                            {
-                                $categoryIds[] = $category['id'];
-                            }
-                            if($category['name'] == $prod['web-category2'])
-                            {
-                                $categoryIds[] = $category['id'];
-                            }
-                            if($category['name'] == $prod['web-category3'])
-                            {
-                                $categoryIds[] = $category['id'];
-                            }
-                        }
-                    }
-                    
-                    if (count($categoryIds)) {
-                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        //$product->setCategoryIds($categoryIds);
-                    }
-                }
                 
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -205,7 +177,34 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
                     $this->productRepository->save($product);
+                    //set categories
+                    $productCategoryIds = $product->getCategoryIds();
+                    if(count($productCategoryIds) < 2)
+                    {
 
+                        if (count($getCategoryList)) {
+                            foreach ($getCategoryList as $id => $category)
+                            {
+                                if($category['name'] == $prod['web-category1'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                                if($category['name'] == $prod['web-category2'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                                if($category['name'] == $prod['web-category3'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+
+                        if (count($categoryIds)) {
+                            $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                            //$product->setCategoryIds($categoryIds);
+                        }
+                    }
                 }
                 
             } 
@@ -248,34 +247,6 @@ class Product extends AbstractHelper
                 $url = strtolower($url);
                 $product->setUrlKey($url);
                 
-                //set categories
-                $mainCat = 2;
-                if (count($getCategoryList)) {
-                    foreach ($getCategoryList as $id => $category)
-                    {
-                        if($category['name'] == $prod['web-category1'])
-                        {
-                            $categoryIds[] = $category['id'];
-                            $mainCat = $category['id'];
-                        }
-                        if($category['name'] == $prod['web-category2'])
-                        {
-                            $categoryIds[] = $category['id'];
-                        }
-                        if($category['name'] == $prod['web-category3'])
-                        {
-                            $categoryIds[] = $category['id'];
-                        }
-                    }
-                }
-                
-                //$product->setAttributeSetId($mainCat); // Default attribute set for products
-                
-                if (count($categoryIds)) {
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
-                }
-                
                 if(isset($prod['gtins']['gtin']))
                 {
                     //set barcode
@@ -317,6 +288,34 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $this->productRepository->save($product);
+                
+                //set categories
+                $mainCat = 2;
+                if (count($getCategoryList)) {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            $categoryIds[] = $category['id'];
+                            $mainCat = $category['id'];
+                        }
+                        if($category['name'] == $prod['web-category2'])
+                        {
+                            $categoryIds[] = $category['id'];
+                        }
+                        if($category['name'] == $prod['web-category3'])
+                        {
+                            $categoryIds[] = $category['id'];
+                        }
+                    }
+                }
+                
+                //$product->setAttributeSetId($mainCat); // Default attribute set for products
+                
+                if (count($categoryIds)) {
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
             }
             
         }
@@ -808,41 +807,6 @@ class Product extends AbstractHelper
                 $url = strtolower($url);
                 $product->setUrlKey($url);
                 
-                //set categories
-                $productCategoryIds = $product->getCategoryIds();
-                $mainCat = 2;
-                if (count($getCategoryList)) 
-                {
-                    $catList = "";
-                    foreach ($getCategoryList as $id => $category)
-                    {
-                        if($category['name'] == $prod['web-category1'])
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." / ";
-                            $categoryIds[] = $category['id'];
-                            $mainCat = $category['id'];
-                        }
-                        if($category['name'] == $prod['web-category2'])
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." / ";
-                            $categoryIds[] = $category['id'];
-                        }
-                        if($category['name'] == $prod['web-category3'])
-                        {
-                            $catList .=$category['name'] . " - " .$category['id'];
-                            $categoryIds[] = $category['id'];
-                        }
-                    }
-                }
-                
-                
-                if (count($categoryIds)) {
-                    echo "insert categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
-                }
-
-                
                 // set gtin and apn
                 if(isset($prod['gtins']['gtin']))
                 {
@@ -884,6 +848,39 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $this->productRepository->save($product);
                 echo "insert ".$lastCode ."<br/>";
+                //set categories
+                $productCategoryIds = $product->getCategoryIds();
+                $mainCat = 2;
+                if (count($getCategoryList)) 
+                {
+                    $catList = "";
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." / ";
+                            $categoryIds[] = $category['id'];
+                            $mainCat = $category['id'];
+                        }
+                        if($category['name'] == $prod['web-category2'])
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." / ";
+                            $categoryIds[] = $category['id'];
+                        }
+                        if($category['name'] == $prod['web-category3'])
+                        {
+                            $catList .=$category['name'] . " - " .$category['id'];
+                            $categoryIds[] = $category['id'];
+                        }
+                    }
+                }
+                
+                
+                if (count($categoryIds)) {
+                    echo "insert categories: ".$catList."<br />";
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
             }
         }
         
@@ -1102,6 +1099,33 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $this->productRepository->save($product);
                 echo "insert ".$lastCode ."<br/>";
+                //set categories
+                $mainCat = 2;
+                if (count($getCategoryList)) {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            $categoryIds[] = $category['id'];
+                            $mainCat = $category['id'];
+                        }
+                        if($category['name'] == $prod['web-category2'])
+                        {
+                            $categoryIds[] = $category['id'];
+                        }
+                        if($category['name'] == $prod['web-category3'])
+                        {
+                            $categoryIds[] = $category['id'];
+                        }
+                    }
+                }
+                
+                //$product->setAttributeSetId($mainCat); // Default attribute set for products
+                
+                if (count($categoryIds)) {
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
+                }
             }
         }
         
