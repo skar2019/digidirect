@@ -219,6 +219,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $product->setAttributeSetId(2);
                 
                 $brandName = strtolower($prod['stk-brand']);
                 if($brandName == "thinktank")
@@ -268,7 +269,7 @@ class Product extends AbstractHelper
                     }
                 }
                 
-                $product->setAttributeSetId($mainCat); // Default attribute set for products
+                //$product->setAttributeSetId($mainCat); // Default attribute set for products
                 
                 if (count($categoryIds)) {
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
@@ -790,7 +791,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                
+                $product->setAttributeSetId(2);
                 //set brand
                 $brandName = strtolower($prod['stk-brand']);
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -834,7 +835,6 @@ class Product extends AbstractHelper
                     }
                 }
                 
-                $product->setAttributeSetId($mainCat);
                 
                 if (count($categoryIds)) {
                     echo "insert categories: ".$catList."<br />";
@@ -866,12 +866,16 @@ class Product extends AbstractHelper
                 
                 foreach ($prod['warehouse']['whse'] as $qt)
                 {
-                    $sourceItem = $this->sourceItemFactory->create();
-                    $sourceItem->setSourceCode($qt['code']);
-                    $sourceItem->setSku($prod['code']);
-                    $sourceItem->setStatus(1);
-                    $sourceItem->setQuantity($qt['qty_available']);
-                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                    if(isset($qt['code']))
+                    {
+                        $sourceItem = $this->sourceItemFactory->create();
+                        $sourceItem->setSourceCode($qt['code']);
+                        $sourceItem->setSku($prod['code']);
+                        $sourceItem->setStatus(1);
+                        $sourceItem->setQuantity($qt['qty_available']);
+                        $this->sourceItemsSaveInterface->execute([$sourceItem]);  
+                    }
+                    
 
                 }
                     
@@ -1029,7 +1033,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                
+                $product->setAttributeSetId(2);
                 $mainCat = 2;
                 if (count($getCategoryList)) 
                 {
@@ -1055,7 +1059,7 @@ class Product extends AbstractHelper
                     }
                 }
                 
-                $product->setAttributeSetId($mainCat);
+                
                 
                 if (count($categoryIds)) {
                     echo "insert categories: ".$catList."<br />";
@@ -1082,12 +1086,16 @@ class Product extends AbstractHelper
                 
                 foreach ($prod['warehouse']['whse'] as $qt)
                 {
-                    $sourceItem = $this->sourceItemFactory->create();
-                    $sourceItem->setSourceCode($qt['code']);
-                    $sourceItem->setSku($prod['code']);
-                    $sourceItem->setStatus(1);
-                    $sourceItem->setQuantity($qt['qty_available']);
-                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                    if(isset($qt['code']))
+                    {
+                        $sourceItem = $this->sourceItemFactory->create();
+                        $sourceItem->setSourceCode($qt['code']);
+                        $sourceItem->setSku($prod['code']);
+                        $sourceItem->setStatus(1);
+                        $sourceItem->setQuantity($qt['qty_available']);
+                        $this->sourceItemsSaveInterface->execute([$sourceItem]);  
+                    }
+                    
 
                 }
                     
