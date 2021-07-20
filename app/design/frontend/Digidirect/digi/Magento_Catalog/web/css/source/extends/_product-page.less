@@ -1118,6 +1118,29 @@
             display: block;
             height: 0;
         }
+        
+        .gallery-placeholder {
+            max-width: 480px;
+        }
+    }
+}
+
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: 768px) and (max-width: (1280px)) {
+        .product-item .qantas-pts-wrapper {
+            margin: 5px -15px 0;
+        }
+        
+        .catalog-product-view {
+            .page-main {
+                background: #f1f1f1;
+            }
+            
+            .block.related{
+                background: #fff;
+                padding: 30px 0 0;
+            }
+        }
     }
 }
 
@@ -1125,6 +1148,21 @@
     @media only screen and (min-width: 1280px) and (max-width: (@screen__xl - 1)) {
         .product-item .qantas-pts-wrapper {
             margin: 5px -15px 0;
+        }
+        
+        .catalog-product-view {
+            .page-main {
+                background: #f1f1f1;
+            }
+            
+            .columns {
+                padding-left: 50px;
+                padding-right: 50px;
+            }
+            
+            .block.related{
+                padding: 30px 0 0;
+            }
         }
     }
 }
