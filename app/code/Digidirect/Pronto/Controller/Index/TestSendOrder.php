@@ -19,7 +19,7 @@ class TestSendOrder extends \Magento\Framework\App\Action\Action
 	{
             $orderId = 0;
             $date = 0;
-            $limit = 1;
+            $page = 1;
             $size = 1;
             if(isset($_GET["order"])){
                 $orderId = $_GET["order"];

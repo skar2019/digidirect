@@ -467,7 +467,7 @@ class TestPronto extends AbstractHelper
     
     public function getPaymentType($paymentInstance){
         
-        //echo "<br >get payment type ". $paymentInstance->getMethod();
+        echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
         $payment = $paymentInstance->getMethod();
         switch ($payment) {
@@ -849,11 +849,21 @@ class TestPronto extends AbstractHelper
                 $payment_type = "AM";
             }
             
+            $withpaymentref = true;
+            if(($payment_type == "Y"))
+            {
+                $withpaymentref = false;   
+            }
+            if(($payment_type == "H"))
+            {
+                $withpaymentref = false;   
+            }
+
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
-                if(($payment_type != "Y"))
+                if($withpaymentref)
                 {
                     $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                     $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
@@ -1069,7 +1079,7 @@ class TestPronto extends AbstractHelper
         if($date != 0)
         {
             settype($size,"integer");
-            settype($limit,"integer");
+            settype($page,"integer");
             $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
             $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
             $collection = $this->_orderCollectionFactory->create()

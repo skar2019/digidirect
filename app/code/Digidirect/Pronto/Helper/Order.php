@@ -304,11 +304,21 @@ class Order extends AbstractHelper
                 $payment_type = "AM";
             }
             
+            $withpaymentref = true;
+            if(($payment_type == "Y"))
+            {
+                $withpaymentref = false;   
+            }
+            if(($payment_type == "H"))
+            {
+                $withpaymentref = false;   
+            }
+            
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
-                if(($payment_type != "Y"))
+                if($withpaymentref)
                 {
                     $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
                     $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
