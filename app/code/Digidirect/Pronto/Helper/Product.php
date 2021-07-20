@@ -160,8 +160,8 @@ class Product extends AbstractHelper
                     }
                     
                     if (count($categoryIds)) {
-                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        $product->setCategoryIds($categoryIds);
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        //$product->setCategoryIds($categoryIds);
                     }
                 }
                 
@@ -219,7 +219,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $product->setAttributeSetId(2);
+                $product->setAttributeSetId(4);
                 
                 $brandName = strtolower($prod['stk-brand']);
                 if($brandName == "thinktank")
@@ -272,8 +272,8 @@ class Product extends AbstractHelper
                 //$product->setAttributeSetId($mainCat); // Default attribute set for products
                 
                 if (count($categoryIds)) {
-                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    $product->setCategoryIds($categoryIds);
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
                 }
                 
                 if(isset($prod['gtins']['gtin']))
@@ -736,8 +736,8 @@ class Product extends AbstractHelper
                     
                     if (count($categoryIds)) {
                         echo "update categories: ".$catList."<br />";
-                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        $product->setCategoryIds($categoryIds);
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        //$product->setCategoryIds($categoryIds);
                     }
                 }
                 
@@ -791,7 +791,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $product->setAttributeSetId(2);
+                $product->setAttributeSetId(4);
                 //set brand
                 $brandName = strtolower($prod['stk-brand']);
                 if(isset($this->attributeOptions[strtolower($brandName)]))
@@ -838,8 +838,8 @@ class Product extends AbstractHelper
                 
                 if (count($categoryIds)) {
                     echo "insert categories: ".$catList."<br />";
-                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    $product->setCategoryIds($categoryIds);
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
                 }
 
                 
@@ -981,8 +981,8 @@ class Product extends AbstractHelper
                     
                     if (count($categoryIds)) {
                         echo "update categories: ".$catList."<br />";
-                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        $product->setCategoryIds($categoryIds);
+                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        //$product->setCategoryIds($categoryIds);
                     }
                 }
                 
@@ -1033,7 +1033,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $product->setAttributeSetId(2);
+                $product->setAttributeSetId(4);
                 $mainCat = 2;
                 if (count($getCategoryList)) 
                 {
@@ -1063,8 +1063,8 @@ class Product extends AbstractHelper
                 
                 if (count($categoryIds)) {
                     echo "insert categories: ".$catList."<br />";
-                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    $product->setCategoryIds($categoryIds);
+                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$product->setCategoryIds($categoryIds);
 
                 }
                 
@@ -1095,8 +1095,6 @@ class Product extends AbstractHelper
                         $sourceItem->setQuantity($qt['qty_available']);
                         $this->sourceItemsSaveInterface->execute([$sourceItem]);  
                     }
-                    
-
                 }
                     
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
