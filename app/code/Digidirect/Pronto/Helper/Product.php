@@ -152,16 +152,19 @@ class Product extends AbstractHelper
                             {
                                 $categoryIds[] = $category['id'];
                             }
-                            if($category['name'] == $prod['web-category3'])
+                            if(isset($prod['web-category3']))
                             {
-                                $categoryIds[] = $category['id'];
+                                if($category['name'] == $prod['web-category3'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
                         }
                     }
 
                     if (count($categoryIds)) {
-                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        //$product->setCategoryIds($categoryIds);
+                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        $product->setCategoryIds($categoryIds);
                     }
                 }
 
@@ -254,9 +257,12 @@ class Product extends AbstractHelper
                         {
                             $categoryIds[] = $category['id'];
                         }
-                        if($category['name'] == $prod['web-category3'])
+                        if(isset($prod['web-category3']))
                         {
-                            $categoryIds[] = $category['id'];
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                $categoryIds[] = $category['id'];
+                            }
                         }
                     }
                 }
@@ -727,18 +733,20 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." / ";
                                 $categoryIds[] = $category['id'];
                             }
-                            if($category['name'] == $prod['web-category3'])
+                            if(isset($prod['web-category3']))
                             {
-                                $catList .= $category['name'] . " - " .$category['id']." / ";
-                                $categoryIds[] = $category['id'];
+                                if($category['name'] == $prod['web-category3'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
                         }
                     }
                     
                     if (count($categoryIds)) {
                         echo "update categories: ".$catList."<br />";
-                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        //$product->setCategoryIds($categoryIds);
+                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        $product->setCategoryIds($categoryIds);
                     }
                 }
                 
@@ -819,10 +827,12 @@ class Product extends AbstractHelper
                             $catList .= $category['name'] . " - " .$category['id']." / ";
                             $categoryIds[] = $category['id'];
                         }
-                        if($category['name'] == $prod['web-category3'])
+                        if(isset($prod['web-category3']))
                         {
-                            $catList .=$category['name'] . " - " .$category['id'];
-                            $categoryIds[] = $category['id'];
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                $categoryIds[] = $category['id'];
+                            }
                         }
                     }
                 }
@@ -971,18 +981,20 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." / ";
                                 $categoryIds[] = $category['id'];
                             }
-                            if($category['name'] == $prod['web-category3'])
+                            if(isset($prod['web-category3']))
                             {
-                                $catList .= $category['name'] . " - " .$category['id']." / ";
-                                $categoryIds[] = $category['id'];
+                                if($category['name'] == $prod['web-category3'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
                         }
                     }
                     
                     if (count($categoryIds)) {
                         echo "update categories: ".$catList."<br />";
-                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        //$product->setCategoryIds($categoryIds);
+                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        $product->setCategoryIds($categoryIds);
                     }
                 }
                 
@@ -1051,20 +1063,20 @@ class Product extends AbstractHelper
                             $catList .=$category['name'] . " - " .$category['id']." / ";
                             $categoryIds[] = $category['id'];
                         }
-                        if($category['name'] == $prod['web-category3'])
+                        if(isset($prod['web-category3']))
                         {
-                            $catList .=$category['name'] . " - " .$category['id'];
-                            $categoryIds[] = $category['id'];
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                $categoryIds[] = $category['id'];
+                            }
                         }
                     }
                 }
                 
-                
-                
                 if (count($categoryIds)) {
                     echo "insert categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    //$product->setCategoryIds($categoryIds);
+                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    $product->setCategoryIds($categoryIds);
 
                 }
                 
@@ -1075,34 +1087,7 @@ class Product extends AbstractHelper
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
                     $product->setBrand($brandCode);
                 }
-                //set categories
-                $mainCat = 2;
-                if (count($getCategoryList)) {
-                    foreach ($getCategoryList as $id => $category)
-                    {
-                        if($category['name'] == $prod['web-category1'])
-                        {
-                            $categoryIds[] = $category['id'];
-                            $mainCat = $category['id'];
-                        }
-                        if($category['name'] == $prod['web-category2'])
-                        {
-                            $categoryIds[] = $category['id'];
-                        }
-                        if($category['name'] == $prod['web-category3'])
-                        {
-                            $categoryIds[] = $category['id'];
-                        }
-                    }
-                }
-                
-                //$product->setAttributeSetId($mainCat); // Default attribute set for products
-                
-                if (count($categoryIds)) {
-                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    $product->setCategoryIds($categoryIds);
-                }
-                
+
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
