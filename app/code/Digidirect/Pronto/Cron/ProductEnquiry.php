@@ -199,5 +199,28 @@ class ProductEnquiry
         $this->helper->productPronto(138630);
         exit;
     }
+    
+    public function productSet25()
+    {
+        $this->logger->info('Pronto Product Sync syncing set 24');
+        $this->helper->productPronto(139365);
+        exit;
+    }
+    
+    public function productSet26()
+    {
+        $this->logger->info('Pronto Product Sync syncing set 24');
+        $this->helper->productPronto(140054);
+        exit;
+    }
+    
+    public function productSet27()
+    {
+        $this->logger->info('Pronto Product Sync syncing set 24');
+        $this->helper->productPronto(140554);
+        exit;
+    }
+    
+    
 
 }

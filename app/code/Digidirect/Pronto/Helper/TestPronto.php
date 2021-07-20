@@ -467,7 +467,7 @@ class TestPronto extends AbstractHelper
     
     public function getPaymentType($paymentInstance){
         
-        echo "<br >get payment type ". $paymentInstance->getMethod();
+        //echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
         $payment = $paymentInstance->getMethod();
         switch ($payment) {
@@ -813,7 +813,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
             
-            var_dump($data['sales-order']['header']);
+            //var_dump($data['sales-order']['header']);
             $paymentInstance = $order->getPayment();
 
             //payment details
@@ -1002,66 +1002,66 @@ class TestPronto extends AbstractHelper
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
 
-//            $this->curl->addHeader("Content-Type", "application/xml");
-//            $this->curl->addHeader("Accept", "application/json");
-//            $this->curl->addHeader("compcode", "DIG"); //live
-//            $this->curl->addHeader("user", "ewaveapi");
-//            $this->curl->addHeader("token", "904241bdbf10efa9");
-//            //
-//            //$this->curl->addHeader("compcode", "UA1"); //test
-//            //$this->curl->addHeader("user", "clint.mercado");
-//            //$this->curl->addHeader("token", "849cd5080faff5ce");
-//            
-//            $this->curl->post($url, $xml);
-//
-//            $result = $this->curl->getBody();
-//
-//            //var_dump($result);
-//            // echo $result;
-//            $json = $this->jsonSerializer->unserialize($result);
-//            //var_dump($json);
-//            //echo "<br>";
-//            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
-//            {
-//                $msg =  $json['response']['message'];
-//                echo $msg."<br>";
-//                $order->setData('pronto_order_number',$msg);
-//                $order->save();
-//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-//                
-//            }
-//            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-//                $msg =  $json['sales-orders']['response']['message'];
-//                echo $msg ."<br>";
-//                $order->setData('pronto_order_number',$msg);
-//                $order->save();
-//                $this->logger->error('Pronto Order Sync', array('info' => $msg));
-//
-//            }
-//            else {
-//
-//                $pronto = $json['sales-orders']['sales-order']['order-no'];
-//                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-//                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-//                $order->setData('pronto_order_number',$pronto);
-//                $order->setData('pronto_status_code',$prontostatus);
-//                $order->save();
-//                
-//                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
-//                
-//                $account = $json['sales-orders']['sales-order']['account'];
-//                if (!empty($account) && !$order->getCustomerIsGuest()) {
-//                    $customer = $this->customerRepository->getById($order->getCustomerId());
-//                    $customer->setData('pronto_account_id', $account);
-//                    $customer->setCustomAttribute('pronto_account_id', $account);
-//                    $this->customerRepository->save($customer);
-//                }
-//                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-//                $invoice = $order->getInvoiceCollection()->getFirstItem();
-//                $this->incrementIdUpdater->update($invoice, $invoiceno);
-//                echo 'success -'.$pronto;
-//
-//            }
+            $this->curl->addHeader("Content-Type", "application/xml");
+            $this->curl->addHeader("Accept", "application/json");
+            $this->curl->addHeader("compcode", "DIG"); //live
+            $this->curl->addHeader("user", "ewaveapi");
+            $this->curl->addHeader("token", "904241bdbf10efa9");
+            //
+            //$this->curl->addHeader("compcode", "UA1"); //test
+            //$this->curl->addHeader("user", "clint.mercado");
+            //$this->curl->addHeader("token", "849cd5080faff5ce");
+            
+            $this->curl->post($url, $xml);
+
+            $result = $this->curl->getBody();
+
+            //var_dump($result);
+            // echo $result;
+            $json = $this->jsonSerializer->unserialize($result);
+            //var_dump($json);
+            //echo "<br>";
+            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+            {
+                $msg =  $json['response']['message'];
+                echo $msg."<br>";
+                $order->setData('pronto_order_number',$msg);
+                $order->save();
+                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+                
+            }
+            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
+                $msg =  $json['sales-orders']['response']['message'];
+                echo $msg ."<br>";
+                $order->setData('pronto_order_number',$msg);
+                $order->save();
+                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+
+            }
+            else {
+
+                $pronto = $json['sales-orders']['sales-order']['order-no'];
+                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                $order->setData('pronto_order_number',$pronto);
+                $order->setData('pronto_status_code',$prontostatus);
+                $order->save();
+                
+                $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
+                
+                $account = $json['sales-orders']['sales-order']['account'];
+                if (!empty($account) && !$order->getCustomerIsGuest()) {
+                    $customer = $this->customerRepository->getById($order->getCustomerId());
+                    $customer->setData('pronto_account_id', $account);
+                    $customer->setCustomAttribute('pronto_account_id', $account);
+                    $this->customerRepository->save($customer);
+                }
+                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+                $invoice = $order->getInvoiceCollection()->getFirstItem();
+                $this->incrementIdUpdater->update($invoice, $invoiceno);
+                echo 'success -'.$pronto;
+
+            }
             echo "<br>";
         }
         exit; //for testing;
