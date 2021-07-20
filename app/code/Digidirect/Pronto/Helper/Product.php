@@ -146,25 +146,22 @@ class Product extends AbstractHelper
                         {
                             if($category['name'] == $prod['web-category1'])
                             {
-                                echo $category['name'] . " - " .$category['id'];
                                 $categoryIds[] = $category['id'];
                             }
                             if($category['name'] == $prod['web-category2'])
                             {
-                                echo $category['name'] . " - " .$category['id'];
                                 $categoryIds[] = $category['id'];
                             }
                             if($category['name'] == $prod['web-category3'])
                             {
-                                echo $category['name'] . " - " .$category['id'];
                                 $categoryIds[] = $category['id'];
                             }
                         }
                     }
                     
                     if (count($categoryIds)) {
-                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-
+                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        $product->setCategoryIds($categoryIds);
                     }
                 }
                 
@@ -274,8 +271,8 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId($mainCat); // Default attribute set for products
                 
                 if (count($categoryIds)) {
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                    
+                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    $product->setCategoryIds($categoryIds);
                 }
                 
                 if(isset($prod['gtins']['gtin']))
@@ -332,7 +329,8 @@ class Product extends AbstractHelper
     }
     
     
-    public function productProntoSet($args = 0) {
+    public function productProntoSet($args = 0) 
+    {
  
         if(isset($args))
         {
@@ -632,7 +630,8 @@ class Product extends AbstractHelper
         }
     } 
     
-    public function productProntoBulk($startItem, $endItem) {
+    public function productProntoBulk($startItem, $endItem) 
+    {
  
         set_time_limit(300);
         $lastCode = 0;
@@ -736,7 +735,8 @@ class Product extends AbstractHelper
                     
                     if (count($categoryIds)) {
                         echo "update categories: ".$catList."<br />";
-                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        $product->setCategoryIds($categoryIds);
                     }
                 }
                 
@@ -838,8 +838,8 @@ class Product extends AbstractHelper
                 
                 if (count($categoryIds)) {
                     echo "insert categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-
+                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    $product->setCategoryIds($categoryIds);
                 }
 
                 
@@ -859,7 +859,6 @@ class Product extends AbstractHelper
                             
                             $att = 'barcode'.$x;
                             $product->setCustomAttribute($att, $gtin['id']);
-                            echo "<br> GTIN : ".$att. " - ".$gtin['id'];
                             $x++;
                         }
                     }
@@ -893,7 +892,8 @@ class Product extends AbstractHelper
         exit;
     } 
     
-    public function productProntoSingle($startItem) {
+    public function productProntoSingle($startItem) 
+    {
         set_time_limit(300);
         
         $this->attributeOptions = $this->getOptionHash('brand');
@@ -977,7 +977,8 @@ class Product extends AbstractHelper
                     
                     if (count($categoryIds)) {
                         echo "update categories: ".$catList."<br />";
-                        $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        $product->setCategoryIds($categoryIds);
                     }
                 }
                 
@@ -1058,7 +1059,8 @@ class Product extends AbstractHelper
                 
                 if (count($categoryIds)) {
                     echo "insert categories: ".$catList."<br />";
-                    $this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    $product->setCategoryIds($categoryIds);
 
                 }
                 
