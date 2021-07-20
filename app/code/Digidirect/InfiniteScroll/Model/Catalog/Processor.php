@@ -111,26 +111,29 @@ class Processor implements ProcessorInterface
 
         /** @var \Digidirect\InfiniteScroll\Block\Product\ProductList\Toolbar $toolbar */
         $toolbar = $block->getToolbarBlock();
-
-//        $brand_id = $this->_brandModel->getCurrentOption();
-
         $pager = $toolbar->getPager();
 
         $url = false;
         if ($pager && !$pager->isLastPage()) {
-//            if($brand_id > 0){
-//                $page = "p=" . $toolbar->nextPageCount();
-//
-//                $limit = "&_is=" .$this->getLimit();
-//
-//                $url = $this->_brandModel->getCanonicalUrl() . "?" . $page;
-//
-//                if (strpos($url, $limit) === false) {
-//                    $url = $url . $limit;
-//                }
-//            }else{
+            if (strpos($_SERVER['REQUEST_URI'], "brands") !== false){
+                $brand_id = 0;
+            }else{
+                $brand_id = $this->_brandModel->getCurrentOption();
+            }
+            
+            if($brand_id > 0){
+                $page = "p=" . $toolbar->nextPageCount();
+
+                $limit = "&_is=" .$this->getLimit();
+
+                $url = $this->_brandModel->getCanonicalUrl() . "?" . $page;
+
+                if (strpos($url, $limit) === false) {
+                    $url = $url . $limit;
+                }
+            }else{
                 $url = htmlspecialchars_decode($pager->getNextPageUrl());
-//            }
+            }
 
             if (strpos($url, CatalogToolbar::DIRECTION_PARAM_NAME) === false) {
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
