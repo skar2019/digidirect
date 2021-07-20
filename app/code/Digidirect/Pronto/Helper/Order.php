@@ -230,7 +230,7 @@ class Order extends AbstractHelper
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
             $countrycode = $address->getCountryid();
-            $phone = $address->getPhone();
+            $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
             
@@ -252,7 +252,7 @@ class Order extends AbstractHelper
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
             $shipcountrycode = $shipaddress->getCountryid();
-            $shipphone = $shipaddress->getPhone();
+            $shipphone = $shipaddress->getTelephone();
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
             
