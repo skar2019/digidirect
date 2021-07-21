@@ -103,6 +103,7 @@ class Shipping extends AbstractHelper
                     if (!empty($json['sales-order']['header']['so-consignment-note'])) {
                         $order->setData('pronto_order_tracking_number', $json['sales-order']['header']['so-consignment-note']);
                         $this->orderResource->saveAttribute($order, 'pronto_order_tracking_number');
+                        $order->setState("complete")->setStatus("complete");
                     } else {
                         $this->logger->info('Cannot update Order Tracking Number');
                     }
@@ -113,6 +114,7 @@ class Shipping extends AbstractHelper
                     } else {
                         $this->logger->info('Cannot update Order Manifest Number');
                     }
+                    
                 }
             }
             else 

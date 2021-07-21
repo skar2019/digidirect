@@ -497,19 +497,22 @@ class Product extends AbstractHelper
 
     } 
     
-    public function productTestProntoSet($startItem) 
+    public function productTestProntoSet($startItem, $counter) 
     {
- 
-        $lastCode = 0;
+        settype($counter,"integer");
         $this->attributeOptions = $this->getOptionHash('brand');
-        echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
+        $lastCode = 0;
+        
+        $parentID = 2; // default category
+        $getCategoryList = $this->getSubCategoryByParentID($parentID);
+        
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
         //live port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem;
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
-        $jsonData = '{}';
+        $jsonData = '{}'; 
         
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
@@ -526,114 +529,247 @@ class Product extends AbstractHelper
         $result = $this->curl->getBody();
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
-        //var_dump($json['stockmaster']['stockcode']);
         
+        $count = 0;
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
             if(!isset($prod['code']))
             {
                 exit;
             }
-            
+            $count++;
             $lastCode = $prod['code'];
-            
-            echo $lastCode ."<br/>";
-            try {
+            echo $count." . ".$lastCode." <br>";
+            $live = true;
+            if($live)
+            {
                 
-                $product = $this->productRepository->get($prod['code']);
-                
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $product->setStockStatus($prod['stk-stock-status']);
-                $brandName = strtolower($prod['stk-brand']);
-                if(isset($this->attributeOptions[strtolower($brandName)]))
-                {
-                    $brandCode = $this->attributeOptions[strtolower($brandName)];
-                    $product->setBrand($brandCode);
-                }
-                
-                if(isset($prod['gtins']['gtin']))
-                {
-                    //set barcode
-                    if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
+                try {
+
+                    $product = $this->productRepository->get($prod['code']);
+
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $product->setStockStatus($prod['stk-stock-status']);
+
+                    $brandName = strtolower($prod['stk-brand']);
+                    if($brandName == "thinktank")
                     {
-                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
+                        $brandName = "think tank";
                     }
-                    else
+                    if($brandName == "peak")
                     {
-                        $x =1;
-                        foreach ($prod['gtins']['gtin'] as $gtin) {
-                            $att = 'barcode'.$x;
-                            $product->setCustomAttribute($att, $gtin['id']);
-                            $x++;
+                        $brandName = "peak design";
+                    }
+                    if($brandName == "3lt")
+                    {
+                        $brandName = "3 legged thing";
+                    }
+                    if(isset($this->attributeOptions[strtolower($brandName)]))
+                    {
+                        $brandCode = $this->attributeOptions[strtolower($brandName)];
+                        $product->setBrand($brandCode);
+                    }
+
+                    //set categories
+                    $productCategoryIds = $product->getCategoryIds();
+                    if(count($productCategoryIds) < 2)
+                    {
+
+                        if (count($getCategoryList)) {
+                            foreach ($getCategoryList as $id => $category)
+                            {
+                                if($category['name'] == $prod['web-category1'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                                if($category['name'] == $prod['web-category2'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                                if(isset($prod['web-category3']))
+                                {
+                                    if($category['name'] == $prod['web-category3'])
+                                    {
+                                        $categoryIds[] = $category['id'];
+                                    }
+                                }
+                            }
+                        }
+
+                        if (count($categoryIds)) {
+                            //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                            $product->setCategoryIds($categoryIds);
                         }
                     }
+
+                    if(isset($prod['gtins']['gtin']))
+                    {
+                        //set barcode
+                        if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
+                        {
+                            $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
+                        }
+                        else
+                        {
+                            $x =1;
+                            foreach ($prod['gtins']['gtin'] as $gtin) {
+                                $att = 'barcode'.$x;
+                                $product->setCustomAttribute($att, $gtin['id']);
+                                $x++;
+                            }
+                        }
+
+                        if(isset($prod['warehouse']['whse']))
+                        {
+                            foreach ($prod['warehouse']['whse'] as $qt)
+                            {
+                                if(isset($qt['code']))
+                                {
+                                    $sourceItem = $this->sourceItemFactory->create();
+                                    $sourceItem->setSourceCode($qt['code']);
+                                    $sourceItem->setSku($prod['code']);
+                                    $sourceItem->setStatus(1);
+                                    $sourceItem->setQuantity($qt['qty_available']);
+                                    $this->sourceItemsSaveInterface->execute([$sourceItem]);   
+                                }
+
+                            }
+                        }
+
+
+                        $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                        $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
+                        $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+
+                        $this->productRepository->save($product);
+                        echo "update <br/>";
+                    }
+
+                } 
+                catch (\Magento\Framework\Exception\NoSuchEntityException $e)
+                {
+                    //new product
+                    $prodname = $prod['desc1']. " ".$prod['desc2'];
+                    $product = $this->productFactory->create();
+                    $product->setSku($prod['code']);
+                    $product->setName($prodname);
+                    $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
+                    $product->setVisibility(4);
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $product->setAttributeSetId(4);
+
+                    $brandName = strtolower($prod['stk-brand']);
+                    if($brandName == "thinktank")
+                    {
+                        $brandName = "think tank";
+                    }
+                    if($brandName == "peak")
+                    {
+                        $brandName = "peak design";
+                    }
+                    if($brandName == "3lt")
+                    {
+                        $brandName = "3 legged thing";
+                    }
+                    if(isset($this->attributeOptions[strtolower($brandName)]))
+                    {
+                        $brandCode = $this->attributeOptions[strtolower($brandName)];
+                        $product->setBrand($brandCode);
+                    }
+
+                    //set categories
+                    $mainCat = 2;
+                    if (count($getCategoryList)) {
+                        foreach ($getCategoryList as $id => $category)
+                        {
+                            if($category['name'] == $prod['web-category1'])
+                            {
+                                $categoryIds[] = $category['id'];
+                                $mainCat = $category['id'];
+                            }
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                $categoryIds[] = $category['id'];
+                            }
+                            if(isset($prod['web-category3']))
+                            {
+                                if($category['name'] == $prod['web-category3'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+
+                    //$product->setAttributeSetId($mainCat); // Default attribute set for products
+
+                    if (count($categoryIds)) {
+                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        $product->setCategoryIds($categoryIds);
+                    }
+
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    // If desired, you can set a tax class like so:
+                    //$product->setCustomAttribute('tax_class_id', $taxClassId);
+                    $toUrl = $prodname;
+                    $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                    $url = strtolower($url);
+                    $product->setUrlKey($url);
+
+                    if(isset($prod['gtins']['gtin']))
+                    {
+                        //set barcode
+                        if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
+                        {
+                            $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
+                        }
+                        else
+                        {
+                            $x =1;
+                            foreach ($prod['gtins']['gtin'] as $gtin) {
+
+                                $att = 'barcode'.$x;
+                                $product->setCustomAttribute($att, $gtin['id']);
+                                $x++;
+                            }
+                        }
+                    }
+
+                    //set warehouse stock
                     if(isset($prod['warehouse']['whse']))
                     {
                         foreach ($prod['warehouse']['whse'] as $qt)
                         {
-                            $sourceItem = $this->sourceItemFactory->create();
-                            $sourceItem->setSourceCode($qt['code']);
-                            $sourceItem->setSku($prod['code']);
-                            $sourceItem->setStatus(1);
-                            $sourceItem->setQuantity($qt['qty_available']);
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            if(isset($qt['code']))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prod['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);   
+                            }
                         }
                     }
+
+
                     $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-
                     $this->productRepository->save($product);
-                    echo "update ".$lastCode ."<br/>";
+                    echo "insert <br/>";
                 }
-                
-            } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-                // insert your error handling here
-                
-                $prodname = $prod['desc1']. " ".$prod['desc2'];
-                $product = $this->productFactory->create();
-                $product->setSku($prod['code']);
-                $product->setName($prodname);
-                $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
-                $product->setVisibility(4);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $product->setAttributeSetId(4); // Default attribute set for products
-                $brandName = strtolower($prod['stk-brand']);
-                if(isset($this->attributeOptions[strtolower($brandName)]))
-                {
-                    $brandCode = $this->attributeOptions[strtolower($brandName)];
-                    $product->setBrand($brandCode);
-                }
-                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-//                // If desired, you can set a tax class like so:
-//                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
-                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
-                $url = strtolower($url);
-                $product->setUrlKey($url);
-                
-                foreach ($prod['warehouse']['whse'] as $qt)
-                {
-                    $sourceItem = $this->sourceItemFactory->create();
-                    $sourceItem->setSourceCode($qt['code']);
-                    $sourceItem->setSku($prod['code']);
-                    $sourceItem->setStatus(1);
-                    $sourceItem->setQuantity($qt['qty_available']);
-                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                }
-                    
-                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
-                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                $this->productRepository->save($product);
-                echo "insert ".$lastCode ."<br/>";
+            } //end is live
+            
+            if($count >= $counter)
+            {
+                exit;
             }
         }
         
-        
         if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
         {
-            echo $json['response']['message'];
+            $this->logger->info('Pronto Product Sync - '.$json['response']['message']);
             exit;
         }
     } 
@@ -737,6 +873,7 @@ class Product extends AbstractHelper
                             {
                                 if($category['name'] == $prod['web-category3'])
                                 {
+                                    $catList .=$category['name'] . " - " .$category['id']." / ";
                                     $categoryIds[] = $category['id'];
                                 }
                             }
@@ -831,6 +968,7 @@ class Product extends AbstractHelper
                         {
                             if($category['name'] == $prod['web-category3'])
                             {
+                                $catList .=$category['name'] . " - " .$category['id']." / ";
                                 $categoryIds[] = $category['id'];
                             }
                         }
@@ -985,6 +1123,7 @@ class Product extends AbstractHelper
                             {
                                 if($category['name'] == $prod['web-category3'])
                                 {
+                                    $catList .=$category['name'] . " - " .$category['id']." / ";
                                     $categoryIds[] = $category['id'];
                                 }
                             }
@@ -1067,6 +1206,7 @@ class Product extends AbstractHelper
                         {
                             if($category['name'] == $prod['web-category3'])
                             {
+                                $catList .=$category['name'] . " - " .$category['id']." / ";
                                 $categoryIds[] = $category['id'];
                             }
                         }
