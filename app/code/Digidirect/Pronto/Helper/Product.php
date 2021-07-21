@@ -785,7 +785,7 @@ class Product extends AbstractHelper
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
         
-        $this->logger->info('Pronto Product Sync - start item: '.$startitem);
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
@@ -910,15 +910,19 @@ class Product extends AbstractHelper
                     
                     if(isset($prod['warehouse']['whse']))
                     {
-                        foreach ($prod['warehouse']['whse'] as $qt)
+                        if(isset($qt['code']))
                         {
-                            $sourceItem = $this->sourceItemFactory->create();
-                            $sourceItem->setSourceCode($qt['code']);
-                            $sourceItem->setSku($prod['code']);
-                            $sourceItem->setStatus(1);
-                            $sourceItem->setQuantity($qt['qty_available']);
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            foreach ($prod['warehouse']['whse'] as $qt)
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prod['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
                         }
+                        
                     }
                     $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -932,6 +936,7 @@ class Product extends AbstractHelper
                 
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2'];
+                echo "Product Name: ".$prodname."<br>";
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
