@@ -41,9 +41,9 @@ class Shipping extends AbstractHelper
     public function getShipping($pronto) 
     {
         //get order data
-        //$orders = $this->getOrderCollection($pronto);
+        $orders = $this->getOrderCollection($pronto);
         //$counter = 0;
-        //foreach ($orders as $order) {
+        foreach ($orders as $order) {
         //    $data = array();
         //    $counter++;
             //var_dump($order);
@@ -119,11 +119,21 @@ class Shipping extends AbstractHelper
             {
                 echo "no result";
             }
-        //}
+        }
         
     }   
     
-    public function getOrderCollection()
+    public function getOrderCollection($pronto)
+    {
+        
+        $collection = $this->_orderCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter('pronto_order_number', array('eq' => $pronto));
+     return $collection;
+     
+    }
+    
+    public function getBulkOrderCollection()
     {
         $now = new \DateTime();
         $fromDate = date('Y-m-d 00:00:00', strtotime('2021-07-01'));
