@@ -541,7 +541,7 @@ class Product extends AbstractHelper
             $count++;
             $lastCode = $prod['code'];
             echo $count." . ".$lastCode." <br>";
-            $live = true;
+            $live = false;
             if($live)
             {
                 
@@ -785,7 +785,7 @@ class Product extends AbstractHelper
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
         
-        
+        $this->logger->info('Pronto Product Sync - start item: '.$startitem);
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
