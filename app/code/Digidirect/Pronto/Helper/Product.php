@@ -138,7 +138,7 @@ class Product extends AbstractHelper
                 
                 //set categories
                 $productCategoryIds = $product->getCategoryIds();
-                if(count($productCategoryIds) < 2)
+                if(count($productCategoryIds) < 1)
                 {
 
                     if (count($getCategoryList)) {
@@ -148,9 +148,12 @@ class Product extends AbstractHelper
                             {
                                 $categoryIds[] = $category['id'];
                             }
-                            if($category['name'] == $prod['web-category2'])
+                            if(isset($prod['web-category2']))
                             {
-                                $categoryIds[] = $category['id'];
+                                if($category['name'] == $prod['web-category2'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
                             if(isset($prod['web-category3']))
                             {
@@ -253,9 +256,12 @@ class Product extends AbstractHelper
                             $categoryIds[] = $category['id'];
                             $mainCat = $category['id'];
                         }
-                        if($category['name'] == $prod['web-category2'])
+                        if(isset($prod['web-category2']))
                         {
-                            $categoryIds[] = $category['id'];
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                $categoryIds[] = $category['id'];
+                            }
                         }
                         if(isset($prod['web-category3']))
                         {

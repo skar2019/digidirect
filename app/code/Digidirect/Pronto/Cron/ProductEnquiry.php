@@ -32,6 +32,13 @@ class ProductEnquiry
         exit;
     }
     
+    public function productSet0()
+    {
+        $this->logger->info('Pronto Product Sync syncing set 0');
+        $this->helper->productPronto(0);
+        exit;
+    }
+    
     public function productSet1()
     {
         $this->logger->info('Pronto Product Sync syncing set 1');
