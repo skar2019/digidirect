@@ -871,10 +871,13 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id'] ." / ";
                                 $categoryIds[] = $category['id'];
                             }
-                            if($category['name'] == $prod['web-category2'])
+                            if(isset($prod['web-category2']))
                             {
-                                $catList .= $category['name'] . " - " .$category['id']." / ";
-                                $categoryIds[] = $category['id'];
+                                if($category['name'] == $prod['web-category2'])
+                                {
+                                    $catList .=$category['name'] . " - " .$category['id']." / ";
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
                             if(isset($prod['web-category3']))
                             {
@@ -971,10 +974,13 @@ class Product extends AbstractHelper
                             $categoryIds[] = $category['id'];
                             $mainCat = $category['id'];
                         }
-                        if($category['name'] == $prod['web-category2'])
+                        if(isset($prod['web-category2']))
                         {
-                            $catList .= $category['name'] . " - " .$category['id']." / ";
-                            $categoryIds[] = $category['id'];
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                $catList .=$category['name'] . " - " .$category['id']." / ";
+                                $categoryIds[] = $category['id'];
+                            }
                         }
                         if(isset($prod['web-category3']))
                         {
@@ -1126,10 +1132,13 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id'] ." / ";
                                 $categoryIds[] = $category['id'];
                             }
-                            if($category['name'] == $prod['web-category2'])
+                            if(isset($prod['web-category2']))
                             {
-                                $catList .= $category['name'] . " - " .$category['id']." / ";
-                                $categoryIds[] = $category['id'];
+                                if($category['name'] == $prod['web-category2'])
+                                {
+                                    $catList .=$category['name'] . " - " .$category['id']." / ";
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
                             if(isset($prod['web-category3']))
                             {
@@ -1209,10 +1218,13 @@ class Product extends AbstractHelper
                             $categoryIds[] = $category['id'];
                             $mainCat = $category['id'];
                         }
-                        if($category['name'] == $prod['web-category2'])
+                        if(isset($prod['web-category2']))
                         {
-                            $catList .=$category['name'] . " - " .$category['id']." / ";
-                            $categoryIds[] = $category['id'];
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                $catList .=$category['name'] . " - " .$category['id']." / ";
+                                $categoryIds[] = $category['id'];
+                            }
                         }
                         if(isset($prod['web-category3']))
                         {
