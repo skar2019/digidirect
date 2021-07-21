@@ -499,6 +499,7 @@ class Product extends AbstractHelper
     
     public function productTestProntoSet($startItem, $counter) 
     {
+        //comment to redeploy
         settype($counter,"integer");
         $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
