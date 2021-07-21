@@ -13,9 +13,9 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
         $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();
         $categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory');
         $category = $categoryFactory->create()->load(1814);
-        $category->getProductCollection()->setPageSize(15);
         $categoryProducts = $category->getProductCollection()->addAttributeToSelect('*');
-        
+        $categoryProducts->getSelect()->orderRand();
+       
         return $categoryProducts;
     }
 }
