@@ -1259,6 +1259,7 @@ class Product extends AbstractHelper
                 // insert your error handling here
                 
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                echo $prodname . "<br>";
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
