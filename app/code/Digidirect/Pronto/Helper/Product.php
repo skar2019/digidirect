@@ -162,6 +162,14 @@ class Product extends AbstractHelper
                                     $categoryIds[] = $category['id'];
                                 }
                             }
+                            if(isset($prod['web-category4']))
+                            {
+                                
+                                if($category['name'] == $prod['web-category4'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
                         }
                     }
 
@@ -218,7 +226,7 @@ class Product extends AbstractHelper
             catch (\Magento\Framework\Exception\NoSuchEntityException $e)
             {
                 //new product
-                $prodname = $prod['desc1']. " ".$prod['desc2'];
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
@@ -266,6 +274,14 @@ class Product extends AbstractHelper
                         if(isset($prod['web-category3']))
                         {
                             if($category['name'] == $prod['web-category3'])
+                            {
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
                             {
                                 $categoryIds[] = $category['id'];
                             }
@@ -442,7 +458,7 @@ class Product extends AbstractHelper
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
                 // insert your error handling here
                 
-                $prodname = $prod['desc1']. " ".$prod['desc2'];
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $this->logger->info('Pronto Product insert'.$prodname);
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
@@ -589,13 +605,23 @@ class Product extends AbstractHelper
                                 {
                                     $categoryIds[] = $category['id'];
                                 }
-                                if($category['name'] == $prod['web-category2'])
+                                if(isset($prod['web-category2']))
                                 {
-                                    $categoryIds[] = $category['id'];
+                                    if($category['name'] == $prod['web-category2'])
+                                    {
+                                        $categoryIds[] = $category['id'];
+                                    }
                                 }
                                 if(isset($prod['web-category3']))
                                 {
                                     if($category['name'] == $prod['web-category3'])
+                                    {
+                                        $categoryIds[] = $category['id'];
+                                    }
+                                }
+                                if(isset($prod['web-category4']))
+                                {
+                                    if($category['name'] == $prod['web-category4'])
                                     {
                                         $categoryIds[] = $category['id'];
                                     }
@@ -656,7 +682,7 @@ class Product extends AbstractHelper
                 catch (\Magento\Framework\Exception\NoSuchEntityException $e)
                 {
                     //new product
-                    $prodname = $prod['desc1']. " ".$prod['desc2'];
+                    $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                     $product = $this->productFactory->create();
                     $product->setSku($prod['code']);
                     $product->setName($prodname);
@@ -694,13 +720,23 @@ class Product extends AbstractHelper
                                 $categoryIds[] = $category['id'];
                                 $mainCat = $category['id'];
                             }
-                            if($category['name'] == $prod['web-category2'])
+                            if(isset($prod['web-category2']))
                             {
-                                $categoryIds[] = $category['id'];
+                                if($category['name'] == $prod['web-category2'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
                             if(isset($prod['web-category3']))
                             {
                                 if($category['name'] == $prod['web-category3'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                            if(isset($prod['web-category4']))
+                            {
+                                if($category['name'] == $prod['web-category4'])
                                 {
                                     $categoryIds[] = $category['id'];
                                 }
@@ -887,6 +923,14 @@ class Product extends AbstractHelper
                                     $categoryIds[] = $category['id'];
                                 }
                             }
+                            if(isset($prod['web-category4']))
+                            {
+                                $catList .=$category['name'] . " - " .$category['id']." / ";
+                                if($category['name'] == $prod['web-category4'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
                         }
                     }
                     
@@ -944,7 +988,7 @@ class Product extends AbstractHelper
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
                 
                 //insert new product
-                $prodname = $prod['desc1']. " ".$prod['desc2'];
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 echo "Product Name: ".$prodname."<br>";
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
@@ -987,6 +1031,14 @@ class Product extends AbstractHelper
                             if($category['name'] == $prod['web-category3'])
                             {
                                 $catList .=$category['name'] . " - " .$category['id']." / ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
                                 $categoryIds[] = $category['id'];
                             }
                         }
@@ -1148,6 +1200,14 @@ class Product extends AbstractHelper
                                     $categoryIds[] = $category['id'];
                                 }
                             }
+                            if(isset($prod['web-category4']))
+                            {
+                                
+                                if($category['name'] == $prod['web-category4'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
                         }
                     }
                     
@@ -1198,7 +1258,7 @@ class Product extends AbstractHelper
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
                 // insert your error handling here
                 
-                $prodname = $prod['desc1']. " ".$prod['desc2'];
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
@@ -1231,6 +1291,14 @@ class Product extends AbstractHelper
                             if($category['name'] == $prod['web-category3'])
                             {
                                 $catList .=$category['name'] . " - " .$category['id']." / ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
                                 $categoryIds[] = $category['id'];
                             }
                         }
