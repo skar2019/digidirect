@@ -1013,9 +1013,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
-            var_dump($order);
-            var_dump($data['sales-order']);
-            exit;
+
             //create xml of order data here
             $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
@@ -1030,7 +1028,7 @@ class TestPronto extends AbstractHelper
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
 
-            $islive = false;
+            $islive = true;
             if($islive)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
