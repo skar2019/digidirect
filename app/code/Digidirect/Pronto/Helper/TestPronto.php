@@ -784,7 +784,7 @@ class TestPronto extends AbstractHelper
             $mobile = $address->getMobile();
             $company = $address->getCompany();
             
-            
+            $data['sales-order']['header']['billing-address']['line-1'] = $company;
             $data['sales-order']['header']['billing-address']['line-2'] = $street;
             $data['sales-order']['header']['billing-address']['line-3'] = $city;
             $data['sales-order']['header']['billing-address']['line-4'] = $region;
@@ -984,7 +984,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
                 $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 4;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 5;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
                 $x++; // for shipping counter
             }
@@ -1028,7 +1028,7 @@ class TestPronto extends AbstractHelper
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
 
-            $islive = true;
+            $islive = false;
             if($islive)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
