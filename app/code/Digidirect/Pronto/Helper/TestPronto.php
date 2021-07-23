@@ -1039,7 +1039,7 @@ class TestPronto extends AbstractHelper
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
 
-            $islive = false;
+            $islive = true;
             if($islive)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
