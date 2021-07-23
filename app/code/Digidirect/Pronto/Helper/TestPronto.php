@@ -18,19 +18,19 @@ use Psr\Log\LoggerInterface;
 
 class TestPronto extends AbstractHelper
 {
- 
+
     /**
     * @var Curl
     */
     protected $curl;
-    
+
     protected $_orderCollectionFactory;
-    
+
     /**
      * @var SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
-    
+
     /**
      * @var array
      */
@@ -39,7 +39,7 @@ class TestPronto extends AbstractHelper
         'CANN' => 'SWHS',
         'SWHS' => 'MELB'
     ];
-    
+
     /**
      * @var array
      */
@@ -57,7 +57,7 @@ class TestPronto extends AbstractHelper
         '13' => 'M6P',
         '16' => 'C3P',
         '19' => 'B5P'
-        
+
     ];
 
     /**
@@ -68,42 +68,42 @@ class TestPronto extends AbstractHelper
         'CANN' => 'C3W',
         'SWHS' => 'C9W'
     ];
-    
+
     /**
      * @var array
      */
     protected $warehouseCode = [];
-    
+
     /**
      * @var SourceItemRepositoryInterface
      */
     protected $sourceItemRepository;
-    
+
     /**
      * @var AbstractEntityRepository
      */
     protected $abstractEntityRepository;
-    
+
     /**
      * @var IncrementIdUpdater
      */
     protected $incrementIdUpdater;
-    
+
     /**
      * @var CustomerRepositoryInterface
      */
     protected $customerRepository;
-    
+
     /**
      * @var CustomerInterface[]|array
      */
     protected $customer = [];
-    
+
     /**
      * @var LoggerInterface
      */
     protected $logger;
-    
+
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -133,7 +133,7 @@ class TestPronto extends AbstractHelper
 
     }
 
-    public function testordersync() 
+    public function testordersync()
     {
         $piwikItems = array();
         $piwikOrder = array();
@@ -145,11 +145,11 @@ class TestPronto extends AbstractHelper
             $counter++;
             //var_dump($order);
             /* @var $order \Magento\Sales\Model\Order */
-            
+
             if ($order->getState() == 'canceled') {
                 continue;
             }
-            
+
             $orderId = $order->getIncrementId();
             if($orderId == '000629196' || $orderId == 'AM000158655' || $orderId == 'AM000158646')
             {
@@ -160,12 +160,12 @@ class TestPronto extends AbstractHelper
                     $territory = "WEBS";
                     $accountname = $this->getAccountName($order);
                     $account = $this->getAccount($order);
-                    
+
                     $is_am_order = false;
                     if (strpos($orderId, 'AM') !== false) {
                         $is_am_order = true;
                     }
-                    
+
                     if($is_am_order){
                         $rep = "AMAZON MFH";
                         if($accountname == "N/A N/A")
@@ -187,7 +187,7 @@ class TestPronto extends AbstractHelper
                         }
 
                     }
-                    
+
                     $contactname = $accountname;
                     //check pronto if customer has an account.
                     //if not, create customer account to pronto
@@ -270,12 +270,12 @@ class TestPronto extends AbstractHelper
                     //payment details
                     //bank should sync as confirmed by Michael from Emmanuel
         //            $is_bank = false;
-        //            
+        //
         //            $methodInst = $paymentInstance->getMethodInstance();
         //            echo "<br> payment - ". $paymentInstance->getMethod();
         //            $methodTitle = $methodInst->getTitle();
         //            //echo "<br >method - ".$methodTitle;
-        //            
+        //
         //            if ($paymentInstance->getMethod() == "banktransfer") {
         //                unset($data);
         //                $is_bank = true;
@@ -316,7 +316,7 @@ class TestPronto extends AbstractHelper
                         $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
                         $data['sales-order']['header']['custom-data']['data'][1]['value'] = $qffLastname;
                     }
-                    else 
+                    else
                     {
                         $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
                         $data['sales-order']['header']['custom-data']['data'][0]['value'] = NULL;
@@ -353,7 +353,7 @@ class TestPronto extends AbstractHelper
 
                     //shipping details
                     $shippingprice = (double) $order->getShippingAmount();
-                    
+
                     $shippingDesc = $order->getShippingDescription();
                     if($shippingDesc == "Express - (1 to 3 Days)")
                     {
@@ -363,7 +363,7 @@ class TestPronto extends AbstractHelper
                     {
                         $shippingDesc = "Australia Post – eParcel";
                     }
-                   
+
                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
                     $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
                     $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
@@ -374,8 +374,8 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
                     //should be inside the foreach above
-                    
-                    $toJson['data'] = $data['sales-order']; 
+
+                    $toJson['data'] = $data['sales-order'];
                     $this->logger->info('Pronto Order Sync Data - '.json_encode($toJson['data']));
                     //create xml of order data here
                     $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
@@ -445,9 +445,9 @@ class TestPronto extends AbstractHelper
             $this->logger->info('Pronto Order End Sync');
 
         }
-        
-    }   
-    
+
+    }
+
     public function getOrderCollection()
     {
         $now = new \DateTime();
@@ -460,13 +460,13 @@ class TestPronto extends AbstractHelper
             ->addFieldToFilter('created_at', array('gteq' => $fromDate))
             ->addFieldToFilter('created_at', array('lteq' => $toDate))
             ->setOrder('created_at', 'desc');
-     
+
      return $collection;
-     
+
     }
-    
+
     public function getPaymentType($paymentInstance){
-        
+
         //echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
         $payment = $paymentInstance->getMethod();
@@ -504,10 +504,10 @@ class TestPronto extends AbstractHelper
             default:
           break;
         }
-        
+
         return $type;
     }
-    
+
     public function getWarehouse(OrderInterface $order) {
         if (!isset($this->warehouseCode[$order->getEntityId()])) {
             $whse = '';
@@ -528,7 +528,7 @@ class TestPronto extends AbstractHelper
         }
         return $this->warehouseCode[$order->getEntityId()];
     }
-    
+
     public function getRep(OrderInterface $order) {
         if ($order->getShippingMethod() == 'collect_collect') {
             if ($collectPlaceId = $this->getCollectPlaceId($order)) {
@@ -540,11 +540,11 @@ class TestPronto extends AbstractHelper
         //echo 'Rep - '. $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
         return $this->repDispatchWarehouseMap[$this->getWarehouse($order)] ?? '';
     }
-    
+
     protected function getWarehouseByRegionCode($regionCode) {
         return 'SWHS';
     }
-    
+
     /**
      * @param OrderInterface $order
      * @return array
@@ -560,7 +560,7 @@ class TestPronto extends AbstractHelper
 
         return $skus;
     }
-    
+
      /**
      * @param string $sourceCode
      * @param array $productsSkus
@@ -575,7 +575,7 @@ class TestPronto extends AbstractHelper
         }
         return true;
     }
-    
+
     /**
      * @param OrderItemInterface $item
      * @return array
@@ -588,7 +588,7 @@ class TestPronto extends AbstractHelper
                 return [$item->getSku()];
         }
     }
-    
+
     /**
      * @param string $sourceCode
      * @param string $sku
@@ -602,7 +602,7 @@ class TestPronto extends AbstractHelper
         $sourceItemsResult = $this->sourceItemRepository->getList($searchCriteria);
         return $sourceItemsResult->getItems();
     }
-    
+
     /**
      * @param OrderInterface $order
      * @return int|null
@@ -615,7 +615,7 @@ class TestPronto extends AbstractHelper
         }
         return null;
     }
-    
+
     /**
      * @param OrderInterface $order
      * @param string $attributeCode
@@ -632,7 +632,7 @@ class TestPronto extends AbstractHelper
             } catch (Exception $ex) {
                 return $result;
             }
-            
+
         }
 
         if (isset($this->customer[$order->getEntityId()])) {
@@ -644,7 +644,7 @@ class TestPronto extends AbstractHelper
 
         return $result;
     }
-    
+
     /**
      * @param OrderInterface|Order $order
      * @return string
@@ -666,7 +666,7 @@ class TestPronto extends AbstractHelper
     public function getAccount(OrderInterface $order) {
         return $this->getCustomerAttributeValue($order, 'pronto_account_id');
     }
-    
+
     public function prontoStatus(OrderInterface $order) {
         $status = $order->getState();
         $prontoStatus = "I";
@@ -674,11 +674,11 @@ class TestPronto extends AbstractHelper
         {
             $prontoStatus = "H";
         }
-        
+
         return $prontoStatus;
     }
-    
-    public function orderPostTec($orderId, $date, $size, $page) 
+
+    public function orderPostTec($orderId, $date, $size, $page)
     {
         $piwikItems = array();
         $piwikOrder = array();
@@ -690,7 +690,7 @@ class TestPronto extends AbstractHelper
             $counter++;
             //var_dump($order);
             /* @var $order \Magento\Sales\Model\Order */
-            
+
             if ($order->getState() == 'canceled') {
                 continue;
             }
@@ -707,13 +707,13 @@ class TestPronto extends AbstractHelper
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryid();
-            
+
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
                 $is_am_order = true;
             }
-            
+
             if($is_am_order){
                 $rep = "AMAZON MFH";
                 if($accountname == "N/A N/A")
@@ -722,9 +722,9 @@ class TestPronto extends AbstractHelper
                     $account = "AMAZ00";
                     if($countrycode == "NZ")
                     {
-                        $account = "AMAZ01";  
+                        $account = "AMAZ01";
                     }
-                    
+
                     $wrehs = "AWHS";
                     $territory = "AWHS";
                     $is_am_fba = true;
@@ -741,7 +741,7 @@ class TestPronto extends AbstractHelper
                 }
 
             }
-            
+
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
@@ -761,15 +761,15 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['reference'] = $entityId;
             $data['sales-order']['header']['on-hold-reason-code'] = "01";
             $data['sales-order']['header']['set-on-status'] = "H";
-            
+
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
             $grandTotal = (double) $order->getBaseGrandTotal();
             $subTotal = (double) $order->getBaseSubtotalInclTax();
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
-            
+
            $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
-            
+
             //var_dump($address);
             $strt = $address->getStreet();
             if(is_array($strt))
@@ -783,7 +783,7 @@ class TestPronto extends AbstractHelper
             $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
-            
+
             $data['sales-order']['header']['billing-address']['line-1'] = $company;
             $data['sales-order']['header']['billing-address']['line-2'] = $street;
             $data['sales-order']['header']['billing-address']['line-3'] = $city;
@@ -792,7 +792,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['billing-address']['country-code'] = $countrycode;
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
-            
+
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
             if(is_array($shipstrt))
@@ -807,7 +807,7 @@ class TestPronto extends AbstractHelper
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
             //echo "ship city: " .$shipaddress->getCity();
-            
+
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipstreet;
@@ -817,19 +817,19 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
-            
+
             //var_dump($data['sales-order']['header']);
             $paymentInstance = $order->getPayment();
 
             //payment details
             //bank should sync as confirmed by Michael from Emmanuel
 //            $is_bank = false;
-//            
+//
             $methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
 //            $methodTitle = $methodInst->getTitle();
 //            //echo "<br >method - ".$methodTitle;
-//            
+//
 //            if ($paymentInstance->getMethod() == "banktransfer") {
 //                unset($data);
 //                $is_bank = true;
@@ -838,8 +838,8 @@ class TestPronto extends AbstractHelper
 //            if($is_bank){
 //                continue;
 //            }
-            
-            
+
+
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
             if($payment_type == 'BT')
@@ -851,19 +851,19 @@ class TestPronto extends AbstractHelper
             if (empty($payment_reference) && ($method == 'm2epropayment')) {
                 $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
             }
-            
+
             if(($is_am_order) && ($payment_type == "EB")){
                 $payment_type = "AM";
             }
-            
+
             $withpaymentref = true;
             if(($payment_type == "Y"))
             {
-                $withpaymentref = false;   
+                $withpaymentref = false;
             }
             if(($payment_type == "H"))
             {
-                $withpaymentref = false;   
+                $withpaymentref = false;
             }
 
             $amount_tendered = $order->getBaseGrandTotal();
@@ -876,9 +876,9 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
                     $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
                 }
-                
+
             }
-            
+
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
@@ -888,20 +888,24 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
                 $data['sales-order']['header']['custom-data']['data'][1]['value'] = $qffLastname;
             }
-            else 
+            else
             {
                 $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
                 $data['sales-order']['header']['custom-data']['data'][0]['value'] = NULL;
                 $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
                 $data['sales-order']['header']['custom-data']['data'][1]['value'] = NULL;
             }
-            
+
             $data['sales-order']['header']['custom-data']['data'][2]['key'] = 'magento-order-number';
             $data['sales-order']['header']['custom-data']['data'][2]['value'] = $orderId;
-            
+
             $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
             $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
-            
+
+            //for coupon
+            $coupon = $order->getCouponCode();
+            $couponDiscount = ((double) $order->getBaseDiscountAmount());
+
             //product lines
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
@@ -915,34 +919,41 @@ class TestPronto extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
-                
+                if($coupon != "")
+                {
+                    $discount = 0;
+                }
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;
                 $digiProtectTotal = 0;
-                
+
                 $sku = $item->getSku();
                 if(strpos($sku, '-') !== false)
                 {
                     $skus = explode('-', $sku);
                     $productSku = $skus[0];
                     $digiProtect = $skus[1];
-                    
+
                     $price = (double) $item->getBasePriceInclTax();
                     $orig = (double) $item->getOriginalPrice();
                     $digiProtectPrice = $price - $orig;
                     $digiProtectQty = (double) $item->getQtyOrdered();
                     $digiProtectdiscount = (double) $item->getDiscountAmount();
+                    if($coupon != "")
+                    {
+                        $digiProtectdiscount = 0;
+                    }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
 
                 }
-                else 
+                else
                 {
                     $productSku = $sku;
-                    
+
                 }
-                
-                
+
+
                 $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
@@ -953,7 +964,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
-                
+
                 if(!empty($digiProtect))
                 {
                     $price = (double) $item->getBasePriceInclTax();
@@ -972,10 +983,8 @@ class TestPronto extends AbstractHelper
                     $x++;
                 }
             }
-            
-            //for coupon
-            $coupon = $order->getCouponCode();
-            $couponDiscount = ((double) $order->getBaseDiscountAmount());
+
+
             if($coupon != "")
             {
                 $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
@@ -988,7 +997,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
                 $x++; // for shipping counter
             }
-            
+
             $shippingprice = (double) $order->getShippingAmount();
             $shippingDesc = $order->getShippingDescription();
             if (strpos($shippingDesc, '|') !== false) {
@@ -1003,7 +1012,7 @@ class TestPronto extends AbstractHelper
             {
                 $shippingDesc = "Australia Post – eParcel";
             }
-            
+
             //shipping details
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
@@ -1014,16 +1023,18 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
+            var_dump($data['sales-order']['detail']['line']);
+            exit;
             //create xml of order data here
             $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
-            
+
             //TEST
             //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
-            
+
             //LIVE - port :8084
             $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
-            
+
             $username = 'clint.mercado';
             $password = '849cd5080faff5ce';
             $jsonData = '{}';
@@ -1092,13 +1103,13 @@ class TestPronto extends AbstractHelper
 
                 }
             }
-            
+
             echo "<br>";
         }
         exit; //for testing;
-        
+
     }
-    
+
     public function getTestOrderCollection($orderId, $date, $size, $page)
     {
         if($orderId != '0')
@@ -1124,9 +1135,9 @@ class TestPronto extends AbstractHelper
                 ->setCurPage($page);
             return $collection;
         }
-        
+
     }
-    
+
     public function getCCType($paymentInstance)
     {
         if($type == 'BT')
@@ -1137,37 +1148,37 @@ class TestPronto extends AbstractHelper
                 $type = 'X';
             }
         }
-        
+
         return;
     }
-    
-    public function populateMagento($orderId, $pronto) 
+
+    public function populateMagento($orderId, $pronto)
     {
-        
+
         $orders = $this->getOrderToPopulate($orderId);
         $counter = 0;
         foreach ($orders as $order) {
 
             echo 'Magento Order Sync - '.$orderId.' with '.$pronto.'<br>';
-            
+
             $order->setData('pronto_order_number',$pronto);
             $order->save();
 
             exit; //for testing;
-        }   
-        
+        }
+
     }
-    
+
     public function getOrderToPopulate($orderId)
     {
-        
+
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('increment_id', array('eq' => $orderId));
 
         return $collection;
-        
-        
+
+
     }
-            
-}      
+
+}
