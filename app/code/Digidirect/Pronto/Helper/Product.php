@@ -5,7 +5,6 @@ namespace Digidirect\Pronto\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
-use Psr\Log\LoggerInterface;
 use Magento\Catalog\Model\ResourceModel\Product as ProductResource;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Api\Data\CategoryTreeInterface;
@@ -36,7 +35,7 @@ class Product extends AbstractHelper
                         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
                         \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
                         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-                        LoggerInterface $logger,
+                        \Digidirect\CustomLog\Logger\Logger $logger,
                         ProductResource $productResource,
                         CategoryFactory $categoryFactory,
                         CategoryLinkManagementInterface $categoryLinkManagement,
@@ -868,6 +867,7 @@ class Product extends AbstractHelper
 
                 //echo $this->rootCategoryName;
                 //var_dump($prod);
+                $this->logger->info("SKU ".$prod['code']);
                 $product = $this->productRepository->get($prod['code']);
 
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
@@ -973,6 +973,7 @@ class Product extends AbstractHelper
                                     $sourceItem->setStatus(1);
                                     $sourceItem->setQuantity($qt['qty_available']);
                                     echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                                    $this->logger->info($qt['code']." - ".$qt['qty_available']);
                                     $this->sourceItemsSaveInterface->execute([$sourceItem]);
                                 }
                         }
@@ -1161,7 +1162,7 @@ class Product extends AbstractHelper
             }
 
             $lastCode = $prod['code'];
-
+            $this->logger->info(" SKU ".$prod['code']);
             try {
 
                 $product = $this->productRepository->get($prod['code']);
@@ -1246,6 +1247,7 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
+                            $this->logger->info($qt['code']." - ".$qt['qty_available']);
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                         }
@@ -1341,6 +1343,7 @@ class Product extends AbstractHelper
                         $sourceItem->setSku($prod['code']);
                         $sourceItem->setStatus(1);
                         $sourceItem->setQuantity($qt['qty_available']);
+                        $this->logger->info($qt['code']." - ".$qt['qty_available']);
                         $this->sourceItemsSaveInterface->execute([$sourceItem]);
                     }
                 }
