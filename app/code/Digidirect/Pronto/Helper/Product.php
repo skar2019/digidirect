@@ -522,13 +522,13 @@ class Product extends AbstractHelper
     {
         //comment to redeploy
         settype($counter,"integer");
-        $this->attributeOptions = $this->getOptionHash('brand');
+        //$this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
 
-        $parentID = 2; // default category
-        $getCategoryList = $this->getSubCategoryByParentID($parentID);
+        //$parentID = 2; // default category
+        //$getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
@@ -803,10 +803,10 @@ class Product extends AbstractHelper
                 }
             } //end is live
 
-            if($count >= $counter)
-            {
-                exit;
-            }
+            //if($count >= $counter)
+            //{
+            //    exit;
+            //}
         }
 
         if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
@@ -814,6 +814,8 @@ class Product extends AbstractHelper
             $this->logger->info('Pronto Product Sync - '.$json['response']['message']);
             exit;
         }
+
+        exit;
     }
 
     public function productProntoBulk($startItem, $endItem)
@@ -963,21 +965,35 @@ class Product extends AbstractHelper
 
                     if(isset($prod['warehouse']['whse']))
                     {
+
                         foreach ($prod['warehouse']['whse'] as $qt)
                         {
-                                if(isset($qt['code']))
-                                {
-                                    $sourceItem = $this->sourceItemFactory->create();
-                                    $sourceItem->setSourceCode($qt['code']);
-                                    $sourceItem->setSku($prod['code']);
-                                    $sourceItem->setStatus(1);
-                                    $sourceItem->setQuantity($qt['qty_available']);
-                                    echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
-                                    $this->logger->info($qt['code']." - ".$qt['qty_available']);
-                                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                                }
-                        }
+                            if(is_array($qt))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prod['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                                $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prod['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                                echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                                $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
 
+
+                        }
                     }
                     $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -1084,20 +1100,37 @@ class Product extends AbstractHelper
                     }
                 }
 
-                foreach ($prod['warehouse']['whse'] as $qt)
+                if(isset($prod['warehouse']['whse']))
                 {
-                    if(isset($qt['code']))
+
+                    foreach ($prod['warehouse']['whse'] as $qt)
                     {
-                        $sourceItem = $this->sourceItemFactory->create();
-                        $sourceItem->setSourceCode($qt['code']);
-                        $sourceItem->setSku($prod['code']);
-                        $sourceItem->setStatus(1);
-                        $sourceItem->setQuantity($qt['qty_available']);
-                        echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
-                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        if(is_array($qt))
+                        {
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($qt['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($qt['qty_available']);
+                            echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                            $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+                        else
+                        {
+                            // to handle single warehouse
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                            echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                            $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+
+
                     }
-
-
                 }
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
@@ -1162,6 +1195,7 @@ class Product extends AbstractHelper
             }
 
             $lastCode = $prod['code'];
+            echo " SKU ".$prod['code']."<br>";
             $this->logger->info(" SKU ".$prod['code']);
             try {
 
@@ -1206,7 +1240,6 @@ class Product extends AbstractHelper
                             }
                             if(isset($prod['web-category4']))
                             {
-
                                 if($category['name'] == $prod['web-category4'])
                                 {
                                     $categoryIds[] = $category['id'];
@@ -1238,18 +1271,34 @@ class Product extends AbstractHelper
                             $x++;
                         }
                     }
+
                     if(isset($prod['warehouse']['whse']))
                     {
                         foreach ($prod['warehouse']['whse'] as $qt)
                         {
-                            $sourceItem = $this->sourceItemFactory->create();
-                            $sourceItem->setSourceCode($qt['code']);
-                            $sourceItem->setSku($prod['code']);
-                            $sourceItem->setStatus(1);
-                            $sourceItem->setQuantity($qt['qty_available']);
-                            $this->logger->info($qt['code']." - ".$qt['qty_available']);
-                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
-
+                            if(is_array($qt))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prod['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                                $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prod['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                                echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                                $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
                         }
                     }
                     $product->setCustomAttribute('apn', $prod['stk-apn-number']);
@@ -1334,17 +1383,36 @@ class Product extends AbstractHelper
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
-                foreach ($prod['warehouse']['whse'] as $qt)
+                if(isset($prod['warehouse']['whse']))
                 {
-                    if(isset($qt['code']))
+
+                    foreach ($prod['warehouse']['whse'] as $qt)
                     {
-                        $sourceItem = $this->sourceItemFactory->create();
-                        $sourceItem->setSourceCode($qt['code']);
-                        $sourceItem->setSku($prod['code']);
-                        $sourceItem->setStatus(1);
-                        $sourceItem->setQuantity($qt['qty_available']);
-                        $this->logger->info($qt['code']." - ".$qt['qty_available']);
-                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        if(is_array($qt))
+                        {
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($qt['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($qt['qty_available']);
+                            echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                            $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+                        else
+                        {
+                            // to handle single warehouse
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                            echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                            $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+
+
                     }
                 }
 
