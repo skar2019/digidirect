@@ -17,6 +17,13 @@ class HealthCheck
     const STATUS_ERROR = 3;
     const STATUS_OK = 0;
 
+    const SSL_DISABLED_MESSAGE = 'Your store {store_name} ({store_url}) does not have SSL';
+    const CURL_EXTENSION_DISABLED = 'CURL extension has not been installed or disabled';
+    const API_CERTIFICATE_INVALID_MESSAGE = 'SSL Certificate is not valid for the API';
+    const API_PRIVATE_KEY_INVALID_MESSAGE = 'Your API private key is empty or invalid';
+    const API_CREDENTIAL_INVALID_MESSAGE = 'Your API credential is invalid';
+    const MERCHANT_COUNTRY_NOT_SUPPORTED_MESSAGE = 'Your merchant country not been supported';
+
     protected $_result = [
         'overall_status' => self::STATUS_SUCCESS,
         'items' => []
@@ -111,7 +118,7 @@ class HealthCheck
 
         // check if private key is empty
         if (empty($privateKey)) {
-            $this->appendItem(self::STATUS_ERROR, __("Your API private key is empty or invalid"));
+            $this->appendItem(self::STATUS_ERROR, __(self::API_PRIVATE_KEY_INVALID_MESSAGE));
         }
 
         // check whether SSL is enabled
@@ -119,7 +126,7 @@ class HealthCheck
 
         // check whether CURL is enabled ot not
         if (!$curlEnabled) {
-            $this->appendItem(self::STATUS_ERROR, __("CURL extension has not been installed or disabled"));
+            $this->appendItem(self::STATUS_ERROR, __(self::CURL_EXTENSION_DISABLED));
         } else {
             $curlObject->setConfig(
                 [
@@ -155,7 +162,7 @@ class HealthCheck
                 $httpCode = (int)$curlObject->getInfo(CURLINFO_HTTP_CODE);
                 // if API certification invalid
                 if (!$sslVerified) {
-                    $this->appendItem(self::STATUS_WARNING, __("SSL Certificate is not valid for the API"));
+                    $this->appendItem(self::STATUS_WARNING, __(self::API_CERTIFICATE_INVALID_MESSAGE));
                 }
 
                 // if API call is failed
@@ -164,7 +171,7 @@ class HealthCheck
                 }
                 // if API credential is invalid
                 if ($httpCode == 401 || $httpCode == 403) {
-                    $this->appendItem(self::STATUS_ERROR, __("Your API credential is invalid"));
+                    $this->appendItem(self::STATUS_ERROR, __(self::API_CREDENTIAL_INVALID_MESSAGE));
                 }
                 if (($httpCode >= 200 && $httpCode <= 299) && $isAuEndpoint == false) {
                     $result = preg_split('/^\r?$/m', $response, 2);
@@ -232,7 +239,7 @@ class HealthCheck
                 $storeSecureUrl = $store->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB, true);
                 $url = $this->_zendUri->parse($storeSecureUrl);
                 if ($url->getScheme() !== 'https') {
-                    $message = __("Your store {store_name} ({store_url}) does not have SSL");
+                    $message = __(self::SSL_DISABLED_MESSAGE);
                     $message = str_replace('{store_name}', $store->getName(), $message);
                     $message = str_replace('{store_url}', $storeSecureUrl, $message);
 
