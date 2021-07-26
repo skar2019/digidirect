@@ -10,12 +10,12 @@ class ProductEnquiry
      * @var LoggerInterface
      */
     protected $logger;
-    
+
     /**
      * @var Inventory
      */
     protected $helper;
-    
+
     public function __construct(
             LoggerInterface $logger,
             Product $helper)
@@ -23,211 +23,210 @@ class ProductEnquiry
         $this->logger = $logger;
         $this->helper = $helper;
     }
-   
-    
+
+
     public function execute()
     {
         $this->logger->info('Pronto Product Sync syncing set 0');
         $this->helper->productPronto(0);
         exit;
     }
-    
+
     public function productSet0()
     {
         $this->logger->info('Pronto Product Sync syncing set 0');
-        $this->helper->productPronto(0);
+        $this->helper->productPronto(100425,102868);
         exit;
     }
-    
+
     public function productSet1()
     {
         $this->logger->info('Pronto Product Sync syncing set 1');
-        $this->helper->productPronto(106156);
+        $this->helper->productPronto(102868,106281);
         exit;
     }
-    
+
     public function productSet2()
     {
         $this->logger->info('Pronto Product Sync syncing set2 ');
-        $this->helper->productPronto(111623);
+        $this->helper->productPronto(106281,112036);
         exit;
     }
-    
+
     public function productSet3()
     {
         $this->logger->info('Pronto Product Sync syncing set 3');
-        $this->helper->productPronto(114760);
+        $this->helper->productPronto(112036,116452);
         exit;
     }
-    
+
     public function productSet4()
     {
         $this->logger->info('Pronto Product Sync syncing set 4');
-        $this->helper->productPronto(118807);
+        $this->helper->productPronto(116452,119145);
         exit;
     }
-    
+
     public function productSet5()
     {
         $this->logger->info('Pronto Product Sync syncing set 5');
-        $this->helper->productPronto(120409);
+        $this->helper->productPronto(119145,120567);
         exit;
     }
-    
+
     public function productSet6()
     {
         $this->logger->info('Pronto Product Sync syncing set 6');
-        $this->helper->productPronto(121979);
+        $this->helper->productPronto(120567,122246);
         exit;
     }
-    
+
     public function productSet7()
     {
         $this->logger->info('Pronto Product Sync syncing set 7');
-        $this->helper->productPronto(123432);
+        $this->helper->productPronto(122246,123956);
         exit;
     }
-    
+
     public function productSet8()
     {
         $this->logger->info('Pronto Product Sync syncing set 8');
-        $this->helper->productPronto(125174);
+        $this->helper->productPronto(123956,125708);
         exit;
     }
-    
+
     public function productSet9()
     {
         $this->logger->info('Pronto Product Sync syncing set 9');
-        $this->helper->productPronto(126304);
+        $this->helper->productPronto(125708,127061);
         exit;
     }
-    
+
     public function productSet10()
     {
         $this->logger->info('Pronto Product Sync syncing set 10');
-        $this->helper->productPronto(127636);
+        $this->helper->productPronto(127061,128259);
         exit;
     }
-    
+
     public function productSet11()
     {
         $this->logger->info('Pronto Product Sync syncing set 11');
-        $this->helper->productPronto(128787);
+        $this->helper->productPronto(128259,129337);
         exit;
     }
-    
+
     public function productSet12()
     {
         $this->logger->info('Pronto Product Sync syncing set 12');
-        $this->helper->productPronto(129611);
+        $this->helper->productPronto(129337,130181);
         exit;
     }
-    
+
     public function productSet13()
     {
         $this->logger->info('Pronto Product Sync syncing set 13');
-        $this->helper->productPronto(130469);
+        $this->helper->productPronto(130181,131007);
         exit;
     }
-    
+
     public function productSet14()
     {
         $this->logger->info('Pronto Product Sync syncing set 14');
-        $this->helper->productPronto(131168);
+        $this->helper->productPronto(131007,131803);
         exit;
     }
-    
+
     public function productSet15()
     {
         $this->logger->info('Pronto Product Sync syncing set 15');
-        $this->helper->productPronto(131928);
+        $this->helper->productPronto(131803,132576);
         exit;
     }
-    
+
     public function productSet16()
     {
         $this->logger->info('Pronto Product Sync syncing set 16');
-        $this->helper->productPronto(132662);
+        $this->helper->productPronto(132576,133381);
         exit;
     }
-    
+
     public function productSet17()
     {
         $this->logger->info('Pronto Product Sync syncing set 17');
-        $this->helper->productPronto(133412);
+        $this->helper->productPronto(133381,134414);
         exit;
     }
-    
+
     public function productSet18()
     {
         $this->logger->info('Pronto Product Sync syncing set 18');
-        $this->helper->productPronto(134410);
+        $this->helper->productPronto(134414,135059);
         exit;
     }
-    
+
     public function productSet19()
     {
         $this->logger->info('Pronto Product Sync syncing set 19');
-        $this->helper->productPronto(135035);
+        $this->helper->productPronto(135059,136090);
         exit;
     }
-    
+
     public function productSet20()
     {
         $this->logger->info('Pronto Product Sync syncing set 20');
-        $this->helper->productPronto(135924);
+        $this->helper->productPronto(136090,136819);
         exit;
     }
-    
+
     public function productSet21()
     {
         $this->logger->info('Pronto Product Sync syncing set 21');
-        $this->helper->productPronto(136697);
+        $this->helper->productPronto(136819,137464);
         exit;
     }
-    
+
     public function productSet22()
     {
         $this->logger->info('Pronto Product Sync syncing set 22');
-        $this->helper->productPronto(137346);
+        $this->helper->productPronto(137464,138136);
         exit;
     }
-    
+
     public function productSet23()
     {
         $this->logger->info('Pronto Product Sync syncing set 23');
-        $this->helper->productPronto(137951);
+        $this->helper->productPronto(138136,138957);
         exit;
     }
-    
+
     public function productSet24()
     {
         $this->logger->info('Pronto Product Sync syncing set 24');
-        $this->helper->productPronto(138630);
+        $this->helper->productPronto(138957,139682);
         exit;
     }
-    
+
     public function productSet25()
     {
         $this->logger->info('Pronto Product Sync syncing set 25');
-        $this->helper->productPronto(139365);
+        $this->helper->productPronto(139682,140451);
         exit;
     }
-    
+
     public function productSet26()
     {
         $this->logger->info('Pronto Product Sync syncing set 26');
-        $this->helper->productPronto(140054);
+        $this->helper->productPronto(140451,141045);
         exit;
     }
-    
+
     public function productSet27()
     {
         $this->logger->info('Pronto Product Sync syncing set 27');
         $this->helper->productPronto(140554);
         exit;
     }
-    
-    
+
 
 }
