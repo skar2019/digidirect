@@ -136,13 +136,16 @@ class Blog extends Template
             $this->_storeManager->getStore()->getId(),
             date('Y-m-d')
         );
+
+        $field_sort = "DESC";
+
         $collection->setOrder(
             PostInterface::FIELD_PUBLISH_DATE,
-            $this->dataHelper->getGeneralSettingsConfig('post_sorting')
+            $field_sort
         );
         $collection->setOrder(
             PostInterface::FIELD_ID,
-            $this->dataHelper->getGeneralSettingsConfig('post_sorting')
+            $field_sort
         );
         $search = $this->getRequest()->getParam('s');
         if ($search) {
