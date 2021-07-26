@@ -1,13 +1,13 @@
 .zip-checkout-description {
-    padding-bottom: 20px;
+  padding-bottom: 20px;
 }
 
-.zip-checkout-description span.zip-checkout-description-text {
-    font-weight: bold;
+.zip-checkout-description  span.zip-checkout-description-text{
+  font-weight: bold;
 }
 
 .zip-checkout-description #zipmoney-learn-more {
-    display: inline !important;
+    margin-left: 15px;
 }
 
 .zip-error-message {
@@ -19,9 +19,9 @@
 }
 
 .zip-application-under-review-message {
-    border: 1px solid #3d6611;
-    background-color: #eff5ea;
-    color: #3d6611;
-    padding: 10px 0px 10px 33px;
-    margin-top: 20px;
+  border: 1px solid #3d6611;
+  background-color: #eff5ea;
+  color: #3d6611;
+  padding: 10px 0px 10px 33px;
+  margin-top: 20px;
 }
