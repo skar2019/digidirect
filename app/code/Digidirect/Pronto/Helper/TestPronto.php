@@ -685,7 +685,8 @@ class TestPronto extends AbstractHelper
         //get order data
         $orders = $this->getTestOrderCollection($orderId, $date, $size, $page);
         $counter = 0;
-        foreach ($orders as $order) {
+        foreach ($orders as $order)
+        {
             $data = array();
             $counter++;
             //var_dump($order);
@@ -698,7 +699,7 @@ class TestPronto extends AbstractHelper
             //exit;
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
-            $this->logger->info('Pronto Order Sync - '.$orderId);
+            //$this->logger->info('Pronto Order Sync - '.$orderId);
             echo 'Pronto Order Sync - '.$orderId.'<br>';
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
@@ -1032,7 +1033,7 @@ class TestPronto extends AbstractHelper
             //var_dump($data['sales-order']['detail']['line']);
             //exit;
             //create xml of order data here
-            $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+            //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
             //TEST
@@ -1085,7 +1086,7 @@ class TestPronto extends AbstractHelper
                     $pronto = $json['sales-orders']['sales-order']['order-no'];
                     $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                     $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                    $order->setData('pronto_order_number',$pronto);
+                    $order->setData('pronto_order_number',1);
                     $order->setData('pronto_status_code',$prontostatus);
                     $order->save();
 
@@ -1106,9 +1107,9 @@ class TestPronto extends AbstractHelper
                 }
             }
 
-            echo "<br>";
+            exit; //for testing;
         }
-        exit; //for testing;
+
 
     }
 
@@ -1132,11 +1133,9 @@ class TestPronto extends AbstractHelper
                 ->addAttributeToSelect('*')
                 ->addFieldToFilter('pronto_order_number', array('null' => true))
                 ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-                ->addFieldToFilter('created_at', array('lteq' => $toDate))
-                ->setPageSize(1);
+                ->addFieldToFilter('created_at', array('lteq' => $toDate));
                 //->setCurPage($page);
             return $collection;
-            //return $collection->getSelect()->limit(1);
         }
 
     }

@@ -44,10 +44,8 @@ class Order extends AbstractHelper
      */
     protected $repCodeForPickUp = [
         '11' => 'S7P',
-        '13' => 'B4P',
         '17' => 'M1P',
         '21' => 'M6P',
-        '19' => 'B5P',
         '23' => 'C3P',
         '1'  => 'S7P',
         '4'  => 'B4P',
@@ -98,9 +96,6 @@ class Order extends AbstractHelper
      */
     protected $customer = [];
 
-    /**
-     * @var LoggerInterface
-     */
     protected $logger;
 
     public function __construct(
@@ -134,8 +129,7 @@ class Order extends AbstractHelper
 
     public function orderPost()
     {
-        $piwikItems = array();
-        $piwikOrder = array();
+
         //get order data
         $orders = $this->getOrderCollection();
         $counter = 0;
@@ -783,8 +777,7 @@ class Order extends AbstractHelper
 
     public function orderPostByDay()
     {
-        $piwikItems = array();
-        $piwikOrder = array();
+
         //get order data
         $orders = $this->getTestOrderCollectionByDay();
         $counter = 0;
@@ -1190,9 +1183,11 @@ class Order extends AbstractHelper
                     /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                     $invoice = $order->getInvoiceCollection()->getFirstItem();
                     $this->incrementIdUpdater->update($invoice, $invoiceno);
-                    return true;
+
                 }
             }
+
+            return true; //return after on order
         }
 
     }
@@ -1206,8 +1201,7 @@ class Order extends AbstractHelper
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
             ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-            ->addFieldToFilter('created_at', array('lteq' => $toDate))
-            ->setPageSize(1);
+            ->addFieldToFilter('created_at', array('lteq' => $toDate));
         return $collection;
 
 
