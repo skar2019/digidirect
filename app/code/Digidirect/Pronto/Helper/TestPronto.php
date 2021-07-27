@@ -770,21 +770,25 @@ class TestPronto extends AbstractHelper
 
            $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
-            //var_dump($address);
             $strt = $address->getStreet();
             if(is_array($strt))
             {
                 $street = implode(",", $strt);
             }
 
+            if($test)
+            {
+                var_dump($order);
+            }
+
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
-            $countrycode = $address->getCountryid();
+            $countrycode = $address->getCountryId();
             $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
-            $unitNumber = $address->getUnitnumber();
+            $unitNumber = $address->getUnitNumber();
             if(!empty($unitNumber))
             {
                 $unitNumber = str_replace("unit_number"," ",$unitNumber);
@@ -809,18 +813,16 @@ class TestPronto extends AbstractHelper
             $shipcity = $shipaddress->getCity();
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
-            $shipcountrycode = $shipaddress->getCountryid();
+            $shipcountrycode = $shipaddress->getCountryId();
             $shipphone = $shipaddress->getTelephone();
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
-            $shipUnitNumber = $shipaddress->getUnitnumber();
+            $shipUnitNumber = $shipaddress->getUnitNumber();
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
                 $shipUnitNumber = $shipUnitNumber . " / ";
-
             }
-
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;

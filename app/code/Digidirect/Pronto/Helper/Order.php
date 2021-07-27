@@ -780,7 +780,7 @@ class Order extends AbstractHelper
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
-            $countrycode = $address->getCountryid();
+            $countrycode = $address->getCountryId();
 
             $is_am_order = false;
             $is_am_fba = false;
@@ -852,11 +852,11 @@ class Order extends AbstractHelper
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
-            $countrycode = $address->getCountryid();
+            $countrycode = $address->getCountryId();
             $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
-            $unitNumber = $address->getUnitnumber();
+            $unitNumber = $address->getUnitNumber();
             if(!empty($unitNumber))
             {
                 $unitNumber = str_replace("unit_number"," ",$unitNumber);
@@ -881,16 +881,15 @@ class Order extends AbstractHelper
             $shipcity = $shipaddress->getCity();
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
-            $shipcountrycode = $shipaddress->getCountryid();
+            $shipcountrycode = $shipaddress->getCountryId();
             $shipphone = $shipaddress->getTelephone();
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
-            $shipUnitNumber = $shipaddress->getUnitnumber();
+            $shipUnitNumber = $shipaddress->getUnitNumber();
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
                 $shipUnitNumber = $shipUnitNumber . " / ";
-
             }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
