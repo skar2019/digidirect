@@ -844,23 +844,6 @@ class Order extends AbstractHelper
 
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
-            if(!$order->getCustomerIsGuest()) {
-                $customer = $this->customerRepository->getById($order->getCustomerId());
-                $unitNumber = $customer->getCustomAttribute('unit_number');
-
-            }
-            else {
-                $unitNumber = $order->getCustomAttribute('unit_number');
-
-            }
-
-            if(!empty($unitNumber))
-            {
-                $unitNumber = str_replace("unit_number"," ",$unitNumber);
-                $unitNumber = $unitNumber . " / ";
-            }
-
-            //var_dump($address);
             $strt = $address->getStreet();
             if(is_array($strt))
             {
@@ -873,6 +856,12 @@ class Order extends AbstractHelper
             $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
+            $unitNumber = $address->getUnitnumber();
+            if(!empty($unitNumber))
+            {
+                $unitNumber = str_replace("unit_number"," ",$unitNumber);
+                $unitNumber = $unitNumber . " / ";
+            }
 
             $data['sales-order']['header']['billing-address']['line-1'] = $company;
             $data['sales-order']['header']['billing-address']['line-2'] = $unitNumber." ".$street;
@@ -896,11 +885,17 @@ class Order extends AbstractHelper
             $shipphone = $shipaddress->getTelephone();
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
-            //echo "ship city: " .$shipaddress->getCity();
+            $shipUnitNumber = $shipaddress->getUnitnumber();
+            if(!empty($shipUnitNumber))
+            {
+                $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+                $shipUnitNumber = $shipUnitNumber . " / ";
+
+            }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
-            $data['sales-order']['header']['delivery-address']['line-3'] = $unitNumber." ".$shipstreet;
+            $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
             $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
             $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
             $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;

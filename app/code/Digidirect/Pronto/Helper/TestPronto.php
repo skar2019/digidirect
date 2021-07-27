@@ -777,22 +777,6 @@ class TestPronto extends AbstractHelper
                 $street = implode(",", $strt);
             }
 
-            if(!$order->getCustomerIsGuest()) {
-                $customer = $this->customerRepository->getById($order->getCustomerId());
-                $unitNumber = $customer->getCustomAttribute('unit_number');
-                echo "Customer unit number: ".$unitNumber."<br>";
-            }
-            else {
-                $unitNumber = $order->getCustomAttribute('unit_number');
-                echo "order unit number: ".$unitNumber."<br>";
-            }
-
-            if(!empty($unitNumber))
-            {
-                $unitNumber = str_replace("unit_number"," ",$unitNumber);
-                $unitNumber = $unitNumber . " / ";
-
-            }
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
@@ -800,6 +784,12 @@ class TestPronto extends AbstractHelper
             $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
+            $unitNumber = $address->getUnitnumber();
+            if(!empty($unitNumber))
+            {
+                $unitNumber = str_replace("unit_number"," ",$unitNumber);
+                $unitNumber = $unitNumber . " / ";
+            }
 
             $data['sales-order']['header']['billing-address']['line-1'] = $company;
             $data['sales-order']['header']['billing-address']['line-2'] = $unitNumber." ".$street;
@@ -823,11 +813,17 @@ class TestPronto extends AbstractHelper
             $shipphone = $shipaddress->getTelephone();
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
-            //echo "ship city: " .$shipaddress->getCity();
+            $shipUnitNumber = $shipaddress->getUnitnumber();
+            if(!empty($shipUnitNumber))
+            {
+                $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+                $shipUnitNumber = $shipUnitNumber . " / ";
+
+            }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
-            $data['sales-order']['header']['delivery-address']['line-3'] = $unitNumber." ".$street;
+            $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
             $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
             $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
             $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
@@ -835,7 +831,11 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
-            //var_dump($data['sales-order']['header']);
+            if($test)
+            {
+                var_dump($data['sales-order']['header']);
+            }
+
             $paymentInstance = $order->getPayment();
 
 
