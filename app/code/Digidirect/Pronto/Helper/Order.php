@@ -1190,6 +1190,7 @@ class Order extends AbstractHelper
             return true; //return after on order
         }
 
+        return true;
     }
 
     public function getTestOrderCollectionByDay()
