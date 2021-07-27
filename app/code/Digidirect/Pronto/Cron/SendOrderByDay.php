@@ -1,26 +1,19 @@
 <?php
 namespace Digidirect\Pronto\Cron;
 
-use Psr\Log\LoggerInterface;
 use Digidirect\Pronto\Helper\Order;
 
 class SendOrderByDay
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
 
     /**
-     * @var Inventory
+     * @var Order
      */
     protected $helper;
 
     public function __construct(
-            LoggerInterface $logger,
             Order $helper)
     {
-        $this->logger = $logger;
         $this->helper = $helper;
     }
 
