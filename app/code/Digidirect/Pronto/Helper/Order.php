@@ -1193,7 +1193,6 @@ class Order extends AbstractHelper
 
                 }
             }
-            return true;
         }
         return true;
     }

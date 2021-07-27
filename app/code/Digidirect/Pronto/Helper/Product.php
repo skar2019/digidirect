@@ -179,6 +179,7 @@ class Product extends AbstractHelper
                     }
 
                     if (count($categoryIds)) {
+
                         $this->logger->info("Category ".$catList);
                         //echo "update categories: ".$catList."<br />";
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
@@ -1106,7 +1107,6 @@ class Product extends AbstractHelper
                     }
                 }
 
-
                 if (count($categoryIds)) {
                     $this->logger->info("Categories: ".$catList);
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
@@ -1290,7 +1290,7 @@ class Product extends AbstractHelper
                             }
                         }
                     }
-
+                    var_dump($categoryIds);
                     if (count($categoryIds)) {
                         echo "update categories: ".$catList."<br />";
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
@@ -1403,7 +1403,7 @@ class Product extends AbstractHelper
                         }
                     }
                 }
-
+                var_dump($categoryIds);
                 if (count($categoryIds)) {
                     echo "insert categories: ".$catList."<br />";
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
@@ -1463,7 +1463,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                $this->productRepository->save($product);
+                //$this->productRepository->save($product);
                 echo "insert ".$lastCode ."<br/>";
 
             }
