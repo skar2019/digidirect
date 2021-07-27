@@ -139,7 +139,8 @@ class Order extends AbstractHelper
         //get order data
         $orders = $this->getOrderCollection();
         $counter = 0;
-        foreach ($orders as $order) {
+        foreach ($orders as $order)
+        {
             $data = array();
             $counter++;
             //var_dump($order);
@@ -148,15 +149,19 @@ class Order extends AbstractHelper
             if ($order->getState() == 'canceled') {
                 continue;
             }
-
+            //var_dump($order);
+            //exit;
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
             $this->logger->info('Pronto Order Sync - '.$orderId);
+
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
+            $address = $order->getBillingAddress();
+            $countrycode = $address->getCountryId();
 
             $is_am_order = false;
             $is_am_fba = false;
@@ -170,6 +175,11 @@ class Order extends AbstractHelper
                 {
                     $rep = "AMAZON FBA";
                     $account = "AMAZ00";
+                    if($countrycode == "NZ")
+                    {
+                        $account = "AMAZ01";
+                    }
+
                     $wrehs = "AWHS";
                     $territory = "AWHS";
                     $is_am_fba = true;
@@ -191,15 +201,14 @@ class Order extends AbstractHelper
             //check pronto if customer has an account.
             //if not, create customer account to pronto
             $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
-            $customerEmail = $order->getCustomerEmail();
 
+            $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
             $data['sales-order']['header']['account'] = $account;
             $data['sales-order']['header']['order-date'] = $orderdate;
             $data['sales-order']['header']['warehouse'] = $wrehs;
             $data['sales-order']['header']['customer-type'] = "WC";
             $data['sales-order']['header']['so-cust-type'] = "WC";
-            $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
             $data['sales-order']['header']['territory'] = $territory;
             $data['sales-order']['header']['rep'] = $rep;
             $data['sales-order']['header']['contactname'] = $contactname;
@@ -208,17 +217,13 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['on-hold-reason-code'] = "01";
             $data['sales-order']['header']['set-on-status'] = "H";
 
-
+            //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
             $grandTotal = (double) $order->getBaseGrandTotal();
             $subTotal = (double) $order->getBaseSubtotalInclTax();
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
-            $discount = abs((double) $order->getBaseDiscountAmount());
-
 
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
-
-            $address = $order->getBillingAddress();
 
             $strt = $address->getStreet();
             if(is_array($strt))
@@ -228,12 +233,19 @@ class Order extends AbstractHelper
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
-            $countrycode = $address->getCountryid();
+            $countrycode = $address->getCountryId();
             $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
+            $unitNumber = $address->getUnitNumber();
+            if(!empty($unitNumber))
+            {
+                $unitNumber = str_replace("unit_number"," ",$unitNumber);
+                $unitNumber = $unitNumber . " / ";
+            }
 
-            $data['sales-order']['header']['billing-address']['line-2'] = $street;
+            $data['sales-order']['header']['billing-address']['line-1'] = $company;
+            $data['sales-order']['header']['billing-address']['line-2'] = $unitNumber." ".$street;
             $data['sales-order']['header']['billing-address']['line-3'] = $city;
             $data['sales-order']['header']['billing-address']['line-4'] = $region;
             $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
@@ -250,14 +262,20 @@ class Order extends AbstractHelper
             $shipcity = $shipaddress->getCity();
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
-            $shipcountrycode = $shipaddress->getCountryid();
+            $shipcountrycode = $shipaddress->getCountryId();
             $shipphone = $shipaddress->getTelephone();
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
+            $shipUnitNumber = $shipaddress->getUnitNumber();
+            if(!empty($shipUnitNumber))
+            {
+                $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+                $shipUnitNumber = $shipUnitNumber . " / ";
+            }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
-            $data['sales-order']['header']['delivery-address']['line-3'] = $shipstreet;
+            $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
             $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
             $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
             $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
@@ -265,34 +283,21 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
+            //var_dump($data['sales-order']['header']);
             $paymentInstance = $order->getPayment();
-            //payment details
-            //bank should sync as confirmed by Michael from Emmanuel
-//            $is_bank = false;
-//
-//            $methodInst = $paymentInstance->getMethodInstance();
-//            echo "<br> payment - ". $paymentInstance->getMethod();
-//            $methodTitle = $methodInst->getTitle();
-//            //echo "<br >method - ".$methodTitle;
-//
-//            if ($paymentInstance->getMethod() == "banktransfer") {
-//                unset($data);
-//                $is_bank = true;
-//            }
-//
-//            if($is_bank){
-//                continue;
-//            }
 
-            //echo "<br >payment_reference - ".$payment_reference;
+            //payment details
+
+            $methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-            $payment_type = $this->getPaymentType($paymentInstance, $orderId);
+
+
+            $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
             if($payment_type == 'BT')
             {
                 $cc = $paymentInstance->getCcType();
             }
-
             $payment_reference = $paymentInstance->getLastTransId();
 
             if (empty($payment_reference) && ($method == 'm2epropayment')) {
@@ -349,10 +354,16 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
             $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
 
+            //for coupon
+            $coupon = $order->getCouponCode();
+            $couponDiscount = ((double) $order->getBaseDiscountAmount());
+
             //product lines
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
+
+                //var_dump($item);
                 $skus = array();
                 $productSku = "";
                 $digiProtect = "";
@@ -360,7 +371,10 @@ class Order extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
-
+                if($coupon != "")
+                {
+                    $discount = 0;
+                }
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;
@@ -378,6 +392,10 @@ class Order extends AbstractHelper
                     $digiProtectPrice = $price - $orig;
                     $digiProtectQty = (double) $item->getQtyOrdered();
                     $digiProtectdiscount = (double) $item->getDiscountAmount();
+                    if($coupon != "")
+                    {
+                        $digiProtectdiscount = 0;
+                    }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
 
                 }
@@ -418,9 +436,26 @@ class Order extends AbstractHelper
                 }
             }
 
-            //shipping details
+
+            if($coupon != "")
+            {
+                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                $data['sales-order']['detail']['line'][$x]['description'] = $coupon;
+                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $couponDiscount;
+                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 5;
+                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+                $x++; // for shipping counter
+            }
+
             $shippingprice = (double) $order->getShippingAmount();
             $shippingDesc = $order->getShippingDescription();
+            if (strpos($shippingDesc, '|') !== false) {
+                $marketplacesShipping = explode('|', $shippingDesc);
+                $shippingDesc = $marketplacesShipping[1];
+            }
             if($shippingDesc == "Express - (1 to 3 Days)")
             {
                 $shippingDesc = "Australia Post – express";
@@ -430,85 +465,93 @@ class Order extends AbstractHelper
                 $shippingDesc = "Australia Post – eParcel";
             }
 
+            //shipping details
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
             $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-            $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
-            //should be inside the foreach above
             //create xml of order data here
-            $toJson['data'] = $data['sales-order'];
-            $this->logger->info('Pronto Order Sync Data - '.json_encode($toJson['data']));
+            $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
             //TEST
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //test
+            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders'; //LIVE
-            $username = 'clint.mercado';
-            $password = '849cd5080faff5ce';
-            $jsonData = '{}';
+            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
-            $this->curl->addHeader("Content-Type", "application/xml");
-            $this->curl->addHeader("Accept", "application/json");
-            $this->curl->addHeader("compcode", "DIG"); //LIVE
-            $this->curl->addHeader("user", "ewaveapi");
-            $this->curl->addHeader("token", "904241bdbf10efa9");
-            //
-            //$this->curl->addHeader("compcode", "UA1"); //test
-           // $this->curl->addHeader("user", "clint.mercado");
-            //$this->curl->addHeader("token", "849cd5080faff5ce");
-            $this->curl->post($url, $xml);
 
-            $result = $this->curl->getBody();
-
-            $json = $this->jsonSerializer->unserialize($result);
-
-            if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+            $islive = false;
+            if($islive)
             {
-                $msg =  $json['response']['message'];
-                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+                $this->curl->addHeader("Content-Type", "application/xml");
+                $this->curl->addHeader("Accept", "application/json");
+                $this->curl->addHeader("compcode", "DIG"); //live
+                $this->curl->addHeader("user", "ewaveapi");
+                $this->curl->addHeader("token", "904241bdbf10efa9");
+                //
+                //$this->curl->addHeader("compcode", "UA1"); //test
+                //$this->curl->addHeader("user", "clint.mercado");
+                //$this->curl->addHeader("token", "849cd5080faff5ce");
 
-            }
-            else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-                $msg =  $json['sales-orders']['response']['message'];
-                $this->logger->error('Pronto Order Sync', array('info' => $msg));
+                $this->curl->post($url, $xml);
 
-            }
-            else {
-                //success
-                //update order data with pronto order-no below
-                //$json['sales-order']['sales-order']['order-no']
+                $result = $this->curl->getBody();
 
-                $pronto = $json['sales-orders']['sales-order']['order-no'];
-                $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-                $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                $order->setData('pronto_order_number',$pronto);
-                $order->setData('pronto_status_code',$prontostatus);
-                $order->save();
+                //var_dump($result);
+                // echo $result;
+                $json = $this->jsonSerializer->unserialize($result);
+                //var_dump($json);
+                //echo "<br>";
+                if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
+                {
+                    $msg =  $json['response']['message'];
+                    //echo $msg."<br>";
+                    $order->setData('pronto_order_number',$msg);
+                    $order->save();
+                    $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
-                $this->logger->info('Pronto Order Sync', $json['sales-orders']['sales-order']);
-
-                $account = $json['sales-orders']['sales-order']['account'];
-                if (!empty($account) && !$order->getCustomerIsGuest()) {
-                    $customer = $this->customerRepository->getById($order->getCustomerId());
-                    $customer->setData('pronto_account_id', $account);
-                    $customer->setCustomAttribute('pronto_account_id', $account);
-                    $this->customerRepository->save($customer);
                 }
-                /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-                $invoice = $order->getInvoiceCollection()->getFirstItem();
-                $this->incrementIdUpdater->update($invoice, $invoiceno);
+                else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
+                    $msg =  $json['sales-orders']['response']['message'];
+                    //echo $msg ."<br>";
+                    $order->setData('pronto_order_number',$msg);
+                    $order->save();
+                    $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
+                }
+                else {
+
+                    $pronto = $json['sales-orders']['sales-order']['order-no'];
+                    $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
+                    $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
+                    $order->setData('pronto_order_number',$pronto);
+                    $order->setData('pronto_status_code',$prontostatus);
+                    $order->save();
+
+                    $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
+
+                    $account = $json['sales-orders']['sales-order']['account'];
+                    if (!empty($account) && !$order->getCustomerIsGuest()) {
+                        $customer = $this->customerRepository->getById($order->getCustomerId());
+                        $customer->setData('pronto_account_id', $account);
+                        $customer->setCustomAttribute('pronto_account_id', $account);
+                        $this->customerRepository->save($customer);
+                    }
+                    /** @var \Magento\Sales\Model\Order\Invoice $invoice */
+                    $invoice = $order->getInvoiceCollection()->getFirstItem();
+                    $this->incrementIdUpdater->update($invoice, $invoiceno);
+
+                }
             }
 
         }
-
+        exit;
     }
 
     public function getOrderCollection()
@@ -528,7 +571,7 @@ class Order extends AbstractHelper
 
     }
 
-    public function getPaymentType($paymentInstance, $orderId){
+    public function getPaymentType($paymentInstance){
 
         //echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
@@ -547,35 +590,27 @@ class Order extends AbstractHelper
                 $type = 'EB';
                 break;
             case "braintree_paypal":
-              $type = 'PY';
-              break;
+                $type = 'PY';
+                break;
             case "banktransfer":
                 $type = 'Y';
                 break;
             case "paybympcatch":
                 $type = 'CA';
-                 break;
+                break;
             case "zipmoneypayment":
                 $type = "ZM";
+                break;
             case "braintree_googlepay":
                 $type = "BT";
                 break;
             case "klarna_kp":
                 $type = "KL";
                 break;
-                break;
             default:
-          break;
+                break;
         }
 
-        if($type == 'BT')
-        {
-            $cc = $paymentInstance->getCcType();
-            if($cc == 'AE')
-            {
-                $type = 'X';
-            }
-        }
         return $type;
     }
 
@@ -595,10 +630,8 @@ class Order extends AbstractHelper
                     $whse = $this->relocateWarehouseMap[$whse];
                 }
             }
-
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
-
         return $this->warehouseCode[$order->getEntityId()];
     }
 
@@ -1105,7 +1138,7 @@ class Order extends AbstractHelper
             $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
-            $islive = true;
+            $islive = false;
             if($islive)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
@@ -1176,7 +1209,7 @@ class Order extends AbstractHelper
 
     public function getTestOrderCollectionByDay()
     {
-        $date = '2021-07-26';
+        $date = '2021-07-03';
         $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
         $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
         $collection = $this->_orderCollectionFactory->create()

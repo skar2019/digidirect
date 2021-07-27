@@ -4,7 +4,7 @@ namespace Digidirect\Pronto\Cron;
 use Psr\Log\LoggerInterface;
 use Digidirect\Pronto\Helper\Shipping;
 
-class SendOrder
+class ProntoShipping
 {
     /**
      * @var LoggerInterface
@@ -15,7 +15,7 @@ class SendOrder
      * @var Inventory
      */
     protected $helper;
-    
+
     public function __construct(
             LoggerInterface $logger,
             Shipping $helper)
@@ -29,5 +29,5 @@ class SendOrder
         $this->helper->getShipping();
 
     }
-    
+
 }

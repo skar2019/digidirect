@@ -12,7 +12,7 @@ class ProductEnquiry
     protected $logger;
 
     /**
-     * @var Inventory
+     * @var Product
      */
     protected $helper;
 
