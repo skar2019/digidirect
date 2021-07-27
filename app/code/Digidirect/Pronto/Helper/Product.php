@@ -1040,8 +1040,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
-                    //$this->productRepository->save($product);
-                    echo "update ".$lastCode ."<br/>";
+                    $this->productRepository->save($product);
+                    //echo "update ".$lastCode ."<br/>";
                 }
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){

@@ -210,14 +210,14 @@ class ProductEnquiry
     public function productSet25()
     {
         $this->logger->info('Pronto Product Sync syncing set 25');
-        $this->helper->productPronto(139682,140451);
+        $this->helper->productPronto(139682,140356);
         return true;
     }
 
     public function productSet26()
     {
         $this->logger->info('Pronto Product Sync syncing set 26');
-        $this->helper->productPronto(140451,141045);
+        $this->helper->productPronto(140356,141500);
         return true;
     }
 
