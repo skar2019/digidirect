@@ -838,23 +838,10 @@ class TestPronto extends AbstractHelper
             //var_dump($data['sales-order']['header']);
             $paymentInstance = $order->getPayment();
 
-            //payment details
-            //bank should sync as confirmed by Michael from Emmanuel
-//            $is_bank = false;
-//
+
             $methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-//            $methodTitle = $methodInst->getTitle();
-//            //echo "<br >method - ".$methodTitle;
-//
-//            if ($paymentInstance->getMethod() == "banktransfer") {
-//                unset($data);
-//                $is_bank = true;
-//            }
-//
-//            if($is_bank){
-//                continue;
-//            }
+
 
 
             $payment_type = $this->getPaymentType($paymentInstance);
