@@ -4,7 +4,7 @@ namespace Digidirect\Pronto\Cron;
 use Psr\Log\LoggerInterface;
 use Digidirect\Pronto\Helper\Order;
 
-class SendOrder
+class SendOrderByDay
 {
     /**
      * @var LoggerInterface
