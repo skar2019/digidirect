@@ -1190,11 +1190,11 @@ class Order extends AbstractHelper
                     /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                     $invoice = $order->getInvoiceCollection()->getFirstItem();
                     $this->incrementIdUpdater->update($invoice, $invoiceno);
-
+                    return true;
                 }
             }
         }
-        return true;
+
     }
 
     public function getTestOrderCollectionByDay()
