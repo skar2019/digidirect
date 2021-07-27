@@ -856,6 +856,7 @@ class Order extends AbstractHelper
 
             if(!empty($unitNumber))
             {
+                $unitNumber = str_replace("unit_number"," ",$unitNumber);
                 $unitNumber = $unitNumber . " / ";
             }
 

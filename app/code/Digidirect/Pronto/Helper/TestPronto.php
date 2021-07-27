@@ -789,7 +789,9 @@ class TestPronto extends AbstractHelper
 
             if(!empty($unitNumber))
             {
+                $unitNumber = str_replace("unit_number"," ",$unitNumber);
                 $unitNumber = $unitNumber . " / ";
+
             }
             $city = $address->getCity();
             $region = $address->getRegion();
