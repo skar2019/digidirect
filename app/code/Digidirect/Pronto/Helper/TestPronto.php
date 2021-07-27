@@ -778,7 +778,7 @@ class TestPronto extends AbstractHelper
 
             if($test)
             {
-                var_dump($order);
+                var_dump($order->getData());
             }
 
             $city = $address->getCity();
