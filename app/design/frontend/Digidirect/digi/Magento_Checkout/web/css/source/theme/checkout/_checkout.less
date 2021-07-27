@@ -273,6 +273,57 @@
 }
 
 //
+//  Tablet
+//  _____________________________________________
+
+// This will add styles for tablet devices. When using native media-queries, we recommend wrapping your media-queries with media-width Magento mixins or media-target
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
+        .checkout-index-index .opc-progress-bar .opc-progress-bar-item {
+            /*text-align: center !important;*/
+        }
+        
+        .opc-sidebar {
+            margin: 0 0 20px 0px;
+        }
+        
+        .opc-progress-bar-item{
+            
+            &{
+                line-height: 50px;
+            }
+            
+            
+            &:first-child:after,
+            &:last-child:before{
+                width: 100% !important;
+                max-width: 100px;
+            }
+            
+            > span{
+                font-size: 2rem;
+                font-weight: bold;
+                padding-top: 0;
+                
+                &::before {
+                    position: unset;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+    
+    @media only screen and (min-width: @screen__m) and (max-width: (992px)) {
+        .opc-progress-bar-item{
+            &:first-child:after,
+            &:last-child:before{
+                display: none;
+            }
+        }
+    }
+}
+
+//
 //  M +
 //  ---------------------------------------------
 
