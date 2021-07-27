@@ -886,9 +886,9 @@ class Order extends AbstractHelper
             $mobile = $address->getMobile();
             $company = $address->getCompany();
             $unitNumber = $address->getUnitNumber();
+            $unitNumber = str_replace("unit_number"," ",$unitNumber);
             if(!empty($unitNumber))
             {
-                $unitNumber = str_replace("unit_number"," ",$unitNumber);
                 $unitNumber = $unitNumber . " / ";
             }
 
@@ -915,9 +915,9 @@ class Order extends AbstractHelper
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
             $shipUnitNumber = $shipaddress->getUnitNumber();
+            $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
             if(!empty($shipUnitNumber))
             {
-                $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
                 $shipUnitNumber = $shipUnitNumber . " / ";
             }
 
