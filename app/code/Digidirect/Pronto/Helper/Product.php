@@ -391,7 +391,7 @@ class Product extends AbstractHelper
             echo $json['response']['message'];
 
         }
-        exit;
+        return true;
 
     }
 
