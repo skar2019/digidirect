@@ -138,11 +138,12 @@ class Product extends AbstractHelper
 
                 //set categories
                 $categoryIds = array();
+                $catList = "";
                 $productCategoryIds = $product->getCategoryIds();
                 if(count($productCategoryIds) < 2)
                 {
-                    $catList = "";
-                    if (count($getCategoryList)) {
+                    if (count($getCategoryList))
+                    {
                         foreach ($getCategoryList as $id => $category)
                         {
                             if($category['name'] == $prod['web-category1'])
@@ -178,7 +179,8 @@ class Product extends AbstractHelper
                     }
 
                     if (count($categoryIds)) {
-                        echo "update categories: ".$catList."<br />";
+                        $this->logger->info("Category ".$catList);
+                        //echo "update categories: ".$catList."<br />";
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                         $product->setCategoryIds($categoryIds);
                     }
@@ -206,7 +208,6 @@ class Product extends AbstractHelper
 
                     if(isset($prod['warehouse']['whse']))
                     {
-
                         foreach ($prod['warehouse']['whse'] as $qt)
                         {
                             if(is_array($qt))
@@ -216,7 +217,7 @@ class Product extends AbstractHelper
                                 $sourceItem->setSku($prod['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
-                                echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                                //echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
                                 $this->logger->info($qt['code']." - ".$qt['qty_available']);
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
@@ -228,7 +229,7 @@ class Product extends AbstractHelper
                                 $sourceItem->setSku($prod['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                                echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                                //echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
                                 $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
@@ -240,15 +241,15 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
-                    //$this->productRepository->save($product);
-                    echo "update ".$lastCode ."<br/>";
+                    $this->productRepository->save($product);
+                    //echo "update ".$lastCode ."<br/>";
                 }
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
 
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                echo "Product Name: ".$prodname."<br>";
+                //echo "Product Name: ".$prodname."<br>";
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
@@ -267,9 +268,9 @@ class Product extends AbstractHelper
                 //set categories
                 $categoryIds = array();
                 $mainCat = 2;
+                $catList = "";
                 if (count($getCategoryList))
                 {
-                    $catList = "";
                     foreach ($getCategoryList as $id => $category)
                     {
                         if($category['name'] == $prod['web-category1'])
@@ -308,7 +309,7 @@ class Product extends AbstractHelper
 
 
                 if (count($categoryIds)) {
-                    echo "insert categories: ".$catList."<br />";
+                    $this->logger->info("categories: ".$catList);
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                     $product->setCategoryIds($categoryIds);
                 }
@@ -354,7 +355,7 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
-                            echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                            //echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
                             $this->logger->info($qt['code']." - ".$qt['qty_available']);
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
@@ -366,11 +367,10 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                            //echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
                             $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
-
 
                     }
                 }
@@ -379,7 +379,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $this->productRepository->save($product);
-                echo "insert ".$lastCode ."<br/>";
+                //echo "insert ".$lastCode ."<br/>";
 
             }
         }
@@ -936,12 +936,13 @@ class Product extends AbstractHelper
                 }
 
                 //set categories
+                $catList = "";
                 $categoryIds = array();
                 $productCategoryIds = $product->getCategoryIds();
                 if(count($productCategoryIds) < 2)
                 {
-                    $catList = "";
-                    if (count($getCategoryList)) {
+                    if (count($getCategoryList))
+                    {
                         foreach ($getCategoryList as $id => $category)
                         {
                             if($category['name'] == $prod['web-category1'])
@@ -977,7 +978,7 @@ class Product extends AbstractHelper
                     }
 
                     if (count($categoryIds)) {
-                        echo "update categories: ".$catList."<br />";
+                        $this->logger->info("Categories: ".$catList);
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                         $product->setCategoryIds($categoryIds);
                     }
@@ -1015,7 +1016,7 @@ class Product extends AbstractHelper
                                 $sourceItem->setSku($prod['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
-                                echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                                //echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
                                 $this->logger->info($qt['code']." - ".$qt['qty_available']);
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
@@ -1027,7 +1028,7 @@ class Product extends AbstractHelper
                                 $sourceItem->setSku($prod['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                                echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                                //echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
                                 $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
@@ -1047,7 +1048,7 @@ class Product extends AbstractHelper
 
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                echo "Product Name: ".$prodname."<br>";
+                //echo "Product Name: ".$prodname."<br>";
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
@@ -1066,9 +1067,9 @@ class Product extends AbstractHelper
                 //set categories
                 $categoryIds = array();
                 $mainCat = 2;
+                $catList = "";
                 if (count($getCategoryList))
                 {
-                    $catList = "";
                     foreach ($getCategoryList as $id => $category)
                     {
                         if($category['name'] == $prod['web-category1'])
@@ -1107,7 +1108,7 @@ class Product extends AbstractHelper
 
 
                 if (count($categoryIds)) {
-                    echo "insert categories: ".$catList."<br />";
+                    $this->logger->info("Categories: ".$catList);
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                     $product->setCategoryIds($categoryIds);
                 }
@@ -1153,7 +1154,7 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
-                            echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                            //echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
                             $this->logger->info($qt['code']." - ".$qt['qty_available']);
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
@@ -1165,7 +1166,7 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                            //echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
                             $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
@@ -1178,7 +1179,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $this->productRepository->save($product);
-                echo "insert ".$lastCode ."<br/>";
+                //echo "insert ".$lastCode ."<br/>";
 
             }
         }
@@ -1189,7 +1190,7 @@ class Product extends AbstractHelper
             echo $json['response']['message'];
 
         }
-        exit;
+        return true;
     }
 
     public function productProntoSingle($startItem)

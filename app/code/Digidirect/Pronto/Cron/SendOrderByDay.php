@@ -20,7 +20,7 @@ class SendOrderByDay
     public function execute()
     {
         $this->helper->orderPostByDay();
-
+        return true;
     }
 
 }
