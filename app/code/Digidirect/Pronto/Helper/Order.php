@@ -143,14 +143,13 @@ class Order extends AbstractHelper
         {
             $data = array();
             $counter++;
-            //var_dump($order);
+
             /* @var $order \Magento\Sales\Model\Order */
 
             if ($order->getState() == 'canceled') {
                 continue;
             }
-            //var_dump($order);
-            //exit;
+
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
             $this->logger->info('Pronto Order Sync - '.$orderId);
@@ -283,7 +282,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
-            //var_dump($data['sales-order']['header']);
+
             $paymentInstance = $order->getPayment();
 
             //payment details
@@ -363,7 +362,7 @@ class Order extends AbstractHelper
             foreach ($order->getAllVisibleItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
 
-                //var_dump($item);
+
                 $skus = array();
                 $productSku = "";
                 $digiProtect = "";
@@ -503,11 +502,9 @@ class Order extends AbstractHelper
 
                 $result = $this->curl->getBody();
 
-                //var_dump($result);
-                // echo $result;
+
                 $json = $this->jsonSerializer->unserialize($result);
-                //var_dump($json);
-                //echo "<br>";
+
                 if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
                 {
                     $msg =  $json['response']['message'];
@@ -795,14 +792,13 @@ class Order extends AbstractHelper
         {
             $data = array();
             $counter++;
-            //var_dump($order);
+
             /* @var $order \Magento\Sales\Model\Order */
 
             if ($order->getState() == 'canceled') {
                 continue;
             }
-            //var_dump($order);
-            //exit;
+
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
             $this->logger->info('Pronto Order Sync - '.$orderId);
@@ -935,7 +931,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
-            //var_dump($data['sales-order']['header']);
+
             $paymentInstance = $order->getPayment();
 
             //payment details
@@ -1015,7 +1011,6 @@ class Order extends AbstractHelper
             foreach ($order->getAllVisibleItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
 
-                //var_dump($item);
                 $skus = array();
                 $productSku = "";
                 $digiProtect = "";
@@ -1138,7 +1133,7 @@ class Order extends AbstractHelper
             $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
-            $islive = false;
+            $islive = true;
             if($islive)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
@@ -1155,11 +1150,8 @@ class Order extends AbstractHelper
 
                 $result = $this->curl->getBody();
 
-                //var_dump($result);
-                // echo $result;
                 $json = $this->jsonSerializer->unserialize($result);
-                //var_dump($json);
-                //echo "<br>";
+
                 if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
                 {
                     $msg =  $json['response']['message'];
@@ -1204,7 +1196,6 @@ class Order extends AbstractHelper
             exit;
         }
         exit;
-
     }
 
     public function getTestOrderCollectionByDay()
