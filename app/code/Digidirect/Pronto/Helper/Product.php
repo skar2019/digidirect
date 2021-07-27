@@ -59,27 +59,21 @@ class Product extends AbstractHelper
 
     }
 
-    public function productPronto($args = 0)
+    public function productPronto($startItem, $endItem)
     {
 
-        if(isset($args))
-        {
-            $startitem = $args; //100425 started
-        }
-        else
-        {
-            $startitem = 0; //100425 started
-        }
-        $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
+        $this->attributeOptions = $this->getOptionHash('brand');
 
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        $this->logger->info('Pronto Product Sync - start item: '.$startitem);
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
+        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem;
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
@@ -99,6 +93,8 @@ class Product extends AbstractHelper
         $result = $this->curl->getBody();
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
+        //var_dump($json['stockmaster']['stockcode']);
+        //var_dump($json);
 
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
@@ -111,12 +107,17 @@ class Product extends AbstractHelper
 
             try {
 
+                //echo $this->rootCategoryName;
+                //var_dump($prod);
+                $this->logger->info("SKU ".$prod['code']);
                 $product = $this->productRepository->get($prod['code']);
 
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
+                //set brands
                 $brandName = strtolower($prod['stk-brand']);
+
                 if($brandName == "thinktank")
                 {
                     $brandName = "think tank";
@@ -136,21 +137,24 @@ class Product extends AbstractHelper
                 }
 
                 //set categories
+                $categoryIds = array();
                 $productCategoryIds = $product->getCategoryIds();
-                if(count($productCategoryIds) < 1)
+                if(count($productCategoryIds) < 2)
                 {
-
+                    $catList = "";
                     if (count($getCategoryList)) {
                         foreach ($getCategoryList as $id => $category)
                         {
                             if($category['name'] == $prod['web-category1'])
                             {
+                                $catList .= $category['name'] . " - " .$category['id'] ." : ";
                                 $categoryIds[] = $category['id'];
                             }
                             if(isset($prod['web-category2']))
                             {
                                 if($category['name'] == $prod['web-category2'])
                                 {
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
                                     $categoryIds[] = $category['id'];
                                 }
                             }
@@ -158,12 +162,13 @@ class Product extends AbstractHelper
                             {
                                 if($category['name'] == $prod['web-category3'])
                                 {
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
                                     $categoryIds[] = $category['id'];
                                 }
                             }
                             if(isset($prod['web-category4']))
                             {
-
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
                                 if($category['name'] == $prod['web-category4'])
                                 {
                                     $categoryIds[] = $category['id'];
@@ -173,14 +178,17 @@ class Product extends AbstractHelper
                     }
 
                     if (count($categoryIds)) {
+                        echo "update categories: ".$catList."<br />";
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                         $product->setCategoryIds($categoryIds);
                     }
                 }
 
+                //set apn and gtin
                 if(isset($prod['gtins']['gtin']))
                 {
                     //set barcode
+
                     if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
                     {
                         $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
@@ -189,6 +197,7 @@ class Product extends AbstractHelper
                     {
                         $x =1;
                         foreach ($prod['gtins']['gtin'] as $gtin) {
+
                             $att = 'barcode'.$x;
                             $product->setCustomAttribute($att, $gtin['id']);
                             $x++;
@@ -197,35 +206,49 @@ class Product extends AbstractHelper
 
                     if(isset($prod['warehouse']['whse']))
                     {
+
                         foreach ($prod['warehouse']['whse'] as $qt)
                         {
-                            if(isset($qt['code']))
+                            if(is_array($qt))
                             {
                                 $sourceItem = $this->sourceItemFactory->create();
                                 $sourceItem->setSourceCode($qt['code']);
                                 $sourceItem->setSku($prod['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
+                                echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                                $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prod['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                                echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                                $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
 
+
                         }
                     }
-
-
                     $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                     $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                     $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
-                    $this->productRepository->save($product);
-
+                    //$this->productRepository->save($product);
+                    echo "update ".$lastCode ."<br/>";
                 }
 
-            }
-            catch (\Magento\Framework\Exception\NoSuchEntityException $e)
-            {
-                //new product
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+
+                //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                echo "Product Name: ".$prodname."<br>";
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
@@ -233,20 +256,8 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
-
+                //set brand
                 $brandName = strtolower($prod['stk-brand']);
-                if($brandName == "thinktank")
-                {
-                    $brandName = "think tank";
-                }
-                if($brandName == "peak")
-                {
-                    $brandName = "peak design";
-                }
-                if($brandName == "3lt")
-                {
-                    $brandName = "3 legged thing";
-                }
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
@@ -254,12 +265,16 @@ class Product extends AbstractHelper
                 }
 
                 //set categories
+                $categoryIds = array();
                 $mainCat = 2;
-                if (count($getCategoryList)) {
+                if (count($getCategoryList))
+                {
+                    $catList = "";
                     foreach ($getCategoryList as $id => $category)
                     {
                         if($category['name'] == $prod['web-category1'])
                         {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];
                             $mainCat = $category['id'];
                         }
@@ -267,6 +282,7 @@ class Product extends AbstractHelper
                         {
                             if($category['name'] == $prod['web-category2'])
                             {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
                         }
@@ -274,6 +290,7 @@ class Product extends AbstractHelper
                         {
                             if($category['name'] == $prod['web-category3'])
                             {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
                         }
@@ -282,30 +299,33 @@ class Product extends AbstractHelper
 
                             if($category['name'] == $prod['web-category4'])
                             {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
                         }
                     }
                 }
 
-                //$product->setAttributeSetId($mainCat); // Default attribute set for products
 
                 if (count($categoryIds)) {
+                    echo "insert categories: ".$catList."<br />";
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                     $product->setCategoryIds($categoryIds);
                 }
 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                // If desired, you can set a tax class like so:
-                //$product->setCustomAttribute('tax_class_id', $taxClassId);
+//                // If desired, you can set a tax class like so:
+//                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname;
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
+                // set gtin and apn
                 if(isset($prod['gtins']['gtin']))
                 {
                     //set barcode
+
                     if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
                     {
                         $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
@@ -322,38 +342,55 @@ class Product extends AbstractHelper
                     }
                 }
 
-                //set warehouse stock
                 if(isset($prod['warehouse']['whse']))
                 {
+
                     foreach ($prod['warehouse']['whse'] as $qt)
                     {
-                        if(isset($qt['code']))
+                        if(is_array($qt))
                         {
                             $sourceItem = $this->sourceItemFactory->create();
                             $sourceItem->setSourceCode($qt['code']);
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
+                            echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
+                            $this->logger->info($qt['code']." - ".$qt['qty_available']);
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
+                        else
+                        {
+                            // to handle single warehouse
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                            echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
+                            $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+
+
                     }
                 }
-
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $this->productRepository->save($product);
+                echo "insert ".$lastCode ."<br/>";
 
             }
-
         }
+
 
         if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
         {
-            $this->logger->info('Pronto Product Sync - '.$json['response']['message']);
-            exit;
+            echo $json['response']['message'];
+
         }
+        exit;
 
     }
 
@@ -593,6 +630,7 @@ class Product extends AbstractHelper
                     }
 
                     //set categories
+                    $categoryIds = array();
                     $productCategoryIds = $product->getCategoryIds();
                     if(count($productCategoryIds) < 2)
                     {
@@ -710,6 +748,7 @@ class Product extends AbstractHelper
                     }
 
                     //set categories
+                    $categoryIds = array();
                     $mainCat = 2;
                     if (count($getCategoryList)) {
                         foreach ($getCategoryList as $id => $category)
@@ -897,6 +936,7 @@ class Product extends AbstractHelper
                 }
 
                 //set categories
+                $categoryIds = array();
                 $productCategoryIds = $product->getCategoryIds();
                 if(count($productCategoryIds) < 2)
                 {
@@ -1024,6 +1064,7 @@ class Product extends AbstractHelper
                 }
 
                 //set categories
+                $categoryIds = array();
                 $mainCat = 2;
                 if (count($getCategoryList))
                 {
@@ -1214,6 +1255,7 @@ class Product extends AbstractHelper
                 {
 
                     $catList = "";
+                    $categoryIds = array();
                     if (count($getCategoryList)) {
                         foreach ($getCategoryList as $id => $category)
                         {
@@ -1322,6 +1364,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 $mainCat = 2;
+                $categoryIds = array();
                 if (count($getCategoryList))
                 {
                     $catList = "";
