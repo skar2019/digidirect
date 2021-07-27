@@ -14,7 +14,6 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
-use Psr\Log\LoggerInterface;
 
 class TestPronto extends AbstractHelper
 {
@@ -116,7 +115,7 @@ class TestPronto extends AbstractHelper
                         AbstractEntityRepository $abstractEntityRepository,
                         IncrementIdUpdater $incrementIdUpdater,
                         CustomerRepositoryInterface $customerRepository,
-                        LoggerInterface $logger)
+                        \Digidirect\CustomOrderLog\Logger\Logger $logger)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -678,10 +677,11 @@ class TestPronto extends AbstractHelper
         return $prontoStatus;
     }
 
-    public function orderPostTec($orderId, $date, $size, $page)
+    public function orderPostTec($orderId, $date, $size, $page, $test)
     {
         $piwikItems = array();
         $piwikOrder = array();
+        settype($test,"integer");
         //get order data
         $orders = $this->getTestOrderCollection($orderId, $date, $size, $page);
         $counter = 0;
@@ -698,7 +698,7 @@ class TestPronto extends AbstractHelper
             //exit;
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
-            $this->logger->warning('Pronto Order Sync - '.$orderId);
+            $this->logger->info('Pronto Order Sync - '.$orderId);
             echo 'Pronto Order Sync - '.$orderId.'<br>';
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
@@ -776,6 +776,21 @@ class TestPronto extends AbstractHelper
             {
                 $street = implode(",", $strt);
             }
+
+            if(!$order->getCustomerIsGuest()) {
+                $customer = $this->customerRepository->getById($order->getCustomerId());
+                $unitNumber = $customer->getCustomAttribute('unit_number');
+                echo "Customer unit number: ".$unitNumber."<br>";
+            }
+            else {
+                $unitNumber = $order->getCustomAttribute('unit_number');
+                echo "order unit number: ".$unitNumber."<br>";
+            }
+
+            if(!empty($unitNumber))
+            {
+                $unitNumber = $unitNumber . " / ";
+            }
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
@@ -785,7 +800,7 @@ class TestPronto extends AbstractHelper
             $company = $address->getCompany();
 
             $data['sales-order']['header']['billing-address']['line-1'] = $company;
-            $data['sales-order']['header']['billing-address']['line-2'] = $street;
+            $data['sales-order']['header']['billing-address']['line-2'] = $unitNumber." ".$street;
             $data['sales-order']['header']['billing-address']['line-3'] = $city;
             $data['sales-order']['header']['billing-address']['line-4'] = $region;
             $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
@@ -810,7 +825,7 @@ class TestPronto extends AbstractHelper
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
             $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
-            $data['sales-order']['header']['delivery-address']['line-3'] = $shipstreet;
+            $data['sales-order']['header']['delivery-address']['line-3'] = $unitNumber." ".$street;
             $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
             $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
             $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
@@ -1035,12 +1050,7 @@ class TestPronto extends AbstractHelper
             //LIVE - port :8084
             $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
-            $username = 'clint.mercado';
-            $password = '849cd5080faff5ce';
-            $jsonData = '{}';
-
-            $islive = true;
-            if($islive)
+            if(!$test)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
@@ -1078,7 +1088,8 @@ class TestPronto extends AbstractHelper
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
-                else {
+                else
+                {
 
                     $pronto = $json['sales-orders']['sales-order']['order-no'];
                     $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
@@ -1131,9 +1142,10 @@ class TestPronto extends AbstractHelper
                 ->addFieldToFilter('pronto_order_number', array('null' => true))
                 ->addFieldToFilter('created_at', array('gteq' => $fromDate))
                 ->addFieldToFilter('created_at', array('lteq' => $toDate))
-                ->setPageSize($size)
-                ->setCurPage($page);
+                ->setPageSize(1);
+                //->setCurPage($page);
             return $collection;
+            //return $collection->getSelect()->limit(1);
         }
 
     }
