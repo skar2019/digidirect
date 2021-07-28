@@ -843,7 +843,7 @@ class Product extends AbstractHelper
                     $forLogs .= $catList."\n";
                     if (count($categoryIds)) {
 
-                        $this->logger->info("Category ".$catList);
+                        $forLogs .= "Categories: ".$catList."\n";
                         //echo "update categories: ".$catList."<br />";
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                         $product->setCategoryIds($categoryIds);
