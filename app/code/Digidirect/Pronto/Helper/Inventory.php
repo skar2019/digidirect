@@ -332,12 +332,12 @@ class Inventory extends AbstractHelper
 
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
-                echo "<br />".$lastCode."<br />";
+                //echo "<br />".$lastCode."<br />";
                 //pricing
                 try {
 
                     $prod = $this->productRepository->get($sku);
-                    echo "<br> old price:".$prod->getPrice();
+                    //echo "<br> old price:".$prod->getPrice();
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
@@ -345,7 +345,7 @@ class Inventory extends AbstractHelper
                         $prod->setPrice($retail);
                         $this->productRepository->save($prod);
                     }
-                    echo "<br> new price:".$prod->getPrice();
+                    //echo "<br> new price:".$prod->getPrice();
                     foreach ($prodRes['warehouse']['whse'] as $qt)
                     {
                         //echo "<br />".$qt['code']." - " .$qt['qty_available'];
@@ -357,7 +357,7 @@ class Inventory extends AbstractHelper
                         $this->sourceItemsSaveInterface->execute([$sourceItem]);
                     }
                 } catch (Exception $ex) {
-                    echo $ex->getMessage();
+                    //echo $ex->getMessage();
                     $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
                     continue;
                 }
