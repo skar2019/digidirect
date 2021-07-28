@@ -234,7 +234,6 @@ class Order extends AbstractHelper
             if(!empty($unitNumber))
             {
                 $unitNumber = str_replace("unit_number"," ",$unitNumber);
-                $unitNumber = $unitNumber . " / ";
             }
 
             $data['sales-order']['header']['billing-address']['line-1'] = $company;
@@ -263,7 +262,6 @@ class Order extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
-                $shipUnitNumber = $shipUnitNumber . " / ";
             }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
