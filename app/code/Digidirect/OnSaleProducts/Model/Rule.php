@@ -267,7 +267,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel implements RuleInterface, I
     {
         return $this->_combineFactory->create();
     }
-
     /**
      * Getter for rule actions collection
      *
