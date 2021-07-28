@@ -27,9 +27,7 @@ class ProductEnquiry
 
     public function execute()
     {
-        $this->logger->info('Pronto Product Sync syncing set 0');
-        $this->helper->productPronto(0);
-
+        $this->helper->productSync();
     }
 
     public function productSet0()
