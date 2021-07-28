@@ -1086,7 +1086,7 @@ class TestPronto extends AbstractHelper
                     $pronto = $json['sales-orders']['sales-order']['order-no'];
                     $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
                     $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                    $order->setData('pronto_order_number',1);
+                    $order->setData('pronto_order_number',$pronto);
                     $order->setData('pronto_status_code',$prontostatus);
                     $order->save();
 
