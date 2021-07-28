@@ -14,6 +14,12 @@
             padding: 44px 20px 50px;
             z-index: 1;
         }
+        
+        &.category-background{
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
 
         .cms-description {
             .lib-vendor-prefix-display(flex);
@@ -67,6 +73,28 @@
 
 //
 //  Tablet
+//  _____________________________________________
+
+// This will add styles for tablet devices. When using native media-queries, we recommend wrapping your media-queries with media-width Magento mixins or media-target
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
+/*        .category-view{
+            padding: 20px;
+        }*/
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: (1280px)) {
+    .category-view{
+        padding: 20px;
+        margin: 0 50px 25px;
+    }
+}
+
+
+
+//
+//  Tablet
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
@@ -90,6 +118,12 @@
                     color: #fff;
                 }
             }
+        }
+        
+        &.category-background{
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center center;
         }
     }
 }

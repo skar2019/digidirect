@@ -9,9 +9,9 @@ use \Magento\Framework\Exception\LocalizedException;
  */
 class Blog extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const CATEGORY_RELATION_TABLE = 'Digidirect_blog_post_categories';
+    const CATEGORY_RELATION_TABLE = 'digidirect_blog_post_categories';
 
-    const CATEGORY_TABLE = 'Digidirect_blog_category_information';
+    const CATEGORY_TABLE = 'digidirect_blog_category_information';
 
     const TOP_NAME = 'Top Contributors';
 

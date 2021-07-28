@@ -15,8 +15,10 @@ class QffAction extends \Magento\Framework\App\Action\Action
             $qff_lastname = $_POST["qff_lastname"];
             $qff_action = $_POST["qff_action"];
             
-             $_SESSION["qff_number"] = $qff_number;
-             $_SESSION["qff_lastname"] = $qff_lastname;  
+            $_SESSION["qff_number"] = $qff_number;
+            $_SESSION["qff_lastname"] = $qff_lastname; 
+             
+            $_SESSION["qantasqff"] = array();
              
             $curl = curl_init();
 
@@ -41,6 +43,10 @@ class QffAction extends \Magento\Framework\App\Action\Action
             $response = json_decode($initial_response);
             if (!empty($response->status)) {
                 if ($response->status == "ACTIVE") {
+                    
+                    $_SESSION["qantasqff"]["qff_number"] = $qff_number;
+                    $_SESSION["qantasqff"]["qff_lastname"] = $qff_lastname;
+                    
                     $status = true;
                 }
             }

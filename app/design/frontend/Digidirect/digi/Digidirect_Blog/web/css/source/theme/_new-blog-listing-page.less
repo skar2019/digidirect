@@ -16,6 +16,25 @@
         .post-card.item {
             margin: 20px 0;
         }
+        
+        .toolbar.blog-toolbar {
+            .page{
+                span,
+                a{
+                    color: #222;
+                    font-weight: bold;
+                    font-size: 16px;
+                }
+            }
+            
+            .current{
+                .page{
+                    span{
+                        color: #f15a25;
+                    }
+                }
+            }
+        }
     }
 
     .container > .tags {
@@ -170,12 +189,13 @@
             list-style-type: none;
             
             a{
-                background: #e65401;
+                background: #f15a25;
                 padding: 5px 10px;
                 border-radius: 30px;
                 display: block;
                 color: #fff;
-                font-weight: bold;
+                font-weight: 400;
+                font-size: 12px;
                 
                 &:hover{
                     color: #fff;

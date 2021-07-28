@@ -31,7 +31,16 @@ $categoriesArrayNames = [];
     <?php endif; ?>
 
     <div class="content">
-        <?php /* @escapeNotVerified */ echo $block->getDescription(); ?>
+        <?php
+        /* @escapeNotVerified */
+
+        $description = html_entity_decode($block->getDescription());
+        $description = str_replace("ÔÇØ", "'", $description);
+        $description = str_replace("ÔÇ£", "'", $description);
+        $description = str_replace("ÔÇÖ", "'", $description);
+
+        echo $description;
+        ?>
     </div>
     <div class="wrapper-top">
         <div class="container">

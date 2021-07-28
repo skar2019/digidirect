@@ -7,7 +7,7 @@
                 <arguments>
                     <argument name="cache_lifetime" xsi:type="string">86400</argument>
                 </arguments>
-                <block class="Magento\Theme\Block\Html\Pager" name="post_list_pager" as="post_list_pager"/>
+                <block class="Magento\Theme\Block\Html\Pager" name="post_list_pager.toolbar" as="post_list_pager"/>
             </block>
         </referenceContainer>
 

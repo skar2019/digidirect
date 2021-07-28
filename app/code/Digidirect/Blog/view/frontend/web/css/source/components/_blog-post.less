@@ -87,5 +87,16 @@
         > .tags > .label {
             .lib-css(font-weight, @blog-post-view-tags-label__font-weight);
         }
+        
+        .content{
+            .description{
+                display: unset;
+            }
+            
+            ul,
+            ol{
+                padding-left: revert;
+            }
+        }
     }
 }
