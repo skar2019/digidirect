@@ -679,8 +679,7 @@ class TestPronto extends AbstractHelper
 
     public function orderPostTec($orderId, $date, $size, $page, $test)
     {
-        $piwikItems = array();
-        $piwikOrder = array();
+
         settype($test,"integer");
         settype($size,"integer");
         //get order data
@@ -1112,7 +1111,6 @@ class TestPronto extends AbstractHelper
             }
 
         }
-        exit;
 
     }
 
