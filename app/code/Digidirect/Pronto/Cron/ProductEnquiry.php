@@ -30,6 +30,11 @@ class ProductEnquiry
         $this->helper->productSync();
     }
 
+    public function productSetSync()
+    {
+        $this->helper->productSynAgain();
+
+    }
     public function productSet0()
     {
         $this->logger->info('Pronto Product Sync syncing set 0');
