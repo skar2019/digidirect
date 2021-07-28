@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 
 class Inventory extends AbstractHelper
 {
- 
+
     /**
     * @var Curl
     */
@@ -19,7 +19,7 @@ class Inventory extends AbstractHelper
      * @var LoggerInterface
      */
     protected $logger;
-    
+
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -43,18 +43,18 @@ class Inventory extends AbstractHelper
     }
 
     public function enquireInventory($args = 0) {
- 
+
         if(isset($args))
         {
             $startitem = $args;
         }
-        else 
+        else
         {
             $startitem = 0;
         }
-        
+
         $lastCode = 0;
-        
+
         date_default_timezone_set("Australia/Sydney");
         $newTime = strtotime('-20 minutes');
         $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
@@ -67,13 +67,13 @@ class Inventory extends AbstractHelper
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
-        
+
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
         $this->curl->addHeader("compcode", "DIG"); //live
         $this->curl->addHeader("user", "ewaveapi");
         $this->curl->addHeader("token", "904241bdbf10efa9");
-        
+
         //$this->curl->addHeader("compcode", "UA1"); //test
         //$this->curl->addHeader("user", "clint.mercado");
         //$this->curl->addHeader("token", "849cd5080faff5ce");
@@ -83,7 +83,7 @@ class Inventory extends AbstractHelper
         $result = $this->curl->getBody();
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
-        
+
         //var_dump($json);
         if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
         {
@@ -114,22 +114,40 @@ class Inventory extends AbstractHelper
                         $this->productRepository->save($prod);
                     }
 
-                    foreach ($prodRes['warehouse']['whse'] as $qt)
+                    if(isset($prodRes['warehouse']['whse']))
                     {
-                        //echo "<br />".$qt['code']." - " .$qt['qty_available'];
-                        $sourceItem = $this->sourceItemFactory->create();
-                        $sourceItem->setSourceCode($qt['code']);
-                        $sourceItem->setSku($sku);
-                        $sourceItem->setStatus(1);
-                        $sourceItem->setQuantity($qt['qty_available']);
-                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        foreach ($prodRes['warehouse']['whse'] as $qt)
+                        {
+                            if(is_array($qt))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prodRes['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $this->logger->info($prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                        }
                     }
+
                 } catch (Exception $ex) {
                     $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
                     continue;
                 }
-                
-                
+
+
 
                 $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
@@ -149,7 +167,7 @@ class Inventory extends AbstractHelper
 
                 //pricing
                 try {
-                    
+
                     $prod = $this->productRepository->get($sku);
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
@@ -158,15 +176,30 @@ class Inventory extends AbstractHelper
                         $this->productRepository->save($prod);
                     }
 
-                    foreach ($prodRes['warehouse']['whse'] as $qt)
+                    if(isset($prodRes['warehouse']['whse']))
                     {
-                        //echo "<br />".$qt['code']." - " .$qt['qty_available'];
-                        $sourceItem = $this->sourceItemFactory->create();
-                        $sourceItem->setSourceCode($qt['code']);
-                        $sourceItem->setSku($sku);
-                        $sourceItem->setStatus(1);
-                        $sourceItem->setQuantity($qt['qty_available']);
-                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        foreach ($prodRes['warehouse']['whse'] as $qt)
+                        {
+                            if(is_array($qt))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prodRes['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                        }
                     }
                 } catch (Exception $ex) {
                     $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
@@ -176,31 +209,31 @@ class Inventory extends AbstractHelper
                 $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
         }
-        
+
         if($startitem == $lastCode)
         {
             exit;
         }
 
         $this->enquireInventory($lastCode);
-    }   
-    
+    }
+
     public function getSourceItemBySku($sku)
     {
         return $this->sourceItemsBySku->execute($sku);
     }
-    
+
     public function enquireInventoryTest($args = 0) {
- 
+
         if(isset($args))
         {
             $startitem = $args;
         }
-        else 
+        else
         {
             $startitem = 0;
         }
-        
+
         $lastCode = 0;
         date_default_timezone_set("Australia/Sydney");
         $newTime = strtotime('-20 minutes');
@@ -215,13 +248,13 @@ class Inventory extends AbstractHelper
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
-        
+
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
         $this->curl->addHeader("compcode", "DIG"); //live
         $this->curl->addHeader("user", "ewaveapi");
         $this->curl->addHeader("token", "904241bdbf10efa9");
-        
+
         //$this->curl->addHeader("compcode", "UA1"); //test
         //$this->curl->addHeader("user", "clint.mercado");
         //$this->curl->addHeader("token", "849cd5080faff5ce");
@@ -231,7 +264,7 @@ class Inventory extends AbstractHelper
         $result = $this->curl->getBody();
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
-        
+
         //var_dump($json);
         if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
         {
@@ -245,7 +278,7 @@ class Inventory extends AbstractHelper
             foreach ($json['stockmaster'] as $prodRes)
             {
                 echo "stockmaster only";
-                
+
                 if(!isset($prodRes['code']))
                 {
                     exit;
@@ -281,8 +314,8 @@ class Inventory extends AbstractHelper
                     $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
                     continue;
                 }
-                
-                
+
+
 
                 $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
@@ -302,7 +335,7 @@ class Inventory extends AbstractHelper
                 echo "<br />".$lastCode."<br />";
                 //pricing
                 try {
-                    
+
                     $prod = $this->productRepository->get($sku);
                     echo "<br> old price:".$prod->getPrice();
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
@@ -332,12 +365,12 @@ class Inventory extends AbstractHelper
                 $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
         }
-        
+
         if($startitem == $lastCode)
         {
             exit;
         }
 
         $this->enquireInventory($lastCode);
-    } 
-}      
+    }
+}

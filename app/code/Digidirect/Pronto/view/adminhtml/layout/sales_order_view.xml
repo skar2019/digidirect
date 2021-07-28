@@ -6,10 +6,5 @@
                 <argument name="template" translate="true" xsi:type="string">order/view/tab/Info.phtml</argument>
             </action>
         </referenceBlock>
-        <referenceBlock name="order_info">
-            <action method="setTemplate">
-                <argument name="template" translate="true" xsi:type="string">Digidirect_Pronto::order/view/info.phtml</argument>
-            </action>
-        </referenceBlock>
     </body>
 </page>

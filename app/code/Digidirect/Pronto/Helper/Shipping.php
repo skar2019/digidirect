@@ -41,9 +41,9 @@ class Shipping extends AbstractHelper
     public function getShipping($pronto) 
     {
         //get order data
-        //$orders = $this->getOrderCollection($pronto);
+        $orders = $this->getOrderCollection($pronto);
         //$counter = 0;
-        //foreach ($orders as $order) {
+        foreach ($orders as $order) {
         //    $data = array();
         //    $counter++;
             //var_dump($order);
@@ -103,6 +103,7 @@ class Shipping extends AbstractHelper
                     if (!empty($json['sales-order']['header']['so-consignment-note'])) {
                         $order->setData('pronto_order_tracking_number', $json['sales-order']['header']['so-consignment-note']);
                         $this->orderResource->saveAttribute($order, 'pronto_order_tracking_number');
+                        $order->setState("complete")->setStatus("complete");
                     } else {
                         $this->logger->info('Cannot update Order Tracking Number');
                     }
@@ -113,17 +114,28 @@ class Shipping extends AbstractHelper
                     } else {
                         $this->logger->info('Cannot update Order Manifest Number');
                     }
+                    
                 }
             }
             else 
             {
                 echo "no result";
             }
-        //}
+        }
         
     }   
     
-    public function getOrderCollection()
+    public function getOrderCollection($pronto)
+    {
+        
+        $collection = $this->_orderCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter('pronto_order_number', array('eq' => $pronto));
+     return $collection;
+     
+    }
+    
+    public function getBulkOrderCollection()
     {
         $now = new \DateTime();
         $fromDate = date('Y-m-d 00:00:00', strtotime('2021-07-01'));

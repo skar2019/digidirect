@@ -15,7 +15,7 @@ class OrderTest
      * @var Inventory
      */
     protected $helper;
-    
+
     public function __construct(
             LoggerInterface $logger,
             TestPronto $helper)
@@ -27,7 +27,7 @@ class OrderTest
     public function execute()
     {
         $this->helper->testordersync();
-
+        // comment to redeploy
     }
-    
+
 }

@@ -43,7 +43,7 @@ class GetMetaTitle extends \Magento\Framework\App\Action\Action
         
         /*Get in stock product collection*/
         $collection = $this->_productCollectionFactory->create()->addFieldToSelect('*')
-            ->setPageSize(10) // only get 10 products
+            ->setPageSize(1000) // only get 10 products
             ->setCurPage($page_number)  // first page (means limit 0,10)
             ->setFlag('has_stock_status_filter', false);
         
@@ -53,9 +53,8 @@ class GetMetaTitle extends \Magento\Framework\App\Action\Action
             $sku = $product->getSku();
             $productName = $product->getName();
             $meta_title = $product->getMetaTitle();
-            $product_url = $product->getProductUrl();
             
-            echo $productName . " - "  . $sku . " <br />" . $product_url . "<br /><br />";
+            echo $productName . " - "  . $sku . " <br />" . $meta_title . "<br /><br />";
             $counter++;
         }
         

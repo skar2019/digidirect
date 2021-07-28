@@ -21,8 +21,14 @@ class TestProductEnquiry extends \Magento\Framework\App\Action\Action
             if(isset($_GET["p"])){
                 $startItem = $_GET["p"];
             }
+            $counter = 10;
+            
+            if(isset($_GET["counter"])){
+                $counter = $_GET["counter"];
+            }
+            
             echo "Pronto Product <br />";
-            $this->helper->productTestProntoSet($startItem);
-            exit;
+            $this->helper->productTestProntoSet($startItem, $counter);
+
 	}
 }
