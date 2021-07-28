@@ -682,6 +682,7 @@ class TestPronto extends AbstractHelper
         $piwikItems = array();
         $piwikOrder = array();
         settype($test,"integer");
+        settype($size,"integer");
         //get order data
         $orders = $this->getTestOrderCollection($orderId, $date, $size, $page);
         $counter = 0;
@@ -1107,9 +1108,13 @@ class TestPronto extends AbstractHelper
                 }
             }
 
-            exit; //for testing;
-        }
+            if($counter >= $size)
+            {
+                exit; //for testing;
+            }
 
+        }
+        exit;
 
     }
 
