@@ -27,9 +27,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        $catalogRuleCollection = $catalogRule->create()->getCollection();//setOrder('created_in', 'DESC');
        $catalogRuleCollection->getSelect()->orderRand();
        $catalogRuleCollection->addIsActiveFilter(1); //filter for active rules only
-
-       $catalogRuleCollection->setCurPage(1); //filter for active rules only
-
+       $catalogRuleCollection->setCurPage(1);
        $limit = 0;
 
        foreach ($catalogRuleCollection as $catalogRule) {
