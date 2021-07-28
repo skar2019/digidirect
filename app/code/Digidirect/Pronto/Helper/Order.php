@@ -1187,7 +1187,11 @@ class Order extends AbstractHelper
                 }
             }
 
-            return true; //return after on order
+            if($counter >= 2)
+            {
+                return true; //return after 2 orders
+            }
+
         }
 
         return true;
@@ -1195,7 +1199,7 @@ class Order extends AbstractHelper
 
     public function getTestOrderCollectionByDay()
     {
-        $date = '2021-07-26';
+        $date = '2021-07-27';
         $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
         $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
         $collection = $this->_orderCollectionFactory->create()
