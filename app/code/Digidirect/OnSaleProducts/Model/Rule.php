@@ -22,7 +22,7 @@ class Rule extends \Magento\CatalogRule\Model\Rule {
         $this->getConditions()->collectValidatedAttributes($productCollection);
 
         \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Framework\Model\ResourceModel\Iterator')->walk(
-            $productCollection->getSelect()->limit(30),
+            $productCollection->getSelect()->limit(5),
         [
             [$this, 'callbackValidateProduct']
         ],
