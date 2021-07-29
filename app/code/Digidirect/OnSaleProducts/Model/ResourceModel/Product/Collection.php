@@ -28,34 +28,32 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        $catalogRuleCollection->getSelect()->orderRand();
        $catalogRuleCollection->addIsActiveFilter(1); //filter for active rules only
        $catalogRuleCollection->setCurPage(1);
+       $catalogRuleCollection->setOrder('created_in', 'DESC');
        $limit = 0;
 
        foreach ($catalogRuleCollection as $catalogRule) {
            $ctr = 0;
-           $productIdsAccToRule = $catalogRule->getMatchingProductIds();
+           $productIdsAccToRule = $catalogRule->getListProductIdsInRule();
 
            if ($limit == 30) {
                break;
            }
 
            foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
-               
-               if ($ctr == 5) {
-                   $ctr = 0;
-                   break;
-               }
-               
-               if (!empty($ruleProductArray[$websiteId])) {
-                   if (array_key_exists($productId, $productIdsAccToRule)) {
-                       $discount_amount = $catalogRule->getData('discount_amount');
+//               if ($ctr == 5) {
+//                   $ctr = 0;
+//                   break;
+//               }
 
+               if (!empty($ruleProductArray[$websiteId])) {
+//                   if (array_key_exists($ruleProductArray, $productIdsAccToRule)) {
                        if ($limit == 30) {
                            break;
                        }
 
-                       $resultProductIds[$productId] = $productId;
+                       $resultProductIds[$ruleProductArray] = $ruleProductArray;
                        $limit++;
-                   }
+//                   }
                }
                $ctr++;
            }
