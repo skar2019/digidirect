@@ -443,7 +443,8 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
@@ -511,31 +512,56 @@ class Product extends AbstractHelper
                     }
                     $forLogs .= $catList."\n";
                     if (count($categoryIds)) {
-
-                        $this->logger->info("Category ".$catList);
-                        //echo "update categories: ".$catList."<br />";
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                         $product->setCategoryIds($categoryIds);
                     }
                 }
 
                 //set apn and gtin
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
                 if(isset($prod['gtins']['gtin'])) {
                     //set barcode
                     if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
                         $forLogs .= "barcode1 ".$prod['gtins']['gtin']['id']."\n";
-                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
+                        $barcode1 = $prod['gtins']['gtin']['id'];
+
                     } else {
                         $x = 1;
                         foreach ($prod['gtins']['gtin'] as $gtin) {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
 
-                            $att = 'barcode' . $x;
-                            $forLogs .= $att." ".$gtin['id']."\n";
-                            $product->setCustomAttribute($att, $gtin['id']);
+                            }
                             $x++;
                         }
                     }
                 }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
+
                 if(isset($prod['warehouse']['whse']))
                 {
                     foreach ($prod['warehouse']['whse'] as $qt)
@@ -653,27 +679,49 @@ class Product extends AbstractHelper
                 $product->setUrlKey($url);
 
                 // set gtin and apn
-                if(isset($prod['gtins']['gtin']))
-                {
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
+                if(isset($prod['gtins']['gtin'])) {
                     //set barcode
+                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+                        $forLogs .= "barcode1 ".$prod['gtins']['gtin']['id']."\n";
+                        $barcode1 = $prod['gtins']['gtin']['id'];
 
-                    if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
-                    {
-                        $forLogs .= "barcode1: ".$prod['gtins']['gtin']['id']."\n";
-                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
-                    }
-                    else
-                    {
-                        $x =1;
+                    } else {
+                        $x = 1;
                         foreach ($prod['gtins']['gtin'] as $gtin) {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
 
-                            $att = 'barcode'.$x;
-                            $forLogs .= $att." ".$gtin['id']."\n";
-                            $product->setCustomAttribute($att, $gtin['id']);
+                            }
                             $x++;
                         }
                     }
                 }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -851,22 +899,52 @@ class Product extends AbstractHelper
                 }
 
                 //set apn and gtin
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
                 if(isset($prod['gtins']['gtin'])) {
                     //set barcode
                     if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
                         $forLogs .= "barcode1 ".$prod['gtins']['gtin']['id']."\n";
-                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
+                        $barcode1 = $prod['gtins']['gtin']['id'];
+
                     } else {
                         $x = 1;
                         foreach ($prod['gtins']['gtin'] as $gtin) {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
 
+                            }
                             $att = 'barcode' . $x;
                             $forLogs .= $att." ".$gtin['id']."\n";
-                            $product->setCustomAttribute($att, $gtin['id']);
                             $x++;
                         }
                     }
                 }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
+
                 if(isset($prod['warehouse']['whse']))
                 {
                     foreach ($prod['warehouse']['whse'] as $qt)
@@ -984,27 +1062,53 @@ class Product extends AbstractHelper
                 $product->setUrlKey($url);
 
                 // set gtin and apn
-                if(isset($prod['gtins']['gtin']))
-                {
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
+                if(isset($prod['gtins']['gtin'])) {
                     //set barcode
+                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+                        $forLogs .= "barcode1 ".$prod['gtins']['gtin']['id']."\n";
+                        $barcode1 = $prod['gtins']['gtin']['id'];
 
-                    if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
-                    {
-                        $forLogs .= "barcode1: ".$prod['gtins']['gtin']['id']."\n";
-                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
-                    }
-                    else
-                    {
-                        $x =1;
-                        foreach ($prod['gtins']['gtin'] as $gtin) {
+                    } else {
+                        $x = 1;
+                        foreach ($prod['gtins']['gtin'] as $gtin)
+                        {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
 
-                            $att = 'barcode'.$x;
+                            }
+
+                            $att = 'barcode' . $x;
                             $forLogs .= $att." ".$gtin['id']."\n";
-                            $product->setCustomAttribute($att, $gtin['id']);
                             $x++;
                         }
                     }
                 }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -1886,16 +1990,16 @@ class Product extends AbstractHelper
 
     public function productTestProntoSet($startItem, $counter)
     {
-        //comment to redeploy
-        settype($counter,"integer");
-        //$this->attributeOptions = $this->getOptionHash('brand');
-        $lastCode = 0;
+        $lastCode = $startItem;
+        $this->attributeOptions = $this->getOptionHash('brand');
+        $forLogs = "";
+        $parentID = 2; // default category
+        $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        //$parentID = 2; // default category
-        //$getCategoryList = $this->getSubCategoryByParentID($parentID);
-
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startitem.'&end-item='.$enditem; //test
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
         $username = 'clint.mercado';
@@ -1915,315 +2019,10 @@ class Product extends AbstractHelper
         $this->curl->get($url);
 
         $result = $this->curl->getBody();
-        // echo $result;
+
         $json = $this->jsonSerializer->unserialize($result);
 
         $count = 0;
-        foreach ($json['stockmaster']['stockcode'] as $prod)
-        {
-            if(!isset($prod['code']))
-            {
-                exit;
-            }
-            $count++;
-            $lastCode = $prod['code'];
-            echo $count." . ".$lastCode." <br>";
-            $live = false;
-            if($live)
-            {
-
-                try {
-
-                    $product = $this->productRepository->get($prod['code']);
-
-                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                    $product->setStockStatus($prod['stk-stock-status']);
-
-                    $brandName = strtolower($prod['stk-brand']);
-                    if($brandName == "thinktank")
-                    {
-                        $brandName = "think tank";
-                    }
-                    if($brandName == "peak")
-                    {
-                        $brandName = "peak design";
-                    }
-                    if($brandName == "3lt")
-                    {
-                        $brandName = "3 legged thing";
-                    }
-                    if(isset($this->attributeOptions[strtolower($brandName)]))
-                    {
-                        $brandCode = $this->attributeOptions[strtolower($brandName)];
-                        $product->setBrand($brandCode);
-                    }
-
-                    //set categories
-                    $categoryIds = array();
-                    $productCategoryIds = $product->getCategoryIds();
-                    if(count($productCategoryIds) < 2)
-                    {
-
-                        if (count($getCategoryList)) {
-                            foreach ($getCategoryList as $id => $category)
-                            {
-                                if($category['name'] == $prod['web-category1'])
-                                {
-                                    $categoryIds[] = $category['id'];
-                                }
-                                if(isset($prod['web-category2']))
-                                {
-                                    if($category['name'] == $prod['web-category2'])
-                                    {
-                                        $categoryIds[] = $category['id'];
-                                    }
-                                }
-                                if(isset($prod['web-category3']))
-                                {
-                                    if($category['name'] == $prod['web-category3'])
-                                    {
-                                        $categoryIds[] = $category['id'];
-                                    }
-                                }
-                                if(isset($prod['web-category4']))
-                                {
-                                    if($category['name'] == $prod['web-category4'])
-                                    {
-                                        $categoryIds[] = $category['id'];
-                                    }
-                                }
-                            }
-                        }
-
-                        if (count($categoryIds)) {
-                            //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                            $product->setCategoryIds($categoryIds);
-                        }
-                    }
-
-                    if(isset($prod['gtins']['gtin']))
-                    {
-                        //set barcode
-                        if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
-                        {
-                            $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
-                        }
-                        else
-                        {
-                            $x =1;
-                            foreach ($prod['gtins']['gtin'] as $gtin) {
-                                $att = 'barcode'.$x;
-                                $product->setCustomAttribute($att, $gtin['id']);
-                                $x++;
-                            }
-                        }
-
-                        if(isset($prod['warehouse']['whse']))
-                        {
-                            foreach ($prod['warehouse']['whse'] as $qt)
-                            {
-                                if(isset($qt['code']))
-                                {
-                                    $sourceItem = $this->sourceItemFactory->create();
-                                    $sourceItem->setSourceCode($qt['code']);
-                                    $sourceItem->setSku($prod['code']);
-                                    $sourceItem->setStatus(1);
-                                    $sourceItem->setQuantity($qt['qty_available']);
-                                    $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                                }
-
-                            }
-                        }
-
-
-                        $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                        $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
-                        $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-
-                        $this->productRepository->save($product);
-                        echo "update <br/>";
-                    }
-
-                }
-                catch (\Magento\Framework\Exception\NoSuchEntityException $e)
-                {
-                    //new product
-                    $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                    $product = $this->productFactory->create();
-                    $product->setSku($prod['code']);
-                    $product->setName($prodname);
-                    $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
-                    $product->setVisibility(4);
-                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                    $product->setAttributeSetId(4);
-
-                    $brandName = strtolower($prod['stk-brand']);
-                    if($brandName == "thinktank")
-                    {
-                        $brandName = "think tank";
-                    }
-                    if($brandName == "peak")
-                    {
-                        $brandName = "peak design";
-                    }
-                    if($brandName == "3lt")
-                    {
-                        $brandName = "3 legged thing";
-                    }
-                    if(isset($this->attributeOptions[strtolower($brandName)]))
-                    {
-                        $brandCode = $this->attributeOptions[strtolower($brandName)];
-                        $product->setBrand($brandCode);
-                    }
-
-                    //set categories
-                    $categoryIds = array();
-                    $mainCat = 2;
-                    if (count($getCategoryList)) {
-                        foreach ($getCategoryList as $id => $category)
-                        {
-                            if($category['name'] == $prod['web-category1'])
-                            {
-                                $categoryIds[] = $category['id'];
-                                $mainCat = $category['id'];
-                            }
-                            if(isset($prod['web-category2']))
-                            {
-                                if($category['name'] == $prod['web-category2'])
-                                {
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category3']))
-                            {
-                                if($category['name'] == $prod['web-category3'])
-                                {
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                            if(isset($prod['web-category4']))
-                            {
-                                if($category['name'] == $prod['web-category4'])
-                                {
-                                    $categoryIds[] = $category['id'];
-                                }
-                            }
-                        }
-                    }
-
-                    //$product->setAttributeSetId($mainCat); // Default attribute set for products
-
-                    if (count($categoryIds)) {
-                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
-                        $product->setCategoryIds($categoryIds);
-                    }
-
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    // If desired, you can set a tax class like so:
-                    //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                    $toUrl = $prodname;
-                    $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
-                    $url = strtolower($url);
-                    $product->setUrlKey($url);
-
-                    if(isset($prod['gtins']['gtin']))
-                    {
-                        //set barcode
-                        if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
-                        {
-                            $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
-                        }
-                        else
-                        {
-                            $x =1;
-                            foreach ($prod['gtins']['gtin'] as $gtin) {
-
-                                $att = 'barcode'.$x;
-                                $product->setCustomAttribute($att, $gtin['id']);
-                                $x++;
-                            }
-                        }
-                    }
-
-                    //set warehouse stock
-                    if(isset($prod['warehouse']['whse']))
-                    {
-                        foreach ($prod['warehouse']['whse'] as $qt)
-                        {
-                            if(isset($qt['code']))
-                            {
-                                $sourceItem = $this->sourceItemFactory->create();
-                                $sourceItem->setSourceCode($qt['code']);
-                                $sourceItem->setSku($prod['code']);
-                                $sourceItem->setStatus(1);
-                                $sourceItem->setQuantity($qt['qty_available']);
-                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                            }
-                        }
-                    }
-
-
-                    $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                    $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
-                    $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                    $this->productRepository->save($product);
-                    echo "insert <br/>";
-                }
-            } //end is live
-
-            //if($count >= $counter)
-            //{
-            //    exit;
-            //}
-        }
-
-        if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
-        {
-            $this->logger->info('Pronto Product Sync - '.$json['response']['message']);
-            exit;
-        }
-
-        exit;
-    }
-
-    public function productProntoBulk($startItem, $endItem)
-    {
-
-        set_time_limit(300);
-        $lastCode = 0;
-        $this->attributeOptions = $this->getOptionHash('brand');
-
-        $parentID = 2; // default category
-        $getCategoryList = $this->getSubCategoryByParentID($parentID);
-
-        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
-        //live port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
-        $username = 'clint.mercado';
-        $password = '849cd5080faff5ce';
-        $jsonData = '{}';
-
-        $this->curl->addHeader("Content-Type", "application/json");
-        $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
-
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
-        // get method
-        $this->curl->get($url);
-
-        $result = $this->curl->getBody();
-        // echo $result;
-        $json = $this->jsonSerializer->unserialize($result);
-        //var_dump($json['stockmaster']['stockcode']);
-        //var_dump($json);
-
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
             if(!isset($prod['code']))
@@ -2235,17 +2034,16 @@ class Product extends AbstractHelper
 
             try {
 
-                //echo $this->rootCategoryName;
-                //var_dump($prod);
-                $this->logger->info("SKU ".$prod['code']);
+                $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 //set brands
                 $brandName = strtolower($prod['stk-brand']);
-
+                $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
                     $brandName = "think tank";
@@ -2265,8 +2063,8 @@ class Product extends AbstractHelper
                 }
 
                 //set categories
-                $catList = "";
                 $categoryIds = array();
+                $catList = "";
                 $productCategoryIds = $product->getCategoryIds();
                 if(count($productCategoryIds) < 2)
                 {
@@ -2305,79 +2103,103 @@ class Product extends AbstractHelper
                             }
                         }
                     }
-
+                    $forLogs .= $catList."\n";
                     if (count($categoryIds)) {
-                        $this->logger->info("Categories: ".$catList);
+
+                        $forLogs .= "Categories: ".$catList."\n";
+                        //echo "update categories: ".$catList."<br />";
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                         $product->setCategoryIds($categoryIds);
                     }
                 }
 
                 //set apn and gtin
-                if(isset($prod['gtins']['gtin']))
-                {
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
+                if(isset($prod['gtins']['gtin'])) {
                     //set barcode
+                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+                        $barcode1 = $prod['gtins']['gtin']['id'];
 
-                    if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
-                    {
-                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
-                    }
-                    else
-                    {
-                        $x =1;
+                    } else {
+                        $x = 1;
                         foreach ($prod['gtins']['gtin'] as $gtin) {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
 
-                            $att = 'barcode'.$x;
-                            $product->setCustomAttribute($att, $gtin['id']);
+                            }
                             $x++;
                         }
                     }
-
-                    if(isset($prod['warehouse']['whse']))
-                    {
-
-                        foreach ($prod['warehouse']['whse'] as $qt)
-                        {
-                            if(is_array($qt))
-                            {
-                                $sourceItem = $this->sourceItemFactory->create();
-                                $sourceItem->setSourceCode($qt['code']);
-                                $sourceItem->setSku($prod['code']);
-                                $sourceItem->setStatus(1);
-                                $sourceItem->setQuantity($qt['qty_available']);
-                                //echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
-                                $this->logger->info($qt['code']." - ".$qt['qty_available']);
-                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                            }
-                            else
-                            {
-                                // to handle single warehouse
-                                $sourceItem = $this->sourceItemFactory->create();
-                                $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
-                                $sourceItem->setSku($prod['code']);
-                                $sourceItem->setStatus(1);
-                                $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                                //echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
-                                $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
-                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
-                            }
-
-
-                        }
-                    }
-                    $product->setCustomAttribute('apn', $prod['stk-apn-number']);
-                    $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
-                    $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-
-                    $this->productRepository->save($product);
-                    //echo "update ".$lastCode ."<br/>";
                 }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
+
+                if(isset($prod['warehouse']['whse']))
+                {
+                    foreach ($prod['warehouse']['whse'] as $qt)
+                    {
+                        if(is_array($qt))
+                        {
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($qt['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($qt['qty_available']);
+                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+                        else
+                        {
+                            // to handle single warehouse
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+
+
+                    }
+                }
+                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
+                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+
+                $this->productRepository->save($product);
+                //echo "update ".$lastCode ."<br/>";
+
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
 
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                //echo "Product Name: ".$prodname."<br>";
+                $forLogs .= "Product Name: ".$prodname."\n";
+                $forLogs .= "SKU: ".$prod['code']."\n";
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
@@ -2387,6 +2209,7 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4);
                 //set brand
                 $brandName = strtolower($prod['stk-brand']);
+                $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
@@ -2435,8 +2258,9 @@ class Product extends AbstractHelper
                     }
                 }
 
+
                 if (count($categoryIds)) {
-                    $this->logger->info("Categories: ".$catList);
+                    $forLogs .= "Categories: ".$catList."\n";
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                     $product->setCategoryIds($categoryIds);
                 }
@@ -2450,25 +2274,49 @@ class Product extends AbstractHelper
                 $product->setUrlKey($url);
 
                 // set gtin and apn
-                if(isset($prod['gtins']['gtin']))
-                {
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
+                if(isset($prod['gtins']['gtin'])) {
                     //set barcode
+                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+                        $barcode1 = $prod['gtins']['gtin']['id'];
 
-                    if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
-                    {
-                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
-                    }
-                    else
-                    {
-                        $x =1;
-                        foreach ($prod['gtins']['gtin'] as $gtin) {
+                    } else {
+                        $x = 1;
+                        foreach ($prod['gtins']['gtin'] as $gtin)
+                        {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
 
-                            $att = 'barcode'.$x;
-                            $product->setCustomAttribute($att, $gtin['id']);
+                            }
                             $x++;
                         }
                     }
                 }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -2482,8 +2330,7 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
-                            //echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
-                            $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
                         else
@@ -2494,11 +2341,9 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            //echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
-                            $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
+                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
-
 
                     }
                 }
@@ -2507,19 +2352,397 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $this->productRepository->save($product);
-                //echo "insert ".$lastCode ."<br/>";
 
             }
+            $count++;
+            if($count >= $counter)
+            {
+                $this->logger->info($forLogs);
+                return true;
+            }
+
         }
 
+    }
 
-        if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
+    public function productProntoBulk($startItem, $endItem)
+    {
+
+        set_time_limit(300);
+        $lastCode = 0;
+        $forLogs = "";
+        $this->attributeOptions = $this->getOptionHash('brand');
+
+        $parentID = 2; // default category
+        $getCategoryList = $this->getSubCategoryByParentID($parentID);
+
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
+        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
+        //live port :8084
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
+        $username = 'clint.mercado';
+        $password = '849cd5080faff5ce';
+        $jsonData = '{}';
+
+        $this->curl->addHeader("Content-Type", "application/json");
+        $this->curl->addHeader("Accept", "application/json");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
+
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        // get method
+        $this->curl->get($url);
+
+        $result = $this->curl->getBody();
+
+        $json = $this->jsonSerializer->unserialize($result);
+
+        $count = 0;
+        foreach ($json['stockmaster']['stockcode'] as $prod)
         {
-            echo $json['response']['message'];
+            if(!isset($prod['code']))
+            {
+                exit;
+            }
+
+            $lastCode = $prod['code'];
+
+            try
+            {
+                //product update
+                $forLogs .= "SKU ".$prod['code']."\n";
+                $product = $this->productRepository->get($prod['code']);
+                //set name, price, stock status
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $product->setName($prodname);
+                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $product->setStockStatus($prod['stk-stock-status']);
+
+                //set brands
+                $brandName = strtolower($prod['stk-brand']);
+                $forLogs .= $brandName."\n";
+                if($brandName == "thinktank")
+                {
+                    $brandName = "think tank";
+                }
+                if($brandName == "peak")
+                {
+                    $brandName = "peak design";
+                }
+                if($brandName == "3lt")
+                {
+                    $brandName = "3 legged thing";
+                }
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
+
+                //set categories
+                $categoryIds = array();
+                $catList = "";
+                $productCategoryIds = $product->getCategoryIds();
+                if(count($productCategoryIds) < 2)
+                {
+                    if (count($getCategoryList))
+                    {
+                        foreach ($getCategoryList as $id => $category)
+                        {
+                            if($category['name'] == $prod['web-category1'])
+                            {
+                                $catList .= $category['name'] . " - " .$category['id'] ." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                            if(isset($prod['web-category2']))
+                            {
+                                if($category['name'] == $prod['web-category2'])
+                                {
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                            if(isset($prod['web-category3']))
+                            {
+                                if($category['name'] == $prod['web-category3'])
+                                {
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                            if(isset($prod['web-category4']))
+                            {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
+                                if($category['name'] == $prod['web-category4'])
+                                {
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+                        }
+                    }
+                    $forLogs .= $catList."\n";
+                    if (count($categoryIds)) {
+
+                        $forLogs .= "Categories: ".$catList."\n";
+                        //echo "update categories: ".$catList."<br />";
+                        //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                        $product->setCategoryIds($categoryIds);
+                    }
+                }
+
+                //set apn and gtin
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
+                if(isset($prod['gtins']['gtin'])) {
+                    //set barcode
+                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+                        $barcode1 = $prod['gtins']['gtin']['id'];
+
+                    } else {
+                        $x = 1;
+                        foreach ($prod['gtins']['gtin'] as $gtin) {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
+
+                            }
+                            $x++;
+                        }
+                    }
+                }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
+
+                if(isset($prod['warehouse']['whse']))
+                {
+                    foreach ($prod['warehouse']['whse'] as $qt)
+                    {
+                        if(is_array($qt))
+                        {
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($qt['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($qt['qty_available']);
+                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+                        else
+                        {
+                            // to handle single warehouse
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+
+
+                    }
+                }
+                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
+                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+
+                $this->productRepository->save($product);
+                //echo "update ".$lastCode ."<br/>";
+
+
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
+
+                //insert new product
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $forLogs .= "Product Name: ".$prodname."\n";
+                $forLogs .= "SKU: ".$prod['code']."\n";
+                $product = $this->productFactory->create();
+                $product->setSku($prod['code']);
+                $product->setName($prodname);
+                $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
+                $product->setVisibility(4);
+                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $product->setAttributeSetId(4);
+                //set brand
+                $brandName = strtolower($prod['stk-brand']);
+                $forLogs .= "Brand: ".$brandName."\n";
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
+
+                //set categories
+                $categoryIds = array();
+                $mainCat = 2;
+                $catList = "";
+                if (count($getCategoryList))
+                {
+                    foreach ($getCategoryList as $id => $category)
+                    {
+                        if($category['name'] == $prod['web-category1'])
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                            $mainCat = $category['id'];
+                        }
+                        if(isset($prod['web-category2']))
+                        {
+                            if($category['name'] == $prod['web-category2'])
+                            {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+                        if(isset($prod['web-category3']))
+                        {
+                            if($category['name'] == $prod['web-category3'])
+                            {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+                        if(isset($prod['web-category4']))
+                        {
+
+                            if($category['name'] == $prod['web-category4'])
+                            {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+                    }
+                }
+
+
+                if (count($categoryIds)) {
+                    $forLogs .= "Categories: ".$catList."\n";
+                    //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
+                    $product->setCategoryIds($categoryIds);
+                }
+
+                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+//                // If desired, you can set a tax class like so:
+//                //$product->setCustomAttribute('tax_class_id', $taxClassId);
+                $toUrl = $prodname;
+                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $url = strtolower($url);
+                $product->setUrlKey($url);
+
+                // set gtin and apn
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
+                if(isset($prod['gtins']['gtin'])) {
+                    //set barcode
+                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+                        $barcode1 = $prod['gtins']['gtin']['id'];
+
+                    } else {
+                        $x = 1;
+                        foreach ($prod['gtins']['gtin'] as $gtin)
+                        {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
+
+                            }
+                            $x++;
+                        }
+                    }
+                }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
+
+                if(isset($prod['warehouse']['whse']))
+                {
+
+                    foreach ($prod['warehouse']['whse'] as $qt)
+                    {
+                        if(is_array($qt))
+                        {
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($qt['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($qt['qty_available']);
+                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+                        else
+                        {
+                            // to handle single warehouse
+                            $sourceItem = $this->sourceItemFactory->create();
+                            $sourceItem->setSourceCode($prod['warehouse']['whse']['code']);
+                            $sourceItem->setSku($prod['code']);
+                            $sourceItem->setStatus(1);
+                            $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
+                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
+                            $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        }
+
+                    }
+                }
+
+                $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
+                $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                $this->productRepository->save($product);
+
+            }
+
 
         }
+        $this->logger->info($forLogs);
         return true;
     }
+
 
     public function productProntoSingle($startItem)
     {
@@ -2527,6 +2750,7 @@ class Product extends AbstractHelper
 
         $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
+        $forLogs = "";
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         $parentID = 2;
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
@@ -2565,39 +2789,57 @@ class Product extends AbstractHelper
             }
 
             $lastCode = $prod['code'];
-            echo " SKU ".$prod['code']."<br>";
-            $this->logger->info(" SKU ".$prod['code']);
+
             try {
 
+                $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $brandName = strtolower($prod['stk-brand']);
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $product->setStockStatus($prod['stk-stock-status']);
 
+                //set brands
+                $brandName = strtolower($prod['stk-brand']);
+                $forLogs .= $brandName."\n";
+                if($brandName == "thinktank")
+                {
+                    $brandName = "think tank";
+                }
+                if($brandName == "peak")
+                {
+                    $brandName = "peak design";
+                }
+                if($brandName == "3lt")
+                {
+                    $brandName = "3 legged thing";
+                }
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
                     $product->setBrand($brandCode);
                 }
 
+                //set categories
+                $categoryIds = array();
+                $catList = "";
                 $productCategoryIds = $product->getCategoryIds();
                 if(count($productCategoryIds) < 2)
                 {
-
-                    $catList = "";
-                    $categoryIds = array();
-                    if (count($getCategoryList)) {
+                    if (count($getCategoryList))
+                    {
                         foreach ($getCategoryList as $id => $category)
                         {
                             if($category['name'] == $prod['web-category1'])
                             {
-                                $catList .= $category['name'] . " - " .$category['id'] ." / ";
+                                $catList .= $category['name'] . " - " .$category['id'] ." : ";
                                 $categoryIds[] = $category['id'];
                             }
                             if(isset($prod['web-category2']))
                             {
                                 if($category['name'] == $prod['web-category2'])
                                 {
-                                    $catList .=$category['name'] . " - " .$category['id']." / ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
                                     $categoryIds[] = $category['id'];
                                 }
                             }
@@ -2605,12 +2847,13 @@ class Product extends AbstractHelper
                             {
                                 if($category['name'] == $prod['web-category3'])
                                 {
-                                    $catList .=$category['name'] . " - " .$category['id']." / ";
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
                                     $categoryIds[] = $category['id'];
                                 }
                             }
                             if(isset($prod['web-category4']))
                             {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
                                 if($category['name'] == $prod['web-category4'])
                                 {
                                     $categoryIds[] = $category['id'];
@@ -2618,31 +2861,59 @@ class Product extends AbstractHelper
                             }
                         }
                     }
-
+                    $forLogs .= $catList."\n";
                     if (count($categoryIds)) {
-                        echo "update categories: ".$catList."<br />";
+
+                        $forLogs .= "Categories: ".$catList."\n";
+                        //echo "update categories: ".$catList."<br />";
                         //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                         $product->setCategoryIds($categoryIds);
                     }
                 }
 
-                if(isset($prod['gtins']['gtin']))
-                {
+                //set apn and gtin
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
+                if(isset($prod['gtins']['gtin'])) {
                     //set barcode
-                    if(count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE))
-                    {
-                        $product->setCustomAttribute('barcode1', $prod['gtins']['gtin']['id']);
-                    }
-                    else
-                    {
-                        $x =1;
+                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+                        $barcode1 = $prod['gtins']['gtin']['id'];
+
+                    } else {
+                        $x = 1;
                         foreach ($prod['gtins']['gtin'] as $gtin) {
-                            $att = 'barcode'.$x;
-                            $product->setCustomAttribute($att, $gtin['id']);
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
+
+                            }
                             $x++;
                         }
                     }
                 }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -2655,8 +2926,7 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
-                            echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
-                            $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
                         else
@@ -2667,10 +2937,11 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
-                            $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
+                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
+
+
                     }
                 }
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
@@ -2678,13 +2949,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
                 $this->productRepository->save($product);
-                echo "update ".$lastCode ."<br/>";
+                //echo "update ".$lastCode ."<br/>";
+
 
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e){
-                // insert your error handling here
 
+                //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                echo $prodname . "<br>";
+                $forLogs .= "Product Name: ".$prodname."\n";
+                $forLogs .= "SKU: ".$prod['code']."\n";
                 $product = $this->productFactory->create();
                 $product->setSku($prod['code']);
                 $product->setName($prodname);
@@ -2692,16 +2965,26 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
-                $mainCat = 2;
+                //set brand
+                $brandName = strtolower($prod['stk-brand']);
+                $forLogs .= "Brand: ".$brandName."\n";
+                if(isset($this->attributeOptions[strtolower($brandName)]))
+                {
+                    $brandCode = $this->attributeOptions[strtolower($brandName)];
+                    $product->setBrand($brandCode);
+                }
+
+                //set categories
                 $categoryIds = array();
+                $mainCat = 2;
+                $catList = "";
                 if (count($getCategoryList))
                 {
-                    $catList = "";
                     foreach ($getCategoryList as $id => $category)
                     {
                         if($category['name'] == $prod['web-category1'])
                         {
-                            $catList .= $category['name'] . " - " .$category['id']." / ";
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];
                             $mainCat = $category['id'];
                         }
@@ -2709,7 +2992,7 @@ class Product extends AbstractHelper
                         {
                             if($category['name'] == $prod['web-category2'])
                             {
-                                $catList .=$category['name'] . " - " .$category['id']." / ";
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
                         }
@@ -2717,7 +3000,7 @@ class Product extends AbstractHelper
                         {
                             if($category['name'] == $prod['web-category3'])
                             {
-                                $catList .=$category['name'] . " - " .$category['id']." / ";
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
                         }
@@ -2726,25 +3009,18 @@ class Product extends AbstractHelper
 
                             if($category['name'] == $prod['web-category4'])
                             {
+                                $catList .=$category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
                         }
                     }
                 }
-                var_dump($categoryIds);
+
+
                 if (count($categoryIds)) {
-                    echo "insert categories: ".$catList."<br />";
+                    $forLogs .= "Categories: ".$catList."\n";
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                     $product->setCategoryIds($categoryIds);
-
-                }
-
-                $brandName = strtolower($prod['stk-brand']);
-
-                if(isset($this->attributeOptions[strtolower($brandName)]))
-                {
-                    $brandCode = $this->attributeOptions[strtolower($brandName)];
-                    $product->setBrand($brandCode);
                 }
 
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -2755,6 +3031,51 @@ class Product extends AbstractHelper
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
+                // set gtin and apn
+                $barcode1 = "";
+                $barcode2 = "";
+                $barcode3 = "";
+                $barcode4 = "";
+                if(isset($prod['gtins']['gtin'])) {
+                    //set barcode
+                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+                        $barcode1 = $prod['gtins']['gtin']['id'];
+
+                    } else {
+                        $x = 1;
+                        foreach ($prod['gtins']['gtin'] as $gtin)
+                        {
+                            switch ($x)
+                            {
+                                case 1:
+                                    $barcode1 = $gtin['id'];
+                                    break;
+                                case 2:
+                                    $barcode2 = $gtin['id'];
+                                    break;
+                                case 3:
+                                    $barcode3 = $gtin['id'];
+                                    break;
+                                case 4:
+                                    $barcode4 = $gtin['id'];
+                                    break;
+                                default:
+
+                            }
+                            $x++;
+                        }
+                    }
+                }
+                //work around to set
+                $product->setCustomAttribute('barcode1',$barcode1);
+                $product->setCustomAttribute('barcode2',$barcode2);
+                $product->setCustomAttribute('barcode3',$barcode3);
+                $product->setCustomAttribute('barcode4',$barcode4);
+                $forLogs .= "barcode1 ".$barcode1."\n";
+                $forLogs .= "barcode2 ".$barcode2."\n";
+                $forLogs .= "barcode3 ".$barcode3."\n";
+                $forLogs .= "barcode4 ".$barcode4."\n";
+
                 if(isset($prod['warehouse']['whse']))
                 {
 
@@ -2767,8 +3088,7 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($qt['qty_available']);
-                            echo $prod['code']." - ".$qt['code']." - ".$qt['qty_available']."<br>";
-                            $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                            $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
                         else
@@ -2779,11 +3099,9 @@ class Product extends AbstractHelper
                             $sourceItem->setSku($prod['code']);
                             $sourceItem->setStatus(1);
                             $sourceItem->setQuantity($prod['warehouse']['whse']['qty_available']);
-                            echo $prod['code']." - ".$prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."<br>";
-                            $this->logger->info($prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']);
+                            $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
-
 
                     }
                 }
@@ -2791,19 +3109,12 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                //$this->productRepository->save($product);
-                echo "insert ".$lastCode ."<br/>";
+                $this->productRepository->save($product);
 
             }
         }
-
-
-        if(isset($json['response']['status']) && $json['response']['status'] == 'FAIL')
-        {
-            echo $json['response']['message'];
-
-        }
-        exit;
+        $this->logger->info($forLogs);
+        return true;
     }
 
     public function getSourceItemBySku($sku)
