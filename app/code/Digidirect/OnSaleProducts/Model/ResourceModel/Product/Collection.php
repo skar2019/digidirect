@@ -28,41 +28,38 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        $catalogRuleCollection->getSelect()->orderRand();
        $catalogRuleCollection->addIsActiveFilter(1); //filter for active rules only
        $catalogRuleCollection->setCurPage(1);
+       $catalogRuleCollection->setOrder('created_in', 'DESC');
        $limit = 0;
 
        foreach ($catalogRuleCollection as $catalogRule) {
            $ctr = 0;
-           $productIdsAccToRule = $catalogRule->getMatchingProductIds();
+           $product_collection = $catalogRule->getListProductIdsInRule();
 
-           if ($limit == 30) {
+           if ($limit == 15) {
                break;
            }
 
-           foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
-               
-               if ($ctr == 5) {
-                   $ctr = 0;
-                   break;
-               }
-               
-               if (!empty($ruleProductArray[$websiteId])) {
-                   if (array_key_exists($productId, $productIdsAccToRule)) {
-                       $discount_amount = $catalogRule->getData('discount_amount');
+           foreach ($product_collection as $key => $product_id) {
+                if ($ctr == 5) {
+                    $ctr = 0;
+                    break;
+                }
 
-                       if ($limit == 30) {
-                           break;
-                       }
-
-                       $resultProductIds[$productId] = $productId;
-                       $limit++;
-                   }
-               }
-               $ctr++;
+                if ($limit == 15) {
+                    break;
+                }
+                
+                if(!in_array($product_id, $resultProductIds)){
+                    $resultProductIds[$product_id] = $product_id;
+                    $limit++;
+                    $ctr++;
+                }
            }
        }
 
-
-       $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
-       return $this;
+       if(!empty($resultProductIds)){
+           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+           return $this;
+       }
   }
 }
