@@ -63,8 +63,7 @@ class OnSaleProducts extends \Magento\Catalog\Block\Product\AbstractProduct impl
 
         // get the current store id
         $storeId = (int)$this->_storeManager->getStore()->getId();
-        $collection = $collection->getOnSaleProduct($storeId)->setPageSize(15)->setCurPage(1);
-        return $collection;
+        return $collection->getOnSaleProduct($storeId);
     }
 
     /**

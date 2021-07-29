@@ -33,25 +33,25 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 
        foreach ($catalogRuleCollection as $catalogRule) {
            $ctr = 0;
-           $productIdsAccToRule = $catalogRule->getListProductIdsInRule();
+           $product_collection = $catalogRule->getListProductIdsInRule();
 
-           if ($limit == 30) {
+           if ($limit == 15) {
                break;
            }
 
-           foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
-//               if ($ctr == 5) {
-//                   $ctr = 0;
-//                   break;
-//               }
+           foreach ($product_collection as $key => $product_id) {
+               if ($ctr == 5) {
+                   $ctr = 0;
+                   break;
+               }
 
                if (!empty($ruleProductArray[$websiteId])) {
-//                   if (array_key_exists($ruleProductArray, $productIdsAccToRule)) {
-                       if ($limit == 30) {
+//                   if (array_key_exists($product_id, $productIdsAccToRule)) {
+                       if ($limit == 15) {
                            break;
                        }
 
-                       $resultProductIds[$ruleProductArray] = $ruleProductArray;
+                       $resultProductIds[$product_id] = $product_id;
                        $limit++;
 //                   }
                }
@@ -59,8 +59,9 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
            }
        }
 
-
-       $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
-       return $this;
+       if(!empty($resultProductIds)){
+           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+           return $this;
+       }
   }
 }
