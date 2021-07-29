@@ -28,34 +28,41 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        $catalogRuleCollection->getSelect()->orderRand();
        $catalogRuleCollection->addIsActiveFilter(1); //filter for active rules only
        $catalogRuleCollection->setCurPage(1);
-       $catalogRuleCollection->setOrder('created_in', 'DESC');
        $limit = 0;
 
        foreach ($catalogRuleCollection as $catalogRule) {
            $ctr = 0;
-           $product_collection = $catalogRule->getListProductIdsInRule();
+           $productIdsAccToRule = $catalogRule->getMatchingProductIds();
 
            if ($limit == 30) {
                break;
            }
 
-           foreach ($product_collection as $key => $product_id) {
+           foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
+               
+               if ($ctr == 5) {
+                   $ctr = 0;
+                   break;
+               }
+               
+               if (!empty($ruleProductArray[$websiteId])) {
+                   if (array_key_exists($productId, $productIdsAccToRule)) {
+                       $discount_amount = $catalogRule->getData('discount_amount');
 
-                if ($limit == 30) {
-                    break;
-                }
+                       if ($limit == 30) {
+                           break;
+                       }
 
-                if(!in_array($product_id, $resultProductIds)){
-                    $resultProductIds[$product_id] = $product_id;
-                    $limit++;
-                    $ctr++;
-                }
+                       $resultProductIds[$productId] = $productId;
+                       $limit++;
+                   }
+               }
+               $ctr++;
            }
        }
 
-       if(!empty($resultProductIds)){
-           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(30);
-           return $this;
-       }
+
+       $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+       return $this;
   }
 }
