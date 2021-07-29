@@ -40,22 +40,20 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
            }
 
            foreach ($product_collection as $key => $product_id) {
-               if ($ctr == 5) {
-                   $ctr = 0;
-                   break;
-               }
+                if ($ctr == 5) {
+                    $ctr = 0;
+                    break;
+                }
 
-               if (!empty($ruleProductArray[$websiteId])) {
-//                   if (array_key_exists($product_id, $productIdsAccToRule)) {
-                       if ($limit == 15) {
-                           break;
-                       }
-
-                       $resultProductIds[$product_id] = $product_id;
-                       $limit++;
-//                   }
-               }
-               $ctr++;
+                if ($limit == 15) {
+                    break;
+                }
+                
+                if(!in_array($product_id, $resultProductIds)){
+                    $resultProductIds[$product_id] = $product_id;
+                    $limit++;
+                    $ctr++;
+                }
            }
        }
 
