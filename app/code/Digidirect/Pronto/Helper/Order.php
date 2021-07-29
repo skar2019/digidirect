@@ -1197,7 +1197,7 @@ class Order extends AbstractHelper
 
     public function getTestOrderCollectionByDay()
     {
-        $date = '2021-07-27';
+        $date = '2021-07-28';
         $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
         $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
         $collection = $this->_orderCollectionFactory->create()
