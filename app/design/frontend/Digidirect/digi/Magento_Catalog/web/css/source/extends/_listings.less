@@ -97,6 +97,22 @@
         line-height: 20px;
     }
     
+    .product-item{
+        .product-item-name a, 
+        .product.name a {
+            width: 100%;
+            overflow:hidden;
+            line-height: 2rem;
+            max-height: 4rem;
+            -webkit-box-orient: vertical;
+            display: block;
+            display: -webkit-box;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+        }
+    }
+    
     .page-products {
         & {
             .lib-css(background, @color-3-4);

@@ -25,48 +25,51 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
                '\Magento\CatalogRule\Model\RuleFactory'
        );
 
-       $websiteId = $storeManager->getStore()->getWebsiteId(); //current Website Id
+//       $websiteId = $storeManager->getStore()->getWebsiteId(); //current Website Id
 
        $resultProductIds = [];
        $catalogRuleCollection = $catalogRule->create()->getCollection();//setOrder('created_in', 'DESC');
        $catalogRuleCollection->getSelect()->orderRand();
        $catalogRuleCollection->addIsActiveFilter(1); //filter for active rules only
        $catalogRuleCollection->setCurPage(1);
+       $catalogRuleCollection->setPageSize(6);
+
        $limit = 0;
+       $productKey = 0;
 
        foreach ($catalogRuleCollection as $catalogRule) {
-           $ctr = 0;
-           $productIdsAccToRule = $catalogRule->getMatchingProductIds();
-
-           if ($limit == 30) {
+           if ($limit == 15) {
                break;
            }
 
-           foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
+           $productIdsAccToRule = $catalogRule->getMatchingProductIds();
 
-               if ($ctr == 5) {
-                   $ctr = 0;
+//           if(count($productIdsAccToRule) >= 5){
+//               $availableProducts = array_rand($productIdsAccToRule,5);
+//           }
+//           else{
+//               $availableProducts = $productIdsAccToRule;
+//           }
+
+           foreach ($productIdsAccToRule as $productId => $productRule) {
+               if ($limit == 15) {
                    break;
                }
 
-               if (!empty($ruleProductArray[$websiteId])) {
-                   if (array_key_exists($productId, $productIdsAccToRule)) {
-                       $discount_amount = $catalogRule->getData('discount_amount');
-
-                       if ($limit == 30) {
-                           break;
-                       }
-
-                       $resultProductIds[$productId] = $productId;
-                       $limit++;
-                   }
+               if (!in_array($productId, $resultProductIds)) {
+                   $resultProductIds[$productKey] = $productId;
+                   $limit++;
+                   $productKey++;
                }
-               $ctr++;
            }
        }
 
-
-       $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
-       return $this;
+       if(!empty($resultProductIds)){
+           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+           return $this;
+       }
+       else{
+           return false;
+       }
   }
 }

@@ -58,18 +58,12 @@ class OnSaleProducts extends \Magento\Catalog\Block\Product\AbstractProduct impl
             // Add all the product attributes to select
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('visibility', ['in' => $this->catalogProductVisibility->getVisibleInCatalogIds()])
-            // Filtering the products, only get the products have the status allowed
-            ->addAttributeToFilter('status', ['in' => $this->catalogProductStatus->getVisibleStatusIds()]);
-
-        $qty = (int)$this->getQty();
-        // set the default Qty if the qty doesn't exist
-        if (!$qty) {
-            $qty = 25;
-        }
+            ->addAttributeToFilter('status', ['in' => $this->catalogProductStatus->getVisibleStatusIds()])
+            ->setPageSize(15);
 
         // get the current store id
         $storeId = (int)$this->_storeManager->getStore()->getId();
-        $collection = $collection->getOnSaleProduct($storeId)->setPageSize($qty)->setCurPage(1);
+        $collection = $collection->getOnSaleProduct($storeId);
 
         return $collection;
     }
