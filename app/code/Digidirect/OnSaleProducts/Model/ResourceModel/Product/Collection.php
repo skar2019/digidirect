@@ -33,7 +33,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 
        foreach ($catalogRuleCollection as $catalogRule) {
            $ctr = 0;
-           $product_collection = $catalogRule->getListProductIdsInRule();
+           $product_collection = $catalogRule->getMatchingProductIds();
 
            if ($limit == 30) {
                break;
