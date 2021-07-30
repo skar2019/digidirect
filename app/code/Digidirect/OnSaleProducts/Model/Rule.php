@@ -4,7 +4,7 @@ namespace Digidirect\OnSaleProducts\Model;
 
 class Rule extends \Magento\CatalogRule\Model\Rule {
 
-    protected $_productIds;
+    protected $_ruleProductIds;
 /**
      * Get array of product ids which are matched by rule
      *
@@ -16,7 +16,7 @@ class Rule extends \Magento\CatalogRule\Model\Rule {
 
         $productFactory = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Catalog\Model\ProductFactory');
 
-        $this->_productIds = [];
+        $this->_ruleProductIds = [];
         $this->setCollectedAttributes([]);
 
         $this->getConditions()->collectValidatedAttributes($productCollection);
@@ -24,14 +24,14 @@ class Rule extends \Magento\CatalogRule\Model\Rule {
         \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Framework\Model\ResourceModel\Iterator')->walk(
             $productCollection->getSelect()->limit(50),
         [
-            [$this, 'callbackValidateProduct']
+            [$this, 'callbackValidateRuleProduct']
         ],
         [
             'attributes' => $this->getCollectedAttributes(),
             'product' => $productFactory->create()
         ]);
 
-        return $this->_productIds;
+        return $this->_ruleProductIds;
     }
 
     /**
@@ -40,14 +40,14 @@ class Rule extends \Magento\CatalogRule\Model\Rule {
      * @param array $args
      * @return void
      */
-    public function callbackValidateProduct($args) {
+    public function callbackValidateRuleProduct($args) {
         $product = clone $args['product'];
         $product->setData($args['row']);
-        $websites = $this->_getWebsitesMap();
+        $websites = $this->_getRuleWebsitesMap();
         foreach ($websites as $websiteId => $defaultStoreId) {
             $product->setStoreId($defaultStoreId);
             if ($this->getConditions()->validate($product)) {
-                 $this->_productIds[] = $product->getId();
+                 $this->_ruleProductIds[] = $product->getId();
             }
         }
     }
@@ -57,7 +57,7 @@ class Rule extends \Magento\CatalogRule\Model\Rule {
      *
      * @return array
      */
-    protected function _getWebsitesMap() {
+    protected function _getRuleWebsitesMap() {
         $map = [];
         $websites = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Store\Model\StoreManagerInterface')->getWebsites();
 
