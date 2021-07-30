@@ -25,7 +25,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
                '\Magento\CatalogRule\Model\RuleFactory'
        );
 
-       $websiteId = $storeManager->getStore()->getWebsiteId(); //current Website Id
+//       $websiteId = $storeManager->getStore()->getWebsiteId(); //current Website Id
 
        $resultProductIds = [];
        $catalogRuleCollection = $catalogRule->create()->getCollection();//setOrder('created_in', 'DESC');
