@@ -44,14 +44,14 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 
            $productIdsAccToRule = $catalogRule->getMatchingProductIds();
 
-           if(count($productIdsAccToRule) >= 5){
-               $availableProducts = array_rand($productIdsAccToRule,5);
-           }
-           else{
-               $availableProducts = $productIdsAccToRule;
-           }
+//           if(count($productIdsAccToRule) >= 5){
+//               $availableProducts = array_rand($productIdsAccToRule,5);
+//           }
+//           else{
+//               $availableProducts = $productIdsAccToRule;
+//           }
 
-           foreach ($availableProducts as $key => $productId) {
+           foreach ($productIdsAccToRule as $productId => $productRule) {
                if ($limit == 15) {
                    break;
                }
