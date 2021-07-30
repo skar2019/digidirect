@@ -35,20 +35,16 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
            $ctr = 0;
            $product_collection = $catalogRule->getListProductIdsInRule();
 
-           if ($limit == 15) {
+           if ($limit == 30) {
                break;
            }
 
            foreach ($product_collection as $key => $product_id) {
-                if ($ctr == 5) {
-                    $ctr = 0;
+
+                if ($limit == 30) {
                     break;
                 }
 
-                if ($limit == 15) {
-                    break;
-                }
-                
                 if(!in_array($product_id, $resultProductIds)){
                     $resultProductIds[$product_id] = $product_id;
                     $limit++;
@@ -58,7 +54,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        }
 
        if(!empty($resultProductIds)){
-           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(30);
            return $this;
        }
   }
