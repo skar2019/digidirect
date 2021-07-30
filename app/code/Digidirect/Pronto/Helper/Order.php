@@ -855,6 +855,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['reference'] = $entityId;
             $data['sales-order']['header']['on-hold-reason-code'] = "01";
             $data['sales-order']['header']['set-on-status'] = "H";
+            $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
             $grandTotal = (double) $order->getBaseGrandTotal();
@@ -1176,6 +1177,7 @@ class Order extends AbstractHelper
                     $order->setData('pronto_status_code',$prontostatus);
                     $order->save();
 
+
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
 
                     $account = $json['sales-orders']['sales-order']['account'];
@@ -1184,6 +1186,7 @@ class Order extends AbstractHelper
                         $customer->setData('pronto_account_id', $account);
                         $customer->setCustomAttribute('pronto_account_id', $account);
                         $this->customerRepository->save($customer);
+
                     }
                     /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                     $invoice = $order->getInvoiceCollection()->getFirstItem();
