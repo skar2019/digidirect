@@ -35,6 +35,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        $catalogRuleCollection->setPageSize(6);
 
        $limit = 0;
+       $productKey = 0;
 
        foreach ($catalogRuleCollection as $catalogRule) {
            if ($limit == 15) {
@@ -43,17 +44,22 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 
            $productIdsAccToRule = $catalogRule->getMatchingProductIds();
 
-           foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
+           if(count($productIdsAccToRule) >= 5){
+               $availableProducts = array_rand($productIdsAccToRule,5);
+           }
+           else{
+               $availableProducts = $productIdsAccToRule;
+           }
+
+           foreach ($availableProducts as $key => $productId) {
                if ($limit == 15) {
                    break;
                }
 
-               if (!empty($ruleProductArray[$websiteId])) {
-                   if (array_key_exists($productId, $productIdsAccToRule)) {
-
-                       $resultProductIds[$productId] = $productId;
-                       $limit++;
-                   }
+               if (!in_array($productId, $resultProductIds)) {
+                   $resultProductIds[$productKey] = $productId;
+                   $limit++;
+                   $productKey++;
                }
            }
        }
