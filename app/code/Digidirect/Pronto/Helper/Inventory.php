@@ -55,7 +55,7 @@ class Inventory extends AbstractHelper
 
         $lastCode = 0;
 
-        date_default_timezone_set("Australia/Sydney");
+        date_default_timezone_set('UTC');
         $newTime = strtotime('-20 minutes');
         $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
         //$prontofilter = '05072021000000';
@@ -235,13 +235,15 @@ class Inventory extends AbstractHelper
         }
 
         $lastCode = 0;
-        date_default_timezone_set("Australia/Sydney");
+        //date_default_timezone_set("Australia/Sydney");
+        //echo date('Y-m-d H:i:s T', time()) . "<br>\n";
+        date_default_timezone_set('UTC');
+        //echo date('Y-m-d H:i:s T', time()) . "<br>\n";
         $newTime = strtotime('-20 minutes');
         $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
         echo $prontofilter;
         //$prontofilter = '05072021000000';
         // testing
-
         //url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
         //live - port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
