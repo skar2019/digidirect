@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-
-<config xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <preference type="Digidirect\OnSaleProducts\Model\Rule" for="Magento\CatalogRule\Model\Rule"/>
-</config>
