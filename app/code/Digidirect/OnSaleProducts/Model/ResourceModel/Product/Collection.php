@@ -12,9 +12,13 @@
 
 namespace Digidirect\OnSaleProducts\Model\ResourceModel\Product;
 
-class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection{
-  public function getOnSaleProduct(){
-   $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
+class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+{
+
+  public function getOnSaleProduct()
+  {
+      ini_set('max_execution_time', 300);
+        $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
                '\Magento\Store\Model\StoreManagerInterface'
        );
        $catalogRule = \Magento\Framework\App\ObjectManager::getInstance()->create(
@@ -39,12 +43,12 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
            }
 
            foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
-               
+
                if ($ctr == 5) {
                    $ctr = 0;
                    break;
                }
-               
+
                if (!empty($ruleProductArray[$websiteId])) {
                    if (array_key_exists($productId, $productIdsAccToRule)) {
                        $discount_amount = $catalogRule->getData('discount_amount');
