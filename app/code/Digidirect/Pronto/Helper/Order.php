@@ -920,14 +920,12 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
-
             $paymentInstance = $order->getPayment();
 
             //payment details
 
-            $methodInst = $paymentInstance->getMethodInstance();
+            //$methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-
 
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
@@ -935,10 +933,21 @@ class Order extends AbstractHelper
             {
                 $cc = $paymentInstance->getCcType();
             }
+
             $payment_reference = $paymentInstance->getLastTransId();
 
             if (empty($payment_reference) && ($method == 'm2epropayment')) {
                 $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+            }
+            //work around for new and old catch
+            if($payment_type == 'H')
+            {
+                if (strpos($orderId, 'CATCH') !== false) {
+                    $payment_type ="CA";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("CATCH","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             if(($is_am_order) && ($payment_type == "EB")){
