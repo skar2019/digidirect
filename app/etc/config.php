@@ -569,7 +569,7 @@ return [
         'Digidirect_ShippingAvailabilityCheckCollect' => 1,
         'Digidirect_SingleCheckoutButton' => 1,
         'Digidirect_SocialSharing' => 1,
-        'Digidirect_StoreLocator' => 0,
+        'Digidirect_StoreLocator' => 1,
         'Digidirect_CollectStoreLocator' => 1,
         'Digidirect_StoreLocatorInfiniteScroll' => 1,
         'Digidirect_AbstractGiftCardLogger' => 1,
