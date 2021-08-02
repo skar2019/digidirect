@@ -141,7 +141,6 @@ class Inventory extends AbstractHelper
                             }
                         }
                     }
-                    echo $lastCode."<br>";
                 } catch (Exception $ex) {
                     $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
                     //continue;
@@ -201,10 +200,10 @@ class Inventory extends AbstractHelper
                             }
                         }
                     }
-                    echo $lastCode."<br>";
+                    //echo $lastCode."<br>";
                 } catch (Exception $ex) {
                     $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
-                    echo "catch ".$lastCode."<br>";
+                    //echo "catch ".$lastCode."<br>";
                     //continue;
                 }
 
@@ -212,10 +211,9 @@ class Inventory extends AbstractHelper
             }
         }
 
-        exit;
         if($startitem == $lastCode)
         {
-            exit;
+            return true;
         }
 
         $this->enquireInventory($lastCode);
