@@ -18,5 +18,6 @@ class Test extends \Magento\Framework\App\Action\Action
 	public function execute()
 	{
         $this->helper->enquireInventoryTest();
+        //comment to redeploy
     }
 }
