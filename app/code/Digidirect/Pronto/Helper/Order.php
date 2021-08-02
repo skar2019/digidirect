@@ -209,6 +209,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['reference'] = $entityId;
             $data['sales-order']['header']['on-hold-reason-code'] = "01";
             $data['sales-order']['header']['set-on-status'] = "H";
+            $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
             $grandTotal = (double) $order->getBaseGrandTotal();
@@ -274,14 +275,12 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
-
             $paymentInstance = $order->getPayment();
 
             //payment details
 
-            $methodInst = $paymentInstance->getMethodInstance();
+            //$methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-
 
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
@@ -289,10 +288,21 @@ class Order extends AbstractHelper
             {
                 $cc = $paymentInstance->getCcType();
             }
+
             $payment_reference = $paymentInstance->getLastTransId();
 
             if (empty($payment_reference) && ($method == 'm2epropayment')) {
                 $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+            }
+            //work around for new and old catch
+            if($payment_type == 'H')
+            {
+                if (strpos($orderId, 'CATCH') !== false) {
+                    $payment_type ="CA";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("CATCH","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             if(($is_am_order) && ($payment_type == "EB")){
@@ -353,7 +363,6 @@ class Order extends AbstractHelper
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
-
 
                 $skus = array();
                 $productSku = "";
@@ -477,7 +486,7 @@ class Order extends AbstractHelper
             $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
-            $islive = false;
+            $islive = true;
             if($islive)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
@@ -493,7 +502,6 @@ class Order extends AbstractHelper
                 $this->curl->post($url, $xml);
 
                 $result = $this->curl->getBody();
-
 
                 $json = $this->jsonSerializer->unserialize($result);
 
@@ -523,6 +531,7 @@ class Order extends AbstractHelper
                     $order->setData('pronto_status_code',$prontostatus);
                     $order->save();
 
+
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
 
                     $account = $json['sales-orders']['sales-order']['account'];
@@ -531,6 +540,7 @@ class Order extends AbstractHelper
                         $customer->setData('pronto_account_id', $account);
                         $customer->setCustomAttribute('pronto_account_id', $account);
                         $this->customerRepository->save($customer);
+
                     }
                     /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                     $invoice = $order->getInvoiceCollection()->getFirstItem();
@@ -539,8 +549,13 @@ class Order extends AbstractHelper
                 }
             }
 
+            if($counter >= 2)
+            {
+                return true; //return after 2 orders
+            }
+
         }
-        exit;
+        return true;
     }
 
     public function getOrderCollection()
@@ -1207,7 +1222,7 @@ class Order extends AbstractHelper
 
     public function getTestOrderCollectionByDay()
     {
-        $date = '2021-07-31';
+        $date = '2021-08-01';
         $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
         $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
         $collection = $this->_orderCollectionFactory->create()
