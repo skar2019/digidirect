@@ -549,7 +549,7 @@ class Order extends AbstractHelper
                 }
             }
 
-            if($counter >= 2)
+            if($counter >= 3)
             {
                 return true; //return after 2 orders
             }
@@ -1210,7 +1210,7 @@ class Order extends AbstractHelper
                 }
             }
 
-            if($counter >= 2)
+            if($counter >= 3)
             {
                 return true; //return after 2 orders
             }
