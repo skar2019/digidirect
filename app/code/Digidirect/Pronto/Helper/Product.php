@@ -2776,49 +2776,6 @@ class Product extends AbstractHelper
                     }
                 }
 
-                //set apn and gtin
-                $barcode1 = "";
-                $barcode2 = "";
-                $barcode3 = "";
-                $barcode4 = "";
-                if(isset($prod['gtins']['gtin'])) {
-                    //set barcode
-                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
-                        $barcode1 = $prod['gtins']['gtin']['id'];
-
-                    } else {
-                        $x = 1;
-                        foreach ($prod['gtins']['gtin'] as $gtin) {
-                            switch ($x)
-                            {
-                                case 1:
-                                    $barcode1 = $gtin['id'];
-                                    break;
-                                case 2:
-                                    $barcode2 = $gtin['id'];
-                                    break;
-                                case 3:
-                                    $barcode3 = $gtin['id'];
-                                    break;
-                                case 4:
-                                    $barcode4 = $gtin['id'];
-                                    break;
-                                default:
-
-                            }
-                            $x++;
-                        }
-                    }
-                }
-                //work around to set
-                $product->setCustomAttribute('barcode1',$barcode1);
-                $product->setCustomAttribute('barcode2',$barcode2);
-                $product->setCustomAttribute('barcode3',$barcode3);
-                $product->setCustomAttribute('barcode4',$barcode4);
-                $forLogs .= "barcode1 ".$barcode1."\n";
-                $forLogs .= "barcode2 ".$barcode2."\n";
-                $forLogs .= "barcode3 ".$barcode3."\n";
-                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
