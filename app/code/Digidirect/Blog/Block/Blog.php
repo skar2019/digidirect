@@ -246,7 +246,7 @@ class Blog extends Template
         $currentUrl = strtok($initialUrl, "?");
 
         if($total_pages > 1){
-            for ($x = 1; $x <= $per_page; $x++) {
+            for ($x = 1; $x <= $total_pages; $x++) {
                 $current_item = "";
                 $page_number = "<a href='".$currentUrl."?p=".$x."'>".$x."</a>";
 
