@@ -137,12 +137,6 @@ if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
                                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
                                         <span>Earn <?= $points ?> Qantas Points</span>
                                     </div>
-
-                                    <?php echo $this->getLayout()
-                                        ->createBlock('Magento\Cms\Block\Block')
-                                        ->setBlockId('product-tile-rent')
-                                        ->toHtml();
-                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -153,16 +147,27 @@ if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
     </div>
 <?php endif;?>
 
+<?php if (!$block->isRedirectToCartEnabled()) : ?>
+    <script type="text/x-magento-init">
+    {
+        "[data-role=tocart-form], .form.map.checkout": {
+            "catalogAddToCart": {
+                "bindSubmit": true
+             }
+        }
+    }
+    </script>
+<?php endif; ?>
+
 <script>
     require(['jquery', 'owl_carousel'],
         function ($) {
             $(document).ready(function() {
-                $('#related-product-carousel').owlCarousel({
-                    loop:false,
-                    nav:true,
-                    navText:["<div class='nav-btn prev-slide'></div>","<div class='nav-btn next-slide'></div>"],
-                    responsive:{
-                        0:{
+               $('.product-carousel').owlCarousel({
+                    loop: true,
+                    nav: true,
+                    responsive: {
+                        0: {
                             items:2,
                             margin: 15,
                             nav:true,
@@ -170,24 +175,45 @@ if ($exist = $block->getItems()->getSize() && $block->displayProducts()) {
                             autoplay: true,
                             autoplayTimeout:3000
                         },
-                        600:{
-                            items:3,
-                            nav:false
-                        },
-                        1000:{
-                            items:4,
+                        600: {
+                            items: 3,
                             margin: 15,
-                            loop:false
+                            nav:true,
+                            loop:true,
+                            autoplay: false
                         },
-                        1680:{
-                            items:4,
+                        992: {
+                            items: 3,
                             margin: 15,
-                            loop:false
+                            nav:true,
+                            loop:true,
+                            autoplay: false
+                        },
+                        1024: {
+                            items: 4,
+                            margin: 15,
+                            nav:true,
+                            loop:true,
+                            autoplay: false
+                        },
+                        1440: {
+                            items: 4,
+                            margin: 15,
+                            nav:true,
+                            loop:true,
+                            autoplay: false
+                        },
+                        1680: {
+                            items: 4,
+                            margin: 15,
+                            nav:true,
+                            loop:true,
+                            autoplay: false
                         }
                     },
-                    dots:false,
-                    autoplay:false,
-                    autoplayTimeout:3000
+                    dots: false,
+                    autoplay: false,
+                    autoplayTimeout: 3000
                 })
             });
         }
