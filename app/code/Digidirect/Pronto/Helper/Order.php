@@ -561,15 +561,12 @@ class Order extends AbstractHelper
 
     public function getOrderCollection()
     {
-        $now = new \DateTime();
-        $fromDate = date('Y-m-d h:i:s',strtotime("-2 days"));
-        $toDate = $now->format('Y-m-d h:i:s');
+
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
             ->addFieldToFilter('status',array('neq' => 'canceled'))
-            ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-            ->addFieldToFilter('created_at', array('lteq' => $toDate))
+            ->addFieldToFilter('entity_id', array('gteq' => 615813))
             ->setOrder('created_at', 'asc');
 
      return $collection;
