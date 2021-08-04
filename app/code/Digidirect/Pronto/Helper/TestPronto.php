@@ -517,11 +517,13 @@ class TestPronto extends AbstractHelper
                     //$whse = $this->repCodeForPickUp[$collectPlaceId];
                 }
             } elseif ($order->getShippingAddress()) {
-                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
-                $skus = $this->getProductsSkus($order);
-                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse]) && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
-                    $whse = $this->relocateWarehouseMap[$whse];
-                }
+//                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
+//                $skus = $this->getProductsSkus($order);
+//                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse]) && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
+//                    $whse = $this->relocateWarehouseMap[$whse];
+//                }
+                //requestd by Emmanuel
+                $whse = "SWHS";
             }
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
@@ -1081,7 +1083,7 @@ class TestPronto extends AbstractHelper
                     $order->setData('pronto_order_number',$pronto);
                     $order->setData('pronto_status_code',$prontostatus);
                     $order->save();
-
+                    echo "success ".$pronto;
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
 
                     $account = $json['sales-orders']['sales-order']['account'];

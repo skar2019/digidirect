@@ -629,11 +629,13 @@ class Order extends AbstractHelper
                     //$whse = $this->repCodeForPickUp[$collectPlaceId];
                 }
             } elseif ($order->getShippingAddress()) {
-                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
-                $skus = $this->getProductsSkus($order);
-                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse]) && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
-                    $whse = $this->relocateWarehouseMap[$whse];
-                }
+//                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
+//                $skus = $this->getProductsSkus($order);
+//                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse]) && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
+//                    $whse = $this->relocateWarehouseMap[$whse];
+//                }
+                //requestd by Emmanuel
+                $whse = "SWHS";
             }
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
