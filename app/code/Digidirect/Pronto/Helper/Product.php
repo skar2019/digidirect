@@ -62,7 +62,6 @@ class Product extends AbstractHelper
 
     public function productPronto($startItem, $endItem)
     {
-        //to redeploy
         $lastCode = 0;
         $this->attributeOptions = $this->getOptionHash('brand');
 
@@ -71,13 +70,11 @@ class Product extends AbstractHelper
 
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
-        $username = 'clint.mercado';
-        $password = '849cd5080faff5ce';
-        $jsonData = '{}';
+
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
