@@ -62,7 +62,7 @@ class Product extends AbstractHelper
 
     public function productPronto($startItem, $endItem)
     {
-
+        //to redeploy
         $lastCode = 0;
         $this->attributeOptions = $this->getOptionHash('brand');
 
