@@ -25,6 +25,7 @@ class Product extends AbstractHelper
     protected $failedCategories = [];
     protected $categoryLinkManagement;
     protected $categoryLinkRepository;
+    protected $logger;
 
     public function __construct(
                         Curl $curl,
@@ -406,7 +407,6 @@ class Product extends AbstractHelper
 
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
@@ -2283,7 +2283,6 @@ class Product extends AbstractHelper
 
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;

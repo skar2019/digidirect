@@ -1,15 +1,10 @@
 <?php
 namespace Digidirect\Pronto\Cron;
 
-use Psr\Log\LoggerInterface;
 use Digidirect\Pronto\Helper\Product;
 
 class ProductEnquiry
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
 
     /**
      * @var Product
@@ -17,10 +12,8 @@ class ProductEnquiry
     protected $helper;
 
     public function __construct(
-            LoggerInterface $logger,
             Product $helper)
     {
-        $this->logger = $logger;
         $this->helper = $helper;
     }
 
