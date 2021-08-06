@@ -89,10 +89,9 @@ class Product extends AbstractHelper
         $this->curl->get($url);
 
         $result = $this->curl->getBody();
-        // echo $result;
+
         $json = $this->jsonSerializer->unserialize($result);
-        //var_dump($json['stockmaster']['stockcode']);
-        //var_dump($json);
+
 
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
@@ -106,7 +105,7 @@ class Product extends AbstractHelper
             try {
 
                 //echo $this->rootCategoryName;
-                //var_dump($prod);
+
                 $this->logger->info("SKU ".$prod['code']);
                 $product = $this->productRepository->get($prod['code']);
 
