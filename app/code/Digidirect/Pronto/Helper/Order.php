@@ -194,6 +194,8 @@ class Order extends AbstractHelper
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
+
+            //fixed date to use store timezone
             $created = $order->getCreatedAt();
             $created = $this->timezone->date(new \DateTime($created));
             $orderdate = $created->format('Y-m-d');
