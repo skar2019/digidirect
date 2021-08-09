@@ -443,6 +443,10 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
+                if($prod['stk-condition-code'] == 'O')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                }
 
                 //set brands
                 $brandName = strtolower($prod['stk-brand']);
@@ -776,7 +780,10 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-
+                if($prod['stk-condition-code'] == 'O')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                }
                 //set brands
                 $brandName = strtolower($prod['stk-brand']);
                 $forLogs .= $brandName."\n";
@@ -2305,6 +2312,8 @@ class Product extends AbstractHelper
         $count = 0;
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
+            var_dump($prod);
+
             if(!isset($prod['code']))
             {
                 exit;
