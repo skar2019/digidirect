@@ -98,6 +98,8 @@ class Order extends AbstractHelper
 
     protected $logger;
 
+    private $timezone;
+
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -110,7 +112,8 @@ class Order extends AbstractHelper
                         AbstractEntityRepository $abstractEntityRepository,
                         IncrementIdUpdater $incrementIdUpdater,
                         CustomerRepositoryInterface $customerRepository,
-                        \Digidirect\CustomOrderLog\Logger\Logger $logger)
+                        \Digidirect\CustomOrderLog\Logger\Logger $logger,
+                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -124,6 +127,7 @@ class Order extends AbstractHelper
                         $this->incrementIdUpdater = $incrementIdUpdater;
                         $this->customerRepository = $customerRepository;
                         $this->logger = $logger;
+                        $this->timezone = $timezone;
 
     }
 
