@@ -136,7 +136,6 @@ class Order extends AbstractHelper
 
         //get order data
         $orders = $this->getOrderCollection();
-        date_default_timezone_set('Australia/Sydney');
         $counter = 0;
         foreach ($orders as $order)
         {
