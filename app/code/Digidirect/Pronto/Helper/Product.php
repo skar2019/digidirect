@@ -2312,7 +2312,6 @@ class Product extends AbstractHelper
         $count = 0;
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
-            var_dump($prod);
 
             if(!isset($prod['code']))
             {
