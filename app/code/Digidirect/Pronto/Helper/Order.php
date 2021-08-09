@@ -194,7 +194,9 @@ class Order extends AbstractHelper
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
-            $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
+            $created = $order->getCreatedAt();
+            $created = $this->timezone->date(new \DateTime($created));
+            $orderdate = $created->format('Y-m-d');
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
@@ -854,7 +856,9 @@ class Order extends AbstractHelper
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
-            $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
+            $created = $order->getCreatedAt();
+            $created = $this->timezone->date(new \DateTime($created));
+            $orderdate = $created->format('Y-m-d');
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;

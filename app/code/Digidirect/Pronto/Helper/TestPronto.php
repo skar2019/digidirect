@@ -103,6 +103,8 @@ class TestPronto extends AbstractHelper
      */
     protected $logger;
 
+    private $timezone;
+
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -115,7 +117,8 @@ class TestPronto extends AbstractHelper
                         AbstractEntityRepository $abstractEntityRepository,
                         IncrementIdUpdater $incrementIdUpdater,
                         CustomerRepositoryInterface $customerRepository,
-                        \Digidirect\CustomOrderLog\Logger\Logger $logger)
+                        \Digidirect\CustomOrderLog\Logger\Logger $logger,
+                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -129,6 +132,7 @@ class TestPronto extends AbstractHelper
                         $this->incrementIdUpdater = $incrementIdUpdater;
                         $this->customerRepository = $customerRepository;
                         $this->logger = $logger;
+                        $this->timezone = $timezone;
 
     }
 
@@ -747,9 +751,9 @@ class TestPronto extends AbstractHelper
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
-            echo $order->getCreatedAt($order);
-            $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
-            echo "<br>".$orderdate;
+            $created = $order->getCreatedAt();
+            $created = $this->timezone->date(new \DateTime($created));
+            $orderdate = $created->format('Y-m-d');
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
