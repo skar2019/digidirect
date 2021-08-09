@@ -754,6 +754,7 @@ class TestPronto extends AbstractHelper
             $created = $order->getCreatedAt();
             $created = $this->timezone->date(new \DateTime($created));
             $orderdate = $created->format('Y-m-d');
+            echo $orderdate. "<br>";
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
