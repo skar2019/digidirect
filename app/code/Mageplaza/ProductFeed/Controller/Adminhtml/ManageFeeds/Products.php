@@ -22,6 +22,7 @@
 namespace Mageplaza\ProductFeed\Controller\Adminhtml\ManageFeeds;
 
 use Magento\Backend\App\Action\Context;
+use Magento\Backend\Model\Session;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Registry;
@@ -42,20 +43,28 @@ class Products extends AbstractManageFeeds
     protected $pageFactory;
 
     /**
+     * @var Session
+     */
+    protected $backendSession;
+
+    /**
      * Products constructor.
      *
      * @param FeedFactory $feedFactory
      * @param Registry $coreRegistry
      * @param Context $context
      * @param PageFactory $pageFactory
+     * @param Session $backendSession
      */
     public function __construct(
         FeedFactory $feedFactory,
         Registry $coreRegistry,
         Context $context,
-        PageFactory $pageFactory
+        PageFactory $pageFactory,
+        Session $backendSession
     ) {
-        $this->pageFactory = $pageFactory;
+        $this->pageFactory    = $pageFactory;
+        $this->backendSession = $backendSession;
 
         parent::__construct($feedFactory, $coreRegistry, $context);
     }
@@ -70,6 +79,7 @@ class Products extends AbstractManageFeeds
             ->createBlock(\Mageplaza\ProductFeed\Block\Adminhtml\Feed\Edit\Tab\Renderer\Products::class)->toHtml();
         if ($this->getRequest()->getParam('loadGrid')) {
             $html = Data::jsonEncode($html);
+            $this->backendSession->unsProductFeedData();
         }
 
         return $this->getResponse()->representJson($html);

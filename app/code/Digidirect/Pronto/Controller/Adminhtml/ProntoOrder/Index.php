@@ -41,6 +41,7 @@ class Index extends Action implements HttpGetActionInterface
      */
     public function execute()
     {
+        //comment for redeploy
         $resultPage = $this->resultPageFactory->create();
         $resultPage->setActiveMenu(static::MENU_ID);
         $resultPage->getConfig()->getTitle()->prepend(__('Pronto Orders'));

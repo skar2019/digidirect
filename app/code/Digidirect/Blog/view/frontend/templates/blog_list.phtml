@@ -120,8 +120,5 @@
 <?php if (!$block->getCollection()->getSize()): ?>
     <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('There are no blog posts.') ?></div></div>
 <?php endif; ?>
-<?php  if ($toolbar = $block->getChildHtml('toolbar')) : ?>
-    <div class="toolbar blog-toolbar">
-        <?php /* @escapeNotVerified */ echo $toolbar ?>
-    </div>
-<?php // endif; ?>
+    
+<?php echo "HEHE " . $block->getPagerHtml() ?>

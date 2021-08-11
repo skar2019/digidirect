@@ -26,11 +26,8 @@ class SendOrder
 
     public function execute()
     {
-        
-        try {
-            $this->helper->sendOrder(); //use date today as parameter
-        } catch (\Exception $e) {
-            $this->logger->critical($e);
-        }
+        $this->helper->orderPost();
+
     }
+    
 }

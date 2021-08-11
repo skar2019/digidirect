@@ -31,4 +31,7 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Rule\Model\Condition\Product\AbstractProduct">
+        <plugin name="mageplaza_productfeed_condition_product" type="Mageplaza\ProductFeed\Plugin\Model\Condition\Product\AbstractProduct"/>
+    </type>
 </config>

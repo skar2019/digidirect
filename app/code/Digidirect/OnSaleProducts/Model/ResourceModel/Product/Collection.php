@@ -12,35 +12,64 @@
 
 namespace Digidirect\OnSaleProducts\Model\ResourceModel\Product;
 
-class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection{
-   public function getOnSaleProduct(){
-       
-       $excluded_products = array(11491, 12063, 12967, 19457, 23505, 27211);
-       $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
-           '\Magento\Store\Model\StoreManagerInterface'
+class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+{
+
+  public function getOnSaleProduct()
+  {
+      ini_set('max_execution_time', 300);
+        $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
+               '\Magento\Store\Model\StoreManagerInterface'
        );
        $catalogRule = \Magento\Framework\App\ObjectManager::getInstance()->create(
-            '\Magento\CatalogRule\Model\RuleFactory'
+               '\Magento\CatalogRule\Model\RuleFactory'
        );
 
-       $websiteId = $storeManager->getStore()->getWebsiteId();//current Website Id
+//       $websiteId = $storeManager->getStore()->getWebsiteId(); //current Website Id
 
        $resultProductIds = [];
-       $catalogRuleCollection = $catalogRule->create()->getCollection()->setOrder('rule_id','DSC');
-       $catalogRuleCollection->addIsActiveFilter(1);//filter for active rules only
+       $catalogRuleCollection = $catalogRule->create()->getCollection();//setOrder('created_in', 'DESC');
+       $catalogRuleCollection->getSelect()->orderRand();
+       $catalogRuleCollection->addIsActiveFilter(1); //filter for active rules only
+       $catalogRuleCollection->setCurPage(1);
+       $catalogRuleCollection->setPageSize(6);
+
+       $limit = 0;
+       $productKey = 0;
+
        foreach ($catalogRuleCollection as $catalogRule) {
+           if ($limit == 15) {
+               break;
+           }
+
            $productIdsAccToRule = $catalogRule->getMatchingProductIds();
-           foreach ($productIdsAccToRule as $productId => $ruleProductArray) {
-               if (!empty($ruleProductArray[$websiteId])) {
-                   
-                   if(!in_array($productId, $excluded_products)){
-                       $resultProductIds[$productId] = $productId;
-                   }
+
+//           if(count($productIdsAccToRule) >= 5){
+//               $availableProducts = array_rand($productIdsAccToRule,5);
+//           }
+//           else{
+//               $availableProducts = $productIdsAccToRule;
+//           }
+
+           foreach ($productIdsAccToRule as $productId => $productRule) {
+               if ($limit == 15) {
+                   break;
+               }
+
+               if (!in_array($productId, $resultProductIds)) {
+                   $resultProductIds[$productKey] = $productId;
+                   $limit++;
+                   $productKey++;
                }
            }
        }
-       $this->getSelect()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
-       return $this;
-       
-   }
+
+       if(!empty($resultProductIds)){
+           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+           return $this;
+       }
+       else{
+           return false;
+       }
+  }
 }

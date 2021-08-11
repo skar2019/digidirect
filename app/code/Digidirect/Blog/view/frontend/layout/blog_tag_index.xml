@@ -4,7 +4,7 @@
     <body>
         <referenceContainer name="content">
             <block class="Digidirect\Blog\Block\TagPost" name="blog.tag.post.list" template="blog_list.phtml">
-                <block class="Magento\Theme\Block\Html\Pager" name="post_list_pager" as="post_list_pager"/>
+                <block class="Magento\Theme\Block\Html\Pager" name="post_list_pager.toolbar" as="post_list_pager"/>
                 <arguments>
                     <argument name="show_category_name" xsi:type="boolean">true</argument>
                 </arguments>

@@ -13,7 +13,7 @@ class Processor implements ProcessorInterface
 {
     const BLOCK_NAME = 'category.products.list';
     const ENCODING = 'UTF-8';
-    
+
     /**
      * @var string
      */
@@ -40,7 +40,7 @@ class Processor implements ProcessorInterface
         $this->_selector = $data['selector'];
         $this->_helper = $helper;
         $this->_layout = $layout;
-        
+
         $this->_brandModel = $brandModel;
     }
 
@@ -51,41 +51,41 @@ class Processor implements ProcessorInterface
     public function process(){
         /** @var ListProduct $block */
         $block = $this->_getBlock();
-         
+
         $url = false;
         $resultHtml = "";
         $resultNode = "";
-        
+
         $totalCount = 0;
         $currentCount = 0;
-        
+
         $perPage = 0;
         if ($block->getLoadedProductCollection()->getSize()) {
             $totalCount = $this->getTotalSize();
             $perPage = $this->getLimit();
-            
+
             $currentCount = $this->getCurrentSize();
-            
+
             $url = $this->_getNextPageUrl();
-            
+
             $html = $block->toHtml();
-            
+
             $htmldom = new \DOMDocument();
-            
+
             $processedHtml = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
             @ $htmldom->loadHTML($processedHtml);
-            
+
             $x_path = new \DOMXPath($htmldom);
 
             $nodes = $x_path->query("//ol//li");
 
             foreach ($nodes as $node){
                 $resultHtml .= $node->ownerDocument->saveHTML($node);
-                
+
                 $resultNode .= $node->nodeValue;
             }
         }
-        
+
         if($currentCount > $totalCount){
             $currentCount = $totalCount;
         }
@@ -108,35 +108,38 @@ class Processor implements ProcessorInterface
     {
         /** @var ListProduct $block */
         $block = $this->_getBlock();
-        
+
         /** @var \Digidirect\InfiniteScroll\Block\Product\ProductList\Toolbar $toolbar */
         $toolbar = $block->getToolbarBlock();
-        
-        $brand_id = $this->_brandModel->getCurrentOption();
-        
         $pager = $toolbar->getPager();
 
         $url = false;
         if ($pager && !$pager->isLastPage()) {
+            if (strpos($_SERVER['REQUEST_URI'], "brands") !== false){
+                $brand_id = 0;
+            }else{
+                $brand_id = $this->_brandModel->getCurrentOption();
+            }
+            
             if($brand_id > 0){
                 $page = "p=" . $toolbar->nextPageCount();
-                
+
                 $limit = "&_is=" .$this->getLimit();
 
                 $url = $this->_brandModel->getCanonicalUrl() . "?" . $page;
-                
+
                 if (strpos($url, $limit) === false) {
                     $url = $url . $limit;
                 }
             }else{
                 $url = htmlspecialchars_decode($pager->getNextPageUrl());
             }
-            
+
             if (strpos($url, CatalogToolbar::DIRECTION_PARAM_NAME) === false) {
                 $url .= sprintf("&%s=%s", CatalogToolbar::DIRECTION_PARAM_NAME, $toolbar->getCurrentDirection());
             }
         }
-        
+
         return $url;
     }
 
@@ -150,7 +153,7 @@ class Processor implements ProcessorInterface
         if (!$block) {
             throw new \Exception('block not found');
         }
-        
+
         $block->setToolbarBlockName('infinitescroll.toolbar');
         return $block;
     }
@@ -212,24 +215,24 @@ class Processor implements ProcessorInterface
         /** @var ListProduct $block */
         $block = $this->_getBlock();
         $collection = $block->getLoadedProductCollection();
-        
+
         $limit = $this->getLimit();
-        
+
         settype($limit, "integer");
-        
+
         $currentPage = 1;
-        
+
         $initialCurrentPage = 1;
-        
+
         if(isset($_GET["p"])){
             $initialCurrentPage = $_GET["p"];
             settype($initialCurrentPage, "integer");
-            
+
             $currentPage = $limit * $initialCurrentPage;
         }
-        
+
         $collection->setPage($initialCurrentPage, $limit)->load();
-        
+
         return $currentPage;
     }
 }

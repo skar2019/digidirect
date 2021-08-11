@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 
 class Inventory extends AbstractHelper
 {
- 
+
     /**
     * @var Curl
     */
@@ -19,39 +19,64 @@ class Inventory extends AbstractHelper
      * @var LoggerInterface
      */
     protected $logger;
-    
+
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
                         \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
                         \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
                         \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
-                        LoggerInterface $logger) 
-                    {
+                        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+                        \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
+                        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+                        LoggerInterface $logger)
+    {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
                         $this->sourceItemsBySku = $sourceItemsBySku;
                         $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
                         $this->sourceItemFactory = $sourceItemFactory;
+                        $this->productRepository = $productRepository;
+                        $this->productFactory = $productFactory;
+                        $this->stockRegistry = $stockRegistry;
                         $this->logger = $logger;
-
     }
 
-    public function enquireInventory() {
- 
-        //date today
-        $now = new \DateTime();
-        $prontofilter = $now->format('dmY'.'000000');
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y';
+    public function enquireInventory($args = 0) {
+
+        if(isset($args))
+        {
+            $startitem = $args;
+        }
+        else
+        {
+            $startitem = 0;
+        }
+
+        $lastCode = 0;
+
+        date_default_timezone_set("Australia/Sydney");
+        $newTime = strtotime('-20 minutes');
+        $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
+        //$prontofilter = '05072021000000';
+        // testing
+
+        //url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
+        //live - port :8084
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
-        
+
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "UA1");
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
+
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -59,64 +84,293 @@ class Inventory extends AbstractHelper
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
 
+        //var_dump($json);
         if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
         {
             $msg =  $json['response']['message'];
-            $this->logger->error('Pronto Order Sync', array('info' => $msg));
+            $this->logger->error('Pronto Inventory Sync', array('info' => $msg));
+            exit;
         }
         //var_dump($json['stockmaster']['stockcode']['warehouse']);
-        foreach ($json['stockmaster']['stockcode'] as $prodRes)
+        if(isset($json['stockmaster']['stockcode']['code']))
         {
-            
-            $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
-            $sku =  $prodRes['code'];
-            //echo "<br />SKU : ". $sku;
-            //pricing
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); // instance of object manager
-            $product = $objectManager->create('\Magento\Catalog\Model\Product');
-
-            $prod = $product->loadByAttribute('sku', $sku);
-            //echo "<br /> Pronto Retail Price: " .$retail;
-            //echo "<br /> Magento Price : ". $prod->getPrice() ."<br />";
-
-            $prod->setPrice($retail);
-            $prod->save();
-            //end pricing
-
-            //quantity by source
-            //echo "<br />Quantity before update <br />";
-            $sourceItemList = $this->getSourceItemBySku($sku);
-            foreach ($sourceItemList as $source) {
-                $var = $source->getData();
-                //echo "<br />".$var['source_code'] . " => ". $var['quantity'];
-            }
-
-            //loop from
-            foreach ($prodRes['warehouse']['whse'] as $qt)
+            foreach ($json['stockmaster'] as $prodRes)
             {
-                //echo "<br />".$qt['code']." - " .$qt['qty_available'];
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode($qt['code']);
-                $sourceItem->setSku($sku);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity($qt['qty_available']);
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                if(!isset($prodRes['code']))
+                {
+                    exit;
+                }
+
+                $sku =  $prodRes['code'];
+                $lastCode = $sku;
+
+                //pricing
+                try {
+                    $prod = $this->productRepository->get($sku);
+                    if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
+                    {
+                        $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        $prod->setPrice($retail);
+                        $this->productRepository->save($prod);
+                    }
+
+                    if(isset($prodRes['warehouse']['whse']))
+                    {
+                        foreach ($prodRes['warehouse']['whse'] as $qt)
+                        {
+                            if(is_array($qt))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prodRes['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $this->logger->info($prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                        }
+                    }
+
+                } catch (Exception $ex) {
+                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
+                    continue;
+                }
+
+
+
+                $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
-            //echo "<br /><br /> Quantity after update <br />";
-            $sourceItemList2 = $this->getSourceItemBySku($sku);
-            foreach ($sourceItemList2 as $source) {
-                $var = $source->getData();
-                //echo "<br />".$var['source_code'] . " => ". $var['quantity'];
+        }
+        else
+        {
+            foreach ($json['stockmaster']['stockcode'] as $prodRes)
+            {
+
+                if(!isset($prodRes['code']))
+                {
+                    exit;
+                }
+
+                $sku =  $prodRes['code'];
+                $lastCode = $sku;
+
+                //pricing
+                try {
+
+                    $prod = $this->productRepository->get($sku);
+                    if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
+                    {
+                        $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        $prod->setPrice($retail);
+                        $this->productRepository->save($prod);
+                    }
+
+                    if(isset($prodRes['warehouse']['whse']))
+                    {
+                        foreach ($prodRes['warehouse']['whse'] as $qt)
+                        {
+                            if(is_array($qt))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prodRes['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                        }
+                    }
+                } catch (Exception $ex) {
+                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
+                    continue;
+                }
+
+                $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
-            
-            $msg =  $json['response']['message'];
-            $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
         }
 
-    }   
-    
+        if($startitem == $lastCode)
+        {
+            exit;
+        }
+
+        $this->enquireInventory($lastCode);
+    }
+
     public function getSourceItemBySku($sku)
     {
         return $this->sourceItemsBySku->execute($sku);
     }
-}      
+
+    public function enquireInventoryTest($args = 0) {
+
+        if(isset($args))
+        {
+            $startitem = $args;
+        }
+        else
+        {
+            $startitem = 0;
+        }
+
+        $lastCode = 0;
+        date_default_timezone_set("Australia/Sydney");
+        $newTime = strtotime('-20 minutes');
+        $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
+        echo $prontofilter;
+        //$prontofilter = '05072021000000';
+        // testing
+
+        //url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&start-item='.$startitem;
+        //live - port :8084
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=change_enquiry&check-warehouse-change=Y&date-time-change-min='.$prontofilter.'&check-price-change=Y&include-stock-movements=Y&check-price-change=Y&start-item='.$startitem;
+        $username = 'clint.mercado';
+        $password = '849cd5080faff5ce';
+        $jsonData = '{}';
+
+        $this->curl->addHeader("Content-Type", "application/json");
+        $this->curl->addHeader("Accept", "application/json");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
+
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        // get method
+        $this->curl->get($url);
+
+        $result = $this->curl->getBody();
+        // echo $result;
+        $json = $this->jsonSerializer->unserialize($result);
+
+        //var_dump($json);
+        if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
+        {
+            $msg =  $json['response']['message'];
+            $this->logger->error('Pronto Inventory Sync', array('info' => $msg));
+            exit;
+        }
+        //var_dump($json['stockmaster']['stockcode']);
+        if(isset($json['stockmaster']['stockcode']['code']))
+        {
+            foreach ($json['stockmaster'] as $prodRes)
+            {
+                echo "stockmaster only";
+
+                if(!isset($prodRes['code']))
+                {
+                    exit;
+                }
+
+                $sku =  $prodRes['code'];
+                $lastCode = $sku;
+                echo $lastCode."<br />";
+                //pricing
+                try {
+                    $prod = $this->productRepository->get($sku);
+                    echo "<br> old price:".$prod->getPrice();
+                    if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
+                    {
+                        $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        echo "<br> pronto price:".$retail;
+                        $prod->setPrice($retail);
+                        $this->productRepository->save($prod);
+                    }
+                    echo "<br> new price:".$prod->getPrice();
+                    foreach ($prodRes['warehouse']['whse'] as $qt)
+                    {
+                        //echo "<br />".$qt['code']." - " .$qt['qty_available'];
+                        $sourceItem = $this->sourceItemFactory->create();
+                        $sourceItem->setSourceCode($qt['code']);
+                        $sourceItem->setSku($sku);
+                        $sourceItem->setStatus(1);
+                        $sourceItem->setQuantity($qt['qty_available']);
+                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                    }
+                } catch (Exception $ex) {
+                    echo $ex->getMessage();
+                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
+                    continue;
+                }
+
+
+
+                $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
+            }
+        }
+        else
+        {
+            foreach ($json['stockmaster']['stockcode'] as $prodRes)
+            {
+                echo "<br /> stockmaster stockcode";
+                if(!isset($prodRes['code']))
+                {
+                    exit;
+                }
+
+                $sku =  $prodRes['code'];
+                $lastCode = $sku;
+                echo "<br />".$lastCode."<br />";
+                //pricing
+                try {
+
+                    $prod = $this->productRepository->get($sku);
+                    echo "<br> old price:".$prod->getPrice();
+                    if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
+                    {
+                        $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
+                        echo "<br> pronto price:".$prod->getPrice();
+                        $prod->setPrice($retail);
+                        $this->productRepository->save($prod);
+                    }
+                    echo "<br> new price:".$prod->getPrice();
+                    foreach ($prodRes['warehouse']['whse'] as $qt)
+                    {
+                        //echo "<br />".$qt['code']." - " .$qt['qty_available'];
+                        $sourceItem = $this->sourceItemFactory->create();
+                        $sourceItem->setSourceCode($qt['code']);
+                        $sourceItem->setSku($sku);
+                        $sourceItem->setStatus(1);
+                        $sourceItem->setQuantity($qt['qty_available']);
+                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                    }
+                } catch (Exception $ex) {
+                    echo $ex->getMessage();
+                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
+                    continue;
+                }
+
+                $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
+            }
+        }
+
+        if($startitem == $lastCode)
+        {
+            exit;
+        }
+
+        $this->enquireInventory($lastCode);
+    }
+}

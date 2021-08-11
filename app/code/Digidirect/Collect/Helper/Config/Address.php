@@ -264,7 +264,13 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function applyDummyAddress(\Magento\Quote\Model\Quote\Address $address)
     {
-        $address->addData($this->getDefaultAddressArray());
+        if(!empty($address)){
+            $qouteAddress = (array) $address;
+            $address->addData($qouteAddress);
+        }else{
+            $address->addData($this->getDefaultAddressArray());
+        }
+
         return $address;
     }
 
