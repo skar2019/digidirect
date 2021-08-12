@@ -19,11 +19,10 @@
     },
     "require": {
         "klevu/module-search": "^2.3",
+        "livechat/module-magento-livechat": "dev-master",
         "m2epro/magento2-extension": "^1.10",
         "magento/magento-cloud-metapackage": ">=2.4.1 <2.4.2",
-        "vlucas/valitron": "^1.4",
-        "zipmoney/magento2": "^1.1",
-        "livechat/module-magento-livechat": "dev-master"
+        "vlucas/valitron": "^1.4"
     },
     "replace": {
         "klevu/module-mysqlcompat": "*"
