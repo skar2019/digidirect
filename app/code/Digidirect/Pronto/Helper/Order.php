@@ -405,6 +405,7 @@ class Order extends AbstractHelper
                         $digiProtectdiscount = 0;
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    $price = $orig;
 
                 }
                 else
