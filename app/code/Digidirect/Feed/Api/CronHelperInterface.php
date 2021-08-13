@@ -22,4 +22,6 @@ interface CronHelperInterface
      * @return bool
      */
     public function isCronRunning($jobCode);
+
+    /**comment to redeploy */
 }
