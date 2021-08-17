@@ -1,4 +1,4 @@
- //
+//
 //  Layered Navigation
 //  _____________________________________________
 
@@ -19,7 +19,7 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    
+
     .category-cms{
         display: block;
     }
@@ -51,7 +51,7 @@
             transform: translateY(0);
             position: fixed;
         }
-        
+
         > .primary{
             background-image: none;
             background: #fff;
@@ -156,6 +156,7 @@
             margin-bottom: 40px;
             margin-top: -20px;
             position: relative;
+            display: none;
         }
 
         &:after {
@@ -191,7 +192,7 @@
         &::hover{
             color: #e65401;
         }
-        
+
         &.-all {
             .lib-css(font-weight, @font-weight__bold);
             .lib-font-size(14);
@@ -217,7 +218,7 @@
                 appearance: none;
             }
         }
-        
+
         a.filter-clear{
             &{
                 display: inline-block;
@@ -289,13 +290,13 @@
         .offcanvas-panel {
             .lib-css(background, @color-white);
         }
-        
+
         li.item{
             margin: 5px 0;
-            
+
             a{
                 transition: all .5s ease;
-                
+
                 &:hover{
                     color: #e65300;
                 }
@@ -390,12 +391,12 @@
             padding-bottom: 0
         }
     }
-    
+
     input[type=checkbox]+label:before {
         border: 2px solid #cfcfcf;
     }
-    
-    input[type=checkbox]+label:before, 
+
+    input[type=checkbox]+label:before,
     input[type=checkbox]+label:after {
         position: absolute;
         left: 0;
@@ -405,7 +406,7 @@
         top: 10px;
         content: '';
     }
-    
+
     input[type=checkbox]+label:before, input[type=checkbox]+label:after {
         position: absolute;
         left: 0;
@@ -415,7 +416,7 @@
         top: 10px;
         content: '';
     }
-    
+
     input[type=checkbox] {
         border: 0;
         clip: rect(0,0,0,0);
@@ -426,12 +427,12 @@
         position: absolute;
         width: 1px;
     }
-    
+
     input[type=checkbox]:checked+label:before {
         border-color: #000;
         background-color: #000;
     }
-    
+
     input[type=checkbox]:checked+label:after {
         top: 15px;
         left: 4px;
@@ -441,7 +442,7 @@
         border-bottom: 2px solid #fff;
         transform: rotate(-45deg);
     }
-    
+
     .sidebar-main a {
         color: #222;
     }
