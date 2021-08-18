@@ -58,7 +58,8 @@ $exclusiveIcon = $block->getExclusiveIcon();
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-phone"></use>
                 </svg>
             </span>
-            <?php echo $block->escapeHtml($phone); ?>
+            <a href="tel:<?php echo $block->escapeHtml($phone); ?>"><?php echo $block->escapeHtml($phone); ?></a>
+            
         </div>
     <?php endif; ?>
 
