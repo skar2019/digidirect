@@ -12,54 +12,64 @@
 
 namespace Digidirect\OnSaleProducts\Model\ResourceModel\Product;
 
-class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection{
-  public function getOnSaleProduct(){
-   $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
+class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+{
+
+  public function getOnSaleProduct()
+  {
+      ini_set('max_execution_time', 300);
+        $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->create(
                '\Magento\Store\Model\StoreManagerInterface'
        );
        $catalogRule = \Magento\Framework\App\ObjectManager::getInstance()->create(
                '\Magento\CatalogRule\Model\RuleFactory'
        );
 
-       $websiteId = $storeManager->getStore()->getWebsiteId(); //current Website Id
+//       $websiteId = $storeManager->getStore()->getWebsiteId(); //current Website Id
 
        $resultProductIds = [];
        $catalogRuleCollection = $catalogRule->create()->getCollection();//setOrder('created_in', 'DESC');
        $catalogRuleCollection->getSelect()->orderRand();
        $catalogRuleCollection->addIsActiveFilter(1); //filter for active rules only
        $catalogRuleCollection->setCurPage(1);
-       $catalogRuleCollection->setOrder('created_in', 'DESC');
+       $catalogRuleCollection->setPageSize(6);
+
        $limit = 0;
+       $productKey = 0;
 
        foreach ($catalogRuleCollection as $catalogRule) {
-           $ctr = 0;
-           $product_collection = $catalogRule->getListProductIdsInRule();
-
            if ($limit == 15) {
                break;
            }
 
-           foreach ($product_collection as $key => $product_id) {
-                if ($ctr == 5) {
-                    $ctr = 0;
-                    break;
-                }
+           $productIdsAccToRule = $catalogRule->getMatchingProductIds();
 
-                if ($limit == 15) {
-                    break;
-                }
-                
-                if(!in_array($product_id, $resultProductIds)){
-                    $resultProductIds[$product_id] = $product_id;
-                    $limit++;
-                    $ctr++;
-                }
+//           if(count($productIdsAccToRule) >= 5){
+//               $availableProducts = array_rand($productIdsAccToRule,5);
+//           }
+//           else{
+//               $availableProducts = $productIdsAccToRule;
+//           }
+
+           foreach ($productIdsAccToRule as $productId => $productRule) {
+               if ($limit == 15) {
+                   break;
+               }
+
+               if (!in_array($productId, $resultProductIds)) {
+                   $resultProductIds[$productKey] = $productId;
+                   $limit++;
+                   $productKey++;
+               }
            }
        }
 
        if(!empty($resultProductIds)){
            $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
            return $this;
+       }
+       else{
+           return false;
        }
   }
 }

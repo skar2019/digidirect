@@ -150,17 +150,8 @@ $categoriesArrayNames = [];
 <?php if (!$block->getCollection()->getSize()): ?>
     <div class="message info empty"><div><?php /* @escapeNotVerified */ echo __('There are no blog posts.') ?></div></div>
 <?php endif; ?>
-    
-    
-<?php if ($block->showPager() == true): ?>
-<div class="toolbar blog-toolbar">
-    <div class="pager">  
-        <div class="pages">
-            <strong class="label pages-label" id="paging-label">Page</strong> 
-            <ul class="items pages-items" aria-labelledby="paging-label">    
-                 <?php /* @escapeNotVerified */ echo $block->getPagerHtml() ?>
-            </ul>
-        </div>
+<?php if ($toolbar = $block->getChildHtml('toolbar')) : ?>
+    <div class="toolbar blog-toolbar">
+        <?php /* @escapeNotVerified */ echo $toolbar ?>
     </div>
-</div>
 <?php endif; ?>

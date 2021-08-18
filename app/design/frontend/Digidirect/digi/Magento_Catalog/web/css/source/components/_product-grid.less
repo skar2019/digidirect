@@ -143,27 +143,6 @@
     }
 }
 
-
-//
-//  Tablet
-//  _____________________________________________
-
-// This will add styles for tablet devices. When using native media-queries, we recommend wrapping your media-queries with media-width Magento mixins or media-target
-& when (@media-target = 'desktop'), (@media-target = 'all') {
-    @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
-        .product-category-listing .product-item-info {
-            width: calc(~"100% - 20px");
-            margin: 0 auto;
-            border: 1px solid #f5f5f5;
-            
-            .qantas-pts-wrapper span{
-                font-size: 10px;
-                text-transform: uppercase;
-            }
-        }
-    }
-}
-
 //
 //  Mobile
 //  ---------------------------------------------
@@ -173,10 +152,8 @@
         padding: 0;
     }
     
-    .product-category-listing .product-item-info {
+    .product-item-info{
         width: unset !important;
-        margin: 0 auto;
-        border: 1px solid #f5f5f5;
     }
 }
 

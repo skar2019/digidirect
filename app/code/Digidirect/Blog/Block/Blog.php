@@ -238,15 +238,11 @@ class Blog extends Template
             $current_page_number = $page_number_param["p"];
         }
 
-        //To do GET Correct URL
-//        $currentUrl = $this->urlModel->getBlogListUrl(true);
-
         $initialUrl = $this->_urlInterface->getCurrentUrl(false);
-
         $currentUrl = strtok($initialUrl, "?");
 
         if($total_pages > 1){
-            for ($x = 1; $x <= $per_page; $x++) {
+            for ($x = 1; $x <= $total_pages; $x++) {
                 $current_item = "";
                 $page_number = "<a href='".$currentUrl."?p=".$x."'>".$x."</a>";
 

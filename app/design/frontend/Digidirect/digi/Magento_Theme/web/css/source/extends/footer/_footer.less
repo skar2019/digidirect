@@ -200,49 +200,6 @@
 }
 
 //
-//  Tablet
-//  ---------------------------------------------
-
-// This will add styles for tablet devices. When using native media-queries, we recommend wrapping your media-queries with media-width Magento mixins or media-target
-& when (@media-target = 'desktop'), (@media-target = 'all') {
-    @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
-        .footer-content-block{
-            margin: 30px;
-        }
-        
-        .block.newsletter{    
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            float: unset;
-            margin: 30px 30px 0;
-            max-width: 100%;
-        }
-        
-        .block.newsletter .newsletter-child-block.subscribe {
-            flex: 3;
-            max-width: 600px;
-        }
-        
-        .block.newsletter .newsletter-child-block {
-            justify-content: left;
-            align-items: center;
-            display: flex;
-            flex: 1;
-            margin-right: 0;
-        }
-        
-        .block.newsletter .field.newsletter {
-            max-width: unset !important;
-        }
-        
-        .block.newsletter .field .control {
-            width: 100%;
-        }
-    }
-}
-
-//
 //  Mobile
 //  ---------------------------------------------
 

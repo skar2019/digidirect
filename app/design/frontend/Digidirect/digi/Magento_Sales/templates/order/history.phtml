@@ -32,13 +32,7 @@
                             <?php endif; ?>
                             <td data-th="<?= $block->escapeHtml(__('Ship To')) ?>" class="col shipping"><?= $_order->getShippingAddress() ? $block->escapeHtml($_order->getShippingAddress()->getName()) : '&nbsp;' ?></td>
                             <td data-th="<?= $block->escapeHtml(__('Order Total')) ?>" class="col total"><?= /* @escapeNotVerified */ $_order->formatPrice($_order->getGrandTotal()) ?></td>
-                            
-                            <?php if ($_order->getStatusLabel() == 'Suspected Fraud'): ?>
-                                 <td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status"><?= /* @escapeNotVerified */ 'Processing' ?></td>
-                            <?php else: ?>
-                                 <td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status"><?= /* @escapeNotVerified */ $_order->getStatusLabel() ?></td>     
-                            <?php endif; ?>
-                            
+                            <td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status"><?= /* @escapeNotVerified */ $_order->getStatusLabel() ?></td>
                             <td data-th="<?= $block->escapeHtml(__('Actions')) ?>" class="col actions">
                                 <a href="<?= /* @escapeNotVerified */ $block->getViewUrl($_order) ?>" class="action view">
                                     <span><?= /* @escapeNotVerified */ __('View Order') ?></span>

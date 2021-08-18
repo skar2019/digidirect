@@ -277,7 +277,6 @@ define([
             var shippingAddress,
                 addressData,
                 loginFormSelector = 'form[data-role=email-with-possible-login]',
-                unitnumberSelector = 'input',
                 emailValidationResult = customer.isLoggedIn(),
                 field,
                 option = _.isObject(this.countryOptions) && this.countryOptions[quote.shippingAddress().countryId],
@@ -314,21 +313,6 @@ define([
                 addressData = addressConverter.formAddressDataToQuoteAddress(
                     this.source.get('shippingAddress')
                 );
-                
-                // Therefore, convert it to a real array
-                var realArray = $.makeArray(shippingAddress['customAttributes'])
-
-                // Now it can be used reliably with $.map()
-                $.map(realArray, function(val, i) {
-                    if(val.attribute_code == "unit_number"){
-                        let intial_unit_number = $(".unit-number " + unitnumberSelector).val();
-                        let unit_number = intial_unit_number.replace('unit_number', '');
-                        $(".unit-number " + unitnumberSelector).val(unit_number);
-                        
-                        shippingAddress['customAttributes'][i]['value'] = unit_number;
-                        addressData['customAttributes'][i]['value'] = unit_number;
-                    }
-                });
 
                 //Copy form data to quote shipping address object
                 for (field in addressData) {

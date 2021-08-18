@@ -13,30 +13,15 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
 <div class="field<?= /* @noEscape */ $class ?>">
     <?php
         if ($_option->getTitle() == 'digiProtect') {?>
-        <div class="tooltip protect-tooltip">
+        <div class="tooltip">
             <img class="digiprotect-info-logo" data-bind="attr: { src: require.toUrl('images/digiProtect.png') }" />
-            <span class="tooltiptext" style="display: none;">
-                <a href="#" class="close-tooltip-trigger">
-                    
-                </a>
-                
+            <span class="tooltiptext">
                 digiProtect your purchase beyond the manufacturer's warranty and have access to replacement 
-                or repair guarantee, surge protection, freight and service call cover and more. Click <a target="_blank" href="https://digidirect.com.au/digiprotect">here</a> for more info.
+                or repair guarantee, surge protection, freight and service call cover and more. Click here for more info.<!-- comment -->
+                <br>
+                <a href="https://mcstaging2.digidirect.com.au/digiprotect"><span>https://mcstaging2.digidirect.com.au/digiprotect</span></a>
             </span>
         </div>
-    
-    <script>
-        require(['jquery'], 
-        function($) {
-            $(".digiprotect-info-logo").click(function() {
-                $(".protect-tooltip .tooltiptext").fadeToggle();
-            });
-            
-            $(".close-tooltip-trigger").click(function(){
-                $(".protect-tooltip .tooltiptext").fadeOut();
-            });
-        });
-    </script>
             
     <?php
         } ?>

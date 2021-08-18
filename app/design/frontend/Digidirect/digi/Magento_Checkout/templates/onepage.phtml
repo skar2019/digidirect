@@ -257,26 +257,15 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
 
                             if($("#qff-trigger").attr("data-action") == "link"){
                                 var action = "update";
-                                
-                                $(".qff-link-error").remove();
-                                
-                                if(qff_number.val() == "" 
-                                || qff_lastname.val() == ""){
-                                    var error_message = "<span class='qff-link-error'>Please enter the correct details.</span>";
-                                    $(error_message).insertAfter(qff_lastname);
+                                if(login_state){
+                                    var action_url = "/customer/account/editpost";
                                 }
                                 else{
-                                    if(login_state){
-                                        var action_url = "/customer/account/editpost";
-                                    }
-                                    else{
-                                        var action_url = "/customer/index/qffaction";
-                                    }
-
-                                    verifyQffDetails(action, action_url);
+                                    var action_url = "/customer/index/qffaction";
                                 }
-                                
-                                e.preventDefault();
+
+                                verifyQffDetails(action, action_url);
+                                  e.preventDefault();
                             }
                             else{
                                 qff_number.attr("readonly", false);
