@@ -155,6 +155,10 @@ class Order extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
+            if($wrehs != 'SWHS')
+            {
+                $territory = $wrehs;
+            }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
@@ -829,6 +833,10 @@ class Order extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
+            if($wrehs != 'SWHS')
+            {
+                $territory = $wrehs;
+            }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
