@@ -856,6 +856,9 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
                 }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $rep ="MYDEAL";
+                }
 
             }
 
@@ -972,6 +975,12 @@ class Order extends AbstractHelper
                     $payment_type ="CA";
                     $catchRef = $orderId;
                     $catchRef = str_replace("CATCH","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $payment_type ="MD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("MYD","",$catchRef);
                     $payment_reference = $catchRef;
                 }
             }
