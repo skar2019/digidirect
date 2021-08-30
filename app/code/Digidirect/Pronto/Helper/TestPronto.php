@@ -307,6 +307,10 @@ class TestPronto extends AbstractHelper
                         {
                             $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                         }
+                        else if (empty($payment_reference))
+                        {
+                            $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                        }
                     }
 
                     $amount_tendered = $order->getBaseGrandTotal();
@@ -868,6 +872,10 @@ class TestPronto extends AbstractHelper
                 {
                     $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                 }
+                else if (empty($payment_reference))
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
             }
             //work around for new and old catch
             if($payment_type == 'H')
@@ -1201,7 +1209,8 @@ class TestPronto extends AbstractHelper
 
         return $collection;
 
-
     }
+
+    //comment to redeploy
 
 }
