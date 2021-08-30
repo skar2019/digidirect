@@ -339,6 +339,10 @@ class Order extends AbstractHelper
             {
                 $withpaymentref = false;
             }
+            if(($payment_type == "VI"))
+            {
+                $withpaymentref = false;
+            }
 
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
@@ -1012,6 +1016,10 @@ class Order extends AbstractHelper
                 $withpaymentref = false;
             }
             if(($payment_type == "H"))
+            {
+                $withpaymentref = false;
+            }
+            if(($payment_type == "VI"))
             {
                 $withpaymentref = false;
             }
