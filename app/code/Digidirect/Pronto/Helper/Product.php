@@ -113,7 +113,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 //set brands
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
 
                 if($brandName == "thinktank")
                 {
@@ -256,7 +256,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
@@ -449,7 +449,7 @@ class Product extends AbstractHelper
                 }
 
                 //set brands
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -568,7 +568,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -785,7 +785,7 @@ class Product extends AbstractHelper
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 }
                 //set brands
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -907,7 +907,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -1125,7 +1125,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 //set brands
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -1264,7 +1264,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -1456,7 +1456,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 //set brands
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -1595,7 +1595,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -1789,7 +1789,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
@@ -1845,7 +1845,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4); // Default attribute set for products
 
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
                     $brandCode = $this->attributeOptions[strtolower($brandName)];
@@ -1950,7 +1950,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 //set brands
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -2116,7 +2116,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -2332,7 +2332,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 //set brands
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -2498,7 +2498,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -2708,7 +2708,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 //set brands
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -2831,7 +2831,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand']);
+                $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
