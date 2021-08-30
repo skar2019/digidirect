@@ -315,6 +315,10 @@ class Order extends AbstractHelper
                 {
                     $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                 }
+                else if (empty($payment_reference))
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
             }
 
             //work around for new and old catch
@@ -1000,6 +1004,10 @@ class Order extends AbstractHelper
             //ebay
             if (($method == 'm2epropayment')) {
                 if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
+                else if (empty($payment_reference))
                 {
                     $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                 }
