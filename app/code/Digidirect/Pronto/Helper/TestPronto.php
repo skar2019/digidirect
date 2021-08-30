@@ -298,8 +298,15 @@ class TestPronto extends AbstractHelper
                     }
                     $payment_reference = $paymentInstance->getLastTransId();
 
-                    if (empty($payment_reference) && ($method == 'm2epropayment')) {
-                        $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+    //            if (empty($payment_reference) && ($method == 'm2epropayment')) {
+    //                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+    //            }
+                    //ebay
+                    if (($method == 'm2epropayment')) {
+                        if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
+                        {
+                            $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                        }
                     }
 
                     $amount_tendered = $order->getBaseGrandTotal();
@@ -852,8 +859,15 @@ class TestPronto extends AbstractHelper
 
             $payment_reference = $paymentInstance->getLastTransId();
 
-            if (empty($payment_reference) && ($method == 'm2epropayment')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+//            if (empty($payment_reference) && ($method == 'm2epropayment')) {
+//                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+//            }
+            //ebay
+            if (($method == 'm2epropayment')) {
+                if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
             }
             //work around for new and old catch
             if($payment_type == 'H')
