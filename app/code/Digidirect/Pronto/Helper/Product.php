@@ -315,7 +315,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -628,7 +628,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -967,7 +967,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -1324,7 +1324,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -1655,7 +1655,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -1855,7 +1855,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -2176,7 +2176,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -2284,8 +2284,8 @@ class Product extends AbstractHelper
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
+        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
@@ -2404,48 +2404,48 @@ class Product extends AbstractHelper
                 }
 
                 //set apn and gtin
-                $barcode1 = "";
-                $barcode2 = "";
-                $barcode3 = "";
-                $barcode4 = "";
-                if(isset($prod['gtins']['gtin'])) {
-                    //set barcode
-                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
-                        $barcode1 = $prod['gtins']['gtin']['id'];
-
-                    } else {
-                        $x = 1;
-                        foreach ($prod['gtins']['gtin'] as $gtin) {
-                            switch ($x)
-                            {
-                                case 1:
-                                    $barcode1 = $gtin['id'];
-                                    break;
-                                case 2:
-                                    $barcode2 = $gtin['id'];
-                                    break;
-                                case 3:
-                                    $barcode3 = $gtin['id'];
-                                    break;
-                                case 4:
-                                    $barcode4 = $gtin['id'];
-                                    break;
-                                default:
-
-                            }
-                            $x++;
-                        }
-                    }
-                }
-                //work around to set
-                $product->setCustomAttribute('barcode1',$barcode1);
-                $product->setCustomAttribute('barcode2',$barcode2);
-                $product->setCustomAttribute('barcode3',$barcode3);
-                $product->setCustomAttribute('barcode4',$barcode4);
-                $forLogs .= "barcode1 ".$barcode1."\n";
-                $forLogs .= "barcode2 ".$barcode2."\n";
-                $forLogs .= "barcode3 ".$barcode3."\n";
-                $forLogs .= "barcode4 ".$barcode4."\n";
+//                $barcode1 = "";
+//                $barcode2 = "";
+//                $barcode3 = "";
+//                $barcode4 = "";
+//                if(isset($prod['gtins']['gtin'])) {
+//                    //set barcode
+//                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+//                        $barcode1 = $prod['gtins']['gtin']['id'];
+//
+//                    } else {
+//                        $x = 1;
+//                        foreach ($prod['gtins']['gtin'] as $gtin) {
+//                            switch ($x)
+//                            {
+//                                case 1:
+//                                    $barcode1 = $gtin['id'];
+//                                    break;
+//                                case 2:
+//                                    $barcode2 = $gtin['id'];
+//                                    break;
+//                                case 3:
+//                                    $barcode3 = $gtin['id'];
+//                                    break;
+//                                case 4:
+//                                    $barcode4 = $gtin['id'];
+//                                    break;
+//                                default:
+//
+//                            }
+//                            $x++;
+//                        }
+//                    }
+//                }
+//                //work around to set
+//                $product->setCustomAttribute('barcode1',$barcode1);
+//                $product->setCustomAttribute('barcode2',$barcode2);
+//                $product->setCustomAttribute('barcode3',$barcode3);
+//                $product->setCustomAttribute('barcode4',$barcode4);
+//                $forLogs .= "barcode1 ".$barcode1."\n";
+//                $forLogs .= "barcode2 ".$barcode2."\n";
+//                $forLogs .= "barcode3 ".$barcode3."\n";
+//                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -2558,7 +2558,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -2644,8 +2644,6 @@ class Product extends AbstractHelper
                 $this->productRepository->save($product);
 
             }
-
-
         }
         $this->logger->info($forLogs);
         return true;
@@ -2891,7 +2889,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                $toUrl = $prodname;
+                $toUrl = $prodname."-".$prod['code'];
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
