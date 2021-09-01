@@ -9,16 +9,16 @@
 & when (@media-common = true) {
     .breadcrumbs {
         .item.home {
-            display: none;
+            display: initial;
         }
         
         .items{
             & > li{
-                color: #fff;
+                //color: #fff;
             }
 
             a{
-                color: #fff;
+                //color: #fff;
             }
         }   
     }
@@ -30,6 +30,6 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xm) {
     .breadcrumbs {
-        display: none;
+        display: block;
     }
 }

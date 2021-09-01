@@ -24,6 +24,6 @@
         </referenceContainer>
 
         <move element="category.description" destination="main.content" after="-" />
-        <move element="breadcrumbs" destination="category.view.container" before="-"/>
+        <move element="breadcrumbs" destination="content" before="-"/>
     </body>
 </page>
