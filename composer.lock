@@ -1398,8 +1398,9 @@
             "version": "1.2.0",
             "dist": {
                 "type": "zip",
-                "url": "https://repo.magento.com/archives/dotmailer/dotmailer-magento2-extension-enterprise/dotmailer-dotmailer-magento2-extension-enterprise-1.2.0.0.zip",
-                "shasum": "dd76b9175957e213cb5c534e5af73fd283839464"
+                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension-enterprise/zipball/feff69a932fd56809874a3f911d572e2df014698",
+                "reference": "feff69a932fd56809874a3f911d572e2df014698",
+                "shasum": ""
             },
             "require": {
                 "dotmailer/dotmailer-magento2-extension": "^4.8.0",
@@ -2589,16 +2590,16 @@
         },
         {
             "name": "klevu/module-addtocart",
-            "version": "2.3.17",
+            "version": "2.3.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/klevu/addtocart.git",
-                "reference": "da5c7acfd6f374101252b2a3c7b2c1173be3bb1f"
+                "reference": "354b49b7b59a7f8e367c58a100663807362cbde7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/klevu/addtocart/zipball/da5c7acfd6f374101252b2a3c7b2c1173be3bb1f",
-                "reference": "da5c7acfd6f374101252b2a3c7b2c1173be3bb1f",
+                "url": "https://api.github.com/repos/klevu/addtocart/zipball/354b49b7b59a7f8e367c58a100663807362cbde7",
+                "reference": "354b49b7b59a7f8e367c58a100663807362cbde7",
                 "shasum": ""
             },
             "require": {
@@ -2631,20 +2632,20 @@
                 }
             ],
             "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
-            "time": "2021-06-28T11:12:06+00:00"
+            "time": "2021-08-11T16:06:43+00:00"
         },
         {
             "name": "klevu/module-content",
-            "version": "2.3.17",
+            "version": "2.3.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/klevu/content.git",
-                "reference": "a6069f2159905bb9ab0a4e4d2ef34088f1b666b2"
+                "reference": "fa04747ca08ef697965b38810582405b16ab8bd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/klevu/content/zipball/a6069f2159905bb9ab0a4e4d2ef34088f1b666b2",
-                "reference": "a6069f2159905bb9ab0a4e4d2ef34088f1b666b2",
+                "url": "https://api.github.com/repos/klevu/content/zipball/fa04747ca08ef697965b38810582405b16ab8bd0",
+                "reference": "fa04747ca08ef697965b38810582405b16ab8bd0",
                 "shasum": ""
             },
             "require": {
@@ -2653,7 +2654,8 @@
                 "magento/module-catalog": "@stable",
                 "magento/module-eav": "@stable",
                 "magento/module-store": "@stable",
-                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
+                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0",
+                "zendframework/zend-log": ">=2.5"
             },
             "type": "magento-module",
             "autoload": {
@@ -2677,20 +2679,20 @@
                 }
             ],
             "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
-            "time": "2021-06-28T11:13:40+00:00"
+            "time": "2021-08-11T16:09:48+00:00"
         },
         {
             "name": "klevu/module-productsearch",
-            "version": "2.3.17",
+            "version": "2.3.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/klevu/productsearch.git",
-                "reference": "e3f4a30c35b8073c7cb570a5752bf7ddfc3eaa43"
+                "reference": "3dd0fabde116aafff1b4a376e11fbd9e523066c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/klevu/productsearch/zipball/e3f4a30c35b8073c7cb570a5752bf7ddfc3eaa43",
-                "reference": "e3f4a30c35b8073c7cb570a5752bf7ddfc3eaa43",
+                "url": "https://api.github.com/repos/klevu/productsearch/zipball/3dd0fabde116aafff1b4a376e11fbd9e523066c5",
+                "reference": "3dd0fabde116aafff1b4a376e11fbd9e523066c5",
                 "shasum": ""
             },
             "require": {
@@ -2699,7 +2701,8 @@
                 "magento/module-catalog": "@stable",
                 "magento/module-eav": "@stable",
                 "magento/module-store": "@stable",
-                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0"
+                "php": "~5.5.0|~5.6.0|~7.0.0|~7.1.0|~7.2.0|~7.3.0|~7.4.0",
+                "zendframework/zend-log": ">=2.5"
             },
             "type": "magento-module",
             "autoload": {
@@ -2723,27 +2726,27 @@
                 }
             ],
             "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
-            "time": "2021-06-28T11:26:32+00:00"
+            "time": "2021-08-11T16:17:23+00:00"
         },
         {
             "name": "klevu/module-search",
-            "version": "2.3.17",
+            "version": "2.3.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/klevu/klevu-smart-search-M2.git",
-                "reference": "eed8b0f4a31a2b89a21b5d6faf0e2b3d461a565c"
+                "reference": "67bdac1e03c3f36f4b4887ce96359536b466019d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/klevu/klevu-smart-search-M2/zipball/eed8b0f4a31a2b89a21b5d6faf0e2b3d461a565c",
-                "reference": "eed8b0f4a31a2b89a21b5d6faf0e2b3d461a565c",
+                "url": "https://api.github.com/repos/klevu/klevu-smart-search-M2/zipball/67bdac1e03c3f36f4b4887ce96359536b466019d",
+                "reference": "67bdac1e03c3f36f4b4887ce96359536b466019d",
                 "shasum": ""
             },
             "require": {
-                "klevu/module-addtocart": "2.3.17",
-                "klevu/module-content": "2.3.17",
+                "klevu/module-addtocart": "2.3.18",
+                "klevu/module-content": "2.3.18",
                 "klevu/module-mysqlcompat": "1.0.0",
-                "klevu/module-productsearch": "2.3.17",
+                "klevu/module-productsearch": "2.3.18",
                 "klevu/module-troubleshoot": "~1.0.0"
             },
             "type": "metapackage",
@@ -2760,7 +2763,7 @@
                 }
             ],
             "description": "Search that learns, generates sales. Fastest, most advanced cloud-based search, autocomplete, instant search",
-            "time": "2021-06-28T12:03:43+00:00"
+            "time": "2021-08-12T07:13:25+00:00"
         },
         {
             "name": "klevu/module-troubleshoot",
