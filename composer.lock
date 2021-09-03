@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eec2c5603ed107471dc15733643fae4a",
+    "content-hash": "3a39977c0c99eb2b47c9461c7e8263eb",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -25291,98 +25291,6 @@
                 "AFL-3.0"
             ],
             "description": "Bundling metapackage for yotpo/magento2-module-yotpo-reviews: Yotpo Reviews extension for Magento2"
-        },
-        {
-            "name": "zipmoney/magento2",
-            "version": "1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zipMoney/magento2.git",
-                "reference": "b422ff4d397aa8c1a107229bc01b1fc5234adade"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zipMoney/magento2/zipball/b422ff4d397aa8c1a107229bc01b1fc5234adade",
-                "reference": "b422ff4d397aa8c1a107229bc01b1fc5234adade",
-                "shasum": ""
-            },
-            "require": {
-                "zipmoney/merchantapi-php": "^1.0"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "psr-4": {
-                    "ZipMoney\\ZipMoneyPayment\\": "",
-                    "ZipMoney\\ZipMoneyPayment\\Tests\\": ""
-                },
-                "files": [
-                    "registration.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "OSL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "zipMoney",
-                    "email": "integrations@zip.co"
-                }
-            ],
-            "description": "Zip Payment Module for Magento 2",
-            "time": "2021-02-26T02:12:34+00:00"
-        },
-        {
-            "name": "zipmoney/merchantapi-php",
-            "version": "1.0.11",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zipMoney/merchantapi-php.git",
-                "reference": "87d3a2cdf70785f28ae34bef2a0aae8606602f54"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zipMoney/merchantapi-php/zipball/87d3a2cdf70785f28ae34bef2a0aae8606602f54",
-                "reference": "87d3a2cdf70785f28ae34bef2a0aae8606602f54",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.0",
-                "squizlabs/php_codesniffer": "~2.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "zipMoney\\": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "zipMoney Payments Pty Ltd.",
-                    "homepage": "https://github.com/zipMoney/merchantapi-php"
-                }
-            ],
-            "homepage": "http://zipmoney.com.au",
-            "keywords": [
-                "api",
-                "merchantapi",
-                "php",
-                "sdk",
-                "zipMoney",
-                "zipPay",
-                "zipcredit"
-            ],
-            "time": "2021-02-03T03:37:50+00:00"
         },
         {
             "name": "zordius/lightncandy",
