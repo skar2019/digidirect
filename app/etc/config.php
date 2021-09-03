@@ -507,8 +507,8 @@ return [
         'Amazon_Login' => 0,
         'Amazon_Payment' => 0,
         'Apptrian_ImageOptimizer' => 1,
+        'Bss_FacebookPixel' => 1,
         'Bss_PreOrder' => 1,
-        'Ced_MPCatch' => 1,
         'CommissionFactory_Tracking' => 1,
         'Digidirect_Utilities' => 1,
         'Digidirect_AbstractAttributes' => 1,
@@ -527,7 +527,10 @@ return [
         'Digidirect_CollectAbstractEntity' => 1,
         'Digidirect_CollectAbstractEntityMSI' => 1,
         'Digidirect_Localization' => 1,
+        'Digidirect_CustomInventoryLog' => 1,
+        'Digidirect_CustomLog' => 1,
         'Digidirect_CustomOptions' => 1,
+        'Digidirect_CustomOrderLog' => 1,
         'Digidirect_Customer' => 1,
         'Digidirect_MSI' => 1,
         'Digidirect_ExtendedCartPriceRules' => 1,
@@ -550,6 +553,7 @@ return [
         'Digidirect_MyStoreWidget' => 1,
         'Digidirect_MyStoreWidgetCollect' => 1,
         'Digidirect_OnSaleProducts' => 1,
+        'Digidirect_Order' => 1,
         'Digidirect_ProductOverlay' => 1,
         'Digidirect_Pronto' => 1,
         'Digidirect_Qantas' => 1,
@@ -601,7 +605,7 @@ return [
         'Vertex_AddressValidation' => 1,
         'WebPanda_SalesProductImage' => 1,
         'Yotpo_Yotpo' => 1,
-        'ZipMoney_ZipMoneyPayment' => 1
+        'Zip_ZipPayment' => 1
     ],
     'admin_user' => [
         'locale' => [
