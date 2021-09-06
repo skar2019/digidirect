@@ -6,11 +6,9 @@
                type="radio"/>
         <label class="label" data-bind="attr: {'for': getCode()}">
             <!-- zipMoney Logo -->
-            <img class="payment-icon"
+            <span data-zm-asset="checkouttitle" data-zm-widget="inline" style="margin-left:-100px;"><img class="payment-icon"
                  data-bind="attr: {src: getPaymentAcceptanceMarkSrc(), alt: $t('zipMoney Acceptance Mark')}"
-                 style="height:26px"/>
-            <!-- zipMoney Logo -->
-            <span data-zm-asset="checkouttitle" data-zm-widget="inline"><!-- ko i18n: 'Own it now, pay later' --><!-- /ko --></span>
+                 style="height:27px;"/><span style="margin-left:-220px"><!-- ko i18n: 'Own it now, pay later' --><!-- /ko --></span></span>
         </label>
     </div>
 
