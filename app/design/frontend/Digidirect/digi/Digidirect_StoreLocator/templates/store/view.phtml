@@ -1,6 +1,9 @@
 <?php
 /** @var $block \Digidirect\StoreLocator\Block\ListStore\DetailPage */
 ?>
+<div class="dscrptn" style="text-align:center;">
+    <?php echo $block->getChildHtml('storelocator.description'); ?>
+</div> 
 <div class="grid-row store-view">
     <div class="store-wrapper column -left">
         <?php echo $block->getChildHtml('abstractentity_additional_info'); ?>
