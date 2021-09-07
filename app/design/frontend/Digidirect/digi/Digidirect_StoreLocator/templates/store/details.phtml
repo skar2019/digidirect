@@ -58,8 +58,7 @@ $exclusiveIcon = $block->getExclusiveIcon();
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-phone"></use>
                 </svg>
             </span>
-            <a href="tel:<?php echo $block->escapeHtml($phone); ?>"><?php echo $block->escapeHtml($phone); ?></a>
-            
+            <?php echo $block->escapeHtml($phone); ?>
         </div>
     <?php endif; ?>
 
@@ -83,12 +82,7 @@ $exclusiveIcon = $block->getExclusiveIcon();
             <a class="email" href="mailto:<?php echo $block->escapeHtml($mail); ?>" title="<?php /* @escapeNotVerified */ echo __('Email')?>"><?php echo $block->escapeHtml($mail); ?></a>
         </div>
     <?php endif; ?>
-
-    <?php if ($description = $abstractEntity->getDescription()): ?>
-        <div class="item -description">
-            <?php /* @escapeNotVerified */ echo $description; ?>
-        </div>
-    <?php endif; ?>
+            
     <div class="stores-gallery">
         <?php if ($abstractEntity->getImage()): ?>
         <div class="thumb">
