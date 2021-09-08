@@ -1081,7 +1081,7 @@ class TestPronto extends AbstractHelper
                 var_dump($data['sales-order']);
             }
             //create xml of order data here
-            $this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+            //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
             //TEST
@@ -1112,18 +1112,18 @@ class TestPronto extends AbstractHelper
                 if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
                 {
                     $msg =  $json['response']['message'];
-                    //echo $msg."<br>";
+                    echo $msg."<br>";
                     $order->setData('pronto_order_number',$msg);
                     $order->save();
-                    $this->logger->error('Pronto Order Sync', array('info' => $msg));
+                    //$this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
-                    //echo $msg ."<br>";
+                    echo $msg ."<br>";
                     $order->setData('pronto_order_number',$msg);
                     $order->save();
-                    $this->logger->error('Pronto Order Sync', array('info' => $msg));
+                    //$this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
                 else {
@@ -1136,8 +1136,8 @@ class TestPronto extends AbstractHelper
                     $order->save();
 
 
-                    $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
-
+                    //$this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
+                    var_dump($json['sales-orders']['sales-order']);
                     $account = $json['sales-orders']['sales-order']['account'];
                     if (!empty($account) && !$order->getCustomerIsGuest()) {
                         $customer = $this->customerRepository->getById($order->getCustomerId());
