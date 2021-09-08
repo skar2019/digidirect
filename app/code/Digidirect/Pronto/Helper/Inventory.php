@@ -52,9 +52,9 @@ class Inventory extends AbstractHelper
 
         $lastCode = 0;
         $forLogs = "";
-        date_default_timezone_set('Australia/Sydney');
+        date_default_timezone_set('UTC');
         $newTime = strtotime('-20 minutes');
-        $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
+        $prontofilter = date('dmYHis', $newTime);//$now->format('dmYhis');
 
         //$prontofilter = '05072021000000';
         // testing
@@ -233,15 +233,15 @@ class Inventory extends AbstractHelper
 
         $lastCode = 0;
         $forLogs = "";
-        date_default_timezone_set('UTC');
+        //date_default_timezone_set('UTC');
         echo date_default_timezone_get() . "<br>";
         $newTime = strtotime('-20 minutes');
-        $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
+        $prontofilter = date('dmYHis', $newTime);//$now->format('dmYhis');
         echo $prontofilter . "<br>";
         date_default_timezone_set('Australia/Sydney');
         echo date_default_timezone_get() . "<br>";
         $newTime = strtotime('-20 minutes');
-        $twentyminutes = date('dmYhis', $newTime);//$now->format('dmYhis');
+        $twentyminutes = date('dmYHis', $newTime);//$now->format('dmYhis');
         echo $twentyminutes;
         exit;
         //$prontofilter = '05072021000000';
