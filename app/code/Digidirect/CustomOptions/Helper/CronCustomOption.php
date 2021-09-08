@@ -2,7 +2,7 @@
 namespace Digidirect\CustomOptions\Helper;
 
 use Magento\Catalog\Api\Data\ProductCustomOptionInterface;
- 
+
 class CronCustomOption extends \Magento\Framework\Model\AbstractModel
 {
     protected $_productOptions;
@@ -10,7 +10,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
     protected $_productRepository;
     protected $_giftCardHelper;
     protected $_productOptionFactory;
- 
+
     public function __construct(
         \Magento\Catalog\Model\Product\Option $productOptions,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepositoryInterface,
@@ -24,7 +24,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_productOptionFactory = $productOptionFactory;
     }
- 
+
     public function saveCustomOption(){
 
         $collection = $this->_productCollectionFactory->create();
@@ -33,11 +33,16 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
         $collection->addAttributeToFilter('type_id', array('eq' => 'simple'));
         $collection->addAttributeToFilter('brand', array('neq' => 'LEICA'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Leica'));
+        $collection->addAttributeToFilter('brand', array('neq' => '139'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Canon'));
         $collection->addAttributeToFilter('brand', array('neq' => 'CANON'));
+        $collection->addAttributeToFilter('brand', array('neq' => '120'));
         $collection->addAttributeToFilter('brand', array('neq' => 'DJI'));
+        $collection->addAttributeToFilter('brand', array('neq' => '353'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Zhiyun-Tech'));
         $collection->addAttributeToFilter('brand', array('neq' => 'Zhiyun'));
+        $collection->addAttributeToFilter('brand', array('neq' => '7125'));
+        $collection->addAttributeToFilter('brand', array('neq' => '521'));
         $collection->addAttributeToFilter('stock_group', array('neq' => 'D1A1'));
         //$collection->addCategoriesFilter(['in' => $id]);
         //might check 'stock_status' => string '171'
@@ -54,18 +59,18 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                         $exist = true;
                     }
                 }
-                
+
             }
             $sku = $this->_productRepository->getSku();
-            
+
             if (!$exist) {
-                
+
                 $price = $this->_productRepository->getPrice();
-                
-            
+
+
                 if($price > 1000 && $price < 2000)
                 {
-                    $optionsArray = [   
+                    $optionsArray = [
                         'title' => 'digiProtect',
                         'type' => 'radio',
                         'is_require' => 0,
@@ -79,11 +84,11 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                                 'sort_order' => 1,
                             ]
                         ]
-                    ]; 
+                    ];
                 }
                 else if($price > 2000)
                 {
-                    $optionsArray = [   
+                    $optionsArray = [
                         'title' => 'digiProtect',
                         'type' => 'radio',
                         'is_require' => 0,
@@ -97,11 +102,11 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                                 'sort_order' => 1,
                             ]
                         ]
-                    ]; 
+                    ];
                 }
-                else 
+                else
                 {
-                    $optionsArray = [   
+                    $optionsArray = [
                         'title' => 'digiProtect',
                         'type' => 'radio',
                         'is_require' => 0,
@@ -115,11 +120,11 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                                 'sort_order' => 1,
                             ]
                         ]
-                    ];    
+                    ];
                 }
 
                 try {
-                    
+
                     $option = \Magento\Framework\App\ObjectManager::getInstance()->create('\Magento\Catalog\Model\Product\Option');
                     $this->_productRepository->setHasOptions(1);
                     $this->_productRepository->setCanSaveCustomOptions(true);
@@ -137,13 +142,13 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                 }
                 $x++;
             }
-                
+
         }
-        echo "added ".$x;
+
         return;
 
     }
-    
+
     public function deleteCustomOption(){
 
         $x = 0;
@@ -161,7 +166,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                 }
                 $x++;
             }
-              
+
         }
         echo "deleted ".$x;
         return;
