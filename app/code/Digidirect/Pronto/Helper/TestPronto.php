@@ -720,11 +720,15 @@ class TestPronto extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
+            if($wrehs != 'SWHS')
+            {
+                $territory = $wrehs;
+            }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
-
+            $amShipping = $order->getShippingDescription();
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -732,9 +736,8 @@ class TestPronto extends AbstractHelper
             }
 
             if($is_am_order){
-                $rep = "AMAZON MFH";
-                if($accountname == "N/A N/A")
-                {
+                $rep = "AMAZON MFN";
+                if (strpos($amShipping, 'AFN') !== false) {
                     $rep = "AMAZON FBA";
                     $account = "AMAZ00";
                     if($countrycode == "NZ")
@@ -746,6 +749,7 @@ class TestPronto extends AbstractHelper
                     $territory = "AWHS";
                     $is_am_fba = true;
                 }
+
             }
             else
             {
@@ -756,6 +760,9 @@ class TestPronto extends AbstractHelper
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
                 }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $rep ="MYDEAL";
+                }
 
             }
 
@@ -765,7 +772,6 @@ class TestPronto extends AbstractHelper
             $created = $order->getCreatedAt();
             $created = $this->timezone->date(new \DateTime($created));
             $orderdate = $created->format('Y-m-d');
-            echo $orderdate. "<br>";
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
@@ -877,7 +883,7 @@ class TestPronto extends AbstractHelper
                     $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                 }
             }
-            //work around for new and old catch
+            //work around for IR orders coming as H
             if($payment_type == 'H')
             {
                 if (strpos($orderId, 'CATCH') !== false) {
@@ -886,10 +892,18 @@ class TestPronto extends AbstractHelper
                     $catchRef = str_replace("CATCH","",$catchRef);
                     $payment_reference = $catchRef;
                 }
-            }
-
-            if(($is_am_order) && ($payment_type == "EB")){
-                $payment_type = "AM";
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $payment_type ="MD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("MYD","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'AM') !== false) {
+                    $payment_type ="AM";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("AM","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             $withpaymentref = true;
@@ -1116,7 +1130,8 @@ class TestPronto extends AbstractHelper
                     $order->setData('pronto_order_number',$pronto);
                     $order->setData('pronto_status_code',$prontostatus);
                     $order->save();
-                    echo "success ".$pronto;
+
+
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
 
                     $account = $json['sales-orders']['sales-order']['account'];
@@ -1125,6 +1140,7 @@ class TestPronto extends AbstractHelper
                         $customer->setData('pronto_account_id', $account);
                         $customer->setCustomAttribute('pronto_account_id', $account);
                         $this->customerRepository->save($customer);
+
                     }
                     /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                     $invoice = $order->getInvoiceCollection()->getFirstItem();

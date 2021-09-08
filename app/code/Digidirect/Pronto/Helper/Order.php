@@ -857,7 +857,7 @@ class Order extends AbstractHelper
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
-
+            $amShipping = $order->getShippingDescription();
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -865,9 +865,8 @@ class Order extends AbstractHelper
             }
 
             if($is_am_order){
-                $rep = "AMAZON MFH";
-                if($accountname == "N/A N/A")
-                {
+                $rep = "AMAZON MFN";
+                if (strpos($amShipping, 'AFN') !== false) {
                     $rep = "AMAZON FBA";
                     $account = "AMAZ00";
                     if($countrycode == "NZ")
@@ -879,6 +878,7 @@ class Order extends AbstractHelper
                     $territory = "AWHS";
                     $is_am_fba = true;
                 }
+
             }
             else
             {
@@ -1012,7 +1012,7 @@ class Order extends AbstractHelper
                     $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                 }
             }
-            //work around for new and old catch
+            //work around for IR orders coming as H
             if($payment_type == 'H')
             {
                 if (strpos($orderId, 'CATCH') !== false) {
@@ -1027,10 +1027,12 @@ class Order extends AbstractHelper
                     $catchRef = str_replace("MYD","",$catchRef);
                     $payment_reference = $catchRef;
                 }
-            }
-
-            if(($is_am_order) && ($payment_type == "EB")){
-                $payment_type = "AM";
+                else if (strpos($orderId, 'AM') !== false) {
+                    $payment_type ="AM";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("AM","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             $withpaymentref = true;
