@@ -637,7 +637,7 @@ class Order extends AbstractHelper
             case "paybympcatch":
                 $type = 'CA';
                 break;
-            case "zipmoneypayment":
+            case "zippayment":
                 $type = "ZM";
                 break;
             case "braintree_googlepay":
