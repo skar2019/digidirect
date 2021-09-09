@@ -14,6 +14,8 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
+use Magento\Directory\Model\Country;
+use Magento\Directory\Model\CountryFactory;
 
 class Order extends AbstractHelper
 {
@@ -100,6 +102,11 @@ class Order extends AbstractHelper
 
     private $timezone;
 
+    /**
+     * @var Country
+     */
+    public $countryFactory;
+
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -113,7 +120,8 @@ class Order extends AbstractHelper
                         IncrementIdUpdater $incrementIdUpdater,
                         CustomerRepositoryInterface $customerRepository,
                         \Digidirect\CustomOrderLog\Logger\Logger $logger,
-                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone)
+                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
+                        CountryFactory $countryFactory)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -128,6 +136,7 @@ class Order extends AbstractHelper
                         $this->customerRepository = $customerRepository;
                         $this->logger = $logger;
                         $this->timezone = $timezone;
+                        $this->countryFactory = $countryFactory;
 
     }
 
