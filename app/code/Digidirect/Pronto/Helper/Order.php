@@ -172,11 +172,15 @@ class Order extends AbstractHelper
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
-            $countryName = "Australia";
-            $country = $this->countryFactory->create()->loadByCode($countrycode);
-            if ($country) {
-                $countryName = $country->getName();
+            $countryName = "";
+            if(isset($countrycode))
+            {
+                $country = $this->countryFactory->create()->loadByCode($countrycode);
+                if ($country) {
+                    $countryName = $country->getName();
+                }
             }
+
 
             $amShipping = $order->getShippingDescription();
             $is_am_order = false;
