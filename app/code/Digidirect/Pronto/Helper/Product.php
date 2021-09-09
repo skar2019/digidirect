@@ -2023,49 +2023,6 @@ class Product extends AbstractHelper
                     }
                 }
 
-                //set apn and gtin
-                $barcode1 = "";
-                $barcode2 = "";
-                $barcode3 = "";
-                $barcode4 = "";
-                if(isset($prod['gtins']['gtin'])) {
-                    //set barcode
-                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
-                        $barcode1 = $prod['gtins']['gtin']['id'];
-
-                    } else {
-                        $x = 1;
-                        foreach ($prod['gtins']['gtin'] as $gtin) {
-                            switch ($x)
-                            {
-                                case 1:
-                                    $barcode1 = $gtin['id'];
-                                    break;
-                                case 2:
-                                    $barcode2 = $gtin['id'];
-                                    break;
-                                case 3:
-                                    $barcode3 = $gtin['id'];
-                                    break;
-                                case 4:
-                                    $barcode4 = $gtin['id'];
-                                    break;
-                                default:
-
-                            }
-                            $x++;
-                        }
-                    }
-                }
-                //work around to set
-                $product->setCustomAttribute('barcode1',$barcode1);
-                $product->setCustomAttribute('barcode2',$barcode2);
-                $product->setCustomAttribute('barcode3',$barcode3);
-                $product->setCustomAttribute('barcode4',$barcode4);
-                $forLogs .= "barcode1 ".$barcode1."\n";
-                $forLogs .= "barcode2 ".$barcode2."\n";
-                $forLogs .= "barcode3 ".$barcode3."\n";
-                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -2387,14 +2344,16 @@ class Product extends AbstractHelper
                             }
                             if(isset($prod['web-category4']))
                             {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
+
                                 if($category['name'] == $prod['web-category4'])
                                 {
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
                                     $categoryIds[] = $category['id'];
                                 }
                             }
                         }
                     }
+                    echo $catList."<br>";
                     $forLogs .= $catList."\n";
                     if (count($categoryIds)) {
 
@@ -2662,6 +2621,10 @@ class Product extends AbstractHelper
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         $parentID = 2;
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
+        foreach ($getCategoryList as $cat)
+        {
+            echo $cat['name'] . '>' .$cat['id'] . "<br>";
+        }
         //var_dump($getCategoryList);
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
@@ -2707,6 +2670,14 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
+                echo $product->getBrand();
+                echo "<br>";
+                foreach ($this->attributeOptions as $id => $value)
+                {
+                    echo $id . '>' .$value."<br>";
+                }
+                //var_dump($this->attributeOptions);
+                exit;
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
@@ -2761,14 +2732,16 @@ class Product extends AbstractHelper
                             }
                             if(isset($prod['web-category4']))
                             {
-                                $catList .=$category['name'] . " - " .$category['id']." : ";
+
                                 if($category['name'] == $prod['web-category4'])
                                 {
+                                    $catList .=$category['name'] . " - " .$category['id']." : ";
                                     $categoryIds[] = $category['id'];
                                 }
                             }
                         }
                     }
+                    echo $catList."<br>";
                     $forLogs .= $catList."\n";
                     if (count($categoryIds)) {
 
@@ -2881,7 +2854,7 @@ class Product extends AbstractHelper
                     }
                 }
 
-
+                echo $catList."<br>";
                 if (count($categoryIds)) {
                     $forLogs .= "Categories: ".$catList."\n";
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
@@ -3030,6 +3003,16 @@ class Product extends AbstractHelper
                                         'url'=> $sub2category->getUrl(),
                                         'id'=> $sub2category->getId()
                                     ];
+                                if (count($sub2category->getChildrenData())) {
+                                    $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
+                                    foreach ($getSubCategoryLevelDownAgain4->getChildrenData() as $sub3category) {
+                                        $categoryData[$sub3category->getId()]  = [
+                                            'name'=> $sub3category->getName(),
+                                            'url'=> $sub3category->getUrl(),
+                                            'id'=> $sub3category->getId()
+                                        ];
+                                    }
+                                }
                             }
                         }
                 }
