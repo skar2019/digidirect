@@ -14,6 +14,8 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
+use Magento\Directory\Model\Country;
+use Magento\Directory\Model\CountryFactory;
 
 class TestPronto extends AbstractHelper
 {
@@ -105,6 +107,11 @@ class TestPronto extends AbstractHelper
 
     private $timezone;
 
+    /**
+     * @var Country
+     */
+    public $countryFactory;
+
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -118,7 +125,8 @@ class TestPronto extends AbstractHelper
                         IncrementIdUpdater $incrementIdUpdater,
                         CustomerRepositoryInterface $customerRepository,
                         \Digidirect\CustomOrderLog\Logger\Logger $logger,
-                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone)
+                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
+                        CountryFactory $countryFactory)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -133,6 +141,7 @@ class TestPronto extends AbstractHelper
                         $this->customerRepository = $customerRepository;
                         $this->logger = $logger;
                         $this->timezone = $timezone;
+                        $this->countryFactory = $countryFactory;
 
     }
 
@@ -806,6 +815,12 @@ class TestPronto extends AbstractHelper
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
             $countrycode = $address->getCountryId();
+            $countryName = "Australia";
+            $country = $this->countryFactory->create()->loadByCode($countrycode);
+            if ($country) {
+                $countryName = $country->getName();
+            }
+
             $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
@@ -819,6 +834,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['billing-address']['line-2'] = $unitNumber." ".$street;
             $data['sales-order']['header']['billing-address']['line-3'] = $city;
             $data['sales-order']['header']['billing-address']['line-4'] = $region;
+            $data['sales-order']['header']['billing-address']['line-6'] = $countryName;
             $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
             $data['sales-order']['header']['billing-address']['country-code'] = $countrycode;
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
@@ -848,6 +864,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
             $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
             $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
+            $data['sales-order']['header']['delivery-address']['line-6'] = $countryName;
             $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
             $data['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;

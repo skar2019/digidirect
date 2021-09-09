@@ -163,6 +163,12 @@ class Order extends AbstractHelper
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
+            $countryName = "Australia";
+            $country = $this->countryFactory->create()->loadByCode($countrycode);
+            if ($country) {
+                $countryName = $country->getName();
+            }
+
             $amShipping = $order->getShippingDescription();
             $is_am_order = false;
             $is_am_fba = false;
@@ -256,6 +262,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['line-2'] = $unitNumber." ".$street;
             $data['sales-order']['header']['billing-address']['line-3'] = $city;
             $data['sales-order']['header']['billing-address']['line-4'] = $region;
+            $data['sales-order']['header']['billing-address']['line-6'] = $countryName;
             $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
             $data['sales-order']['header']['billing-address']['country-code'] = $countrycode;
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
@@ -285,6 +292,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
             $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
             $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
+            $data['sales-order']['header']['delivery-address']['line-6'] = $countryName;
             $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
             $data['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
