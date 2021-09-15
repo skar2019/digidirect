@@ -217,6 +217,9 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'MYD') !== false) {
                     $rep ="MYDEAL";
                 }
+                else if (strpos($orderId, 'WD') !== false) {
+                    $rep ="WESTFIELD";
+                }
 
             }
 
@@ -361,6 +364,12 @@ class Order extends AbstractHelper
                     $payment_type ="AM";
                     $catchRef = $orderId;
                     $catchRef = str_replace("AM","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'WD') !== false) {
+                    $payment_type ="WD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("WD","",$catchRef);
                     $payment_reference = $catchRef;
                 }
             }
