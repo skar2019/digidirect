@@ -1,0 +1,101 @@
+//
+//  Base and override Magento styles
+//  ____________________________________________
+
+//
+//  Imports
+//  --------------------------------------------
+
+@import '_utils';
+
+//
+//  Utils
+//  --------------------------------------------
+
+.ambanner-preloader-block {
+    & {
+        position: relative;
+    }
+
+    &:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: @ambanner__z-index * 2;
+        display: block;
+        background: @ambanner__loader;
+        content: '';
+    }
+}
+
+//
+//  Common
+//  --------------------------------------------
+
+& when (@media-common = true) {
+    .ambanner-slider-wrap {
+        & {
+            position: relative;
+            margin: @ambanner__indent__l 0;
+        }
+
+        > .ambanner-title {
+            .am-word-break;
+        }
+
+        &.-alignment-left {
+            margin-right: auto;
+        }
+
+        &.-alignment-right {
+            margin-left: auto;
+        }
+
+        &.-alignment-center {
+            margin-right: auto;
+            margin-left: auto;
+        }
+    }
+
+    .ambanner-slider-block {
+        & {
+            overflow: hidden;
+        }
+
+        &.slick-slider {
+            padding: 0;
+        }
+
+        &.slick-slider.slick-dotted {
+            margin-bottom: 20px !important; // Override slick lib style
+        }
+
+        &.-ambanner-preloader:not(.-ambanner-loaded) {
+            .ambanner-preloader-block;
+
+            height: 30vh;
+        }
+
+        &:not(.-ambanner-loaded) .ambanner-item-block:not(:first-of-type) {
+            position: absolute;
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+
+    .columns .sidebar {
+        max-width: 100%;
+    }
+}
+
+//
+//  Mobile
+//  -------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .ambanner-slider-block {
+        margin: 0 -@layout__width-xs-indent;
+    }
+}

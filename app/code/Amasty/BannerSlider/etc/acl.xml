@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Amasty_BannerSlider::config" title="Amasty Banner Slider" sortOrder="020119" />
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::content">
+                    <resource id="Amasty_BannerSlider::banner" title="Amasty Banner Slider" translate="title" sortOrder="10">
+                        <resource id="Amasty_BannerSlider::banners_banner" title="Amasty Banner" translate="title" sortOrder="10"/>
+                        <resource id="Amasty_BannerSlider::sliders_slider" title="Amasty Slider" translate="title" sortOrder="20"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

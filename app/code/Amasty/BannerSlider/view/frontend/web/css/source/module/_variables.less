@@ -1,0 +1,57 @@
+//
+//  Variables
+//  ____________________________________________
+
+@ambanner-module__path: '../Amasty_BannerSlider';
+@ambanner__transition-duration: .3s;
+@ambanner__transition-duration__fast: .2s;
+@ambanner__transition-duration__slow: .5s;
+@ambanner__transition-func: ease-in-out;
+@ambanner__z-index: 5;
+@ambanner__loader: #fff url('@{ambanner-module__path}/images/loader.gif') center/80px no-repeat;
+
+//
+//  Colors
+//  --------------------------------------------
+
+@ambanner__text__color: #293e52;
+@ambanner__dark__color: #333;
+@ambanner__light__color: #fff;
+
+//
+//  Indents
+//  --------------------------------------------
+
+@ambanner__indent: 10px;
+@ambanner__indent__m: @ambanner__indent + @ambanner__indent / 2;
+@ambanner__indent__l: @ambanner__indent * 2;
+@ambanner__indent__xl: @ambanner__indent__l + @ambanner__indent / 2;
+
+//
+//  Slide variables
+//  --------------------------------------------
+
+@ambanner-overlay__offset: 15px;
+@ambanner-overlay__offset__arrows: 65px;
+@ambanner-overlay__offset__dots: 40px;
+@ambanner-overlay__background-color: rgba(255, 255, 255, .85);
+@ambanner-overlay__blur: blur(4px);
+
+//
+//  Slider controls
+//  --------------------------------------------
+
+@ambanner-overlay-arrow__size: 36px;
+@ambanner-overlay-arrow__background: @ambanner__light__color;
+@ambanner-overlay-arrow__background__invert: @ambanner__dark__color;
+@ambanner-overlay-arrow__color: @ambanner__dark__color;
+@ambanner-overlay-arrow__color__invert: @ambanner__light__color;
+@ambanner-overlay-arrow__disabled__color: #dadada;
+@ambanner-overlay-arrow__box-shadow: 0 6px 6px rgba(0, 0, 0, .1);
+@ambanner-overlay-arrow__box-shadow__hover: 0 6px 6px rgba(0, 0, 0, .3);
+
+@ambanner-overlay-dot__size: 8px;
+@ambanner-overlay-dot__size__l: 25px;
+@ambanner-overlay-dot__color: @ambanner__dark__color;
+@ambanner-overlay-dot__background: @ambanner__dark__color;
+@ambanner-overlay-dot__background__invert: @ambanner__light__color;

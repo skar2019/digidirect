@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="amasty_bannerslider_banner_static" resource="default" engine="innodb" comment="Banner Static Table">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Banner Id"/>
+        <column xsi:type="text" name="name" nullable="false" comment="Banner Name"/>
+        <column xsi:type="text" name="customer_group" nullable="false" comment="Banner Customer Group"/>
+        <column xsi:type="smallint" name="visible_on" padding="6" unsigned="false" nullable="true" identity="false" default="0" comment="Visible On"/>
+        <column xsi:type="varchar" name="target_type" nullable="true" length="255" default="_blank" comment="Target Type"/>
+        <column xsi:type="date" name="start_date" nullable="true" comment="Visible From Date"/>
+        <column xsi:type="date" name="end_date" nullable="true" comment="Visible To Date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="amasty_bannerslider_banner_dynamic" resource="default" engine="innodb" comment="Banner Dynamic Table">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="false" comment="Banner Id"/>
+        <column xsi:type="boolean" name="status" nullable="false" comment="Banner Status"/>
+        <column xsi:type="text" name="image" nullable="false" comment="Banner Image"/>
+        <column xsi:type="text" name="image_alt" nullable="true" comment="Banner Image Alt"/>
+        <column xsi:type="text" name="target_url" nullable="true" comment="Banner Target URL"/>
+        <column xsi:type="text" name="hover_text" nullable="true" comment="Banner On Hover Text"/>
+        <column xsi:type="smallint" name="store_id" padding="6" unsigned="false" nullable="false" identity="false" comment="Banner Store Id"/>
+        <constraint xsi:type="foreign" referenceId="FK_4DD60288B9F8483EA0B72DB1CC6BE8D9" table="amasty_bannerslider_banner_dynamic" column="id" referenceTable="amasty_bannerslider_banner_static" referenceColumn="id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="AMASTY_BANNERSLIDER_BANNER_DYNAMIC_ID_STORE_ID">
+            <column name="id"/>
+            <column name="store_id"/>
+        </constraint>
+    </table>
+    <table name="amasty_bannerslider_slider_static" resource="default" engine="innodb" comment="Slider Static Table">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Slider Id"/>
+        <column xsi:type="boolean" name="autoplay" nullable="true" comment="Enable Autoplay"/>
+        <column xsi:type="smallint" name="pause_time" padding="5" unsigned="true" nullable="true" identity="false" default="3500" comment="Pause Time Between Transitions, ms"/>
+        <column xsi:type="smallint" name="animation_effect" padding="5" unsigned="true" nullable="false" identity="false" comment="Animation Effect"/>
+        <column xsi:type="smallint" name="transition_speed" padding="5" unsigned="true" nullable="true" identity="false" comment="Slide Transition Speed, ms"/>
+        <column xsi:type="boolean" name="navigation_arrows" nullable="true" comment="Navigation Arrows"/>
+        <column xsi:type="smallint" name="arrows_style" padding="5" unsigned="true" nullable="false" identity="false" default="1" comment="Arrows Style"/>
+        <column xsi:type="boolean" name="navigation_bullets" nullable="true" comment="Navigation Bullets"/>
+        <column xsi:type="smallint" name="bullets_style" padding="5" unsigned="true" nullable="false" identity="false" comment="Bullets Style"/>
+        <column xsi:type="smallint" name="banner_width" padding="5" unsigned="true" nullable="false" identity="false" comment="Banner Width, px *"/>
+        <column xsi:type="smallint" name="banner_height" padding="5" unsigned="true" nullable="false" identity="false" comment="Banner Height, px *"/>
+        <column xsi:type="smallint" name="mobile_width" padding="5" unsigned="true" nullable="false" identity="false" comment="Mobile Width, px *"/>
+        <column xsi:type="smallint" name="mobile_height" padding="5" unsigned="true" nullable="false" identity="false" comment="Mobile Height, px *"/>
+        <column xsi:type="boolean" name="resize_images" nullable="true" comment="Resize Images"/>
+        <column xsi:type="boolean" name="is_lazy_load_enabled" nullable="true" comment="Enable Built-In Lazy Load"/>
+        <column xsi:type="boolean" name="lazy_load_first_image" nullable="true" comment="Is Lazy Load First Image"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="amasty_bannerslider_slider_dynamic" resource="default" engine="innodb" comment="Slider Dynamic Table">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="false" comment="Slider Id"/>
+        <column xsi:type="text" name="name" nullable="false" comment="Slider Name"/>
+        <column xsi:type="boolean" name="status" nullable="true" comment="Slider Status"/>
+        <column xsi:type="smallint" name="store_id" padding="6" unsigned="false" nullable="false" identity="false" comment="Slider Store Id"/>
+        <constraint xsi:type="foreign" referenceId="FK_31FFBF15CDBDF07F0BE4419724DE606A" table="amasty_bannerslider_slider_dynamic" column="id" referenceTable="amasty_bannerslider_slider_static" referenceColumn="id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="AMASTY_BANNERSLIDER_SLIDER_DYNAMIC_ID_STORE_ID">
+            <column name="id"/>
+            <column name="store_id"/>
+        </constraint>
+    </table>
+    <table name="amasty_bannerslider_slider_banner" resource="default" engine="innodb" comment="Slider and Banner tables relations">
+        <column xsi:type="int" name="slider_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Slider Id"/>
+        <column xsi:type="int" name="banner_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Banner Id"/>
+        <column xsi:type="int" name="position" padding="10" unsigned="true" nullable="false" identity="false" comment="Banner Position"/>
+        <constraint xsi:type="foreign" referenceId="FK_C63F218B2F35703BA9DBB0DA69238B44" table="amasty_bannerslider_slider_banner" column="slider_id" referenceTable="amasty_bannerslider_slider_static" referenceColumn="id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="FK_C222474E9E15D748E0DC35EAC2371A35" table="amasty_bannerslider_slider_banner" column="banner_id" referenceTable="amasty_bannerslider_banner_static" referenceColumn="id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="AMASTY_BANNERSLIDER_SLIDER_BANNER_SLIDER_ID_BANNER_ID">
+            <column name="slider_id"/>
+            <column name="banner_id"/>
+        </constraint>
+    </table>
+    <table name="amasty_bannerslider_banner_view_temp" resource="default" engine="innodb" comment="amasty_bannerslider_banner_view_temp">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="banner_id" padding="11" unsigned="false" nullable="false" identity="false" comment="Banner Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="amasty_bannerslider_banner_click_temp" resource="default" engine="innodb" comment="amasty_bannerslider_banner_click_temp">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        <column xsi:type="int" name="banner_id" padding="11" unsigned="false" nullable="false" identity="false" comment="Banner Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+    <table name="amasty_bannerslider_banner_analytics" resource="default" engine="innodb" comment="amasty_bannerslider_banner_analytics">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Analytic ID"/>
+        <column xsi:type="varchar" name="type" nullable="true" length="15" comment="Type of Analytics"/>
+        <column xsi:type="int" name="counter" padding="11" unsigned="false" nullable="false" identity="false" comment="Counter"/>
+        <column xsi:type="int" name="banner_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Banner Id"/>
+        <column xsi:type="int" name="version_id" padding="11" unsigned="false" nullable="false" identity="false" comment="Version Id"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="FK_E7BE04E93A91E693C3D9C0ED8C9A42CE" table="amasty_bannerslider_banner_analytics" column="banner_id" referenceTable="amasty_bannerslider_banner_static" referenceColumn="id" onDelete="CASCADE"/>
+        <index referenceId="AMASTY_BANNERSLIDER_BANNER_ANALYTICS_BANNER_ID" indexType="btree">
+            <column name="banner_id"/>
+        </index>
+    </table>
+</schema>

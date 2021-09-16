@@ -1,0 +1,3 @@
+._disabled .admin__fieldset-wrapper-content * {
+    pointer-events: none;
+}

@@ -1,0 +1,318 @@
+//
+//  Slider controls styles
+//  ____________________________________________
+
+//
+//  Imports
+//  --------------------------------------------
+
+@import '../_utils';
+
+.ambanner-controls-hover {
+    .ambanner-arrow-button {
+        & {
+            opacity: 1;
+        }
+
+        &.-prev {
+            left: @ambanner-overlay__offset;
+        }
+
+        &.-next {
+            right: @ambanner-overlay__offset;
+        }
+    }
+
+    .ambanner-slider-dots {
+        bottom: 0;
+        opacity: 1;
+    }
+}
+
+//
+//  Common
+//  --------------------------------------------
+
+& when (@media-common = true) {
+    .ambanner-slider-block.-ambanner-hover,
+    .ambanner-slider-block.slick-slider.-ambanner-hover {
+        &:extend(.ambanner-controls-hover all);
+    }
+
+    .slick-slider .slick-arrow.ambanner-arrow-button {
+        &:extend(.ambanner-arrow-button all);
+    }
+
+    .ambanner-slider-block.-ambanner-touchscreen {
+        &.-ambanner-no-dots {
+            .ambanner-controls-hover;
+        }
+
+        .ambanner-slider-dots {
+            bottom: 0;
+            opacity: 1;
+        }
+    }
+
+    .ambanner-arrow-button {
+        & {
+            &:extend(.ambanner-icon all);
+            .am-flex(center, center);
+
+            position: absolute;
+            top: 50%;
+            z-index: @ambanner__z-index;
+            padding: 0;
+            width: @ambanner-overlay-arrow__size;
+            height: @ambanner-overlay-arrow__size;
+            outline: none;
+            border: none;
+            border-radius: 50%;
+            background: @ambanner-overlay-arrow__background !important; // Override slick lib style
+            box-shadow: @ambanner-overlay-arrow__box-shadow;
+            color: transparent;
+            font-size: 0;
+            line-height: 0;
+            opacity: 0;
+            cursor: pointer;
+            transition-duration: @ambanner__transition-duration__fast;
+            transform: translate(0, -50%);
+        }
+
+        &:hover,
+        &:focus {
+            outline: none;
+            border: none;
+            background: @ambanner-overlay-arrow__background !important; // Override slick lib style
+            box-shadow: @ambanner-overlay-arrow__box-shadow__hover;
+            color: transparent;
+        }
+
+        &:not(.primary) {
+            border-radius: 50%;
+            box-shadow: @ambanner-overlay-arrow__box-shadow;
+        }
+
+        body:not(._keyfocus) &:focus,
+        &:not(.primary):focus {
+            box-shadow: @ambanner-overlay-arrow__box-shadow__hover;
+        }
+
+        &:active {
+            & {
+                background: @ambanner-overlay-arrow__background__invert !important; // Override slick lib style
+            }
+
+            &:before {
+                color: @ambanner-overlay-arrow__color__invert;
+            }
+        }
+
+        &.slick-disabled:before {
+            color: @ambanner-overlay-arrow__disabled__color;
+        }
+
+        &.-prev {
+            &:extend(.ambanner-icon.-chevron-left all);
+
+            left: 0;
+            transition-property: opacity, left;
+        }
+
+        &.-next {
+            &:extend(.ambanner-icon.-chevron-right all);
+
+            right: 0;
+            transition-property: opacity, right;
+        }
+    }
+
+    .slick-slider.-arrows-2 .ambanner-arrow-button,
+    .slick-slider.-arrows-2 .slick-arrow.ambanner-arrow-button {
+        & {
+            border: 2px solid transparent;
+            border-radius: 0;
+        }
+
+        &:hover,
+        &:focus {
+            border: 2px solid @ambanner-overlay-arrow__color;
+            box-shadow: @ambanner-overlay-arrow__box-shadow;
+        }
+
+        &:not(.primary) {
+            border-radius: 0;
+        }
+
+        body:not(._keyfocus) &:focus {
+            box-shadow: @ambanner-overlay-arrow__box-shadow;
+        }
+
+        &.-prev {
+            &:extend(.ambanner-icon.-arrow-left all);
+        }
+
+        &.-next {
+            &:extend(.ambanner-icon.-arrow-right all);
+        }
+    }
+
+    .slick-slider.-arrows-3 .ambanner-arrow-button,
+    .slick-slider.-arrows-3 .slick-arrow.ambanner-arrow-button {
+        &.-prev {
+            &:extend(.ambanner-icon.-angle-left all);
+        }
+
+        &.-next {
+            &:extend(.ambanner-icon.-angle-right all);
+        }
+    }
+
+    .slick-slider[dir='rtl'] .ambanner-arrow-button {
+        &.-prev {
+            & {
+                right: @ambanner-overlay__offset;
+                left: auto;
+            }
+
+            &:before {
+                &:extend(.ambanner-icon.-chevron-right:before);
+            }
+        }
+
+        &.-next {
+            & {
+                right: auto;
+                left: @ambanner-overlay__offset;
+            }
+
+            &:before {
+                &:extend(.ambanner-icon.-chevron-left:before);
+            }
+        }
+    }
+
+    .ambanner-slider-dots {
+        & {
+            position: absolute;
+            right: 0;
+            bottom: -5px;
+            left: 0;
+            margin: 0;
+            padding: 0 0 @ambanner-overlay__offset;
+            list-style-type: none;
+            text-align: center;
+            line-height: 1;
+            opacity: 0;
+            transition-duration: @ambanner__transition-duration__fast;
+            transition-property: opacity, bottom;
+            pointer-events: none;
+        }
+
+        > li {
+            display: inline-flex;
+            margin: 0 4px;
+            pointer-events: auto;
+        }
+
+        button {
+            padding: 0;
+            width: @ambanner-overlay-dot__size;
+            height: @ambanner-overlay-dot__size;
+            border: none;
+            border-radius: 100px;
+            background: @ambanner-overlay-dot__background__invert;
+            box-shadow: none;
+            font-size: 0;
+            line-height: 1;
+            transition: width @ambanner__transition-duration @ambanner__transition-func;
+        }
+
+        .slick-active button {
+            width: @ambanner-overlay-dot__size__l;
+            background: @ambanner-overlay-dot__background;
+            transition: width @ambanner__transition-duration @ambanner__transition-func;
+        }
+    }
+
+    .-dots-2 .ambanner-slider-dots {
+        button {
+            width: @ambanner-overlay-dot__size__l;
+            height: @ambanner-overlay-dot__size / 2;
+            border: none;
+            border-radius: 0;
+            background: @ambanner-overlay-dot__background__invert;
+        }
+
+        .slick-active button {
+            width: @ambanner-overlay-dot__size__l * 2;
+            background: @ambanner-overlay-dot__background;
+        }
+    }
+
+    .-dots-3 .ambanner-slider-dots {
+        button {
+            border: 1px solid @ambanner-overlay-dot__color;
+            border-radius: 50%;
+            background: none;
+            transition: none;
+        }
+
+        .slick-active button {
+            width: @ambanner-overlay-dot__size;
+            background: @ambanner-overlay-dot__color;
+            transition: none;
+        }
+    }
+
+    .ambanner-button.-show-overlay {
+        & {
+            &:extend(.ambanner-arrow-button all);
+
+            position: absolute;
+            top: @ambanner-overlay__offset;
+            left: @ambanner-overlay__offset;
+            z-index: @ambanner__z-index + 2;
+            transform: none;
+        }
+
+        &.-ambanner-active {
+            &:extend(.ambanner-icon.-delete all);
+        }
+    }
+
+    .sidebar {
+        .ambanner-arrow-button {
+            top: calc(~'100% - (@{ambanner-overlay-arrow__size} + @{ambanner-overlay__offset})');
+            transform: none;
+        }
+
+        .ambanner-button.-show-overlay {
+            top: @ambanner-overlay__offset;
+        }
+
+        .ambanner-slider-dots {
+            padding: 0 0 (@ambanner-overlay__offset * 2 - 1px);
+        }
+    }
+}
+
+//
+//  Mobile
+//  -------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .ambanner-slider-block {
+        .ambanner-controls-hover;
+    }
+}
+
+//
+//  Tablet
+//  -------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .ambanner-button.-show-overlay {
+        display: none;
+    }
+}
