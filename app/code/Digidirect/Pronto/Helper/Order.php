@@ -391,6 +391,18 @@ class Order extends AbstractHelper
             {
                 $withpaymentref = false;
             }
+            //gift cards
+            $withGC = false;
+            $gift_amount = $order->getGiftCardsAmount();
+            if($gift_amount > 0)
+            {
+                $withGC = true;
+                $gift_amount = round($gift_amount, 2);
+                $gc_reference = $order->getGiftCards('c');
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
+            }
 
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
@@ -398,9 +410,19 @@ class Order extends AbstractHelper
             {
                 if($withpaymentref)
                 {
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    if($withGC)
+                    {
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
+                    }
+                    else
+                    {
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    }
+
                 }
 
             }
