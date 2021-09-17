@@ -698,6 +698,15 @@ class Order extends AbstractHelper
             case "zippayment":
                 $type = "ZM";
                 break;
+            case "zipmoneypayment":
+                $type = "ZM";
+                break;
+            case "zipmoney":
+                $type = "ZM";
+                break;
+            case "zip":
+                $type = "ZM";
+                break;
             case "braintree_googlepay":
                 $type = "BT";
                 break;
