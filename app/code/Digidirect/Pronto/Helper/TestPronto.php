@@ -518,6 +518,15 @@ class TestPronto extends AbstractHelper
             case "zippayment":
                 $type = "ZM";
                 break;
+            case "zipmoneypayment":
+                $type = "ZM";
+                break;
+            case "zipmoney":
+                $type = "ZM";
+                break;
+            case "zip":
+                $type = "ZM";
+                break;
             case "braintree_googlepay":
                 $type = "BT";
                 break;
@@ -772,6 +781,9 @@ class TestPronto extends AbstractHelper
                 else if (strpos($orderId, 'MYD') !== false) {
                     $rep ="MYDEAL";
                 }
+                else if (strpos($orderId, 'WD') !== false) {
+                    $rep ="WESTFIELD";
+                }
 
             }
 
@@ -919,6 +931,12 @@ class TestPronto extends AbstractHelper
                     $payment_type ="AM";
                     $catchRef = $orderId;
                     $catchRef = str_replace("AM","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'WD') !== false) {
+                    $payment_type ="WD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("WD","",$catchRef);
                     $payment_reference = $catchRef;
                 }
             }
