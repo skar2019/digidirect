@@ -137,7 +137,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                     $product->save();
 
                 } catch (\Exception $exception) {
-                    echo $exception;
+                    //echo $exception;
                     //throw new \Magento\Framework\Exception\NoSuchEntityException(__('Something went wrong'));
                 }
                 $x++;
@@ -145,7 +145,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
 
         }
 
-        return;
+        return true;
 
     }
 
@@ -160,7 +160,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
             //$product = $objectManager->get('\Magento\Catalog\Model\Product')->load($product->getId());
             $product = $objectManager->create('\Magento\Catalog\Model\Product')->load($productId);
             if ($product->getOptions()) {
-                echo "<br /> delete - " .$product->getId();
+                //echo "<br /> delete - " .$product->getId();
                 foreach ($product->getOptions() as $opt) {
                    $opt->delete();
                 }
@@ -168,8 +168,8 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
             }
 
         }
-        echo "deleted ".$x;
-        return;
+        //echo "deleted ".$x;
+        return true;
 
     }
 

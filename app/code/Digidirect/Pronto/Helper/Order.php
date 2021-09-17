@@ -220,6 +220,7 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'WD') !== false) {
                     $rep ="WESTFIELD";
                     $account = "WEST00";
+                    //for westfield
                 }
 
             }
