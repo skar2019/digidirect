@@ -1,0 +1,65 @@
+//
+//  Ambanner Bubble animation effect styles
+//  ____________________________________________
+
+//
+//  Variables
+//  --------------------------------------------
+
+@ambanner-bubble-position: @ambanner-overlay-arrow__size / 2 + @ambanner-overlay__offset;
+
+//
+//  Common
+//  --------------------------------------------
+
+& when (@media-common = true) {
+    .ambanner-bubble-element {
+        & {
+            position: absolute;
+            top: 50%;
+            z-index: @ambanner__z-index - 1;
+            width: 0;
+            height: 0;
+            border-radius: 100%;
+            background: #fff;
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        &.-ambanner-active {
+            opacity: 0;
+            transition: width .7s, height .7s, opacity .3s .4s;
+        }
+
+        &.-right {
+            right: calc(~'@{ambanner-bubble-position}');
+            transform: translate(50%, -50%);
+        }
+
+        &.-left {
+            left: calc(~'@{ambanner-bubble-position}');
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    .ambanner-slider-block.-ambanner-bubble .ambanner-arrow-button:before {
+        position: relative;
+        z-index: @ambanner__z-index + 1;
+    }
+
+    .sidebar .ambanner-bubble-element {
+        & {
+            top: calc(~'100% - (@{ambanner-bubble-position})');
+        }
+
+        &.-right {
+            right: calc(~'@{ambanner-bubble-position}');
+            transform: translate(50%, -50%);
+        }
+
+        &.-left {
+            left: calc(~'@{ambanner-bubble-position}');
+            transform: translate(-50%, -50%);
+        }
+    }
+}

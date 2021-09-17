@@ -1,0 +1,71 @@
+//
+//  Utils
+//  _____________________________________
+
+.am-flex(
+    @horiz-pos: none,
+    @vert-pos: none,
+    @wrap: none
+) {
+    & {
+        display: flex;
+    }
+
+    & when not (@horiz-pos = none) {
+        justify-content: @horiz-pos;
+    }
+
+    & when not (@vert-pos = none) {
+        align-items: @vert-pos;
+    }
+
+    & when not (@wrap = none) {
+        flex-wrap: @wrap;
+    }
+}
+
+.am-word-break {
+    & {
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+
+    .ie11 & {
+        word-break: break-all;
+    }
+}
+
+.am-vertical-fade {
+    & {
+        position: relative;
+    }
+
+    &:after {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 0;
+        box-shadow: 0 0 12px 2px rgba(0, 0, 0, .3);
+        content: '';
+    }
+}
+
+.am-font-face( // 2.3.0 compatibility
+    @family-name,
+    @font-path,
+    @font-format: false,
+    @font-weight: normal,
+    @font-style: normal,
+    @font-display: auto
+) when not (@font-format = false) {
+    @font-face {
+        font-weight: @font-weight;
+        font-style: @font-style;
+        font-family: @family-name;
+        src: url('@{font-path}.@{font-format}') format(@font-format);
+        font-display: @font-display;
+    }
+}

@@ -1,0 +1,112 @@
+{
+    "amasty_bannerslider_banner_static": {
+        "column": {
+            "id": true,
+            "name": true,
+            "customer_group": true,
+            "visible_on": true,
+            "target_type": true,
+            "start_date": true,
+            "end_date": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "amasty_bannerslider_banner_dynamic": {
+        "column": {
+            "id": true,
+            "status": true,
+            "image": true,
+            "image_alt": true,
+            "target_url": true,
+            "hover_text": true,
+            "store_id": true
+        },
+        "constraint": {
+            "FK_96616904485DAD4033CF64BD2CBC5012": true,
+            "AMASTY_BANNERSLIDER_BANNER_DYNAMIC_ID_STORE_ID": true
+        }
+    },
+    "amasty_bannerslider_slider_static": {
+        "column": {
+            "id": true,
+            "autoplay": true,
+            "pause_time": true,
+            "animation_effect": true,
+            "transition_speed": true,
+            "navigation_arrows": true,
+            "arrows_style": true,
+            "navigation_bullets": true,
+            "bullets_style": true,
+            "banner_width": true,
+            "banner_height": true,
+            "mobile_width": true,
+            "mobile_height": true,
+            "resize_images": true,
+            "is_lazy_load_enabled": true,
+            "lazy_load_first_image": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "amasty_bannerslider_slider_dynamic": {
+        "column": {
+            "id": true,
+            "name": true,
+            "status": true,
+            "store_id": true
+        },
+        "constraint": {
+            "FK_0110C5795CE3B960ABCC572C18CC285D": true,
+            "AMASTY_BANNERSLIDER_SLIDER_DYNAMIC_ID_STORE_ID": true
+        }
+    },
+    "amasty_bannerslider_slider_banner": {
+        "column": {
+            "slider_id": true,
+            "banner_id": true,
+            "position": true
+        },
+        "constraint": {
+            "FK_CD2C1F3E18E22258C08D9B77B08441EF": true,
+            "FK_B5F233C368E85DC34F1E72C355947222": true,
+            "AMASTY_BANNERSLIDER_SLIDER_BANNER_SLIDER_ID_BANNER_ID": true
+        }
+    },
+    "amasty_bannerslider_banner_view_temp": {
+        "column": {
+            "id": true,
+            "banner_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "amasty_bannerslider_banner_click_temp": {
+        "column": {
+            "id": true,
+            "banner_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "amasty_bannerslider_banner_analytics": {
+        "column": {
+            "id": true,
+            "type": true,
+            "counter": true,
+            "banner_id": true,
+            "version_id": true
+        },
+        "index": {
+            "AMASTY_BANNERSLIDER_BANNER_ANALYTICS_BANNER_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "FK_E657EB6AEAE18DA8D97BBC03C63805FB": true
+        }
+    }
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Amasty\BannerSlider\Ui\DataProvider\Form\Banner\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="use_default" xsi:type="array">
+                    <item name="class" xsi:type="string">Amasty\BannerSlider\Ui\DataProvider\Form\Banner\Modifier\UseDefault</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Amasty\BannerSlider\Ui\DataProvider\Form\Banner\DataProvider">
+        <arguments>
+            <argument name="pool" xsi:type="object">Amasty\BannerSlider\Ui\DataProvider\Form\Banner\Modifier\Pool</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Amasty\BannerSlider\Ui\DataProvider\Form\Slider\Modifier\Pool" type="Magento\Ui\DataProvider\Modifier\Pool">
+        <arguments>
+            <argument name="modifiers" xsi:type="array">
+                <item name="use_default" xsi:type="array">
+                    <item name="class" xsi:type="string">Amasty\BannerSlider\Ui\DataProvider\Form\Slider\Modifier\UseDefault</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Amasty\BannerSlider\Ui\DataProvider\Form\Slider\DataProvider">
+        <arguments>
+            <argument name="pool" xsi:type="object">Amasty\BannerSlider\Ui\DataProvider\Form\Slider\Modifier\Pool</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Cms\Model\Wysiwyg\Config">
+        <plugin name="Amasty_BannerSlider::wysiwyg" type="Amasty\BannerSlider\Plugin\Cms\Model\Wysiwyg\ConfigPlugin" />
+    </type>
+    <type name="Magento\Backend\Block\Widget\Grid\Column">
+        <plugin name="Amasty_BannerSlider::column" type="Amasty\BannerSlider\Plugin\Backend\Block\Widget\Grid\ColumnPlugin" />
+    </type>
+</config>

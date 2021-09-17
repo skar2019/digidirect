@@ -1,0 +1,64 @@
+//
+//  Ambanner Split animation effect styles
+//  ____________________________________________
+
+//
+//  Common
+//  --------------------------------------------
+
+& when (@media-common = true) {
+    .ambanner-split-wrap {
+        position: relative;
+    }
+
+    .ambanner-split-block {
+        &.ambanner-slider-top {
+            pointer-events: none;
+        }
+
+        &.ambanner-slider-top .ambanner-slider-block {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+        }
+
+        &.ambanner-slider-top .ambanner-slider-dots,
+        &.ambanner-slider-top .ambanner-arrow-button:not(.-show-overlay) {
+            visibility: hidden;
+            width: 0;
+            height: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+
+    .ambanner-split-wrap.-ambanner-hover {
+        &:extend(.ambanner-controls-hover all);
+    }
+
+    .ambanner-split-wrap.-ambanner-hover .ambanner-split-block .ambanner-image-block.-overlay > .ambanner-image {
+        filter: none;
+    }
+
+    .ambanner-slider-top .ambanner-slider-block.-ambanner-preloader:not(.-ambanner-loaded):after {
+        content: none;
+    }
+}
+
+//
+//  Mobile
+//  -------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .ambanner-split-wrap .ambanner-split-block.ambanner-slider-top {
+        .ambanner-button.-show-overlay {
+            pointer-events: auto;
+        }
+
+        .ambanner-slider-block {
+            width: calc(~'100% + @{layout__width-xs-indent} * 2');
+        }
+    }
+}

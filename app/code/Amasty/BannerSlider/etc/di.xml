@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Amasty\BannerSlider\Api\Data\BannerInterface" type="Amasty\BannerSlider\Model\Banner" />
+    <preference for="Amasty\BannerSlider\Api\BannerRepositoryInterface" type="Amasty\BannerSlider\Model\Repository\BannerRepository" />
+
+    <preference for="Amasty\BannerSlider\Api\Data\SliderInterface" type="Amasty\BannerSlider\Model\Slider" />
+    <preference for="Amasty\BannerSlider\Api\SliderRepositoryInterface" type="Amasty\BannerSlider\Model\Repository\SliderRepository" />
+
+    <preference for="Amasty\BannerSlider\Api\Data\AnalyticInterface" type="Amasty\BannerSlider\Model\Analytics\Analytic" />
+    <preference for="Amasty\BannerSlider\Model\Analytics\Query\GetAllBannerIdsInterface" type="Amasty\BannerSlider\Model\Analytics\Query\GetAllBannerIds" />
+    <preference for="Amasty\BannerSlider\Model\Analytics\Query\GetAnalyticsByTypeInterface" type="Amasty\BannerSlider\Model\Analytics\Query\GetAnalyticsByType" />
+    <preference for="Amasty\BannerSlider\Model\Analytics\Query\GetNewAnalyticInterface" type="Amasty\BannerSlider\Model\Analytics\Query\GetNewAnalytic" />
+    <preference for="Amasty\BannerSlider\Model\Analytics\Command\SaveAnalyticInterface" type="Amasty\BannerSlider\Model\Analytics\Command\SaveAnalytic" />
+    <preference for="Amasty\BannerSlider\Model\Banner\Validation\ValidatorInterface" type="Amasty\BannerSlider\Model\Banner\Validation\CompositeValidator"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="amasty_bannerslider_banner_listing_data_source"
+                      xsi:type="string">Amasty\BannerSlider\Model\ResourceModel\Banner\Grid\Collection</item>
+                <item name="amasty_bannerslider_banners_data_source"
+                      xsi:type="string">Amasty\BannerSlider\Model\ResourceModel\Banner\Grid\Collection</item>
+                <item name="amasty_bannerslider_slider_listing_data_source"
+                      xsi:type="string">Amasty\BannerSlider\Model\ResourceModel\Slider\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\BannerSlider\Controller\Adminhtml\Uploader\UploadImage">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Amasty\BannerSlider\VirtualType\Model\ImageUpload</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\BannerSlider\Model\ImageProcessor">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Amasty\BannerSlider\VirtualType\Model\ImageUpload</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Amasty\BannerSlider\VirtualType\Model\ImageUpload" type="Magento\Catalog\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="const">Amasty\BannerSlider\Model\ImageProcessor::MEDIA_TMP_PATH</argument>
+            <argument name="basePath" xsi:type="const">Amasty\BannerSlider\Model\ImageProcessor::MEDIA_PATH</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Amasty\BannerSlider\Cron\Analytic\ViewCollector" type="Amasty\BannerSlider\Cron\Analytic\Collector">
+        <arguments>
+            <argument name="type" xsi:type="const">Amasty\BannerSlider\Model\Analytics\Temp\TempEntity::VIEW_TYPE</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Amasty\BannerSlider\Cron\Analytic\ClickCollector" type="Amasty\BannerSlider\Cron\Analytic\Collector">
+        <arguments>
+            <argument name="type" xsi:type="const">Amasty\BannerSlider\Model\Analytics\Temp\TempEntity::CLICK_TYPE</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\App\Cache\Tag\Strategy\Factory">
+        <arguments>
+            <argument name="customStrategies" xsi:type="array">
+                <item name="Amasty\BannerSlider\Api\Data\BannerInterface" xsi:type="object">Amasty\BannerSlider\Model\Cache\Tag\Strategy\Banner</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\BannerSlider\Model\Banner\Validation\CompositeValidator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="0" xsi:type="object">Amasty\BannerSlider\Model\Banner\Validation\ActiveDatesValidator</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

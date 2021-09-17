@@ -1,0 +1,186 @@
+//
+//  Slide base styles
+//  ____________________________________________
+
+//
+//  Imports
+//  --------------------------------------------
+
+@import '../_utils';
+
+//
+//  Common
+//  --------------------------------------------
+
+.ambanner-overlay-hover {
+    .ambanner-image-block.-overlay > .ambanner-image {
+        filter: @ambanner-overlay__blur;
+    }
+
+    .ambanner-content-overlay {
+        visibility: visible;
+    }
+
+    .ambanner-content-block {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+& when (@media-common = true) {
+    .ambanner-item-block {
+        & {
+            position: relative;
+            overflow: hidden;
+        }
+
+        > .ambanner-link {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: @ambanner__z-index;
+        }
+
+        &.-ambanner-fade .ambanner-content-block {
+            .am-vertical-fade;
+
+            justify-content: flex-start;
+        }
+    }
+
+    .ambanner-content-overlay {
+        & {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: @ambanner__z-index + 1;
+            visibility: hidden;
+            width: 100%;
+            height: 100%;
+            transition: visibility @ambanner__transition-duration__slow;
+        }
+
+        > .ambanner-content-block {
+            position: relative;
+            z-index: 1;
+        }
+    }
+
+    .ambanner-overlay-circle {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        display: block;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background-color: @ambanner-overlay__background-color;
+        transition: width @ambanner__transition-duration__slow, height @ambanner__transition-duration__slow;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+    }
+
+    .ambanner-content-block {
+        & {
+            .am-flex(center);
+            .am-word-break;
+
+            flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box;
+            margin: @ambanner-overlay__offset 0;
+            padding: 0 @ambanner-overlay__offset;
+            width: 100%;
+            height: calc(~'100% - @{ambanner-overlay__offset} * 2');
+            color: @ambanner__text__color;
+            text-align: center;
+            opacity: 0;
+            transition: all @ambanner__transition-duration__slow;
+            transform: translateY(20px);
+        }
+
+        > .ambanner-title {
+            margin: 0 0 15px;
+            font-weight: @font-weight__semibold;
+        }
+
+        > .ambanner-text {
+            font-weight: @font-weight__light;
+        }
+
+        .-ambanner-arrows & {
+            padding-right: @ambanner-overlay__offset__arrows;
+            padding-left: @ambanner-overlay__offset__arrows;
+        }
+
+        .-ambanner-dots & {
+            margin-bottom: @ambanner-overlay__offset__dots;
+            height: calc(~'100% - (@{ambanner-overlay__offset} + @{ambanner-overlay__offset__dots})');
+        }
+
+        .sidebar .-ambanner-dots & {
+            margin-bottom: @ambanner-overlay-arrow__size + @ambanner-overlay__offset + 5px;
+            height: calc(~'100% - (@{ambanner-overlay__offset} * 2 + @{ambanner-overlay-arrow__size} + 5px)');
+        }
+
+        .sidebar .-ambanner-arrows & {
+            padding-right: @ambanner-overlay__offset;
+            padding-left: @ambanner-overlay__offset;
+        }
+    }
+
+    .ambanner-image-block > .ambanner-image {
+        display: block;
+        width: 100%;
+        transition: filter @ambanner__transition-duration;
+    }
+}
+
+//
+//  Mobile
+//  -------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .ambanner-item-block.-ambanner-active {
+        .ambanner-overlay-hover;
+    }
+
+    .ambanner-content-overlay {
+        pointer-events: none;
+    }
+}
+
+//
+//  Tablet
+//  -------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .ambanner-content-block {
+        > .ambanner-title {
+            font-size: 7rem;
+        }
+
+        > .ambanner-text {
+            font-size: 3rem;
+        }
+    }
+
+    .ambanner-item-block {
+        .-ambanner-hover & {
+            .ambanner-overlay-hover;
+        }
+
+        > .ambanner-link {
+            z-index: @ambanner__z-index + 1;
+        }
+    }
+
+    .ambanner-content-overlay {
+        z-index: @ambanner__z-index;
+    }
+}
