@@ -1,0 +1,91 @@
+//
+//  Ambanner Icons styles
+//  ____________________________________________
+
+//
+//  Variables
+//  --------------------------------------------
+
+@ambanner-icon__font: 'ambannerIcons';
+@ambanner-icon__font__path: '@{ambanner-module__path}/fonts';
+@ambanner-icon__font-size: 1.4rem;
+@ambanner-icon__angle-left: '\e900';
+@ambanner-icon__angle-right: '\e901';
+@ambanner-icon__arrow-left: '\e902';
+@ambanner-icon__arrow-right: '\e903';
+@ambanner-icon__chevron-left: '\e904';
+@ambanner-icon__chevron-right: '\e905';
+@ambanner-icon__show-more: '\e906';
+@ambanner-icon__delete: '\e907';
+
+//
+//  Icon Font
+//  --------------------------------------------
+
+.am-font-face(
+    @family-name:'@{ambanner-icon__font}',
+    @font-path: '@{ambanner-icon__font__path}/@{ambanner-icon__font}',
+    @font-format: 'woff',
+    @font-weight: normal,
+    @font-style: normal,
+    @font-display: block
+);
+
+//
+//  Common
+//  --------------------------------------------
+
+& when (@media-common = true) {
+    .ambanner-icon {
+        & {
+            text-transform: none;
+            font-weight: 400;
+            font-style: normal;
+            font-variant: normal;
+            font-family: '@{ambanner-icon__font}' !important; // use !important to prevent issues with browser extensions that change fonts
+            speak: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        &:before {
+            color: @ambanner__dark__color;
+            font-size: @ambanner-icon__font-size;
+            line-height: 1;
+        }
+
+        &.-angle-left:before {
+            content: @ambanner-icon__angle-left;
+        }
+
+        &.-angle-right:before {
+            content: @ambanner-icon__angle-right;
+        }
+
+        &.-arrow-left:before {
+            content: @ambanner-icon__arrow-left;
+        }
+
+        &.-arrow-right:before {
+            content: @ambanner-icon__arrow-right;
+        }
+
+        &.-chevron-left:before {
+            content: @ambanner-icon__chevron-left;
+        }
+
+        &.-chevron-right:before {
+            content: @ambanner-icon__chevron-right;
+        }
+
+        &.-show-more:before {
+            content: @ambanner-icon__show-more;
+            font-size: 2rem;
+        }
+
+        &.-delete:before {
+            content: @ambanner-icon__delete;
+            font-size: 1.2rem;
+        }
+    }
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:amasty:module:Amasty_Base:etc/less_to_css.xsd">
+    <module name="Amasty_BannerSlider">
+        <handle name="default" />
+        <cssOptions fileName="ambanner" path="css/source/mkcss" />
+        <ifconfig>am_banner_slider/general/enabled</ifconfig>
+    </module>
+</config>

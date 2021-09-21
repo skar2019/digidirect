@@ -1,0 +1,51 @@
+//
+//  Compatibility with Amasty Jet Theme
+//  ___________________________________________
+
+//
+//  Common
+//  -------------------------------------------
+
+& when (@media-common = true) {
+    .amasty-jet-theme {
+        .ambanner-slider-block.slick-slider button.ambanner-arrow-button {
+            &:extend(.ambanner-arrow-button all);
+        }
+
+        .ambanner-slider-block.slick-slider.-arrows-2 button.ambanner-arrow-button {
+            &:extend(.slick-slider.-arrows-2 .ambanner-arrow-button all);
+        }
+
+        .ambanner-slider-block.slick-slider.-arrows-3 button.ambanner-arrow-button {
+            &:extend(.slick-slider.-arrows-3 .ambanner-arrow-button all);
+        }
+
+        .ambanner-slider-block.slick-slider button.ambanner-button.-show-overlay {
+            &:extend(.ambanner-button.-show-overlay all);
+        }
+
+        .ambanner-controls-hover button.ambanner-arrow-button:not(.-show-overlay) {
+            & {
+                opacity: 1;
+            }
+
+            &.-prev {
+                left: @ambanner-overlay__offset;
+            }
+
+            &.-next {
+                right: @ambanner-overlay__offset;
+            }
+        }
+    }
+}
+
+//
+//  Mobile
+//  -------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .amasty-jet-theme .ambanner-slider-block.slick-slider button.ambanner-button.-show-overlay {
+        opacity: 1;
+    }
+}

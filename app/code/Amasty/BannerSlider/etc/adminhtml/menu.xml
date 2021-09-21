@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Amasty_BannerSlider::banner" title="Amasty Banner Slider" module="Amasty_BannerSlider" parent="Magento_Backend::content" sortOrder="160" resource="Amasty_BannerSlider::banner"/>
+        <add id="Amasty_BannerSlider::sliders_slider" title="Manage Sliders" module="Amasty_BannerSlider" parent="Amasty_BannerSlider::banner" resource="Amasty_BannerSlider::sliders_slider" action="ambannerslider/slider/index" sortOrder="20"/>
+        <add id="Amasty_BannerSlider::banners_banner" title="Manage Banners" module="Amasty_BannerSlider" parent="Amasty_BannerSlider::banner" resource="Amasty_BannerSlider::banners_banner" action="ambannerslider/banner/index" sortOrder="10"/>
+    </menu>
+</config>

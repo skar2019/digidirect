@@ -1,0 +1,147 @@
+Delete,Delete
+"Are you sure you want to delete this?","Are you sure you want to delete this?"
+Reset,Reset
+"Save and Continue Edit","Save and Continue Edit"
+Save,Save
+ID,ID
+"Slider Name","Slider Name"
+Status,Status
+Banners,Banners
+Enabled,Enabled
+Disabled,Disabled
+"Please update Amasty Base module. Re-upload it and replace all the files.","Please update Amasty Base module. Re-upload it and replace all the files."
+"We can't change item right now. Please review the log and try again.","We can't change item right now. Please review the log and try again."
+"A total of %1 record(s) have been changed.","A total of %1 record(s) have been changed."
+"No records have been changed.","No records have been changed."
+"The banner have been deleted.","The banner have been deleted."
+"Can't delete banner right now. Please review the log and try again.","Can't delete banner right now. Please review the log and try again."
+"This Banner no longer exists.","This Banner no longer exists."
+"Edit Banner # %1","Edit Banner # %1"
+"New Banner","New Banner"
+"We can't delete item right now. Please review the log and try again.","We can't delete item right now. Please review the log and try again."
+"A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"No records have been deleted.","No records have been deleted."
+"We can't disable item right now. Please review the log and try again.","We can't disable item right now. Please review the log and try again."
+"A total of %1 record(s) have been disabled.","A total of %1 record(s) have been disabled."
+"No records have been disabled.","No records have been disabled."
+"We can't enable item right now. Please review the log and try again.","We can't enable item right now. Please review the log and try again."
+"A total of %1 record(s) have been enabled.","A total of %1 record(s) have been enabled."
+"No records have been enabled.","No records have been enabled."
+"The Banner was successfully saved.","The Banner was successfully saved."
+"Something went wrong while saving the banner data. Please review the error log.","Something went wrong while saving the banner data. Please review the error log."
+"The slider have been deleted.","The slider have been deleted."
+"Can't delete slider right now. Please review the log and try again.","Can't delete slider right now. Please review the log and try again."
+"This Slider no longer exists.","This Slider no longer exists."
+"Edit Slider # %1","Edit Slider # %1"
+"New Slider","New Slider"
+Sliders,Sliders
+"The Slider was successfully saved.","The Slider was successfully saved."
+"Something went wrong while saving the slider data. Please review the error log.","Something went wrong while saving the slider data. Please review the error log."
+"The image can’t be uploaded. Disallowed file type.","The image can’t be uploaded. Disallowed file type."
+"Could not save Analytic","Could not save Analytic"
+"Can't create AggregateTempResult. Invalid data given.","Can't create AggregateTempResult. Invalid data given."
+"End date cannot be earlier than current date","End date cannot be earlier than current date"
+"End date cannot be earlier than start date","End date cannot be earlier than start date"
+"Something went wrong while saving the file(s).","Something went wrong while saving the file(s)."
+Left,Left
+Center,Center
+Right,Right
+"Open on a new page","Open on a new page"
+"Open on the same page","Open on the same page"
+"Desktop and Mobile","Desktop and Mobile"
+"Desktop Only","Desktop Only"
+"Mobile Only","Mobile Only"
+Rolling,Rolling
+"Split Slideshow","Split Slideshow"
+Bubble,Bubble
+"Round Open","Round Open"
+"Square Classic","Square Classic"
+"Round Filled","Round Filled"
+Morse,Morse
+Line,Line
+Round,Round
+Enable,Enable
+Disable,Disable
+"Unable to save banner with ID %1. Error: %2","Unable to save banner with ID %1. Error: %2"
+"Unable to save new banner. Error: %1","Unable to save new banner. Error: %1"
+"Banner with specified ID ""%1"" not found.","Banner with specified ID ""%1"" not found."
+"Unable to remove banner with ID %1. Error: %2","Unable to remove banner with ID %1. Error: %2"
+"Unable to remove banner. Error: %1","Unable to remove banner. Error: %1"
+"Unable to save slider with ID %1. Error: %2","Unable to save slider with ID %1. Error: %2"
+"Unable to save new slider. Error: %1","Unable to save new slider. Error: %1"
+"Slider with specified ID ""%1"" not found.","Slider with specified ID ""%1"" not found."
+"Unable to remove slider with ID %1. Error: %2","Unable to remove slider with ID %1. Error: %2"
+"Unable to remove slider. Error: %1","Unable to remove slider. Error: %1"
+Edit,Edit
+"Delete %1","Delete %1"
+"Are you sure you wan't to delete a %1 banner?","Are you sure you wan't to delete a %1 banner?"
+"All Customer Groups","All Customer Groups"
+"Are you sure you wan't to delete a %1 link?","Are you sure you wan't to delete a %1 link?"
+"Show content","Show content"
+"Delete image","Delete image"
+Next,Next
+Previous,Previous
+"Amasty Banner Slider","Amasty Banner Slider"
+"Amasty Banner","Amasty Banner"
+"Amasty Slider","Amasty Slider"
+"Banner Slider","Banner Slider"
+Information,Information
+Slider,Slider
+"Select Slider...","Select Slider..."
+"Show Slider Name","Show Slider Name"
+"
+                    If set to 'Yes', slider's name will be used as a title of widget on frontend.
+                ","
+                    If set to 'Yes', slider's name will be used as a title of widget on frontend.
+                "
+"Horizontal Alignment","Horizontal Alignment"
+"Edit Banner","Edit Banner"
+Back,Back
+General,General
+"Start Date","Start Date"
+"End Date","End Date"
+Name,Name
+"Visible on","Visible on"
+"Image Alt","Image Alt"
+"Target URL","Target URL"
+"Link Target Type","Link Target Type"
+"Customer Group","Customer Group"
+"Create New Banner","Create New Banner"
+"Delete Banners","Delete Banners"
+"Are you sure you wan't to delete selected Banners?","Are you sure you wan't to delete selected Banners?"
+"Banner Name","Banner Name"
+Image,Image
+Devices,Devices
+Impressions,Impressions
+Clicks,Clicks
+CTR,CTR
+"All Store Views","All Store Views"
+"Store View","Store View"
+"Edit Slider","Edit Slider"
+"Enable Autoplay","Enable Autoplay"
+Yes,Yes
+No,No
+"Pause Time Between Transitions, ms","Pause Time Between Transitions, ms"
+"Animation Effect","Animation Effect"
+"Slide Transition Speed, ms","Slide Transition Speed, ms"
+"Navigation Arrows","Navigation Arrows"
+Show,Show
+Hide,Hide
+"Arrows Style","Arrows Style"
+"Navigation Bullets","Navigation Bullets"
+"Bullets Style","Bullets Style"
+"Enable Built-In Lazy Load","Enable Built-In Lazy Load"
+"Enable Lazy Load for The First Slider's Banner","Enable Lazy Load for The First Slider's Banner"
+"Resize Images","Resize Images"
+"Width, px","Width, px"
+"Height, px","Height, px"
+"Mobile Width, px","Mobile Width, px"
+"Mobile Height, px","Mobile Height, px"
+"Add Banners","Add Banners"
+"Add Selected","Add Selected"
+Cancel,Cancel
+Remove,Remove
+Action,Action
+"Create New Slider","Create New Slider"
+"Delete Sliders","Delete Sliders"
+"Are you sure you wan't to delete selected Sliders?","Are you sure you wan't to delete selected Sliders?"
