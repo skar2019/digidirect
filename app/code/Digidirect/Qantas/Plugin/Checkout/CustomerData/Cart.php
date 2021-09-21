@@ -13,6 +13,8 @@ class Cart {
 
         $qffPoints = [];
 
+        $qffTotalPoints = 0;
+
         foreach ($items as $item) {
 
             $qty = $item->getQty();
@@ -44,5 +46,5 @@ class Cart {
 
         return $result;
     }
-
+    //for redeploy
 }

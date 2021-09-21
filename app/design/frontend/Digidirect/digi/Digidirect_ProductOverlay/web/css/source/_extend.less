@@ -101,6 +101,44 @@
             line-height: 16px;
         }
     }
+    
+    .product-basic{
+        .product-overlay {
+            width: 100%;
+            max-width: 120px;
+            padding: 5px;
+        }
+    }
+}
+
+//
+//  Mobile
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .product-item{
+        .product-overlay.-top-left {
+            top: 15px;
+            left: 15px;
+        }
+    }
+}
+
+//
+//  Tablet
+//  _____________________________________________
+
+// This will add styles for tablet devices. When using native media-queries, we recommend wrapping your media-queries with media-width Magento mixins or media-target
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
+        .product-item{
+            .product-overlay.-top-left {
+                top: 10px;
+                left: 10px;
+                max-width: 35px;
+            }
+        }
+    }
 }
 
 //
@@ -132,7 +170,8 @@
 
         &.-top-left,
         &.-bottom-left {
-            left: -7px;
+            left: 10px;
+            top: 10px;
         }
 
         .text {

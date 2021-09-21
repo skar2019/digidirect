@@ -38,7 +38,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        $productKey = 0;
 
        foreach ($catalogRuleCollection as $catalogRule) {
-           if ($limit == 15) {
+           if ($limit == 30) {
                break;
            }
 
@@ -52,7 +52,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 //           }
 
            foreach ($productIdsAccToRule as $productId => $productRule) {
-               if ($limit == 15) {
+               if ($limit == 30) {
                    break;
                }
 

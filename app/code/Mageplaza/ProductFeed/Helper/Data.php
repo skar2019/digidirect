@@ -850,6 +850,14 @@ class Data extends CoreHelper
             $oriProduct = $this->productFactory->create()->load($product->getId());
             $finalPrice = $this->convertPrice($oriProduct->getFinalPrice(), $feed->getStoreId());
             $storeId    = $feed->getStoreId() ?: $this->storeManager->getDefaultStoreView()->getId();
+            //-------------
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $catalogRule = $objectManager->create('Magento\CatalogRule\Model\Rule');
+            if ($catalogRule->calcProductPriceRule($oriProduct, $oriProduct->getPrice())) {
+                $salePrice = $catalogRule->calcProductPriceRule($oriProduct, $oriProduct->getPrice());
+                $product->setData('sale_price', $salePrice);
+            }
+            //-------------
             $product->setStoreId($storeId);
             $productLink = $this->getProductUrl($oriProduct, $storeId) . $campaignUrl;
             $imageLink = $oriProduct->getImage() ? $this->storeManager->getStore($feed->getStoreId())

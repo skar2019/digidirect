@@ -32,6 +32,7 @@
                 display: flex;
                 margin: 0 auto;
                 height: 100%;
+                justify-content: center;
             }
 
             &:last-child {
@@ -129,6 +130,21 @@
 
         .text {
             .lib-font-size(18);
+        }
+    }
+}
+
+//
+//  Tablet
+//  _____________________________________________
+
+// This will add styles for tablet devices. When using native media-queries, we recommend wrapping your media-queries with media-width Magento mixins or media-target
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
+        .footer-helpful-info{
+             .block{
+                margin: 10px;
+            }
         }
     }
 }

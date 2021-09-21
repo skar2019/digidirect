@@ -1,15 +1,10 @@
 <?php
 namespace Digidirect\Pronto\Cron;
 
-use Psr\Log\LoggerInterface;
 use Digidirect\Pronto\Helper\Product;
 
 class ProductEnquiry
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
 
     /**
      * @var Product
@@ -17,21 +12,22 @@ class ProductEnquiry
     protected $helper;
 
     public function __construct(
-            LoggerInterface $logger,
             Product $helper)
     {
-        $this->logger = $logger;
         $this->helper = $helper;
     }
 
 
     public function execute()
     {
-        $this->logger->info('Pronto Product Sync syncing set 0');
-        $this->helper->productPronto(0);
-
+        $this->helper->productSync();
     }
 
+    public function productSetSync()
+    {
+        $this->helper->productSynAgain();
+
+    }
     public function productSet0()
     {
         $this->logger->info('Pronto Product Sync syncing set 0');
@@ -227,6 +223,6 @@ class ProductEnquiry
         $this->helper->productPronto(140554);
 
     }
-
+    //comment for redeploy
 
 }

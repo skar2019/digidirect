@@ -97,6 +97,22 @@
         line-height: 20px;
     }
     
+    .product-item{
+        .product-item-name a, 
+        .product.name a {
+            width: 100%;
+            overflow:hidden;
+            line-height: 2rem;
+            max-height: 4rem;
+            -webkit-box-orient: vertical;
+            display: block;
+            display: -webkit-box;
+            overflow: hidden !important;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+        }
+    }
+    
     .page-products {
         & {
             .lib-css(background, @color-3-4);
@@ -159,6 +175,8 @@
     .product-item-photo {
         position: relative;
         text-align: center;
+        margin: -15px -15px 0;
+        padding: 15px 15px 0;
     }
     
     .product.name,
@@ -269,8 +287,16 @@
         }
     }
 
-    .catalogsearch-result-index .columns {
+    .catalogsearch-result-index .columns{
         margin-top: 20px;
+    }
+    
+    .eaa-attribute_option-index .columns{
+        margin-top: 40px;
+    }
+    
+    .eaa-attribute_option-index .category-background{
+        display: none;
     }
 
     .product-item-info.-list .product.name,
@@ -290,12 +316,11 @@
         }
     }
     
-    
     .digiprotect-info-logo {
-        //width: 100px;
         height: 40px;
         display: inline-block;
         vertical-align: middle;
+        cursor: pointer;
     }
     
     .tooltip {
@@ -306,38 +331,50 @@
         margin-right: 20px;
         margin-bottom: -20px;
     }
+    
+    .product-options-wrapper{
+        margin-top: 15px;
+    }
 
     .tooltip .tooltiptext {
-        visibility: hidden;
         width: 350px;
         background-color: black;
         color: #fff;
         text-align: center;
         border-radius: 6px;
-        padding: 5px 0;
+        padding: 12px;
         position: absolute;
         z-index: 1;
         bottom: 150%;
         left: 50%;
         margin-left: -60px;
-        transition-duration: 1s;
-        transition-delay: 1s;
+
+        .close-tooltip-trigger{
+            position: absolute;
+            background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+YmFja2dyb3VuZDwvdGl0bGU+CiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+CiA8L2c+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHBhdGggZmlsbD0iI2ZmZmZmZiIgaWQ9InN2Z18xIiBkPSJtNDM3LjUsMzg2LjZsLTEzMC42LC0xMzAuNmwxMzAuNiwtMTMwLjZjMTQuMSwtMTQuMSAxNC4xLC0zNi44IDAsLTUwLjljLTE0LjEsLTE0LjEgLTM2LjgsLTE0LjEgLTUwLjksMGwtMTMwLjYsMTMwLjZsLTEzMC42LC0xMzAuNmMtMTQuMSwtMTQuMSAtMzYuOCwtMTQuMSAtNTAuOSwwYy0xNC4xLDE0LjEgLTE0LjEsMzYuOCAwLDUwLjlsMTMwLjYsMTMwLjZsLTEzMC42LDEzMC42Yy0xNC4xLDE0LjEgLTE0LjEsMzYuOCAwLDUwLjljMTQuMSwxNC4xIDM2LjgsMTQuMSA1MC45LDBsMTMwLjYsLTEzMC42bDEzMC42LDEzMC42YzE0LjEsMTQuMSAzNi44LDE0LjEgNTAuOSwwYzE0LC0xNC4xIDE0LC0zNi45IDAsLTUwLjl6Ii8+CiA8L2c+Cjwvc3ZnPg==");
+            height: 25px;
+            width: 25px;
+            right: -10px;
+            top: -15px;
+            background-size: 15px 15px;
+            background-color: #525252;
+            border-radius: 114px;
+            padding: 0px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
     }
 
     .tooltip .tooltiptext::after {
         content: "";
         position: absolute;
         top: 100%;
-        left: 50%;
+        left: 35%;
         margin-left: -5px;
-        border-width: 5px;
+        border-width: 10px;
         border-style: solid;
         border-color: black transparent transparent transparent;
     }
-
-    .tooltip:hover .tooltiptext {
-        visibility: visible;
-    }               
 }
 
 //
@@ -609,7 +646,8 @@
         text-transform: uppercase;
     }
 
-    .catalogsearch-result-index .columns {
+    .catalogsearch-result-index .columns,
+    .eaa-attribute_option-index .columns{
         margin-top: 40px;
     }
     

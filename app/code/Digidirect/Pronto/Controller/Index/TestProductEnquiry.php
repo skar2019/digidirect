@@ -17,18 +17,18 @@ class TestProductEnquiry extends \Magento\Framework\App\Action\Action
 	}
 
 	public function execute()
-	{
-            if(isset($_GET["p"])){
-                $startItem = $_GET["p"];
-            }
-            $counter = 10;
-            
-            if(isset($_GET["counter"])){
-                $counter = $_GET["counter"];
-            }
-            
-            echo "Pronto Product <br />";
-            $this->helper->productTestProntoSet($startItem, $counter);
+    {
+        if (isset($_GET["p"])) {
+            $startItem = $_GET["p"];
+        }
+        $counter = 10;
 
-	}
+        if (isset($_GET["counter"])) {
+            $counter = $_GET["counter"];
+        }
+
+        echo "Pronto Product <br />";
+        $this->helper->productTestProntoSet($startItem, $counter);
+        //redeploy
+    }
 }

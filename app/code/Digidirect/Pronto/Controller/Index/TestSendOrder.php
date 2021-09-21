@@ -39,6 +39,5 @@ class TestSendOrder extends \Magento\Framework\App\Action\Action
             }
             echo "Pronto Send Order - ".$orderId." - ".$date."- ".$size."- ".$page.": test - ".$test."<br />";
             $this->helper->orderPostTec($orderId, $date, $size, $page, $test);
-            exit;
 	}
 }

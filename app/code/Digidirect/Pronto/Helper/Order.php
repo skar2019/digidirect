@@ -14,6 +14,8 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\InventoryApi\Api\SourceItemRepositoryInterface;
 use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
+use Magento\Directory\Model\Country;
+use Magento\Directory\Model\CountryFactory;
 
 class Order extends AbstractHelper
 {
@@ -98,6 +100,13 @@ class Order extends AbstractHelper
 
     protected $logger;
 
+    private $timezone;
+
+    /**
+     * @var Country
+     */
+    public $countryFactory;
+
     public function __construct(
                         Curl $curl,
                         JsonSerializer $jsonSerializer,
@@ -110,7 +119,9 @@ class Order extends AbstractHelper
                         AbstractEntityRepository $abstractEntityRepository,
                         IncrementIdUpdater $incrementIdUpdater,
                         CustomerRepositoryInterface $customerRepository,
-                        \Digidirect\CustomOrderLog\Logger\Logger $logger)
+                        \Digidirect\CustomOrderLog\Logger\Logger $logger,
+                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
+                        CountryFactory $countryFactory)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -124,6 +135,8 @@ class Order extends AbstractHelper
                         $this->incrementIdUpdater = $incrementIdUpdater;
                         $this->customerRepository = $customerRepository;
                         $this->logger = $logger;
+                        $this->timezone = $timezone;
+                        $this->countryFactory = $countryFactory;
 
     }
 
@@ -151,11 +164,25 @@ class Order extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
+            if($wrehs != 'SWHS')
+            {
+                $territory = $wrehs;
+            }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
+            $countryName = "";
+            if(isset($countrycode))
+            {
+                $country = $this->countryFactory->create()->loadByCode($countrycode);
+                if ($country) {
+                    $countryName = $country->getName();
+                }
+            }
 
+
+            $amShipping = $order->getShippingDescription();
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -163,9 +190,8 @@ class Order extends AbstractHelper
             }
 
             if($is_am_order){
-                $rep = "AMAZON MFH";
-                if($accountname == "N/A N/A")
-                {
+                $rep = "AMAZON MFN";
+                if (strpos($amShipping, 'AFN') !== false) {
                     $rep = "AMAZON FBA";
                     $account = "AMAZ00";
                     if($countrycode == "NZ")
@@ -177,6 +203,7 @@ class Order extends AbstractHelper
                     $territory = "AWHS";
                     $is_am_fba = true;
                 }
+
             }
             else
             {
@@ -187,13 +214,25 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
                 }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $rep ="MYDEAL";
+                }
+                else if (strpos($orderId, 'WD') !== false) {
+                    $rep ="WESTFIELD";
+                    $account = "WEST00";
+                    //for westfield
+                }
 
             }
 
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
-            $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
+
+            //fixed date to use store timezone
+            $created = $order->getCreatedAt();
+            $created = $this->timezone->date(new \DateTime($created));
+            $orderdate = $created->format('Y-m-d');
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
@@ -209,6 +248,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['reference'] = $entityId;
             $data['sales-order']['header']['on-hold-reason-code'] = "01";
             $data['sales-order']['header']['set-on-status'] = "H";
+            $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
             $grandTotal = (double) $order->getBaseGrandTotal();
@@ -234,13 +274,13 @@ class Order extends AbstractHelper
             if(!empty($unitNumber))
             {
                 $unitNumber = str_replace("unit_number"," ",$unitNumber);
-                $unitNumber = $unitNumber . " / ";
             }
 
             $data['sales-order']['header']['billing-address']['line-1'] = $company;
             $data['sales-order']['header']['billing-address']['line-2'] = $unitNumber." ".$street;
             $data['sales-order']['header']['billing-address']['line-3'] = $city;
             $data['sales-order']['header']['billing-address']['line-4'] = $region;
+            $data['sales-order']['header']['billing-address']['line-6'] = $countryName;
             $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
             $data['sales-order']['header']['billing-address']['country-code'] = $countrycode;
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
@@ -263,7 +303,6 @@ class Order extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
-                $shipUnitNumber = $shipUnitNumber . " / ";
             }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
@@ -271,19 +310,18 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['line-3'] = $shipUnitNumber." ".$shipstreet;
             $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
             $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
+            $data['sales-order']['header']['delivery-address']['line-6'] = $countryName;
             $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
             $data['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
-
             $paymentInstance = $order->getPayment();
 
             //payment details
 
-            $methodInst = $paymentInstance->getMethodInstance();
+            //$methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-
 
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
@@ -291,10 +329,51 @@ class Order extends AbstractHelper
             {
                 $cc = $paymentInstance->getCcType();
             }
+
             $payment_reference = $paymentInstance->getLastTransId();
 
-            if (empty($payment_reference) && ($method == 'm2epropayment')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+//            if (empty($payment_reference) && ($method == 'm2epropayment')) {
+//                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+//            }
+            //ebay
+            if (($method == 'm2epropayment')) {
+                if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
+                else if (empty($payment_reference))
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
+            }
+
+            //work around for new and old catch
+            if($payment_type == 'H')
+            {
+                if (strpos($orderId, 'CATCH') !== false) {
+                    $payment_type ="CA";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("CATCH","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $payment_type ="MD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("MYD","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'AM') !== false) {
+                    $payment_type ="AM";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("AM","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'WD') !== false) {
+                    $payment_type ="WD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("WD","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             if(($is_am_order) && ($payment_type == "EB")){
@@ -310,6 +389,22 @@ class Order extends AbstractHelper
             {
                 $withpaymentref = false;
             }
+            if(($payment_type == "VI"))
+            {
+                $withpaymentref = false;
+            }
+            //gift cards
+            $withGC = false;
+            $gift_amount = $order->getGiftCardsAmount();
+            if($gift_amount > 0)
+            {
+                $withGC = true;
+                $gift_amount = round($gift_amount, 2);
+                $gc_reference = $order->getGiftCards('c');
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
+            }
 
             $amount_tendered = $order->getBaseGrandTotal();
             $amount_tendered = round($amount_tendered, 2);
@@ -317,9 +412,19 @@ class Order extends AbstractHelper
             {
                 if($withpaymentref)
                 {
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    if($withGC)
+                    {
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
+                    }
+                    else
+                    {
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    }
+
                 }
 
             }
@@ -356,7 +461,6 @@ class Order extends AbstractHelper
             foreach ($order->getAllVisibleItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
 
-
                 $skus = array();
                 $productSku = "";
                 $digiProtect = "";
@@ -390,6 +494,7 @@ class Order extends AbstractHelper
                         $digiProtectdiscount = 0;
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    $price = $orig;
 
                 }
                 else
@@ -479,7 +584,7 @@ class Order extends AbstractHelper
             $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
-            $islive = false;
+            $islive = true;
             if($islive)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
@@ -495,7 +600,6 @@ class Order extends AbstractHelper
                 $this->curl->post($url, $xml);
 
                 $result = $this->curl->getBody();
-
 
                 $json = $this->jsonSerializer->unserialize($result);
 
@@ -525,6 +629,7 @@ class Order extends AbstractHelper
                     $order->setData('pronto_status_code',$prontostatus);
                     $order->save();
 
+
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
 
                     $account = $json['sales-orders']['sales-order']['account'];
@@ -533,6 +638,7 @@ class Order extends AbstractHelper
                         $customer->setData('pronto_account_id', $account);
                         $customer->setCustomAttribute('pronto_account_id', $account);
                         $this->customerRepository->save($customer);
+
                     }
                     /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                     $invoice = $order->getInvoiceCollection()->getFirstItem();
@@ -541,22 +647,24 @@ class Order extends AbstractHelper
                 }
             }
 
+            if($counter >= 2)
+            {
+                return true; //return after 2 orders
+            }
+
         }
-        exit;
+        return true;
     }
 
     public function getOrderCollection()
     {
-        $now = new \DateTime();
-        $fromDate = date('Y-m-d h:i:s',strtotime("-6 days"));
-        $toDate = $now->format('Y-m-d h:i:s');
+
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
-            //->addFieldToFilter('created_at',$now->format('Y-m-d'));
-            ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-            ->addFieldToFilter('created_at', array('lteq' => $toDate))
-            ->setOrder('created_at', 'desc');
+            ->addFieldToFilter('status',array('neq' => 'canceled'))
+            ->addFieldToFilter('entity_id', array('gteq' => 615813))
+            ->setOrder('created_at', 'asc');
 
      return $collection;
 
@@ -589,7 +697,16 @@ class Order extends AbstractHelper
             case "paybympcatch":
                 $type = 'CA';
                 break;
+            case "zippayment":
+                $type = "ZM";
+                break;
             case "zipmoneypayment":
+                $type = "ZM";
+                break;
+            case "zipmoney":
+                $type = "ZM";
+                break;
+            case "zip":
                 $type = "ZM";
                 break;
             case "braintree_googlepay":
@@ -615,11 +732,13 @@ class Order extends AbstractHelper
                     //$whse = $this->repCodeForPickUp[$collectPlaceId];
                 }
             } elseif ($order->getShippingAddress()) {
-                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
-                $skus = $this->getProductsSkus($order);
-                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse]) && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
-                    $whse = $this->relocateWarehouseMap[$whse];
-                }
+//                $whse = $this->getWarehouseByRegionCode($order->getShippingAddress()->getRegionCode());
+//                $skus = $this->getProductsSkus($order);
+//                if (!$this->isProductsInStock($whse, $skus) && isset($this->relocateWarehouseMap[$whse]) && $this->isProductsInStock($this->relocateWarehouseMap[$whse], $skus)) {
+//                    $whse = $this->relocateWarehouseMap[$whse];
+//                }
+                //requestd by Emmanuel
+                $whse = "SWHS";
             }
             $this->warehouseCode[$order->getEntityId()] = $whse;
         }
@@ -799,11 +918,15 @@ class Order extends AbstractHelper
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
+            if($wrehs != 'SWHS')
+            {
+                $territory = $wrehs;
+            }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
-
+            $amShipping = $order->getShippingDescription();
             $is_am_order = false;
             $is_am_fba = false;
             if (strpos($orderId, 'AM') !== false) {
@@ -811,9 +934,8 @@ class Order extends AbstractHelper
             }
 
             if($is_am_order){
-                $rep = "AMAZON MFH";
-                if($accountname == "N/A N/A")
-                {
+                $rep = "AMAZON MFN";
+                if (strpos($amShipping, 'AFN') !== false) {
                     $rep = "AMAZON FBA";
                     $account = "AMAZ00";
                     if($countrycode == "NZ")
@@ -825,6 +947,7 @@ class Order extends AbstractHelper
                     $territory = "AWHS";
                     $is_am_fba = true;
                 }
+
             }
             else
             {
@@ -835,13 +958,18 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
                 }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $rep ="MYDEAL";
+                }
 
             }
 
             $contactname = $accountname;
             //check pronto if customer has an account.
             //if not, create customer account to pronto
-            $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
+            $created = $order->getCreatedAt();
+            $created = $this->timezone->date(new \DateTime($created));
+            $orderdate = $created->format('Y-m-d');
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
@@ -857,6 +985,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['reference'] = $entityId;
             $data['sales-order']['header']['on-hold-reason-code'] = "01";
             $data['sales-order']['header']['set-on-status'] = "H";
+            $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
             $grandTotal = (double) $order->getBaseGrandTotal();
@@ -879,10 +1008,9 @@ class Order extends AbstractHelper
             $mobile = $address->getMobile();
             $company = $address->getCompany();
             $unitNumber = $address->getUnitNumber();
-            $unitNumber = str_replace("unit_number"," ",$unitNumber);
             if(!empty($unitNumber))
             {
-                $unitNumber = $unitNumber . " / ";
+                $unitNumber = str_replace("unit_number"," ",$unitNumber);
             }
 
             $data['sales-order']['header']['billing-address']['line-1'] = $company;
@@ -908,10 +1036,9 @@ class Order extends AbstractHelper
             $shipmobile = $shipaddress->getMobile();
             $shipcompany = $shipaddress->getCompany();
             $shipUnitNumber = $shipaddress->getUnitNumber();
-            $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
             if(!empty($shipUnitNumber))
             {
-                $shipUnitNumber = $shipUnitNumber . " / ";
+                $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
             }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
@@ -924,14 +1051,12 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
-
             $paymentInstance = $order->getPayment();
 
             //payment details
 
-            $methodInst = $paymentInstance->getMethodInstance();
+            //$methodInst = $paymentInstance->getMethodInstance();
             $method = $paymentInstance->getMethod();
-
 
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
@@ -939,14 +1064,44 @@ class Order extends AbstractHelper
             {
                 $cc = $paymentInstance->getCcType();
             }
+
             $payment_reference = $paymentInstance->getLastTransId();
 
-            if (empty($payment_reference) && ($method == 'm2epropayment')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+//            if (empty($payment_reference) && ($method == 'm2epropayment')) {
+//                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+//            }
+            //ebay
+            if (($method == 'm2epropayment')) {
+                if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
+                else if (empty($payment_reference))
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
+                }
             }
-
-            if(($is_am_order) && ($payment_type == "EB")){
-                $payment_type = "AM";
+            //work around for IR orders coming as H
+            if($payment_type == 'H')
+            {
+                if (strpos($orderId, 'CATCH') !== false) {
+                    $payment_type ="CA";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("CATCH","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'MYD') !== false) {
+                    $payment_type ="MD";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("MYD","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
+                else if (strpos($orderId, 'AM') !== false) {
+                    $payment_type ="AM";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("AM","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             $withpaymentref = true;
@@ -955,6 +1110,10 @@ class Order extends AbstractHelper
                 $withpaymentref = false;
             }
             if(($payment_type == "H"))
+            {
+                $withpaymentref = false;
+            }
+            if(($payment_type == "VI"))
             {
                 $withpaymentref = false;
             }
@@ -1171,6 +1330,7 @@ class Order extends AbstractHelper
                     $order->setData('pronto_status_code',$prontostatus);
                     $order->save();
 
+
                     $this->logger->info('Pronto Order Sync ', $json['sales-orders']['sales-order']);
 
                     $account = $json['sales-orders']['sales-order']['account'];
@@ -1179,6 +1339,7 @@ class Order extends AbstractHelper
                         $customer->setData('pronto_account_id', $account);
                         $customer->setCustomAttribute('pronto_account_id', $account);
                         $this->customerRepository->save($customer);
+
                     }
                     /** @var \Magento\Sales\Model\Order\Invoice $invoice */
                     $invoice = $order->getInvoiceCollection()->getFirstItem();
@@ -1187,7 +1348,11 @@ class Order extends AbstractHelper
                 }
             }
 
-            return true; //return after on order
+            if($counter >= 3)
+            {
+                return true; //return after 2 orders
+            }
+
         }
 
         return true;
@@ -1195,7 +1360,7 @@ class Order extends AbstractHelper
 
     public function getTestOrderCollectionByDay()
     {
-        $date = '2021-07-26';
+        $date = '2021-08-02';
         $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
         $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
         $collection = $this->_orderCollectionFactory->create()
@@ -1204,7 +1369,5 @@ class Order extends AbstractHelper
             ->addFieldToFilter('created_at', array('gteq' => $fromDate))
             ->addFieldToFilter('created_at', array('lteq' => $toDate));
         return $collection;
-
-
     }
 }

@@ -5,7 +5,7 @@ namespace Digidirect\Pronto\Helper;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
-use Psr\Log\LoggerInterface;
+
 
 class Inventory extends AbstractHelper
 {
@@ -15,9 +15,6 @@ class Inventory extends AbstractHelper
     */
     protected $curl;
 
-    /**
-     * @var LoggerInterface
-     */
     protected $logger;
 
     public function __construct(
@@ -29,7 +26,7 @@ class Inventory extends AbstractHelper
                         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
                         \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
                         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-                        LoggerInterface $logger)
+                        \Digidirect\CustomInventoryLog\Logger\Logger $logger)
     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -54,10 +51,11 @@ class Inventory extends AbstractHelper
         }
 
         $lastCode = 0;
-
-        date_default_timezone_set("Australia/Sydney");
+        $forLogs = "";
+        date_default_timezone_set('UTC');
         $newTime = strtotime('-20 minutes');
-        $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
+        $prontofilter = date('dmYHis', $newTime);//$now->format('dmYhis');
+
         //$prontofilter = '05072021000000';
         // testing
 
@@ -81,17 +79,17 @@ class Inventory extends AbstractHelper
         $this->curl->get($url);
 
         $result = $this->curl->getBody();
-        // echo $result;
+
         $json = $this->jsonSerializer->unserialize($result);
 
-        //var_dump($json);
+
         if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
         {
             $msg =  $json['response']['message'];
             $this->logger->error('Pronto Inventory Sync', array('info' => $msg));
             exit;
         }
-        //var_dump($json['stockmaster']['stockcode']['warehouse']);
+
         if(isset($json['stockmaster']['stockcode']['code']))
         {
             foreach ($json['stockmaster'] as $prodRes)
@@ -103,7 +101,7 @@ class Inventory extends AbstractHelper
 
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
-
+                $forLogs .= "SKU - ".$sku."\n";
                 //pricing
                 try {
                     $prod = $this->productRepository->get($sku);
@@ -111,6 +109,7 @@ class Inventory extends AbstractHelper
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                         $prod->setPrice($retail);
+                        $forLogs .= "Price - ".$retail."\n";
                         $this->productRepository->save($prod);
                     }
 
@@ -125,7 +124,7 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
-                                $this->logger->info($qt['code']." - ".$qt['qty_available']);
+                                $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                             else
@@ -136,20 +135,14 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
-                                $this->logger->info($prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']);
+                                $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                         }
                     }
-
-                } catch (Exception $ex) {
-                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
-                    continue;
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    $forLogs .= "SKU not exist - ".$sku."\n";
                 }
-
-
-
-                $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
         }
         else
@@ -164,7 +157,7 @@ class Inventory extends AbstractHelper
 
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
-
+                $forLogs .= "SKU - ".$sku."\n";
                 //pricing
                 try {
 
@@ -173,6 +166,7 @@ class Inventory extends AbstractHelper
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                         $prod->setPrice($retail);
+                        $forLogs .= "Price - ".$retail."\n";
                         $this->productRepository->save($prod);
                     }
 
@@ -187,6 +181,7 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
+                                $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                             else
@@ -197,22 +192,23 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                         }
                     }
-                } catch (Exception $ex) {
-                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
-                    continue;
+                    //echo $lastCode."<br>";
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    $forLogs .= "SKU not exist - ".$sku."\n";
                 }
-
-                $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
         }
 
+        $this->logger->info($forLogs);
+
         if($startitem == $lastCode)
         {
-            exit;
+            return true;
         }
 
         $this->enquireInventory($lastCode);
@@ -223,7 +219,8 @@ class Inventory extends AbstractHelper
         return $this->sourceItemsBySku->execute($sku);
     }
 
-    public function enquireInventoryTest($args = 0) {
+    public function enquireInventoryTest($args = 0)
+    {
 
         if(isset($args))
         {
@@ -235,10 +232,18 @@ class Inventory extends AbstractHelper
         }
 
         $lastCode = 0;
-        date_default_timezone_set("Australia/Sydney");
+        $forLogs = "";
+        //date_default_timezone_set('UTC');
+        echo date_default_timezone_get() . "<br>";
         $newTime = strtotime('-20 minutes');
-        $prontofilter = date('dmYhis', $newTime);//$now->format('dmYhis');
-        echo $prontofilter;
+        $prontofilter = date('dmYHis', $newTime);//$now->format('dmYhis');
+        echo $prontofilter . "<br>";
+        date_default_timezone_set('Australia/Sydney');
+        echo date_default_timezone_get() . "<br>";
+        $newTime = strtotime('-20 minutes');
+        $twentyminutes = date('dmYHis', $newTime);//$now->format('dmYhis');
+        echo $twentyminutes;
+        exit;
         //$prontofilter = '05072021000000';
         // testing
 
@@ -265,20 +270,17 @@ class Inventory extends AbstractHelper
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
 
-        //var_dump($json);
         if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
         {
             $msg =  $json['response']['message'];
             $this->logger->error('Pronto Inventory Sync', array('info' => $msg));
             exit;
         }
-        //var_dump($json['stockmaster']['stockcode']);
+
         if(isset($json['stockmaster']['stockcode']['code']))
         {
             foreach ($json['stockmaster'] as $prodRes)
             {
-                echo "stockmaster only";
-
                 if(!isset($prodRes['code']))
                 {
                     exit;
@@ -286,45 +288,56 @@ class Inventory extends AbstractHelper
 
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
-                echo $lastCode."<br />";
+                $forLogs .= "SKU - ".$sku."\n";
                 //pricing
                 try {
                     $prod = $this->productRepository->get($sku);
-                    echo "<br> old price:".$prod->getPrice();
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
-                        echo "<br> pronto price:".$retail;
                         $prod->setPrice($retail);
+                        $forLogs .= "Price - ".$retail."\n";
                         $this->productRepository->save($prod);
                     }
-                    echo "<br> new price:".$prod->getPrice();
-                    foreach ($prodRes['warehouse']['whse'] as $qt)
+
+                    if(isset($prodRes['warehouse']['whse']))
                     {
-                        //echo "<br />".$qt['code']." - " .$qt['qty_available'];
-                        $sourceItem = $this->sourceItemFactory->create();
-                        $sourceItem->setSourceCode($qt['code']);
-                        $sourceItem->setSku($sku);
-                        $sourceItem->setStatus(1);
-                        $sourceItem->setQuantity($qt['qty_available']);
-                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        foreach ($prodRes['warehouse']['whse'] as $qt)
+                        {
+                            if(is_array($qt))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prodRes['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                        }
                     }
-                } catch (Exception $ex) {
-                    echo $ex->getMessage();
-                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
-                    continue;
+
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    $forLogs .= "SKU not exist - ".$sku."\n";
                 }
-
-
-
-                $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
         }
         else
         {
             foreach ($json['stockmaster']['stockcode'] as $prodRes)
             {
-                echo "<br /> stockmaster stockcode";
+
                 if(!isset($prodRes['code']))
                 {
                     exit;
@@ -332,45 +345,61 @@ class Inventory extends AbstractHelper
 
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
-                echo "<br />".$lastCode."<br />";
-                //pricing
+                $forLogs .= "SKU - ".$sku."\n";
+                echo $sku."<br>";
                 try {
 
                     $prod = $this->productRepository->get($sku);
-                    echo "<br> old price:".$prod->getPrice();
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
-                        echo "<br> pronto price:".$prod->getPrice();
                         $prod->setPrice($retail);
-                        $this->productRepository->save($prod);
+                        $forLogs .= "Price - ".$retail."\n";
+                        //$this->productRepository->save($prod);
                     }
-                    echo "<br> new price:".$prod->getPrice();
-                    foreach ($prodRes['warehouse']['whse'] as $qt)
+
+                    if(isset($prodRes['warehouse']['whse']))
                     {
-                        //echo "<br />".$qt['code']." - " .$qt['qty_available'];
-                        $sourceItem = $this->sourceItemFactory->create();
-                        $sourceItem->setSourceCode($qt['code']);
-                        $sourceItem->setSku($sku);
-                        $sourceItem->setStatus(1);
-                        $sourceItem->setQuantity($qt['qty_available']);
-                        $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                        foreach ($prodRes['warehouse']['whse'] as $qt)
+                        {
+                            if(is_array($qt))
+                            {
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($qt['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($qt['qty_available']);
+                                $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                            else
+                            {
+                                // to handle single warehouse
+                                $sourceItem = $this->sourceItemFactory->create();
+                                $sourceItem->setSourceCode($prodRes['warehouse']['whse']['code']);
+                                $sourceItem->setSku($prodRes['code']);
+                                $sourceItem->setStatus(1);
+                                $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
+                                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                            }
+                        }
                     }
-                } catch (Exception $ex) {
-                    echo $ex->getMessage();
-                    $this->logger->error('Pronto Inventory Error', array('Error' => $ex->getMessage()));
-                    continue;
+
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    $forLogs .= "SKU not exist - ".$sku."\n";
                 }
 
-                $this->logger->info('Pronto Inventory Sync', array('inventory' => $sku));
             }
         }
+
+        $this->logger->info($forLogs);
 
         if($startitem == $lastCode)
         {
             exit;
         }
 
-        $this->enquireInventory($lastCode);
+        $this->enquireInventoryTest($lastCode);
     }
 }

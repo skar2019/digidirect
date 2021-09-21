@@ -17,8 +17,7 @@ class Test extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-		echo "Hello Pronto <br />";
-                $this->helper->enquireInventoryTest();
-		exit;
-	}
+        $this->helper->enquireInventoryTest();
+        //comment to redeploy
+    }
 }
