@@ -254,11 +254,20 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['billing-address']['phone'] = $phone;
                     $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
+                    $delivery = $order->getShippingDescription();
+
                     $shipaddress = $order->getShippingAddress();
                     $shipstrt = $shipaddress->getStreet();
                     if(is_array($shipstrt))
                     {
-                        $shipstreet = implode(",", $shipstrt);
+                        if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                        {
+                            $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
+                        }
+                        else
+                        {
+                            $shipstreet = implode(",", $shipstrt);
+                        }
                     }
                     $shipcity = $shipaddress->getCity();
                     $shipregion = $shipaddress->getRegion();
@@ -267,6 +276,7 @@ class TestPronto extends AbstractHelper
                     $shipphone = $shipaddress->getPhone();
                     $shipmobile = $shipaddress->getMobile();
                     $shipcompany = $shipaddress->getCompany();
+
 
                     $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
                     $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
@@ -852,12 +862,22 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
+            $delivery = $order->getShippingDescription();
+
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
             if(is_array($shipstrt))
             {
-                $shipstreet = implode(",", $shipstrt);
+                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                {
+                    $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
+                }
+                else
+                {
+                    $shipstreet = implode(",", $shipstrt);
+                }
             }
+
             $shipcity = $shipaddress->getCity();
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
@@ -1100,7 +1120,10 @@ class TestPronto extends AbstractHelper
             {
                 $shippingDesc = "Australia Post – eParcel";
             }
-
+            else if($rep == 'WESTFIELD')
+            {
+                $shippingDesc = "Click and Collect";
+            }
             //shipping details
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;

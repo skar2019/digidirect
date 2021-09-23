@@ -286,11 +286,20 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
+            $delivery = $order->getShippingDescription();
+
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
             if(is_array($shipstrt))
             {
-                $shipstreet = implode(",", $shipstrt);
+                if($delivery == "Pick Up in Store - Click and Collect Shipping")
+                {
+                    $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
+                }
+                else
+                {
+                    $shipstreet = implode(",", $shipstrt);
+                }
             }
             $shipcity = $shipaddress->getCity();
             $shipregion = $shipaddress->getRegion();
@@ -561,6 +570,10 @@ class Order extends AbstractHelper
             else if($shippingDesc == "Standard - (4 to 7 Days)")
             {
                 $shippingDesc = "Australia Post – eParcel";
+            }
+            else if($rep == 'WESTFIELD')
+            {
+                $shippingDesc = "Click and Collect";
             }
 
             //shipping details
