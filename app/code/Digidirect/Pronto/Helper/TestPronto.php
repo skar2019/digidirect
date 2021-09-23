@@ -868,18 +868,8 @@ class TestPronto extends AbstractHelper
             $shipstrt = $shipaddress->getStreet();
             if(is_array($shipstrt))
             {
-                if($delivery == "Pick Up in Store - Click and Collect Shipping")
-                {
-                    $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
-                }
-                else if($rep == "WESTFIELD")
-                {
-                    $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
-                }
-                else
-                {
-                    $shipstreet = implode(",", $shipstrt);
-                }
+                $shipstreet = implode(",", $shipstrt);
+
             }
 
             $shipcity = $shipaddress->getCity();
@@ -893,6 +883,15 @@ class TestPronto extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
+            }
+
+            if($delivery == "Pick Up in Store - Click and Collect Shipping")
+            {
+                $shipcompany = 'Click and Collect';
+            }
+            else if($rep == "WESTFIELD")
+            {
+                $shipcompany = 'Click and Collect';
             }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
