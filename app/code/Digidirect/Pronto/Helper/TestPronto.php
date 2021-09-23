@@ -872,6 +872,10 @@ class TestPronto extends AbstractHelper
                 {
                     $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
                 }
+                else if($rep == "WESTFIELD")
+                {
+                    $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
+                }
                 else
                 {
                     $shipstreet = implode(",", $shipstrt);
