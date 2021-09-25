@@ -33,6 +33,7 @@ define([
 
             if (data && data.extension_attributes) {
                 cardsData = JSON.parse(data.extension_attributes.gift_cards);
+                console.log('Testing lang! Ahahaha!');
                 if (cardsData.length > this.cardsData().length) {
                     this.addCardItems(cardsData);
                 } else {
