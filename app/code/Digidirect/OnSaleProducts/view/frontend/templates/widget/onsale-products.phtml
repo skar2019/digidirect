@@ -75,7 +75,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                             <div class="product-item-details">
                                 <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
                                     
-                                    <div class="tag on-sale">
+                                    <div class="tag on-sale" hidden>
                                         On Sale
                                     </div>
                                     
@@ -139,17 +139,6 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                         </div>
                                     </div>
                                 <?php endif; ?>
-                                
-                                <div class="qantas-pts-wrapper">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
-                                    <span>Earn <?= $points ?> Qantas Points</span>
-                                </div>
-                                
-                                <?php echo $this->getLayout()
-                                    ->createBlock('Magento\Cms\Block\Block')
-                                    ->setBlockId('product-tile-rent')
-                                    ->toHtml();
-                                ?>
                             </div>
                         </div>
                      </div>
