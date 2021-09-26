@@ -68,16 +68,16 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                     
                     <div class="product-item item">
                         <div class="product-item-info">
-                            
-                            <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
-                                <a href="#"
-                                data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
-                                class="action towishlist" data-action="add-to-wishlist"
-                                title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
-                                </a>
-                            <?php endif; ?>
-                            
+                            <div class="wish-list-wrapper" data-role="add-to-links">
+                                <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                    <a href="#"
+                                    data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
+                                    class="action towishlist" data-action="add-to-wishlist"
+                                    title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                             <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                class="product-item-photo">
                                 <?= $block->getImage($_item, $image)->toHtml() ?>
@@ -89,6 +89,14 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                         On Sale
                                     </div>
                                     
+                                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                        <a href="#"
+                                        data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
+                                        class="action towishlist" data-action="add-to-wishlist"
+                                        title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                                 
                                 <strong class="product-item-name">
