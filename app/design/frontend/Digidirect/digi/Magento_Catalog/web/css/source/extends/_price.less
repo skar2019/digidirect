@@ -90,7 +90,8 @@
     .product-item {
         .price-box {
             .lib-vendor-prefix-display(flex);
-            .digidirect-lib-box-align(space-between);
+            //.digidirect-lib-box-align(space-between);
+            .digidirect-lib-box-align(space-evenly);
             .lib-vendor-box-align(flex-end);
             width: 100%;
             min-height: 33px;
@@ -220,7 +221,6 @@
 
         .price-box .price {
             font-size: 22px;
-            color: #FF3C00;
         }
 
         .tocart {
@@ -251,11 +251,15 @@
 
         .price-box .price {
             font-size: 22px;
-            color: #FF3C00;
+        }
+        
+        .old-price {
+            color: #777777;
         }
 
         .price-box .old-price .price {
             .lib-font-size(12);
+            color: #777777;
         }
     }
 }
