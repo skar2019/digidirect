@@ -567,6 +567,7 @@ return [
         'Digidirect_Pronto' => 1,
         'Digidirect_Qantas' => 1,
         'Digidirect_QuickView' => 1,
+        'Digidirect_RecommendedProducts' => 1,
         'Digidirect_RelatedProduct' => 1,
         'Digidirect_SEO' => 1,
         'Digidirect_ShippingAvailabilityCheck' => 1,
