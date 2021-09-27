@@ -4,6 +4,8 @@
 
 & when (@media-common = true) {
     
+
+
     .footer{
         &.content{
             display: -webkit-box;
@@ -19,14 +21,14 @@
     
     .footer-content-block{
         width: 100%;
-        margin: 30px 70px;
+        margin: 30px 70px 0px;
         padding-top: 30px;
-        border-top: 1px solid #c1c1c1;
+        border-top: 2px solid #ffffff;
     }
     
     .page-footer {
-        background: #fbfbfb;
-        border-top: none;
+        background: #000000;
+        border-top: 5px solid #f05a25;
     }
     
     .footer-nav{
@@ -70,7 +72,7 @@
             font-size: 14px;
             line-height: 2;
             text-decoration: none;
-            color: #222;
+            color: #f05a25;
             font-weight: bold;
         }
 
@@ -80,6 +82,7 @@
         }
 
         .menu .item {
+            margin-top: 0px;
             margin-bottom: 12px;
         }
 
@@ -87,7 +90,7 @@
             font-size: 14px;
             line-height: 2;
             text-decoration: none;
-            color: #222;
+            color: #ffffff;
             font-weight: 400;
 
             &:hover {
@@ -207,7 +210,7 @@
 & when (@media-target = 'desktop'), (@media-target = 'all') {
     @media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
         .footer-content-block{
-            margin: 30px;
+            margin: 30px 30px 0px;
         }
         
         .block.newsletter{    
