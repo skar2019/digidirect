@@ -1433,7 +1433,7 @@ body.catalog-product-compare-index .action.print {
   background: #f05a25;
   border: 1px solid #f05a25;
   color: #fff;
-  font-family: 'Titillium Web', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 .review-form .action.submit.primary:focus,
 .review-form .action.submit.primary:active {
