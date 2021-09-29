@@ -10,27 +10,37 @@
 ?>
 
 <div data-block="minicart" class="minicart-wrapper">
-    <div class="action link showcart"
+    <div class="action link showcart"`
          data-container="#minicartSidebar"
          data-bind="scope: 'minicart_content'"
          data-mage-init='{"offcanvas": {
          "styleClasses":{"offcanvasOpenedClass": "-minicart-opened"},
          "addOn": "Magento_Checkout/js/dist/addons/offcanvas/minicart"
          }}'>
-        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon -cart">
+<!--        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon -cart">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-cart"></use>
-        </svg>
-        <span class="text"><?=/* @escapeNotVerified */ __('Cart'); ?></span>
-        <span class="counter qty empty"
+        </svg>-->
+        <i class="fas fa-shopping-bag circle-icon -cart icon-badge-icon"></i>
+        
+        <!-- ko if: getCartParam('summary_count') -->
+            <div class="icon-badge"><!-- ko text: getCartParam('summary_count') --><!-- /ko --></div>
+        <!-- /ko -->
+        <!-- ko ifnot: getCartParam('summary_count') -->
+            <div class="icon-badge">0</div>
+        <!-- /ko -->
+        
+        <span class="text"><?=/* @escapeNotVerified */ __('My Cart'); ?><br>
+        <span data-bind="html: getCartParam('subtotal')" style="color: #ff3c00;"></span></span>
+<!--        <span class="counter qty empty"
               data-bind="css: { empty: !!getCartParam('summary_count') == false }, blockLoader: isLoading">
-            <span class="counter-number">(<!-- ko text: getCartParam('summary_count') --><!-- /ko -->)</span>
+            <span class="counter-number">( ko text: getCartParam('summary_count')  /ko )</span>
             <span class="counter-label">
-            <!-- ko if: getCartParam('summary_count') -->
-                <!-- ko text: getCartParam('summary_count') --><!-- /ko -->
-                <!-- ko i18n: 'items' --><!-- /ko -->
-            <!-- /ko -->
+             ko if: getCartParam('summary_count') 
+                 ko text: getCartParam('summary_count')  /ko 
+                 ko i18n: 'items'  /ko 
+             /ko 
             </span>
-        </span>
+        </span>-->
     </div>
     <?php if ($block->getIsNeedToDisplaySideBar()): ?>
         <div id="minicartSidebar" class="offcanvas-panel offcanvas-right -minicart _unpadding block">
