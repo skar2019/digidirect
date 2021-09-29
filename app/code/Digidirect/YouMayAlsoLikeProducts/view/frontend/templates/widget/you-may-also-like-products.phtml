@@ -67,27 +67,14 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                         $finalQffPoints = $_item->getPoints();
                     ?>
                     
-                    <div class="product-item item">
-                        <div class="product-item-info">
-                            <div class="wish-list-wrapper" data-role="add-to-links">
-                                <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
-                                    <a href="#"
-                                    data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
-                                    class="action towishlist" data-action="add-to-wishlist"
-                                    title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
-                                    </a>
-                                <?php endif; ?>
-                            </div>
+                    <div class="ymal-product product-item item">
+                        <div class="ymal-product-info product-item-info">
                             <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
-                               class="product-item-photo">
+                               class="ymal-item-photo product-item-photo">
                                 <?= $block->getImage($_item, $image)->toHtml() ?>
                             </a>
-                            <div class="product-item-details">
-                                <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
-                                </div>
-                                
-                                <strong class="product-item-name">
+                            <div class="ymal-item-details product-item-details">
+                                <strong class="ymal-item-name product-item-name">
                                     <a title="<?= $block->escapeHtml($_item->getName()) ?>"
                                        href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                        class="product-item-link">
@@ -109,10 +96,10 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                 <?php endif; ?>
 
                                 <?php if ($showWishlist || $showCompare || $showCart) :?>
-                                    <div class="product-item-inner">
+                                    <div class="ymal-item-inner product-item-inner">
                                         <div class="product actions product-item-actions">
                                             <?php if ($showCart) :?>
-                                                <div class="actions-primary">
+                                                <div class="ymal-actions actions-primary">
                                                     <?php $addToCartUrl = $block->getAddToCartUrl($_item); ?>
 
                                                     <form data-role="tocart-form"
@@ -147,42 +134,3 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
         </div>
     </div>
 <?php endif;?>
-
-<script>
-    require(['jquery', 'owl_carousel'],
-        function ($) {
-            $(document).ready(function() {
-                $('#you-may-also-like-products-carousel').owlCarousel({
-                    loop:false,
-                    nav:true,
-                    navText:["<div class='nav-btn prev-slide'></div>","<div class='nav-btn next-slide'></div>"],
-                    responsive:{
-                        0:{
-                            items:2,
-                            margin: 15,
-                            nav:false,
-                            loop:true,
-                            autoplay: true,
-                            autoplayTimeout:3000
-                        },
-                        600:{
-                            items:3,
-                            nav:false
-                        },
-                        1000:{
-                            items:4,
-                            loop:false
-                        },
-                        1680:{
-                            items:2,
-                            loop:false
-                        }
-                    },
-                    dots:false,
-                    autoplay:false,
-                    autoplayTimeout:3000
-                })
-            });
-        }
-    );
-</script>
