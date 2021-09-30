@@ -712,6 +712,10 @@
         }
     }
 
+    .you-may-also-like-products .wrapper {
+        padding: 0 5px !important;
+    }
+
     .you-may-also-like-products .product-item-info {
         pointer-events: none !important;
     }
@@ -760,13 +764,15 @@
         height: 120px !important;
         width: 100px !important;
     }
-
+    .you-may-also-like-products .products .product-item {
+        height: 245px !important;
+    }
     .you-may-also-like-products .products .product-item .product-item-info {
         padding: 5px;
         border: 1px solid transparent;
-        width: 100%;
+        width: 100% !important;
         display: block;
-        height: 300px;
+        height: 278px;
         margin: 2px !important;
     }
 
@@ -837,15 +843,15 @@
     .right-side-product-widget-2 .product-item-info,
     .right-side-product-widget-3 .product-item-info {
         margin: 1px !important;
-        height: 180px !important;
-        border-radius: 10px;
+        height: 155px !important;
+        border-radius: 5px;
         width: calc(88%) !important;
     }
 
     .right-side-product-widget-1 .product-item-name,
     .right-side-product-widget-2 .product-item-name,
     .right-side-product-widget-3.product-item-name {
-        flex: 0 0 50px;
+        flex: 0 0 47px;
         height: 30px;
         text-align: center;
     }
@@ -857,19 +863,26 @@
     }
 
     .side-product-widget-row {
-        height: 280px !important;
-    }
-
-    .side-product-widget-row .magezon-builder img {
-        max-width: unset;
-        height: 100%;
-        max-height: 75px !important;
+        height: 230px !important;
     }
 
     .side-product-widget-row .mgz-element-column {
-        height: 280px
+        height: 230px
     }
 
+    .side-product-widget-row .mgz-child:not(:last-child) > .mgz-element-inner {
+        margin-bottom: 5px;
+    }
+
+    .side-product-widget-row .product-image-wrapper
+    {
+        height: 60px;
+    }
+
+    .side-product-widget-row .product-image-photo {
+        height: 60px;
+        width: 60px;
+    }
     //comment to redeploy
 }
 
