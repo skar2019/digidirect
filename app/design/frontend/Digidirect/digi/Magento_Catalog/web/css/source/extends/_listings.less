@@ -843,15 +843,15 @@
     .right-side-product-widget-2 .product-item-info,
     .right-side-product-widget-3 .product-item-info {
         margin: 1px !important;
-        height: 180px !important;
-        border-radius: 10px;
+        height: 155px !important;
+        border-radius: 5px;
         width: calc(88%) !important;
     }
 
     .right-side-product-widget-1 .product-item-name,
     .right-side-product-widget-2 .product-item-name,
     .right-side-product-widget-3.product-item-name {
-        flex: 0 0 50px;
+        flex: 0 0 47px;
         height: 30px;
         text-align: center;
     }
@@ -863,13 +863,26 @@
     }
 
     .side-product-widget-row {
-        height: 280px !important;
+        height: 230px !important;
     }
 
     .side-product-widget-row .mgz-element-column {
-        height: 280px
+        height: 230px
     }
 
+    .side-product-widget-row .mgz-child:not(:last-child) > .mgz-element-inner {
+        margin-bottom: 5px;
+    }
+
+    .side-product-widget-row .product-image-wrapper
+    {
+        height: 60px;
+    }
+
+    .side-product-widget-row .product-image-photo {
+        height: 60px;
+        width: 60px;
+    }
     //comment to redeploy
 }
 
