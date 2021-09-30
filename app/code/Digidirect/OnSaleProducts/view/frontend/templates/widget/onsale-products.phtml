@@ -83,11 +83,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                 <?= $block->getImage($_item, $image)->toHtml() ?>
                             </a>
                             <div class="product-item-details">
-                                <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
-                                    
-                                    <div class="tag on-sale">
-                                        On Sale
-                                    </div>
+                                <div class="wish-list-wrapper" data-role="add-to-links">
                                 </div>
                                 
                                 <strong class="product-item-name">
@@ -132,7 +128,8 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                                     <?php endif; ?>
                                                             <button class="action tocart primary"
                                                                     type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                                <span class="cart_words"><?php /* @escapeNotVerified */ echo __('Add to Cart') ?> </span><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span>
+                                                                
                                                             </button>
                                                       </form>
                                                 </div>
