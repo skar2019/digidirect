@@ -129,8 +129,10 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                                     <?php endif; ?>
                                                             <button class="action tocart primary"
                                                                     type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                                <span class="cart_words"><?php /* @escapeNotVerified */ echo __('Add to Cart') ?> </span><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span>
+                                                                
                                                             </button>
+
                                                       </form>
                                                 </div>
                                             <?php endif; ?>
