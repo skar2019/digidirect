@@ -87,11 +87,12 @@ define([
                 self.loadLazyImages(self.menu);
             });
 
-            this.menu.find('.mgz-tabs-tab-title').on('hover click', function() {
+            this.menu.find('.mgz-tabs-tab-title').on('click', function() { //remove hover ; clint
                 let item = $(this).closest('.level0');
                 self.loadLazyImages(item);
                 //clint
                 $('.mgz-tabs-tab-title').addClass('retract');
+                $('.shop-by-category-menu .item-submenu').addClass('expand');
                 $('.mgz-tabs-tab-title span').hide();
             });
 
@@ -248,8 +249,11 @@ define([
             }
             //clint
             $('.mgz-tabs-tab-title').removeClass('retract');
+            $('.shop-by-category-menu .item-sub-menu').removeClass('expand');
             $('.mgz-tabs-tab-title span').show();
             $('.mgz-tabs-tab-title span.tabs-opener').hide();
+            $('.mgz-tabs-tab-title').removeClass('mgz-active');
+
         },
 
         isIpad: function() {
