@@ -1,0 +1,42 @@
+<?php
+    $brandData = $block->getData();
+    $brandId = $brandData['data']['brandId'];
+    $brandName = $block->getBrandName($brandId);
+?>
+
+<div class="shop-by-category-category">
+    <a href="<?php echo $block->getUrl("cameras/" . $brandName)?>">
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>cameras.png"/>
+        <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCountWithBrand(17, $brandId); ?>)</div>
+    </a>
+</div>
+<div class="shop-by-category-category">
+    <a href="<?php echo $block->getUrl("lenses/" . $brandName)?>">
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>lenses.png"/>
+        <div class="product-count"  id="lenses-count">Lenses(<?php echo $block->getProductCollectionCountWithBrand(18, $brandId); ?>)</div>
+    </a>
+</div>
+<div class="shop-by-category-category">
+    <a href="<?php echo $block->getUrl("drones/" . $brandName)?>">
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>drones.png"/>
+        <div class="product-count"  id="drones-count">Drones(<?php echo $block->getProductCollectionCountWithBrand(21, $brandId); ?>)</div>
+    </a>
+</div>
+<div class="shop-by-category-category">
+    <a href="<?php echo $block->getUrl("smart-home/" . $brandName)?>">
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>smarthome.png"/>
+        <div class="product-count"  id="smarthome-count">Smart Home(<?php echo $block->getProductCollectionCountWithBrand(704, $brandId); ?>)</div>
+    </a>
+</div>
+<div class="shop-by-category-category">
+    <a href="<?php echo $block->getUrl("computers-mobile/mobile-phones/" . $brandName)?>">
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>mobilephones.png"/>
+        <div class="product-count"  id="mobilephones-count">Mobile Phones(<?php echo $block->getProductCollectionCountWithBrand(689, $brandId); ?>)</div>
+    </a>
+</div>
+<div class="shop-by-category-category">
+    <a href="<?php echo $block->getUrl("audio-and-visual/headphones/" . $brandName)?>">
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>headphones.png"/>
+        <div class="product-count"  id="headphones-count">Headphones(<?php echo $block->getProductCollectionCountWithBrand(411, $brandId); ?>)</div>
+    </a>
+</div>

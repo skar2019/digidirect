@@ -1,0 +1,88 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+$brands = $block->getBrands();
+
+/**
+ * Author: Rondel Dalumpines
+ */
+/** @var \Digidirect\ShopByCategory\Block\Widget\ShopByCategory $block */
+?>
+<div class="shop-by-category-dropdown">
+    <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
+    <select name="brands-dropdown" id="brands-dropdown" style="width: 20%">
+        <option value="all-brands">All Brands</option>
+        <?php foreach($brands as $brand) : ?>
+            <?php if ($brand) :?>
+                <?php $brandName = $brand->getLabel();?>
+                <option value="<?php echo $brand->getValue();?>"><?php echo $brandName; ?></option>
+            <?php endif; ?>
+        <?php endforeach ?>
+    </select>
+</div>
+<div id="shop-by-category-container" class="shop-by-category-container">
+    <div class="shop-by-category-category">
+        <a href="<?php echo $block->getUrl("cameras")?>">
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>cameras.png"/>
+            <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+        </a>
+    </div>
+    <div class="shop-by-category-category">
+        <a href="<?php echo $block->getUrl("lenses")?>">
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>lenses.png"/>
+            <div class="product-count"  id="lenses-count">Lenses(<?php echo $block->getProductCollectionCount(18); ?>)</div>
+        </a>
+    </div>
+    <div class="shop-by-category-category">
+        <a href="<?php echo $block->getUrl("drones")?>">
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>drones.png"/>
+            <div class="product-count"  id="drones-count">Drones(<?php echo $block->getProductCollectionCount(21); ?>)</div>
+        </a>
+    </div>
+    <div class="shop-by-category-category">
+        <a href="<?php echo $block->getUrl("smart-home")?>">
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>smarthome.png"/>
+            <div class="product-count"  id="smarthome-count">Smart Home(<?php echo $block->getProductCollectionCount(704); ?>)</div>
+        </a>
+    </div>
+    <div class="shop-by-category-category">
+        <a href="<?php echo $block->getUrl("computers-mobile/mobile-phones")?>">
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>mobilephones.png"/>
+            <div class="product-count"  id="mobilephones-count">Mobile Phones(<?php echo $block->getProductCollectionCount(689); ?>)</div>
+        </a>
+    </div>
+    <div class="shop-by-category-category">
+        <a href="<?php echo $block->getUrl("audio-and-visual/headphones")?>">
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>headphones.png"/>
+            <div class="product-count"  id="headphones-count">Headphones(<?php echo $block->getProductCollectionCount(411); ?>)</div>
+        </a>
+    </div>
+</div>
+
+<script>
+    require(['jquery'],function(){
+        jQuery(document).ready(function() {
+            jQuery("#brands-dropdown").change(function(){
+
+                var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
+                var brand = this.value;
+                //alert(url + ", " + CurrentProduct);
+                jQuery.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {brand:brand},
+                    showLoader: true,
+                    cache: false,
+                    success: function(response){
+                        console.log(response.output);
+                        //jQuery("#cameras-count").text('Test Success!');
+                        jQuery('#shop-by-category-container').html(response.output);
+                        return true;
+                    }
+                });
+                
+            });
+        });
+    });
+</script>
