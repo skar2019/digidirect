@@ -970,6 +970,9 @@
     }
 
     // new menu
+    .mgz-row-gap-margin > .mgz-element-inner {
+        margin: 0px !important;
+    }
     .shop-by-category-menu .item-submenu {
         width: 300px !important;
     }
@@ -978,6 +981,9 @@
         width: 525px !important;
     }
 
+    .category-tabs > .mgz-element-inner {
+        margin-bottom: 0px !important;
+    }
     .category-tabs .mgz-tabs-tab-title {
         width: 285px !important;
         border: none !important;
@@ -1244,6 +1250,92 @@
         border: none;
         border-left: 1px solid #cacaca !important;
         margin-left: 0px !important;;
+    }
+    .cameras-tab > .mgz-element-inner,
+    .lenses-tab > .mgz-element-inner,
+    .drones-tab > .mgz-element-inner,
+    .lightstudio-tab > .mgz-element-inner,
+    .photoacce-tab > .mgz-element-inner,
+    .optics-tab > .mgz-element-inner,
+    .audiovisual-tab > .mgz-element-inner,
+    .provideo-tab > .mgz-element-inner,
+    .smarthome-tab > .mgz-element-inner,
+    .computers-tab > .mgz-element-inner
+    {
+        padding: 0px !important;
+    }
+
+    .cameras-tab-brands,
+    .lenses-brand-tab,
+    .drones-brand-tab,
+    .lenses-brand-tab,
+    .lightstudio-brand-tab,
+    .photoacce-brand-tab,
+    .optics-brand-tab,
+    .audiovisual-brand-tab,
+    .provideo-brand-tab,
+    .smarthome-brand-tab,
+    .computers-brand-tab {
+        width: 100px !important;
+        float: right;
+        height: 100%;
+        overflow-y: scroll;
+    }
+
+    .cameras-tab-brands > .mgz-element-inner,
+    .lenses-brand-tab > .mgz-element-inner,
+    .drones-brand-tab > .mgz-element-inner,
+    .lenses-brand-tab > .mgz-element-inner,
+    .lightstudio-brand-tab > .mgz-element-inner,
+    .photoacce-brand-tab > .mgz-element-inner,
+    .optics-brand-tab > .mgz-element-inner,
+    .audiovisual-brand-tab > .mgz-element-inner,
+    .provideo-brand-tab > .mgz-element-inner,
+    .smarthome-brand-tab > .mgz-element-inner,
+    .computers-brand-tab > .mgz-element-inner {
+        padding: 10px;
+    }
+    .lenses-brand-tab .mgz-element-single_image .mgz-element-inner,
+    .cameras-tab-brands .mgz-element-single_image .mgz-element-inner,
+    .drones-brand-tab .mgz-element-single_image .mgz-element-inner,
+    .lightstudio-brand-tab .mgz-element-single_image .mgz-element-inner,
+    .photoacce-brand-tab .mgz-element-single_image .mgz-element-inner,
+    .optics-brand-tab .mgz-element-single_image .mgz-element-inner,
+    .audiovisual-brand-tab .mgz-element-single_image .mgz-element-inner,
+    .provideo-brand-tab .mgz-element-single_image .mgz-element-inner,
+    .smarthome-brand-tab .mgz-element-single_image .mgz-element-inner,
+    .computers-brand-tab .mgz-element-single_image .mgz-element-inner {
+        padding-top: 5px !important;
+        padding-bottom: 5px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .cameras-sub-tab, .lenses-sub-tab,
+    .drones-sub-tab, .lightstudio-sub-tab,
+    .photoacce-sub-tab, .optics-sub-tab,
+    .audiovisual-sub-tab, .provideo-sub-tab,
+    .smarthome-sub-tab, .computers-sub-tab {
+        padding: 20px 0px 10px 30px !important;
+    }
+    .cameras-sub-tab .nav-item, .cameras-sub-tab .mgz-element-separator,
+    .lenses-sub-tab .nav-item, .lenses-sub-tab .mgz-element-separator,
+    .drones-sub-tab .nav-item, .drones-sub-tab .mgz-element-separator,
+    .lightstudio-sub-tab .nav-item, .lightstudio-sub-tab .mgz-element-separator,
+    .photoacce-sub-tab .nav-item, .photoacce-sub-tab .mgz-element-separator,
+    .optics-sub-tab .nav-item, .optics-sub-tab .mgz-element-separator,
+    .audiovisual-sub-tab .nav-item, .audiovisual-sub-tab .mgz-element-separator,
+    .provideo-sub-tab .nav-item, .provideo-sub-tab .mgz-element-separator,
+    .smarthome-sub-tab .nav-item, .smarthome-sub-tab .mgz-element-separator,
+    .computers-sub-tab .nav-item, .computers-sub-tab .mgz-element-separator {
+        padding-left: 20px;
+    }
+    ::-webkit-scrollbar {
+        width: 0;  /* Remove scrollbar space */
+        background: transparent;  /* Optional: just make scrollbar invisible */
+    }
+    /* Optional: show position indicator in red */
+    ::-webkit-scrollbar-thumb {
+        background: #FF0000;
     }
 }
 
