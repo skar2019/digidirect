@@ -87,9 +87,13 @@ define([
                 self.loadLazyImages(self.menu);
             });
 
-            this.menu.find('.mgz-tabs-tab-title').on('hover click', function() {
+            this.menu.find('.mgz-tabs-tab-title').on('click', function() { //remove hover ; clint
                 let item = $(this).closest('.level0');
                 self.loadLazyImages(item);
+                //clint
+                $('.mgz-tabs-tab-title').addClass('retract');
+                $('.shop-by-category-menu .item-submenu').addClass('expand');
+                $('.mgz-tabs-tab-title span').hide();
             });
 
             self.menu.find('.nav-item').each(function(index, el) {
@@ -102,7 +106,7 @@ define([
                     $(this).children('a').after(self.options.openerHtml);
                 }
             });
-            
+
             $(window).resize(function () {
                 if ($(this).width() < self.options.mobileBreakpoint) {
                     if (mobileType == 'drilldown') {
@@ -150,10 +154,10 @@ define([
             } else {
                 if (self.options.hasOwnProperty('hoverDelayTimeout')) {
                     $('.nav-item', this.menu).hoverIntent({
-                        sensitivity: 2, 
-                        interval: 100, 
-                        over: self.onMouseHoverIntent.bind(this), 
-                        timeout: self.options.hoverDelayTimeout, 
+                        sensitivity: 2,
+                        interval: 100,
+                        over: self.onMouseHoverIntent.bind(this),
+                        timeout: self.options.hoverDelayTimeout,
                         out: self.onMouseLeaveIntent.bind(this)
                     });
                 } else {
@@ -166,11 +170,11 @@ define([
                 }
             }
             this.menu.on('click', '.nav-item > a', function (e) {
-                
+
                 if($(this).attr("href") == "#"){
                      e.preventDefault();
                 }
-                
+
                 if ($(this).data('scrollto') && $($(this).data('scrollto')).length) {
                     $('html, body').animate({
                         scrollTop: $($(this).data('scrollto')).offset().top
@@ -207,6 +211,7 @@ define([
             this.menu.parent().on("click", ".menu-trigger-inner", function (e) {
                 $(this).parent().parent().toggleClass('ninjamenus-hamburger-active');
             });
+            self._initAddCustomClass();
         },
 
         onMouseHoverIntent: function(event) {
@@ -242,6 +247,13 @@ define([
                 this._caret(item);
                 this._icon(item);
             }
+            //clint
+            $('.mgz-tabs-tab-title').removeClass('retract');
+            $('.shop-by-category-menu .item-sub-menu').removeClass('expand');
+            $('.mgz-tabs-tab-title span').show();
+            $('.mgz-tabs-tab-title span.tabs-opener').hide();
+            $('.mgz-tabs-tab-title').removeClass('mgz-active');
+
         },
 
         isIpad: function() {
@@ -463,6 +475,21 @@ define([
                     }).resize();
                 });
             }
+        },
+
+            //clint
+        _initAddCustomClass: function () {
+            $(".category-tabs .mgz-tabs-nav span:contains('Cameras')").closest('div.mgz-tabs-tab-title').addClass('cameras-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Lenses')").closest('div.mgz-tabs-tab-title').addClass('lenses-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Drones')").closest('div.mgz-tabs-tab-title').addClass('drones-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Lighting & Studio')").closest('div.mgz-tabs-tab-title').addClass('lightstudio-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Photo Accessories')").closest('div.mgz-tabs-tab-title').addClass('photoacce-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Optics')").closest('div.mgz-tabs-tab-title').addClass('optics-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Audio & Visual')").closest('div.mgz-tabs-tab-title').addClass('audiovisual-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Pro Video')").closest('div.mgz-tabs-tab-title').addClass('provideo-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Smart Home')").closest('div.mgz-tabs-tab-title').addClass('smarthome-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Computers & Mobile')").closest('div.mgz-tabs-tab-title').addClass('computersmobile-tab-menu');
+
         }
     });
 
