@@ -248,11 +248,11 @@ define([
                 this._icon(item);
             }
             //clint
-            $('.mgz-tabs-tab-title').removeClass('retract');
-            $('.shop-by-category-menu .item-sub-menu').removeClass('expand');
-            $('.mgz-tabs-tab-title span').show();
-            $('.mgz-tabs-tab-title span.tabs-opener').hide();
-            $('.mgz-tabs-tab-title').removeClass('mgz-active');
+            // $('.mgz-tabs-tab-title').removeClass('retract');
+            // $('.shop-by-category-menu .item-sub-menu').removeClass('expand');
+            // $('.mgz-tabs-tab-title span').show();
+            // $('.mgz-tabs-tab-title span.tabs-opener').hide();
+            // $('.mgz-tabs-tab-title').removeClass('mgz-active');
 
         },
 
