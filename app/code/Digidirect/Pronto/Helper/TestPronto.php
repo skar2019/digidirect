@@ -962,6 +962,12 @@ class TestPronto extends AbstractHelper
                     $catchRef = str_replace("WD","",$catchRef);
                     $payment_reference = $catchRef;
                 }
+                else if (strpos($orderId, 'EB') !== false) {
+                    $payment_type ="EB";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("EB","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             $withpaymentref = true;
