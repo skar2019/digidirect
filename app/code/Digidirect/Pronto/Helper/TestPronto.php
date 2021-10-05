@@ -1134,6 +1134,14 @@ class TestPronto extends AbstractHelper
             {
                 $shippingDesc = "Click and Collect";
             }
+            else if($shippingDesc == "AU_ExpressPostParcelSignature")
+            {
+                $shippingDesc = "Australia Post – express";
+            }
+            else if($shippingDesc == "AU_RegularParcelWithTrackingAndSignature")
+            {
+                $shippingDesc = "Australia Post – eParcel";
+            }
             //shipping details
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
