@@ -1111,7 +1111,7 @@ class Order extends AbstractHelper
                 }
             }
             //zip
-            if (($method == 'ZM')) {
+            if (($payment_type == 'ZM')) {
                 $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
 
             }

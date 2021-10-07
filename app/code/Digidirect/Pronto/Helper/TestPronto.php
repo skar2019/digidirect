@@ -936,7 +936,7 @@ class TestPronto extends AbstractHelper
                 }
             }
 
-            if (($method == 'ZM')) {
+            if (($payment_type == 'ZM')) {
                $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
 
             }
