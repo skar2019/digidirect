@@ -1112,7 +1112,7 @@ class Order extends AbstractHelper
             }
             //zip
             if (($payment_type == 'ZM')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
+                $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
 
             }
             //work around for IR orders coming as H
