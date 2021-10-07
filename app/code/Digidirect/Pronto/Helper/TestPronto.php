@@ -935,6 +935,12 @@ class TestPronto extends AbstractHelper
                     $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                 }
             }
+
+            if (($method == 'ZM')) {
+               $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
+
+            }
+
             //work around for IR orders coming as H
             if($payment_type == 'H')
             {
