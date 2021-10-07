@@ -358,6 +358,16 @@ class Order extends AbstractHelper
                 }
             }
 
+            //zip
+            if (($payment_type == 'ZM')) {
+
+                $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
+                if($payment_reference == '')
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+                }
+            }
+
             //work around for new and old catch
             if($payment_type == 'H')
             {
@@ -1112,8 +1122,12 @@ class Order extends AbstractHelper
             }
             //zip
             if (($payment_type == 'ZM')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
 
+                $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
+                if($payment_reference == '')
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+                }
             }
             //work around for IR orders coming as H
             if($payment_type == 'H')

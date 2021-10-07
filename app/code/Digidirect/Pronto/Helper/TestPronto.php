@@ -937,8 +937,12 @@ class TestPronto extends AbstractHelper
             }
 
             if (($payment_type == 'ZM')) {
-               $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
 
+               $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
+               if($payment_reference == '')
+               {
+                   $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+               }
             }
 
             //work around for IR orders coming as H
