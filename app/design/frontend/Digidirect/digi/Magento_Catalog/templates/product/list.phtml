@@ -97,7 +97,7 @@ $showWishlist = true;
                         <?= $productImage->toHtml(); ?>
                     </a>
                     
-                    <div><?php echo $this->getReviewsSummaryHtml($_product, 'short') ?></div>
+                    <div><?php echo $this->getReviewsSummaryHtml($_product) ?></div>
                                             
                     <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
                         <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
