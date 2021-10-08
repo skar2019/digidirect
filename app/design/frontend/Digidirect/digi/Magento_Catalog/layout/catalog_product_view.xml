@@ -29,7 +29,7 @@
                         <argument name="title" translate="true" xsi:type="string">Description</argument>
                     </arguments>
                 </referenceBlock>
-                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec" as="spec" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info" after="product.info.description">
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec" as="specs" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info" after="product.info.description">
                     <arguments>
                         <argument translate="true" name="title" xsi:type="string">Specs</argument>
                     </arguments>
@@ -39,6 +39,12 @@
                         <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
                     </arguments>
                 </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.short_description" as="productoverview" template="Magento_Catalog::product/view/product-overview.phtml" group="detailed_info" before="product.info.description">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Product Overview</argument>
+                    </arguments>
+                </block>
+                 
             </referenceBlock>
         </referenceContainer>
         <referenceContainer name="page.wrapper">
@@ -53,7 +59,22 @@
                 </container>
             </container>
         </referenceContainer>
-        <referenceContainer name="product.info.media">
+
+        <!-- Test  -->
+       <!--  <referenceContainer name="footer_asdf" >
+            <referenceBlock name="footer">
+           
+                     <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">
+                        <arguments>
+                            <argument translate="true" name="title" xsi:type="string">sample</argument>
+                        </arguments>
+                     </block>
+           
+            </referenceBlock>
+        </referenceContainer> -->
+
+       <!-- Sharing icons -->
+        <!-- <referenceContainer name="product.info.media">
             <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
                    template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
             </block>
@@ -64,7 +85,7 @@
                     <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.twitter.additional" template="elements/twitter.phtml"/>
                 </block>
             </container>
-        </referenceContainer>
+        </referenceContainer> -->
         <move element="product.info.social" destination="product.info.main" after="-" />
         <referenceContainer name="product.info.price">
             <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="product.addto.wishlist">
@@ -97,11 +118,11 @@
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
 
             <!--    OVERVIEW        -->
-            <container name="product.view.overview" htmlTag="div" htmlClass="product-overview" htmlId="productOverview" after="product.info.main">
+           <!--  <container name="product.view.overview" htmlTag="div" htmlClass="product-overview" htmlId="productOverview" after="product.info.main">
                 <block class="Magento\Catalog\Block\Product\View\Description" name="pdp.short.description" template="Magento_Catalog::product/view/product-overview.phtml">
                     <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" as="block_rules" name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" />
                 </block>
-            </container>
+            </container> -->
         </referenceBlock>
         <referenceContainer name="before.body.end">
             

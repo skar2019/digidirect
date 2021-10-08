@@ -10,18 +10,19 @@ $finalQffBonusPoints = $_product->getBonusPoints();
 ?>
 
 <?php if ( $productSpec || $features || $rulesBlock): ?>
-    <div data-role="trigger" class="overview-tab">
-        <span class="title"><?php echo $block->escapeHtml(__('product overview')); ?></span>
+    <div data-role="trigger" class="overview-tab new-block">
+        <span class="title"><?php echo $block->escapeHtml(__('Product Overview')); ?></span>
         <div class="arrow">
-            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-action">
+          <!--   <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-action">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-left"></use>
-            </svg>
+            </svg> -->
         </div>
     </div>
+    <br>
     <div data-role="content" class="tabpanel">
     <?php echo $rulesBlock;?>
     <?php if ( $productSpec || $features ): ?>
-        <span class="head" ><?php echo $block->escapeHtml(__('product overview')); ?></span>
+        <span class="head" ><?php //echo $block->escapeHtml(__('product overview')); ?></span>
     <?php endif; ?>
     <div class="short-desc">
         <?php echo $productSpec ?>
