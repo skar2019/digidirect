@@ -96,7 +96,9 @@ $showWishlist = true;
                        tabindex="-1">
                         <?= $productImage->toHtml(); ?>
                     </a>
-                        
+                    
+                    <div><?php echo $this->getReviewsSummaryHtml($_product) ?></div>
+                                            
                     <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
                         <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
                             <a href="#"
@@ -185,18 +187,6 @@ $showWishlist = true;
                             <?php endif; ?>
                         </div>
                     </div>
-                    
-                    <div class="qantas-pts-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
-                        <span data-sample="<?= $qff_base?>">Earn <?= $points ?> Qantas Points</span>
-                    </div>
-                    
-                    <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
-                        <?= $rentBlock->toHtml(); ?>
-                    <?php endif; ?>
-                    <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
-                        <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
-                    <?php endif; ?>
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
