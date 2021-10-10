@@ -114,7 +114,10 @@
 
             .product-reviews-summary {
                 .rating-summary {
-                    margin: 0 4px 0 0;
+                    //margin: 0 4px 0 0;
+                    position: absolute;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
                 }
 
                 .reviews-actions {
@@ -321,6 +324,18 @@
                 font-weight: 700;
             }
         }
+    }
+    
+    .reviews-actions {
+        display: none !important;
+    }
+    
+    .rating-summary .rating-result {
+        margin-left: 0 !important;
+    }
+    
+    .rating-result.blank-star-rating > span:before {
+        color: #c7c7c7 !important;
     }
 }
 

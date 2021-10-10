@@ -97,7 +97,24 @@ $showWishlist = true;
                         <?= $productImage->toHtml(); ?>
                     </a>
                     
-                    <div><?php echo $this->getReviewsSummaryHtml($_product) ?></div>
+                    <?php
+                        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+                    ?>
+                    
+                    <?php if ($block->getReviewsSummaryHtml($_product)) : ?>
+                        <div><?php echo $block->getReviewsSummaryHtml($_product, $templateType, true) ?></div>
+                    <?php else: ?>
+<!--                        <span class="blank-star-rating"></span>-->
+                        <div class="product-reviews-summary short">
+                            <div class="rating-summary">
+                                <span class="label"><span>Rating:</span></span>
+                                    <div class="rating-result blank-star-rating" title="100%">
+                                    <span style="width: 100%;"><span>100%</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    
                                             
                     <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
                         <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
