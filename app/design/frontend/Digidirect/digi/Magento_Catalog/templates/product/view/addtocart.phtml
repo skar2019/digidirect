@@ -32,11 +32,11 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
             <div class="actions">
                 <button type="submit"
                         title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
-                        class="action tocart"
+                        class="action tocart btn_cart"
                         id="product-addtocart-button"
                         data-action="add-to-cart-action"
                         >
-                    <span><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                    <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span><span class="addcart_plus_logo"><i class="fas fa-cart-plus"></i></span>
                 </button>
                 <?= $block->getChildHtml('', true) ?>
                 
