@@ -101,17 +101,29 @@ $showWishlist = true;
                         $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
                     ?>
                     
-                    <?php if ($block->getReviewsSummaryHtml($_product)) : ?>
+                    <?php
+                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                        $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+                        $product = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
+                        $storeManager  = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
+                        $storeId = $storeManager->getStore()->getStoreId();
+                        $reviewFactory->getEntitySummary($product, $storeId);
+
+                        $ratingSummary = $product->getRatingSummary()->getRatingSummary();
+                        $reviewCount = $product->getRatingSummary()->getReviewsCount();
+                    ?>
+                    
+                    <?php if ($reviewCount > 0) : ?>
                         <div><?php echo $block->getReviewsSummaryHtml($_product, $templateType, true) ?></div>
                     <?php else: ?>
-<!--                        <div class="product-reviews-summary short">
+                        <div class="product-reviews-summary short">
                             <div class="rating-summary">
                                 <span class="label"><span>Rating:</span></span>
                                     <div class="rating-result blank-star-rating" title="100%">
                                     <span style="width: 100%;"><span>100%</span></span>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                     <?php endif; ?>
                         
                     <?php if($blockMode === 'grid'):?>
