@@ -9,6 +9,8 @@
 /* stylelint-disable declaration-no-important */
 & when (@media-common = true) {
     .product-options-wrapper .options-list {
+        color: #777777;
+        
         > .field {
             margin-bottom: 5px;
         }
@@ -18,6 +20,34 @@
                 margin-left: 0;
             }
         }
+    }
+    
+    .product-options-wrapper .options-list .radio:after {
+        width: 13px;
+        height: 13px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        background-color: #fff;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid #777777;
+    }
+    
+    .product-options-wrapper .options-list .radio:checked:after {
+        width: 13px;
+        height: 13px;
+        border-radius: 15px;
+        top: -2px;
+        left: -1px;
+        position: relative;
+        content: '';
+        display: inline-block;
+        visibility: visible;
+        border: 2px solid #777777;
+        background: radial-gradient(#777777 50%, #fff 60%);
     }
 
     .product-options-wrapper {
