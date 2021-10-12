@@ -12,7 +12,7 @@
         <move element="breadcrumbs" destination="product.section" before="-"/>
         <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
         <move element="page.main.title" destination="product.info.main" before="-" />
-        <move element="product.info.sku" destination="page.main.title" />
+        <move element="product.info.sku" destination="product.info.price" before="-" />
         <!--<move element="product.info.review" destination="product.info.holder" after="page.main.title" />-->
         <move element="product.info.stock.sku" destination="product.info.price" after="-" />
         <move element="product.info.main" destination="product.view.top" after="-" />
@@ -44,7 +44,7 @@
                         <argument translate="true" name="title" xsi:type="string">Product Overview</argument>
                     </arguments>
                 </block>
-                 
+
             </referenceBlock>
         </referenceContainer>
         <referenceContainer name="page.wrapper">
@@ -63,13 +63,13 @@
         <!-- Test  -->
        <!--  <referenceContainer name="footer_asdf" >
             <referenceBlock name="footer">
-           
+
                      <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">
                         <arguments>
                             <argument translate="true" name="title" xsi:type="string">sample</argument>
                         </arguments>
                      </block>
-           
+
             </referenceBlock>
         </referenceContainer> -->
 
@@ -92,13 +92,13 @@
                 <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
             </container>
         </referenceContainer>
-        
+
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
-        
+
         <referenceContainer name="product.info.extrahint">
             <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" />
         </referenceContainer>
-        
+
 <!--        <move element="product.info.extrahint" destination="product.info.price" before="product.info.stock.sku" />-->
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
         <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />
@@ -125,7 +125,7 @@
             </container> -->
         </referenceBlock>
         <referenceContainer name="before.body.end">
-            
+
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
                 <arguments>
                     <argument name="block_id" xsi:type="string">product-tile-rent</argument>
