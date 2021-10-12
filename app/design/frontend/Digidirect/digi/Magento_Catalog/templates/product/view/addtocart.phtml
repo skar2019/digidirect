@@ -91,3 +91,13 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
         }
     }
 </script>
+<script>
+    paypal.Buttons({
+      style: {
+        layout:  'vertical',
+        color:   'blue',
+        shape:   'rect',
+        label:   'paypal'
+      }
+    }).render('#paypal-button-container');
+</script>
