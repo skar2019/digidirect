@@ -116,10 +116,10 @@
                    class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
         </referenceBlock>
-        <referenceBlock name="product.info.main">
+        <referenceBlock name="product.info.price">
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
-                   before="-"
+                   after="-"
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
 
             <!--    OVERVIEW        -->
