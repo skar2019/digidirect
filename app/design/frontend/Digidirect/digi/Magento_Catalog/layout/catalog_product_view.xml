@@ -59,6 +59,7 @@
                 </container>
             </container>
         </referenceContainer>
+        
         <referenceContainer name="content">
             <block after="product.info.details" class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" />                  
         </referenceContainer>
