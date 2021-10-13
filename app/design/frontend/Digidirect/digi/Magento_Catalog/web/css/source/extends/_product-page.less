@@ -213,7 +213,7 @@
         }
 
         .price-box .old-price span.price {
-            .lib-font-size(14);
+            .lib-font-size(34);
         }
 
         span.old-price-label {
@@ -1119,24 +1119,25 @@
     img.paypal-button-logo.paypal-button-logo-paypal.paypal-button-logo-gold {
         margin-left: 5px !important;
     }
-
-    .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget {
-        border: 2px solid #e6e6e6;
-        padding: 10px;
-        border-radius: 5px;
-        margin-right: 2px;
-        margin-bottom: 20px;
-        margin-top: 20px;
-}
-
-    img.zip-logo {
-        float: left;
+    
+    .zip-container {
+        margin-top: 5px;
     }
     
-    .zip-info-link {
-        display: none !important;
+    .zip-container:last-child:before {
+        visibility: visible;
+        content: "0% Interest for 6 Months";
     }
     
+    .zip-container:last-child:after {
+        visibility: visible;
+        content: "APPLY NOW!";
+        margin-left: -90px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #FF3C00;
+    }
+
 }
 
 //
