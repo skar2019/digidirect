@@ -57,7 +57,7 @@
 @catalog-pdp-product-info-main-sku-value__vertical-align: top;
 @catalog-pdp-product-info-main-sku-value__word-break: break-all;
 @catalog-pdp-product-info-main-sku-type__margin-right: @indent__xs;
-
+@catalog-pdp-product-info-main-sku__float: right;
 //  Overview
 @catalog-pdp-product-info-main-overview__margin: @indent__base 0;
 
@@ -176,6 +176,7 @@
                 .lib-css(display, @catalog-pdp-product-info-main-sku__display);
                 .lib-css(vertical-align, @catalog-pdp-product-info-main-sku__vertical-align);
                 .lib-css(color, @catalog-pdp-product-info-main-sku__color);
+                .lib-css(float, @catalog-pdp-product-info-main-sku__float);
             }
             .sku > .value {
                 .lib-css(display, @catalog-pdp-product-info-main-sku-value__display);
@@ -358,9 +359,9 @@
             .box-tocart {
                 display: block;
             }
-            
+
             .box-tocart .field.qty {
-                
+
             }
 
             .box-tocart .actions {
@@ -369,7 +370,7 @@
             }
         }
     }
-    
+
     .price-label:after{
         content: "" !important;
     }
