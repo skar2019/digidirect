@@ -21,6 +21,11 @@
         <move element="catalog.product.related" destination="content" before="-"/>
         <move element="product.info.upsell" destination="content" after="-"/>
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
+        <move element="product-options-wrapper" destination="product.info.main" after="old.price.wrapper"/>
+        <move element="secure.pay" destination="product.info.main" before="studio19-wrapper"/>
+        <move element="secure.pay" destination="product.info.main" before="studio19.wrapper"/>
+        <move element="product-addto-links" destination="product.info.main" after="secure-pay"/>
+        <move element="product-addto-links" destination="product.info.main" after="secure.pay"/>
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
             <referenceBlock name="product.info.details" >
@@ -116,7 +121,7 @@
                    class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
         </referenceBlock>
-        <referenceBlock name="product.info.price">
+        <referenceBlock name="product.info.main">
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
                    after="-"
