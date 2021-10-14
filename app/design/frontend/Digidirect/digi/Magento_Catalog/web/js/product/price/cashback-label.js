@@ -9,7 +9,7 @@ define([
         {
             productInfoPriceBlock.find('.price-box.price-final_price').addClass('pad-top');
         }
-        
-        productInfoPriceBlock.prepend($('.block-extendedrule'));
+
+        productInfoPriceBlock.append($('.block-extendedrule'));
     }
 });
