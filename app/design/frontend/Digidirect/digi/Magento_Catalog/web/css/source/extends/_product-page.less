@@ -1131,6 +1131,7 @@
     
     img.zip-logo {
         float: left;
+        margin: -2px 0 0 0;
     }
     
     .zip-info-link {
@@ -1157,6 +1158,55 @@
         font-size: 20px;
         font-weight: 600;
         color: #FF3C00;
+    }
+    
+    .studio19-wrapper {
+        border: 2px solid #e6e6e6;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        display: flex;
+    }
+    
+    .studio19-wrapper > div {
+        background: #fff !important;
+        padding: 10px !important;
+        margin: 0 !important;
+        display: inline-flex;
+    }
+    
+    .s19-header {
+        visibility: hidden;
+    }
+    
+    .s19-header:before {
+        visibility: visible;
+        content: " ";
+        position: absolute;
+        background-repeat: no-repeat;
+        background-image: url("@{baseDir}images/digiRent_black.png");
+        background-size: contain;
+        height: 24px;
+        width: 100px;
+        top: 0;
+        left: -215px;
+    }
+    
+    a.s19-apply-btn {
+        border: none !important;
+        background: transparent;
+        color: #FF3C00 !important;
+        display: inline-block;
+        font-weight: 700;
+        font-size: 15px;
+        padding: 16px 11px;
+        text-align: center;
+        white-space: nowrap;
+        text-decoration: none;
+        line-height: 1.6rem;
+    }
+    
+    .s19-actions {
+        display: none !important;
     }
 
 }
