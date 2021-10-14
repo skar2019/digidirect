@@ -1231,13 +1231,14 @@
         border-radius: 5px;
         text-align: center !important;
         height: 25px;
+        width: calc(50% - 50px) !important;
     }
     
     a.action.towishlist {
         color: #FF3C00 !important;
         font-size: 19px !important;
         font-weight: 500 !important;
-        margin-top: -6px !important;
+        margin-top: -3px !important;
     }
     
     .product-info-main .product-addto-links .action.towishlist:before {
@@ -1247,14 +1248,55 @@
     .product-info-main .product-addto-links .action.towishlist:after {
         content: " ";
         background-image: none !important;      
-        position: absolute;
+        position: initial !important;
         left: -30px;
         top: 0;
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        font-size: 25px;
+        font-size: 20px;
         content: "\f004";
         margin-top: -5px;
+    }
+    
+    .live-chat-additional {
+        border: 2px solid #0080ff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        height: 25px;
+        text-align: center !important;
+        width: calc(50% - 50px) !important;
+        margin-top: 20px !important;
+    }
+    
+    .catalog-product-view .product-info-main .live-chat-additional .live-chat-additional-link {
+        content: " " !important;
+        color: #0080ff !important;
+        display: inline;
+        padding-left: 13px;
+        position: relative;
+        font-size: 19px !important;
+        font-weight: 500 !important;
+        margin-top: -3px !important;
+        visibility: hidden;
+        white-space: nowrap;
+    }
+    
+    .catalog-product-view .product-info-main .live-chat-additional .live-chat-additional-link:before {
+        content: "Pricematch";
+        visibility: visible;
+    }
+    
+    .catalog-product-view .product-info-main .live-chat-additional .live-chat-additional-link:after {
+        content: " ";
+        background-image: none !important;
+        position: initial;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        font-size: 20px;
+        content: "\f02c";
+        margin-top: -5px;
+        visibility: visible;
+        margin-left: -205px;
     }
 
 }
