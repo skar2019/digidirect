@@ -1165,6 +1165,7 @@
         border-radius: 5px;
         margin-bottom: 20px;
         display: flex;
+        height: 75px;
     }
     
     .studio19-wrapper > div {
@@ -1178,30 +1179,44 @@
         visibility: hidden;
     }
     
+    .s19-rental-details {
+        margin-left: -60px;
+        margin-right: 60px;
+        margin-top: -5px;
+    }
+    
     .s19-header:before {
         visibility: visible;
         content: " ";
         background-repeat: no-repeat;
         background-image: url("@{baseDir}images/digiRent_black.png");
         background-size: contain;
-        height: 24px;
-        width: 100px;
-        top: 0;
-        left: -215px;
+        height: 30px;
+        width: 124px;
+        margin: 5px 0 0 5px;
     }
     
     a.s19-apply-btn {
         border: none !important;
-        background: transparent;
-        color: #FF3C00 !important;
+        background: 0 0;
+        color: #ff3c00 !important;
         display: inline-block;
         font-weight: 700;
-        font-size: 15px;
-        padding: 16px 11px;
+        font-size: 0;
+        padding: 0 !important;
         text-align: center;
         white-space: nowrap;
         text-decoration: none;
         line-height: 1.6rem;
+        visibility: hidden;
+        margin-right: 10px;
+    }
+    
+    a.s19-apply-btn:after {
+        content: "APPLY NOW!";
+        visibility: visible;
+        font-size: 20px;
+        font-weight: 600;
     }
     
     .s19-actions {
