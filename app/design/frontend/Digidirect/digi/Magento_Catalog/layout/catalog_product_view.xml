@@ -20,7 +20,45 @@
         <move element="product.info.upsell" destination="content" after="-"/>
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
         <move element="product-options-wrapper" destination="product.info.main" after="old.price.wrapper"/>
-<!--        <move element="product.addto.links" destination="product.info.main" after="-"/>-->
+        <referenceContainer name="content">
+            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
+            <referenceBlock name="product.info.details" >
+                <referenceBlock name="product.info.description">
+                    <arguments>
+                        <argument name="title" translate="true" xsi:type="string">Description</argument>
+                    </arguments>
+                </referenceBlock>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec" as="specs" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info" after="product.info.description">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Specs</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox" as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.review">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.short_description" as="productoverview" template="Magento_Catalog::product/view/product-overview.phtml" group="detailed_info" before="product.info.description">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Product Overview</argument>
+                    </arguments>
+                </block>
+
+            </referenceBlock>
+        </referenceContainer>
+
+        <referenceContainer name="page.wrapper">
+            <!-- htmlClass "column main" added special for JS swatches logic -->
+            <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
+                <container name="product.section" htmlTag="div" htmlClass="section-center">
+                    <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
+
+                    <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
+                        <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area"></container>
+                    </container>
+                </container>
+            </container>
+        </referenceContainer>
 
         <referenceContainer name="content">
 
@@ -91,20 +129,27 @@
                     </arguments>
                 </block>
 
-                <container name="product.info.main.bottom" label="Bottome part" htmlTag="div" htmlClass="product-info-main-bottom" after="-">
-                    <block class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" after="-" />
-                    <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="-"/>
-                    <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml">
-                        <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare" after="view.addto.wishlist"
-                               template="Magento_Catalog::product/view/addto/compare.phtml" >
-                            <arguments>
-                                <argument name="addToCompareViewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability</argument>
-                            </arguments>
-                        </block>
-                    </block>
-                    <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="-">
-                        <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
+                <container name="product.info.main.bottom" label="Bottom part" htmlTag="div" htmlClass="product-info-main-bottom" after="-">
+                    <container name="secure.pay.container" label="Secure Pay" htmlTag="div" htmlClass="secure-pay-container" after="-">
+                        <block class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" after="-" />
                     </container>
+
+                    <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="-"/>
+
+                    <container name="most.bottom.product.info" htmlTag="div" htmlClass="most-bottom-product-info" after="-">
+                        <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml">
+                            <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare" after="view.addto.wishlist"
+                                   template="Magento_Catalog::product/view/addto/compare.phtml" >
+                                <arguments>
+                                    <argument name="addToCompareViewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability</argument>
+                                </arguments>
+                            </block>
+                        </block>
+                        <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="-">
+                            <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
+                        </container>
+                    </container>
+
                 </container>
             </container>
 
@@ -145,19 +190,6 @@
                 </container>
             </container>
         </referenceContainer>
-
-<!--        <referenceContainer name="product.info.main">-->
-<!--            <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" before="secure.pay"/>-->
-
-<!--            <block class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" />-->
-
-
-
-<!--        </referenceContainer>-->
-<!--        <move element="secure.pay" destination="product.info.main" after="-" />-->
-<!--        <move element="live.chat.additional.link" destination="product.info.main" after="-" />-->
-<!--        <move element="product.info.addto" destination="product.info.main" after="-"/>-->
-
 
 
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
