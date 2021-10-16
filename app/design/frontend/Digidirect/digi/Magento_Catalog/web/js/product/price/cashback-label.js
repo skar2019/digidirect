@@ -11,5 +11,7 @@ define([
         }
 
         productInfoPriceBlock.append($('.block-extendedrule'));
+
+
     }
 });
