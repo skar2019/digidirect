@@ -16,16 +16,18 @@ define([
         if($('.price-box.price-final_price.cashback-active').find('.old-price-label').length === 0)
         {
             productInfoPriceBlock.find('.price-box.price-final_price').addClass('pad-top');
-        }
-        if( $('.current-price-wrapper').length )         // use this if you are using class to check
-        {
-            $('.block-extendedrule').insertAfter( $('.current-price-wrapper'));
 
+            if( $('.current-price-wrapper').length )         // use this if you are using class to check
+            {
+                $('.block-extendedrule').insertAfter( $('.current-price-wrapper'));
+
+            }
+            else
+            {
+                $('.block-extendedrule').insertAfter( $('.qantas-pts-wrapper'));
+            }
         }
-        else
-        {
-            $('.block-extendedrule').insertAfter( $('.qantas-pts-wrapper'));
-        }
+
 
         //productInfoPriceBlock.append($('.block-extendedrule'));
      }
