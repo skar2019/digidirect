@@ -28,7 +28,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
 
  <?php if ($exist) :?>
 
-    <div style="float: right;">
+    <div style="float: right; margin-right: -30px !important;">
 
         <div class="ymal-title">You may also like</div>
         <div class="ymal-product-wrapper">
@@ -105,9 +105,10 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                         <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
                                                             <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
                                                         <?php endif; ?>
-                                                <button class="action tocart primary"
+                                                <button class="primary ymal-button"
                                                         type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                    <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span>
+                                                    <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                    <span class="cart_plus_logo" style="float: none; margin-left: 3px;"><i class="fas fa-cart-plus"></i></span>
                                                 </button>
                                           </form>
                                         </div>
