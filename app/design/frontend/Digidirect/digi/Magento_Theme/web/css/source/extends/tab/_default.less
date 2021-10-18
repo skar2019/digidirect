@@ -15,12 +15,12 @@
     
     .ymal-product-wrapper {
         display: grid; 
-        grid-template-columns: 200px 200px;
+        grid-template-columns: 230px 230px;
     }
     
     .ymal-title {
         color: #ff3c00;
-        font-size: 25px;
+        font-size: 18px;
         font-weight: 650;
         margin-bottom: 10px;
     }
@@ -32,10 +32,11 @@
     }
     
     .ymal-product-info.product-item-info {
-        width: 185px !important;
+        width: 205px !important;
         height: max-content;
         margin: 0 !important;
         border-radius: 5px;
+        max-width: 300px !important;
     }
     
     .ymal-product.product-item.item {
@@ -44,7 +45,7 @@
     
     .ymal-item-photo.product-item-photo > .product-image-container {
         width: 60px !important;
-        margin-top: 10px;
+        margin-top: 1px;
     }
     
     .ymal-item-photo.product-item-photo {
@@ -52,26 +53,30 @@
     }
 
     .ymal-item-details.product-item-details {
-        margin-top: 0 !important;
+        margin-top: -15px !important;
     }
     
     .ymal-item-details > .price-box {
-        margin-top: -30px !important;
+        margin-top: -45px !important;
         margin-bottom: 0 !important;
         padding: 0px;
     }
     
     .ymal-actions.actions-primary {
         width: 100% !important;
+        text-align: center !important;
     }
     
     .ymal-actions > form > button {
         font-weight: 700 !important;
-        font-size: 1.3rem !important;
+        font-size: 1.2rem !important;
         line-height: 1.6rem !important;
-        padding: 5px 5px !important;
-        font-family: 'Poppins', sans-serif !important;
+        padding: 3px !important;
+        font-family: 'Poppins',sans-serif !important;
+        border: 1px solid #ff3c00 !important;
+        width: 90% !important;
         border-radius: 5px !important;
+        background: #fff !important;
     }
     
     strong.ymal-item-name.product-item-name {
@@ -79,8 +84,12 @@
         font-weight: 500 !important;
     }
     
+    .ymal-item-name > a {
+        line-height: 1.2rem !important;
+    }
+    
     .ymal-item-details > .price-box > .price-container > .price-wrapper > .price {
-        font-size: 15px !important;
+        font-size: 12px !important;
     }
     
     .shop-by-category-dropdown {
