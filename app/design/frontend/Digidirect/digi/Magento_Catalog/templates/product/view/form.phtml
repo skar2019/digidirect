@@ -89,6 +89,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         <?php if ($_product->isSaleable() && $block->hasOptions() && $block->getOptionsContainer() == 'container2'):?>
             <?= $block->getChildChildHtml('options_container') ?>
         <?php endif;?>
+
         <?= $block->getChildHtml('form_bottom') ?>
     </form>
 </div>
