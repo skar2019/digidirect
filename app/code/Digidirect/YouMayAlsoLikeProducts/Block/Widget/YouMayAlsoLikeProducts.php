@@ -59,7 +59,7 @@ class YouMayAlsoLikeProducts extends \Magento\Catalog\Block\Product\AbstractProd
             ->addAttributeToSelect('*')
             ->addAttributeToFilter('visibility', ['in' => $this->catalogProductVisibility->getVisibleInCatalogIds()])
             ->addAttributeToFilter('status', ['in' => $this->catalogProductStatus->getVisibleStatusIds()])
-            ->setPageSize(15);
+            ->setPageSize(6);
 
         // get the current store id
         $storeId = (int)$this->_storeManager->getStore()->getId();

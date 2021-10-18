@@ -21,9 +21,9 @@
         <move element="catalog.product.related" destination="content" before="-"/>
         <move element="product.info.upsell" destination="content" after="-"/>
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
-        <move element="product-options-wrapper" destination="product.info.main" after="old.price.wrapper"/>
-        <move element="secure.pay" destination="product.info.main" before="studio19-wrapper"/>
-        <move element="secure.pay" destination="product.info.main" before="studio19.wrapper"/>
+<!--        <move element="product-options-wrapper" destination="product.info.main" after="old.price.wrapper"/>-->
+<!--        <move element="secure.pay" destination="product.info.main" before="studio19-wrapper"/>
+        <move element="secure.pay" destination="product.info.main" before="studio19.wrapper"/>-->
         <move element="product-addto-links" destination="product.info.main" after="secure-pay"/>
         <move element="product-addto-links" destination="product.info.main" after="secure.pay"/>
         <referenceContainer name="content">
@@ -52,6 +52,7 @@
 
             </referenceBlock>
         </referenceContainer>
+        
         <referenceContainer name="page.wrapper">
             <!-- htmlClass "column main" added special for JS swatches logic -->
             <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
@@ -64,12 +65,21 @@
                 </container>
             </container>
         </referenceContainer>
+        
+        <referenceContainer name="content">
+            <container name="product.options.wrapper" htmlTag="div" htmlClass="product-options-wrapper" before="qantas.points"/>
+        </referenceContainer>
+        <referenceContainer name="product.options.wrapper" remove="true"/>
+        
+        <referenceContainer name="content">
+            <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" before="secure.pay"/>
+        </referenceContainer>
 
         <referenceContainer name="content">
             <block after="product.info.details" class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" />
         </referenceContainer>
         <move element="secure.pay" destination="product.info.main" before="product.view.overview" />
-
+        
         <!-- Test  -->
        <!--  <referenceContainer name="footer_asdf" >
             <referenceBlock name="footer">
