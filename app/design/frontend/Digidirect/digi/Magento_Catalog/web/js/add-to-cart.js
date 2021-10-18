@@ -38,16 +38,16 @@ define([
         var priceFull = document.getElementById('priceFull');
         var newPlacePricePromotional = document.getElementById('pricePromotional');
 
-        if (!$('.product-info-main .before-cashback').length) {
+        if (!$('.product-add-form .before-cashback').length) {
             elementBeforeCashBack = null;
         }
-        if (!$('.product-info-main .after-cashback').length) {
+        if (!$('.product-add-form .after-cashback').length) {
             elementAfterCashBack = null;
         }
-        if (!$('.product-info-main .special-price').length) {
+        if (!$('.product-add-form .special-price').length) {
             elementPromotionalPrice = null;
         }
-        
+
         if (elementPromotionalPrice) {
             $(newPlaceBeforeCB).css('display', 'none');
             $(newPlaceAfterCB).css('display', 'none');
