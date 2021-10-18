@@ -7,6 +7,7 @@ define([
         $('#main-product-qantas').insertAfter($('.product-options-wrapper'));
     }
     $('.secure-pay-container').insertAfter($('.product-add-form'));
+    $('.widget-product').insertAfter($('.secure-pay-container'));
 
     $('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     var cashbackLabel = $('.product-info-main').next('block-extendedrule');
