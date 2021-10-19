@@ -80,11 +80,11 @@
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
         <move element="product.info.addtocart.zipmoney.productimage" destination="product.info.bottom" before="-" />
 
-        <referenceBlock name="product.info.upsell">
-            <block name="product.tile.extended.catalog.rule"
-                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
-                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
-        </referenceBlock>
+<!--        <referenceBlock name="product.info.upsell">-->
+<!--            <block name="product.tile.extended.catalog.rule"-->
+<!--                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"-->
+<!--                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />-->
+<!--        </referenceBlock>-->
         <referenceBlock name="product.info.main">
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
