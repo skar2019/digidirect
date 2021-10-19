@@ -100,7 +100,7 @@
     .label-brands-dropdown {
         margin-right: 20px;
         color: #ff3c00;
-        font-size: 25px;
+        font-size: 18px;
         font-weight: 650;    
     }
       
@@ -144,6 +144,22 @@
         border-bottom-right-radius: 3px;
     }
     
+    .right-side-banner-lower-inner > .mgz-single-image-wrapper > .mgz-single-image-inner > img {
+        height: 195px;
+        width: 330px;
+    }
+    
+    .mgz-tabs .mgz-tabs-tab-content>.mgz-element>.mgz-element-inner {
+        padding-top: 0 !important;
+    }
+    
+    .block.widget.block-new-products.product-home-listing.products-widget.grid {
+        margin-top: -20px;
+    }
+    
+    .block.widget .product-item-info {
+        border-radius: 5px;
+    }
 }
 
 //
@@ -203,17 +219,17 @@
                 
                 &:hover{
                     background: #fff;
-                    color: #f96c41;
+                    color: #ff3c00;
                     border-bottom: 3px solid;
-                    border-bottom-color: #f96c41 !important;
+                    border-bottom-color: #ff3c00 !important;
                 }
             }
            
             
             &.mgz-active > a{
-                color: #f96c41;
+                color: #ff3c00;
                 border-bottom: 3px solid;
-                border-bottom-color: #f96c41 !important;
+                border-bottom-color: #ff3c00 !important;
                 border-radius: 0;
             } 
 
@@ -251,10 +267,8 @@
             &{
                 :before{
                     content: " ";
-                    height: 30px;
-                    //width: 3px;
-                    width: 5px;
-                    //background: #d0c9c9;
+                    height: 20px;
+                    width: 3.5px;
                     background: #101010;
                     display: inline-block;
                     position: absolute;
@@ -279,22 +293,24 @@
                 border-bottom: 3px solid #fff;
                 padding: 5px 0;
                 margin: 30px;
+                margin-bottom: 15px !important;
                 color: #101010;
                 
                 &:hover{
                     background: #fff;
-                    color: #f96c41;
+                    color: #ff3c00;
                     border-bottom: 3px solid;
-                    border-bottom-color: #f96c41 !important;
+                    border-bottom-color: #ff3c00 !important;
                 }
             }
                      
             
             &.mgz-active > a{
-                color: #f96c41;
+                color: #ff3c00;
                 border-bottom: 3px solid;
-                border-bottom-color: #f96c41 !important;
+                border-bottom-color: #ff3c00 !important;
                 border-radius: 0;
+                border: none;
             } 
 
         }
@@ -305,9 +321,10 @@
         }
         
         .mgz-tabs-tab-title{
-            font-size: 25px;
+            font-size: 18px;
             font-weight: 650;
-            margin-right: 30px;
+            margin-right: 15px;
+            margin-left: 5px;
         }
     }
 }
