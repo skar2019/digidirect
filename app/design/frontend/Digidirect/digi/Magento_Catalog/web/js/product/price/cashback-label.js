@@ -1,13 +1,15 @@
 define([
     'jquery'
 ], function ($) {
-    alert("cashback?");
-    $('.qantas-pts-wrapper').insertAfter($('.product-options-wrapper'));
-
+    if( $('#main-product-qantas').length )
+    {
+        //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
+        $('#main-product-qantas').insertAfter($('.product-options-wrapper'));
+    }
     $('.secure-pay-container').insertAfter($('.product-add-form'));
+    $('.widget-product').insertAfter($('.secure-pay-container'));
 
-    $('.current-price-wrapper').insertBefore($('.qantas-pts-wrapper'));
-
+    $('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     var cashbackLabel = $('.product-info-main').next('block-extendedrule');
     var productInfoPriceBlock = $('.product-info-price');
     if(cashbackLabel){
@@ -17,6 +19,16 @@ define([
             productInfoPriceBlock.find('.price-box.price-final_price').addClass('pad-top');
         }
 
-        productInfoPriceBlock.append($('.block-extendedrule'));
+        if( $('.product-info-price .current-price-wrapper').length )         // use this if you are using class to check
+        {
+            $('.block-extendedrule').insertBefore( $('#main-product-qantas'));
+
+        }
+        else
+        {
+            $('.block-extendedrule').insertBefore( $('#main-product-qantas'));
+        }
+
+
     }
 });

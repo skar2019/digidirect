@@ -226,6 +226,8 @@
                 margin-top: -15px;
                 display: block !important;
                 float: right;
+                width: 100%;
+                text-decoration: none;
             }
 
             .old-price-label {
@@ -248,6 +250,31 @@
             padding-top: 50px;
         }
 
+        .block-extendedrule {
+            & {
+                float: none !important;
+                margin-top: 15px;
+            }
+
+            &.-cashback .price-container > .before-cashback {
+                display: none;
+            }
+
+            &.-special-price .price-box {
+                border: none;
+                padding-bottom: 0;
+            }
+
+            .price-box .price-wrapper .price {
+                font-weight: bold;
+                color: #222;
+                font-size: 2.2rem;
+                line-height: 1.09;
+            }
+        }
+    }
+
+    .product-add-form {
         .block-extendedrule {
             & {
                 float: none !important;
