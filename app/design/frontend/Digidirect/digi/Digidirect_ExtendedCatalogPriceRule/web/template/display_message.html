@@ -13,13 +13,13 @@
     <% if (data.action_amount) { %>
     <div class="price-box">
         <span class="price-container">
-            <span class="after-cashback">
-                <span class="price-label"><%= label.afterCashback %></span>
-                <span class="price-wrapper"><span class="price"><%= data.after_cashback_price %></span></span>
-            </span>
             <span class="before-cashback">
                 <span class="price-label"><%= label.beforeCashback %></span>
                 <span class="price-wrapper"><span class="price"><%= data.before_cashback_price %></span></span>
+            </span>
+            <span class="after-cashback">
+                <span class="price-label"><%= label.afterCashback %></span>
+                <span class="price-wrapper"><span class="price"><%= data.after_cashback_price %></span></span>
             </span>
         </span>
     </div>
