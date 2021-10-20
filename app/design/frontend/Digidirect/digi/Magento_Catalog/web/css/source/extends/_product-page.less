@@ -165,6 +165,7 @@
     .@{layout-class-1column} {
         .product-section.column.main {
             .lib-vendor-prefix-order(0);
+            background: none;
         }
     }
 
@@ -252,6 +253,9 @@
             .price-label {
                 font-size: 20px;
                 color: #FF3C00;
+            }
+            .price {
+                text-decoration: line-through;
             }
         }
 
@@ -694,8 +698,9 @@
         }
 
         .special-price .price-container.price-final_price .price-wrapper .price {
-            color: #f15a25;
-            font-size: 32px;
+            color: #FF3C00;
+            font-size: 3.8rem;
+            font-weight: 700;
         }
 
         #check_sdd {
