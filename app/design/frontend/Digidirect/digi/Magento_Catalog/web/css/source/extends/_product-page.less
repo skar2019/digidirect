@@ -214,7 +214,7 @@
         }
 
         .price-box .old-price span.price {
-            .lib-font-size(30);
+            font-size: 17px;
         }
 
         span.old-price-label {
@@ -251,7 +251,7 @@
             }
 
             .price-label {
-                font-size: 20px;
+                font-size: 12px;
                 color: #e40301;
             }
             .price {
@@ -314,8 +314,8 @@
         .svg-icon.digidirectprice {
             display: inline-block;
             margin-top: 15px;
-            width: 200px;
-            height: 60px;
+            width: 100px;
+            height: 20px;
         }
     }
 
@@ -374,13 +374,13 @@
         }
 
         .after-cashback span.price-label-pf {
-            font-weight: bold;
-            .lib-css(color, @color-4-1);
-            .lib-font-size(12);
+            .lib-css(color, @color-new-black);
+            font-size: 11px;
             line-height: 2;
-            text-align: right;
+            text-align: left;
             text-transform: none;
             margin: 0;
+            width: 100%
         }
 
         .after-cashback .price-wrapper {
@@ -699,7 +699,7 @@
 
         .special-price .price-container.price-final_price .price-wrapper .price {
             color: #FF3C00;
-            font-size: 3.4rem;
+            font-size: 21px;
             font-weight: 700;
         }
 
@@ -1128,10 +1128,14 @@
 
     .addcart_words {
         text-transform: uppercase;
-        font-size: 25px;
+        font-size: 15px;
         font-weight: 500;
     }
 
+    .addcart_plus_logo{
+        float:right;
+        font-size: 15px;
+    }
     .tocart-pdp-btn {
         height: 52px;
     }
@@ -1142,8 +1146,8 @@
     .secure-pay {
         border: 1px solid #cacaca;
         border-radius: 5px;
-        padding-top: 10px;
         width: 90%;
+        height: 40px;
     }
 
     .secure-pay .title {
@@ -1161,7 +1165,6 @@
     .product-add-form .braintree-paypal-logo.oneclick-container {
         margin-left: -92px !important;
         width: 435px !important;
-        border: 1px solid #cacaca !important;
         border-radius: 5px !important;
         background: none !important;
     }
@@ -1191,9 +1194,31 @@
         border: 1px solid #cacaca;
         padding: 8px;
         border-radius: 5px;
-        margin-right: 2px;
-        margin-bottom: 20px;
         margin-top: 20px;
+        width: 77% !important;
+        maring-left: 60px;
+        height: 22px !important;
+
+        .zip-container {
+            height: 21px !important;
+        }
+
+        .zip-container span {
+            font-size: 11px !important;
+            color: #777777 !important;
+        }
+
+        .zip-container span:first-of-type:before {
+            height: 21px;
+        }
+
+        .zip-container:last-child:after {
+            margin-left: -50px !important;
+            font-size: 11px !important;
+            font-weight: 700;
+            color: #e40301 !important;
+            display: inline-block;
+        }
     }
 
     img.zip-logo {
@@ -1245,7 +1270,7 @@
         border-radius: 5px;
         margin-bottom: 20px;
         display: flex;
-        height: 60px;
+        height: 40px;
         width: 80%;
         margin-left: 60px;
         margin-top: 20px;
@@ -1263,9 +1288,9 @@
     }
 
     .s19-rental-details {
-        margin-left: -60px;
-        margin-right: -50px;
-        margin-top: -5px;
+        margin-left: -115px;
+        margin-right: -70px;
+        margin-top: -3px;
     }
 
     .s19-header:before {
@@ -1274,15 +1299,15 @@
         background-repeat: no-repeat;
         background-image: url("@{baseDir}images/digiRent_black.png");
         background-size: contain;
-        height: 30px;
-        width: 124px;
-        margin: 5px 0 0 5px;
+        height: 20px;
+        width: 120px;
+        margin: 2px 0 0 2px;
     }
 
     a.s19-apply-btn {
         border: none !important;
         background: 0 0;
-        color: #ff3c00 !important;
+        color: #e40301 !important;
         display: inline-block;
         font-weight: 700;
         font-size: 0;
@@ -1290,7 +1315,7 @@
         text-align: center;
         white-space: nowrap;
         text-decoration: none;
-        line-height: 1.6rem;
+        line-height: 0.2rem !important;
         visibility: hidden;
         margin-right: 10px;
     }
@@ -1298,30 +1323,50 @@
     a.s19-apply-btn:after {
         content: "APPLY NOW!";
         visibility: visible;
-        font-size: 20px;
+        font-size: 11px !important;
         font-weight: 600;
-        margin-right: -230px;
+        margin-right: -208px;
     }
 
     .s19-actions {
         display: none !important;
     }
 
+    .s19-price-per-period {
+        color: #e40301 !important;
+        font-weight: 700;
+    }
+    .s19-price-amount {
+        font-size: 11px !important;
+        color: #e40301 !important;
+        font-weight: 700;
+    }
+
+    .s19-per-period {
+        font-size: 11px !important;
+        color: #e40301 !important;
+        font-weight: 700;
+    }
+
+    .s19-min-period {
+        font-size: 11px !important;
+        color: #777777 !important;
+    }
     .product-addto-links {
         border: 1px solid #e40301;
         padding: 10px 20px;
         float: left;
         border-radius: 5px;
         text-align: center !important;
-        height: 25px;
+        height: 15px;
         width: 170px !important;
     }
 
     a.action.towishlist {
         color: #e40301 !important;
-        font-size: 19px !important;
+        font-size: 11px !important;
         font-weight: 500 !important;
-        margin-top: -3px !important;
+        margin-top: -5px !important;
     }
 
     .product-info-main .product-addto-links .action.towishlist:before {
@@ -1336,7 +1381,7 @@
         top: 0;
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        font-size: 20px;
+        font-size: 15px;
         content: "\f004";
         margin-top: -5px;
         margin-left: 8px !important;
@@ -1346,7 +1391,7 @@
         border: 1px solid #004f67;
         padding: 10px 20px;
         border-radius: 5px;
-        height: 25px;
+        height: 15px;
         text-align: center !important;
         width: 170px !important;
         margin-top: 20px !important;
@@ -1358,7 +1403,7 @@
         display: inline;
         padding-left: 13px;
         position: relative;
-        font-size: 19px !important;
+        font-size: 11px !important;
         font-weight: 500 !important;
         margin-top: -3px !important;
         visibility: hidden;
@@ -1378,11 +1423,11 @@
         position: initial;
         font-family: "Font Awesome 5 Free";
         font-weight: 900;
-        font-size: 20px;
+        font-size: 11px;
         content: "\f02c";
         margin-top: -5px;
         visibility: visible;
-        margin-left: -205px;
+        margin-left: -115px;
     }
 
 }
@@ -1466,8 +1511,8 @@
         }
 
         .box-tocart .secure-pay .svg-icon {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
         }
 
         .catalog-product-view {
@@ -1827,7 +1872,7 @@
 
         .page-title-wrapper.product{
             margin: 0;
-            padding: 0;
+            padding: 15px 0px;
 
             h1{
                 text-align: left;
