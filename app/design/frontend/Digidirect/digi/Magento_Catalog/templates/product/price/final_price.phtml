@@ -23,9 +23,9 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 ?>
 <?php if ($block->hasSpecialPrice()): ?>
     <div class="current-price-wrapper">
-        <span class="svg-icon digidirectprice">
-            <span class="digi-orange-bold">digi</span><span>Direct</span><span class="digi-orange">PRICE</spandigi-orange>
-        </span>
+        <svg class="svg-icon digidirectprice">
+            <use xlink:href="#svgi-digidirectprice" />
+        </svg>
         <span class="special-price">
             <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
                 'display_label'     => __(''),
