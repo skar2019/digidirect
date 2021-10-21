@@ -811,7 +811,8 @@
             clear: both;
             vertical-align: middle;
             margin-top: 10px;
-            width: 100%;
+            width: 80%;
+            padding-left: 60px;
         }
 
         #product_addtocart_form {
@@ -865,7 +866,7 @@
         }
 
         .input-text.qty {
-            .lib-css(color, #101010);
+            .lib-css(color, @color-black);
             .lib-font-size(14);
             padding-right: 5px;
             padding-left: 5px;
@@ -1130,10 +1131,14 @@
         height: 52px;
     }
 
+    .secure-pay-container {
+        padding-left: 60px;
+    }
     .secure-pay {
-        border: 2px solid #e6e6e6;
+        border: 1px solid #cacaca;
         border-radius: 5px;
         padding-top: 10px;
+        width: 90%;
     }
 
     .secure-pay .title {
@@ -1150,7 +1155,7 @@
 
     .product-add-form .braintree-paypal-logo.oneclick-container {
         margin-left: -92px !important;
-        width: 550px !important;
+        width: 435px !important;
         border: 1px solid #cacaca !important;
         border-radius: 5px !important;
         background: none !important;
@@ -1301,7 +1306,7 @@
         border-radius: 5px;
         text-align: center !important;
         height: 25px;
-        width: 230px !important;
+        width: 170px !important;
     }
 
     a.action.towishlist {
@@ -1335,7 +1340,7 @@
         border-radius: 5px;
         height: 25px;
         text-align: center !important;
-        width: 230px !important;
+        width: 170px !important;
         margin-top: 20px !important;
     }
 
@@ -1822,8 +1827,8 @@
                 text-align: left;
                 display: inline;
                 width: unset;
-                font-size: 34px;
-                font-weight: 400;
+                font-size: 21px;
+                font-weight: 500;
             }
 
             .attribute.sku{
@@ -1863,7 +1868,7 @@
             border-radius: 4px;
             border-color: #cacaca;
         }
-
+        /* add to cart button pdp clint */
         .action {
             font-family: 'Poppins', sans-serif;
             .lib-font-size(18);
@@ -1904,6 +1909,7 @@
 
     .product-info-price {
         text-align: right;
+        padding: 0px 60px;
     }
 
     .catalog-product-view .products-widget {
