@@ -57,15 +57,8 @@
             <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
                    template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
             </block>
-            <container name="social.additional.block" htmlTag="div" htmlClass="social-wrapper" after="-">
-                <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.additional" before="product.info.mailto" template="sharing.phtml">
-                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.facebook.additional" template="elements/facebook.phtml"/>
-                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.pin.additional" template="elements/pin.phtml"/>
-                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.twitter.additional" template="elements/twitter.phtml"/>
-                </block>
-            </container>
+
         </referenceContainer>
-        <move element="product.info.social" destination="product.info.main" after="-" />
 
 
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
