@@ -34,7 +34,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
             <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
                 <div id="recommended-products-carousel" 
                     class="product-items product-carousel owl-carousel owl-theme 
-                    <?= /* @noEscape */ $type ?>"
+                    <?= /* @noEscape */ $type ?> owl-loaded owl-drag"
                     
                     data-mage-init='{
                         "truncateCollection": {
@@ -42,7 +42,9 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                         }
                     }'>
                     
-                    <?php foreach ($items as $_item) :?>
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage" style="transform: translate3d(-2891px, 0px, 0px); transition: all 0s ease 0s; width: 11204px;">
+                            <?php foreach ($items as $_item) :?>
                     
                     <?php
                         $productName = $_item->getName();
@@ -67,82 +69,99 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                         $finalQffPoints = $_item->getPoints();
                     ?>
                     
-                    <div class="product-item item">
-                        <div class="product-item-info">
-                            <div class="wish-list-wrapper" data-role="add-to-links">
-                                <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
-                                    <a href="#"
-                                    data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
-                                    class="action towishlist" data-action="add-to-wishlist"
-                                    title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
-                                    <i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>
-                                    </a>
-                                <?php endif; ?>
-                            </div>
-                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
-                               class="product-item-photo">
-                                <?= $block->getImage($_item, $image)->toHtml() ?>
-                            </a>
-                            <div class="product-item-details">
-                                <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
+                    <div class="owl-item cloned" style="width: 346.4px; margin-right: 15px;">
+                        <div class="product-item item">
+                            <div class="product-item-info">
+                                <div class="wish-list-wrapper" data-role="add-to-links">
+                                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                        <a href="#"
+                                        data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
+                                        class="action towishlist" data-action="add-to-wishlist"
+                                        title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
+                                        <i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
-                                
-                                <strong class="product-item-name">
-                                    <a title="<?= $block->escapeHtml($_item->getName()) ?>"
-                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
-                                       class="product-item-link">
-                                        <?= $block->escapeHtml($_item->getName()); ?>
-                                    </a>
-                                </strong>
-                                
-                                <?= $this->getLayout()
-                                    ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
-                                    ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
-                                    ->setProduct($_item)
-                                    ->toHtml();
-                                ?>
-                                
-                                <?= $block->getProductPriceHtml($_item, $type); ?>
-                                
-                                <?php if ($templateType) :?>
-                                    <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
-                                <?php endif; ?>
-
-                                <?php if ($showWishlist || $showCompare || $showCart) :?>
-                                    <div class="product-item-inner">
-                                        <div class="product actions product-item-actions">
-                                            <?php if ($showCart) :?>
-                                                <div class="actions-primary">
-                                                    <?php $addToCartUrl = $block->getAddToCartUrl($_item); ?>
-
-                                                    <form data-role="tocart-form"
-                                                            data-product-sku="<?=  /* @escapeNotVerified */ $_item->getSku(); ?>"
-                                                            data-mage-init='{"validation": {}}'
-                                                            action="<?= $block->escapeUrl($addToCartUrl); ?>"
-                                                            method="post">
-
-                                                            <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
-                                                            <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
-                                                            <?php echo $block->getBlockHtml('formkey')?>
-                                                                    <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
-                                                                        <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
-                                                                    <?php endif; ?>
-                                                            <button class="action tocart primary"
-                                                                    type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                                <span class="cart_words"><?php /* @escapeNotVerified */ echo __('Add to Cart') ?> </span><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span>
-                                                                
-                                                            </button>
-
-                                                      </form>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
+                                <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                   class="product-item-photo">
+                                    <?= $block->getImage($_item, $image)->toHtml() ?>
+                                </a>
+                                <div class="product-item-details">
+                                    <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
                                     </div>
-                                <?php endif; ?>
+
+                                    <strong class="product-item-name">
+                                        <a title="<?= $block->escapeHtml($_item->getName()) ?>"
+                                           href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                           class="product-item-link">
+                                            <?= $block->escapeHtml($_item->getName()); ?>
+                                        </a>
+                                    </strong>
+
+                                    <?= $this->getLayout()
+                                        ->createBlock('Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule')
+                                        ->setTemplate('Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml')
+                                        ->setProduct($_item)
+                                        ->toHtml();
+                                    ?>
+
+                                    <?= $block->getProductPriceHtml($_item, $type); ?>
+
+                                    <?php if ($templateType) :?>
+                                        <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                    <?php endif; ?>
+
+                                    <?php if ($showWishlist || $showCompare || $showCart) :?>
+                                        <div class="product-item-inner">
+                                            <div class="product actions product-item-actions">
+                                                <?php if ($showCart) :?>
+                                                    <div class="actions-primary">
+                                                        <?php $addToCartUrl = $block->getAddToCartUrl($_item); ?>
+
+                                                        <form data-role="tocart-form"
+                                                                data-product-sku="<?=  /* @escapeNotVerified */ $_item->getSku(); ?>"
+                                                                data-mage-init='{"validation": {}}'
+                                                                action="<?= $block->escapeUrl($addToCartUrl); ?>"
+                                                                method="post">
+
+                                                                <input type="hidden" name="product" value="<?= /* @escapeNotVerified */ (int)$_item->getEntityId(); ?>">
+                                                                <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $this->helper('Magento\Framework\Url\Helper\Data')->getEncodedUrl($addToCartUrl); ?>">
+                                                                <?php echo $block->getBlockHtml('formkey')?>
+                                                                        <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
+                                                                            <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
+                                                                        <?php endif; ?>
+                                                                <button class="action tocart primary"
+                                                                        type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
+                                                                    <span class="cart_words"><?php /* @escapeNotVerified */ echo __('Add to Cart') ?> </span><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span>
+
+                                                                </button>
+
+                                                          </form>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
-                        </div>
-                     </div>
+                         </div>
+                    </div>
+                    
+                    
                     <?php endforeach ?>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 </div>
             </div>
             <?= $block->getPagerHtml() ?>
