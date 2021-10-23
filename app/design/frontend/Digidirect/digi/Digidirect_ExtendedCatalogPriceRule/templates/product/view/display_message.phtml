@@ -60,11 +60,10 @@
                             </span>
                             <span class="<?= /* @escapeNotVerified */ $afterClass; ?>">
                                 <?php if ($afterLabel): ?>
-<!--                                    <span class="price-label price-label-pr">--><?//= /* @noEscape */  $afterLabel; ?><!--</span>-->
+
                                 <?php endif; ?>
                                 <?php if (is_numeric($afterPrice)): ?>
-                                    <span class="price-label price-label-pf"><?= /* @escapeNotVerified */ $block->formatDiscountAmount($rule['action_amount']).  __(' Cashback after PURCHASE'); ?></span>
-                                    <span class="price-wrapper"><span class="price"><?= /* @noEscape */  $block->formatDiscountAmount($afterPrice); ?></span></span>
+                                    <span class="price-label price-label-pf"><?= /* @escapeNotVerified */ $block->formatDiscountAmount($rule['action_amount']).  __(' Cashback after PURCHASE'); ?></span><span class="price"><?= /* @noEscape */  $block->formatDiscountAmount($afterPrice); ?></span>
 
                                 <?php endif; ?>
                             </span>
