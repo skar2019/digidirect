@@ -10,7 +10,7 @@
 & when (@media-common = true) {
     .product-options-wrapper .options-list {
         color: #777777;
-        
+
         > .field {
             margin-bottom: 5px;
         }
@@ -21,10 +21,10 @@
             }
         }
     }
-    
+
     .product-options-wrapper .options-list .radio:after {
-        width: 13px;
-        height: 13px;
+        width: 11px;
+        height: 11px;
         border-radius: 15px;
         top: -2px;
         left: -1px;
@@ -35,7 +35,7 @@
         visibility: visible;
         border: 2px solid #777777;
     }
-    
+
     .product-options-wrapper .options-list .radio:checked:after {
         width: 13px;
         height: 13px;
@@ -86,7 +86,7 @@
             content: '';
             margin: -10px 0 0;
         }
-        
+
         .fieldset>.field .field.choice, .fieldset>.fields>.field .field.choice {
             margin-bottom: 10px;
             display: inline;
@@ -100,6 +100,11 @@
             //padding-left: 15px;
             //margin-right: 20px;
         }
+
+        price-container.tax.weee span {
+            font-size: 11px !important;
+        }
+
     }
 
     .product-options-wrapper .options-list>.field {
@@ -116,7 +121,7 @@
         .options-list .label,
         .fieldset > .field > .label,
         .fieldset > .legend {
-            .lib-font-size(14);
+            font-size: 11px;
         }
     }
 }
