@@ -83,7 +83,6 @@ class CustomerSetStoreObserver implements ObserverInterface
 //                $this->messageManager->addErrorMessage(__(
 //                    'Sorry, but we can\'t set up your Store using your Shipping Address.'
 //                ));
-                //comment to redeploy
             }
         }
 
