@@ -306,8 +306,15 @@
             .price-box .price-wrapper .price {
                 font-weight: bold;
                 color: #101010;
-                font-size: 13px;
+                font-size: 13px !important;
                 line-height: 1.09;
+            }
+            .price-box .price-container .after-cashback .price {
+                font-weight: bold;
+                color: #101010;
+                font-size: 13px !important;
+                line-height: 1.09;
+                float :right; /*clint changes*/
             }
         }
 
@@ -403,6 +410,7 @@
             width: calc(~'50% - 20px');
             display: inline-block;
             text-align: left;
+            margin: 0px !important;
         }
 
         .product-addto-links .action.towishlist {
@@ -997,7 +1005,6 @@
         .lib-font-size(12);
         display: inline-block;
         width: 50%;
-        margin-top: 10px;
         cursor: pointer;
         float: right;
 
@@ -1136,7 +1143,7 @@
         font-size: 15px;
     }
     .tocart-pdp-btn {
-        height: 52px;
+        height: 50px;
     }
 
     .secure-pay-container {
@@ -2018,6 +2025,7 @@
             flex-grow: 1;
             width: 60%;
             padding: 0 60px;
+            border: 1px solid #cacaca;
         }
     }
 
