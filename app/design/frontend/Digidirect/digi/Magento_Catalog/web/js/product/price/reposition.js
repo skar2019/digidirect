@@ -2,7 +2,7 @@ define([
     'jquery'
 ], function ($) {
     //clint changes cashback
-    alert("repostion");
+
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
