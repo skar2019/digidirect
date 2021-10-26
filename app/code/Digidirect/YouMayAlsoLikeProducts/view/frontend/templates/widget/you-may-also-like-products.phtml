@@ -59,7 +59,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
             ?>
 
             <div class="ymal-product product-item item">
-                <div class="ymal-product-info product-item-info" style="margin-left: 20px">
+                <div class="ymal-product-info product-item-info" style="margin-left: 20px !important;">
                     <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                        class="ymal-item-photo product-item-photo">
                         <?= $block->getImage($_item, $image)->toHtml() ?>
@@ -104,7 +104,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                 <?php echo $block->getBlockHtml('formkey')?>
                                                         <?php if ($toCartFormBlock = $block->getChildBlock('tocart_form')): ?>
                                                             <?php /* @escapeNotVerified */ echo $toCartFormBlock->setProduct($_item)->getChildHtml(); ?>
-                                                        <?php endif; ?>
+                                                        <?php endif; ?>ca
                                                 <button class="primary ymal-button"
                                                         type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
                                                     <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
