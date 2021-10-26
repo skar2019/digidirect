@@ -28,7 +28,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
 
  <?php if ($exist) :?>
 
-    <div style="float: right; margin-right: -30px !important;">
+    <div>
 
         <div class="ymal-title">You may also like</div>
         <div class="ymal-product-wrapper">
@@ -59,7 +59,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
             ?>
 
             <div class="ymal-product product-item item">
-                <div class="ymal-product-info product-item-info">
+                <div class="ymal-product-info product-item-info" style="margin-left: 20px">
                     <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                        class="ymal-item-photo product-item-photo">
                         <?= $block->getImage($_item, $image)->toHtml() ?>
