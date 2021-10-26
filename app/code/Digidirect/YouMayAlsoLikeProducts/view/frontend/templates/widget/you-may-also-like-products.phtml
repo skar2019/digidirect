@@ -59,7 +59,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
             ?>
 
             <div class="ymal-product product-item item">
-                <div class="ymal-product-info product-item-info" style="margin-left: 20px">
+                <div class="ymal-product-info product-item-info">
                     <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                        class="ymal-item-photo product-item-photo">
                         <?= $block->getImage($_item, $image)->toHtml() ?>
