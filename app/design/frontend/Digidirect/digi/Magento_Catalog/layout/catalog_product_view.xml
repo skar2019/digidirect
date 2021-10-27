@@ -78,6 +78,16 @@
 <!--                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"-->
 <!--                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />-->
 <!--        </referenceBlock>-->
+
+        <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">
+            <arguments>
+                <argument translate="true" name="title" xsi:type="string">sample</argument>
+            </arguments>
+        </block>
+
+
+
+
         <referenceBlock name="product.info.main">
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
