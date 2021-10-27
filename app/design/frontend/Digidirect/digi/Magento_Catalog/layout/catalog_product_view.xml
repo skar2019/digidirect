@@ -18,8 +18,8 @@
         <move element="product.info.main" destination="product.view.top" after="-" />
         <move element="product.info.media" destination="product.view.media.overview" before="-" />
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
-        <move element="catalog.product.related" destination="content" before="-"/>
-        <move element="product.info.upsell" destination="content" after="-"/>
+        <move element="catalog.product.related" destination="content" after="-"/>
+        <move element="product.info.upsell" destination="content" before="-"/>
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
