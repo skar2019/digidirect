@@ -39,6 +39,11 @@
                         <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
                     </arguments>
                 </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.short_description" as="productoverview" template="Magento_Catalog::product/view/product-overview.phtml" group="detailed_info" before="product.info.description">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Product Overview</argument>
+                    </arguments>
+                </block>
             </referenceBlock>
         </referenceContainer>
         <referenceContainer name="page.wrapper">
@@ -69,23 +74,22 @@
 
         <!--        <move element="product.info.extrahint" destination="product.info.price" before="product.info.stock.sku" />-->
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
-        <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />
+<!--        <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />-->
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
         <move element="product.info.addtocart.zipmoney.productimage" destination="product.info.bottom" before="-" />
 
-<!--        <referenceBlock name="product.info.upsell">-->
-<!--            <block name="product.tile.extended.catalog.rule"-->
-<!--                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"-->
-<!--                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />-->
-<!--        </referenceBlock>-->
+
+        <referenceBlock name="product.info.upsell">
+            <block name="product.tile.extended.catalog.rule"
+                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
+                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
+        </referenceBlock>
 
         <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">
             <arguments>
                 <argument translate="true" name="title" xsi:type="string">sample</argument>
             </arguments>
         </block>
-
-
 
 
         <referenceBlock name="product.info.main">
@@ -118,7 +122,11 @@
             </container>
         </referenceBlock>
         <referenceContainer name="before.body.end">
-
+<!--            <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">-->
+<!--                <arguments>-->
+<!--                    <argument translate="true" name="title" xsi:type="string">sample</argument>-->
+<!--                </arguments>-->
+<!--            </block>-->
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
                 <arguments>
                     <argument name="block_id" xsi:type="string">product-tile-rent</argument>
