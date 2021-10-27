@@ -18,9 +18,19 @@
         <move element="product.info.main" destination="product.view.top" after="-" />
         <move element="product.info.media" destination="product.view.media.overview" before="-" />
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
+        
+        <!-- Rondel Changes -->
         <move element="catalog.product.related" destination="content" after="-"/>
         <move element="product.info.upsell" destination="content" after="catalog.product.related"/>
+        
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
+ 
+        <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.hotdeals" before="-" template="widget/hotdeals-products.phtml">
+            <arguments>
+                <argument translate="true" name="title" xsi:type="string">sample</argument>
+            </arguments>
+        </block>
+        
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
             <referenceBlock name="product.info.details" >
@@ -84,12 +94,6 @@
                    class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
         </referenceBlock>
-
-        <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">
-            <arguments>
-                <argument translate="true" name="title" xsi:type="string">sample</argument>
-            </arguments>
-        </block>
 
 
         <referenceBlock name="product.info.main">
