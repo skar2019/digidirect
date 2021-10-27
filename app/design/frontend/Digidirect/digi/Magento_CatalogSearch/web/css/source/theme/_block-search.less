@@ -11,7 +11,7 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    
+
 }
 
 //
@@ -20,25 +20,29 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     &.block-search{
+        //margin-left: auto;
+        //padding-right: 15px;
+        //margin-top: 15px !important;
+        //clint workaround just to make it appear
         margin-left: auto;
-        padding-right: 15px;
-        margin-top: 15px !important;
-        
+        padding-right: 220px;
+        margin-top: 25px !important;
+
         .minisearch{
             label{
                 &:before{
                     content: "" !important;
                 }
             }
-              
+
             .field.search{
                 label{
                   span{
                         display: none;
-                    }  
+                    }
                 }
             }
-        } 
+        }
     }
 }
 
@@ -57,14 +61,14 @@
         }*/
 
 
-        & {   
+        & {
             padding: 0 90px;
             margin-left: 0;
             width: 100%;
             max-width: 1300px;
             margin-top: 3px;
         }
-        
+
         .minisearch{
             position: relative;
             max-width: 900px;
@@ -76,7 +80,7 @@
             position: absolute;
             right: 25px;
             top: 3px !important;
-            
+
             .search {
                 background-image: none;
                 background: 0 0;
@@ -96,12 +100,12 @@
                 display: inline-block;
                 padding: 3.75px 0;
             }
-            
+
             .search::before {
                 display: none;
             }
         }
-        
+
         .svg-icon {
             width: 25px !important;
             height: 27px !important;
@@ -113,11 +117,11 @@
             margin-right: 15px;
             color: #FFFFFF;
         }
-        
+
         .control{
             padding: 0 15px;
         }
-        
+
         .input-text {
             width: 100%;
             border-radius: 5px;
@@ -140,14 +144,14 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .block-search {
-        & {   
+        & {
             padding: 0 90px;
             margin-left: 0;
             width: 100%;
             max-width: 1300px;
             margin-top: 3px;
         }
-        
+
         .minisearch{
             position: relative;
             max-width: 900px;
@@ -159,7 +163,7 @@
             position: absolute;
             right: 25px;
             top: 3px !important;
-            
+
             .search {
                 background-image: none;
                 background: 0 0;
@@ -179,12 +183,12 @@
                 display: inline-block;
                 padding: 3.75px 0;
             }
-            
+
             .search::before {
                 display: none;
             }
         }
-        
+
         .svg-icon {
             width: 25px !important;
             height: 27px !important;
@@ -196,11 +200,11 @@
             margin-right: 15px;
             color: #FFFFFF;
         }
-        
+
         .control{
             padding: 0 15px;
         }
-        
+
         .input-text {
             width: 100%;
             border-radius: 5px;
