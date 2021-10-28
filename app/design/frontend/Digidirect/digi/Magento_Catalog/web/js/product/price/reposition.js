@@ -1,3 +1,4 @@
+//clint
 define([
     'jquery'
 ], function ($) {
@@ -6,8 +7,14 @@ define([
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
-        $('#main-product-qantas').insertAfter($('.product-options-wrapper'));
+        if($('.product-options-wrapper').length) {
+            $('#main-product-qantas').insertAfter($('.product-options-wrapper'));
+        }
+        else {
+            $('#main-product-qantas').insertBefore($('.product-options-bottom'));
+        }
     }
+
     //$('.secure-pay-container').insertAfter($('.product-add-form'));
     //$('.widget-product').insertAfter($('.secure-pay-container'));
     $('.secure-pay-container').insertAfter($('.braintree-paypal-logo'));
