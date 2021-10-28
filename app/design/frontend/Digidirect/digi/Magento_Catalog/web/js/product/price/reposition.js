@@ -11,7 +11,7 @@ define([
             $('#main-product-qantas').insertAfter($('.product-options-wrapper'));
         }
         else {
-            $('#main-product-qantas').insertBefore($('.product-options-bottom'));
+            $('#main-product-qantas').insertBefore($('.box-tocart'));
         }
     }
 
