@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="product.info">
-            <block class="Digidirect\HotDealsProducts\Block\Widget\HotDealsProducts" name="hotdeals.products" template="Digidirect_HotDealsProducts::widget/hotdeals-products.phtml" before="-">
+            <block class="Digidirect\HotDealsProducts\Block\Widget\HotDealsProducts" name="hotdeals.products" template="Digidirect_HotDealsProducts::widget/hotdeals-products.phtml">
                 <argument translate="true" name="title" xsi:type="string">sample</argument>
             </block>
         </referenceBlock>
