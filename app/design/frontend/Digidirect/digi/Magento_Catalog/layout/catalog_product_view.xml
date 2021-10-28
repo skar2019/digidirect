@@ -25,12 +25,6 @@
         
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
  
-        <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.hotdeals" before="-" template="widget/hotdeals-products.phtml">
-            <arguments>
-                <argument translate="true" name="title" xsi:type="string">sample</argument>
-            </arguments>
-        </block>
-        
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
             <referenceBlock name="product.info.details" >
