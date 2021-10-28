@@ -20,7 +20,7 @@
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
         
         <!-- Rondel Changes -->
-        <move element="hotdeals.products" destination="content" before="-"/>
+        <move element="recommended.for.you" destination="content" before="-"/>
         <move element="catalog.product.related" destination="content" after="-"/>
         <move element="product.info.upsell" destination="content" after="catalog.product.related"/>
         
@@ -93,7 +93,7 @@
 
         <referenceBlock name="product.info.main">
             
-            <block class="Magento\Cms\Block\Block" name="recommended-for-you">
+            <block class="Magento\Cms\Block\Block" name="recommended.for.you">
                 <arguments>
                     <argument name="block_id" xsi:type="string">recommended-for-you</argument>
                 </arguments>
