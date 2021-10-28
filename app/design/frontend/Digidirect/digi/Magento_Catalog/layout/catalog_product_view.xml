@@ -21,8 +21,8 @@
         
         <!-- Rondel Changes -->
         <move element="frequently.bought.with" destination="content" before="-"/>
-        <move element="catalog.product.related" destination="content" after="-"/>
-        <move element="product.info.upsell" destination="content" after="catalog.product.related"/>
+        <move element="also.viewed" destination="content" after="-"/>
+        <move element="pdp.you.may.also.like" destination="content" after="also.viewed"/>
         
         <referenceBlock name="catalog.product.related" remove="true"/>
         <referenceBlock name="product.info.upsell" remove="true"/>
@@ -101,6 +101,21 @@
                     <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
                 </arguments>
             </block>
+            
+            <block class="Magento\Cms\Block\Block" name="also-viewed">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">also-viewed</argument>
+                </arguments>
+            </block>
+            
+            <block class="Magento\Cms\Block\Block" name="pdp.you.may.also.like">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">pdp-you-may-also-like</argument>
+                </arguments>
+            </block>
+            
+        
+        </referenceBlock>
             
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
