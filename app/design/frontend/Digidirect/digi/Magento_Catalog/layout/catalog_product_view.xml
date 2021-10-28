@@ -101,22 +101,6 @@
                 </arguments>
             </block>
         </referenceBlock>
-        
-        <referenceBlock name="product.info.main">
-            <block class="Magento\Cms\Block\Block" name="also-viewed">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">also-viewed</argument>
-                </arguments>
-            </block>
-        </referenceBlock>
-        
-        <referenceBlock name="product.info.main">
-            <block class="Magento\Cms\Block\Block" name="pdp.you.may.also.like">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">pdp-you-may-also-like</argument>
-                </arguments>
-            </block>
-        </referenceBlock>
             
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
