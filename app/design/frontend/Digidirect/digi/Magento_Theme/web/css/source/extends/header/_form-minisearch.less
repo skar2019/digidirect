@@ -15,8 +15,11 @@
         .input-text {
             .lib-font-size(16);
             .lib-css(color, @primary__color);
-            width: 0;
-            opacity: 0;
+            //width: 0;
+            //opacity: 0;
+            //clint workaround
+            width: 250px;
+            opacity: 1;
 
             &:focus {
                 box-shadow: none;
@@ -57,10 +60,10 @@
             height: 22px;
             margin-bottom: 4px;
         }
-        
+
         .actions button {
             .lib-css(color, @primary__color);
-            
+
             &:disabled {
                 opacity: .5;
             }
@@ -80,16 +83,16 @@
     .minicart-wrapper{
         margin-top: 0 !important;
     }
-    
+
     .form.minisearch {
         & {
             position: relative;
         }
 
         &.active {
-            padding-bottom: 20px;    
+            padding-bottom: 20px;
             margin-left: -16em;
-            
+
             .input-text {
                 position: absolute;
                 width: inherit;
@@ -110,12 +113,12 @@
         & {
             width: inherit;
         }
-        
+
         .input-text {
             width: 100%;
-            opacity: 1;    
+            opacity: 1;
         }
-        
+
         .label {
             width: 1px;
             height: 1px;
