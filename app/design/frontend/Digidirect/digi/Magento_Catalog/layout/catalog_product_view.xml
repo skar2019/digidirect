@@ -24,6 +24,9 @@
         <move element="catalog.product.related" destination="content" after="-"/>
         <move element="product.info.upsell" destination="content" after="catalog.product.related"/>
         
+        <referenceBlock name="catalog.product.related" remove="true"/>
+        <referenceBlock name="product.info.upsell" remove="true"/>
+        
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
  
         <referenceContainer name="content">
