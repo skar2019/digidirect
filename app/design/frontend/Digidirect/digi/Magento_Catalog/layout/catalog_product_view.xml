@@ -92,6 +92,10 @@
 
 
         <referenceBlock name="product.info.main">
+            <block class="Digidirect\HotDealsProducts\Block\Widget\HotDealsProducts" 
+                   name="hotdeals.products" 
+                   before="-"
+                   template="Digidirect_HotDealsProducts::widget/hotdeals-products.phtml"/>
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
                    before="-"
