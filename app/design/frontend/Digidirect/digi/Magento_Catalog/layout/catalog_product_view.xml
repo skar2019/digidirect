@@ -92,10 +92,13 @@
 
 
         <referenceBlock name="product.info.main">
-            <block class="Digidirect\HotDealsProducts\Block\Widget\HotDealsProducts" 
-                   name="hotdeals.products" 
-                   before="-"
-                   template="Digidirect_HotDealsProducts::widget/hotdeals-products.phtml"/>
+            
+            <block class="Magento\Cms\Block\Block" name="recommended-for-you">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">recommended-for-you</argument>
+                </arguments>
+            </block>
+            
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
                    before="-"
