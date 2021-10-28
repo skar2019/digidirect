@@ -286,6 +286,19 @@
                 line-height: 1.09;
             }
         }
+
+        //clint changes
+        // design original price without cashback
+        .old-price-wrapper .old-price {
+            text-decoration: none;
+        }
+        .old-price-wrapper .old-price .price-label{
+            color: #e40301;
+        }
+
+        .old-price-wrapper .old-price .price {
+            text-decoration: line-through;
+        }
     }
 
     .product-add-form {
@@ -359,11 +372,14 @@
         .old-price-wrapper{
             position: relative;
             margin-bottom: 15px;
+            text-align: left;
+
         }
 
         .price-box span.old-price {
             display: inline-block;
             margin-top: 21px;
+            width: 100%;
         }
 
          .special-price {
