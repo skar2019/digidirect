@@ -107,7 +107,7 @@
         </referenceContainer>
         
         <referenceBlock name="main">
-            <block class="Magento\Cms\Block\Block" name="frequently.bought.with" after="-">
+            <block class="Magento\Cms\Block\Block" name="frequently.bought.with" before="-">
                 <arguments>
                     <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
                 </arguments>
