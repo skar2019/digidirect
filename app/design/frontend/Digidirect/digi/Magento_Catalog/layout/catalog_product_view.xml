@@ -20,9 +20,9 @@
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
         
         <!-- Rondel Changes -->
-        <move element="frequently.bought.with" destination="content" after="-"/>
-<!--        <move element="catalog.product.related" destination="content" after="-"/>
-        <move element="product.info.upsell" destination="content" after="catalog.product.related"/>-->
+<!--        <move element="frequently.bought.with" destination="content" after="-"/>-->
+<!--        <move element="catalog.product.related" destination="content" after="-"/>-->
+<!--        <move element="product.info.upsell" destination="content" after="catalog.product.related"/>-->
         
         <referenceBlock name="catalog.product.related" remove="true"/>
         <referenceBlock name="product.info.upsell" remove="true"/>
