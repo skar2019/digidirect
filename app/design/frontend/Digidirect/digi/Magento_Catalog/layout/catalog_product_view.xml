@@ -105,15 +105,16 @@
                 </arguments>
             </block>
         </referenceContainer>
-
-        <referenceBlock name="product.info.main">
-            
-            <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
+        
+        <referenceBlock name="main">
+            <block class="Magento\Cms\Block\Block" name="frequently.bought.with" after="-">
                 <arguments>
                     <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
                 </arguments>
             </block>
-            
+        </referenceBlock>
+
+        <referenceBlock name="product.info.main">
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
                    before="-"
