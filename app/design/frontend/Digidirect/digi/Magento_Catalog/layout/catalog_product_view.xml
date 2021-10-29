@@ -20,7 +20,7 @@
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
         
         <!-- Rondel Changes -->
-<!--        <move element="frequently.bought.with" destination="content" after="-"/>-->
+        <move element="frequently.bought.with" destination="product.info.main" after="product.info.details" />
 <!--        <move element="catalog.product.related" destination="content" after="-"/>-->
 <!--        <move element="product.info.upsell" destination="content" after="catalog.product.related"/>-->
         
@@ -28,6 +28,12 @@
         <referenceBlock name="product.info.upsell" remove="true"/>
         
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
+     
+        <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
+            <arguments>
+                <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
+            </arguments>
+        </block>
  
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
@@ -105,14 +111,6 @@
                 </arguments>
             </block>
         </referenceContainer>
-        
-        <referenceBlock name="main">
-            <block class="Magento\Cms\Block\Block" name="frequently.bought.with" before="-">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
-                </arguments>
-            </block>
-        </referenceBlock>
 
         <referenceBlock name="product.info.main">
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
