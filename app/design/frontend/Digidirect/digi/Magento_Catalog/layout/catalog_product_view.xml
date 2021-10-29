@@ -20,7 +20,7 @@
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
         
         <!-- Rondel Changes -->
-<!--        <move element="frequently.bought.with" destination="content" after="-"/>-->
+        <move element="frequently.bought.with" destination="content" before="-"/>
 <!--        <move element="catalog.product.related" destination="content" after="-"/>-->
 <!--        <move element="product.info.upsell" destination="content" after="catalog.product.related"/>-->
         
@@ -29,7 +29,7 @@
         
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
      
-        <block class="Magento\Cms\Block\Block" name="frequently.bought.with" before="product.info.details">
+        <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
             <arguments>
                 <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
             </arguments>
