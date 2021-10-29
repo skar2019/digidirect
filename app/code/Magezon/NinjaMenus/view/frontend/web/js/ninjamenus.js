@@ -253,6 +253,8 @@ define([
             $('.mgz-tabs-tab-title span').show();
             $('.mgz-tabs-tab-title span.tabs-opener').hide();
             $('.mgz-tabs-tab-title').removeClass('mgz-active');
+            $('.item-submenu.mgz-element-inner').removeClass('expand');
+            $('.mgz-tabs-content .mgz-tabs-tab-content').removeClass('mgz-active');
 
         },
 
