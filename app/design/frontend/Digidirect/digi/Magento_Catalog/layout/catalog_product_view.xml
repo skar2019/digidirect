@@ -48,11 +48,6 @@
                         <argument translate="true" name="title" xsi:type="string">Specs</argument>
                     </arguments>
                 </block>
-                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.review" as="review" group="detailed_info">
-                    <arguments>
-                        <argument translate="true" name="title" xsi:type="string">Product Review</argument>
-                    </arguments>
-                </block>
                 <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox" as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.review">
                     <arguments>
                         <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
