@@ -28,8 +28,16 @@
                 $aliasName = $block->escapeHtml(__('What’s In The Box'));
             }
 
-             if ($alias == 'productoverview') {
+            if ($alias == 'productoverview') {
                 $aliasName = $block->escapeHtml(__('Product Overview'));
+            }
+            
+            if ($alias == 'spec') {
+                $aliasName = $block->escapeHtml(__('Specs'));
+            }
+            
+            if ($alias == 'reviews') {
+                $aliasName = $block->escapeHtml(__('Product Review'));
             }
 
             $label = $block->getChildData($alias, 'title');
