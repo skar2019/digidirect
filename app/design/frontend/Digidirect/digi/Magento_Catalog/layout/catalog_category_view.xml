@@ -5,6 +5,14 @@
         <referenceBlock name="category.cms" remove="true"/>
         
         <move element="page.main.title" destination="category.view.container" before="-"/>
+        
+        <referenceContainer name="content">
+            <block class="Magento\Cms\Block\Block" name="pdp.banner" before="category.products">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">pdp-banner</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
 
         <referenceBlock name="category.products.list">
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
@@ -15,7 +23,7 @@
         </referenceBlock>
 
         <referenceContainer name="div.sidebar.additional" remove="true" />
-
+   
 <!--        <referenceContainer name="category.view.container" htmlClass="category-view full-width-background category-background">
             <block class="Magento\Framework\View\Element\Template" name="category.view.bg"
                    after="-"
@@ -24,6 +32,6 @@
         </referenceContainer>-->
 
         <move element="category.description" destination="main.content" after="-" />
-        <move element="breadcrumbs" destination="content" before="-"/>
+        <move element="breadcrumbs" destination="columns.top" before="-"/>
     </body>
 </page>
