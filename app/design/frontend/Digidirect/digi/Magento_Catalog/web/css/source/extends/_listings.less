@@ -915,7 +915,6 @@
         height: 60px;
         width: 60px;
     }
-    //comment to redeploy
 }
 
 //
@@ -946,5 +945,19 @@
 
     .product-item-info.-list .product-item-photo {
         margin-right: 40px;
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    /* right side banner new */
+    .right-side-product-widget-1 .wrapper,
+    .right-side-product-widget-2 .wrapper,
+    .right-side-product-widget-3 .wrapper,
+    .right-side-product-widget-4 .wrapper{
+        padding: 0px 0px !important;
     }
 }
