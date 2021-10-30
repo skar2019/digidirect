@@ -29,7 +29,7 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
     <?php endif; ?>
 <?php $counter++; endforeach; ?>
 
-<ol class="items">
+<ol id="layered-nav-id" class="items">
     <?php $_i = 0; foreach ($filterItems as $filterItem): ?>
         <?php
         $seoPart = null;
@@ -100,3 +100,18 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
     </span>
 </div>
 <?php endif; ?>
+
+<script type="text/x-magento-init">
+    
+    function sortUsingNestedText(parent, childSelector, keySelector) {
+        var items = parent.children(childSelector).sort(function(a, b) {
+            var vA = $(keySelector, a).text();
+            var vB = $(keySelector, b).text();
+            return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
+        });
+        parent.append(items);
+    }
+    
+    sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span.count");
+    
+</script>
