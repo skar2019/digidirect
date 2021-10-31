@@ -105,15 +105,15 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
     
     require(['jquery', 'jquery/ui'], function($){ 
         function sortUsingNestedText(parent, childSelector, keySelector) {
-        var items = parent.children(childSelector).sort(function(a, b) {
-            var vA = parseInt($(keySelector, a).text());
-            var vB = parseInt($(keySelector, b).text());
-            return (vB < vA) ? -1 : (vB > vA) ? 1 : 0;
-        });
-        parent.append(items);
-    }
+            var items = parent.children(childSelector).sort(function(a, b) {
+                var vA = parseInt($(keySelector, a).text());
+                var vB = parseInt($(keySelector, b).text());
+                return (vB < vA) ? -1 : (vB > vA) ? 1 : 0;
+            });
+            parent.append(items);
+        }
     
-    sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span.count");
+        sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span");
     
     });
 
