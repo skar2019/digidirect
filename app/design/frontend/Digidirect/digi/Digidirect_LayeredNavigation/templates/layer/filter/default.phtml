@@ -113,7 +113,7 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
             parent.append(items);
         }
     
-        sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span");
+        sortUsingNestedText($('#layered-nav-id'), "li", ".filter-link > .label > .count");
     
     });
 
