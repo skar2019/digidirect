@@ -102,14 +102,25 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
 <?php endif; ?>
 
 <script>
-    function sortUsingNestedText(parent, childSelector, keySelector) {
+    
+    require(['jquery', 'jquery/ui'], function($){ 
+        function sortUsingNestedText(parent, childSelector, keySelector) {
         var items = parent.children(childSelector).sort(function(a, b) {
             var vA = $(keySelector, a).text();
             var vB = $(keySelector, b).text();
             return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
         });
         parent.append(items);
+        console.log(items);
     }
     
-    sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span");
+    sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span.count");
+    
+    });
+
+//    function testMessage() {
+//        console.log("Testing!");
+//    }
+//    
+//    testMessage();
 </script>
