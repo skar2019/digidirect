@@ -47,7 +47,6 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
                      data-role="more-less-block">
         <?php endif; ?>
         <li class="item">
-            <?php if ($filterItem->getCount() > 0): ?>
                 <?php $checked = $this->checkedFilter($filterItem) ? ' checked' : ''; ?>
                 <a data-seo="<?php echo $this->escapeHtml($seoPart); ?>"
                    data-testid="sln-filter-option"
@@ -68,12 +67,6 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
                         <?php endif; ?>
                     </label>
                 </a>
-            <?php else: ?>
-                <?php echo $this->escapeHtml($filterItem->getLabel()); ?>
-                <?php if ($this->helper('Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer()): ?>
-                    <span class="count"><?php echo (int)$filterItem->getCount() ?></span>
-                <?php endif; ?>
-            <?php endif; ?>
             <script type="text/x-magento-init">
             {
                 ".digidirect_layerednavigation_filter_item_<?php echo $this->escapeHtml($keyValue); ?>": {
@@ -116,10 +109,5 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
         sortUsingNestedText($('#layered-nav-id'), "li", ".filter-link > .label > .count");
     
     });
-
-//    function testMessage() {
-//        console.log("Testing!");
-//    }
-//    
-//    testMessage();
+    
 </script>
