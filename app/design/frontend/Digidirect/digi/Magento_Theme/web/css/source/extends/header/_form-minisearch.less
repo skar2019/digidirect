@@ -90,7 +90,7 @@
         }
         //clint
         .input-text {
-            width: 440px !important;
+            width: 450px !important;
         }
 
         &.active {
@@ -102,7 +102,7 @@
                 width: inherit;
                 opacity: 1;
                 border: none;
-                border-bottom: 2px solid #000;
+                border-bottom: 1px solid #cacaca;
             }
         }
     }
@@ -120,6 +120,14 @@
 
         .input-text {
             width: 100%;
+            opacity: 1;
+            border-bottom: 1px solid #cacaca;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        .input-text::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #777777;
             opacity: 1;
         }
 
