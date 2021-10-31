@@ -101,8 +101,7 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
 </div>
 <?php endif; ?>
 
-<script type="text/x-magento-init">
-    
+<script>
     function sortUsingNestedText(parent, childSelector, keySelector) {
         var items = parent.children(childSelector).sort(function(a, b) {
             var vA = $(keySelector, a).text();
@@ -112,6 +111,5 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
         parent.append(items);
     }
     
-    sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span.count");
-    
+    sortUsingNestedText($('#layered-nav-id'), "li", "a.label");
 </script>
