@@ -151,18 +151,16 @@ $htmlId               = $element->getHtmlId();
     
     require(['jquery', 'jquery/ui'], function($){ 
         
-        $('.product-tab-mobile-load-more').on('click', function(e) {
-            e.preventDefault();
+        jQuery(document).ready( function() {
+            $('.product-tab-mobile-load-more').on('click', function(e) {
+                $('.default-widget').css("display", "none");
+                $('.mobile-hidden').css("display", "block");
+            }),
 
-            $('.default-widget').css("display", "none");
-            $('.mobile-hidden').css("display", "block");
-        }),
-        
-        $('.product-tab-mobile-show-less').on('click', function(e) {
-            e.preventDefault();
-
-            $('.default-widget').css("display", "block");
-            $('.mobile-hidden').css("display", "none");
+            $('.product-tab-mobile-show-less').on('click', function(e) {
+                $('.default-widget').css("display", "block");
+                $('.mobile-hidden').css("display", "none");
+            });
         });
     });
     
