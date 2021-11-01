@@ -63,7 +63,10 @@ $brands = $block->getBrands();
 <script>
     require(['jquery'],function(){
         jQuery(document).ready(function() {
-            jQuery("#brands-dropdown").change(function(){
+            
+            //$(document).on('change','select', function(){
+            
+            jQuery("#brands-dropdown").on('change',function(){
 
                 var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
                 var brand = this.value;
