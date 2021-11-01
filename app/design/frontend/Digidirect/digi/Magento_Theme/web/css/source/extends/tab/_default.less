@@ -1035,11 +1035,11 @@
     .product-tab-mobile-inner > .mgz-block > .mgz-block-content > .mgz-grid > .mgz-grid-page > .product-item > .product-item-info > .product-item-details > .product-item-actions > .actions-primary > form > button > span > i {
         font-size: 15px;
     }
-    
+
     .product-tab-mobile-inner > .mgz-block > .mgz-block-heading-line:before {
         display: none !important;
     }
-    
+
     .product-tab-mobile-inner > .mgz-block > .mgz-block-heading-line > .title {
         background: none !important;
         color: #ff3c00 !important;
@@ -1213,5 +1213,15 @@
             margin-right: 45px;
             margin-left: 5px;
         }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .shop-by-interest-mobile {
+        margin: 0px -30px !important;
     }
 }
