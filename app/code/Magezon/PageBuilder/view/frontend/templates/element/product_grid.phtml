@@ -170,21 +170,21 @@ $htmlId               = $element->getHtmlId();
     require(['jquery'],function(){
         jQuery(document).ready(function() {
             jQuery(".product-tab-mobile-load-more").click(function(){
-                jQuery(".product-tab-mobile-row .default-widget").css("display", "none");
-                jQuery(".product-tab-mobile-row .mobile-hidden").css("display", "block");
+                jQuery(".recommended-widget-main").css("display", "none");
+                jQuery(".recommended-widget-hidden").css("display", "block");
             });
             jQuery(".product-tab-mobile-show-less").click(function(){
-                jQuery(".product-tab-mobile-row .default-widget").css("display", "none");
-                jQuery(".product-tab-mobile-row .mobile-hidden").css("display", "block");
+                jQuery(".recommended-widget-main").css("display", "block");
+                jQuery(".recommended-widget-hidden").css("display", "none");
             });
             
             jQuery(".product-tab-mobile-widget-load-more").click(function(){
-                jQuery(".product-tab-mobile-row .default-widget").css("display", "none");
-                jQuery(".product-tab-mobile-row .mobile-hidden").css("display", "block");
+                jQuery(".product-widget-main").css("display", "none");
+                jQuery(".product-widget-hidden").css("display", "block");
             });
             jQuery(".product-tab-mobile-widget-show-less").click(function(){
-                jQuery(".product-tab-mobile-widget-row .default-widget").css("display", "none");
-                jQuery(".product-tab-mobile-widget-row .mobile-hidden").css("display", "block");
+                jQuery(".product-widget-main").css("display", "block");
+                jQuery(".product-widget-hidden").css("display", "none");
             });
         });
     });
