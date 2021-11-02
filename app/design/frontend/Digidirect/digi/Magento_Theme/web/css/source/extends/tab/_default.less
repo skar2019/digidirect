@@ -697,7 +697,7 @@
     }
 
     .product.data.items {
-        width: 1440px !important;
+        //width: 1440px !important;
     }
 
     .pdp-slider-label {
@@ -1116,6 +1116,10 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    
+    .product.data.items {
+        width: 100% !important;
+    }
 
     .shop-by-category-container {
         display: grid !important;
@@ -1284,6 +1288,10 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
+    .product.data.items {
+        width: 1440px !important;
+    }
     
     .product.data.items .data.item.content {
         margin-top: 70px !important;
