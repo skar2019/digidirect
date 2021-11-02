@@ -165,3 +165,14 @@ $htmlId               = $element->getHtmlId();
 //    });
     
 </script>
+
+<script>
+    require(['jquery'],function(){
+        jQuery(document).ready(function() {
+            jQuery(".product-tab-mobile-load-more").click(function(){
+                jQuery(".default-widget").css("display", "none");
+                jQuery(".mobile-hidden").css("display", "block");
+            });
+        });
+    });
+</script>
