@@ -24,4 +24,13 @@ define([
     if($('#leftmenu').contents().length == 0) {
         $('.studio19-wrapper').hide();
     }
+
+    //for mobile
+    let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+    if (isMobile) {
+        $('.page-title-wrapper').insertBefore($('.media-area'));
+
+    }
+
 });
