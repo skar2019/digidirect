@@ -161,10 +161,11 @@ define([
                         out: self.onMouseLeaveIntent.bind(this)
                     });
                 } else {
-                    this.menu.on('mouseenter', '.nav-item', function (e) {
-                        self.onMouseHover($(this));
+
+                    this.menu.on('mouseenter', '.nav-item.level0', function (e) {
+                            self.onMouseHover($(this));
                     });
-                    this.menu.on('mouseleave', '.nav-item', function (e) {
+                    this.menu.on('mouseleave', '.nav-item.level0', function (e) {
                         self.onMouseLeave($(this));
                     });
                 }
