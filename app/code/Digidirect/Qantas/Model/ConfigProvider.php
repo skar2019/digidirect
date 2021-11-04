@@ -11,7 +11,7 @@ use \Magento\Checkout\Model\ConfigProviderInterface;
 class ConfigProvider implements ConfigProviderInterface {
 
     public function getConfig() {
-       
+
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
@@ -33,19 +33,19 @@ class ConfigProvider implements ConfigProviderInterface {
                 $sumOfPoints = $qffBase + $qffBonusPoints;
                 $totalPoints = $totals * $sumOfPoints;
                 $qffPoints[] = $totalPoints;
-               
+
             } else {
                 if ($qffBase != NULL) {
                     $totalPoints = $qffBase * $total;
                     $qffPoints[] = $totalPoints;
                 } else {
-                    $totalPoints = $totals * 2;
+                    $totalPoints = $totals * 1;
                     $qffPoints[] = $totalPoints;
                 }
             }
             $qffTotalPoints = array_sum($qffPoints);
         }
-        
+
         $config['qantas_total_points'] = number_format($qffTotalPoints);
         $config['qantas_bonus_points'] = $qffBonusPoints;
         $config['qantas_base_points'] = $qffBase;

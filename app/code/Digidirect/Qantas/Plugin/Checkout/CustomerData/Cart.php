@@ -34,7 +34,7 @@ class Cart {
                     $totalPoints = $qffBase * $total;
                     $qffPoints[] = $totalPoints;
                 } else {
-                    $totalPoints = $totals * 2;
+                    $totalPoints = $totals * 1;
                     $qffPoints[] = $totalPoints;
                 }
             }
