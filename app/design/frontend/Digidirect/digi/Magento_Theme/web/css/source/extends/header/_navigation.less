@@ -334,7 +334,7 @@
     }
 
     .ninjamenus-current-link{
-        background: #000;
+        background: #FF3C00 !important;
         color: #fff;
     }
 
@@ -353,7 +353,7 @@
         padding: 0 30px;
     }
     .ninjamenus.ninjamenus-mobile .nav-item > a .title {
-        font-weight: bold;
+        font-weight: 500;
         text-transform: uppercase;
         font-size: 13px;
 
@@ -648,6 +648,10 @@
             text-transform: none !important;
             font-size: 20px !important;
             color: #FFFFFF !important;
+        }
+
+        .ninjamenus .ninjamenus-drilldown-back > .drilldown-opener:before {
+            content: '\e617 Main Menu' !important;
         }
     }
 } //end mobile
@@ -1080,12 +1084,16 @@
     }
 
     .orangebg:hover {
-        background-color: #FF3C00 !important;
-        color: #ffffff !important;
+        background-color: #ffffff !important;
+        color: #000 !important;
     }
 
     .whitetextimpt {
         color: #ffffff !important;
+    }
+
+    .whitetextimpt:hover {
+        color: #000 !important;
     }
     .nav-sections-item-content > * {
         display: none;
