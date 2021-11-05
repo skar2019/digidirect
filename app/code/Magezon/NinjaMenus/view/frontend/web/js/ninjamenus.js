@@ -102,8 +102,9 @@ define([
                     $('.category-tabs .mgz-tabs-tab-title').addClass('retract');
                     $('.category-tabs .item-submenu').addClass('expand');
                     $('.category-tabs .mgz-tabs-tab-title span').hide();
-
                 }
+
+                //redeploy
 
             });
 
