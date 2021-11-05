@@ -518,6 +518,24 @@ define([
             $(".category-tabs .mgz-tabs-nav span:contains('Smart Home')").closest('div.mgz-tabs-tab-title').addClass('smarthome-tab-menu');
             $(".category-tabs .mgz-tabs-nav span:contains('Computers & Mobile')").closest('div.mgz-tabs-tab-title').addClass('computersmobile-tab-menu');
 
+            if ( window.location.pathname == '/' ){
+
+                $('.ninjamenus').removeClass('orangebg');
+                $('.nav-sections-item-content').removeClass('orangebg');
+                $('.level0 > a').removeClass('orangebg');
+                $('.level0 > a span').removeClass('whitetextimpt');
+
+            } else {
+                // Other page
+                // .orangebg
+                $('.ninjamenus').addClass('orangebg');
+                $('.nav-sections-item-content').addClass('orangebg');
+                $('.level0 > a').addClass('orangebg');
+                $('.level0 > a span').addClass('whitetextimpt');
+
+                //
+                // ..ninjamenus
+            }
         }
     });
 
