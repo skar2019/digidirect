@@ -68,7 +68,7 @@ $brands = $block->getBrands();
             
             jQuery("#brands-dropdown").on('change',function(){
                 
-                alert("OnChange Event Working!");
+                console.log("OnChange Event Working!");
 
                 var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
                 var brand = this.value;

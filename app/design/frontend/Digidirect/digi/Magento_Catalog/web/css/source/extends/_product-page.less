@@ -1360,6 +1360,7 @@
     .s19-price-per-period {
         color: #e40301 !important;
         font-weight: 700;
+        width: 150px;
     }
     .s19-price-amount {
         font-size: 11px !important;
@@ -2162,11 +2163,13 @@
     }
     
     a.s19-apply-btn:after {
-        margin-left: 10px !important;
+        margin-left: 0 !important;
+        position: relative !important;
+        float: right !important;
     }
     
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container:last-child:after {
-        margin-left: -117px!important;
+        margin-left: 0 !important;
     }
     
     .catalog-product-view .braintree-paypal-logo.oneclick-container {
@@ -2181,11 +2184,32 @@
         padding-left: 10px;
         position: absolute;
         top: 61px;
-        width: 68%;
-        margin-left: 10px !important;
+        width: 80%;
+        margin-left: -50px !important;
         margin-top: -.5px;
         left: 100px;
         height: 28px !important;
+    }
+    
+    span.s19-price-per-period > span {
+        font-size: 10px !important;
+    }
+    
+    span.s19-min-period {
+        font-size: 10px !important;
+    }
+    
+    span.s19-price-per-period {
+        width: 150px;
+    }
+    
+    .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span:first-of-type:before {
+        font-size: 10px !important;
+        margin-right: 30px;
+    }
+    
+    .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
+        font-size: 0 !important;
     }
 }
 
