@@ -12,7 +12,7 @@ class Cart {
         $items = $cart->getQuote()->getAllItems();
 
         $qffPoints = [];
-        
+
         $qffTotalPoints = 0;
 
         $qffTotalPoints = 0;
@@ -36,7 +36,7 @@ class Cart {
                     $totalPoints = $qffBase * $total;
                     $qffPoints[] = $totalPoints;
                 } else {
-                    $totalPoints = $totals * 2;
+                    $totalPoints = $totals * 1;
                     $qffPoints[] = $totalPoints;
                 }
             }
