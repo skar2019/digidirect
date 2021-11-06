@@ -9,6 +9,9 @@ $brands = $block->getBrands();
  */
 /** @var \Digidirect\ShopByCategory\Block\Widget\ShopByCategory $block */
 ?>
+
+
+
 <div class="shop-by-category-dropdown">
     <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
     <select name="brands-dropdown" id="brands-dropdown" style="width: 20%">
@@ -21,53 +24,103 @@ $brands = $block->getBrands();
         <?php endforeach ?>
     </select>
 </div>
-<div id="shop-by-category-container" class="shop-by-category-container">
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("cameras")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>camera.png"/>
-            <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
-        </a>
+
+<div id="shop-by-category-carousel" class="product-carousel owl-carousel owl-theme widget-product-grid owl-loaded owl-drag">
+    <div class="owl-stage-outer">
+         <div id="shop-by-category-container" class="owl-stage shop-by-category-container" style="transform: translate3d(-2185px, 0px, 0px); transition: all 0s ease 0s; width: 8470px;">
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("cameras")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                         <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("lenses")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-lens.jpg"/>
+                         <div class="product-count"  id="lenses-count">Lenses(<?php echo $block->getProductCollectionCount(18); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("drones")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-drones.jpg"/>
+                         <div class="product-count"  id="drones-count">Drones(<?php echo $block->getProductCollectionCount(21); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("lighting-and-studio")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-lights-and-studio.jpg"/>
+                         <div class="product-count"  id="lighting-and-studio-count">Lighting & Studio(<?php echo $block->getProductCollectionCount(19); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("photo-accessories")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-photomemories.jpg"/>
+                         <div class="product-count"  id="photo-accessories-count">Photo Accessories(<?php echo $block->getProductCollectionCount(71); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("optics")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-optics.jpg"/>
+                         <div class="product-count"  id="optics-count">Optics(<?php echo $block->getProductCollectionCount(22); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("audio-and-visual")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-audio-and-visual.jpg"/>
+                         <div class="product-count"  id="audio-and-visual-count">Audio & Visual(<?php echo $block->getProductCollectionCount(73); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("pro-video")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-provideo.jpg"/>
+                         <div class="product-count"  id="pro-video-count">Pro Video(<?php echo $block->getProductCollectionCount(77); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("home/smart-home")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-smart-home.jpg"/>
+                         <div class="product-count"  id="smart-home-count">Smart Home(<?php echo $block->getProductCollectionCount(704); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+             <div class="owl-item">
+                 <div class="shop-by-category-category">
+                     <a href="<?php echo $block->getUrl("computers-mobile")?>">
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-pcandlaptop.jpg"/>
+                         <div class="product-count"  id="computers-mobile-count">Computers & Mobile(<?php echo $block->getProductCollectionCount(662); ?>)</div>
+                     </a>
+                 </div>
+             </div>
+         </div>
     </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("lenses")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>lenses.png"/>
-            <div class="product-count"  id="lenses-count">Lenses(<?php echo $block->getProductCollectionCount(18); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("drones")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>drones.png"/>
-            <div class="product-count"  id="drones-count">Drones(<?php echo $block->getProductCollectionCount(21); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("smart-home")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>smarthome.png"/>
-            <div class="product-count"  id="smarthome-count">Smart Home(<?php echo $block->getProductCollectionCount(704); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("computers-mobile/mobile-phones")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>mobilephones.png"/>
-            <div class="product-count"  id="mobilephones-count">Mobile Phones(<?php echo $block->getProductCollectionCount(689); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("audio-and-visual/headphones")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>headphones.png"/>
-            <div class="product-count"  id="headphones-count">Headphones(<?php echo $block->getProductCollectionCount(411); ?>)</div>
-        </a>
-    </div>
-</div>
+</div>    
 
 <script>
-    require(['jquery'],function(){
+    require(['jquery', 'owl_config'],
+    
         jQuery(document).ready(function() {
-            
+
             //$(document).on('change','select', function(){
-            
+
             jQuery("#brands-dropdown").on('change',function(){
-                
+
                 console.log("OnChange Event Working!");
 
                 var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
@@ -86,8 +139,9 @@ $brands = $block->getBrands();
                         return true;
                     }
                 });
-                
+
             });
         });
-    });
+    
+    );
 </script>
