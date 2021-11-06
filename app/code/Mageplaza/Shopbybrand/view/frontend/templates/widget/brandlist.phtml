@@ -25,16 +25,9 @@ $selectedBrands = $block->getCollection();
 if (count($selectedBrands) > 1) : ?>
     <?= /** @noEscape */ $block->includeCssLib() ?>
     <div class="block block-brand-feature widget">
-        <?php if ($block->hasData('show_title')) : ?>
-            <div class="block-title">
-                <strong id="block-feature-brand-heading" role="heading"
-                        aria-level="2"><?= /** @noEscape */ $block->getTitle() ?></strong>
-            </div>
-        <?php endif; ?>
+
         <div class="block-content">
-            <div class="owl-carousel owl-theme brand-carousel"
-                 id="feature-brand-carousel-<?= /** @noEscape */ $timeId ?>"
-                 data-mage-init='{"brandSlider": {}}'>
+
                 <?php foreach ($selectedBrands as $brand) : ?>
                     <div class="relate-content item">
                         <a href="<?= /** @noEscape */ $block->helper()->getBrandUrl($brand) ?>">
@@ -43,7 +36,6 @@ if (count($selectedBrands) > 1) : ?>
                         </a>
                     </div>
                 <?php endforeach; ?>
-            </div>
         </div>
     </div>
 <?php endif; ?>
