@@ -9,23 +9,6 @@ $brands = $block->getBrands();
  */
 /** @var \Digidirect\ShopByCategory\Block\Widget\ShopByCategory $block */
 ?>
-
-<div class="carousel-wrap">
-    <div class="owl-carousel" style="display: block;">
-      <div class="item"><img src="http://placehold.it/350x300?text=1"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=2"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=3"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=4"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=5"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=6"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=7"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=8"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=9"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=10"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=11"></div>
-      <div class="item"><img src="http://placehold.it/350x300?text=12"></div>
-    </div>
-  </div>
 <div class="shop-by-category-dropdown">
     <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
     <select name="brands-dropdown" id="brands-dropdown" style="width: 20%">
@@ -38,7 +21,7 @@ $brands = $block->getBrands();
         <?php endforeach ?>
     </select>
 </div>
-<div id="shop-by-category-container" class="shop-by-category-container owl-carousel" style="display: block;">
+<div id="shop-by-category-container" class="shop-by-category-container">
     <div class="shop-by-category-category">
         <a href="<?php echo $block->getUrl("cameras")?>">
             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>camera.png"/>
@@ -78,91 +61,33 @@ $brands = $block->getBrands();
 </div>
 
 <script>
-    require(['jquery', 'owl_carousel'], function($) {
-//        jQuery(document).ready(function() {
-//            
-//            //$(document).on('change','select', function(){
-//            
-//            jQuery("#brands-dropdown").on('change',function(){
-//                
-//                alert("OnChange Event Working!");
-//
-//                var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
-//                var brand = this.value;
-//                //alert(url + ", " + CurrentProduct);
-//                jQuery.ajax({
-//                    url: url,
-//                    type: "POST",
-//                    data: {brand:brand},
-//                    showLoader: true,
-//                    cache: false,
-//                    success: function(response){
-//                        console.log(response.output);
-//                        //jQuery("#cameras-count").text('Test Success!');
-//                        jQuery('#shop-by-category-container').html(response.output);
-//                        return true;
-//                    }
-//                });
-//                
-//            });
-//        });
-        
-        function ($) {
-            $(document).ready(function() {
-               $('.owl-carousel').owlCarousel({
-                    loop: true,
-                    nav: true,
-                    responsive: {
-                        0: {
-                            items:2,
-                            margin: 15,
-                            nav:true,
-                            loop:true,
-                            autoplay: true,
-                            autoplayTimeout:3000
-                        },
-                        600: {
-                            items: 3,
-                            margin: 15,
-                            nav:true,
-                            loop:true,
-                            autoplay: false
-                        },
-                        992: {
-                            items: 3,
-                            margin: 15,
-                            nav:true,
-                            loop:true,
-                            autoplay: false
-                        },
-                        1024: {
-                            items: 5,
-                            margin: 15,
-                            nav:true,
-                            loop:true,
-                            autoplay: false
-                        },
-                        1440: {
-                            items: 5,
-                            margin: 15,
-                            nav:true,
-                            loop:true,
-                            autoplay: false
-                        },
-                        1680: {
-                            items: 5,
-                            margin: 15,
-                            nav:true,
-                            loop:true,
-                            autoplay: false
-                        }
-                    },
-                    dots: false,
-                    autoplay: false,
-                    autoplayTimeout: 3000
-                })
+    require(['jquery'],function(){
+        jQuery(document).ready(function() {
+            
+            //$(document).on('change','select', function(){
+            
+            jQuery("#brands-dropdown").on('change',function(){
+                
+                console.log("OnChange Event Working!");
+
+                var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
+                var brand = this.value;
+                //alert(url + ", " + CurrentProduct);
+                jQuery.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {brand:brand},
+                    showLoader: true,
+                    cache: false,
+                    success: function(response){
+                        console.log(response.output);
+                        //jQuery("#cameras-count").text('Test Success!');
+                        jQuery('#shop-by-category-container').html(response.output);
+                        return true;
+                    }
+                });
+                
             });
-        }
-        
+        });
     });
 </script>
