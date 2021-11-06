@@ -95,7 +95,7 @@ $brands = $block->getBrands();
              <div class="owl-item">
                  <div class="shop-by-category-category">
                      <a href="<?php echo $block->getUrl("home/smart-home")?>">
-                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-smart-home.jpg"/>
+                         <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-smarthome.jpg"/>
                          <div class="product-count"  id="smart-home-count">Smart Home(<?php echo $block->getProductCollectionCount(704); ?>)</div>
                      </a>
                  </div>
@@ -111,37 +111,3 @@ $brands = $block->getBrands();
          </div>
     </div>
 </div>    
-
-<script>
-    require(['jquery', 'owl_config'],
-    
-        jQuery(document).ready(function() {
-
-            //$(document).on('change','select', function(){
-
-            jQuery("#brands-dropdown").on('change',function(){
-
-                console.log("OnChange Event Working!");
-
-                var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
-                var brand = this.value;
-                //alert(url + ", " + CurrentProduct);
-                jQuery.ajax({
-                    url: url,
-                    type: "POST",
-                    data: {brand:brand},
-                    showLoader: true,
-                    cache: false,
-                    success: function(response){
-                        console.log(response.output);
-                        //jQuery("#cameras-count").text('Test Success!');
-                        jQuery('#shop-by-category-container').html(response.output);
-                        return true;
-                    }
-                });
-
-            });
-        });
-    
-    );
-</script>
