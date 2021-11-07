@@ -22,7 +22,11 @@ define([
 
     $('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     if($('#leftmenu').contents().length == 0) {
-        $('.studio19-wrapper').hide();
+
+    }
+
+    if ($('.studio19-wrapper').is(':empty')){
+        $('.studio19-wrapper').addClass('studio19-hide');
     }
 
     //for mobile
