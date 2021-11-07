@@ -19,5 +19,7 @@
 
         <link src_type="url" type="text/css" src="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,500;0,700;1,200;1,300;1,400;1,500;1,700&amp;display=swap" rel="stylesheet" />
         <css src="https://use.fontawesome.com/releases/v5.7.1/css/all.css" src_type="url"/>
+        <script src="js/owl.carousel.js"/>
+        <css src="css/owl.carousel.min.css"/>
     </head>
 </page>
