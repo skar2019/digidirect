@@ -78,6 +78,7 @@ define([
             var self       = this;
             var type       = this.getType();
             var mobileType = this.getMobileType();
+            var activeclick = "";
 
             if (type == 'drilldown' || mobileType == 'drilldown') {
                 this.enableDrillDown();
@@ -87,9 +88,53 @@ define([
                 self.loadLazyImages(self.menu);
             });
 
-            this.menu.find('.mgz-tabs-tab-title').on('hover click', function() {
+            this.menu.find('.mgz-tabs-tab-title').on('click', function() { //remove hover ; clint
+
                 let item = $(this).closest('.level0');
                 self.loadLazyImages(item);
+                //clint
+                var clickedMenu = $('.shop-by-category-menu .mgz-tabs-tab-content.mgz-active').attr('id');
+
+                if(activeclick === clickedMenu)
+                {
+                    if($('.shop-by-category-menu .mgz-tabs-tab-title').hasClass('retract'))
+                    {
+                        $('.shop-by-category-menu .mgz-tabs-tab-title').removeClass('retract');
+                        $('.shop-by-category-menu .item-sub-menu').removeClass('expand');
+                        $('.shop-by-category-menu .mgz-tabs-tab-title span').show();
+                        $('.shop-by-category-menu .mgz-tabs-tab-title span.tabs-opener').hide();
+                        $('.shop-by-category-menu .mgz-tabs-tab-title').removeClass('mgz-active');
+                        $('.shop-by-category-menu .item-submenu.mgz-element-inner').removeClass('expand');
+                        $('.shop-by-category-menu .mgz-tabs-content .mgz-tabs-tab-content').removeClass('mgz-active');
+                    }
+                    else
+                    {
+                        $('.shop-by-category-menu .mgz-tabs-tab-title').addClass('retract');
+                        $('.shop-by-category-menu .item-submenu').addClass('expand');
+                        $('.shop-by-category-menu .mgz-tabs-tab-title span').hide();
+                    }
+
+                }
+                else
+                {
+                    $('.shop-by-category-menu .mgz-tabs-tab-title').addClass('retract');
+                    $('.shop-by-category-menu .item-submenu').addClass('expand');
+                    $('.shop-by-category-menu .mgz-tabs-tab-title span').hide();
+                }
+                activeclick = clickedMenu;
+
+                //mobile
+
+                let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+                if (isMobile) {
+                    $('.category-tabs .mgz-tabs-tab-title').addClass('retract');
+                    $('.category-tabs .item-submenu').addClass('expand');
+                    $('.category-tabs .mgz-tabs-tab-title span').hide();
+                }
+
+                //redeploy
+
             });
 
             self.menu.find('.nav-item').each(function(index, el) {
@@ -102,7 +147,7 @@ define([
                     $(this).children('a').after(self.options.openerHtml);
                 }
             });
-            
+
             $(window).resize(function () {
                 if ($(this).width() < self.options.mobileBreakpoint) {
                     if (mobileType == 'drilldown') {
@@ -150,27 +195,28 @@ define([
             } else {
                 if (self.options.hasOwnProperty('hoverDelayTimeout')) {
                     $('.nav-item', this.menu).hoverIntent({
-                        sensitivity: 2, 
-                        interval: 100, 
-                        over: self.onMouseHoverIntent.bind(this), 
-                        timeout: self.options.hoverDelayTimeout, 
+                        sensitivity: 2,
+                        interval: 100,
+                        over: self.onMouseHoverIntent.bind(this),
+                        timeout: self.options.hoverDelayTimeout,
                         out: self.onMouseLeaveIntent.bind(this)
                     });
                 } else {
-                    this.menu.on('mouseenter', '.nav-item', function (e) {
-                        self.onMouseHover($(this));
+
+                    this.menu.on('mouseenter', '.nav-item.level0', function (e) {
+                            self.onMouseHover($(this));
                     });
-                    this.menu.on('mouseleave', '.nav-item', function (e) {
+                    this.menu.on('mouseleave', '.nav-item.level0', function (e) {
                         self.onMouseLeave($(this));
                     });
                 }
             }
             this.menu.on('click', '.nav-item > a', function (e) {
-                
+
                 if($(this).attr("href") == "#"){
                      e.preventDefault();
                 }
-                
+
                 if ($(this).data('scrollto') && $($(this).data('scrollto')).length) {
                     $('html, body').animate({
                         scrollTop: $($(this).data('scrollto')).offset().top
@@ -207,6 +253,7 @@ define([
             this.menu.parent().on("click", ".menu-trigger-inner", function (e) {
                 $(this).parent().parent().toggleClass('ninjamenus-hamburger-active');
             });
+            self._initAddCustomClass();
         },
 
         onMouseHoverIntent: function(event) {
@@ -241,6 +288,28 @@ define([
                 this._hideDropdown(item);
                 this._caret(item);
                 this._icon(item);
+            }
+            //clint
+            $('.shop-by-category-menu .mgz-tabs-tab-title').removeClass('retract');
+            $('.shop-by-category-menu .item-sub-menu').removeClass('expand');
+            $('.shop-by-category-menu .mgz-tabs-tab-title span').show();
+            $('.shop-by-category-menu .mgz-tabs-tab-title span.tabs-opener').hide();
+            $('.shop-by-category-menu .mgz-tabs-tab-title').removeClass('mgz-active');
+            $('.shop-by-category-menu .item-submenu.mgz-element-inner').removeClass('expand');
+            $('.shop-by-category-menu .mgz-tabs-content .mgz-tabs-tab-content').removeClass('mgz-active');
+            //mobile
+            let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+            if (isMobile) {
+
+                $('.category-tabs .mgz-tabs-tab-title').removeClass('retract');
+                $('.category-tabs .item-sub-menu').removeClass('expand');
+                $('.category-tabs .mgz-tabs-tab-title span').show();
+                $('.category-tabs .mgz-tabs-tab-title span.tabs-opener').hide();
+                $('.category-tabs .mgz-tabs-tab-title').removeClass('mgz-active');
+                $('.category-tabs .item-submenu.mgz-element-inner').removeClass('expand');
+                $('.category-tabs .mgz-tabs-content .mgz-tabs-tab-content').removeClass('mgz-active');
+
             }
         },
 
@@ -462,6 +531,43 @@ define([
                         }
                     }).resize();
                 });
+            }
+        },
+
+            //clint
+        _initAddCustomClass: function () {
+            $(".category-tabs .mgz-tabs-nav span:contains('Cameras')").closest('div.mgz-tabs-tab-title').addClass('cameras-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Lenses')").closest('div.mgz-tabs-tab-title').addClass('lenses-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Drones')").closest('div.mgz-tabs-tab-title').addClass('drones-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Lighting & Studio')").closest('div.mgz-tabs-tab-title').addClass('lightstudio-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Photo Accessories')").closest('div.mgz-tabs-tab-title').addClass('photoacce-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Optics')").closest('div.mgz-tabs-tab-title').addClass('optics-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Audio & Visual')").closest('div.mgz-tabs-tab-title').addClass('audiovisual-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Pro Video')").closest('div.mgz-tabs-tab-title').addClass('provideo-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Smart Home')").closest('div.mgz-tabs-tab-title').addClass('smarthome-tab-menu');
+            $(".category-tabs .mgz-tabs-nav span:contains('Computers & Mobile')").closest('div.mgz-tabs-tab-title').addClass('computersmobile-tab-menu');
+
+            if ( window.location.pathname == '/' ){
+
+
+                $('.ninjamenus').removeClass('orangebg');
+                $('.nav-sections-item-content').removeClass('orangebg');
+                $('.level0 > a').removeClass('orangebg');
+                $('.level0 > a span').removeClass('whitetextimpt');
+
+                $('.level0 > a').addClass('whitebg');
+            } else {
+                // Other page
+                // .orangebg
+                $('.ninjamenus').addClass('orangebg');
+                $('.nav-sections-item-content').addClass('orangebg');
+                $('.level0 > a').addClass('orangebg');
+                $('.level0 > a span').addClass('whitetextimpt');
+
+                $('.level0 > a').removeClass('whitebg');
+
+                //
+                // ..ninjamenus
             }
         }
     });

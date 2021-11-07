@@ -2621,10 +2621,7 @@ class Product extends AbstractHelper
         echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         $parentID = 2;
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
-        foreach ($getCategoryList as $cat)
-        {
-            echo $cat['name'] . '>' .$cat['id'] . "<br>";
-        }
+
         //var_dump($getCategoryList);
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
@@ -2670,14 +2667,7 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
-                echo $product->getBrand();
-                echo "<br>";
-                foreach ($this->attributeOptions as $id => $value)
-                {
-                    echo $id . '>' .$value."<br>";
-                }
-                //var_dump($this->attributeOptions);
-                exit;
+
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";

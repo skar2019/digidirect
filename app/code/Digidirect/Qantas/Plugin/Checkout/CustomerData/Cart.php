@@ -15,6 +15,8 @@ class Cart {
 
         $qffTotalPoints = 0;
 
+        $qffTotalPoints = 0;
+
         foreach ($items as $item) {
 
             $qty = $item->getQty();
