@@ -1,0 +1,144 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/**
+ * Author: Johnry Valeriano
+ */
+/** @var \Digidirect\SBCModule\Block\Widget\BestsellersProducts $block */
+?>
+<?php
+if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())) {
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::DEFAULT_VIEW;
+    $description = false;
+    
+    $title = __('SBCModule');
+}
+?>
+
+ <?php if ($exist) :?>
+    <div class="block widget block-new-products product-home-listing products-widget <?= /* @noEscape */ $mode ?>">
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <div id="sbc-carousel" 
+                    class="product-items product-carousel owl-carousel owl-theme 
+                    <?= /* @noEscape */ $type ?>"
+                    
+                    data-mage-init='{
+                      "productTile": {
+                          <?php if($block->isRedirectToCartEnabled()): ?>
+                          "isRedirectToCartEnabled": true,
+                          <?php endif; ?>
+                          "type":"<?= /* @escapeNotVerified */ (count($items) > 2) ? 'slider' : 'default'; ?>"
+                      },
+                      "truncateCollection": {
+                            "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
+                        }
+                     }'>
+
+                     <div class="shop-by-category-category">
+                         <a href="<?php echo $block->getUrl("cameras")?>">
+                             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                             <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                         </a>
+                     </div>
+                     <div class="shop-by-category-category">
+                         <a href="<?php echo $block->getUrl("cameras")?>">
+                             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                             <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                         </a>
+                     </div>
+                     <div class="shop-by-category-category">
+                         <a href="<?php echo $block->getUrl("cameras")?>">
+                             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                             <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                         </a>
+                     </div>
+                     <div class="shop-by-category-category">
+                         <a href="<?php echo $block->getUrl("cameras")?>">
+                             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                             <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                         </a>
+                     </div>
+                     <div class="shop-by-category-category">
+                         <a href="<?php echo $block->getUrl("cameras")?>">
+                             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                             <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                         </a>
+                     </div>
+                     <div class="shop-by-category-category">
+                         <a href="<?php echo $block->getUrl("cameras")?>">
+                             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                             <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                         </a>
+                     </div>
+                     <div class="shop-by-category-category">
+                         <a href="<?php echo $block->getUrl("cameras")?>">
+                             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                             <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                         </a>
+                     </div>
+                     <div class="shop-by-category-category">
+                         <a href="<?php echo $block->getUrl("cameras")?>">
+                             <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                             <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+                         </a>
+                     </div>
+                    
+                    
+                </div>
+            </div>
+            <?= $block->getPagerHtml() ?>
+        </div>
+    </div>
+<?php endif;?>
+
+<script>
+    require(['jquery', 'owl_carousel'],
+        function ($) {
+            $(document).ready(function() {
+                $('#sbc-carousel').owlCarousel({
+                    loop:false,
+                    nav:true,
+                    navText:["<div class='nav-btn prev-slide'></div>","<div class='nav-btn next-slide'></div>"],
+                    responsive:{
+                        0:{
+                            items:2,
+                            margin: 15,
+                            nav:false,
+                            loop:true,
+                            autoplay: true,
+                            autoplayTimeout:3000
+                        },
+                        600:{
+                            items:3,
+                            nav:false
+                        },
+                        1000:{
+                            items:4,
+                            loop:false
+                        },
+                        1680:{
+                            items:5,
+                            loop:false
+                        }
+                    },
+                    dots:false,
+                    autoplay:false,
+                    autoplayTimeout:3000
+                })
+            });
+        }
+    );
+</script>
