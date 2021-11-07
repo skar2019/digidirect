@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="Digidirect_shop_by_category"
+            class="Digidirect\ShopByCategory\Block\Widget\ShopByCategory" ttl="86400">
+        <label translate="true">Shop By Category</label>
+        <description translate="true">Shop By Category</description>
+    </widget>
+</widgets>
