@@ -10,7 +10,7 @@ $brands = $block->getBrands();
 /** @var \Digidirect\ShopByCategory\Block\Widget\ShopByCategory $block */
 ?>
 
-
+<link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('css/owl.carousel.min.css')?>">
 
 <div class="shop-by-category-dropdown">
     <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
@@ -111,3 +111,35 @@ $brands = $block->getBrands();
          </div>
     </div>
 </div>    
+
+<script>
+    require(['jquery'],function(){
+        jQuery(document).ready(function() {
+            
+            //$(document).on('change','select', function(){
+            
+            jQuery("#brands-dropdown").on('change',function(){
+                
+                //alert("OnChange Event Working!");
+
+                var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
+                var brand = this.value;
+                //alert(url + ", " + CurrentProduct);
+                jQuery.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {brand:brand},
+                    showLoader: true,
+                    cache: false,
+                    success: function(response){
+                        console.log(response.output);
+                        //jQuery("#cameras-count").text('Test Success!');
+                        jQuery('#shop-by-category-container').html(response.output);
+                        return true;
+                    }
+                });
+                
+            });
+        });
+    });
+</script>
