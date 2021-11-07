@@ -1,113 +1,54 @@
 <?php
 /**
- * Autho: Johnry
+ * Author: Rondel
  */
 
 namespace Digidirect\SBCModule\Block\Widget;
 
-class SBCModule extends \Magento\Catalog\Block\Product\AbstractProduct implements \Magento\Widget\Block\BlockInterface
+use Magento\Catalog\Model\ResourceModel\Eav\Attribute;
+use Magento\Catalog\Model\Product\Attribute\Repository;
+
+class SBCModule extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
 {
-    /**
-     * @var \Digidirect\SBCModule\Model\ResourceModel\Product\CollectionFactory
-     */
-    protected $productCollectionFactory;
+    protected $_categoryFactory;
+    protected $_productCollectionFactory;
+    protected $attribute;
+    protected $attributeRepository;
+    protected $_template = 'Digidirect_ShopByCategory::widget/shop-by-category.phtml';
 
-    /**
-     * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
-     */
-    protected $catalogProductStatus;
-
-    /**
-     * @var \Magento\Catalog\Model\Product\Visibility
-     */
-    protected $catalogProductVisibility;
-
-    /**
-     * @var string
-     */
-    protected $_template = 'Digidirect_SBCModule::widget/bestsellers-products.phtml';
-
-    /**
-     * NewWidget constructor.
-     *
-     * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Digidirect\SBCModule\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
-     * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
-     * @param array $data
-     */
     public function __construct(
-        \Magento\Catalog\Block\Product\Context $context,
-        \Digidirect\SBCModule\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
-        \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
+        \Magento\Backend\Block\Template\Context $context,        
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
+        Attribute $attribute,
+        Repository $attributeRepository,
         array $data = []
-    ) {
+    )
+    {    
+        $this->_categoryFactory = $categoryFactory;
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->attribute = $attribute;
+        $this->attributeRepository = $attributeRepository;
         parent::__construct($context, $data);
-        $this->productCollectionFactory = $productCollectionFactory;
-        $this->catalogProductStatus = $catalogProductStatus;
-        $this->catalogProductVisibility = $catalogProductVisibility;
     }
-
-    /**
-     * @return \Digidirect\SBCModule\Model\ResourceModel\Product\Collection
-     */
-    public function getProductCollection()
+    
+    /* Get product count on a category */
+    public function getProductCollectionCount($categoryId) 
     {
-        $collection = $this->productCollectionFactory->create()
-            // Add all the product attributes to select
-            ->addAttributeToSelect('*')
-            ->addAttributeToFilter('visibility', ['in' => $this->catalogProductVisibility->getVisibleInCatalogIds()])
-            // Filtering the products, only get the products have the status allowed
-            ->addAttributeToFilter('status', ['in' => $this->catalogProductStatus->getVisibleStatusIds()]);
-
-        $qty = (int)$this->getQty();
-        // set the default Qty if the qty doesn't exist
-        if (!$qty) {
-            $qty = 25;
-        }
-
-        // get the current store id
-        $storeId = (int)$this->_storeManager->getStore()->getId();
-        $collection = $collection->getBestsellersProduct($storeId)->setPageSize($qty)->setCurPage(1);
-
-        return $collection;
+        $productCollection = $this->_productCollectionFactory->create();
+        $productCollection->addAttributeToSelect('*');
+        $productCollection->addCategoriesFilter(['in' => $categoryId]);
+        $productCollection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+        $productCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        return $productCollection->count();
     }
-
-    /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     */
-    public function getProductPriceHtml(
-        \Magento\Catalog\Model\Product $product,
-        $priceType = null,
-        $renderZone = \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
-        array $arguments = []
-    ) {
-        if (!isset($arguments['zone'])) {
-            $arguments['zone'] = $renderZone;
-        }
-        $arguments['price_id'] = isset($arguments['price_id'])
-            ? $arguments['price_id']
-            : 'old-price-' . $product->getId() . '-' . $priceType;
-        $arguments['include_container'] = isset($arguments['include_container'])
-            ? $arguments['include_container']
-            : true;
-        $arguments['display_minimal_price'] = isset($arguments['display_minimal_price'])
-            ? $arguments['display_minimal_price']
-            : true;
-
-            /** @var \Magento\Framework\Pricing\Render $priceRender */
-        $priceRender = $this->getLayout()->getBlock('product.price.render.default');
-
-        $price = '';
-        if ($priceRender) {
-            $price = $priceRender->render(
-                \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE,
-                $product,
-                $arguments
-            );
-        }
-        return $price;
+    
+    public function getBrands()
+    {
+        $attributeModel = $this->attribute->load(222);
+        $attributeCode = $attributeModel->getAttributeCode();
+        $options = $this->attributeRepository->get($attributeCode)->getOptions();
+        return $options;
     }
+    
 }
