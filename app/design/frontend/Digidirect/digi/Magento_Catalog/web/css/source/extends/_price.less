@@ -90,7 +90,8 @@
     .product-item {
         .price-box {
             .lib-vendor-prefix-display(flex);
-            .digidirect-lib-box-align(space-between);
+            //.digidirect-lib-box-align(space-between);
+            .digidirect-lib-box-align(space-evenly);
             .lib-vendor-box-align(flex-end);
             width: 100%;
             min-height: 33px;
@@ -138,7 +139,7 @@
         .price-label {
             text-transform: uppercase;
         }
-
+        
         .block-extendedrule.-cashback{
             .price-box{
                 &{
@@ -146,14 +147,14 @@
                     margin: 0;
                     padding: 0;
                 }
-
+                
                 .price-container{
                      .before-cashback,
                      .after-cashback{
                          position: relative;
-
+                         
                          .price-label{
-                            position: initial;
+                            position: absolute;
                             top: -8px;
                             font-size: 9px;
                          }
@@ -251,9 +252,14 @@
         .price-box .price {
             font-size: 22px;
         }
+        
+        .old-price {
+            color: #777777;
+        }
 
         .price-box .old-price .price {
             .lib-font-size(12);
+            color: #777777;
         }
     }
 }

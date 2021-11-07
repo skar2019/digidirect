@@ -37,15 +37,15 @@
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    input[type="text"], 
-    input[type="password"], 
+    input[type="text"],
+    input[type="password"],
     input[type="url"],
-    input[type="tel"], 
-    input[type="search"], 
-    input[type="number"], 
+    input[type="tel"],
+    input[type="search"],
+    input[type="number"],
     input[type="datetime"],
     input[type="email"]{
-        font-family: 'Titillium Web', sans-serif !important;
+        font-family: 'Poppins', sans-serif;
         background: #fff;
         background-clip: padding-box;
         border: 2px solid #cfcfcf;
@@ -59,7 +59,7 @@
         width: 100%;
         box-sizing: border-box;
     }
-    
+
     .cart{
         .qantas-pts-wrapper{
             &{
@@ -75,13 +75,13 @@
                 width: 20px;
                 height: 27px;
             }
-            
+
             span{
                 font-size: 12px;
             }
         }
 
-        button 
+        button
         {
             &{
                 padding: 0;
@@ -103,18 +103,18 @@
                 &{
                     padding: 0 20px 0 0 !important;
                 }
-                
+
                 > a{
                     font-weight: bold;
                 }
             }
-            
+
             .product.name a > a{
                  font-weight: bold;
              }
         }
     }
-    
+
     .cart-summary{
         input[type=radio]:not([name*=ratings]):not(.-default) {
             border: 0;
@@ -126,18 +126,18 @@
             position: absolute;
             width: 1px;
         }
-        
+
         .svg-icon{
             display: inline-block;
             fill: currentColor;
             vertical-align: middle;
         }
-        
+
         .actions-toolbar .primary .action span{
             color: #2a2a2a !important;
         }
     }
-    
+
     .checkout-cart-index .header.content .mystore-button {
         display: flex;
     }
@@ -146,7 +146,7 @@
         .widget-product-tagline zip-widget__wrapper{
             display: none;
         }
-        
+
         > .page-title {
             display: block;
             width: 100%;
@@ -161,12 +161,12 @@
             .lib-vendor-box-align(center);
             .lib-css(font-weight, @font-weight__heavier);
             padding-top: 5px;
-            
+
             .action.continue{
                 a{
                     display: none;
                 }
-                
+
                 &::before{
                     display: none;
                 }
@@ -177,14 +177,14 @@
                     padding: 0;
                     text-decoration: underline;
                     font-weight: 700;
-                    font-family: 'Titillium Web', sans-serif;
+                    font-family: 'Poppins', sans-serif;
                 }
             }
         }
 
         .action.update {
             .lib-css(color, @primary__color);
-            font-weight: 700; 
+            font-weight: 700;
             .lib-font-size(12);
             padding: 0;
             background: transparent;
@@ -272,7 +272,7 @@
             align-self: center;
             margin-right: auto;
         }
-        
+
         > .page-title{
             font-size: 24px;
         }

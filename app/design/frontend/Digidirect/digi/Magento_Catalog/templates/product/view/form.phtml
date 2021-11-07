@@ -38,7 +38,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     } else {
         $points = number_format($finalProductPrice * 2);
     }
-} 
+}
 ?>
 
 <?php
@@ -63,8 +63,8 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
 <?php endif; ?>
 
 <?php if($points > 0):?>
-    <div class="qantas-pts-wrapper">
-        <span>Earn <?= $points ?> Qantas Points</span>
+    <div class="qantas-pts-wrapper" id="main-product-qantas">
+        <span class="qantas-text">Earn <span style="color: #e40301;"><?= $points ?> Qantas Points</span></span>
     </div>
 <?php endif; ?>
 
@@ -89,6 +89,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         <?php if ($_product->isSaleable() && $block->hasOptions() && $block->getOptionsContainer() == 'container2'):?>
             <?= $block->getChildChildHtml('options_container') ?>
         <?php endif;?>
+
         <?= $block->getChildHtml('form_bottom') ?>
     </form>
 </div>

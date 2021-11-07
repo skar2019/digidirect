@@ -54,7 +54,7 @@
             margin-bottom: 0;
             padding-bottom: 18px;
         }
-        
+
         .wrap-block{
             position: relative;
             padding-left: 20px;
@@ -73,16 +73,27 @@
 
         .checkout-methods-items {
             margin-bottom: 20px;
-            
+
             .braintree-paypal-logo{
                 max-height: 50px;
             }
-            
+
             .braintree-googlepay-button{
                 padding: 20px !important;
             }
+
+            button span {
+                color: #ffffff !important;
+            }
+
+            .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget {
+                margin-left: 0px !important;
+                width: 327px !important;
+                height: 27px !important;
+                margin-top: 15px !important;
+            }
         }
-           
+
         .klarna-widget{
             a{
                 padding: 13px;
@@ -103,20 +114,20 @@
         .widget-product {
             margin-top: 0;
         }
-        
+
         .-collect.action.primary,
         .giftcard .action.primary{
             color: #000;
             cursor: pointer;
-            display: inline-block;    
-            font-family: 'Titillium Web', sans-serif;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
             font-weight: 700;
             padding: 10px 15px;
             font-size: 1.3rem;
             box-sizing: border-box;
             vertical-align: middle;
         }
-        
+
         .checkout{
             button{
                 background-image: none;
@@ -133,8 +144,8 @@
                 line-height: 1.6rem;
                 box-sizing: border-box;
                 vertical-align: middle;
-                font-family: 'Titillium Web', sans-serif;
-            
+                font-family: 'Poppins', sans-serif;
+
                 &:hover{
                     opacity: 0.8;
                     background: #e65300;
@@ -142,29 +153,29 @@
                 }
             }
         }
-        
+
         .fieldset .action{
             background: #e65300;
             cursor: pointer !important;
             display: inline-block;
-            font-family: 'Titillium Web', sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-weight: 700;
             padding: 10px 15px;
             font-size: 1.3rem;
             box-sizing: border-box;
             vertical-align: middle;
             margin-top: 15px;
-            
+
             span{
                 color: #fff !important;
             }
         }
-        
+
         strong{
             font-weight: bold !important;
         }
     }
-    
+
     .braintree-paypal-logo {
         margin-top: 10px;
         position: relative;
@@ -180,7 +191,7 @@
         width: 100% !important;
         padding: 0px !important;
     }
-    
+
     .cart-summary .collect_place_class {
         & {
             margin-bottom: 0;
@@ -199,12 +210,12 @@
             .lib-css(color, @color-black);
             padding: 15px;
 
-            
+
             svg{
                 max-width: 30px;
                 height: 30px;
             }
-            
+
             &::before,
             &::after {
                 display: none;
@@ -235,7 +246,7 @@
             background: #e65401;
             color: #fff;
             border: 1px solid;
-            
+
             &::hover{
                 border: 1px solid #e65504 !important;
              }
@@ -325,36 +336,36 @@
             vertical-align: middle;
         }
     }
-    
+
     .cart-summary {
         .block.discount .fieldset{
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
             width: 100%;
-            
+
             .field{
                 width: 100% !important;
                 display: block;
-                
+
                 label{
                     padding: 0 !important;
                 }
             }
-            
+
             .giftcard-number,
             .giftcard-pin{
                 margin-bottom: 5px;
             }
         }
-        
+
         .actions-toolbar {
             padding-left: 0 !important;
             width: 100% !important;
             margin-bottom: 15px;
         }
     }
-    
+
     .braintree-paypal-logo {
         margin-top: 10px;
         position: relative;
@@ -362,11 +373,11 @@
         max-height: 38px;
         overflow: hidden;
     }
-    
+
     .braintree-googlepay-button{
         padding: 0px !important;
     }
-    
+
     .braintree-googlepay-button{
         background-repeat: no-repeat !important;
         background-position: center center !important;
@@ -442,11 +453,11 @@
         }
 
     }
-    
+
     .braintree-paypal-logo{
         max-height: 55px;
     }
-    
+
     .braintree-paypal-logo{
         margin-top: 15px;
         position: relative;
@@ -454,7 +465,7 @@
         max-height: 55px;
         overflow: hidden;
     }
-    
+
     .braintree-googlepay-button{
         background-repeat: no-repeat !important;
         background-position: center center !important;
@@ -525,21 +536,21 @@
         & {
             margin-top: 20px;
         }
-        
+
         .block.discount .fieldset{
-            
+
             &{
                 margin: 0;
             }
-            
+
             .actions-toolbar{
                 padding-left: 0;
             }
-            
+
             .giftcard-number,
             .giftcard-pin{
                 margin-bottom: 5px;
-                
+
                 .input-text {
                     height: 50px;
                     font-size: 1.4rem;
@@ -547,22 +558,22 @@
                     color: #222;
                 }
             }
-            
+
             .action.primary{
                 &{
                     background: #e65202;
                     border: 2px solid #fff;
-                    color: #fff; 
+                    color: #fff;
                 }
-                
+
                 &.remove-gift-card{
                     color: #fff !important;
                 }
-                
+
                 span{
                     color: #fff !important;
                 }
-                
+
                 &:hover{
                     background: #ea7543;
                 }

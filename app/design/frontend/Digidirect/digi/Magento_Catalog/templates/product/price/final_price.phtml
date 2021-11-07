@@ -22,19 +22,6 @@ $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
 ?>
 <?php if ($block->hasSpecialPrice()): ?>
-    <div class="old-price-wrapper">
-        <span class="old-price-label"><?= /* @escapeNotVerified */ __('Was')?></span>
-        <span class="old-price">
-            <?php /* @escapeNotVerified */ echo $block->renderAmount($priceModel->getAmount(), [
-                'display_label'     => __(''),
-                'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
-                'price_type'        => 'oldPrice',
-                'include_container' => true,
-                'skip_adjustments'  => true
-            ]); ?>
-        </span>
-    </div>
-
     <div class="current-price-wrapper">
         <svg class="svg-icon digidirectprice">
             <use xlink:href="#svgi-digidirectprice" />
@@ -49,6 +36,18 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             ]); ?>
         </span>
     </div>
+    <div class="old-price-wrapper">
+        <span class="old-price">
+            <?php /* @escapeNotVerified */ echo $block->renderAmount($priceModel->getAmount(), [
+                'display_label'     => __('Original Price'),
+                'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
+                'price_type'        => 'oldPrice',
+                'include_container' => true,
+                'skip_adjustments'  => true
+            ]); ?>
+        </span>
+    </div>
+
 <?php else: ?>
     <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
         'display_label'     => __(''),

@@ -1,6 +1,9 @@
 define([
     'jquery'
 ], function ($) {
+
+
+    $('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     var cashbackLabel = $('.product-info-main').next('block-extendedrule');
     var productInfoPriceBlock = $('.product-info-price');
     if(cashbackLabel){
@@ -9,7 +12,17 @@ define([
         {
             productInfoPriceBlock.find('.price-box.price-final_price').addClass('pad-top');
         }
-        
-        productInfoPriceBlock.prepend($('.block-extendedrule'));
+
+        if( $('.product-info-price .current-price-wrapper').length )         // use this if you are using class to check
+        {
+            $('.block-extendedrule').insertBefore( $('#main-product-qantas'));
+
+        }
+        else
+        {
+            $('.block-extendedrule').insertBefore( $('#main-product-qantas'));
+        }
+
+
     }
 });

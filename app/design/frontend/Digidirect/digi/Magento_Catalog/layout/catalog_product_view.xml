@@ -12,15 +12,29 @@
         <move element="breadcrumbs" destination="product.section" before="-"/>
         <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
         <move element="page.main.title" destination="product.info.main" before="-" />
-        <move element="product.info.sku" destination="page.main.title" />
+        <move element="product.info.sku" destination="product.info.price" before="-"/>
         <!--<move element="product.info.review" destination="product.info.holder" after="page.main.title" />-->
         <move element="product.info.stock.sku" destination="product.info.price" after="-" />
         <move element="product.info.main" destination="product.view.top" after="-" />
         <move element="product.info.media" destination="product.view.media.overview" before="-" />
         <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
-        <move element="catalog.product.related" destination="content" before="-"/>
-        <move element="product.info.upsell" destination="content" after="-"/>
+        
+        <!-- Rondel Changes -->
+        <move element="frequently.bought.with" destination="content" before="-"/>
+<!--        <move element="catalog.product.related" destination="content" after="-"/>-->
+<!--        <move element="product.info.upsell" destination="content" after="catalog.product.related"/>-->
+        
+        <referenceBlock name="catalog.product.related" remove="true"/>
+        <referenceBlock name="product.info.upsell" remove="true"/>
+        
         <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
+     
+        <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
+            <arguments>
+                <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
+            </arguments>
+        </block>
+ 
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
             <referenceBlock name="product.info.details" >
@@ -37,6 +51,11 @@
                 <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox" as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.review">
                     <arguments>
                         <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.short_description" as="productoverview" template="Magento_Catalog::product/view/product-overview.phtml" group="detailed_info" before="product.info.description">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Product Overview</argument>
                     </arguments>
                 </block>
             </referenceBlock>
@@ -57,54 +76,77 @@
             <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
                    template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
             </block>
-            <container name="social.additional.block" htmlTag="div" htmlClass="social-wrapper" after="-">
-                <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.additional" before="product.info.mailto" template="sharing.phtml">
-                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.facebook.additional" template="elements/facebook.phtml"/>
-                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.pin.additional" template="elements/pin.phtml"/>
-                    <block class="Digidirect\SocialSharing\Block\Sharing" name="digidirectsocial.sharing.twitter.additional" template="elements/twitter.phtml"/>
-                </block>
-            </container>
+
         </referenceContainer>
-        <move element="product.info.social" destination="product.info.main" after="-" />
-        <referenceContainer name="product.info.price">
-            <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="product.addto.wishlist">
-                <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
-            </container>
-        </referenceContainer>
-        
+
+
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
-        
+
         <referenceContainer name="product.info.extrahint">
             <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" />
         </referenceContainer>
-        
-<!--        <move element="product.info.extrahint" destination="product.info.price" before="product.info.stock.sku" />-->
+
+        <!--        <move element="product.info.extrahint" destination="product.info.price" before="product.info.stock.sku" />-->
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
-        <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />
+<!--        <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />-->
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
         <move element="product.info.addtocart.zipmoney.productimage" destination="product.info.bottom" before="-" />
-        <move element="product.info.addto" destination="product.info.price" before="live.chat.additional.link" />
+
 
         <referenceBlock name="product.info.upsell">
             <block name="product.tile.extended.catalog.rule"
                    class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
         </referenceBlock>
+        
+        <referenceContainer name="content.aside">
+            <block class="Magento\Cms\Block\Block" name="also.viewed">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">also-viewed</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="pdp.you.may.also.like">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">pdp-you-may-also-like</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
         <referenceBlock name="product.info.main">
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
                    before="-"
                    template="Digidirect_ExtendedCatalogPriceRule::product/view/display_message.phtml" />
 
-            <!--    OVERVIEW        -->
-            <container name="product.view.overview" htmlTag="div" htmlClass="product-overview" htmlId="productOverview" after="product.info.main">
-                <block class="Magento\Catalog\Block\Product\View\Description" name="pdp.short.description" template="Magento_Catalog::product/view/product-overview.phtml">
-                    <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" as="block_rules" name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" />
-                </block>
+            <container name="product.info.main.bottom" label="Bottom part" htmlTag="div" htmlClass="product-info-main-bottom" after="-">
+                <container name="secure.pay.container" label="Secure Pay" htmlTag="div" htmlClass="secure-pay-container" before="-">
+                    <block class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" before="-" />
+                </container>
+
+                <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="-"/>
+
+                <container name="most.bottom.product.info" htmlTag="div" htmlClass="most-bottom-product-info" after="-">
+                    <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml">
+                        <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare" after="view.addto.wishlist"
+                               template="Magento_Catalog::product/view/addto/compare.phtml" >
+                            <arguments>
+                                <argument name="addToCompareViewModel" xsi:type="object">Magento\Catalog\ViewModel\Product\Checker\AddToCompareAvailability</argument>
+                            </arguments>
+                        </block>
+                    </block>
+                    <container name="live.chat.additional.link" label="Live chat" htmlTag="div"  htmlClass="live-chat-additional" after="-">
+                        <block class="Magento\Framework\View\Element\Template" name="live.chat.link.block" template="Magento_Catalog::product/live-chat.phtml" />
+                    </container>
+                </container>
+
             </container>
         </referenceBlock>
         <referenceContainer name="before.body.end">
-            
+<!--            <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">-->
+<!--                <arguments>-->
+<!--                    <argument translate="true" name="title" xsi:type="string">sample</argument>-->
+<!--                </arguments>-->
+<!--            </block>-->
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
                 <arguments>
                     <argument name="block_id" xsi:type="string">product-tile-rent</argument>

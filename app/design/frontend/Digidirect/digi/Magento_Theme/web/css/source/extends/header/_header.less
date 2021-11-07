@@ -60,11 +60,12 @@
             -ms-flex-pack: space-between;
             -webkit-justify-content: space-between;
             justify-content: space-between;
-            font-size: 1.1rem;
+            //font-size: 1.1rem;
             transition: all 0.3s ease;
             padding: 10px 0 !important;
             max-width: 1920px !important;
-            margin-right: unset !important;
+            //margin-right: unset !important;
+            margin: unset !important;
 
             .learn-more-wrapper{
                 position: relative;
@@ -97,8 +98,9 @@
             }
 
             .header-links a:after{
-                content: "|";
-                padding: 0 5px;
+                //content: "|";
+                content: "";
+                padding: 0 10px;
             }
 
             .header-links a:last-child:after{
@@ -139,9 +141,13 @@
         }
     }
 
+    .header-links-account {
+        margin-right: -15px !important;
+    }
+
     .wrapper {
         border-bottom-color: #3c3c3c !important;
-        padding: 0 30px;
+        padding: 0;
     }
 
     .main-header-wrapper {
@@ -160,17 +166,19 @@
             transition: all .5s ease;
 
             .authorization-link {
-                display: -webkit-flex;
-                display: -ms-flexbox;
-                display: flex;
-                position: relative;
-                cursor: pointer;
+                //display: -webkit-flex;
+                //display: -ms-flexbox;
+                //display: flex;
+                //position: relative;
+                //cursor: pointer;
+                display: none;
             }
 
             .header-content-links{
                 display: -webkit-flex;
                 display: -ms-flexbox;
-                display: flex;
+                //display: flex;
+                display: none;
             }
 
             .link {
@@ -270,7 +278,7 @@
 
         .header-links{
             a{
-                display: none;
+                display: inline-block;
             }
         }
 
@@ -287,7 +295,7 @@
 
             .call-us-link{
                 .company-number{
-                    display: none;
+                    display: inline-block;
                 }
             }
 
@@ -315,7 +323,7 @@
         .wrap-links
         {
             &{
-                margin-top: 15px;
+                margin-top: 0px;
             }
 
             span.text{
@@ -425,7 +433,7 @@
 
         .header-links{
             a{
-                display: none;
+                display: inline-block;
             }
         }
 
@@ -439,7 +447,7 @@
 
             .call-us-link{
                 .company-number{
-                    display: none;
+                    display: inline-block;
                 }
             }
 
@@ -487,7 +495,7 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .main-header-wrapper {
         &{
-            padding: 20px 30px !important;
+            padding: 20px 0 !important;
         }
 
         .c-logo{

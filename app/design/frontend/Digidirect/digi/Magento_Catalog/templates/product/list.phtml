@@ -96,18 +96,36 @@ $showWishlist = true;
                        tabindex="-1">
                         <?= $productImage->toHtml(); ?>
                     </a>
-                        
-                    <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
-                        <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
-                            <a href="#"
-                            data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_product); ?>'
-                            class="action towishlist" data-action="add-to-wishlist"
-                            title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
-                            </a>
-                        <?php endif; ?>
-                    </div>
                     
+                    <?php
+                        $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+                    ?>
+                    
+                    <?php
+                        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                        $reviewFactory = $objectManager->create('Magento\Review\Model\Review');
+                        $product = $objectManager->create('Magento\Catalog\Model\Product')->load($productId);
+                        $storeManager  = $objectManager->create('\Magento\Store\Model\StoreManagerInterface');
+                        $storeId = $storeManager->getStore()->getStoreId();
+                        $reviewFactory->getEntitySummary($product, $storeId);
+
+                        $ratingSummary = $product->getRatingSummary()->getRatingSummary();
+                        $reviewCount = $product->getRatingSummary()->getReviewsCount();
+                    ?>
+                    
+                    <?php if ($reviewCount > 0) : ?>
+                        <div><?php echo $block->getReviewsSummaryHtml($_product, $templateType, true) ?></div>
+                    <?php else: ?>
+                        <div class="product-reviews-summary short">
+                            <div class="rating-summary">
+                                <span class="label"><span>Rating:</span></span>
+                                    <div class="rating-result blank-star-rating" title="100%">
+                                    <span style="width: 100%;"><span>100%</span></span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                        
                     <?php if($blockMode === 'grid'):?>
                         <strong class="product name product-item-name -grid">
                             <a href="<?= $block->escapeUrl($productUrl); ?>"
@@ -173,7 +191,7 @@ $showWishlist = true;
                                         <button type="submit"
                                                 title="<?= /* @escapeNotVerified */ __('Add to Cart'); ?>"
                                                 class="action tocart primary">
-                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span>
+                                            <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span>
                                         </button>
                                     </form>
                                 </div>
@@ -185,18 +203,6 @@ $showWishlist = true;
                             <?php endif; ?>
                         </div>
                     </div>
-                    
-                    <div class="qantas-pts-wrapper">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
-                        <span data-sample="<?= $qff_base?>">Earn <?= $points ?> Qantas Points</span>
-                    </div>
-                    
-                    <?php if ($rentBlock = $block->getChildBlock('product.tile.rent')): ?>
-                        <?= $rentBlock->toHtml(); ?>
-                    <?php endif; ?>
-                    <?php if ($afterToCartFormBlock = $block->getChildBlock('tocart_form.after')): ?>
-                        <?= $afterToCartFormBlock->setProduct($_product)->getChildHtml(); ?>
-                    <?php endif; ?>
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>

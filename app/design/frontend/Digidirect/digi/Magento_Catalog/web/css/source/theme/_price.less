@@ -57,7 +57,7 @@
 @catalog-pdp-product-info-main-sku-value__vertical-align: top;
 @catalog-pdp-product-info-main-sku-value__word-break: break-all;
 @catalog-pdp-product-info-main-sku-type__margin-right: @indent__xs;
-
+@catalog-pdp-product-info-main-sku__float: right;
 //  Overview
 @catalog-pdp-product-info-main-overview__margin: @indent__base 0;
 
@@ -175,7 +175,9 @@
             .sku {
                 .lib-css(display, @catalog-pdp-product-info-main-sku__display);
                 .lib-css(vertical-align, @catalog-pdp-product-info-main-sku__vertical-align);
-                .lib-css(color, @catalog-pdp-product-info-main-sku__color);
+                .lib-css(color, @color-new-gray);
+                .lib-css(float, @catalog-pdp-product-info-main-sku__float);
+                font-size: 11px;
             }
             .sku > .value {
                 .lib-css(display, @catalog-pdp-product-info-main-sku-value__display);
@@ -265,7 +267,7 @@
 
                 .input-text.qty {
                     .lib-css(width, @catalog-pdp-box-tocart-input-tex-qty__width);
-                    .lib-css(height, @catalog-pdp-box-tocart-input-tex-qty__height);
+                    .lib-css(height, 50px);
                     .lib-css(text-align, @catalog-pdp-box-tocart-input-tex-qty__text-align);
                 }
 
@@ -280,9 +282,6 @@
                 }
             }
 
-            .product-addto-links {
-                .lib-css(margin, @catalog-pdp-product-addto-links__margin);
-            }
 
             .action.tocompare {
                 & when (@catalog-pdp-action-tocompare__use-action-addto-product = true) {
@@ -327,7 +326,7 @@
         }
 
         .product-info-main {
-            .box-tocart .actions .action.tocart {
+           .tocart {
                 & when (@catalog-pdp-box-tocart-actions-action-tocart__use-button-responsive-smaller__m-only = true) {
                     &:extend(.abs-button-responsive-smaller all);
                 }
@@ -358,18 +357,18 @@
             .box-tocart {
                 display: block;
             }
-            
+
             .box-tocart .field.qty {
-                
+
             }
 
             .box-tocart .actions {
-                .lib-css(text-align, @catalog-pdp-box-tocart-actions__text-align__m);
+                .lib-css(text-align, left);
                 padding-top: 0px;
             }
         }
     }
-    
+
     .price-label:after{
         content: "" !important;
     }

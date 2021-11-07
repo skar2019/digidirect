@@ -15,8 +15,11 @@
         .input-text {
             .lib-font-size(16);
             .lib-css(color, @primary__color);
-            width: 0;
-            opacity: 0;
+            //width: 0;
+            //opacity: 0;
+            //clint workaround
+            width: 250px;
+            opacity: 1;
 
             &:focus {
                 box-shadow: none;
@@ -29,7 +32,8 @@
 
         .control {
             border-top: none;
-            margin: 0 -40px -40px;
+            //margin: 0 -40px -40px;
+            margin: 0 -10px -40px;
         }
 
         .label {
@@ -56,14 +60,19 @@
             height: 22px;
             margin-bottom: 4px;
         }
-        
+
         .actions button {
             .lib-css(color, @primary__color);
-            
+
             &:disabled {
                 opacity: .5;
             }
         }
+    }
+
+    .minicart-wrapper button span {
+        color: #ffffff !important;
+        text-decoration: none !important;
     }
 }
 
@@ -78,23 +87,38 @@
 
     .minicart-wrapper{
         margin-top: 0 !important;
+        left: -85px;
     }
-    
+
     .form.minisearch {
         & {
             position: relative;
         }
+        //clint
+        .input-text {
+            width: 350px !important;
+            opacity: 1;
+            border-bottom: 1px solid #cacaca;
+            background: #f5f5f5;
+            border-radius: 5px !important;
+        }
+
+        .input-text::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #777777;
+            opacity: 1;
+        }
+
 
         &.active {
-            padding-bottom: 20px;    
+            padding-bottom: 20px;
             margin-left: -16em;
-            
+
             .input-text {
                 position: absolute;
                 width: inherit;
                 opacity: 1;
                 border: none;
-                border-bottom: 2px solid #000;
+                border-bottom: 1px solid #cacaca !important;
             }
         }
     }
@@ -109,12 +133,20 @@
         & {
             width: inherit;
         }
-        
+
         .input-text {
             width: 100%;
-            opacity: 1;    
+            opacity: 1;
+            border-bottom: 1px solid #cacaca;
+            background: #f5f5f5;
+            border-radius: 5px !important;
         }
-        
+
+        .input-text::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #777777;
+            opacity: 1;
+        }
+
         .label {
             width: 1px;
             height: 1px;
@@ -123,7 +155,7 @@
     }
 
     body .klevu-fluid > .klevu-pt-rs-hover {
-        width: 232px!important;
+        width: 232px !important;
     }
 }
 
@@ -202,7 +234,7 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
     .form.minisearch {
         width: 100%;
-        max-width: 650px;
+        //max-width: 650px;
         margin-top: 3px
     }
 

@@ -230,7 +230,7 @@ switch ($type = $block->getType()) {
                                             data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
                                             class="action towishlist" data-action="add-to-wishlist"
                                             title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
+                                            <i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>
                                             </a>
                                         <?php endif; ?>
                                     </div>
@@ -269,7 +269,7 @@ switch ($type = $block->getType()) {
                                                                 <?php endif; ?>
                                                         <button class="action tocart primary"
                                                                 type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                            <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                                            <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span>
                                                         </button>
                                                   </form>
                                             </div>
