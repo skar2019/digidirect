@@ -1218,6 +1218,32 @@
 
 }
 
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: 1497px) and (max-width: (1560px)) {
+        button.owl-prev.disabled > i {
+            width: 30px;
+            height: 30px;
+            background: #000 !important;
+            border-radius: 50%;
+        }
+        
+        button.owl-next > i {
+            width: 30px;
+            height: 30px;
+            background: #000 !important;
+            border-radius: 50%;
+        }
+        
+        button.owl-prev.disabled {
+            margin-left: 50px !important;
+        }
+        
+        button.owl-next {
+            margin-right: 28px !important;
+        }
+    }
+}
+
 
 //
 //  Mobile
