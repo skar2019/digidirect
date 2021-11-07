@@ -21,7 +21,14 @@ $mode = 'grid';
         <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
             <div id="best-seller-carousel" 
                 class="product-items product-carousel owl-carousel owl-theme 
-                <?= /* @noEscape */ $type ?>">
+                <?= /* @noEscape */ $type ?>"data-mage-init='{
+                      "productTile": {
+                          "type":"slider"
+                      },
+                      "truncateCollection": {
+                            "addOn": "js/dist/widgets/truncate-collection/addons/catalog/index"
+                        }
+                     }'>
                 <div class="shop-by-category-category">
                      <a href="<?php echo $block->getUrl("cameras")?>">
                          <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
