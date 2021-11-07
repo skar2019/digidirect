@@ -1221,7 +1221,59 @@
         color: #e6e6e6 !important;
     }
 
+    .panel.header .qantas-link img {
+        min-width: 70px;
+        position: absolute;
+        margin-top: 1px !important;
+        left: 0;
+    }
 
+}
+
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: 1497px) and (max-width: (1560px)) {
+        button.owl-prev.disabled > i {
+            width: 30px;
+            height: 30px;
+            background: #000 !important;
+            border-radius: 50%;
+            opacity: 10%;
+        }
+
+        button.owl-next > i {
+            width: 30px;
+            height: 30px;
+            background: #000 !important;
+            border-radius: 50%;
+            opacity: 10%;
+        }
+
+        button.owl-prev.disabled {
+            margin-left: 50px !important;
+        }
+
+        button.owl-next {
+            margin-right: 28px !important;
+        }
+
+        .digiservice-block-design>.mgz-block>.mgz-block-content>.mgz-carousel>.owl-nav>.owl-prev {
+            margin-left: 10px !important;
+            margin-top: 0 !important;
+        }
+
+        .digiservice-block-design>.mgz-block>.mgz-block-content>.mgz-carousel>.owl-nav>.owl-prev > i {
+            opacity: 30%;
+        }
+
+        .digiservice-block-design>.mgz-block>.mgz-block-content>.mgz-carousel>.owl-nav>.owl-next {
+            margin-right: -48px !important;
+            margin-top: 0 !important;
+        }
+
+        .digiservice-block-design>.mgz-block>.mgz-block-content>.mgz-carousel>.owl-nav>.owl-next > i {
+            opacity: 30%;
+        }
+    }
 }
 
 
@@ -1606,7 +1658,7 @@
 
     .block-content.filter-content {
         background: #f5f5f5 !important;
-        padding: 0px 20px 0px 20px !important;
+        padding: 20px !important;
         border-radius: 5px !important;
     }
 
