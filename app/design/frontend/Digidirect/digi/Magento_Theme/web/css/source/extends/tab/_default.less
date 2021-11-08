@@ -368,10 +368,6 @@
         margin-top: 50px !important;
     }
 
-    .current-promotion-wrapper .ambanner-slider-wrap{
-        height: 200px !important;
-    }
-
     svg.svg-icon.digidirectprice {
         display: none;
     }
@@ -1233,6 +1229,50 @@
         left: 0;
     }
 
+    div#shop-by-category-carousel {
+        width: 1440px;
+    }
+
+    #shop-by-category-carousel.owl-carousel .owl-item {
+        min-width: unset !important;
+    }
+
+    #shop-by-category-carousel.owl-carousel .owl-item img {
+        width: 70% !important;
+        min-width: unset !important;
+    }
+
+    #shop-by-category-carousel.owl-carousel .owl-item .product-count {
+        width: 70% !important;
+    }
+
+    /*    #shop-by-category-carousel > .owl-nav > .owl-prev > span {
+            visibility: hidden;
+        }
+
+        #shop-by-category-carousel > .owl-nav > .owl-prev > span:before {
+            content: '\f104';
+            font-family: 'Font Awesome 5 Free';
+            font-size: 33px;
+            font-weight: 900;
+            visibility: visible;
+        }
+
+        #shop-by-category-carousel > .owl-nav > .owl-next > span {
+            visibility: hidden;
+        }
+        #shop-by-category-carousel > .owl-nav > .owl-prev > span:before {
+            content: '\f104';
+            font-family: 'Font Awesome 5 Free';
+            font-size: 33px;
+            font-weight: 900;
+            visibility: visible;
+        }
+
+        #shop-by-category-carousel > .owl-nav > .owl-prev {
+            margin-left: -16px;
+            margin-top: 20px;
+        }*/
 }
 
 & when (@media-target = 'desktop'), (@media-target = 'all') {
@@ -1303,6 +1343,14 @@
         -ms-transform: scale(1.005); /* IE 9 */
         -webkit-transform: scale(1.005); /* Safari 3-8 */
         transform: scale(1.005);
+    }
+
+    .shop-by-category-container {
+        height: 400px !important
+    }
+
+    .shop-by-category-category img {
+        height: 350px !important;
     }
 }
 
@@ -1579,11 +1627,6 @@
     .block-content.filter-content {
         background: #fff !important;
         padding: 0 !important;
-    }
-
-    //clint
-    .panel.header .qantas-link {
-        display: none;
     }
 }
 
