@@ -549,11 +549,13 @@ define([
 
             if ( window.location.pathname == '/' ){
 
+
                 $('.ninjamenus').removeClass('orangebg');
                 $('.nav-sections-item-content').removeClass('orangebg');
                 $('.level0 > a').removeClass('orangebg');
                 $('.level0 > a span').removeClass('whitetextimpt');
 
+                $('.level0 > a').addClass('whitebg');
             } else {
                 // Other page
                 // .orangebg
@@ -561,6 +563,8 @@ define([
                 $('.nav-sections-item-content').addClass('orangebg');
                 $('.level0 > a').addClass('orangebg');
                 $('.level0 > a span').addClass('whitetextimpt');
+
+                $('.level0 > a').removeClass('whitebg');
 
                 //
                 // ..ninjamenus
