@@ -1,1 +1,14 @@
-content
+<script>
+    require(['jquery'],function(){
+        jQuery(document).ready(function() {
+            jQuery("#shopbyinterest-mobile-dropdown").on('change',function(){
+                
+                $(".shop-by-interest-mobile-tabs .mgz-tabs-tab-content").removeClass("mgz-active");
+                var activeChild = $(this).val();
+                var parentTab = $('#'+ activeChild).parent().get(0);
+                parentTab.addClass('mgz-active');
+                
+            });
+        });
+    });
+</script>
