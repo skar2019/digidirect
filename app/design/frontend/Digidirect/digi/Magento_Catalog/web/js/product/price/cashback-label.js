@@ -3,7 +3,7 @@ define([
 ], function ($) {
 
 
-    $('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
+    //$('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     var cashbackLabel = $('.product-info-main').next('block-extendedrule');
     var productInfoPriceBlock = $('.product-info-price');
     if(cashbackLabel){
@@ -15,12 +15,12 @@ define([
 
         if( $('.product-info-price .current-price-wrapper').length )         // use this if you are using class to check
         {
-            $('.block-extendedrule').insertBefore( $('#main-product-qantas'));
+            $('.block-extendedrule').insertAfter( $('.product-info-price'));
 
         }
         else
         {
-            $('.block-extendedrule').insertBefore( $('#main-product-qantas'));
+            $('.block-extendedrule').insertAfter( $('.product-info-price'));
         }
 
 

@@ -240,9 +240,12 @@
                 text-align: left;
             }
 
+            //clint changes
             .svg-icon.digidirectprice {
                 display: inline-block;
                 margin-top: 15px;
+                float: left;
+                padding-left: 105px;
             }
 
             .old-price {
@@ -255,7 +258,8 @@
 
             .price-label {
                 font-size: 12px;
-                color: #e40301;
+                color: #101010;
+                margin-left: 104px;
             }
 
         }
@@ -293,12 +297,20 @@
             text-decoration: none;
         }
         .old-price-wrapper .old-price .price-label{
-            color: #e40301;
+            color: #101010;
         }
 
         .old-price-wrapper .old-price .price {
             text-decoration: line-through;
         }
+    }
+
+    //clint
+    .block-extendedrule.-cashback .price-container > .before-cashback {
+        display: none;
+    }
+    .block-extendedrule .price-box .price-container .after-cashback .price {
+        float :right; /*clint changes*/
     }
 
     .product-add-form {

@@ -20,7 +20,7 @@ define([
     $('.secure-pay-container').insertAfter($('.braintree-paypal-logo'));
     $('.widget-product').insertAfter($('.product-add-form'));
 
-    $('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
+    //$('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     if($('#leftmenu').contents().length == 0) {
 
     }
