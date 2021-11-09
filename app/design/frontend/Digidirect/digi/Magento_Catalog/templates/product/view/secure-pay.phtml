@@ -1,6 +1,18 @@
-<?php echo $this->getLayout()
-    ->createBlock('Magento\Cms\Block\Block')
-    ->setBlockId('secure-pay')
-    ->toHtml();
+<?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+    $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+    $addToCartUrl =  $listBlock->getAddToCartUrl($product);
 ?>
 
+
+<form data-role="tocart-form" action="<?php echo $addToCartUrl; ?>" method="post">
+    <?php echo $block->getBlockHtml('formkey')?>
+       <button style="background: none !important">
+            <?php echo $this->getLayout()
+                ->createBlock('Magento\Cms\Block\Block')
+                ->setBlockId('secure-pay')
+                ->toHtml();
+            ?>
+       </button>
+ </form>
