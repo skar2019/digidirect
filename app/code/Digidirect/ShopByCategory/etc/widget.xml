@@ -6,4 +6,9 @@
         <label translate="true">Shop By Category</label>
         <description translate="true">Shop By Category</description>
     </widget>
+    <widget id="Digidirect_shop_by_category_mobile"
+            class="Digidirect\ShopByCategory\Block\Widget\ShopByCategoryMobile" ttl="86400">
+        <label translate="true">Shop By Category Mobile</label>
+        <description translate="true">Shop By Category Mobile</description>
+    </widget>
 </widgets>
