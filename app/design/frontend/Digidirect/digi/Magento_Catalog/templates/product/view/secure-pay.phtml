@@ -8,7 +8,7 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
 
 <form data-role="tocart-form" action="<?php echo $addToCartUrl; ?>" method="post">
     <?php echo $block->getBlockHtml('formkey')?>
-    <button style="background: none !important; border: none !important; border-style: outset; curser: pointer; padding: 0;">
+    <button style="background: none !important; border: none !important; border-style: outset; curser: pointer; padding: 0; width: 100% !important;">
         <?php echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('secure-pay')
