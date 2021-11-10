@@ -29,6 +29,7 @@ define([
             margin: 10,
             autoHeight: true,
             nav: true,
+            center: true,
             autoplay: true,
             autoplayTimeout: 4000,
             autoplayHoverPause: true,
