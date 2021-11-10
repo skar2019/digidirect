@@ -28,7 +28,7 @@ define([
             loop: true,
             margin: 10,
             autoHeight: true,
-            //autoWidth: true,
+            nav: true,
             autoplay: true,
             autoplayTimeout: 4000,
             autoplayHoverPause: true,
