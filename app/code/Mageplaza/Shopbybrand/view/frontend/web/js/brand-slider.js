@@ -28,7 +28,7 @@ define([
             loop: true,
             margin: 10,
             autoHeight: true,
-            autoWidth: true,
+            //autoWidth: true,
             autoplay: true,
             autoplayTimeout: 4000,
             autoplayHoverPause: true,
@@ -40,7 +40,7 @@ define([
                 0: {items: 1},
                 360: {items: 2},
                 540: {items: 3},
-                720: {items: 4},
+                720: {items: 6},
                 900: {items: 6}
             }
         });
