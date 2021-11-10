@@ -11,7 +11,7 @@ var config = {
             'truncateCollection' : 'js/dist/widgets/truncate-collection',
             'productTile' : 'js/dist/widgets/product-tile',
             'secondaryNavigation': 'js/widgets/secondary-navigation',
-            'Magento_Search/form-mini': 'Magento_Search/js/form-mini', //Hack for js error in vendor/klevu/module-productsearch/view/frontend/web/js/disableautosuggest.js
+            //'Magento_Search/form-mini': 'Magento_Search/js/form-mini', //Hack for js error in vendor/klevu/module-productsearch/view/frontend/web/js/disableautosuggest.js
             'eventTransporter' : 'js/dist/widgets/event-transporter'
         }
     }
