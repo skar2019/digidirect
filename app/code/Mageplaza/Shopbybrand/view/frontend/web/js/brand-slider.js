@@ -40,7 +40,7 @@ define([
                 360: {items: 2},
                 540: {items: 3},
                 720: {items: 4},
-                900: {items: 5}
+                900: {items: 6}
             }
         });
     };
