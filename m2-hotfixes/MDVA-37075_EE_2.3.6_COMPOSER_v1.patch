@@ -1,0 +1,63 @@
+diff --git a/vendor/magento/module-google-tag-manager/view/frontend/web/js/google-analytics-universal.js b/vendor/magento/module-google-tag-manager/view/frontend/web/js/google-analytics-universal.js
+index 02e01975c4b..a8931c954b2 100644
+--- a/vendor/magento/module-google-tag-manager/view/frontend/web/js/google-analytics-universal.js
++++ b/vendor/magento/module-google-tag-manager/view/frontend/web/js/google-analytics-universal.js
+@@ -5,8 +5,7 @@
+ 
+ define([
+     'jquery',
+-    'underscore',
+-    'prototype'
++    'underscore'
+ ], function ($, _) {
+     'use strict';
+ 
+@@ -173,8 +172,7 @@ define([
+          */
+         bindImpressionClick: function (id, type, name, category, list, position, blockType, listPosition) {
+             var productLink = [],
+-                eventBlock,
+-                self = this;
++                eventBlock;
+ 
+             switch (blockType)  {
+                 case 'catalog.product.related':
+@@ -196,30 +194,30 @@ define([
+ 
+             }
+ 
+-            productLink = $$(eventBlock + ' .item:nth(' + listPosition + ') a');
++            productLink = $(eventBlock + ' .item:nth(' + listPosition + ') a');
+ 
+             if (type === 'configurable' || type === 'bundle' || type === 'grouped') {
+-                productLink = $$(
+-                    eventBlock + ' .item:nth(' + listPosition + ') .tocart',
++                productLink = $(
++                    eventBlock + ' .item:nth(' + listPosition + ') .tocart,' +
+                     eventBlock + ' .item:nth(' + listPosition + ') a'
+                 );
+             }
+ 
+-            productLink.each(function (element) {
+-                element.observe('click', function () {
++            productLink.each(function (index, element) {
++                $(element).on('click', function () {
+                     // Product category cannot be detected properly if customer is not on category page
+                     if (blockType !== 'category.products.list') {
+                         category = '';
+                     }
+ 
+-                    self.activeOnProducts(
++                    this.activeOnProducts(
+                         id,
+                         name,
+                         list,
+                         position,
+                         category);
+-                });
+-            });
++                }.bind(this));
++            }.bind(this));
+         },
+ 
+         /**
