@@ -1,3 +1,5 @@
+
+Product Category Page (Layered Nav More Filter By 5s)
 <?php
 /**
  * Category layered navigation
@@ -56,7 +58,7 @@
             <?php $isTabActive = ($i == 0 || $i == 1 || $activeCount) ? true : false; ?>
                 <?php if (!$wrapOptions): ?>
                     <div class="filter-options" data-role="content" id="narrow-by-list">
-                <?php $wrapOptions = true; ?>
+                    <?php $wrapOptions = true; ?>
                 <?php endif; ?>
                 <?php if ($filter->getItemsCount()): ?>
                     <div data-role="collapsible" data-mage-init='{"collapsible":{"openedState": "active",
@@ -85,6 +87,85 @@
             <?php if ($wrapOptions): ?>
                 </div>
             <?php endif; ?>
+            <div id="show-more-less" class="show-more-less" 
+                 style="text-align: 
+                 center;cursor: 
+                 pointer;margin-top: 20px;
+                 font-size: 16px;
+                 font-weight: 500;"><span class="show-option">More</span> Filter</div>
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+    
+    require(['jquery', 'jquery/ui'], function($){ 
+        
+        function sortUsingNestedText(parent, childSelector, keySelector) {
+            
+            var items = parent.children(childSelector).sort(function(a, b) {
+                var vA = $(keySelector, a).text();
+                var vB = $(keySelector, b).text();
+                return (vB > vA) ? -1 : (vB < vA) ? 1 : 0;
+            });
+            parent.append(items);
+        }
+    
+        sortUsingNestedText($('#narrow-by-list'), ".filter-options-item", ".filter-options-title");
+        
+        function prependPriorityAttributes(attribute) {
+            $('#narrow-by-list > .filter-options-item').each(function () {
+                console.log($.trim($(this).children('.filter-options-title').text()));
+                var attributeCode = $.trim($(this).children('.filter-options-title').text());
+                if (attributeCode == attribute) {
+                    var parent = $('#narrow-by-list');
+                    parent.prepend($(this));
+                } else {
+                    //$(this).hide();
+                }
+            });
+        }
+        
+        var priorityAttributes = ["Price", "Color", "Brand", "Category"];
+        
+        $.each(priorityAttributes , function(index, val) { 
+          console.log(index, val);
+          prependPriorityAttributes(val);
+        });
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            var attributeCode = $.trim($(this).children('.filter-options-title').text());
+            
+            if (priorityAttributes.includes(attributeCode)) {
+                console.log(attributeCode);
+            }else {
+                $(this).hide();
+            }
+            
+        });
+        
+        $(".load-area:hidden:first");
+        var limit = 5;
+        var ctr = 0;
+        $("#show-more-less").click(function() {
+            $('#narrow-by-list > .filter-options-item:hidden').each(function () {
+                $(this).show();
+                ctr++
+                if (ctr == limit){
+                    ctr = 0;
+                    return false;
+                }
+
+            });
+        });
+    
+    });
+    
+</script>
+
+<style type="text/css">
+    .show-more-less:hover {
+        color: #ff3c00;
+        font-size: 18px;
+    }
+</style>
