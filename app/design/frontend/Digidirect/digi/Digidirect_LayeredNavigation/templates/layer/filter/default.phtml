@@ -107,7 +107,7 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
             parent.append(items);
         }
     
-        sortUsingNestedText($('ol.items'), "li.item", ".filter-link > .label > .count");
+        sortUsingNestedText($('.filter-options-content > ol.items'), "li.item", ".filter-link > .label > .count");
     
     });
     
