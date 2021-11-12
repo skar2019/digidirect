@@ -108,6 +108,7 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
             var items = parent.children(childSelector).sort(function(a, b) {
                 var vA = parseInt($(keySelector, a).text());
                 var vB = parseInt($(keySelector, b).text());
+                console.log(vA + ", " + vB);
                 return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
             });
             parent.append(items);
