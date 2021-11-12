@@ -28,7 +28,6 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
         <?php endif; ?>
     <?php endif; ?>
 <?php $counter++; endforeach; ?>
-<div id="filter-list-wrapper">
     <ol id="layered-nav-id" class="items">
         <?php $_i = 0; foreach ($filterItems as $filterItem): ?>
             <?php
@@ -83,7 +82,6 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
             </li>
         <?php $_i++; endforeach ?>
     </ol>
-</div>
 <?php if ($_i == $_filterItemsCount && $_filterItemsCount > $_filterItemsDivider): ?>
 <div class="more-wrapper">
     <span class="more-less alink <?php if ($checkedWithinLessMore): ?>-active<?php endif; ?>" title="<?php echo $this->escapeHtml(__('Show All'));?>" data-text-more="+ <?php echo $this->escapeHtml(__('Show All')); ?>" data-text-less="- <?php echo
