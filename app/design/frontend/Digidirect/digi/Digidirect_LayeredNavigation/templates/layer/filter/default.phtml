@@ -99,11 +99,8 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
 
 <script>
     
-    //console.log(<?php echo json_encode($filterItems); ?>);
-    
     require(['jquery', 'jquery/ui'], function($){ 
-        
-        
+               
         function sortUsingNestedText(parent, childSelector, keySelector) {
             var items = parent.children(childSelector).sort(function(a, b) {
                 var vA = parseInt($(keySelector, a).text());
@@ -114,7 +111,9 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
             parent.append(items);
         }
     
-        sortUsingNestedText($('#filter-list-wrapper'), "ol.items > li.item", ".filter-link > .label > .count");
+        sortUsingNestedText($('#filter-list-wrapper'), "ol > li", "a > label > span");
+        
+        //sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span");
     
     });
     
