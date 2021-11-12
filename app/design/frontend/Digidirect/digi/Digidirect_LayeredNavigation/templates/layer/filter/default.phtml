@@ -101,7 +101,7 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
             var items = parent.children(childSelector).sort(function(a, b) {
                 var vA = $(keySelector, a).text();
                 var vB = $(keySelector, b).text();
-                //console.log(vA + ", " + vB);
+                console.log(vA + ", " + vB);
                 return (vB < vA) ? -1 : (vB > vA) ? 1 : 0;
             });
             parent.append(items);
