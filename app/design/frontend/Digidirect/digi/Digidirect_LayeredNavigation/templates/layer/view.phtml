@@ -7,11 +7,11 @@
  */
 ?>
 <?php
-    $isShowState = false; // Show/Hide filters state
-    $isShowTitleCount = false; // Show/Hide Title Count
-    $brandLabels = false;
-    $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
-    $filterExclusions = ['cat'];
+$isShowState = false; // Show/Hide filters state
+$isShowTitleCount = false; // Show/Hide Title Count
+$brandLabels = false;
+$faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
+$filterExclusions = ['cat'];
 ?>
 <?php if ($block->canShowBlock()): ?>
     <div class="block filter">
@@ -19,7 +19,7 @@
             <strong class="title _hide-for-mobile-tablet-l">
                 <?php echo /* @noEscape */ __('Refine By'); ?>
             </strong>
-            
+
             <?php echo $block->getChildHtml('catalog.leftnav.clear'); ?>
             <?php echo $block->getChildHtml('digidirect.layerednavigation.apply'); ?>
         </div>
@@ -52,10 +52,10 @@
             ?>
             <?php $wrapOptions = false; ?>
             <?php $i = 0; foreach ($filterWithCodeName as $filter): ?>
-            <?php $activeCount = (int)$block->getChildBlock('renderer')->getActiveCount($filter); ?>
-            <?php $isTabActive = ($i == 0 || $i == 1 || $activeCount) ? true : false; ?>
-                <?php if (!$wrapOptions): ?>
-                    <div class="filter-options" data-role="content" id="narrow-by-list">
+        <?php $activeCount = (int)$block->getChildBlock('renderer')->getActiveCount($filter); ?>
+        <?php $isTabActive = ($i == 0 || $i == 1 || $activeCount) ? true : false; ?>
+        <?php if (!$wrapOptions): ?>
+            <div class="filter-options" data-role="content" id="narrow-by-list">
                 <?php $wrapOptions = true; ?>
                 <?php endif; ?>
                 <?php if ($filter->getItemsCount()): ?>
@@ -64,7 +64,7 @@
                          class="filter-options-item
                     collapsible-section">
                         <strong role="heading" aria-level="3" data-role="title" class="filter-options-title title"
-                           data-testid="sln-filter-title">
+                                data-testid="sln-filter-title">
                             <?php echo $block->escapeHtml(__($filter->getName())) ?>
                             <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
 
@@ -81,10 +81,97 @@
                     </div>
                     <?php $i++; ?>
                 <?php endif; ?>
-            <?php endforeach; ?>
-            <?php if ($wrapOptions): ?>
-                </div>
-            <?php endif; ?>
+                <?php endforeach; ?>
+                <?php if ($wrapOptions): ?>
+            </div>
+        <?php endif; ?>
+            <div id="show-more-less" class="show-more-less"
+                 style="text-align:
+                 center;cursor:
+                 pointer;margin-top: 20px;
+                 font-size: 16px;
+                 font-weight: 500;"><span class="show-option">More</span> Filter</div>
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+
+    require(['jquery', 'jquery/ui'], function($){
+
+        function sortUsingNestedText(parent, childSelector, keySelector) {
+
+            var items = parent.children(childSelector).sort(function(a, b) {
+                var vA = $(keySelector, a).text();
+                var vB = $(keySelector, b).text();
+                return (vB > vA) ? -1 : (vB < vA) ? 1 : 0;
+            });
+            parent.append(items);
+        }
+
+        sortUsingNestedText($('#narrow-by-list'), ".filter-options-item", ".filter-options-title");
+
+        function prependPriorityAttributes(attribute) {
+            $('#narrow-by-list > .filter-options-item').each(function () {
+                console.log($.trim($(this).children('.filter-options-title').text()));
+                var attributeCode = $.trim($(this).children('.filter-options-title').text());
+                if (attributeCode == attribute) {
+                    var parent = $('#narrow-by-list');
+                    parent.prepend($(this));
+                } else {
+                    //$(this).hide();
+                }
+            });
+        }
+
+        var priorityAttributes = ["Price", "Color", "Brand", "Category"];
+
+        $.each(priorityAttributes , function(index, val) {
+            console.log(index, val);
+            prependPriorityAttributes(val);
+        });
+
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            var attributeCode = $.trim($(this).children('.filter-options-title').text());
+
+            if (priorityAttributes.includes(attributeCode)) {
+                console.log(attributeCode);
+            }else {
+                $(this).hide();
+            }
+
+        });
+
+        $(".load-area:hidden:first");
+        var limit = 5;
+        var ctr = 0;
+        $("#show-more-less").click(function() {
+            $('#narrow-by-list > .filter-options-item:hidden').each(function () {
+                $(this).show();
+                ctr++;
+                if (ctr == limit){
+                    ctr = 0;
+                    return false;
+                }
+
+            });
+        });
+
+    });
+
+</script>
+
+<style type="text/css">
+    .show-more-less:hover {
+        color: #ff3c00;
+        font-size: 18px;
+    }
+
+    strong.filter-options-title.title {
+        padding-right: 20px !important;
+    }
+
+    .block-content.filter-content {
+        width: 90%;
+    }
+</style>
