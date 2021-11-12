@@ -28,59 +28,62 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
         <?php endif; ?>
     <?php endif; ?>
 <?php $counter++; endforeach; ?>
+<div id="filter-list-wrapper">
+    <ol id="layered-nav-id" class="items">
+        <?php $_i = 0; foreach ($filterItems as $filterItem): ?>
+            <?php
+            $seoPart = null;
+            $isAttribute = $filterItem->getFilter()->getData('attribute_model');
+            $value = $isAttribute ? $filterItem->getValueString() : $filterItem->getValue();
+            $keyValue = str_replace([','], '_', $value);
+            ?>
+            <?php $attributeCode = $isAttribute ? $filterItem->getFilter()->getAttributeModel()->getAttributeCode() : $filterItem->getFilter()->getRequestVar();
+            if (isset($optionsData[$filterItem->getValue()]) && $attributeCode !== \Digidirect\LayeredNavigation\Helper\Data::CATEGORY_REQUEST_VAR) {
+                $seoPart = $optionsData[$filterItem->getValue()]['alias'];
+            }
+            ?>
+            <?php if ($_i == $_filterItemsDivider && $_filterItemsCount > $_filterItemsDivider): ?>
+    </ol>
 
-<ol id="layered-nav-id" class="items">
-    <?php $_i = 0; foreach ($filterItems as $filterItem): ?>
-        <?php
-        $seoPart = null;
-        $isAttribute = $filterItem->getFilter()->getData('attribute_model');
-        $value = $isAttribute ? $filterItem->getValueString() : $filterItem->getValue();
-        $keyValue = str_replace([','], '_', $value);
-        ?>
-        <?php $attributeCode = $isAttribute ? $filterItem->getFilter()->getAttributeModel()->getAttributeCode() : $filterItem->getFilter()->getRequestVar();
-        if (isset($optionsData[$filterItem->getValue()]) && $attributeCode !== \Digidirect\LayeredNavigation\Helper\Data::CATEGORY_REQUEST_VAR) {
-            $seoPart = $optionsData[$filterItem->getValue()]['alias'];
-        }
-        ?>
-        <?php if ($_i == $_filterItemsDivider && $_filterItemsCount > $_filterItemsDivider): ?>
-            </ol><ol class="items<?php if (!$checkedWithinLessMore): ?> -hide<?php endif; ?>"
-                     data-role="more-less-block">
-        <?php endif; ?>
-        <li class="item">
-                <?php $checked = $this->checkedFilter($filterItem) ? ' checked' : ''; ?>
-                <a data-seo="<?php echo $this->escapeHtml($seoPart); ?>"
-                   data-testid="sln-filter-option"
-                   data-multiselect="<?php echo (int)$filterSetting->isMultiselect() ?>"
-                   data-code="<?php echo $this->escapeHtml($attributeCode); ?>"
-                   data-value="<?php echo $this->escapeHtml($value); ?>"
-                   href="<?php echo $block->escapeUrl($filterItem->getUrl()) ?>"
-                   <?php echo $rel ?>
-                   class="filter-link digidirect_layerednavigation_filter_item_<?php echo $this->escapeHtml($keyValue);
-                   ?><?php if ($checked): ?> selected<?php endif; ?>">
-                    <input type="checkbox"
-                           class="checkbox digidirect_layerednavigation_checkbox_<?php echo $this->escapeHtml($keyValue); ?>"<?php echo $this->escapeHtml($checked); ?> />
-                    <label class="label"
-                           for="digidirect_layerednavigation_checkbox_<?php echo $this->escapeHtml($keyValue); ?>">
-                        <?php echo $this->escapeHtml($block->stripTags($filterItem->getLabel())); ?>
-                        <?php if ($this->helper('Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer() && !$helper->isApplyButtonEnabled()): ?>
-                            <span class="count"><?php echo (int)$filterItem->getCount() ?></span>
-                        <?php endif; ?>
-                    </label>
-                </a>
-            <script type="text/x-magento-init">
-            {
-                ".digidirect_layerednavigation_filter_item_<?php echo $this->escapeHtml($keyValue); ?>": {
-                    "layeredNavigationFilterItemDefault": {
-                        "multipleSelect": "<?php echo (int)$filterSetting->isMultiselect(); ?>",
-                        "attribute": "<?php echo $this->escapeHtml($attributeCode); ?>",
-                        "value": "<?php echo $this->escapeHtml($filterItem->getValue()); ?>"
+    <ol class="items<?php if (!$checkedWithinLessMore): ?> -hide<?php endif; ?>"
+                         data-role="more-less-block">
+            <?php endif; ?>
+            <li class="item">
+                    <?php $checked = $this->checkedFilter($filterItem) ? ' checked' : ''; ?>
+                    <a data-seo="<?php echo $this->escapeHtml($seoPart); ?>"
+                       data-testid="sln-filter-option"
+                       data-multiselect="<?php echo (int)$filterSetting->isMultiselect() ?>"
+                       data-code="<?php echo $this->escapeHtml($attributeCode); ?>"
+                       data-value="<?php echo $this->escapeHtml($value); ?>"
+                       href="<?php echo $block->escapeUrl($filterItem->getUrl()) ?>"
+                       <?php echo $rel ?>
+                       class="filter-link digidirect_layerednavigation_filter_item_<?php echo $this->escapeHtml($keyValue);
+                       ?><?php if ($checked): ?> selected<?php endif; ?>">
+                        <input type="checkbox"
+                               class="checkbox digidirect_layerednavigation_checkbox_<?php echo $this->escapeHtml($keyValue); ?>"<?php echo $this->escapeHtml($checked); ?> />
+                        <label class="label"
+                               for="digidirect_layerednavigation_checkbox_<?php echo $this->escapeHtml($keyValue); ?>">
+                            <?php echo $this->escapeHtml($block->stripTags($filterItem->getLabel())); ?>
+                            <?php if ($this->helper('Magento\Catalog\Helper\Data')->shouldDisplayProductCountOnLayer() && !$helper->isApplyButtonEnabled()): ?>
+                                <span class="count"><?php echo (int)$filterItem->getCount() ?></span>
+                            <?php endif; ?>
+                        </label>
+                    </a>
+                <script type="text/x-magento-init">
+                {
+                    ".digidirect_layerednavigation_filter_item_<?php echo $this->escapeHtml($keyValue); ?>": {
+                        "layeredNavigationFilterItemDefault": {
+                            "multipleSelect": "<?php echo (int)$filterSetting->isMultiselect(); ?>",
+                            "attribute": "<?php echo $this->escapeHtml($attributeCode); ?>",
+                            "value": "<?php echo $this->escapeHtml($filterItem->getValue()); ?>"
+                        }
                     }
                 }
-            }
-            </script>
-        </li>
-    <?php $_i++; endforeach ?>
-</ol>
+                </script>
+            </li>
+        <?php $_i++; endforeach ?>
+    </ol>
+</div>
 <?php if ($_i == $_filterItemsCount && $_filterItemsCount > $_filterItemsDivider): ?>
 <div class="more-wrapper">
     <span class="more-less alink <?php if ($checkedWithinLessMore): ?>-active<?php endif; ?>" title="<?php echo $this->escapeHtml(__('Show All'));?>" data-text-more="+ <?php echo $this->escapeHtml(__('Show All')); ?>" data-text-less="- <?php echo
@@ -96,18 +99,21 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
 
 <script>
     
+    console.log(<?php echo json_encode($filterItems); ?>);
+    
     require(['jquery', 'jquery/ui'], function($){ 
+        
+        
         function sortUsingNestedText(parent, childSelector, keySelector) {
             var items = parent.children(childSelector).sort(function(a, b) {
                 var vA = parseInt($(keySelector, a).text());
                 var vB = parseInt($(keySelector, b).text());
-                console.log(vA + ", " + vB);
-                return (vB < vA) ? -1 : (vB > vA) ? 1 : 0;
+                return (vA < vB) ? -1 : (vA > vB) ? 1 : 0;
             });
             parent.append(items);
         }
     
-        sortUsingNestedText($('.filter-options-content'), "ol.items > li.item", ".filter-link > .label > .count");
+        sortUsingNestedText($('#filter-list-wrapper'), "ol.items > li.item", ".filter-link > .label > .count");
     
     });
     
