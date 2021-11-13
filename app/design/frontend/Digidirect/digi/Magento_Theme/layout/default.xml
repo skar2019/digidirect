@@ -23,7 +23,7 @@
                 <block class="Magento\Framework\View\Element\Template" name="top-header" template="Magento_Theme::header/top-header.phtml"/>  
             </container> 
             
-            <container name="main-header-wrapper" htmlTag="div" htmlClass="main-header-wrapper">
+            <container name="main-header-wrapper" htmlTag="div" htmlClass="main-header-wrapper" htmlId="main-header-wrapper">
                 <block class="Magento\Framework\View\Element\Template" name="header-logo" template="Magento_Theme::header/header-content.phtml"/>   
                 
                 <container name="header.wrapper.links" htmlTag="div" htmlClass="wrap-links" after="top.search">
