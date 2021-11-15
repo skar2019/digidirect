@@ -84,18 +84,6 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
         <?php $_i++; endforeach ?>
     </ol>
 </div>
-<?php if ($_i == $_filterItemsCount && $_filterItemsCount > $_filterItemsDivider): ?>
-<div class="more-wrapper">
-    <span class="more-less alink <?php if ($checkedWithinLessMore): ?>-active<?php endif; ?>" title="<?php echo $this->escapeHtml(__('Show All'));?>" data-text-more="+ <?php echo $this->escapeHtml(__('Show All')); ?>" data-text-less="- <?php echo
-    $this->escapeHtml(__('Show less')); ?>" data-mage-init='{"layeredNavigationMoreLess": {}}'>
-        <?php if ($checkedWithinLessMore): ?>
-            + <?php echo $this->escapeHtml(__('Show less')); ?>
-        <?php else: ?>
-            + <?php echo $this->escapeHtml(__('Show All')); ?>
-        <?php endif; ?>
-    </span>
-</div>
-<?php endif; ?>
 
 <script>
     
