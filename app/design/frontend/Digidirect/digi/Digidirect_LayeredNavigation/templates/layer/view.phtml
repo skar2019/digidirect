@@ -113,7 +113,7 @@
         
         function prependPriorityAttributes(attribute) {
             $('#narrow-by-list > .filter-options-item').each(function () {
-                console.log($.trim($(this).children('.filter-options-title').text()));
+                //console.log($.trim($(this).children('.filter-options-title').text()));
                 var attributeCode = $.trim($(this).children('.filter-options-title').text());
                 if (attributeCode == attribute) {
                     var parent = $('#narrow-by-list');
@@ -127,20 +127,94 @@
         var priorityAttributes = ["Price", "Color", "Brand", "Category"];
         
         $.each(priorityAttributes , function(index, val) { 
-          console.log(index, val);
+          //console.log(index, val);
           prependPriorityAttributes(val);
         });
+        
         
         $('#narrow-by-list > .filter-options-item').each(function () {
             var attributeCode = $.trim($(this).children('.filter-options-title').text());
             
             if (priorityAttributes.includes(attributeCode)) {
-                console.log(attributeCode);
+                //console.log(attributeCode);
             }else {
                 $(this).hide();
             }
             
         });
+        
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            var ctrOption = 0;
+            var hiddenOptions = 0;
+            $(this).children('.filter-options-content')
+            .children('#filter-list-wrapper')
+            .children('#layered-nav-id')
+            .children('.item').each(function () {
+                ctrOption++;
+                if (ctrOption > 5) {
+                    $(this).hide();
+                    hiddenOptions++;
+                }
+            });
+            
+            if (hiddenOptions == 0) {
+                //console.log($.trim($(this).children('.filter-options-title').text()));
+                //console.log(hiddenOptions);
+                $(this).children('.filter-options-content').children('#filter-list-wrapper').children('#show-more-options').hide();
+            }
+        });
+        
+        
+        
+        
+        
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            
+            var optionLimit = 5;
+            var optionCtr = 0;
+            $(this).children('.filter-options-content').children('#filter-list-wrapper').children('#show-more-options').click(function() {
+                //console.log($(this).parent('#layered-nav-id').children('li').text());
+                //var wrapper = $(this).closest('#layered-nav-id');
+                //console.log(wrapper);
+
+                $(this).prev().each(function () {
+                    
+                    $(this).children('.item:hidden').each(function () {
+                        optionCtr++;
+                        $(this).show();
+                        if (optionCtr == optionLimit) {
+                            optionCtr = 0;
+                            return false;
+                        }
+                    })
+                    //console.log($(this));
+                    
+                    var hiddenOption = 0;
+                    $(this).children('.item:hidden').each(function () {
+                        hiddenOption++;
+                        //console.log($(this));
+                    })
+                    
+                    if (hiddenOption == 0) {
+                        $(this).next().hide();
+                    }
+                    
+                    //console.log($(this).children('.item'));
+                    
+                });
+            });
+            
+            
+        });
+        
+        
+        
+        
+        
+        
+        
         
         $(".load-area:hidden:first");
         var limit = 5;
@@ -155,6 +229,18 @@
                 }
 
             });
+            
+            var hiddenFilter = 0;
+            $('#narrow-by-list > .filter-options-item:hidden').each(function () {
+                hiddenFilter++;
+            });
+            console.log(hiddenFilter);
+            console.log($(this));
+            
+            if (hiddenFilter == 0) {
+                $(this).hide();
+            }
+            
         });
     
     });
