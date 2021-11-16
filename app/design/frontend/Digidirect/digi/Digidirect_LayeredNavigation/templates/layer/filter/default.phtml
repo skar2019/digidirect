@@ -83,7 +83,25 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
             </li>
         <?php $_i++; endforeach ?>
     </ol>
+    <div id="show-more-options" class="show-more-options" 
+                 style="text-align: 
+                 center;cursor: 
+                 pointer;margin-top: 20px;
+                 font-size: 14px;
+                 font-weight: 500;"><span class="show-option">+ More Options</span></div>
 </div>
+<?php if ($_i == $_filterItemsCount && $_filterItemsCount > $_filterItemsDivider): ?>
+<div class="more-wrapper">
+    <span class="more-less alink <?php if ($checkedWithinLessMore): ?>-active<?php endif; ?>" title="<?php echo $this->escapeHtml(__('Show All'));?>" data-text-more="+ <?php echo $this->escapeHtml(__('Show All')); ?>" data-text-less="- <?php echo
+    $this->escapeHtml(__('Show less')); ?>" data-mage-init='{"layeredNavigationMoreLess": {}}'>
+        <?php if ($checkedWithinLessMore): ?>
+            + <?php echo $this->escapeHtml(__('Show less')); ?>
+        <?php else: ?>
+            + <?php echo $this->escapeHtml(__('Show All')); ?>
+        <?php endif; ?>
+    </span>
+</div>
+<?php endif; ?>
 
 <script>
     
@@ -102,17 +120,6 @@ if (!empty($queryString) && (strpos($queryString, '/filters/') !== false)) {
         sortUsingNestedText($('#filter-list-wrapper'), "ol > li", "a > label > span");
         
         //sortUsingNestedText($('#layered-nav-id'), "li", "a > label > span");
-        
-        $('#narrow-by-list > .filter-options-item').each(function () {
-            var attributeCode = $.trim($(this).children('.filter-options-title').text());
-            
-            if (priorityAttributes.includes(attributeCode)) {
-                console.log(attributeCode);
-            }else {
-                $(this).hide();
-            }
-            
-        });
     
     });
     
