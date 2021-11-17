@@ -140,9 +140,6 @@
                 </container>
 
             </container>
-            <block name="pdp.short.description" template="Magento_Catalog::product/view/product-overview.phtml" class="Magento\Catalog\Block\Product\View\Description">
-            <block name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" as="block_rules" class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"/>
-
         </referenceBlock>
         <referenceContainer name="before.body.end">
 <!--            <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">-->
