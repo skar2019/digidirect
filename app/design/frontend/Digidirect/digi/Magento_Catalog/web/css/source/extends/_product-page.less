@@ -240,9 +240,12 @@
                 text-align: left;
             }
 
+            //clint changes
             .svg-icon.digidirectprice {
                 display: inline-block;
-                margin-top: 15px;
+                margin-top: 5px;
+                float: left;
+                padding-left: 105px;
             }
 
             .old-price {
@@ -255,7 +258,7 @@
 
             .price-label {
                 font-size: 12px;
-                color: #e40301;
+                color: #101010;
             }
 
         }
@@ -293,12 +296,20 @@
             text-decoration: none;
         }
         .old-price-wrapper .old-price .price-label{
-            color: #e40301;
+            color: #101010;
         }
 
         .old-price-wrapper .old-price .price {
             text-decoration: line-through;
         }
+    }
+
+    //clint
+    .block-extendedrule.-cashback .price-container > .before-cashback {
+        display: none;
+    }
+    .block-extendedrule .price-box .price-container .after-cashback .price {
+        float :right; /*clint changes*/
     }
 
     .product-add-form {
@@ -334,7 +345,7 @@
 
         .svg-icon.digidirectprice {
             display: inline-block;
-            margin-top: 15px;
+            margin-top: 5px;
             width: 100px;
             height: 20px;
         }
@@ -451,7 +462,7 @@
                 top: 0;
             }
 
-            &::hover{
+            &:hover{
                 text-decoration: none;
             }
         }
@@ -1161,13 +1172,16 @@
     .tocart-pdp-btn {
         height: 50px;
     }
-
+    //clint , pre order word appearing twice.
+    .box-tocart .addcart_plus_logo{
+        display: none;
+    }
     .secure-pay-container {
         padding-left: 60px;
         position: absolute;
-        top: 63px;
+        top: 57px;
         width: 220px;
-        left: 70px;
+        left: 80px;
     }
     .secure-pay {
         border: 1px solid #cacaca;
@@ -1243,6 +1257,8 @@
             font-weight: 700;
             color: #e40301 !important;
             display: inline-block;
+            margin-top: 5px;
+            cursor: pointer;
         }
     }
 
@@ -1277,7 +1293,7 @@
 
     .zip-container span:first-of-type:before {
         visibility: visible;
-        content: "0% Interest for 6 Months";
+        content: "0% Interest for 12 Months";
     }
 
     .zip-container:last-child:after {
@@ -1312,12 +1328,6 @@
         visibility: hidden !important;
     }
 
-    .s19-rental-details {
-        margin-left: -30px !important;
-        margin-right: 0 !important;
-        margin-top: -7px !important;
-    }
-
     .s19-header:before {
         visibility: visible;
         content: " ";
@@ -1335,14 +1345,14 @@
         color: #e40301 !important;
         display: inline-block;
         font-weight: 700;
-        font-size: 0;
-        padding: 0 !important;
+        font-size: 0px !important;
+        padding: 0px 0px !important;
         text-align: center;
         white-space: nowrap;
         text-decoration: none;
         line-height: 0.2rem !important;
-        visibility: hidden;
         margin-right: 10px;
+        text-transform: uppercase;
     }
 
     a.s19-apply-btn:after {
@@ -1350,7 +1360,8 @@
         visibility: visible;
         font-size: 11px !important;
         font-weight: 600;
-        margin-right: -208px;
+        margin-right: -130px;
+
     }
 
     .s19-actions {
@@ -1492,11 +1503,11 @@
             }
         }
     }
-    
+
     .freegift-note {
         margin-left: 120px !important;
     }
-    
+
     .freegift-note > b.label {
         color: #777777 !important;
         background: none !important;
@@ -1506,19 +1517,19 @@
         padding: 0 0 0 36px !important;
         margin-right: 0  !important;
     }
-    
+
     .freegift-note>.label:before {
         font-family: 'Font Awesome 5 Free' !important;
         content: "\f06b" !important;
         font-size: 22px !important;
         font-weight: 900 !important;
         position: absolute !important;
-        left: 0 !important !important;
-        top: 0 !important !important;
+        left: 0 !important;
+        top: 0 !important;
         background: none !important;
         color: #ff3c00 !important;
     }
-    
+
     .freegift-note>.label:after {
         content: 'FREE' !important;
         margin-left: 130px !important;
@@ -1530,6 +1541,32 @@
     /*clint changes*/
     .most-bottom-product-info {
         margin-top: 15px;
+    }
+
+    //clint
+    .product-info-main .mess-preorder {
+        display: none !important;
+    }
+
+    .product-info-price svg.svg-icon.digidirectprice {
+        display: inline-block !important;
+        float: left;
+        padding-left: 104px;
+        padding-top: 10px;
+    }
+
+    .product-info-main .old-price-wrapper {
+        float: left;
+        width: 80%;
+        margin-bottom: 0px;
+        padding-top: 5px;
+        border-top: 1px solid #cacaca;
+        margin-top: 10px;
+        margin-left: 100px;
+    }
+    .product-info-price .svg-icon.digidirectprice {
+        width: 130px !important;
+        height: 17px !important;
     }
 
 }
@@ -1835,16 +1872,17 @@
 
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
         font-size: 12px !important;
-        margin-left: -22px !important;
+        margin-left: -55px !important;
+        margin-top: 5px;
     }
 
     .zip-container span:first-of-type:before {
         visibility: visible !important;
-        content: "0% Interest for 6 Months" !important;
+        content: "0% Interest for 12 Months" !important;
         color: #000 !important;
         font-size: 12px !important;
         white-space: nowrap !important;
-        margin-left: 30px !important;
+        margin-left: 55px !important;
     }
 
     .s19-header:before {
@@ -2097,6 +2135,12 @@
         margin-left: 15px;
         margin-top: 5px;
     }
+
+    .product-info-main .studio19-wrapper .s19-rentfor{
+        width: 30px !important;
+    }
+
+
     .product-info-main-bottom {
         width: unset !important;
         padding-left: 15px !important;
@@ -2196,15 +2240,15 @@
         display: none;
     }
 
-    .s19-rental-details {
-        margin-left: -15px;
-    }
-
-    a.s19-apply-btn:after {
-        margin-left: 0 !important;
-        position: relative !important;
-        float: right !important;
-    }
+    //.s19-rental-details {
+    //    margin-left: -15px;
+    //}
+    //
+    //a.s19-apply-btn:after {
+    //    margin-left: 0 !important;
+    //    position: relative !important;
+    //    float: right !important;
+    //}
 
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container:last-child:after {
         margin-left: 0 !important;
@@ -2249,7 +2293,33 @@
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
         font-size: 0 !important;
     }
-}
+
+    //clint
+    .s19-rental-details {
+        margin-left: -34px !important;
+        margin-right: 0 !important;
+        margin-top: -7px !important;
+    }
+
+    a.s19-apply-btn:after {
+        margin-right: -82px;
+    }
+    .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
+        margin-top: 5px;
+    }
+
+    .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span:first-of-type:before {
+        margin-right: -100px;
+    }
+
+    .zip-container:last-child:before {
+        width: 100px !important;
+    }
+
+    .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
+        font-size: 5px !important;
+    }
+
 
     .product-info-main .product-addto-links {
         border: 1px solid #e40301;
@@ -2262,14 +2332,14 @@
     }
 
     .product-info-main .product-addto-links .action.towishlist {
-        line-height:0;
+        line-height: 0;
         padding: 0 0 0 0px;
-
+    }
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget {
         border: 1px solid #cacaca;
         padding: 8px;
         border-radius: 5px;
-        width: 85% !important;
+        width: 96% !important;
         margin-left: 15px;
         height: 22px !important;
         margin-top: 15px !important;
@@ -2293,6 +2363,8 @@
             font-weight: 700;
             color: #e40301 !important;
             display: inline-block;
+            margin-top: 5px;
+            cursor: pointer;
         }
     }
 
@@ -2310,7 +2382,26 @@
         margin-top: 4px;
         margin-left: 4px;
     }
-}
+
+    .product-info-price .price-box.price-final_price.cashback-active .svg-icon.digidirectprice {
+        padding-left: 5px !important;
+    }
+
+    .product-info-main .old-price-wrapper {
+        margin-left: 5px !important;
+        width: 100% !important;
+    }
+    .product-info-price .price-box .old-price span.price {
+        font-size: 15px;
+        float: right;
+        font-weight: 500;
+    }
+    .block-extendedrule.-cashback {
+        margin-bottom: 15px !important;
+        padding-left: 5px  !important;
+        padding-right: 0px  !important;
+    }
+} //end mobile
 
 //
 //  Desktop +
@@ -2368,6 +2459,12 @@
         .most-bottom-product-info {
             margin-top: 15px;
         }
+    }
+
+    .s19-rental-details {
+        margin-left: -110px !important;
+        margin-right: 0 !important;
+        margin-top: -7px !important;
     }
 }
 
