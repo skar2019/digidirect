@@ -7,11 +7,11 @@
  */
 ?>
 <?php
-$isShowState = false; // Show/Hide filters state
-$isShowTitleCount = false; // Show/Hide Title Count
-$brandLabels = false;
-$faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
-$filterExclusions = ['cat'];
+    $isShowState = false; // Show/Hide filters state
+    $isShowTitleCount = false; // Show/Hide Title Count
+    $brandLabels = false;
+    $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
+    $filterExclusions = ['cat'];
 ?>
 <?php if ($block->canShowBlock()): ?>
     <div class="block filter">
@@ -19,7 +19,7 @@ $filterExclusions = ['cat'];
             <strong class="title _hide-for-mobile-tablet-l">
                 <?php echo /* @noEscape */ __('Refine By'); ?>
             </strong>
-
+            
             <?php echo $block->getChildHtml('catalog.leftnav.clear'); ?>
             <?php echo $block->getChildHtml('digidirect.layerednavigation.apply'); ?>
         </div>
@@ -52,11 +52,11 @@ $filterExclusions = ['cat'];
             ?>
             <?php $wrapOptions = false; ?>
             <?php $i = 0; foreach ($filterWithCodeName as $filter): ?>
-        <?php $activeCount = (int)$block->getChildBlock('renderer')->getActiveCount($filter); ?>
-        <?php $isTabActive = ($i == 0 || $i == 1 || $activeCount) ? true : false; ?>
-        <?php if (!$wrapOptions): ?>
-            <div class="filter-options" data-role="content" id="narrow-by-list">
-                <?php $wrapOptions = true; ?>
+            <?php $activeCount = (int)$block->getChildBlock('renderer')->getActiveCount($filter); ?>
+            <?php $isTabActive = ($i == 0 || $i == 1 || $activeCount) ? true : false; ?>
+                <?php if (!$wrapOptions): ?>
+                    <div class="filter-options" data-role="content" id="narrow-by-list">
+                    <?php $wrapOptions = true; ?>
                 <?php endif; ?>
                 <?php if ($filter->getItemsCount()): ?>
                     <div data-role="collapsible" data-mage-init='{"collapsible":{"openedState": "active",
@@ -64,7 +64,7 @@ $filterExclusions = ['cat'];
                          class="filter-options-item
                     collapsible-section">
                         <strong role="heading" aria-level="3" data-role="title" class="filter-options-title title"
-                                data-testid="sln-filter-title">
+                           data-testid="sln-filter-title">
                             <?php echo $block->escapeHtml(__($filter->getName())) ?>
                             <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
 
@@ -81,26 +81,26 @@ $filterExclusions = ['cat'];
                     </div>
                     <?php $i++; ?>
                 <?php endif; ?>
-                <?php endforeach; ?>
-                <?php if ($wrapOptions): ?>
-            </div>
-        <?php endif; ?>
-            <div id="show-more-less" class="show-more-less"
-                 style="text-align:
-                 center;cursor:
+            <?php endforeach; ?>
+            <?php if ($wrapOptions): ?>
+                </div>
+            <?php endif; ?>
+            <div id="show-more-less" class="show-more-less" 
+                 style="text-align: 
+                 center;cursor: 
                  pointer;margin-top: 20px;
                  font-size: 16px;
-                 font-weight: 500;"><span class="show-option">More</span> Filter</div>
+                 font-weight: 500;"><span class="show-option">+ More</span></div>
         </div>
     </div>
 <?php endif; ?>
 
 <script>
-
-    require(['jquery', 'jquery/ui'], function($){
-
+    
+    require(['jquery', 'jquery/ui'], function($){ 
+        
         function sortUsingNestedText(parent, childSelector, keySelector) {
-
+            
             var items = parent.children(childSelector).sort(function(a, b) {
                 var vA = $(keySelector, a).text();
                 var vB = $(keySelector, b).text();
@@ -108,12 +108,12 @@ $filterExclusions = ['cat'];
             });
             parent.append(items);
         }
-
+    
         sortUsingNestedText($('#narrow-by-list'), ".filter-options-item", ".filter-options-title");
-
+        
         function prependPriorityAttributes(attribute) {
             $('#narrow-by-list > .filter-options-item').each(function () {
-                console.log($.trim($(this).children('.filter-options-title').text()));
+                //console.log($.trim($(this).children('.filter-options-title').text()));
                 var attributeCode = $.trim($(this).children('.filter-options-title').text());
                 if (attributeCode == attribute) {
                     var parent = $('#narrow-by-list');
@@ -123,25 +123,99 @@ $filterExclusions = ['cat'];
                 }
             });
         }
-
+        
         var priorityAttributes = ["Price", "Color", "Brand", "Category"];
-
-        $.each(priorityAttributes , function(index, val) {
-            console.log(index, val);
-            prependPriorityAttributes(val);
+        
+        $.each(priorityAttributes , function(index, val) { 
+          //console.log(index, val);
+          prependPriorityAttributes(val);
         });
-
+        
+        
         $('#narrow-by-list > .filter-options-item').each(function () {
             var attributeCode = $.trim($(this).children('.filter-options-title').text());
-
+            
             if (priorityAttributes.includes(attributeCode)) {
-                console.log(attributeCode);
+                //console.log(attributeCode);
             }else {
                 $(this).hide();
             }
-
+            
         });
+        
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            var ctrOption = 0;
+            var hiddenOptions = 0;
+            $(this).children('.filter-options-content')
+            .children('#filter-list-wrapper')
+            .children('#layered-nav-id')
+            .children('.item').each(function () {
+                ctrOption++;
+                if (ctrOption > 5) {
+                    $(this).hide();
+                    hiddenOptions++;
+                }
+            });
+            
+            if (hiddenOptions == 0) {
+                //console.log($.trim($(this).children('.filter-options-title').text()));
+                //console.log(hiddenOptions);
+                $(this).children('.filter-options-content').children('#filter-list-wrapper').children('#show-more-options').hide();
+            }
+        });
+        
+        
+        
+        
+        
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            
+            var optionLimit = 5;
+            var optionCtr = 0;
+            $(this).children('.filter-options-content').children('#filter-list-wrapper').children('#show-more-options').click(function() {
+                //console.log($(this).parent('#layered-nav-id').children('li').text());
+                //var wrapper = $(this).closest('#layered-nav-id');
+                //console.log(wrapper);
 
+                $(this).prev().each(function () {
+                    
+                    $(this).children('.item:hidden').each(function () {
+                        optionCtr++;
+                        $(this).show();
+                        if (optionCtr == optionLimit) {
+                            optionCtr = 0;
+                            return false;
+                        }
+                    })
+                    //console.log($(this));
+                    
+                    var hiddenOption = 0;
+                    $(this).children('.item:hidden').each(function () {
+                        hiddenOption++;
+                        //console.log($(this));
+                    })
+                    
+                    if (hiddenOption == 0) {
+                        $(this).next().hide();
+                    }
+                    
+                    //console.log($(this).children('.item'));
+                    
+                });
+            });
+            
+            
+        });
+        
+        
+        
+        
+        
+        
+        
+        
         $(".load-area:hidden:first");
         var limit = 5;
         var ctr = 0;
@@ -155,10 +229,22 @@ $filterExclusions = ['cat'];
                 }
 
             });
+            
+            var hiddenFilter = 0;
+            $('#narrow-by-list > .filter-options-item:hidden').each(function () {
+                hiddenFilter++;
+            });
+            console.log(hiddenFilter);
+            console.log($(this));
+            
+            if (hiddenFilter == 0) {
+                $(this).hide();
+            }
+            
         });
-
+    
     });
-
+    
 </script>
 
 <style type="text/css">
@@ -166,12 +252,37 @@ $filterExclusions = ['cat'];
         color: #ff3c00;
         font-size: 18px;
     }
-
+    
     strong.filter-options-title.title {
         padding-right: 20px !important;
     }
-
+    
     .block-content.filter-content {
         width: 90%;
     }
+    
+    #layered-nav-id .label:before {
+        border-radius: 50% !important;
+        border: 1px solid;
+        height: 18px !important;
+        width: 18px !important;
+    }
+    
+    #layered-nav-id input[type=checkbox]:checked + label:before {
+        background: none !important;
+    }
+    
+    
+    #layered-nav-id input[type=checkbox]:checked + label:after {
+        top: 14px !important;
+        left: 4px;
+        width: 9px;
+        height: 6px;
+        border-left: 3px solid #000 !important;
+        border-bottom: 3px solid #000 !important;
+        transform: rotate(-45deg);
+    }
+
+    
+    
 </style>
