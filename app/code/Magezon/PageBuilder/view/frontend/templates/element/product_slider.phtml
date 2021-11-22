@@ -114,7 +114,7 @@ $classes              = $this->getOwlCarouselClasses();
 															<button type="submit"
 															title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
 															class="action tocart primary">
-															<span><?= __('Add to Cart') ?><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span></span>
+															<span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
 														</button>
 													</form>
 												<?php } else { ?>
