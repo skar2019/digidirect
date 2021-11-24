@@ -103,6 +103,7 @@ $brands = $block->getBrands();
             //alert(jQuery('#brands-dropdown [value="' + value + '"]').data('value'));
             var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/viewmobile' ?>";
             var brand = jQuery('#brands-dropdown [value="' + value + '"]').data('value');
+            console.log(value + ", " + brand);
             //alert(url + ", " + brand);
             jQuery.ajax({
                 url: url,
