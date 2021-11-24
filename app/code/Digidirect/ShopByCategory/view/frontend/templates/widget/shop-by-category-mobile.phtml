@@ -108,6 +108,8 @@ $brands = $block->getBrands();
                 data: {brand:brand},
                 showLoader: true,
                 cache: false,
+                crossDomain: true,
+                dataType: 'jsonp',
                 success: function(response){
                     console.log(response.output);
                     //jQuery("#cameras-count").text('Test Success!');
