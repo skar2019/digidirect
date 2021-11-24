@@ -12,111 +12,125 @@ $brands = $block->getBrands();
 
 <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('css/owl.carousel.min.css')?>">
 
+
 <div class="shop-by-category-dropdown">
     <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
-    <select name="brands-dropdown" id="brands-dropdown" style="width: 20%">
-        <option value="all-brands">All Brands</option>
+    <input name="brands-text" id="brands-text" type="text" list="brands-dropdown" style="width: 45%"/>
+    <datalist name="brands-dropdown" id="brands-dropdown" style="width: 45%">
+        <option data-value="all-brands">All Brands</option>
         <?php foreach($brands as $brand) : ?>
             <?php if ($brand) :?>
                 <?php $brandName = $brand->getLabel();?>
-                <option value="<?php echo $brand->getValue();?>"><?php echo $brandName; ?></option>
+                <option data-value="<?php echo $brand->getValue();?>" value="<?php echo $brandName; ?>"></option>
             <?php endif; ?>
         <?php endforeach ?>
-    </select>
+    </datalist>
 </div>
 
-<div id="shop-by-category-container" class="shop-by-category-container"> 
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("cameras")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
-            <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("lenses")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-lens.jpg"/>
-            <div class="product-count"  id="lenses-count">Lenses(<?php echo $block->getProductCollectionCount(18); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("drones")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-drones.jpg"/>
-            <div class="product-count"  id="drones-count">Drones(<?php echo $block->getProductCollectionCount(21); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("lighting-and-studio")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-lights-and-studio.jpg"/>
-            <div class="product-count"  id="lighting-and-studio-count">Lighting & Studio(<?php echo $block->getProductCollectionCount(19); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("photo-accessories")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-photomemories.jpg"/>
-            <div class="product-count"  id="photo-accessories-count">Photo Accessories(<?php echo $block->getProductCollectionCount(71); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("optics")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-optics.jpg"/>
-            <div class="product-count"  id="optics-count">Optics(<?php echo $block->getProductCollectionCount(22); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("audio-and-visual")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-audio-and-visual.jpg"/>
-            <div class="product-count"  id="audio-and-visual-count">Audio & Visual(<?php echo $block->getProductCollectionCount(73); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("pro-video")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-provideo.jpg"/>
-            <div class="product-count"  id="pro-video-count">Pro Video(<?php echo $block->getProductCollectionCount(77); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("home/smart-home")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-smarthome.jpg"/>
-            <div class="product-count"  id="smart-home-count">Smart Home(<?php echo $block->getProductCollectionCount(704); ?>)</div>
-        </a>
-    </div>
-    <div class="shop-by-category-category">
-        <a href="<?php echo $block->getUrl("computers-mobile")?>">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-pcandlaptop.jpg"/>
-            <div class="product-count"  id="computers-mobile-count">Computers & Mobile(<?php echo $block->getProductCollectionCount(662); ?>)</div>
-        </a>
+<div id="shop-by-category-mobile-main">
+    <div id="shop-by-category-container" class="shop-by-category-container"> 
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("cameras")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg"/>
+                <div class="product-count" id="cameras-count">Cameras(<?php echo $block->getProductCollectionCount(17); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("lenses")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-lens.jpg"/>
+                <div class="product-count"  id="lenses-count">Lenses(<?php echo $block->getProductCollectionCount(18); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("drones")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-drones.jpg"/>
+                <div class="product-count"  id="drones-count">Drones(<?php echo $block->getProductCollectionCount(21); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("lighting-and-studio")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-lights-and-studio.jpg"/>
+                <div class="product-count"  id="lighting-and-studio-count">Lighting & Studio(<?php echo $block->getProductCollectionCount(19); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("photo-accessories")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-photomemories.jpg"/>
+                <div class="product-count"  id="photo-accessories-count">Photo Accessories(<?php echo $block->getProductCollectionCount(71); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("optics")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-optics.jpg"/>
+                <div class="product-count"  id="optics-count">Optics(<?php echo $block->getProductCollectionCount(22); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("audio-and-visual")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-audio-and-visual.jpg"/>
+                <div class="product-count"  id="audio-and-visual-count">Audio & Visual(<?php echo $block->getProductCollectionCount(73); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("pro-video")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-provideo.jpg"/>
+                <div class="product-count"  id="pro-video-count">Pro Video(<?php echo $block->getProductCollectionCount(77); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("home/smart-home")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-smarthome.jpg"/>
+                <div class="product-count"  id="smart-home-count">Smart Home(<?php echo $block->getProductCollectionCount(704); ?>)</div>
+            </a>
+        </div>
+        <div class="shop-by-category-category">
+            <a href="<?php echo $block->getUrl("computers-mobile")?>">
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-pcandlaptop.jpg"/>
+                <div class="product-count"  id="computers-mobile-count">Computers & Mobile(<?php echo $block->getProductCollectionCount(662); ?>)</div>
+            </a>
+        </div>
     </div>
 </div>
 
+
+<?php header('Access-Control-Allow-Origin:*'); ?>
 
 <script>
     require(['jquery'],function(){
+        
+        jQuery(document).on('change','#brands-text',function(){
+            var value = jQuery('#brands-text').val();
+            //alert(jQuery('#brands-dropdown [value="' + value + '"]').data('value'));
+            var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
+            var brand = jQuery('#brands-dropdown [value="' + value + '"]').data('value');
+            //alert(url + ", " + brand);
+            jQuery.ajax({
+                url: url,
+                type: "POST",
+                data: {brand:brand},
+                showLoader: true,
+                cache: false,
+                success: function(response){
+                    console.log(response.output);
+                    //jQuery("#cameras-count").text('Test Success!');
+                    jQuery('#shop-by-category-mobile-main').html(response.output);
+                    return true;
+                }
+            });
+        });
+        
         jQuery(document).ready(function() {
             
-            //$(document).on('change','select', function(){
-            
-            jQuery("#brands-dropdown").on('change',function(){
-                
-                //alert("OnChange Event Working!");
-
-                var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
-                var brand = this.value;
-                //alert(url + ", " + CurrentProduct);
-                jQuery.ajax({
-                    url: url,
-                    type: "POST",
-                    data: {brand:brand},
-                    showLoader: true,
-                    cache: false,
-                    success: function(response){
-                        console.log(response.output);
-                        //jQuery("#cameras-count").text('Test Success!');
-                        jQuery('#shop-by-category-container').html(response.output);
-                        return true;
-                    }
-                });
-                
-            });
         });
     });
 </script>
+<style>
+    #brands-text {
+        border: none;
+        border-bottom: 1px solid;
+    }
+
+    #brands-text::-webkit-calendar-picker-indicator {
+        opacity: 100;
+    }
+</style>
