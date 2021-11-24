@@ -101,7 +101,7 @@ $brands = $block->getBrands();
         jQuery(document).on('change','#brands-text',function(){
             var value = jQuery('#brands-text').val();
             //alert(jQuery('#brands-dropdown [value="' + value + '"]').data('value'));
-            var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
+            var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/viewmobile' ?>";
             var brand = jQuery('#brands-dropdown [value="' + value + '"]').data('value');
             //alert(url + ", " + brand);
             jQuery.ajax({
