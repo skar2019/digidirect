@@ -87,12 +87,12 @@
                      </div>
                  </div>
              <?php endif; ?>
-             <?php if ($block->getProductCollectionCountWithBrand(704, $brandId)) :?>
+             <?php if ($block->getProductCollectionCountWithBrand(75, $brandId)) :?>
                  <div class="owl-item">
                      <div class="shop-by-category-category">
                          <a href="<?php echo $block->getUrl("brands/" . $brandName . "/filters/cat/home/smart-home?_aa=222&_option=" . $brandId)?>">
                              <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-smarthome.jpg"/>
-                             <div class="product-count"  id="smart-home-count">Smart Home(<?php echo $block->getProductCollectionCountWithBrand(704, $brandId); ?>)</div>
+                             <div class="product-count"  id="smart-home-count">Smart Home(<?php echo $block->getProductCollectionCountWithBrand(75, $brandId); ?>)</div>
                          </a>
                      </div>
                  </div>
@@ -116,14 +116,14 @@
         function ($) {
             $(document).ready(function() {
                $('#shop-by-category-carousel').owlCarousel({
-                    loop: true,
+                    loop: false,
                     nav: true,
                     responsive: {
                         0: {
                             items:2,
                             margin: 15,
                             nav:true,
-                            loop:true,
+                            loop:false,
                             autoplay: true,
                             autoplayTimeout:3000
                         },
@@ -131,35 +131,35 @@
                             items: 3,
                             margin: 15,
                             nav:true,
-                            loop:true,
+                            loop:false,
                             autoplay: false
                         },
                         992: {
                             items: 3,
                             margin: 15,
                             nav:true,
-                            loop:true,
+                            loop:false,
                             autoplay: false
                         },
                         1024: {
                             items: 6,
                             margin: 15,
                             nav:true,
-                            loop:true,
+                            loop:false,
                             autoplay: false
                         },
                         1440: {
                             items: 6,
                             margin: 15,
                             nav:true,
-                            loop:true,
+                            loop:false,
                             autoplay: false
                         },
                         1680: {
                             items: 6,
                             margin: 15,
                             nav:true,
-                            loop:true,
+                            loop:false,
                             autoplay: false
                         }
                     },
