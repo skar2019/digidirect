@@ -145,7 +145,10 @@ $brands = $block->getBrands();
                         //jQuery("#cameras-count").text('Test Success!');
                         jQuery('#shop-by-category-main').html(response.output);
                         return true;
-                    }
+                    },
+                    error: function() {
+                        alert("Error Shop By Category Desktop!");
+                    }   
                 });
                 
             });
