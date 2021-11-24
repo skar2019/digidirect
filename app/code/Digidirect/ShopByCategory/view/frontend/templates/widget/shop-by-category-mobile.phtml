@@ -21,7 +21,7 @@ $brands = $block->getBrands();
         <?php foreach($brands as $brand) : ?>
             <?php if ($brand) :?>
                 <?php $brandName = $brand->getLabel();?>
-                <option data-value="<?php echo $brand->getValue();?>"><?php echo $brandName; ?></option>
+                <option data-value="<?php echo $brand->getValue();?>" value="<?php echo $brandName; ?>"></option>
             <?php endif; ?>
         <?php endforeach ?>
     </datalist>
@@ -99,16 +99,17 @@ $brands = $block->getBrands();
     require(['jquery'],function(){
         
         jQuery(document).on('change','#brands-text',function(){
-            var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/viewmobile' ?>";
-            var brand = this.value;
-            //alert(url + ", " + CurrentProduct);
+            var value = jQuery('#brands-text').val();
+            //alert(jQuery('#brands-dropdown [value="' + value + '"]').data('value'));
+            var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
+            var brand = jQuery('#brands-dropdown [value="' + value + '"]').data('value');
+            //alert(url + ", " + brand);
             jQuery.ajax({
                 url: url,
                 type: "POST",
                 data: {brand:brand},
                 showLoader: true,
                 cache: false,
-                crossDomain: true,
                 success: function(response){
                     console.log(response.output);
                     //jQuery("#cameras-count").text('Test Success!');
