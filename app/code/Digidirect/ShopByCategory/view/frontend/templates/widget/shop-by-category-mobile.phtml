@@ -12,10 +12,9 @@ $brands = $block->getBrands();
 
 <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('css/owl.carousel.min.css')?>">
 
-
 <div class="shop-by-category-dropdown">
     <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
-    <input name="brands-text" id="brands-text" type="text" list="brands-dropdown" style="width: 45%"/>
+    <input name="brands-text-mobile" id="brands-text-mobile" type="text" list="brands-dropdown" style="width: 45%" value="All Brands"/>
     <datalist name="brands-dropdown" id="brands-dropdown" style="width: 45%">
         <option data-value="all-brands">All Brands</option>
         <?php foreach($brands as $brand) : ?>
@@ -78,15 +77,15 @@ $brands = $block->getBrands();
             </a>
         </div>
         <div class="shop-by-category-category">
-            <a href="<?php echo $block->getUrl("home/smart-home")?>">
+            <a href="<?php echo $block->getUrl("smart-home")?>">
                 <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-smarthome.jpg"/>
-                <div class="product-count"  id="smart-home-count">Smart Home(<?php echo $block->getProductCollectionCount(704); ?>)</div>
+                <div class="product-count"  id="smart-home-count">Smart Home(<?php echo $block->getProductCollectionCount(75); ?>)</div>
             </a>
         </div>
         <div class="shop-by-category-category">
             <a href="<?php echo $block->getUrl("computers-mobile")?>">
                 <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-pcandlaptop.jpg"/>
-                <div class="product-count"  id="computers-mobile-count">Computers & Mobile(<?php echo $block->getProductCollectionCount(662); ?>)</div>
+                <div class="product-count"  id="computers-mobile-count">Computers & Mobile(<?php echo $block->getProductCollectionCount(999); ?>)</div>
             </a>
         </div>
     </div>
@@ -98,11 +97,12 @@ $brands = $block->getBrands();
 <script>
     require(['jquery'],function(){
         
-        jQuery(document).on('change','#brands-text',function(){
-            var value = jQuery('#brands-text').val();
+        jQuery(document).on('change','#brands-text-mobile',function(){
+            var value = jQuery('#brands-text-mobile').val();
             //alert(jQuery('#brands-dropdown [value="' + value + '"]').data('value'));
-            var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/view' ?>";
+            var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/viewmobile' ?>";
             var brand = jQuery('#brands-dropdown [value="' + value + '"]').data('value');
+            console.log(value + ", " + brand);
             //alert(url + ", " + brand);
             jQuery.ajax({
                 url: url,
@@ -125,12 +125,12 @@ $brands = $block->getBrands();
     });
 </script>
 <style>
-    #brands-text {
+    #brands-text-mobile {
         border: none;
         border-bottom: 1px solid;
     }
 
-    #brands-text::-webkit-calendar-picker-indicator {
+    #brands-text-mobile::-webkit-calendar-picker-indicator {
         opacity: 100;
     }
 </style>
