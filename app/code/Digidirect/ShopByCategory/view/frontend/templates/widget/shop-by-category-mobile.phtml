@@ -12,10 +12,9 @@ $brands = $block->getBrands();
 
 <link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('css/owl.carousel.min.css')?>">
 
-
 <div class="shop-by-category-dropdown">
     <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
-    <input name="brands-text" id="brands-text" type="text" list="brands-dropdown" style="width: 45%"/>
+    <input name="brands-text-mobile" id="brands-text-mobile" type="text" list="brands-dropdown" style="width: 45%" value="All Brands"/>
     <datalist name="brands-dropdown" id="brands-dropdown" style="width: 45%">
         <option data-value="all-brands">All Brands</option>
         <?php foreach($brands as $brand) : ?>
@@ -98,8 +97,8 @@ $brands = $block->getBrands();
 <script>
     require(['jquery'],function(){
         
-        jQuery(document).on('change','#brands-text',function(){
-            var value = jQuery('#brands-text').val();
+        jQuery(document).on('change','#brands-text-mobile',function(){
+            var value = jQuery('#brands-text-mobile').val();
             //alert(jQuery('#brands-dropdown [value="' + value + '"]').data('value'));
             var url = "<?php echo $block->getBaseUrl().'shopbycategory/index/viewmobile' ?>";
             var brand = jQuery('#brands-dropdown [value="' + value + '"]').data('value');
@@ -126,12 +125,12 @@ $brands = $block->getBrands();
     });
 </script>
 <style>
-    #brands-text {
+    #brands-text-mobile {
         border: none;
         border-bottom: 1px solid;
     }
 
-    #brands-text::-webkit-calendar-picker-indicator {
+    #brands-text-mobile::-webkit-calendar-picker-indicator {
         opacity: 100;
     }
 </style>
