@@ -38,7 +38,6 @@ class ShopByCategory extends \Magento\Framework\View\Element\Template implements
         $productCollection = $this->_productCollectionFactory->create();
         $productCollection->addAttributeToSelect('*');
         $productCollection->addCategoriesFilter(['in' => $categoryId]);
-        $productCollection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH);
         $productCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         return $productCollection->count();
     }
