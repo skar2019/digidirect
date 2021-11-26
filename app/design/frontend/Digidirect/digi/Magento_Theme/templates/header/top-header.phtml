@@ -14,7 +14,15 @@
                 <?php
                     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                     $customerSession = $objectManager->get('Magento\Customer\Model\Session');
-                    if($customerSession->isLoggedIn()) {
+                    
+                    /** @var \Magento\Framework\App\ObjectManager $om */
+                    $om = \Magento\Framework\App\ObjectManager::getInstance();
+                    /** @var \Magento\Framework\App\Http\Context $context */
+                    $context = $om->get('Magento\Framework\App\Http\Context');
+                    /** @var bool $isLoggedIn */
+                    $isLoggedIn = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
+                    
+                    if($isLoggedIn) {
                        ?><a class="login-link" href="/customer/account/logout" title="Logout">Logout</a>
                 <?php } else { ?>
                          <a class="register-link" href="/customer/account/create" title="Register">Register</a>
