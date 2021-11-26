@@ -1,3 +1,4 @@
+
 <div class="panel wrapper">
     <div class="panel header">
 
@@ -11,7 +12,14 @@
                     <img src="<?php echo $block->getUrl("media/wysiwyg/")?>qantas/qantas-logo-white.png" alt="Qantas" width="73px" height="2rem">
                 </a>
                 <a class="register-link" href="/customer/account/create" title="Register">Register</a>
-                <a class="login-link" href="/customer/account/login" title="Login">Login</a>
+                <?php
+                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                    $customerSession = $objectManager->get('Magento\Customer\Model\Session');
+                    if($customerSession->isLoggedIn()) {
+                       ?><a class="login-link" href="/customer/account/logout" title="Logout">Logout</a>
+                <?php } else { ?>
+                         <a class="login-link" href="/customer/account/login" title="Login">Login</a>
+                <?php } ?>
             </div>
         </div>
     </div>
