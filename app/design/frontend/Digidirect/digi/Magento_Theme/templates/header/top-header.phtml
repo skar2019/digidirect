@@ -12,23 +12,15 @@
                     <img src="<?php echo $block->getUrl("media/wysiwyg/")?>qantas/qantas-logo-white.png" alt="Qantas" width="73px" height="2rem">
                 </a>
                 <?php
-                    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                    $customerSession = $objectManager->get('Magento\Customer\Model\Session');
-                    
-                    /** @var \Magento\Framework\App\ObjectManager $om */
-                    $om = \Magento\Framework\App\ObjectManager::getInstance();
-                    /** @var \Magento\Framework\App\Http\Context $context */
-                    $context = $om->get('Magento\Framework\App\Http\Context');
-                    /** @var bool $isLoggedIn */
-                    $isLoggedIn = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
-                    
-                    if($isLoggedIn) {
-                       ?>
-                         <a class="register-link" href="/customer/account" title="Account">My Account</a>
-                         <a class="login-link" href="/customer/account/logout" title="Logout">Logout</a>
+                $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
+                
+                if ($customerSession->isLoggedIn() == true) { ?>
+                    <a class="register-link" href="/customer/account" title="Account">My Account</a>
+                    <a class="login-link" href="/customer/account/logout" title="Logout">Logout</a>
                 <?php } else { ?>
-                         <a class="register-link" href="/customer/account/create" title="Register">Register</a>
-                         <a class="login-link" href="/customer/account/login" title="Login">Login</a>
+                    <a class="register-link" href="/customer/account/create" title="Register">Register</a>
+                    <a class="login-link" href="/customer/account/login" title="Login">Login</a>
                 <?php } ?>
             </div>
         </div>
