@@ -23,7 +23,9 @@
                     $isLoggedIn = $context->getValue(\Magento\Customer\Model\Context::CONTEXT_AUTH);
                     
                     if($isLoggedIn) {
-                       ?><a class="login-link" href="/customer/account/logout" title="Logout">Logout</a>
+                       ?>
+                         <a class="register-link" href="/customer/account" title="Account">My Account</a>
+                         <a class="login-link" href="/customer/account/logout" title="Logout">Logout</a>
                 <?php } else { ?>
                          <a class="register-link" href="/customer/account/create" title="Register">Register</a>
                          <a class="login-link" href="/customer/account/login" title="Login">Login</a>
