@@ -14,7 +14,8 @@ $brands = $block->getBrands();
 
 <div class="shop-by-category-dropdown">
     <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
-    <input name="brands-text-mobile" id="brands-text-mobile" type="text" list="brands-dropdown" style="width: 45%" value="All Brands"/>
+    <input name="brands-text-mobile" id="brands-text-mobile" type="text" list="brands-dropdown" style="width: 45%" placeholder="Type Brand Here"/>
+    <i class="fas fa-search" style="margin-left: -20px;"></i>
     <datalist name="brands-dropdown" id="brands-dropdown" style="width: 45%">
         <option data-value="all-brands">All Brands</option>
         <?php foreach($brands as $brand) : ?>
@@ -131,6 +132,6 @@ $brands = $block->getBrands();
     }
 
     #brands-text-mobile::-webkit-calendar-picker-indicator {
-        opacity: 100;
+        display: none !important;
     }
 </style>
