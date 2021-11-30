@@ -516,7 +516,7 @@ button.mgz-btn {
   display: block;
 }
 .mgz-fotorama .fotorama__nav--thumbs .fotorama__nav__frame {
-/*  padding-left: 0 !important;*/
+  padding-left: 0 !important;
 }
 .mgz-fotorama .fotorama__nav--thumbs .fotorama__nav__frame:last-child {
   padding-right: 0 !important;
