@@ -1243,7 +1243,7 @@
         }
 
         .zip-container span {
-            font-size: 11px !important;
+            //font-size: 11px !important;
             color: #777777 !important;
         }
 
@@ -1361,7 +1361,6 @@
         font-size: 11px !important;
         font-weight: 600;
         margin-right: -130px;
-
     }
 
     .s19-actions {
@@ -1568,7 +1567,25 @@
         width: 130px !important;
         height: 17px !important;
     }
-
+    
+    
+    .catalog-product-view .section-center .product-basic > .media-area > .media {
+        padding: 0 !important;
+    }
+    
+    .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
+        margin: 20px !important;
+        max-width: unset;
+    }
+    
+    .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
+        margin: auto;
+        height: 550px !important;
+    }
+    
+    .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage .fotorama__stage__frame > img {
+        width: 350px !important;
+    }
 }
 
 //
@@ -2090,35 +2107,39 @@
         font-weight: 500;
         color: #101010 !important;
     }
-
+    
+    //Rondel Changes
     .product-info-main .product-add-form .braintree-paypal-logo.oneclick-container {
-        margin-left: -90px !important;
-        width: 160px !important;
-        border-radius: 5px !important;
-        background: 0 0 !important;
-        height: 29px;
+        width: ~"calc(100% + 90px)" !important;
+        max-height: 50px !important;
+        height: 50px !important;
+        margin-top: 13px !important;
     }
 
+    //Rondel Changes
     .product-info-main .secure-pay-container {
-        padding-left: 10px;
-        position: absolute;
-        top: 61px;
-        width: 170px;
-        left: 60px;
-        height: 26px;
+        padding-left: 0 !important;
+        position: initial;
+        margin-left: -100px !important;
+        height: 30px !important;
+        width: ~"calc(100% + 109px)" !important;
+        margin-top: 5px !important;
     }
-
+    
+    //Rondel Changes
     .product-info-main .secure-pay {
         border: 1px solid #cacaca;
         border-radius: 20px;
-        height: 27px;
+        height: 45px;
         background: #fff !important;
+        padding-top: 2px !important;
     }
-
+    
+    //Rondel Changes
     .product-info-main .box-tocart .secure-pay .svg-icon {
-        width: 22px;
-        height: 22px;
-        margin: 1px 1px;
+        width: 32px;
+        height: 32px;
+        margin: 3px;
     }
 
      .product-social-links {
@@ -2258,21 +2279,6 @@
         margin-bottom: 0 !important;
     }
 
-    .product-info-main .product-add-form .braintree-paypal-logo.oneclick-container {
-        width: 60% !important;
-    }
-
-    .product-info-main .secure-pay-container {
-        padding-left: 10px;
-        position: absolute;
-        top: 61px;
-        width: 80%;
-        margin-left: -50px !important;
-        margin-top: -.5px;
-        left: 100px;
-        height: 28px !important;
-    }
-
     span.s19-price-per-period > span {
         font-size: 10px !important;
     }
@@ -2300,10 +2306,7 @@
         margin-right: 0 !important;
         margin-top: -7px !important;
     }
-
-    a.s19-apply-btn:after {
-        margin-right: -82px;
-    }
+    
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
         margin-top: 5px;
     }
@@ -2349,7 +2352,7 @@
         }
 
         .zip-container span {
-            font-size: 11px !important;
+            //font-size: 11px !important;
             color: #777777 !important;
         }
 
@@ -2400,6 +2403,42 @@
         margin-bottom: 15px !important;
         padding-left: 5px  !important;
         padding-right: 0px  !important;
+    }
+    
+    .product-info-main .current-price-wrapper {
+        display: inline;
+    }
+    
+    .product-info-price svg.svg-icon.digidirectprice {
+        padding-left: 0 !important;
+    }
+    
+    .product-info-main .old-price-wrapper {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+    }
+    
+    .product-info-main .price-box span.old-price {
+        margin-top: 15px;
+    }
+    
+    .product-info-main .old-price-wrapper {
+        margin-bottom: 10px !important;
+    }
+    
+    .product-info-price .old-price-wrapper .old-price .price-label {
+        position: absolute;
+    }
+    
+    .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
+        font-size: 10px !important;
+    }
+    
+    //Rondel Changes
+    a.s19-apply-btn:after {
+        margin-right: -82px !important;
+        
     }
 } //end mobile
 
