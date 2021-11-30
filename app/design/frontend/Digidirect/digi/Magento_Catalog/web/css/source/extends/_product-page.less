@@ -1571,6 +1571,7 @@
     
     .catalog-product-view .section-center .product-basic > .media-area > .media {
         padding: 0 !important;
+        height: 550px;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
@@ -1585,6 +1586,42 @@
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage .fotorama__stage__frame > img {
         width: 350px !important;
+    }
+    
+    .fotorama__arr {
+        background: #none !important;
+    }
+    
+    .fotorama__arr--prev .fotorama__arr__arr {
+        margin-left: -25px;
+        visibility: hidden;
+    }
+    
+    .fotorama__arr--prev .fotorama__arr__arr::before {
+        content: "\f104";
+        font-family: 'Font Awesome 5 Free';
+        font-size: 40px;
+        font-weight: 700;
+        visibility: visible;
+        color: #e6e6e6;
+    }
+    
+    .fotorama__arr--next .fotorama__arr__arr {
+        margin-left: 25px;
+        visibility: hidden;
+    }
+    
+    .fotorama__arr--prev .fotorama__arr__arr::before {
+        content: "\f105";
+        font-family: 'Font Awesome 5 Free';
+        font-size: 40px;
+        font-weight: 700;
+        visibility: visible;
+        color: #e6e6e6;
+    }
+    
+    .fotorama__nav.fotorama__nav--thumbs {
+        width: 750px !important;
     }
 }
 
