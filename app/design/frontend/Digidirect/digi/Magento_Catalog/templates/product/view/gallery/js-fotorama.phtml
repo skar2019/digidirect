@@ -7,4 +7,13 @@
         window.fotoramaDefaults.thumbmargin = 10;
         window.fotoramaDefaults.navwidth = "530px";
     }
+    
+    require(['jquery'],function(){
+        
+        jQuery(document).ready(function() {
+            //jQuery(".fotorama__thumb__arr").remove();
+            $(".fotorama__thumb__arr--left").detach().appendTo(".fotorama__nav-wrap");
+            $(".fotorama__thumb__arr--right").detach().appendTo(".fotorama__nav-wrap");
+        });
+    });
 </script>
