@@ -2268,6 +2268,8 @@ class Product extends AbstractHelper
 
         $json = $this->jsonSerializer->unserialize($result);
 
+        var_dump($json);
+        exit;
         $count = 0;
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {

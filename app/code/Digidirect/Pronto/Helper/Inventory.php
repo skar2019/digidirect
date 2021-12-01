@@ -277,6 +277,8 @@ class Inventory extends AbstractHelper
             exit;
         }
 
+        var_dump($json);
+        exit;
         if(isset($json['stockmaster']['stockcode']['code']))
         {
             foreach ($json['stockmaster'] as $prodRes)
