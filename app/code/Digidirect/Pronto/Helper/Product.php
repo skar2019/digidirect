@@ -2633,9 +2633,9 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
+        //$this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("user", "ewaveapi");
+        //$this->curl->addHeader("token", "904241bdbf10efa9");
 
         //$this->curl->addHeader("compcode", "UA1"); //test
         //$this->curl->addHeader("user", "clint.mercado");
@@ -2646,7 +2646,7 @@ class Product extends AbstractHelper
         $result = $this->curl->getBody();
         // echo $result;
         $json = $this->jsonSerializer->unserialize($result);
-        //var_dump($json['stockmaster']['stockcode']);
+        var_dump($json['stockmaster']['stockcode']);
         //var_dump($json);
 
         foreach ($json['stockmaster'] as $prod)
