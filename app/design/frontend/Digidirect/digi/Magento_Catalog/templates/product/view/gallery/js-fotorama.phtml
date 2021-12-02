@@ -13,8 +13,8 @@
             jQuery(".fotorama__thumb__arr.fotorama__thumb__arr--left").hide();
             jQuery(".fotorama__thumb__arr.fotorama__thumb__arr--right").hide();
             
-            jQuery('<div class="fotorama__thumb__arr fotorama__thumb__arr--left" role="button" aria-label="Previous" data-gallery-role="arrow" tabindex="-1" style="height: 67px;"><div class="fotorama__thumb--icon"></div></div>').appendTo('.fotorama__nav-wrap.fotorama__nav-wrap--horizontal');
-            jQuery('<div class="fotorama__thumb__arr fotorama__thumb__arr--right" role="button" aria-label="Next" data-gallery-role="arrow" tabindex="-1" style="height: 75px;"><div class="fotorama__thumb--icon"></div></div>').appendTo('.fotorama__nav-wrap.fotorama__nav-wrap--horizontal');
+            jQuery('<div class="fotorama__thumb__arr fotorama__thumb__arr--left" role="button" aria-label="Previous" data-gallery-role="arrow" tabindex="-1" style="height: 67px;"><div class="fotorama__thumb--icon"></div></div>').clone().prependTo('.fotorama__nav-wrap.fotorama__nav-wrap--horizontal');
+            jQuery('<div class="fotorama__thumb__arr fotorama__thumb__arr--right" role="button" aria-label="Next" data-gallery-role="arrow" tabindex="-1" style="height: 75px;"><div class="fotorama__thumb--icon"></div></div>').clone().appendTo('.fotorama__nav-wrap.fotorama__nav-wrap--horizontal');
         });
     });
 </script>
