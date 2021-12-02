@@ -9,11 +9,10 @@
     }
     
     require(['jquery'],function(){
-        
         jQuery(document).ready(function() {
             //jQuery(".fotorama__thumb__arr").remove();
-            jQuery(".fotorama__thumb__arr--left").detach().appendTo(".fotorama__nav-wrap");
-            jQuery(".fotorama__thumb__arr--right").detach().appendTo(".fotorama__nav-wrap");
+            jQuery(".fotorama__thumb__arr.fotorama__thumb__arr--left").detach().appendTo(".fotorama__nav-wrap.fotorama__nav-wrap--horizontal");
+            jQuery(".fotorama__thumb__arr.fotorama__thumb__arr--right").detach().appendTo(".fotorama__nav-wrap.fotorama__nav-wrap--horizontal");
         });
     });
 </script>
