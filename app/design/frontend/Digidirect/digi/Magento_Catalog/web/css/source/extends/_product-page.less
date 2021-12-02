@@ -1659,6 +1659,40 @@
     .fotorama__arr:active, .fotorama__thumb__arr:active {
         background-color: #fff !important;
     }
+    
+    .fotorama__thumb__arr--left .fotorama__thumb--icon::before {
+        content: "\f104";
+        font-family: 'Font Awesome 5 Free';
+        font-size: 30px;
+        font-weight: 700;
+        visibility: visible;
+        color: #e6e6e6;
+    }
+
+    .fotorama__thumb__arr--left .fotorama__thumb--icon {
+        visibility: hidden;
+    }
+    
+    .fotorama__thumb__arr--right .fotorama__thumb--icon::before {
+        content: "\f105";
+        font-family: 'Font Awesome 5 Free';
+        font-size: 30px;
+        font-weight: 700;
+        visibility: visible;
+        color: #e6e6e6;
+    }
+
+    .fotorama__thumb__arr--right .fotorama__thumb--icon {
+        visibility: hidden;
+    }
+    
+    .fotorama__nav-wrap--horizontal .fotorama__thumb__arr--left, .fotorama__nav-wrap--horizontal .fotorama__thumb__arr--right {
+        height: 95px !important;
+    }
+    
+    .fotorama__nav::before, .fotorama__nav::after {
+        display: none !important;
+    }
 }
 
 //
