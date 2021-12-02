@@ -578,10 +578,10 @@ class Order extends AbstractHelper
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
             //TEST
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
             $islive = true;
@@ -589,13 +589,13 @@ class Order extends AbstractHelper
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-                $this->curl->addHeader("compcode", "DIG"); //live
-                $this->curl->addHeader("user", "ewaveapi");
-                $this->curl->addHeader("token", "904241bdbf10efa9");
+                //$this->curl->addHeader("compcode", "DIG"); //live
+                //$this->curl->addHeader("user", "ewaveapi");
+                //$this->curl->addHeader("token", "904241bdbf10efa9");
                 //
-                //$this->curl->addHeader("compcode", "UA1"); //test
-                //$this->curl->addHeader("user", "clint.mercado");
-                //$this->curl->addHeader("token", "849cd5080faff5ce");
+                $this->curl->addHeader("compcode", "UA1"); //test
+                $this->curl->addHeader("user", "clint.mercado");
+                $this->curl->addHeader("token", "849cd5080faff5ce");
 
                 $this->curl->post($url, $xml);
 
