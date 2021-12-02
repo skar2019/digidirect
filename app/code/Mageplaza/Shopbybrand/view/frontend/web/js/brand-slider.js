@@ -28,8 +28,6 @@ define([
             loop: true,
             margin: 10,
             autoHeight: true,
-            nav: true,
-            center: true,
             autoplay: true,
             autoplayTimeout: 4000,
             autoplayHoverPause: true,
@@ -41,8 +39,8 @@ define([
                 0: {items: 1},
                 360: {items: 2},
                 540: {items: 3},
-                720: {items: 6},
-                900: {items: 6}
+                720: {items: 4},
+                900: {items: 5}
             }
         });
     };
