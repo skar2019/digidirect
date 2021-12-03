@@ -448,6 +448,25 @@ class Product extends AbstractHelper
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 }
+                else if($prod['stk-condition-code'] == 'T')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                }
+                else
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                }
+                //web flag
+                //if blank, set to disable
+                if($prod['stk-user-only-alpha4-1'] == '')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                }
+                else if($prod['stk-user-only-alpha4-1'] == 'W')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                }
+                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
 
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
@@ -709,6 +728,14 @@ class Product extends AbstractHelper
                     }
                 }
 
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
@@ -785,6 +812,25 @@ class Product extends AbstractHelper
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                }
+                else if($prod['stk-condition-code'] == 'T')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                }
+                else
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                }
+
+                //web flag
+                //if blank, set to disable
+                if($prod['stk-user-only-alpha4-1'] == '')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                }
+                else if($prod['stk-user-only-alpha4-1'] == 'W')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                 }
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
@@ -1049,6 +1095,14 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -2268,8 +2322,6 @@ class Product extends AbstractHelper
 
         $json = $this->jsonSerializer->unserialize($result);
 
-        var_dump($json);
-        exit;
         $count = 0;
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
@@ -2292,6 +2344,37 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
+                $endis = "nochange";
+                if($prod['stk-condition-code'] == 'O')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    $endis = 'disabled';
+                }
+                else if($prod['stk-condition-code'] == 'T')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    $endis = 'disabled';
+                }
+                else
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    $endis = 'enabled';
+                }
+                //web flag
+                //if blank, set to disable
+                if($prod['stk-user-only-alpha4-1'] == '')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    $endis = 'disabled';
+                }
+                else if($prod['stk-user-only-alpha4-1'] == 'W')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    $endis = 'enabled';
+                }
+
+                echo $endis." <br/>";
+                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
@@ -2439,6 +2522,7 @@ class Product extends AbstractHelper
 
                     }
                 }
+
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
@@ -2600,6 +2684,14 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
