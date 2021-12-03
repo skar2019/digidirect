@@ -112,7 +112,8 @@ class Inventory extends AbstractHelper
                         $forLogs .= "Price - ".$retail."\n";
                         $this->productRepository->save($prod);
                     }
-
+                    $endis = 'nochange';
+                    echo $prodRes['stk-condition-code']. " stk-condition-code <br />";
                     if($prodRes['stk-condition-code'] == 'O')
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -130,7 +131,8 @@ class Inventory extends AbstractHelper
                     }
                     //web flag
                     //if blank, set to disable
-                    if($prod['stk-user-only-alpha4-1'] == '')
+                    echo $prodRes['stk-user-only-alpha4-1']. " stk-condition-code <br />";
+                    if($prodRes['stk-user-only-alpha4-1'] == '')
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         $endis = 'disabled';
@@ -322,6 +324,7 @@ class Inventory extends AbstractHelper
                         $this->productRepository->save($prod);
                     }
                     $endis = 'nochange';
+                    echo $prodRes['stk-condition-code']. " stk-condition-code <br />";
                     if($prodRes['stk-condition-code'] == 'O')
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -339,7 +342,8 @@ class Inventory extends AbstractHelper
                     }
                     //web flag
                     //if blank, set to disable
-                    if($prod['stk-user-only-alpha4-1'] == '')
+                    echo $prodRes['stk-user-only-alpha4-1']. " stk-condition-code <br />";
+                    if($prodRes['stk-user-only-alpha4-1'] == '')
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         $endis = 'disabled';
