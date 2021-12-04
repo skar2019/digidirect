@@ -24,7 +24,7 @@ $qff_bonus_points = 0;
 
 $sourceDataBySku = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\InventoryCatalogAdminUi\Model\GetSourceItemsDataBySku::class);
 
-
+$awaiting = $_product->getAwaitingProduct();
 if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_base")) {
     $qff_bonus_points = $_product->getQffBonusPoints();
     $qff_base_points = $_product->getQffBase();
@@ -93,6 +93,12 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         <?= $block->getChildHtml('form_bottom') ?>
     </form>
 </div>
+
+<?php if($awaiting == 1):?>
+    <div class="awaiting" id="awaiting-product">
+        <span class="awaiting-text">Awaiting Stock</span>
+    </div>
+<?php endif; ?>
 
 <script type="text/x-magento-init">
     {
