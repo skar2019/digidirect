@@ -454,23 +454,30 @@ class Product extends AbstractHelper
                 }
                 else
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                }
-                //web flag
-                //if blank, set to disable
-                if($prod['stk-user-only-alpha4-1'] == '')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                }
-                else if($prod['stk-user-only-alpha4-1'] == 'W')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                }
-                else if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    $product->setAwaitingProduct(1);
+                    //web flag
+                    //if blank, set to disable
+                    if($prod['stk-user-only-alpha4-1'] == '')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
+                    else {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
+
                 }
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                if($prod['stk-user-only-alpha4-1'] == 'A')
+                {
+                    $product->setData('awaiting_product', '1');
+                }
+                else {
+                    $product->setData('awaiting_product', '0');
+                }
+
 
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
@@ -823,22 +830,28 @@ class Product extends AbstractHelper
                 }
                 else
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                }
+                    //web flag
+                    //if blank, set to disable
+                    if($prod['stk-user-only-alpha4-1'] == '')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
+                    else {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
 
-                //web flag
-                //if blank, set to disable
-                if($prod['stk-user-only-alpha4-1'] == '')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 }
-                else if($prod['stk-user-only-alpha4-1'] == 'W')
+                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                if($prod['stk-user-only-alpha4-1'] == 'A')
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    $product->setData('awaiting_product', '1');
                 }
-                else if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    $product->setAwaitingProduct(1);
+                else {
+                    $product->setData('awaiting_product', '0');
                 }
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
@@ -2388,11 +2401,11 @@ class Product extends AbstractHelper
                 if($prod['stk-user-only-alpha4-1'] == 'A')
                 {
                     echo "set awaiting 1 <br>";
-                    $product->setAwaitingProduct(1);
+                    $product->setData('awaiting_product', '1');
                 }
                 else {
                     echo "set awaiting 0 <br>";
-                    $product->setAwaitingProduct(0);
+                    $product->setData('awaiting_product', '0');
                 }
 
                 echo $endis." <br/>";
