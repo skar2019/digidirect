@@ -2353,6 +2353,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 $endis = "nochange";
+                echo $prod['stk-user-only-alpha4-1']." <br>";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -2365,24 +2366,33 @@ class Product extends AbstractHelper
                 }
                 else
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                    $endis = 'enabled';
+                    //web flag
+                    //if blank, set to disable
+                    if($prod['stk-user-only-alpha4-1'] == '')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        $endis = 'disabled';
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'enabled';
+                    }
+                    else {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'enabled';
+                    }
+
                 }
-                //web flag
-                //if blank, set to disable
-                if($prod['stk-user-only-alpha4-1'] == '')
+
+                if($prod['stk-user-only-alpha4-1'] == 'A')
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    $endis = 'disabled';
-                }
-                else if($prod['stk-user-only-alpha4-1'] == 'W')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                    $endis = 'enabled';
-                }
-                else if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
+                    echo "set awaiting 1 <br>";
                     $product->setAwaitingProduct(1);
+                }
+                else {
+                    echo "set awaiting 0 <br>";
+                    $product->setAwaitingProduct(0);
                 }
 
                 echo $endis." <br/>";
