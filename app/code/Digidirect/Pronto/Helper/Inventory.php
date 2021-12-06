@@ -102,6 +102,7 @@ class Inventory extends AbstractHelper
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
                 $forLogs .= "SKU - ".$sku."\n";
+
                 //pricing
                 try {
                     $prod = $this->productRepository->get($sku);
