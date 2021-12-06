@@ -454,23 +454,30 @@ class Product extends AbstractHelper
                 }
                 else
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                }
-                //web flag
-                //if blank, set to disable
-                if($prod['stk-user-only-alpha4-1'] == '')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                }
-                else if($prod['stk-user-only-alpha4-1'] == 'W')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                }
-                else if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    $product->setAwaitingProduct(1);
+                    //web flag
+                    //if blank, set to disable
+                    if($prod['stk-user-only-alpha4-1'] == '')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
+                    else {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
+
                 }
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                if($prod['stk-user-only-alpha4-1'] == 'A')
+                {
+                    $product->setData('awaiting_product', '1');
+                }
+                else {
+                    $product->setData('awaiting_product', '0');
+                }
+
 
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
@@ -732,13 +739,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -823,22 +830,28 @@ class Product extends AbstractHelper
                 }
                 else
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                }
+                    //web flag
+                    //if blank, set to disable
+                    if($prod['stk-user-only-alpha4-1'] == '')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
+                    else {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
 
-                //web flag
-                //if blank, set to disable
-                if($prod['stk-user-only-alpha4-1'] == '')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 }
-                else if($prod['stk-user-only-alpha4-1'] == 'W')
+                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                if($prod['stk-user-only-alpha4-1'] == 'A')
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    $product->setData('awaiting_product', '1');
                 }
-                else if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    $product->setAwaitingProduct(1);
+                else {
+                    $product->setData('awaiting_product', '0');
                 }
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
@@ -1104,13 +1117,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -2353,6 +2366,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 $endis = "nochange";
+                echo $prod['stk-user-only-alpha4-1']." <br>";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -2365,24 +2379,33 @@ class Product extends AbstractHelper
                 }
                 else
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                    $endis = 'enabled';
+                    //web flag
+                    //if blank, set to disable
+                    if($prod['stk-user-only-alpha4-1'] == '')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        $endis = 'disabled';
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'enabled';
+                    }
+                    else {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'enabled';
+                    }
+
                 }
-                //web flag
-                //if blank, set to disable
-                if($prod['stk-user-only-alpha4-1'] == '')
+
+                if($prod['stk-user-only-alpha4-1'] == 'A')
                 {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    $endis = 'disabled';
+                    echo "set awaiting 1 <br>";
+                    $product->setData('awaiting_product', '1');
                 }
-                else if($prod['stk-user-only-alpha4-1'] == 'W')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                    $endis = 'enabled';
-                }
-                else if($prod['stk-user-only-alpha4-1'] == 'A')
-                {
-                    $product->setAwaitingProduct(1);
+                else {
+                    echo "set awaiting 0 <br>";
+                    $product->setData('awaiting_product', '0');
                 }
 
                 echo $endis." <br/>";
@@ -2697,13 +2720,13 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);

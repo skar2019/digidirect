@@ -102,6 +102,7 @@ class Inventory extends AbstractHelper
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
                 $forLogs .= "SKU - ".$sku."\n";
+
                 //pricing
                 try {
                     $prod = $this->productRepository->get($sku);
@@ -116,30 +117,35 @@ class Inventory extends AbstractHelper
                     if($prodRes['stk-condition-code'] == 'O')
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-
                     }
                     else if($prodRes['stk-condition-code'] == 'T')
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-
                     }
                     else
                     {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
+                        else {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
 
                     }
-                    //web flag
-                    //if blank, set to disable
-
-                    if($prodRes['stk-user-only-alpha4-1'] == '')
+                    //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                    if($prodRes['stk-user-only-alpha4-1'] == 'A')
                     {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-
+                        $prod->setData('awaiting_product', '1');
                     }
-                    else if($prodRes['stk-user-only-alpha4-1'] == 'W')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-
+                    else {
+                        $prod->setData('awaiting_product', '0');
                     }
 
                     if(isset($prodRes['warehouse']['whse']))
