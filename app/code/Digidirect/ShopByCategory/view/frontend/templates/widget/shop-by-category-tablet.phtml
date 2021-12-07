@@ -27,9 +27,9 @@ $brands = $block->getBrands();
     </datalist>
 </div>
 
-<div id="shop-by-category-main">
+<div id="shop-by-category-tablet-main">
     
-    <div id="shop-by-category-carousel" class="shop-by-category product-carousel owl-carousel owl-theme widget-product-grid owl-loaded owl-drag">
+    <div id="shop-by-category-carousel" class="shop-by-category-tablet product-carousel owl-carousel owl-theme widget-product-grid owl-loaded owl-drag">
         <div class="owl-stage-outer">
              <div id="shop-by-category-container" class="owl-stage shop-by-category-container" style="transform: translate3d(-2185px, 0px, 0px); transition: all 0s ease 0s; width: 8470px;">
                  <div class="owl-item">
@@ -146,7 +146,7 @@ $brands = $block->getBrands();
                     success: function(response){
                         console.log(response.output);
                         //jQuery("#cameras-count").text('Test Success!');
-                        jQuery('#shop-by-category-main').html(response.output);
+                        jQuery('#shop-by-category-tablet-main').html(response.output);
                         return true;
                     }
                 });
@@ -159,7 +159,7 @@ $brands = $block->getBrands();
     require(['jquery', 'owl_carousel'],
         function ($) {
             $(document).ready(function() {
-               $('.shop-by-category').owlCarousel({
+               $('.shop-by-category-tablet').owlCarousel({
                     loop: true,
                     nav: true,
                     responsive: {
