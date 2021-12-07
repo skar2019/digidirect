@@ -464,6 +464,10 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'N')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
                     else {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                     }
@@ -839,6 +843,10 @@ class Product extends AbstractHelper
                     else if($prod['stk-user-only-alpha4-1'] == 'W')
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'N')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
@@ -2390,6 +2398,10 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                         $endis = 'enabled';
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'N')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
