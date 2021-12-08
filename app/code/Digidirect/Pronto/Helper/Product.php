@@ -439,8 +439,8 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                $product->setName($prodname);
+//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+//                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
@@ -593,6 +593,7 @@ class Product extends AbstractHelper
 
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $prodname = trim($prodname," ");
                 $forLogs .= "Product Name: ".$prodname."\n";
                 $forLogs .= "SKU: ".$prod['code']."\n";
                 $product = $this->productFactory->create();
@@ -819,8 +820,8 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                $product->setName($prodname);
+//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+//                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
@@ -974,6 +975,7 @@ class Product extends AbstractHelper
 
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $prodname = trim($prodname," ");
                 $forLogs .= "Product Name: ".$prodname."\n";
                 $forLogs .= "SKU: ".$prod['code']."\n";
                 $product = $this->productFactory->create();
@@ -2368,8 +2370,8 @@ class Product extends AbstractHelper
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
                 //set name, price, stock status
-                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                $product->setName($prodname);
+//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+//                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
