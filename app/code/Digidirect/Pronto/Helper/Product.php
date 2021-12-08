@@ -581,6 +581,15 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
@@ -963,6 +972,15 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
@@ -2571,6 +2589,14 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
