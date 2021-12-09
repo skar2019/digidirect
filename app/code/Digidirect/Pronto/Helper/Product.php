@@ -439,8 +439,8 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                $product->setName($prodname);
+//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+//                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
@@ -460,12 +460,16 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
-                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+//                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+//                    {
+//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                     }
 
                 }
@@ -577,6 +581,15 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
@@ -589,6 +602,7 @@ class Product extends AbstractHelper
 
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $prodname = trim($prodname," ");
                 $forLogs .= "Product Name: ".$prodname."\n";
                 $forLogs .= "SKU: ".$prod['code']."\n";
                 $product = $this->productFactory->create();
@@ -815,8 +829,8 @@ class Product extends AbstractHelper
 
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
-                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                $product->setName($prodname);
+//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+//                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
@@ -836,12 +850,16 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
-                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+//                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+//                    {
+//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                     }
 
                 }
@@ -954,6 +972,15 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
@@ -966,6 +993,7 @@ class Product extends AbstractHelper
 
                 //insert new product
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $prodname = trim($prodname," ");
                 $forLogs .= "Product Name: ".$prodname."\n";
                 $forLogs .= "SKU: ".$prod['code']."\n";
                 $product = $this->productFactory->create();
@@ -2360,8 +2388,8 @@ class Product extends AbstractHelper
                 $forLogs .= "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
                 //set name, price, stock status
-                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                $product->setName($prodname);
+//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+//                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
@@ -2386,14 +2414,18 @@ class Product extends AbstractHelper
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         $endis = 'disabled';
                     }
-                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+//                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+//                    {
+//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//                        $endis = 'enabled';
+//                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//                        $endis = 'enabled';
                     }
 
                 }
@@ -2557,6 +2589,14 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
