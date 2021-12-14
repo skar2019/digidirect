@@ -2433,11 +2433,13 @@ class Product extends AbstractHelper
                 if($prod['stk-user-only-alpha4-1'] == 'A')
                 {
                     echo "set awaiting 1 <br>";
-                    $product->setData('awaiting_product', '1');
+                    $product->setData('awaiting_product', 1);
+                    $product->setAwaitingProduct(1);
                 }
                 else {
                     echo "set awaiting 0 <br>";
-                    $product->setData('awaiting_product', '0');
+                    $product->setData('awaiting_product', 0);
+                    $product->setAwaitingProduct(0);
                 }
 
                 echo $endis." <br/>";
