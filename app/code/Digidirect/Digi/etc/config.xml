@@ -12,9 +12,6 @@
                 <storefront>
                     <report_uri>https://www.digidirect.com.au//</report_uri>
                 </storefront>
-                <admin>
-                    <report_uri>https://www.digidirect.com.au//</report_uri>
-                </admin>
             </mode>
 
         </csp>
