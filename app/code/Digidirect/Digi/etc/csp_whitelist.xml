@@ -16,26 +16,21 @@
                 <value id="google-analytics" type="host">www.google-analytics.com</value>
 
                 <!--Functions-->
-                <value id="cloudfront" type="host">https://d10lpsik1i8c69.cloudfront.net/w.js</value>
-                <value id="testfreaks" type="host">https://js.testfreaks.com/onpage/digidirect.com.au/head.js</value>
-                <value id="cfjump" type="host">https://t.cfjump.com/tag/72917</value>
-                <value id="fbevents" type="host">https://connect.facebook.net/en_US/fbevents.js</value>
-                <value id="benchmarketingsmarttag" type="host">https://tag.benchplatform.com/benchmarketingsmarttag/get?e99f113c8f87616c9f9026c7a75b7cdbb18c6b96254db83fe5ea2c0ae39b46a4</value>
-                <value id="livechat" type="host">https://cdn.livechatinc.com/tracking.js</value>
-                <value id="livechataction" type="host">https://api.livechatinc.com/v3.3/customer/action/get_dynamic_configuration?license_id=1886002&url=https%3A%2F%2Fwww.digidirect.com.au%2F&channel_type=code&jsonp=__su87ti5hk2g</value>
-                <value id="googleadsviewthroughconversion" type="host">https://googleads.g.doubleclick.net/pagead/viewthroughconversion/962495858/?random=1639529255617&cv=9&fst=1639529255617&num=1&value=value&guid=ON&resp=GooglemKTybQhCsO&u_h=1080&u_w=1920&u_ah=1040&u_aw=1920&u_cd=24&u_his=2&u_tz=480&u_java=false&u_nplug=5&u_nmime=2&gtm=2wgc10&sendb=1&ig=1&data=event%3Dpage_view&frm=0&url=https%3A%2F%2Fwww.digidirect.com.au%2F&tiba=Camera%2C%20Computer%20%26%20Mobile%20Experts%20%7C%20digiDirect&hn=www.googleadservices.com&async=1&rfmt=3&fmt=4</value>
-                <value id="fbsignals" type="host">https://connect.facebook.net/signals/config/1693151124302598?v=2.9.48&r=stable</value>
-                <value id="googletagmanager" type="host">https://googletagmanager.com/gtm.js?id=GTM-WP8VW9Q</value>
-                <value id="adsrvr" type="host">https://js.adsrvr.org/up_loader.1.1.0.js</value>
-                <value id="studio19" type="host">https://secure.studio19.com.au/script/digidirect2.js?url=https%3A%2F%2Fwww.digidirect.com.au%2F</value>
-                <value id="particularaudience" type="host">https://cdn.particularaudience.com/js/ddr/t.js</value>
-                <value id="wisepops" type="host">https://loader.wisepops.com/get-loader.js?v=1&site=RjJ5mzxnCH</value>
-                <value id="stackadapt" type="host">https://tags.srv.stackadapt.com/events.js</value>
-                <value id="pasearch" type="host">https://cdn.particularaudience.com/js/ddr/search-widget-ddr_v1.0.0.2-bff12c1.js</value>
-                <value id="livechatlocalization" type="host">https://api.livechatinc.com/v3.3/customer/action/get_localization?license_id=1886002&version=ae864b109b85f5ea248e52050fc10cfd_650b3f2183e09c1dcd9b4566408f06ef&language=en&group_id=1&jsonp=__lc_localizationu</value>
-                <value id="pawidget" type="host">https://cdn.particularaudience.com/js/ddr/widget-ddr_v1.0.0.1-55a7ea9.js</value>
-                <value id="newrelic" type="host">https://js-agent.newrelic.com/nr-1212.min.js</value>
-                <value id="bamcell" type="host">https://bam-cell.nr-data.net/1/2333f5eea1?a=244698405&v=1212.e95d35c&to=YwZbZ0QDVksAARJRCVpMeFBCC1dWTgELS0ldDV1WTk1RVgUHHg%3D%3D&rst=9945&ck=1&ref=https://www.digidirect.com.au/&ap=55171&be=586&fe=9611&dc=2519&perf=%7B%22timing%22:%7B%22of%22:1639529254207,%22n%22:0,%22f%22:11,%22dn%22:20,%22dne%22:339,%22c%22:339,%22s%22:369,%22ce%22:424,%22rq%22:424,%22rp%22:486,%22rpe%22:629,%22dl%22:496,%22di%22:2400,%22ds%22:2519,%22de%22:2681,%22dc%22:9611,%22l%22:9611,%22le%22:9644%7D,%22navigation%22:%7B%7D%7D&fp=922&fcp=922&at=T0FYEQwZRUU%3D&jsonp=NREUM.setToken</value>
+                <value id="cloudfront" type="host">*.cloudfront.net</value>
+                <value id="testfreaks" type="host">*.testfreaks.com</value>
+                <value id="cfjump" type="host">*.cfjump.com</value>
+                <value id="fbevents" type="host">*.facebook.net</value>
+                <value id="benchmarketingsmarttag" type="host">*benchplatform.com</value>
+                <value id="livechat" type="host">*livechatinc.com</value>
+                <value id="googleadsviewthroughconversion" type="host">*.g.doubleclick.net</value>
+                <value id="googletagmanager" type="host">googletagmanager.com</value>
+                <value id="adsrvr" type="host">*.adsrvr.org</value>
+                <value id="studio19" type="host">*.studio19.com.au</value>
+                <value id="particularaudience" type="host">*.particularaudience.com</value>
+                <value id="wisepops" type="host">*.wisepops.com</value>
+                <value id="stackadapt" type="host">*.srv.stackadapt.com</value>
+                <value id="newrelic" type="host">*.newrelic.com</value>
+                <value id="bamcell" type="host">*.nr-data.net</value>
 
             </values>
         </policy>
