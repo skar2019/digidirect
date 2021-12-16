@@ -20,8 +20,8 @@
                 <value id="testfreaks" type="host">*.testfreaks.com</value>
                 <value id="cfjump" type="host">*.cfjump.com</value>
                 <value id="fbevents" type="host">*.facebook.net</value>
-                <value id="benchmarketingsmarttag" type="host">*benchplatform.com</value>
-                <value id="livechat" type="host">*livechatinc.com</value>
+                <value id="benchmarketingsmarttag" type="host">*.benchplatform.com</value>
+                <value id="livechat" type="host">*.livechatinc.com</value>
                 <value id="googleadsviewthroughconversion" type="host">*.g.doubleclick.net</value>
                 <value id="googletagmanager" type="host">googletagmanager.com</value>
                 <value id="adsrvr" type="host">*.adsrvr.org</value>
@@ -31,7 +31,8 @@
                 <value id="stackadapt" type="host">*.srv.stackadapt.com</value>
                 <value id="newrelic" type="host">*.newrelic.com</value>
                 <value id="bamcell" type="host">*.nr-data.net</value>
-
+                <value id="cfjump" type="host">https://cfjump.digidirect.com.au</value>
+                <value id="gstatic" type="host">*.gstatic.com</value>
             </values>
         </policy>
         <policy id="style-src">
@@ -61,7 +62,9 @@
                 <value id="youtube-img" type="host">https://s.ytimg.com</value>
 
                 <!--Functions-->
-                <value id="usercentrics" type="host">*.usercentrics.eu</value>
+                <value id="google" type="host">*.google.com</value>
+                <value id="facebook" type="host">*.facebook.com</value>
+                <value id="adsrvr" type="host">*.adsrvr.org</value>
             </values>
         </policy>
         <policy id="connect-src">
