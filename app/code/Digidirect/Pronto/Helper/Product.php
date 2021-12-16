@@ -448,10 +448,6 @@ class Product extends AbstractHelper
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 }
-                else if($prod['stk-condition-code'] == 'T')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                }
                 else
                 {
                     //web flag
@@ -835,10 +831,6 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
                 if($prod['stk-condition-code'] == 'O')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                }
-                else if($prod['stk-condition-code'] == 'T')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 }
@@ -2396,11 +2388,6 @@ class Product extends AbstractHelper
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
                 if($prod['stk-condition-code'] == 'O')
-                {
-                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    $endis = 'disabled';
-                }
-                else if($prod['stk-condition-code'] == 'T')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     $endis = 'disabled';
