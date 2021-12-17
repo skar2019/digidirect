@@ -42,6 +42,7 @@
     
     .ninjamenus-scrolltofixed {
         top: 90px !important;
+        z-index: 98 !important;
     }
     
 </style>
@@ -56,7 +57,7 @@
             var sticky = header.offsetTop;
 
             function stickyHeader() {
-
+                
                 if (window.pageYOffset > sticky) {
                     header.classList.add("sticky");
                     trigger.classList.add("ninjamenus-top-triggered-sticky");
