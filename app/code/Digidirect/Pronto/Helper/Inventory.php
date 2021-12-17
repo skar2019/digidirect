@@ -118,10 +118,6 @@ class Inventory extends AbstractHelper
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
-                    else if($prodRes['stk-condition-code'] == 'T')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    }
                     else
                     {
                         //web flag
@@ -335,15 +331,25 @@ class Inventory extends AbstractHelper
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         $endis = 'disabled';
                     }
-                    else if($prodRes['stk-condition-code'] == 'T')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        $endis = 'disabled';
-                    }
                     else
                     {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+//                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+//                    {
+//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//                    }
+                        else if($prod['stk-user-only-alpha4-1'] == 'N')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
                     }
                     //web flag
                     //if blank, set to disable
@@ -425,28 +431,23 @@ class Inventory extends AbstractHelper
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         $endis = 'disabled';
                     }
-                    else if($prodRes['stk-condition-code'] == 'T')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        $endis = 'disabled';
-                    }
                     else
                     {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
-                    }
-                    //web flag
-                    //if blank, set to disable
-                    echo $prodRes['stk-user-only-alpha4-1']. " stk-condition-code <br />";
-                    if($prodRes['stk-user-only-alpha4-1'] == '')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        $endis = 'disabled';
-                    }
-                    else if($prodRes['stk-user-only-alpha4-1'] == 'W')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
+                        else {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
+
                     }
 
                     echo $endis . "<br/>";
