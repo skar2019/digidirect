@@ -446,6 +446,16 @@
         font-size: 30px;
         position: relative;
     }
+    
+    .sticky .minicart-wrapper {
+        //margin-right: 100px;
+        transition: none !important;
+    }
+    
+    .minicart-wrapper {
+        transition: none !important;
+        
+    }
 }
 
 //
@@ -620,6 +630,7 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .minicart-wrapper {
         transition: all .5s ease;
+        margin-right: 50px !important;
 
         .pickup-available-wrapper {
             display: inline-block;
