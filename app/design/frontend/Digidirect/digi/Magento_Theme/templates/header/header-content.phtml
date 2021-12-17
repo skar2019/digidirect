@@ -19,6 +19,10 @@
         padding-top: 102px;
     }
     
+    .navigation > .ninjamenus.ninjamenus-desktop {
+        padding-left: 35px !important;
+    }
+    
     .ninjamenus-top-triggered-sticky {
         position: static !important;
         width: auto;
@@ -43,17 +47,52 @@
 </style>
 
 <script>
-    window.onscroll = function() {stickyHeader()};
-    var header = document.getElementById("main-header-wrapper");
-    var trigger = document.getElementById("header-toggle-nav");
-    var sticky = header.offsetTop;
-    function stickyHeader() {
-        if (window.pageYOffset > sticky) {
-            header.classList.add("sticky");
-            trigger.classList.add("ninjamenus-top-triggered-sticky");
-        } else {
-            header.classList.remove("sticky");
-            trigger.classList.remove("ninjamenus-top-triggered-sticky");
+    
+    require(['jquery', 'owl_carousel'],
+        function ($) {
+            $(window).scroll(function() {stickyHeader()}); // OR  $(window).scroll(function() {
+            var header = document.getElementById("main-header-wrapper");
+            var trigger = document.getElementById("header-toggle-nav");
+            var sticky = header.offsetTop;
+
+            function stickyHeader() {
+
+                if (window.pageYOffset > sticky) {
+                    header.classList.add("sticky");
+                    trigger.classList.add("ninjamenus-top-triggered-sticky");
+                } else {
+                    header.classList.remove("sticky");
+                    trigger.classList.remove("ninjamenus-top-triggered-sticky");
+                }
+            }
+                
+            
         }
+    );
+    
+    
+    
+    
+    try {
+        
+        
+        window.onscroll = function() {stickyHeader()};
+//        var header = document.getElementById("main-header-wrapper");
+//        var trigger = document.getElementById("header-toggle-nav");
+//        var sticky = header.offsetTop;
+//        function stickyHeader() {
+//            
+//            if (window.pageYOffset > sticky) {
+//                header.classList.add("sticky");
+//                trigger.classList.add("ninjamenus-top-triggered-sticky");
+//            } else {
+//                header.classList.remove("sticky");
+//                trigger.classList.remove("ninjamenus-top-triggered-sticky");
+//            }
+//        }
     }
+      catch(err) {
+        console.log("Error para kay Rondel : " + err.message);
+    }
+    
 </script>
