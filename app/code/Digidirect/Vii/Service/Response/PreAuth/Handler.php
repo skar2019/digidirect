@@ -76,6 +76,7 @@ class Handler implements HandlerInterface
             'code' => $checkResponse[CheckStatusHandle::CODE],
             'pin'  => $serviceDO->getService()->getAbstractGiftCardEntity()->getData(CheckStatusHandle::PIN),
             'balance' => $checkResponse[self::AMOUNT],
+            'available_amount' => $checkResponse["CurrentBalance"],
             'date_expires' => $dateExpires,
             'card_status' => $checkResponse[CheckStatusHandle::CARD_STATUS_ID]
         ]);
@@ -88,6 +89,8 @@ class Handler implements HandlerInterface
         $entityQuoteData->setAmount($checkResponse[self::AMOUNT]);
         $entityQuoteData->setToken($checkResponse[self::PRE_AUTH_CODE]);
         $entityQuoteData->setAbstractGiftCardEntityId($entity->getEntityId());
+        $entityQuoteData->setAvailableAmount($checkResponse["CurrentBalance"]);
+        $entityQuoteData->setPin($serviceDO->getService()->getAbstractGiftCardEntity()->getData(CheckStatusHandle::PIN));
         $this->abstractGiftCardEntityRepository->saveEntityQuoteData($entityQuoteData);
         $serviceDO->getService()->setLastToken($checkResponse[self::PRE_AUTH_CODE]);
         return $this;
