@@ -113,7 +113,8 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
             } catch (NoSuchEntityException $e) {
-                continue;
+                //continue;
+                echo 'Caught exception: ',  $e->getMessage(), "\n";
             }
         }
     }
