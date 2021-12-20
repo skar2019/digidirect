@@ -13,6 +13,10 @@
         z-index: 99;
         border-bottom: 1px solid #e6e6e6;
         max-width: 1440px;
+        margin-left: -9999px;
+        margin-right: -9990px;
+        padding-left: 9999px !important;
+        padding-right: 9999px !important;
     }
     
     .sticky + .page-main {
@@ -42,22 +46,31 @@
     
     .ninjamenus-scrolltofixed {
         top: 90px !important;
+        z-index: 98 !important;
     }
     
 </style>
 
 <script>
-    window.onscroll = function() {stickyHeader()};
-    var header = document.getElementById("main-header-wrapper");
-    var trigger = document.getElementById("header-toggle-nav");
-    var sticky = header.offsetTop;
-    function stickyHeader() {
-        if (window.pageYOffset > sticky) {
-            header.classList.add("sticky");
-            trigger.classList.add("ninjamenus-top-triggered-sticky");
-        } else {
-            header.classList.remove("sticky");
-            trigger.classList.remove("ninjamenus-top-triggered-sticky");
+    
+    require(['jquery', 'owl_carousel'],
+        function ($) {
+            $(window).scroll(function() {stickyHeader()}); // OR  $(window).scroll(function() {
+            var header = document.getElementById("main-header-wrapper");
+            var trigger = document.getElementById("header-toggle-nav");
+            var sticky = header.offsetTop;
+
+            function stickyHeader() {
+                
+                if (window.pageYOffset > sticky) {
+                    header.classList.add("sticky");
+                    trigger.classList.add("ninjamenus-top-triggered-sticky");
+                } else {
+                    header.classList.remove("sticky");
+                    trigger.classList.remove("ninjamenus-top-triggered-sticky");
+                }
+            }
         }
-    }
+    );
+    
 </script>
