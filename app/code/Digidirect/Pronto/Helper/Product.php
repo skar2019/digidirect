@@ -113,9 +113,11 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
+                $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+
                 }
                 else
                 {
@@ -131,9 +133,11 @@ class Product extends AbstractHelper
                     }
                     else {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = "Enabled = 1";
                     }
 
                 }
+                $forLogs .= $endis."\n";
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
 //                if($prod['stk-user-only-alpha4-1'] == 'A')
 //                {
@@ -497,9 +501,11 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
+                $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+
                 }
                 else
                 {
@@ -509,19 +515,17 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
-//                    else if($prod['stk-user-only-alpha4-1'] == 'W')
-//                    {
-//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//                    }
                     else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = "Enabled = 1";
                     }
 
                 }
+                $forLogs .= $endis."\n";
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
 //                if($prod['stk-user-only-alpha4-1'] == 'A')
 //                {
