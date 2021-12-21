@@ -1,5 +1,15 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <referenceContainer name="header.container">
+            <container name="top-red-banner-wrapper" htmlTag="div" htmlClass="top-red-banner-wrapper" before="top-header-wrapper">
+                <block class="Magento\Cms\Block\Block" name="top.red.banner">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">top-red-banner</argument>
+                    </arguments>
+                </block>
+            </container> 
+        </referenceContainer>
+            
         <referenceBlock name="head.additional">
             <block class="Magento\Framework\View\Element\Template" name="facebook.og"  template="Magento_Theme::header/meta.phtml"/>
         </referenceBlock>
