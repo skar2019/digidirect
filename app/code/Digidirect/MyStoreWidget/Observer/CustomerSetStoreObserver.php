@@ -79,10 +79,9 @@ class CustomerSetStoreObserver implements ObserverInterface
 
         if ($customer instanceof Customer) {
             if (!$this->myStoreRepository->setMyStoreByShippingAddress($customer, $address)) {
-                //comment out, and monitor how it will affect checkout. clint
-//                $this->messageManager->addErrorMessage(__(
-//                    'Sorry, but we can\'t set up your Store using your Shipping Address.'
-//                ));
+                $this->messageManager->addErrorMessage(__(
+                    'Sorry, but we can\'t set up your Store using your Shipping Address.'
+                ));
             }
         }
 
