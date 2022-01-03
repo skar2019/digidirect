@@ -137,7 +137,6 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                     $product->save();
 
                 } catch (\Exception $exception) {
-                    //echo $exception;
                     //throw new \Magento\Framework\Exception\NoSuchEntityException(__('Something went wrong'));
                 }
                 $x++;
