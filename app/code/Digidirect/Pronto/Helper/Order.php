@@ -286,8 +286,6 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-            $delivery = $order->getShippingDescription();
-
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
             if(is_array($shipstrt))
@@ -305,15 +303,6 @@ class Order extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
-            }
-
-            if($delivery == "Pick Up in Store - Click and Collect Shipping")
-            {
-                $shipcompany = 'Click and Collect';
-            }
-            else if($rep == "WESTFIELD")
-            {
-                $shipcompany = 'Click and Collect';
             }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
@@ -358,16 +347,6 @@ class Order extends AbstractHelper
                 }
             }
 
-            //zip
-            if (($payment_type == 'ZM')) {
-
-                $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
-                if($payment_reference == '')
-                {
-                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
-                }
-            }
-
             //work around for new and old catch
             if($payment_type == 'H')
             {
@@ -393,12 +372,6 @@ class Order extends AbstractHelper
                     $payment_type ="WD";
                     $catchRef = $orderId;
                     $catchRef = str_replace("WD","",$catchRef);
-                    $payment_reference = $catchRef;
-                }
-                else if (strpos($orderId, 'EB') !== false) {
-                    $payment_type ="EB";
-                    $catchRef = $orderId;
-                    $catchRef = str_replace("EB","",$catchRef);
                     $payment_reference = $catchRef;
                 }
             }
@@ -589,18 +562,6 @@ class Order extends AbstractHelper
             {
                 $shippingDesc = "Australia Post – eParcel";
             }
-            else if($rep == 'WESTFIELD')
-            {
-                $shippingDesc = "Click and Collect";
-            }
-            else if($shippingDesc == "AU_ExpressPostParcelSignature")
-            {
-                $shippingDesc = "Australia Post – express";
-            }
-            else if($shippingDesc == "AU_RegularParcelWithTrackingAndSignature")
-            {
-                $shippingDesc = "Australia Post – eParcel";
-            }
 
             //shipping details
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
@@ -617,10 +578,10 @@ class Order extends AbstractHelper
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
             //TEST
-            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
             //LIVE - port :8084
-            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
             $islive = true;
@@ -628,13 +589,13 @@ class Order extends AbstractHelper
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-                $this->curl->addHeader("compcode", "DIG"); //live
-                $this->curl->addHeader("user", "ewaveapi");
-                $this->curl->addHeader("token", "904241bdbf10efa9");
+                //$this->curl->addHeader("compcode", "DIG"); //live
+                //$this->curl->addHeader("user", "ewaveapi");
+                //$this->curl->addHeader("token", "904241bdbf10efa9");
                 //
-                //$this->curl->addHeader("compcode", "UA1"); //test
-                //$this->curl->addHeader("user", "clint.mercado");
-                //$this->curl->addHeader("token", "849cd5080faff5ce");
+                $this->curl->addHeader("compcode", "UA1"); //test
+                $this->curl->addHeader("user", "clint.mercado");
+                $this->curl->addHeader("token", "849cd5080faff5ce");
 
                 $this->curl->post($url, $xml);
 
@@ -1120,15 +1081,6 @@ class Order extends AbstractHelper
                     $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                 }
             }
-            //zip
-            if (($payment_type == 'ZM')) {
-
-                $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
-                if($payment_reference == '')
-                {
-                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
-                }
-            }
             //work around for IR orders coming as H
             if($payment_type == 'H')
             {
@@ -1418,5 +1370,4 @@ class Order extends AbstractHelper
             ->addFieldToFilter('created_at', array('lteq' => $toDate));
         return $collection;
     }
-    //comment to redeploy
 }
