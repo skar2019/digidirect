@@ -1,24 +1,24 @@
 <?php
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
-    $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
-    $addToCartUrl =  $listBlock->getAddToCartUrl($product);
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+$listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+$addToCartUrl =  $listBlock->getAddToCartUrl($product);
 ?>
 
 
 <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
     <?php echo $block->getBlockHtml('formkey')?>
-    <button type="submit" 
-            title="Add to Cart" 
-            class="action tocart btn_cart tocart-pdp-btn" 
-            id="product-addtocart-button" 
-            data-action="add-to-cart-action" 
+    <button type="submit"
+            title="Add to Cart"
+            class="action tocart btn_cart tocart-pdp-btn"
+            id="product-addtocart-button"
+            data-action="add-to-cart-action"
             style="
-                background: none !important; 
-                border: none !important; 
-                border-style: outset; 
-                cursor: pointer; 
-                padding: 0; 
+                background: none !important;
+                border: none !important;
+                border-style: outset;
+                cursor: pointer;
+                padding: 0;
                 width: 100% !important;">
         <?php echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')

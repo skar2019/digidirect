@@ -65,7 +65,7 @@
                     collapsible-section">
                         <strong role="heading" aria-level="3" data-role="title" class="filter-options-title title"
                            data-testid="sln-filter-title">
-                            <?php echo $block->escapeHtml(__($filter->getName())) . "Testing Rondel!" ?>
+                            <?php echo $block->escapeHtml(__($filter->getName())) ?>
                             <?php $activeLabels = $block->getChildBlock('renderer')->getActiveLabels($filter) ?>
 
                             <?php if ($activeCount > 0 && !empty($activeLabels)) : ?>
