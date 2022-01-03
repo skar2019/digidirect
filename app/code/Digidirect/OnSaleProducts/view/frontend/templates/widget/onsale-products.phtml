@@ -68,22 +68,25 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                     
                     <div class="product-item item">
                         <div class="product-item-info">
-                            <div class="wish-list-wrapper" data-role="add-to-links">
-                                <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
-                                    <a href="#"
-                                    data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
-                                    class="action towishlist" data-action="add-to-wishlist"
-                                    title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
-                                    <i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6;"></i>
-                                    </a>
-                                <?php endif; ?>
-                            </div>
                             <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
                                class="product-item-photo">
                                 <?= $block->getImage($_item, $image)->toHtml() ?>
                             </a>
                             <div class="product-item-details">
-                                <div class="wish-list-wrapper" data-role="add-to-links">
+                                <div class="actions-secondary wish-list-wrapper" data-role="add-to-links">
+                                    
+                                    <div class="tag on-sale">
+                                        On Sale
+                                    </div>
+                                    
+                                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
+                                        <a href="#"
+                                        data-post='<?= /* @escapeNotVerified */ $block->getAddToWishlistParams($_item); ?>'
+                                        class="action towishlist" data-action="add-to-wishlist"
+                                        title="<?= /* @escapeNotVerified */ __('Add to Wish List') ?>">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-heart"></use></svg>
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
                                 
                                 <strong class="product-item-name">
@@ -128,8 +131,7 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                                                     <?php endif; ?>
                                                             <button class="action tocart primary"
                                                                     type="submit" title="<?php /* @escapeNotVerified */ echo __('Add to Cart') ?>">
-                                                                <span class="cart_words"><?php /* @escapeNotVerified */ echo __('Add to Cart') ?> </span><span class="cart_plus_logo"><i class="fas fa-cart-plus"></i></span>
-                                                                
+                                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
                                                             </button>
                                                       </form>
                                                 </div>
@@ -137,6 +139,17 @@ if ($exist = ($block->getProductCollection() && $block->getProductCollection()->
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                
+                                <div class="qantas-pts-wrapper">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-qantas"></use></svg>
+                                    <span>Earn <?= $points ?> Qantas Points</span>
+                                </div>
+                                
+                                <?php echo $this->getLayout()
+                                    ->createBlock('Magento\Cms\Block\Block')
+                                    ->setBlockId('product-tile-rent')
+                                    ->toHtml();
+                                ?>
                             </div>
                         </div>
                      </div>
