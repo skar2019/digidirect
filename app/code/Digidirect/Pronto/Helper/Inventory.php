@@ -102,6 +102,7 @@ class Inventory extends AbstractHelper
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
                 $forLogs .= "SKU - ".$sku."\n";
+
                 //pricing
                 try {
                     $prod = $this->productRepository->get($sku);
@@ -111,6 +112,36 @@ class Inventory extends AbstractHelper
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
                         $this->productRepository->save($prod);
+                    }
+
+                    if($prodRes['stk-condition-code'] == 'O')
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else
+                    {
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'N')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
+
+                    }
+                    //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                    if($prodRes['stk-user-only-alpha4-1'] == 'A')
+                    {
+                        $prod->setData('awaiting_product', '1');
+                    }
+                    else {
+                        $prod->setData('awaiting_product', '0');
                     }
 
                     if(isset($prodRes['warehouse']['whse']))
@@ -231,19 +262,13 @@ class Inventory extends AbstractHelper
             $startitem = 0;
         }
 
+
         $lastCode = 0;
         $forLogs = "";
-        //date_default_timezone_set('UTC');
-        echo date_default_timezone_get() . "<br>";
+        date_default_timezone_set('UTC');
         $newTime = strtotime('-20 minutes');
         $prontofilter = date('dmYHis', $newTime);//$now->format('dmYhis');
-        echo $prontofilter . "<br>";
-        date_default_timezone_set('Australia/Sydney');
-        echo date_default_timezone_get() . "<br>";
-        $newTime = strtotime('-20 minutes');
-        $twentyminutes = date('dmYHis', $newTime);//$now->format('dmYhis');
-        echo $twentyminutes;
-        exit;
+
         //$prontofilter = '05072021000000';
         // testing
 
@@ -299,7 +324,48 @@ class Inventory extends AbstractHelper
                         $forLogs .= "Price - ".$retail."\n";
                         $this->productRepository->save($prod);
                     }
+                    $endis = 'nochange';
+                    echo $prodRes['stk-condition-code']. " stk-condition-code <br />";
+                    if($prodRes['stk-condition-code'] == 'O')
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        $endis = 'disabled';
+                    }
+                    else
+                    {
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+//                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+//                    {
+//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//                    }
+                        else if($prod['stk-user-only-alpha4-1'] == 'N')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
+                    }
+                    //web flag
+                    //if blank, set to disable
+                    echo $prodRes['stk-user-only-alpha4-1']. " stk-condition-code <br />";
+                    if($prodRes['stk-user-only-alpha4-1'] == '')
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        $endis = 'disabled';
+                    }
+                    else if($prodRes['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'enabled';
+                    }
 
+                    echo $endis . "<br/>";
                     if(isset($prodRes['warehouse']['whse']))
                     {
                         foreach ($prodRes['warehouse']['whse'] as $qt)
@@ -358,6 +424,33 @@ class Inventory extends AbstractHelper
                         //$this->productRepository->save($prod);
                     }
 
+                    $endis = 'nochange';
+                    echo $prodRes['stk-condition-code']. " stk-condition-code <br />";
+                    if($prodRes['stk-condition-code'] == 'O')
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        $endis = 'disabled';
+                    }
+                    else
+                    {
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
+                        else {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
+
+                    }
+
+                    echo $endis . "<br/>";
                     if(isset($prodRes['warehouse']['whse']))
                     {
                         foreach ($prodRes['warehouse']['whse'] as $qt)
