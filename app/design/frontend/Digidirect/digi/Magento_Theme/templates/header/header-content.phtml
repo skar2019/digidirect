@@ -70,6 +70,15 @@
                     trigger.classList.remove("ninjamenus-top-triggered-sticky");
                 }
             }
+            $(".top-red-banner-block").click(function() {
+                $(".top-red-banner-wrapper").slideUp("slow");
+            });
+            
+            $(window).load(function() {
+                $(".top-red-banner-wrapper").slideDown("slow");
+            });
+           
+            
         }
     );
     
