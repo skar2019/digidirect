@@ -254,20 +254,11 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['billing-address']['phone'] = $phone;
                     $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-                    $delivery = $order->getShippingDescription();
-
                     $shipaddress = $order->getShippingAddress();
                     $shipstrt = $shipaddress->getStreet();
                     if(is_array($shipstrt))
                     {
-                        if($delivery == "Pick Up in Store - Click and Collect Shipping")
-                        {
-                            $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
-                        }
-                        else
-                        {
-                            $shipstreet = implode(",", $shipstrt);
-                        }
+                        $shipstreet = implode(",", $shipstrt);
                     }
                     $shipcity = $shipaddress->getCity();
                     $shipregion = $shipaddress->getRegion();
@@ -276,7 +267,6 @@ class TestPronto extends AbstractHelper
                     $shipphone = $shipaddress->getPhone();
                     $shipmobile = $shipaddress->getMobile();
                     $shipcompany = $shipaddress->getCompany();
-
 
                     $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
                     $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
@@ -862,16 +852,12 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['billing-address']['phone'] = $phone;
             $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
 
-            $delivery = $order->getShippingDescription();
-
             $shipaddress = $order->getShippingAddress();
             $shipstrt = $shipaddress->getStreet();
             if(is_array($shipstrt))
             {
                 $shipstreet = implode(",", $shipstrt);
-
             }
-
             $shipcity = $shipaddress->getCity();
             $shipregion = $shipaddress->getRegion();
             $shippostcode = $shipaddress->getPostcode();
@@ -883,15 +869,6 @@ class TestPronto extends AbstractHelper
             if(!empty($shipUnitNumber))
             {
                 $shipUnitNumber = str_replace("unit_number"," ",$shipUnitNumber);
-            }
-
-            if($delivery == "Pick Up in Store - Click and Collect Shipping")
-            {
-                $shipcompany = 'Click and Collect';
-            }
-            else if($rep == "WESTFIELD")
-            {
-                $shipcompany = 'Click and Collect';
             }
 
             $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
@@ -935,16 +912,6 @@ class TestPronto extends AbstractHelper
                     $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
                 }
             }
-
-            if (($payment_type == 'ZM')) {
-
-               $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
-               if($payment_reference == '')
-               {
-                   $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
-               }
-            }
-
             //work around for IR orders coming as H
             if($payment_type == 'H')
             {
@@ -970,12 +937,6 @@ class TestPronto extends AbstractHelper
                     $payment_type ="WD";
                     $catchRef = $orderId;
                     $catchRef = str_replace("WD","",$catchRef);
-                    $payment_reference = $catchRef;
-                }
-                else if (strpos($orderId, 'EB') !== false) {
-                    $payment_type ="EB";
-                    $catchRef = $orderId;
-                    $catchRef = str_replace("EB","",$catchRef);
                     $payment_reference = $catchRef;
                 }
             }
@@ -1035,7 +996,6 @@ class TestPronto extends AbstractHelper
             $couponDiscount = ((double) $order->getBaseDiscountAmount());
 
             //product lines
-            // for redeploy
             $x = 0;
             foreach ($order->getAllVisibleItems() as $item) {
                 /* @var $item \Magento\Sales\Model\Order\Item */
@@ -1140,18 +1100,7 @@ class TestPronto extends AbstractHelper
             {
                 $shippingDesc = "Australia Post – eParcel";
             }
-            else if($rep == 'WESTFIELD')
-            {
-                $shippingDesc = "Click and Collect";
-            }
-            else if($shippingDesc == "AU_ExpressPostParcelSignature")
-            {
-                $shippingDesc = "Australia Post – express";
-            }
-            else if($shippingDesc == "AU_RegularParcelWithTrackingAndSignature")
-            {
-                $shippingDesc = "Australia Post – eParcel";
-            }
+
             //shipping details
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
