@@ -50,13 +50,15 @@ class OrderSaveAfter implements ObserverInterface
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
         \Digidirect\AbstractGiftCard\Model\AbstractGiftCardEntityFactory $abstractGiftCardEntityFactory,
-        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository
+        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
+        \Digidirect\CustomOrderLog\Logger\Logger $logger
     ) {
         $this->_helper = $helper;
         $this->_giftCAHelper = $giftCAHelper;
         $this->_giftCardAccountFactory = $giftcardaccountFactory;
         $this->_abstractGiftCardEntityFactory = $abstractGiftCardEntityFactory;
         $this->_abstractGiftCardEntityRepository = $abstractGiftCardEntityRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -81,10 +83,12 @@ class OrderSaveAfter implements ObserverInterface
         $dbState = $storeData[OrderInterface::STATE] ?? null;
         $state = $order->getState();
         if (empty($storeData)) {
+            $this->logger->info('Empty storeData');
             return;
         }
 
         if ($dbState == $state && !$isAcceptForPaid) { //state was not changed
+            $this->logger->info('dbState - '.$dbState.' : isAcceptForPaid - '.$isAcceptForPaid);
              return;
         }
 
@@ -92,15 +96,18 @@ class OrderSaveAfter implements ObserverInterface
             && $storeData[OrderInterface::BASE_TOTAL_DUE] == $order->getBaseTotalDue()
             && $order->getBaseTotalDue() != 0
         ) { // order wasn't paid
+            $this->logger->info('order was not paid');
             return;
         }
 
         if (!in_array($state, [Order::STATE_PROCESSING, Order::STATE_COMPLETE])) { //accept only for these states
+            $this->logger->info('order state is '.$state);
             return;
         }
 
         $cards = $this->_giftCAHelper->getCards($order);
         if (!is_array($cards) || empty($cards)) { //there is no abstract gift card
+            $this->logger->info('there is no abstract gift card');
             return;
         }
 
@@ -122,6 +129,7 @@ class OrderSaveAfter implements ObserverInterface
             } catch (NoSuchEntityException $e) {
                 continue;
             } catch (\Throwable $e) {
+                $this->logger->info('Giftcard acceptance failed '.$e->getMessage());
                 throw new LocalizedException(__('Giftcard acceptance failed: %1', $e->getMessage()), $e);
             }
         }
