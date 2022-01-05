@@ -540,6 +540,7 @@ return [
         'Digidirect_CustomLog' => 1,
         'Digidirect_CustomOptions' => 1,
         'Digidirect_CustomOrderLog' => 1,
+        'Digidirect_CustomLogGC' => 1,
         'Digidirect_Customer' => 1,
         'Digidirect_MSI' => 1,
         'Digidirect_ExtendedCartPriceRules' => 1,
