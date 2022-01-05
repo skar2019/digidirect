@@ -37,6 +37,7 @@ class OrderSaveAfter implements ObserverInterface
      */
     protected $_abstractGiftCardEntityRepository;
 
+    protected  $logger;
     /**
      * OrderSaveAfter constructor.
      * @param \Magento\GiftCardAccount\Helper\Data $giftCAHelper
