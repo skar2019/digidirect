@@ -21,17 +21,8 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
 
-    protected  $logger;
-
-    public function __construct(
-        \Digidirect\CustomOrderLog\Logger\Logger $logger
-    ) {
-        $this->logger = $logger;
-    }
-
     public function build(array $buildSubject)
     {
-        $this->logger->info('PreAuth Build');
         /** @var \Digidirect\AbstractGiftCard\Service\Data\ServiceDataObject $serviceDO */
         $serviceDO = SubjectReader::readService($buildSubject);
         $store = $serviceDO->getService()->getStore();
@@ -57,7 +48,6 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
         $requestParams[self::REQUEST_PIN_FIELD] = $entity->getData('pin');
         $requestParams[self::REQUEST_AMOUNT_FIELD] = number_format($requestDataObject->getData('amount'), 2, '.', '');
         $requestParams[self::REQUEST_EXTERNAL_REFERENCE] = $quote->getId();
-        $this->logger->info('PreAuth Body: '.$entity->getData('code'));
         return $this->assocToXml($requestParams, self::SECTION_ROOT);
     }
 }
