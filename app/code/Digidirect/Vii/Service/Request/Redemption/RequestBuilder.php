@@ -16,14 +16,6 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
     const REQUEST_TYPE = 'Redemption';
     const REQUEST_AUTH_CODE = 'PreAuthCode';
 
-    protected $_logger;
-
-    public function __construct(
-        \Digidirect\CustomLogGC\Logger\Logger $logger
-    ) {
-        $this->_logger = $logger;
-    }
-
     /**
      * @param array $buildSubject
      * @return array
@@ -36,8 +28,6 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
         $store = $serviceDO->getService()->getStore();
         $this->initRequestParams($store);
         $data = ['amount' => SubjectReader::readAmount($buildSubject)];
-
-        $this->_logger->info('Redemption Build');
 
         try {
             $token = SubjectReader::readToken($buildSubject);
@@ -74,7 +64,6 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
         if ($requestDataObject->getData('token')) {
             $requestParams[self::REQUEST_AUTH_CODE] = $requestDataObject->getData('token');
         }
-        $this->_logger->info('Redemption '.$entity->getData('code'));
         return $this->assocToXml($requestParams, self::SECTION_ROOT);
     }
 }
