@@ -30,6 +30,7 @@ class QuoteSubmitSuccess implements ObserverInterface
      */
     protected $abstractGiftCardEntityRepository;
 
+    protected  $logger;
     /**
      * QuoteSubmitSuccess constructor.
      *
@@ -42,12 +43,14 @@ class QuoteSubmitSuccess implements ObserverInterface
         \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
-        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository
+        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
+        \Digidirect\CustomOrderLog\Logger\Logger $logger
     ) {
         $this->giftCAHelper = $giftCAHelper;
         $this->helper = $helper;
         $this->giftCardAccountFactory = $giftcardaccountFactory;
         $this->abstractGiftCardEntityRepository = $abstractGiftCardEntityRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -59,13 +62,16 @@ class QuoteSubmitSuccess implements ObserverInterface
         /**
          * @var \Magento\Sales\Model\Order $order
          */
+        $this->logger->info('QuoteSubmitSuccess');
         if (!$this->helper->isActive()) {
+            $this->logger->info('QuoteSubmitSuccess : not active');
             return;
         }
 
         $order = $observer->getEvent()->getOrder();
         $cards = $this->giftCAHelper->getCards($order);
         if (empty($cards)) {
+            $this->logger->info('QuoteSubmitSuccess : empty');
             return;
         }
 
@@ -101,7 +107,9 @@ class QuoteSubmitSuccess implements ObserverInterface
                 $entityOrderData->setToken($entity->getToken());
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
+                $this->logger->info('QuoteSubmitSuccess: saveEntityOrderData');
             } catch (NoSuchEntityException $e) {
+                $this->logger->info('QuoteSubmitSuccess : error');
                 continue;
             }
         }

@@ -45,7 +45,7 @@ class OrderPlaceBefore implements ObserverInterface
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
         \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
-        \Digidirect\CustomLogGC\Logger\Logger $logger
+        \Digidirect\CustomOrderLog\Logger\Logger $logger
     ) {
         $this->giftCAHelper = $giftCAHelper;
         $this->helper = $helper;

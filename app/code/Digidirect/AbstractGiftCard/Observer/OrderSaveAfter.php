@@ -52,7 +52,7 @@ class OrderSaveAfter implements ObserverInterface
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
         \Digidirect\AbstractGiftCard\Model\AbstractGiftCardEntityFactory $abstractGiftCardEntityFactory,
         \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
-        \Digidirect\CustomLogGC\Logger\Logger $logger
+        \Digidirect\CustomOrderLog\Logger\Logger $logger
     ) {
         $this->_helper = $helper;
         $this->_giftCAHelper = $giftCAHelper;
