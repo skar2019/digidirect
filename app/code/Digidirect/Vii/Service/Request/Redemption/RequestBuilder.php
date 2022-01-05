@@ -54,15 +54,13 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
     ) {
         $service = $serviceDO->getService();
         $entity = $service->getAbstractGiftCardEntity();
-        //$order = $service->getOrder();
-        $quote = $serviceDO->getQuote();
+        $order = $service->getOrder();
         $requestParams = parent::getRequestParams();
         $service->setLastTransId($requestParams[self::REQUEST_TRAN_ID_FIELD]);
         $requestParams[self::REQUEST_CARD_NUMBER_FIELD] = $entity->getData('code');
         $requestParams[self::REQUEST_PIN_FIELD] = $entity->getData('pin');
         $requestParams[self::REQUEST_AMOUNT_FIELD] = number_format($requestDataObject->getData('amount'), 2, '.', '');
-        //$requestParams[self::REQUEST_EXTERNAL_REFERENCE] = $order->getQuoteId();
-        $requestParams[self::REQUEST_EXTERNAL_REFERENCE] = $quote->getId();
+        $requestParams[self::REQUEST_EXTERNAL_REFERENCE] = $order->getQuoteId();
         if ($requestDataObject->getData('token')) {
             $requestParams[self::REQUEST_AUTH_CODE] = $requestDataObject->getData('token');
         }
