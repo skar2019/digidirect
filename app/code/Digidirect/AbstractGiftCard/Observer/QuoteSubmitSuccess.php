@@ -42,7 +42,7 @@ class QuoteSubmitSuccess implements ObserverInterface
         \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
-        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
+        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository
     ) {
         $this->giftCAHelper = $giftCAHelper;
         $this->helper = $helper;
