@@ -21,9 +21,19 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
      * @return array
      * @throws \Magento\Framework\Exception\LocalizedException
      */
+
+    protected  $logger;
+
+    public function __construct(
+        \Digidirect\CustomOrderLog\Logger\Logger $logger
+    ) {
+        $this->logger = $logger;
+    }
+
     public function build(array $buildSubject)
     {
         /** @var \Digidirect\AbstractGiftCard\Service\Data\ServiceDataObject $serviceDO */
+        $this->logger->info('Redemption Build');
         $serviceDO = SubjectReader::readService($buildSubject);
         $store = $serviceDO->getService()->getStore();
         $this->initRequestParams($store);
@@ -62,6 +72,7 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
         $requestParams[self::REQUEST_AMOUNT_FIELD] = number_format($requestDataObject->getData('amount'), 2, '.', '');
         $requestParams[self::REQUEST_EXTERNAL_REFERENCE] = $order->getQuoteId();
         if ($requestDataObject->getData('token')) {
+            $this->logger->info('Redemption Token: '.$requestDataObject->getData('token'));
             $requestParams[self::REQUEST_AUTH_CODE] = $requestDataObject->getData('token');
         }
         return $this->assocToXml($requestParams, self::SECTION_ROOT);
