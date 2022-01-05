@@ -59,7 +59,7 @@ class QuoteSubmitSuccess implements ObserverInterface
         /**
          * @var \Magento\Sales\Model\Order $order
          */
-        $this->logger->info('QuoteSubmitSuccess');
+        //$this->logger->info('QuoteSubmitSuccess');
         if (!$this->helper->isActive()) {
 //            $this->logger->info('QuoteSubmitSuccess : not active');
             return;
