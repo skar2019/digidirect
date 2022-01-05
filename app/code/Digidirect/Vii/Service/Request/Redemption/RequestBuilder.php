@@ -37,7 +37,7 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
         $this->initRequestParams($store);
         $data = ['amount' => SubjectReader::readAmount($buildSubject)];
 
-        $this->logger->info('Redemption Build');
+        $this->_logger->info('Redemption Build');
 
         try {
             $token = SubjectReader::readToken($buildSubject);
@@ -74,7 +74,7 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
         if ($requestDataObject->getData('token')) {
             $requestParams[self::REQUEST_AUTH_CODE] = $requestDataObject->getData('token');
         }
-        $this->logger->info('Redemption '.$entity->getData('code'));
+        $this->_logger->info('Redemption '.$entity->getData('code'));
         return $this->assocToXml($requestParams, self::SECTION_ROOT);
     }
 }
