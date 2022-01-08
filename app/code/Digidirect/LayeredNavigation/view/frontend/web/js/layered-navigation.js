@@ -42,6 +42,7 @@ define([
     /**
      * Default filter
      */
+    
     $.widget('mage.layeredNavigationFilterItemDefault', $.mage.layeredNavigation, {
         options: {},
         _create: function () {
