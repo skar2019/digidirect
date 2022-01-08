@@ -20,6 +20,7 @@ class RequestBuilder extends AbstractBuilder implements BuilderInterface
      * @return array
      * @throws \Magento\Framework\Exception\LocalizedException
      */
+
     public function build(array $buildSubject)
     {
         /** @var \Digidirect\AbstractGiftCard\Service\Data\ServiceDataObject $serviceDO */
