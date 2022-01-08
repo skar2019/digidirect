@@ -30,7 +30,6 @@ class QuoteSubmitSuccess implements ObserverInterface
      */
     protected $abstractGiftCardEntityRepository;
 
-    protected  $logger;
     /**
      * QuoteSubmitSuccess constructor.
      *
@@ -43,14 +42,12 @@ class QuoteSubmitSuccess implements ObserverInterface
         \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
-        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
-        \Digidirect\CustomLogGC\Logger\Logger $logger
+        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository
     ) {
         $this->giftCAHelper = $giftCAHelper;
         $this->helper = $helper;
         $this->giftCardAccountFactory = $giftcardaccountFactory;
         $this->abstractGiftCardEntityRepository = $abstractGiftCardEntityRepository;
-        $this->logger = $logger;
     }
 
     /**
