@@ -1565,7 +1565,26 @@
         border-bottom: 1px solid #777777 !important;
     }
 
-    //Mobile Catalog Page (Rondel Changes)
+    //clint
+    .panel.header .qantas-link {
+        display: none;
+    }
+}
+
+//
+// Tablet
+//
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
+
+    .main-banner-wrapper {
+        display: none !important;
+    }
+
+    .banner-row-tablet {
+        display: block !important;
+    }
+    
+    //Mabike Category Page (Rondel Changes)
 
     .products.wrapper.products-widget.product-category-listing.grid.products-grid {
         margin-left: 0 !important;
@@ -1666,24 +1685,6 @@
     .block-content.filter-content {
         background: #fff !important;
         padding: 0 !important;
-    }
-    //clint
-    .panel.header .qantas-link {
-        display: none;
-    }
-}
-
-//
-// Tablet
-//
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
-
-    .main-banner-wrapper {
-        display: none !important;
-    }
-
-    .banner-row-tablet {
-        display: block !important;
     }
 
 }
