@@ -19,6 +19,11 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+
+    .mgz-element-search_form .block-search .form.active .control input {
+        position: absolute !important;
+    }
+
     &.block-search{
         //margin-left: auto;
         //padding-right: 15px;
@@ -55,7 +60,7 @@
 
     .block-search .actions {
         position: absolute;
-        right: -257px;
+        right: -260px;
         top: 42px !important;
         background-color: #000;
         width: 65px;
@@ -277,6 +282,11 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+
+    .mgz-element-search_form .block-search .form.active .control input {
+        position: absolute !important;
+    }
+
     &.block-search{
         //margin-left: auto;
         //padding-right: 15px;
