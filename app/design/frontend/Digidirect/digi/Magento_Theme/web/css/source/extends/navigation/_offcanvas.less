@@ -174,3 +174,11 @@
         }
     }
 }
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    [data-action='toggle-nav']{
+        display: inline-block !important;
+        position: static !important;
+        visibility:hidden;
+
+    }
+}
