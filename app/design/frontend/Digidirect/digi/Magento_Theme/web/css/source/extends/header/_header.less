@@ -370,6 +370,20 @@
             }
         }
     }
+    
+    .header-link-left {
+        margin-left: 0 !important;
+    }
+    
+    .header-link-right {
+        margin-right: 15px !important;
+    }
+    
+    .sticky {
+        height: 110px;
+        margin-left: -9983px !important;
+    }
+    
 }
 
 // This will add styles for tablet devices. When using native media-queries, we recommend wrapping your media-queries with media-width Magento mixins or media-target
@@ -500,7 +514,7 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .main-header-wrapper {
         &{
-            padding: 20px 0 !important;
+            padding: 20px 0 13.5px 0 !important;
         }
 
         .c-logo{
