@@ -88,7 +88,7 @@ class CategoryId extends AbstractBrand
         $result = [];
         $brands = $this->_categoryFactory->create()->getCategoryCollection($sql, null)->getData();
         foreach ($brands as $brand => $item) {
-            if (in_array($item['option_id'], $top))
+            if (in_array($item['option_id'], $top, TRUE))
             {
                 $result[] = $item['option_id'];
             }
