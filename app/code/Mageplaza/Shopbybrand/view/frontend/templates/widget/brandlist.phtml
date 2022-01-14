@@ -28,14 +28,14 @@ if (count($selectedBrands) > 1) : ?>
 
         <div class="block-content">
 
-                <?php foreach ($selectedBrands as $brand) : ?>
-                    <div class="relate-content item">
-                        <a href="<?= /** @noEscape */ $block->helper()->getBrandUrl($brand) ?>">
-                            <img class="img-responsive brand-image"
-                                 src="<?= /** @noEscape */ $block->helper()->getBrandImageUrl($brand) ?>" alt="">
-                        </a>
-                    </div>
-                <?php endforeach; ?>
+            <?php foreach ($selectedBrands as $brand) : ?>
+                <div class="relate-content item">
+                    <a data-brand="<?= /** @noEscape */ $brand ?>" href="<?= /** @noEscape */ $block->helper()->getBrandUrl($brand) ?>">
+                        <img class="img-responsive brand-image"
+                             src="<?= /** @noEscape */ $block->helper()->getBrandImageUrl($brand) ?>" alt="">
+                    </a>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 <?php endif; ?>
