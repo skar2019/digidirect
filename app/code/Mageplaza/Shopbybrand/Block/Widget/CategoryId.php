@@ -37,7 +37,7 @@ class CategoryId extends AbstractBrand
     /**
      * @var string
      */
-    protected $_template = 'Mageplaza_Shopbybrand::widget/brandlist.phtml';
+    protected $_template = 'Mageplaza_Shopbybrand::widget/brandcategorylist.phtml';
 
     /**
      * @type BrandFactory
