@@ -95,7 +95,7 @@
             <parameter name="template" xsi:type="select" required="true" visible="true">
                 <label>Template</label>
                 <options>
-                    <option name="brands" value="Mageplaza_Shopbybrand::widget/brandlist.phtml" selected="true">
+                    <option name="brands" value="Mageplaza_Shopbybrand::widget/brandcategorylist.phtml" selected="true">
                         <label>Default MP Brand Template</label>
                     </option>
                 </options>
