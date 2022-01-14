@@ -37,7 +37,7 @@ if (count($selectedBrands) > 1) : ?>
         <div class="block-content">
 
             <?php foreach ($selectedBrands as $brand) : ?>
-                <?php if (in_array($brand, $top)) : ?>
+                <?php if (in_array($brand->getOptionId(), $top)) : ?>
                     <div class="relate-content item">
                         <a href="<?= /** @noEscape */ $block->helper()->getBrandUrl($brand) ?>">
                             <img class="img-responsive brand-image"
