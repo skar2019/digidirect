@@ -1,0 +1,79 @@
+<?php
+/**
+ * Author: Rondel Y. Dalumpines
+ */
+
+$timeId = time();
+$selectedBrands = $block->getCollection();
+
+ ?>
+
+<div class="brand-menu-div left-side-options">
+    <input type="checkbox" id="select-all-category" name="select-all-category" value="0">
+    <label for="select-all-category"> SELECT ALL</label><br>
+    <input type="checkbox" id="select-cameras-category" name="select-cameras-category" value="1">
+    <label for="select-cameras-category"> Cameras</label><br>
+    <input type="checkbox" id="select-lenses-category" name="select-lenses-category" value="4">
+    <label for="select-lenses-category"> Lenses</label><br>
+    <input type="checkbox" id="select-drones-category" name="select-drones-category" value="7">
+    <label for="select-drones-category"> Drones</label><br>
+    <input type="checkbox" id="select-lighting-category" name="select-lighting-category" value="10">
+    <label for="select-lighting-category"> Lighting And Studio</label><br>
+    <input type="checkbox" id="select-photoacc-category" name="select-photoacc-category" value="13">
+    <label for="select-photoacc-category"> Photo Accessories</label><br>
+    <input type="checkbox" id="select-optics-category" name="select-optics-category" value="16">
+    <label for="select-optics-category"> Optics</label><br>
+    <input type="checkbox" id="select-audiovisual-category" name="select-audiovisual-category" value="19">
+    <label for="select-audiovisual-category"> Audio And Visual</label><br>
+    <input type="checkbox" id="select-provideo-category" name="select-provideo-category" value="22">
+    <label for="select-provideo-category"> Pro Video</label><br>
+    <input type="checkbox" id="select-smarthome-category" name="select-smarthome-category" value="25">
+    <label for="select-smarthome-category"> Smart Home</label><br>
+    <input type="checkbox" id="select-computersmobile-category" name="select-computersmobile-category" value="28">
+    <label for="select-computersmobile-category"> Computers And Mobile</label><br>
+</div>
+
+<?php
+if (count($selectedBrands) > 1) : ?>
+    <?= /** @noEscape */ $block->includeCssLib() ?>
+    <div class="block block-brand-feature widget brand-menu-div right-side-brands">
+        <div class="block-content shop-by-brand-menu-grid">
+            <?php foreach ($selectedBrands as $brand) : ?>
+                <div class="relate-content item shop-by-brand-menu-grid-item">
+                    <a href="<?= /** @noEscape */ $block->helper()->getBrandUrl($brand) ?>">
+                        <img class="img-responsive brand-image"
+                             src="<?= /** @noEscape */ $block->helper()->getBrandImageUrl($brand) ?>" alt="">
+                        <span><?= /** @noEscape */ $block->helper()->getBrandTitle() ?></span>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<style type="text/css">
+    
+    .brand-menu-div {
+        display: inline-block !important;
+    }
+    
+    .left-side-options {
+        width: 40%; 
+    }
+    
+    .right-side-brands {
+        width: 60%;
+    }
+
+    .shop-by-brand-menu-grid {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+    .shop-by-brand-menu-grid-item {
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+    }
+
+</style>
