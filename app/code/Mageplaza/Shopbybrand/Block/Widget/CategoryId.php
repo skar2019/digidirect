@@ -37,7 +37,7 @@ class CategoryId extends AbstractBrand
     /**
      * @var string
      */
-    protected $_template = 'Mageplaza_Shopbybrand::widget/brandlist.phtml';
+    protected $_template = 'Mageplaza_Shopbybrand::widget/brandcategorylist.phtml';
 
     /**
      * @type BrandFactory
@@ -74,12 +74,14 @@ class CategoryId extends AbstractBrand
      */
     public function getOptionIds()
     {
+
         $str = $this->getData('category_id');
         $sql = 'main_table.cat_id IN (' . $str . ')';
         $result = [];
         $brands = $this->_categoryFactory->create()->getCategoryCollection($sql, null)->getData();
         foreach ($brands as $brand => $item) {
-            $result[] = $item['option_id'];
+                $result[] = $item['option_id'];
+
         }
 
         return implode(',', array_unique($result));
