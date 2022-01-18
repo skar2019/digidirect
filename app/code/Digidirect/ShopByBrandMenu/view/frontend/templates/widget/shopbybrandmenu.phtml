@@ -38,20 +38,6 @@ if (count($selectedBrands) > 1) : ?>
     <?= /** @noEscape */ $block->includeCssLib() ?>
     <div class="block block-brand-feature widget brand-menu-div right-side-brands">
         <!-- Search -->
-        <div class="block block-brand-search">
-            <div class="block-title">
-                <strong><?= /** @noEscape */ $block->getPageTitle() ?></strong>
-            </div>
-            <div class="block-content">
-                <div class="mp-searchbox">
-                    <input id="mp-search" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
-                           placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
-                    <button type="submit" id="mp-brand-search-button" class="btn btn-primary btn-lg search-btn fa fa-search">
-                        <span><?= /** @noEscape */ __('Search') ?></span>
-                    </button>
-                </div>
-            </div>
-        </div>
 <?php        
     /** @var \Mageplaza\Shopbybrand\Block\Brand\BrandList $block */
     $helper = $block->helper();
@@ -172,3 +158,67 @@ if (count($selectedBrands) > 1) : ?>
     }
 
 </style>
+<script id="mpbrand-autocomplete-suggest" type="text/x-magento-template">
+    <a class="shopbybrand-suggestion" href="<%- data.brandUrl %>">
+        <?php if ($block->isVisibleImage()) : ?>
+        <div class="shopbybrand-suggestion-left">
+            <img class="shopbybrand-img-responsive" src="<%- data.image %>" alt="" width="70" />
+        </div>
+        <?php endif; ?>
+        <div class="shopbybrand-suggestion-right">
+            <div class="shopbybrand-product-line shopbybrand-product-name">
+                <%- data.value %>
+            </div>
+            <div class='shopbybrand-product-des'>
+                <p class='shopbybrand-short-des'>
+                    <%= data.desc %>
+                </p>
+            </div>
+        </div>
+    </a>
+</script>
+<script>
+    require([
+        'jquery',
+        'mage/template',
+        'mpDevbridgeAutocomplete'
+    ], function ($, mageTemplate) {
+        $(document).ready(function () {
+            var mpSearch     = $('#mp-search');
+
+            mpSearch.devbridgeAutocomplete({
+                lookup: <?= /** @noEscape */ $block->getSearchData()?>,
+                lookupLimit: <?= /** @noEscape */ $block->getMaxQueryResult() ?>,
+                maxHeight: 2000,
+                minChars: <?= /** @noEscape */ $block->getMinSearchChar() ?>,
+                onSelect: function (suggestion) {
+                    window.location.href = suggestion.brandUrl;
+                },
+                formatResult: function (suggestion, currentValue) {
+                    var template;
+
+                    template = mageTemplate(
+                        '#mpbrand-autocomplete-suggest',
+                        {
+                            data: {
+                                brandUrl: suggestion.brandUrl,
+                                image: suggestion.image,
+                                value: suggestion.value,
+                                desc: suggestion.desc
+                            }
+                        }
+                    );
+
+                    return template;
+                }
+            });
+
+            $('#mp-brand-search-button').click(function () {
+                if (!$('.autocomplete-suggestions').is(':visible')) {
+                    mpSearch.focus();
+                }
+            });
+        });
+    });
+</script>
+
