@@ -741,6 +741,12 @@ class TestPronto extends AbstractHelper
                 continue;
             }
 
+            $prontoOrderNumber = $order->getData('pronto_order_number');
+            if(!is_numeric($prontoOrderNumber))
+            {
+                continue;
+            }
+
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
             $this->logger->info('Pronto Order Sync - '.$orderId);
