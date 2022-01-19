@@ -127,11 +127,87 @@ if (count($brandCollection)) : ?>
     <?= /** @noEscape */ __('There is no brand available.') ?>
 <?php endif; ?>
 
+<script id="mpbrand-autocomplete-suggest" type="text/x-magento-template">
+    <a class="shopbybrand-suggestion" href="<%- data.brandUrl %>">
+        <?php if ($block->isVisibleImage()) : ?>
+        <div class="shopbybrand-suggestion-left">
+            <img class="shopbybrand-img-responsive" src="<%- data.image %>" alt="" width="70" />
+        </div>
+        <?php endif; ?>
+        <div class="shopbybrand-suggestion-right">
+            <div class="shopbybrand-product-line shopbybrand-product-name">
+                <%- data.value %>
+            </div>
+            <div class='shopbybrand-product-des'>
+                <p class='shopbybrand-short-des'>
+                    <%= data.desc %>
+                </p>
+            </div>
+        </div>
+    </a>
+</script>
+<script>
+    require([
+        'jquery',
+        'mage/template',
+        'mpDevbridgeAutocomplete'
+    ], function ($, mageTemplate) {
+        $(document).ready(function () {
+            var mpSearch     = $('#mp-search');
+
+            mpSearch.devbridgeAutocomplete({
+                lookup: <?= /** @noEscape */ $block->getSearchData()?>,
+                lookupLimit: <?= /** @noEscape */ $block->getMaxQueryResult() ?>,
+                maxHeight: 2000,
+                minChars: <?= /** @noEscape */ $block->getMinSearchChar() ?>,
+                onSelect: function (suggestion) {
+                    window.location.href = suggestion.brandUrl;
+                },
+                formatResult: function (suggestion, currentValue) {
+                    var template;
+
+                    template = mageTemplate(
+                        '#mpbrand-autocomplete-suggest',
+                        {
+                            data: {
+                                brandUrl: suggestion.brandUrl,
+                                image: suggestion.image,
+                                value: suggestion.value,
+                                desc: suggestion.desc
+                            }
+                        }
+                    );
+
+                    return template;
+                }
+            });
+
+            $('#mp-brand-search-button').click(function () {
+                if (!$('.autocomplete-suggestions').is(':visible')) {
+                    mpSearch.focus();
+                }
+            });
+        });
+    });
+</script>
+
 <style type="text/css">
+    
+    .shop-by-brands-menu-new .item-submenu {
+        width: 850px !important;
+    }
     
     .block-brand-search {
         background-color: unset !important;
         margin: 0 !important;
+    }
+    
+    .block-brand-search .block-content {
+        margin-bottom: 20px !important;
+    }
+    
+    #mp-search {
+        padding: 10px !important;
     }
     
     .brand-menu-div {
@@ -154,7 +230,12 @@ if (count($brandCollection)) : ?>
     
     .left-side-options {
         width: 40%; 
-        padding: 20px !important;
+        padding: 30px 20px !important;
+    }
+    
+    .brand-menu-chkbx {
+        margin-bottom: 20px !important;
+        margin-right: 10px !important;
     }
     
     .right-side-brands {
@@ -173,7 +254,7 @@ if (count($brandCollection)) : ?>
     }
     
     .brand-list-content .product-image-container {
-        width: 188px !important;
+        width: 140px !important;
     }
     
     .brand-list-content .product.details.product-item-details {
@@ -191,9 +272,17 @@ if (count($brandCollection)) : ?>
     
     .brand-list-content .product-item-info {
         border: none !important;
+        margin: 5px !important;
+        padding: 0 !important;
+        width: calc(100% - 15px) !important;
     }
     
     .brand-list-content .products {
+        margin-top: -20px !important;
+    }
+    
+    .brand-list-content .product.name.product-item-name {
+        font-size: 11px !important;
         margin-top: -20px !important;
     }
 
