@@ -5,6 +5,7 @@
 
 namespace Digidirect\ShopByBrandMenu\Block\Widget;
 
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\Collection;
 use Mageplaza\Shopbybrand\Block\Brand;
 use Mageplaza\Shopbybrand\Helper\Data;
