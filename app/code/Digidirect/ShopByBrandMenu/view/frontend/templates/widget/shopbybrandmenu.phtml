@@ -57,6 +57,69 @@ if (count($brandCollection)) : ?>
                 </div>
             </div>
         </div>
+        <script id="mpbrand-autocomplete-suggest" type="text/x-magento-template">
+            <a class="shopbybrand-suggestion" href="<%- data.brandUrl %>">
+                <?php if ($blockSearch->isVisibleImage()) : ?>
+                <div class="shopbybrand-suggestion-left">
+                    <img class="shopbybrand-img-responsive" src="<%- data.image %>" alt="" width="70" />
+                </div>
+                <?php endif; ?>
+                <div class="shopbybrand-suggestion-right">
+                    <div class="shopbybrand-product-line shopbybrand-product-name">
+                        <%- data.value %>
+                    </div>
+                    <div class='shopbybrand-product-des'>
+                        <p class='shopbybrand-short-des'>
+                            <%= data.desc %>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </script>
+        <script>
+            require([
+                'jquery',
+                'mage/template',
+                'mpDevbridgeAutocomplete'
+            ], function ($, mageTemplate) {
+                $(document).ready(function () {
+                    var mpSearch     = $('#mp-search');
+
+                    mpSearch.devbridgeAutocomplete({
+                        lookup: <?= /** @noEscape */ $blockSearch->getSearchData()?>,
+                        lookupLimit: <?= /** @noEscape */ $blockSearch->getMaxQueryResult() ?>,
+                        maxHeight: 2000,
+                        minChars: <?= /** @noEscape */ $blockSearch->getMinSearchChar() ?>,
+                        onSelect: function (suggestion) {
+                            window.location.href = suggestion.brandUrl;
+                        },
+                        formatResult: function (suggestion, currentValue) {
+                            var template;
+
+                            template = mageTemplate(
+                                '#mpbrand-autocomplete-suggest',
+                                {
+                                    data: {
+                                        brandUrl: suggestion.brandUrl,
+                                        image: suggestion.image,
+                                        value: suggestion.value,
+                                        desc: suggestion.desc
+                                    }
+                                }
+                            );
+
+                            return template;
+                        }
+                    });
+
+                    $('#mp-brand-search-button').click(function () {
+                        if (!$('.autocomplete-suggestions').is(':visible')) {
+                            mpSearch.focus();
+                        }
+                    });
+                });
+            });
+        </script>
        
         <ol class="products list items product-items">
             <?php foreach ($brandCollection as $brand) : ?>
@@ -190,7 +253,7 @@ if (count($brandCollection)) : ?>
     }
     
     .brand-list-content .product-image-container {
-        width: 140px !important;
+        width: 162px !important;
     }
     
     .brand-list-content .product.details.product-item-details {
