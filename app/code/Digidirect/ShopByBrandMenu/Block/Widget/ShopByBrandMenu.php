@@ -59,7 +59,7 @@ class ShopByBrandMenu extends AbstractBrand
     public function getOptionIds()
     {
         //$str = 17;//$this->getData('category_id');
-        $sql = 'main_table.cat_id IN (1,4,7,10)';
+        $sql = 'main_table.cat_id IN (2,5,8,11)';
         $result = [];
         $brands = $this->_categoryFactory->create()->getCategoryCollection($sql, null)->getData();
         foreach ($brands as $brand => $item) {

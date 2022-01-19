@@ -6,18 +6,195 @@
 $timeId = time();
 $selectedBrands = $block->getCollection();
 
-if (count($selectedBrands) > 1) : ?>
-    <?= /** @noEscape */ $block->includeCssLib() ?>
-    <div class="block block-brand-feature widget">
-        <div class="block-content">
-            <?php foreach ($selectedBrands as $brand) : ?>
-                <div class="relate-content item">
-                    <a href="<?= /** @noEscape */ $block->helper()->getBrandUrl($brand) ?>">
-                        <img class="img-responsive brand-image"
-                             src="<?= /** @noEscape */ $block->helper()->getBrandImageUrl($brand) ?>" alt="">
-                    </a>
+ ?>
+
+<div class="brand-menu-div left-side-options">
+    <input type="checkbox" id="select-all-category" class="brand-menu-chkbx" name="select-all-category" value="0">
+    <label for="select-all-category" class="brand-menu-lbl"> SELECT ALL</label><br>
+    <input type="checkbox" id="select-cameras-category" class="brand-menu-chkbx" name="select-cameras-category" value="1">
+    <label for="select-cameras-category" class="brand-menu-lbl"> Cameras</label><br>
+    <input type="checkbox" id="select-lenses-category" class="brand-menu-chkbx" name="select-lenses-category" value="4">
+    <label for="select-lenses-category" class="brand-menu-lbl"> Lenses</label><br>
+    <input type="checkbox" id="select-drones-category" class="brand-menu-chkbx" name="select-drones-category" value="7">
+    <label for="select-drones-category" class="brand-menu-lbl"> Drones</label><br>
+    <input type="checkbox" id="select-lighting-category" class="brand-menu-chkbx" name="select-lighting-category" value="10">
+    <label for="select-lighting-category" class="brand-menu-lbl"> Lighting And Studio</label><br>
+    <input type="checkbox" id="select-photoacc-category" class="brand-menu-chkbx" name="select-photoacc-category" value="13">
+    <label for="select-photoacc-category" class="brand-menu-lbl"> Photo Accessories</label><br>
+    <input type="checkbox" id="select-optics-category" class="brand-menu-chkbx" name="select-optics-category" value="16">
+    <label for="select-optics-category" class="brand-menu-lbl"> Optics</label><br>
+    <input type="checkbox" id="select-audiovisual-category" class="brand-menu-chkbx" name="select-audiovisual-category" value="19">
+    <label for="select-audiovisual-category" class="brand-menu-lbl"> Audio And Visual</label><br>
+    <input type="checkbox" id="select-provideo-category" class="brand-menu-chkbx" name="select-provideo-category" value="22">
+    <label for="select-provideo-category" class="brand-menu-lbl"> Pro Video</label><br>
+    <input type="checkbox" id="select-smarthome-category" class="brand-menu-chkbx" name="select-smarthome-category" value="25">
+    <label for="select-smarthome-category" class="brand-menu-lbl"> Smart Home</label><br>
+    <input type="checkbox" id="select-computersmobile-category" class="brand-menu-chkbx" name="select-computersmobile-category" value="28">
+    <label for="select-computersmobile-category" class="brand-menu-lbl"> Computers And Mobile</label><br>
+</div>
+
+<?php
+    $blockBrandList = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand\BrandList');
+    $blockSearch = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand\Search');
+    //echo $blockBrandList->getMyCustomMethod();
+?>
+
+<?php
+$helper = $blockBrandList->helper();
+$brandCollection = $blockBrandList->getCollection();
+$displayType = $helper->getBrandConfig('display');
+if (count($brandCollection)) : ?>
+    <div class="brand-list-content brand-menu-div right-side-brands">
+        
+        <div class="block block-brand-search">
+            <div class="block-content">
+                <div class="mp-searchbox">
+                    <input id="mp-search" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
+                           placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
+                    <button type="submit" id="mp-brand-search-button" class="btn btn-primary btn-lg search-btn fa fa-search">
+                        <span><?= /** @noEscape */ __('Search') ?></span>
+                    </button>
                 </div>
-            <?php endforeach; ?>
+            </div>
         </div>
+       
+        <ol class="products list items product-items">
+            <?php foreach ($brandCollection as $brand) : ?>
+                <?php if ($helper->isShowBrandsWithoutProducts()
+                    || (!$helper->isShowBrandsWithoutProducts() && $blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
+                <li class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
+                    <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL) : ?>
+                        <div class="product-item-info" data-container="product-grid" style="width: 240px">
+                            <?php if ($blockBrandList->showQuickView()) : ?>
+                                <div title="Quick View" class="changelog module-version quickview_popup">
+                                    <a class="fa fa-eye open_model"
+                                       id="<?= /** @noEscape */ $helper->getQuickview($brand) ?>"></a>
+                                </div>
+                            <?php endif; ?>
+                            <a title="<?= /** @noEscape */ $brand->getValue() ?>"
+                               href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>"
+                               class="product photo product-item-photo"
+                               tabindex="-1">
+                                <span class="product-image-container" style="width:240px;">
+                                    <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                        <img class="product-image-photo"
+                                             src="<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>" alt="<?= /** @noEscape */ $brand->getValue() ?>">
+                                    </span>
+                                </span>
+                            </a>
+                            <div class="product details product-item-details">
+                                <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LOGO) : ?>
+                                    <strong class="product name product-item-name" style="text-align: center">
+                                        <a title="<?= /** @noEscape */ $brand->getValue() ?>" class="product-item-link"
+                                           href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>">
+                                            <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
+                                        </a>
+                                    </strong>
+                                <?php endif; ?>
+                                <?php if ($blockBrandList->showDescription()) : ?>
+                                    <div class="product description product-item-description">
+                                        <?= /** @noEscape */ $helper->getBrandDescription($brand, true) ?>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    <?php else : ?>
+                        <div class="brand-name-type-label-only" data-container="product-grid">
+                            <strong class="product name product-item-name" style="margin: 0;">
+                                <a class="product-item-link" href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>" style="float: left; padding-right: 10px;">
+                                    <?= $blockBrandList->showProductQty() ? /** @noEscape */  $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
+                                </a>
+                                <?php if ($blockBrandList->showQuickView()) : ?>
+                                    <div title="Quick View" class="changelog module-version quickview_popup">
+                                        <a class="fa fa-eye open_model"
+                                           id="<?= /** @noEscape */ $helper->getQuickview($brand) ?>"></a>
+                                    </div>
+                                <?php endif; ?>
+                            </strong>
+                            <?php if ($blockBrandList->showDescription()) : ?>
+                                <div class="product description product-item-description">
+                                    <?= /** @noEscape */ $helper->getBrandDescription($brand, true) ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                </li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ol>
     </div>
+<?php else : ?>
+    <?= /** @noEscape */ __('There is no brand available.') ?>
 <?php endif; ?>
+
+<style type="text/css">
+    
+    .block-brand-search {
+        background-color: unset !important;
+        margin: 0 !important;
+    }
+    
+    .brand-menu-div {
+        display: inline-block !important;
+        color: #000 !important;
+    }
+    
+    .brand-menu-chkbx {
+        position: relative !important;
+        width: 15px !important;
+        height: 15px !important;
+        margin: 0 !important;
+        top: 3px !important;
+        padding-bottom: 20px !important;
+    }
+    
+    .brand-menu-lbl:before, .brand-menu-lbl:after {
+        display: none !important;
+    }
+    
+    .left-side-options {
+        width: 40%; 
+        padding: 20px !important;
+    }
+    
+    .right-side-brands {
+        width: 60%;
+    }
+
+    .shop-by-brand-menu-grid {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px;
+    }
+    .shop-by-brand-menu-grid-item {
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+    }
+    
+    .brand-list-content .product-image-container {
+        width: 188px !important;
+    }
+    
+    .brand-list-content .product.details.product-item-details {
+        margin: 0 !important;
+    }
+    
+    .brand-list-content .product-items .product-item:hover > .product-item-info {
+        box-shadow: unset !important;
+        transform: unset !important;
+    }
+    
+    .brand-list-content span.product-image-wrapper {
+        padding-bottom: 100px !important;
+    }
+    
+    .brand-list-content .product-item-info {
+        border: none !important;
+    }
+    
+    .brand-list-content .products {
+        margin-top: -20px !important;
+    }
+
+</style>
