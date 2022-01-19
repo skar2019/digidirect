@@ -5,97 +5,83 @@
 
 namespace Digidirect\ShopByBrandMenu\Block\Widget;
 
-use Magento\Framework\View\Element\Template\Context;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\Collection;
-use Mageplaza\Shopbybrand\Block\Brand;
-use Mageplaza\Shopbybrand\Helper\Data;
+use Magento\Framework\View\Element\Template\Context;
+use Mageplaza\Shopbybrand\Helper\Data as Helper;
+use Mageplaza\Shopbybrand\Model\BrandFactory;
+use Mageplaza\Shopbybrand\Model\CategoryFactory;
+use Mageplaza\Shopbybrand\Block\Widget\AbstractBrand as AbstractBrand;
 
 /**
  * Class ShopByBrandMenu
  */
 
-class ShopByBrandMenu extends Brand
+class ShopByBrandMenu extends AbstractBrand
 {
     /**
      * @var string
      */
     protected $_template = 'Digidirect_ShopByBrandMenu::widget/shopbybrandmenu.phtml';
 
-    protected $optionIds = [];
+    /**
+     * @type BrandFactory
+     */
+    protected $_brandFactory;
 
     /**
-     * @var Collection
+     * @var CategoryFactory
      */
-    protected $brandCollection;
+    protected $_categoryFactory;
 
     /**
-     * Get Brand List by First Character
+     * CategoryId constructor.
      *
-     * @param $char
-     *
-     * @return Collection|mixed
+     * @param Context $context
+     * @param BrandFactory $brandFactory
+     * @param CategoryFactory $categoryFactory
+     * @param Helper $helper
      */
-    public function getCollectionByChar($char)
+    public function __construct(
+        Context $context,
+        BrandFactory $brandFactory,
+        CategoryFactory $categoryFactory,
+        Helper $helper
+    ) {
+        $this->_categoryFactory = $categoryFactory;
+        $this->_brandFactory = $brandFactory;
+
+        parent::__construct($context, $helper);
+    }
+
+    /**
+     * @return string
+     */
+    public function getOptionIds()
     {
-        if (!$this->brandCollection) {
-            $this->brandCollection = $this->getCollection(Data::BRAND_FIRST_CHAR);
+        //$str = 17;//$this->getData('category_id');
+        $sql = 'main_table.cat_id IN (2,5,8,11)';
+        $result = [];
+        $brands = $this->_categoryFactory->create()->getCategoryCollection($sql, null)->getData();
+        foreach ($brands as $brand => $item) {
+            $result[] = $item['option_id'];
         }
-        $collection = clone $this->brandCollection;
-        $sqlString = $this->helper->checkCharacter($char);
-        $collection->getSelect()->where($sqlString);
-        $this->optionIds[$char] = $this->getOptionIdsToFilter($collection);
+
+        return implode(',', array_unique($result));
+    }
+
+    /**
+     * get brand by option IDs
+     *
+     * @return Collection
+     */
+    public function getCollection()
+    {
+        $collection = $this->_brandFactory->create()->getBrandCollection(
+            null,
+            ['main_table.option_id' => ['in' => $this->getOptionIds()]]
+        );
 
         return $collection;
-    }
-
-    /**
-     * Get Category Filter Class for Mixitup
-     *
-     * @param $optionId
-     *
-     * @return string
-     */
-    public function getCatFilterClass($optionId)
-    {
-        return $this->helper->getCatFilterClass($optionId);
-    }
-
-    /**
-     * @param $catName
-     *
-     * @return mixed
-     */
-    public function getCatNameFilter($catName)
-    {
-        return str_replace([' ', '*', '/', '\\'], '_', $catName);
-    }
-
-    /**
-     * @param string $char
-     *
-     * @return mixed
-     */
-    public function getOptionIdByChar($char)
-    {
-        return $this->optionIds[$char];
-    }
-
-    /**
-     * @param Collection $collection
-     *
-     * @return string
-     */
-    public function getOptionIdsToFilter($collection)
-    {
-        $optionIds = [];
-
-        foreach ($collection as $brand) {
-            $optionIds [] = $brand->getId();
-        }
-        $result = implode(',', $optionIds);
-        unset($optionIds);
-
-        return $result;
     }
     
 }
