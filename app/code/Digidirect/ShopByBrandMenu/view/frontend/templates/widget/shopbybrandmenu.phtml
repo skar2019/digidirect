@@ -56,7 +56,7 @@ $selectedBrands = $block->getCollection();
                        data-filter="all"><?= /** @noEscape */ __('All Category') ?></a>
                 </li>
                 <?php foreach ($categories as $category) : ?>
-                    <?php if ($block->getBrandQty($category->getId())) : ?>
+                    <?php if ($blockBrands->getBrandQty($category->getId())) : ?>
                         <li class="control">
                             <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $block->getCatNameFilter($category->getName()) . '"' ?>><?= /** @noEscape */ $category->getName() ?></a>
                         </li>
