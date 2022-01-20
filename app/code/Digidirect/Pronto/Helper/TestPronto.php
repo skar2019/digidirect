@@ -46,10 +46,8 @@ class TestPronto extends AbstractHelper
      */
     protected $repCodeForPickUp = [
         '11' => 'S7P',
-        '13' => 'B4P',
         '17' => 'M1P',
         '21' => 'M6P',
-        '19' => 'B5P',
         '23' => 'C3P',
         '1'  => 'S7P',
         '4'  => 'B4P',
@@ -57,7 +55,8 @@ class TestPronto extends AbstractHelper
         '10' => 'B5P',
         '13' => 'M6P',
         '16' => 'C3P',
-        '19' => 'B5P'
+        '19' => 'B5P',
+        '31' => 'B4P',
 
     ];
 

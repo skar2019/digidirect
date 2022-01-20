@@ -55,7 +55,8 @@ class Order extends AbstractHelper
         '10' => 'B5P',
         '13' => 'M6P',
         '16' => 'C3P',
-        '19' => 'B5P'
+        '19' => 'B5P',
+        '31' => 'B4P',
 
     ];
 
