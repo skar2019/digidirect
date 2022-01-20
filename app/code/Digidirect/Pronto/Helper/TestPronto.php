@@ -756,7 +756,11 @@ class TestPronto extends AbstractHelper
             $territory = "WEBS";
             if($wrehs != 'SWHS')
             {
-                $territory = $wrehs;
+                if($wrehs != '')
+                {
+                    $territory = $wrehs;
+                }
+                
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
