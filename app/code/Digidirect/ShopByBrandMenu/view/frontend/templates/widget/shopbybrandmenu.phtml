@@ -14,6 +14,7 @@ $selectedBrands = $block->getCollection();
     $blockCategory = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand\Category');
     $blockBrands = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand');
     $categories = $blockBrands->getCategories();
+    $helperCategories = $blockBrands->helper();
     //echo $blockBrandList->getMyCustomMethod();
 ?>
 
@@ -25,7 +26,7 @@ $selectedBrands = $block->getCollection();
             'Mageplaza_Shopbybrand/js/modal-popup'
         ],
         function ($, mixitup) {
-            window.quickviewUrl = '<?= /** @noEscape */ $helper->getQuickViewUrl()?>';
+            window.quickviewUrl = '<?= /** @noEscape */ $helperCategories->getQuickViewUrl()?>';
             mixitup('.brand-mix-container');
 
             $(".brand-options li").on('click', function () {
