@@ -58,7 +58,7 @@ $selectedBrands = $block->getCollection();
                 <?php foreach ($categories as $category) : ?>
                     <?php if ($blockBrands->getBrandQty($category->getId())) : ?>
                         <li class="control">
-                            <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $block->getCatNameFilter($category->getName()) . '"' ?>><?= /** @noEscape */ $category->getName() ?></a>
+                            <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $blockBrands->getCatNameFilter($category->getName()) . '"' ?>><?= /** @noEscape */ $category->getName() ?></a>
                         </li>
                     <?php else : ?>
                         <li class="disabled">
@@ -72,8 +72,8 @@ $selectedBrands = $block->getCollection();
 </div>
 <style type="text/css">
     .brand-info-container .img-content .quickview_img {
-        width: <?= /** @noEscape */ $block->getLogoWidth() . 'px' ?>;
-        height: <?= /** @noEscape */ $block->getLogoHeight() . 'px' ?>
+        width: <?= /** @noEscape */ $blockBrands->getLogoWidth() . 'px' ?>;
+        height: <?= /** @noEscape */ $blockBrands->getLogoHeight() . 'px' ?>
     }
 </style>
 
