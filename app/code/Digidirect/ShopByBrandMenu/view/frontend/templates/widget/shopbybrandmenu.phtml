@@ -17,6 +17,36 @@ $selectedBrands = $block->getCollection();
     //echo $blockBrandList->getMyCustomMethod();
 ?>
 
+<script type="text/javascript">
+    require([
+            'jquery',
+            'Mageplaza_Shopbybrand/js/lib/mixitup.min',
+            'Mageplaza_Shopbybrand/js/quick-view',
+            'Mageplaza_Shopbybrand/js/modal-popup'
+        ],
+        function ($, mixitup) {
+            window.quickviewUrl = '<?= /** @noEscape */ $helper->getQuickViewUrl()?>';
+            mixitup('.brand-mix-container');
+
+            $(".brand-options li").on('click', function () {
+                if (!$(this).hasClass('disabled')) {
+                    $(".brand-options li").removeClass("active");
+                    $(this).addClass("active");
+                }
+            });
+
+            $(".category-nav-list li").on('click', function () {
+                if (!$(this).hasClass('disabled')) {
+                    $(".category-nav-list li").removeClass("active");
+                    $(this).addClass("active");
+                }
+            });
+
+            $(".navigation li.mpbrand-top-link").addClass("active");
+        }
+    );
+</script>
+
 <div class="brand-menu-div left-side-options">
     <ul class="nav brand-options category-nav-list navbar-nav controls" style="margin-bottom: 30px;">
         <li id="mp-first-opt" class="control active">
