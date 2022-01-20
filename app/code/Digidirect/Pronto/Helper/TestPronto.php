@@ -742,7 +742,7 @@ class TestPronto extends AbstractHelper
             }
 
             $prontoOrderNumber = $order->getData('pronto_order_number');
-            if(!is_numeric($prontoOrderNumber))
+            if(is_numeric($prontoOrderNumber))
             {
                 continue;
             }
