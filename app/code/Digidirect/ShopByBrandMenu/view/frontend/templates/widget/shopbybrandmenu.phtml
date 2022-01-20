@@ -15,7 +15,6 @@ $selectedBrands = $block->getCollection();
     $blockBrands = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand');
     $categories = $blockBrands->getCategories();
     $helperCategories = $blockBrands->helper();
-    //echo $blockBrandList->getMyCustomMethod();
 ?>
 
 <script type="text/javascript">
@@ -58,7 +57,7 @@ $selectedBrands = $block->getCollection();
                 <?php foreach ($categories as $category) : ?>
                     <?php if ($blockBrands->getBrandQty($category->getId())) : ?>
                         <li class="control">
-                            <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $blockBrands->getCatNameFilter($category->getName()) . '"' ?>><?= /** @noEscape */ $category->getName() ?></a>
+                            <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $category->getName() . '"' ?>><?= /** @noEscape */ $category->getName() ?></a>
                         </li>
                     <?php else : ?>
                         <li class="disabled">
