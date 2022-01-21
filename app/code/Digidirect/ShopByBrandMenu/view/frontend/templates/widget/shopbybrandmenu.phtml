@@ -50,6 +50,7 @@ $selectedBrands = $block->getCollection();
         <ul class="nav brand-options category-nav-list navbar-nav controls" style="margin-bottom: 30px;">
             <a class="filter mp-option-item" data-filter="all" onclick="filterSelection('all')">
                 <input name="brand-menu-radio" id="mp-first-opt" type="radio" class="control active" checked>
+                <img>
                 <label for="mp-first-opt">SELECT ALL</label>
             </a>
             <br>
@@ -58,6 +59,7 @@ $selectedBrands = $block->getCollection();
                     
                     <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $category->getName() . '"' ?> onclick="filterSelection(<?= "'cat" . /** @noEscape */ $category->getName() . "'" ?>)">
                         <input name="brand-menu-radio" id="<?= /** @noEscape */ $category->getName() ?>" type="radio" class="control">
+                        <img>
                         <label for="<?= /** @noEscape */ $category->getName() ?>"><?= /** @noEscape */ $category->getName() ?></label>
                     </a>
                     <br>
@@ -373,8 +375,13 @@ $selectedBrands = $block->getCollection();
     .brand-list-content .products {
         margin-top: -20px !important;
         overflow-y: scroll;
-        height: 5000px !important;
+        height: 750px !important;
         position: relative;
+        background: unset !important;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: unset !important;
     }
     
     .brand-list-content .product.name.product-item-name {
@@ -389,5 +396,43 @@ $selectedBrands = $block->getCollection();
     .show-brand {
         display: block !important;
     }
+    
+    .mp-option-item .control {
+        margin-bottom: 20px !important;
+        margin-right: 12px !important;
+    }
+    
+    .mp-option-item .control {
+        visibility: hidden;
+    }
+    
+    .mp-option-item .control:checked +img {
+        background: url(https://cdn4.iconfinder.com/data/icons/feather/24/check-512.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 18px 18px;
+    }
+    
+    .mp-option-item img {
+        display: inline-block;
+        padding: 0px;
+        height: 18px;
+        width: 18px !important;
+        background: none;
+        vertical-align: middle;
+        margin-top: -5px !important;
+    }
+    
+    .mp-option-item label {
+        padding-left: 50px;
+        margin-left: -30px;
+        color: #000 !important;
+    }
+    
+    .mp-option-item {
+        text-decoration: none !important;
+        cursor: pointer !important;
+    }
+    
 
 </style>
