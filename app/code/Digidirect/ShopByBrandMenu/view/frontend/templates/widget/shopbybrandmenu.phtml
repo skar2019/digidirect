@@ -57,7 +57,7 @@ $selectedBrands = $block->getCollection();
             <?php foreach ($categories as $category) : ?>
                 <?php if ($blockBrands->getBrandQty($category->getId())) : ?>
                     
-                    <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $category->getName() . '"' ?> onclick="filterSelection(<?= "'cat" . /** @noEscape */ $category->getName() . "'" ?>)">
+                    <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $category->getName() . '"' ?> onclick="filterSelection(<?= "'cat" . /** @noEscape */ $blockBrandList->getCatNameFilter($category->getName()) . "'" ?>)">
                         <input name="brand-menu-radio" id="<?= /** @noEscape */ $category->getName() ?>" type="radio" class="control">
                         <img>
                         <label for="<?= /** @noEscape */ $category->getName() ?>"><?= /** @noEscape */ $category->getName() ?></label>
