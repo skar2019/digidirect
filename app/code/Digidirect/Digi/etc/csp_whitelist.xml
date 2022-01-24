@@ -31,8 +31,11 @@
                 <value id="stackadapt" type="host">*.srv.stackadapt.com</value>
                 <value id="newrelic" type="host">*.newrelic.com</value>
                 <value id="bamcell" type="host">*.nr-data.net</value>
-                <value id="cfjump" type="host">https://cfjump.digidirect.com.au</value>
+                <value id="cfjump2" type="host">https://cfjump.digidirect.com.au</value>
                 <value id="gstatic" type="host">*.gstatic.com</value>
+                <value id="cfjump3" type="host">https://t.cfjump.com/tag/72917</value>
+                <value id="lukyorange" type="host">https://settings.luckyorange.net</value>
+
             </values>
         </policy>
         <policy id="style-src">
@@ -71,9 +74,17 @@
             <values>
                 <!--CDN-->
                 <value id="cloudflare" type="host">*.cloudflare.com</value>
-
-                <!--Payments-->
                 <value id="paypal" type="host">*.paypal.com</value>
+                <value id="cfjump3connect" type="host">https://t.cfjump.com/tag/72917</value>
+                <value id="lukyorangeconnect" type="host">https://settings.luckyorange.net</value>
+                <value id="paconnect" type="host">https://recs-1a.particularaudience.com</value>
+                <value id="statsgconnect" type="host">https://stats.g.doubleclick.net</value>
+                <value id="popwiseconnect" type="host">https://popup.wisepops.com</value>
+                <value id="gaconnect" type="host">https://www.google-analytics.com</value>
+                <value id="tagssvrconnect" type="host">https://tags.srv.stackadapt.com</value>
+                <value id="studio19connect" type="host">https://secure.studio19.com.au</value>
+                <value id="polygroupconnect" type="host">https://secure.polygongroup.com.au</value>
+
             </values>
         </policy>
         <policy id="font-src">
