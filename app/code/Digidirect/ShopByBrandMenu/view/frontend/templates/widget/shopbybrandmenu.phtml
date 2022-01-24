@@ -202,69 +202,7 @@ $selectedBrands = $block->getCollection();
                     });
                 </script>
 
-                <ol class="products list items product-items">
-                    <?php foreach ($brandCollection as $brand) : ?>
-                        <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
-                        <li style="display: none;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
-                            <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL) : ?>
-                                <div class="product-item-info" data-container="product-grid" style="width: 240px">
-                                    <?php if ($blockBrandList->showQuickView()) : ?>
-                                        <div title="Quick View" class="changelog module-version quickview_popup">
-                                            <a class="fa fa-eye open_model"
-                                               id="<?= /** @noEscape */ $helper->getQuickview($brand) ?>"></a>
-                                        </div>
-                                    <?php endif; ?>
-                                    <a title="<?= /** @noEscape */ $brand->getValue() ?>"
-                                       href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>"
-                                       class="product photo product-item-photo"
-                                       tabindex="-1">
-                                        <span class="product-image-container" style="width:240px;">
-                                            <span class="product-image-wrapper" style="padding-bottom: 125%;">
-                                                <img class="product-image-photo"
-                                                     src="<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>" alt="<?= /** @noEscape */ $brand->getValue() ?>">
-                                            </span>
-                                        </span>
-                                    </a>
-                                    <div class="product details product-item-details">
-                                        <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LOGO) : ?>
-                                            <strong class="product name product-item-name" style="text-align: center">
-                                                <a title="<?= /** @noEscape */ $brand->getValue() ?>" class="product-item-link"
-                                                   href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>">
-                                                    <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
-                                                </a>
-                                            </strong>
-                                        <?php endif; ?>
-                                        <?php if ($blockBrandList->showDescription()) : ?>
-                                            <div class="product description product-item-description">
-                                                <?= /** @noEscape */ $helper->getBrandDescription($brand, true) ?>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php else : ?>
-                                <div class="brand-name-type-label-only" data-container="product-grid">
-                                    <strong class="product name product-item-name" style="margin: 0;">
-                                        <a class="product-item-link" href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>" style="float: left; padding-right: 10px;">
-                                            <?= $blockBrandList->showProductQty() ? /** @noEscape */  $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
-                                        </a>
-                                        <?php if ($blockBrandList->showQuickView()) : ?>
-                                            <div title="Quick View" class="changelog module-version quickview_popup">
-                                                <a class="fa fa-eye open_model"
-                                                   id="<?= /** @noEscape */ $helper->getQuickview($brand) ?>"></a>
-                                            </div>
-                                        <?php endif; ?>
-                                    </strong>
-                                    <?php if ($blockBrandList->showDescription()) : ?>
-                                        <div class="product description product-item-description">
-                                            <?= /** @noEscape */ $helper->getBrandDescription($brand, true) ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endif; ?>
-                        </li>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </ol>
+                
             </div>
         <?php else : ?>
             <?= /** @noEscape */ __('There is no brand available.') ?>
