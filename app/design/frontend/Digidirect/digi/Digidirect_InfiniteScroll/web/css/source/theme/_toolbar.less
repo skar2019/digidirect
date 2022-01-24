@@ -38,6 +38,32 @@
             .lib-css(background-image, @base64-icon__sort-incr-gray);
         }
     }
+    
+    //Rondel Changes
+    
+    .sorter-action {
+        margin: 0 !important;
+    }
+    
+    .sorter-action.sort-desc.-active::before {
+        content: '';
+        .lib-css(background-image, @base64-icon__sort-decr-black);
+    }
+
+    .sorter-action.sort-desc.-passive::before {
+        content: '';
+        .lib-css(background-image, @base64-icon__sort-decr-gray);
+    }
+
+    .sorter-action.sort-asc.-active::before {
+        content: '';
+        .lib-css(background-image, @base64-icon__sort-incr-black);
+    }
+
+    .sorter-action.sort-asc.-passive::before {
+        content: '';
+        .lib-css(background-image, @base64-icon__sort-incr-gray);
+    }
 
     .toolbar-products .desktop-row .sorter.-mobile {
         & {
