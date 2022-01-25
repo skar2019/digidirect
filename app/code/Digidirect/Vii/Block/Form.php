@@ -54,7 +54,7 @@ class Form extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function canRedeem()
     {
-        return true;
+        return false;
     }
 
     /**

@@ -59,16 +59,13 @@ class QuoteSubmitSuccess implements ObserverInterface
         /**
          * @var \Magento\Sales\Model\Order $order
          */
-        //$this->logger->info('QuoteSubmitSuccess');
         if (!$this->helper->isActive()) {
-//            $this->logger->info('QuoteSubmitSuccess : not active');
             return;
         }
 
         $order = $observer->getEvent()->getOrder();
         $cards = $this->giftCAHelper->getCards($order);
         if (empty($cards)) {
-//            $this->logger->info('QuoteSubmitSuccess : empty');
             return;
         }
 
@@ -104,9 +101,7 @@ class QuoteSubmitSuccess implements ObserverInterface
                 $entityOrderData->setToken($entity->getToken());
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
-//                $this->logger->info('QuoteSubmitSuccess: saveEntityOrderData');
             } catch (NoSuchEntityException $e) {
-//                $this->logger->info('QuoteSubmitSuccess : error');
                 continue;
             }
         }

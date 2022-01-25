@@ -46,7 +46,7 @@ class TestPronto extends AbstractHelper
      */
     protected $repCodeForPickUp = [
         '11' => 'S7P',
-        '13' => 'B4P',
+        '31' => 'B4P',
         '17' => 'M1P',
         '21' => 'M6P',
         '19' => 'B5P',
@@ -741,6 +741,12 @@ class TestPronto extends AbstractHelper
                 continue;
             }
 
+            $prontoOrderNumber = $order->getData('pronto_order_number');
+            if(is_numeric($prontoOrderNumber))
+            {
+                continue;
+            }
+
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
             $this->logger->info('Pronto Order Sync - '.$orderId);
@@ -750,7 +756,11 @@ class TestPronto extends AbstractHelper
             $territory = "WEBS";
             if($wrehs != 'SWHS')
             {
-                $territory = $wrehs;
+                if($wrehs != '')
+                {
+                    $territory = $wrehs;
+                }
+                
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);

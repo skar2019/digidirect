@@ -41,8 +41,6 @@ $selectedBrands = $block->getCollection();
             });
 
             $(".navigation li.mpbrand-top-link").addClass("active");
-            
-            window.onload = $('#brand-list-id').show();
         }
     );
 </script>
@@ -129,82 +127,8 @@ $selectedBrands = $block->getCollection();
             $displayType = $helper->getBrandConfig('display');
         if (count($brandCollection)) : ?>
             <div class="brand-list-content brand-menu-div right-side-brands">
-                <div class="block block-brand-search">
-                    <div class="block-content">
-                        <div class="mp-searchbox">
-                            <input id="mp-search" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
-                                   placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
-                            <button type="submit" id="mp-brand-search-button" class="btn btn-primary btn-lg search-btn fa fa-search">
-                                <span><?= /** @noEscape */ __('Search') ?></span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <script id="mpbrand-autocomplete-suggest" type="text/x-magento-template">
-                    <a class="shopbybrand-suggestion" href="<%- data.brandUrl %>">
-                        <?php if ($blockSearch->isVisibleImage()) : ?>
-                        <div class="shopbybrand-suggestion-left">
-                            <img class="shopbybrand-img-responsive" src="<%- data.image %>" alt="" width="70" />
-                        </div>
-                        <?php endif; ?>
-                        <div class="shopbybrand-suggestion-right">
-                            <div class="shopbybrand-product-line shopbybrand-product-name">
-                                <%- data.value %>
-                            </div>
-                            <div class='shopbybrand-product-des'>
-                                <p class='shopbybrand-short-des'>
-                                    <%= data.desc %>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </script>
-                <script>
-                    require([
-                        'jquery',
-                        'mage/template',
-                        'mpDevbridgeAutocomplete'
-                    ], function ($, mageTemplate) {
-                        $(document).ready(function () {
-                            var mpSearch     = $('#mp-search');
 
-                            mpSearch.devbridgeAutocomplete({
-                                lookup: <?= /** @noEscape */ $blockSearch->getSearchData()?>,
-                                lookupLimit: <?= /** @noEscape */ $blockSearch->getMaxQueryResult() ?>,
-                                maxHeight: 2000,
-                                minChars: <?= /** @noEscape */ $blockSearch->getMinSearchChar() ?>,
-                                onSelect: function (suggestion) {
-                                    window.location.href = suggestion.brandUrl;
-                                },
-                                formatResult: function (suggestion, currentValue) {
-                                    var template;
-
-                                    template = mageTemplate(
-                                        '#mpbrand-autocomplete-suggest',
-                                        {
-                                            data: {
-                                                brandUrl: suggestion.brandUrl,
-                                                image: suggestion.image,
-                                                value: suggestion.value,
-                                                desc: suggestion.desc
-                                            }
-                                        }
-                                    );
-
-                                    return template;
-                                }
-                            });
-
-                            $('#mp-brand-search-button').click(function () {
-                                if (!$('.autocomplete-suggestions').is(':visible')) {
-                                    mpSearch.focus();
-                                }
-                            });
-                        });
-                    });
-                </script>
-
-                <ol id="brand-list-id" class="products list items product-items" style="display: none;">
+                <ol class="products list items product-items">
                     <?php foreach ($brandCollection as $brand) : ?>
                         <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
                         <li style="display: none;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">

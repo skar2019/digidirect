@@ -46,8 +46,10 @@ class Order extends AbstractHelper
      */
     protected $repCodeForPickUp = [
         '11' => 'S7P',
+        '31' => 'B4P',
         '17' => 'M1P',
         '21' => 'M6P',
+        '19' => 'B5P',
         '23' => 'C3P',
         '1'  => 'S7P',
         '4'  => 'B4P',
@@ -166,7 +168,10 @@ class Order extends AbstractHelper
             $territory = "WEBS";
             if($wrehs != 'SWHS')
             {
-                $territory = $wrehs;
+                if($wrehs != '')
+                {
+                    $territory = $wrehs;
+                }
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);

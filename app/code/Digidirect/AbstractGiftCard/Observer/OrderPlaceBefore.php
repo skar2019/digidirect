@@ -32,7 +32,6 @@ class OrderPlaceBefore implements ObserverInterface
      */
     protected $abstractGiftCardEntityRepository;
 
-    protected  $logger;
     /**
      * QuoteSubmitBefore constructor.
      * @param \Magento\GiftCardAccount\Helper\Data $giftCAHelper
@@ -44,14 +43,12 @@ class OrderPlaceBefore implements ObserverInterface
         \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
-        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
-        \Digidirect\CustomOrderLog\Logger\Logger $logger
+        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository
     ) {
         $this->giftCAHelper = $giftCAHelper;
         $this->helper = $helper;
         $this->giftCardAccountFactory = $giftcardaccountFactory;
         $this->abstractGiftCardEntityRepository = $abstractGiftCardEntityRepository;
-        $this->logger = $logger;
     }
 
     /**
@@ -74,7 +71,6 @@ class OrderPlaceBefore implements ObserverInterface
         $order = $observer->getEvent()->getOrder();
         $cards = $this->giftCAHelper->getCards($order);
         if (empty($cards)) {
-            $this->logger->info('Empty cards');
             return;
         }
 
@@ -97,15 +93,12 @@ class OrderPlaceBefore implements ObserverInterface
                     $service->setStore($order->getStoreId());
                     $service->setOrder($order);
                     $service->validate()->hold($amount);
-                    $this->logger->info('Gift card amount '.$amount);
                 } catch (\Exception $e) {
-                    $this->logger->info('Error '.$giftCard[Giftcardaccount::CODE]);
                     throw new BlockOrderPlaceException(
                         __('The requested Gift Card (%1) is not available.', $giftCard[Giftcardaccount::CODE])
                     );
                 }
 
-                $this->logger->info('Gift card token '.$service->getLastToken());
                 $entity->setToken($service->getLastToken());
                 $entity->setAmount($amount);
                 $entity->setStatus(AbstractGiftCardEntity::STATUS_HOLD);

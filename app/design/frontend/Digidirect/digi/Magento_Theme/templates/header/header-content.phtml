@@ -55,6 +55,9 @@
     
     require(['jquery', 'owl_carousel'],
         function ($) {
+            
+            $(".top-red-banner-wrapper").slideDown("slow");
+            
             $(window).scroll(function() {stickyHeader()}); // OR  $(window).scroll(function() {
             var header = document.getElementById("main-header-wrapper");
             var trigger = document.getElementById("header-toggle-nav");
@@ -75,7 +78,8 @@
             });
             
             $(window).load(function() {
-                $(".top-red-banner-wrapper").slideDown("slow");
+                //$(".top-red-banner-wrapper").slideDown("slow");
+                $("#top-red-banner-block-id:before").css("visibility", "visible !important");
             });
            
             
