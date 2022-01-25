@@ -896,6 +896,7 @@ class Product extends AbstractHelper
             {
                 //product update
                 $forLogs .= "SKU ".$prod['code']."\n";
+                echo "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
                 //set name, price, stock status
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];

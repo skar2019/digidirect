@@ -138,10 +138,10 @@ class Inventory extends AbstractHelper
                     //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
                     if($prodRes['stk-user-only-alpha4-1'] == 'A')
                     {
-                        $prod->setData('awaiting_product', '1');
+                        $prod->setCustomAttribute('awaiting_product', '1');
                     }
                     else {
-                        $prod->setData('awaiting_product', '0');
+                        $prod->setCustomAttribute('awaiting_product', '0');
                     }
 
                     if(isset($prodRes['warehouse']['whse']))
