@@ -132,7 +132,7 @@ class Product extends AbstractHelper
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                         $endis = "Enabled = 1";
                     }
 
@@ -929,23 +929,27 @@ class Product extends AbstractHelper
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+                        //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'as is';
                     }
 
                 }
+
+                echo $endis." <br/>";
 
                 if($prod['stk-user-only-alpha4-1'] == 'A')
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('awaiting_product', '1');
+                    echo "awaiting 1  <br/>";
                 }
                 else {
                     //$product->setData('awaiting_product', '0');
                     $product->setCustomAttribute('awaiting_product', '0');
+                    echo "awaiting 0  <br/>";
                 }
 
-                echo $endis." <br/>";
+
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
