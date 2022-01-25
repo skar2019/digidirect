@@ -3,5 +3,6 @@
     <group name="quote_item">
         <attribute name="qff_base"/>
         <attribute name="qff_bonus_points"/>
+        <attribute name="awaiting_product"/>
     </group>
 </config>
