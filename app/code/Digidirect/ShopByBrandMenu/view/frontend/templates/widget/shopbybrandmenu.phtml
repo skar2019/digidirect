@@ -47,78 +47,7 @@ $selectedBrands = $block->getCollection();
 
 <div>
     <div class="brand-menu-div left-side-options">
-        <ul class="nav brand-options category-nav-list navbar-nav controls" style="margin-bottom: 30px;">
-            <a class="filter mp-option-item" data-filter="all" onclick="filterSelection('all')">
-                <input name="brand-menu-radio" id="mp-first-opt" type="radio" class="control active" checked>
-                <img>
-                <label for="mp-first-opt">SELECT ALL</label>
-            </a>
-            <br>
-            <?php foreach ($categories as $category) : ?>
-                <?php if ($blockBrands->getBrandQty($category->getId())) : ?>
-                    
-                    <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $category->getName() . '"' ?> onclick="filterSelection(<?= "'cat" . /** @noEscape */ $blockBrandList->getCatNameFilter($category->getName()) . "'" ?>)">
-                        <input name="brand-menu-radio" id="<?= /** @noEscape */ $category->getName() ?>" type="radio" class="control">
-                        <img>
-                        <label for="<?= /** @noEscape */ $category->getName() ?>"><?= /** @noEscape */ $category->getName() ?></label>
-                    </a>
-                    <br>
-                   
-                <?php else : ?>
-                    <li class="disabled">
-                        <a class="disabled mp-option-item"><?= /** @noEscape */ $category->getName() ?></a>
-                    </li>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </ul>
-        <div style="clear: both"></div>
     </div>
-    
-    <script type="text/javascript">
-        
-        
-        function filterSelection(c) {
-            var x, i;
-            x = document.getElementsByClassName("product-item");
-            if (c == "all") c = "";
-            // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
-            for (i = 0; i < x.length; i++) {
-              w3RemoveClass(x[i], "show-brand");
-              if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show-brand");
-            }
-        }
-
-        // Show filtered elements
-        function w3AddClass(element, name) {
-            var i, arr1, arr2;
-            arr1 = element.className.split(" ");
-            arr2 = name.split(" ");
-            for (i = 0; i < arr2.length; i++) {
-              if (arr1.indexOf(arr2[i]) == -1) {
-                element.className += " " + arr2[i];
-              }
-            }
-        }
-
-        // Hide elements that are not selected
-        function w3RemoveClass(element, name) {
-            var i, arr1, arr2;
-            arr1 = element.className.split(" ");
-            arr2 = name.split(" ");
-            for (i = 0; i < arr2.length; i++) {
-              while (arr1.indexOf(arr2[i]) > -1) {
-                arr1.splice(arr1.indexOf(arr2[i]), 1);
-              }
-            }
-            element.className = arr1.join(" ");
-        }   
-        
-        window.onload = function() {
-            filterSelection("all");
-        };
-      
-      
-    </script>
     
     <div class="block-content">
         <?php
@@ -127,6 +56,80 @@ $selectedBrands = $block->getCollection();
             $displayType = $helper->getBrandConfig('display');
         if (count($brandCollection)) : ?>
             <div class="brand-list-content brand-menu-div right-side-brands">
+                <div class="block block-brand-search">
+                    <div class="block-content">
+                        <div class="mp-searchbox">
+                            <input id="mp-search" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
+                                   placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
+                            <button type="submit" id="mp-brand-search-button" class="btn btn-primary btn-lg search-btn fa fa-search">
+                                <span><?= /** @noEscape */ __('Search') ?></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <script id="mpbrand-autocomplete-suggest" type="text/x-magento-template">
+                    <a class="shopbybrand-suggestion" href="<%- data.brandUrl %>">
+                        <?php if ($blockSearch->isVisibleImage()) : ?>
+                        <div class="shopbybrand-suggestion-left">
+                            <img class="shopbybrand-img-responsive" src="<%- data.image %>" alt="" width="70" />
+                        </div>
+                        <?php endif; ?>
+                        <div class="shopbybrand-suggestion-right">
+                            <div class="shopbybrand-product-line shopbybrand-product-name">
+                                <%- data.value %>
+                            </div>
+                            <div class='shopbybrand-product-des'>
+                                <p class='shopbybrand-short-des'>
+                                    <%= data.desc %>
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </script>
+                <script>
+                    require([
+                        'jquery',
+                        'mage/template',
+                        'mpDevbridgeAutocomplete'
+                    ], function ($, mageTemplate) {
+                        $(document).ready(function () {
+                            var mpSearch     = $('#mp-search');
+
+                            mpSearch.devbridgeAutocomplete({
+                                lookup: <?= /** @noEscape */ $blockSearch->getSearchData()?>,
+                                lookupLimit: <?= /** @noEscape */ $blockSearch->getMaxQueryResult() ?>,
+                                maxHeight: 2000,
+                                minChars: <?= /** @noEscape */ $blockSearch->getMinSearchChar() ?>,
+                                onSelect: function (suggestion) {
+                                    window.location.href = suggestion.brandUrl;
+                                },
+                                formatResult: function (suggestion, currentValue) {
+                                    var template;
+
+                                    template = mageTemplate(
+                                        '#mpbrand-autocomplete-suggest',
+                                        {
+                                            data: {
+                                                brandUrl: suggestion.brandUrl,
+                                                image: suggestion.image,
+                                                value: suggestion.value,
+                                                desc: suggestion.desc
+                                            }
+                                        }
+                                    );
+
+                                    return template;
+                                }
+                            });
+
+                            $('#mp-brand-search-button').click(function () {
+                                if (!$('.autocomplete-suggestions').is(':visible')) {
+                                    mpSearch.focus();
+                                }
+                            });
+                        });
+                    });
+                </script>
 
                 <ol class="products list items product-items">
                     <?php foreach ($brandCollection as $brand) : ?>
