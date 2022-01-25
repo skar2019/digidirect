@@ -139,13 +139,15 @@ class Product extends AbstractHelper
                 }
                 $forLogs .= $endis."\n";
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-//                if($prod['stk-user-only-alpha4-1'] == 'A')
-//                {
-//                    $product->setData('awaiting_product', '1');
-//                }
-//                else {
-//                    $product->setData('awaiting_product', '0');
-//                }
+                if($prod['stk-user-only-alpha4-1'] == 'A')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('awaiting_product', '1');
+                }
+                else {
+                    //$product->setData('awaiting_product', '0');
+                    $product->setCustomAttribute('awaiting_product', '0');
+                }
 
 
                 //set brands
@@ -527,13 +529,16 @@ class Product extends AbstractHelper
                 }
                 $forLogs .= $endis."\n";
                 //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-//                if($prod['stk-user-only-alpha4-1'] == 'A')
-//                {
-//                    $product->setData('awaiting_product', '1');
-//                }
-//                else {
-//                    $product->setData('awaiting_product', '0');
-//                }
+                if($prod['stk-user-only-alpha4-1'] == 'A')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('awaiting_product', '1');
+                }
+                else {
+                    //$product->setData('awaiting_product', '0');
+                    $product->setCustomAttribute('awaiting_product', '0');
+                }
+
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
@@ -932,14 +937,12 @@ class Product extends AbstractHelper
 
                 if($prod['stk-user-only-alpha4-1'] == 'A')
                 {
-                    echo "set awaiting 1 <br>";
-                    $product->setData('awaiting_product', 1);
-                    $product->setAwaitingProduct(1);
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('awaiting_product', '1');
                 }
                 else {
-                    echo "set awaiting 0 <br>";
-                    $product->setData('awaiting_product', 0);
-                    $product->setAwaitingProduct(0);
+                    //$product->setData('awaiting_product', '0');
+                    $product->setCustomAttribute('awaiting_product', '0');
                 }
 
                 echo $endis." <br/>";
