@@ -48,19 +48,27 @@ $selectedBrands = $block->getCollection();
     
     <script type="text/javascript">
         
+        function filterByBrandName() {
+            var x, i;
+            x = document.getElementsByClassName("product-item");
+            c = document.getElementById("mp-search-new").value;
+            for (i = 0; i < x.length; i++) {
+              w3RemoveClass(x[i], "show-brand");
+              if (x[i].querySelector(".product-item-info > a").getAttribute('title').toLowerCase().includes(c.toLowerCase())) w3AddClass(x[i], "show-brand");
+            }
+        }
+        
         
         function filterSelection(c) {
             var x, i;
             x = document.getElementsByClassName("product-item");
             if (c == "all") c = "";
-            // Add the "show" class (display:block) to the filtered elements, and remove the "show" class from the elements that are not selected
             for (i = 0; i < x.length; i++) {
               w3RemoveClass(x[i], "show-brand");
               if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show-brand");
             }
         }
 
-        // Show filtered elements
         function w3AddClass(element, name) {
             var i, arr1, arr2;
             arr1 = element.className.split(" ");
@@ -72,7 +80,6 @@ $selectedBrands = $block->getCollection();
             }
         }
 
-        // Hide elements that are not selected
         function w3RemoveClass(element, name) {
             var i, arr1, arr2;
             arr1 = element.className.split(" ");
@@ -102,14 +109,15 @@ $selectedBrands = $block->getCollection();
                 <div class="block block-brand-search">
                     <div class="block-content">
                         <div class="mp-searchbox">
-                            <input id="mp-search" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
-                                   placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
+                            <input id="mp-search-new" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
+                                   onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
                             <button type="submit" id="mp-brand-search-button" class="btn btn-primary btn-lg search-btn fa fa-search">
                                 <span><?= /** @noEscape */ __('Search') ?></span>
                             </button>
                         </div>
                     </div>
                 </div>
+                
                 <script id="mpbrand-autocomplete-suggest" type="text/x-magento-template">
                     <a class="shopbybrand-suggestion" href="<%- data.brandUrl %>">
                         <?php if ($blockSearch->isVisibleImage()) : ?>
@@ -244,11 +252,7 @@ $selectedBrands = $block->getCollection();
             <?= /** @noEscape */ __('There is no brand available.') ?>
         <?php endif; ?>
     </div>
-    
-    
-    
-    
-    
+
 </div>
 <style type="text/css">
     .brand-info-container .img-content .quickview_img {
@@ -411,5 +415,12 @@ $selectedBrands = $block->getCollection();
         cursor: pointer !important;
     }
     
+    #mp-search-new {
+        padding: 10px !important;
+    }
+    
+    .klevu-fluid {
+        display: none;
+    }
 
 </style>
