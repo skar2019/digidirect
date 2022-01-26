@@ -179,7 +179,7 @@ $selectedBrands = $block->getCollection();
                                 }
                             });
                             
-                            $("#brand-list-img").removeClass('ninjamenus-lazy ninjamenus-lazy-loaded');
+                            //$("#brand-list-img").removeClass('ninjamenus-lazy ninjamenus-lazy-loaded');
                         });
                     });
                 </script>
@@ -203,7 +203,7 @@ $selectedBrands = $block->getCollection();
                                            tabindex="-1">
                                             <span class="product-image-container" style="width:240px;">
                                                 <span class="product-image-wrapper" style="padding-bottom: 125%;">
-                                                    <img id="brand-list-img" class="product-image-photo"
+                                                    <img class="product-image-photo"
                                                          src="<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>" alt="<?= /** @noEscape */ $brand->getValue() ?>">
                                                 </span>
                                             </span>
