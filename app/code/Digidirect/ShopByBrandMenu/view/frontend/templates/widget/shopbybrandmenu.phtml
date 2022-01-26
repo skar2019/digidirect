@@ -178,6 +178,8 @@ $selectedBrands = $block->getCollection();
                                     mpSearch.focus();
                                 }
                             });
+                            
+                            $("#brand-list-img").removeClass('ninjamenus-lazy ninjamenus-lazy-loaded');
                         });
                     });
                 </script>
@@ -201,7 +203,7 @@ $selectedBrands = $block->getCollection();
                                            tabindex="-1">
                                             <span class="product-image-container" style="width:240px;">
                                                 <span class="product-image-wrapper" style="padding-bottom: 125%;">
-                                                    <img class="product-image-photo-new"
+                                                    <img id="brand-list-img" class="product-image-photo"
                                                          src="<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>" alt="<?= /** @noEscape */ $brand->getValue() ?>">
                                                 </span>
                                             </span>
@@ -421,18 +423,6 @@ $selectedBrands = $block->getCollection();
     
     .klevu-fluid {
         display: none;
-    }
-    
-    .product-image-photo-new {
-        bottom: 0;
-        display: block;
-        height: auto;
-        left: 0;
-        margin: auto;
-        max-width: 100%;
-        position: absolute;
-        right: 0;
-        top: 0;
     }
 
 </style>
