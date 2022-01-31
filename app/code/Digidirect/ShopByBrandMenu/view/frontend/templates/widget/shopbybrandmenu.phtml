@@ -212,7 +212,7 @@ $selectedBrands = $block->getCollection();
                                            tabindex="-1">
                                             <span class="product-image-container" style="width:240px;">
                                                 <span class="product-image-wrapper" style="padding-bottom: 125%;">
-                                                    <div role="img" class="product-image-photo"
+                                                    <div role="img" class="brand-menu-img product-image-photo"
                                                          style="background-image: url('<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>'); background-repeat: no-repeat; background-size: contain;" alt="<?= /** @noEscape */ $brand->getValue() ?>">
                                                     </div>
                                                 </span>
@@ -341,6 +341,11 @@ $selectedBrands = $block->getCollection();
     
     .brand-list-content .product-image-container {
         width: 162px !important;
+        transition: transform 0.4s;
+    }
+    
+    .brand-list-content .product-image-container:hover {
+        transform: translateY(-8px);
     }
     
     .brand-list-content .product.details.product-item-details {
@@ -365,13 +370,13 @@ $selectedBrands = $block->getCollection();
     }
     
     .brand-list-content .products {
-        margin-top: -20px !important;
+        margin-top: -5px !important;
         overflow-y: scroll;
         height: 750px !important;
         position: relative;
         background: unset !important;
         margin-left: 1px;
-        padding: 0 10px;
+        padding: 10px 12px 0 10px;
     }
     
     ::-webkit-scrollbar-thumb {
