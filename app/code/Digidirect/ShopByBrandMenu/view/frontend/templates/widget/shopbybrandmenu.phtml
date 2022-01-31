@@ -22,6 +22,7 @@ $selectedBrands = $block->getCollection();
             'jquery'
         ],
         function ($) {
+            filterSelection("all");
         }
     );
 </script>
@@ -101,9 +102,9 @@ $selectedBrands = $block->getCollection();
             element.className = arr1.join(" ");
         }   
         
-        window.onload = function() {
-            filterSelection("all");
-        };
+        //window.onload = function() {
+        //   filterSelection("all");
+        //};
       
       
     </script>
