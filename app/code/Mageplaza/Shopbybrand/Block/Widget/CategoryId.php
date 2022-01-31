@@ -88,6 +88,7 @@ class CategoryId extends AbstractBrand
         $provideo = array(315,120,137,138,333,10265,305,19569,10179,19918);
         $smarthome = array(9256,19563,7153,19888,19984,12347,14558,14501,18775,19891);
         $computers = array(433,9214,10346,14420,13465,19533,19830,583,7159,9241);
+        $acce = array(215,231,323,431,217,353,233,321,379,459);
         foreach ($brands as $brand => $item) {
             switch ($str) {
                 case "1":
@@ -107,6 +108,11 @@ class CategoryId extends AbstractBrand
                     break;
                 case "10":
                     if (in_array($item['option_id'], $lightning)){
+                        $result[] = $item['option_id'];
+                    }
+                    break;
+                case "13":
+                    if (in_array($item['option_id'], $acce)){
                         $result[] = $item['option_id'];
                     }
                     break;
