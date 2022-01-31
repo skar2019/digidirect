@@ -6,7 +6,7 @@
 $timeId = time();
 $selectedBrands = $block->getCollection();
 
- ?>
+?>
 
 <?php
     $blockBrandList = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand\BrandList');
@@ -22,7 +22,6 @@ $selectedBrands = $block->getCollection();
             'jquery'
         ],
         function ($) {
-            $("[name='brand-menu-img']").removeClass("ninjamenus-lazy ninjamenus-lazy-loaded ninjamenus-lazy-blur");
         }
     );
 </script>
@@ -213,8 +212,9 @@ $selectedBrands = $block->getCollection();
                                            tabindex="-1">
                                             <span class="product-image-container" style="width:240px;">
                                                 <span class="product-image-wrapper" style="padding-bottom: 125%;">
-                                                    <img name="brand-menu-img" class="product-image-photo"
-                                                         src="<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>" alt="<?= /** @noEscape */ $brand->getValue() ?>">
+                                                    <div role="img" class="product-image-photo"
+                                                         style="background-image: url('<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>'); background-repeat: no-repeat;" alt="<?= /** @noEscape */ $brand->getValue() ?>">
+                                                    </div>
                                                 </span>
                                             </span>
                                         </a>
