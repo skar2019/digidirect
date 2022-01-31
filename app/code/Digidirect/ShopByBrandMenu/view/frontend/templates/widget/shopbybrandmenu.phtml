@@ -213,7 +213,7 @@ $selectedBrands = $block->getCollection();
                                             <span class="product-image-container" style="width:240px;">
                                                 <span class="product-image-wrapper" style="padding-bottom: 125%;">
                                                     <div role="img" class="product-image-photo"
-                                                         style="background-image: url('<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>'); background-repeat: no-repeat;" alt="<?= /** @noEscape */ $brand->getValue() ?>">
+                                                         style="background-image: url('<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>'); background-repeat: no-repeat; background-size: contain;" alt="<?= /** @noEscape */ $brand->getValue() ?>">
                                                     </div>
                                                 </span>
                                             </span>
@@ -371,6 +371,7 @@ $selectedBrands = $block->getCollection();
         position: relative;
         background: unset !important;
         margin-left: 1px;
+        padding: 0 10px;
     }
     
     ::-webkit-scrollbar-thumb {
