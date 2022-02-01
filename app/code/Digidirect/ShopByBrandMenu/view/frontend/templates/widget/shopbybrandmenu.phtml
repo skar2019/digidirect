@@ -22,6 +22,25 @@ $selectedBrands = $block->getCollection();
             'jquery'
         ],
         function ($) {
+            filterSelection("all");
+            
+            $('input[type=radio][name=brand-menu-radio]').change(function() {
+                var value = this.value;
+                var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/view' ?>";
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {categoryId:value},
+                    showLoader: true,
+                    cache: false,
+                    success: function(response){
+                        //console.log(response.output);
+                        $('#brand-menu-grid').html(response.output);
+                        return true;
+                    }
+                });
+            });
+            
         }
     );
 </script>
@@ -30,7 +49,7 @@ $selectedBrands = $block->getCollection();
     <div class="brand-menu-div left-side-options">
         <ul class="nav brand-options category-nav-list navbar-nav controls" style="margin-bottom: 30px;">
             <a class="filter mp-option-item" data-filter="all" onclick="filterSelection('all')">
-                <input name="brand-menu-radio" id="mp-first-opt" type="radio" class="control active" checked>
+                <input name="brand-menu-radio" id="mp-first-opt" type="radio" class="control active" checked value="all">
                 <img>
                 <label for="mp-first-opt">SELECT ALL</label>
             </a>
@@ -39,16 +58,12 @@ $selectedBrands = $block->getCollection();
                 <?php if ($blockBrands->getBrandQty($category->getId())) : ?>
                     
                     <a class="filter mp-option-item" <?= 'data-filter=".cat' . /** @noEscape */ $category->getName() . '"' ?> onclick="filterSelection(<?= "'cat" . /** @noEscape */ $blockBrandList->getCatNameFilter($category->getName()) . "'" ?>)">
-                        <input name="brand-menu-radio" id="<?= /** @noEscape */ $category->getName() ?>" type="radio" class="control">
+                        <input name="brand-menu-radio" id="<?= /** @noEscape */ $blockBrandList->getCatNameFilter($category->getName()) ?>" type="radio" class="control"
+                            value="<?= /** @noEscape */ $blockBrandList->getCatNameFilter($category->getName()) ?>">
                         <img>
                         <label for="<?= /** @noEscape */ $category->getName() ?>"><?= /** @noEscape */ $category->getName() ?></label>
                     </a>
                     <br>
-                   
-                <?php else : ?>
-                    <li class="disabled">
-                        <a class="disabled mp-option-item"><?= /** @noEscape */ $category->getName() ?></a>
-                    </li>
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>
@@ -101,9 +116,9 @@ $selectedBrands = $block->getCollection();
             element.className = arr1.join(" ");
         }   
         
-        window.onload = function() {
-            filterSelection("all");
-        };
+        //window.onload = function() {
+        //   filterSelection("all");
+        //};
       
       
     </script>
@@ -120,9 +135,6 @@ $selectedBrands = $block->getCollection();
                         <div class="mp-searchbox">
                             <input id="mp-search-new" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
                                    onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
-                            <button type="submit" id="mp-brand-search-button" class="btn btn-primary btn-lg search-btn fa fa-search">
-                                <span><?= /** @noEscape */ __('Search') ?></span>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -193,7 +205,7 @@ $selectedBrands = $block->getCollection();
                     });
                 </script>
 
-                <ol class="products list items product-items">
+                <ol id="brand-menu-grid" class="products list items product-items">
                     <?php foreach ($brandCollection as $brand) : ?>
                         <?php if ($helper->getBrandImageUrl($brand) != "https://www.digidirect.com.au/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
                             <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
@@ -207,7 +219,7 @@ $selectedBrands = $block->getCollection();
                                             </div>
                                         <?php endif; ?>
                                         <a title="<?= /** @noEscape */ $brand->getValue() ?>"
-                                           href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>"
+                                           href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>"
                                            class="product photo product-item-photo"
                                            tabindex="-1">
                                             <span class="product-image-container" style="width:240px;">
@@ -222,7 +234,7 @@ $selectedBrands = $block->getCollection();
                                             <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LOGO) : ?>
                                                 <strong class="product name product-item-name" style="text-align: center">
                                                     <a title="<?= /** @noEscape */ $brand->getValue() ?>" class="product-item-link"
-                                                       href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>">
+                                                       href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>">
                                                         <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                                                     </a>
                                                 </strong>
