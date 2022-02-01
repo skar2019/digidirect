@@ -322,7 +322,7 @@ class Inventory extends AbstractHelper
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
-                        $this->productRepository->save($prod);
+
                     }
                     $endis = 'nochange';
                     echo $prodRes['stk-condition-code']. " stk-condition-code <br />";
@@ -338,34 +338,38 @@ class Inventory extends AbstractHelper
                         if($prodRes['stk-user-only-alpha4-1'] == '')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
                         }
-//                    else if($prod['stk-user-only-alpha4-1'] == 'W')
-//                    {
-//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//                    }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W') //enable this since this is a inventory sync, new products wont be in this sync (hopefully)
+                        {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
                         else if($prod['stk-user-only-alpha4-1'] == 'N')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
                         }
                         else {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                         }
                     }
                     //web flag
                     //if blank, set to disable
-                    echo $prodRes['stk-user-only-alpha4-1']. " stk-condition-code <br />";
-                    if($prodRes['stk-user-only-alpha4-1'] == '')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        $endis = 'disabled';
-                    }
-                    else if($prodRes['stk-user-only-alpha4-1'] == 'W')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
-                    }
+                    echo $prodRes['stk-user-only-alpha4-1']. " stk-user-only-alpha4-1 <br />";
+//                    if($prodRes['stk-user-only-alpha4-1'] == '')
+//                    {
+//                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+//                        $endis = 'disabled';
+//                    }
+//                    else if($prodRes['stk-user-only-alpha4-1'] == 'W')
+//                    {
+//                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//                        $endis = 'enabled';
+//                    }
 
                     echo $endis . "<br/>";
+                    $totalwrhs = 0;
                     if(isset($prodRes['warehouse']['whse']))
                     {
                         foreach ($prodRes['warehouse']['whse'] as $qt)
@@ -377,6 +381,7 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
+                                $totalwrhs = $totalwrhs + $qt['qty_available'];
                                 $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
@@ -388,11 +393,19 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $totalwrhs = $totalwrhs + $qt['qty_available'];
                                 $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                         }
                     }
+
+                    if($prodRes['stk-condition-code'] == 'T' && $totalwrhs == 0)
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+
+                    $this->productRepository->save($prod);
 
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     $forLogs .= "SKU not exist - ".$sku."\n";
@@ -438,19 +451,21 @@ class Inventory extends AbstractHelper
                         if($prodRes['stk-user-only-alpha4-1'] == '')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
                         }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'W')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
                         }
                         else {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                         }
 
                     }
 
                     echo $endis . "<br/>";
+                    $totalwrhs = 0;
                     if(isset($prodRes['warehouse']['whse']))
                     {
                         foreach ($prodRes['warehouse']['whse'] as $qt)
@@ -462,6 +477,7 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
+                                $totalwrhs = $totalwrhs + $qt['qty_available'];
                                 $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
@@ -473,11 +489,20 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $totalwrhs = $totalwrhs + $qt['qty_available'];
                                 $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                         }
                     }
+
+                    if($prodRes['stk-condition-code'] == 'T' && $totalwrhs == 0)
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        echo "Set disabled dun to T and 0 SOH <br/>";
+                    }
+
+                    $this->productRepository->save($prod);
 
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     $forLogs .= "SKU not exist - ".$sku."\n";
