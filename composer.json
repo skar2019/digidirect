@@ -25,7 +25,8 @@
         "vlucas/valitron": "^1.4"
     },
     "replace": {
-        "klevu/module-mysqlcompat": "*"
+        "klevu/module-mysqlcompat": "*",
+        "magento/module-paypal": "*"
     },
     "suggest": {
         "ext-pcntl": "Need for run processes in parallel mode"
