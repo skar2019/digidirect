@@ -34,8 +34,8 @@
 !/pub/errors
 !/pub/errors/**
 !/vendor
-/vendor/ewave
-/vendor/ewave/**
+!/vendor/ewave
+!/vendor/ewave/**
 !/ewave_xml
 !/ewave_xml/**
 
@@ -55,4 +55,3 @@
 !/bridge2cart/*
 !/bridge2cart/bridge.php
 !/bridge2cart/config.php
-/vendor/ewave/
