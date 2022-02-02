@@ -330,6 +330,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             }
             $methodTitle = str_replace('Days', 'Days *', $methodData->getData('title'));
             //$method->setMethodTitle($methodTitle);
+            //Redeploy
 
             if($qty > 0)
             {
