@@ -98,7 +98,7 @@
                                  data-bind="text: method.carrier_title, attr: {'id': 'label_carrier_' + method.method_code + '_' + method.carrier_code}"></span>
 
                             <span class="col col-method"
-                                    data-bind="text: method.method_title, replaceText: {value: method.method_title, find:'Days', replace:'Days *'}, attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></span>
+                                    data-bind="text: method.method_title + ' *', attr: {'id': 'label_method_' + method.method_code + '_' + method.carrier_code}"></span>
 
                             <strong class="col col-price">
                                 <!-- ko foreach: $parent.getRegion('price') -->
