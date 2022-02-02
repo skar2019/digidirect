@@ -104,14 +104,15 @@ class Inventory extends AbstractHelper
                 $forLogs .= "SKU - ".$sku."\n";
 
                 //pricing
-                try {
+                try
+                {
                     $prod = $this->productRepository->get($sku);
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
-                        $this->productRepository->save($prod);
+
                     }
 
                     if($prodRes['stk-condition-code'] == 'O')
@@ -144,6 +145,7 @@ class Inventory extends AbstractHelper
                         $prod->setCustomAttribute('awaiting_product', '0');
                     }
 
+                    $totalwrhs = 0;
                     if(isset($prodRes['warehouse']['whse']))
                     {
                         foreach ($prodRes['warehouse']['whse'] as $qt)
@@ -155,6 +157,7 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
+                                $totalwrhs = $totalwrhs + $qt['qty_available'];
                                 $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
@@ -166,12 +169,22 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
+                                $totalwrhs = $totalwrhs + $qt['qty_available'];
                                 $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                         }
                     }
-                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+
+                    if($prodRes['stk-condition-code'] == 'T' && $totalwrhs == 0)
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+
+                    $this->productRepository->save($prod);
+                }
+                catch (\Magento\Framework\Exception\NoSuchEntityException $e)
+                {
                     $forLogs .= "SKU not exist - ".$sku."\n";
                 }
             }
