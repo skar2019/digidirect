@@ -31,7 +31,7 @@ $selectedBrands = $block->getCollection();
                     url: url,
                     type: "POST",
                     data: {categoryId:value},
-                    showLoader: true,
+                    //showLoader: true,
                     cache: false,
                     success: function(response){
                         //console.log(response.output);
@@ -86,7 +86,7 @@ $selectedBrands = $block->getCollection();
         function filterSelection(c) {
             var x, i;
             x = document.getElementsByClassName("product-item");
-            if (c == "all") c = "";
+            if (c == "all" || c == "catall") c = "";
             for (i = 0; i < x.length; i++) {
               w3RemoveClass(x[i], "show-brand");
               if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show-brand");

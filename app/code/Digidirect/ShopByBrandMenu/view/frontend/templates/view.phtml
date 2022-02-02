@@ -16,35 +16,34 @@
     $catId = 0;
     $catUrlKey = "";
     
-    //Redeploying
-    if ($categoryId == "catCameras") {
+    if ($categoryId == "Cameras") {
         $catId = 17;
         $catUrlKey = "cameras";
-    }elseif ($categoryId == "catLenses") {
+    }elseif ($categoryId == "Lenses") {
         $catId = 18;
         $catUrlKey = "lenses";
-    }elseif ($categoryId == "catDrones") {
+    }elseif ($categoryId == "Drones") {
         $catId = 21;
         $catUrlKey = "drones";
-    }elseif ($categoryId == "catLighting_&_Studio") {
+    }elseif ($categoryId == "Lighting_&_Studio") {
         $catId = 19;
         $catUrlKey = "lighting-and-studio";
-    }elseif ($categoryId == "catPhoto_Accessories") {
+    }elseif ($categoryId == "Photo_Accessories") {
         $catId = 71;
         $catUrlKey = "photo-accessories";
-    }elseif ($categoryId == "catOptics") {
+    }elseif ($categoryId == "Optics") {
         $catId = 22;
         $catUrlKey = "optics";
-    }elseif ($categoryId == "catAudio_&_Visual") {
+    }elseif ($categoryId == "Audio_&_Visual") {
         $catId = 73;
         $catUrlKey = "audio-and-visual";
-    }elseif ($categoryId == "catPro_Video") {
+    }elseif ($categoryId == "Pro_Video") {
         $catId = 77;
         $catUrlKey = "pro-video";
-    }elseif ($categoryId == "catSmart_Home") {
+    }elseif ($categoryId == "Smart_Home") {
         $catId = 75;
         $catUrlKey = "smart-home";
-    }elseif ($categoryId == "catComputers_&_Mobile") {
+    }elseif ($categoryId == "Computers_&_Mobile") {
         $catId = 999;
         $catUrlKey = "computers-mobile";
     }
@@ -67,7 +66,12 @@
                         </div>
                     <?php endif; ?>
                     <a title="<?= /** @noEscape */ $brand->getValue() ?>"
-                       href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?_aa=222&_option=" . $catId ?>"
+                       href="
+                            <?php if ($categoryId == "all") : ?>
+                                <?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>
+                            <?php else : ?>
+                                <?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?_aa=222&_option=" . $catId ?>
+                            <?php endif; ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
                         <span class="product-image-container" style="width:240px;">
@@ -82,8 +86,17 @@
                         <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LOGO) : ?>
                             <strong class="product name product-item-name" style="text-align: center">
                                 <a title="<?= /** @noEscape */ $brand->getValue() ?>" class="product-item-link"
-                                   href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?_aa=222&_option=" . $catId ?>">
-                                    <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrand($catId, $brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
+                                   href="
+                                        <?php if ($categoryId == "all") : ?>
+                                            <?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>
+                                        <?php else : ?>
+                                            <?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?_aa=222&_option=" . $catId ?>
+                                        <?php endif; ?>">
+                                    <?php if ($categoryId == "all") : ?>
+                                        <?= $blockBrandList->showProductQty() ? /** @noEscape */  $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
+                                    <?php else : ?>
+                                        <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrand($catId, $brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
+                                    <?php endif; ?>
                                 </a>
                             </strong>
                         <?php endif; ?>
@@ -97,8 +110,19 @@
             <?php else : ?>
                 <div class="brand-name-type-label-only" data-container="product-grid">
                     <strong class="product name product-item-name" style="margin: 0;">
-                        <a class="product-item-link" href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>" style="float: left; padding-right: 10px;">
-                            <?= $blockBrandList->showProductQty() ? /** @noEscape */  $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
+                        <a class="product-item-link" 
+                           href="
+                                <?php if ($categoryId == "all") : ?>
+                                    <?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>
+                                <?php else : ?>
+                                    <?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?_aa=222&_option=" . $catId ?>
+                                <?php endif; ?>" style="float: left; padding-right: 10px;">
+                            
+                            <?php if ($categoryId == "all") : ?>
+                                <?= $blockBrandList->showProductQty() ? /** @noEscape */  $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
+                            <?php else : ?>
+                                <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrand($catId, $brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
+                            <?php endif; ?>
                         </a>
                         <?php if ($blockBrandList->showQuickView()) : ?>
                             <div title="Quick View" class="changelog module-version quickview_popup">
