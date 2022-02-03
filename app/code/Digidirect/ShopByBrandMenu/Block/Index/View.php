@@ -26,6 +26,16 @@ class View extends Template
        return $productId;
     }
     
+    public function getProductCollectionCountWithBrandOnly($brandId) 
+    {
+        $productCollection = $this->_productCollectionFactory->create();
+        $productCollection->addAttributeToSelect('*');
+        $productCollection->addAttributeToFilter('visibility', \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
+        $productCollection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $productCollection->addAttributeToFilter('brand', $brandId);
+        return $productCollection->count();
+    }
+    
     /* Get product count on a category */
     public function getProductCollectionCountWithBrand($categoryId, $brandId) 
     {
