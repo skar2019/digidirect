@@ -18,5 +18,6 @@ class Inventory
     {
         //disable
         //$this->helper->makeACurlRequest();
+        //comment to redeploy
     }
-}       
+}
