@@ -29,6 +29,7 @@ $selectedBrands = $block->getCollection();
                 var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/view' ?>";
                 $("#brand-menu-grid").hide();
                 $("#logo-preloader").show();
+                $(".left-side-options").find(":input").prop("disabled", true);
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -40,6 +41,7 @@ $selectedBrands = $block->getCollection();
                         $('#brand-menu-grid').html(response.output);
                         $("#logo-preloader").hide();
                         $("#brand-menu-grid").show();
+                        $(".left-side-options").find(":input").prop("disabled", false);
                         return true;
                     }
                 });
