@@ -49,14 +49,13 @@
     }
 ?>
 
-
 <script type="text/javascript">
     filterSelection(<?= "'cat" . /** @noEscape */ $categoryId . "'" ?>);
 </script>
 
 <?php foreach ($brandCollection as $brand) : ?>
     <?php if ($helper->getBrandImageUrl($brand) != "https://www.digidirect.com.au/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
-        <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
+        <?php if ($block->getProductCollectionCountWithBrand($catId, $brand->getOptionId())) : ?>
         <li style="display: none;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
             <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL) : ?>
                 <div class="product-item-info" data-container="product-grid" style="width: 240px">

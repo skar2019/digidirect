@@ -27,6 +27,8 @@ $selectedBrands = $block->getCollection();
             $('input[type=radio][name=brand-menu-radio]').change(function() {
                 var value = this.value;
                 var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/view' ?>";
+                $("#brand-menu-grid").hide();
+                $("#logo-preloader").show();
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -36,6 +38,8 @@ $selectedBrands = $block->getCollection();
                     success: function(response){
                         //console.log(response.output);
                         $('#brand-menu-grid').html(response.output);
+                        $("#logo-preloader").hide();
+                        $("#brand-menu-grid").show();
                         return true;
                     }
                 });
@@ -204,6 +208,8 @@ $selectedBrands = $block->getCollection();
                         });
                     });
                 </script>
+                
+                <div id="logo-preloader" style="display: none;"></div>
 
                 <ol id="brand-menu-grid" class="products list items product-items">
                     <?php foreach ($brandCollection as $brand) : ?>
@@ -338,6 +344,7 @@ $selectedBrands = $block->getCollection();
     .right-side-brands {
         width: 60%;
         background: #f5f5f5;
+        min-height: 900px;
     }
 
     .shop-by-brand-menu-grid {
@@ -451,6 +458,30 @@ $selectedBrands = $block->getCollection();
     
     .klevu-fluid {
         display: none;
+    }
+    
+    #logo-preloader {
+        margin: auto;
+        margin-top: 150px;
+        vertical-align: middle;
+        border: 7px solid #f5f5f5;
+        border-radius: 50%;
+        border-top: 7px solid #000;
+        width: 50px;
+        height: 50px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
 </style>
