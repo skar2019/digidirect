@@ -68,7 +68,7 @@
                             </div>
                         <?php endif; ?>
                         <a title="<?= /** @noEscape */ $brand->getValue() ?>"
-                           href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>"
+                           href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>"
                            class="product photo product-item-photo"
                            tabindex="-1">
                             <span class="product-image-container" style="width:240px;">
@@ -83,7 +83,7 @@
                             <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LOGO) : ?>
                                 <strong class="product name product-item-name" style="text-align: center">
                                     <a title="<?= /** @noEscape */ $brand->getValue() ?>" class="product-item-link"
-                                       href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>">
+                                       href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>">
                                             <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrandOnly($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                                     </a>
                                 </strong>
@@ -99,7 +99,7 @@
                     <div class="brand-name-type-label-only" data-container="product-grid">
                         <strong class="product name product-item-name" style="margin: 0;">
                             <a class="product-item-link" 
-                               href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . json_encode($catUrlKey) . "?_aa=222&_option=" . $brand->getOptionId() ?>" style="float: left; padding-right: 10px;">
+                               href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>" style="float: left; padding-right: 10px;">
                                     <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrand($catId, $brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                             </a>
                             <?php if ($blockBrandList->showQuickView()) : ?>
@@ -134,7 +134,7 @@
                             </div>
                         <?php endif; ?>
                         <a title="<?= /** @noEscape */ $brand->getValue() ?>"
-                           href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?_aa=222&_option=" . $brand->getOptionId() ?>"
+                           href="<?= /** @noEscape */ $helper->getBrandUrl($brand) . "/filters/cat/" . $catUrlKey . "?brand_key=" . $helper->processKey($brand) ?>"
                            class="product photo product-item-photo"
                            tabindex="-1">
                             <span class="product-image-container" style="width:240px;">
@@ -149,7 +149,7 @@
                             <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LOGO) : ?>
                                 <strong class="product name product-item-name" style="text-align: center">
                                     <a title="<?= /** @noEscape */ $brand->getValue() ?>" class="product-item-link"
-                                       href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?_aa=222&_option=" . $brand->getOptionId() ?>">
+                                       href="<?= /** @noEscape */ $helper->getBrandUrl($brand) . "/filters/cat/" . $catUrlKey . "?brand_key=" . $helper->processKey($brand) ?>">
                                             <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrand($catId, $brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                                     </a>
                                 </strong>
@@ -165,7 +165,7 @@
                     <div class="brand-name-type-label-only" data-container="product-grid">
                         <strong class="product name product-item-name" style="margin: 0;">
                             <a class="product-item-link" 
-                               href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?_aa=222&_option=" . $brand->getOptionId() ?>" style="float: left; padding-right: 10px;">
+                               href="<?= /** @noEscape */ $helper->getBrandUrl($brand) . "/filters/cat/" . $catUrlKey . "?brand_key=" . $brand->getUrlKey() ?>" style="float: left; padding-right: 10px;">
                                     <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrand($catId, $brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                             </a>
                             <?php if ($blockBrandList->showQuickView()) : ?>
