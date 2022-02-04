@@ -228,7 +228,7 @@ $selectedBrands = $block->getCollection();
                                             </div>
                                         <?php endif; ?>
                                         <a title="<?= /** @noEscape */ $brand->getValue() ?>"
-                                           href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>"
+                                           href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>"
                                            class="product photo product-item-photo"
                                            tabindex="-1">
                                             <span class="product-image-container" style="width:240px;">
@@ -243,7 +243,7 @@ $selectedBrands = $block->getCollection();
                                             <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LOGO) : ?>
                                                 <strong class="product name product-item-name" style="text-align: center">
                                                     <a title="<?= /** @noEscape */ $brand->getValue() ?>" class="product-item-link"
-                                                       href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>">
+                                                       href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>">
                                                         <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                                                     </a>
                                                 </strong>

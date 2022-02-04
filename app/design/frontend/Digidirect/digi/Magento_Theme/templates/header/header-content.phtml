@@ -81,9 +81,26 @@
                 //$(".top-red-banner-wrapper").slideDown("slow");
                 $("#top-red-banner-block-id:before").css("visibility", "visible !important");
             });
-           
             
+            $('#mobile-menu-only-header').prepend('<img id="digi-white-logo" src="https://www.digidirect.com.au/media/.thumbswysiwyg/logos/white-digi-logo.png" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
+           
         }
     );
     
 </script>
+
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
+
+if ($customerSession->isLoggedIn() == true) { ?>
+    <script>
+        require(['jquery'],
+            function ($) {
+                $("#menu-mobile-span-signin").css("visibility: hidden");
+            }
+        );
+    </script>
+<?php } else { ?>
+    
+<?php } ?>
