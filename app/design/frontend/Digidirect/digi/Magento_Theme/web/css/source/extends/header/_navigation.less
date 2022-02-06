@@ -864,7 +864,7 @@
     }
     
     .category-tabs .mgz-tabs-nav {
-        padding-top: 10px;
+        //padding-top: 10px;
     }
     
     .category-tabs .mgz-tabs-tab-content {
@@ -890,7 +890,7 @@
     }
     
     .category-tabs .mgz-tabs-tab-content .mgz-element-separator .mgz-element-separator-line {
-        width: 180px;
+        width: 150px;
     }
     
     .category-top-nav .drilldown-root > div {
@@ -908,15 +908,16 @@
     
     .mobile-menu-tabs-brands .mgz-element-heading-text {
         text-align: left !important;
+        margin-top: 10px !important;
     }
     
     .mobile-menu-tabs-brands .block-content {
         display: grid;
         grid-template-columns: 90px 90px;
-        grid-column-gap: 6px;
+        //grid-column-gap: 6px;
         margin-left: -10px !important;
-        grid-auto-rows: 60px;
-        margin-top: -8px;
+        //grid-auto-rows: 60px;
+        margin-top: -10px;
     }
     
     .brand-image.ninjamenus-lazy-loaded {
@@ -925,8 +926,8 @@
     
     .img-responsive.brand-image {
         border: 1px solid #cacaca;
-        height: 25px !important;
-        width: 55px;
+        height: 28px !important;
+        width: 60px;
         bottom: 0;
         display: block;
         left: 0;
@@ -934,7 +935,58 @@
         max-width: 100%;
         right: 0;
         top: 0;
+        background-size: 70px 35px !important;
     }
+    
+    .category-top-nav .ninjamenus-drilldown-back > .drilldown-opener:before {
+        content: '\f060' !important;
+        font-family: 'Font Awesome 5 Free' !important;
+        font-size: 20px !important;
+        font-weight: 900;
+        color: #cacaca;
+    }
+    
+    .category-top-nav .ninjamenus-current-link {
+        visibility: hidden;
+    }
+    
+    .category-top-nav .ninjamenus-current-link:before {
+        content: 'Main Menu';
+        text-transform: capitalize;
+        visibility: visible;
+        margin-right: -80px !important;
+        color: #cacaca;
+    }
+    
+    .category-top-nav .ninjamenus-drilldown-back {
+        background: none !important;
+    }
+    
+    .category-top-nav .drilldown-opener:hover {
+        background: none !important;
+    }
+    
+    span.mobile-menu-title-header {
+        font-size: 18px;
+        display: block;
+        padding: 10px 25px;
+        margin: 0 -10px;
+        background: #ff3c00;
+        color: #fff;
+    }
+    
+    .category-top-nav .ninjamenus-current-link:after {
+        content: '\f00d' !important;
+        font-family: 'Font Awesome 5 Free' !important;
+        font-size: 15px !important;
+        font-weight: 900;
+        color: #cacaca;
+        visibility: hidden;
+        position: absolute;
+        margin-left: 30px;
+        margin-top: -10px;
+    }
+    
     
 } //end mobile
 
