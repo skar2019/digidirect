@@ -52,9 +52,10 @@ $selectedBrands = $block->getCollection();
     );
 </script>
 
-<div>
+<div style="padding: 25px;">
+    <div style="margin-bottom: 18px !important;">SELECT CATEGORIES</div>
     <div>
-        <select id="brand-menu-mobile" style="border: 0;" onchange="filterSelection('all')">
+        <select id="brand-menu-mobile" style="border: 0; background: #f5f5f5;" onchange="filterSelection('all')">
             <option value="all">
             Select All
             </option>
@@ -211,7 +212,7 @@ $selectedBrands = $block->getCollection();
                     <?php foreach ($brandCollection as $brand) : ?>
                         <?php if ($helper->getBrandImageUrl($brand) != "https://www.digidirect.com.au/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
                             <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
-                            <li style="display: none;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
+                            <li style="display: none; width: 100% !important;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
                                 <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL) : ?>
                                     <div class="product-item-info" data-container="product-grid" style="width: 240px">
                                         <?php if ($blockBrandList->showQuickView()) : ?>
