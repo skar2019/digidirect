@@ -25,24 +25,23 @@ $selectedBrands = $block->getCollection();
         function ($) {
             filterSelection("all");
             
-            $('input[name=brand-menu-radio]:radio').change(function() {
+            $('#brand-menu-mobile').change(function() {
                 var value = this.value;
-                var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/view' ?>";
+                var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/viewmobile' ?>";
                 $("#brand-menu-grid").hide();
                 $("#logo-preloader").show();
-                $(".left-side-options").find(":input").prop("disabled", true);
+                $("#brand-menu-mobile").find(":input").prop("disabled", true);
                 $.ajax({
                     url: url,
                     type: "POST",
                     data: {categoryId:value},
-                    //showLoader: true,
                     cache: false,
                     success: function(response){
                         //console.log(response.output);
                         $('#brand-menu-grid').html(response.output);
                         $("#logo-preloader").hide();
                         $("#brand-menu-grid").show();
-                        $(".left-side-options").find(":input").prop("disabled", false);
+                        $("#brand-menu-mobile").find(":input").prop("disabled", false);
                         return true;
                     }
                 });
