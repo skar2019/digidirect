@@ -29,9 +29,10 @@ $selectedBrands = $block->getCollection();
 //                setTimeout(function () { $("#mp-search-new").focus(); }, 20);
 //            });
             
-            $('#mp-search-new').bind('click',function(evt) {
-                var focusClosure = (function(inputElem) {return function() {console.log(inputElem.focus());}}($(evt.target)));
-                window.setTimeout(focusClosure, 700);
+            $(window).bind('resize', function() {
+                if ($("#mp-search-new").is(":focus")) {
+                    setTimeout(function () { $("#mp-search-new").focus(); }, 20);
+                }
             });
             
             $('#brand-menu-mobile').change(function() {
