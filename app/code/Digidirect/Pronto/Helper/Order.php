@@ -205,9 +205,11 @@ class Order extends AbstractHelper
                     }
 
                     $wrehs = "AWHS";
-                    $territory = "AWHS";
+                    //$territory = "AWHS";
                     $is_am_fba = true;
                 }
+
+                $territory = "MRKT";
 
             }
             else
@@ -215,16 +217,20 @@ class Order extends AbstractHelper
                 $rep = $this->getRep($order);
                 if (strpos($orderId, 'EB') !== false) {
                     $rep ="EBAY";
+                    $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
+                    $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'MYD') !== false) {
                     $rep ="MYDEAL";
+                    $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'WD') !== false) {
                     $rep ="WESTFIELD";
                     $account = "WEST00";
+                    $territory = "MRKT";
                     //for westfield
                 }
 
@@ -993,9 +999,10 @@ class Order extends AbstractHelper
                     }
 
                     $wrehs = "AWHS";
-                    $territory = "AWHS";
+                    //$territory = "AWHS";
                     $is_am_fba = true;
                 }
+                $territory = "MRKT"; //request by Michael 02-07-22
 
             }
             else
@@ -1003,12 +1010,15 @@ class Order extends AbstractHelper
                 $rep = $this->getRep($order);
                 if (strpos($orderId, 'EB') !== false) {
                     $rep ="EBAY";
+                    $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
+                    $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'MYD') !== false) {
                     $rep ="MYDEAL";
+                    $territory = "MRKT";
                 }
 
             }
