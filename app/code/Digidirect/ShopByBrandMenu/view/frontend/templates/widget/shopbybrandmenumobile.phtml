@@ -25,12 +25,21 @@ $selectedBrands = $block->getCollection();
         function ($) {
             filterSelection("all");
             
+//            $('#mp-search-new').blur(function (event) {
+//                setTimeout(function () { $("#mp-search-new").focus(); }, 20);
+//            });
+            
+            $('#mp-search-new').bind('click',function(evt) {
+                var focusClosure = (function(inputElem) {return function() {console.log(inputElem.focus());}}($(evt.target)));
+                window.setTimeout(focusClosure, 700);
+            });
+            
             $('#brand-menu-mobile').change(function() {
                 var value = this.value;
                 var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/viewmobile' ?>";
-                $("#brand-menu-grid").hide();
+                $("#brand-menu-grid").attr("style", "display: none !important");
                 $("#logo-preloader").show();
-                this.attr('disabled', 'disabled');
+                $("#brand-menu-mobile").prop("disabled", true);
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -40,8 +49,8 @@ $selectedBrands = $block->getCollection();
                         //console.log(response.output);
                         $('#brand-menu-grid').html(response.output);
                         $("#logo-preloader").hide();
-                        $("#brand-menu-grid").show();
-                        this.removeAttr('disabled');
+                        $("#brand-menu-grid").attr("style", "display: grid");
+                        $("#brand-menu-mobile").prop("disabled", false);
                         return true;
                     }
                 });
@@ -133,7 +142,7 @@ $selectedBrands = $block->getCollection();
                 <div class="block block-brand-search">
                     <div class="block-content">
                         <div class="mp-searchbox">
-                            <input id="mp-search-new" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
+                            <input id="mp-search-new" type="text" class="mp-search form-control" name="q"
                                    onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>" autocomplete="off">
                         </div>
                     </div>
