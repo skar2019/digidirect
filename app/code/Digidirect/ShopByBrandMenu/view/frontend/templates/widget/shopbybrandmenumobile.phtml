@@ -30,7 +30,7 @@ $selectedBrands = $block->getCollection();
                 var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/viewmobile' ?>";
                 $("#brand-menu-grid").hide();
                 $("#logo-preloader").show();
-                $("#brand-menu-mobile").find(":input").prop("disabled", true);
+                this.attr('disabled', 'disabled');
                 $.ajax({
                     url: url,
                     type: "POST",
@@ -41,7 +41,7 @@ $selectedBrands = $block->getCollection();
                         $('#brand-menu-grid').html(response.output);
                         $("#logo-preloader").hide();
                         $("#brand-menu-grid").show();
-                        $("#brand-menu-mobile").find(":input").prop("disabled", false);
+                        this.removeAttr('disabled');
                         return true;
                     }
                 });
@@ -134,7 +134,7 @@ $selectedBrands = $block->getCollection();
                     <div class="block-content">
                         <div class="mp-searchbox">
                             <input id="mp-search-new" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
-                                   onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
+                                   onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>" autocomplete="off">
                         </div>
                     </div>
                 </div>
