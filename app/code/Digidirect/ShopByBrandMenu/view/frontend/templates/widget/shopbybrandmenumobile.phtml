@@ -25,16 +25,6 @@ $selectedBrands = $block->getCollection();
         function ($) {
             filterSelection("all");
             
-//            $('#mp-search-new').blur(function (event) {
-//                setTimeout(function () { $("#mp-search-new").focus(); }, 20);
-//            });
-            
-            $(window).bind('resize', function() {
-                if ($("#mp-search-new").is(":focus")) {
-                    setTimeout(function () { $("#mp-search-new").focus(); }, 20);
-                }
-            });
-            
             $('#brand-menu-mobile').change(function() {
                 var value = this.value;
                 var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/viewmobile' ?>";
