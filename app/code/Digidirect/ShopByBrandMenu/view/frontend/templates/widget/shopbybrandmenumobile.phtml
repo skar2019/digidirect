@@ -25,24 +25,27 @@ $selectedBrands = $block->getCollection();
         function ($) {
             filterSelection("all");
             
-            $('input[name=brand-menu-radio]:radio').change(function() {
+            $('#mp-search-new').on('click', function(){
+                $(window).off('resize');
+            });
+            
+            $('#brand-menu-mobile').change(function() {
                 var value = this.value;
-                var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/view' ?>";
-                $("#brand-menu-grid").hide();
-                $("#logo-preloader").show();
-                $(".left-side-options").find(":input").prop("disabled", true);
+                var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/viewmobile' ?>";
+                $("#brand-menu-grid-mobile").attr("style", "display: none !important");
+                $("#logo-preloader-mobile").show();
+                $("#brand-menu-mobile").prop("disabled", true);
                 $.ajax({
                     url: url,
                     type: "POST",
                     data: {categoryId:value},
-                    //showLoader: true,
                     cache: false,
                     success: function(response){
                         //console.log(response.output);
-                        $('#brand-menu-grid').html(response.output);
-                        $("#logo-preloader").hide();
-                        $("#brand-menu-grid").show();
-                        $(".left-side-options").find(":input").prop("disabled", false);
+                        $('#brand-menu-grid-mobile').html(response.output);
+                        $("#logo-preloader-mobile").hide();
+                        $("#brand-menu-grid-mobile").attr("style", "display: grid");
+                        $("#brand-menu-mobile").prop("disabled", false);
                         return true;
                     }
                 });
@@ -134,81 +137,15 @@ $selectedBrands = $block->getCollection();
                 <div class="block block-brand-search">
                     <div class="block-content">
                         <div class="mp-searchbox">
-                            <input id="mp-search-new" type="text" class="mp-search form-control input-query ui-autocomplete-input" name="q"
-                                   onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>">
+                            <input id="mp-search-new" type="text" class="mp-search form-control" name="q"
+                                   onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>" autocomplete="off">
                         </div>
                     </div>
                 </div>
                 
-                <script id="mpbrand-autocomplete-suggest" type="text/x-magento-template">
-                    <a class="shopbybrand-suggestion" href="<%- data.brandUrl %>">
-                        <?php if ($blockSearch->isVisibleImage()) : ?>
-                        <div class="shopbybrand-suggestion-left">
-                            <img class="shopbybrand-img-responsive" src="<%- data.image %>" alt="" width="70" />
-                        </div>
-                        <?php endif; ?>
-                        <div class="shopbybrand-suggestion-right">
-                            <div class="shopbybrand-product-line shopbybrand-product-name">
-                                <%- data.value %>
-                            </div>
-                            <div class='shopbybrand-product-des'>
-                                <p class='shopbybrand-short-des'>
-                                    <%= data.desc %>
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </script>
-                <script>
-                    require([
-                        'jquery',
-                        'mage/template',
-                        'mpDevbridgeAutocomplete'
-                    ], function ($, mageTemplate) {
-                        $(document).ready(function () {
-                            var mpSearch     = $('#mp-search');
+                <div id="logo-preloader-mobile" style="display: none;"></div>
 
-                            mpSearch.devbridgeAutocomplete({
-                                lookup: <?= /** @noEscape */ $blockSearch->getSearchData()?>,
-                                lookupLimit: <?= /** @noEscape */ $blockSearch->getMaxQueryResult() ?>,
-                                maxHeight: 2000,
-                                minChars: <?= /** @noEscape */ $blockSearch->getMinSearchChar() ?>,
-                                onSelect: function (suggestion) {
-                                    window.location.href = suggestion.brandUrl;
-                                },
-                                formatResult: function (suggestion, currentValue) {
-                                    var template;
-
-                                    template = mageTemplate(
-                                        '#mpbrand-autocomplete-suggest',
-                                        {
-                                            data: {
-                                                brandUrl: suggestion.brandUrl,
-                                                image: suggestion.image,
-                                                value: suggestion.value,
-                                                desc: suggestion.desc
-                                            }
-                                        }
-                                    );
-
-                                    return template;
-                                }
-                            });
-
-                            $('#mp-brand-search-button').click(function () {
-                                if (!$('.autocomplete-suggestions').is(':visible')) {
-                                    mpSearch.focus();
-                                }
-                            });
-                            
-                            //$("#brand-list-img").removeClass('ninjamenus-lazy ninjamenus-lazy-loaded');
-                        });
-                    });
-                </script>
-                
-                <div id="logo-preloader" style="display: none;"></div>
-
-                <ol id="brand-menu-grid" class="products list items product-items">
+                <ol id="brand-menu-grid-mobile" class="products list items product-items">
                     <?php foreach ($brandCollection as $brand) : ?>
                         <?php if ($helper->getBrandImageUrl($brand) != "https://www.digidirect.com.au/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
                             <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
@@ -226,7 +163,7 @@ $selectedBrands = $block->getCollection();
                                            class="product photo product-item-photo"
                                            tabindex="-1">
                                             <span class="product-image-container" style="width:240px;">
-                                                <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                                <span class="product-image-wrapper" style="padding-bottom: 75px !important;">
                                                     <div role="img" class="brand-menu-img product-image-photo"
                                                          style="background-image: url('<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>'); background-repeat: no-repeat; background-size: contain;" alt="<?= /** @noEscape */ $brand->getValue() ?>">
                                                     </div>
@@ -457,7 +394,7 @@ $selectedBrands = $block->getCollection();
         display: none;
     }
     
-    #logo-preloader {
+    #logo-preloader-mobile {
         margin: auto;
         margin-top: 150px;
         vertical-align: middle;
