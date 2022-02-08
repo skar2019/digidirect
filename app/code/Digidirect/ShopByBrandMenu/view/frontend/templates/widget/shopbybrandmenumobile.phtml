@@ -25,11 +25,15 @@ $selectedBrands = $block->getCollection();
         function ($) {
             filterSelection("all");
             
+            $('#mp-search-new').on('click', function(){
+                $(window).off('resize');
+            });
+            
             $('#brand-menu-mobile').change(function() {
                 var value = this.value;
                 var url = "<?php echo $block->getBaseUrl().'shopbybrandsmenu/index/viewmobile' ?>";
-                $("#brand-menu-grid").attr("style", "display: none !important");
-                $("#logo-preloader").show();
+                $("#brand-menu-grid-mobile").attr("style", "display: none !important");
+                $("#logo-preloader-mobile").show();
                 $("#brand-menu-mobile").prop("disabled", true);
                 $.ajax({
                     url: url,
@@ -38,9 +42,9 @@ $selectedBrands = $block->getCollection();
                     cache: false,
                     success: function(response){
                         //console.log(response.output);
-                        $('#brand-menu-grid').html(response.output);
-                        $("#logo-preloader").hide();
-                        $("#brand-menu-grid").attr("style", "display: grid");
+                        $('#brand-menu-grid-mobile').html(response.output);
+                        $("#logo-preloader-mobile").hide();
+                        $("#brand-menu-grid-mobile").attr("style", "display: grid");
                         $("#brand-menu-mobile").prop("disabled", false);
                         return true;
                     }
@@ -139,9 +143,9 @@ $selectedBrands = $block->getCollection();
                     </div>
                 </div>
                 
-                <div id="logo-preloader" style="display: none;"></div>
+                <div id="logo-preloader-mobile" style="display: none;"></div>
 
-                <ol id="brand-menu-grid" class="products list items product-items">
+                <ol id="brand-menu-grid-mobile" class="products list items product-items">
                     <?php foreach ($brandCollection as $brand) : ?>
                         <?php if ($helper->getBrandImageUrl($brand) != "https://www.digidirect.com.au/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
                             <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
