@@ -79,12 +79,12 @@ class CategoryId extends AbstractBrand
         $sql = 'main_table.cat_id IN (' . $str . ')';
         $result = [];
         $brands = $this->_categoryFactory->create()->getCategoryCollection($sql, null)->getData();
-        $cameras = array(137,120,8253,134,135,138,139,245,291,483);
-        $lenses = array(137,120,8253,134,135,138,139,223,517,221);
-        $drones = array(353,541,19521,7177,535,9307,12287,12269);
+        $cameras = array(137,120,8253,139,134,135,138,245,483,291);
+        $lenses = array(137,120,8253,221,134,223,135,139,138,517);
+        $drones = array(353,541,19521,7177,329,9307,12287,12269);
         $lightning = array(495,7105,13345,271,445,461,293,231,463,9364);
         $optics = array(134,139,13321,273,355,243,8253,135,507,567);
-        $audiovisual = array(281,18988,19465,7095,9405,9370,315,137,135);
+        $audiovisual = array(281,351,18988,19465,7095,137,9405,9370,315,135);
         $provideo = array(315,120,137,138,333,10265,305,19569,10179,19918);
         $smarthome = array(9256,19563,7153,19888,19984,12347,14558,14501,18775,19891);
         $computers = array(433,9214,10346,14420,13465,19533,19830,583,7159,9241);
@@ -92,9 +92,9 @@ class CategoryId extends AbstractBrand
         foreach ($brands as $brand => $item) {
             switch ($str) {
                 case "1":
-                   if (in_array($item['option_id'], $cameras)){
-                       $result[] = $item['option_id'];
-                   }
+//                   if (in_array($item['option_id'], $cameras)){
+//                       $result[] = $item['option_id'];
+//                   }
                    break;
                 case "4":
                     if (in_array($item['option_id'], $lenses)){
@@ -145,7 +145,20 @@ class CategoryId extends AbstractBrand
                     $result[] = $item['option_id'];
             }
 
+        }
 
+        if($str == "1")
+        {
+            $result[] = '137';
+            $result[] = '120';
+            $result[] = '8253';
+            $result[] = '139';
+            $result[] = '134';
+            $result[] = '135';
+            $result[] = '138';
+            $result[] = '245';
+            $result[] = '483';
+            $result[] = '291';
         }
 
         return implode(',', array_unique($result));
