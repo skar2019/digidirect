@@ -42,32 +42,30 @@
             <values>
                 <!--CDN-->
                 <value id="cloudflare" type="host">*.cloudflare.com</value>
-
                 <!--Design-->
                 <value id="typekit" type="host">*.typekit.net</value>
-
                 <!--Functions-->
                 <value id="trustedshops" type="host">*.trustedshops.com</value>
                 <value id="usercentrics" type="host">*.usercentrics.eu</value>
+                <value id="fontsgoogle" type="host">https://fonts.googleapis.com</value>
+                <value id="stackadapt" type="host">https://tags.srv.stackadapt.com</value>
             </values>
         </policy>
         <policy id="img-src">
             <values>
-                <!--CDN-->
                 <value id="cloudflare" type="host">*.cloudflare.com</value>
                 <value id="klarna-base" type="host">https://cdn.klarna.com</value>
 
-                <!--Payments-->
                 <value id="paypal" type="host">*.paypal.com</value>
 
-                <!--Video-->
                 <value id="vimeocdn" type="host">*.vimeocdn.com</value>
                 <value id="youtube-img" type="host">https://s.ytimg.com</value>
 
-                <!--Functions-->
                 <value id="google" type="host">*.google.com</value>
                 <value id="facebook" type="host">*.facebook.com</value>
                 <value id="adsrvr" type="host">*.adsrvr.org</value>
+                <value id="googlephimg" type="host">https://www.google.com.ph</value>
+
             </values>
         </policy>
         <policy id="connect-src">
@@ -84,6 +82,7 @@
                 <value id="tagssvrconnect" type="host">https://tags.srv.stackadapt.com</value>
                 <value id="studio19connect" type="host">https://secure.studio19.com.au</value>
                 <value id="polygroupconnect" type="host">https://secure.polygongroup.com.au</value>
+                <value id="bamcellconnect" type="host">https://bam-cell.nr-data.net</value>
 
             </values>
         </policy>
@@ -91,12 +90,21 @@
             <values>
                 <!--CDN-->
                 <value id="cloudflare" type="host">*.cloudflare.com</value>
-
                 <!--Design-->
                 <value id="typekit" type="host">*.typekit.net</value>
-
                 <!--Functions-->
                 <value id="trustedshops" type="host">*.trustedshops.com</value>
+                <value id="gstaticfont" type="host">https://fonts.gstatic.com</value>
+
+            </values>
+        </policy>
+        <policy id="frame-src">
+            <values>
+                <value id="livechatframe" type="host">https://secure.livechatinc.com</value>
+                <value id="flsdouble" type="host">'https://999999.fls.doubleclick.net</value>
+                <value id="insightframe" type="host">https://insight.adsrvr.org</value>
+                <value id="gstaticfont" type="host">https://fonts.gstatic.com</value>
+
             </values>
         </policy>
     </policies>

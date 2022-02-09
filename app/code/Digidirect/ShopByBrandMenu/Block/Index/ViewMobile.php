@@ -3,7 +3,7 @@ namespace Digidirect\ShopByBrandMenu\Block\Index;
  
 use Magento\Framework\View\Element\Template;
  
-class View extends Template
+class ViewMobile extends Template
 {
     public function __construct(
         Template\Context $context, 

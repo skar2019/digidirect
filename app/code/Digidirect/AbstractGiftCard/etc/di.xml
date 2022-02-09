@@ -19,7 +19,7 @@
     </type>
 
     <type name="Magento\GiftCardAccount\Block\Account\Redeem">
-        <plugin name="digidirect_abstract_gift_card_account_redeen" type="Digidirect\AbstractGiftCard\Plugin\GiftCardAccount\Block\Account\Redeem"/>
+        <plugin name="digidirect_abstract_gift_card_account_redeem" type="Digidirect\AbstractGiftCard\Plugin\GiftCardAccount\Block\Account\Redeem"/>
     </type>
 
     <type name="Magento\GiftCardAccount\Block\Checkout\Cart\Giftcardaccount">
@@ -38,4 +38,3 @@
     <preference for="Digidirect\AbstractGiftCard\Api\AbstractGiftCardAccountManagementInterface" type="Digidirect\AbstractGiftCard\Model\Service\AbstractGiftCardAccountManagement"/>
     <preference for="Digidirect\AbstractGiftCard\Api\AbstractGuestGiftCardAccountManagementInterface" type="Digidirect\AbstractGiftCard\Model\Service\AbstractGuestGiftCardAccountManagement"/>
 </config>
-        

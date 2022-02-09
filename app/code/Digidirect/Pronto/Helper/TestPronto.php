@@ -206,12 +206,17 @@ class TestPronto extends AbstractHelper
                     $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
                     $customerEmail = $order->getCustomerEmail();
 
+                    $customertype = "WG";
+                    if (!empty($account) && !$order->getCustomerIsGuest()) {
+                        $customertype = "WA";
+                    }
+
                     $data['sales-order']['header']['accountname'] = $accountname;
                     $data['sales-order']['header']['account'] = $account;
                     $data['sales-order']['header']['order-date'] = $orderdate;
                     $data['sales-order']['header']['warehouse'] = $wrehs;
-                    $data['sales-order']['header']['customer-type'] = "WC";
-                    $data['sales-order']['header']['so-cust-type'] = "WC";
+                    $data['sales-order']['header']['customer-type'] = $customertype;
+                    $data['sales-order']['header']['so-cust-type'] = $customertype;
                     $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
                     $data['sales-order']['header']['territory'] = $territory;
                     $data['sales-order']['header']['rep'] = $rep;
@@ -760,7 +765,7 @@ class TestPronto extends AbstractHelper
                 {
                     $territory = $wrehs;
                 }
-                
+
             }
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
@@ -784,9 +789,11 @@ class TestPronto extends AbstractHelper
                     }
 
                     $wrehs = "AWHS";
-                    $territory = "AWHS";
+                    //$territory = "AWHS";
                     $is_am_fba = true;
                 }
+
+                $territory = "MRKT";
 
             }
             else
@@ -794,15 +801,19 @@ class TestPronto extends AbstractHelper
                 $rep = $this->getRep($order);
                 if (strpos($orderId, 'EB') !== false) {
                     $rep ="EBAY";
+                    $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
+                    $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'MYD') !== false) {
                     $rep ="MYDEAL";
+                    $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'WD') !== false) {
                     $rep ="WESTFIELD";
+                    $territory = "MRKT";
                 }
 
             }
@@ -814,13 +825,18 @@ class TestPronto extends AbstractHelper
             $created = $this->timezone->date(new \DateTime($created));
             $orderdate = $created->format('Y-m-d');
 
+            $customertype = "WG";
+            if (!empty($account) && !$order->getCustomerIsGuest()) {
+                $customertype = "WA";
+            }
+
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
             $data['sales-order']['header']['account'] = $account;
             $data['sales-order']['header']['order-date'] = $orderdate;
             $data['sales-order']['header']['warehouse'] = $wrehs;
-            $data['sales-order']['header']['customer-type'] = "WC";
-            $data['sales-order']['header']['so-cust-type'] = "WC";
+            $data['sales-order']['header']['customer-type'] = $customertype;
+            $data['sales-order']['header']['so-cust-type'] = $customertype;
             $data['sales-order']['header']['territory'] = $territory;
             $data['sales-order']['header']['rep'] = $rep;
             $data['sales-order']['header']['contactname'] = $contactname;

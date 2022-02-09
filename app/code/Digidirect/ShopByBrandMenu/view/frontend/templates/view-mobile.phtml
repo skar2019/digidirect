@@ -1,4 +1,5 @@
 <?php
+    //Redeploy
     $blockBrandList = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand\BrandList');
     $blockSearch = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand\Search');
     $blockCategory = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand\Category');
@@ -57,7 +58,7 @@
     <?php foreach ($brandCollection as $brand) : ?>
         <?php if ($helper->getBrandImageUrl($brand) != "https://www.digidirect.com.au/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
             <?php if ($block->getProductCollectionCountWithBrandOnly($brand->getOptionId())) : ?>
-            <li style="display: none;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
+            <li style="display: none; width: 100% !important;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
                 <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL) : ?>
                     <div class="product-item-info" data-container="product-grid" style="width: 240px">
                         <?php if ($blockBrandList->showQuickView()) : ?>
@@ -71,7 +72,7 @@
                            class="product photo product-item-photo"
                            tabindex="-1">
                             <span class="product-image-container" style="width:240px;">
-                                <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                <span class="product-image-wrapper" style="padding-bottom: 50% !important;">
                                     <div role="img" class="brand-menu-img product-image-photo"
                                          style="background-image: url('<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>'); background-repeat: no-repeat; background-size: contain;" alt="<?= /** @noEscape */ $brand->getValue() ?>">
                                     </div>
@@ -123,7 +124,7 @@
     <?php foreach ($brandCollection as $brand) : ?>
         <?php if ($helper->getBrandImageUrl($brand) != "https://www.digidirect.com.au/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
             <?php if ($block->getProductCollectionCountWithBrand($catId, $brand->getOptionId())) : ?>
-            <li style="display: none;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
+            <li style="display: none; width: 100% !important;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
                 <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL) : ?>
                     <div class="product-item-info" data-container="product-grid" style="width: 240px">
                         <?php if ($blockBrandList->showQuickView()) : ?>
@@ -137,7 +138,7 @@
                            class="product photo product-item-photo"
                            tabindex="-1">
                             <span class="product-image-container" style="width:240px;">
-                                <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                <span class="product-image-wrapper" style="padding-bottom: 50% !important;">
                                     <div role="img" class="brand-menu-img product-image-photo"
                                          style="background-image: url('<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>'); background-repeat: no-repeat; background-size: contain;" alt="<?= /** @noEscape */ $brand->getValue() ?>">
                                     </div>

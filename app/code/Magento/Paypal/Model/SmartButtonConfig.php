@@ -132,7 +132,6 @@ class SmartButtonConfig
                 'locale' => $this->localeResolver->getLocale(),
                 'intent' => $this->getIntent(),
                 'currency' => $this->storeManager->getStore()->getBaseCurrencyCode(),
-                'enable-funding' => 'paylater',
             ];
         if ($disallowedFunding) {
             $params['disable-funding'] = $disallowedFunding;
