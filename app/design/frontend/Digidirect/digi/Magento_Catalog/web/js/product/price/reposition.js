@@ -3,6 +3,11 @@ define([
     'jquery'
 ], function ($) {
     //clint changes cashback
+    
+    window.onload = function() {
+        $(".secure-pay-container").attr("style", "display: block");
+    };
+      
 
     if( $('#main-product-qantas').length )
     {
