@@ -378,6 +378,7 @@
 
         .current-price-wrapper{
             position: relative;
+            padding-right: 0 !important;
         }
 
         .old-price-wrapper{
@@ -389,7 +390,8 @@
 
         .price-box span.old-price {
             display: inline-block;
-            margin-top: 21px;
+            //margin-top: 21px;
+            margin-top: 8px;
             width: 100%;
         }
 
@@ -882,7 +884,8 @@
                 .svg-icon {
                     width: 30px;
                     height: 35px;
-                    margin: 0 5px;
+                    //margin: 0 5px;
+                    margin: 0 3px;
                 }
             }
         }
@@ -1180,8 +1183,10 @@
         padding-left: 60px;
         position: absolute;
         top: 57px;
-        width: 220px;
-        left: 80px;
+        //width: 220px;
+        //left: 80px;
+        width: 200px;
+        left: 52px;
     }
     .secure-pay {
         border: 1px solid #cacaca;
@@ -1253,13 +1258,15 @@
         }
 
         .zip-container:last-child:after {
-            margin-left: -50px !important;
+            //margin-left: -50px !important;
+            margin-left: -70px !important;
             font-size: 11px !important;
             font-weight: 700;
             color: #e40301 !important;
             display: inline-block;
             margin-top: 5px;
             cursor: pointer;
+            
         }
     }
 
@@ -1361,7 +1368,8 @@
         visibility: visible;
         font-size: 11px !important;
         font-weight: 600;
-        margin-right: -130px;
+        //margin-right: -130px;
+        margin-left: 22px;
     }
 
     .s19-actions {
@@ -1437,7 +1445,8 @@
         content: " " !important;
         color: #004f67 !important;
         display: inline;
-        padding-left: 13px;
+        //padding-left: 13px;
+        padding-left: 0;
         position: relative;
         font-size: 11px !important;
         font-weight: 500 !important;
@@ -1551,18 +1560,22 @@
     .product-info-price svg.svg-icon.digidirectprice {
         display: inline-block !important;
         float: left;
-        padding-left: 104px;
+        //padding-left: 104px;
+        padding-left: 0 !important;
         padding-top: 10px;
     }
 
     .product-info-main .old-price-wrapper {
         float: left;
-        width: 80%;
+        //width: 80%;
+        width: 100%;
         margin-bottom: 0px;
         padding-top: 5px;
         border-top: 1px solid #cacaca;
-        margin-top: 10px;
-        margin-left: 100px;
+        //margin-top: 10px;
+        //margin-left: 100px;
+        margin-top: 5px;
+        margin-left: 0;
     }
     .product-info-price .svg-icon.digidirectprice {
         width: 130px !important;
@@ -1954,27 +1967,39 @@
     /*Desktop Product Page (Rondel Changes)*/
 
     .product-info-main > .product-info-price {
-        padding: 0 11px !important;
+        //padding: 0 11px !important;
+        //padding: 0 !important;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        vertical-align: unset;
+        
     }
 
     .product-add-form {
-        padding-left: 120px !important;
+        //padding-left: 120px !important;
+        padding-left: 0 !important;
         margin-bottom: 50px !important;
+        width: 100% !important;
     }
 
     .studio19-wrapper {
-        margin-left: 120px !important;
+        //margin-left: 120px !important;
+        margin-left: 0 !important;
     }
 
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget {
-        margin-left: 120px !important;
-        width: 402px !important;
+        //margin-left: 120px !important;
+        //width: 402px !important;
+        margin-left: 0 !important;
+        width: unset!important;
         height: 27px !important;
-        margin-top: 15px !important;
+        //margin-top: 15px !important;
+        margin-top: 25px !important;
     }
 
     form#product_addtocart_form {
-        width: 95% !important;
+        //width: 95% !important;
+        width: 100% !important;
     }
 
     .product-info-main .fieldset {
@@ -2000,7 +2025,8 @@
     }
 
     .product-info-main .qantas-pts-wrapper .qantas-text:before {
-        left: -175px !important;
+        //left: -175px !important;
+        left: -165px !important;
     }
 
     .product-info-main .qantas-pts-wrapper .qantas-text {
@@ -2008,7 +2034,8 @@
     }
 
     .product-info-main .box-tocart, .product-options-bottom .box-tocart {
-        margin: 22px 0 !important;
+        //margin: 22px 0 !important;
+        margin: 15px 0 !important;
     }
 
     .zip-container:last-child:before {
@@ -2040,12 +2067,11 @@
 
     .studio19-wrapper {
         margin-top: 15px !important;
-        //width: 75.5% !important;
-        width: 418.75px !important;
+        //width: 418.75px !important;
+        width: unset;
         height: 43px !important;
         overflow: hidden !important;
         display: block !important;
-        //margin-top: 0 !important;
         margin-bottom: 0 !important;
     }
 
@@ -2054,22 +2080,29 @@
     }
 
     .product-info-main-bottom {
-        padding-left: 120px !important;
-        width: 76% !important;
+        //padding-left: 120px !important;
+        //width: 76% !important;
+        padding: 0 !important;
+        width: 100%;
         margin-top: 15px !important;
     }
 
     .product-info-main .most-bottom-product-info {
         margin-top: 0 !important;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 10px;
     }
 
     .product-info-main .product-addto-links {
-        width: 39% !important;
-        padding: 10px 20px !important;
+        //width: 39% !important;
+        //padding: 10px 20px !important;
+        width: unset !important;
     }
 
     .catalog-product-view .product-info-main .live-chat-additional {
-        width: 39% !important;
+        //width: 39% !important;
+        width: unset !important;
     }
 
     .product-add-form .braintree-paypal-logo.oneclick-container {
@@ -2435,6 +2468,7 @@
         margin-left: -34px !important;
         margin-right: 0 !important;
         margin-top: -7px !important;
+        text-align: center !important;
     }
     
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
@@ -2491,7 +2525,8 @@
         }
 
         .zip-container:last-child:after {
-            margin-left: -50px !important;
+            //margin-left: -50px !important;
+            margin-left: -70px !important;
             font-size: 11px !important;
             font-weight: 700;
             color: #e40301 !important;
@@ -2606,8 +2641,12 @@
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     .product-info-main{
-        width: 40%;
-        padding: 30px 56px 0 0;
+        //width: 40%;
+        //padding: 30px 56px 0 0;
+        width: 30% !important;
+        padding: 0 50px 0 100px;
+        max-width: 547px !important;
+        
         float: unset;
 
         .fieldset{
@@ -2662,6 +2701,7 @@
         //margin-left: -110px !important;
         margin-right: 0 !important;
         margin-top: -7px !important;
+        text-align: center !important;
     }
 }
 
@@ -2693,14 +2733,20 @@
         }
 
         .page-title-wrapper.product{
+            //margin: 0;
+            //padding: 15px 0px;
             margin: 0;
-            padding: 15px 0px;
+            padding: 0 !important;
+            margin-top: -7px;
+            margin-left: -70px;
+            margin-bottom: 15px;
 
             h1{
                 text-align: left;
                 display: inline;
                 width: unset;
-                font-size: 21px;
+                //font-size: 21px;
+                font-size: 25px;
                 font-weight: 500;
             }
 
