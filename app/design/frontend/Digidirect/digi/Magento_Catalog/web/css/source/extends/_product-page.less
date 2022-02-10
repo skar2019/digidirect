@@ -1494,6 +1494,7 @@
             border-radius: 5px;
             height: 33px;
             margin-top: 15px;
+            text-align: unset;
         }
 
         .qantas-text {
@@ -1502,7 +1503,9 @@
                 position: relative;
                 padding-left: 0px;
                 font-weight: 500;
-                margin-right: -180px;
+                //margin-right: -180px;
+                vertical-align: super;
+                padding-left: 80px;
             }
 
             &:before{
@@ -1793,7 +1796,9 @@
                         position: relative;
                         padding-left: 0px;
                         font-weight: 500;
-                        margin-right: -180px;
+                        //margin-right: -180px;
+                        vertical-align: super;
+                        padding-left: 80px;
                     }
 
                     &:before{
@@ -2038,10 +2043,11 @@
     .product-info-main .qantas-pts-wrapper .qantas-text:before {
         //left: -175px !important;
         left: -165px !important;
+        display: none;
     }
 
     .product-info-main .qantas-pts-wrapper .qantas-text {
-        margin-right: -100px !important;
+        margin-right: 0 !important;
     }
 
     .product-info-main .box-tocart, .product-options-bottom .box-tocart {
@@ -2391,6 +2397,7 @@
         left: 0 !important;
         float: left !important;
         position: inherit !important;
+        display: none;
     }
 
     .product-info-main .qantas-pts-wrapper .qantas-text {
@@ -2683,7 +2690,9 @@
                     position: relative;
                     padding-left: 0px;
                     font-weight: 500;
-                    margin-right: -180px;
+                    //margin-right: -180px;
+                    vertical-align: super;
+                    padding-left: 80px;
                 }
 
                 &:before{
