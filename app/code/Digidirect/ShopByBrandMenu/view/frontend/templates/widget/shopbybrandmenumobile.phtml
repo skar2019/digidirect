@@ -25,7 +25,7 @@ $selectedBrands = $block->getCollection();
         function ($) {
             filterSelection("all");
             
-            $('#mp-search-new').on('click', function(){
+            $('#mp-search-new-mobile').on('click', function(){
                 $(window).off('resize');
             });
             
@@ -79,7 +79,7 @@ $selectedBrands = $block->getCollection();
         function filterByBrandName() {
             var x, i;
             x = document.getElementsByClassName("product-item");
-            c = document.getElementById("mp-search-new").value;
+            c = document.getElementById("mp-search-new-mobile").value;
             for (i = 0; i < x.length; i++) {
               w3RemoveClass(x[i], "show-brand");
               if (x[i].querySelector(".product-item-info > a").getAttribute('title').toLowerCase().includes(c.toLowerCase())) w3AddClass(x[i], "show-brand");
@@ -137,7 +137,7 @@ $selectedBrands = $block->getCollection();
                 <div class="block block-brand-search">
                     <div class="block-content">
                         <div class="mp-searchbox">
-                            <input id="mp-search-new" type="text" class="mp-search form-control" name="q"
+                            <input id="mp-search-new-mobile" type="text" class="mp-search form-control" name="q"
                                    onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>" autocomplete="off">
                         </div>
                     </div>
@@ -386,7 +386,7 @@ $selectedBrands = $block->getCollection();
         cursor: pointer !important;
     }
     
-    #mp-search-new {
+    #mp-search-new-mobile {
         padding: 10px !important;
     }
     
