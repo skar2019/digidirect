@@ -9,7 +9,7 @@
  * @see \Magento\Paypal\Block\Bml\Banners
  */
 ?>
-<div class="paypal-logo">
+<div id="paypal-checkout-button" class="paypal-logo">
     <script data-pp-pubid="<?= $block->escapeHtml($block->getPublisherId()) ?>"
             data-pp-placementtype="<?= $block->escapeHtml($block->getSize()) ?>"
         > (function (d, t) {

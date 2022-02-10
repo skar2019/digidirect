@@ -22,7 +22,7 @@ if ($block->getIsInCatalogProduct()) {
 }
 ?>
 <div data-label="<?= $block->escapeHtml(__('or')) ?>"
-     class="paypal checkout <?= /* @noEscape */ $labelPosition ?> paypal-logo
+     id="paypal-checkout-button" class="paypal checkout <?= /* @noEscape */ $labelPosition ?> paypal-logo
         <?= /* @noEscape */ $shortcutHtmlId ?>"
      data-mage-init='{
      "paypalCheckout": {
