@@ -23,6 +23,8 @@ define([
     //$('.secure-pay-container').insertAfter($('.product-add-form'));
     //$('.widget-product').insertAfter($('.secure-pay-container'));
     
+    $('.braintree-paypal-logo').attr('id','paypal-checkout-button');
+    
     $('.product-options-bottom .actions').append('<div id="special-button-container"></div>');
     //$('#special-button-container').append('#paypal-checkout-button');
     $('#special-button-container').append($('#paypal-checkout-button').clone());
