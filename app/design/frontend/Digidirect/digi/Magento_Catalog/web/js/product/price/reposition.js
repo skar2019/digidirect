@@ -24,9 +24,10 @@ define([
     //$('.widget-product').insertAfter($('.secure-pay-container'));
     
     $('.product-options-bottom .actions').append('<div id="special-button-container"></div>');
-    $('#special-button-container').append('.braintree-paypal-logo');
+    //$('#special-button-container').append('#paypal-checkout-button');
+    $('#special-button-container').append($('#paypal-checkout-button').clone());
     
-    $('.braintree-paypal-logo').insertAfter($('.product-options-bottom .actions'));
+    //$('.braintree-paypal-logo').insertAfter($('.product-options-bottom .actions'));
     $('.secure-pay-container').insertAfter($('.braintree-paypal-logo'));
     $('.widget-product').insertAfter($('.product-add-form'));
 
