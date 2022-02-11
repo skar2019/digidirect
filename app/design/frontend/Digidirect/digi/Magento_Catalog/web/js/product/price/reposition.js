@@ -22,7 +22,7 @@ define([
 
     //$('.secure-pay-container').insertAfter($('.product-add-form'));
     //$('.widget-product').insertAfter($('.secure-pay-container'));
-    $('.braintree-paypal-logo').insertAfter($('.product-options-bottom .actions'));
+    $('.braintree-paypal-logo').insertAfter($('.product-options-bottom'));
     $('.secure-pay-container').insertAfter($('.braintree-paypal-logo'));
     $('.widget-product').insertAfter($('.product-add-form'));
 
