@@ -215,7 +215,7 @@ $selectedBrands = $block->getCollection();
 
                 <ol id="brand-menu-grid" class="products list items product-items">
                     <?php foreach ($brandCollection as $brand) : ?>
-                        <?php if ($helper->getBrandImageUrl($brand) != "https://www.digidirect.com.au/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
+                        <?php if ($helper->getBrandImageUrl($brand) != $block->getBaseUrl()."/media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
                             <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
                             <li style="display: none;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
                                 <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL) : ?>
@@ -403,7 +403,7 @@ $selectedBrands = $block->getCollection();
     ::-webkit-scrollbar-thumb {
         background: unset !important;
     }
-    
+   
     .brand-list-content .product.name.product-item-name {
         font-size: 11px !important;
         margin-top: -20px !important;
