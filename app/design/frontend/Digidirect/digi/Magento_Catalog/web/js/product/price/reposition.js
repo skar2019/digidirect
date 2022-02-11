@@ -1,5 +1,4 @@
 //clint
-//Redeploy
 define([
     'jquery'
 ], function ($) {
@@ -36,9 +35,8 @@ define([
         $('.studio19-wrapper').addClass('studio19-hide');
     }
 
-    //for mobile = 760
-    //Changed to 1439 for tablet *Rondel
-    let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
+    //for mobile
+    let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
     if (isMobile) {
         $('.page-title-wrapper').insertBefore($('.media-area'));
