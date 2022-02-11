@@ -408,7 +408,7 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
                     $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
                     $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
+                    $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
                     $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
                     //should be inside the foreach above
@@ -1147,7 +1147,7 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
                 $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 5;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
                 $x++; // for shipping counter
             }
@@ -1185,7 +1185,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
             $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
+            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             if($test)

@@ -586,7 +586,7 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
                 $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 5;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
                 $x++; // for shipping counter
             }
@@ -625,7 +625,7 @@ class Order extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
             $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
+            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             //create xml of order data here
@@ -1317,7 +1317,7 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
                 $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 5;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
                 $x++; // for shipping counter
             }
@@ -1344,7 +1344,7 @@ class Order extends AbstractHelper
             $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
             $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
             $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = 0;
+            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
             $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
 
             //create xml of order data here
