@@ -25,7 +25,7 @@ $selectedBrands = $block->getCollection();
         function ($) {
             filterSelection("all");
             
-            $('#mp-search-new').on('click', function(){
+            $('#mp-search-new-mobile').on('click', function(){
                 $(window).off('resize');
             });
             
@@ -79,7 +79,7 @@ $selectedBrands = $block->getCollection();
         function filterByBrandName() {
             var x, i;
             x = document.getElementsByClassName("product-item");
-            c = document.getElementById("mp-search-new").value;
+            c = document.getElementById("mp-search-new-mobile").value;
             for (i = 0; i < x.length; i++) {
               w3RemoveClass(x[i], "show-brand");
               if (x[i].querySelector(".product-item-info > a").getAttribute('title').toLowerCase().includes(c.toLowerCase())) w3AddClass(x[i], "show-brand");
@@ -137,7 +137,7 @@ $selectedBrands = $block->getCollection();
                 <div class="block block-brand-search">
                     <div class="block-content">
                         <div class="mp-searchbox">
-                            <input id="mp-search-new" type="text" class="mp-search form-control" name="q"
+                            <input id="mp-search-new-mobile" type="text" class="mp-search form-control" name="q"
                                    onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>" autocomplete="off">
                         </div>
                     </div>
@@ -159,11 +159,11 @@ $selectedBrands = $block->getCollection();
                                             </div>
                                         <?php endif; ?>
                                         <a title="<?= /** @noEscape */ $brand->getValue() ?>"
-                                           href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>"
+                                           href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>"
                                            class="product photo product-item-photo"
                                            tabindex="-1">
                                             <span class="product-image-container" style="width:240px;">
-                                                <span class="product-image-wrapper" style="padding-bottom: 75px !important;">
+                                                <span class="product-image-wrapper" style="padding-bottom: 50% !important;">
                                                     <div role="img" class="brand-menu-img product-image-photo"
                                                          style="background-image: url('<?= /** @noEscape */ $helper->getBrandImageUrl($brand) ?>'); background-repeat: no-repeat; background-size: contain;" alt="<?= /** @noEscape */ $brand->getValue() ?>">
                                                     </div>
@@ -174,7 +174,7 @@ $selectedBrands = $block->getCollection();
                                             <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LOGO) : ?>
                                                 <strong class="product name product-item-name" style="text-align: center">
                                                     <a title="<?= /** @noEscape */ $brand->getValue() ?>" class="product-item-link"
-                                                       href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>">
+                                                       href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>">
                                                         <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                                                     </a>
                                                 </strong>
@@ -189,7 +189,7 @@ $selectedBrands = $block->getCollection();
                                 <?php else : ?>
                                     <div class="brand-name-type-label-only" data-container="product-grid">
                                         <strong class="product name product-item-name" style="margin: 0;">
-                                            <a class="product-item-link" href="<?= /** @noEscape */ $helper->getBrandUrl($brand) ?>" style="float: left; padding-right: 10px;">
+                                            <a class="product-item-link" href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>" style="float: left; padding-right: 10px;">
                                                 <?= $blockBrandList->showProductQty() ? /** @noEscape */  $brand->getValue() . ' (' . /** @noEscape */ $blockBrandList->getProductQuantity($brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                                             </a>
                                             <?php if ($blockBrandList->showQuickView()) : ?>
@@ -386,7 +386,7 @@ $selectedBrands = $block->getCollection();
         cursor: pointer !important;
     }
     
-    #mp-search-new {
+    #mp-search-new-mobile {
         padding: 10px !important;
     }
     
