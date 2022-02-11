@@ -5,7 +5,7 @@ define([
     //clint changes cashback
     
     window.onload = function() {
-        $(".secure-pay-container").attr("style", "display: block");
+        $(".secure-pay-container").attr("style", "display: inline-block");
     };
       
 
