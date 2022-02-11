@@ -1182,13 +1182,13 @@
     }
     .secure-pay-container {
         display: none;
-        padding-left: 60px;
-        position: absolute;
-        top: 57px;
+        //padding-left: 60px;
+        //position: absolute;
+        //top: 57px;
         //width: 220px;
         //left: 80px;
-        width: 200px;
-        left: 65px;
+        width: 49%;
+        //left: 65px;
     }
     .secure-pay {
         border: 1px solid #cacaca;
@@ -1211,11 +1211,12 @@
     }
 
     .product-add-form .braintree-paypal-logo.oneclick-container {
-        margin-left: -92px !important;
-        width: 200px !important;
         border-radius: 5px !important;
         background: 0 0 !important;
         height: 40px;
+        width: 49% !important;
+        display: inline-block;
+        padding-right: 2%;
     }
 
     .paypal-button-logo {
@@ -1494,6 +1495,7 @@
             border-radius: 5px;
             height: 33px;
             margin-top: 15px;
+            text-align: unset;
         }
 
         .qantas-text {
@@ -1502,19 +1504,9 @@
                 position: relative;
                 padding-left: 0px;
                 font-weight: 500;
-                margin-right: -180px;
-            }
-
-            &:before{
-                content: " ";
-                position: absolute;
-                background-repeat: no-repeat;
-                background-image: url("@{baseDir}images/qff-logo-new.svg");
-                background-size: contain;
-                height: 20px;
-                width: 100px;
-                top: 0;
-                left: -220px;
+                //margin-right: -180px;
+                vertical-align: super;
+                padding-left: 80px;
             }
         }
     }
@@ -1793,19 +1785,9 @@
                         position: relative;
                         padding-left: 0px;
                         font-weight: 500;
-                        margin-right: -180px;
-                    }
-
-                    &:before{
-                        content: " ";
-                        position: absolute;
-                        background-repeat: no-repeat;
-                        background-image: url("@{baseDir}images/qff-logo-new.svg");
-                        background-size: contain;
-                        height: 20px;
-                        width: 100px;
-                        top: 0;
-                        left: -220px;
+                        //margin-right: -180px;
+                        vertical-align: super;
+                        padding-left: 80px;
                     }
                 }
             }
@@ -2038,10 +2020,11 @@
     .product-info-main .qantas-pts-wrapper .qantas-text:before {
         //left: -175px !important;
         left: -165px !important;
+        display: none;
     }
 
     .product-info-main .qantas-pts-wrapper .qantas-text {
-        margin-right: -100px !important;
+        margin-right: 0 !important;
     }
 
     .product-info-main .box-tocart, .product-options-bottom .box-tocart {
@@ -2118,7 +2101,7 @@
 
     .product-add-form .braintree-paypal-logo.oneclick-container {
         height: 35px !important;
-        margin-top: 15px;
+        margin-top: 25px;
     }
 
     .box-tocart .secure-pay {
@@ -2391,6 +2374,7 @@
         left: 0 !important;
         float: left !important;
         position: inherit !important;
+        display: none;
     }
 
     .product-info-main .qantas-pts-wrapper .qantas-text {
@@ -2683,19 +2667,9 @@
                     position: relative;
                     padding-left: 0px;
                     font-weight: 500;
-                    margin-right: -180px;
-                }
-
-                &:before{
-                    content: " ";
-                    position: absolute;
-                    background-repeat: no-repeat;
-                    background-image: url("@{baseDir}images/qff-logo-new.svg");
-                    background-size: contain;
-                    height: 20px;
-                    width: 100px;
-                    top: 0;
-                    left: -220px;
+                    //margin-right: -180px;
+                    vertical-align: super;
+                    padding-left: 80px;
                 }
             }
         }

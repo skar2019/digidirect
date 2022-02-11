@@ -64,6 +64,13 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
 
 <?php if($points > 0):?>
     <div class="qantas-pts-wrapper" id="main-product-qantas">
+        <img src="https://www.digidirect.com.au/static/version1644407894/frontend/Digidirect/digi/en_AU/images/qff-logo-new.svg" 
+             style="
+                width: 80px;
+                display: inline-block;
+                margin: 1.5px 0 0 2px;
+                padding-left: 10px;
+        ">
         <span class="qantas-text">Earn <span style="color: #e40301;"><?= $points ?> Qantas Points</span></span>
     </div>
 <?php endif; ?>
