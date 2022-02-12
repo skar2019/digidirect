@@ -38,7 +38,7 @@ define([
 
     //for mobile = 760
     //Changed to 1439 for tablet *Rondel
-    let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
+    let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
     if (isMobile) {
         $('.page-title-wrapper').insertBefore($('.media-area'));
