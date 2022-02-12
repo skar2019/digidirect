@@ -1,4 +1,4 @@
-//Redeploy
+//
 //  Catalog: Product (PDP)
 //  _____________________________________________
 
@@ -1182,13 +1182,13 @@
     }
     .secure-pay-container {
         display: none;
-        padding-left: 60px;
-        position: absolute;
-        top: 57px;
+        //padding-left: 60px;
+        //position: absolute;
+        //top: 57px;
         //width: 220px;
         //left: 80px;
-        width: 200px;
-        left: 65px;
+        width: 49%;
+        //left: 65px;
     }
     .secure-pay {
         border: 1px solid #cacaca;
@@ -1211,11 +1211,12 @@
     }
 
     .product-add-form .braintree-paypal-logo.oneclick-container {
-        margin-left: -92px !important;
-        width: 200px !important;
         border-radius: 5px !important;
         background: 0 0 !important;
         height: 40px;
+        width: 49% !important;
+        display: inline-block;
+        padding-right: 2%;
     }
 
     .paypal-button-logo {
@@ -1722,6 +1723,10 @@
         padding-top: 15px;
         padding-left: 125px;
     }
+    
+    .secure-pay-container .mgz-element-column>.mgz-element-inner {
+        padding: 0 !important;
+    }
 }
 
 //Redeploy
@@ -1929,6 +1934,14 @@
         .product-addto-links .action.towishlist {
             .lib-font-size(14);
         }
+        
+        .page-title-wrapper.product h1 {
+            text-align: left;
+            display: inline;
+            width: unset;
+            font-size: 25px;
+            font-weight: 500;
+        }
     }
 
     .social-wrapper {
@@ -1951,10 +1964,11 @@
                     vertical-align: middle !important;
                     margin-top: -5px !important;
                     display: inline-block !important;
+                    margin-right: 10px !important;
+                    }
                 }
             }
         }
-    }
 
     /*Desktop Product Page (Rondel Changes)*/
 
@@ -1970,7 +1984,7 @@
     .product-add-form {
         //padding-left: 120px !important;
         padding-left: 0 !important;
-        margin-bottom: 50px !important;
+        //margin-bottom: 50px !important;
         width: 100% !important;
     }
 
@@ -2100,7 +2114,7 @@
 
     .product-add-form .braintree-paypal-logo.oneclick-container {
         height: 35px !important;
-        margin-top: 15px;
+        margin-top: 25px;
     }
 
     .box-tocart .secure-pay {
