@@ -1,5 +1,3 @@
-C:\Users\user\digistaging2\app\design\frontend\Digidirect\digi\Magento_Catalog\web\js\product\price\reposition.js 
-
 //clint
 //Redeploy
 define([
