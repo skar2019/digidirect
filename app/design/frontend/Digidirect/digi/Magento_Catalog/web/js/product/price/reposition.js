@@ -43,7 +43,7 @@ define([
     let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
 
     if (isMobile) {
-        $('.page-title-wrapper').insertBefore($('.media-area'));
+        $('.page-title-wrapper').insertBefore($('.product-basic'));
 
     }
 
