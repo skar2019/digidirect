@@ -147,7 +147,7 @@ $selectedBrands = $block->getCollection();
 
                 <ol id="brand-menu-grid-mobile" class="products list items product-items">
                     <?php foreach ($brandCollection as $brand) : ?>
-                        <?php if ($helper->getBrandImageUrl($brand) != $block->getBaseUrl()."media/catalog/product/placeholder/default/ICS_placeHolder.fw_1_1.png") : ?>
+                        <?php if ($helper->getBrandImageUrl($brand) != $block->getBaseUrl()."media/catalog/product/placeholder/default/ICS_placeHolder.fw_1.png") : ?>
                             <?php if (($blockBrandList->getProductQuantity($brand->getOptionId()) > 0)) : ?>
                             <li style="display: none; width: 100% !important;" class="item product product-item mix <?= /** @noEscape */ $blockBrandList->getFilterClass($brand) ?> <?= /** @noEscape */ $blockBrandList->getCatFilterClass($brand->getId()) ?>">
                                 <?php if ($displayType !== \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL) : ?>

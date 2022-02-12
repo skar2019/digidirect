@@ -1,12 +1,11 @@
 //clint
-//Redeploy
 define([
     'jquery'
 ], function ($) {
     //clint changes cashback
     
     window.onload = function() {
-        $(".secure-pay-container").attr("style", "display: inline-block");
+        $(".secure-pay-container").attr("style", "display: block");
     };
       
 
@@ -23,7 +22,6 @@ define([
 
     //$('.secure-pay-container').insertAfter($('.product-add-form'));
     //$('.widget-product').insertAfter($('.secure-pay-container'));
-    $('.braintree-paypal-logo').insertAfter($('.product-options-bottom'));
     $('.secure-pay-container').insertAfter($('.braintree-paypal-logo'));
     $('.widget-product').insertAfter($('.product-add-form'));
 
@@ -36,8 +34,7 @@ define([
         $('.studio19-wrapper').addClass('studio19-hide');
     }
 
-    //for mobile = 760
-    //Changed to 1439 for tablet *Rondel
+    //for mobile
     let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
     if (isMobile) {
