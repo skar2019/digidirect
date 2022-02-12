@@ -42,7 +42,8 @@ define([
 
     if (isMobile) {
         $('.page-title-wrapper').insertBefore($('.product-basic'));
-
+    }else {
+        $('.page-title-wrapper').insertBefore($('.product-info-price'));
     }
 
 });
