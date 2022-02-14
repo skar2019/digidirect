@@ -1342,7 +1342,7 @@
         background: #fff !important;
         padding: 10px !important;
         margin: 0 !important;
-        display: inline-flex !important;
+        //display: inline-flex !important;
     }
 
     .s19-rentfor {
@@ -1364,16 +1364,19 @@
         border: none !important;
         background: 0 0;
         color: #e40301 !important;
-        display: inline-block;
+        //display: inline-block;
         font-weight: 700;
         font-size: 0px !important;
         padding: 0px 0px !important;
-        text-align: center;
+        //text-align: center;
+        text-align: unset !important;
         white-space: nowrap;
         text-decoration: none;
         line-height: 0.2rem !important;
-        margin-right: -22px;
+        //margin-right: -22px;
         text-transform: uppercase;
+        display: flex !important;
+        justify-content: right;
     }
 
     a.s19-apply-btn:after {
@@ -1382,7 +1385,8 @@
         font-size: 11px !important;
         font-weight: 600;
         //margin-right: -130px;
-        margin-left: 22px;
+        //margin-left: 22px;
+        margin-left: 0 !important;
     }
     
     a.s19-apply-btn:hover {
@@ -1396,7 +1400,8 @@
     .s19-price-per-period {
         color: #e40301 !important;
         font-weight: 700;
-        width: 150px;
+        //width: 150px;
+        width: unset;
     }
     .s19-price-amount {
         font-size: 11px !important;
@@ -1744,6 +1749,17 @@
     
     .zip-container span:last-of-type {
         display: none !important;
+    }
+    
+    .s19-component {
+        display: grid !important;
+        grid-template-columns: 20% 60% 20%;
+    }
+    
+    .s19-s19logo {
+        height: auto !important;
+        width: 100% !important;
+        margin: 2px 0 0 0 !important;
     }
     
 }
