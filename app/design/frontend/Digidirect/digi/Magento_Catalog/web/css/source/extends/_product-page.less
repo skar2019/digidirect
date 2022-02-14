@@ -1248,7 +1248,11 @@
         height: 22px !important;
 
         .zip-container {
-            height: 21px !important;
+            //height: 21px !important;
+            height: 45px !important;
+            display: grid !important;
+            margin-top: -8px;
+            grid-template-columns: 20% 60% 20%;
         }
 
         .zip-container span {
@@ -1258,17 +1262,23 @@
 
         .zip-container span:first-of-type:before {
             height: 21px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .zip-container:last-child:after {
-            //margin-left: -50px !important;
-            margin-left: -70px !important;
+            //margin-left: -70px !important;
             font-size: 11px !important;
             font-weight: 700;
             color: #e40301 !important;
-            display: inline-block;
-            margin-top: 5px;
+            //display: inline-block;
+            //margin-top: 5px;
             cursor: pointer;
+            display: flex;
+            justify-content: right;
+            margin-top: -3px;
+            white-space: nowrap;
             
         }
     }
@@ -1727,6 +1737,15 @@
     .secure-pay-container .mgz-element-column>.mgz-element-inner {
         padding: 0 !important;
     }
+    
+    .zip-payment-amount {
+        display: none !important;
+    }
+    
+    .zip-container span:last-child {
+        display: none !important;
+    }
+    
 }
 
 //Redeploy
@@ -2000,7 +2019,7 @@
         width: unset!important;
         height: 27px !important;
         //margin-top: 15px !important;
-        margin-top: 25px !important;
+        margin-top: 9px !important;
     }
 
     form#product_addtocart_form {
@@ -2048,12 +2067,13 @@
     .zip-container:last-child:before {
         height: 37px !important;
         margin-left: -7px !important;
-        margin-top: 5px !important;
+        //margin-top: 5px !important;
+        margin-top: -5px !important;
     }
 
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
         font-size: 12px !important;
-        margin-left: -55px !important;
+        //margin-left: -55px !important;
         margin-top: 5px;
     }
 
@@ -2063,7 +2083,7 @@
         color: #000 !important;
         font-size: 12px !important;
         white-space: nowrap !important;
-        margin-left: 55px !important;
+        //margin-left: 55px !important;
     }
 
     .s19-header:before {
@@ -2126,7 +2146,7 @@
 
     .secure-pay > .image-wrapper > svg {
         width: 28px !important;
-        margin-top: -2px !important;
+        margin-top: 0 !important;
     }
 }
 
@@ -2520,7 +2540,11 @@
         margin-top: 15px !important;
 
         .zip-container {
-            height: 21px !important;
+            //height: 21px !important;
+            height: 45px !important;
+            display: grid !important;
+            margin-top: -8px;
+            grid-template-columns: 20% 60% 20%;
         }
 
         .zip-container span {
@@ -2530,17 +2554,23 @@
 
         .zip-container span:first-of-type:before {
             height: 21px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .zip-container:last-child:after {
-            //margin-left: -50px !important;
-            margin-left: -70px !important;
+            //margin-left: -70px !important;
             font-size: 11px !important;
             font-weight: 700;
             color: #e40301 !important;
-            display: inline-block;
-            margin-top: 5px;
+            //display: inline-block;
+            //margin-top: 5px;
             cursor: pointer;
+            display: flex;
+            justify-content: right;
+            margin-top: -3px;
+            white-space: nowrap;
         }
     }
 
@@ -2735,9 +2765,11 @@
             //padding: 15px 0px;
             margin: 0;
             padding: 0 !important;
-            margin-top: -7px;
-            margin-left: -70px;
-            margin-bottom: 15px;
+            margin-top: -7px !important;
+            margin-left: -70px !important;
+            margin-bottom: 15px !important;
+            
+            
 
             h1{
                 text-align: left;
