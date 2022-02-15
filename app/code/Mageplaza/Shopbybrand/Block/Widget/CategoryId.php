@@ -92,9 +92,9 @@ class CategoryId extends AbstractBrand
         foreach ($brands as $brand => $item) {
             switch ($str) {
                 case "1":
-//                   if (in_array($item['option_id'], $cameras)){
-//                       $result[] = $item['option_id'];
-//                   }
+                   if (in_array($item['option_id'], $cameras)){
+                       $result[] = $item['option_id'];
+                   }
                    break;
                 case "4":
                     if (in_array($item['option_id'], $lenses)){
@@ -143,6 +143,7 @@ class CategoryId extends AbstractBrand
                     break;
                 default:
                     $result[] = $item['option_id'];
+                    break;
             }
 
         }
