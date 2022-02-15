@@ -662,16 +662,32 @@ class Order extends AbstractHelper
                 {
                     $msg =  $json['response']['message'];
                     //echo $msg."<br>";
-                    $order->setData('pronto_order_number',$msg);
-                    $order->save();
+                    if($msg == 'Error on opening batch reference.')
+                    {
+                        //do nothing
+                    }
+                    else
+                    {
+                        $order->setData('pronto_order_number',$msg);
+                        $order->save();
+                    }
+
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
                     //echo $msg ."<br>";
-                    $order->setData('pronto_order_number',$msg);
-                    $order->save();
+                    if($msg == 'Error on opening batch reference.')
+                    {
+                        //do nothing
+                    }
+                    else
+                    {
+                        $order->setData('pronto_order_number',$msg);
+                        $order->save();
+                    }
+
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
                 }
