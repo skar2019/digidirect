@@ -83,6 +83,5 @@ class AbstractBrand extends Template implements BlockInterface
     public function getTitle()
     {
         return $this->getData('title');
-        //comment to redeploy
     }
 }
