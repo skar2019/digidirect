@@ -1770,6 +1770,10 @@
         margin-top: -8px;
     }
     
+    .paypal-button-fundingicons {
+        display: none !important;
+    }
+    
 }
 
 //Redeploy
@@ -1794,7 +1798,8 @@
         .product-section .product-info-main{
             width: 50%;
             /*max-width: 420px;*/
-            padding: 0 30px;
+            /*padding: 0 30px;*/
+            padding: 0;
 
             .page-title-wrapper {
                 margin-left: 0;
@@ -2174,6 +2179,195 @@
     .secure-pay > .image-wrapper > svg {
         width: 28px !important;
         margin-top: 0 !important;
+    }
+    
+    
+    //Tranferred From XL Breakpoint
+    .product-bg {
+        right: 0;
+        left: 0;
+    }
+
+    .media-area {
+        width: 60%;
+        flex-grow: 1;
+        padding: 40px 50px 0;
+    }
+
+    .product-info-main {
+        & {
+            width: 50%;
+            padding: 0px 30px;
+        }
+
+        .stock {
+            .lib-font-size(16);
+            line-height: 22px;
+        }
+
+        .page-title-wrapper.product{
+            //margin: 0;
+            //padding: 15px 0px;
+            margin: 0;
+            padding: 0 !important;
+            margin-top: -7px !important;
+            margin-left: -70px !important;
+            margin-bottom: 15px !important;
+            
+            
+
+            h1{
+                text-align: left;
+                display: inline;
+                width: unset;
+                //font-size: 21px;
+                font-size: 25px;
+                font-weight: 500;
+            }
+
+            .attribute.sku{
+                &{
+                    display: inline-block;
+                    margin-top: 5px;
+                    font-size: 12px;
+                }
+
+                .type{
+                    display: none;
+                }
+            }
+        }
+
+        .price-box .price-wrapper .price{
+            font-size: 21px;
+            color: #ff3c00;
+        }
+
+        .product-info-price .price-box .old-price span.price{
+            color: #101010 !important;
+            font-weight: 400;
+            float: right;
+        }
+    }
+
+    .box-tocart {
+        & {
+            margin-bottom: 33px;
+        }
+
+        .input-text.qty {
+            .lib-font-size(16);
+            width: 60px;
+            height: 55px;
+            border-radius: 4px;
+            border-color: #cacaca;
+        }
+        /* add to cart button pdp clint */
+        .action {
+            font-family: 'Poppins', sans-serif;
+            .lib-font-size(18);
+            padding-top: 14px;
+            padding-bottom: 13px;
+            border-radius: 4px;
+            width: 100%;
+
+            &::focus,
+            &::active,
+            &.disabled{
+                background: #f78e6d !important;
+                border-color: #f78e6d !important;
+                color: #222 !important;
+            }
+        }
+    }
+
+    .product-extra {
+        margin-bottom: 32px;
+    }
+
+    .product-info-main {
+        .old-price-label {
+            position: absolute;
+            top: 5px;
+            left: 0;
+            text-transform: uppercase;
+            font-weight: bold;
+            display: none;
+        }
+
+        .digidirectprice {
+            display: inline-block;
+            //display: none;
+        }
+    }
+
+    .product-info-price {
+        text-align: right;
+        padding: 0px 60px;
+    }
+
+    .catalog-product-view .products-widget {
+        .slick-next,
+        .slick-prev {
+            display: block !important;
+        }
+
+        .slick-prev {
+            left: 0;
+        }
+
+        .slick-next {
+            right: 0;
+        }
+
+        .slick-list.draggable {
+            padding-right: 0
+        }
+    }
+
+    .product-info-main .msiavailability-wrapper .availability-wrapper .title.sdd {
+        padding-left: 15px;
+    }
+
+    .product-info-main .pick-up-in-store-link {
+        & {
+            left: 15px;
+            width: -webkit-calc(~'100%  - 50px');
+            width: calc(~'100%  - 50px');
+        }
+    }
+    
+    .product-basic {
+        .product.media {
+            flex-grow: 1;
+            width: 60%;
+            padding: 10px 60px;
+            border: 1px solid #cacaca;
+        }
+    }
+
+    .media-area {
+        .lib-vendor-prefix-display(flex);
+        padding: 0;
+    }
+
+    .product-overview {
+        width: 100%;
+        max-width: 671px;
+        margin-bottom: 0;
+
+        .title{
+            font-weight: bold;
+        }
+    }
+
+    .fotorama__nav-wrap .fotorama_horizontal_ratio .fotorama__img{
+        width: 100%;
+    }
+    
+    .paypal-button.paypal-button-shape-pill {
+        height: 35px !important;
+        border-radius: 40px !important;
     }
 }
 
@@ -2727,6 +2921,11 @@
         margin-top: 12px !important;
     }
     
+    .paypal-button.paypal-button-shape-pill {
+        height: 50px !important;
+        border-radius: 40px !important;
+    }
+    
 } //end mobile
 
 //
@@ -2737,7 +2936,7 @@
     .product-info-main{
         //width: 40%;
         //padding: 30px 56px 0 0;
-        width: 30% !important;
+        width: 40% !important;
         padding: 0 50px 0 100px !important;
         max-width: 547px !important;
         
@@ -2794,159 +2993,7 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-    .product-bg {
-        right: 0;
-        left: 0;
-    }
-
-    .media-area {
-        width: 60%;
-        flex-grow: 1;
-        padding: 40px 50px 0;
-    }
-
-    .product-info-main {
-        & {
-            width: 50%;
-            padding: 0px 30px;
-        }
-
-        .stock {
-            .lib-font-size(16);
-            line-height: 22px;
-        }
-
-        .page-title-wrapper.product{
-            //margin: 0;
-            //padding: 15px 0px;
-            margin: 0;
-            padding: 0 !important;
-            margin-top: -7px !important;
-            margin-left: -70px !important;
-            margin-bottom: 15px !important;
-            
-            
-
-            h1{
-                text-align: left;
-                display: inline;
-                width: unset;
-                //font-size: 21px;
-                font-size: 25px;
-                font-weight: 500;
-            }
-
-            .attribute.sku{
-                &{
-                    display: inline-block;
-                    margin-top: 5px;
-                    font-size: 12px;
-                }
-
-                .type{
-                    display: none;
-                }
-            }
-        }
-
-        .price-box .price-wrapper .price{
-            font-size: 21px;
-            color: #ff3c00;
-        }
-
-        .product-info-price .price-box .old-price span.price{
-            color: #101010 !important;
-            font-weight: 400;
-            float: right;
-        }
-    }
-
-    .box-tocart {
-        & {
-            margin-bottom: 33px;
-        }
-
-        .input-text.qty {
-            .lib-font-size(16);
-            width: 60px;
-            height: 55px;
-            border-radius: 4px;
-            border-color: #cacaca;
-        }
-        /* add to cart button pdp clint */
-        .action {
-            font-family: 'Poppins', sans-serif;
-            .lib-font-size(18);
-            padding-top: 14px;
-            padding-bottom: 13px;
-            border-radius: 4px;
-            width: 100%;
-
-            &::focus,
-            &::active,
-            &.disabled{
-                background: #f78e6d !important;
-                border-color: #f78e6d !important;
-                color: #222 !important;
-            }
-        }
-    }
-
-    .product-extra {
-        margin-bottom: 32px;
-    }
-
-    .product-info-main {
-        .old-price-label {
-            position: absolute;
-            top: 5px;
-            left: 0;
-            text-transform: uppercase;
-            font-weight: bold;
-            display: none;
-        }
-
-        .digidirectprice {
-            display: inline-block;
-            //display: none;
-        }
-    }
-
-    .product-info-price {
-        text-align: right;
-        padding: 0px 60px;
-    }
-
-    .catalog-product-view .products-widget {
-        .slick-next,
-        .slick-prev {
-            display: block !important;
-        }
-
-        .slick-prev {
-            left: 0;
-        }
-
-        .slick-next {
-            right: 0;
-        }
-
-        .slick-list.draggable {
-            padding-right: 0
-        }
-    }
-
-    .product-info-main .msiavailability-wrapper .availability-wrapper .title.sdd {
-        padding-left: 15px;
-    }
-
-    .product-info-main .pick-up-in-store-link {
-        & {
-            left: 15px;
-            width: -webkit-calc(~'100%  - 50px');
-            width: calc(~'100%  - 50px');
-        }
-    }
+    
 }
 
 //
@@ -2960,39 +3007,5 @@
 
     .product-info-main .msiavailability-wrapper .availability-wrapper .arrow {
         top: 15px;
-    }
-}
-
-//
-//  Desktop large
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-    .product-basic {
-        .product.media {
-            flex-grow: 1;
-            width: 60%;
-            padding: 10px 60px;
-            border: 1px solid #cacaca;
-        }
-    }
-
-    .media-area {
-        .lib-vendor-prefix-display(flex);
-        padding: 0;
-    }
-
-    .product-overview {
-        width: 100%;
-        max-width: 671px;
-        margin-bottom: 0;
-
-        .title{
-            font-weight: bold;
-        }
-    }
-
-    .fotorama__nav-wrap .fotorama_horizontal_ratio .fotorama__img{
-        width: 100%;
     }
 }
