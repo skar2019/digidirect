@@ -1798,7 +1798,8 @@
         .product-section .product-info-main{
             width: 50%;
             /*max-width: 420px;*/
-            padding: 0 30px;
+            /*padding: 0 30px;*/
+            padding: 0;
 
             .page-title-wrapper {
                 margin-left: 0;
@@ -2935,7 +2936,7 @@
     .product-info-main{
         //width: 40%;
         //padding: 30px 56px 0 0;
-        width: 30% !important;
+        width: 40% !important;
         padding: 0 50px 0 100px !important;
         max-width: 547px !important;
         
@@ -2984,6 +2985,78 @@
         margin-right: 0 !important;
         margin-top: -7px !important;
         text-align: center !important;
+    }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xl - 1) {
+    .product.data.items {
+        margin: 0 0 20px;
+        padding: 0;
+    }
+    .product.data.items > .item.title {
+        box-sizing: border-box;
+        float: none;
+        width: 100%;
+    }
+    .product.data.items > .item.title > .switch {
+        display: block;
+    }
+    .product.data.items > .item.content {
+        box-sizing: border-box;
+        display: block;
+        float: none;
+        margin: 0;
+        }
+    .product.data.items > .item.content::before, .product.data.items > .item.content::after {
+        content: "";
+        display: table;
+    }
+    .product.data.items > .item.content::after {
+        clear: both;
+    }
+    .product.data.items > .item.content.active {
+        display: block;
+    }
+    .product.data.items > .item.title {
+        margin: 0 0 5px;
+    }
+    .product.data.items > .item.title > .switch {
+        background: #f0f0f0 none repeat scroll 0 0;
+        border-color: #d1d1d1;
+        border-style: solid;
+        border-width: 1px;
+        color: #7d7d7d;
+        font-size: 1.8rem;
+        font-weight: 600;
+        height: 40px;
+        line-height: 40px;
+        padding: 5px 20px;
+        text-decoration: none;
+    }
+    .product.data.items > .item.title > .switch:visited {
+        color: #7d7d7d;
+        text-decoration: none;
+    }
+    .product.data.items > .item.title > .switch:hover {
+        color: #7d7d7d;
+        text-decoration: none;
+    }
+    .product.data.items > .item.title > .switch:active {
+        color: #333;
+        text-decoration: none;
+    }
+    .product.data.items > .item.title:not(.disabled) > .switch:focus, .product.data.items > .item.title:not(.disabled) > .switch:hover {
+        background: #fcfcfc none repeat scroll 0 0;
+    }
+    .product.data.items > .item.title:not(.disabled) > .switch:active, .product.data.items > .item.title.active > .switch, .product.data.items > .item.title.active > .switch:focus, .product.data.items > .item.title.active > .switch:hover {
+        background: #fff none repeat scroll 0 0;
+        padding-bottom: 5px;
+    }
+    .product.data.items > .item.content {
+        background: #fff none repeat scroll 0 0;
+        border: 1px solid #d1d1d1;
+        margin: 0 0 5px;
+        padding: 20px;
     }
 }
 

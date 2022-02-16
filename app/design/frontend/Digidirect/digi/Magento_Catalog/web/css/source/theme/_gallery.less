@@ -35,8 +35,13 @@
     .fotorama__nav__shaft {
         margin-top: 11px;
     }
-    
-    //Tranferred From XL Breakpoint
+}
+
+//
+//  Desktop large
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
     .gallery-placeholder {
         max-width: 550px;
         margin-top: 60px;
@@ -51,12 +56,4 @@
         top: -10px;
         margin-bottom: -20px;
     }
-}
-
-//
-//  Desktop large
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-    
 }
