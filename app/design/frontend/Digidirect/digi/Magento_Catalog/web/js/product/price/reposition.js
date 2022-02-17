@@ -53,6 +53,14 @@ define([
         } else {
             $('.page-title-wrapper').insertBefore($('.product-basic'));
         } 
+        
+        if (win.width() <= 768) {
+            $('.product-reviews-summary').insertBefore($('.gallery-placeholder'));
+            $('.product.attribute.sku').insertAfter($('.product-reviews-summary'));
+        } else {
+            $('.product-reviews-summary').insertBefore($('.price-final_price'));
+            $('.product.attribute.sku').insertBefore($('.product-reviews-summary'));
+        } 
     });
 
 });
