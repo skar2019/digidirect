@@ -8,6 +8,15 @@ define([
     window.onload = function() {
         $(".secure-pay-container").attr("style", "display: inline-block");
     };
+    
+    var win = $(this); //this = window
+
+    if (win.width() <= 768) {
+        $('.testfreaks-badge').insertAfter($('.page-title'));
+        $('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+    } else {
+        
+    } 
       
 
     if( $('#main-product-qantas').length )
