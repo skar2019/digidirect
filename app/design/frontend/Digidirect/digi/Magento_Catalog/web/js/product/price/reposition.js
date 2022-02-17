@@ -9,7 +9,7 @@ define([
         $(".secure-pay-container").attr("style", "display: inline-block");
     };
     
-    var win = $(this); //this = window
+    var win = $(window).width(); //this = window
 
     if (win.width() <= 768) {
         $('.testfreaks-badge').insertAfter($('.page-title'));
