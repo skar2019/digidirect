@@ -9,16 +9,6 @@ define([
         $(".secure-pay-container").attr("style", "display: inline-block");
     };
     
-    var win = $(window).width(); //this = window
-
-    if (win.width() <= 768) {
-        $('.testfreaks-badge').insertAfter($('.page-title'));
-        $('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
-    } else {
-        
-    } 
-      
-
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
@@ -35,6 +25,13 @@ define([
     $('.braintree-paypal-logo').insertAfter($('.box-tocart'));
     $('.secure-pay-container').insertAfter($('.braintree-paypal-logo'));
     $('.widget-product').insertAfter($('.product-add-form'));
+    
+    if ($(window).width() <= 768) {
+        $('.testfreaks-badge').insertAfter($('.page-title'));
+        $('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+    } else {
+        
+    } 
 
     //$('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     if($('#leftmenu').contents().length == 0) {
