@@ -8,9 +8,9 @@ define([
     window.onload = function() {
         $(".secure-pay-container").attr("style", "display: inline-block");
         if ($(window).width() <= 768) {
-            //$('.testfreaks-badge').insertAfter($('.page-title'));
-            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
-            //console.log("OnLoad : Window width is " + $(window).width());
+            $('.testfreaks-badge').insertAfter($('.page-title'));
+            $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
+            console.log("Test OnLoad : Window width is " + $(window).width());
         } else {
 
         } 
@@ -32,14 +32,6 @@ define([
     $('.braintree-paypal-logo').insertAfter($('.box-tocart'));
     $('.secure-pay-container').insertAfter($('.braintree-paypal-logo'));
     $('.widget-product').insertAfter($('.product-add-form'));
-    
-    if ($(window).width() <= 768) {
-        $('.testfreaks-badge').insertAfter($('.page-title'));
-        $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
-        console.log("Test 1 : Window width is " + $(window).width());
-    } else {
-        
-    } 
 
     //$('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     if($('#leftmenu').contents().length == 0) {
