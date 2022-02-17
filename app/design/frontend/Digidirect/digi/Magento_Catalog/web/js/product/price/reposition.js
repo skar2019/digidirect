@@ -8,9 +8,9 @@ define([
     window.onload = function() {
         $(".secure-pay-container").attr("style", "display: inline-block");
         if ($(window).width() <= 768) {
-            $('.testfreaks-badge').insertAfter($('.page-title'));
-            $('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
-            console.log("OnLoad : Window width is " + $(window).width());
+            //$('.testfreaks-badge').insertAfter($('.page-title'));
+            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+            //console.log("OnLoad : Window width is " + $(window).width());
         } else {
 
         } 
@@ -35,8 +35,8 @@ define([
     
     if ($(window).width() <= 768) {
         $('.testfreaks-badge').insertAfter($('.page-title'));
-        $('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
-        console.log("Ready : Window width is " + $(window).width());
+        $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
+        console.log("Test 1 : Window width is " + $(window).width());
     } else {
         
     } 
