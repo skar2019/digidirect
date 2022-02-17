@@ -616,6 +616,7 @@ return [
         'Vertex_AddressValidation' => 1,
         'WebPanda_SalesProductImage' => 1,
         'Yotpo_Yotpo' => 1,
+        'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1
     ],
     'admin_user' => [
