@@ -53,6 +53,14 @@ define([
         } else {
             $('.page-title-wrapper').insertBefore($('.product-basic'));
         } 
+        
+        if (win.width() <= 768) {
+            $('.testfreaks-badge').insertAfter($('.page-title'));
+            $('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+        } else {
+            //$('.testfreaks-badge').insertAfter($('.page-title'));
+            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+        } 
     });
 
 });

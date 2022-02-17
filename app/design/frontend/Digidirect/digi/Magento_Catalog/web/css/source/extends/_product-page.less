@@ -1603,17 +1603,18 @@
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
-        margin: 20px !important;
+        margin: 20px;
         max-width: unset;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
         margin: auto;
-        height: 550px !important;
+        height: 550px;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage .fotorama__stage__frame > img {
-        max-height: 450px !important;
+        //max-height: 450px !important;
+        max-height: 450px;
         object-fit: contain;
     }
     
@@ -2893,12 +2894,15 @@
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media {
-        height: 370px;
+        height: 370px !important;
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media>.gallery-placeholder>.fotorama>.fotorama__wrap>.fotorama__stage {
         height: 320px !important;
         background: #ffffff !important;
+        margin: 0 !important;
+        width: 100% !important;
+        border-radius: 5px !important;
     }
 
     .awaiting {
@@ -2924,6 +2928,24 @@
     .paypal-button.paypal-button-shape-pill {
         height: 50px !important;
         border-radius: 40px !important;
+    }
+    
+    .fotorama__stage__shaft {
+        width: 100% !important;
+    }
+    
+    .product-basic .product-overlay {
+        top: 5px !important;
+        left: 5px !important;
+        width: 20% !important;
+    }
+    
+    .product-section .page-title-wrapper {
+        margin: 0 -15px !important;
+    }
+    
+    .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
+        margin: 20px 0 20px 0 !important;
     }
     
 } //end mobile
