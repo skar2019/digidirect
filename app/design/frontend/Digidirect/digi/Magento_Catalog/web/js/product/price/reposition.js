@@ -55,7 +55,7 @@ define([
         } 
         
         if (win.width() <= 768) {
-            $('.product-reviews-summary').insertAfter($('.page-title-wrapper.page-title'));
+            $('.product-reviews-summary').insertAfter($('.page-title-wrapper'));
             $('.product-info-main.product.attribute.sku').insertAfter($('.product-reviews-summary'));
         } else {
             //$('.product-info-main .product-reviews-summary').insertBefore($('.product-info-main .price-final_price'));
