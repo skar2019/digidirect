@@ -1609,11 +1609,12 @@
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
         margin: auto;
-        height: 550px !important;
+        height: 550px;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage .fotorama__stage__frame > img {
-        max-height: 450px !important;
+        //max-height: 450px !important;
+        max-height: 450px;
         object-fit: contain;
     }
     
@@ -2893,12 +2894,15 @@
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media {
-        height: 370px;
+        height: 370px !important;
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media>.gallery-placeholder>.fotorama>.fotorama__wrap>.fotorama__stage {
         height: 320px !important;
         background: #ffffff !important;
+        margin: 0 !important;
+        width: 100% !important;
+        border-radius: 5px !important;
     }
 
     .awaiting {
@@ -2924,6 +2928,20 @@
     .paypal-button.paypal-button-shape-pill {
         height: 50px !important;
         border-radius: 40px !important;
+    }
+    
+    .fotorama__stage__shaft {
+        width: 100% !important;
+    }
+    
+    .product-basic .product-overlay {
+        top: 5px !important;
+        left: 5px !important;
+        width: 20% !important;
+    }
+    
+    .product-section .page-title-wrapper {
+        margin: 0 -15px !important;
     }
     
 } //end mobile
@@ -2985,78 +3003,6 @@
         margin-right: 0 !important;
         margin-top: -7px !important;
         text-align: center !important;
-    }
-}
-
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xl - 1) {
-    .product.data.items {
-        margin: 0 0 20px !important;
-        padding: 0 !important;
-    }
-    .product.data.items > .item.title {
-        box-sizing: border-box !important;
-        float: none !important;
-        width: 100% !important;
-    }
-    .product.data.items > .item.title > .switch {
-        display: block !important;
-    }
-    .product.data.items > .item.content {
-        box-sizing: border-box !important;
-        display: block !important;
-        float: none !important;
-        margin: 0 !important;
-        }
-    .product.data.items > .item.content::before, .product.data.items > .item.content::after {
-        content: "" !important;
-        display: table !important;
-    }
-    .product.data.items > .item.content::after {
-        clear: both !important;
-    }
-    .product.data.items > .item.content.active {
-        display: block !important;
-    }
-    .product.data.items > .item.title {
-        margin: 0 0 5px !important;
-    }
-    .product.data.items > .item.title > .switch {
-        background: #f0f0f0 none repeat scroll 0 0 !important;
-        border-color: #d1d1d1 !important;
-        border-style: solid !important;
-        border-width: 1px !important;
-        color: #7d7d7d !important;
-        font-size: 1.8rem !important;
-        font-weight: 600 !important;
-        height: 40px !important;
-        line-height: 40px !important;
-        padding: 5px 20px !important;
-        text-decoration: none !important;
-    }
-    .product.data.items > .item.title > .switch:visited {
-        color: #7d7d7d !important;
-        text-decoration: none !important;
-    }
-    .product.data.items > .item.title > .switch:hover {
-        color: #7d7d7d !important;
-        text-decoration: none !important;
-    }
-    .product.data.items > .item.title > .switch:active {
-        color: #333 !important;
-        text-decoration: none !important;
-    }
-    .product.data.items > .item.title:not(.disabled) > .switch:focus, .product.data.items > .item.title:not(.disabled) > .switch:hover {
-        background: #fcfcfc none repeat scroll 0 0 !important;
-    }
-    .product.data.items > .item.title:not(.disabled) > .switch:active, .product.data.items > .item.title.active > .switch, .product.data.items > .item.title.active > .switch:focus, .product.data.items > .item.title.active > .switch:hover {
-        background: #fff none repeat scroll 0 0 !important;
-        padding-bottom: 5px !important;
-    }
-    .product.data.items > .item.content {
-        background: #fff none repeat scroll 0 0 !important;
-        border: 1px solid #d1d1d1 !important;
-        margin: 0 0 5px !important;
-        padding: 20px !important;
     }
 }
 
