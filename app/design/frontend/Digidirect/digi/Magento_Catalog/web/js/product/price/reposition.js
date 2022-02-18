@@ -7,9 +7,15 @@ define([
     
     window.onload = function() {
         $(".secure-pay-container").attr("style", "display: inline-block");
-    };
-      
+        if ($(window).width() <= 768) {
+            $('.testfreaks-badge').insertAfter($('.page-title'));
+            $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
+            console.log("Test OnLoad : Window width is " + $(window).width());
+        } else {
 
+        } 
+    };
+    
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
@@ -52,6 +58,14 @@ define([
             $('.page-title-wrapper').insertBefore($('.product-info-price'));
         } else {
             $('.page-title-wrapper').insertBefore($('.product-basic'));
+        } 
+        
+        if (win.width() <= 768) {
+            //$('.testfreaks-badge').insertAfter($('.page-title'));
+            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+        } else {
+            //$('.testfreaks-badge').insertAfter($('.page-title'));
+            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         } 
     });
 
