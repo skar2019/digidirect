@@ -7,9 +7,15 @@ define([
     
     window.onload = function() {
         $(".secure-pay-container").attr("style", "display: inline-block");
-    };
-      
+        if ($(window).width() <= 768) {
+            $('.testfreaks-badge').insertAfter($('.page-title'));
+            $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
+            console.log("Test OnLoad : Window width is " + $(window).width());
+        } else {
 
+        } 
+    };
+    
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
@@ -55,11 +61,11 @@ define([
         } 
         
         if (win.width() <= 768) {
-            $('.product-reviews-summary').insertAfter($('.page-title'));
-            $('.product-info-price>.product.attribute.sku').insertBefore($('.product-reviews-summary'));
+            //$('.testfreaks-badge').insertAfter($('.page-title'));
+            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         } else {
-            //$('.product-info-main .product-reviews-summary').insertBefore($('.product-info-main .price-final_price'));
-            //$('.product-info-main .product.attribute.sku').insertBefore($('.product-info-main .product-reviews-summary'));
+            //$('.testfreaks-badge').insertAfter($('.page-title'));
+            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         } 
     });
 

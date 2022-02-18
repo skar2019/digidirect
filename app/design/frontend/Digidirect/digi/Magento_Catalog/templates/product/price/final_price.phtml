@@ -47,15 +47,21 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             ]); ?>
         </span>
     </div>
-
 <?php else: ?>
-    <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
-        'display_label'     => __(''),
-        'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
-        'price_type'        => 'finalPrice',
-        'include_container' => true,
-        'schema' => $schema
-    ]); ?>
+    <div class="current-price-wrapper">
+        <svg class="svg-icon digidirectprice">
+            <use xlink:href="#svgi-digidirectprice" />
+        </svg>
+        <span class="special-price">
+             <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
+                'display_label'     => __(''),
+                'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
+                'price_type'        => 'finalPrice',
+                'include_container' => true,
+                'schema' => $schema
+            ]); ?>
+        </span>
+    </div>
 <?php endif; ?>
 
 <?php if ($block->showMinimalPrice()): ?>
