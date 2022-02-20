@@ -425,10 +425,11 @@
         }
 
         .price-box.price-final_price {
-            margin-bottom: 10px;
+            margin-bottom: 0 !important;
             position: relative;
             left: 0;
-            padding-top: 20px;
+            padding-top: 15px !important;
+            margin-top: 0 !important;
         }
 
         .product-info-stock-sku{
@@ -1775,6 +1776,20 @@
         display: none !important;
     }
     
+    .product-info-main .price-box .price-wrapper .price {
+        font-size: 2.5rem;
+        color: #ff3c00;
+        font-weight: 700 !important;
+    }
+    
+    .product-info-price .price-box .old-price span.price {
+        color: #6c6c6c;
+    }
+    
+    .product-info-main-bottom .price-description {
+        overflow-wrap: break-word;
+    }
+    
 }
 
 //Redeploy
@@ -2983,6 +2998,18 @@
     
     .product-section .page-title-wrapper>.page-title {
         display: block !important;
+    }
+    
+    .product-options-wrapper>div {
+        margin-bottom: 0 !important;
+    }
+    
+    .catalog-product-view .product-options-wrapper {
+        margin-bottom: 10px !important;
+    }
+    
+    .product-info-main .qantas-pts-wrapper {
+        margin-top: 10px !important;
     }
     
 } //end mobile
