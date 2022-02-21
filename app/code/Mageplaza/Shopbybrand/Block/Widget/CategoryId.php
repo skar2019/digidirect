@@ -148,20 +148,6 @@ class CategoryId extends AbstractBrand
 
         }
 
-        if($str == "1")
-        {
-            $result[] = '137';
-            $result[] = '120';
-            $result[] = '8253';
-            $result[] = '139';
-            $result[] = '134';
-            $result[] = '135';
-            $result[] = '138';
-            $result[] = '245';
-            $result[] = '483';
-            $result[] = '291';
-        }
-
         return implode(',', array_unique($result));
     }
 
