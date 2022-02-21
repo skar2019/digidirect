@@ -1,4 +1,4 @@
-//  
+//
 //  Catalog: Product (PDP)
 //  _____________________________________________
 
@@ -264,7 +264,7 @@
         }
 
         .pad-top {
-            padding-top: 50px;
+            //padding-top: 50px;
         }
 
         .block-extendedrule {
@@ -425,10 +425,11 @@
         }
 
         .price-box.price-final_price {
-            margin-bottom: 10px;
+            margin-bottom: 0 !important;
             position: relative;
             left: 0;
-            padding-top: 20px;
+            padding-top: 15px !important;
+            margin-top: 0 !important;
         }
 
         .product-info-stock-sku{
@@ -1321,7 +1322,7 @@
     .zip-container:last-child:after {
         visibility: visible;
         content: "APPLY NOW!";
-        margin-left: -150px;
+        //margin-left: -150px;
         font-size: 20px;
         font-weight: 600;
         color: #ff3c00;
@@ -1577,6 +1578,7 @@
         //padding-left: 104px;
         padding-left: 0 !important;
         padding-top: 10px;
+        clear: both;
     }
 
     .product-info-main .old-price-wrapper {
@@ -1619,8 +1621,8 @@
     }
     
     .fotorama__arr {
-        background: #none !important;
-        height: 500px !important;
+        background: none !important;
+        //height: 500px !important;
     }
     
     .fotorama__arr--prev .fotorama__arr__arr {
@@ -1775,10 +1777,26 @@
         display: none !important;
     }
     
-    .product-info-main .price-container.price-final_price .price-wrapper .price {
-        color: #ff3c00 !important;
-        font-size: 21px !important;
+    .product-info-main .price-box .price-wrapper .price {
+        font-size: 2.5rem;
+        color: #ff3c00;
         font-weight: 700 !important;
+    }
+    
+    .product-info-price .price-box .old-price span.price {
+        color: #6c6c6c;
+    }
+    
+    .product-info-main-bottom .price-description {
+        overflow-wrap: break-word;
+    }
+    
+    .fotorama__nav-wrap > .fotorama__thumb__arr.fotorama__thumb__arr--left {
+        display: none !important;
+    }
+    
+    .fotorama__nav-wrap > .fotorama__thumb__arr.fotorama__thumb__arr--right {
+        display: none !important;
     }
     
 }
@@ -1795,7 +1813,8 @@
         .product-basic .media-area {
             flex-grow: 1;
             width: 50%;
-            padding: 30px;
+            //padding: 30px;
+            padding: 0 30px 30px 0;
 
             .media{
                 width: 100%;
@@ -2251,7 +2270,7 @@
         }
 
         .product-info-price .price-box .old-price span.price{
-            color: #101010 !important;
+            //color: #101010 !important;
             font-weight: 400;
             float: right;
         }
