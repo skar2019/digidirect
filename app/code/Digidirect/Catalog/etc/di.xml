@@ -2,4 +2,11 @@
     <preference for="Magento\Catalog\Model\Product" type="Digidirect\Catalog\Model\Product" />
     
     <preference for="Magento\Catalog\Helper\Product\Configuration" type="Digidirect\Catalog\Helper\Product\Configuration" />
+
+    <type name="Magento\Catalog\Model\Config">
+        <plugin name="sortby_add_custom_option" type="Digidirect\Catalog\Plugin\Model\Config" />
+    </type>
+    <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
+        <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
+    </type>
 </config>
