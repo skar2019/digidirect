@@ -27,14 +27,16 @@
         //margin-top: 15px !important;
         //clint workaround just to make it appear
         margin-left: auto;
-        padding-right: 300px;
+        //padding-right: 300px;
         margin-top: 25px !important;
         margin-bottom: 25px !important;
+        position: absolute;
+        width: 100% !important;
 
         .minisearch{
             position: absolute;
-            max-width: 300px;
-            margin: 0 auto;
+            //max-width: 300px;
+            //margin: 0 auto;
             label{
                 &:before{
                     content: "" !important;
@@ -50,6 +52,11 @@
             }
         }
     }
+    
+    .logo-wrapper {
+        position: absolute;
+        margin-left: 30px;
+    }
 
     .block-search input {
         left: -750% !important;
@@ -57,7 +64,8 @@
 
     .block-search .actions {
         position: absolute;
-        right: -260px;
+        //right: -260px;
+        right: 30px;
         //top: 42px !important;
         background-color: #000;
         width: 65px;
@@ -87,7 +95,13 @@
         z-index: 1;
         display: inline-block;
         padding: 3.75px 0;
-    }                           
+    }
+    
+    .block-search .control {
+        margin: 0 !important;
+        padding: 0 !important;
+        padding-right: 30px !important;
+    }
 
 }
 
@@ -301,8 +315,8 @@
 
         .minisearch{
                 position: absolute;
-                max-width: 300px;
-                margin: 0 auto;
+                //max-width: 300px;
+                //margin: 0 auto;
 
             label{
                 &:before{
