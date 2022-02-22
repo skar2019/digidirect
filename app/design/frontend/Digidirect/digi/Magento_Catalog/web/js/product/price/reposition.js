@@ -39,7 +39,8 @@ define([
     }
 
     if ($('.studio19-wrapper').is(':empty')){
-        $('.studio19-wrapper').addClass('studio19-hide');
+        //$('.studio19-wrapper').addClass('studio19-hide');
+        $('.studio19-wrapper').attr("style", "display:none !important;");
     }
 
     //for mobile = 760
