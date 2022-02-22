@@ -801,18 +801,22 @@ class TestPronto extends AbstractHelper
                 $rep = $this->getRep($order);
                 if (strpos($orderId, 'EB') !== false) {
                     $rep ="EBAY";
+                    //$account = "EBAY00";
                     $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
+                    //$account = "CATC00";
                     $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'MYD') !== false) {
                     $rep ="MYDEAL";
+                    $account = "MYDE00";
                     $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'WD') !== false) {
                     $rep ="WESTFIELD";
+                    $account = "WEST00";
                     $territory = "MRKT";
                 }
 
