@@ -27,7 +27,7 @@
     [data-action='toggle-nav']{
         display: none;
     }
-    
+
     .menu-wrapper > .hot-deals-link > .link[style*='background-image'] {
         padding-left: 70px;
         background-size: 38px;
@@ -52,7 +52,7 @@
             cursor: pointer;
         }
     }
-    
+
     .hot-deals-link > .link::after {
         content: '';
         position: absolute;
@@ -76,7 +76,7 @@
 
     .-horizontal .hot-deals-link{
         display: none;
-    } 
+    }
 }
 
 //
@@ -167,6 +167,7 @@
 
         .nav-toggle::before {
             content: '';
+            margin-right: 10px;
         }
 
         .path-account {
@@ -178,10 +179,16 @@
     [data-action='toggle-nav']{
         display: inline-block !important;
         position: static !important;
+        margin-right: 10px !important;
 
     }
     .nav-toggle svg {
         width: 1px;
         height: 1px;
+    }
+
+    .nav-toggle::before {
+        margin-right: 10px !important;
+
     }
 }
