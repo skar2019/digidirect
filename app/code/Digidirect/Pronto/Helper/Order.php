@@ -217,12 +217,12 @@ class Order extends AbstractHelper
                 $rep = $this->getRep($order);
                 if (strpos($orderId, 'EB') !== false) {
                     $rep ="EBAY";
-                    //$account = "EBAY00";
+                    $account = "EBAY00";
                     $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
-                    //$account = "CATC00";
+                    $account = "CATC00";
                     $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'MYD') !== false) {
