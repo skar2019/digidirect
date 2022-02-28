@@ -1,0 +1,75 @@
+<?php
+    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+    $categoryObject = $catalogHelperData->getCategory();
+    $categoryId = $categoryObject->getId();
+    $categoryName = $categoryObject->getName();
+    
+    $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
+
+    $categoryFactory = $objectManager->get('\Magento\Catalog\Model\CategoryFactory');
+    // Load category by category ID
+    $category = $categoryFactory->create()->load($categoryId);
+    //Get all children category ids ids comma-separated
+    $allChildrenCategoryIds = $category->getAllChildren(false);
+    $allChildrenCategoryIdsArr = $category->getAllChildren(true);
+    //echo $allChildrenCategoryIds;
+    
+    
+    $categoryCameras = $categoryFactory->create()->load(17);
+    $allChildrenCategoryIdsCameras = $categoryCameras->getAllChildren(true);
+    
+    $categoryLenses = $categoryFactory->create()->load(18);
+    $allChildrenCategoryIdsLenses = $categoryLenses->getAllChildren(true);
+    
+    $categoryAudioAndVisual = $categoryFactory->create()->load(73);
+    $allChildrenCategoryIdsAudioAndVisual = $categoryAudioAndVisual->getAllChildren(true);
+    
+    $categoryComputersAndMobile = $categoryFactory->create()->load(999);
+    $allChildrenCategoryIdsComputersAndMobile = $categoryComputersAndMobile->getAllChildren(true);
+    
+    $categoryDrones = $categoryFactory->create()->load(21);
+    $allChildrenCategoryIdsDrones = $categoryDrones->getAllChildren(true);
+    
+    $categoryLightingAndStudio = $categoryFactory->create()->load(19);
+    $allChildrenCategoryIdsLightingAndStudio = $categoryLightingAndStudio->getAllChildren(true);
+    
+    $categoryOptics = $categoryFactory->create()->load(22);
+    $allChildrenCategoryIdsOptics = $categoryOptics->getAllChildren(true);
+    
+    $categoryPhotoAndAccessories = $categoryFactory->create()->load(71);
+    $allChildrenCategoryIdsPhotoAndAccessories = $categoryPhotoAndAccessories->getAllChildren(true);
+    
+    $categoryProVideo = $categoryFactory->create()->load(77);
+    $allChildrenCategoryIdsProVideo = $categoryProVideo->getAllChildren(true);
+    
+    $categorySmartHome = $categoryFactory->create()->load(75);
+    $allChildrenCategoryIdsSmartHome = $categorySmartHome->getAllChildren(true);
+?>
+
+<div class="category-page-banner" style="margin-left: -55px; width: 1095px;">
+    
+    <?php if (in_array($categoryId, $allChildrenCategoryIdsCameras)) :?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>cameras.jpg"/>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsLenses)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>lenses.jpg"/>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsAudioAndVisual)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>audio_and_visual.jpg"/>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsComputersAndMobile)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>computers_and_mobile.jpg"/>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDrones)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>drones.jpg"/>
+    <?php elseif (in_array($categoryId, $categoryLightingAndStudio)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>lighting_and_studio.jpg"/>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsOptics)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>optics.jpg"/>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsPhotoAndAccessories)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>photo_and_accessories.jpg"/>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsProVideo)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>pro_video.jpg"/>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsSmartHome)) : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>smart_home.jpg"/>
+    <?php endif; ?>
+    
+    
+</div>
+
