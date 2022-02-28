@@ -46,9 +46,7 @@
     $allChildrenCategoryIdsSmartHome = $categorySmartHome->getAllChildren(true);
 ?>
 
-<div class="" style="margin-left: -55px; width: 1100px;">
-    <?= $categoryId . ', ' . $categoryName . ', ' . $allChildrenCategoryIds;?>
-    
+<div class="category-page-banner" style="margin-left: -55px; width: 1095px;">
     
     <?php if (in_array($categoryId, $allChildrenCategoryIdsCameras)) :?>
         <img src="<?php echo $block->getUrl("media/wysiwyg/category-banner")?>cameras.jpg"/>
