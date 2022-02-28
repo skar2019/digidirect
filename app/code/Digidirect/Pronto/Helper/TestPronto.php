@@ -750,7 +750,7 @@ class TestPronto extends AbstractHelper
             if(is_numeric($prontoOrderNumber))
             {
                 echo "Has pronto ". $prontoOrderNumber."<br/>";
-                if($test)
+                if(!$test)
                 {
                     continue;
                 }
