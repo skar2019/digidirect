@@ -749,7 +749,12 @@ class TestPronto extends AbstractHelper
             $prontoOrderNumber = $order->getData('pronto_order_number');
             if(is_numeric($prontoOrderNumber))
             {
-                continue;
+                echo "Has pronto ". $prontoOrderNumber."<br/>";
+                if($test)
+                {
+                    continue;
+                }
+
             }
 
             $orderId = $order->getIncrementId();
