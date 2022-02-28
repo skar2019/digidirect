@@ -13,6 +13,10 @@
                 </arguments>
             </block>
         </referenceContainer>
+        
+        <referenceContainer name="content">
+                <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/banner-category.phtml" name="banner-category" before="category.products"/>
+        </referenceContainer>
 
         <referenceBlock name="category.products.list">
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
