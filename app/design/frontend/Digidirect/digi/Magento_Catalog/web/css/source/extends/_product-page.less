@@ -1607,7 +1607,7 @@
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
         margin: 20px;
         max-width: unset;
-        display: none;
+        //display: none;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
@@ -1724,6 +1724,10 @@
     }
     
     .fotorama__nav::before, .fotorama__nav::after {
+        display: none !important;
+    }
+    
+    .gallery-placeholder .gallery-placeholder__image {
         display: none !important;
     }
     
