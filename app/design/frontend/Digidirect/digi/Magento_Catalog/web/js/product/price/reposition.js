@@ -14,6 +14,8 @@ define([
         } else {
 
         } 
+        $('.custom-preloader').attr("style", "display:none !important;")
+        $('.gallery-placeholder').attr("style", "display:block !important;")
     };
     
     if( $('#main-product-qantas').length )
