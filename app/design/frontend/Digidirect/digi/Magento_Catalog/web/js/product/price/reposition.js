@@ -14,8 +14,9 @@ define([
         } else {
 
         } 
-        $('.custom-preloader').attr("style", "display:none !important;")
-        $('.fotorama-item').attr("style", "display:block !important;")
+        $('.custom-preloader').attr("style", "display:none !important;");
+        $('.gallery-placeholder').attr("style", "display:block !important;");
+        $('.fotorama-item').attr("style", "display:block !important;");
     };
     
     if( $('#main-product-qantas').length )
