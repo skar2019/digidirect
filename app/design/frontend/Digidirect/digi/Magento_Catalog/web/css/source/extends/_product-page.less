@@ -1607,6 +1607,7 @@
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
         margin: 20px;
         max-width: unset;
+        //display: none;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
@@ -1724,6 +1725,10 @@
     
     .fotorama__nav::before, .fotorama__nav::after {
         display: none !important;
+    }
+    
+    .gallery-placeholder {
+        visibility: hidden !important;
     }
     
     .testfreaks .review .content .extract p a {
@@ -1926,8 +1931,8 @@
         }
 
         .product-overlay.-top-left, .product-overlay.-bottom-left {
-            left: 10px;
-            top: 10px;
+            left: 10px !important;
+            top: 10px !important;
         }
 
         .product-item .qantas-pts-wrapper {
