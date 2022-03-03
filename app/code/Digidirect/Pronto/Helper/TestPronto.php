@@ -785,6 +785,7 @@ class TestPronto extends AbstractHelper
 
             if($is_am_order){
                 $rep = "AMAZON MFN";
+                $account = "AMAZ02";
                 if (strpos($amShipping, 'AFN') !== false) {
                     $rep = "AMAZON FBA";
                     $account = "AMAZ00";
