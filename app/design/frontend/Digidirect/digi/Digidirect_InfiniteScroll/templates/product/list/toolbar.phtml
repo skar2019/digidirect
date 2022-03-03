@@ -44,3 +44,13 @@
         
     </div>
 <?php endif ?>
+
+<script>
+    require([
+        'jquery'
+    ], function($){
+        window.onload = function() {
+            $('.desktop-row').attr("style", "visibility: visible !important;");
+        };
+    });
+</script>
