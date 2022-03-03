@@ -8,7 +8,7 @@
 <?php $isShowAlways = true; ?>
 <?php if ($block->getCollection()->getSize() || $isShowAlways): ?>
     <div class="toolbar toolbar-products" data-mage-init='<?php /* @escapeNotVerified */ echo $block->getWidgetOptionsJson(); ?>'>
-        <div class="desktop-row" style="visibility: hidden;">
+        <div class="desktop-row">
             <div class="filter filter-trigger -mobile" data-container="#catalogSidebar" data-mage-init='{ "offcanvas": {"addOn":
             "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Filter');?>
             </div>
@@ -51,7 +51,7 @@
     ], function($){
         window.onload = function() {
             //$('.desktop-row').attr("style", "visibility: visible !important;");
-            $('.desktop-row').removeAttr("style");
+            //$('.desktop-row').removeAttr("style");
         };
     });
 </script>
