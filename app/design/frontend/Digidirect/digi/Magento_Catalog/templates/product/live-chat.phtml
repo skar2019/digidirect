@@ -1,1 +1,15 @@
-<span class="live-chat-additional-link" onclick="javascript:$zopim.livechat.window.show(); return false">Request a pricematch</span>
+<span id="live-chat-additional-link-id" class="live-chat-additional-link">Request a pricematch</span>
+
+<script>
+    require([
+        'jquery'
+    ], function($){
+        
+        $(document).ready(function(){
+            $('#live-chat-additional-link-id').click(function(){
+                $('[data-garden-id="buttons.icon_button"]').click();
+            });
+        });
+        
+    });
+</script>
