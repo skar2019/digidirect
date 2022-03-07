@@ -72,8 +72,8 @@ define([
     });
     
     $('#live-chat-additional-link-id').click(function(){
-        $('[data-garden-id="buttons.icon_button"]').click();
-        console.log("Function Working!");
+        $('[data-garden-id="buttons.icon_button"]').trigger("click");
+        console.log("Changed To Trigger Click!");
     });
 
 });
