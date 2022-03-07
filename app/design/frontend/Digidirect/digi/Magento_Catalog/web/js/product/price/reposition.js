@@ -72,10 +72,9 @@ define([
         } 
     });
     
-    $(document).ready(function(){
-        $('#live-chat-additional-link-id').click(function(){
-            $('[data-garden-id="buttons.icon_button"]').click();
-        });
+    $('#live-chat-additional-link-id').click(function(){
+        $('[data-garden-id="buttons.icon_button"]').click();
+        console.log("Function Working!");
     });
 
 });
