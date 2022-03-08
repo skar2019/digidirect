@@ -1,4 +1,4 @@
-//clint
+//rondel
 define([
     'jquery'
 ], function ($) {
