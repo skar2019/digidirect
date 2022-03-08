@@ -19,7 +19,7 @@
         
         <referenceContainer name="content">
                 <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/banner-category.phtml" name="banner-category" before="category.products"/>
-                <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/preloader.phtml" name="pdp-preloader" after="banner-category"/>
+                <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/preloader.phtml" name="category-preloader" after="banner-category"/>
         </referenceContainer>
 
         <referenceBlock name="category.products.list">
