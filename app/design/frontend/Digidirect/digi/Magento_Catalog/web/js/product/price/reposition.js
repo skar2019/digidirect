@@ -1,5 +1,4 @@
 //clint
-//Redeploy
 define([
     'jquery'
 ], function ($) {
@@ -70,6 +69,11 @@ define([
             //$('.testfreaks-badge').insertAfter($('.page-title'));
             //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         } 
+    });
+    
+    $('#live-chat-additional-link-id').click(function(){
+        $('[data-garden-id="buttons.icon_button"]').trigger("click");
+        console.log("Changed To Trigger Click!");
     });
 
 });
