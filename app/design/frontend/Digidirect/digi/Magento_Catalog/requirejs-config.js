@@ -10,7 +10,7 @@ var config = {
         '*': {
             'cashbackLabel': 'Magento_Catalog/js/product/price/cashback-label',
             'reposition': 'Magento_Catalog/js/product/price/reposition',
-            'categoryPageRender': 'Magento_Catalog/js/listing/category-page'
+            'categoryPageRender': 'Magento_Catalog/js/category-page'
         }
     }
 };
