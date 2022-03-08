@@ -1,4 +1,18 @@
+<?php
+
+$urlInterface = \Magento\Framework\App\ObjectManager::getInstance()->get('Magento\Framework\UrlInterface');
+$url = $urlInterface->getCurrentUrl();
+
+$urlParts = explode('/', str_ireplace(array('http://', 'https://'), '', $url));
+//echo $urlParts[1];
+
+if ($urlParts[1] != 'brands' || $urlParts[1] != 'catalogsearch') {
+
+?>
+
 <div class="custom-preloader-container"><div class="custom-preloader"></div></div>
+
+<?php } ?>
 
 <style type="text/css">
     .custom-preloader-container {
