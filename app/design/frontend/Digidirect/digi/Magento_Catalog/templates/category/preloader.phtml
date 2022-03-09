@@ -6,7 +6,7 @@ $url = $urlInterface->getCurrentUrl();
 $urlParts = explode('/', str_ireplace(array('http://', 'https://'), '', $url));
 //echo $urlParts[1];
 
-if ($urlParts[1] != 'brands' || $urlParts[1] != 'catalogsearch') {
+if ($urlParts[1] != 'brands') {
 
 ?>
 
@@ -16,9 +16,13 @@ if ($urlParts[1] != 'brands' || $urlParts[1] != 'catalogsearch') {
 
 <style type="text/css">
     .custom-preloader-container {
-        height: 140.52px;
+        height: 70.52px;
         margin-left: -55px;
         width: 1095px;
+        margin-left: auto;
+        margin-right: 55px;
+        margin-top: 70px;
+        
     }
     .custom-preloader {
         display: block;
