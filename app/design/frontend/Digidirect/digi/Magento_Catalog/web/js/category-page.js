@@ -6,7 +6,7 @@ define([
         
     };
     
-    $(".sidebar-main").ready(function(){
+    $("#catalogSidebar").ready(function(){
         console.log("Sidebar Ready!");   
         //$(".custom-preloader-container").css("margin-left","-55px");
         $('.desktop-row').attr("style", "visibility: visible !important;");
