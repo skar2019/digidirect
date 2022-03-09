@@ -8,8 +8,8 @@ define([
         $('.custom-preloader-container').attr("style", "display: none !important;");
     };
     
-    $(".sidebar-main").ready(function(){
-        console.log("Sidebar Ready!");   
-        $(".custom-preloader-container").css("margin-left","-55px");
+    $(document).on("ready", ".sidebar-main", function(){
+        console.log("Sidebar Ready Now!");   
+        $(".custom-preloader-container").css("margin-left","-55px");   
     });
 });
