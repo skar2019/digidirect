@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
+        <head>  
+            <script src="js/category-page.js"/>
+        </head>
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceBlock name="category.cms" remove="true"/>
         
@@ -16,6 +19,7 @@
         
         <referenceContainer name="content">
                 <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/banner-category.phtml" name="banner-category" before="category.products"/>
+                <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/preloader.phtml" name="category-preloader" after="banner-category"/>
         </referenceContainer>
 
         <referenceBlock name="category.products.list">
