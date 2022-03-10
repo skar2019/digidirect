@@ -95,18 +95,14 @@
             <?php } ?>
                 
             $(".mobile-menu-main-exit").click(function() {
-                alert("Exit Button Is Working!");
+                console.log("Exit Button Is Working!");
                 var html = $('html');
                 if (html.hasClass('nav-open')) {
                     html.removeClass('nav-open');
-                    setTimeout(function () {
-                        html.removeClass('nav-before-open');
-                    }, this.options.hideDelay);
+                    html.removeClass('nav-before-open');
                 } else {
                     html.addClass('nav-before-open');
-                    setTimeout(function () {
-                        html.addClass('nav-open');
-                    }, this.options.showDelay);
+                    html.addClass('nav-open');
                 }
             });
             
