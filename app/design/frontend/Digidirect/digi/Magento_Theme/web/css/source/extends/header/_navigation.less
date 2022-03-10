@@ -2,7 +2,7 @@
    Created on : Feb 8, 2021, 11:34:14 AM
    Author     : Johnry Valeriano
 */
-
+// Redeploy
 //
 //  Variables
 //  _____________________________________________
@@ -899,7 +899,7 @@
     }
     
     .category-tabs .mgz-tabs-tab-content .mgz-element-separator .mgz-element-separator-line {
-        width: 150px;
+        //width: 150px;
     }
     
     .category-top-nav .drilldown-root > div {
@@ -1052,6 +1052,20 @@
     }
     
 } //end mobile
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    .category-tabs .mgz-tabs-tab-content .mgz-element-separator .mgz-element-separator-line {
+        //border: 1px solid rgba(202, 202, 202, .2) !important;
+        display: none;
+    }
+    
+    .shop-by-category-menu .mgz-element-separator {
+        padding-left: 0 !important;
+        margin-left: 5px !important;
+        border-top: 1px solid #cacaca !important;
+        margin-top: 7px !important;
+    }
+}
 
 //
 //Tablet
@@ -2320,10 +2334,10 @@
         margin-left: -30px !important;
     }
     
-    .shop-by-category-menu .mgz-element-separator {
+    /*.shop-by-category-menu .mgz-element-separator {
         padding-left: 0 !important;
         margin-left: -10px;
-    }
+    }*/
     
     .img-responsive.brand-image {
         bottom: 0;
