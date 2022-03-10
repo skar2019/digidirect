@@ -94,6 +94,10 @@
                 $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/.thumbswysiwyg/logos/white-digi-logo.png" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
             <?php } ?>
                 
+                
+            $('.ninjamenus-drilldown-back').prepend('<i class="fas fa-times mobile-menu-main-exit" style="color: #cacaca;"></i>')
+                
+                
             $(".mobile-menu-main-exit").click(function() {
                 console.log("Exit Button Is Working!");
                 var html = $('html');
