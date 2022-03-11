@@ -5,6 +5,11 @@ define([
     //clint changes cashback
     
     $('.braintree-paypal-logo').ready(function() {
+        
+    });
+    
+    //Other Browsers
+    window.addEventListener('load', function (){
         $(".secure-pay-container").attr("style", "display: inline-block");
         if ($(window).width() <= 768) {
             $('.testfreaks-badge').insertAfter($('.page-title'));
@@ -16,7 +21,21 @@ define([
         $('.custom-preloader').attr("style", "display:none !important;");
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
     });
-    
+
+    //For Internet Explorer
+    window.attachEvent('onload', function (){
+        $(".secure-pay-container").attr("style", "display: inline-block");
+        if ($(window).width() <= 768) {
+            $('.testfreaks-badge').insertAfter($('.page-title'));
+            $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
+            console.log("Test OnLoad : Window width is " + $(window).width());
+        } else {
+
+        } 
+        $('.custom-preloader').attr("style", "display:none !important;");
+        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+    });
+
     window.onload = function() {
         
     };
