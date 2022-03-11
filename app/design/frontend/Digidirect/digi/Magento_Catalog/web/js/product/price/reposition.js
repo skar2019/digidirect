@@ -4,7 +4,7 @@ define([
 ], function ($) {
     //clint changes cashback
     
-    window.onload = function() {
+    $('.braintree-paypal-logo').ready(function() {
         $(".secure-pay-container").attr("style", "display: inline-block");
         if ($(window).width() <= 768) {
             $('.testfreaks-badge').insertAfter($('.page-title'));
@@ -15,6 +15,10 @@ define([
         } 
         $('.custom-preloader').attr("style", "display:none !important;");
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+    });
+    
+    window.onload = function() {
+        
     };
     
     if( $('#main-product-qantas').length )
