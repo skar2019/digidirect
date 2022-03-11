@@ -6,7 +6,7 @@ define([
 
     $.widget('digidirect.secondaryNavigation', {
         options: {
-            breakpoint: '(min-width: 1280px)',
+            breakpoint: '(min-width: 768px)',
             element: '.secondary-nav',
             trigger: '.-active',
             navOpenClass: '-open',
