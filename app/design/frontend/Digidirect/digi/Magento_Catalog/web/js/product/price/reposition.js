@@ -5,11 +5,6 @@ define([
     //clint changes cashback
     
     $('.braintree-paypal-logo').ready(function() {
-        
-    });
-    
-    //Other Browsers
-    window.addEventListener('load', function (){
         $(".secure-pay-container").attr("style", "display: inline-block");
         if ($(window).width() <= 768) {
             $('.testfreaks-badge').insertAfter($('.page-title'));
@@ -19,9 +14,13 @@ define([
 
         } 
         $('.custom-preloader').attr("style", "display:none !important;");
+        //$('.gallery-placeholder').attr("style", "visibility: visible !important;");
+    });
+    
+    $('.gallery-placeholder').ready(function() {
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
     });
-
+    
     window.onload = function() {
         
     };
