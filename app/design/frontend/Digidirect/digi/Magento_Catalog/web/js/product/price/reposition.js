@@ -17,7 +17,7 @@ define([
         //$('.gallery-placeholder').attr("style", "visibility: visible !important;");
     });
     
-    if($('.fotorama__nav').length){
+    if(!$('.gallery-placeholder__image').length){
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
     }
     
