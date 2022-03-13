@@ -15,11 +15,15 @@ define([
         } 
         $('.custom-preloader').attr("style", "display:none !important;");
         //$('.gallery-placeholder').attr("style", "visibility: visible !important;");
-        
-        if(!$('.gallery-placeholder__image').length){
-            $('.gallery-placeholder').attr("style", "visibility: visible !important;");
-        }
     });
+    
+    $('.fotorama__stage').ready(function() {
+        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+    });
+    
+    if($('.fotorama__nav').length){
+        
+    }
     
     window.onload = function() {
         
