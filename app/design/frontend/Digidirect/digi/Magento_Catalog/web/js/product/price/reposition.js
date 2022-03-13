@@ -17,9 +17,9 @@ define([
         //$('.gallery-placeholder').attr("style", "visibility: visible !important;");
     });
     
-    $('.fotorama__nav__shaft').ready(function() {
+    if($('.fotorama__nav').length){
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
-    });
+    }
     
     window.onload = function() {
         
