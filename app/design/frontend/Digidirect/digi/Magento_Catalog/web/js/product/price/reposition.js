@@ -17,12 +17,12 @@ define([
     });
     
     $('.fotorama__nav__frame').ready(function() {
-        
+        $('.custom-preloader').attr("style", "display:none !important;");
+        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
     });
     
     $(window).load(function(){
-        $('.custom-preloader').attr("style", "display:none !important;");
-        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+        
     });
     
     if($('.fotorama__nav').length){
@@ -30,7 +30,7 @@ define([
     }
     
     window.onload = function() {
-        
+        alert('OnLoad Is Working!');
     };
     
     if( $('#main-product-qantas').length )
