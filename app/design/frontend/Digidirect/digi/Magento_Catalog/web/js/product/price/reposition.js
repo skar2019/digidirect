@@ -4,21 +4,26 @@ define([
 ], function ($) {
     //clint changes cashback
     
-    $('.braintree-paypal-logo').ready(function() {
+    setTimeout(function() {
         $(".secure-pay-container").attr("style", "display: inline-block");
         if ($(window).width() <= 768) {
             $('.testfreaks-badge').insertAfter($('.page-title'));
             $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
             console.log("Test OnLoad : Window width is " + $(window).width());
+            $('.gallery-placeholder').attr("style", "visibility: visible !important;");
         } else {
 
         } 
         $('.custom-preloader').attr("style", "display:none !important;");
+    }, 8000);
+    
+    $('.braintree-paypal-logo').ready(function() {
+        
         //$('.gallery-placeholder').attr("style", "visibility: visible !important;");
     });
     
     $('.fotorama__wrap').ready(function() {
-        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+        
     });
     
     if($('.fotorama__nav').length){
