@@ -3,7 +3,7 @@ define([
     'jquery'
 ], function ($) {
     //clint changes cashback
-    
+    //Redeploy
     $('.braintree-paypal-logo').ready(function() {
         $(".secure-pay-container").attr("style", "display: inline-block");
         if ($(window).width() <= 768) {
