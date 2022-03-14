@@ -13,7 +13,7 @@ define([
         } else {
 
         } 
-        $(document.body).trigger('load')
+        $(document.body).trigger('load');
         //$('.gallery-placeholder').attr("style", "visibility: visible !important;");
     });
     
