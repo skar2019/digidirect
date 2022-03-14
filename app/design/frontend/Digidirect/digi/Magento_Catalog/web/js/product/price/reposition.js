@@ -17,9 +17,13 @@ define([
     });
     
     $('.fotorama__nav__frame').ready(function() {
+        
+    });
+    
+    $(window).load(function(){
         $('.custom-preloader').attr("style", "display:none !important;");
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
-    });
+    }
     
     if($('.fotorama__nav').length){
         
