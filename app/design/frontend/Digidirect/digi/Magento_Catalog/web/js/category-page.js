@@ -15,4 +15,8 @@ define([
         $('.sidebar-main').attr("style", "display: block !important;").fadeIn();
     });
     
+    $(window).on('load', function(){
+        $('.desktop-row').attr("style", "visibility: visible !important;");
+    });
+    
 });
