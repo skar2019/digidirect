@@ -1,0 +1,43 @@
+<?php
+/**
+ * @var $block View
+ * @var $brandDataHelper Data
+ * @var $brand BrandInterface
+ * @var $escaper Escaper
+ */
+
+use Magento\Catalog\Block\Product\View;
+use Magento\Framework\Escaper;
+use Marketplacer\Brand\Api\Data\BrandInterface;
+use Marketplacer\Brand\Helper\Data;
+
+$product = $block->getProduct();
+$brandDataHelper = $this->helper(Data::class);
+$brand = $brandDataHelper->getBrandByProduct($product);
+
+if (!$brand instanceof BrandInterface || !$brand->isEnabled()) {
+    return;
+}
+
+$brandName = $brand->getName();
+$brandLogo = $brand->getLogo();
+$brandUrl = $brandDataHelper->getBrandUrl($brand);
+?>
+
+<div class="mrkt-product-info-brand">
+    <strong class="name">
+        <?php if ($brandUrl): ?>
+            <a class="name" href="<?= $escaper->escapeUrl($brandUrl) ?>"
+               title="<?= $escaper->escapeHtmlAttr($brandName) ?>">
+                <?= $escaper->escapeHtml($brandName) ?>
+            </a>
+        <?php else: ?>
+            <?= $escaper->escapeHtml($brandName) ?>
+        <?php endif ?>
+    </strong>
+    <?php if ($brandLogo): ?>
+        <span class="image">
+            <img src="<?= $escaper->escapeUrl($brandLogo) ?>" alt="<?= $escaper->escapeHtmlAttr($brandName) ?>"/>
+        </span>
+    <?php endif ?>
+</div>

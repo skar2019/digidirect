@@ -1,0 +1,23 @@
+//
+//  Marketplacer - Brand: PDP Brand Info block
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@mrkt-product-info-brand-img__max-width: 200px;
+@mrkt-product-info-brand-img__max-height: 50px;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .mrkt-product-info-brand {
+        > .image img {
+            .lib-css(max-width, @mrkt-product-info-brand-img__max-width);
+            .lib-css(max-height, @mrkt-product-info-brand-img__max-height);
+        }
+    }
+}
