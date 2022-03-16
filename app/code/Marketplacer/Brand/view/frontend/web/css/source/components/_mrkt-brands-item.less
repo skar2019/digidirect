@@ -1,0 +1,59 @@
+//
+//  Marketplacer - Brand: Brands List Item
+//  _____________________________________________
+
+//
+//  Variables
+//  ---------------------------------------------
+
+@mrkt-brands-item__display: block;
+@mrkt-brands-item__text-align: center;
+
+@mrkt-brands-item-image__display: block;
+@mrkt-brands-item-image__padding-top: 70%;
+@mrkt-brands-item-image__position: relative;
+
+@mrkt-brands-item-img__display: block;
+@mrkt-brands-item-img__max-width: 100%;
+@mrkt-brands-item-img__max-height: 100%;
+@mrkt-brands-item-img__position: absolute;
+@mrkt-brands-item-img__top: 50%;
+@mrkt-brands-item-img__left: 50%;
+@mrkt-brands-item-img__transform: translate(-50%, -50%);
+
+@mrkt-brands-item-name__display: block;
+@mrkt-brands-item-name__margin: 10px 0 0;
+
+//
+//  Common
+//  ---------------------------------------------
+
+& when (@media-common = true) {
+    .mrkt-brands-item {
+        & {
+            .lib-css(display, @mrkt-brands-item__display);
+            .lib-css(text-align, @mrkt-brands-item__text-align);
+        }
+
+        > .image {
+            .lib-css(display, @mrkt-brands-item-image__display);
+            .lib-css(padding-top, @mrkt-brands-item-image__padding-top);
+            .lib-css(position, @mrkt-brands-item-image__position);
+        }
+
+        > .image > img {
+            .lib-css(display, @mrkt-brands-item-img__display);
+            .lib-css(max-width, @mrkt-brands-item-img__max-width);
+            .lib-css(max-height, @mrkt-brands-item-img__max-height);
+            .lib-css(position, @mrkt-brands-item-img__position);
+            .lib-css(top, @mrkt-brands-item-img__top);
+            .lib-css(left, @mrkt-brands-item-img__left);
+            .lib-css(transform, @mrkt-brands-item-img__transform);
+        }
+
+        > .name {
+            .lib-css(display, @mrkt-brands-item-name__display);
+            .lib-css(margin, @mrkt-brands-item-name__margin);
+        }
+    }
+}

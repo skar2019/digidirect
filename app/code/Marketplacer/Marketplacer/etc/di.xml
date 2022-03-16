@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Sales\Block\Adminhtml\Items\Column\DefaultColumnPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Bundle\Block\Adminhtml\Sales\Order\Items\Renderer">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Bundle\Block\Adminhtml\Sales\Order\Items\RendererPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Bundle\Block\Adminhtml\Sales\Order\View\Items\Renderer">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Bundle\Block\Adminhtml\Sales\Order\View\Items\RendererPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Bundle\Block\Sales\Order\Items\Renderer">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Bundle\Block\Sales\Order\Items\RendererPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Sales\Block\Order\Email\Items\Order\DefaultOrderPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Block\Order\Email\Items\DefaultItems">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Sales\Block\Order\Email\Items\DefaultItemsPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Sales\Block\Order\Item\Renderer\DefaultRendererPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Sales\Model\Order\Pdf\Items\AbstractItemsPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Pdf\Items\Shipment\DefaultShipment">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Sales\Model\Order\Pdf\Items\AbstractItemsPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Sales\Model\Order\Pdf\Items\AbstractItemsPlugin" sortOrder="100"/>
+    </type>
+    <type name="Magento\Checkout\Block\Cart\Item\Renderer">
+        <plugin name="Marketplacer_Marketplacer" type="Marketplacer\Marketplacer\Plugin\Checkout\Block\Cart\Item\RendererPlugin" sortOrder="100"/>
+    </type>
+</config>

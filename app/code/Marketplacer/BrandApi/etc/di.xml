@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Feel free to override classes if you have own solution for Brands -->
+    <preference for="Marketplacer\BrandApi\Api\Data\MarketplacerBrandInterface" type="Marketplacer\BrandApi\Model\MarketplacerBrand"/>
+    <preference for="Marketplacer\BrandApi\Api\Data\MarketplacerBrandSearchResultsInterface" type="Marketplacer\BrandApi\Model\MarketplacerBrandSearchResults"/>
+    <preference for="Marketplacer\BrandApi\Api\BrandManagementInterface" type="Marketplacer\BrandApi\Model\BrandManagement"/>
+    <preference for="Marketplacer\BrandApi\Api\BrandAttributeRetrieverInterface" type="Marketplacer\BrandApi\Model\BrandAttributeRetriever"/>
+    <!-- Class stubs, they must be implemented in your custom module if Marketplacer_Brand is not used -->
+    <preference for="Marketplacer\BrandApi\Api\MarketplacerBrandUrlInterface" type="Marketplacer\BrandApi\Model\Stubs\BrandUrlStub"/>
+    <preference for="Marketplacer\BrandApi\Api\BrandRepositoryInterface" type="Marketplacer\BrandApi\Model\Stubs\BrandRepositoryStub"/>
+
+    <type name="Marketplacer\BrandApi\Model\BrandAttributeRetriever">
+        <arguments>
+            <argument name="attributeCode" xsi:type="string">marketplacer_brand</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="brand_info_quote_item_conversion" type="Marketplacer\BrandApi\Plugin\Quote\Model\Item\ToOrderItemPlugin" sortOrder="100"/>
+    </type>
+</config>
