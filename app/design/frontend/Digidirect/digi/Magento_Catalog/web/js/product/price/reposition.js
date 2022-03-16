@@ -5,7 +5,7 @@ define([
 ], function ($) {
     //clint changes cashback
     //Redeploy
-    $('.secure-pay-container').ready(function() {
+    $('.braintree-paypal-logo').ready(function() {
         $(".secure-pay-container").attr("style", "display: none");
         if ($(window).width() <= 768) {
             $('.testfreaks-badge').insertAfter($('.page-title'));
