@@ -11,7 +11,7 @@ define([
         $('.studio19-wrapper').insertAfter($('#product-options-wrapper'));
     });
     
-    $('.fotorama-item').load(function() {
+    $('.fotorama__img').ready(function() {
         $('.custom-preloader').attr("style", "display:none !important;");
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
     });
