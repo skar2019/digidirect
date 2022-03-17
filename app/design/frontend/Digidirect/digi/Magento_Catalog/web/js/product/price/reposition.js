@@ -11,9 +11,11 @@ define([
         $('.studio19-wrapper').insertAfter($('#product-options-wrapper'));
     });
     
-    $('.fotorama__img').ready(function() {
-        $('.custom-preloader').attr("style", "display:none !important;");
-        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+    $('.fotorama__wrap').ready(function() {
+        setTimeout(function() {
+            $('.custom-preloader').attr("style", "display:none !important;");
+            $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+        }, 3000);
     });
     
     $(window).load(function(){
