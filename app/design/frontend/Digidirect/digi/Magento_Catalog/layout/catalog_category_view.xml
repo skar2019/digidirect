@@ -30,7 +30,6 @@
         </referenceBlock>
 
         <referenceContainer name="div.sidebar.additional" remove="true" />
-        <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/preloader.phtml" name="category-preloader" after="div.sidebar.additional"/>
    
 <!--        <referenceContainer name="category.view.container" htmlClass="category-view full-width-background category-background">
             <block class="Magento\Framework\View\Element\Template" name="category.view.bg"
