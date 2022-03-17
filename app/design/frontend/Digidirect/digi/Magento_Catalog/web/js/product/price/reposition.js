@@ -12,10 +12,11 @@ define([
     });
     
     $('.fotorama__wrap').ready(function() {
+        console.log("Fotorma has been loaded!");
         setTimeout(function() {
             $('.custom-preloader').attr("style", "display:none !important;");
             $('.gallery-placeholder').attr("style", "visibility: visible !important;");
-        }, 10000);
+        }, 5000);
     });
     
     $(window).load(function(){
