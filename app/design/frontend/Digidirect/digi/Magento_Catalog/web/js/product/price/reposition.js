@@ -5,15 +5,10 @@ define([
 ], function ($) {
     //clint changes cashback
     //Redeploy
-    $('.braintree-paypal-logo').ready(function() {
-        $(".secure-pay-container").attr("style", "display: inline-block");
-        if ($(window).width() <= 768) {
-            $('.testfreaks-badge').insertAfter($('.page-title'));
-            $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
-            console.log("Test OnLoad : Window width is " + $(window).width());
-        } else {
-
-        } 
+    $('.secure-pay-container').ready(function() {
+        $(".secure-pay-container").attr("style", "display: none");
+        $('#product-options-wrapper').insertAfter($('.box-tocart'));
+        $('.studio19-wrapper').insertAfter($('#product-options-wrapper'));
     });
     
     $('.fotorama-item').ready(function() {
@@ -22,7 +17,13 @@ define([
     });
     
     $(window).load(function(){
-        
+        if ($(window).width() <= 768) {
+            $('.testfreaks-badge').insertAfter($('.page-title'));
+            $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
+            console.log("Test OnLoad : Window width is " + $(window).width());
+        } else {
+
+        } 
     });
     
     if( $('#main-product-qantas').length )
