@@ -4,6 +4,8 @@ define([
     'jquery'
 ], function ($) {
     
+    $('#catalogSidebar').append('<div class="custom-preloader-container"><div class="custom-preloader"></div></div>');
+    
     window.onload = function() {   
         
     };
@@ -14,5 +16,4 @@ define([
         $('.custom-preloader-container').attr("style", "display: none !important;");
     });
     
-    $('#catalogSidebar').append('<div class="custom-preloader-container"><div class="custom-preloader"></div></div>');
 });
