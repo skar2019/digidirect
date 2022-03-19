@@ -4,7 +4,11 @@ define([
     'jquery'
 ], function ($) {
     
-    $('.columns').append('<div class="custom-preloader-container""><div class="custom-preloader"></div></div>');
+    $(document).ready(function() {
+        $('.columns').append('<div class="custom-preloader-container""><div class="custom-preloader"></div></div>');
+        console.log( "Document Loaded!" );
+    });
+    
     
     window.onload = function() {   
         
