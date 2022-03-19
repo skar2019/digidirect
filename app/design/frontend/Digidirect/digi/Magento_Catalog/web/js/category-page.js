@@ -11,7 +11,10 @@ define([
     
     $('.products-grid').ready(function() {
         $('.desktop-row').attr("style", "visibility: visible !important;");
-        $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
+        setTimeout(function() {
+            $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
+            console.log('Timeout Executed!');
+        }, 3000);
         //$('.custom-preloader-container').attr("style", "display: none !important;");
     });
     
