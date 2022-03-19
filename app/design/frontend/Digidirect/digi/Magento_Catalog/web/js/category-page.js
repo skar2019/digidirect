@@ -14,4 +14,5 @@ define([
         $('.sidebar-main').attr("style", "display: block !important;").fadeIn();
     });
     
+    $('#catalogSidebar').append('<div class="custom-preloader-container"><div class="custom-preloader"></div></div>');
 });
