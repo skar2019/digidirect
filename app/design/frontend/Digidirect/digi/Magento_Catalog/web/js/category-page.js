@@ -5,13 +5,6 @@ define([
 ], function ($) {
     
     //$('.columns').append('<div class="custom-preloader-container""><div class="custom-preloader"></div></div>');
-    
-    $(document).ready(function() {
-        setTimeout(function() {
-            $('.custom-preloader-container').attr("style", "display: block !important;");
-        }, 1500);
-    });
-    
     window.onload = function() {   
         
     };
