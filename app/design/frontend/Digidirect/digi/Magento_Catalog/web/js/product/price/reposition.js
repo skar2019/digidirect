@@ -7,8 +7,14 @@ define([
     //Redeploy
     $('.secure-pay-container').ready(function() {
         $(".secure-pay-container").attr("style", "display: none");
-        $('#product-options-wrapper').insertAfter($('.box-tocart'));
-        $('.studio19-wrapper').insertAfter($('#product-options-wrapper'));
+        
+        if($('#product-options-wrapper').length) {
+            $('#product-options-wrapper').insertAfter($('.box-tocart'));
+            $('.studio19-wrapper').insertAfter($('#product-options-wrapper'));
+        }else {
+            $('.studio19-wrapper').insertAfter($('.box-tocart'));
+        }
+        
     });
     
     $('.fotorama__wrap').ready(function() {
