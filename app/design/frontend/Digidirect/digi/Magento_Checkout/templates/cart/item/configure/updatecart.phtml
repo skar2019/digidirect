@@ -56,3 +56,17 @@
         }
     </script>
 <?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "qty-change": {
+                        "component": "Magento_Checkout/js/qty-change",
+                        "defaultQty": <?php echo $block->getProductDefaultQty() * 1 ?>
+                    }
+                 }
+            }
+        }
+    }
+</script>
