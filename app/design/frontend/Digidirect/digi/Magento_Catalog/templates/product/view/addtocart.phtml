@@ -28,8 +28,8 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
                            data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" /> 
                     
                     <div class="qty-buttons">
-                        <button data-bind="click: increaseQty"><i class="fas fa-angle-up"></i></button> 
-                        <button data-bind="click: decreaseQty"><i class="fas fa-angle-down"></i></button>
+                        <div role="button" data-bind="click: increaseQty"><i class="fas fa-angle-up"></i></div>
+                        <div role="button" data-bind="click: decreaseQty"><i class="fas fa-angle-down"></i></div>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,8 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
                         id="product-addtocart-button"
                         data-action="add-to-cart-action"
                         >
-                    <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span><span class="addcart_plus_logo"><i class="fas fa-cart-plus fa-lg"></i></span>
+                    <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                    <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
                 </button>
                 <?= $block->getChildHtml('', true) ?>
             </div>
