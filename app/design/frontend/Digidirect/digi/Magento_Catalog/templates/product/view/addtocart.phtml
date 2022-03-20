@@ -41,7 +41,8 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
                         id="product-addtocart-button"
                         data-action="add-to-cart-action"
                         >
-                    <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span><span class="addcart_plus_logo"><i class="fas fa-cart-plus fa-lg"></i></span>
+                    <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                    <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
                 </button>
                 <?= $block->getChildHtml('', true) ?>
             </div>
