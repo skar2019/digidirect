@@ -27,8 +27,8 @@
                            data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" /> 
                     
                     <div class="qty-buttons">
-                        <button data-bind="click: increaseQty"><i class="fas fa-angle-up"></i></button> 
-                        <button data-bind="click: decreaseQty"><i class="fas fa-angle-down"></i></button>
+                        <div role="button" data-bind="click: increaseQty"><i class="fas fa-angle-up"></i></div>
+                        <div role="button" data-bind="click: decreaseQty"><i class="fas fa-angle-down"></i></div>
                     </div>
                 </div>
             </div>
