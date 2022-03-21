@@ -233,9 +233,13 @@
         .action.close
         {
             &::before{
-                font-size: 42px;
-                font-weight: bold;
-                color: #222;
+                font-family: 'Font Awesome 5 Free';
+                content: '\f00d';
+                font-size: 20px;
+                font-weight: 600;
+                color: #cacaca;
+                margin-right: 30px;
+                margin-top: 15px;
             }
 
             &:hover:before{
@@ -394,8 +398,8 @@
     }
 
     .minicart-item-header{
-        background: #dcdcdc;
-        padding: 30px 15px;
+        //background: #dcdcdc;
+        padding: 60px 40px 20px 40px;
         font-size: 16px;
 
         span{
@@ -454,7 +458,15 @@
     
     .minicart-wrapper {
         transition: none !important;
-        
+    }
+    
+    .minicart-item-header span.text {
+        font-size: 20px !important;
+        padding-left: 10px !important;
+    }
+    
+    .minicart-item-header span.qty {
+        font-size: 20px !important;
     }
 }
 
