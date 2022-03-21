@@ -75,8 +75,12 @@
             <!-- /ko -->
 
             <div class="product-item-pricing">
-                <!-- ko if: canApplyMsrp -->
-                
+                <!-- /ko -->
+                <!-- ko ifnot: canApplyMsrp -->
+                <!-- ko foreach: $parent.getRegion('priceSidebar') -->
+                <!-- ko template: {name: getTemplate(), data: item.product_price, as: 'price'} --><!-- /ko -->
+                <!-- /ko -->
+                <!-- /ko -->
                 <div class="details-qty qty">
                     <label class="label" data-bind="i18n: 'Qty', attr: {
                            for: 'cart-item-'+item_id+'-qty'}"></label>
@@ -99,14 +103,12 @@
                         <span data-bind="i18n: 'Update'"></span>
                     </button>
                 </div>
+                
+                <!-- ko if: canApplyMsrp -->
 
                 <div class="details-map">
                     <span class="label" data-bind="i18n: 'Price'"></span>
                     <span class="value" data-bind="i18n: 'See price before order confirmation.'"></span>
-                </div>
-                
-                <div class="details-subtotal">
-                    <span class="minicart-item-subtotal"></span>
                 </div>
                 <!-- /ko -->
                 <!-- ko ifnot: canApplyMsrp -->
