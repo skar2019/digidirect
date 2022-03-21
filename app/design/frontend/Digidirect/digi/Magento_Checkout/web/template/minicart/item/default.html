@@ -76,10 +76,37 @@
 
             <div class="product-item-pricing">
                 <!-- ko if: canApplyMsrp -->
+                
+                <div class="details-qty qty">
+                    <label class="label" data-bind="i18n: 'Qty', attr: {
+                           for: 'cart-item-'+item_id+'-qty'}"></label>
+                    <input data-bind="attr: {
+                           id: 'cart-item-'+item_id+'-qty',
+                           'data-cart-item': item_id,
+                           'data-item-qty': qty,
+                           'data-cart-item-id': product_sku
+                           }, value: qty"
+                           type="number"
+                           size="4"
+                           class="item-qty cart-item-qty">
+                    <button data-bind="attr: {
+                           id: 'update-cart-item-'+item_id,
+                           'data-cart-item': item_id,
+                           title: $t('Update')
+                           }"
+                            class="update-cart-item"
+                            style="display: none">
+                        <span data-bind="i18n: 'Update'"></span>
+                    </button>
+                </div>
 
                 <div class="details-map">
                     <span class="label" data-bind="i18n: 'Price'"></span>
                     <span class="value" data-bind="i18n: 'See price before order confirmation.'"></span>
+                </div>
+                
+                <div class="details-subtotal">
+                    <span class="minicart-item-subtotal"></span>
                 </div>
                 <!-- /ko -->
                 <!-- ko ifnot: canApplyMsrp -->
@@ -92,30 +119,6 @@
                     <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />  
                         <span class ="qantas-span">Earn <span class ="price-font" data-bind="text: qantas_points"></span> Qantas Points </span>
                     <div>
-                        
-                        <div class="details-qty qty">
-                            <label class="label" data-bind="i18n: 'Qty', attr: {
-                                   for: 'cart-item-'+item_id+'-qty'}"></label>
-                            <input data-bind="attr: {
-                                   id: 'cart-item-'+item_id+'-qty',
-                                   'data-cart-item': item_id,
-                                   'data-item-qty': qty,
-                                   'data-cart-item-id': product_sku
-                                   }, value: qty"
-                                   type="number"
-                                   size="4"
-                                   class="item-qty cart-item-qty">
-                            <button data-bind="attr: {
-                                   id: 'update-cart-item-'+item_id,
-                                   'data-cart-item': item_id,
-                                   title: $t('Update')
-                                   }"
-                                    class="update-cart-item"
-                                    style="display: none">
-                                <span data-bind="i18n: 'Update'"></span>
-                            </button>
-                        </div>
-
                         <!-- ko if: is_sdd_available -->
                         <div class="pickup-available-wrapper">
                             <span class="pickup-available-text"><!-- ko i18n: 'Available for Same-Day Delivery'--><!-- /ko --></span>
