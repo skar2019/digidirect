@@ -75,7 +75,7 @@
             <!-- /ko -->
             
             <div class="details-qty qty">
-                <label class="label" data-bind="i18n: 'Qty', attr: {
+                <label class="label" data-bind="i18n: 'Quantity', attr: {
                        for: 'cart-item-'+item_id+'-qty'}"></label>
                 <input data-bind="attr: {
                        id: 'cart-item-'+item_id+'-qty',
@@ -99,28 +99,36 @@
 
             <div class="product-item-pricing">
                 <!-- ko if: canApplyMsrp -->
-
+                <span>Item Amount</span>
                 <div class="details-map">
                     <span class="label" data-bind="i18n: 'Price'"></span>
                     <span class="value" data-bind="i18n: 'See price before order confirmation.'"></span>
                 </div>
-                <!-- /ko -->
-                <!-- ko ifnot: canApplyMsrp -->
-                <!-- ko foreach: $parent.getRegion('priceSidebar') -->
-                <!-- ko template: {name: getTemplate(), data: item.product_price, as: 'price'} --><!-- /ko -->
-                <!-- /ko -->
-                <!-- /ko -->
-                
-                <div class="qantas-pts-wrapper-minicart-price">
-                    <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />  
-                        <span class ="qantas-span">Earn <span class ="price-font" data-bind="text: qantas_points"></span> Qantas Points </span>
-                    <div>
-                        <!-- ko if: is_sdd_available -->
-                        <div class="pickup-available-wrapper">
-                            <span class="pickup-available-text"><!-- ko i18n: 'Available for Same-Day Delivery'--><!-- /ko --></span>
-                        </div>
-                        <!-- /ko -->
+            </div>
+            
+            <div class="product-item-subtotal">
+                <span class="minicart-subtotal"></span>
+            </div>
+            
+            
+            
+            <!-- /ko -->
+            <!-- ko ifnot: canApplyMsrp -->
+            <!-- ko foreach: $parent.getRegion('priceSidebar') -->
+            <!-- ko template: {name: getTemplate(), data: item.product_price, as: 'price'} --><!-- /ko -->
+            <!-- /ko -->
+            <!-- /ko -->
+
+            <div class="qantas-pts-wrapper-minicart-price">
+                <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />  
+                    <span class ="qantas-span">Earn <span class ="price-font" data-bind="text: qantas_points"></span> Qantas Points </span>
+                <div>
+                    <!-- ko if: is_sdd_available -->
+                    <div class="pickup-available-wrapper">
+                        <span class="pickup-available-text"><!-- ko i18n: 'Available for Same-Day Delivery'--><!-- /ko --></span>
                     </div>
+                    <!-- /ko -->
                 </div>
             </div>
+            
             </li>
