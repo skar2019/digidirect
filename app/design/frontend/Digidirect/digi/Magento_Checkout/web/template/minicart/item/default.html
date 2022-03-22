@@ -71,7 +71,7 @@
                 <!-- /ko -->
                 <!-- /ko -->
 
-                <div class="details-qty qty" data-bind="scope: 'qty-change'">
+                <div class="details-qty qty">
                     <label class="label" data-bind="i18n: 'Qty', attr: {
                            for: 'cart-item-'+item_id+'-qty'}"></label>
                     <input data-bind="attr: {
@@ -79,7 +79,7 @@
                            'data-cart-item': item_id,
                            'data-item-qty': qty,
                            'data-cart-item-id': product_sku
-                           }, value: qty()"
+                           }, value: qty"
                            type="number"
                            size="4"
                            class="item-qty cart-item-qty">
@@ -87,8 +87,9 @@
                            id: 'update-cart-item-'+item_id,
                            'data-cart-item': item_id,
                            title: $t('Update')
-                           }, click: increaseQty"
-                            class="update-cart-item">
+                           }"
+                            class="update-cart-item"
+                            style="display: none">
                         <span data-bind="i18n: 'Update'"></span>
                     </button>
                 </div>
@@ -122,18 +123,3 @@
     </div>
             
 </li>
-
-<script type="text/x-magento-init">
-    {
-        "*": {
-            "Magento_Ui/js/core/app": {
-                "components": {
-                    "qty-change": {
-                        "component": "Magento_Checkout/js/qty-change",
-                        "defaultQty": <?php echo $block->getProductDefaultQty() * 1 ?>
-                    }
-                 }
-            }
-        }
-    }
-</script>
