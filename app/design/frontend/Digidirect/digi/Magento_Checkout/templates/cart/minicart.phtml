@@ -77,9 +77,11 @@
     });
 </script>
 
-<script type="text/javascript">
-    require(['jquery'], function ($) {
-        window.onload = function() {   
+<script>
+    require([
+        'jquery'
+    ], function($){
+        window.onload = function() {
             $('.cart-item-qty').attr("style", "visibility: hidden !important;");
             console.log('jQuery Test On Minicart PHTML');
         };
