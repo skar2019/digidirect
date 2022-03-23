@@ -72,18 +72,9 @@
             $('[data-block="minicart"]').on('contentUpdated', function () {
                 $('.action.showcart').addClass("-active");
                 $('#minicartSidebar').addClass("-active");
+                $('.cart-item-qty').attr("style", "visibility: hidden !important;");
+                console.log('jQuery Test On Minicart PHTML');
             });
         });
-    });
-</script>
-
-<script>
-    require([
-        'jquery'
-    ], function($){
-        window.onload = function() {
-            $('.cart-item-qty').attr("style", "visibility: hidden !important;");
-            console.log('jQuery Test On Minicart PHTML');
-        };
     });
 </script>
