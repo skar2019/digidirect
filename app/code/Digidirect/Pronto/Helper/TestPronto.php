@@ -388,7 +388,7 @@ class TestPronto extends AbstractHelper
                         $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                         $x++;
                     }
-
+                    //to redeploy
                     //shipping details
                     $shippingprice = (double) $order->getShippingAmount();
 
