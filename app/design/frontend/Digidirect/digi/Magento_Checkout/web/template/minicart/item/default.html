@@ -93,6 +93,13 @@
                         <span data-bind="i18n: 'Update'"></span>
                     </button>
                 </div>
+    
+                <div class="qantas-pts-wrapper-minicart-price">
+                    <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />  
+                        <span class ="qantas-span">Earn <span class ="price-font" data-bind="text: qantas_points"></span> Qantas Points </span>
+                    <div>
+                </div>
+                        
             </div>
 
             <div class="product actions">
@@ -114,12 +121,6 @@
     </div>
     <div class="message notice" if="$data.message">
         <div data-bind="text: $data.message"></div>
-    </div>
-    
-    <div class="qantas-pts-wrapper-minicart-price">
-        <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />  
-            <span class ="qantas-span">Earn <span class ="price-font" data-bind="text: qantas_points"></span> Qantas Points </span>
-        <div>
     </div>
             
 </li>
