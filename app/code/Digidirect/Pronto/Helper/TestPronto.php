@@ -760,7 +760,7 @@ class TestPronto extends AbstractHelper
             $orderId = $order->getIncrementId();
             $entityId = $order->getId();
             $this->logger->info('Pronto Order Sync - '.$orderId);
-
+            $isMarketPlace = false;
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
             $territory = "WEBS";
@@ -800,6 +800,7 @@ class TestPronto extends AbstractHelper
                 }
 
                 $territory = "MRKT";
+                $isMarketPlace = true;
 
             }
             else
@@ -809,23 +810,37 @@ class TestPronto extends AbstractHelper
                     $rep ="EBAY";
                     $account = "EBAY00";
                     $territory = "MRKT";
+                    $isMarketPlace = true;
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
                     $account = "CATC00";
                     $territory = "MRKT";
+                    $isMarketPlace = true;
                 }
                 else if (strpos($orderId, 'MYD') !== false) {
                     $rep ="MYDEAL";
                     $account = "MYDE00";
                     $territory = "MRKT";
+                    $isMarketPlace = true;
                 }
                 else if (strpos($orderId, 'WD') !== false) {
                     $rep ="WESTFIELD";
                     $account = "WEST00";
                     $territory = "MRKT";
+                    $isMarketPlace = true;
                 }
 
+            }
+
+            $directToWhse = false;
+            if($isMarketPlace)
+            {
+                //check if all product has stock in swhs
+                $skus = $this->getProductsSkus($order);
+                if ($this->isProductsInStock('swhs', $skus)) {
+                    $directToWhse = true;
+                }
             }
 
             $contactname = $accountname;
@@ -852,8 +867,17 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['contactname'] = $contactname;
             $data['sales-order']['header']['email'] = $customerEmail;
             $data['sales-order']['header']['reference'] = $entityId;
-            $data['sales-order']['header']['on-hold-reason-code'] = "01";
-            $data['sales-order']['header']['set-on-status'] = "H";
+            if($directToWhse)
+            {
+                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                $data['sales-order']['header']['set-on-status'] = "P";
+            }
+            else
+            {
+                $data['sales-order']['header']['on-hold-reason-code'] = "01";
+                $data['sales-order']['header']['set-on-status'] = "H";
+            }
+
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
@@ -1122,9 +1146,20 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
-                $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+
+                if($directToWhse)
+                {
+                    $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                    $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                }
+                else
+                {
+                    $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                    $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                }
+
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
@@ -1352,5 +1387,5 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
-    //comment to redeploy
+
 }
