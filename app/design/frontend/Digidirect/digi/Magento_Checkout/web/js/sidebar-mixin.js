@@ -113,7 +113,7 @@ define([
                  * @param {jQuery.Event} event
                  * custom event (Rondel)
                  */
-                events['click ' + this.options.item.button.increase-qty] = function (event) {
+                events['click ' + this.options.item.button.increase] = function (event) {
                     event.stopPropagation();
                     self._updateItemQtyIncrease($(event.currentTarget));
                 };
