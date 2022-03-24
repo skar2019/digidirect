@@ -89,7 +89,8 @@
                         <button data-bind="attr: {
                            id: 'update-cart-item-'+item_id,
                            'data-cart-item': item_id,
-                           t" class="update-cart-item"><i class="fas fa-angle-up"></i></button>
+                           title: $t('Update')
+                           }, click: increaseQtyMinicart()" class="update-cart-item"><i class="fas fa-angle-up"></i></button>
                         <button data-bind="attr: {
                            id: 'update-cart-item-'+item_id,
                            'data-cart-item': item_id,
