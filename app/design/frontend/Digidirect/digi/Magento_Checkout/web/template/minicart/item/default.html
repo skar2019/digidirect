@@ -84,18 +84,18 @@
                            size="4"
                            class="item-qty cart-item-qty">
                      
+                    
                     <div class="qty-buttons">
-                        <div role="button" data-bind="attr: {
+                        <button data-bind="attr: {
                            id: 'update-cart-item-'+item_id,
                            'data-cart-item': item_id,
                            title: $t('Update')
-                           }"><i class="fas fa-angle-up"></i></div>
-                        <div role="button" data-bind="attr: {
+                           }" class="update-cart-item"><i class="fas fa-angle-up"></i></button>
+                        <button data-bind="attr: {
                            id: 'update-cart-item-'+item_id,
                            'data-cart-item': item_id,
                            title: $t('Update')
-                           }">
-                        <i class="fas fa-angle-down"></i></div>
+                           }" class="update-cart-item"><i class="fas fa-angle-down"></i></button>
                     </div>
                 </div>
                         
