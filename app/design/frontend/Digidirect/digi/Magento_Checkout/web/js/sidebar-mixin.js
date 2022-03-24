@@ -124,7 +124,7 @@ define([
             
             increaseQtyMinicart: function increaseQtyMinicart() {
                 console.log("Mixin Working! Yehey!");
-            }
+            },
             
             _calcHeight: function () {
                 $(this.options.minicart.list).parents(this.options.minicartScrollWrapperSelector).trigger('updateHeight');

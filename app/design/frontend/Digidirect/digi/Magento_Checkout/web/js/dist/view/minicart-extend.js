@@ -86,10 +86,6 @@ define(['module', 'exports', 'jquery', 'ko', 'digidirectStoreCheckout', 'mCustom
 
         closeSidebar: function closeSidebar() {
             this.Store.emit(this.Events.MINICART_CLOSE);
-        }, 
-        
-        increaseQtyMinicart: function increaseQtyMinicart() {
-            console.log("Mixin Working! Yehey!");
         }
     };
 
