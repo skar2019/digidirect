@@ -118,12 +118,8 @@ define([
 
                 this._ajax(this.options.url.update, {
                     'item_id': itemId,
-                    'item_qty': $('#cart-item-' + itemId + '-qty').val()
+                    'item_qty': 10
                 }, elem, this._updateItemQtyAfter);
-            },
-            
-            increaseQtyMinicart: function increaseQtyMinicart() {
-                console.log("Mixin Working! Yehey!");
             },
             
             _calcHeight: function () {
