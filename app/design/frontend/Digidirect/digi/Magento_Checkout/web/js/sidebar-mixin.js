@@ -108,6 +108,15 @@ define([
                 events['focusout ' + this.options.item.qty] = function (event) {
                     self._validateQty($(event.currentTarget));
                 };
+                
+                /**
+                 * @param {jQuery.Event} event
+                 * custom event (Rondel)
+                 */
+                events['click ' + this.options.item.button.increase-qty] = function (event) {
+                    event.stopPropagation();
+                    self._updateItemQtyIncrease($(event.currentTarget));
+                };
 
                 this._on(this.element, events);
                 this._calcHeight();
@@ -118,7 +127,16 @@ define([
 
                 this._ajax(this.options.url.update, {
                     'item_id': itemId,
-                    'item_qty': 10
+                    'item_qty': $('#cart-item-' + itemId + '-qty').val()
+                }, elem, this._updateItemQtyAfter);
+            },
+            
+            _updateItemQtyIncrease: function (elem) {
+                var itemId = elem.data('cart-item');
+
+                this._ajax(this.options.url.update, {
+                    'item_id': itemId,
+                    'item_qty': $('#cart-item-' + itemId + '-qty').val() + 1
                 }, elem, this._updateItemQtyAfter);
             },
             
