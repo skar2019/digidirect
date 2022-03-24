@@ -112,6 +112,20 @@ define([
                 this._on(this.element, events);
                 this._calcHeight();
             },
+
+            _updateItemQty: function (elem) {
+                var itemId = elem.data('cart-item');
+
+                this._ajax(this.options.url.update, {
+                    'item_id': itemId,
+                    'item_qty': $('#cart-item-' + itemId + '-qty').val()
+                }, elem, this._updateItemQtyAfter);
+            },
+            
+            increaseQtyMinicart: function increaseQtyMinicart() {
+                console.log("Mixin Working! Yehey!");
+            }
+            
             _calcHeight: function () {
                 $(this.options.minicart.list).parents(this.options.minicartScrollWrapperSelector).trigger('updateHeight');
             }
