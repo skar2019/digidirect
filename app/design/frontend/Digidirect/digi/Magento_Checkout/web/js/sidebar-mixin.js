@@ -99,6 +99,7 @@ define([
                  */
                 events['click ' + this.options.item.button] = function (event) {
                     event.stopPropagation();
+                    console.log(this.options.item.button);
                     self._updateItemQty($(event.currentTarget));
                 };
 
