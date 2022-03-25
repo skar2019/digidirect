@@ -83,6 +83,12 @@
     require(["jquery"], function ($) {
         $(document).ready(function(){
             console.log('jQuery Document Ready Test On Minicart PHTML');
+            $('.minicart-qty-increase').on('click', function () {
+                alert('Minicart Item Quantity Increased!');
+            });
+            $('.minicart-qty-decrease').on('click', function () {
+                alert('Minicart Item Quantity Decreased!');
+            });
         });
     });
 </script>
