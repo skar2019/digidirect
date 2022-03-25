@@ -36,8 +36,8 @@ var config = {
             'Magento_Checkout/js/view/shipping': {
                 'Magento_Checkout/js/dist/view/shipping-extend': true
             },
-            'Magento_Checkout/js/view/shipping-information': {
-                'Magento_Checkout/js/view/shipping-information-mixin': true
+            'Magento_Checkout/js/view/summary/shipping': {
+                'Magento_Checkout/js/view/summary/shipping-mixin': true
             }
         }
     }
