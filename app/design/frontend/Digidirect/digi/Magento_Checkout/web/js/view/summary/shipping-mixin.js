@@ -20,22 +20,6 @@ define([
         totals: quote.getTotals(),
         
         getShippingMethodTitle: function () {
-            var shippingMethod,
-                shippingMethodTitle = '';
-
-            if (!this.isCalculated()) {
-                return '';
-            }
-            shippingMethod = quote.shippingMethod();
-
-            if (!_.isArray(shippingMethod) && !_.isObject(shippingMethod)) {
-                return '';
-            }
-
-            if (typeof shippingMethod['method_title'] !== 'undefined') {
-                shippingMethodTitle = ' - ' + shippingMethod['method_title'];
-            }
-
             return 'Shipping Method Renamed!';
         }
     });
