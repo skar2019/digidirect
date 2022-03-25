@@ -111,8 +111,9 @@ define([
                 
                 /**
                  * @param {jQuery.Event} event
-                 * custom event (Rondel)
                  */
+                
+                //Custom Event (Rondel)
                 events['click ' + this.options.item.button.increase] = function (event) {
                     event.stopPropagation();
                     self._updateItemQtyIncrease($(event.currentTarget));
@@ -131,6 +132,7 @@ define([
                 }, elem, this._updateItemQtyAfter);
             },
             
+            //Rondel Custom Function
             _updateItemQtyIncrease: function (elem) {
                 var itemId = elem.data('cart-item');
 
@@ -138,6 +140,7 @@ define([
                     'item_id': itemId,
                     'item_qty': $('#cart-item-' + itemId + '-qty').val() + 1
                 }, elem, this._updateItemQtyAfter);
+                console.log("Custom Function & Event Working!");
             },
             
             _calcHeight: function () {
