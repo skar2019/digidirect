@@ -130,10 +130,11 @@ define([
             //Rondel Custom Function
             _updateItemQtyIncrease: function (elem) {
                 var itemId = elem.data('cart-item');
+                var newQty = $('#cart-item-' + itemId + '-qty').val() + 1;
 
                 this._ajax(this.options.url.update, {
                     'item_id': itemId,
-                    'item_qty': $('#cart-item-' + itemId + '-qty').val() + 1
+                    'item_qty': newQty
                 }, elem, this._updateItemQtyAfter);
                 console.log("Custom Function & Event Working!");
             },
