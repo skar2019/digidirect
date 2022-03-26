@@ -105,9 +105,22 @@ define([
                     return false;
                 };
                 
+                /**
+                 * @param {jQuery.Event} event
+                 * Custom Event (Rondel)
+                 */
                 events['click ' + ':button.minicart-qty-increase'] = function (event) {
                     event.stopPropagation();
                     self._updateItemQtyIncrease($(event.currentTarget));
+                };
+                
+                /**
+                 * @param {jQuery.Event} event
+                 * Custom Event (Rondel)
+                 */
+                events['click ' + ':button.minicart-qty-decrease'] = function (event) {
+                    event.stopPropagation();
+                    self._updateItemQtyDecrease($(event.currentTarget));
                 };
 
                 /**
