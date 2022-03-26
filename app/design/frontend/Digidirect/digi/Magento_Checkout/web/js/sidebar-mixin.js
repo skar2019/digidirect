@@ -92,6 +92,7 @@ define([
                  */
                 events['change ' + this.options.item.qty] = function (event) {
                     //self._showItemButton($(event.target));
+                    return false;
                 };
 
                 /**
