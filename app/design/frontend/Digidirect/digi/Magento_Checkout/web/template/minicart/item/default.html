@@ -58,6 +58,8 @@
             <!-- /ko -->
 
             <div class="product-item-pricing">
+                <!-- ko if: canApplyMsrp -->
+                
                 <!-- /ko -->
                 <!-- ko ifnot: canApplyMsrp -->
                 <!-- ko foreach: $parent.getRegion('priceSidebar') -->
@@ -92,9 +94,6 @@
                            }" class="update-cart-item minicart-qty-decrease"><i class="fas fa-angle-down"></i></button>
                     </div>
                 </div>
-                
-                
-                <!-- ko if: canApplyMsrp -->
 
                 <div class="details-map">
                     <span class="label" data-bind="i18n: 'Price'"></span>
