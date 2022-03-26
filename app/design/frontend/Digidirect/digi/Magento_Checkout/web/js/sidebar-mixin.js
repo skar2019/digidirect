@@ -91,9 +91,6 @@ define([
                  * @param {jQuery.Event} event
                  */
                 events['change ' + this.options.item.qty] = function (event) {
-                    event.stopPropagation();
-                    console.log(this.options.item.button);
-                    self._updateItemQty($(event.currentTarget));
                     //self._showItemButton($(event.target));
                 };
 
