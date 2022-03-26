@@ -59,6 +59,11 @@
 
             <div class="product-item-pricing">
                 <!-- ko if: canApplyMsrp -->
+
+                <div class="details-map">
+                    <span class="label" data-bind="i18n: 'Price'"></span>
+                    <span class="value" data-bind="i18n: 'See price before order confirmation.'"></span>
+                </div>
                 
                 <!-- /ko -->
                 <!-- ko ifnot: canApplyMsrp -->
@@ -93,12 +98,6 @@
                            title: $t('Update')
                            }" class="update-cart-item minicart-qty-decrease"><i class="fas fa-angle-down"></i></button>
                     </div>
-                </div>
-
-                <!-- ko if: canApplyMsrp -->
-                <div class="details-map">
-                    <span class="label" data-bind="i18n: 'Price'"></span>
-                    <span class="value" data-bind="i18n: 'See price before order confirmation.'"></span>
                 </div>
                         
             </div>
