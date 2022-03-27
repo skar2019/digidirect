@@ -376,7 +376,12 @@
         }
 
         .minicart-items {
-            .lib-css(padding-bottom, @layout__width-xs-indent);
+            //.lib-css(padding-bottom, @layout__width-xs-indent);
+            padding-bottom: 0;
+        }
+        
+        .minicart-items .product-item:not(:last-child) {
+            border-bottom: 1px solid #cacaca !important;
         }
     }
 }
