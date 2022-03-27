@@ -84,8 +84,7 @@ define([
                  * @param {jQuery.Event} event
                  */
                 events['keyup ' + this.options.item.qty] = function (event) {
-                    //self._showItemButton($(event.target));
-                    return false;
+                    self._showItemButton($(event.target));
                 };
 
                 /**
@@ -93,7 +92,6 @@ define([
                  */
                 events['change ' + this.options.item.qty] = function (event) {
                     //self._showItemButton($(event.target));
-                    return false;
                 };
 
                 /**
@@ -169,13 +167,6 @@ define([
                     'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1
                 }, elem, this._updateItemQtyAfter);
             },
-            
-            /**
-            * @param {HTMLElement} elem
-            */
-           _hideItemButton: function (elem) {
-               return false;
-           },
             
             _calcHeight: function () {
                 $(this.options.minicart.list).parents(this.options.minicartScrollWrapperSelector).trigger('updateHeight');
