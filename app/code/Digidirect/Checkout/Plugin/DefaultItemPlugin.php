@@ -10,7 +10,7 @@ class DefaultItemPlugin
         $result,
         \Magento\Quote\Model\Quote\Item $item)
     {
-        $data['item_subtotal'] = ($this->item->getQty() * 1) * $this->checkoutHelper->formatPrice($this->item->getCalculationPrice());
+        $data['item_subtotal'] = "Hello World!";
 
         return \array_merge(
             $result,
