@@ -141,11 +141,8 @@ define([
             _updateItemQty: function (elem) {
                 //var itemId = elem.data('cart-item');
                 //$('#cart-item-' + itemId + '-qty');
-                
-                var itemId = elem.data('cart-item');
-                console.log(itemId);
-                
-                this._updateItemQtyIncrease(elem);
+                //this._updateItemQtyIncrease(elem);
+                return false;
             },
             
             //Rondel Custom Function
@@ -167,6 +164,14 @@ define([
                     'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1
                 }, elem, this._updateItemQtyAfter);
             },
+            
+            /**
+            * @param {HTMLElement} elem
+            * @private
+            */
+           _hideItemButton: function (elem) {
+               return false;
+           },
             
             _calcHeight: function () {
                 $(this.options.minicart.list).parents(this.options.minicartScrollWrapperSelector).trigger('updateHeight');
