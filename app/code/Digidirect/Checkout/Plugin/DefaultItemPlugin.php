@@ -10,7 +10,7 @@ class DefaultItemPlugin
         $result,
         \Magento\Quote\Model\Quote\Item $item)
     {
-        $data['item_subtotal'] = $this->item->getQty() * 1;
+        $data['item_subtotal'] = $item->getQty() * 1;
 
         return \array_merge(
             $result,
