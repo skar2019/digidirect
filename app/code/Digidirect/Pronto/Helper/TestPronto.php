@@ -626,6 +626,21 @@ class TestPronto extends AbstractHelper
     }
 
     /**
+     * @param string $sourceCode
+     * @param array $productsSkus
+     * @return bool
+     */
+    protected function isProductsInStockMP($sourceCode, array $productsSkus) {
+        $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
+        foreach ($sourceItems as $sourceItem) {
+            if ($sourceItem->getQuantity() < 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @param OrderItemInterface $item
      * @return array
      */
@@ -838,7 +853,7 @@ class TestPronto extends AbstractHelper
             {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStock('swhs', $skus)) {
+                if ($this->isProductsInStockMP('swhs', $skus)) {
                     $directToWhse = true;
                 }
             }

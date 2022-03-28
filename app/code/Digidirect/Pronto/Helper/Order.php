@@ -255,7 +255,7 @@ class Order extends AbstractHelper
             {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStock('swhs', $skus)) {
+                if ($this->isProductsInStockMP('swhs', $skus)) {
                     $directToWhse = true;
                 }
             }
@@ -898,6 +898,21 @@ class Order extends AbstractHelper
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
             if (!$sourceItem->getQuantity() || $sourceItem->getStatus() !== SourceItemInterface::STATUS_IN_STOCK) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param string $sourceCode
+     * @param array $productsSkus
+     * @return bool
+     */
+    protected function isProductsInStockMP($sourceCode, array $productsSkus) {
+        $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
+        foreach ($sourceItems as $sourceItem) {
+            if ($sourceItem->getQuantity() < 1) {
                 return false;
             }
         }
