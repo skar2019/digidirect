@@ -11,7 +11,7 @@ class DefaultItemPlugin
         \Magento\Quote\Model\Quote\Item $item
             )
     {
-        $data['item_subtotal'] = (($item->getQty() * 1) * ($item->getCalculationPrice()));
+        $data['item_subtotal'] = '$'.number_format((float)(($item->getQty() * 1) * ($item->getCalculationPrice())), 2, '.', '');
 
         return \array_merge(
             $result,
