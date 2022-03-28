@@ -261,6 +261,7 @@ class Order extends AbstractHelper
             }
 
             $contactname = $accountname;
+            //redeploy
             //check pronto if customer has an account.
             //if not, create customer account to pronto
 
