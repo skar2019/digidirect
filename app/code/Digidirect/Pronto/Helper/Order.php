@@ -248,6 +248,9 @@ class Order extends AbstractHelper
                     $isMarketPlace = true;
                     //for westfield
                 }
+                else if (strpos($orderId, 'Q') !== false) {
+                    $account = "QANT00";
+                }
 
             }
             $directToWhse = false;
