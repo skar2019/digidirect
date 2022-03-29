@@ -100,8 +100,10 @@ class Collectcarrier extends \Magento\Shipping\Model\Carrier\AbstractCarrier imp
         $method->setCarrierTitle($this->getCarrierTitle());
 
         $method->setMethod($this->_code);
+        echo 'code: ' . $this->_code;
         $method->setMethodTitle($this->getMethodTitle());
-
+        echo 'title: ' . $this->getMethodTitle();
+        
         $amount = $this->getPriceCalculation();
 
         $method->setPrice($amount);
