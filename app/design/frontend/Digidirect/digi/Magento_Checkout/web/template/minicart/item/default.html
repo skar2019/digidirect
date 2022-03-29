@@ -59,8 +59,36 @@
                 </div>
             </div>
             <!-- /ko -->
+            
+            <div class="details-qty qty">
+                <label class="label" data-bind="i18n: 'Qty', attr: {
+                       for: 'cart-item-'+item_id+'-qty'}"></label>
+                <input data-bind="attr: {
+                       id: 'cart-item-'+item_id+'-qty',
+                       'data-cart-item': item_id,
+                       'data-item-qty': qty,
+                       'data-cart-item-id': product_sku
+                       }, value: qty"
+                       type="number"
+                       size="4"
+                       class="item-qty cart-item-qty">
 
+                <div class="qty-buttons">
+                    <button data-bind="attr: {
+                       id: 'update-cart-item-'+item_id,
+                       'data-cart-item': item_id,
+                       title: $t('Update')
+                       }" class="update-cart-item minicart-qty-increase"><i class="fas fa-angle-up"></i></button>
+                    <button data-bind="attr: {
+                       id: 'update-cart-item-'+item_id,
+                       'data-cart-item': item_id,
+                       title: $t('Update')
+                       }" class="update-cart-item minicart-qty-decrease"><i class="fas fa-angle-down"></i></button>
+                </div>
+            </div>
+            
             <div class="product-item-pricing">
+                
                 <!-- ko if: canApplyMsrp -->
 
                 <div class="details-map">
@@ -74,33 +102,6 @@
                     <!-- ko template: {name: getTemplate(), data: item.product_price, as: 'price'} --><!-- /ko -->
                 <!-- /ko -->
                 <!-- /ko -->
-
-                <div class="details-qty qty">
-                    <label class="label" data-bind="i18n: 'Qty', attr: {
-                           for: 'cart-item-'+item_id+'-qty'}"></label>
-                    <input data-bind="attr: {
-                           id: 'cart-item-'+item_id+'-qty',
-                           'data-cart-item': item_id,
-                           'data-item-qty': qty,
-                           'data-cart-item-id': product_sku
-                           }, value: qty"
-                           type="number"
-                           size="4"
-                           class="item-qty cart-item-qty">
-                     
-                    <div class="qty-buttons">
-                        <button data-bind="attr: {
-                           id: 'update-cart-item-'+item_id,
-                           'data-cart-item': item_id,
-                           title: $t('Update')
-                           }" class="update-cart-item minicart-qty-increase"><i class="fas fa-angle-up"></i></button>
-                        <button data-bind="attr: {
-                           id: 'update-cart-item-'+item_id,
-                           'data-cart-item': item_id,
-                           title: $t('Update')
-                           }" class="update-cart-item minicart-qty-decrease"><i class="fas fa-angle-down"></i></button>
-                    </div>
-                </div>
                         
             </div>
             
