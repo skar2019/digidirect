@@ -333,22 +333,32 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             //$method->setMethodTitle($methodTitle);
             //Redeploy
             if ($methodCode == "standard") {
-                if($qty > 0)
-                {
+                if($qty > 0){
                     $method->setMethodTitle(" (5 to 9 Days)");
                 }
-                else 
-                {
+                else{
                     $method->setMethodTitle(" (9 to 12 Days)");
                 }
             }elseif ($methodCode == "express") {
-                if($qty > 0)
-                {
+                if($qty > 0){
                     $method->setMethodTitle(" (1 to 4 Days)");
                 }
-                else 
-                {
+                else{
                     $method->setMethodTitle(" (4 to 9 Days)");
+                }
+            }elseif ($methodCode == "intlshippingnz") {
+                if($qty > 0){
+                    $method->setMethodTitle(" (5 to 9 Days)");
+                }
+                else{
+                    $method->setMethodTitle(" (9 to 12 Days)");
+                }
+            }elseif ($methodCode == "intlshipping") {
+                if($qty > 0){
+                    $method->setMethodTitle(" (5 to 9 Days)");
+                }
+                else{
+                    $method->setMethodTitle(" (9 to 12 Days)");
                 }
             }
             
