@@ -44,7 +44,7 @@
         <each args="getRegion('subtotalContainer')" render=""/>
         <each args="getRegion('extraInfo')" render=""/>
 
-        <div class="actions" if="getCartParam('possible_onepage_checkout')">
+        <div id="minicart-actions-main" class="actions" if="getCartParam('possible_onepage_checkout')">
             <div class="primary">
                 <button
                         id="top-cart-btn-checkout"
@@ -53,17 +53,17 @@
                         data-action="close"
                         data-bind="
                             attr: {
-                                title: $t('Go to Checkout')
+                                title: $t('CHECKOUT NOW')
                             },
                             click: closeMinicart()
                         "
-                        translate="'Go to Checkout'"
+                        translate="'CHECKOUT NOW'"
                 />
                 <div data-bind="html: getCartParam('extra_actions')"></div>
             </div>
         </div>
 
-        <div class="actions secondary">
+        <div id="minicart-bottom-section" class="actions secondary">
 <!--            clint cheap hack haha please update-->
             <div class="widget-product zip-widget__wrapper zip-widget__wrapper--display-popup zip-widget__wrapper--type-productwidget" data-zm-asset="productwidget" data-zm-price="848.30" data-zm-symbol="$" data-zm-widget="popup" data-zm-popup-asset="termsdialog" data-zm-rendered="true">
                 <meta charset="utf-8">
@@ -130,7 +130,7 @@
             </div>
 
             <div class="secondary">
-                <button class="action secondary _full-width" data-bind="click: closeMinicart()">
+                <button id="minicart-continue-shopping-btn" class="action secondary _full-width" data-bind="click: closeMinicart()">
                     <span translate="'Continue Shopping'"/>
                 </button>
             </div>

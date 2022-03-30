@@ -61,7 +61,7 @@
             <!-- /ko -->
             <div class="minicart-item-row">
                 <div class="details-qty qty">
-                    <label class="label" data-bind="i18n: 'Qty', attr: {
+                    <label class="label" data-bind="i18n: 'Quantity', attr: {
                            for: 'cart-item-'+item_id+'-qty'}"></label>
                     <input data-bind="attr: {
                            id: 'cart-item-'+item_id+'-qty',
@@ -86,30 +86,36 @@
                            }" class="update-cart-item minicart-qty-decrease"><i class="fas fa-angle-down"></i></button>
                     </div>
                 </div>
+                
+                <div class="minicart-item-price-wrapper">
+                    <span class="minicart-item-price-label"><!-- ko i18n: 'Price' --><!-- /ko --></span>
+                    <div class="product-item-pricing">
+                        <!-- ko if: canApplyMsrp -->
 
-                <div class="product-item-pricing">
+                        <div class="details-map">
+                            <span class="label" data-bind="i18n: 'Price'"></span>
+                            <span class="value" data-bind="i18n: 'See price before order confirmation.'"></span>
+                        </div>
 
-                    <!-- ko if: canApplyMsrp -->
+                        <!-- /ko -->
+                        <!-- ko ifnot: canApplyMsrp -->
+                        <!-- ko foreach: $parent.getRegion('priceSidebar') -->
+                            <!-- ko template: {name: getTemplate(), data: item.product_price, as: 'price'} --><!-- /ko -->
+                        <!-- /ko -->
+                        <!-- /ko -->
 
-                    <div class="details-map">
-                        <span class="label" data-bind="i18n: 'Price'"></span>
-                        <span class="value" data-bind="i18n: 'See price before order confirmation.'"></span>
                     </div>
-
-                    <!-- /ko -->
-                    <!-- ko ifnot: canApplyMsrp -->
-                    <!-- ko foreach: $parent.getRegion('priceSidebar') -->
-                        <!-- ko template: {name: getTemplate(), data: item.product_price, as: 'price'} --><!-- /ko -->
-                    <!-- /ko -->
-                    <!-- /ko -->
-
                 </div>
-
-                <div class="minicart-item-subtotal">
-                    <!-- ko -->
-                    <!-- ko text: item_subtotal --><!-- /ko -->
-                    <!-- /ko -->
+                
+                <div class="minicart-item-subtotal-wrapper">
+                    <span class="minicart-item-subtotal-label">Sub Total</span>
+                    <div class="minicart-item-subtotal">
+                        <!-- ko -->
+                        <!-- ko text: item_subtotal --><!-- /ko -->
+                        <!-- /ko -->
+                    </div>
                 </div>
+                
             </div>   
             
             

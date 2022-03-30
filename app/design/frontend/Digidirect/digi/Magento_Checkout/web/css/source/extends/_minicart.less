@@ -299,12 +299,15 @@
 
             .subtotal-items{
                 .price-container .price{
-                    font-size: 20px;
+                    font-size: 22px;
+                    color: #ff3c00;
                 }
             }
 
             .label{
-                font-weight: bold;
+                //font-weight: bold;
+                font-weight: 500;
+                text-transform: uppercase;
             }
         }
 
@@ -415,8 +418,18 @@
 
     .minicart-item-wrapper{
         .action.secondary{
-            border-radius: 4px;
+            border-radius: 5px;
+            background: #ff3c00 !important;
+            font-weight: 500;
         }
+    }
+    
+    #top-cart-btn-checkout:after {
+        content: '\f0a9';
+        font-family: 'Font Awesome 5 Free';
+        font-size: 20px !important;
+        font-weight: 600;
+        margin-left: 25px;
     }
 
     .circle-icon {
@@ -489,6 +502,26 @@
         height: unset;
         background: #fff;
         color: #000;
+    }
+    
+    #minicart-continue-shopping-btn {
+        max-height: 30px;
+        background: #fff !important;
+        border: 1px solid #ff3c00;
+        padding: 10px 0 28px 0;
+    }
+    
+    #minicart-continue-shopping-btn > span {
+        color: #ff3c00 !important;
+        font-size: 15px !important;
+        text-transform: uppercase;
+    }
+    
+    #minicart-continue-shopping-btn > span:after {
+        content: '\f290';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        margin-left: 11px;
     }
 }
 
@@ -692,6 +725,73 @@
         min-width: 85px;
     }
     
+    minicart-item-price-label {
+        display: block;
+    }
+    
+    minicart-item-subtotal-label {
+        display: block;
+    }
+    
+    #minicart-actions-main {
+        width: 80% !important;
+        margin-right: 0 !important;
+        margin-left: auto !important;
+    }
+    
+    .minicart-item-wrapper .paypal.checkout.paypal-logo {
+        display: inline-block !important;
+        width: 49% !important;
+        height: 35px !important;
+    }
+    
+    .minicart-item-wrapper .googlepay-minicart-logo {
+        width: 49% !important;
+        display: inline-block !important;
+        float: right !important;
+        padding: 0 !important;
+        height: 20px !important;
+    }
+    
+    .minicart-item-wrapper button.braintree-googlepay-button.black {
+        padding: 0 !important;
+        min-height: unset;
+        height: 35px !important;
+        margin-top: 9px !important;
+    }
+    
+    #minicart-bottom-section {
+        width: 80%;
+        margin-right: 0;
+        margin-left: auto;
+    }
+    
+    .minicart-item-wrapper .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget {
+        width: 45% !important;
+        margin-top: 10px !important;
+        height: 20px !important;
+        display: inline-block;
+    }
+    
+    .klarna-widget {
+        display: inline-block !important;
+        width: 46% !important;
+        padding: 8.5px !important;
+        float: right !important;
+    }
+    
+    .klarna-widget a span {
+        padding: 0 !important;
+        font-size: 10px;
+        padding-right: 83px !important;
+        text-transform: uppercase;
+    }
+    
+    .klarna-widget a span:after {
+        width: 73px !important;
+        height: 20px !important;
+    }
+
     .minicart-wrapper {
         transition: all .5s ease;
         margin-right: 50px !important;
