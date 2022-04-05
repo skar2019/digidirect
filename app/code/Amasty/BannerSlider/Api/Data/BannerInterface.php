@@ -6,39 +6,39 @@ namespace Amasty\BannerSlider\Api\Data;
 
 interface BannerInterface
 {
-    const CACHE_TAG = 'amasty_banner';
+    public const CACHE_TAG = 'amasty_banner';
 
-    const STATIC_TABLE_NAME = 'amasty_bannerslider_banner_static';
-    const DYNAMIC_TABLE_NAME = 'amasty_bannerslider_banner_dynamic';
+    public const STATIC_TABLE_NAME = 'amasty_bannerslider_banner_static';
+    public const DYNAMIC_TABLE_NAME = 'amasty_bannerslider_banner_dynamic';
 
-    const PERSIST_NAME = 'amasty_bannerslider_banner';
+    public const PERSIST_NAME = 'amasty_bannerslider_banner';
 
     /**#@+
      * Constants defined for keys of data array
      */
-    const ID = 'id';
-    const NAME = 'name';
-    const CUSTOMER_GROUP = 'customer_group';
-    const STATUS = 'status';
-    const VISIBLE_ON = 'visible_on';
-    const TARGET_TYPE = 'target_type';
-    const IMAGE = 'image';
-    const IMAGE_ALT = 'image_alt';
-    const TARGET_URL = 'target_url';
-    const HOVER_TEXT = 'hover_text';
-    const STORE_ID = 'store_id';
-    const START_DATE = 'start_date';
-    const END_DATE = 'end_date';
+    public const ID = 'id';
+    public const NAME = 'name';
+    public const CUSTOMER_GROUP = 'customer_group';
+    public const STATUS = 'status';
+    public const VISIBLE_ON = 'visible_on';
+    public const TARGET_TYPE = 'target_type';
+    public const IMAGE = 'image';
+    public const IMAGE_ALT = 'image_alt';
+    public const TARGET_URL = 'target_url';
+    public const HOVER_TEXT = 'hover_text';
+    public const STORE_ID = 'store_id';
+    public const START_DATE = 'start_date';
+    public const END_DATE = 'end_date';
     /**#@-*/
 
-    const STATIC_FIELDS = [
+    public const STATIC_FIELDS = [
         self::NAME,
         self::VISIBLE_ON,
         self::TARGET_TYPE,
         self::CUSTOMER_GROUP
     ];
 
-    const DYNAMIC_FIELDS = [
+    public const DYNAMIC_FIELDS = [
         self::STATUS,
         self::IMAGE,
         self::IMAGE_ALT,

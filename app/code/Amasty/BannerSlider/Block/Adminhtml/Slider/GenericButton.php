@@ -9,15 +9,11 @@ use Amasty\BannerSlider\Api\Data\SliderInterface;
 class GenericButton
 {
     /**
-     * Url Builder
-     *
      * @var \Magento\Framework\UrlInterface
      */
     private $urlBuilder;
 
     /**
-     * Registry
-     *
      * @var \Magento\Framework\Registry
      */
     private $registry;
