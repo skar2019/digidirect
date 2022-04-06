@@ -77,7 +77,7 @@ define(['module', 'exports', 'jquery', 'ko', 'digidirectStoreCheckout', 'mCustom
                     return "";
                 }
                 
-                return + _this.getCartParam('summary_count') === 1 ?  _this.getCartParam('summary_count') + ' ' + _jquery2.default.mage.__('item') :  _this.getCartParam('summary_count') + ' ' + _jquery2.default.mage.__('items');
+                return + _this.getCartParam('summary_count') === 1 ? _jquery2.default.mage.__('Total Items =') + ' ' + _this.getCartParam('summary_count') : _jquery2.default.mage.__('Total Items =') + ' ' + _this.getCartParam('summary_count');
             });
         },
         closeMinicart: function closeMinicart() {
@@ -94,4 +94,5 @@ define(['module', 'exports', 'jquery', 'ko', 'digidirectStoreCheckout', 'mCustom
     };
 
     module.exports = exports['default'];
+    
 });
