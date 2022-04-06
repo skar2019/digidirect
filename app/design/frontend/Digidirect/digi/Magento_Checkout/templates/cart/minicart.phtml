@@ -3,12 +3,10 @@
      * Copyright © Magento, Inc. All rights reserved.
      * See COPYING.txt for license details.
      */
-
+     
     // @codingStandardsIgnoreFile
-
     /** @var $block \Magento\Checkout\Block\Cart\Sidebar */
 ?>
-
 <div data-block="minicart" class="minicart-wrapper">
     <div class="action link showcart"
          data-container="#minicartSidebar"
@@ -73,6 +71,8 @@
             $('[data-block="minicart"]').on('contentUpdated', function () {
                 $('.action.showcart').addClass("-active");
                 $('#minicartSidebar').addClass("-active");
+                $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+                //console.log('jQuery Test On Minicart PHTML');
             });
         });
     });
