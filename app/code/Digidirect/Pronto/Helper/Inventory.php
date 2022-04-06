@@ -140,9 +140,19 @@ class Inventory extends AbstractHelper
                     if($prodRes['stk-user-only-alpha4-1'] == 'A')
                     {
                         $prod->setCustomAttribute('awaiting_product', '1');
+                        $forLogs .= "Awaiting 1 \n";
                     }
                     else {
                         $prod->setCustomAttribute('awaiting_product', '0');
+                        $forLogs .= "Awaiting 0 \n";
+                    }
+
+                    if($prodRes['stk-abc-class'] == 'P')
+                    {
+                        $prod->setCustomAttribute('pre_order', '1');
+                        $prod->setCustomAttribute('preorder', '1');
+                        $forLogs .= "Pre Order 1 \n";
+                        //echo "pre_order 1  <br/>";
                     }
 
                     $totalwrhs = 0;

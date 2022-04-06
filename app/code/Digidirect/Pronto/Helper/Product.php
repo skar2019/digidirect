@@ -143,12 +143,24 @@ class Product extends AbstractHelper
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('awaiting_product', '1');
+                    $awaiting = "Awaiting Product = 1";
                 }
                 else {
                     //$product->setData('awaiting_product', '0');
                     $product->setCustomAttribute('awaiting_product', '0');
+                    $awaiting = "Awaiting Product = 0";
                 }
 
+                $forLogs .= $awaiting."\n";
+                //set to pre order
+                if($prod['stk-abc-class'] == 'P')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('pre_order', '1');
+                    $product->setCustomAttribute('preorder', '1');
+                    $forLogs .= "Pre Order 1 \n";
+                    //echo "pre_order 1  <br/>";
+                }
 
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
@@ -533,10 +545,22 @@ class Product extends AbstractHelper
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('awaiting_product', '1');
+                    $awaiting = "Awaiting Product = 1";
                 }
                 else {
                     //$product->setData('awaiting_product', '0');
                     $product->setCustomAttribute('awaiting_product', '0');
+                    $awaiting = "Awaiting Product = 0";
+                }
+                $forLogs .= $awaiting."\n";
+                //set to pre order
+                if($prod['stk-abc-class'] == 'P')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('pre_order', '1');
+                    $product->setCustomAttribute('preorder', '1');
+                    $forLogs .= "Pre Order 1 \n";
+                    //echo "pre_order 1  <br/>";
                 }
 
                 //set brands
@@ -950,8 +974,13 @@ class Product extends AbstractHelper
                     echo "awaiting 0  <br/>";
                 }
 
-
-                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                if($prod['stk-abc-class'] == 'P')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('pre_order', '1');
+                    $product->setCustomAttribute('preorder', '1');
+                    echo "pre_order 1  <br/>";
+                }
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
                 $forLogs .= $brandName."\n";
