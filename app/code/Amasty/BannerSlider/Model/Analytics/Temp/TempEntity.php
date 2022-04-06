@@ -6,16 +6,16 @@ namespace Amasty\BannerSlider\Model\Analytics\Temp;
 
 class TempEntity
 {
-    public const MAIN_TABLE = 'amasty_bannerslider_banner_%s_temp';
+    const MAIN_TABLE = 'amasty_bannerslider_banner_%s_temp';
 
-    public const VIEW_TYPE = 'view';
-    public const CLICK_TYPE = 'click';
+    const VIEW_TYPE = 'view';
+    const CLICK_TYPE = 'click';
 
-    public const ID = 'id';
-    public const BANNER_ID = 'banner_id';
+    const ID = 'id';
+    const BANNER_ID = 'banner_id';
 
-    public const AGGREGATE_COUNTER = 'counter';
-    public const AGGREGATE_VERSION = 'version_id';
+    const AGGREGATE_COUNTER = 'counter';
+    const AGGREGATE_VERSION = 'version_id';
 
     public function getTableName(string $type): string
     {

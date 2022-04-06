@@ -8,11 +8,11 @@ use Magento\Framework\Option\ArrayInterface;
 
 class VisibleOn implements ArrayInterface
 {
-    public const ALL = 0;
+    const ALL = 0;
 
-    public const DESKTOP = 1;
+    const DESKTOP = 1;
 
-    public const MOBILE = 2;
+    const MOBILE = 2;
 
     public function toOptionArray(): array
     {

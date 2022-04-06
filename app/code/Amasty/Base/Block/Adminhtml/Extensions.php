@@ -1,7 +1,7 @@
 <?php
 /**
 * @author Amasty Team
-* @copyright Copyright (c) 2022 Amasty (https://www.amasty.com)
+* @copyright Copyright (c) 2021 Amasty (https://www.amasty.com)
 * @package Amasty_Base
 */
 
@@ -16,11 +16,8 @@ use Magento\Framework\Data\Form\Element\AbstractElement;
 
 class Extensions extends Field
 {
-    public const SEO_PARAMS = '?utm_source=extension&utm_medium=backend&utm_campaign=ext_list';
+    const SEO_PARAMS = '?utm_source=extension&utm_medium=backend&utm_campaign=ext_list';
 
-    /**
-     * @var string
-     */
     protected $_template = 'Amasty_Base::modules.phtml';
 
     /**

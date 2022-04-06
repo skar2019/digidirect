@@ -19,9 +19,9 @@ class Save extends Action
      *
      * @see _isAllowed()
      */
-    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
+    const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
     
-    public const DEFAULT_PAUSE_TIME = 3500;
+    const DEFAULT_PAUSE_TIME = 3500;
 
     /**
      * @var \Magento\Framework\App\Request\DataPersistorInterface

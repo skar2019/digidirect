@@ -7,8 +7,6 @@ namespace Amasty\BannerSlider\Controller\Adminhtml\Banner;
 use Amasty\BannerSlider\Api\Data\BannerInterface;
 use Amasty\BannerSlider\Model\ResourceModel\Banner\Collection;
 use Magento\Backend\App\Action;
-use Magento\Framework\Controller\Result\Redirect;
-use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
@@ -21,7 +19,7 @@ abstract class AbstractMassAction extends Action
      *
      * @see _isAllowed()
      */
-    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
+    const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
 
     /**
      * @var LoggerInterface
@@ -73,12 +71,11 @@ abstract class AbstractMassAction extends Action
 
     /**
      * Mass action execution
-     *
-     * @return Redirect
      */
     public function execute()
     {
         $collection = $this->filter->getCollection($this->collectionFactory->create());
+
         if ($size = $collection->getSize()) {
             try {
                 $collection->addDynamicData();
@@ -96,11 +93,7 @@ abstract class AbstractMassAction extends Action
                 $this->logger->critical($e);
             }
         }
-
-        /** @var Redirect $resultRedirect */
-        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-        $resultRedirect->setRefererUrl();
-        return $resultRedirect;
+        $this->_redirect($this->_redirect->getRefererUrl());
     }
 
     /**

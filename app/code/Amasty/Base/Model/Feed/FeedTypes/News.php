@@ -1,7 +1,7 @@
 <?php
 /**
 * @author Amasty Team
-* @copyright Copyright (c) 2022 Amasty (https://www.amasty.com)
+* @copyright Copyright (c) 2021 Amasty (https://www.amasty.com)
 * @package Amasty_Base
 */
 
@@ -23,9 +23,6 @@ use Magento\Framework\Notification\MessageInterface;
 
 class News
 {
-    /**
-     * @var array
-     */
     protected $amastyModules = [];
 
     /**
@@ -108,10 +105,10 @@ class News
         }
         $maxPriority = 0;
 
-        $feedResponse = $this->feedContentProvider->getFeedResponse(
+        $content = $this->feedContentProvider->getFeedContent(
             $this->feedContentProvider->getFeedUrl(FeedContentProvider::URN_NEWS)
         );
-        $feedXml = $this->parser->parseXml($feedResponse->getContent());
+        $feedXml = $this->parser->parseXml($content);
 
         if (isset($feedXml->channel->item)) {
             $installDate = $this->config->getFirstModuleRun();
