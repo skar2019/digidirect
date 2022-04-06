@@ -88,12 +88,12 @@
                 </div>
                 
                 <div class="minicart-item-price-wrapper">
-                    <span class="minicart-item-price-label"><!-- ko i18n: 'Price' --><!-- /ko --></span>
+                    <span class="minicart-item-price-label"><!-- ko i18n: 'Price:' --><!-- /ko --></span>
                     <div class="product-item-pricing">
                         <!-- ko if: canApplyMsrp -->
 
                         <div class="details-map">
-                            <span class="label" data-bind="i18n: 'Price'"></span>
+                            <span class="label" data-bind="i18n: 'Price:'"></span>
                             <span class="value" data-bind="i18n: 'See price before order confirmation.'"></span>
                         </div>
 
@@ -108,7 +108,7 @@
                 </div>
                 
                 <div class="minicart-item-subtotal-wrapper">
-                    <span class="minicart-item-subtotal-label">Sub Total</span>
+                    <span class="minicart-item-subtotal-label">Sub Total:</span>
                     <div class="minicart-item-subtotal">
                         <!-- ko -->
                         <!-- ko text: item_subtotal --><!-- /ko -->
@@ -117,19 +117,12 @@
                 </div>
                 
             </div>   
-                     
-            <!-- /ko -->
-            <!-- ko ifnot: canApplyMsrp -->
-            <!-- ko foreach: $parent.getRegion('priceSidebar') -->
-            <!-- ko template: {name: getTemplate(), data: item.product_price, as: 'price'} --><!-- /ko -->
-            <!-- /ko -->
-            <!-- /ko -->
 
             <div class="qantas-pts-wrapper-minicart-price">
                 <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />  
                     <span class ="qantas-span">Earn <span class ="price-font" data-bind="text: qantas_points"></span> Qantas Points </span>
                 <div>
-            </div>
+            </div>      
         </div>
     </div>
     <div class="message notice" if="$data.message">
