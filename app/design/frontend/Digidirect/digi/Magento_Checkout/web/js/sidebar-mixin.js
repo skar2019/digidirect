@@ -179,5 +179,6 @@ define([
         });
 
         return $.mage.sidebar;
+        
     };
 });

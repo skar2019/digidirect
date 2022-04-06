@@ -94,4 +94,5 @@ define(['module', 'exports', 'jquery', 'ko', 'digidirectStoreCheckout', 'mCustom
     };
 
     module.exports = exports['default'];
+    
 });
