@@ -81,13 +81,13 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
+        //$this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("user", "ewaveapi");
+        //$this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "UA1"); //test
+        $this->curl->addHeader("user", "clint.mercado");
+        $this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -483,13 +483,13 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
+//        $this->curl->addHeader("compcode", "DIG"); //live
+//        $this->curl->addHeader("user", "ewaveapi");
+//        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "UA1"); //test
+        $this->curl->addHeader("user", "clint.mercado");
+        $this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -891,13 +891,13 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
+        //$this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("user", "ewaveapi");
+        //$this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "UA1"); //test
+        $this->curl->addHeader("user", "clint.mercado");
+        $this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -983,6 +983,7 @@ class Product extends AbstractHelper
                 }
                 //set brand
                 //digiSeconds brand
+                echo $prod['stk-brand-desc'] ."<br/>";
                 if($prod['stk-brand-desc'] == 'digiSeconds')
                 {
                     $brandName = strtolower($prod['d2brand']);
@@ -1380,13 +1381,13 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
+        //$this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("user", "ewaveapi");
+        //$this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "UA1"); //test
+        $this->curl->addHeader("user", "clint.mercado");
+        $this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
