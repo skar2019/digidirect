@@ -117,6 +117,13 @@
                 </div>
                 
             </div>   
+            
+            <!-- /ko -->
+            <!-- ko ifnot: canApplyMsrp -->
+            <!-- ko foreach: $parent.getRegion('priceSidebar') -->
+                <!-- ko template: {name: getTemplate(), data: item.product_price, as: 'price'} --><!-- /ko -->
+            <!-- /ko -->
+            <!-- /ko -->
 
             <div class="qantas-pts-wrapper-minicart-price">
                 <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }" />  
