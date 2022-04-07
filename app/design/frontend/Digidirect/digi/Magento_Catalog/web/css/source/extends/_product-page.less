@@ -1853,17 +1853,21 @@
         background: #fff;
     }
     
-    .brand-new-price-wrapper.old-price-wrapper, .refurb-new-price-wrapper.old-price-wrapper {
+    .brand-new-price-wrapper.old-price-wrapper, .refurb-price-wrapper.old-price-wrapper {
         color: #6c6c6c;
     }
     
-    .brand-new-price.old-price, .refurb-new-price.old-price {
+    .brand-new-price-wrapper.old-price-wrapper {
+        padding-top: 10px !important;
+    }
+    
+    .brand-new-price.old-price, .refurb-price.old-price {
         float: right;
         width: unset !important;
         margin-top: 0 !important;
     }
     
-    .refurb-new-price-wrapper.old-price-wrapper {
+    .refurb-price-wrapper.old-price-wrapper {
         border-top: none !important;
     }
     
@@ -1873,7 +1877,6 @@
         width: 100%;
         margin-bottom: 10px;
         padding-top: 5px;
-        border-top: 1px solid #cacaca;
         margin-top: 5px;
         margin-left: 0;
     }
