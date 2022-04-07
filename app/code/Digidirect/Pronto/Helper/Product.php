@@ -16,8 +16,8 @@ class Product extends AbstractHelper
 {
     const BRAND_ATTRIBUTE_CODE = 'brand';
     /**
-    * @var Curl
-    */
+     * @var Curl
+     */
     protected $curl;
     protected $productRepository;
     protected $attributeOptions = [];
@@ -28,35 +28,35 @@ class Product extends AbstractHelper
     protected $logger;
 
     public function __construct(
-                        Curl $curl,
-                        JsonSerializer $jsonSerializer,
-                        \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
-                        \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
-                        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
-                        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-                        \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
-                        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-                        \Digidirect\CustomLog\Logger\Logger $logger,
-                        ProductResource $productResource,
-                        CategoryFactory $categoryFactory,
-                        CategoryLinkManagementInterface $categoryLinkManagement,
-                        CategoryLinkRepositoryInterface $categoryLinkRepository,
-                        CategoryManagementInterface $categoryManagement
-                    ){
-                        $this->curl = $curl;
-                        $this->jsonSerializer = $jsonSerializer;
-                        $this->sourceItemsBySku = $sourceItemsBySku;
-                        $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
-                        $this->sourceItemFactory = $sourceItemFactory;
-                        $this->productRepository = $productRepository;
-                        $this->productFactory = $productFactory;
-                        $this->stockRegistry = $stockRegistry;
-                        $this->logger = $logger;
-                        $this->productResource = $productResource;
-                        $this->categoryFactory = $categoryFactory;
-                        $this->categoryLinkManagement = $categoryLinkManagement;
-                        $this->categoryLinkRepository = $categoryLinkRepository;
-                        $this->categoryManagement = $categoryManagement;
+        Curl $curl,
+        JsonSerializer $jsonSerializer,
+        \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
+        \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
+        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
+        \Magento\Catalog\Api\Data\ProductInterfaceFactory $productFactory,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Digidirect\CustomLog\Logger\Logger $logger,
+        ProductResource $productResource,
+        CategoryFactory $categoryFactory,
+        CategoryLinkManagementInterface $categoryLinkManagement,
+        CategoryLinkRepositoryInterface $categoryLinkRepository,
+        CategoryManagementInterface $categoryManagement
+    ){
+        $this->curl = $curl;
+        $this->jsonSerializer = $jsonSerializer;
+        $this->sourceItemsBySku = $sourceItemsBySku;
+        $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
+        $this->sourceItemFactory = $sourceItemFactory;
+        $this->productRepository = $productRepository;
+        $this->productFactory = $productFactory;
+        $this->stockRegistry = $stockRegistry;
+        $this->logger = $logger;
+        $this->productResource = $productResource;
+        $this->categoryFactory = $categoryFactory;
+        $this->categoryLinkManagement = $categoryLinkManagement;
+        $this->categoryLinkRepository = $categoryLinkRepository;
+        $this->categoryManagement = $categoryManagement;
 
     }
 
@@ -143,12 +143,24 @@ class Product extends AbstractHelper
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('awaiting_product', '1');
+                    $awaiting = "Awaiting Product = 1";
                 }
                 else {
                     //$product->setData('awaiting_product', '0');
                     $product->setCustomAttribute('awaiting_product', '0');
+                    $awaiting = "Awaiting Product = 0";
                 }
 
+                $forLogs .= $awaiting."\n";
+                //set to pre order
+                if($prod['stk-abc-class'] == 'P')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('pre_order', '1');
+                    $product->setCustomAttribute('preorder', '1');
+                    $forLogs .= "Pre Order 1 \n";
+                    //echo "pre_order 1  <br/>";
+                }
 
                 //set brands
                 $brandName = strtolower($prod['stk-brand-desc']);
@@ -533,10 +545,22 @@ class Product extends AbstractHelper
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('awaiting_product', '1');
+                    $awaiting = "Awaiting Product = 1";
                 }
                 else {
                     //$product->setData('awaiting_product', '0');
                     $product->setCustomAttribute('awaiting_product', '0');
+                    $awaiting = "Awaiting Product = 0";
+                }
+                $forLogs .= $awaiting."\n";
+                //set to pre order
+                if($prod['stk-abc-class'] == 'P')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('pre_order', '1');
+                    $product->setCustomAttribute('preorder', '1');
+                    $forLogs .= "Pre Order 1 \n";
+                    //echo "pre_order 1  <br/>";
                 }
 
                 //set brands
@@ -950,10 +974,23 @@ class Product extends AbstractHelper
                     echo "awaiting 0  <br/>";
                 }
 
-
-                //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-                //set brands
-                $brandName = strtolower($prod['stk-brand-desc']);
+                if($prod['stk-abc-class'] == 'P')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('pre_order', '1');
+                    $product->setCustomAttribute('preorder', '1');
+                    echo "pre_order 1  <br/>";
+                }
+                //set brand
+                //digiSeconds brand
+                if($prod['stk-brand-desc'] == 'digiSeconds')
+                {
+                    $brandName = strtolower($prod['d2brand']);
+                }
+                else
+                {
+                    $brandName = strtolower($prod['stk-brand-desc']);
+                }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -983,6 +1020,13 @@ class Product extends AbstractHelper
                     {
                         foreach ($getCategoryList as $id => $category)
                         {
+                            //digiSeconds
+                            if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                             if($category['name'] == $prod['web-category1'])
                             {
                                 $catList .= $category['name'] . " - " .$category['id'] ." : ";
@@ -1112,6 +1156,11 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
+                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
+                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                //digiSeconds item quality rating 1 - 5
+                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
@@ -1130,7 +1179,15 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand-desc']);
+                //digiSeconds brand
+                if($prod['stk-brand-desc'] == 'digiSeconds')
+                {
+                    $brandName = strtolower($prod['d2brand']);
+                }
+                else
+                {
+                    $brandName = strtolower($prod['stk-brand-desc']);
+                }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -1146,6 +1203,13 @@ class Product extends AbstractHelper
                 {
                     foreach ($getCategoryList as $id => $category)
                     {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
                         if($category['name'] == $prod['web-category1'])
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
@@ -1281,6 +1345,10 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
+                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                //digiSeconds item quality rating 1 - 5
+                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
                 $this->productRepository->save($product);
 
             }
@@ -1378,6 +1446,13 @@ class Product extends AbstractHelper
                     {
                         foreach ($getCategoryList as $id => $category)
                         {
+                            //digiSeconds
+                            if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                             if($category['name'] == $prod['web-category1'])
                             {
                                 $catList .= $category['name'] . " - " .$category['id'] ." : ";
@@ -1454,7 +1529,10 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-
+                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
+                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                //digiSeconds item quality rating 1 - 5
+                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
@@ -1472,8 +1550,18 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+
                 //set brand
-                $brandName = strtolower($prod['stk-brand-desc']);
+                //digiSeconds brand
+                if($prod['stk-brand-desc'] == 'digiSeconds')
+                {
+                    $brandName = strtolower($prod['d2brand']);
+                }
+                else
+                {
+                    $brandName = strtolower($prod['stk-brand-desc']);
+                }
+
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -1489,6 +1577,13 @@ class Product extends AbstractHelper
                 {
                     foreach ($getCategoryList as $id => $category)
                     {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
                         if($category['name'] == $prod['web-category1'])
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
@@ -1616,6 +1711,10 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
+                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                //digiSeconds item quality rating 1 - 5
+                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
                 $this->productRepository->save($product);
 
             }
@@ -1659,31 +1758,31 @@ class Product extends AbstractHelper
             if (count($category->getChildrenData())) {
                 $getSubCategoryLevelDown = $this->getCategoryData($category->getId());
                 foreach ($getSubCategoryLevelDown->getChildrenData() as $subcategory) {
-                        $categoryData[$subcategory->getId()]  = [
-                            'name'=> $subcategory->getName(),
-                            'url'=> $subcategory->getUrl(),
-                            'id'=> $subcategory->getId()
-                        ];
-                        if (count($subcategory->getChildrenData())) {
-                            $getSubCategoryLevelDownAgain = $this->getCategoryData($subcategory->getId());
-                            foreach ($getSubCategoryLevelDownAgain->getChildrenData() as $sub2category) {
-                                    $categoryData[$sub2category->getId()]  = [
-                                        'name'=> $sub2category->getName(),
-                                        'url'=> $sub2category->getUrl(),
-                                        'id'=> $sub2category->getId()
+                    $categoryData[$subcategory->getId()]  = [
+                        'name'=> $subcategory->getName(),
+                        'url'=> $subcategory->getUrl(),
+                        'id'=> $subcategory->getId()
+                    ];
+                    if (count($subcategory->getChildrenData())) {
+                        $getSubCategoryLevelDownAgain = $this->getCategoryData($subcategory->getId());
+                        foreach ($getSubCategoryLevelDownAgain->getChildrenData() as $sub2category) {
+                            $categoryData[$sub2category->getId()]  = [
+                                'name'=> $sub2category->getName(),
+                                'url'=> $sub2category->getUrl(),
+                                'id'=> $sub2category->getId()
+                            ];
+                            if (count($sub2category->getChildrenData())) {
+                                $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
+                                foreach ($getSubCategoryLevelDownAgain4->getChildrenData() as $sub3category) {
+                                    $categoryData[$sub3category->getId()]  = [
+                                        'name'=> $sub3category->getName(),
+                                        'url'=> $sub3category->getUrl(),
+                                        'id'=> $sub3category->getId()
                                     ];
-                                if (count($sub2category->getChildrenData())) {
-                                    $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
-                                    foreach ($getSubCategoryLevelDownAgain4->getChildrenData() as $sub3category) {
-                                        $categoryData[$sub3category->getId()]  = [
-                                            'name'=> $sub3category->getName(),
-                                            'url'=> $sub3category->getUrl(),
-                                            'id'=> $sub3category->getId()
-                                        ];
-                                    }
                                 }
                             }
                         }
+                    }
                 }
             }
         }
