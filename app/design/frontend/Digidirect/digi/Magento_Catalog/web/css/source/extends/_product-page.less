@@ -1859,8 +1859,18 @@
     
     .brand-new-price.old-price, .refurb-new-price.old-price {
         float: right;
-        width: unset;
-        margin-top: 0;
+        width: unset !important;
+        margin-top: 0 !important;
+    }
+    
+    .refurb-new-price-wrapper.old-price-wrapper {
+        border-top: none !important;
+    }
+    
+    .item-note-wrapper {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 15px;
     }
 }
 
