@@ -318,10 +318,14 @@
         .qantas-pts-wrapper-minicart-price{
             &{
                 margin-top: 15px;
+                background: #fff !important;
+                width: fit-content;
+                padding: 3px;
             }
 
             .qantas-logo{
                 height: 18px;
+                margin-bottom: -3px;
             }
 
             .qantas-span{
@@ -476,62 +480,6 @@
     .minicart-wrapper {
         transition: none !important;
     }
-
-    .minicart-item-header span.text {
-        font-size: 20px !important;
-        padding-left: 10px !important;
-    }
-
-    .minicart-item-header span.qty {
-        font-size: 20px !important;
-        float: right;
-    }
-
-    .minicart-items .item-qty {
-        width: 55px;
-        border: solid 1px #cacaca;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-    }
-
-    .details-qty .qty-buttons {
-        margin-left: 0 !important;
-        position: absolute;
-        height: 38px;
-        margin-left: -7px !important;
-    }
-
-    .minicart-items .update-cart-item {
-        display: block;
-        height: unset;
-        background: #fff;
-        color: #000;
-    }
-    
-    #minicart-continue-shopping-btn {
-        max-height: 30px;
-        background: #fff !important;
-        border: 1px solid #ff3c00;
-        padding: 10px 0 28px 0;
-    }
-    
-    #minicart-continue-shopping-btn > span {
-        color: #ff3c00 !important;
-        font-size: 15px !important;
-        text-transform: uppercase;
-    }
-    
-    #minicart-continue-shopping-btn > span:after {
-        content: '\f290';
-        font-family: 'Font Awesome 5 Free';
-        font-weight: 600;
-        margin-left: 11px;
-    }
-    
-    #minicart-view-cart {
-        display: none;
-    }
-    
 }
 
 //
@@ -705,6 +653,72 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
+    .opc-block-summary .minicart-items .product-item-details {
+        padding-left: 29px;
+        display: contents !important;
+    }
+    
+    .opc-block-summary .items-in-cart .product-image-container {
+        min-width: 80px;
+        margin-right: 10px;
+    }
+    
+    .minicart-item-header span.text {
+        font-size: 20px !important;
+        padding-left: 10px !important;
+    }
+
+    .minicart-item-header span.qty {
+        font-size: 20px !important;
+        float: right;
+    }
+
+    .minicart-items .item-qty {
+        width: 55px;
+        border: solid 1px #cacaca;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    .details-qty .qty-buttons {
+        margin-left: 0 !important;
+        position: absolute;
+        height: 38px;
+        margin-left: -7px !important;
+    }
+
+    .minicart-items .update-cart-item {
+        display: block;
+        height: unset;
+        background: #fff;
+        color: #000;
+    }
+    
+    #minicart-continue-shopping-btn {
+        max-height: 30px;
+        background: #fff !important;
+        border: 1px solid #ff3c00;
+        padding: 10px 0 28px 0;
+    }
+    
+    #minicart-continue-shopping-btn > span {
+        color: #ff3c00 !important;
+        font-size: 15px !important;
+        text-transform: uppercase;
+    }
+    
+    #minicart-continue-shopping-btn > span:after {
+        content: '\f290';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        margin-left: 11px;
+    }
+    
+    #minicart-view-cart {
+        display: none;
+    }
+    
 
     .minicart-item-row {
         display: flex;
@@ -958,6 +972,15 @@
             }
         }
     }
+}
+
+
+
+//
+//  Desktop
+//  ---------------------------------------------
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
     
     #minicart-bottom-section .zip-container:last-child:before {
         margin-top: -11px !important;
@@ -983,15 +1006,7 @@
     #minicart-bottom-section .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span:first-of-type:before {
         color: #fff !important;
     }
-}
-
-
-
-//
-//  Desktop
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    
     .minicart-wrapper {
         .price-container .price{
             font-size: 16px;
