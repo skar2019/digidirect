@@ -1920,7 +1920,7 @@
         z-index: 1;
         opacity: 0;
         transition: opacity .6s;
-        border: 1px solid #cacaca;
+        border: 1px solid #fff;
         -webkit-box-shadow: 0 0 2px #cacaca;
         box-shadow: 0 0 2px #cacaca;
     }
@@ -2006,6 +2006,17 @@
         left: 50%;
         margin-left: 53px;
         text-transform: none !important;
+    }
+    
+    .tooltip-bottom-awaiting::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
     }
 }
 
