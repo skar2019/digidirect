@@ -8,6 +8,8 @@
 
 /** @var $block \Magento\Catalog\Block\Product\View */
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')->getFrontend()->getValue($block->getProduct());
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -35,15 +37,33 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
             </div>
             <?php endif; ?>
             <div class="actions">
-                <button type="submit"
-                        title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
-                        class="action tocart btn_cart tocart-pdp-btn"
-                        id="product-addtocart-button"
-                        data-action="add-to-cart-action"
+                    <?php if ($_attributeValue == "Yes"): ?>
+                        <button type="submit"
+                            class="action tocart btn_cart tocart-pdp-btn"
+                            id="product-addtocart-button"
+                            data-action="add-to-cart-action"
+                            style="background: #00C3FF !important"
                         >
-                    <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
-                    <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
-                </button>
+                        <div class="addtocart-tooltip" style="float: left;">
+                            <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: left;color: #fff;"></i>
+                            <div class="addtocart-tooltiptext tooltip-bottom">
+                                Clicking this button and moving through to purchase means you reserve your allocation for this awesome product. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                            </div>
+                        </div>
+                        <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                            <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
+                        </button>
+                    <?php else : ?>
+                        <button type="submit"
+                            class="action tocart btn_cart tocart-pdp-btn"
+                            id="product-addtocart-button"
+                            data-action="add-to-cart-action"
+                            >
+                            <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                            <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
+                        </button>
+                    <?php endif; ?>
+                
                 <?= $block->getChildHtml('', true) ?>
             </div>
         </div>
