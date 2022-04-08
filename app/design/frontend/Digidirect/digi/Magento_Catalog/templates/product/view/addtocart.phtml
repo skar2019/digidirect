@@ -46,9 +46,9 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
                         >
                         <div class="addtocart-tooltip" style="float: left;">
                             <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: left;color: #fff;"></i>
-                            <span class="addtocart-tooltiptext tooltip-bottom">
+                            <div class="addtocart-tooltiptext tooltip-bottom">
                                 Clicking this button and moving through to purchase means you reserve your allocation for this awesome product. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
-                            </span>
+                            </div>
                         </div>
                         <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
                             <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
@@ -59,7 +59,7 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
                             id="product-addtocart-button"
                             data-action="add-to-cart-action"
                             >
-                            <span class="addcart_words"><?= /* @escapeNotVerified */ $_attributeValue ?></span>
+                            <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
                             <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
                         </button>
                     <?php endif; ?>
