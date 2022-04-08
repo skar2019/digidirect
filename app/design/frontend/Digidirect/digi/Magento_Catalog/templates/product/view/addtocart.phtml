@@ -37,7 +37,7 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
             </div>
             <?php endif; ?>
             <div class="actions">
-                    <?php if ($buttonTitle == "Pre-Order"): ?>
+                    <?php if ($_attributeValue == "Yes"): ?>
                         <button type="submit"
                             class="action tocart btn_cart tocart-pdp-btn"
                             id="product-addtocart-button"
