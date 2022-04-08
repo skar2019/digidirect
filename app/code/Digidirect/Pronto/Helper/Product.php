@@ -131,9 +131,15 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'P')
+                    {
+                        $product->setCustomAttribute('pre_order', '1');
+                        $product->setCustomAttribute('preorder', '1');
+                        $endis = "Pre Order 1";
+                    }
                     else {
                         //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = "Enabled = 1";
+                        //$endis = "Enabled = 1";
                     }
 
                 }
@@ -533,6 +539,12 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'P')
+                    {
+                        $product->setCustomAttribute('pre_order', '1');
+                        $product->setCustomAttribute('preorder', '1');
+                        $endis = "Pre Order 1";
+                    }
                     else {
 //                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
 //                        $endis = "Enabled = 1";
@@ -891,13 +903,13 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
+        //$this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("user", "ewaveapi");
+        //$this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "UA1"); //test
+        $this->curl->addHeader("user", "clint.mercado");
+        $this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -953,6 +965,11 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'P')
+                    {
+                        $product->setCustomAttribute('pre_order', '1');
+                        $product->setCustomAttribute('preorder', '1');
+                    }
                     else {
                         //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                         $endis = 'as is';
@@ -981,8 +998,16 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('preorder', '1');
                     echo "pre_order 1  <br/>";
                 }
-                //set brands
-                $brandName = strtolower($prod['stk-brand-desc']);
+                //set brand
+                //digiSeconds brand
+                if($prod['stk-brand-desc'] == 'digiSeconds')
+                {
+                    $brandName = strtolower($prod['d2brand']);
+                }
+                else
+                {
+                    $brandName = strtolower($prod['stk-brand-desc']);
+                }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -1012,6 +1037,13 @@ class Product extends AbstractHelper
                     {
                         foreach ($getCategoryList as $id => $category)
                         {
+                            //digiSeconds
+                            if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                             if($category['name'] == $prod['web-category1'])
                             {
                                 $catList .= $category['name'] . " - " .$category['id'] ." : ";
@@ -1141,6 +1173,11 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
+                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
+                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                //digiSeconds item quality rating 1 - 5
+                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
@@ -1159,7 +1196,15 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
                 //set brand
-                $brandName = strtolower($prod['stk-brand-desc']);
+                //digiSeconds brand
+                if($prod['stk-brand-desc'] == 'digiSeconds')
+                {
+                    $brandName = strtolower($prod['d2brand']);
+                }
+                else
+                {
+                    $brandName = strtolower($prod['stk-brand-desc']);
+                }
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -1175,6 +1220,13 @@ class Product extends AbstractHelper
                 {
                     foreach ($getCategoryList as $id => $category)
                     {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
                         if($category['name'] == $prod['web-category1'])
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
@@ -1310,6 +1362,10 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
+                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                //digiSeconds item quality rating 1 - 5
+                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
                 $this->productRepository->save($product);
 
             }
@@ -1407,6 +1463,13 @@ class Product extends AbstractHelper
                     {
                         foreach ($getCategoryList as $id => $category)
                         {
+                            //digiSeconds
+                            if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
                             if($category['name'] == $prod['web-category1'])
                             {
                                 $catList .= $category['name'] . " - " .$category['id'] ." : ";
@@ -1483,7 +1546,10 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-
+                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
+                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                //digiSeconds item quality rating 1 - 5
+                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
@@ -1501,8 +1567,18 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+
                 //set brand
-                $brandName = strtolower($prod['stk-brand-desc']);
+                //digiSeconds brand
+                if($prod['stk-brand-desc'] == 'digiSeconds')
+                {
+                    $brandName = strtolower($prod['d2brand']);
+                }
+                else
+                {
+                    $brandName = strtolower($prod['stk-brand-desc']);
+                }
+
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -1518,6 +1594,13 @@ class Product extends AbstractHelper
                 {
                     foreach ($getCategoryList as $id => $category)
                     {
+                        //digiSeconds
+                        if($prod['stk-brand-desc'] == 'digiSeconds' && $category['name'] == 'digiSeconds')
+                        {
+                            $catList .= $category['name'] . " - " .$category['id']." : ";
+                            $categoryIds[] = $category['id'];
+                        }
+
                         if($category['name'] == $prod['web-category1'])
                         {
                             $catList .= $category['name'] . " - " .$category['id']." : ";
@@ -1645,6 +1728,10 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
+                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                //digiSeconds item quality rating 1 - 5
+                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
                 $this->productRepository->save($product);
 
             }
