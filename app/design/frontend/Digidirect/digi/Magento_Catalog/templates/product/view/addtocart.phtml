@@ -36,11 +36,14 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
             <?php endif; ?>
             <div class="actions">
                 <button type="submit"
-                        title="<?= /* @escapeNotVerified */ $buttonTitle ?>"
                         class="action tocart btn_cart tocart-pdp-btn"
                         id="product-addtocart-button"
                         data-action="add-to-cart-action"
                         >
+                    <div class="addtocart-tooltip" style="float: left;">
+                        <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: left;color: #fff;"></i>
+                        <span class="addtocart-tooltiptext tooltip-bottom">This means item is within as estimated 2 weeks from delivery to digiDirect. For latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.</span>
+                    </div>
                     <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
                     <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
                 </button>

@@ -1900,6 +1900,46 @@
         margin-left: auto;
         padding-right: 20px;
     }
+    
+    .product-item-info .digiseconds-info-wrapper {
+        display: none !important;
+    }
+    
+    span.addtocart-tooltiptext {
+        visibility: hidden;
+        position: absolute;
+        width: 300px;
+        background-color: #fff;
+        color: #6e6e6e !important;
+        font-size: 12px !important;
+        font-weight: 400;
+        text-align: center;
+        padding: 20px;
+        border-radius: 6px;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity .6s;
+        border: 1px solid #cacaca;
+        -webkit-box-shadow: 0 0 2px #cacaca;
+        box-shadow: 0 0 2px #cacaca;
+    }
+    
+    .tooltip-bottom {
+        top: 155%;
+        left: 50%;
+        margin-left: -176px;
+    }
+    
+    .tooltip-bottom::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+    }
 }
 
 //Redeploy
