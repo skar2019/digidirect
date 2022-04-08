@@ -33,6 +33,7 @@ define([
         } else {
 
         } 
+        $('#product-addtocart-button').removeAttr("title");
     });
     
     if( $('#main-product-qantas').length )

@@ -101,11 +101,17 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     </form>
 </div>
 
-<?php if($awaiting == 1):?>
-    <div class="awaiting" id="awaiting-product">
-        <img src="https://www.digidirect.com.au/media/wysiwyg/awaitingstock-img1.png" alt="Awaiting Stock">
+
+<div class="awaiting" id="awaiting-product">
+    <div class="ribbon-wrapper">
+        <div class="ribbon">
+            <i class="fas fa-clock"></i>
+            <div class="ribbon-inner">AWAITING STOCK</div>
+            <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
+        </div>
     </div>
-<?php endif; ?>
+</div>
+
 
 <script type="text/x-magento-init">
     {
