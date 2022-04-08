@@ -1750,7 +1750,8 @@
 
     .awaiting {
         padding-top: 15px;
-        padding-left: 40px;
+        margin-left: -12px !important;
+        margin-right: -12px !important;
     }
     
     .secure-pay-container .mgz-element-column>.mgz-element-inner {
@@ -1949,19 +1950,18 @@
     .ribbon-wrapper {
         position: relative;
         z-index: 1;
-        margin: 5% auto;
+        margin: 0 !important;
     }
 
     .ribbon {
-        font-size: 20px!important;
+        font-size: 20px !important;
         text-transform: uppercase;
-        width: 50%;
         position: relative;
-        background: #f35b5b;
-        color: #fff;
+        background: #f5f5f5;
+        color: #6e6e6e;
         text-align: center;
-        padding: 1em 2em;
-        margin: 2em auto 3em
+        padding: 8px !important;
+        border: 1px solid #cacaca;
     }
 
     .ribbon:after,
@@ -1987,8 +1987,8 @@
         position: absolute;
         display: block;
         border-style: solid;
-        border-color: #b23232 transparent transparent;
-        bottom: -1em
+        border-color: #cacaca transparent transparent;
+        bottom: -1em;
     }
 
     .ribbon .ribbon-inner:before {

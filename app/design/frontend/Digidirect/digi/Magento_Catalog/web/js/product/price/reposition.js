@@ -15,6 +15,8 @@ define([
             $('.studio19-wrapper').insertAfter($('.box-tocart'));
         }
         
+        $('#awaiting-product').insertAfter($('.box-tocart'));
+        
     });
     
     $('.fotorama__wrap').ready(function() {
