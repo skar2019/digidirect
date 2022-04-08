@@ -131,9 +131,15 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'P')
+                    {
+                        $product->setCustomAttribute('pre_order', '1');
+                        $product->setCustomAttribute('preorder', '1');
+                        $endis = "Pre Order 1";
+                    }
                     else {
                         //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = "Enabled = 1";
+                        //$endis = "Enabled = 1";
                     }
 
                 }
@@ -533,6 +539,12 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'P')
+                    {
+                        $product->setCustomAttribute('pre_order', '1');
+                        $product->setCustomAttribute('preorder', '1');
+                        $endis = "Pre Order 1";
+                    }
                     else {
 //                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
 //                        $endis = "Enabled = 1";
@@ -891,13 +903,13 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        $this->curl->addHeader("compcode", "DIG"); //live
-        $this->curl->addHeader("user", "ewaveapi");
-        $this->curl->addHeader("token", "904241bdbf10efa9");
+        //$this->curl->addHeader("compcode", "DIG"); //live
+        //$this->curl->addHeader("user", "ewaveapi");
+        //$this->curl->addHeader("token", "904241bdbf10efa9");
 
-        //$this->curl->addHeader("compcode", "UA1"); //test
-        //$this->curl->addHeader("user", "clint.mercado");
-        //$this->curl->addHeader("token", "849cd5080faff5ce");
+        $this->curl->addHeader("compcode", "UA1"); //test
+        $this->curl->addHeader("user", "clint.mercado");
+        $this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -952,6 +964,11 @@ class Product extends AbstractHelper
                     else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'P')
+                    {
+                        $product->setCustomAttribute('pre_order', '1');
+                        $product->setCustomAttribute('preorder', '1');
                     }
                     else {
                         //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
