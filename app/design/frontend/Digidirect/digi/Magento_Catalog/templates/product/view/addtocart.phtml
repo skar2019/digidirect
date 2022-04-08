@@ -8,6 +8,8 @@
 
 /** @var $block \Magento\Catalog\Block\Product\View */
 $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')->getFrontend()->getValue($block->getProduct());
 ?>
 <?php $_product = $block->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
@@ -57,7 +59,7 @@ $pricingHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
                             id="product-addtocart-button"
                             data-action="add-to-cart-action"
                             >
-                            <span class="addcart_words"><?= /* @escapeNotVerified */ $buttonTitle ?></span>
+                            <span class="addcart_words"><?= /* @escapeNotVerified */ $_attributeValue ?></span>
                             <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
                         </button>
                     <?php endif; ?>
