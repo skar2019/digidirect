@@ -53,7 +53,7 @@ $categoriesArrayNames = [];
 
                     <div class="description content"><?php /* @escapeNotVerified */ echo $block->getShortDescription($post); ?></div>
 
-                    <a class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Continue reading') ?>">
+                    <a style="text-decoration: none;" class="more" href="<?php echo $block->escapeUrl($post->getViewUrl()); ?>" title="<?php /* @escapeNotVerified */ echo __('Continue reading') ?>">
                         <span class="more-title"><?php /* @escapeNotVerified */ echo __('Continue reading') ?></span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon svgi-arrow">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-arrow"></use>
