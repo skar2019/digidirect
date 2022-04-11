@@ -1749,7 +1749,7 @@
     span.services-mobile-menu-description {
         font-size: 13px !important;
         height: 75px !important;
-        width: 297px;
+        width: unset;
     }
     
     .mobile-menu-tabs-brands {
@@ -1779,13 +1779,18 @@
     }
     
     .digiservices-listing-mobile {
-        grid-auto-rows: 135px !important;
+        grid-auto-rows: 150px !important;
         margin-top: 15px !important;
         margin-left: 15px !important;
     }
     
     .services-mobile-menu-div {
         grid-column-gap: 10px;
+        grid-template-columns: 30% 70% !important;
+    }
+    
+    span.services-mobile-menu-description-wrapper {
+        margin-right: 15px;
     }
 }
 
