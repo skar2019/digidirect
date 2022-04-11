@@ -15,6 +15,8 @@ define([
             $('.studio19-wrapper').insertAfter($('.box-tocart'));
         }
         
+        $('#awaiting-product').insertAfter($('.box-tocart'));
+        
     });
     
     $('.fotorama__wrap').ready(function() {
@@ -33,6 +35,7 @@ define([
         } else {
 
         } 
+        $('#product-addtocart-button').removeAttr("title");
     });
     
     if( $('#main-product-qantas').length )
