@@ -101,27 +101,28 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     </form>
 </div>
 
-<div class="awaiting" id="awaiting-product">
-    <div class="ribbon-wrapper">
-        <div class="ribbon">
-            <div class="ribbon-inner"><i class="far fa-clock" style="display: inline-block; margin-right: 7px;"></i>AWAITING STOCK</div>
-            <div class="addtocart-tooltip">
-                <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';
-                    font-style: unset;
-                    float: right;
-                    color: #00C3FF;
-                    display: inline-block;
-                    margin-top: -25px;
-                    margin-right: 10px;">  
-                </i>
-                <div class="addtocart-tooltiptext tooltip-bottom-awaiting">
-                    This means item is within an estimated 2 weeks from delivery to digiDirect. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+<?php if($awaiting == 1):?>
+    <div class="awaiting" id="awaiting-product">
+        <div class="ribbon-wrapper">
+            <div class="ribbon">
+                <div class="ribbon-inner"><i class="far fa-clock" style="display: inline-block; margin-right: 7px;"></i>AWAITING STOCK</div>
+                <div class="addtocart-tooltip">
+                    <i class="fas fa-info-circle" style="font-family: 'Font Awesome 5 Free';
+                        font-style: unset;
+                        float: right;
+                        color: #00C3FF;
+                        display: inline-block;
+                        margin-top: -25px;
+                        margin-right: 10px;">  
+                    </i>
+                    <div class="addtocart-tooltiptext tooltip-bottom-awaiting">
+                        This means item is within an estimated 2 weeks from delivery to digiDirect. For the latest ETA, please click <a href="https://www.digidirect.com.au/contact/">here</a> to contact us.
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
+<?php endif; ?>
 
 <script type="text/x-magento-init">
     {
