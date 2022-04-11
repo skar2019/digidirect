@@ -190,7 +190,7 @@ class Inventory extends AbstractHelper
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
-
+                    $prod->setCustomAttribute('stock_condition', $prodRes['stk-condition-code']);
                     $this->productRepository->save($prod);
                 }
                 catch (\Magento\Framework\Exception\NoSuchEntityException $e)
