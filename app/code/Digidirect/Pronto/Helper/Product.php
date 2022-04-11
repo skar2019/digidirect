@@ -931,6 +931,7 @@ class Product extends AbstractHelper
 
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
+                echo "Stock Condition " .$prod['stk-condition-code']." <br>";
                 if($prod['stk-condition-code'] == 'O')
                 {
                     $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -1157,7 +1158,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-
+                $product->setCustomAttribute('stock_condition', $prod['stk-condition-code']);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if(isset($prod['d2lvl1']))
                 {
