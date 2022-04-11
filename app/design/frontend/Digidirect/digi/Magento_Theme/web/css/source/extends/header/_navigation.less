@@ -1145,7 +1145,7 @@
         position: fixed;
         top: 0;
         width: 80%;
-        width: calc(~'70% - @{active-nav-indent}');
+        width: calc(~'55% - @{active-nav-indent}');
 
         .switcher {
             border-top: 1px solid @color-gray82;
@@ -1750,6 +1750,28 @@
         font-size: 13px !important;
         height: 156px !important;
         width: 390px;
+    }
+    
+    .mobile-menu-tabs-brands {
+        margin-left: 0 !important;
+    }
+    
+    .category-tabs .nav-item>a .title {
+        text-transform: capitalize !important;
+    }
+    
+    .brand-list-content {
+        width: 100% !important;
+    }
+    
+    .block-brand-search {
+        padding-left: 0 !important;;
+        padding-right: 0 !important;
+    }
+    
+    .brand-list-content .products {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
     }
 }
 
