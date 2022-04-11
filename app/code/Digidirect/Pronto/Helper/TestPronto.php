@@ -749,7 +749,12 @@ class TestPronto extends AbstractHelper
             $prontoOrderNumber = $order->getData('pronto_order_number');
             if(is_numeric($prontoOrderNumber))
             {
-                continue;
+                echo "Has pronto ". $prontoOrderNumber."<br/>";
+                if(!$test)
+                {
+                    continue;
+                }
+
             }
 
             $orderId = $order->getIncrementId();
@@ -780,6 +785,7 @@ class TestPronto extends AbstractHelper
 
             if($is_am_order){
                 $rep = "AMAZON MFN";
+                $account = "AMAZ02";
                 if (strpos($amShipping, 'AFN') !== false) {
                     $rep = "AMAZON FBA";
                     $account = "AMAZ00";
@@ -801,12 +807,12 @@ class TestPronto extends AbstractHelper
                 $rep = $this->getRep($order);
                 if (strpos($orderId, 'EB') !== false) {
                     $rep ="EBAY";
-                    //$account = "EBAY00";
+                    $account = "EBAY00";
                     $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'CATCH') !== false) {
                     $rep ="CATCH";
-                    //$account = "CATC00";
+                    $account = "CATC00";
                     $territory = "MRKT";
                 }
                 else if (strpos($orderId, 'MYD') !== false) {
@@ -1346,5 +1352,5 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
-
+    //comment to redeploy
 }

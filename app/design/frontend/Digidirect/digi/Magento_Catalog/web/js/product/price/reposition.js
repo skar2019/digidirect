@@ -1,12 +1,33 @@
+
 //clint
-//Redeploy
 define([
     'jquery'
 ], function ($) {
     //clint changes cashback
+    //Redeploy
+    $('.secure-pay-container').ready(function() {
+        $(".secure-pay-container").attr("style", "display: none");
+        
+        if($('#product-options-wrapper').length) {
+            $('#product-options-wrapper').insertAfter($('.box-tocart'));
+            $('.studio19-wrapper').insertAfter($('#product-options-wrapper'));
+        }else {
+            $('.studio19-wrapper').insertAfter($('.box-tocart'));
+        }
+        
+        $('#awaiting-product').insertAfter($('.box-tocart'));
+        
+    });
     
-    window.onload = function() {
-        $(".secure-pay-container").attr("style", "display: inline-block");
+    $('.fotorama__wrap').ready(function() {
+        console.log("Fotorma has been loaded!");
+        setTimeout(function() {
+            $('.custom-preloader').attr("style", "display:none !important;");
+            $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+        }, 7000);
+    });
+    
+    $(window).load(function(){
         if ($(window).width() <= 768) {
             $('.testfreaks-badge').insertAfter($('.page-title'));
             $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
@@ -14,7 +35,8 @@ define([
         } else {
 
         } 
-    };
+        $('#product-addtocart-button').removeAttr("title");
+    });
     
     if( $('#main-product-qantas').length )
     {
@@ -68,6 +90,11 @@ define([
             //$('.testfreaks-badge').insertAfter($('.page-title'));
             //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         } 
+    });
+    
+    $('#live-chat-additional-link-id').click(function(){
+        $('[data-garden-id="buttons.icon_button"]').trigger("click");
+        console.log("Changed To Trigger Click!");
     });
 
 });

@@ -1,0 +1,62 @@
+<?php
+/**
+ * @var $block Index
+ * @var $imageHelper Image
+ * @var $urlHelper Url
+ * @var $viewModel BaseViewModel
+ * @var $escaper Escaper
+ */
+
+use Magento\Framework\Escaper;
+use Marketplacer\Base\Helper\Image;
+use Marketplacer\Base\ViewModel\BaseViewModel;
+use Marketplacer\Brand\Block\Brand\Index;
+use Marketplacer\Brand\Helper\Url;
+
+$viewModel = $block->getViewModel();
+$escaper = $escaper ?? $viewModel->getEscaper();
+$imageHelper = $this->helper('Marketplacer\Base\Helper\Image');
+$urlHelper = $this->helper('Marketplacer\Brand\Helper\Url');
+
+$brands = $block->getAllDisplayedBrands();
+?>
+
+<?php if ($brands): ?>
+    <section class="mrkt-brands-list-wrapper">
+        <ul class="mrkt-brands-list">
+            <?php foreach ($brands as $brand): ?>
+                <?php
+                $brandUrl = $urlHelper->getBrandUrl($brand);
+                $brandLabel = $brand->getName();
+                $brandLogoSrc = $brand->getLogo();
+                if (!$brandLogoSrc) {
+                    $brandLogoSrc = $imageHelper->init($brand, 'image')->resize(200, 200)->getUrl();
+                }
+                ?>
+                <li class="item">
+                    <div class="mrkt-brands-item" itemscope itemtype="http://schema.org/Brand">
+                        <?php if ($brandLogoSrc): ?>
+                            <a class="image"
+                               href="<?= $escaper->escapeUrl($brandUrl); ?>"
+                               title="<?= $escaper->escapeHtmlAttr($brandLabel); ?>">
+                                <img src="<?= $escaper->escapeUrl($brandLogoSrc); ?>"
+                                     alt="<?= $escaper->escapeHtmlAttr($brandLabel); ?>"
+                                     itemprop="logo"/>
+                            </a>
+                        <?php endif; ?>
+                        <h3 class="name">
+                            <a href="<?= $escaper->escapeUrl($brandUrl); ?>"
+                               title="<?= $escaper->escapeHtmlAttr($brandLabel) ?>"
+                               itemprop="url">
+                                <span itemprop="name"><?= $escaper->escapeHtml($brandLabel); ?></span>
+                            </a>
+                        </h3>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </section>
+<?php else: ?>
+    <div class="message info empty"><span><?= /* @noEscape */
+            __('There are no brands available.'); ?></span></div>
+<?php endif ?>

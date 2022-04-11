@@ -3,14 +3,12 @@
      * Copyright © Magento, Inc. All rights reserved.
      * See COPYING.txt for license details.
      */
-
+     
     // @codingStandardsIgnoreFile
-
     /** @var $block \Magento\Checkout\Block\Cart\Sidebar */
 ?>
-
 <div data-block="minicart" class="minicart-wrapper">
-    <div class="action link showcart"`
+    <div class="action link showcart"
          data-container="#minicartSidebar"
          data-bind="scope: 'minicart_content'"
          data-mage-init='{"offcanvas": {
@@ -21,13 +19,15 @@
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-cart"></use>
         </svg>-->
         <i class="fas fa-shopping-bag circle-icon -cart icon-badge-icon"></i>
-        
-        <!-- ko if: getCartParam('summary_count') -->
-            <div class="icon-badge"><!-- ko text: getCartParam('summary_count') --><!-- /ko --></div>
-        <!-- /ko -->
-        <!-- ko ifnot: getCartParam('summary_count') -->
-            <div class="icon-badge">0</div>
-        <!-- /ko -->
+
+        <div class="icon-badge">
+            <!-- ko if: getCartParam('summary_count') -->
+            <!-- ko text: getCartParam('summary_count') --><!-- /ko -->
+            <!-- /ko -->
+            <!-- ko ifnot: getCartParam('summary_count') -->
+            0
+            <!-- /ko -->
+        </div>
         
         <span class="text"><?=/* @escapeNotVerified */ __('My Cart'); ?><br>
         <span data-bind="html: getCartParam('subtotal')" style="color: #ff3c00;"></span></span>
@@ -71,6 +71,8 @@
             $('[data-block="minicart"]').on('contentUpdated', function () {
                 $('.action.showcart').addClass("-active");
                 $('#minicartSidebar').addClass("-active");
+                $('.minicart-items.item-qty').attr("style", "visibility: hidden !important;");
+                //console.log('jQuery Test On Minicart PHTML');
             });
         });
     });

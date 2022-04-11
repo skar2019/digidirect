@@ -73,9 +73,12 @@
             </container>
         </referenceContainer>
         <referenceContainer name="product.info.media">
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/digiseconds-overlay.phtml" name="pdp-digiseconds-overlay" before="product.info.media.image"/>
             <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
                    template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
             </block>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.info.media.image"/>
+        
 
         </referenceContainer>
 

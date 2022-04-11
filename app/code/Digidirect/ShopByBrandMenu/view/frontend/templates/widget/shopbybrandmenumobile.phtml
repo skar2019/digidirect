@@ -23,7 +23,7 @@ $selectedBrands = $block->getCollection();
             'jquery'
         ],
         function ($) {
-            filterSelection("all");
+            filterSelectionMobile("all");
             
             $('#mp-search-new-mobile').on('click', function(){
                 $(window).off('resize');
@@ -58,7 +58,7 @@ $selectedBrands = $block->getCollection();
 <div style="padding: 25px;">
     <div style="margin-bottom: 18px !important;">SELECT CATEGORIES</div>
     <div>
-        <select id="brand-menu-mobile" style="border: 0; background: #f5f5f5;" onchange="filterSelection('all')">
+        <select id="brand-menu-mobile" style="border: 0; background: #f5f5f5;" onchange="filterSelectionMobile('all')">
             <option value="all">
             Select All
             </option>
@@ -76,28 +76,28 @@ $selectedBrands = $block->getCollection();
     
     <script type="text/javascript">
         
-        function filterByBrandName() {
+        function filterByBrandNameMobile() {
             var x, i;
             x = document.getElementsByClassName("product-item");
             c = document.getElementById("mp-search-new-mobile").value;
             for (i = 0; i < x.length; i++) {
-              w3RemoveClass(x[i], "show-brand");
-              if (x[i].querySelector(".product-item-info > a").getAttribute('title').toLowerCase().includes(c.toLowerCase())) w3AddClass(x[i], "show-brand");
+              w3RemoveClassMobile(x[i], "show-brand");
+              if (x[i].querySelector(".product-item-info > a").getAttribute('title').toLowerCase().includes(c.toLowerCase())) w3AddClassMobile(x[i], "show-brand");
             }
         }
         
         
-        function filterSelection(c) {
+        function filterSelectionMobile(c) {
             var x, i;
             x = document.getElementsByClassName("product-item");
             if (c == "all" || c == "catall") c = "";
             for (i = 0; i < x.length; i++) {
-              w3RemoveClass(x[i], "show-brand");
-              if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show-brand");
+              w3RemoveClassMobile(x[i], "show-brand");
+              if (x[i].className.indexOf(c) > -1) w3AddClassMobile(x[i], "show-brand");
             }
         }
 
-        function w3AddClass(element, name) {
+        function w3AddClassMobile(element, name) {
             var i, arr1, arr2;
             arr1 = element.className.split(" ");
             arr2 = name.split(" ");
@@ -108,7 +108,7 @@ $selectedBrands = $block->getCollection();
             }
         }
 
-        function w3RemoveClass(element, name) {
+        function w3RemoveClassMobile(element, name) {
             var i, arr1, arr2;
             arr1 = element.className.split(" ");
             arr2 = name.split(" ");
@@ -119,10 +119,6 @@ $selectedBrands = $block->getCollection();
             }
             element.className = arr1.join(" ");
         }   
-        
-        //window.onload = function() {
-        //   filterSelection("all");
-        //};
       
       
     </script>
@@ -138,7 +134,7 @@ $selectedBrands = $block->getCollection();
                     <div class="block-content">
                         <div class="mp-searchbox">
                             <input id="mp-search-new-mobile" type="text" class="mp-search form-control" name="q"
-                                   onkeyup="filterByBrandName()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>" autocomplete="off">
+                                   onkeyup="filterByBrandNameMobile()" placeholder="<?= /** @noEscape */ __('Search a brand name') ?>" autocomplete="off">
                         </div>
                     </div>
                 </div>
@@ -230,7 +226,7 @@ $selectedBrands = $block->getCollection();
 <style type="text/css">
     
     .shop-by-brands-menu-new .item-submenu {
-        width: 850px !important;
+        width: 750px !important;
     }
     
     .block-brand-search {
@@ -295,6 +291,8 @@ $selectedBrands = $block->getCollection();
     .brand-list-content .product-image-container {
         width: 162px !important;
         transition: transform 0.4s;
+        height: 65px;
+        box-shadow: 3px 3px 3px -2px rgb(0 0 0 / 20%);
     }
     
     .brand-list-content .product-image-container:hover {

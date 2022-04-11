@@ -1,0 +1,25 @@
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="products_list">
+        <parameters>
+            <parameter name="template" xsi:type="select">
+                <options>
+                    <option name="mrkt_grid" value="Marketplacer_Marketplacer::product/widget/content/grid.phtml">
+                        <label translate="true">Products Grid Template With Marketplacer Info</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+        <containers>
+            <container name="content">
+                <template name="mrkt_grid" value="mrkt_grid"/>
+            </container>
+            <container name="content.top">
+                <template name="mrkt_grid" value="mrkt_grid"/>
+            </container>
+            <container name="content.bottom">
+                <template name="mrkt_grid" value="mrkt_grid"/>
+            </container>
+        </containers>
+    </widget>
+</widgets>
