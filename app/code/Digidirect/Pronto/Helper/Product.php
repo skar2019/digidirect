@@ -884,7 +884,7 @@ class Product extends AbstractHelper
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
-        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
+        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
@@ -1158,9 +1158,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
-                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                //digiSeconds item quality rating 1 - 5
-                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                if(isset($prod['d2lvl1']))
+                {
+                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    //digiSeconds item quality rating 1 - 5
+                    $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                    $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                    $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
+                }
+
 
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
@@ -1248,6 +1254,7 @@ class Product extends AbstractHelper
 
                 if (count($categoryIds)) {
                     $forLogs .= "Categories: ".$catList."\n";
+                    echo $catList."\n";
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
                     $product->setCategoryIds($categoryIds);
                 }
@@ -1347,9 +1354,14 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
-                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                //digiSeconds item quality rating 1 - 5
-                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                if(isset($prod['d2lvl1']))
+                {
+                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    //digiSeconds item quality rating 1 - 5
+                    $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                    $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                    $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
+                }
                 $this->productRepository->save($product);
 
             }
