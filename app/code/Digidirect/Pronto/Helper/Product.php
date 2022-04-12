@@ -905,7 +905,7 @@ class Product extends AbstractHelper
 
         $json = $this->jsonSerializer->unserialize($result);
 
-        var_dump($json);
+        //var_dump($json);
         $count = 0;
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
@@ -988,7 +988,14 @@ class Product extends AbstractHelper
                 echo $prod['stk-brand-desc'] ."<br/>";
                 if($prod['stk-brand-desc'] == 'digiSeconds')
                 {
-                    $brandName = strtolower($prod['d2brand']);
+                    if(isset($prod['d2brand']))
+                    {
+                        $brandName = strtolower($prod['d2brand']);
+                    }
+                    else
+                    {
+                        $brandName = strtolower($prod['stk-brand-desc']);
+                    }
                 }
                 else
                 {
@@ -1165,6 +1172,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
                     //digiSeconds item quality rating 1 - 5
                     $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                    $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                    $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
 
 
@@ -1360,9 +1369,14 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
-                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                //digiSeconds item quality rating 1 - 5
-                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                if(isset($prod['d2lvl1']))
+                {
+                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                    //digiSeconds item quality rating 1 - 5
+                    $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                    $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                    $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
+                }
                 $this->productRepository->save($product);
 
             }
