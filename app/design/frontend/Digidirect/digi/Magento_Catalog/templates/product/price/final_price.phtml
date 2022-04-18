@@ -76,6 +76,10 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
     <?php endif?>
 <?php endif; ?>
 
+<?php
+    $d2ItemCondition = $block->getProduct()->getResource()->getAttribute('item_codition')->getFrontend()->getValue($block->getProduct());
+?>
+
 <div class="digiseconds-info-wrapper">
     <div class="brand-new-price-wrapper old-price-wrapper">
         <span class="brand-new-label">
@@ -98,7 +102,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Item Note: 
         </span>
         <span class="item-note">
-            9 Minor Scrufs & Surface Marks
+            <?= /* @escapeNotVerified */ $d2ItemCondition ?>
         </span>
     </div>
     <div class="warranty-wrapper old-price-wrapper">
