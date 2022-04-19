@@ -81,7 +81,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\Product');
 
     $currentProduct = $productBlock->getCurrentProduct();
-    $d2ItemCondition = $currentProduct->getModel();  
+    $d2ItemCondition = $currentProduct->getItemCodition();  
 ?>
 
 <div class="digiseconds-info-wrapper">
