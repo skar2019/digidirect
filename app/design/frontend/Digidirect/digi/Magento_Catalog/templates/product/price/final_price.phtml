@@ -80,11 +80,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
     // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
 
-    $currentProduct = $productBlock->getCurrentProduct();
-    $d2BrandNewProductSKU = $currentProduct->getData('d2newsku');  
-    $d2ItemCondition = $currentProduct->getItemCodition();  
-    $d2ItemDescription = $currentProduct->getData('d2desc'); 
-    $d2ItemRating = $currentProduct->getItemRating();  
+    $currentProduct = $productBlock->getCurrentProduct(); 
     
     //$brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
     //$brandNewProductPrice = $brandNewProduct->getPrice();
