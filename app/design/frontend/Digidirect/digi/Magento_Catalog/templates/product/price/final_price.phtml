@@ -77,8 +77,9 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 <?php endif; ?>
 
 <?php
-    // Note: Change getAttribute('model') to digiSeconds attribute when pushing to live site.
-    // $d2ItemCondition = $block->getProduct()->getResource()->getAttribute('model')->getFrontend()->getValue($block->getProduct());
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
+    $_product = $block->getProduct();
+    $d2ItemCondition = $_product->getModel();
 ?>
 
 <div class="digiseconds-info-wrapper">
@@ -103,7 +104,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Item Note: 
         </span>
         <span class="item-note">
-            Item description
+            <?= /* @escapeNotVerified */ $d2ItemCondition ?>
         </span>
     </div>
     <div class="warranty-wrapper old-price-wrapper">
