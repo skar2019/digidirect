@@ -30,5 +30,9 @@ class Product extends \Magento\Framework\View\Element\Template
         return $this->_registry->registry('current_product');
     }    
     
+    public function getProductBySku($sku) {
+        return $this->_productRepository->get($sku);
+    }
+    
 }
 ?>
