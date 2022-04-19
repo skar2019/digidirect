@@ -8,10 +8,12 @@ class Product extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,        
         \Magento\Framework\Registry $registry,
+        \Magento\Catalog\Model\ProductRepository $productRepository,
         array $data = []
     )
     {        
         $this->_registry = $registry;
+        $this->_productRepository = $productRepository;
         parent::__construct($context, $data);
     }
     
