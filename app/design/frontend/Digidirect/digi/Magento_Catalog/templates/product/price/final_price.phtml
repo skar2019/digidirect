@@ -77,13 +77,11 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 <?php endif; ?>
 
 <?php
+    // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-
-    $currentProduct = $productBlock->getCurrentProduct();
-    $d2BrandNewProductSKU = $currentProduct->getData('d2newsku');  
-    $d2ItemCondition = $currentProduct->getItemCodition();  
-    $d2ItemDescription = $currentProduct->getData('d2desc'); 
-    $d2ItemRating = $currentProduct->getItemRating();  
+    
+    //$brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+    //$brandNewProductPrice = $brandNewProduct->getPrice();
 ?>
 
 <div class="digiseconds-info-wrapper">
@@ -92,7 +90,6 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Brand New Price
         </span>
         <span class="brand-new-price old-price">
-            <?= /* @escapeNotVerified */ $d2BrandNewProductSKU ?>
         </span>
     </div>
     <div class="refurb-price-wrapper old-price-wrapper" style="display: none !important;">
@@ -108,7 +105,6 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Item Note: 
         </span>
         <span class="item-note">
-            <?= /* @escapeNotVerified */ $d2ItemDescription ?>
         </span>
     </div>
     <div class="warranty-wrapper old-price-wrapper" style="display: none !important;">
