@@ -81,7 +81,11 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\Product');
 
     $currentProduct = $productBlock->getCurrentProduct();
+    $d2BrandNewProductSKU = $currentProduct->getD2NewSKU();  
     $d2ItemCondition = $currentProduct->getItemCodition();  
+    
+    $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+    $brandNewProductPrice = $brandNewProduct->getPrice();
 ?>
 
 <div class="digiseconds-info-wrapper">
@@ -90,10 +94,10 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Brand New Price
         </span>
         <span class="brand-new-price old-price">
-            $3,000
+            <?= /* @escapeNotVerified */ $brandNewProductPrice ?>
         </span>
     </div>
-    <div class="refurb-price-wrapper old-price-wrapper">
+    <div class="refurb-price-wrapper old-price-wrapper" style="display: none !important;">
         <span class="refurb-label">
             Refurbished Price
         </span>
@@ -109,7 +113,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             <?= /* @escapeNotVerified */ $d2ItemCondition ?>
         </span>
     </div>
-    <div class="warranty-wrapper old-price-wrapper">
+    <div class="warranty-wrapper old-price-wrapper" style="display: none !important;">
         <span class="warranty-label">
             WARRANTY 
         </span>
