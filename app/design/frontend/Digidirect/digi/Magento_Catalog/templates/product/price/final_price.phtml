@@ -84,8 +84,8 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
     $d2BrandNewProductSKU = $currentProduct->getD2NewSKU();  
     $d2ItemCondition = $currentProduct->getItemCodition();  
     
-    $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
-    $brandNewProductPrice = $brandNewProduct->getPrice();
+    //$brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+    //$brandNewProductPrice = $brandNewProduct->getPrice();
 ?>
 
 <div class="digiseconds-info-wrapper">
@@ -94,7 +94,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Brand New Price
         </span>
         <span class="brand-new-price old-price">
-            <?= /* @escapeNotVerified */ $brandNewProductPrice ?>
+            <?= /* @escapeNotVerified */ $d2BrandNewProductSKU ?>
         </span>
     </div>
     <div class="refurb-price-wrapper old-price-wrapper" style="display: none !important;">
