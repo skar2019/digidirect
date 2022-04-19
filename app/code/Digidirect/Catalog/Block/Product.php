@@ -4,6 +4,7 @@ namespace Digidirect\Catalog\Block;
 class Product extends \Magento\Framework\View\Element\Template
 {
     protected $_registry;
+    protected $_productRepository;
         
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,        
@@ -37,4 +38,3 @@ class Product extends \Magento\Framework\View\Element\Template
     }
     
 }
-?>
