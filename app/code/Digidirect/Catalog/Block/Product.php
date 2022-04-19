@@ -7,7 +7,7 @@ class Product extends \Magento\Framework\View\Element\Template
     protected $_productRepository;
         
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,        
+        \Magento\Framework\View\Element\Template\Context $context,        
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\ProductRepository $productRepository,
         array $data = []
