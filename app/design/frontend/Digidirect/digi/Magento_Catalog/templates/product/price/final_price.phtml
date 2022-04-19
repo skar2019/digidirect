@@ -81,8 +81,9 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\Product');
 
     $currentProduct = $productBlock->getCurrentProduct();
-    $d2BrandNewProductSKU = $currentProduct->getD2NewSKU();  
+    $d2BrandNewProductSKU = $currentProduct->get('d2newsku');  
     $d2ItemCondition = $currentProduct->getItemCodition();  
+    $d2ItemDescription = $currentProduct->get('d2desc'); 
     
     //$brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
     //$brandNewProductPrice = $brandNewProduct->getPrice();
@@ -110,7 +111,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Item Note: 
         </span>
         <span class="item-note">
-            <?= /* @escapeNotVerified */ $d2ItemCondition ?>
+            <?= /* @escapeNotVerified */ $d2ItemDescription ?>
         </span>
     </div>
     <div class="warranty-wrapper old-price-wrapper" style="display: none !important;">
