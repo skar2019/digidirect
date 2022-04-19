@@ -77,7 +77,8 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 <?php endif; ?>
 
 <?php
-    $d2ItemCondition = $block->getProduct()->getResource()->getAttribute('item_codition')->getFrontend()->getValue($block->getProduct());
+    // Note: Change getAttribute('model') to digiSeconds attribute when pushing to live site.
+    $d2ItemCondition = $block->getProduct()->getResource()->getAttribute('model')->getFrontend()->getValue($block->getProduct());
 ?>
 
 <div class="digiseconds-info-wrapper">
