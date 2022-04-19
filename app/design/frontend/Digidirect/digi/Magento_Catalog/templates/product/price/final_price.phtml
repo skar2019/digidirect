@@ -78,7 +78,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 
 <?php
     // Note: Change getAttribute('model') to digiSeconds attribute when pushing to live site.
-    $d2ItemCondition = $block->getProduct()->getResource()->getAttribute('model')->getFrontend()->getValue($block->getProduct());
+    // $d2ItemCondition = $block->getProduct()->getResource()->getAttribute('model')->getFrontend()->getValue($block->getProduct());
 ?>
 
 <div class="digiseconds-info-wrapper">
@@ -103,7 +103,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Item Note: 
         </span>
         <span class="item-note">
-            <?= /* @escapeNotVerified */ $d2ItemCondition ?>
+            Item description
         </span>
     </div>
     <div class="warranty-wrapper old-price-wrapper">
