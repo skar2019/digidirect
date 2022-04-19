@@ -1,8 +1,9 @@
 <?php
 namespace Digidirect\Catalog\Block;
-class HelloWorld extends \Magento\Framework\View\Element\Template
+
+class Product extends \Magento\Framework\View\Element\Template
 {
-        protected $_registry;
+    protected $_registry;
         
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,        
