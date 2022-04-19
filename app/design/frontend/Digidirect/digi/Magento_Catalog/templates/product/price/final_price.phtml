@@ -77,9 +77,11 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 <?php endif; ?>
 
 <?php
-    $_helper = $this->helper('Magento\Catalog\Helper\Output');
-    $_product = $block->getProduct();
-    $d2ItemCondition = 'Test Data!';
+    // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
+    $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\Product');
+
+    $currentProduct = $myBlock->getCurrentProduct();
+    $d2ItemCondition = $currentProduct->getSku();  
 ?>
 
 <div class="digiseconds-info-wrapper">
