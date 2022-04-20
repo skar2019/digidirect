@@ -3,6 +3,14 @@
     
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
     $currentProduct = $productBlock->getCurrentProduct();
+
+    $d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : '');  
+    //$d2ItemCondition = $currentProduct->getItemCodition();  
+    //$d2ItemDescription = $currentProduct->getData('d2desc'); 
+    //$d2ItemRating = $currentProduct->getItemRating();  
+
+    //$brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+    //$brandNewProductPrice = $brandNewProduct->getPrice();
     
 ?>
     <div class="digiseconds-info-wrapper">
