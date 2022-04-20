@@ -304,7 +304,7 @@ class Order extends AbstractHelper
 
             if ($is_am_fba)
             {
-                $data['sales-order']['header']['set-on-status'] = "U";
+                $data['sales-order']['header']['set-on-status'] = "H";
             }
 
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
