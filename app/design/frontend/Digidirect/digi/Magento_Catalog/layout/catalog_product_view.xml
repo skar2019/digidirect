@@ -35,6 +35,9 @@
             </arguments>
         </block>
         
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiseconds_info.phtml" name="pdp-digiseconds-info" after="product.info.price"/>
+        </referenceContainer>
         
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
@@ -60,7 +63,6 @@
                     </arguments>
                 </block>
             </referenceBlock>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiseconds_info.phtml" name="pdp-digiseconds-info" after="product.price.final"/>
         </referenceContainer>
         <referenceContainer name="page.wrapper">
             <!-- htmlClass "column main" added special for JS swatches logic -->
