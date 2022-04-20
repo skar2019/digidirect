@@ -78,10 +78,8 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 
 <?php
     // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
-    $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-
-    $currentProduct = $productBlock->getCurrentProduct();
-    $brandNewProductSku = $currentProduct->getData('model');  
+    $productBlock = $block->getProduct();
+    $brandNewProductSku = $productBlock->getData('d2newsku');  
     //$itemCondition = $currentProduct->getItemCodition();  
     //$itemDescription = $currentProduct->getData('d2desc'); 
     //$itemRating = $currentProduct->getItemRating();  
@@ -96,6 +94,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
             Brand New Price
         </span>
         <span class="brand-new-price old-price">
+            <?= /* @escapeNotVerified */ $brandNewProductSku ?>
         </span>
     </div>
     <div class="refurb-price-wrapper old-price-wrapper" style="display: none !important;">
