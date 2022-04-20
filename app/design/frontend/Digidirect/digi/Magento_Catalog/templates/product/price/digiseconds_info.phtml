@@ -8,41 +8,49 @@
     $d2ItemDescription = $currentProduct->getData('d2desc'); 
     $d2ItemRating = $currentProduct->getItemRating();  
     
-    //$brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
-    //$brandNewProductPrice = $brandNewProduct->getPrice();
+    $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+    $brandNewProductPrice = $brandNewProduct->getPrice();
 ?>
+<?php if ($d2ItemCondition): ?>
+    <div class="digiseconds-info-wrapper">
+        <?php if ($brandNewProductPrice): ?>
+            <div class="brand-new-price-wrapper old-price-wrapper">
+                <span class="brand-new-label">
+                    Brand New Price
+                </span>
+                <span class="brand-new-price old-price">
+                    <?= /* @escapeNotVerified */ $brandNewProductPrice ?>
+                </span>
+            </div>
+        <?php endif; ?>
+        
+        <div class="refurb-price-wrapper old-price-wrapper" style="display: none !important;">
+            <span class="refurb-label">
+                Refurbished Price
+            </span>
+            <span class="refurb-price old-price">
+                $2,500
+            </span>
+        </div>
+        <?php if ($d2ItemDescription): ?>
+            <div class="item-note-wrapper">
+                <span class="item-note-label">
+                    Item Note: 
+                </span>
+                <span class="item-note">
+                    <?= /* @escapeNotVerified */ $d2ItemDescription ?>
+                </span>
+            </div>
+        <?php endif; ?>
+        
+        <div class="warranty-wrapper old-price-wrapper" style="display: none !important;">
+            <span class="warranty-label">
+                WARRANTY 
+            </span>
+            <span class="warranty-description">
+                7 days replacement and 6 months service
+            </span>
+        </div>
+    </div>                                                      
+<?php endif; ?>
 
-<div class="digiseconds-info-wrapper">
-    <div class="brand-new-price-wrapper old-price-wrapper">
-        <span class="brand-new-label">
-            Brand New Price
-        </span>
-        <span class="brand-new-price old-price">
-            <?= /* @escapeNotVerified */ $d2BrandNewProductSKU ?>
-        </span>
-    </div>
-    <div class="refurb-price-wrapper old-price-wrapper" style="display: none !important;">
-        <span class="refurb-label">
-            Refurbished Price
-        </span>
-        <span class="refurb-price old-price">
-            $2,500
-        </span>
-    </div>
-    <div class="item-note-wrapper">
-        <span class="item-note-label">
-            Item Note: 
-        </span>
-        <span class="item-note">
-            <?= /* @escapeNotVerified */ $d2ItemDescription ?>
-        </span>
-    </div>
-    <div class="warranty-wrapper old-price-wrapper" style="display: none !important;">
-        <span class="warranty-label">
-            WARRANTY 
-        </span>
-        <span class="warranty-description">
-            7 days replacement and 6 months service
-        </span>
-    </div>
-</div>
