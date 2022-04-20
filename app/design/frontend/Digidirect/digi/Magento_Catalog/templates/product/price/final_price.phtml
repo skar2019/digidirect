@@ -81,7 +81,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
 
     $currentProduct = $productBlock->getCurrentProduct();
-    $brandNewProductSku = $currentProduct->getData('d2newsku');  
+    $brandNewProductSku = $currentProduct->getData('model');  
     //$itemCondition = $currentProduct->getItemCodition();  
     //$itemDescription = $currentProduct->getData('d2desc'); 
     //$itemRating = $currentProduct->getItemRating();  
