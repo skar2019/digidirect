@@ -11,7 +11,7 @@
     $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
     $brandNewProductPrice = $brandNewProduct->getPrice();
 ?>
-<?php if ($d2ItemCondition): ?>
+<?php if ($d2ItemCondition != ""): ?>
     <div class="digiseconds-info-wrapper">
         <?php if ($brandNewProductPrice): ?>
             <div class="brand-new-price-wrapper old-price-wrapper">
@@ -19,7 +19,7 @@
                     Brand New Price
                 </span>
                 <span class="brand-new-price old-price">
-                    <?= /* @escapeNotVerified */ $brandNewProductPrice ?>
+                    <?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
                 </span>
             </div>
         <?php endif; ?>
