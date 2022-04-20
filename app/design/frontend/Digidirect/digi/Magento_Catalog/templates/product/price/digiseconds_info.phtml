@@ -1,15 +1,27 @@
 <?php
     // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-
     $currentProduct = $productBlock->getCurrentProduct();
-    $d2BrandNewProductSKU = $currentProduct->getData('d2newsku');  
-    $d2ItemCondition = $currentProduct->getItemCodition();  
-    $d2ItemDescription = $currentProduct->getData('d2desc'); 
-    $d2ItemRating = $currentProduct->getItemRating();  
     
-    $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
-    $brandNewProductPrice = $brandNewProduct->getPrice();
+    try {
+        $d2BrandNewProductSKU = $currentProduct->getData('d2newsku');  
+        $d2ItemCondition = $currentProduct->getItemCodition();  
+        $d2ItemDescription = $currentProduct->getData('d2desc'); 
+        $d2ItemRating = $currentProduct->getItemRating();  
+
+        $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+        $brandNewProductPrice = $brandNewProduct->getPrice();
+    }
+    catch (exception $e) {
+        $d2BrandNewProductSKU = "";
+        $d2ItemCondition = ""; 
+        $d2ItemDescription = "";
+        $d2ItemRating = ""; 
+
+        $brandNewProduct = "";
+        $brandNewProductPrice = "";
+    }
+    
 ?>
     <div class="digiseconds-info-wrapper">
         <div class="brand-new-price-wrapper old-price-wrapper">
