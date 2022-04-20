@@ -11,18 +11,15 @@
     $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
     $brandNewProductPrice = $brandNewProduct->getPrice();
 ?>
-<?php if ($d2ItemCondition != ""): ?>
     <div class="digiseconds-info-wrapper">
-        <?php if ($brandNewProductPrice): ?>
-            <div class="brand-new-price-wrapper old-price-wrapper">
-                <span class="brand-new-label">
-                    Brand New Price
-                </span>
-                <span class="brand-new-price old-price">
-                    <?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
-                </span>
-            </div>
-        <?php endif; ?>
+        <div class="brand-new-price-wrapper old-price-wrapper">
+            <span class="brand-new-label">
+                Brand New Price
+            </span>
+            <span class="brand-new-price old-price">
+                <?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
+            </span>
+        </div>
         
         <div class="refurb-price-wrapper old-price-wrapper" style="display: none !important;">
             <span class="refurb-label">
@@ -32,16 +29,14 @@
                 $2,500
             </span>
         </div>
-        <?php if ($d2ItemDescription): ?>
-            <div class="item-note-wrapper">
-                <span class="item-note-label">
-                    Item Note: 
-                </span>
-                <span class="item-note">
-                    <?= /* @escapeNotVerified */ $d2ItemDescription ?>
-                </span>
-            </div>
-        <?php endif; ?>
+        <div class="item-note-wrapper">
+            <span class="item-note-label">
+                Item Note: 
+            </span>
+            <span class="item-note">
+                <?= /* @escapeNotVerified */ $d2ItemDescription ?>
+            </span>
+        </div>
         
         <div class="warranty-wrapper old-price-wrapper" style="display: none !important;">
             <span class="warranty-label">
@@ -51,6 +46,5 @@
                 7 days replacement and 6 months service
             </span>
         </div>
-    </div>                                                      
-<?php endif; ?>
+    </div>          
 
