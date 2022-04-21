@@ -1,8 +1,0 @@
-{
-    "sales_order_item": {
-        "column": {
-            "brand_id": true,
-            "brand_name": true
-        }
-    }
-}
