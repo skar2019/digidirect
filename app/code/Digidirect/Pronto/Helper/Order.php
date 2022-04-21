@@ -301,6 +301,12 @@ class Order extends AbstractHelper
                 $data['sales-order']['header']['on-hold-reason-code'] = "01";
                 $data['sales-order']['header']['set-on-status'] = "H";
             }
+
+            if ($is_am_fba)
+            {
+                $data['sales-order']['header']['set-on-status'] = "H";
+            }
+
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
