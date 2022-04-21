@@ -17,6 +17,12 @@ $showWishlist = true;
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 
+<?php
+    $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
+    $currentProduct = $productBlock->getCurrentProduct();
+    $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : '');
+?>
+
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
 <?php else: ?>
@@ -203,6 +209,11 @@ $showWishlist = true;
                             <?php endif; ?>
                         </div>
                     </div>
+                    <?php if ($d2ItemCondition): ?>
+                        <div class="digiseconds-product-details">
+                            <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
