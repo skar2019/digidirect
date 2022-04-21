@@ -12,9 +12,9 @@
     <div class="digiseconds-overlay">
         <?php if ($d2ItemCondition == "PRELOVED"): ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
-        <?php if ($d2ItemCondition == "OPENBOX"): ?>
+        <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-demo.png"/>
-        <?php if ($d2ItemCondition == "REFURB"): ?>
+        <?php elseif ($d2ItemCondition == "REFURB"): ?>
             <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-refurbished.png"/>
         <?php endif; ?>
         <div class="digiseconds-rating">
@@ -24,31 +24,31 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
-            <?php if ($d2ItemRating == 4): ?>
+            <?php elseif ($d2ItemRating == 4): ?>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fal fa-star"></i>
-            <?php if ($d2ItemRating == 3): ?>
+            <?php elseif ($d2ItemRating == 3): ?>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fal fa-star"></i>
                 <i class="fal fa-star"></i>
-            <?php if ($d2ItemRating == 2): ?>
+            <?php elseif ($d2ItemRating == 2): ?>
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
                 <i class="fal fa-star"></i>
                 <i class="fal fa-star"></i>
                 <i class="fal fa-star"></i>
-            <?php if ($d2ItemRating == 1): ?>
+            <?php elseif ($d2ItemRating == 1): ?>
                 <i class="fas fa-star"></i>
                 <i class="fal fa-star"></i>
                 <i class="fal fa-star"></i>
                 <i class="fal fa-star"></i>
                 <i class="fal fa-star"></i>
-            <?php if ($d2ItemRating == 0): ?>
+            <?php elseif ($d2ItemRating == 0): ?>
                 <i class="fal fa-star"></i>
                 <i class="fal fa-star"></i>
                 <i class="fal fa-star"></i>
