@@ -17,10 +17,11 @@ $showWishlist = true;
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 
-<?php
-    $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-    $currentProduct = $productBlock->getCurrentProduct();
-    $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : '');
+<?php 
+    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+    $categoryObject = $catalogHelperData->getCategory();
+    $categoryId = $categoryObject->getId();
+    $categoryName = $categoryObject->getName();
 ?>
 
 <?php if (!$_productCollection->count()): ?>
@@ -209,7 +210,7 @@ $showWishlist = true;
                             <?php endif; ?>
                         </div>
                     </div>
-                    <?php if ($d2ItemCondition): ?>
+                    <?php if ($categoryName == "digiSeconds"): ?>
                         <div class="digiseconds-product-details">
                             <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
                         </div>
