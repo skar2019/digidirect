@@ -46,6 +46,14 @@
     $allChildrenCategoryIdsSmartHome = $categorySmartHome->getAllChildren(true);
 ?>
 
+
+<?php 
+    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+    $categoryObject = $catalogHelperData->getCategory();
+    $categoryId = $categoryObject->getId();
+    $categoryName = $categoryObject->getName();
+?>
+
 <div class="category-page-banner" style="width: 1095px;margin-right: 0;margin-left: auto;">
     <div class="custom-preloader-container"><div class="custom-preloader"></div></div>
     
@@ -71,23 +79,26 @@
         <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>smart_home.png"/>
     <?php endif; ?>
     
+    <?php if ($categoryName == "digiSeconds") : ?>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiseconds.png"/>
+    <?php endif; ?>
     
 </div>
-
-<?php 
-    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-    $categoryObject = $catalogHelperData->getCategory();
-    $categoryId = $categoryObject->getId();
-    $categoryName = $categoryObject->getName();
-?>
 
 <script>
     require(['jquery'],function(){
         jQuery(document).ready(function() {
             if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
-                alert("This is digiSeconds category page!");
+                //alert("This is digiSeconds category page!");
+                jQuery('.page-products.products-grid.product-item').addClass('digiseconds-li');
             }
         });
     });
 </script>
+
+<style>
+    .digiseconds-li {
+        width: 46.7% !important;
+    }
+</style>
 
