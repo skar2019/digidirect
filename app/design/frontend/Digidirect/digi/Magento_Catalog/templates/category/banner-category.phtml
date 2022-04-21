@@ -81,12 +81,10 @@
     $categoryName = $categoryObject->getName();
 ?>
 
-<div><?= /* @escapeNotVerified */ $categoryName ?></div>
-
 <script>
     require(['jquery'],function(){
         jQuery(document).ready(function() {
-            if (<?= /* @escapeNotVerified */ $categoryName ?> == "digiSeconds") {
+            if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
                 alert("This is digiSeconds category page!");
             }
         });
