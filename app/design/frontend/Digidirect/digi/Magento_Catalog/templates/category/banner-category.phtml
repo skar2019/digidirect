@@ -74,3 +74,12 @@
     
 </div>
 
+<?php 
+    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+    $categoryObject = $catalogHelperData->getCategory();
+    $categoryId = $categoryObject->getId();
+    $categoryName = $categoryObject->getName();
+?>
+
+<div><?= /* @escapeNotVerified */ $categoryName ?></div>
+
