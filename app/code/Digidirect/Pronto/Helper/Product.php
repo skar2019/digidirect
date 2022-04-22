@@ -273,7 +273,20 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                $product->setCustomAttribute('stock_condition', $prod['stk-condition-code']);
+                if($prod['stk-condition-code'] == 'T')
+                {
+                    $stock_condition = 181;
+                }
+                else if ($prod['stk-condition-code'] == 'O')
+                {
+                    $stock_condition = 179;
+                }
+                else
+                {
+                    $stock_condition = 183;
+                }
+
+                $product->setCustomAttribute('stock_condition', $stock_condition);
                 $this->productRepository->save($product);
 
 
