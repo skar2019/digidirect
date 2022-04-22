@@ -233,17 +233,6 @@ $showWishlist = true;
                         <?php if ($categoryName == "digiSeconds"): ?>
                             <div class="digiseconds-product-details">
                                 <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
-                                <?php if ($d2ItemDescription): ?>
-                                    <div class="item-note-wrapper">
-                                        <span class="item-note-label">
-                                            Item Note: 
-                                        </span>
-                                        <span class="item-note" style="padding-left: 15px;">
-                                            <?= /* @escapeNotVerified */ $d2ItemDescription ?>
-                                        </span>
-                                    </div>
-                                <?php endif; ?>
-                                
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
