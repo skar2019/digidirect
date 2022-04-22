@@ -72,9 +72,18 @@ $showWishlist = true;
                 $qff_bonus_points = 0;
                               
                 $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-                $currentProduct = $_product;
+                $currentProduct = $productBlock->getProductBySku($_product->getSku());
+                
+                $d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : '');
+                $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : '');  
+                $d2ItemDescription = ($currentProduct->getData('d2desc') ? $currentProduct->getData('d2desc') : ''); 
+                $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');  
+                $d2PackageInclusion = ($currentProduct->getData('whats_in_the_box') ? $currentProduct->getData('whats_in_the_box') : ''); 
 
-                $d2BrandNewProductSKU = ($_product->getData('d2newsku') ? $_product->getData('d2newsku') : '');
+                $brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : '');
+                $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
+                $brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
+                
                 
                 if (!empty($qff_base) && !empty($qff_bonus)) {
 
