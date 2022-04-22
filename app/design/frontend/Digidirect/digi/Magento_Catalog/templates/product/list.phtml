@@ -18,10 +18,16 @@ $showWishlist = true;
 <?= $block->getAdditionalHtml() ?>
 
 <?php 
-    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-    $categoryObject = $catalogHelperData->getCategory();
-    $categoryId = $categoryObject->getId();
-    $categoryName = $categoryObject->getName();
+
+    $currentPage = $this->getRequest()->getFullActionName(); 
+    
+    if ($currentPage != "catalogsearch_result_index") {
+        $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+        $categoryObject = $catalogHelperData->getCategory();
+        $categoryId = $categoryObject->getId();
+        $categoryName = $categoryObject->getName();
+    }
+
 ?>
 
 <?php if (!$_productCollection->count()): ?>
@@ -210,10 +216,12 @@ $showWishlist = true;
                             <?php endif; ?>
                         </div>
                     </div>
-                    <?php if ($categoryName == "digiSeconds"): ?>
-                        <div class="digiseconds-product-details">
-                            <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
-                        </div>
+                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                        <?php if ($categoryName == "digiSeconds"): ?>
+                            <div class="digiseconds-product-details">
+                                <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
