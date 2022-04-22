@@ -240,6 +240,35 @@ $showWishlist = true;
         </script>
     <?php endif; ?>
 <?php endif; ?>
+        
+<script>
+    require(['jquery'],function(){
+        jQuery(document).ready(function() {
+            if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
+                jQuery('.product-item-info>a').addClass('digiseconds-left-width');
+                jQuery('.testfreaks-items').addClass('digiseconds-left-width');
+                jQuery('.product-reviews-summary').addClass('digiseconds-left-width');
+                jQuery('.product-item-details').addClass('digiseconds-left-width');
+            }
+        });
+    });
+</script>
+
+<style>
+    .digiseconds-left-width {
+        width: 33% !important;
+    }
+    
+    .digiseconds-product-details {
+        position: absolute;
+        right: 15px;
+        max-width: 315px;
+    }
+    
+    .digiseconds-product-name {
+        font-size: 17px;
+    }
+</style>
 
 <style>
     .page-main {
