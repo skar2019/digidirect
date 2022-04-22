@@ -72,8 +72,8 @@ $showWishlist = true;
                 $qff_bonus_points = 0;
                               
                 $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-                $currentProduct = $productBlock->getProductBySku($_product->getSku());
-                
+                $currentProduct = $_product;
+
                 $d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : '');
                 $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : '');  
                 $d2ItemDescription = ($currentProduct->getData('d2desc') ? $currentProduct->getData('d2desc') : ''); 
@@ -234,42 +234,6 @@ $showWishlist = true;
                         <?php if ($categoryName == "digiSeconds"): ?>
                             <div class="digiseconds-product-details">
                                 <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
-                                <?php if ($d2ItemDescription): ?>
-                                    <div class="item-note-wrapper">
-                                        <span class="item-note-label">
-                                            Item Note: 
-                                        </span>
-                                        <span class="item-note" style="padding-left: 15px;">
-                                            <?= /* @escapeNotVerified */ $d2ItemDescription ?>
-                                        </span>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if ($d2PackageInclusion): ?>
-                                    <div class="package-inclusion-wrapper">
-                                        <div>
-                                            PACKAGE INCLUSION:
-                                        </div>
-                                        <div>
-                                            <?= /* @escapeNotVerified */ $d2PackageInclusion ?>
-                                        </div>
-                                        <div>
-                                            <a href="<?= $block->escapeUrl($productUrl); ?>" title="<?= $block->escapeHtml($productName); ?>">
-                                                 SHOW MORE <i class="far fa-angle-down"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if ($brandNewProductPrice): ?>
-                                    <div class="other-options-wrapper">
-                                        <div>
-                                            Other Buying Options
-                                        </div>
-                                        <div>
-                                            NEW: <a href="<?= $block->escapeUrl($brandNewProductUrl); ?>" title="View Brand New">$<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
-                                            </a>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
@@ -301,6 +265,8 @@ $showWishlist = true;
                 jQuery('.product-item-name').addClass('digiseconds-left-width');
                 jQuery('.product-item-details').addClass('digiseconds-left-width');
             }
+            
+            console.log("Brand New Product SKU : <?= $d2BrandNewProductSKU; ?>");
         });
     });
 </script>
