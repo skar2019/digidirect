@@ -686,11 +686,35 @@ class Product extends AbstractHelper
 //                $sourceItem->setQuantity(0);
 //                $forLogs .="default - 0 \n";
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+                if($prod['stk-condition-code'] == 'T')
+                {
+                    $stock_condition = 181;
+                }
+                else if ($prod['stk-condition-code'] == 'O')
+                {
+                    $stock_condition = 179;
+                }
+                else
+                {
+                    $stock_condition = 183;
+                }
 
+                if($prod['stk-condition-code'] == 'T')
+                {
+                    $stock_condition = 181;
+                }
+                else if ($prod['stk-condition-code'] == 'O')
+                {
+                    $stock_condition = 179;
+                }
+                else
+                {
+                    $stock_condition = 183;
+                }
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                $product->setCustomAttribute('stock_condition', $prod['stk-condition-code']);
+                $product->setCustomAttribute('stock_condition', $stock_condition);
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
