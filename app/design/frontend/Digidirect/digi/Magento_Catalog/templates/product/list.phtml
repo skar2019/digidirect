@@ -107,7 +107,7 @@ $showWishlist = true;
                 ?>
                 
             <script>
-                //console.log("digiSeconds Log: " + "<?= $d2BrandNewProductSKU; ?>");
+                console.log("digiSeconds Log: " + "<?= $d2BrandNewProductSKU; ?>");
             </script>
             
                 <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
@@ -261,17 +261,6 @@ $showWishlist = true;
                                         <div class="digiseconds-show-more">
                                             <a href="<?= $block->escapeUrl($productUrl) . "#whatinthebox"; ?>" title="<?= $block->escapeHtml($productName); ?>">
                                                  Show More <i class="far fa-angle-down"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if ($brandNewProductPrice): ?>
-                                    <div class="other-options-wrapper">
-                                        <div>
-                                            Other Buying Options
-                                        </div>
-                                        <div>
-                                            NEW: <a href="<?= $block->escapeUrl($brandNewProductUrl); ?>" title="View Brand New">$<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
                                             </a>
                                         </div>
                                     </div>
