@@ -13,6 +13,8 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
+$productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
+                
 ?>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
@@ -70,8 +72,6 @@ $showWishlist = true;
                 
                 $finalProductPrice = $_product->getFinalPrice();
                 $qff_bonus_points = 0;
-                              
-                $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
                 
                 $d2BrandNewProductSKU = $_product->getData('d2newsku');
                 $d2ItemCondition = $_product->getData('item_codition');
@@ -79,11 +79,11 @@ $showWishlist = true;
                 $d2ItemRating = $_product->getData('item_rating');
                 $d2PackageInclusion = $_product->getData('whats_in_the_box');
 
-                //if ($productBlock->getProductBySku($d2BrandNewProductSKU)) {
+                if ($productBlock->getProductBySku($d2BrandNewProductSKU)) {
                     //$brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
                     //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
                     //$brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
-                //}
+                }
                 
                 
                 if (!empty($qff_base) && !empty($qff_bonus)) {
@@ -358,13 +358,17 @@ $showWishlist = true;
     .package-inclusion-wrapper li {
         margin-bottom: 4px !important;
     }
+    
+    .package-inclusion-wrapper p {
+        margin-bottom: 4px;
+    }
 
     .package-inclusion-wrapper li span {
         margin-left: 20px;
         font-size: 12px !important;
     }
 
-    .digiseconds-show-more {
+    .digiseconds-show-more a {
         color: #ef3c00 !important;
         font-weight: 500;
         margin-left: 32px;
@@ -372,8 +376,8 @@ $showWishlist = true;
 
     .digiseconds-show-more i {
         color: #ef3c00 !important;
-        font-weight: 500;
-        margin-left: 32px;
+        font-weight: 600;
+        margin-left: 5px;
     }
 
     span.item-note-label {
