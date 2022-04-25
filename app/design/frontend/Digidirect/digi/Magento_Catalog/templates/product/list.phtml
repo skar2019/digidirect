@@ -88,9 +88,9 @@ $showWishlist = true;
                 //$d2PackageInclusion = ($currentProduct->getData('whats_in_the_box') ? $currentProduct->getData('whats_in_the_box') : ''); 
                 $d2PackageInclusion = $_product->getData('whats_in_the_box');
 
-                //$brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : '');
-                //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
-                //$brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
+                $brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : '');
+                $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
+                $brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
                 
                 
                 if (!empty($qff_base) && !empty($qff_bonus)) {
@@ -248,7 +248,7 @@ $showWishlist = true;
                             <div class="digiseconds-product-details">
                                 <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
                                 <?php if ($d2ItemDescription): ?>
-                                    <div class="item-note-wrapper">
+                                    <div class="item-note-wrapper-plp">
                                         <span class="item-note-label">
                                             Item Note: 
                                         </span>
@@ -262,12 +262,23 @@ $showWishlist = true;
                                         <div>
                                             PACKAGE INCLUSION:
                                         </div>
-                                        <div>
+                                        <div class="whats-in-the-box-wrapper">
                                             <?= /* @escapeNotVerified */ $d2PackageInclusion ?>
                                         </div>
+                                        <div class="digiseconds-show-more">
+                                            <a href="<?= $block->escapeUrl($productUrl) . "#whatinthebox"; ?>" title="<?= $block->escapeHtml($productName); ?>">
+                                                 Show More <i class="far fa-angle-down"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($brandNewProductPrice): ?>
+                                    <div class="other-options-wrapper">
                                         <div>
-                                            <a href="<?= $block->escapeUrl($productUrl); ?>" title="<?= $block->escapeHtml($productName); ?>">
-                                                 SHOW MORE <i class="far fa-angle-down"></i>
+                                            Other Buying Options
+                                        </div>
+                                        <div>
+                                            NEW: <a href="<?= $block->escapeUrl($brandNewProductUrl); ?>" title="View Brand New">$<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
                                             </a>
                                         </div>
                                     </div>
@@ -317,11 +328,12 @@ $showWishlist = true;
         position: absolute;
         left: 230px;
         max-width: 315px;
+        font-size: 13px;
     }
     
     .digiseconds-product-name {
         font-size: 18px;
-        width: 294px;
+        width: 324px;
         overflow: hidden;
         height: auto;
         display: -webkit-box;
@@ -329,8 +341,63 @@ $showWishlist = true;
         -webkit-box-orient: vertical;
         background: #f5f5f5;
         padding: 5px 0px 5px 15px;
-}
+        margin-left: -31px;
     }
+
+    .item-note-wrapper-plp {
+        text-align: left;
+        float: left;
+        width: 100%;
+        margin-bottom: 10px;
+        padding-top: 5px;
+        margin-top: 5px;
+        margin-left: 0;
+        font-size: 13px;
+        font-weight: 500;
+    }
+    
+    .package-inclusion-wrapper ul {
+        margin-left: 40px;
+    }
+
+    .whats-in-the-box-wrapper {
+        height: 150px;
+        overflow: hidden !important;
+    }
+
+    .package-inclusion-wrapper em strong {
+        display: none !important;
+    }
+
+    .package-inclusion-wrapper li::marker {
+        content: '-' !important;
+    }
+
+    .package-inclusion-wrapper li {
+        margin-bottom: 4px !important;
+    }
+
+    .package-inclusion-wrapper li span {
+        margin-left: 20px;
+        font-size: 12px !important;
+    }
+
+    .digiseconds-show-more {
+        color: #ef3c00 !important;
+        font-weight: 500;
+        margin-left: 32px;
+    }
+
+    .digiseconds-show-more i {
+        color: #ef3c00 !important;
+        font-weight: 500;
+        margin-left: 32px;
+    }
+
+    span.item-note-label {
+        color: #8f8f8f;
+    }
+
 </style>
 
 <style>
