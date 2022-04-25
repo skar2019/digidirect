@@ -72,10 +72,9 @@ $showWishlist = true;
                 $qff_bonus_points = 0;
                               
                 $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-                $currentProduct = $_product;
-
+                
                 //$d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : '');
-                $d2BrandNewProductSKU = $_product->getResource()->getAttribute('d2newsku')->getFrontend()->getValue($_product);
+                $d2BrandNewProductSKU = $_product->getData('d2newsku');
                 
                 //$d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : '');  
                 $d2ItemCondition = $_product->getResource()->getAttribute('item_codition')->getFrontend()->getValue($_product);
