@@ -80,7 +80,7 @@ $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidi
                 $d2PackageInclusion = $_product->getData('whats_in_the_box');
 
                 //if ($productBlock->getProductBySku($d2BrandNewProductSKU)) {
-                    //$brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+                $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
                     //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
                     //$brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
                 //}
