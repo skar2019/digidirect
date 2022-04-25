@@ -78,9 +78,16 @@ $showWishlist = true;
                 $d2BrandNewProductSKU = $_product->getResource()->getAttribute('d2newsku')->getFrontend()->getValue($_product);
                 
                 //$d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : '');  
+                $d2ItemCondition = $_product->getResource()->getAttribute('item_codition')->getFrontend()->getValue($_product);
+                
                 //$d2ItemDescription = ($currentProduct->getData('d2desc') ? $currentProduct->getData('d2desc') : ''); 
+                $d2ItemDescription = $_product->getResource()->getAttribute('d2desc')->getFrontend()->getValue($_product);
+                
                 //$d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');  
+                $d2ItemRating = $_product->getResource()->getAttribute('item_rating')->getFrontend()->getValue($_product);
+                
                 //$d2PackageInclusion = ($currentProduct->getData('whats_in_the_box') ? $currentProduct->getData('whats_in_the_box') : ''); 
+                $d2PackageInclusion = $_product->getResource()->getAttribute('whats_in_the_box')->getFrontend()->getValue($_product);
 
                 //$brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : '');
                 //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
@@ -236,6 +243,31 @@ $showWishlist = true;
                         <?php if ($categoryName == "digiSeconds"): ?>
                             <div class="digiseconds-product-details">
                                 <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
+                                <?php if ($d2ItemDescription): ?>
+                                    <div class="item-note-wrapper">
+                                        <span class="item-note-label">
+                                            Item Note: 
+                                        </span>
+                                        <span class="item-note" style="padding-left: 15px;">
+                                            <?= /* @escapeNotVerified */ $d2ItemDescription ?>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($d2PackageInclusion): ?>
+                                    <div class="package-inclusion-wrapper">
+                                        <div>
+                                            PACKAGE INCLUSION:
+                                        </div>
+                                        <div>
+                                            <?= /* @escapeNotVerified */ $d2PackageInclusion ?>
+                                        </div>
+                                        <div>
+                                            <a href="<?= $block->escapeUrl($productUrl); ?>" title="<?= $block->escapeHtml($productName); ?>">
+                                                 SHOW MORE <i class="far fa-angle-down"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
