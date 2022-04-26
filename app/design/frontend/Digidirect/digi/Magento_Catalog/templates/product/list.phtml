@@ -88,6 +88,7 @@ $showWishlist = true;
                 if ($brandNewProduct) {
                     $brandNewProductPrice = $brandNewProduct->getPrice();
                     $brandNewProductUrl = $brandNewProduct->getProductUrl();
+                    $secondsSavings = round(($finalProductPrice/$brandNewProductPrice)*100);
                 }
                 
                 //if ($d2BrandNewProductSKU) {
@@ -166,6 +167,17 @@ $showWishlist = true;
                                 </div>
                             </div>
                         </div>
+                    <?php endif; ?>
+                    
+                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                        <?php if ($categoryName == "digiSeconds"): ?>
+                            <strong class="product name -grid">
+                                <a href="<?= $block->escapeUrl($productUrl); ?>"
+                                   class="product-item-link">
+                                    Seconds Savings: <?= $secondsSavings; ?>%
+                                </a>
+                            </strong>
+                        <?php endif; ?>
                     <?php endif; ?>
                         
                     <?php if($blockMode === 'grid'):?>
@@ -415,6 +427,18 @@ $showWishlist = true;
     .other-options-wrapper a {
         font-size: 17px;
         margin-left: 5px;
+    }
+    
+    .product-item .product-reviews-summary .rating-summary {
+        display: none !important;
+    }
+    
+    .product-category-listing .digiseconds-li .product-item-name {
+        visibility: hidden;
+    }
+    
+    .product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo {
+        margin-top: 70px !important;
     }
 
 </style>
