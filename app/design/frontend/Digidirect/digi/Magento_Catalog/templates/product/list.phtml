@@ -85,12 +85,6 @@ $showWishlist = true;
                 if ($d2BrandNewProductSKU) {
                     $brandNewProduct = ($block->getProductBySku($d2BrandNewProductSKU) ? $block->getProductBySku($d2BrandNewProductSKU) : '');
                     //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
-                    try {
-                        $brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
-                    }
-                    catch(Exception $e) {
-                      echo 'Message: ' .$e->getMessage();
-                    }
                     //$brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
                 }
                
