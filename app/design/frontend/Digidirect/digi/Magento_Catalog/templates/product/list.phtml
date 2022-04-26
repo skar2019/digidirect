@@ -169,17 +169,18 @@ $showWishlist = true;
                             </div>
                         </div>
                     <?php endif; ?>
+                        
+                    <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
+                        <a href="<?= $block->escapeUrl($productUrl); ?>"
+                           class="product-item-link">
+                                <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                                    <?php if ($categoryName == "digiSeconds" && ($brandNewProductPrice != "" || $brandNewProductPrice)): ?>
+                                        Seconds Savings: <?= $secondsSavings; ?>%
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                        </a>
+                    </strong>
                     
-                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                        <?php if ($categoryName == "digiSeconds" && ($brandNewProductPrice != "" || $brandNewProductPrice)): ?>
-                            <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
-                                <a href="<?= $block->escapeUrl($productUrl); ?>"
-                                   class="product-item-link">
-                                    Seconds Savings: <?= $secondsSavings; ?>%
-                                </a>
-                            </strong>
-                        <?php endif; ?>
-                    <?php endif; ?>
                         
                     <?php if($blockMode === 'grid'):?>
                         <strong class="product name product-item-name -grid">
@@ -436,6 +437,7 @@ $showWishlist = true;
     
     .product-category-listing .digiseconds-li .product-item-name {
         visibility: hidden;
+        display: none;
     }
     
     .product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo {
