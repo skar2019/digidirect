@@ -107,8 +107,7 @@ $showWishlist = true;
                 ?>
                 
             <script>
-                console.log("digiSeconds Brand New Price:");
-                console.log("digiSeconds Brand New URL:");
+                console.log("digiSeconds: " + JSON.stringify(<?= $brandNewProduct; ?>));
             </script>
             
                 <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
