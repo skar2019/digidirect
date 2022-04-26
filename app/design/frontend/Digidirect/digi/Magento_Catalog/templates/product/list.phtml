@@ -70,6 +70,9 @@ $showWishlist = true;
                 $qff_bonus = $_helper->productAttribute($_product, $_product->getQffBonusPoints(), 'qff_bonus_points');
                 $stock = $_helper->productAttribute($_product, $_product->getPrice(), 'price');
                 
+                $brandNewProductPrice = "";
+                $brandNewProductUrl = "";
+                
                 $finalProductPrice = $_product->getFinalPrice();
                 $qff_bonus_points = 0;
                 
@@ -271,12 +274,12 @@ $showWishlist = true;
                                         </div>
                                     </div>
                                 <?php endif; ?>
-                                <?php if ($brandNewProductPrice): ?>
+                                <?php if ($brandNewProductPrice && $brandNewProductPrice != ""): ?>
                                     <div class="other-options-wrapper">
                                         <div>
                                             Other Buying Options
                                         </div>
-                                        <div>
+                                        <div class="other-options-new">
                                             NEW: <a href="<?= $block->escapeUrl($brandNewProductUrl); ?>" title="View Brand New">$<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
                                             </a>
                                         </div>
@@ -399,6 +402,19 @@ $showWishlist = true;
 
     span.item-note-label {
         color: #8f8f8f;
+    }
+    
+    .other-options-wrapper {
+        margin-top: 10px;
+    }
+    
+    .other-options-new {
+        margin-top: 6px;
+    }
+    
+    .other-options-wrapper a {
+        font-size: 17px;
+        margin-left: 5px;
     }
 
 </style>
