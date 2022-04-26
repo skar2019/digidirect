@@ -271,6 +271,17 @@ $showWishlist = true;
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                <?php if ($brandNewProductPrice): ?>
+                                    <div class="other-options-wrapper">
+                                        <div>
+                                            Other Buying Options
+                                        </div>
+                                        <div>
+                                            NEW: <a href="<?= $block->escapeUrl($brandNewProductUrl); ?>" title="View Brand New">$<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         <?php endif; ?>
                     <?php endif; ?>
