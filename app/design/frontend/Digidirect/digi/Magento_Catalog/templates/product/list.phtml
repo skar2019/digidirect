@@ -13,7 +13,7 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;
-$productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
+//$productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
                 
 ?>
 <?= $block->getToolbarHtml() ?>
@@ -79,11 +79,11 @@ $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidi
                 $d2ItemRating = $_product->getData('item_rating');
                 $d2PackageInclusion = $_product->getData('whats_in_the_box');
 
-                //if ($productBlock->getProductBySku($d2BrandNewProductSKU)) {
+                if ($block->getProductBySku($d2BrandNewProductSKU)) {
                 //$brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : '');
                     //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
                     //$brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
-                //}
+                }
                 
                 
                 if (!empty($qff_base) && !empty($qff_bonus)) {
