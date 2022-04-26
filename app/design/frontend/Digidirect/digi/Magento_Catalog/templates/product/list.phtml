@@ -79,14 +79,19 @@ $showWishlist = true;
                 $d2ItemRating = $_product->getData('item_rating');
                 $d2PackageInclusion = $_product->getData('whats_in_the_box');
                 
-                //$objectManagerProduct = \Magento\Framework\App\ObjectManager::getInstance();
-                //$brandNewProduct = $objectManagerProduct->get('Magento\Catalog\Model\Product')->loadByAttribute('sku', $d2BrandNewProductSKU);
-
-                if ($d2BrandNewProductSKU) {
-                    $brandNewProduct = ($block->getProductBySku($d2BrandNewProductSKU) ? $block->getProductBySku($d2BrandNewProductSKU) : '');
+                $objectManagerProduct = \Magento\Framework\App\ObjectManager::getInstance();
+                $brandNewProduct = $objectManagerProduct->get('Magento\Catalog\Model\Product')->loadByAttribute('sku', $d2BrandNewProductSKU);
+                
+                if ($brandNewProduct) {
+                    $brandNewProductPrice = $brandNewProduct->getPrice();
+                    $brandNewProductUrl = $brandNewProduct->getProductUrl();
+                }
+                
+                //if ($d2BrandNewProductSKU) {
+                    //$brandNewProduct = ($block->getProductBySku($d2BrandNewProductSKU) ? $block->getProductBySku($d2BrandNewProductSKU) : '');
                     //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
                     //$brandNewProductUrl = ($brandNewProduct->getProductUrl() ? $brandNewProduct->getProductUrl() : '');
-                }
+                //}
                
                 if (!empty($qff_base) && !empty($qff_bonus)) {
 
