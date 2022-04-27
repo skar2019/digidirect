@@ -19,16 +19,14 @@ $showWishlist = true;
 
 <?php 
 
-//    $currentPage = $this->getRequest()->getFullActionName(); 
-//    
-//    if ($currentPage != "catalogsearch_result_index") {
-//        $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-//        $categoryObject = $catalogHelperData->getCategory();
-//        $categoryId = $categoryObject->getId();
-//        $categoryName = $categoryObject->getName();
-//    }
-
-$categoryName = "digiSeconds";
+    $currentPage = $this->getRequest()->getFullActionName(); 
+    
+    if ($currentPage != "catalogsearch_result_index") {
+        $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+        $categoryObject = $catalogHelperData->getCategory();
+        $categoryId = $categoryObject->getId();
+        $categoryName = $categoryObject->getName();
+    }
     
 ?>
 
