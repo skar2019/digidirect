@@ -1,8 +1,11 @@
 <?php
-    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-    $categoryObject = $catalogHelperData->getCategory();
-    $categoryId = $categoryObject->getId();
-    $categoryName = $categoryObject->getName();
+
+    if ($currentPage != "catalogsearch_result_index") {
+        $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+        $categoryObject = $catalogHelperData->getCategory();
+        $categoryId = $categoryObject->getId();
+        $categoryName = $categoryObject->getName();
+    }
     
     $objectManager =  \Magento\Framework\App\ObjectManager::getInstance();        
 
@@ -78,9 +81,10 @@
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsSmartHome)) : ?>
         <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>smart_home.png"/>
     <?php endif; ?>
-    
     <?php if ($categoryName == "digiSeconds") : ?>
-        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiseconds.png"/>
+        <?php if ($categoryName == "digiSeconds") : ?>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiseconds.png"/>
+        <?php endif; ?>
     <?php endif; ?>
     
 </div>
