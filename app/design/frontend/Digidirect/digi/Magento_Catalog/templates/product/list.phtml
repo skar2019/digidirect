@@ -77,22 +77,12 @@ $showWishlist = true;
                 $finalProductPrice = $_product->getFinalPrice();
                 $qff_bonus_points = 0;
                 
-                if ($currentPage != "catalogsearch_result_index") {
-                    $d2BrandNewProductSKU = $_product->getData('d2newsku');
-                    $d2ItemCondition = $_product->getData('item_codition');
-                    $d2ItemDescription = $_product->getData('d2desc'); 
-                    $d2ItemRating = $_product->getData('item_rating');
-                    $d2PackageInclusion = $_product->getData('whats_in_the_box');
+                $d2BrandNewProductSKU = $_product->getData('d2newsku');
+                $d2ItemCondition = $_product->getData('item_codition');
+                $d2ItemDescription = $_product->getData('d2desc'); 
+                $d2ItemRating = $_product->getData('item_rating');
+                $d2PackageInclusion = $_product->getData('whats_in_the_box');
 
-                    $objectManagerProduct = \Magento\Framework\App\ObjectManager::getInstance();
-                    $brandNewProduct = $objectManagerProduct->get('Magento\Catalog\Model\Product')->loadByAttribute('sku', $d2BrandNewProductSKU);
-
-                    if ($brandNewProduct) {
-                        $brandNewProductPrice = $brandNewProduct->getPrice();
-                        $brandNewProductUrl = $brandNewProduct->getProductUrl();
-                        $secondsSavings = round(($finalProductPrice/$brandNewProductPrice)*100);
-                    }
-                }
                 ?>
                
                 <?php if (!empty($qff_base) && !empty($qff_bonus)) {
