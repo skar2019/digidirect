@@ -129,57 +129,6 @@ $showWishlist = true;
                     }
                     ?>
                     
-                    <?php if ($d2ItemCondition): ?>
-                        <div class="digiseconds-overlay">
-                            <?php if ($d2ItemCondition == "PRELOVED"): ?>
-                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
-                            <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
-                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-demo.png"/>
-                            <?php elseif ($d2ItemCondition == "REFURB"): ?>
-                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-refurbished.png"/>
-                            <?php endif; ?>
-                            <div class="digiseconds-rating">
-                                <?php if ($d2ItemRating == 5): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                <?php elseif ($d2ItemRating == 4): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php elseif ($d2ItemRating == 3): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php elseif ($d2ItemRating == 2): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php elseif ($d2ItemRating == 1): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php elseif ($d2ItemRating == 0): ?>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    
                     <?php // Product Image ?>
                     <a href="<?= $block->escapeUrl($productUrl); ?>"
                        title="<?= $block->escapeHtml($productName); ?>"
@@ -217,6 +166,18 @@ $showWishlist = true;
                         </div>
                     <?php endif; ?>
                     
+                    <?php if ($categoryName == "digiSeconds") : ?>
+                        <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
+                            <a href="<?= $block->escapeUrl($productUrl); ?>"
+                               class="product-item-link">
+                                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                                        <?php if ($brandNewProductPrice != "" || $brandNewProductPrice): ?>
+                                            Seconds Savings: <?= $secondsSavings; ?>%
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                            </a>
+                        </strong>
+                    <?php endif; ?>
                         
                     <?php if($blockMode === 'grid'):?>
                         <strong class="product name product-item-name -grid">
