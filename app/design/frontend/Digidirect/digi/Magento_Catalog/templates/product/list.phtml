@@ -218,27 +218,40 @@ $showWishlist = true;
                         </div>
                     <?php endif; ?>
                         
-                    <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
-                        <a href="<?= $block->escapeUrl($productUrl); ?>"
-                           class="product-item-link">
-                                <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                                    <?php if ($categoryName == "digiSeconds" && ($brandNewProductPrice != "" || $brandNewProductPrice)): ?>
-                                        Seconds Savings: <?= $secondsSavings; ?>%
-                                    <?php endif; ?>
-                                <?php endif; ?>
-                        </a>
-                    </strong>
-                    
                         
-                    <?php if($blockMode === 'grid'):?>
-                        <strong class="product name product-item-name -grid">
+                    <?php if ($categoryName == "digiSeconds" && ($brandNewProductPrice != "" || $brandNewProductPrice)): ?>
+                        <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
                             <a href="<?= $block->escapeUrl($productUrl); ?>"
-                               title="<?= $block->escapeHtml($productName); ?>"
                                class="product-item-link">
-                                <?= $block->escapeHtml($productName); ?>
+                                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                                        <?php if ($categoryName == "digiSeconds" && ($brandNewProductPrice != "" || $brandNewProductPrice)): ?>
+                                            Seconds Savings: <?= $secondsSavings; ?>%
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                             </a>
                         </strong>
-                    <?php endif;?>
+                        <?php if($blockMode === 'grid'):?>
+                            <strong class="product name product-item-name -grid">
+                                <a href="<?= $block->escapeUrl($productUrl); ?>"
+                                   title="<?= $block->escapeHtml($productName); ?>"
+                                   class="product-item-link">
+                                    <?= $block->escapeHtml($productName); ?>
+                                </a>
+                            </strong>
+                        <?php endif;?>
+                    <?php else: ?>
+                        <?php if($blockMode === 'grid'):?>
+                            <strong class="product name product-item-name -grid">
+                                <a href="<?= $block->escapeUrl($productUrl); ?>"
+                                   title="<?= $block->escapeHtml($productName); ?>"
+                                   class="product-item-link">
+                                    <?= $block->escapeHtml($productName); ?>
+                                </a>
+                            </strong>
+                        <?php endif;?>
+                    <?php endif; ?>
+                        
+                    
                     <div class="product details product-item-details">
                         <div class="no-display">
                             <?php
