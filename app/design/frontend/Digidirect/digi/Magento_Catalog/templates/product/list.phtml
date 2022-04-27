@@ -216,18 +216,19 @@ $showWishlist = true;
                             </div>
                         </div>
                     <?php endif; ?>
-                    
-                    <?php if ($categoryName == "digiSeconds") : ?>
-                        <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
-                            <a href="<?= $block->escapeUrl($productUrl); ?>"
-                               class="product-item-link">
-                                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                                        <?php if ($brandNewProductPrice != "" || $brandNewProductPrice): ?>
-                                            Seconds Savings: <?= $secondsSavings; ?>%
+                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                        <?php if ($categoryName == "digiSeconds") : ?>
+                            <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
+                                <a href="<?= $block->escapeUrl($productUrl); ?>"
+                                   class="product-item-link">
+                                        <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                                            <?php if ($brandNewProductPrice != "" || $brandNewProductPrice): ?>
+                                                Seconds Savings: <?= $secondsSavings; ?>%
+                                            <?php endif; ?>
                                         <?php endif; ?>
-                                    <?php endif; ?>
-                            </a>
-                        </strong>
+                                </a>
+                            </strong>
+                        <?php endif; ?>
                     <?php endif; ?>
                         
                     <?php if($blockMode === 'grid'):?>
