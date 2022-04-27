@@ -83,6 +83,14 @@ $showWishlist = true;
                 $d2ItemRating = $_product->getData('item_rating');
                 $d2PackageInclusion = $_product->getData('whats_in_the_box');
 
+                $objectManagerProduct = \Magento\Framework\App\ObjectManager::getInstance();
+                $brandNewProduct = $objectManagerProduct->get('Magento\Catalog\Model\Product')->loadByAttribute('sku', $d2BrandNewProductSKU);
+
+                if ($brandNewProduct) {
+                    $brandNewProductPrice = $brandNewProduct->getPrice();
+                    $brandNewProductUrl = $brandNewProduct->getProductUrl();
+                    $secondsSavings = round(($finalProductPrice/$brandNewProductPrice)*100);
+                }
                 ?>
                
                 <?php if (!empty($qff_base) && !empty($qff_bonus)) {
@@ -209,18 +217,6 @@ $showWishlist = true;
                         </div>
                     <?php endif; ?>
                     
-                    <?php if ($categoryName == "digiSeconds") : ?>
-                        <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
-                            <a href="<?= $block->escapeUrl($productUrl); ?>"
-                               class="product-item-link">
-                                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                                        <?php if ($brandNewProductPrice != "" || $brandNewProductPrice): ?>
-                                            Seconds Savings: <?= $secondsSavings; ?>%
-                                        <?php endif; ?>
-                                    <?php endif; ?>
-                            </a>
-                        </strong>
-                    <?php endif; ?>
                         
                     <?php if($blockMode === 'grid'):?>
                         <strong class="product name product-item-name -grid">
