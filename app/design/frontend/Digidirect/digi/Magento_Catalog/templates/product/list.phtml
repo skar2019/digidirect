@@ -366,7 +366,7 @@ $showWishlist = true;
 <script>
     require(['jquery'],function(){
         jQuery(document).ready(function() {
-            if ("<?= /* @escapeNotVerified */ $currentPage ?>" == "catalogsearch_result_index") {
+            if ("<?= /* @escapeNotVerified */ $currentPage ?>" != "catalogsearch_result_index") {
                 if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
                     jQuery('.product-item-info>a').addClass('digiseconds-left-width');
                     jQuery('.testfreaks-items').addClass('digiseconds-left-width');
