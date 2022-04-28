@@ -366,12 +366,14 @@ $showWishlist = true;
 <script>
     require(['jquery'],function(){
         jQuery(document).ready(function() {
-            if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
-                jQuery('.product-item-info>a').addClass('digiseconds-left-width');
-                jQuery('.testfreaks-items').addClass('digiseconds-left-width');
-                jQuery('.product-reviews-summary').addClass('digiseconds-left-width');
-                jQuery('.product-item-name').addClass('digiseconds-left-width');
-                jQuery('.product-item-details').addClass('digiseconds-left-width');
+            if ("<?= /* @escapeNotVerified */ $currentPage ?>" == "catalogsearch_result_index") {
+                if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
+                    jQuery('.product-item-info>a').addClass('digiseconds-left-width');
+                    jQuery('.testfreaks-items').addClass('digiseconds-left-width');
+                    jQuery('.product-reviews-summary').addClass('digiseconds-left-width');
+                    jQuery('.product-item-name').addClass('digiseconds-left-width');
+                    jQuery('.product-item-details').addClass('digiseconds-left-width');
+                }
             }
         });
     });
