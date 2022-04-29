@@ -22,6 +22,19 @@ $showWishlist = true;
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 
+<?php 
+
+    $currentPage = $this->getRequest()->getFullActionName(); 
+    
+    if ($currentPage != "catalogsearch_result_index") {
+        $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+        $categoryObject = $catalogHelperData->getCategory();
+        $categoryId = $categoryObject->getId();
+        $categoryName = $categoryObject->getName();
+    }
+    
+?>
+
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
 <?php else: ?>
@@ -103,6 +116,10 @@ $showWishlist = true;
                 $productUrl = $_product->getProductUrl(); 
                 
                 ?>
+                
+            <script>
+            </script>
+            
                 <?= /* @escapeNotVerified */ ($iterator++ == 1) ? '<li class="item product product-item">' : '</li><li class="item product product-item">' ?>
                 <div class="product-item-info -<?= $block->escapeHtml($viewMode); ?>"
                      data-container="product-grid"
@@ -203,6 +220,19 @@ $showWishlist = true;
                             </div>
                         </div>
                     <?php endif; ?>
+                    
+                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                        <?php if ($categoryName == "digiSeconds") : ?>
+                            <strong class="product name product-item-name -grid" style="visibility:visible; display: block !important; font-size: 12px !important;">
+                                <a href="<?= $block->escapeUrl($productUrl); ?>"
+                                   class="product-item-link">
+                                    <?php if ($brandNewProductPrice != "" || $brandNewProductPrice): ?>
+                                        Seconds Savings: <?= $secondsSavings; ?>%
+                                    <?php endif; ?>
+                                </a>
+                            </strong>
+                        <?php endif; ?>
+                    <?php endif; ?>
                         
                     <?php if($blockMode === 'grid'):?>
                         <strong class="product name product-item-name -grid">
@@ -281,6 +311,49 @@ $showWishlist = true;
                             <?php endif; ?>
                         </div>
                     </div>
+                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                        <?php if ($categoryName == "digiSeconds"): ?>
+                            <div class="digiseconds-product-details">
+                                <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
+                                <?php if ($d2ItemDescription): ?>
+                                    <div class="item-note-wrapper-plp">
+                                        <span class="item-note-label">
+                                            Item Note: 
+                                        </span>
+                                        <span class="item-note" style="padding-left: 15px;">
+                                            <?= /* @escapeNotVerified */ $d2ItemDescription ?>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($d2PackageInclusion): ?>
+                                    <div class="package-inclusion-wrapper">
+                                        <div>
+                                            PACKAGE INCLUSION:
+                                        </div>
+                                        <div class="whats-in-the-box-wrapper">
+                                            <?= /* @escapeNotVerified */ $d2PackageInclusion ?>
+                                        </div>
+                                        <div class="digiseconds-show-more">
+                                            <a href="<?= $block->escapeUrl($productUrl) . "#whatinthebox"; ?>" title="<?= $block->escapeHtml($productName); ?>">
+                                                 Show More <i class="far fa-angle-down"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <?php if ($brandNewProductPrice && $brandNewProductPrice != ""): ?>
+                                    <div class="other-options-wrapper">
+                                        <div>
+                                            Other Buying Options
+                                        </div>
+                                        <div class="other-options-new">
+                                            NEW: <a href="<?= $block->escapeUrl($brandNewProductUrl); ?>" title="View Brand New">$<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
@@ -302,6 +375,15 @@ $showWishlist = true;
 <script>
     require(['jquery'],function(){
         jQuery(document).ready(function() {
+            if ("<?= /* @escapeNotVerified */ $currentPage ?>" != "catalogsearch_result_index") {
+                if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
+                    jQuery('.product-item-info>a').addClass('digiseconds-left-width');
+                    jQuery('.testfreaks-items').addClass('digiseconds-left-width');
+                    jQuery('.product-reviews-summary').addClass('digiseconds-left-width');
+                    jQuery('.product-item-name').addClass('digiseconds-left-width');
+                    jQuery('.product-item-details').addClass('digiseconds-left-width');
+                }
+            }
         });
     });
 </script>
