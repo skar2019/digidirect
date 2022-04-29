@@ -23,7 +23,11 @@ $showWishlist = true;
 <?= $block->getAdditionalHtml() ?>
 
 <?php 
-    $currentPage = $this->getRequest()->getFullActionName(); 
+    try {
+        $currentPage = $this->getRequest()->getFullActionName(); 
+    } catch (Exception $e) {
+        $currentPage = "Error On Search Result Page!"; 
+    }
 ?>
 <script>
     console.log("Current Page Log: " + "<?= $currentPage ?>");
