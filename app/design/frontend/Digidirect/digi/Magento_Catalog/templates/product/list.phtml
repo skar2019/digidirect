@@ -16,6 +16,9 @@ $showWishlist = true;
 //$productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
                 
 ?>
+<script>
+    console.log("Product Count Log: " + "<?= $_productCollection->count() ?>");
+</script>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 
