@@ -6,9 +6,11 @@
 
 /** This changes need to valid applying filters and configuration before search process is started. */
 $productList = $block->getProductListHtml();
+$_productCollection = $block->getLoadedProductCollection();
 ?>
 <script>
     console.log("Result Count Log: " + "<?= $block->getResultCount(); ?>");
+    console.log("Product Count Log: " + "<?= $_productCollection->count() ?>");
 </script>
 <?php if ($block->getResultCount()) : ?>
     <?= /* @noEscape */ $block->getChildHtml('tagged_product_list_rss_link') ?>
