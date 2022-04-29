@@ -23,7 +23,10 @@ $showWishlist = true;
 <?= $block->getAdditionalHtml() ?>
 
 <?php 
-    $currentPage = "Test Current Page";
+    //$currentPage = $this->getRequest()->getFullActionName(); 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $request = $objectManager->get('\Magento\Framework\App\Request\Http');
+    $currentPage = $request->getFullActionName();
 ?>
 <script>
     console.log("Current Page Log: " + "<?= $currentPage ?>");
