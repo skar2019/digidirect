@@ -20,6 +20,9 @@ $showWishlist = true;
     console.log("Product Count Log: " + "<?= $_productCollection->count() ?>");
 </script>
 <?= $block->getToolbarHtml() ?>
+<script>
+    console.log("Before getAdditionalHtml()");
+</script>
 <?= $block->getAdditionalHtml() ?>
 <script>
     console.log("Before getFullActionName()");
