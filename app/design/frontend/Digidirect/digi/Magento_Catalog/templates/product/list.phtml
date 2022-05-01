@@ -26,6 +26,9 @@ $showWishlist = true;
     $currentPage = $this->getRequest()->getFullActionName(); 
 ?>
 <script>
+    console.log("After getFullActionName()");
+</script>
+<script>
     console.log("Current Page Log: " + "<?= $currentPage ?>");
 </script>
 <?php 
@@ -56,9 +59,6 @@ $showWishlist = true;
      */
     $pos = $block->getPositioned();
     ?>
-    <script>
-        console.log("Log: Product Count Logic Is Working!");
-    </script>
     <div class="products wrapper products-widget product-category-listing <?= $block->escapeHtml($viewMode); ?> products-<?= $block->escapeHtml($viewMode); ?>">
         <?php $iterator = 1; ?>
         <ol class="products items product-items -<?= $block->escapeHtml($viewMode); ?>"
