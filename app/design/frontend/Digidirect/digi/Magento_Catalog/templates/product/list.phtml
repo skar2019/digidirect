@@ -21,7 +21,9 @@ $showWishlist = true;
 </script>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
-
+<script>
+    console.log("Before getFullActionName()");
+</script>
 <?php 
     $currentPage = $this->getRequest()->getFullActionName(); 
 ?>
