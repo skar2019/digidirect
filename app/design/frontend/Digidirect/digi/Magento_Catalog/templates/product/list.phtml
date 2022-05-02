@@ -212,7 +212,20 @@ $showWishlist = true;
                             </div>
                         </div>
                     <?php endif; ?>
-                        
+                    
+                    <?php if ($currentPage != "catalogsearch_result_index"): ?>
+                        <?php if ($categoryName == "digiSeconds") : ?>
+                            <strong class="product name product-item-name -grid digiseconds-savings">
+                                <a href="<?= $block->escapeUrl($productUrl); ?>"
+                                   class="product-item-link">
+                                    <?php if ($brandNewProductPrice != "" || $brandNewProductPrice): ?>
+                                        Seconds Savings: <?= $secondsSavings; ?>%
+                                    <?php endif; ?>
+                                </a>
+                            </strong>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                            
                     <?php if($blockMode === 'grid'):?>
                         <strong class="product name product-item-name -grid">
                             <a href="<?= $block->escapeUrl($productUrl); ?>"
