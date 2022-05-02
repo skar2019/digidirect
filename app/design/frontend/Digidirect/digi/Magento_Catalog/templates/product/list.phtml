@@ -69,10 +69,31 @@ $showWishlist = true;
                 $qff_bonus = $_helper->productAttribute($_product, $_product->getQffBonusPoints(), 'qff_bonus_points');
                 $stock = $_helper->productAttribute($_product, $_product->getPrice(), 'price');
                 
+                $brandNewProductPrice = "";
+                $brandNewProductUrl = "";
+                $secondsSavings = "";
+                
                 $finalProductPrice = $_product->getFinalPrice();
                 $qff_bonus_points = 0;
                 
-                if (!empty($qff_base) && !empty($qff_bonus)) {
+                $d2BrandNewProductSKU = $_product->getData('d2newsku');
+                $d2ItemCondition = $_product->getData('item_codition');
+                $d2ItemDescription = $_product->getData('d2desc'); 
+                $d2ItemRating = $_product->getData('item_rating');
+                $d2PackageInclusion = $_product->getData('whats_in_the_box');
+                
+                $objectManagerProduct = \Magento\Framework\App\ObjectManager::getInstance();
+                $brandNewProduct = $objectManagerProduct->get('Magento\Catalog\Model\Product')->loadByAttribute('sku', $d2BrandNewProductSKU);
+                
+                if ($brandNewProduct) {
+                    $brandNewProductPrice = $brandNewProduct->getPrice();
+                    $brandNewProductUrl = $brandNewProduct->getProductUrl();
+                    $secondsSavings = round(($finalProductPrice/$brandNewProductPrice)*100);
+                }
+                
+                ?>
+               
+                <?php if (!empty($qff_base) && !empty($qff_bonus)) {
 
                     $bonusPlusBase = $qff_base + $qff_bonus;
 
@@ -82,7 +103,7 @@ $showWishlist = true;
 
                         $points = number_format($finalProductPrice * $qff_bonus);
                     } else {
-                        $points = number_format($finalProductPrice * 2);
+                        $points = number_format($finalProductPrice * 1);
                     }
                 }  
 
