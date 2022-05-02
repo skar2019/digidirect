@@ -20,6 +20,7 @@ $showWishlist = true;
     $currentPage = $this->getRequest()->getFullActionName(); 
 ?>
 <?php 
+    $categoryName = "";
     if ($currentPage != "catalogsearch_result_index") {
         $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
         $categoryObject = $catalogHelperData->getCategory();
