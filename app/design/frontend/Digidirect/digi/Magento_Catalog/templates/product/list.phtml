@@ -364,15 +364,13 @@ $showWishlist = true;
     <?php endif; ?>
 <?php endif; ?>
         
-<script type="text/x-magento-init">
-    {
-        "*": {
-            "js/digiseconds": {
-                "currentPage": "<?= /* @escapeNotVerified */ $currentPage ?>",
-                "categoryName": "<?= /* @escapeNotVerified */ $categoryName ?>"
-            }
-        }
-    }
+<script>
+    require([
+        'jquery'
+    ],
+    function ($) {
+        console.log("JS Working On PHTML!");
+    });
 </script>
 
 <style>
