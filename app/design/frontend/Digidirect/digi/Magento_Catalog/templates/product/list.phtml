@@ -30,6 +30,42 @@ $showWishlist = true;
         $categoryName = $categoryObject->getName();
     }
 ?>
+        
+<script>
+    require([
+        'jquery'
+    ],
+    function ($) {
+        $(window).on('resize', function(){
+            var currentPage = "<?= $currentPage ?>";
+            var categoryName = "<?= $categoryName ?>";
+            if (currentPage != "catalogsearch_result_index") {
+                if (categoryName == "digiSeconds") {
+                    var win = $(this);
+                    if (win.width() >= 1440) {
+                        $('.product-item-info>a').addClass('digiseconds-left-width');
+                        $('.testfreaks-items').addClass('digiseconds-left-width');
+                        $('.product-reviews-summary').addClass('digiseconds-left-width');
+                        $('.product-item-name').addClass('digiseconds-left-width');
+                        $('.product-item-details').addClass('digiseconds-left-width');
+                        $('.digiseconds-product-details').attr("style", "display:block !important;");
+                        $('.digiseconds-savings').attr("style", "display:block !important;");
+                        $('.default-product-name').attr("style", "display:none !important;");
+                    } else {
+                        $('.product-item-info>a').removeClass('digiseconds-left-width');
+                        $('.testfreaks-items').removeClass('digiseconds-left-width');
+                        $('.product-reviews-summary').removeClass('digiseconds-left-width');
+                        $('.product-item-name').removeClass('digiseconds-left-width');
+                        $('.product-item-details').removeClass('digiseconds-left-width');
+                        $('.digiseconds-product-details').attr("style", "display:none !important;");
+                        $('.digiseconds-savings').attr("style", "display:none !important;");
+                        $('.default-product-name').attr("style", "display:block !important;");
+                    }
+                }
+            }
+        }); 
+    });
+</script>
 
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
@@ -363,21 +399,6 @@ $showWishlist = true;
         </script>
     <?php endif; ?>
 <?php endif; ?>
-        
-<script>
-    
-    require(['jquery'],function(){
-        //Redeploy
-        jQuery(document).ready(function() {
-            var currentPage = "currentPage";
-            var categoryName = "categoryName";
-            
-            console.log('Current Page Is : ' + currentPage);
-            console.log('Category Name Is : ' + categoryName);
-        });
-    });
-    
-</script>
 
 <style>
     .product-category-listing .digiseconds-left-width {
