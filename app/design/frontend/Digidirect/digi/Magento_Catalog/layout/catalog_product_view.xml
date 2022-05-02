@@ -34,7 +34,11 @@
                 <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
             </arguments>
         </block>
- 
+        
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiseconds_info.phtml" name="pdp-digiseconds-info" after="product.info.price"/>
+        </referenceContainer>
+        
         <referenceContainer name="content">
             <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
             <referenceBlock name="product.info.details" >
@@ -73,6 +77,7 @@
             </container>
         </referenceContainer>
         <referenceContainer name="product.info.media">
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/digiseconds-overlay.phtml" name="pdp-digiseconds-overlay" before="product.info.media.image"/>
             <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
                    template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
             </block>
