@@ -369,32 +369,8 @@ $showWishlist = true;
         'jquery'
     ],
     function ($) {
-        if ("<?= $currentPage ?>" != "catalogsearch_result_index") {
-            if ("<?= $categoryName ?>" == "digiSeconds") {
-                $(window).on('resize', function(){
-                    var win = $(this);
-                    if (win.width() >= 1440) {
-                        $('.product-item-info>a').addClass('digiseconds-left-width');
-                        $('.testfreaks-items').addClass('digiseconds-left-width');
-                        $('.product-reviews-summary').addClass('digiseconds-left-width');
-                        $('.product-item-name').addClass('digiseconds-left-width');
-                        $('.product-item-details').addClass('digiseconds-left-width');
-                        $('.digiseconds-product-details').attr("style", "display:block !important;");
-                        $('.digiseconds-savings').attr("style", "display:block !important;");
-                        $('.default-product-name').attr("style", "display:none !important;");
-                    } else {
-                        $('.product-item-info>a').removeClass('digiseconds-left-width');
-                        $('.testfreaks-items').removeClass('digiseconds-left-width');
-                        $('.product-reviews-summary').removeClass('digiseconds-left-width');
-                        $('.product-item-name').removeClass('digiseconds-left-width');
-                        $('.product-item-details').removeClass('digiseconds-left-width');
-                        $('.digiseconds-product-details').attr("style", "display:none !important;");
-                        $('.digiseconds-savings').attr("style", "display:none !important;");
-                        $('.default-product-name').attr("style", "display:block !important;");
-                    }
-                });
-            }
-        }
+        console.log("<?= $currentPage ?>");
+        console.log("<?= $categoryName ?>");
     });
 </script>
 
