@@ -32,13 +32,13 @@ $showWishlist = true;
 ?>
         
 <script>
+    var currentPage = "<?= $currentPage ?>";
+    var categoryName = "<?= $categoryName ?>";
     require([
         'jquery'
     ],
     function ($) {
         $(window).on('resize', function(){
-            var currentPage = "<?= $currentPage ?>";
-            var categoryName = "<?= $categoryName ?>";
             if (currentPage != "catalogsearch_result_index") {
                 if (categoryName == "digiSeconds") {
                     var win = $(this);
