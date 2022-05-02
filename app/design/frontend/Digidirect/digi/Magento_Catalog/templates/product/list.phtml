@@ -370,10 +370,10 @@ $showWishlist = true;
     ],
     function ($) {
         $(window).on('resize', function(){
-            var currentPage = "<?= $currentPage ?>";
-            var categoryName = "<?= $categoryName ?>";
             if (currentPage != "catalogsearch_result_index") {
                 if (categoryName == "digiSeconds") {
+                    var currentPage = "<?php echo $currentPage; ?>";
+                    var categoryName = "<?php echo $categoryName; ?>";
                     var win = $(this);
                     if (win.width() >= 1440) {
                         $('.product-item-info>a').addClass('digiseconds-left-width');
