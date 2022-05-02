@@ -369,8 +369,8 @@ $showWishlist = true;
         'jquery'
     ],
     function ($) {
-        if ("<?= /* @escapeNotVerified */ $currentPage ?>" != "catalogsearch_result_index") {
-            if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
+        if ("<?= $currentPage ?>" != "catalogsearch_result_index") {
+            if ("<?= $categoryName ?>" == "digiSeconds") {
                 $(window).on('resize', function(){
                     var win = $(this);
                     if (win.width() >= 1440) {
