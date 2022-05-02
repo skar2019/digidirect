@@ -9,9 +9,6 @@ use Magento\Framework\App\Action\Action;
  * @var $_helper \Magento\Catalog\Helper\Output
  */
 ?>
-<script>
-    console.log("Before getLoadedProductCollection()");
-</script>
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
@@ -23,19 +20,10 @@ $showWishlist = true;
     console.log("Product Count Log: " + "<?= $_productCollection->count() ?>");
 </script>
 <?= $block->getToolbarHtml() ?>
-<script>
-    console.log("Before getAdditionalHtml()");
-</script>
 <?= $block->getAdditionalHtml() ?>
-<script>
-    console.log("Before getFullActionName()");
-</script>
 <?php 
     $currentPage = $this->getRequest()->getFullActionName(); 
 ?>
-<script>
-    console.log("After getFullActionName()");
-</script>
 <script>
     console.log("Current Page Log: " + "<?= $currentPage ?>");
 </script>
@@ -389,11 +377,22 @@ $showWishlist = true;
         jQuery(document).ready(function() {
             if ("<?= /* @escapeNotVerified */ $currentPage ?>" != "catalogsearch_result_index") {
                 if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
-                    jQuery('.product-item-info>a').addClass('digiseconds-left-width');
-                    jQuery('.testfreaks-items').addClass('digiseconds-left-width');
-                    jQuery('.product-reviews-summary').addClass('digiseconds-left-width');
-                    jQuery('.product-item-name').addClass('digiseconds-left-width');
-                    jQuery('.product-item-details').addClass('digiseconds-left-width');
+                    jQuery(window).on('resize', function(){
+                        var win = jQuery(this);
+                        if (win.width() >= 1440) {
+                            jQuery('.product-item-info>a').addClass('digiseconds-left-width');
+                            jQuery('.testfreaks-items').addClass('digiseconds-left-width');
+                            jQuery('.product-reviews-summary').addClass('digiseconds-left-width');
+                            jQuery('.product-item-name').addClass('digiseconds-left-width');
+                            jQuery('.product-item-details').addClass('digiseconds-left-width');
+                        } else {
+                            jQuery('.product-item-info>a').removeClass('digiseconds-left-width');
+                            jQuery('.testfreaks-items').removeClass('digiseconds-left-width');
+                            jQuery('.product-reviews-summary').removeClass('digiseconds-left-width');
+                            jQuery('.product-item-name').removeClass('digiseconds-left-width');
+                            jQuery('.product-item-details').removeClass('digiseconds-left-width');
+                        }
+                    });
                 }
             }
         });
