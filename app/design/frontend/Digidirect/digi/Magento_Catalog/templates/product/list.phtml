@@ -12,7 +12,7 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$showWishlist = true;
+$showWishlist = true;          
 ?>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
@@ -225,9 +225,9 @@ $showWishlist = true;
                             </strong>
                         <?php endif; ?>
                     <?php endif; ?>
-                            
+                        
                     <?php if($blockMode === 'grid'):?>
-                        <strong class="product name product-item-name -grid">
+                        <strong class="product name product-item-name -grid default-product-name">
                             <a href="<?= $block->escapeUrl($productUrl); ?>"
                                title="<?= $block->escapeHtml($productName); ?>"
                                class="product-item-link">
@@ -347,7 +347,6 @@ $showWishlist = true;
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
-                </div>
                 <?= /* @escapeNotVerified */ ($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
         </ol>
@@ -364,7 +363,7 @@ $showWishlist = true;
         </script>
     <?php endif; ?>
 <?php endif; ?>
-
+        
 <style>
     .page-main {
         background: #f5f5f5;
