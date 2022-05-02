@@ -364,7 +364,15 @@ $showWishlist = true;
     <?php endif; ?>
 <?php endif; ?>
         
-<script>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "js/digiseconds": {
+                "currentPage": "<?= /* @escapeNotVerified */ $currentPage ?>",
+                "categoryName": "<?= /* @escapeNotVerified */ $categoryName ?>"
+            }
+        }
+    }
 </script>
 
 <style>
