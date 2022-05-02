@@ -17,13 +17,11 @@ $showWishlist = true;
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 <?php 
-    if ($currentPage != "catalogsearch_result_index") {
-        $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-        $categoryObject = $catalogHelperData->getCategory();
-        $categoryId = $categoryObject->getId();
-        $categoryName = $categoryObject->getName();
-    }
+    $currentPage = $this->getRequest()->getFullActionName(); 
 ?>
+<script>
+    console.log("Current Page Log: " + "<?= $currentPage ?>");
+</script>
 
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty"><div><?= /* @escapeNotVerified */ __('We can\'t find products matching the selection.') ?></div></div>
