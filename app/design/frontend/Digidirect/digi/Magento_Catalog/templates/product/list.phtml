@@ -215,7 +215,10 @@ $showWishlist = true;
                     <?php endif; ?>
                     
                     <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                        <?php if ($categoryName == "digiSeconds") : ?>
+                        <?php if ($categoryName == "digiSeconds" ||
+                                  $categoryName == "REFURB" ||
+                                  $categoryName == "OPENBOX" ||
+                                  $categoryName == "PRELOVED") : ?>
                             <strong class="product name product-item-name -grid digiseconds-savings">
                                 <a href="<?= $block->escapeUrl($productUrl); ?>"
                                    class="product-item-link">
@@ -305,7 +308,10 @@ $showWishlist = true;
                         </div>
                     </div>
                     <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                        <?php if ($categoryName == "digiSeconds"): ?>
+                        <?php if ($categoryName == "digiSeconds" ||
+                                  $categoryName == "REFURB" ||
+                                  $categoryName == "OPENBOX" ||
+                                  $categoryName == "PRELOVED"): ?>
                             <div class="digiseconds-product-details">
                                 <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
                                 <?php if ($d2ItemDescription): ?>
@@ -374,7 +380,10 @@ $showWishlist = true;
             var currentPage = "<?= $currentPage ?>";
             var categoryName = "<?= $categoryName ?>";
             if (currentPage != "catalogsearch_result_index") {
-                if (categoryName == "digiSeconds") {
+                if (categoryName == "digiSeconds" ||
+                    $categoryName == "REFURB" ||
+                    $categoryName == "OPENBOX" ||
+                    $categoryName == "PRELOVED") {
                     var win = $(this);
                     if (win.width() >= 1440) {
                         $('.product-item-info>a').addClass('digiseconds-left-width');

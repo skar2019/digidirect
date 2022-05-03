@@ -90,7 +90,10 @@
     require(['jquery'],function(){
         jQuery(document).ready(function() {
             console.log("<?= /* @escapeNotVerified */ $categoryName ?>");
-            if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
+            if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds" ||
+                 <?= /* @escapeNotVerified */ $categoryName ?>" == "REFURB" ||
+                 <?= /* @escapeNotVerified */ $categoryName ?>" == "OPENBOX" ||
+                 <?= /* @escapeNotVerified */ $categoryName ?>" == "PRELOVED") {
                 //alert("This is digiSeconds category page!");
                 jQuery('.product-item').addClass('digiseconds-li');
             }
