@@ -446,6 +446,11 @@ $showWishlist = true;
                     }
                 }
             }
+            
+            setTimeout(function() {
+                $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
+                console.log('DOMSubtreeModified Of Filter ON LIst Successful!');
+            }, 2000);
         });
     });
 </script>
