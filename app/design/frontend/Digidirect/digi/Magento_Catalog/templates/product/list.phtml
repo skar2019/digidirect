@@ -215,7 +215,10 @@ $showWishlist = true;
                     <?php endif; ?>
                     
                     <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                        <?php if ($categoryName == "digiSeconds") : ?>
+                        <?php if ($categoryName == "digiSeconds" ||
+                                  $categoryName == "REFURB" ||
+                                  $categoryName == "OPENBOX" ||
+                                  $categoryName == "PRELOVED") : ?>
                             <strong class="product name product-item-name -grid digiseconds-savings">
                                 <a href="<?= $block->escapeUrl($productUrl); ?>"
                                    class="product-item-link">
@@ -305,7 +308,10 @@ $showWishlist = true;
                         </div>
                     </div>
                     <?php if ($currentPage != "catalogsearch_result_index"): ?>
-                        <?php if ($categoryName == "digiSeconds"): ?>
+                        <?php if ($categoryName == "digiSeconds" ||
+                                  $categoryName == "REFURB" ||
+                                  $categoryName == "OPENBOX" ||
+                                  $categoryName == "PRELOVED"): ?>
                             <div class="digiseconds-product-details">
                                 <div class="digiseconds-product-name"><?= $block->escapeHtml($productName); ?></div>
                                 <?php if ($d2ItemDescription): ?>
@@ -374,7 +380,10 @@ $showWishlist = true;
             var currentPage = "<?= $currentPage ?>";
             var categoryName = "<?= $categoryName ?>";
             if (currentPage != "catalogsearch_result_index") {
-                if (categoryName == "digiSeconds") {
+                if (categoryName == "digiSeconds" ||
+                    categoryName == "REFURB" ||
+                    categoryName == "OPENBOX" ||
+                    categoryName == "PRELOVED") {
                     var win = $(this);
                     if (win.width() >= 1440) {
                         $('.product-item-info>a').addClass('digiseconds-left-width');
@@ -398,6 +407,51 @@ $showWishlist = true;
                 }
             }
         }); 
+        
+        $(".product-category-listing .product-items").bind("DOMSubtreeModified", function() {
+            var currentPage = "<?= $currentPage ?>";
+            var categoryName = "<?= $categoryName ?>";
+            if (currentPage != "catalogsearch_result_index") {
+                if (categoryName == "digiSeconds" ||
+                    categoryName == "REFURB" ||
+                    categoryName == "OPENBOX" ||
+                    categoryName == "PRELOVED") {
+                    var win = $(window);
+                    if (win.width() >= 1440) {
+                        $('.product-item-info>a').addClass('digiseconds-left-width');
+                        $('.testfreaks-items').addClass('digiseconds-left-width');
+                        $('.product-reviews-summary').addClass('digiseconds-left-width');
+                        $('.product-item-name').addClass('digiseconds-left-width');
+                        $('.product-item-details').addClass('digiseconds-left-width');
+                        $('.digiseconds-product-details').attr("style", "display:block !important;");
+                        $('.digiseconds-savings').attr("style", "display:block !important;");
+                        $('.default-product-name').attr("style", "display:none !important;");
+                    } else {
+                        $('.product-item-info>a').removeClass('digiseconds-left-width');
+                        $('.testfreaks-items').removeClass('digiseconds-left-width');
+                        $('.product-reviews-summary').removeClass('digiseconds-left-width');
+                        $('.product-item-name').removeClass('digiseconds-left-width');
+                        $('.product-item-details').removeClass('digiseconds-left-width');
+                        $('.digiseconds-product-details').attr("style", "display:none !important;");
+                        $('.digiseconds-savings').attr("style", "display:none !important;");
+                        $('.default-product-name').attr("style", "display:block !important;");
+                    }
+                    
+                    if (categoryName == "digiSeconds" ||
+                        categoryName == "REFURB" ||
+                        categoryName == "OPENBOX" ||
+                        categoryName == "PRELOVED") {
+                        //alert("This is digiSeconds category page!");
+                        $('.product-item').addClass('digiseconds-li');
+                    }
+                }
+            }
+            
+            setTimeout(function() {
+                $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
+                console.log('DOMSubtreeModified Of Filter ON LIst Successful!');
+            }, 2000);
+        });
     });
 </script>
 
@@ -425,6 +479,7 @@ $showWishlist = true;
         background: #f5f5f5;
         padding: 5px 0px 5px 15px;
         margin-left: -31px;
+        margin-bottom: 10px;
     }
 
     .item-note-wrapper-plp {
@@ -432,8 +487,6 @@ $showWishlist = true;
         float: left;
         width: 100%;
         margin-bottom: 10px;
-        padding-top: 5px;
-        margin-top: 5px;
         margin-left: 0;
         font-size: 13px;
         font-weight: 500;
@@ -444,7 +497,8 @@ $showWishlist = true;
     }
 
     .whats-in-the-box-wrapper {
-        height: 150px;
+        height: auto;
+        max-height: 160px;
         overflow: hidden !important;
     }
 
@@ -458,6 +512,8 @@ $showWishlist = true;
 
     .package-inclusion-wrapper li {
         margin-bottom: 4px !important;
+        padding-left: 15px;
+        margin-top: 4px;
     }
     
     .package-inclusion-wrapper p {

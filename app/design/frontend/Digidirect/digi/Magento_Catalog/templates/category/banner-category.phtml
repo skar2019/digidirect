@@ -44,6 +44,9 @@
     
     $categorySmartHome = $categoryFactory->create()->load(75);
     $allChildrenCategoryIdsSmartHome = $categorySmartHome->getAllChildren(true);
+    
+    $categoryDigiSeconds = $categoryFactory->create()->load(913);
+    $allChildrenCategoryIdsDigiSeconds = $categoryDigiSeconds->getAllChildren(true);
 ?>
 
 
@@ -77,9 +80,7 @@
         <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>pro_video.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsSmartHome)) : ?>
         <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>smart_home.png"/>
-    <?php endif; ?>
-    
-    <?php if ($categoryName == "digiSeconds") : ?>
+    <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiSeconds)) : ?>
         <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiseconds.png"/>
     <?php endif; ?>
     
@@ -88,10 +89,18 @@
 <script>
     require(['jquery'],function(){
         jQuery(document).ready(function() {
-            if ("<?= /* @escapeNotVerified */ $categoryName ?>" == "digiSeconds") {
+            var categoryName = "<?= /* @escapeNotVerified */ $categoryName ?>";
+            if (categoryName == "digiSeconds" ||
+                categoryName == "REFURB" ||
+                categoryName == "OPENBOX" ||
+                categoryName == "PRELOVED") {
                 //alert("This is digiSeconds category page!");
                 jQuery('.product-item').addClass('digiseconds-li');
             }
+        });
+        
+        jQuery(".product-category-listing .product-items").bind("DOMSubtreeModified", function() {
+            //console.log("DOMSubtreeModified Working On Banner Category");
         });
     });
 </script>
