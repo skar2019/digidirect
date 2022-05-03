@@ -99,7 +99,7 @@
             }
         });
         
-        $(".product-category-listing .product-items").bind("DOMSubtreeModified", function() {
+        jQuery(".product-category-listing .product-items").bind("DOMSubtreeModified", function() {
             var categoryName = "<?= /* @escapeNotVerified */ $categoryName ?>";
             if (categoryName == "digiSeconds" ||
                 categoryName == "REFURB" ||
