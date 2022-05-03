@@ -1257,7 +1257,9 @@ class Product extends AbstractHelper
                 $categoryIds = array();
                 $catList = "";
                 $productCategoryIds = $product->getCategoryIds();
-                if(count($productCategoryIds) < 2)
+                $shouldupdate = false;
+
+                if((count($productCategoryIds) < 2)|| (isset($prod['d2lvl1'])))
                 {
                     if (count($getCategoryList))
                     {
@@ -1271,25 +1273,29 @@ class Product extends AbstractHelper
                             }
 
                             //digiSeconds
-                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            if(isset($prod['d2lvl1']))
                             {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
+                                if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                                //digiSeconds
+                                if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                                //digiSeconds
+                                if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
 
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
 
 
                             if($category['name'] == $prod['web-category1'])
