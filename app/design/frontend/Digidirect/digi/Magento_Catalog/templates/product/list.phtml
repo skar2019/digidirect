@@ -381,9 +381,9 @@ $showWishlist = true;
             var categoryName = "<?= $categoryName ?>";
             if (currentPage != "catalogsearch_result_index") {
                 if (categoryName == "digiSeconds" ||
-                    $categoryName == "REFURB" ||
-                    $categoryName == "OPENBOX" ||
-                    $categoryName == "PRELOVED") {
+                    categoryName == "REFURB" ||
+                    categoryName == "OPENBOX" ||
+                    categoryName == "PRELOVED") {
                     var win = $(this);
                     if (win.width() >= 1440) {
                         $('.product-item-info>a').addClass('digiseconds-left-width');
