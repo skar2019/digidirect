@@ -437,6 +437,14 @@ $showWishlist = true;
                         $('.digiseconds-savings').attr("style", "display:none !important;");
                         $('.default-product-name').attr("style", "display:block !important;");
                     }
+                    
+                    if (categoryName == "digiSeconds" ||
+                        categoryName == "REFURB" ||
+                        categoryName == "OPENBOX" ||
+                        categoryName == "PRELOVED") {
+                        //alert("This is digiSeconds category page!");
+                        $('.product-item').addClass('digiseconds-li');
+                    }
                 }
             }
         });
