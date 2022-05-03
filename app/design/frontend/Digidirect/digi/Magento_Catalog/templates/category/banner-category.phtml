@@ -98,6 +98,17 @@
                 jQuery('.product-item').addClass('digiseconds-li');
             }
         });
+        
+        $(".product-category-listing .product-items").bind("DOMSubtreeModified", function() {
+            var categoryName = "<?= /* @escapeNotVerified */ $categoryName ?>";
+            if (categoryName == "digiSeconds" ||
+                categoryName == "REFURB" ||
+                categoryName == "OPENBOX" ||
+                categoryName == "PRELOVED") {
+                //alert("This is digiSeconds category page!");
+                jQuery('.product-item').addClass('digiseconds-li');
+            }
+        });
     });
 </script>
 
