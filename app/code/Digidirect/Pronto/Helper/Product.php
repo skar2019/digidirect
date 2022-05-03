@@ -201,7 +201,7 @@ class Product extends AbstractHelper
                 $categoryIds = array();
                 $catList = "";
                 $productCategoryIds = $product->getCategoryIds();
-                if(count($productCategoryIds) < 2)
+                if((count($productCategoryIds) < 2) || (isset($prod['d2lvl1'])))
                 {
                     if (count($getCategoryList))
                     {
@@ -215,25 +215,29 @@ class Product extends AbstractHelper
                             }
 
                             //digiSeconds
-                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            if(isset($prod['d2lvl1']))
                             {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
+                                if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                                //digiSeconds
+                                if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                                //digiSeconds
+                                if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
 
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
 
                             if($category['name'] == $prod['web-category1'])
                             {
@@ -304,13 +308,13 @@ class Product extends AbstractHelper
                 }
 
                 //disable first. this might be causing issue on sync
-                $sourceItem = $this->sourceItemFactory->create();
-                $sourceItem->setSourceCode('default');
-                $sourceItem->setSku($prod['code']);
-                $sourceItem->setStatus(1);
-                $sourceItem->setQuantity(0);
-                $forLogs .="default - 0 \n";
-                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -333,11 +337,22 @@ class Product extends AbstractHelper
                 if(isset($prod['d2lvl1']))
                 {
                     $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                    //digiSeconds item quality rating 1 - 5
+                }
+                if(isset($prod['d2lvl2']))
+                {
                     $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                }
+
+                if(isset($prod['d2desc']))
+                {
                     $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                }
+
+                if(isset($prod['d2newsku']))
+                {
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
+
                 $this->productRepository->save($product);
 
 
@@ -395,24 +410,27 @@ class Product extends AbstractHelper
                         }
 
                         //digiSeconds
-                        if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                        if(isset($prod['d2lvl1']))
                         {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
 
-                        //digiSeconds
-                        if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
 
-                        //digiSeconds
-                        if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
                         }
 
                         if($category['name'] == $prod['web-category1'])
@@ -556,9 +574,19 @@ class Product extends AbstractHelper
                 if(isset($prod['d2lvl1']))
                 {
                     $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                    //digiSeconds item quality rating 1 - 5
+                }
+                if(isset($prod['d2lvl2']))
+                {
                     $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                }
+
+                if(isset($prod['d2desc']))
+                {
                     $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                }
+
+                if(isset($prod['d2newsku']))
+                {
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
 
@@ -733,25 +761,29 @@ class Product extends AbstractHelper
                             }
 
                             //digiSeconds
-                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            if(isset($prod['d2lvl1']))
                             {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
+                                if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                                //digiSeconds
+                                if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                                //digiSeconds
+                                if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
                             }
 
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
-
-                            //digiSeconds
-                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                            {
-                                $catList .= $category['name'] . " - " .$category['id']." : ";
-                                $categoryIds[] = $category['id'];
-                            }
 
                             if($category['name'] == $prod['web-category1'])
                             {
@@ -854,9 +886,19 @@ class Product extends AbstractHelper
                 if(isset($prod['d2lvl1']))
                 {
                     $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                    //digiSeconds item quality rating 1 - 5
+                }
+                if(isset($prod['d2lvl2']))
+                {
                     $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                }
+
+                if(isset($prod['d2desc']))
+                {
                     $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                }
+
+                if(isset($prod['d2newsku']))
+                {
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
 
@@ -917,25 +959,29 @@ class Product extends AbstractHelper
                         }
 
                         //digiSeconds
-                        if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                        if(isset($prod['d2lvl1']))
                         {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
                         }
 
-                        //digiSeconds
-                        if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
-
-                        //digiSeconds
-                        if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
 
                         if($category['name'] == $prod['web-category1'])
                         {
@@ -1077,9 +1123,19 @@ class Product extends AbstractHelper
                 if(isset($prod['d2lvl1']))
                 {
                     $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                    //digiSeconds item quality rating 1 - 5
+                }
+                if(isset($prod['d2lvl2']))
+                {
                     $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                }
+
+                if(isset($prod['d2desc']))
+                {
                     $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                }
+
+                if(isset($prod['d2newsku']))
+                {
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
                 $this->productRepository->save($product);
@@ -1259,7 +1315,7 @@ class Product extends AbstractHelper
                 $productCategoryIds = $product->getCategoryIds();
                 $shouldupdate = false;
 
-                if((count($productCategoryIds) < 2)|| (isset($prod['d2lvl1'])))
+                if((count($productCategoryIds) < 2) || (isset($prod['d2lvl1'])))
                 {
                     if (count($getCategoryList))
                     {
