@@ -452,6 +452,13 @@ $showWishlist = true;
                 $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
             }, 2000);
         });
+        
+        if (categoryName == "digiSeconds" ||
+            categoryName == "REFURB" ||
+            categoryName == "OPENBOX" ||
+            categoryName == "PRELOVED") {
+            $('.product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo').attr("style", "margin-top: 70px !important;");
+        }
     });
 </script>
 
@@ -563,7 +570,7 @@ $showWishlist = true;
     }
     
     .product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo {
-        margin-top: 70px !important;
+
     }
     
     .digiseconds-savings {
