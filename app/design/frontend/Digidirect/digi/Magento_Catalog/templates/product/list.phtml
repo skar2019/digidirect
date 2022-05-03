@@ -411,6 +411,7 @@ $showWishlist = true;
         $(".product-category-listing .product-items").bind("DOMSubtreeModified", function() {
             var currentPage = "<?= $currentPage ?>";
             var categoryName = "<?= $categoryName ?>";
+            console.log(categoryName);
             if (currentPage != "catalogsearch_result_index") {
                 if (categoryName == "digiSeconds" ||
                     categoryName == "REFURB" ||
@@ -449,7 +450,6 @@ $showWishlist = true;
             
             setTimeout(function() {
                 $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
-                console.log('DOMSubtreeModified Of Filter ON LIst Successful!');
             }, 2000);
         });
     });
