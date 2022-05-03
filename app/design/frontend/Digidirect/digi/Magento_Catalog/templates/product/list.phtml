@@ -409,7 +409,6 @@ $showWishlist = true;
         }); 
         
         $(".product-category-listing .product-items").bind("DOMSubtreeModified", function() {
-            console.log("DOMSubtreeModified Working On List");
             var currentPage = "<?= $currentPage ?>";
             var categoryName = "<?= $categoryName ?>";
             if (currentPage != "catalogsearch_result_index") {
