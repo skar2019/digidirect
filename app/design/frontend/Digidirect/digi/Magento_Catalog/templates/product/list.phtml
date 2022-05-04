@@ -2,11 +2,6 @@
 use Magento\Framework\App\Action\Action;
 ?>
 <?php
-$pageTitle = $block->getLayout()->getBlock('head')->getTitle();
-$remove = array(":",",");
-$newPageTitle = str_replace($remove,"",$pageTitle);
-//$block->getLayout()->getBlock('head')->setTitle($newPageTitle);
-
 /**
  * Product list template
  *
@@ -14,9 +9,6 @@ $newPageTitle = str_replace($remove,"",$pageTitle);
  * @var $_helper \Magento\Catalog\Helper\Output
  */
 ?>
-<script>
-    console.log("Head Title: " + "<?= $pageTitle ?>" + ", New Head Title: " + "<?= $newPageTitle ?>");
-</script>
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
