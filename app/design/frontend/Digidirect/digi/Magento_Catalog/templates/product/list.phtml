@@ -2,10 +2,10 @@
 use Magento\Framework\App\Action\Action;
 ?>
 <?php
-$pageTitle = $block->getLayout()->getBlock('head')->getTitle();
+$pageTitle = $block->getLayout()->getBlock('page.main.title')->getPageTitle();
 $remove = array(":",",");
 $newPageTitle = str_replace($remove,"",$pageTitle);
-$block->getLayout()->getBlock('head')->setTitle($newPageTitle);
+$pageTitle->setPageTitle($newPageTitle);
 
 /**
  * Product list template
@@ -14,6 +14,9 @@ $block->getLayout()->getBlock('head')->setTitle($newPageTitle);
  * @var $_helper \Magento\Catalog\Helper\Output
  */
 ?>
+<script>
+    console.log("New Page Title: " + "<?= $newPageTitle ?>");
+</script>
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
