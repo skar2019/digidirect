@@ -5,7 +5,7 @@ use Magento\Framework\App\Action\Action;
 $pageTitle = $block->getLayout()->getBlock('page.main.title')->getPageTitle();
 $remove = array(":",",");
 $newPageTitle = str_replace($remove,"",$pageTitle);
-//$pageTitle->setPageTitle($newPageTitle);
+$block->getLayout()->getBlock('page.main.title')->setPageTitle($newPageTitle);
 
 /**
  * Product list template
