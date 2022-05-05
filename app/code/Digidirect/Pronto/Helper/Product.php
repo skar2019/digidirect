@@ -353,6 +353,24 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
 
+                if(isset($prod['stk-storage-type-flag']))
+                {
+                    if($prod['stk-storage-type-flag'] == 'H')
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '0');
+                    }
+
+                }
+                else
+                {
+                    $product->setCustomAttribute('dangerous_goods', '0');
+                }
+
+
                 $this->productRepository->save($product);
 
 
@@ -588,6 +606,23 @@ class Product extends AbstractHelper
                 if(isset($prod['d2newsku']))
                 {
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
+                }
+
+                if(isset($prod['stk-storage-type-flag']))
+                {
+                    if($prod['stk-storage-type-flag'] == 'H')
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '0');
+                    }
+
+                }
+                else
+                {
+                    $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
                 $this->productRepository->save($product);
@@ -902,6 +937,23 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
 
+                if(isset($prod['stk-storage-type-flag']))
+                {
+                    if($prod['stk-storage-type-flag'] == 'H')
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '0');
+                    }
+
+                }
+                else
+                {
+                    $product->setCustomAttribute('dangerous_goods', '0');
+                }
+
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
@@ -1138,6 +1190,24 @@ class Product extends AbstractHelper
                 {
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
+
+                if(isset($prod['stk-storage-type-flag']))
+                {
+                    if($prod['stk-storage-type-flag'] == 'H')
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '0');
+                    }
+
+                }
+                else
+                {
+                    $product->setCustomAttribute('dangerous_goods', '0');
+                }
+
                 $this->productRepository->save($product);
 
             }
@@ -1499,12 +1569,39 @@ class Product extends AbstractHelper
                 if(isset($prod['d2lvl1']))
                 {
                     $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                    //digiSeconds item quality rating 1 - 5
+                }
+                if(isset($prod['d2lvl2']))
+                {
                     $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                }
+
+                if(isset($prod['d2desc']))
+                {
                     $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                }
+
+                if(isset($prod['d2newsku']))
+                {
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
 
+
+                if(isset($prod['stk-storage-type-flag']))
+                {
+                    if($prod['stk-storage-type-flag'] == 'H')
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '0');
+                    }
+
+                }
+                else
+                {
+                    $product->setCustomAttribute('dangerous_goods', '0');
+                }
 
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
@@ -1722,11 +1819,39 @@ class Product extends AbstractHelper
                 if(isset($prod['d2lvl1']))
                 {
                     $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                    //digiSeconds item quality rating 1 - 5
+                }
+                if(isset($prod['d2lvl2']))
+                {
                     $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                }
+
+                if(isset($prod['d2desc']))
+                {
                     $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                }
+
+                if(isset($prod['d2newsku']))
+                {
                     $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
                 }
+
+                if(isset($prod['stk-storage-type-flag']))
+                {
+                    if($prod['stk-storage-type-flag'] == 'H')
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '0');
+                    }
+
+                }
+                else
+                {
+                    $product->setCustomAttribute('dangerous_goods', '0');
+                }
+
                 $this->productRepository->save($product);
 
             }
