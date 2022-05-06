@@ -134,18 +134,18 @@
                                                                             <item name="component" xsi:type="string">Magento_GiftCardAccount/js/view/payment/gift-card-messages</item>
                                                                             <item name="displayArea" xsi:type="string">messages</item>
                                                                         </item>
-                                                                        <item name="abstract-forms" xsi:type="array">
-                                                                            <item name="component" xsi:type="string">Digidirect_AbstractGiftCard/js/view/payment/gift-card-account</item>
-                                                                            <item name="config" xsi:type="array">
-                                                                                <item name="template" xsi:type="string">Digidirect_AbstractGiftCard/payment/item</item>
-                                                                                <item name="displayArea" xsi:type="string">after-gift-card</item>
-                                                                                <item name="serviceCode" xsi:type="string">vii</item>
-                                                                                <item name="isPin" xsi:type="boolean">true</item>
-                                                                                <item name="isCheckBalance" xsi:type="boolean">false</item>
-                                                                                <item name="isClearFieldAfterSave" xsi:type="boolean">true</item>
-                                                                                <item name="componentDisabled" xsi:type="boolean">false</item>
-                                                                            </item>
-                                                                        </item>
+<!--                                                                        <item name="abstract-forms" xsi:type="array">-->
+<!--                                                                            <item name="component" xsi:type="string">Digidirect_AbstractGiftCard/js/view/payment/gift-card-account</item>-->
+<!--                                                                            <item name="config" xsi:type="array">-->
+<!--                                                                                <item name="template" xsi:type="string">Digidirect_AbstractGiftCard/payment/item</item>-->
+<!--                                                                                <item name="displayArea" xsi:type="string">after-gift-card</item>-->
+<!--                                                                                <item name="serviceCode" xsi:type="string">vii</item>-->
+<!--                                                                                <item name="isPin" xsi:type="boolean">true</item>-->
+<!--                                                                                <item name="isCheckBalance" xsi:type="boolean">false</item>-->
+<!--                                                                                <item name="isClearFieldAfterSave" xsi:type="boolean">true</item>-->
+<!--                                                                                <item name="componentDisabled" xsi:type="boolean">false</item>-->
+<!--                                                                            </item>-->
+<!--                                                                        </item>-->
 <!--                                                                        <item name="vii-cards" xsi:type="array">-->
 <!--                                                                            <item name="component"  xsi:type="string">Digidirect_Vii/js/view/payment/gift-cards</item>-->
 <!--                                                                            <item name="config" xsi:type="array">-->
