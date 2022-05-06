@@ -21,6 +21,6 @@ class MetaTitle extends \Magento\Framework\App\Action\Action
         $resultPage = $this->resultPageFactory->create();
 
         $resultPage->getConfig()->getTitle()->set(__('Test New Meta Title!')); // browser tab title
-        
+        return $resultPage;
     }
 }
