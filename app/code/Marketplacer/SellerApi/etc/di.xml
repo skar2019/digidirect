@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Feel free to override classes if you have own solution for Sellers -->
+    <preference for="Marketplacer\SellerApi\Api\Data\MarketplacerSellerInterface" type="Marketplacer\SellerApi\Model\MarketplacerSeller"/>
+    <preference for="Marketplacer\SellerApi\Api\Data\MarketplacerSellerSearchResultsInterface" type="Marketplacer\SellerApi\Model\MarketplacerSellerSearchResults"/>
+    <preference for="Marketplacer\SellerApi\Api\SellerManagementInterface" type="Marketplacer\SellerApi\Model\SellerManagement"/>
+    <preference for="Marketplacer\SellerApi\Api\SellerAttributeRetrieverInterface" type="Marketplacer\SellerApi\Model\SellerAttributeRetriever"/>
+    <!-- Class stubs, they must be implemented in your custom module if Marketplacer_Seller is not used -->
+    <preference for="Marketplacer\SellerApi\Api\MarketplacerSellerUrlInterface" type="Marketplacer\SellerApi\Model\Stubs\SellerUrlStub"/>
+    <preference for="Marketplacer\SellerApi\Api\SellerRepositoryInterface" type="Marketplacer\SellerApi\Model\Stubs\SellerRepositoryStub"/>
+
+    <type name="Marketplacer\SellerApi\Model\SellerAttributeRetriever">
+        <arguments>
+            <argument name="attributeCode" xsi:type="string">marketplacer_seller</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Quote\Model\Quote\Item\ToOrderItem">
+        <plugin name="seller_info_quote_item_conversion" type="Marketplacer\SellerApi\Plugin\Quote\Model\Item\ToOrderItemPlugin" sortOrder="100"/>
+    </type>
+
+    <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
+        <plugin name="Marketplacer_Seller" type="Marketplacer\SellerApi\Plugin\Sales\Model\Order\ItemRepositoryPlugin" sortOrder="100"/>
+    </type>
+
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid">
+        <arguments>
+            <argument name="columns">
+                <item name="seller_names" xsi:type="string">sales_order.seller_names</item>
+                <item name="seller_business_numbers" xsi:type="string">sales_order.seller_business_numbers</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\Sales\Model\ResourceModel\Order\Invoice\Grid">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="seller_names" xsi:type="string">sales_invoice.seller_names</item>
+                <item name="seller_business_numbers" xsi:type="string">sales_invoice.seller_business_numbers</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="ShipmentGridAggregator">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="seller_names" xsi:type="string">sales_shipment.seller_names</item>
+                <item name="seller_business_numbers" xsi:type="string">sales_shipment.seller_business_numbers</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

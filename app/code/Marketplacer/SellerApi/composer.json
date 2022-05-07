@@ -1,0 +1,17 @@
+{
+    "name": "marketplacer/magento2-plugin-seller-api",
+    "description": "Package of API definitions and basic implementation for Marketplacer Sellers",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "require": {
+        "marketplacer/magento2-plugin-base": "^2.0.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Marketplacer\\SellerApi\\": ""
+        }
+    }
+}

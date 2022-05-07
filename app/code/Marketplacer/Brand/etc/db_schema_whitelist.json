@@ -1,0 +1,24 @@
+{
+    "marketplacer_brand": {
+        "column": {
+            "row_id": true,
+            "brand_id": true,
+            "store_id": true,
+            "option_id": true,
+            "status": true,
+            "logo": true,
+            "url_key": true,
+            "meta_title": true,
+            "meta_description": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "index": {
+            "MARKETPLACER_BRAND_BRAND_ID_STORE_ID": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "MARKETPLACER_BRAND_STORE_ID_BRAND_ID": true
+        }
+    }
+}
