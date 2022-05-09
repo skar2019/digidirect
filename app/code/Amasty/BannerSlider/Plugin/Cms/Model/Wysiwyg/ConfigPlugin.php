@@ -6,7 +6,7 @@ namespace Amasty\BannerSlider\Plugin\Cms\Model\Wysiwyg;
 
 class ConfigPlugin
 {
-    const TINY_MCE_4 = 'mage/adminhtml/wysiwyg/tiny_mce/tinymce4Adapter';
+    public const TINY_MCE_4 = 'mage/adminhtml/wysiwyg/tiny_mce/tinymce4Adapter';
 
     /**
      * @var \Magento\Framework\View\Asset\Repository

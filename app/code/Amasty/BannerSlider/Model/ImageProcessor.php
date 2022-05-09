@@ -11,21 +11,21 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 class ImageProcessor
 {
-    const MEDIA_PATH = 'amasty/bannerslider';
+    public const MEDIA_PATH = 'amasty/bannerslider';
 
-    const MEDIA_TMP_PATH = 'amasty/bannerslider/tmp';
+    public const MEDIA_TMP_PATH = 'amasty/bannerslider/tmp';
 
-    const DEFAULT_IMAGE = 'default_image';
-    const MOBILE_IMAGE = 'mobile_image';
-    const MOBILE_IMAGE_L = 'mobile_image_l';
-    const RESIZED_IMAGE = 'resized_image';
+    public const DEFAULT_IMAGE = 'default_image';
+    public const MOBILE_IMAGE = 'mobile_image';
+    public const MOBILE_IMAGE_L = 'mobile_image_l';
+    public const RESIZED_IMAGE = 'resized_image';
 
-    const WIDTH = 'width';
-    const HEIGHT = 'height';
+    public const WIDTH = 'width';
+    public const HEIGHT = 'height';
 
-    const RETINA_MULTIPLIER = 2;
+    public const RETINA_MULTIPLIER = 2;
 
-    const GIF_EXTENSION = 'gif';
+    public const GIF_EXTENSION = 'gif';
 
     /**
      * @var \Magento\Catalog\Model\ImageUploader

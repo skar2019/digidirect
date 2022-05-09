@@ -33,6 +33,69 @@
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="product_path" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Categories Path for Product URLs</label>
+                    <source_model>Mageplaza\ProductFeed\Model\Config\Source\ProductPath</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="reports" translate="label comment" type="select" sortOrder="30" showInDefault="1" canRestore="1">
+                    <label>Enable Product Feed Report</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>If yes, will display the Product Feed Report in Manage Feeds Grid.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <group id="google_shopping" translate="label" type="text" sortOrder="30" showInDefault="1">
+                    <label>Google Shopping API</label>
+                    <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" canRestore="1">
+                        <label>Enable</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <comment>Select Yes to sync the value to google shopping api.</comment>
+                    </field>
+                    <field id="merchant_id" translate="label comment" type="obscure" sortOrder="20" showInDefault="1">
+                        <label>Merchant ID</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <depends>
+                            <field id="product_feed/general/google_shopping/enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="client_id" translate="label comment" type="obscure" sortOrder="30" showInDefault="1">
+                        <label>Client ID</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <comment><![CDATA[Get Client ID <a href="https://console.cloud.google.com/apis/credentials/oauthclient" target="_bank">here</a>]]></comment>
+                        <depends>
+                            <field id="product_feed/general/google_shopping/enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="client_secret" translate="label comment" type="obscure" sortOrder="40" showInDefault="1">
+                        <label>Client Secret</label>
+                        <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                        <comment><![CDATA[Get Client Secret <a href="https://console.cloud.google.com/apis/credentials/oauthclient" target="_bank">here</a>]]></comment>
+                        <depends>
+                            <field id="product_feed/general/google_shopping/enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="redirect_URIs" translate="label comment" type="text" sortOrder="50" showInDefault="1">
+                        <label>Authorized Redirect URIs</label>
+                        <comment>Copy and paste this value to Authorized Redirect URIs field on google shopping api.</comment>
+                        <depends>
+                            <field id="product_feed/general/google_shopping/enabled">1</field>
+                        </depends>
+                    </field>
+                    <field id="bt_get_access_token" translate="label comment" type="button" sortOrder="60" showInDefault="1">
+                        <frontend_model>Mageplaza\ProductFeed\Block\Adminhtml\System\Config\AccessToken</frontend_model>
+                        <comment>Please save Client ID, Client Secret, Authorized Redirect URIs before getting Access Token</comment>
+                        <depends>
+                            <field id="product_feed/general/google_shopping/enabled">1</field>
+                        </depends>
+                    </field>
+                    <depends>
+                        <field id="product_feed/general/enabled">1</field>
+                    </depends>
+                </group>
             </group>
             <group id="email" translate="label" type="text" sortOrder="20" showInDefault="1">
                 <label>Email Alert</label>

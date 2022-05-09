@@ -134,7 +134,7 @@ label.liquid-variable {
     margin-right: 5px;
 }
 
-.delete-option.remove-modifier::before{
+.delete-option.remove-modifier::before {
     font-family: 'MUI-Icons';
     font-style: normal;
     speak: none;
@@ -299,7 +299,7 @@ a#preview-product-btn:hover {
     height: 20px;
 }
 
-.mp-index-item{
+.mp-index-item {
     position: relative;
 }
 
@@ -314,4 +314,44 @@ a#preview-product-btn:hover {
     100% {
         transform: rotate(360deg);
     }
+}
+
+#mpproductfeed-current-file {
+    display: inline-flex;
+    width: 100%;
+}
+
+#mpproductfeed-current-file input {
+    width: 95%;
+}
+
+#add-private-key {
+    height: 33px;
+    border: 1px solid #adadad;
+    text-align: center;
+    background-color: #DDD;
+    cursor: pointer;
+    width: 5%;
+}
+
+#feed_private_key_path {
+    display: none;
+}
+
+span.mp-feed-on-click {
+    cursor: pointer;
+    color: #0a6c9f;
+}
+
+#mp_mapping tr td {
+    padding: 5px 40px;
+}
+
+#insert_variable {
+    height: 35px;
+    margin-top: 10%
+}
+
+li#feed_tabs_google_shopping_api {
+    display: none;
 }

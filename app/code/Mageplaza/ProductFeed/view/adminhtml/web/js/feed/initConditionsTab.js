@@ -36,14 +36,17 @@ define([
             var self = this;
 
             $('#preview-product-btn').click(function (e) {
-                var data = $("form#edit_form").serialize();
+                var form = $("form#edit_form");
 
                 e.preventDefault();
                 e.stopPropagation();
+
+                if (!form.valid()) return false;
+
                 $.ajax({
                     type: "POST",
                     url: self.options.url,
-                    data: data,
+                    data: form.serialize(),
                     showLoader: true,
                     success: function (res) {
                         var productListEl = $('.product-list');

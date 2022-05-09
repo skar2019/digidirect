@@ -26,6 +26,8 @@ use Magento\Eav\Model\Entity\Attribute as EavAttribute;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\Collection;
 use Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\CollectionFactory;
 use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\DataObject;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
@@ -34,6 +36,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use Mageplaza\Shopbybrand\Api\Data\BrandInterface;
 use Mageplaza\Shopbybrand\Helper\Data as Helper;
 use Zend_Db_Expr;
+use Magento\Framework\App\State;
 
 /**
  * Class Brand
@@ -88,6 +91,11 @@ class Brand extends AbstractModel implements BrandInterface
     protected $eavAttribute;
 
     /**
+     * @var State
+     */
+    protected $_state;
+
+    /**
      * Brand constructor.
      *
      * @param Context $context
@@ -98,6 +106,7 @@ class Brand extends AbstractModel implements BrandInterface
      * @param StoreManagerInterface $storeManager
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
+     * @param State $state
      * @param array $data
      */
     public function __construct(
@@ -107,15 +116,17 @@ class Brand extends AbstractModel implements BrandInterface
         Helper $helper,
         CollectionFactory $attrOptionCollectionFactory,
         StoreManagerInterface $storeManager,
+        State $state,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
         array $data = []
     ) {
-        $this->eavAttribute = $eavAttribute;
-        $this->helper = $helper;
-        $this->_storeManager = $storeManager;
+        $this->eavAttribute                 = $eavAttribute;
+        $this->helper                       = $helper;
+        $this->_storeManager                = $storeManager;
         $this->_attrOptionCollectionFactory = $attrOptionCollectionFactory;
-        $this->registry = $registry;
+        $this->registry                     = $registry;
+        $this->_state                       = $state;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -142,22 +153,23 @@ class Brand extends AbstractModel implements BrandInterface
 
     /**
      * @param null $storeId
-     * @param array|string $conditions
+     * @param array $conditions
      * @param null $sqlString
      *
      * @return Collection
+     * @throws LocalizedException
      */
     public function getBrandCollection($storeId = null, $conditions = [], $sqlString = null)
     {
         $storeId = ($storeId === null) ? $this->helper->getStoreId() : $storeId;
 
         $attributeId = $this->eavAttribute->getIdByCode('catalog_product', $this->helper->getAttributeCode($storeId));
-        $collection = $this->_attrOptionCollectionFactory->create()
+        $collection  = $this->_attrOptionCollectionFactory->create()
             ->setPositionOrder('asc')
             ->setAttributeFilter($attributeId)
-            ->setStoreFilter();
+            ->setStoreFilter($storeId);
 
-        $connection = $collection->getConnection();
+        $connection       = $collection->getConnection();
         $storeIdCondition = 0;
         if ($storeId) {
             $storeIdCondition = $connection->select()
@@ -183,11 +195,13 @@ class Brand extends AbstractModel implements BrandInterface
                     'short_description',
                     'description',
                     'is_featured',
+                    'is_display',
                     'static_block',
                     'meta_title',
                     'meta_keywords',
                     'meta_description',
-                    'image'
+                    'image',
+                    'related_brands'
                 ]
             )
             ->joinLeft(
@@ -205,15 +219,19 @@ class Brand extends AbstractModel implements BrandInterface
         if ($sqlString) {
             $collection->getSelect()->where($sqlString);
         }
+        if ($this->_state->getAreaCode() === 'frontend') {
+            $collection->getSelect()->where('br.is_display = 1 OR br.is_display is null');
+        }
 
         return $collection;
     }
 
     /**
-     * @param $optionId
+     * @param string $optionId
      * @param null $store
      *
-     * @return mixed
+     * @return DataObject
+     * @throws LocalizedException
      */
     public function loadByOption($optionId, $store = null)
     {
@@ -276,6 +294,14 @@ class Brand extends AbstractModel implements BrandInterface
     public function getIsFeatured()
     {
         return $this->_getData(self::IS_FEATURED);
+    }
+
+    /**
+     * @return int|mixed|null
+     */
+    public function getIsDisplay()
+    {
+        return $this->_getData(self::IS_DISPLAY);
     }
 
     /**
@@ -369,6 +395,16 @@ class Brand extends AbstractModel implements BrandInterface
     public function setIsFeatured($value)
     {
         return $this->setData(self::IS_FEATURED, $value);
+    }
+
+    /**
+     * @param int $value
+     *
+     * @return BrandInterface|Brand
+     */
+    public function setIsDisplay($value)
+    {
+        return $this->setData(self::IS_DISPLAY, $value);
     }
 
     /**

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Amasty\BannerSlider\Controller\Adminhtml\Banner;
 
 use Magento\Backend\App\Action;
+use Magento\Backend\Model\View\Result\Page;
+use Magento\Framework\Controller\ResultFactory;
 
 class Index extends Action
 {
@@ -13,29 +15,19 @@ class Index extends Action
      *
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
+    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
 
     /**
-     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
+     * @return Page
      */
     public function execute()
     {
-        $this->initAction();
-        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Banners'));
-        $this->_view->renderLayout();
-    }
+        /** @var Page $resultPage */
+        $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
+        $resultPage->setActiveMenu(self::ADMIN_RESOURCE);
+        $resultPage->addBreadcrumb(__('Banners'), __('Banners'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Banners'));
 
-    /**
-     * Initiate action
-     *
-     * @return $this
-     */
-    private function initAction()
-    {
-        $this->_view->loadLayout();
-        $this->_setActiveMenu(self::ADMIN_RESOURCE)
-            ->_addBreadcrumb(__('Banners'), __('Banners'));
-
-        return $this;
+        return $resultPage;
     }
 }

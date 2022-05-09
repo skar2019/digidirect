@@ -41,6 +41,11 @@ use Mageplaza\Shopbybrand\Api\BrandRepositoryInterface;
 use Mageplaza\Shopbybrand\Api\Data\BrandCategoryInterface;
 use Mageplaza\Shopbybrand\Api\Data\BrandInterface;
 use Mageplaza\Shopbybrand\Helper\Data as Helper;
+use Mageplaza\Shopbybrand\Model\Config\BrandInfo;
+use Mageplaza\Shopbybrand\Model\Config\BrandsPageSettings;
+use Mageplaza\Shopbybrand\Model\Config\General;
+use Mageplaza\Shopbybrand\Model\Config\Seo;
+use Mageplaza\Shopbybrand\Model\Config\Sidebar;
 use Mageplaza\Shopbybrand\Model\ResourceModel\Brand as BrandResourceModel;
 use Mageplaza\Shopbybrand\Model\ResourceModel\Category as BrandCategoryResource;
 use Mageplaza\Shopbybrand\Model\ResourceModel\Category\Collection;
@@ -51,7 +56,6 @@ use Mageplaza\Shopbybrand\Model\ResourceModel\Category\Collection;
  */
 class BrandRepository implements BrandRepositoryInterface
 {
-
     /**
      * @var EavCollectionFactory
      */
@@ -121,10 +125,16 @@ class BrandRepository implements BrandRepositoryInterface
      * @var BrandCategoryResource
      */
     protected $brandCategoryResource;
+
     /**
      * @var BrandConfigFactory
      */
     protected $brandConfigFactory;
+
+    /**
+     * @var BrandConfig
+     */
+    protected $brandConfig;
 
     /**
      * BrandRepository constructor.
@@ -144,6 +154,7 @@ class BrandRepository implements BrandRepositoryInterface
      * @param FilterManager $filter
      * @param BrandConfigFactory $brandConfigFactory
      * @param Helper $helper
+     * @param BrandConfig $brandConfig
      */
     public function __construct(
         EavAttribute $eavAttribute,
@@ -160,23 +171,25 @@ class BrandRepository implements BrandRepositoryInterface
         Visibility $visibleProducts,
         FilterManager $filter,
         BrandConfigFactory $brandConfigFactory,
-        Helper $helper
+        Helper $helper,
+        BrandConfig $brandConfig
     ) {
-        $this->eavAttribute = $eavAttribute;
+        $this->eavAttribute                 = $eavAttribute;
         $this->_attrOptionCollectionFactory = $attrOptionCollectionFactory;
-        $this->productRepository = $productRepository;
-        $this->eavOptionManagement = $eavOptionManagement;
-        $this->brandFactory = $brandFactory;
-        $this->resourceModel = $resourceModel;
-        $this->helper = $helper;
-        $this->attributeRepository = $attributeRepository;
-        $this->eavResourceModel = $eavResourceModel;
-        $this->categoryFactory = $categoryFactory;
-        $this->filter = $filter;
-        $this->productCollectionFactory = $productCollectionFactory;
-        $this->visibleProducts = $visibleProducts;
-        $this->brandCategoryResource = $brandCategoryResource;
-        $this->brandConfigFactory = $brandConfigFactory;
+        $this->productRepository            = $productRepository;
+        $this->eavOptionManagement          = $eavOptionManagement;
+        $this->brandFactory                 = $brandFactory;
+        $this->resourceModel                = $resourceModel;
+        $this->helper                       = $helper;
+        $this->attributeRepository          = $attributeRepository;
+        $this->eavResourceModel             = $eavResourceModel;
+        $this->categoryFactory              = $categoryFactory;
+        $this->filter                       = $filter;
+        $this->productCollectionFactory     = $productCollectionFactory;
+        $this->visibleProducts              = $visibleProducts;
+        $this->brandCategoryResource        = $brandCategoryResource;
+        $this->brandConfigFactory           = $brandConfigFactory;
+        $this->brandConfig                  = $brandConfig;
     }
 
     /**
@@ -228,7 +241,7 @@ class BrandRepository implements BrandRepositoryInterface
      */
     public function getProductList($optionId)
     {
-        $attCode = $this->helper->getAttributeCode();
+        $attCode    = $this->helper->getAttributeCode();
         $collection = $this->productCollectionFactory->create()
             ->setVisibility($this->visibleProducts->getVisibleInCatalogIds())
             ->addAttributeToSelect('*')
@@ -243,9 +256,9 @@ class BrandRepository implements BrandRepositoryInterface
      */
     public function getBrandBySku($sku, $storeId = null)
     {
-        $product = $this->productRepository->get($sku, false, $storeId);
+        $product  = $this->productRepository->get($sku, false, $storeId);
         $optionId = $product->getData($this->helper->getAttributeCode($storeId));
-        $brand = $this->brandFactory->create();
+        $brand    = $this->brandFactory->create();
         $this->resourceModel->load($brand, $optionId, 'option_id');
         $brand->setProductQuantity(count($this->getProductList($brand->getOptionId())));
 
@@ -301,7 +314,7 @@ class BrandRepository implements BrandRepositoryInterface
     public function addOption($option)
     {
         $attributeCode = $this->helper->getAttributeCode();
-        $attribute = $this->attributeRepository->get(
+        $attribute     = $this->attributeRepository->get(
             ProductAttributeInterface::ENTITY_TYPE_CODE,
             $attributeCode
         );
@@ -309,11 +322,11 @@ class BrandRepository implements BrandRepositoryInterface
             throw new StateException(__('The "%1" attribute doesn\'t work with options.', $attributeCode));
         }
 
-        $optionLabel = $option->getLabel();
-        $optionId = 'id_' . ($option->getValue() ?: 'new_option');
-        $options = [];
+        $optionLabel                    = $option->getLabel();
+        $optionId                       = 'id_' . ($option->getValue() ?: 'new_option');
+        $options                        = [];
         $options['value'][$optionId][0] = $optionLabel;
-        $options['order'][$optionId] = $option->getSortOrder();
+        $options['order'][$optionId]    = $option->getSortOrder();
 
         if (is_array($option->getStoreLabels())) {
             foreach ($option->getStoreLabels() as $label) {
@@ -370,7 +383,7 @@ class BrandRepository implements BrandRepositoryInterface
         }
         if ($this->addOption($option)) {
             $defaultStore = Store::DEFAULT_STORE_ID;
-            $optionId = $option->getValue();
+            $optionId     = $option->getValue();
             $option->setOptionId($option->getValue());
             $option = Helper::jsonDecode(Helper::jsonEncode($option));
             try {
@@ -554,7 +567,7 @@ class BrandRepository implements BrandRepositoryInterface
             if ($pages->getSize()) {
                 if ($category->getId()) {
                     foreach ($pages as $page) {
-                        if ((int)$page->getId() !== $category->getId()) {
+                        if ((int) $page->getId() !== $category->getId()) {
                             throw new NoSuchEntityException(__('The url key has been used.', $urlKey));
                         }
                     }
@@ -574,16 +587,91 @@ class BrandRepository implements BrandRepositoryInterface
      */
     public function getBrandConfigs($storeId = null)
     {
-        /** @var BrandConfig $model */
-        $model     = $this->brandConfigFactory->create();
-        $brandPage = $this->helper->getBrandConfig(null, $storeId);
-        foreach ($brandPage as $key => $value) {
-            $model->setData($key, $value);
+        if (!$this->helper->isEnabled()) {
+            throw new InputException(__('Module Shop By Brand is disabled'));
         }
-        $model->setShowBrandInfo($this->helper->getConfigGeneral('show_brand_info', $storeId));
-        $model->setLogoWidthOnProductPage($this->helper->getConfigGeneral('logo_width_on_product_page', $storeId));
-        $model->setLogoHeightOnProductPage($this->helper->getConfigGeneral('logo_height_on_product_page', $storeId));
+        $brandConfig = $this->helper->getConfigValue(Helper::CONFIG_MODULE_PATH, $storeId);
 
-        return $model;
+        $general = new General();
+        $general->setIsEnabled($brandConfig['general']['enabled']);
+        $general->setBrandAttribute($brandConfig['general']['attribute']);
+        $general->setBrandRoute($brandConfig['general']['route']);
+        $general->setBrandLinkTitle($brandConfig['general']['link_title']);
+        $general->setShowBrandLinkIn($brandConfig['general']['show_position']);
+        $general->setShowBrandInCategoryMenu($brandConfig['general']['show_dropdown']);
+        $general->setWhatToShow($brandConfig['general']['show_brand_menu']);
+        $general->setBrandMenuGridLayout($brandConfig['general']['grid_columns']);
+        $general->setMaximumBrandsToShow($brandConfig['general']['limit_brands']);
+        $general->setShowBrandsWithoutProductsOnMenu($brandConfig['general']['show_brands_without_products']);
+        $general->setShowBrandInfoOnProductListingPage($brandConfig['general']['show_brand_info_in_listing']);
+        $general->setShowBrandInfoInProductPage($brandConfig['general']['show_brand_info']);
+        $general->setShowBrandInfoInProductAdminGrid($brandConfig['general']['show_brand_info_in_admin']);
+        $general->setBrandLogoWidthInProductPage($brandConfig['general']['logo_width_on_product_page']);
+        $general->setBrandLogoHeightInProductPage($brandConfig['general']['logo_height_on_product_page']);
+
+        $brandsPageSettings = new BrandsPageSettings();
+        $brandsPageSettings->setBrandListName($brandConfig['brandpage']['name']);
+        $brandsPageSettings->setStyleOfBrandListPage($brandConfig['brandpage']['brandlist_style']);
+        $brandsPageSettings->setDisplayOption($brandConfig['brandpage']['display']);
+        $brandsPageSettings->setBrandLogoWidth($brandConfig['brandpage']['brand_logo_width']);
+        $brandsPageSettings->setBrandLogoHeight($brandConfig['brandpage']['brand_logo_height']);
+        $brandsPageSettings->setStyleColor($brandConfig['brandpage']['color']);
+        $brandsPageSettings->setShowBrandShortDescription($brandConfig['brandpage']['show_description']);
+        $brandsPageSettings->setShowBrandsWithoutProducts($brandConfig['brandpage']['show_brands_without_products']);
+        $brandsPageSettings->setShowBrandProductQuantity($brandConfig['brandpage']['show_product_qty']);
+        $brandsPageSettings->setShowBrandQuickViewPopup($brandConfig['brandpage']['show_quick_view']);
+        $brandsPageSettings->setCustomCss($brandConfig['brandpage']['custom_css']);
+        $brandsPageSettings->setShowBrandCategoriesFilter(
+            $brandConfig['brandpage']['brand_filter']['enabled_cat_filter']
+        );
+        $brandsPageSettings->setShowBrandAlphabetFilter(
+            $brandConfig['brandpage']['brand_filter']['enabled_alpha_filter']
+        );
+        $brandsPageSettings->setBrandFilterAlphabet($brandConfig['brandpage']['brand_filter']['alpha_bet']);
+        $brandsPageSettings->setBrandFilterCharacterSet($brandConfig['brandpage']['brand_filter']['encode_key']);
+        $brandsPageSettings->setShowBrandSearchBlock($brandConfig['brandpage']['search']['enable']);
+        $brandsPageSettings->setBrandSearchMinChars($brandConfig['brandpage']['search']['min_search_chars']);
+        $brandsPageSettings->setBrandSearchNumberOfSearchResult(
+            $brandConfig['brandpage']['search']['max_query_results']
+        );
+        $brandsPageSettings->setBrandSearchShowThumbnailImage($brandConfig['brandpage']['search']['visible_images']);
+        $brandsPageSettings->setShowFeaturedBrands($brandConfig['brandpage']['feature']['enable']);
+        $brandsPageSettings->setFeaturedBrandTitle($brandConfig['brandpage']['feature']['title']);
+        $brandsPageSettings->setDisplayFeaturedBrandsStyle($brandConfig['brandpage']['feature']['style']);
+        $brandsPageSettings->setDisplayInformationFeaturedBrands($brandConfig['brandpage']['feature']['display']);
+        $brandsPageSettings->setShowRelatedProducts($brandConfig['brandpage']['related_products']['enabled']);
+        $brandsPageSettings->setBrandRelatedTitle($brandConfig['brandpage']['related_products']['title']);
+        $brandsPageSettings->setBrandRelatedLimit($brandConfig['brandpage']['related_products']['limit_product']);
+
+        $brandInfo = new BrandInfo();
+        $brandInfo->setDefaultImage($brandConfig['brandview']['default_image']);
+        $brandInfo->setDefaultBlock($brandConfig['brandview']['default_block']);
+        $brandInfo->setShowBrandImageOnBrandPage($brandConfig['brandview']['show_image']);
+        $brandInfo->setShowBrandDescriptionOnBrandPage($brandConfig['brandview']['show_description']);
+        $brandInfo->setShowBrandStaticBlockOnBrandPage($brandConfig['brandview']['show_block']);
+
+        $sidebar = new Sidebar();
+        $sidebar->setShowFeaturedBrands($brandConfig['sidebar']['feature']['enable']);
+        $sidebar->setFeaturedBrandTitle($brandConfig['sidebar']['feature']['title']);
+        $sidebar->setFeaturedBrandShowTitle($brandConfig['sidebar']['feature']['show_title']);
+        $sidebar->setShowBrandThumbnail($brandConfig['sidebar']['brand_thumbnail']['enable']);
+        $sidebar->setBrandThumbnailTitle($brandConfig['sidebar']['brand_thumbnail']['title']);
+        $sidebar->setBrandsQtyLimit($brandConfig['sidebar']['brand_thumbnail']['limit_brands']);
+        $sidebar->setShowCategoryBrand($brandConfig['sidebar']['category_brand']['enable']);
+        $sidebar->setCategoryBrandTitle($brandConfig['sidebar']['category_brand']['title']);
+        $sidebar->setCategoryQtyLimit($brandConfig['sidebar']['category_brand']['limit_categories']);
+        $sidebar->setShowBrandCategoryQuantity($brandConfig['sidebar']['category_brand']['show_brand_qty']);
+
+        $seo = new Seo();
+        $seo->setAddNoindexToPaginationPages($brandConfig['brand_seo']['seo_pages']);
+
+        $this->brandConfig
+            ->setGeneral($general)
+            ->setBrandsPageSettings($brandsPageSettings)
+            ->setBrandInfo($brandInfo)
+            ->setSidebar($sidebar)
+            ->setSeo($seo);
+
+        return $this->brandConfig;
     }
 }

@@ -15,7 +15,7 @@ class Delete extends Action
      *
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
+    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
 
     /**
      * @var \Amasty\BannerSlider\Model\Repository\BannerRepository

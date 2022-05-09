@@ -72,15 +72,15 @@ class MassGenerate extends Action
         CollectionFactory $collectionFactory,
         Data $helperData
     ) {
-        $this->filter = $filter;
+        $this->filter            = $filter;
         $this->collectionFactory = $collectionFactory;
-        $this->helperData = $helperData;
+        $this->helperData        = $helperData;
 
         parent::__construct($context);
     }
 
     /**
-     * @return $this|ResponseInterface|ResultInterface
+     * @return Redirect|ResponseInterface|ResultInterface
      * @throws LocalizedException
      */
     public function execute()
@@ -89,18 +89,18 @@ class MassGenerate extends Action
 
         $feedUpdated = 0;
         foreach ($collection as $feed) {
-            if ($feed->getStatus()) {
-                try {
-                    $this->helperData->generateAndDeliveryFeed($feed);
-                    $feedUpdated++;
-                } catch (LocalizedException $e) {
-                    $this->messageManager->addErrorMessage($e->getMessage());
-                } catch (Exception $e) {
-                    $this->_getSession()->addException(
-                        $e,
-                        __('Something went wrong while generating and uploading %1 feed.', $feed->getName())
-                    );
-                }
+            if (!$feed->getStatus()) {
+                $this->messageManager->addErrorMessage(__('Please enable the %1 feed to generate.', $feed->getName()));
+                continue;
+            }
+            try {
+                $this->helperData->generateAndDeliveryFeed($feed, true);
+                $feedUpdated++;
+            } catch (Exception $e) {
+                $this->_getSession()->addException(
+                    $e,
+                    __('Something went wrong while generating and uploading %1 feed.', $feed->getName())
+                );
             }
         }
 
