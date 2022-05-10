@@ -95,6 +95,7 @@ class Product extends AbstractHelper
 
         $json = $this->jsonSerializer->unserialize($result);
 
+        //date_update
         foreach ($json['stockmaster']['stockcode'] as $prod)
         {
             if(!isset($prod['code']))
@@ -370,6 +371,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $today = date('Y-m-d');
+                $product->setCustomAttribute('date_update', $today);
 
                 $this->productRepository->save($product);
 
@@ -624,6 +627,9 @@ class Product extends AbstractHelper
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
+
+                $today = date('Y-m-d');
+                $product->setCustomAttribute('date_update', $today);
 
                 $this->productRepository->save($product);
 
@@ -954,6 +960,9 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $today = date('Y-m-d');
+                $product->setCustomAttribute('date_update', $today);
+
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
@@ -1207,6 +1216,9 @@ class Product extends AbstractHelper
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
+
+                $today = date('Y-m-d');
+                $product->setCustomAttribute('date_update', $today);
 
                 $this->productRepository->save($product);
 
@@ -1603,6 +1615,9 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $today = date('Y-m-d');
+                $product->setCustomAttribute('date_update', $today);
+                echo $today . "<br>";
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
