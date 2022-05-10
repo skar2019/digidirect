@@ -66,8 +66,8 @@ class AbstractProduct
     {
         if ($this->helperData->isEnabled()) {
             $attributes = $result->getAttributeOption();
-            if (!array_key_exists('is_in_stock', $attributes)) {
-                $attributes['is_in_stock'] = __('Stock Status');
+            if (!array_key_exists('mp_is_in_stock', $attributes)) {
+                $attributes['mp_is_in_stock'] = __('Stock Status');
                 $result->setAttributeOption($attributes);
             }
         }
@@ -84,7 +84,7 @@ class AbstractProduct
     public function aroundGetInputType(AbstractProductRule $subject, callable $proceed)
     {
         switch ($subject->getAttribute()) {
-            case 'is_in_stock':
+            case 'mp_is_in_stock':
                 return 'select';
             case 'quantity_and_stock_status':
                 return 'string';
@@ -102,7 +102,7 @@ class AbstractProduct
     public function aroundGetValueElementType(AbstractProductRule $subject, callable $proceed)
     {
         switch ($subject->getAttribute()) {
-            case 'is_in_stock':
+            case 'mp_is_in_stock':
                 return 'select';
             case 'quantity_and_stock_status':
                 return 'text';
@@ -119,7 +119,7 @@ class AbstractProduct
      */
     public function afterGetValueSelectOptions(AbstractProductRule $subject, $result)
     {
-        if ($subject->getAttribute() === 'is_in_stock') {
+        if ($subject->getAttribute() === 'mp_is_in_stock') {
             $result = $this->stockStatus->getAllOptions();
         }
 
@@ -138,7 +138,7 @@ class AbstractProduct
         callable $proceed,
         $productCollection
     ) {
-        if ($subject->getAttribute() === 'is_in_stock') {
+        if ($subject->getAttribute() === 'mp_is_in_stock') {
             return $subject;
         }
 

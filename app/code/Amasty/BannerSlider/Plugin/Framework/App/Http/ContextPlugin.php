@@ -9,7 +9,7 @@ use Magento\Framework\App\Http\Context as HttpContext;
 
 class ContextPlugin
 {
-    const IS_MOBILE_HTTP_CONTEXT_KEY  = 'IS_MOBILE_HTTP_CONTEXT_KEY';
+    public const IS_MOBILE_HTTP_CONTEXT_KEY  = 'IS_MOBILE_HTTP_CONTEXT_KEY';
 
     /**
      * @var MobileDetect

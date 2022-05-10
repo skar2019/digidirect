@@ -26,8 +26,11 @@
             <block class="Mageplaza\Shopbybrand\Block\Product\Logo" name="brand.product.logo" before="-" template="product/logo.phtml"/>
         </referenceContainer>
         <referenceBlock name="product.info.details">
-            <block class="Mageplaza\Shopbybrand\Block\Product\TabProduct" name="related.brand.product.tab" template="Mageplaza_Shopbybrand::product/tabproduct.phtml" group="detailed_info" ifconfig="shopbybrand/brandpage/related_products/enabled">
-                <block class="Mageplaza\Shopbybrand\Block\Product\TabProduct" name="related.brand.product.tab.detail" as="related_product" template="Magento_Catalog::product/list.phtml"/>
+            <block class="Mageplaza\Shopbybrand\Block\Product\TabProduct" name="related.brand.product.tab" template="Mageplaza_Shopbybrand::product/tabproduct.phtml" group="detailed_info"
+                   ifconfig="shopbybrand/brandpage/related_products/enabled">
+                <block class="Mageplaza\Shopbybrand\Block\Product\TabProduct" name="related.brand.product.tab.detail"
+                       as="related_product" template="Mageplaza_Shopbybrand::product/tabproduct/list.phtml">
+                </block>
             </block>
         </referenceBlock>
     </body>

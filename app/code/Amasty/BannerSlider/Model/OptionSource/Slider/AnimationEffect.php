@@ -8,11 +8,11 @@ use Magento\Framework\Option\ArrayInterface;
 
 class AnimationEffect implements ArrayInterface
 {
-    const ROLLING = 0;
+    public const ROLLING = 0;
 
-    const SPLIT = 1;
+    public const SPLIT = 1;
 
-    const BUBBLE = 2;
+    public const BUBBLE = 2;
 
     public function toOptionArray(): array
     {

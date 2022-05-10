@@ -22,6 +22,11 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="styles"/>
+    <head>
+        <css src="Mageplaza_Core/css/font-awesome.min.css"/>
+        <css src="Mageplaza_ProductFeed/css/lib/daterangepicker.css"/>
+        <css src="Mageplaza_ProductFeed/css/reports/reports.css"/>
+    </head>
     <body>
         <referenceBlock name="menu">
             <action method="setActive">
@@ -34,6 +39,7 @@
             </action>
         </referenceBlock>
         <referenceContainer name="content">
+            <block class="Mageplaza\ProductFeed\Block\Adminhtml\Reports" name="mp.productfeed.reports" template="Mageplaza_ProductFeed::report/grid.phtml" ifconfig="product_feed/general/reports"/>
             <uiComponent name="mageplaza_productfeed_managefeeds_listing"/>
         </referenceContainer>
     </body>

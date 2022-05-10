@@ -8,11 +8,11 @@ use Magento\Framework\Option\ArrayInterface;
 
 class BulletsStyle implements ArrayInterface
 {
-    const FIRST = 1;
+    public const FIRST = 1;
 
-    const SECOND = 2;
+    public const SECOND = 2;
 
-    const THIRD = 3;
+    public const THIRD = 3;
 
     public function toOptionArray(): array
     {

@@ -17,6 +17,9 @@ use Magento\Widget\Block\BlockInterface;
 
 class Slider extends Template implements BlockInterface, IdentityInterface
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Amasty_BannerSlider::widget/slider.phtml';
 
     /**

@@ -27,13 +27,14 @@ use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Encryption\EncryptorInterface;
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Registry;
 use Mageplaza\ProductFeed\Controller\Adminhtml\AbstractManageFeeds;
 use Mageplaza\ProductFeed\Helper\Data;
+use Mageplaza\ProductFeed\Helper\File;
+use Mageplaza\ProductFeed\Model\Feed;
 use Mageplaza\ProductFeed\Model\FeedFactory;
 use RuntimeException;
-use Zend_Serializer_Exception;
 
 /**
  * Class Save
@@ -49,7 +50,12 @@ class Save extends AbstractManageFeeds
     /**
      * @var EncryptorInterface
      */
-    private $encryptor;
+    protected $encryptor;
+
+    /**
+     * @var File
+     */
+    protected $helperFile;
 
     /**
      * Save constructor.
@@ -59,23 +65,26 @@ class Save extends AbstractManageFeeds
      * @param Context $context
      * @param EncryptorInterface $encryptor
      * @param Data $helperData
+     * @param File $helperFile
      */
     public function __construct(
         FeedFactory $feedFactory,
         Registry $coreRegistry,
         Context $context,
-        EncryptorInterface $encryptor,
-        Data $helperData
+        Data $helperData,
+        File $helperFile,
+        EncryptorInterface $encryptor
     ) {
         $this->helperData = $helperData;
-        $this->encryptor = $encryptor;
+        $this->helperFile = $helperFile;
+        $this->encryptor  = $encryptor;
 
         parent::__construct($feedFactory, $coreRegistry, $context);
     }
 
     /**
      * @return ResponseInterface|Redirect|ResultInterface
-     * @throws Zend_Serializer_Exception
+     * @throws FileSystemException
      */
     public function execute()
     {
@@ -96,8 +105,8 @@ class Save extends AbstractManageFeeds
         }
 
         $conditionData = $this->getRequest()->getPost('rule');
-        $feed = $this->initFeed();
-        $feed->addData($data);
+        $feed          = $this->initFeed();
+        $this->_prepareData($feed, $data);
         $feed->loadPost($conditionData);
 
         try {
@@ -112,8 +121,6 @@ class Save extends AbstractManageFeeds
             }
 
             return $resultRedirect;
-        } catch (LocalizedException $e) {
-            $this->messageManager->addErrorMessage($e->getMessage());
         } catch (RuntimeException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (Exception $e) {
@@ -125,5 +132,27 @@ class Save extends AbstractManageFeeds
         $resultRedirect->setPath('mpproductfeed/*/edit', ['feed_id' => $feed->getId(), '_current' => true]);
 
         return $resultRedirect;
+    }
+
+    /**
+     * @param Feed $feed
+     * @param array $data
+     *
+     * @return $this
+     * @throws FileSystemException
+     */
+    protected function _prepareData($feed, $data = [])
+    {
+        $data['mapping'] = Data::jsonEncode($data['mapping']);
+        $this->helperFile->uploadFile(
+            $data,
+            'private_key_path',
+            File::TEMPLATE_MEDIA_TYPE_FILE,
+            $feed->getPrivateKeyPath()
+        );
+
+        $feed->addData($data);
+
+        return $this;
     }
 }

@@ -6,6 +6,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\Framework\View\Result\Page" type="Digidirect\Utilities\Preference\Magento\Framework\View\Result\Page"/>
+    <preference for="Magento\Framework\Escaper" type="Digidirect\Utilities\Preference\Magento\Framework\Escaper"/>
     <preference for="Magento\Sitemap\Model\Sitemap" type="Digidirect\Utilities\Model\Sitemap"/>
     <preference for="Magento\Framework\Mail\Template\TransportBuilder" type="Digidirect\Utilities\Preference\Magento\Framework\Mail\Template\TransportBuilder"/>
     <preference for="Magento\Catalog\Model\Attribute\Config\Reader" type="Digidirect\Utilities\Model\Catalog\Attribute\Config\Reader"/>

@@ -19,7 +19,9 @@
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 ?>
-<?php if ($block->isEnabled()) : ?>
+<?php
+/** @var \Mageplaza\Shopbybrand\Block\Product\TabProduct $block */
+if ($block->isEnabled()) : ?>
 <h2><?= /** @noEscape */ $block->getRelatedTitle() ?></h2>
     <?= /** @noEscape */ $block->getChildHtml('related_product') ?>
 <?php endif; ?>

@@ -18,6 +18,7 @@ runtime:
         - json
         - newrelic
         - xdebug
+        - sodium
 # The relationships of the application with services or other applications.
 # The left-hand side is the name of the relationship as it will be exposed
 # to the application in the environment variable. The right-hand
