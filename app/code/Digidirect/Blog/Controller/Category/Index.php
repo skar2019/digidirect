@@ -92,7 +92,7 @@ class Index extends Action
         }
 
         $metaTitle = $category->getMetaTitle() ? $category->getMetaTitle() : $category->getName();
-        $page->getConfig()->getTitle()->set("Test Meta Title!");
+        $page->getConfig()->getTitle()->set($metaTitle);
         $page->getConfig()->setKeywords($category->getMetaKeywords());
         $page->getConfig()->setDescription($category->getMetaDescription());
 

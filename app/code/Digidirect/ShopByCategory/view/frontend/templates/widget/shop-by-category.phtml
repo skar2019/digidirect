@@ -21,7 +21,9 @@ $brands = $block->getBrands();
         <?php foreach($brands as $brand) : ?>
             <?php if ($brand) :?>
                 <?php $brandName = $brand->getLabel();?>
-                <option data-value="<?php echo $brand->getValue();?>" value="<?php echo $brandName; ?>"></option>
+                    <?php if ($brandName != " ") : ?>
+                        <option data-value="<?php echo $brand->getValue();?>" value="<?php echo $brandName; ?>"></option>
+                    <?php endif; ?>
             <?php endif; ?>
         <?php endforeach ?>
     </datalist>
