@@ -27,12 +27,12 @@ $innerAttributes = $this->parseAttributes($this->getInnerAttributes());
 	<?php if ($label && $labelPosition=='left') { ?>
 	<span class="label"><?= $label ?></span>
 	<?php } ?>
-	<?php if ($icon && $subTitle) { ?>
+	<?php if ($subTitle) { ?>
 	<span class="title-wrapper">
 	<?php } ?>
 	<?php if ($title) { ?><span class="title"><?= $title ?></span><?php } ?>
-	<?php if ($subTitle) { ?><span class="subtitle"><?= $subTitle ?></span><?php } ?>
-	<?php if ($icon && $subTitle) { ?>
+	<?php if ($subTitle) { ?>
+        <span class="subtitle"><?= $subTitle ?></span>
 	</span>
 	<?php } ?>
 	<?php if ($label && $labelPosition!='left') { ?>
