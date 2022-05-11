@@ -11,6 +11,7 @@ build:
     flavor: composer
 
 # Enable extensions required by Magento 2
+# enabled sodium
 runtime:
     extensions:
         - redis
