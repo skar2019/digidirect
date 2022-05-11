@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -19,75 +19,99 @@ class FileTest extends TestCase
 	protected $cache;
 	protected $cacheDir;
 
-	protected function setUp() {
+	protected function setUp(): void
+	{
 		parent::setUp();
 
 		$this->cacheDir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'cache_dir';
-		$this->cache = new File(array('cache_dir' => $this->cacheDir));
+
+		// Remove tmp cache files because they may remain after a failed test run
+		$this->removeOldCachedFiles();
+
+		$this->cache = new File(array(
+			'cache_dir' => $this->cacheDir,
+			'cache_expire' => 3600,
+			'cache_prefix' => 'liquid_',
+		));
 	}
 
-	protected function tearDown() {
+	protected function tearDown(): void
+	{
 		parent::tearDown();
 
-		// Remove tmp cache files
-		array_map('unlink', glob($this->cacheDir . DIRECTORY_SEPARATOR . '*'));
+		$this->removeOldCachedFiles();
 	}
 
-	/**
-	 * @expectedException \Liquid\LiquidException
-	 */
-	public function testConstructInvalidOptions() {
+	private function removeOldCachedFiles(): void
+	{
+		if ($files = glob($this->cacheDir . DIRECTORY_SEPARATOR . '*')) {
+			array_map('unlink', $files);
+		}
+	}
+
+	public function testConstructInvalidOptions()
+	{
+		$this->expectException(\Liquid\Exception\FilesystemException::class);
+
 		new File();
 	}
 
-	/**
-	 * @expectedException \Liquid\LiquidException
-	 */
-	public function testConstructNoSuchDirOrNotWritable() {
+	public function testConstructNoSuchDirOrNotWritable()
+	{
+		$this->expectException(\Liquid\Exception\FilesystemException::class);
+
 		new File(array('cache_dir' => '/no/such/dir/liquid/cache'));
 	}
 
-	public function testGetExistsNoFile() {
+	public function testGetExistsNoFile()
+	{
 		$this->assertFalse($this->cache->exists('no_key'));
 	}
 
-	public function testGetExistsExpired() {
+	public function testGetExistsExpired()
+	{
 		$key = 'test';
 		$cacheFile = $this->cacheDir . DIRECTORY_SEPARATOR . 'liquid_' . $key;
 		touch($cacheFile, time() - 1000000); // long ago
 		$this->assertFalse($this->cache->exists($key));
 	}
 
-	public function testGetExistsNotExpired() {
+	public function testGetExistsNotExpired()
+	{
 		$key = 'test';
 		$cacheFile = $this->cacheDir . DIRECTORY_SEPARATOR . 'liquid_' . $key;
 		touch($cacheFile);
 		$this->assertTrue($this->cache->exists($key));
 	}
 
-	public function testFlushAll() {
+	public function testFlushAll()
+	{
 		touch($this->cacheDir . DIRECTORY_SEPARATOR . 'liquid_test');
 		touch($this->cacheDir . DIRECTORY_SEPARATOR . 'liquid_test_two');
 
-		$this->assertCount(2, glob($this->cacheDir . DIRECTORY_SEPARATOR . '*'));
+		$this->assertGreaterThanOrEqual(2, count(glob($this->cacheDir . DIRECTORY_SEPARATOR . '*')));
 
 		$this->cache->flush();
 
 		$this->assertCount(0, glob($this->cacheDir . DIRECTORY_SEPARATOR . '*'));
 	}
 
-	public function testFlushExpired() {
+	public function testFlushExpired()
+	{
 		touch($this->cacheDir . DIRECTORY_SEPARATOR . 'liquid_test');
 		touch($this->cacheDir . DIRECTORY_SEPARATOR . 'liquid_test_two', time() - 1000000);
 
-		$this->assertCount(2, glob($this->cacheDir . DIRECTORY_SEPARATOR . '*'));
+		$files = join(', ', glob($this->cacheDir . DIRECTORY_SEPARATOR . '*'));
+
+		$this->assertGreaterThanOrEqual(2, count(glob($this->cacheDir . DIRECTORY_SEPARATOR . '*')), "Found more than two files: $files");
 
 		$this->cache->flush(true);
 
 		$this->assertCount(1, glob($this->cacheDir . DIRECTORY_SEPARATOR . '*'));
 	}
 
-	public function testWriteNoSerialize() {
+	public function testWriteNoSerialize()
+	{
 		$key = 'test';
 		$value = 'test_value';
 
@@ -96,7 +120,8 @@ class FileTest extends TestCase
 		$this->assertEquals($value, file_get_contents($this->cacheDir . DIRECTORY_SEPARATOR . 'liquid_' . $key));
 	}
 
-	public function testWriteSerialized() {
+	public function testWriteSerialized()
+	{
 		$key = 'test';
 		$value = 'test_value';
 
@@ -105,7 +130,11 @@ class FileTest extends TestCase
 		$this->assertEquals(serialize($value), file_get_contents($this->cacheDir . DIRECTORY_SEPARATOR . 'liquid_' . $key));
 	}
 
-	public function testWriteGc() {
+	/**
+	 * @depends testWriteSerialized
+	 */
+	public function testWriteGc()
+	{
 		$key = 'test';
 		$value = 'test_value';
 
@@ -117,11 +146,13 @@ class FileTest extends TestCase
 		$this->assertCount(1, glob($this->cacheDir . DIRECTORY_SEPARATOR . '*'));
 	}
 
-	public function testReadNonExisting() {
+	public function testReadNonExisting()
+	{
 		$this->assertFalse($this->cache->read('no_such_key'));
 	}
 
-	public function testReadNoUnserialize() {
+	public function testReadNoUnserialize()
+	{
 		$key = 'test';
 		$value = 'test_value';
 
@@ -130,7 +161,8 @@ class FileTest extends TestCase
 		$this->assertSame($value, $this->cache->read($key, false));
 	}
 
-	public function testReadSerialize() {
+	public function testReadSerialize()
+	{
 		$key = 'test';
 		$value = 'test_value';
 

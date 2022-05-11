@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -18,15 +18,17 @@ class CustomFiltersTest extends TestCase
 	 *
 	 * @var Context
 	 */
-	var $context;
+	public $context;
 
-	protected function setup() {
+	protected function setUp(): void
+	{
 		parent::setUp();
 
 		$this->context = new Context();
 	}
 
-	public function testSortKey() {
+	public function testSortKey()
+	{
 		$data = array(
 			array(
 				array(),
@@ -42,5 +44,4 @@ class CustomFiltersTest extends TestCase
 			$this->assertEquals($item[1], CustomFilters::sort_key($item[0]));
 		}
 	}
-
 }

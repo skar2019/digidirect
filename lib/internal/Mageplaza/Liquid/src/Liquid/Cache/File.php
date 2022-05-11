@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,7 +12,7 @@
 namespace Liquid\Cache;
 
 use Liquid\Cache;
-use Liquid\LiquidException;
+use Liquid\Exception\NotFoundException;
 
 /**
  * Implements cache stored in files.
@@ -26,24 +26,27 @@ class File extends Cache
 	 *
 	 * @param array $options
 	 *
-	 * @throws LiquidException if Cachedir not exists.
+	 * @throws NotFoundException if Cachedir not exists.
 	 */
-	public function __construct(array $options = array()) {
+	public function __construct(array $options = array())
+	{
 		parent::__construct($options);
 
 		if (isset($options['cache_dir']) && is_writable($options['cache_dir'])) {
 			$this->path = realpath($options['cache_dir']) . DIRECTORY_SEPARATOR;
 		} else {
-			throw new LiquidException('Cachedir not exists or not writable');
+			throw new NotFoundException('Cachedir not exists or not writable');
 		}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function read($key, $unserialize = true) {
-		if (!$this->exists($key))
+	public function read($key, $unserialize = true)
+	{
+		if (!$this->exists($key)) {
 			return false;
+		}
 
 		if ($unserialize) {
 			return unserialize(file_get_contents($this->path . $this->prefix . $key));
@@ -55,7 +58,8 @@ class File extends Cache
 	/**
 	 * {@inheritdoc}
 	 */
-	public function exists($key) {
+	public function exists($key)
+	{
 		$cacheFile = $this->path . $this->prefix . $key;
 
 		if (!file_exists($cacheFile) || filemtime($cacheFile) + $this->expire < time()) {
@@ -68,19 +72,19 @@ class File extends Cache
 	/**
 	 * {@inheritdoc}
 	 */
-	public function write($key, $value, $serialize = true) {
-		if (file_put_contents($this->path . $this->prefix . $key, $serialize ? serialize($value) : $value) !== false) {
-			$this->gc();
-			return true;
-		}
+	public function write($key, $value, $serialize = true)
+	{
+		$bytes = file_put_contents($this->path . $this->prefix . $key, $serialize ? serialize($value) : $value);
+		$this->gc();
 
-		throw new LiquidException('Can not write cache file');
+		return $bytes !== false;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function flush($expiredOnly = false) {
+	public function flush($expiredOnly = false)
+	{
 		foreach (glob($this->path . $this->prefix . '*') as $file) {
 			if ($expiredOnly) {
 				if (filemtime($file) + $this->expire < time()) {
@@ -95,7 +99,8 @@ class File extends Cache
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function gc() {
+	protected function gc()
+	{
 		$this->flush(true);
 	}
 }

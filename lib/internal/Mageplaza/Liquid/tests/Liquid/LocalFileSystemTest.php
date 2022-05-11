@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -11,78 +11,159 @@
 
 namespace Liquid;
 
-class LocalFileSystemTest extends Testcase
+use Liquid\FileSystem\Local;
+
+class LocalFileSystemTest extends TestCase
 {
+	protected $root;
+
+	protected function setUp(): void
+	{
+		$this->root = __DIR__ . DIRECTORY_SEPARATOR . self::TEMPLATES_DIR . DIRECTORY_SEPARATOR;
+		// reset to defaults
+		Liquid::set('INCLUDE_ALLOW_EXT', false);
+	}
+
 	/**
-	 * @expectedException \Liquid\LiquidException
 	 */
-	public function testIllegalTemplateNameEmpty() {
-		$fileSystem = new LocalFileSystem('');
+	public function testIllegalTemplateNameEmpty()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+
+		$fileSystem = new Local('');
 		$fileSystem->fullPath('');
 	}
 
 	/**
-	 * @expectedException \Liquid\LiquidException
 	 */
-	public function testIllegalTemplateNameIncludeExtension() {
+	public function testIllegalRootPath()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+
+		$fileSystem = new Local('invalid/not/found');
+		$fileSystem->fullPath('');
+	}
+
+	/**
+	 */
+	public function testIllegalTemplateNameIncludeExtension()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+
 		Liquid::set('INCLUDE_ALLOW_EXT', false);
 
-		$fileSystem = new LocalFileSystem('');
+		$fileSystem = new Local('');
 		$fileSystem->fullPath('has_extension.ext');
 	}
 
 	/**
-	 * @expectedException \Liquid\LiquidException
 	 */
-	public function testIllegalTemplateNameNotIncludeExtension() {
+	public function testIllegalTemplateNameNotIncludeExtension()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+
 		Liquid::set('INCLUDE_ALLOW_EXT', true);
 
-		$fileSystem = new LocalFileSystem('');
+		$fileSystem = new Local('');
 		$fileSystem->fullPath('has_extension');
 	}
 
 	/**
-	 * @expectedException \Liquid\LiquidException
 	 */
-	public function testIllegalTemplatePathNoRoot() {
-		$fileSystem = new LocalFileSystem('');
+	public function testIllegalTemplatePathNoRoot()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+
+		$fileSystem = new Local('');
 		$fileSystem->fullPath('mypartial');
 	}
 
 	/**
-	 * @expectedException \Liquid\LiquidException
 	 */
-	public function testIllegalTemplatePathNoFileExists() {
-		$fileSystem = new LocalFileSystem(dirname(__DIR__));
+	public function testIllegalTemplatePathNoFileExists()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+
+		$fileSystem = new Local(dirname(__DIR__));
 		$fileSystem->fullPath('no_such_file_exists');
 	}
 
-	public function testValidPathWithDefaultExtension() {
-		$root = dirname(__FILE__) . DIRECTORY_SEPARATOR . self::TEMPLATES_DIR . DIRECTORY_SEPARATOR;
-		$templateName = 'mypartial';
+	/**
+	 */
+	public function testIllegalTemplatePathNotUnderTemplateRoot()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+		$this->expectExceptionMessage('not under');
 
-		$fileSystem = new LocalFileSystem($root);
-		$this->assertEquals($root . Liquid::get('INCLUDE_PREFIX') . $templateName . '.' . Liquid::get('INCLUDE_SUFFIX'), $fileSystem->fullPath($templateName));
+		Liquid::set('INCLUDE_ALLOW_EXT', true);
+		$fileSystem = new Local(dirname($this->root));
+		// find any fail under deeper under the root, so all other checks would pass
+		$filesUnderCurrentDir = array_map('basename', glob(dirname(__DIR__).'/../*'));
+		// path relative to root; we can't start it with a dot since it isn't allowed anyway
+		$fileSystem->fullPath(self::TEMPLATES_DIR."/../../../{$filesUnderCurrentDir[0]}");
 	}
 
-	public function testValidPathWithCustomExtension() {
+	public function testValidPathWithDefaultExtension()
+	{
+		$templateName = 'mypartial';
+
+		$fileSystem = new Local($this->root);
+		$this->assertEquals($this->root . Liquid::get('INCLUDE_PREFIX') . $templateName . '.' . Liquid::get('INCLUDE_SUFFIX'), $fileSystem->fullPath($templateName));
+	}
+
+	public function testValidPathWithCustomExtension()
+	{
 		Liquid::set('INCLUDE_PREFIX', '');
 		Liquid::set('INCLUDE_SUFFIX', 'tpl');
 
-		$root = dirname(__FILE__) . DIRECTORY_SEPARATOR . self::TEMPLATES_DIR . DIRECTORY_SEPARATOR;
 		$templateName = 'mypartial';
 
-		$fileSystem = new LocalFileSystem($root);
-		$this->assertEquals($root . Liquid::get('INCLUDE_PREFIX') . $templateName . '.' . Liquid::get('INCLUDE_SUFFIX'), $fileSystem->fullPath($templateName));
+		$fileSystem = new Local($this->root);
+		$this->assertEquals($this->root . Liquid::get('INCLUDE_PREFIX') . $templateName . '.' . Liquid::get('INCLUDE_SUFFIX'), $fileSystem->fullPath($templateName));
 	}
 
-	public function testReadTemplateFile() {
+	/**
+	 */
+	public function testReadIllegalTemplatePathNoFileExists()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+		$this->expectExceptionMessage('File not found');
+
+		$fileSystem = new Local(dirname(__DIR__));
+		$fileSystem->readTemplateFile('no_such_file_exists');
+	}
+
+	public function testReadTemplateFile()
+	{
 		Liquid::set('INCLUDE_PREFIX', '');
 		Liquid::set('INCLUDE_SUFFIX', 'tpl');
 
-		$root = dirname(__FILE__) . DIRECTORY_SEPARATOR . self::TEMPLATES_DIR . DIRECTORY_SEPARATOR;
-
-		$fileSystem = new LocalFileSystem($root);
+		$fileSystem = new Local($this->root);
 		$this->assertEquals('test content', trim($fileSystem->readTemplateFile('mypartial')));
+	}
+
+	public function testDeprecatedLocalFileSystemExists()
+	{
+		$this->assertInstanceOf(Local::class, new LocalFileSystem($this->root));
+	}
+
+	public function testParseTemplateFile()
+	{
+		Liquid::set('INCLUDE_PREFIX', '');
+		Liquid::set('INCLUDE_SUFFIX', 'tpl');
+
+		$template = new Template($this->root);
+		$this->assertEquals("test content\n", $template->parseFile('mypartial')->render());
+	}
+
+	/**
+	 */
+	public function testParseTemplateFileError()
+	{
+		$this->expectException(\Liquid\LiquidException::class);
+		$this->expectExceptionMessage('Could not load a template');
+
+		$template = new Template();
+		$template->parseFile('mypartial');
 	}
 }

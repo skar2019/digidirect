@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -24,9 +24,9 @@ class CustomFilters
 	 *
 	 * @return array
 	 */
-	public static function sort_key(array $input) {
+	public static function sort_key(array $input)
+	{
 		ksort($input);
 		return $input;
 	}
-
 }

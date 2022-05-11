@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -44,7 +44,8 @@ abstract class AbstractTag
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		$this->markup = $markup;
 		$this->fileSystem = $fileSystem;
 		$this->parse($tokens);
@@ -55,7 +56,8 @@ abstract class AbstractTag
 	 *
 	 * @param array $tokens
 	 */
-	public function parse(array &$tokens) {
+	public function parse(array &$tokens)
+	{
 		// Do nothing by default
 	}
 
@@ -66,16 +68,15 @@ abstract class AbstractTag
 	 *
 	 * @return string
 	 */
-	public function render(Context $context) {
-		return '';
-	}
+	abstract public function render(Context $context);
 
 	/**
 	 * Extracts tag attributes from a markup string.
 	 *
 	 * @param string $markup
 	 */
-	protected function extractAttributes($markup) {
+	protected function extractAttributes($markup)
+	{
 		$this->attributes = array();
 
 		$attributeRegexp = new Regexp(Liquid::get('TAG_ATTRIBUTES'));
@@ -92,7 +93,8 @@ abstract class AbstractTag
 	 *
 	 * @return string
 	 */
-	protected function name() {
+	protected function name()
+	{
 		return strtolower(get_class($this));
 	}
 }

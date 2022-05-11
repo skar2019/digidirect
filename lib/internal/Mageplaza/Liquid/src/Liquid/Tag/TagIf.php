@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -13,8 +13,8 @@ namespace Liquid\Tag;
 
 use Liquid\Decision;
 use Liquid\Context;
+use Liquid\Exception\ParseException;
 use Liquid\Liquid;
-use Liquid\LiquidException;
 use Liquid\FileSystem;
 use Liquid\Regexp;
 
@@ -24,13 +24,6 @@ use Liquid\Regexp;
  * Example:
  *
  *     {% if true %} YES {% else %} NO {% endif %}
- *
- *     will return:
- *     YES
- *
- * 0 is truthy
- *
- *     {% if 0 %} YES {% else %} NO {% endif %}
  *
  *     will return:
  *     YES
@@ -58,7 +51,8 @@ class TagIf extends Decision
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		$this->nodelist = & $this->nodelistHolders[count($this->blocks)];
 
 		array_push($this->blocks, array('if', $markup, &$this->nodelist));
@@ -73,14 +67,14 @@ class TagIf extends Decision
 	 * @param array $params
 	 * @param array $tokens
 	 */
-	public function unknownTag($tag, $params, array $tokens) {
+	public function unknownTag($tag, $params, array $tokens)
+	{
 		if ($tag == 'else' || $tag == 'elsif') {
 			// Update reference to nodelistHolder for this block
 			$this->nodelist = & $this->nodelistHolders[count($this->blocks) + 1];
 			$this->nodelistHolders[count($this->blocks) + 1] = array();
 
 			array_push($this->blocks, array($tag, $params, &$this->nodelist));
-
 		} else {
 			parent::unknownTag($tag, $params, $tokens);
 		}
@@ -91,10 +85,11 @@ class TagIf extends Decision
 	 *
 	 * @param Context $context
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\ParseException
 	 * @return string
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		$context->push();
 
 		$logicalRegex = new Regexp('/\s+(and|or)\s+/');
@@ -113,7 +108,7 @@ class TagIf extends Decision
 				$logicalRegex->matchAll($block[1]);
 
 				$logicalOperators = $logicalRegex->matches;
-				$logicalOperators = array_merge(array('and'), $logicalOperators[1]);
+				$logicalOperators = $logicalOperators[1];
 				// Extract individual conditions
 				$temp = $logicalRegex->split($block[1]);
 
@@ -131,25 +126,30 @@ class TagIf extends Decision
 							'right' => $right
 						));
 					} else {
-						throw new LiquidException("Syntax Error in tag 'if' - Valid syntax: if [condition]");
+						throw new ParseException("Syntax Error in tag 'if' - Valid syntax: if [condition]");
 					}
 				}
-
-				$boolean = true;
-				$results = array();
-				foreach ($logicalOperators as $k => $logicalOperator) {
-					$r = $this->interpretCondition($conditions[$k]['left'], $conditions[$k]['right'], $conditions[$k]['operator'], $context);
-					if ($logicalOperator == 'and') {
-						$boolean = $boolean && Liquid::isTruthy($r);
-					} else {
-						$results[] = $boolean;
-						$boolean = Liquid::isTruthy($r);
+				if (count($logicalOperators)) {
+					// If statement contains and/or
+					$display = $this->interpretCondition($conditions[0]['left'], $conditions[0]['right'], $conditions[0]['operator'], $context);
+					foreach ($logicalOperators as $k => $logicalOperator) {
+						if ($logicalOperator == 'and') {
+							$display = ($display && $this->interpretCondition($conditions[$k + 1]['left'], $conditions[$k + 1]['right'], $conditions[$k + 1]['operator'], $context));
+						} else {
+							$display = ($display || $this->interpretCondition($conditions[$k + 1]['left'], $conditions[$k + 1]['right'], $conditions[$k + 1]['operator'], $context));
+						}
 					}
+				} else {
+					// If statement is a single condition
+					$display = $this->interpretCondition($conditions[0]['left'], $conditions[0]['right'], $conditions[0]['operator'], $context);
 				}
-				$results[] = $boolean;
 
-				if (in_array(true, $results)) {
+				// hook for unless tag
+				$display = $this->negateIfUnless($display);
+
+				if ($display) {
 					$result = $this->renderAll($block[2], $context);
+
 					break;
 				}
 			}
@@ -158,5 +158,11 @@ class TagIf extends Decision
 		$context->pop();
 
 		return $result;
+	}
+
+	protected function negateIfUnless($display)
+	{
+		// no need to negate a condition in a regular `if` tag (will do that in `unless` tag)
+		return $display;
 	}
 }

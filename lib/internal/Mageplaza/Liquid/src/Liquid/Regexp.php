@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -38,8 +38,9 @@ class Regexp
 	 *
 	 * @return Regexp
 	 */
-	public function __construct($pattern) {
-		$this->pattern = (substr($pattern, '0', 1) != '/')
+	public function __construct($pattern)
+	{
+		$this->pattern = (substr($pattern, 0, 1) != '/')
 			? '/' . $this->quote($pattern) . '/'
 			: $pattern;
 	}
@@ -51,7 +52,8 @@ class Regexp
 	 *
 	 * @return string
 	 */
-	public function quote($string) {
+	public function quote($string)
+	{
 		return preg_quote($string, '/');
 	}
 
@@ -62,7 +64,8 @@ class Regexp
 	 *
 	 * @return array
 	 */
-	public function scan($string) {
+	public function scan($string)
+	{
 		preg_match_all($this->pattern, $string, $matches);
 
 		if (count($matches) == 1) {
@@ -89,7 +92,8 @@ class Regexp
 	 *
 	 * @return int 1 if there was a match, 0 if there wasn't
 	 */
-	public function match($string) {
+	public function match($string)
+	{
 		return preg_match($this->pattern, $string, $this->matches);
 	}
 
@@ -100,7 +104,8 @@ class Regexp
 	 *
 	 * @return int The number of matches
 	 */
-	public function matchAll($string) {
+	public function matchAll($string)
+	{
 		return preg_match_all($this->pattern, $string, $this->matches);
 	}
 
@@ -112,7 +117,18 @@ class Regexp
 	 *
 	 * @return array
 	 */
-	public function split($string, $limit = null) {
+	public function split($string, $limit = null)
+	{
 		return preg_split($this->pattern, $string, $limit);
+	}
+
+	/**
+	 * Returns the original pattern primarily for debugging purposes
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->pattern;
 	}
 }

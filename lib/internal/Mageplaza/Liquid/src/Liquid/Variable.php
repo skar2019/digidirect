@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -36,34 +36,34 @@ class Variable
 	 *
 	 * @param string $markup
 	 */
-	public function __construct($markup) {
+	public function __construct($markup)
+	{
 		$this->markup = $markup;
 
-		$quotedFragmentRegexp = new Regexp('/\s*(' . Liquid::get('QUOTED_FRAGMENT') . ')/');
-		$filterSeperatorRegexp = new Regexp('/' . Liquid::get('FILTER_SEPARATOR') . '\s*(.*)/');
-		$filterSplitRegexp = new Regexp('/' . Liquid::get('FILTER_SEPARATOR') . '/');
-		$filterNameRegexp = new Regexp('/\s*(\w+)/');
-		$filterArgumentRegexp = new Regexp('/(?:' . Liquid::get('FILTER_ARGUMENT_SEPARATOR') . '|' . Liquid::get('ARGUMENT_SEPARATOR') . ')\s*(' . Liquid::get('QUOTED_FRAGMENT_FILTER_ARGUMENT') . ')/');
+		$filterSep = new Regexp('/' . Liquid::get('FILTER_SEPARATOR') . '\s*(.*)/m');
+		$syntaxParser = new Regexp('/(' . Liquid::get('QUOTED_FRAGMENT') . ')(.*)/m');
+		$filterParser = new Regexp('/(?:\s+|' . Liquid::get('QUOTED_FRAGMENT') . '|' . Liquid::get('ARGUMENT_SEPARATOR') . ')+/');
+		$filterArgsRegex = new Regexp('/(?:' . Liquid::get('FILTER_ARGUMENT_SEPARATOR') . '|' . Liquid::get('ARGUMENT_SEPARATOR') . ')\s*((?:\w+\s*\:\s*)?' . Liquid::get('QUOTED_FRAGMENT') . ')/');
 
-		$quotedFragmentRegexp->match($markup);
+		$this->filters = [];
+		if ($syntaxParser->match($markup)) {
+			$nameMarkup = $syntaxParser->matches[1];
+			$this->name = $nameMarkup;
+			$filterMarkup = $syntaxParser->matches[2];
 
-		$this->name = (isset($quotedFragmentRegexp->matches[1])) ? $quotedFragmentRegexp->matches[1] : null;
+			if ($filterSep->match($filterMarkup)) {
+				$filterParser->matchAll($filterSep->matches[1]);
 
-		if ($filterSeperatorRegexp->match($markup)) {
-			$filters = $filterSplitRegexp->split($filterSeperatorRegexp->matches[1]);
-
-			foreach ($filters as $filter) {
-				$filterNameRegexp->match($filter);
-				$filtername = $filterNameRegexp->matches[1];
-
-				$filterArgumentRegexp->matchAll($filter);
-				$matches = Liquid::arrayFlatten($filterArgumentRegexp->matches[1]);
-
-				$this->filters[] = array($filtername, $matches);
+				foreach ($filterParser->matches[0] as $filter) {
+					$filter = trim($filter);
+					if (preg_match('/\w+/', $filter, $matches)) {
+						$filterName = $matches[0];
+						$filterArgsRegex->matchAll($filter);
+						$matches = Liquid::arrayFlatten($filterArgsRegex->matches[1]);
+						$this->filters[] = $this->parseFilterExpressions($filterName, $matches);
+					}
+				}
 			}
-
-		} else {
-			$this->filters = array();
 		}
 
 		if (Liquid::get('ESCAPE_BY_DEFAULT')) {
@@ -92,11 +92,39 @@ class Variable
 	}
 
 	/**
+	 * @param string $filterName
+	 * @param array $unparsedArgs
+	 * @return array
+	 */
+	private static function parseFilterExpressions($filterName, array $unparsedArgs)
+	{
+		$filterArgs = array();
+		$keywordArgs = array();
+
+		$justTagAttributes = new Regexp('/\A' . trim(Liquid::get('TAG_ATTRIBUTES'), '/') . '\z/');
+
+		foreach ($unparsedArgs as $a) {
+			if ($justTagAttributes->match($a)) {
+				$keywordArgs[$justTagAttributes->matches[1]] = $justTagAttributes->matches[2];
+			} else {
+				$filterArgs[] = $a;
+			}
+		}
+
+		if (count($keywordArgs)) {
+			$filterArgs[] = $keywordArgs;
+		}
+
+		return array($filterName, $filterArgs);
+	}
+
+	/**
 	 * Gets the variable name
 	 *
 	 * @return string The name of the variable
 	 */
-	public function getName() {
+	public function getName()
+	{
 		return $this->name;
 	}
 
@@ -105,7 +133,8 @@ class Variable
 	 *
 	 * @return array
 	 */
-	public function getFilters() {
+	public function getFilters()
+	{
 		return $this->filters;
 	}
 
@@ -116,27 +145,29 @@ class Variable
 	 *
 	 * @return mixed|string
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		$output = $context->get($this->name);
-
 		foreach ($this->filters as $filter) {
 			list($filtername, $filterArgKeys) = $filter;
 
 			$filterArgValues = array();
+			$keywordArgValues = array();
 
 			foreach ($filterArgKeys as $arg_key) {
-				$filterArgValues[] = $context->get($arg_key);
+				if (is_array($arg_key)) {
+					foreach ($arg_key as $keywordArgName => $keywordArgKey) {
+						$keywordArgValues[$keywordArgName] = $context->get($keywordArgKey);
+					}
+
+					$filterArgValues[] = $keywordArgValues;
+				} else {
+					$filterArgValues[] = $context->get($arg_key);
+				}
 			}
 
 			$output = $context->invoke($filtername, $output, $filterArgValues);
 		}
-
-		if (is_float($output)) {
-			if ($output == (int)$output) {
-				return number_format($output, 1);
-			}
-		}
-
 		return $output;
 	}
 }

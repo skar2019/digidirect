@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,9 +12,10 @@
 namespace Liquid\Tag;
 
 use Liquid\AbstractBlock;
+use Liquid\Exception\ParseException;
+use Liquid\Exception\RenderException;
 use Liquid\Liquid;
 use Liquid\Context;
-use Liquid\LiquidException;
 use Liquid\FileSystem;
 use Liquid\Regexp;
 
@@ -51,9 +52,10 @@ class TagTablerow extends AbstractBlock
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\ParseException
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		parent::__construct($markup, $tokens, $fileSystem);
 
 		$syntax = new Regexp('/(\w+)\s+in\s+(' . Liquid::get('VARIABLE_NAME') . ')/');
@@ -64,7 +66,7 @@ class TagTablerow extends AbstractBlock
 
 			$this->extractAttributes($markup);
 		} else {
-			throw new LiquidException("Syntax Error in 'table_row loop' - Valid syntax: table_row [item] in [collection] cols=3");
+			throw new ParseException("Syntax Error in 'table_row loop' - Valid syntax: table_row [item] in [collection] cols:3");
 		}
 	}
 
@@ -72,10 +74,11 @@ class TagTablerow extends AbstractBlock
 	 * Renders the current node
 	 *
 	 * @param Context $context
-	 *
+	 * @throws \Liquid\Exception\RenderException
 	 * @return string
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		$collection = $context->get($this->collectionName);
 
 		if ($collection instanceof \Traversable) {
@@ -83,7 +86,7 @@ class TagTablerow extends AbstractBlock
 		}
 
 		if (!is_array($collection)) {
-			die('not array, ' . var_export($collection, true));
+			throw new RenderException("Not an array");
 		}
 
 		// discard keys
@@ -118,26 +121,26 @@ class TagTablerow extends AbstractBlock
 				'last' => (int)($index == $length - 1)
 			));
 
-            $text = $this->renderAll($this->nodelist, $context);
-            $break = isset($context->registers['break']);
-            $continue = isset($context->registers['continue']);
+			$text = $this->renderAll($this->nodelist, $context);
+			$break = isset($context->registers['break']);
+			$continue = isset($context->registers['continue']);
 
-            if ((!$break && !$continue) || strlen(trim($text)) > 0) {
-                $result .= "<td class=\"col" . (++$col) . "\">$text</td>";
-            }
+			if ((!$break && !$continue) || strlen(trim($text)) > 0) {
+				$result .= "<td class=\"col" . (++$col) . "\">$text</td>";
+			}
 
 			if ($col == $cols && !($index == $length - 1)) {
 				$col = 0;
 				$result .= "</tr>\n<tr class=\"row" . (++$row) . "\">\n";
 			}
 
-            if ($break) {
-                unset($context->registers['break']);
-                break;
-            }
-            if ($continue) {
-                unset($context->registers['continue']);
-            }
+			if ($break) {
+				unset($context->registers['break']);
+				break;
+			}
+			if ($continue) {
+				unset($context->registers['continue']);
+			}
 		}
 
 		$context->pop();

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -30,14 +30,11 @@ class TagRaw extends AbstractBlock
 	/**
 	 * @param array $tokens
 	 */
-	public function parse(array &$tokens) {
+	public function parse(array &$tokens)
+	{
 		$tagRegexp = new Regexp('/^' . Liquid::get('TAG_START') . '\s*(\w+)\s*(.*)?' . Liquid::get('TAG_END') . '$/');
 
 		$this->nodelist = array();
-
-		if (!is_array($tokens)) {
-			return;
-		}
 
 		while (count($tokens)) {
 			$token = array_shift($tokens);
@@ -45,7 +42,7 @@ class TagRaw extends AbstractBlock
 			if ($tagRegexp->match($token)) {
 				// If we found the proper block delimiter just end parsing here and let the outer block proceed
 				if ($tagRegexp->matches[1] == $this->blockDelimiter()) {
-					return;
+					break;
 				}
 			}
 
