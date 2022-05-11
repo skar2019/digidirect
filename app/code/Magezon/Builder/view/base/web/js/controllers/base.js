@@ -291,7 +291,7 @@ define([
 		}
 
 		$scope.$on('editElement', function($e, elem, activeTab) {
-			if (elem.id == element.id) {
+			if (elem.id == element.id && !$rootScope.editingElement) {
 				self.editElement(elem, activeTab);
 				$rootScope.$broadcast('elementReloaded', element);
 			}

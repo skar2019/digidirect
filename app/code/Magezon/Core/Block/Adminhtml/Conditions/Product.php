@@ -171,7 +171,6 @@ class Product extends Extended
             "_inventory_table.product_id = e.entity_id",
             ['is_in_stock']
         );
-        $collection->getSelect()->group('e.entity_id');
         $this->setCollection($collection);
         if (empty($productIds)) {
             $productIds = 0;

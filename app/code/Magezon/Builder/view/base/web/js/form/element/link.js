@@ -60,7 +60,6 @@ define([
 				if (type == 'custom') {
 					$scope.type = 'Custom Url';
 					$scope.linkName = params.url;
-					$scope.title = params.title;
 				} else {
 					$scope.to.loading = true;
 					magezonBuilderService.post('mgzbuilder/ajax/itemInfo', {

@@ -108,6 +108,7 @@ class Element extends ElementStyle implements ElementInterface
         return [
 			'MAGEZONBUILDERS_ELEMENT',
 			$priceCurrency->getCurrencySymbol(),
+            $priceCurrency->getCurrency()->getCode(),
 			$this->_storeManager->getStore()->getId(),
 			$this->_design->getDesignTheme()->getId(),
 			$httpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP),
@@ -550,6 +551,9 @@ class Element extends ElementStyle implements ElementInterface
      */
     public function getLinkParams($data)
     {
+    	if (isset($data['url'])) {
+    		$data['url'] = str_replace(['//', 'https:/', 'http:/'], ['/', 'https://', 'http://'], $data['url']);
+    	}
     	$coreHelper = $this->getCoreHelper();
     	$params = [
 			'type'     => 'custom',
@@ -570,9 +574,9 @@ class Element extends ElementStyle implements ElementInterface
 	    }
     	if ($params['extra']) {
     		if ($coreHelper->startsWith($params['extra'], '#')) {
-    			$params['url'] = $params['url'] . $params['extra'];
+    			$params['url'] = $params['url'] . str_replace(['&'], ['%26'], $params['extra']);
     		} else {
-    			$params['url'] = $params['url'] . '?' . $params['extra'];
+    			$params['url'] = $params['url'] . '?' . str_replace(['&'], ['%26'], $params['extra']);
     		}
     	}
     	$params['url'] = $coreHelper->filter(stripslashes($params['url']));

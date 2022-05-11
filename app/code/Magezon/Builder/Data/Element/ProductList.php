@@ -285,11 +285,11 @@ class ProductList extends \Magezon\Builder\Data\Element\AbstractElement
 		    );
 
 		    	$container2->addChildren(
-		            'orer_by',
+		            'order_by',
 		            'select',
 		            [
 						'sortOrder'       => 10,
-						'key'             => 'orer_by',
+						'key'             => 'order_by',
 						'defaultValue'    => 'default',
 						'templateOptions' => [
 							'label'   => __('Order By'),
