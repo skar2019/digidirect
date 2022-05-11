@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -17,14 +17,17 @@ use Liquid\Template;
 class TagCaptureTest extends TestCase
 {
 	/**
-	 * @expectedException \Liquid\LiquidException
 	 */
-	public function testInvalidSyntax() {
+	public function testInvalidSyntax()
+	{
+		$this->expectException(\Liquid\Exception\ParseException::class);
+
 		$template = new Template();
 		$template->parse("{% capture %} hello");
 	}
 
-	public function testCapture() {
+	public function testCapture()
+	{
 		$assigns = array('var' => 'content');
 		$this->assertTemplateResult('content foo content foo ', '{{ var2 }}{% capture var2 %}{{ var }} foo {% endcapture %}{{ var2 }}{{ var2 }}', $assigns);
 	}

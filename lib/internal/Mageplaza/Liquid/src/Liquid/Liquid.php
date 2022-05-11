@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -52,6 +52,9 @@ class Liquid
 		// Prefix for include files.
 		'INCLUDE_PREFIX' => '_',
 
+		// Whitespace control.
+		'WHITESPACE_CONTROL' => '-',
+
 		// Tag start.
 		'TAG_START' => '{%',
 
@@ -67,11 +70,36 @@ class Liquid
 		// Variable name.
 		'VARIABLE_NAME' => '[a-zA-Z_][a-zA-Z_0-9.-]*',
 
-		'QUOTED_STRING' => '"[^"]*"|\'[^\']*\'',
-		'QUOTED_STRING_FILTER_ARGUMENT' => '"[^":]*"|\'[^\':]*\'',
+		'QUOTED_STRING' => '(?:"[^"]*"|\'[^\']*\')',
+		'QUOTED_STRING_FILTER_ARGUMENT' => '"[^"]*"|\'[^\']*\'',
 
 		// Automatically escape any variables unless told otherwise by a "raw" filter
 		'ESCAPE_BY_DEFAULT' => false,
+
+		// The name of the key to use when building pagination query strings e.g. ?page=1
+		'PAGINATION_REQUEST_KEY' => 'page',
+
+		// The name of the context key used to denote the current page number
+		'PAGINATION_CONTEXT_KEY' => 'page',
+
+		// Whenever variables from $_SERVER should be directly available to templates
+		'EXPOSE_SERVER' => false,
+
+		// $_SERVER variables whitelist - exposed even when EXPOSE_SERVER is false
+		'SERVER_SUPERGLOBAL_WHITELIST' => [
+			'HTTP_ACCEPT',
+			'HTTP_ACCEPT_CHARSET',
+			'HTTP_ACCEPT_ENCODING',
+			'HTTP_ACCEPT_LANGUAGE',
+			'HTTP_CONNECTION',
+			'HTTP_HOST',
+			'HTTP_REFERER',
+			'HTTP_USER_AGENT',
+			'HTTPS',
+			'REQUEST_METHOD',
+			'REQUEST_URI',
+			'SERVER_NAME',
+		],
 	);
 
 	/**
@@ -81,20 +109,19 @@ class Liquid
 	 *
 	 * @return string
 	 */
-	public static function get($key) {
+	public static function get($key)
+	{
 		// backward compatibility
 		if ($key === 'ALLOWED_VARIABLE_CHARS') {
 			return substr(self::$config['VARIABLE_NAME'], 0, -1);
 		}
 		if (array_key_exists($key, self::$config)) {
 			return self::$config[$key];
-		} else {
-			// This case is needed for compound settings
-			switch ($key) {
+		}
+		// This case is needed for compound settings
+		switch ($key) {
 				case 'QUOTED_FRAGMENT':
-					return self::$config['QUOTED_STRING'] . '|(?:[^\s,\|\'"]|' . self::$config['QUOTED_STRING'] . ')+';
-				case 'QUOTED_FRAGMENT_FILTER_ARGUMENT':
-					return self::$config['QUOTED_STRING_FILTER_ARGUMENT'] . '|(?:[^\s:,\|\'"]|' . self::$config['QUOTED_STRING_FILTER_ARGUMENT'] . ')+';
+					return '(?:' . self::get('QUOTED_STRING') . '|(?:[^\s,\|\'"]|' . self::get('QUOTED_STRING') . ')+)';
 				case 'TAG_ATTRIBUTES':
 					return '/(\w+)\s*\:\s*(' . self::get('QUOTED_FRAGMENT') . ')/';
 				case 'TOKENIZATION_REGEXP':
@@ -102,7 +129,6 @@ class Liquid
 				default:
 					return null;
 			}
-		}
 	}
 
 	/**
@@ -111,7 +137,8 @@ class Liquid
 	 * @param string $key
 	 * @param string $value
 	 */
-	public static function set($key, $value) {
+	public static function set($key, $value)
+	{
 		// backward compatibility
 		if ($key === 'ALLOWED_VARIABLE_CHARS') {
 			$key = 'VARIABLE_NAME';
@@ -127,7 +154,8 @@ class Liquid
 	 *
 	 * @return array
 	 */
-	public static function arrayFlatten($array) {
+	public static function arrayFlatten($array)
+	{
 		$return = array();
 
 		foreach ($array as $element) {
@@ -138,27 +166,5 @@ class Liquid
 			}
 		}
 		return $return;
-	}
-
-	/**
-	 * All values in PHP Liquid are truthy except null and false.
-	 *
-	 * @param mixed $value
-	 *
-	 * @return bool
-	 */
-	public static function isTruthy($value) {
-		return !self::isFalsy($value);
-	}
-
-	/**
-	 * The falsy values in PHP Liquid are null and false.
-	 *
-	 * @param mixed $value
-	 *
-	 * @return bool
-	 */
-	public static function isFalsy($value) {
-		return $value === false || $value === null;
 	}
 }

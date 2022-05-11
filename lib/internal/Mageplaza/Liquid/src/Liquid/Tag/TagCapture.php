@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -13,7 +13,7 @@ namespace Liquid\Tag;
 
 use Liquid\AbstractBlock;
 use Liquid\Context;
-use Liquid\LiquidException;
+use Liquid\Exception\ParseException;
 use Liquid\FileSystem;
 use Liquid\Regexp;
 
@@ -40,16 +40,17 @@ class TagCapture extends AbstractBlock
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\ParseException
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		$syntaxRegexp = new Regexp('/(\w+)/');
 
 		if ($syntaxRegexp->match($markup)) {
 			$this->to = $syntaxRegexp->matches[1];
 			parent::__construct($markup, $tokens, $fileSystem);
 		} else {
-			throw new LiquidException("Syntax Error in 'capture' - Valid syntax: capture [var] [value]");
+			throw new ParseException("Syntax Error in 'capture' - Valid syntax: capture [var] [value]");
 		}
 	}
 
@@ -60,10 +61,11 @@ class TagCapture extends AbstractBlock
 	 *
 	 * @return string
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		$output = parent::render($context);
 
-		$context->set($this->to, $output);
+		$context->set($this->to, $output, true);
 		return '';
 	}
 }

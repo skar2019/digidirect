@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -36,7 +36,8 @@ class TagIfchanged extends AbstractBlock
 	 *
 	 * @throws \Liquid\LiquidException
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		parent::__construct($markup, $tokens, $fileSystem);
 	}
 
@@ -47,15 +48,14 @@ class TagIfchanged extends AbstractBlock
 	 *
 	 * @return string
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		$output = parent::render($context);
 
 		if ($this->lastValue == $output) {
 			return '';
-		} else {
-			$this->lastValue = $output;
-			return $this->lastValue;		
 		}
-		
+		$this->lastValue = $output;
+		return $this->lastValue;
 	}
 }

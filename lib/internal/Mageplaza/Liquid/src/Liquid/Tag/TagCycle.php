@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,9 +12,9 @@
 namespace Liquid\Tag;
 
 use Liquid\AbstractTag;
+use Liquid\Exception\ParseException;
 use Liquid\Liquid;
 use Liquid\Context;
-use Liquid\LiquidException;
 use Liquid\Regexp;
 use Liquid\Variable;
 use Liquid\FileSystem;
@@ -53,9 +53,10 @@ class TagCycle extends AbstractTag
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 *
-	 * @throws LiquidException
+	 * @throws \Liquid\Exception\ParseException
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		$simpleSyntax = new Regexp("/" . Liquid::get('QUOTED_FRAGMENT') . "/");
 		$namedSyntax = new Regexp("/(" . Liquid::get('QUOTED_FRAGMENT') . ")\s*\:\s*(.*)/");
 
@@ -66,7 +67,7 @@ class TagCycle extends AbstractTag
 			$this->variables = $this->variablesFromString($markup);
 			$this->name = "'" . implode($this->variables) . "'";
 		} else {
-			throw new LiquidException("Syntax Error in 'cycle' - Valid syntax: cycle [name :] var [, var2, var3 ...]");
+			throw new ParseException("Syntax Error in 'cycle' - Valid syntax: cycle [name :] var [, var2, var3 ...]");
 		}
 	}
 
@@ -76,7 +77,8 @@ class TagCycle extends AbstractTag
 	 * @var Context $context
 	 * @return string
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		$context->push();
 
 		$key = $context->get($this->name);
@@ -109,7 +111,8 @@ class TagCycle extends AbstractTag
 	 *
 	 * @return array;
 	 */
-	private function variablesFromString($markup) {
+	private function variablesFromString($markup)
+	{
 		$regexp = new Regexp('/\s*(' . Liquid::get('QUOTED_FRAGMENT') . ')\s*/');
 		$parts = explode(',', $markup);
 		$result = array();

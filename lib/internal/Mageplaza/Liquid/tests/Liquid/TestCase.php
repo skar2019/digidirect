@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -11,7 +11,7 @@
 
 namespace Liquid;
 
-class TestCase extends \PHPUnit_Framework_TestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
 	const TEMPLATES_DIR = 'templates';
 
@@ -20,7 +20,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
 	 */
 	public $filters;
 
-	protected function setUp() {
+	protected function setUp(): void
+	{
 		parent::setUp();
 
 		$defaultConfig = array(
@@ -33,17 +34,17 @@ class TestCase extends \PHPUnit_Framework_TestCase
 			'INCLUDE_ALLOW_EXT' => false,
 			'INCLUDE_SUFFIX' => 'liquid',
 			'INCLUDE_PREFIX' => '_',
-			'TAG_START' => '{%',
-			'TAG_END' => '%}',
 			'VARIABLE_START' => '{{',
 			'VARIABLE_END' => '}}',
 			'VARIABLE_NAME' => '[a-zA-Z_][a-zA-Z0-9_.-]*',
-			'QUOTED_STRING' => '"[^":]*"|\'[^\':]*\'',
+			'EXPOSE_SERVER' => false,
 		);
 
 		foreach ($defaultConfig as $configKey => $configValue) {
 			Liquid::set($configKey, $configValue);
 		}
+
+		Template::setCache(null);
 	}
 
 	/**
@@ -52,7 +53,8 @@ class TestCase extends \PHPUnit_Framework_TestCase
 	 * @param array $assigns
 	 * @param string $message
 	 */
-	public function assertTemplateResult($expected, $templateString, array $assigns = array(), $message = "%s") {
+	public function assertTemplateResult($expected, $templateString, array $assigns = array(), $message = "%s")
+	{
 		$template = new Template();
 		$template->parse($templateString);
 

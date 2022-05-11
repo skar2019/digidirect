@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -10,6 +10,8 @@
  */
 
 namespace Liquid;
+
+use Liquid\Exception\RenderException;
 
 /**
  * Base class for blocks that make logical decisions.
@@ -35,17 +37,24 @@ class Decision extends AbstractBlock
 	 *
 	 * @param mixed $value
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\RenderException
 	 * @return string
 	 */
-	private function stringValue($value) {
+	private function stringValue($value)
+	{
 		// Objects should have a __toString method to get a value to compare to
 		if (is_object($value)) {
 			if (method_exists($value, '__toString')) {
-				$value = (string) $value;
-			} else {
-				throw new LiquidException("Cannot convert $value to string"); // harry
+				return (string) $value;
 			}
+
+			if ($value instanceof \Generator) {
+				return (string) $value->valid();
+			}
+
+			// toLiquid is handled in Context::variable
+			$class = get_class($value);
+			throw new RenderException("Value of type $class has no `toLiquid` nor `__toString` methods");
 		}
 
 		// Arrays simply return true
@@ -65,7 +74,8 @@ class Decision extends AbstractBlock
 	 *
 	 * @return bool
 	 */
-	protected function equalVariables($left, $right, Context $context) {
+	protected function equalVariables($left, $right, Context $context)
+	{
 		$left = $this->stringValue($context->get($left));
 		$right = $this->stringValue($context->get($right));
 
@@ -80,10 +90,11 @@ class Decision extends AbstractBlock
 	 * @param string $op
 	 * @param Context $context
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\RenderException
 	 * @return bool
 	 */
-	protected function interpretCondition($left, $right, $op = null, Context $context) {
+	protected function interpretCondition($left, $right, $op, Context $context)
+	{
 		if (is_null($op)) {
 			$value = $this->stringValue($context->get($left));
 			return $value;
@@ -93,11 +104,9 @@ class Decision extends AbstractBlock
 		if ($right == 'empty' && is_array($context->get($left))) {
 			$left = count($context->get($left));
 			$right = 0;
-
 		} elseif ($left == 'empty' && is_array($context->get($right))) {
 			$right = count($context->get($right));
 			$left = 0;
-
 		} else {
 			$left = $context->get($left);
 			$right = $context->get($right);
@@ -146,7 +155,7 @@ class Decision extends AbstractBlock
 				return is_array($left) ? in_array($right, $left) : (strpos($left, $right) !== false);
 
 			default:
-				throw new LiquidException("Error in tag '" . $this->name() . "' - Unknown operator $op");
+				throw new RenderException("Error in tag '" . $this->name() . "' - Unknown operator $op");
 		}
 	}
 }

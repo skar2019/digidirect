@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -28,14 +28,15 @@ use Liquid\Context;
  */
 class TagContinue extends AbstractTag
 {
-    /**
-     * Renders the tag
-     *
-     * @param Context $context
-     *
-     * @return string|void
-     */
-    public function render(Context $context) {
-        $context->registers['continue'] = true;
-    }
+	/**
+	 * Renders the tag
+	 *
+	 * @param Context $context
+	 *
+	 * @return string|void
+	 */
+	public function render(Context $context)
+	{
+		$context->registers['continue'] = true;
+	}
 }

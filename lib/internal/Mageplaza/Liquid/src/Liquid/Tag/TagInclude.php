@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -14,6 +14,8 @@ namespace Liquid\Tag;
 use Liquid\AbstractTag;
 use Liquid\Document;
 use Liquid\Context;
+use Liquid\Exception\MissingFilesystemException;
+use Liquid\Exception\ParseException;
 use Liquid\Liquid;
 use Liquid\LiquidException;
 use Liquid\FileSystem;
@@ -72,23 +74,34 @@ class TagInclude extends AbstractTag
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\ParseException
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
-		$regex = new Regexp('/("[^"]+"|\'[^\']+\')(\s+(with|for)\s+(' . Liquid::get('QUOTED_FRAGMENT') . '+))?/');
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
+		$regex = new Regexp('/("[^"]+"|\'[^\']+\'|[^\'"\s]+)(\s+(with|for)\s+(' . Liquid::get('QUOTED_FRAGMENT') . '+))?/');
 
-		if ($regex->match($markup)) {
-			$this->templateName = substr($regex->matches[1], 1, strlen($regex->matches[1]) - 2);
-
-			if (isset($regex->matches[1])) {
-				$this->collection = (isset($regex->matches[3])) ? ($regex->matches[3] == "for") : null;
-				$this->variable = (isset($regex->matches[4])) ? $regex->matches[4] : null;
-			}
-
-			$this->extractAttributes($markup);
-		} else {
-			throw new LiquidException("Error in tag 'include' - Valid syntax: include '[template]' (with|for) [object|collection]");
+		if (!$regex->match($markup)) {
+			throw new ParseException("Error in tag 'include' - Valid syntax: include '[template]' (with|for) [object|collection]");
 		}
+
+		$unquoted = (strpos($regex->matches[1], '"') === false && strpos($regex->matches[1], "'") === false);
+
+		$start = 1;
+		$len = strlen($regex->matches[1]) - 2;
+
+		if ($unquoted) {
+			$start = 0;
+			$len = strlen($regex->matches[1]);
+		}
+
+		$this->templateName = substr($regex->matches[1], $start, $len);
+
+		if (isset($regex->matches[1])) {
+			$this->collection = (isset($regex->matches[3])) ? ($regex->matches[3] == "for") : null;
+			$this->variable = (isset($regex->matches[4])) ? $regex->matches[4] : null;
+		}
+
+		$this->extractAttributes($markup);
 
 		parent::__construct($markup, $tokens, $fileSystem);
 	}
@@ -98,48 +111,51 @@ class TagInclude extends AbstractTag
 	 *
 	 * @param array $tokens
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\MissingFilesystemException
 	 */
-	public function parse(array &$tokens) {
+	public function parse(array &$tokens)
+	{
 		if ($this->fileSystem === null) {
-			throw new LiquidException("No file system");
+			throw new MissingFilesystemException("No file system");
 		}
 
 		// read the source of the template and create a new sub document
 		$source = $this->fileSystem->readTemplateFile($this->templateName);
 
-		$this->hash = md5($source);
-
 		$cache = Template::getCache();
 
-		if (isset($cache)) {
-			if (($this->document = $cache->read($this->hash)) != false && $this->document->checkIncludes() != true) {
-			} else {
-				$templateTokens = Template::tokenize($source);
-				$this->document = new Document($templateTokens, $this->fileSystem);
-				$cache->write($this->hash, $this->document);
-			}
-		} else {
+		if (!$cache) {
+			// tokens in this new document
 			$templateTokens = Template::tokenize($source);
 			$this->document = new Document($templateTokens, $this->fileSystem);
+			return;
+		}
+
+		$this->hash = md5($source);
+		$this->document = $cache->read($this->hash);
+
+		if ($this->document == false || $this->document->hasIncludes() == true) {
+			$templateTokens = Template::tokenize($source);
+			$this->document = new Document($templateTokens, $this->fileSystem);
+			$cache->write($this->hash, $this->document);
 		}
 	}
 
 	/**
-	 * check for cached includes
+	 * Check for cached includes; if there are - do not use cache
 	 *
+	 * @see Document::hasIncludes()
 	 * @return boolean
 	 */
-	public function checkIncludes() {
-		$cache = Template::getCache();
-
-		if ($this->document->checkIncludes() == true) {
+	public function hasIncludes()
+	{
+		if ($this->document->hasIncludes() == true) {
 			return true;
 		}
 
 		$source = $this->fileSystem->readTemplateFile($this->templateName);
 
-		if ($cache->exists(md5($source)) && $this->hash == md5($source)) {
+		if (Template::getCache()->exists(md5($source)) && $this->hash === md5($source)) {
 			return false;
 		}
 
@@ -153,7 +169,8 @@ class TagInclude extends AbstractTag
 	 *
 	 * @return string
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		$result = '';
 		$variable = $context->get($this->variable);
 

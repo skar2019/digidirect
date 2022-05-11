@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -9,8 +9,7 @@
  * @package Liquid
  */
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->addPsr4('Liquid\\', __DIR__ . '/../src/Liquid');
+require __DIR__ . '/../vendor/autoload.php';
 
 use Liquid\Liquid;
 use Liquid\Template;

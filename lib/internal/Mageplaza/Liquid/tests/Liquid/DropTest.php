@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -13,65 +13,90 @@ namespace Liquid;
 
 class ContextDrop extends Drop
 {
-	public function beforeMethod($method) {
+	public function beforeMethod($method)
+	{
 		return $this->context->get($method);
 	}
 }
 
 class TextDrop extends Drop
 {
-	public function get_array() {
+	public function get_array()
+	{
 		return array('text1', 'text2');
 	}
 
-	public 	function text() {
+	public function text()
+	{
 		return 'text1';
 	}
 }
 
 class CatchallDrop extends Drop
 {
-	public function beforeMethod($method) {
+	public function beforeMethod($method)
+	{
 		return 'method: ' . $method;
 	}
 }
 
 class ProductDrop extends Drop
 {
-	public function top_sales() {
-		trigger_error('worked', E_USER_ERROR);
+	public function top_sales()
+	{
+		throw new \Exception("worked");
 	}
 
-	public function texts() {
+	public function texts()
+	{
 		return new TextDrop();
 	}
 
-	public function catchall() {
+	public function catchall()
+	{
 		return new CatchallDrop();
 	}
 
-	public function context() {
+	public function context()
+	{
 		return new ContextDrop();
 	}
 
-	public function callmenot() {
+	public function callmenot()
+	{
 		return "protected";
+	}
+
+	public function hasKey($name)
+	{
+		return $name != 'unknown' && $name != 'false';
 	}
 }
 
 class DropTest extends TestCase
 {
 	/**
-	 * @expectedException \PHPUnit_Framework_Error
-	 * @expectedExceptionMessage worked
 	 */
-	public function testProductDrop() {
+	public function testProductDrop()
+	{
+		$this->expectException(\Exception::class);
+		$this->expectExceptionMessage('worked');
+
 		$template = new Template();
 		$template->parse(' {{ product.top_sales }} ');
 		$template->render(array('product' => new ProductDrop));
 	}
 
-	public function testTextDrop() {
+	public function testNoKeyDrop()
+	{
+		$template = new Template();
+		$template->parse(' {{ product.invalid.unknown }}{{ product.false }} ');
+		$output = $template->render(array('product' => new ProductDrop));
+		$this->assertEquals('  ', $output);
+	}
+
+	public function testTextDrop()
+	{
 		$template = new Template();
 		$template->parse(' {{ product.texts.text }} ');
 		$output = $template->render(array('product' => new ProductDrop()));
@@ -83,7 +108,8 @@ class DropTest extends TestCase
 		$this->assertEquals(' method: unknown ', $output);
 	}
 
-	public function testTextArrayDrop() {
+	public function testTextArrayDrop()
+	{
 		$template = new Template();
 		$template->parse('{% for text in product.texts.get_array %} {{text}} {% endfor %}');
 		$output = $template->render(array('product' => new ProductDrop()));
@@ -91,17 +117,24 @@ class DropTest extends TestCase
 		$this->assertEquals(' text1  text2 ', $output);
 	}
 
-	public function testContextDrop() {
+	public function testContextDrop()
+	{
 		$template = new Template();
 		$template->parse(' {{ context.bar }} ');
 		$output = $template->render(array('context' => new ContextDrop(), 'bar' => 'carrot'));
 		$this->assertEquals(' carrot ', $output);
 	}
 
-	public function testNestedContextDrop() {
+	public function testNestedContextDrop()
+	{
 		$template = new Template();
 		$template->parse(' {{ product.context.foo }} ');
 		$output = $template->render(array('product' => new ProductDrop(), 'foo' => 'monkey'));
 		$this->assertEquals(' monkey ', $output);
+	}
+
+	public function testToString()
+	{
+		$this->assertEquals(ProductDrop::class, strval(new ProductDrop()));
 	}
 }

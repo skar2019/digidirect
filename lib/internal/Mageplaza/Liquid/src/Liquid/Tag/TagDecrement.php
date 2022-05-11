@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,9 +12,9 @@
 namespace Liquid\Tag;
 
 use Liquid\AbstractTag;
+use Liquid\Exception\ParseException;
 use Liquid\Liquid;
 use Liquid\Context;
-use Liquid\LiquidException;
 use Liquid\FileSystem;
 use Liquid\Regexp;
 
@@ -43,15 +43,16 @@ class TagDecrement extends AbstractTag
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\ParseException
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		$syntax = new Regexp('/(' . Liquid::get('VARIABLE_NAME') . ')/');
 
 		if ($syntax->match($markup)) {
 			$this->toDecrement = $syntax->matches[0];
 		} else {
-			throw new LiquidException("Syntax Error in 'decrement' - Valid syntax: decrement [var]");
+			throw new ParseException("Syntax Error in 'decrement' - Valid syntax: decrement [var]");
 		}
 	}
 
@@ -62,7 +63,8 @@ class TagDecrement extends AbstractTag
 	 *
 	 * @return string|void
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		// if the value is not set in the environment check to see if it
 		// exists in the context, and if not set it to 0
 		if (!isset($context->environments[0][$this->toDecrement])) {
@@ -75,5 +77,7 @@ class TagDecrement extends AbstractTag
 
 		// decrement the environment value
 		$context->environments[0][$this->toDecrement]--;
+
+		return '';
 	}
 }

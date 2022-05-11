@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -10,6 +10,9 @@
  */
 
 namespace Liquid;
+
+use Liquid\Exception\CacheException;
+use Liquid\Exception\MissingFilesystemException;
 
 /**
  * The Template class.
@@ -22,6 +25,8 @@ namespace Liquid;
  */
 class Template
 {
+	const CLASS_PREFIX = '\Liquid\Cache\\';
+
 	/**
 	 * @var Document The root of the node tree
 	 */
@@ -36,6 +41,11 @@ class Template
 	 * @var array Globally included filters
 	 */
 	private $filters = array();
+
+	/**
+	 * @var callable|null Called "sometimes" while rendering. For example to abort the execution of a rendering.
+	 */
+	private $tickFunction = null;
 
 	/**
 	 * @var array Custom tags
@@ -55,7 +65,8 @@ class Template
 	 *
 	 * @return Template
 	 */
-	public function __construct($path = null, $cache = null) {
+	public function __construct($path = null, $cache = null)
+	{
 		$this->fileSystem = $path !== null
 			? new LocalFileSystem($path)
 			: null;
@@ -66,39 +77,48 @@ class Template
 	/**
 	 * @param FileSystem $fileSystem
 	 */
-	public function setFileSystem(FileSystem $fileSystem) {
+	public function setFileSystem(FileSystem $fileSystem)
+	{
 		$this->fileSystem = $fileSystem;
 	}
 
 	/**
 	 * @param array|Cache $cache
 	 *
-	 * @throws LiquidException
+	 * @throws \Liquid\Exception\CacheException
 	 */
-	public function setCache($cache) {
+	public static function setCache($cache)
+	{
 		if (is_array($cache)) {
-			if (isset($cache['cache']) && class_exists('\Liquid\Cache\\' . ucwords($cache['cache']))) {
-				$classname = '\Liquid\Cache\\' . ucwords($cache['cache']);
+			if (isset($cache['cache']) && class_exists($classname = self::CLASS_PREFIX . ucwords($cache['cache']))) {
 				self::$cache = new $classname($cache);
 			} else {
-				throw new LiquidException('Invalid cache options!');
+				throw new CacheException('Invalid cache options!');
 			}
-		} else if ($cache instanceof Cache) {
+		}
+
+		if ($cache instanceof Cache) {
 			self::$cache = $cache;
+		}
+
+		if (is_null($cache)) {
+			self::$cache = null;
 		}
 	}
 
 	/**
 	 * @return Cache
 	 */
-	public static function getCache() {
+	public static function getCache()
+	{
 		return self::$cache;
 	}
 
 	/**
 	 * @return Document
 	 */
-	public function getRoot() {
+	public function getRoot()
+	{
 		return $this->root;
 	}
 
@@ -108,14 +128,16 @@ class Template
 	 * @param string $name
 	 * @param string $class
 	 */
-	public function registerTag($name, $class) {
+	public static function registerTag($name, $class)
+	{
 		self::$tags[$name] = $class;
 	}
 
 	/**
 	 * @return array
 	 */
-	public static function getTags() {
+	public static function getTags()
+	{
 		return self::$tags;
 	}
 
@@ -124,8 +146,19 @@ class Template
 	 *
 	 * @param string $filter
 	 */
-	public function registerFilter($filter) {
-		$this->filters[] = $filter;
+	public function registerFilter($filter, callable $callback = null)
+	{
+		// Store callback for later use
+		if ($callback) {
+			$this->filters[] = [$filter, $callback];
+		} else {
+			$this->filters[] = $filter;
+		}
+	}
+
+	public function setTickFunction(callable $tickFunction)
+	{
+		$this->tickFunction = $tickFunction;
 	}
 
 	/**
@@ -135,7 +168,8 @@ class Template
 	 *
 	 * @return array
 	 */
-	public static function tokenize($source) {
+	public static function tokenize($source)
+	{
 		return empty($source)
 			? array()
 			: preg_split(Liquid::get('TOKENIZATION_REGEXP'), $source, null, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
@@ -148,20 +182,53 @@ class Template
 	 *
 	 * @return Template
 	 */
-	public function parse($source) {
-		if (self::$cache !== null) {
-			if (($this->root = self::$cache->read(md5($source))) != false && $this->root->checkIncludes() != true) {
-			} else {
-				$tokens = Template::tokenize($source);
-				$this->root = new Document($tokens, $this->fileSystem);
-				self::$cache->write(md5($source), $this->root);
-			}
-		} else {
-			$tokens = Template::tokenize($source);
-			$this->root = new Document($tokens, $this->fileSystem);
+	public function parse($source)
+	{
+		if (!self::$cache) {
+			return $this->parseAlways($source);
+		}
+
+		$hash = md5($source);
+		$this->root = self::$cache->read($hash);
+
+		// if no cached version exists, or if it checks for includes
+		if ($this->root == false || $this->root->hasIncludes() == true) {
+			$this->parseAlways($source);
+			self::$cache->write($hash, $this->root);
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Parses the given source string regardless of caching
+	 *
+	 * @param string $source
+	 *
+	 * @return Template
+	 */
+	private function parseAlways($source)
+	{
+		$tokens = Template::tokenize($source);
+		$this->root = new Document($tokens, $this->fileSystem);
+
+		return $this;
+	}
+
+	/**
+	 * Parses the given template file
+	 *
+	 * @param string $templatePath
+	 * @throws \Liquid\Exception\MissingFilesystemException
+	 * @return Template
+	 */
+	public function parseFile($templatePath)
+	{
+		if (!$this->fileSystem) {
+			throw new MissingFilesystemException("Could not load a template without an initialized file system");
+		}
+
+		return $this->parse($this->fileSystem->readTemplateFile($templatePath));
 	}
 
 	/**
@@ -173,8 +240,13 @@ class Template
 	 *
 	 * @return string
 	 */
-	public function render(array $assigns = array(), $filters = null, array $registers = array()) {
+	public function render(array $assigns = array(), $filters = null, array $registers = array())
+	{
 		$context = new Context($assigns, $registers);
+
+		if ($this->tickFunction) {
+			$context->setTickFunction($this->tickFunction);
+		}
 
 		if (!is_null($filters)) {
 			if (is_array($filters)) {
@@ -185,7 +257,12 @@ class Template
 		}
 
 		foreach ($this->filters as $filter) {
-			$context->addFilters($filter);
+			if (is_array($filter)) {
+				// Unpack a callback saved as second argument
+				$context->addFilters(...$filter);
+			} else {
+				$context->addFilters($filter);
+			}
 		}
 
 		return $this->root->render($context);

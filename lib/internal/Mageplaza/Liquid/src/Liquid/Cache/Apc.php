@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -16,6 +16,8 @@ use Liquid\LiquidException;
 
 /**
  * Implements cache stored in Apc.
+ *
+ * @codeCoverageIgnore
  */
 class Apc extends Cache
 {
@@ -28,39 +30,45 @@ class Apc extends Cache
 	 *
 	 * @throws LiquidException if APC cache extension is not loaded or is disabled.
 	 */
-	public function __construct(array $options = array()) {
+	public function __construct(array $options = array())
+	{
 		parent::__construct($options);
 
-		if (!extension_loaded('apc'))
-			throw new LiquidException('LiquidCacheApc requires PHP apc extension to be loaded.');
+		if (!function_exists('apc_fetch')) {
+			throw new LiquidException(get_class($this).' requires PHP apc extension or similar to be loaded.');
+		}
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function read($key, $unserialize = true) {
+	public function read($key, $unserialize = true)
+	{
 		return apc_fetch($this->prefix . $key);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function exists($key) {
+	public function exists($key)
+	{
 		apc_fetch($this->prefix . $key, $success);
-		return $success;
+		return (bool) $success;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function write($key, $value, $serialize = true) {
+	public function write($key, $value, $serialize = true)
+	{
 		return apc_store($this->prefix . $key, $value, $this->expire);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function flush($expiredOnly = false) {
+	public function flush($expiredOnly = false)
+	{
 		return apc_clear_cache('user');
 	}
 }
