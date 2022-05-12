@@ -9,7 +9,7 @@
     <i class="fas fa-shopping-bag" style="font-size: 30px;color: #ff3c00;"></i>
     <span class="text" translate="'Cart Items'"/>
     <span class="qty empty"
-          text="getFormattedSummaryCount()"
+          text="getCartParam('summary_count')"
           data-bind="css: {
                 empty: !getCartParam('summary_count') == false },
                 attr: { title: $t('Items in Cart')}"
