@@ -14,9 +14,11 @@
 
 namespace Magezon\Core\Block\Adminhtml\Tab;
 
+use Magento\Ui\Component\Layout\Tabs\TabInterface;
+use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Framework\App\ObjectManager;
 
-class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Ui\Component\Layout\Tabs\TabInterface
+class Conditions extends Generic implements TabInterface
 {
     /**
      * Core registry
@@ -73,7 +75,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements \
     private function getRuleFactory()
     {
         if ($this->ruleFactory === null) {
-            $this->ruleFactory = ObjectManager::getInstance()->get('Magento\SalesRule\Model\RuleFactory');
+            $this->ruleFactory = ObjectManager::getInstance()->get(\Magento\SalesRule\Model\RuleFactory::class);
         }
         return $this->ruleFactory;
     }
@@ -158,12 +160,25 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic implements \
         return parent::_prepareForm();
     }
 
-    public function toHtml()
+    /**
+     * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getGridHtml()
     {
         $previewBlock = $this->getLayout()->createBlock(
             \Magezon\Core\Block\Adminhtml\Conditions\AssignProduct::class
         );
-        return parent::toHtml() . $previewBlock->toHtml();
+        return $previewBlock->toHtml();
+    }
+
+    /**
+     * @return string
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function toHtml()
+    {
+        return parent::toHtml() . $this->getGridHtml();
     }
 
     /**

@@ -3,7 +3,7 @@
  * @var $block \Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content
  */
 $options                = json_decode($block->getFilebrowserSetupObject(), true);
-$options['onInsertUrl'] = str_replace("/cms", "/mgzcore", $options['onInsertUrl']);
+$options['onInsertUrl'] = str_replace("/cms/", "/mgzcore/", $options['onInsertUrl']);
 $options                = json_encode($options);
 ?>
 
