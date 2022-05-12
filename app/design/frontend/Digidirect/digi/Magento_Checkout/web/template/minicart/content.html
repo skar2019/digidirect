@@ -41,8 +41,8 @@
         </div>
     </if>
 
-    <if args="getCartParam('summary_count')">
         <each args="getRegion('subtotalContainer')" render=""/>
+        <each args="getRegion('extraInfo')" render=""/>
 
         <div id="minicart-actions-main" class="actions" if="getCartParam('possible_onepage_checkout')">
             <div class="primary">
@@ -135,7 +135,6 @@
                 </button>
             </div>
         </div>
-    </if>
 
     <ifnot args="getCartParam('summary_count')">
         <p class="minicart empty text"
