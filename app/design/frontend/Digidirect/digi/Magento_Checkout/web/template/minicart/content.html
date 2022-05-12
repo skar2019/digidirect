@@ -49,12 +49,13 @@
                 <button
                         id="top-cart-btn-checkout"
                         type="button"
-                        class="action secondary checkout _full-width"
+                        class="action primary checkout _full-width"
                         data-action="close"
                         data-bind="
                             attr: {
                                 title: $t('CHECKOUT NOW')
-                            }
+                            },
+                            click: closeMinicart()
                         "
                         translate="'CHECKOUT NOW'"
                 />
