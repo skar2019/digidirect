@@ -638,6 +638,7 @@ return [
         'Magezon_Newsletter' => 1,
         'Magezon_NinjaMenus' => 1,
         'Magezon_PageBuilder' => 1,
+        'Magezon_PageBuilderIconBox' => 1,
         'Magezon_PageBuilderPageableContainer' => 1,
         'Magezon_PageBuilderPreview' => 1,
         'Magezon_UiBuilder' => 1,

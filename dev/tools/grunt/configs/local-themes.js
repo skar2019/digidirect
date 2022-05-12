@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -33,4 +34,21 @@ module.exports = {
         ],
         dsl: 'less'
     }
+=======
+module.exports = {
+   digi: {
+       area: 'frontend',
+       name: 'Digidirect/digi',
+       locale: 'en_AU',
+       files: [
+           'css/styles-m',
+           'css/styles-l',
+           'css/print',
+           'mage/gallery/gallery',
+           'css/email-inline',
+           'css/email'
+       ],
+       dsl: 'less'
+   }
+>>>>>>> c226ecb72dbee654d7281f3c7ba993ab6a9813ef
 };
