@@ -12,8 +12,8 @@
           text="getFormattedSummaryCount()"
           data-bind="css: {
                 empty: !getCartParam('summary_count') == false },
-                attr: { title: $t('Items in Cart')}"
-    />
+                attr: { title: $t('Items in Cart')}">
+    </span>
 </div>
 
 <div class="block-content">
@@ -50,7 +50,7 @@
                 <button
                         id="top-cart-btn-checkout"
                         type="button"
-                        class="action primary checkout _full-width"
+                        class="action secondary checkout _full-width"
                         data-action="close"
                         data-bind="
                             attr: {
