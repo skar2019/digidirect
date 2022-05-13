@@ -40,8 +40,46 @@
             </ol>
         </div>
     </if>
+    
+    <if args="getCartParam('summary_count')">
+        <div class="items-total">
+            <span class="count" if="maxItemsToDisplay < getCartLineItemsCount()" text="maxItemsToDisplay"></span>
+            <translate args="'of'" if="maxItemsToDisplay < getCartLineItemsCount()"></translate>
+            <span class="count" text="getCartParam('summary_count')"></span>
+                <!-- ko if: (getCartParam('summary_count') > 1) -->
+                    <span translate="'Items in Cart'"></span>
+                <!--/ko-->
+                <!-- ko if: (getCartParam('summary_count') === 1) -->
+                    <span translate="'Item in Cart'"></span>
+                <!--/ko-->
+        </div>
 
+        <each args="getRegion('subtotalContainer')" render=""></each>
+        <each args="getRegion('extraInfo')" render=""></each>
+
+        <div class="actions" if="getCartParam('possible_onepage_checkout')">
+            <div class="primary">
+                <button
+                        id="top-cart-btn-checkout"
+                        type="button"
+                        class="action primary checkout"
+                        data-action="close"
+                        data-bind="
+                            attr: {
+                                title: $t('Proceed to Checkout')
+                            },
+                            click: closeMinicart()
+                        "
+                        translate="'Proceed to Checkout'">
+                </button>
+                <div data-bind="html: getCartParamUnsanitizedHtml('extra_actions')"></div>
+            </div>
+        </div>
+    </if>
+
+    <if args="getCartParam('summary_count')">
         <each args="getRegion('subtotalContainer')" render=""/>
+        <each args="getRegion('extraInfo')" render=""></each>
 
         <div id="minicart-actions-main" class="actions" if="getCartParam('possible_onepage_checkout')">
             <div class="primary">
@@ -134,6 +172,7 @@
                 </button>
             </div>
         </div>
+    </if>
 
     <ifnot args="getCartParam('summary_count')">
         <p class="minicart empty text"
