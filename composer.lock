@@ -131,16 +131,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.222.10",
+            "version": "3.222.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a82c1b4903f5df893bf7108ec9de73328f74652a"
+                "reference": "458d322b7f913a54dfc10dd25d3fbb35bb3f7502"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a82c1b4903f5df893bf7108ec9de73328f74652a",
-                "reference": "a82c1b4903f5df893bf7108ec9de73328f74652a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/458d322b7f913a54dfc10dd25d3fbb35bb3f7502",
+                "reference": "458d322b7f913a54dfc10dd25d3fbb35bb3f7502",
                 "shasum": ""
             },
             "require": {
@@ -213,7 +213,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2022-05-11T18:15:28+00:00"
+            "time": "2022-05-12T18:17:33+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -297,12 +297,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Assert\\": "lib/Assert"
-                },
                 "files": [
                     "lib/Assert/functions.php"
-                ]
+                ],
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -522,155 +522,6 @@
                 "rfc4648"
             ],
             "time": "2021-02-26T10:19:33+00:00"
-        },
-        {
-            "name": "colinmollenhour/cache-backend-file",
-            "version": "v1.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/colinmollenhour/Cm_Cache_Backend_File.git",
-                "reference": "03c7d4c0f43b2de1b559a3527d18ff697d306544"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/colinmollenhour/Cm_Cache_Backend_File/zipball/03c7d4c0f43b2de1b559a3527d18ff697d306544",
-                "reference": "03c7d4c0f43b2de1b559a3527d18ff697d306544",
-                "shasum": ""
-            },
-            "type": "magento-module",
-            "autoload": {
-                "classmap": [
-                    "File.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Colin Mollenhour"
-                }
-            ],
-            "description": "The stock Zend_Cache_Backend_File backend has extremely poor performance for cleaning by tags making it become unusable as the number of cached items increases. This backend makes many changes resulting in a huge performance boost, especially for tag cleaning.",
-            "homepage": "https://github.com/colinmollenhour/Cm_Cache_Backend_File",
-            "time": "2019-04-18T21:54:31+00:00"
-        },
-        {
-            "name": "colinmollenhour/cache-backend-redis",
-            "version": "1.14.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/2tvenom/CBOREncode.git",
-                "reference": "42aedccb861d01fc0554782348cc08f8ebf22332"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/2tvenom/CBOREncode/zipball/42aedccb861d01fc0554782348cc08f8ebf22332",
-                "reference": "42aedccb861d01fc0554782348cc08f8ebf22332",
-                "shasum": ""
-            },
-            "require": {
-                "colinmollenhour/credis": "*"
-            },
-            "type": "magento-module",
-            "autoload": {
-                "classmap": [
-                    "Cm/Cache/Backend/Redis.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Colin Mollenhour"
-                }
-            ],
-            "description": "Zend_Cache backend using Redis with full support for tags.",
-            "homepage": "https://github.com/colinmollenhour/Cm_Cache_Backend_Redis",
-            "time": "2021-03-02T18:36:21+00:00"
-        },
-        {
-            "name": "colinmollenhour/credis",
-            "version": "v1.12.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/2tvenom/CBOREncode.git",
-                "reference": "42aedccb861d01fc0554782348cc08f8ebf22332"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/2tvenom/CBOREncode/zipball/42aedccb861d01fc0554782348cc08f8ebf22332",
-                "reference": "42aedccb861d01fc0554782348cc08f8ebf22332",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "Client.php",
-                    "Cluster.php",
-                    "Sentinel.php",
-                    "Module.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Colin Mollenhour",
-                    "email": "colin@mollenhour.com"
-                }
-            ],
-            "description": "Credis is a lightweight interface to the Redis key-value store which wraps the phpredis library when available for better performance.",
-            "homepage": "https://github.com/colinmollenhour/credis",
-            "time": "2020-11-06T16:09:14+00:00"
-        },
-        {
-            "name": "colinmollenhour/php-redis-session-abstract",
-            "version": "v1.4.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/colinmollenhour/php-redis-session-abstract.git",
-                "reference": "77ad0c1637ae6ea059f1f8e9fbdac6469242a16d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/colinmollenhour/php-redis-session-abstract/zipball/77ad0c1637ae6ea059f1f8e9fbdac6469242a16d",
-                "reference": "77ad0c1637ae6ea059f1f8e9fbdac6469242a16d",
-                "shasum": ""
-            },
-            "require": {
-                "colinmollenhour/credis": "~1.6",
-                "php": "^5.5 || ^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Cm\\RedisSession\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Colin Mollenhour"
-                }
-            ],
-            "description": "A Redis-based session handler with optimistic locking",
-            "homepage": "https://github.com/colinmollenhour/php-redis-session-abstract",
-            "time": "2021-12-01T21:16:01+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1895,12 +1746,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Promise\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4685,13 +4536,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/2tvenom/CBOREncode.git",
-                "reference": "42aedccb861d01fc0554782348cc08f8ebf22332"
+                "url": "https://github.com/Bacon/BaconQrCode.git",
+                "reference": "d70c840f68657ce49094b8d91f9ee0cc07fbf66c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/2tvenom/CBOREncode/zipball/42aedccb861d01fc0554782348cc08f8ebf22332",
-                "reference": "42aedccb861d01fc0554782348cc08f8ebf22332",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/d70c840f68657ce49094b8d91f9ee0cc07fbf66c",
+                "reference": "d70c840f68657ce49094b8d91f9ee0cc07fbf66c",
                 "shasum": ""
             },
             "require": {
@@ -4723,15 +4574,10 @@
         {
             "name": "m2epro/magento2-extension",
             "version": "1.21.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/bzikarsky/gelf-php.git",
-                "reference": "8dceab86227c184725479cc36ab5cae4da940f6e"
-            },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bzikarsky/gelf-php/zipball/8dceab86227c184725479cc36ab5cae4da940f6e",
-                "reference": "8dceab86227c184725479cc36ab5cae4da940f6e",
+                "url": "https://api.github.com/repos/m2epro/magento2-extension/zipball/1d32de9ec645394faaf4de6288a2bfcd7f7298df",
+                "reference": "1d32de9ec645394faaf4de6288a2bfcd7f7298df",
                 "shasum": ""
             },
             "require": {
@@ -27961,13 +27807,6 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Safe\\": [
-                        "lib/",
-                        "deprecated/",
-                        "generated/"
-                    ]
-                },
                 "files": [
                     "deprecated/apc.php",
                     "deprecated/libevent.php",
@@ -28058,7 +27897,14 @@
                     "generated/yaz.php",
                     "generated/zip.php",
                     "generated/zlib.php"
-                ]
+                ],
+                "psr-4": {
+                    "Safe\\": [
+                        "lib/",
+                        "deprecated/",
+                        "generated/"
+                    ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
