@@ -15,7 +15,7 @@
  * 'css/styles-l'
  * ],
  * dsl: dynamic stylesheet language (less|sass)
- * comment to redeploy
+ *
  */
 module.exports = {
     digi: {
