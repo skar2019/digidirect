@@ -87,6 +87,7 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
             'product_id' => $this->item->getProduct()->getId(),
             'product_name' => $productName,
             'product_sku' => $this->item->getProduct()->getSku(),
+            'qantas_points' => $this->getQffPoints(),
             'product_url' => $this->getProductUrl(),
             'product_has_url' => $this->hasProductUrl(),
             'product_price' => $this->checkoutHelper->formatPrice($this->item->getCalculationPrice()),
@@ -97,8 +98,7 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
                 'width' => $imageHelper->getWidth(),
                 'height' => $imageHelper->getHeight(),
             ],
-            'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()),
-            'qantas_points' => $this->getQffPoints(),
+            'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()),            
         ];
     }
 
