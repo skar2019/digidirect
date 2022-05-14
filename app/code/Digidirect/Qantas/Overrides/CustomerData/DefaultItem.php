@@ -86,7 +86,7 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
             'is_visible_in_site_visibility' => $this->item->getProduct()->isVisibleInSiteVisibility(),
             'product_id' => $this->item->getProduct()->getId(),
             'product_name' => $productName,
-            'product_sku' => $this->item->getProduct()->getSku(),
+            'product_sku' => 'Test SKU',
             'product_url' => $this->getProductUrl(),
             'product_has_url' => $this->hasProductUrl(),
             'product_price' => $this->checkoutHelper->formatPrice($this->item->getCalculationPrice()),
