@@ -12,7 +12,7 @@ class DefaultItemPlugin
             )
     {
         $data['item_subtotal'] = '$'.number_format((float)(($item->getQty() * 1) * ($item->getCalculationPrice())), 2, '.', '');
-        $data['qantas_points_new'] = $this->getQffPoints();
+        $data['qantas_points_new'] = round(($item->getQty() * 1) * ($item->getCalculationPrice()));
         
         return \array_merge(
             $result,
