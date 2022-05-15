@@ -12,7 +12,8 @@ class DefaultItemPlugin
             )
     {
         $data['item_subtotal'] = '$'.number_format((float)(($item->getQty() * 1) * ($item->getCalculationPrice())), 2, '.', '');
-
+        $data['qantas_points'] = 'Testing Qantas Points';
+        
         return \array_merge(
             $result,
             $data
