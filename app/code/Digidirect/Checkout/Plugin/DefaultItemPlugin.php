@@ -19,5 +19,40 @@ class DefaultItemPlugin
             $data
         );
     }
+    
+    public function getQffPoints() {
+
+        $qty = $this->item->getQty() * 1;
+
+        if ($this->item->getPrice() == 0) {
+
+            $promotionPoints = 0;
+        } else {
+
+            $finalProductPrice = $this->item->getProduct()->getFinalPrice();
+
+            if ($this->item->getProduct()->offsetExists("qff_bonus_points") && $this->item->getProduct()->offsetExists("qff_base")) {
+
+                $qff_bonus_points = $this->item->getProduct()->getQffBonusPoints();
+
+                $qff_base_points = $this->item->getProduct()->getQffBase();
+
+                $pointsSum = $qff_bonus_points + $qff_base_points;
+
+                $promotionPoints = number_format($pointsSum * ($qty * $finalProductPrice));
+            } else {
+                if ($this->item->getProduct()->offsetExists("qff_base")) {
+
+                    $qff_base_points = $this->item->getProduct()->getQffBase();
+
+                    $promotionPoints = number_format($qff_base_points * ($qty * $finalProductPrice));
+                } else {
+
+                    $promotionPoints = number_format(($qty * $finalProductPrice) * 2);
+                }
+            }
+        }
+        return $promotionPoints;
+    }
 
 }
