@@ -99,6 +99,7 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
             ],
             'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()), 
             'qantas_points' => $this->getQffPoints(),           
+            'qantas_pts' => 15,
         ];
     }
 
