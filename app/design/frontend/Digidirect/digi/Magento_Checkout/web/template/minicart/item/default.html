@@ -114,10 +114,15 @@
                         <!-- ko text: item_subtotal --><!-- /ko -->
                         <!-- /ko -->
                     </div>
-                    <span class ="price-font" data-bind="text: qantas_points_new"></span>
                 </div>
                 
-            </div>     
+            </div>   
+
+            <div class="qantas-pts-wrapper-minicart-price">
+                <img class="qantas-logo "data-bind="attr: { src: require.toUrl('images/qantas.svg') }"/>
+                    <span class ="qantas-span">Earn <span class ="price-font" data-bind="text: item_subtotal"></span> Qantas Points</span>
+                <div>
+            </div>      
         </div>
     </div>
     <div class="message notice" if="$data.message">
