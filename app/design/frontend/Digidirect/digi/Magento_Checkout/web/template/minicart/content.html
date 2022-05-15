@@ -42,7 +42,7 @@
     </if>
 
     <if args="getCartParam('summary_count')">
-        <each args="getRegion('subtotalContainer')" render=""/>
+        <each args="getRegion('subtotalContainer')" render=""></each>
         <each args="getRegion('extraInfo')" render=""></each>
 
         <div id="minicart-actions-main" class="actions" if="getCartParam('possible_onepage_checkout')">
