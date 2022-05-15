@@ -8,11 +8,14 @@
 <div class="block-title minicart-item-header">
     <i class="fas fa-shopping-bag" style="font-size: 30px;color: #ff3c00;"></i>
     <span class="text" translate="'Cart Items'"></span>
-    <span class="qty empty"
-          text="getCartParam('summary_count')"
-          data-bind="css: { empty: !!getCartParam('summary_count') == false },
-                     attr: { title: $t('Items in Cart') }">
+    <span class="qty">Total Items = 
+        <span class="empty"
+              text="getCartParam('summary_count')"
+              data-bind="css: { empty: !!getCartParam('summary_count') == false },
+                         attr: { title: $t('Items in Cart') }">
+        </span>
     </span>
+    
 </div>
 
 <div class="block-content">
