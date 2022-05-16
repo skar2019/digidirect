@@ -134,7 +134,7 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
                     $promotionPoints = number_format($qff_base_points * ($qty * $finalProductPrice));
                 } else {
 
-                    $promotionPoints = number_format(($qty * $finalProductPrice) * 2);
+                    $promotionPoints = number_format(($qty * $finalProductPrice));
                 }
             }
         }
