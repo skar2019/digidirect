@@ -219,6 +219,11 @@ class General extends AbstractModifier
                     'label'     => __('Overlay Opacity'),
                     'sortOrder' => 35,
                     'notice'    => __('Enter value in range 0-1'),
+                    'validation' => [
+                        'validate-number' => true,
+                        'validation-number-0-1' => true,
+                        'validation-number-separated' => true,
+                    ],
                     'imports'   => [
                         'visible' => '${ $.provider }:${ $.parentScope }.overlay',
                         '__disableTmpl' => ['visible' => false]
