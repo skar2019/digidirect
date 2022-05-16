@@ -28,7 +28,7 @@ class Slider extends \Magezon\Builder\Data\Element\AbstractElement
     }
 
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareGeneralTab()
     {
@@ -68,11 +68,12 @@ class Slider extends \Magezon\Builder\Data\Element\AbstractElement
                     ]
                 );
 
+
         return $general;
     }
 
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareSlidesTab()
     {
@@ -1483,7 +1484,7 @@ class Slider extends \Magezon\Builder\Data\Element\AbstractElement
         return $tab;
     }
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareCarouselTab($sortOrder = 80)
     {
@@ -1873,6 +1874,7 @@ class Slider extends \Magezon\Builder\Data\Element\AbstractElement
                 ]
             );
 
+
             $carousel->addChildren(
                 'owl_animate_in',
                 'select',
@@ -1961,9 +1963,6 @@ class Slider extends \Magezon\Builder\Data\Element\AbstractElement
         ];
     }
 
-    /**
-     * @return array[]
-     */
     public function getVideoAspectRatio()
     {
         return [

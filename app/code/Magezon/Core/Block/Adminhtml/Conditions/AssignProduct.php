@@ -24,7 +24,7 @@ class AssignProduct extends \Magento\Backend\Block\Template
     protected $_template = 'Magezon_Core::assign_items.phtml';
 
     /**
-     * @var \Magezon\Core\Block\Adminhtml\Conditions\Product
+     * @var \Magezon\Blog\Block\Adminhtml\Post\Tab\Product
      */
     protected $blockGrid;
 

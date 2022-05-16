@@ -198,10 +198,6 @@ class ConditionsProcessor
             $collection->addFieldToFilter('qty', ['lteq' => $ruleStockLower]);
         }
 
-        $collection->setVisibility(
-            $this->catalogProductVisibility->getVisibleInSiteIds()
-        );
-
         return $collection;
     }
 

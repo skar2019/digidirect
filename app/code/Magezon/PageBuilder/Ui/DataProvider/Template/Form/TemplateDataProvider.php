@@ -35,19 +35,14 @@ class TemplateDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
     protected $dataPersistor;
 
     /**
-     * @var \Magento\Framework\Registry
-     */
-    protected $registry;
-
-    /**
-     * @param string                      $name
-     * @param string                      $primaryFieldName
-     * @param string                      $requestFieldName
-     * @param \Magento\Framework\Registry $registry
-     * @param CollectionFactory           $templateCollectionFactory
-     * @param DataPersistorInterface      $dataPersistor
-     * @param array                       $meta
-     * @param array                       $data
+     * @param string                      $name                    
+     * @param string                      $primaryFieldName        
+     * @param string                      $requestFieldName        
+     * @param \Magento\Framework\Registry $registry                
+     * @param CollectionFactory           $templateCollectionFactory 
+     * @param DataPersistorInterface      $dataPersistor           
+     * @param array                       $meta                    
+     * @param array                       $data                    
      */
     public function __construct(
         $name,
@@ -104,10 +99,11 @@ class TemplateDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         return $this->loadedData;
     }
 
+
     /**
      * Get current template
      *
-     * @return \Magezon\PageBuilder\Model\Template
+     * @return Template
      */
     public function getCurrentTemplate()
     {

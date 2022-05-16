@@ -14,8 +14,6 @@
 
 namespace Magezon\Core\Model;
 
-use Magento\CatalogInventory\Model\ResourceModel\Stock\StatusFactory;
-
 class ProductList
 {
     /**
@@ -69,11 +67,6 @@ class ProductList
     protected $conditionsHelper;
 
     /**
-     * @var StatusFactory
-     */
-    protected $stockStatusFactory;
-
-    /**
      * @param \Magento\Store\Model\StoreManagerInterface                     $storeManager             
      * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory 
      * @param \Magento\Catalog\Model\Product\Visibility                      $catalogProductVisibility 
@@ -84,7 +77,6 @@ class ProductList
      * @param \Magento\Reports\Model\Event\TypeFactory                       $eventTypeFactory         
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface           $localeDate               
      * @param \Magento\Widget\Helper\Conditions                              $conditionsHelper         
-     * @param StatusFactory                                                  $stockStatusFactory       
      */
     public function __construct(
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -96,8 +88,7 @@ class ProductList
         \Magento\Framework\App\ResourceConnection $resource,
         \Magento\Reports\Model\Event\TypeFactory $eventTypeFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Widget\Helper\Conditions $conditionsHelper,
-        StatusFactory $stockStatusFactory
+        \Magento\Widget\Helper\Conditions $conditionsHelper
     ) {
         $this->_storeManager            = $storeManager;
         $this->productCollectionFactory = $productCollectionFactory;
@@ -109,16 +100,11 @@ class ProductList
         $this->_eventTypeFactory        = $eventTypeFactory;
         $this->_localeDate              = $localeDate;
         $this->conditionsHelper         = $conditionsHelper;
-        $this->stockStatusFactory       = $stockStatusFactory;
     }
 
-    public function getProductCollection($source = 'latest', $numberItems = 8, $order = 'newestfirst', $conditions = '', $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID, $showOutStock = true)
+    public function getProductCollection($source = 'latest', $numberItems = 8, $order = 'newestfirst', $conditions = '', $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID)
     {
-        if ($storeId) {
-            $store = $this->_storeManager->getStore($storeId);
-        } else {
-            $store = $this->_storeManager->getStore();
-        }
+        $store      = $this->_storeManager->getStore($storeId);
         $collection = $this->productCollectionFactory->create();
         $collection->addAttributeToFilter('visibility', $this->catalogProductVisibility->getVisibleInCatalogIds());
         $collection = $this->_addProductAttributesAndPrices($collection)->addStoreFilter($store);
@@ -137,16 +123,6 @@ class ProductList
             $this->sqlBuilder->attachConditionToCollection($collection, $conditions);
         }
         $collection->setPageSize($numberItems);
-
-        $stockFlag = 'has_stock_status_filter';
-        if (!$showOutStock && $collection->hasFlag($stockFlag)) {
-            $resource = $this->stockStatusFactory->create();
-            $resource->addStockDataToCollection(
-                $collection,
-                false
-            );
-            $collection->setFlag($stockFlag, true);
-        }
 
         switch ($source) {
             case 'latest':

@@ -23,9 +23,6 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
     protected function _construct()
     {
-        $this->_init(
-            \Magezon\PageBuilder\Model\Template::class,
-            \Magezon\PageBuilder\Model\ResourceModel\Template::class
-        );
+        $this->_init(\Magezon\PageBuilder\Model\Template::class, \Magezon\PageBuilder\Model\ResourceModel\Template::class);
     }
 }

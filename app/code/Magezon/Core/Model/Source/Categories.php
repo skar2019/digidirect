@@ -149,7 +149,6 @@ class Categories
 
         $matchingNamesCollection->addAttributeToSelect('path')
             ->addAttributeToFilter('entity_id', ['neq' => CategoryModel::TREE_ROOT_ID])
-            ->addIsActiveFilter()
             ->setStoreId($storeId);
 
         $shownCategoriesIds = [];
@@ -166,7 +165,6 @@ class Categories
 
         $collection->addAttributeToFilter('entity_id', ['in' => array_keys($shownCategoriesIds)])
             ->addAttributeToSelect(['name', 'is_active', 'parent_id'])
-            ->addIsActiveFilter()
             ->setStoreId($storeId);
 
         $categoryById = [
