@@ -10,6 +10,20 @@
                             <item name="children" xsi:type="array">
                                 <item name="subtotal.container" xsi:type="array">
                                     <item name="children" xsi:type="array">
+                                        <item name="minicart_qantas_points" xsi:type="array">
+                                            <item name="component" xsi:type="string">uiComponent</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="template" xsi:type="string">Digidirect_Qantas/qantas/minicart/subtotal-points</item>
+                                            </item>
+                                            <item name="children" xsi:type="array">
+                                                <item name="subtotal.totals" xsi:type="array">
+                                                    <item name="component" xsi:type="string">Magento_Checkout/js/view/checkout/minicart/subtotal/totals</item>
+                                                    <item name="config" xsi:type="array">
+                                                        <item name="template" xsi:type="string">Digidirect_Qantas/qantas/minicart/items/item-points</item>
+                                                    </item>
+                                                </item>
+                                            </item>
+                                        </item>
                                     </item>
                                 </item>
                             </item>
