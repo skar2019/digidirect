@@ -76,6 +76,7 @@ class Escaper extends \Magento\Framework\Escaper
     public function escapeHtml($data, $allowedTags = null)
     {
         if (!is_array($data)) {
+            $data = addslashes($data);
             $data = (string)$data;
         }
 
