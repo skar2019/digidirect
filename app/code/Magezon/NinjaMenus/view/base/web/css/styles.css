@@ -142,11 +142,6 @@
   border-color: transparent;
   border-top-color: #ed143d;
 }
-.label-left > a, .label-right > a  {
-  justify-content: flex-start;
-  display: flex;
-  align-items: flex-end;
-}
 .ninjamenus-hamburger-trigger {
   line-height: 50px;
   background: #f2f2f2;
