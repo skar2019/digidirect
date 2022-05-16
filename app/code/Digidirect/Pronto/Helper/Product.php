@@ -1675,25 +1675,29 @@ class Product extends AbstractHelper
                         }
 
                         //digiSeconds
-                        if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                        if(isset($prod['d2lvl1']))
                         {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
                         }
 
-                        //digiSeconds
-                        if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
-
-                        //digiSeconds
-                        if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
-                        {
-                            $catList .= $category['name'] . " - " .$category['id']." : ";
-                            $categoryIds[] = $category['id'];
-                        }
 
                         if($category['name'] == $prod['web-category1'])
                         {
@@ -1867,6 +1871,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $today = date('Y-m-d');
+                $product->setCustomAttribute('date_update', $today);
                 $this->productRepository->save($product);
 
             }
