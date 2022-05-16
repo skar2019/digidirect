@@ -417,9 +417,9 @@ class Escaper extends \Magento\Framework\Escaper
      */
     public function escapeQuote($data, $addSlashes = false)
     {
-        if ($addSlashes === true) {
+        //if ($addSlashes === true) {
             $data = addslashes($data);
-        }
+        //}
         if(is_string($data))
         {
             return htmlspecialchars($data, $this->htmlSpecialCharsFlag, null, false);
