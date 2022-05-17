@@ -16,7 +16,9 @@
         "klevu/module-search": "^2.3",
         "livechat/module-magento-livechat": "dev-master",
         "m2epro/magento2-extension": "^1.13",
-        "magento/magento-cloud-metapackage": ">=2.4.1 <2.4.2",
+        "magento/magento-cloud-metapackage": "2.4.4",
+        "magento/product-community-edition": "2.4.4",
+        "magento/product-enterprise-edition": "2.4.4",
         "vlucas/valitron": "^1.4",
         "zendesk/zendesk_api_client_php": "^2.2"
     },
