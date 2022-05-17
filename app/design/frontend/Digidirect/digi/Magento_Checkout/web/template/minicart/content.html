@@ -2,20 +2,18 @@
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
- * Commit
+ * Commit  
  */
 -->
 <div class="block-title minicart-item-header">
     <i class="fas fa-shopping-bag" style="font-size: 30px;color: #ff3c00;"></i>
-    <span class="text" translate="'Cart Items'"></span>
-    <span class="qty">Total Items = 
-        <span class="empty"
-              text="getCartParam('summary_count')"
-              data-bind="css: { empty: !!getCartParam('summary_count') == false },
-                         attr: { title: $t('Items in Cart') }">
-        </span>
-    </span>
-    
+    <span class="text" translate="'Cart Items'"/>
+    <span class="qty empty"
+          text="getFormattedSummaryCount()"
+          data-bind="css: {
+                empty: !getCartParam('summary_count') == false },
+                attr: { title: $t('Items in Cart')}"
+    />
 </div>
 
 <div class="block-content">
@@ -44,8 +42,8 @@
     </if>
 
     <if args="getCartParam('summary_count')">
-        <each args="getRegion('subtotalContainer')" render=""></each>
-        <each args="getRegion('extraInfo')" render=""></each>
+        <each args="getRegion('subtotalContainer')" render=""/>
+        <each args="getRegion('extraInfo')" render=""/>
 
         <div id="minicart-actions-main" class="actions" if="getCartParam('possible_onepage_checkout')">
             <div class="primary">
@@ -62,7 +60,7 @@
                         "
                         translate="'CHECKOUT NOW'"
                 />
-                <div data-bind="html: getCartParamUnsanitizedHtml('extra_actions')"></div>
+                <div data-bind="html: getCartParam('extra_actions')"></div>
             </div>
         </div>
 
