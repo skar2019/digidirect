@@ -12,8 +12,8 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
 class Collection extends AbstractCollection
 {
-    const BANNER_IDS = 'banner_ids';
-    const BANNER_NAMES = 'banner_names';
+    public const BANNER_IDS = 'banner_ids';
+    public const BANNER_NAMES = 'banner_names';
 
     protected function _construct()
     {

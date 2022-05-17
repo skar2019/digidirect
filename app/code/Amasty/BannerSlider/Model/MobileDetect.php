@@ -9,11 +9,6 @@ use Magento\Framework\ObjectManagerInterface;
 class MobileDetect
 {
     /**
-     * @var \Zend_Http_UserAgent
-     */
-    private $userAgent;
-
-    /**
      * @var ObjectManagerInterface
      */
     private $objectManager;
@@ -23,11 +18,23 @@ class MobileDetect
      */
     private $mobileDetector = null;
 
+    /**
+     * @var \Magento\Framework\HTTP\Header
+     */
+    private $httpHeader;
+
+    /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    private $request;
+
     public function __construct(
-        \Zend_Http_UserAgent $userAgent,
+        \Magento\Framework\HTTP\Header $httpHeader,
+        \Magento\Framework\App\RequestInterface $request,
         ObjectManagerInterface $objectManager
     ) {
-        $this->userAgent = $userAgent;
+        $this->httpHeader = $httpHeader;
+        $this->request = $request;
         $this->objectManager = $objectManager;
 
         // We are using object manager to create 3rd-party packages' class
@@ -36,15 +43,10 @@ class MobileDetect
         }
     }
 
-    /**
-     * @return bool
-     */
-    public function isMobile()
+    public function isMobile(): bool
     {
-        if ($this->mobileDetector) {
-            return $this->mobileDetector->isMobile();
-        }
-
-        return stristr($this->userAgent->getUserAgent(), 'mobi') !== false;
+        return $this->mobileDetector === null
+            ? stristr($this->httpHeader->getHttpUserAgent(), 'mobi') !== false
+            : $this->mobileDetector->isMobile();
     }
 }

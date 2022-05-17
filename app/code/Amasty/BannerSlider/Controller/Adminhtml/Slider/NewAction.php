@@ -11,5 +11,5 @@ class NewAction extends Edit
      *
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
+    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
 }
