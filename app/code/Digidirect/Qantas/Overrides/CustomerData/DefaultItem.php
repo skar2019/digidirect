@@ -97,7 +97,7 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
                 'width' => $imageHelper->getWidth(),
                 'height' => $imageHelper->getHeight(),
             ],
-            'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()),
+            'canApplyMsrp' => $this->msrpHelper->isShowBeforeOrderConfirm($this->item->getProduct()) && $this->msrpHelper->isMinimalPriceLessMsrp($this->item->getProduct()), 
             'qantas_points' => $this->getQffPoints(),
         ];
     }
@@ -134,7 +134,7 @@ class DefaultItem extends \Magento\Checkout\CustomerData\DefaultItem {
                     $promotionPoints = number_format($qff_base_points * ($qty * $finalProductPrice));
                 } else {
 
-                    $promotionPoints = number_format(($qty * $finalProductPrice) * 2);
+                    $promotionPoints = number_format(($qty * $finalProductPrice));
                 }
             }
         }
