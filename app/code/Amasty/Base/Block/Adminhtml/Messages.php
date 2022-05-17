@@ -1,7 +1,7 @@
 <?php
 /**
 * @author Amasty Team
-* @copyright Copyright (c) 2022 Amasty (https://www.amasty.com)
+* @copyright Copyright (c) 2021 Amasty (https://www.amasty.com)
 * @package Amasty_Base
 */
 
@@ -10,7 +10,7 @@ namespace Amasty\Base\Block\Adminhtml;
 
 class Messages extends \Magento\Backend\Block\Template
 {
-    public const AMASTY_BASE_SECTION_NAME = 'amasty_base';
+    const AMASTY_BASE_SECTION_NAME = 'amasty_base';
     /**
      * @var \Amasty\Base\Model\AdminNotification\Messages
      */

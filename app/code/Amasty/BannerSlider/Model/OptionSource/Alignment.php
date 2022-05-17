@@ -6,11 +6,11 @@ namespace Amasty\BannerSlider\Model\OptionSource;
 
 class Alignment implements \Magento\Framework\Option\ArrayInterface
 {
-    public const CENTER = 'center';
+    const CENTER = 'center';
 
-    public const LEFT = 'left';
+    const LEFT = 'left';
 
-    public const RIGHT = 'right';
+    const RIGHT = 'right';
 
     public function toOptionArray(): array
     {

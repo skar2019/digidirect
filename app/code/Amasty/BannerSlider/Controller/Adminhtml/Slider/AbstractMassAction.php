@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Amasty\BannerSlider\Controller\Adminhtml\Slider;
 
 use Amasty\BannerSlider\Api\Data\SliderInterface;
-use Magento\Framework\App\Response\RedirectInterface;
-use Magento\Framework\Controller\Result\Redirect;
-use Magento\Framework\Controller\ResultFactory;
 use Magento\Backend\App\Action;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Ui\Component\MassAction\Filter;
 use Psr\Log\LoggerInterface;
@@ -20,7 +18,7 @@ abstract class AbstractMassAction extends Action
      *
      * @see _isAllowed()
      */
-    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
+    const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
 
     /**
      * @var Filter
@@ -75,7 +73,6 @@ abstract class AbstractMassAction extends Action
      */
     public function execute()
     {
-        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
         $this->filter->applySelectionOnTargetProvider();
         $collection = $this->filter->getCollection($this->collectionFactory->create());
         $collectionSize = $collection->getSize();
@@ -89,16 +86,14 @@ abstract class AbstractMassAction extends Action
                 $this->messageManager->addSuccessMessage($this->getSuccessMessage($collectionSize));
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
+            } catch (CouldNotSaveException $e) {
+                $this->messageManager->addErrorMessage($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage($this->getErrorMessage());
                 $this->logger->critical($e);
             }
         }
-
-        /** @var Redirect $resultRedirect */
-        $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-        $resultRedirect->setRefererUrl();
-        return $resultRedirect;
+        $this->_redirect($this->_redirect->getRefererUrl());
     }
 
     /**

@@ -1,7 +1,7 @@
 <?php
 /**
 * @author Amasty Team
-* @copyright Copyright (c) 2022 Amasty (https://www.amasty.com)
+* @copyright Copyright (c) 2021 Amasty (https://www.amasty.com)
 * @package Amasty_Base
 */
 
@@ -13,11 +13,8 @@ class GetCustomerIp
     /**
      * Local IP address
      */
-    public const LOCAL_IP = '127.0.0.1';
+    const LOCAL_IP = '127.0.0.1';
 
-    /**
-     * @var string[]
-     */
     protected $addressPath = [
         'HTTP_X_REAL_IP',
         'HTTP_CLIENT_IP',

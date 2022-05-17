@@ -1,7 +1,7 @@
 <?php
 /**
 * @author Amasty Team
-* @copyright Copyright (c) 2022 Amasty (https://www.amasty.com)
+* @copyright Copyright (c) 2021 Amasty (https://www.amasty.com)
 * @package Amasty_Base
 */
 
@@ -19,8 +19,7 @@ use Magento\Framework\Escaper;
 
 class Extensions
 {
-    public const EXTENSIONS_CACHE_ID = 'ambase_extensions';
-    public const AMASTY_EXTENSIONS_LAST_MODIFIED_DATE = 'amasty_extensions_last_modified_date';
+    const EXTENSIONS_CACHE_ID = 'ambase_extensions';
 
     /**
      * @var Serializer
@@ -92,43 +91,22 @@ class Extensions
     public function getFeed(): array
     {
         $result = [];
-        $cachedData = $this->cache->load(self::EXTENSIONS_CACHE_ID);
-        $options = $cachedData ? ['modified_since' => $this->getLastModified()] : [];
-        $feedResponse = $this->feedContentProvider->getFeedResponse(
-            $this->feedContentProvider->getFeedUrl(FeedContentProvider::URN_EXTENSIONS),
-            $options
+        $content = $this->feedContentProvider->getFeedContent(
+            $this->feedContentProvider->getFeedUrl(FeedContentProvider::URN_EXTENSIONS)
         );
-        if ($feedResponse->isNeedToUpdateCache()) {
-            $feedXml = $this->parser->parseXml($feedResponse->getContent());
-            if (isset($feedXml->channel->item)) {
-                $result = $this->prepareFeedData($feedXml);
-            }
-            $this->saveCache($result);
-            $this->setLastModified();
+        $feedXml = $this->parser->parseXml($content);
+
+        if (isset($feedXml->channel->item)) {
+            $result = $this->prepareFeedData($feedXml);
         }
 
-        return $result;
-    }
-
-    private function getLastModified()
-    {
-        return $this->cache->load(self::AMASTY_EXTENSIONS_LAST_MODIFIED_DATE);
-    }
-
-    private function setLastModified()
-    {
-        $dateTime = gmdate('D, d M Y H:i:s') . ' GMT';
-
-        return $this->cache->save($dateTime, self::AMASTY_EXTENSIONS_LAST_MODIFIED_DATE);
-    }
-
-    private function saveCache(array $result)
-    {
         $this->cache->save(
             $this->serializer->serialize($result),
             self::EXTENSIONS_CACHE_ID,
             [self::EXTENSIONS_CACHE_ID]
         );
+
+        return $result;
     }
 
     /**

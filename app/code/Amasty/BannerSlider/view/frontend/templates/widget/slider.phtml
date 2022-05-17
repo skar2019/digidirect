@@ -8,7 +8,7 @@ $slider = $block->getSlider();
 ?>
 
 <?php if ($slider && count($block->getBanners())): ?>
-<div class="ambanner-slider-container">
+<div class="ambanner-slider-container" style="padding: 5px 5px 5px 10px">
     <div class="ambanner-slider-wrap -alignment-<?= $escaper->escapeHtmlAttr($block->getAlignment())?>"
          data-ambanner-js="slider-wrapper"
          style="max-width: <?= $escaper->escapeHtmlAttr($slider->getBannerWidth()) ?>px;"
@@ -121,4 +121,5 @@ $slider = $block->getSlider();
         </div>
     </div>
 </div>
+
 <?php endif; ?>

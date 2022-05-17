@@ -19,7 +19,7 @@ class Edit extends Action
      *
      * @see _isAllowed()
      */
-    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
+    const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
 
     /**
      * @var \Magento\Framework\Registry

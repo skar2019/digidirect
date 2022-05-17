@@ -5,7 +5,7 @@
 }
 
 .amasty-info-block .module-version.last-version {
-    color: #008000;
+    color: green;
 }
 
 .upgrade-error {

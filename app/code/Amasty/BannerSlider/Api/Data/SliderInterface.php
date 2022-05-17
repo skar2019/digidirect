@@ -6,54 +6,54 @@ namespace Amasty\BannerSlider\Api\Data;
 
 interface SliderInterface
 {
-    public const CACHE_TAG = 'amasty_slider';
+    const CACHE_TAG = 'amasty_slider';
 
-    public const STATIC_TABLE_NAME = 'amasty_bannerslider_slider_static';
-    public const DYNAMIC_TABLE_NAME = 'amasty_bannerslider_slider_dynamic';
-    public const RELATION_TABLE_NAME = 'amasty_bannerslider_slider_banner';
+    const STATIC_TABLE_NAME = 'amasty_bannerslider_slider_static';
+    const DYNAMIC_TABLE_NAME = 'amasty_bannerslider_slider_dynamic';
+    const RELATION_TABLE_NAME = 'amasty_bannerslider_slider_banner';
 
-    public const PERSIST_NAME = 'amasty_bannerslider_slider';
+    const PERSIST_NAME = 'amasty_bannerslider_slider';
 
     /**#@+
      * Constants defined for keys of data array
      */
-    public const ID = 'id';
-    public const NAME = 'name';
-    public const STATUS = 'status';
-    public const AUTOPLAY = 'autoplay';
-    public const PAUSE_TIME = 'pause_time';
-    public const ANIMATION_EFFECT = 'animation_effect';
-    public const TRANSITION_SPEED = 'transition_speed';
-    public const NAVIGATION_ARROWS = 'navigation_arrows';
-    public const ARROWS_STYLE = 'arrows_style';
-    public const NAVIGATION_BULLETS = 'navigation_bullets';
-    public const BULLETS_STYLE = 'bullets_style';
-    public const BANNER_WIDTH = 'banner_width';
-    public const BANNER_HEIGHT = 'banner_height';
-    public const IS_LAZY_LOAD_ENABLED = 'is_lazy_load_enabled';
-    public const LAZY_LOAD_FIRST_IMAGE = 'lazy_load_first_image';
-    public const RESIZE_IMAGES = 'resize_images';
-    public const STORE_ID = 'store_id';
-    public const MOBILE_WIDTH = 'mobile_width';
-    public const MOBILE_HEIGHT = 'mobile_height';
+    const ID = 'id';
+    const NAME = 'name';
+    const STATUS = 'status';
+    const AUTOPLAY = 'autoplay';
+    const PAUSE_TIME = 'pause_time';
+    const ANIMATION_EFFECT = 'animation_effect';
+    const TRANSITION_SPEED = 'transition_speed';
+    const NAVIGATION_ARROWS = 'navigation_arrows';
+    const ARROWS_STYLE = 'arrows_style';
+    const NAVIGATION_BULLETS = 'navigation_bullets';
+    const BULLETS_STYLE = 'bullets_style';
+    const BANNER_WIDTH = 'banner_width';
+    const BANNER_HEIGHT = 'banner_height';
+    const IS_LAZY_LOAD_ENABLED = 'is_lazy_load_enabled';
+    const LAZY_LOAD_FIRST_IMAGE = 'lazy_load_first_image';
+    const RESIZE_IMAGES = 'resize_images';
+    const STORE_ID = 'store_id';
+    const MOBILE_WIDTH = 'mobile_width';
+    const MOBILE_HEIGHT = 'mobile_height';
     /**#@-*/
 
-    public const DYNAMIC_FIELDS = [
+    const DYNAMIC_FIELDS = [
         self::NAME,
         self::STATUS
     ];
 
-    public const SLIDER_ID = 'slider_id';
-    public const BANNER_ID = 'banner_id';
-    public const POSITION = 'position';
+    const SLIDER_ID = 'slider_id';
+    const BANNER_ID = 'banner_id';
+    const POSITION = 'position';
 
-    public const BANNER_DATA = 'banner_data';
-    public const BANNERS = 'banners';
-    public const BANNER_IDS = 'banner_ids';
-    public const BANNER_NAMES = 'banner_names';
-    public const POSITIONS = 'position';
+    const BANNER_DATA = 'banner_data';
+    const BANNERS = 'banners';
+    const BANNER_IDS = 'banner_ids';
+    const BANNER_NAMES = 'banner_names';
+    const POSITIONS = 'position';
 
-    public const STATIC_FIELDS = [
+    const STATIC_FIELDS = [
         self::ID,
         self::AUTOPLAY,
         self::PAUSE_TIME,

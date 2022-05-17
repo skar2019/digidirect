@@ -9,6 +9,7 @@ Status,Status
 Banners,Banners
 Enabled,Enabled
 Disabled,Disabled
+"Please update Amasty Base module. Re-upload it and replace all the files.","Please update Amasty Base module. Re-upload it and replace all the files."
 "We can't change item right now. Please review the log and try again.","We can't change item right now. Please review the log and try again."
 "A total of %1 record(s) have been changed.","A total of %1 record(s) have been changed."
 "No records have been changed.","No records have been changed."
@@ -84,6 +85,7 @@ Previous,Previous
 "Amasty Banner","Amasty Banner"
 "Amasty Slider","Amasty Slider"
 "Banner Slider","Banner Slider"
+Information,Information
 Slider,Slider
 "Select Slider...","Select Slider..."
 "Show Slider Name","Show Slider Name"

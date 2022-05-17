@@ -217,8 +217,10 @@
 
         button {
             padding: 0;
-            width: @ambanner-overlay-dot__size;
-            height: @ambanner-overlay-dot__size;
+            //width: @ambanner-overlay-dot__size;
+            //height: @ambanner-overlay-dot__size;
+            width: 18px;
+            height: 18px;
             border: none;
             border-radius: 100px;
             background: @ambanner-overlay-dot__background__invert;
@@ -259,7 +261,8 @@
         }
 
         .slick-active button {
-            width: @ambanner-overlay-dot__size;
+            //width: @ambanner-overlay-dot__size;
+            width: 18px;
             background: @ambanner-overlay-dot__color;
             transition: none;
         }
@@ -305,6 +308,12 @@
     .ambanner-slider-block {
         .ambanner-controls-hover;
     }
+    
+    .ambanner-slider-dots {
+        > li {
+            display: none;
+        }
+    }
 }
 
 //
@@ -314,5 +323,11 @@
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
     .ambanner-button.-show-overlay {
         display: none;
+    }
+    
+    .ambanner-slider-dots {
+        > li {
+            display: inline-flex;
+        }
     }
 }

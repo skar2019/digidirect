@@ -25,7 +25,7 @@ class Save extends Action
      *
      * @see _isAllowed()
      */
-    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
+    const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
 
     /**
      * @var DataPersistorInterface

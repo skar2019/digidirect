@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Amasty\BannerSlider\Controller\Adminhtml\Slider;
 
 use Magento\Backend\App\Action;
-use Magento\Backend\Model\View\Result\Page;
-use Magento\Framework\Controller\ResultFactory;
 
 class Index extends Action
 {
@@ -15,19 +13,29 @@ class Index extends Action
      *
      * @see _isAllowed()
      */
-    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
+    const ADMIN_RESOURCE = 'Amasty_BannerSlider::sliders_slider';
 
     /**
-     * @return Page
+     * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
      */
     public function execute()
     {
-        /** @var Page $resultPage */
-        $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage->setActiveMenu(self::ADMIN_RESOURCE);
-        $resultPage->addBreadcrumb(__('Sliders'), __('Sliders'));
-        $resultPage->getConfig()->getTitle()->prepend(__('Sliders'));
+        $this->initAction();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Sliders'));
+        $this->_view->renderLayout();
+    }
 
-        return $resultPage;
+    /**
+     * Initiate action
+     *
+     * @return $this
+     */
+    private function initAction()
+    {
+        $this->_view->loadLayout();
+        $this->_setActiveMenu(self::ADMIN_RESOURCE)
+            ->_addBreadcrumb(__('Sliders'), __('Sliders'));
+
+        return $this;
     }
 }

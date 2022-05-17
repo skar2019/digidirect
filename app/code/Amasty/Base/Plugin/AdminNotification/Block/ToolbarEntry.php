@@ -1,7 +1,7 @@
 <?php
 /**
 * @author Amasty Team
-* @copyright Copyright (c) 2022 Amasty (https://www.amasty.com)
+* @copyright Copyright (c) 2021 Amasty (https://www.amasty.com)
 * @package Amasty_Base
 */
 
@@ -15,7 +15,7 @@ use Magento\AdminNotification\Block\ToolbarEntry as NativeToolbarEntry;
  */
 class ToolbarEntry
 {
-    public const AMASTY_ATTRIBUTE = ' data-ambase-logo="1"';
+    const AMASTY_ATTRIBUTE = ' data-ambase-logo="1"';
 
     public function afterToHtml(
         NativeToolbarEntry $subject,
