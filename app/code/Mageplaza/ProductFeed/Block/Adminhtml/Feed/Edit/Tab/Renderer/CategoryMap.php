@@ -24,13 +24,13 @@ namespace Mageplaza\ProductFeed\Block\Adminhtml\Feed\Edit\Tab\Renderer;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Block\Template\Context;
 use Magento\Catalog\Model\Category\Tree;
-use Magento\Catalog\Model\CategoryFactory;
-use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Phrase;
 use Magento\Framework\Registry;
 use Mageplaza\ProductFeed\Helper\Data;
-use Zend_Serializer_Exception;
+use Magento\Catalog\Model\CategoryRepository;
+use Magento\Store\Model\Store;
+use Magento\Catalog\Model\Category;
 
 /**
  * Class CategoryMap
@@ -59,9 +59,9 @@ class CategoryMap extends Template
     protected $tree;
 
     /**
-     * @var CategoryFactory
+     * @var CategoryRepository
      */
-    protected $categoryFactory;
+    protected $categoryRepository;
 
     /**
      * CategoryMap constructor.
@@ -69,29 +69,30 @@ class CategoryMap extends Template
      * @param Context $context
      * @param Registry $registry
      * @param Tree $tree
-     * @param CategoryFactory $categoryFactory
      * @param Data $helperData
+     * @param CategoryRepository $categoryRepository
      * @param array $data
      */
     public function __construct(
         Context $context,
         Registry $registry,
         Tree $tree,
-        CategoryFactory $categoryFactory,
         Data $helperData,
+        CategoryRepository $categoryRepository,
         array $data = []
     ) {
-        $this->registry = $registry;
-        $this->helperData = $helperData;
-        $this->tree = $tree;
-        $this->categoryFactory = $categoryFactory;
+        $this->registry           = $registry;
+        $this->helperData         = $helperData;
+        $this->tree               = $tree;
+        $this->categoryRepository = $categoryRepository;
 
         parent::__construct($context, $data);
     }
 
     /**
+     * Get category's mapping
+     *
      * @return string
-     * @throws Zend_Serializer_Exception
      */
     public function getCategoryMap()
     {
@@ -104,7 +105,9 @@ class CategoryMap extends Template
     }
 
     /**
-     * @return Node|null
+     * Get root node of category
+     *
+     * @return mixed
      * @throws NoSuchEntityException
      */
     public function getRootNode()
@@ -115,16 +118,21 @@ class CategoryMap extends Template
         } elseif ($feed->getId()) {
             $storeId = $feed->getStoreId();
         } else {
-            $storeId = 0;
+            $storeId = Store::DEFAULT_STORE_ID;
         }
-        $rootCategoryId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
-        $category = $this->categoryFactory->create()->load($rootCategoryId);
+        if ((int) $storeId === Store::DEFAULT_STORE_ID) {
+            return $this->categoryRepository->get(Category::TREE_ROOT_ID);
+        } else {
+            $rootCategoryId = $this->_storeManager->getStore($storeId)->getRootCategoryId();
 
-        return $this->tree->getRootNode($category);
+            return $this->categoryRepository->get($rootCategoryId, $storeId);
+        }
     }
 
     /**
-     * @param $node Node
+     * Render category tree
+     *
+     * @param Category $node
      *
      * @return Phrase|string
      */
@@ -140,7 +148,7 @@ class CategoryMap extends Template
         $html .= '<label>' . $node->getName() . ' (' . $node->getId() . ')</label>';
         $html .= '</div>';
         if ($node->hasChildren()) {
-            foreach ($node->getChildren() as $childNode) {
+            foreach ($node->getChildrenCategories() as $childNode) {
                 $html .= $this->getCategoryTreeHtml($childNode);
             }
         }

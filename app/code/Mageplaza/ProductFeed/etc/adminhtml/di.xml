@@ -34,4 +34,7 @@
     <type name="Magento\Rule\Model\Condition\Product\AbstractProduct">
         <plugin name="mageplaza_productfeed_condition_product" type="Mageplaza\ProductFeed\Plugin\Model\Condition\Product\AbstractProduct"/>
     </type>
+    <type name="Magento\Ui\Model\Export\MetadataProvider">
+        <plugin name="mageplaza_productfeed_export_csv" type="Mageplaza\ProductFeed\Plugin\Ui\Model\Export\MetadataProvider"/>
+    </type>
 </config>

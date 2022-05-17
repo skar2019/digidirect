@@ -68,58 +68,8 @@ class Conditions extends Generic implements TabInterface
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
 
-        $this->_conditions = $conditions;
+        $this->_conditions       = $conditions;
         $this->_rendererFieldset = $rendererFieldset;
-    }
-
-    /**
-     * @return Generic
-     * @throws LocalizedException
-     */
-    protected function _prepareForm()
-    {
-        /** @var Feed $feed */
-        $feed = $this->_coreRegistry->registry('mageplaza_productfeed_feed');
-
-        /** @var Form $form */
-        $form = $this->_formFactory->create();
-
-        $form->setHtmlIdPrefix('feed_');
-        $form->setFieldNameSuffix('feed');
-
-        $renderer = $this->_rendererFieldset->setTemplate(
-            'Magento_CatalogRule::promo/fieldset.phtml'
-        )->setNewChildUrl(
-            $this->getUrl('mpproductfeed/condition/newConditionHtml/form/feed_conditions_fieldset')
-        );
-
-        $fieldset = $form->addFieldset(
-            'conditions_fieldset',
-            ['legend' => __('Conditions (don\'t add conditions if rule is applied to all products)'),]
-        )->setRenderer($renderer);
-
-        $fieldset->addField(
-            'conditions',
-            'text',
-            ['name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions')]
-        )->setRule($feed)->setRenderer($this->_conditions);
-
-        $form->addValues($feed->getData());
-        $feed->getConditions()->setJsFormObject('feed_conditions_fieldset');
-        $this->setConditionFormName($feed->getConditions(), 'feed_conditions_fieldset');
-        $this->setForm($form);
-
-        return parent::_prepareForm();
-    }
-
-    /**
-     * Prepare label for tab
-     *
-     * @return string
-     */
-    public function getTabLabel()
-    {
-        return __('Product Filter');
     }
 
     /**
@@ -130,6 +80,16 @@ class Conditions extends Generic implements TabInterface
     public function getTabTitle()
     {
         return $this->getTabLabel();
+    }
+
+    /**
+     * Prepare label for tab
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return __('Product Filter');
     }
 
     /**
@@ -159,9 +119,58 @@ class Conditions extends Generic implements TabInterface
      */
     public function getFormHtml()
     {
-        $formHtml = parent::getFormHtml();
+        $formHtml  = parent::getFormHtml();
         $childHtml = $this->getChildHtml();
 
         return $formHtml . $childHtml;
+    }
+
+    /**
+     * @return Generic
+     * @throws LocalizedException
+     */
+    protected function _prepareForm()
+    {
+        /** @var Feed $feed */
+        $feed = $this->_coreRegistry->registry('mageplaza_productfeed_feed');
+
+        /** @var Form $form */
+        $form = $this->_formFactory->create();
+
+        $form->setHtmlIdPrefix('feed_');
+        $form->setFieldNameSuffix('feed');
+
+        $renderer = $this->_rendererFieldset->setTemplate(
+            'Magento_CatalogRule::promo/fieldset.phtml'
+        )->setNewChildUrl(
+            $this->getUrl('mpproductfeed/condition/newConditionHtml/form/feed_conditions_fieldset')
+        );
+
+        $fieldset = $form->addFieldset(
+            'conditions_fieldset',
+            ['legend' => __('Conditions (don\'t add conditions if rule is applied to all products)'),]
+        )->setRenderer($renderer);
+
+        $fieldset->addField('preview_limit', 'text', [
+            'name'     => 'preview_limit',
+            'label'    => __('Maximum Product Displayed on Preview Product '),
+            'title'    => __('Maximum Product Displayed on Preview Product '),
+            'class'    => 'validate-greater-than-zero',
+            'required' => false,
+            'note'     => 'If empty, there will be no limit to show products when clicking Preview Products button'
+        ]);
+
+        $fieldset->addField(
+            'conditions',
+            'text',
+            ['name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions')]
+        )->setRule($feed)->setRenderer($this->_conditions);
+
+        $form->addValues($feed->getData());
+        $feed->getConditions()->setJsFormObject('feed_conditions_fieldset');
+        $this->setConditionFormName($feed->getConditions(), 'feed_conditions_fieldset');
+        $this->setForm($form);
+
+        return parent::_prepareForm();
     }
 }

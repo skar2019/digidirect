@@ -46,6 +46,8 @@ interface BrandInterface
 
     const IS_FEATURED = 'is_featured';
 
+    const IS_DISPLAY = 'is_display';
+
     const STATIC_BLOCK = 'static_block';
 
     const META_TITLE = 'meta_title';
@@ -179,11 +181,23 @@ interface BrandInterface
     public function getIsFeatured();
 
     /**
+     * @return int|null
+     */
+    public function getIsDisplay();
+
+    /**
      * @param int $value
      *
      * @return $this
      */
     public function setIsFeatured($value);
+
+    /**
+     * @param int $value
+     *
+     * @return $this
+     */
+    public function setIsDisplay($value);
 
     /**
      * @return string|null

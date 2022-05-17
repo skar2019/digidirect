@@ -30,9 +30,9 @@ define([
 ], function ($, _, CodeMirror, modal, $t) {
     "use strict";
 
-    var loadTempBtn    = $('#load-template');
-    var fieldsColEl    = $('#fields-map .fields-col');
-    var attrSelectHtml = $('#select-attr').html();
+    var loadTempBtn    = $('#load-template'),
+        fieldsColEl    = $('#fields-map .fields-col'),
+        attrSelectHtml = $('#select-attr').html();
 
     $.widget('mageplaza.initTemplateTab', {
         /**
@@ -197,7 +197,8 @@ define([
                 var protocol = $('#feed_protocol').val(),
                     host     = $('#feed_host_name').val(),
                     user     = $('#feed_user_name').val(),
-                    passive  = $('#feed_passive_mode').val();
+                    passive  = $('#feed_passive_mode').val(),
+                    path     = $('#feed_path_key').val();
 
                 if ($('#feed_is_encryptor').val() === '0') {
                     pass = $('#feed_password').val();
@@ -208,7 +209,7 @@ define([
                 $.ajax({
                     url: self.options.testConnectionUrl,
                     type: 'POST',
-                    data: {protocol: protocol, host: host, passive: passive, user: user, pass: pass},
+                    data: {protocol: protocol, host: host, passive: passive, user: user, pass: pass, path: path},
                     success: function (res) {
                         if (res === 1) {
                             mesEl.html('<p style="color:green;margin-left: 20px">' + $t('Connection Success') + '</p>');
@@ -223,21 +224,23 @@ define([
                 });
             });
         },
+
         isEncryptor: function () {
-            var passEl = $('#feed_password'),
-                isEncryptorEl   = $('#feed_is_encryptor');
+            var passEl        = $('#feed_password'),
+                isEncryptorEl = $('#feed_is_encryptor');
 
             passEl.on('change', function () {
                 isEncryptorEl.val('0');
             });
         },
+
         rowSelectObs: function () {
             var self = this;
 
             $('#insert-variable-popup').on('change', 'select', function () {
-                var elf       = $(this);
-                var paramsEl  = elf.siblings('.params');
-                var attr_code = elf.parents('.modifier').attr('code');
+                var elf       = $(this),
+                    paramsEl  = elf.siblings('.params'),
+                    attr_code = elf.parents('.modifier').attr('code');
 
                 paramsEl.html('');
                 if (elf.val() !== 0) {
@@ -277,9 +280,9 @@ define([
             var self = this;
 
             $('#insert-variable-popup').on('click', '.add-modifier', function () {
-                var rowModifier = $(this).parent().siblings('.row-modifier');
-                var opt         = '', modifierEl;
-                var attr_code   = $(this).parents('.attr-code').attr('code');
+                var rowModifier = $(this).parent().siblings('.row-modifier'),
+                    opt         = '', modifierEl,
+                    attr_code   = $(this).parents('.attr-code').attr('code');
 
                 if (!rowModifier.hasClass('show')) {
                     rowModifier.addClass('show');
@@ -299,13 +302,13 @@ define([
             });
         },
         updateVariable: function (attr_code) {
-            var parentEl = $('[code="' + attr_code + '"]');
-            var str      = '{{ ';
+            var parentEl = $('[code="' + attr_code + '"]'),
+                str      = '{{ ';
 
             str += 'product.' + attr_code;
             parentEl.find('.modifier').each(function () {
-                var modifier = $(this).find('select').val();
-                var params   = $(this).find('input.modifier-param');
+                var modifier = $(this).find('select').val(),
+                    params   = $(this).find('input.modifier-param');
 
                 if (modifier && modifier !== '0') {
                     str += ' | ' + modifier;
@@ -370,10 +373,10 @@ define([
             var self = this;
 
             $('#fields-map').on('change', '.modifier select', function () {
-                var modifierId = $(this).parents('.modifier').attr('id');
-                var elf        = $(this);
-                var paramsEl   = elf.siblings('.params');
-                var attrEl     = $('#' + modifierId).parents('.field-col');
+                var modifierId = $(this).parents('.modifier').attr('id'),
+                    elf        = $(this),
+                    paramsEl   = elf.siblings('.params'),
+                    attrEl     = $('#' + modifierId).parents('.field-col');
 
                 paramsEl.html('');
                 if (elf.val() !== 0) {
@@ -386,14 +389,14 @@ define([
             var self = this;
 
             $('#fields-map').on('click', 'a.add-modifier', function () {
-                var i     = $(this).parents('.field-col').find('.col-collapsible i');
-                var rowId = this.id;
-                var d     = new Date();
-                var _id   = d.getTime() + '_' + d.getMilliseconds();
-                var modifierGroupEl;
+                var i     = $(this).parents('.field-col').find('.col-collapsible i'),
+                    rowId = this.id,
+                    d     = new Date(),
+                    _id   = d.getTime() + '_' + d.getMilliseconds(),
+                    modifierGroupEl;
 
                 // eslint-disable-next-line eqeqeq
-                if ($(this).parents('.field-col').find('.col-type select').val() == 0) {
+                if ($(this).parents('.field-col').find('.col-type select').val() === '0') {
                     return;
                 }
                 self.createModifierRow(rowId, _id);
@@ -413,8 +416,8 @@ define([
         },
         selectTypeObs: function () {
             $('#fields-map').on('change', '.col-type select', function () {
-                var typeEl = $(this);
-                var valEl  = typeEl.parent().siblings('.col-value');
+                var typeEl = $(this),
+                    valEl  = typeEl.parent().siblings('.col-value');
 
                 if (typeEl.val() === 'attribute') {
                     typeEl.parent().siblings('.col-add-modifier').show();
@@ -434,8 +437,8 @@ define([
             var self = this;
 
             $('#add-column').click(function () {
-                var d   = new Date();
-                var _id = d.getTime() + '_' + d.getMilliseconds();
+                var d   = new Date(),
+                    _id = d.getTime() + '_' + d.getMilliseconds();
 
                 self.createRow(_id);
             });
@@ -510,8 +513,8 @@ define([
             });
         },
         createModifierRow: function (rowId, _id) {
-            var self = this;
-            var opt  = '', modifierEl, modifierGroupEl;
+            var self = this,
+                opt  = '', modifierEl, modifierGroupEl;
 
             _.each(self.options.modifiersData, function (record, index) {
                 opt += '<option value="' + index + '">' + record.label + '</option>';
@@ -540,16 +543,16 @@ define([
             }
         },
         updateFieldMapVariable: function (attrEl) {
-            var self      = this;
-            var attr_code = attrEl.find('.col-value select').val();
-            var str       = '';
+            var self      = this,
+                attr_code = attrEl.find('.col-value select').val(),
+                str       = '';
 
             if (attr_code && attrEl.find('.col-type select').val() === 'attribute') {
                 str = '{{ ';
                 str += 'product.' + attr_code;
                 attrEl.find('.modifier').each(function () {
-                    var modifier = $(this).find('select').val();
-                    var params   = $(this).find('input.modifier-param');
+                    var modifier = $(this).find('select').val(),
+                        params   = $(this).find('input.modifier-param');
 
                     if (modifier === "0") {
                         return;

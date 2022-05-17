@@ -6,13 +6,13 @@ namespace Amasty\BannerSlider\Api\Data;
 
 interface AnalyticInterface
 {
-    const MAIN_TABLE = 'amasty_bannerslider_banner_analytics';
+    public const MAIN_TABLE = 'amasty_bannerslider_banner_analytics';
 
-    const ID = 'id';
-    const TYPE = 'type';
-    const COUNTER = 'counter';
-    const BANNER_ID = 'banner_id';
-    const VERSION_ID = 'version_id';
+    public const ID = 'id';
+    public const TYPE = 'type';
+    public const COUNTER = 'counter';
+    public const BANNER_ID = 'banner_id';
+    public const VERSION_ID = 'version_id';
 
     /**
      * @return int

@@ -21,6 +21,7 @@
 var config = {
     paths: {
         brandSlider: 'Mageplaza_Shopbybrand/js/brand-slider',
+        brandSliderRelated: 'Mageplaza_Shopbybrand/js/brand-slider-related',
         quickview: 'Mageplaza_Shopbybrand/js/quick-view',
         modalPopup: 'Mageplaza_Shopbybrand/js/modal-popup'
     }

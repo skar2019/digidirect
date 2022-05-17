@@ -29,6 +29,9 @@ use Magento\Framework\Archive\Bz;
 use Magento\Framework\Archive\Gz;
 use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Filesystem\Driver\File;
+use Magento\Framework\Filesystem\Io\File as IoFile;
 use Magento\Framework\Registry;
 use Mageplaza\ProductFeed\Controller\Adminhtml\AbstractManageFeeds;
 use Mageplaza\ProductFeed\Helper\Data;
@@ -58,12 +61,24 @@ class Download extends AbstractManageFeeds
     protected $bzArchive;
 
     /**
+     * @var File
+     */
+    protected $fileDriver;
+
+    /**
+     * @var IoFile
+     */
+    protected $fileSystemIo;
+
+    /**
      * Download constructor.
      *
      * @param FeedFactory $feedFactory
      * @param Registry $coreRegistry
      * @param Context $context
      * @param FileFactory $fileFactory
+     * @param File $fileDriver
+     * @param IoFile $fileSystemIo
      * @param Gz $gzArchive
      * @param Bz $bzArchive
      */
@@ -72,12 +87,16 @@ class Download extends AbstractManageFeeds
         Registry $coreRegistry,
         Context $context,
         FileFactory $fileFactory,
+        File $fileDriver,
+        IoFile $fileSystemIo,
         Gz $gzArchive,
         Bz $bzArchive
     ) {
-        $this->fileFactory = $fileFactory;
-        $this->gzArchive   = $gzArchive;
-        $this->bzArchive   = $bzArchive;
+        $this->fileFactory  = $fileFactory;
+        $this->gzArchive    = $gzArchive;
+        $this->bzArchive    = $bzArchive;
+        $this->fileDriver   = $fileDriver;
+        $this->fileSystemIo = $fileSystemIo;
 
         parent::__construct($feedFactory, $coreRegistry, $context);
     }
@@ -140,13 +159,20 @@ class Download extends AbstractManageFeeds
      * @param string $source
      * @param string $destination
      *
-     * @return string
+     * @return mixed
+     * @throws FileSystemException
      */
     public function packToZip($source, $destination)
     {
         $zip = new ZipArchive();
-        $zip->open($destination, ZipArchive::CREATE);
-        $zip->addFile($source, basename($source));
+        if ($this->fileDriver->isExists($destination)) {
+            $zip->open($destination, ZipArchive::OVERWRITE);
+        } else {
+            $zip->open($destination, ZipArchive::CREATE);
+        }
+
+        $fileInfo = $this->fileSystemIo->getPathInfo($source);
+        $zip->addFile($source, $fileInfo['basename']);
         $zip->close();
 
         return $destination;

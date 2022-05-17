@@ -29,6 +29,7 @@ use Magento\Config\Model\Config\Source\Enabledisable;
 use Magento\Framework\DataObject;
 use Magento\Store\Model\System\Store;
 use Mageplaza\Shopbybrand\Model\ResourceModel\Category\Collection;
+use Mageplaza\Shopbybrand\Block\Adminhtml\Grid\Renderer\Store as ShopbybrandStore;
 
 /**
  * Class Grid
@@ -70,8 +71,8 @@ class Grid extends Extended
         array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
-        $this->_booleanOptions = $booleanOptions;
-        $this->_systemStore = $systemStore;
+        $this->_booleanOptions    = $booleanOptions;
+        $this->_systemStore       = $systemStore;
 
         parent::__construct($context, $backendHelper, $data);
     }
@@ -95,9 +96,13 @@ class Grid extends Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_collectionFactory->load();
-        $this->setCollection($collection);
+        $collection = $this->_collectionFactory->addFieldToSelect('cat_id')
+            ->addFieldToSelect('name')
+            ->addFieldToSelect('url_key')
+            ->addFieldToSelect('status')
+            ->addFieldToSelect('store_ids');
 
+        $this->setCollection($collection);
         parent::_prepareCollection();
 
         return $this;
@@ -109,58 +114,59 @@ class Grid extends Extended
     protected function _prepareColumns()
     {
         $this->addColumn('cat_id', [
-            'header' => __('ID'),
-            'type' => 'number',
-            'index' => 'cat_id',
+            'header'           => __('ID'),
+            'type'             => 'number',
+            'index'            => 'cat_id',
             'header_css_class' => 'col-id',
             'column_css_class' => 'col-id'
         ]);
 
         $this->addColumn('name', [
             'header' => __('Name'),
-            'index' => 'name'
+            'index'  => 'name'
         ]);
 
         $this->addColumn('route', [
             'header' => __('URL Key'),
-            'index' => 'url_key'
+            'index'  => 'url_key'
         ]);
 
         $this->addColumn('status', [
-            'header' => __('Status'),
-            'index' => 'status',
-            'type' => 'options',
+            'header'  => __('Status'),
+            'index'   => 'status',
+            'type'    => 'options',
             'options' => $this->getStatusOptions(),
         ]);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn('store_ids', [
-                'header' => __('Store View'),
-                'index' => 'store_ids',
-                'type' => 'store',
-                'store_all' => true,
-                'store_view' => true,
-                'sortable' => false,
+                'header'                    => __('Store View'),
+                'index'                     => 'store_ids',
+                'type'                      => 'store',
+                'store_all'                 => true,
+                'store_view'                => true,
+                'sortable'                  => false,
+                'renderer'                  => ShopbybrandStore::class,
                 'filter_condition_callback' => [$this, '_filterStoreCondition']
             ]);
         }
 
         $this->addColumn('edit', [
-            'header' => __('Edit'),
-            'type' => 'action',
-            'getter' => 'getId',
-            'actions' => [
+            'header'           => __('Edit'),
+            'type'             => 'action',
+            'getter'           => 'getId',
+            'actions'          => [
                 [
                     'caption' => __('Edit'),
-                    'url' => [
+                    'url'     => [
                         'base' => '*/*/edit'
                     ],
-                    'field' => 'cat_id'
+                    'field'   => 'cat_id'
                 ]
             ],
-            'filter' => false,
-            'sortable' => false,
-            'index' => 'stores',
+            'filter'           => false,
+            'sortable'         => false,
+            'index'            => 'stores',
             'header_css_class' => 'col-action',
             'column_css_class' => 'col-action'
         ]);
@@ -174,7 +180,7 @@ class Grid extends Extended
     }
 
     /**
-     * @param $collection
+     * @param DataObject $collection
      * @param DataObject $column
      */
     protected function _filterStoreCondition($collection, DataObject $column)
@@ -210,8 +216,8 @@ class Grid extends Extended
         $this->getMassactionBlock()->setFormFieldName('cat_id');
 
         $this->getMassactionBlock()->addItem('delete', [
-            'label' => __('Delete'),
-            'url' => $this->getUrl('mpbrand/*/massDelete'),
+            'label'   => __('Delete'),
+            'url'     => $this->getUrl('mpbrand/*/massDelete'),
             'confirm' => __('Are you sure?')
         ]);
 

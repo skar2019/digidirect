@@ -38,6 +38,7 @@
                     <block class="Magento\Backend\Block\Template" name="product_filter_condition" template="Mageplaza_ProductFeed::feed/product_filter/conditions.phtml"/>
                 </block>
                 <block class="Mageplaza\ProductFeed\Block\Adminhtml\Feed\Edit\Tab\Template" name="mageplaza_productfeed_feed_tab_template"/>
+                <block class="Mageplaza\ProductFeed\Block\Adminhtml\Feed\Edit\Tab\GoogleShoppingApi" name="mageplaza_productfeed_feed_tab_google_shopping_api"/>
                 <block class="Mageplaza\ProductFeed\Block\Adminhtml\Feed\Edit\Tab\Delivery" name="mageplaza_productfeed_feed_tab_delivery"/>
                 <block class="Mageplaza\ProductFeed\Block\Adminhtml\Feed\Edit\Tab\History" name="mageplaza_productfeed_feed_tab_history"/>
                 <block class="Mageplaza\ProductFeed\Block\Adminhtml\Feed\Edit\Tab\CategoryMapping" name="mageplaza_productfeed_feed_tab_category_map">
@@ -50,6 +51,10 @@
                 <action method="addTab">
                     <argument name="name" xsi:type="string">template</argument>
                     <argument name="block" xsi:type="string">mageplaza_productfeed_feed_tab_template</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">google_shopping_api</argument>
+                    <argument name="block" xsi:type="string">mageplaza_productfeed_feed_tab_google_shopping_api</argument>
                 </action>
                 <action method="addTab">
                     <argument name="name" xsi:type="string">google_analytics</argument>
