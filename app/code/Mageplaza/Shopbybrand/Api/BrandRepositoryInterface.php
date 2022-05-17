@@ -21,8 +21,6 @@
 
 namespace Mageplaza\Shopbybrand\Api;
 
-use Magento\Framework\Exception\InputException;
-
 /**
  * Class BrandRepositoryInterface
  * @package Mageplaza\Shopbybrand\Api
@@ -31,7 +29,6 @@ interface BrandRepositoryInterface
 {
     /**
      * Get brand list
-     *
      * @param int|null $storeId
      *
      * @return \Mageplaza\Shopbybrand\Api\Data\BrandInterface[]
@@ -175,7 +172,6 @@ interface BrandRepositoryInterface
      * @param string|null $storeId
      *
      * @return \Mageplaza\Shopbybrand\Api\Data\BrandConfigInterface
-     * @throws InputException
      */
     public function getBrandConfigs($storeId = null);
 }

@@ -88,21 +88,16 @@
                     </depends>
                     <comment><![CDATA[Select <b>Yes</b> to show brands without products on menu]]></comment>
                 </field>
-                <field id="show_brand_info_in_listing" translate="label comment" type="select" sortOrder="75" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show Brand Info on Product Listing Page</label>
-                    <source_model>Mageplaza\Shopbybrand\Model\Config\Source\ShowBrandInfo</source_model>
-                    <comment><![CDATA[Show Brand Info in the Product Listing Page such as Category, Catalog Search results]]>
+                <field id="show_brand_name" translate="label comment" type="select" sortOrder="75" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show Brand Name on Product Listing Page</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Show Brand Name in the Product Listing Page such as Category, Catalog Search results]]>
                     </comment>
                 </field>
                 <field id="show_brand_info" translate="label comment" type="multiselect" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Show Brand Info in Product Page</label>
                     <source_model>Mageplaza\Shopbybrand\Model\Config\Source\ShowBrandInfo</source_model>
                     <comment><![CDATA[Display brand info in the product page, <a href="https://goo.gl/1eS5r8" target="blank">learn more</a>]]></comment>
-                </field>
-                <field id="show_brand_info_in_admin" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>Show Brand Info in Product Admin Grid</label>
-                    <source_model>Mageplaza\Shopbybrand\Model\Config\Source\ShowBrandInfoInAdmin</source_model>
-                    <comment><![CDATA[For example, If you select Brand Logo & Brand Name, the brand logo will display before the brand name]]></comment>
                 </field>
                 <field id="logo_width_on_product_page" translate="label" type="text" sortOrder="85" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Brand Logo Width in Product Page</label>

@@ -25,7 +25,6 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\DataObject;
 use Magento\Framework\Escaper;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
@@ -100,8 +99,8 @@ class Sitemap extends \Magento\Sitemap\Model\Sitemap
         AbstractDb $resourceCollection = null,
         array $data = []
     ) {
-        $this->helper        = $helper;
-        $this->router        = $this->helper->getModuleConfig('general/route');
+        $this->helper = $helper;
+        $this->router = $this->helper->getModuleConfig('general/route');
         $this->_brandFactory = $brandFactory;
 
         parent::__construct(
@@ -127,11 +126,10 @@ class Sitemap extends \Magento\Sitemap\Model\Sitemap
      * @param null $storeId
      *
      * @return array
-     * @throws NoSuchEntityException
      */
     public function getBrandsSiteMapCollection($storeId = null)
     {
-        $storeId         = ($storeId !== null) ? $storeId : 0;
+        $storeId = ($storeId !== null) ? $storeId : 0;
         $brandCollection = $this->_brandFactory->create()->getCollection();
         $brandCollection->addFieldToFilter('store_id', $storeId);
         $brandSiteMapCollection = [];
@@ -139,25 +137,22 @@ class Sitemap extends \Magento\Sitemap\Model\Sitemap
             $this->router = 'brands';
         }
         foreach ($brandCollection as $item) {
-            $images           = null;
+            $images = null;
             $imagesCollection = [];
             if ($item->getImage()) {
                 $imagesCollection[] = new DataObject(
                     [
-                        'url'     => $this->helper->getBrandImageUrl($item),
+                        'url' => $this->helper->getBrandImageUrl($item),
                         'caption' => null,
                     ]
                 );
-                $images             = new DataObject([
-                    'collection' => $imagesCollection,
-                    'title'      => $this->helper->getBrandTitle()
-                ]);
+                $images = new DataObject(['collection' => $imagesCollection]);
             }
 
-            $itemId                          = $item->getId();
+            $itemId = $item->getId();
             $brandSiteMapCollection[$itemId] = new DataObject([
-                'id'     => $itemId,
-                'url'    => $this->router . '/' . $item->getUrlKey() . $this->helper->getUrlSuffix(),
+                'id' => $itemId,
+                'url' => $this->router . '/' . $item->getUrlKey() . $this->helper->getUrlSuffix(),
                 'images' => $images,
             ]);
         }
@@ -170,7 +165,7 @@ class Sitemap extends \Magento\Sitemap\Model\Sitemap
      */
     public function _initSitemapItems()
     {
-        $storeId               = $this->getStoreId();
+        $storeId = $this->getStoreId();
         $this->_sitemapItems[] = new DataObject(
             [
                 'collection' => $this->getBrandsSiteMapCollection($storeId),

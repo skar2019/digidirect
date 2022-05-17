@@ -23,7 +23,6 @@ namespace Mageplaza\Shopbybrand\Block\Sidebar;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Mageplaza\Shopbybrand\Block\Brand;
-use Mageplaza\Shopbybrand\Model\Brand as ModelBrand;
 
 /**
  * Class BrandList
@@ -43,7 +42,6 @@ class BrandList extends Brand
      * Default title sidebar brand thumbnail
      */
     const TITLE = 'Brand List';
-
     /**
      * Default title sidebar brand thumbnail
      */
@@ -63,12 +61,10 @@ class BrandList extends Brand
     public function getCollection($type = null, $option = null)
     {
         $collection = parent::getCollection($type, $option);
-        $brands     = [];
-        $limit      = $this->helper->getModuleConfig('sidebar/brand_thumbnail/limit_brands') ?: self::LIMIT;
+        $brands = [];
+        $limit = $this->helper->getModuleConfig('sidebar/brand_thumbnail/limit_brands') ?: self::LIMIT;
         foreach ($collection as $brand) {
             if (!$this->helper->isShowBrandsWithoutProducts() && $this->getProductQuantity($brand->getOptionId())) {
-                $brands[] = $brand;
-            } elseif ($this->helper->isShowBrandsWithoutProducts()) {
                 $brands[] = $brand;
             }
             if (count($brands) >= $limit) {
@@ -91,10 +87,9 @@ class BrandList extends Brand
     }
 
     /**
-     * @param ModelBrand $brand
+     * @param $brand
      *
      * @return string
-     * @throws NoSuchEntityException
      */
     public function getBrandImageUrl($brand)
     {

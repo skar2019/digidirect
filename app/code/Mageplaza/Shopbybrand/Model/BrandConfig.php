@@ -21,102 +21,217 @@
 
 namespace Mageplaza\Shopbybrand\Model;
 
-use Magento\Framework\DataObject;
+use Magento\Framework\Api\AbstractSimpleObject;
 use Mageplaza\Shopbybrand\Api\Data\BrandConfigInterface;
 
 /**
  * Class BrandConfig
  * @package Mageplaza\Shopbybrand\Model
  */
-class BrandConfig extends DataObject implements BrandConfigInterface
+class BrandConfig extends AbstractSimpleObject implements BrandConfigInterface
 {
+    const NAME = 'name';
+    const BRANDLIST_STYLE = 'brandlist_style';
+    const DISPLAY = 'display';
+    const BRAND_LOGO_WIDTH = 'brand_logo_width';
+    const BRAND_LOGO_HEIGHT = 'brand_logo_height';
+    const COLOR = 'color';
+    const SHOW_DESCRIPTION = 'show_description';
+    const SHOW_PRODUCT_QTY = 'show_product_qty';
+    const CUSTOM_CSS = 'custom_css';
+    const SHOW_BRAND_INFO = 'show_brand_info';
+    const LOGO_WIDTH_ON_PRODUCT_PAGE = 'logo_width_on_product_page';
+    const LOGO_HEIGHT_ON_PRODUCT_PAGE = 'logo_height_on_product_page';
+
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getGeneral()
+    public function getBrandListName()
     {
-        return $this->getData(self::GENERAL);
+        return $this->_get(self::NAME);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setGeneral($value)
+    public function getBrandListLogoWidth()
     {
-        $this->setData(self::GENERAL, $value);
-
-        return $this;
+        return $this->_get(self::BRAND_LOGO_WIDTH);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getBrandsPageSettings()
+    public function getBrandListLogoHeight()
     {
-        return $this->getData(self::BRANDS_PAGE_SETTINGS);
+        return $this->_get(self::BRAND_LOGO_HEIGHT);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setBrandsPageSettings($value)
+    public function getBrandlistStyle()
     {
-        $this->setData(self::BRANDS_PAGE_SETTINGS, $value);
-
-        return $this;
+        return $this->_get(self::BRANDLIST_STYLE);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getBrandInfo()
+    public function getColor()
     {
-        return $this->getData(self::BRAND_INFO);
+        return $this->_get(self::COLOR);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setBrandInfo($value)
+    public function getCustomCss()
     {
-        $this->setData(self::BRAND_INFO, $value);
-
-        return $this;
+        return $this->_get(self::CUSTOM_CSS);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getSidebar()
+    public function getDisplayOption()
     {
-        return $this->getData(self::SIDEBAR);
+        return $this->_get(self::DISPLAY);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setSidebar($value)
+    public function getLogoHeightOnProductPage()
     {
-        $this->setData(self::SIDEBAR, $value);
-
-        return $this;
+        return $this->_get(self::LOGO_HEIGHT_ON_PRODUCT_PAGE);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getSeo()
+    public function getLogoWidthOnProductPage()
     {
-        return $this->getData(self::BRAND_SEO);
+        return $this->_get(self::LOGO_WIDTH_ON_PRODUCT_PAGE);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setSeo($value)
+    public function getShowBrandInfo()
     {
-        $this->setData(self::BRAND_SEO, $value);
+        return $this->_get(self::SHOW_BRAND_INFO);
+    }
 
-        return $this;
+    /**
+     * @inheritdoc
+     */
+    public function getShowDescription()
+    {
+        return $this->_get(self::SHOW_DESCRIPTION);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getShowProductQty()
+    {
+        return $this->_get(self::SHOW_PRODUCT_QTY);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setBrandListLogoHeight($height)
+    {
+        return $this->setData(self::BRAND_LOGO_HEIGHT, $height);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setBrandListLogoWidth($width)
+    {
+        return $this->setData(self::BRAND_LOGO_WIDTH, $width);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setBrandListName($name)
+    {
+        return $this->setData(self::NAME, $name);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setBrandlistStyle($style)
+    {
+        return $this->setData(self::BRANDLIST_STYLE, $style);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setColor($color)
+    {
+        return $this->setData(self::COLOR, $color);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCustomCss($css)
+    {
+        return $this->setData(self::CUSTOM_CSS, $css);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setDisplayOption($option)
+    {
+        return $this->setData(self::DISPLAY, $option);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setLogoHeightOnProductPage($height)
+    {
+        return $this->setData(self::LOGO_HEIGHT_ON_PRODUCT_PAGE, $height);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setLogoWidthOnProductPage($width)
+    {
+        return $this->setData(self::LOGO_WIDTH_ON_PRODUCT_PAGE, $width);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setShowBrandInfo($value)
+    {
+        return $this->setData(self::SHOW_BRAND_INFO, $value);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setShowDescription($value)
+    {
+        return $this->setData(self::SHOW_DESCRIPTION, $value);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setShowProductQty($value)
+    {
+        return $this->setData(self::SHOW_PRODUCT_QTY, $value);
     }
 }

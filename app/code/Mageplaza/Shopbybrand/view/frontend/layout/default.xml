@@ -25,7 +25,7 @@
         <css src="Mageplaza_Core::css/grid-mageplaza.css"/>
     </head>
     <body>
-        <referenceBlock name="header.links">
+        <referenceBlock name="top.links">
             <block class="Mageplaza\Shopbybrand\Block\Link\Top" name="brand-list-link" before="authorization-link"/>
         </referenceBlock>
         <referenceBlock name="footer_links">
