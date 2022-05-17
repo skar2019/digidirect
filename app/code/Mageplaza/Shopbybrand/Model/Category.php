@@ -28,6 +28,7 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 use Mageplaza\Shopbybrand\Api\Data\BrandCategoryInterface;
+use Mageplaza\Shopbybrand\Helper\Data as Helper;
 use Mageplaza\Shopbybrand\Model\ResourceModel\Category\CollectionFactory;
 
 /**
@@ -48,6 +49,11 @@ class Category extends AbstractModel implements BrandCategoryInterface
     protected $tableBrandCategory;
 
     /**
+     * @type Helper
+     */
+    protected $helper;
+
+    /**
      * Category constructor.
      *
      * @param Context $context
@@ -56,6 +62,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
      * @param CollectionFactory $categoryCollectionFactory
      * @param AbstractResource|null $resource
      * @param AbstractDb|null $resourceCollection
+     * @param Helper $helper
      * @param array $data
      */
     public function __construct(
@@ -65,6 +72,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
         CollectionFactory $categoryCollectionFactory,
         AbstractResource $resource = null,
         AbstractDb $resourceCollection = null,
+        Helper                $helper,
         array $data = []
     ) {
         $this->categoryCollectionFactory = $categoryCollectionFactory;
@@ -72,6 +80,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->tableBrandCategory = $resourceConnection->getTableName('mageplaza_shopbybrand_brand_category');
+        $this->helper = $helper;
     }
 
     /**
@@ -108,6 +117,22 @@ class Category extends AbstractModel implements BrandCategoryInterface
         }
         if ($groupCond !== null) {
             $collection->getSelect()->group($groupCond);
+        }
+        $storeId = $this->helper->getStoreId();
+        if ($storeId) {
+            $connection       = $collection->getConnection();
+            $storeIdCondition = $connection->select()
+                ->from(['ab' => $collection->getTable('mageplaza_brand')], 'MAX(ab.store_id)')
+                ->where('ab.option_id = br.option_id AND ab.store_id IN (0, ' . $storeId . ')');
+            $collection->getSelect()->joinLeft(
+                ['br' => $collection->getTable('mageplaza_brand')],
+                'brand_cat_tbl.option_id = br.option_id
+                AND br.store_id = (' . $storeIdCondition . ')',
+                [
+                    'br.is_display'
+                ]
+            );
+            $collection->getSelect()->where('br.is_display = 1 OR br.is_display is null');
         }
 
         return $collection;

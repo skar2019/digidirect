@@ -16,6 +16,7 @@ namespace Magezon\Builder\Ui\Component\Form\Element;
 
 use \Magento\Framework\App\ObjectManager;
 
+use Magento\Framework\Data\Form\Element\Editor;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\Data\Form;
 use Magento\Framework\Data\FormFactory;
@@ -24,6 +25,18 @@ use Magento\Ui\Component\Wysiwyg\ConfigInterface;
 class Builder extends \Magento\Ui\Component\Form\Element\AbstractElement
 {
     const NAME = 'wysiwyg';
+
+    /**
+     * @var Form
+     * @since 100.1.0
+     */
+    protected $form;
+
+    /**
+     * @var Editor
+     * @since 100.1.0
+     */
+    protected $editor;
 
     /**
      * @param ContextInterface                      $context       
@@ -45,6 +58,7 @@ class Builder extends \Magento\Ui\Component\Form\Element\AbstractElement
         array $data = [],
         array $config = []
     ) {
+        //echo $config['disableMagezonBuilder'];die;
         if (!isset($config['disableMagezonBuilder']) || !$config['disableMagezonBuilder']) {
             $htmlId                        = $context->getNamespace() . '_' . $data['name'];
             $data['config']['htmlId']      = $htmlId;

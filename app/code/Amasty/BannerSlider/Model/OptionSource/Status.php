@@ -8,9 +8,9 @@ use Magento\Framework\Option\ArrayInterface;
 
 class Status implements ArrayInterface
 {
-    const DISABLED = 0;
+    public const DISABLED = 0;
 
-    const ENABLED = 1;
+    public const ENABLED = 1;
 
     public function toOptionArray(): array
     {

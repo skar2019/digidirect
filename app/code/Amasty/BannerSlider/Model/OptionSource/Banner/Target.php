@@ -8,9 +8,9 @@ use Magento\Framework\Option\ArrayInterface;
 
 class Target implements ArrayInterface
 {
-    const BLANK = '_blank';
+    public const BLANK = '_blank';
 
-    const SELF = '_self';
+    public const SELF = '_self';
 
     public function toOptionArray(): array
     {

@@ -1,0 +1,41 @@
+type Query {
+    amGetSliderWidget (
+        id: Int @doc(description: "Widget ID.")
+    ): AmSliderWidget @resolver(class: "Amasty\\BannerSliderGraphql\\Model\\Resolver\\GetSliderWidget"),
+    amGetSlider (
+        id: Int @doc(description: "Slider ID.")
+    ): AmSlider @resolver(class: "Amasty\\BannerSliderGraphql\\Model\\Resolver\\GetSlider")
+}
+
+type AmSliderWidget {
+    slider: AmSlider @doc(description: "Slider Entity."),
+    show_name: Boolean @doc(description: "Show Slider Name."),
+    name: String @doc(description: "Widget Name."),
+    alignment: String @doc(description: "Slider String.")
+}
+
+type AmSlider {
+    id: Int @doc(description: "ID."),
+    name: String @doc(description: "Slider Name."),
+    autoplay: Boolean @doc(description: "Enable Autoplay."),
+    animation_effect: String @doc(description: "Animation Effect."),
+    pause_time: Int @doc(description: "Pause Time Between Transitions, ms."),
+    transition_speed: Int @doc(description: "Slide Transition Speed, ms."),
+    navigation_arrows: Boolean @doc(description: "Navigation Arrows."),
+    arrows_style: String @doc(description: "Arrows Style."),
+    navigation_bullets: Boolean @doc(description: "Navigation Bullets."),
+    bullets_style: String @doc(description: "Bullets Style."),
+    banner_width: Int @doc(description: "Width, px."),
+    banner_height: Int! @doc(description: "Height, px"),
+    banners: [AmBanner] @doc(description: "Banner Items.")
+}
+
+type AmBanner {
+    id: Int @doc(description: "ID."),
+    name: String @doc(description: "Name."),
+    image_path: String @doc(description: "Image Path."),
+    image_alt: String! @doc(description: "Image Alt."),
+    target_url: String @doc(description: "Target Url."),
+    target_type: String @doc(description: "Target Type."),
+    hover_text: String @doc(description: "Hover Text.")
+}

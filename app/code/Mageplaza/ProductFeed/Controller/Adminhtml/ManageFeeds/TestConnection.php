@@ -65,11 +65,12 @@ class TestConnection extends AbstractManageFeeds
     public function execute()
     {
         $protocol = $this->getRequest()->getParam('protocol');
-        $host = $this->getRequest()->getParam('host');
-        $passive = $this->getRequest()->getParam('passive');
-        $user = $this->getRequest()->getParam('user');
-        $pass = $this->getRequest()->getParam('pass');
-        $result = $this->helperData->testConnection($protocol, $host, $passive, $user, $pass);
+        $host     = $this->getRequest()->getParam('host');
+        $passive  = $this->getRequest()->getParam('passive');
+        $user     = $this->getRequest()->getParam('user');
+        $pass     = $this->getRequest()->getParam('pass');
+        $path     = $this->getRequest()->getParam('path');
+        $result   = $this->helperData->testConnection($protocol, $host, $passive, $user, $pass, $path);
 
         return $this->getResponse()->representJson($result);
     }

@@ -15,7 +15,7 @@ use Magento\Framework\Escaper;
 
 class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider
 {
-    const BANNER_FIELD = 'banners';
+    public const BANNER_FIELD = 'banners';
 
     /**
      * @var array

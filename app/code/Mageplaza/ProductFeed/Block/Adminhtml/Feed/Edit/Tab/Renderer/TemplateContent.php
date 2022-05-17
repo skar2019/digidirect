@@ -98,7 +98,7 @@ class TemplateContent extends Element
     /**
      * @var array
      */
-    public $stockAttr = ['is_in_stock', 'qty', 'quantity_and_stock_status', 'quantity_and_stock_status_qty'];
+    public $stockAttr = ['mp_is_in_stock', 'qty', 'quantity_and_stock_status', 'quantity_and_stock_status_qty'];
 
     /**
      * @var array
@@ -155,10 +155,10 @@ class TemplateContent extends Element
         DefaultTemplate $defaultTemplate,
         array $data = []
     ) {
-        $this->registry = $registry;
-        $this->helperData = $helperData;
-        $this->liquidFilters = $liquidFilters;
-        $this->eavAttribute = $eavAttribute;
+        $this->registry        = $registry;
+        $this->helperData      = $helperData;
+        $this->liquidFilters   = $liquidFilters;
+        $this->eavAttribute    = $eavAttribute;
         $this->defaultTemplate = $defaultTemplate;
 
         parent::__construct($context, $data);
@@ -169,7 +169,7 @@ class TemplateContent extends Element
      */
     public function getFieldsMap()
     {
-        $feed = $this->registry->registry('mageplaza_productfeed_feed');
+        $feed      = $this->registry->registry('mageplaza_productfeed_feed');
         $fieldsMap = $feed->getFieldsMap();
         if (!$fieldsMap) {
             return null;
@@ -187,15 +187,15 @@ class TemplateContent extends Element
      */
     public function getEavAttrCollection()
     {
-        $collection = $this->eavAttribute->getCollection()
+        $collection     = $this->eavAttribute->getCollection()
             ->addFieldToFilter(AttributeSet::KEY_ENTITY_TYPE_ID, 4);
         $attrCollection = [
-            'primary' => ['label' => __('General Product Attributes'), 'values' => []],
+            'primary'   => ['label' => __('General Product Attributes'), 'values' => []],
             'price_tax' => ['label' => __('Price Attributes'), 'values' => []],
-            'cat' => ['label' => __('Category Attributes'), 'values' => []],
-            'image' => ['label' => __('Image Attributes'), 'values' => []],
-            'stock' => ['label' => __('Stock Attributes'), 'values' => []],
-            'other' => ['label' => __('Other Attributes'), 'values' => []],
+            'cat'       => ['label' => __('Category Attributes'), 'values' => []],
+            'image'     => ['label' => __('Image Attributes'), 'values' => []],
+            'stock'     => ['label' => __('Stock Attributes'), 'values' => []],
+            'other'     => ['label' => __('Other Attributes'), 'values' => []],
         ];
 
         /** @var \Magento\Eav\Model\Entity\Attribute $item */
@@ -222,39 +222,39 @@ class TemplateContent extends Element
             }
         }
 
-        $productLink = new DataObject([
-            'attribute_id' => 'mp_pf_link',
-            'attribute_code' => 'link',
+        $productLink                           = new DataObject([
+            'attribute_id'           => 'mp_pf_link',
+            'attribute_code'         => 'link',
             'default_frontend_label' => __('Product Link'),
         ]);
-        $finalPrice = new DataObject([
-            'attribute_id' => 'mp_pf_final_price',
-            'attribute_code' => 'final_price',
+        $finalPrice                            = new DataObject([
+            'attribute_id'           => 'mp_pf_final_price',
+            'attribute_code'         => 'final_price',
             'default_frontend_label' => __('Final Price'),
         ]);
-        $imageLink = new DataObject([
-            'attribute_id' => 'mp_pf_image_link',
-            'attribute_code' => 'image_link',
+        $imageLink                             = new DataObject([
+            'attribute_id'           => 'mp_pf_image_link',
+            'attribute_code'         => 'image_link',
             'default_frontend_label' => __('Product Image Link'),
         ]);
-        $categoryPath = new DataObject([
-            'attribute_id' => 'mp_pf_category_path',
-            'attribute_code' => 'category_path',
+        $categoryPath                          = new DataObject([
+            'attribute_id'           => 'mp_pf_category_path',
+            'attribute_code'         => 'category_path',
             'default_frontend_label' => __('Product Category Path'),
         ]);
-        $productId = new DataObject([
-            'attribute_id' => 'mp_pf_product_id',
-            'attribute_code' => 'entity_id',
+        $productId                             = new DataObject([
+            'attribute_id'           => 'mp_pf_product_id',
+            'attribute_code'         => 'entity_id',
             'default_frontend_label' => __('Product Id'),
         ]);
-        $productQty = new DataObject([
-            'attribute_id' => 'mp_pf_product_id',
-            'attribute_code' => 'qty',
+        $productQty                            = new DataObject([
+            'attribute_id'           => 'mp_pf_product_id',
+            'attribute_code'         => 'qty',
             'default_frontend_label' => __('Product Qty'),
         ]);
-        $mapping = new DataObject([
-            'attribute_id' => 'mp_pf_product_mapping',
-            'attribute_code' => 'mapping',
+        $mapping                               = new DataObject([
+            'attribute_id'           => 'mp_pf_product_mapping',
+            'attribute_code'         => 'mapping',
             'default_frontend_label' => __('Product Mapping'),
         ]);
         $attrCollection['primary']['values'][] = $productLink;
@@ -262,8 +262,8 @@ class TemplateContent extends Element
         $attrCollection['primary']['values'][] = $categoryPath;
         $attrCollection['primary']['values'][] = $productId;
         $attrCollection['primary']['values'][] = $mapping;
-        $attrCollection['other']['values'][] = $finalPrice;
-        $attrCollection['stock']['values'][] = $productQty;
+        $attrCollection['other']['values'][]   = $finalPrice;
+        $attrCollection['stock']['values'][]   = $productQty;
 
         return $attrCollection;
     }

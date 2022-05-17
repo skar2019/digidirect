@@ -61,6 +61,139 @@ class UpgradeSchema implements UpgradeSchemaInterface
             }
         }
 
+        if (version_compare($context->getVersion(), '1.0.3', '<')) {
+            if ($installer->tableExists('mageplaza_productfeed_feed')) {
+                $connection->addColumn(
+                    $installer->getTable('mageplaza_productfeed_feed'),
+                    'private_key_path',
+                    [
+                        'type'    => Table::TYPE_TEXT,
+                        'comment' => 'Private Key File',
+                        'after'   => 'password'
+                    ]
+                );
+
+                $connection->addColumn(
+                    $installer->getTable('mageplaza_productfeed_feed'),
+                    'mapping',
+                    [
+                        'type'    => Table::TYPE_TEXT,
+                        'comment' => 'Mapping',
+                        'after'   => 'private_key_path'
+                    ]
+                );
+            }
+        }
+
+        if (version_compare($context->getVersion(), '1.0.5', '<')) {
+            if ($installer->tableExists('mageplaza_productfeed_feed')) {
+                $connection->addColumn(
+                    $installer->getTable('mageplaza_productfeed_feed'),
+                    'preview_limit',
+                    [
+                        'type'     => Table::TYPE_TEXT,
+                        'unsigned' => true,
+                        'comment'  => 'Preview Limit',
+                        'after'    => 'conditions_serialized'
+                    ]
+                );
+                $connection->addColumn(
+                    $installer->getTable('mageplaza_productfeed_feed'),
+                    'click',
+                    [
+                        'type'     => Table::TYPE_INTEGER,
+                        'unsigned' => true,
+                        'default'  => 0,
+                        'nullable' => false,
+                        'comment'  => 'Click',
+                        'after'    => 'campaign_content'
+                    ]
+                );
+                $connection->addColumn(
+                    $installer->getTable('mageplaza_productfeed_feed'),
+                    'impression',
+                    [
+                        'type'     => Table::TYPE_INTEGER,
+                        'unsigned' => true,
+                        'nullable' => false,
+                        'default'  => 0,
+                        'comment'  => 'Impression',
+                        'after'    => 'click'
+                    ]
+                );
+                $connection->addColumn(
+                    $installer->getTable('mageplaza_productfeed_feed'),
+                    'ctr',
+                    [
+                        'type'     => Table::TYPE_INTEGER,
+                        'unsigned' => true,
+                        'nullable' => false,
+                        'default'  => 0,
+                        'comment'  => 'CTR',
+                        'after'    => 'impression'
+                    ]
+                );
+            }
+
+            if (!$installer->tableExists('mageplaza_productfeed_reports')) {
+                $table = $installer->getConnection()
+                    ->newTable($installer->getTable('mageplaza_productfeed_reports'))
+                    ->addColumn('report_id', Table::TYPE_INTEGER, null, [
+                        'identity' => true,
+                        'nullable' => false,
+                        'primary'  => true,
+                        'unsigned' => true
+                    ], 'Report Id')
+                    ->addColumn('feed_id', Table::TYPE_INTEGER, null, [
+                        'nullable' => false,
+                        'unsigned' => true
+                    ], 'Feed Id')
+                    ->addColumn('order_id', Table::TYPE_INTEGER, null, [
+                        'nullable' => false,
+                        'unsigned' => true
+                    ], 'Order ID')
+                    ->addColumn('ordered_quantity', Table::TYPE_DECIMAL, '12,4', [], 'Ordered Quantity')
+                    ->addColumn('revenue', Table::TYPE_DECIMAL, '20,4', [], 'Revenue')
+                    ->addColumn('refunded', Table::TYPE_DECIMAL, '20,4', [], 'Refunded')
+                    ->addColumn('discount', Table::TYPE_DECIMAL, '20,4', [], 'Discount')
+                    ->addColumn('tax', Table::TYPE_DECIMAL, '20,4', [], 'Tax')
+                    ->addColumn(
+                        'created_at',
+                        Table::TYPE_TIMESTAMP,
+                        null,
+                        ['nullable' => false, 'default' => Table::TIMESTAMP_INIT],
+                        'Created At'
+                    )
+                    ->addForeignKey(
+                        $installer->getFkName(
+                            'mageplaza_productfeed_reports',
+                            'feed_id',
+                            'mageplaza_productfeed_feed',
+                            'feed_id'
+                        ),
+                        'feed_id',
+                        $installer->getTable('mageplaza_productfeed_feed'),
+                        'feed_id',
+                        Table::ACTION_CASCADE
+                    )
+                    ->addForeignKey(
+                        $installer->getFkName(
+                            'mageplaza_productfeed_reports',
+                            'order_id',
+                            'sales_order',
+                            'entity_id'
+                        ),
+                        'order_id',
+                        $installer->getTable('sales_order'),
+                        'entity_id',
+                        Table::ACTION_CASCADE
+                    )
+                    ->setComment('ProductFeed Reports');
+
+                $connection->createTable($table);
+            }
+        }
+
         $setup->endSetup();
     }
 }

@@ -2,13 +2,13 @@
     "name": "amasty\/module-banner-slider",
     "description": "Banner Slider for Magento 2 by Amasty",
     "require": {
-        "php": "^7.1.0",
+        "php": ">=7.3.0",
         "mobiledetect\/mobiledetectlib": "^2.8",
-        "amasty\/base": ">=1.12.14",
+        "amasty\/base": ">=1.13.2",
         "magento\/framework": ">=102.0.0"
     },
     "type": "magento2-module",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "license": [
         "Commercial"
     ],

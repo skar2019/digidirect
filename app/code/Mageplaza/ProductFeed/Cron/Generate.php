@@ -86,12 +86,12 @@ class Generate
         CollectionFactory $collectionFactory,
         FeedFactory $feedFactory
     ) {
-        $this->logger = $logger;
-        $this->helper = $helper;
-        $this->timezone = $timezone;
+        $this->logger            = $logger;
+        $this->helper            = $helper;
+        $this->timezone          = $timezone;
         $this->collectionFactory = $collectionFactory;
-        $this->dateTime = $dateTime;
-        $this->feedFactory = $feedFactory;
+        $this->dateTime          = $dateTime;
+        $this->feedFactory       = $feedFactory;
     }
 
     /**
@@ -115,10 +115,10 @@ class Generate
     public function generate($feed)
     {
         $cronRunTime = $feed->getCronRunTime();
-        $lastCron = $feed->getLastCron();
-        $frequency = $feed->getFrequency();
-        $dayOfWeek = $feed->getCronRunDayOfWeek();
-        $dayOfMonth = $feed->getCronRunDayOfMonth();
+        $lastCron    = $feed->getLastCron();
+        $frequency   = $feed->getFrequency();
+        $dayOfWeek   = $feed->getCronRunDayOfWeek();
+        $dayOfMonth  = $feed->getCronRunDayOfMonth();
         if ($this->isGenerate($cronRunTime, $lastCron, $frequency, $dayOfWeek, $dayOfMonth)) {
             try {
                 $this->helper->generateAndDeliveryFeed($feed, 0, 1);
@@ -130,21 +130,21 @@ class Generate
     }
 
     /**
-     * @param $cronRunTime
-     * @param $lastCron
-     * @param $frequency
-     * @param $dayOfWeek
-     * @param $dayOfMonth
+     * @param string $cronRunTime
+     * @param string $lastCron
+     * @param string $frequency
+     * @param string $dayOfWeek
+     * @param string $dayOfMonth
      *
      * @return bool
      */
     public function isGenerate($cronRunTime, $lastCron, $frequency, $dayOfWeek, $dayOfMonth)
     {
-        $lastCronTime = strtotime($this->dateTime->date('Y-m-d H:i:s', $lastCron));
-        $time = explode(',', $cronRunTime);
+        $lastCronTime     = strtotime($this->dateTime->date('Y-m-d H:i:s', $lastCron));
+        $time             = explode(',', $cronRunTime);
         $cronRunTimeStamp = $this->timezone->date()
             ->setTimezone(new DateTimeZone('UTC'))->setTime($time[0], $time[1])->getTimestamp();
-        $time = 86400;
+        $time             = 86400;
 
         switch ($frequency) {
             case Frequency::CRON_DAILY:
