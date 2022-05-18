@@ -55,7 +55,7 @@ class AddBrandProductStructuredData implements ObserverInterface
         $productStructuredData = $objectStructuredData->getMpdata();
         $brandText = $this->_dataHelper->getBrandTextFromProduct();
         if ($brandText) {
-            $productStructuredData['brand']['@type'] = 'Brand';
+            $productStructuredData['brand']['@type'] = 'Thing';
             $productStructuredData['brand']['name'] = $brandText;
             $objectStructuredData->setMpdata($productStructuredData);
         }

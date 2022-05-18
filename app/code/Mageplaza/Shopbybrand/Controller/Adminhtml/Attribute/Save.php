@@ -101,13 +101,7 @@ class Save extends Action
         $data = $this->getRequest()->getPostValue();
         $this->_uploadImage($data, $result);
         $defaultStore = Store::DEFAULT_STORE_ID;
-        $id = $this->getRequest()->getParam('id');
-        if (isset($data['short_description' . '_' . $id])) {
-            $data['short_description']= $data['short_description' . '_' . $id];
-        }
-        if (isset($data['description' . '_' . $id])) {
-            $data['description']= $data['description' . '_' . $id];
-        }
+
         if ($result['success']) {
             $data['url_key'] = isset($data['url_key']) ? $this->_brandHelper->formatUrlKey($data['url_key']) : '';
             try {

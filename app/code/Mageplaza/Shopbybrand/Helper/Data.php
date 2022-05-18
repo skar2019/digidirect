@@ -22,8 +22,6 @@
 namespace Mageplaza\Shopbybrand\Helper;
 
 use Exception;
-use DateTime;
-use DateTimeZone;
 use Magento\Catalog\Helper\Image;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator;
@@ -34,7 +32,6 @@ use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Filter\FilterManager;
 use Magento\Framework\Filter\TranslitUrl;
-use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Registry;
 use Magento\Framework\UrlInterface;
@@ -42,16 +39,16 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Swatches\Helper\Media;
 use Magento\Swatches\Model\Swatch;
-use Magento\Framework\Locale\FormatInterface;
 use Mageplaza\Core\Helper\AbstractData;
 use Mageplaza\Shopbybrand\Model\Brand;
 use Mageplaza\Shopbybrand\Model\BrandFactory;
 use Mageplaza\Shopbybrand\Model\Category;
 use Mageplaza\Shopbybrand\Model\CategoryFactory;
+use Mageplaza\Shopbybrand\Model\ResourceModel\Category\Collection as BrandCategoryCollection;
 
 /**
  * Class Data
- * @package Mageplaza\Shopbybrand\Helper
+ * @package Mageplaza\Osc\Helper
  */
 class Data extends AbstractData
 {
@@ -94,11 +91,6 @@ class Data extends AbstractData
     const BRAND_FIRST_CHAR = 'char';
 
     /**
-     * @var FormatInterface
-     */
-    protected $localeFormat;
-
-    /**
      * @var FilterManager
      */
     protected $_filter;
@@ -138,9 +130,6 @@ class Data extends AbstractData
      */
     protected $_attribute;
 
-    /**
-     * @var
-     */
     protected $brandCollectionCache;
 
     /**
@@ -149,6 +138,8 @@ class Data extends AbstractData
     protected $filterProvider;
 
     /**
+     * Data constructor.
+     *
      * @param Context $context
      * @param StoreManagerInterface $storeManager
      * @param ObjectManagerInterface $objectManager
@@ -156,7 +147,6 @@ class Data extends AbstractData
      * @param FilterManager $filter
      * @param CategoryFactory $categoryFactory
      * @param BrandFactory $brandFactory
-     * @param FormatInterface $localeFormat
      * @param Registry $registry
      * @param Attribute $attribute
      * @param FilterProvider $filterProvider
@@ -169,25 +159,23 @@ class Data extends AbstractData
         FilterManager $filter,
         CategoryFactory $categoryFactory,
         BrandFactory $brandFactory,
-        FormatInterface $localeFormat,
         Registry $registry,
         Attribute $attribute,
         FilterProvider $filterProvider
     ) {
-        $this->_filter         = $filter;
-        $this->translitUrl     = $translitUrl;
+        $this->_filter = $filter;
+        $this->translitUrl = $translitUrl;
         $this->categoryFactory = $categoryFactory;
-        $this->_brandFactory   = $brandFactory;
-        $this->localeFormat    = $localeFormat;
-        $this->registry        = $registry;
-        $this->_attribute      = $attribute;
-        $this->filterProvider  = $filterProvider;
+        $this->_brandFactory = $brandFactory;
+        $this->registry = $registry;
+        $this->_attribute = $attribute;
+        $this->filterProvider = $filterProvider;
 
         parent::__construct($context, $objectManager, $storeManager);
     }
 
     /**
-     * @param int $position
+     * @param $position
      *
      * @return bool
      */
@@ -220,7 +208,7 @@ class Data extends AbstractData
     public function getBrandUrl($brand = null)
     {
         $baseUrl = $this->storeManager->getStore()->getBaseUrl();
-        $key     = ($brand === null) ? '' : '/' . $this->processKey($brand);
+        $key = ($brand === null) ? '' : '/' . $this->processKey($brand);
 
         return $baseUrl . $this->getRoute() . $key . $this->getUrlSuffix();
     }
@@ -253,10 +241,9 @@ class Data extends AbstractData
     }
 
     /**
-     * @param Brand brand
+     * @param Brand $brand
      *
      * @return string
-     * @throws NoSuchEntityException
      */
     public function getBrandImageUrl($brand)
     {
@@ -318,16 +305,6 @@ class Data extends AbstractData
     public function getAttributeCode($store = null)
     {
         return $this->getConfigGeneral('attribute', $store);
-    }
-
-    /**
-     * @param null $store
-     *
-     * @return array|mixed
-     */
-    public function getShowBrandInfoInAdmin($store = null)
-    {
-        return $this->getConfigGeneral('show_brand_info_in_admin', $store);
     }
 
     /**
@@ -462,8 +439,8 @@ class Data extends AbstractData
      */
     public function getAllBrandsAttributeCode()
     {
-        $stores           = $this->storeManager->getStores();
-        $attributeCodes   = [];
+        $stores = $this->storeManager->getStores();
+        $attributeCodes = [];
         $attributeCodes[] = $this->getAttributeCode();
         foreach ($stores as $store) {
             $attributeCodes[] = $this->getAttributeCode($store->getId());
@@ -476,8 +453,8 @@ class Data extends AbstractData
     /**
      * generate url_key for brand category
      *
-     * @param string $name
-     * @param int $count
+     * @param $name
+     * @param $count
      *
      * @return string
      */
@@ -485,7 +462,7 @@ class Data extends AbstractData
     {
         $name = $this->removeUnicode($name);
         $text = $this->translitUrl->filter($name);
-        if ((int) $count === 0) {
+        if ($count == 0) {
             $count = '';
         }
         if (empty($text)) {
@@ -498,7 +475,7 @@ class Data extends AbstractData
     /**
      * replace vietnamese characters to english characters
      *
-     * @param string $str
+     * @param $str
      *
      * @return mixed|string
      */
@@ -524,9 +501,9 @@ class Data extends AbstractData
      */
     public function getCatUrl($cat = null)
     {
-        $baseUrl    = $this->storeManager->getStore()->getBaseUrl();
+        $baseUrl = $this->storeManager->getStore()->getBaseUrl();
         $brandRoute = $this->getRoute();
-        $key        = ($cat === null) ? '' : '/' . $this->processKey($cat);
+        $key = ($cat === null) ? '' : '/' . $this->processKey($cat);
 
         return $baseUrl . $brandRoute . '/' . self::CATEGORY . $key . $this->getUrlSuffix();
     }
@@ -546,8 +523,8 @@ class Data extends AbstractData
     }
 
     /**
-     * @param string $routePath
-     * @param int $routeSize
+     * @param $routePath
+     * @param $routeSize
      *
      * @return bool
      */
@@ -557,7 +534,7 @@ class Data extends AbstractData
             return false;
         }
 
-        $urlSuffix  = $this->getUrlSuffix();
+        $urlSuffix = $this->getUrlSuffix();
         $brandRoute = $this->getRoute();
         if ($urlSuffix) {
             $brandSuffix = strpos($brandRoute, $urlSuffix);
@@ -570,7 +547,7 @@ class Data extends AbstractData
     }
 
     /**
-     * @param string $urlKey
+     * @param $urlKey
      *
      * @return mixed|null
      */
@@ -637,7 +614,7 @@ class Data extends AbstractData
     /**
      * Get condition for sql
      *
-     * @param string $char
+     * @param $char
      *
      * @return string
      */
@@ -686,7 +663,7 @@ class Data extends AbstractData
     }
 
     /**
-     * @return AbstractCollection
+     * @return BrandCategoryCollection
      */
     public function getCategoryList()
     {
@@ -702,7 +679,7 @@ class Data extends AbstractData
     }
 
     /**
-     * @param Brand $brand
+     * @param $brand
      *
      * @return string
      */
@@ -719,19 +696,19 @@ class Data extends AbstractData
     }
 
     /**
-     * @param string $optionId
+     * @param $optionId
      *
      * @return string
      */
     public function getCatFilterClass($optionId)
     {
         $catName = [];
-        $sql     = 'brand_cat_tbl.option_id IN (' . $optionId . ')';
-        $group   = 'main_table.cat_id';
+        $sql = 'brand_cat_tbl.option_id IN (' . $optionId . ')';
+        $group = 'main_table.cat_id';
 
         $collection = $this->categoryFactory->create()->getCategoryCollection($sql, $group);
         foreach ($collection as $item) {
-            $str       = str_replace([' ', '*', '/', '\\'], '_', $item->getName());
+            $str = str_replace([' ', '*', '/', '\\'], '_', $item->getName());
             $catName[] = 'cat' . $str;
         }
 
@@ -805,7 +782,6 @@ class Data extends AbstractData
 
     /**
      * Get current product
-     *
      * @return mixed
      */
     public function getCurrentProduct()
@@ -819,7 +795,6 @@ class Data extends AbstractData
 
     /**
      * Get current brand
-     *
      * @return mixed
      */
     public function getBrand()
@@ -830,7 +805,7 @@ class Data extends AbstractData
     /**
      * convert strings in an array to uppercase
      *
-     * @param array $array
+     * @param $array
      *
      * @return array|null
      */
@@ -846,93 +821,12 @@ class Data extends AbstractData
     /**
      * Get attribute id
      *
-     * @param string $code
+     * @param $code
      *
      * @return int
      */
     public function getAttributeId($code)
     {
         return $this->_attribute->getIdByCode(Product::ENTITY, $code);
-    }
-
-    /**
-     * @param null $format
-     *
-     * @return array
-     */
-    public function getDateRange($format = null)
-    {
-        try {
-            if ($dateRange = $this->_request->getParam('dateRange')) {
-                $startDate = $format ? $this->formatDate($format, $dateRange[0]) : $dateRange[0];
-                $endDate   = $format ? $this->formatDate($format, $dateRange[1]) : $dateRange[1];
-            } else {
-                list($startDate, $endDate) = $this->getDateTimeRangeFormat('-1 month', 'now', null, $format);
-            }
-        } catch (Exception $e) {
-            $this->_logger->critical($e);
-
-            return [null, null];
-        }
-
-        return [$startDate, $endDate];
-    }
-
-    /**
-     * @param null $startDate
-     * @param null $endDate
-     * @param null $isConvertToLocalTime
-     *
-     * @param null $format
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getDateTimeRangeFormat($startDate, $endDate = null, $isConvertToLocalTime = null, $format = null)
-    {
-        $endDate   = (new DateTime($endDate ?: $startDate, new DateTimeZone($this->getTimezone())))->setTime(
-            23,
-            59,
-            59
-        );
-        $startDate = (new DateTime($startDate, new DateTimeZone($this->getTimezone())))->setTime(00, 00, 00);
-
-        if ($isConvertToLocalTime) {
-            $startDate->setTimezone(new DateTimeZone('UTC'));
-            $endDate->setTimezone(new DateTimeZone('UTC'));
-        }
-
-        return [$startDate->format($format ?: 'Y-m-d H:i:s'), $endDate->format($format ?: 'Y-m-d H:i:s')];
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getTimezone()
-    {
-        return $this->getConfigValue('general/locale/timezone');
-    }
-
-    /**
-     * @param string $format
-     * @param string $date
-     *
-     * @return string
-     * @throws Exception
-     */
-    public function formatDate($format, $date)
-    {
-        return (new \DateTime($date))->format($format);
-    }
-
-    /**
-     * @return string
-     * @throws NoSuchEntityException
-     */
-    public function getPriceFormat()
-    {
-        return self::jsonEncode(
-            $this->localeFormat->getPriceFormat(null, $this->storeManager->getStore()->getBaseCurrencyCode())
-        );
     }
 }

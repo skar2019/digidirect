@@ -24,6 +24,7 @@ namespace Mageplaza\Shopbybrand\Block\Product;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Mageplaza\Shopbybrand\Helper\Data as Helper;
+use Mageplaza\Shopbybrand\Model\Config\Source\ShowBrandInfo;
 
 /**
  * Class Logo
@@ -52,19 +53,23 @@ class Logo extends Template
     }
 
     /**
+     * @return mixed|null
+     */
+    public function getBrandObject()
+    {
+        if (!$this->helper->isEnabled() || in_array(ShowBrandInfo::NOT_SHOW, $this->showBrandInfo(), true)) {
+            return null;
+        }
+
+        return $this->helper->getBrandObject();
+    }
+
+    /**
      * @return Helper
      */
     public function helper()
     {
         return $this->helper;
-    }
-
-    /**
-     * @return false|string[]
-     */
-    public function showBrandInfoInListing()
-    {
-        return explode(',', $this->helper->getConfigGeneral('show_brand_info_in_listing'));
     }
 
     /**

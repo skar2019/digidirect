@@ -60,9 +60,9 @@ class AbstractBrand extends Template implements BlockInterface
     {
         $cssFiles = ['Mageplaza_Core::css/owl.carousel.css', 'Mageplaza_Core::css/owl.theme.css'];
         $template = '<link rel="stylesheet" type="text/css" media="all" href="%s">' . "\n";
-        $result   = '';
+        $result = '';
         foreach ($cssFiles as $file) {
-            $asset  = $this->_assetRepo->createAsset($file);
+            $asset = $this->_assetRepo->createAsset($file);
             $result .= sprintf($template, $asset->getUrl());
         }
 
