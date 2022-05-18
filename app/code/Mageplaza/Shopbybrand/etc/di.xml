@@ -26,6 +26,11 @@
     <preference for="Mageplaza\Shopbybrand\Api\Data\BrandInterface" type="Mageplaza\Shopbybrand\Model\Brand" />
     <preference for="Mageplaza\Shopbybrand\Api\Data\BrandCategoryInterface" type="Mageplaza\Shopbybrand\Model\Category" />
     <preference for="Mageplaza\Shopbybrand\Api\Data\BrandConfigInterface" type="Mageplaza\Shopbybrand\Model\BrandConfig" />
+    <preference for="Mageplaza\Shopbybrand\Api\Data\Config\GeneralInterface" type="Mageplaza\Shopbybrand\Model\Config\General" />
+    <preference for="Mageplaza\Shopbybrand\Api\Data\Config\BrandsPageSettingsInterface" type="Mageplaza\Shopbybrand\Model\Config\BrandsPageSettings" />
+    <preference for="Mageplaza\Shopbybrand\Api\Data\Config\BrandInfoInterface" type="Mageplaza\Shopbybrand\Model\Config\BrandInfo" />
+    <preference for="Mageplaza\Shopbybrand\Api\Data\Config\SidebarInterface" type="Mageplaza\Shopbybrand\Model\Config\Sidebar" />
+    <preference for="Mageplaza\Shopbybrand\Api\Data\Config\SeoInterface" type="Mageplaza\Shopbybrand\Model\Config\Seo" />
     <type name="Magento\Catalog\Model\Layer\FilterList">
         <plugin name="mp_brand_filterlist" type="Mageplaza\Shopbybrand\Plugin\Model\FilterList" sortOrder="100"/>
     </type>
@@ -49,5 +54,12 @@
     </type>
     <type name="Magento\CatalogSearch\Model\Adapter\Aggregation\Checker\Query\CatalogView">
         <plugin name="is_applicable" type="Mageplaza\Shopbybrand\Plugin\Model\Adapter\CatalogView" sortOrder="100"/>
+    </type>
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="mp_brand_reports_reindex" xsi:type="object">Mageplaza\Shopbybrand\Console\Command\Reindex</item>
+            </argument>
+        </arguments>
     </type>
 </config>
