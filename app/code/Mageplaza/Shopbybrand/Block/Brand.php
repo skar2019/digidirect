@@ -490,7 +490,7 @@ class Brand extends Template
         foreach ($this->_char as $item) {
             $alphaBet[] = [
                 'char'   => $item,
-                'active' => in_array($item, $activeChars, true)
+                'active' => in_array($item, $activeChars)
             ];
         }
 
