@@ -27,6 +27,7 @@ use Magento\Backend\Model\View\Result\Page;
 use Magento\Catalog\Model\Product\Attribute\Repository;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Json\Helper\Data;
 use Magento\Framework\View\Result\PageFactory;
@@ -92,12 +93,12 @@ class Update extends Action
     ) {
         parent::__construct($context);
 
-        $this->_jsonHelper                 = $jsonHelper;
-        $this->_brandHelper                = $brandHelper;
+        $this->_jsonHelper = $jsonHelper;
+        $this->_brandHelper = $brandHelper;
         $this->_productAttributeRepository = $productRepository;
-        $this->_brandFactory               = $brandFactory;
-        $this->_resultPageFactory          = $resultPageFactory;
-        $this->_storeManager               = $storeManager;
+        $this->_brandFactory = $brandFactory;
+        $this->_resultPageFactory = $resultPageFactory;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -111,24 +112,21 @@ class Update extends Action
         $attributeCodes = [];
         $result         = ['success' => false];
         $stores         = $this->_storeManager->getStores();
-        $optionId       = (int) $this->getRequest()->getParam('id');
-        $scopeId        = (int) $this->getRequest()->getParam('store', 0);
+        $optionId       = (int)$this->getRequest()->getParam('id');
 
         foreach ($stores as $store) {
-            $attributeCodes[$store->getData('store_id')] = $this->_brandHelper->getAttributeCode(
-                $store->getData('store_id')
-            );
+            $attributeCodes[$store->getData('store_id')] = $this->_brandHelper->getAttributeCode($store->getData('store_id'));
         }
 
-        if (!isset($attributeCodes[0])) {
+        if(!isset($attributeCodes[0])){
             $attributeCodes[0] = $this->_brandHelper->getAttributeCode(0);
         }
 
         foreach ($attributeCodes as $key => $attributeCode) {
-            $options = $this->_productAttributeRepository->get($attributeCode)->getOptions();
+            $options  = $this->_productAttributeRepository->get($attributeCode)->getOptions();
 
             foreach ($options as $option) {
-                if ((float) $option->getValue() === (float) $optionId && $scopeId == $key) {
+                if ((float)$option->getValue() === (float)$optionId) {
                     $result      = ['success' => true];
                     $optionStore = $key;
                     $check       = 1;
@@ -155,7 +153,7 @@ class Update extends Action
             /** @var Page $resultPage */
             $resultPage = $this->_resultPageFactory->create();
 
-            $result['html']     = $resultPage->getLayout()->getBlock('brand.attribute.html')
+            $result['html'] = $resultPage->getLayout()->getBlock('brand.attribute.html')
                 ->setOptionData($brand->getData())
                 ->toHtml();
             $result['switcher'] = $resultPage->getLayout()->getBlock('brand.store.switcher')

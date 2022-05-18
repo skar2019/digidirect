@@ -22,74 +22,180 @@
 namespace Mageplaza\Shopbybrand\Api\Data;
 
 /**
- * Interface BrandConfigInterface
+ * Interface BrandPageConfigInterface
  * @package Mageplaza\Shopbybrand\Api\Data
  */
 interface BrandConfigInterface
 {
-    const GENERAL              = 'general';
-    const BRANDS_PAGE_SETTINGS = 'brandpage';
-    const BRAND_INFO           = 'brandview';
-    const SIDEBAR              = 'sidebar';
-    const BRAND_SEO            = 'brand_seo';
-
     /**
-     * @return \Mageplaza\Shopbybrand\Api\Data\Config\GeneralInterface
+     * Get brand list name
+     *
+     * @return string
      */
-    public function getGeneral();
+    public function getBrandListName();
 
     /**
-     * @param \Mageplaza\Shopbybrand\Api\Data\Config\GeneralInterface $value
+     * Set brand list name
+     *
+     * @param string $name
      *
      * @return $this
      */
-    public function setGeneral($value);
+    public function setBrandListName($name);
 
     /**
-     * @return \Mageplaza\Shopbybrand\Api\Data\Config\BrandsPageSettingsInterface
+     * Get brand list style
+     *
+     * @return int
      */
-    public function getBrandsPageSettings();
+    public function getBrandlistStyle();
 
     /**
-     * @param \Mageplaza\Shopbybrand\Api\Data\Config\BrandsPageSettingsInterface $value
+     * Set brand list style
+     *
+     * @param int $style
      *
      * @return $this
      */
-    public function setBrandsPageSettings($value);
+    public function setBrandlistStyle($style);
 
     /**
-     * @return \Mageplaza\Shopbybrand\Api\Data\Config\BrandInfoInterface
+     * Get brand list display
+     *
+     * @return int
      */
-    public function getBrandInfo();
+    public function getDisplayOption();
 
     /**
-     * @param \Mageplaza\Shopbybrand\Api\Data\Config\BrandInfoInterface $value
+     * @param int $option
      *
      * @return $this
      */
-    public function setBrandInfo($value);
+    public function setDisplayOption($option);
 
     /**
-     * @return \Mageplaza\Shopbybrand\Api\Data\Config\SidebarInterface
+     * Get Brand Logo Width on Brand List
+     *
+     * @return int
      */
-    public function getSidebar();
+    public function getBrandListLogoWidth();
 
     /**
-     * @param \Mageplaza\Shopbybrand\Api\Data\Config\SidebarInterface $value
+     * @param int $width
      *
      * @return $this
      */
-    public function setSidebar($value);
+    public function setBrandListLogoWidth($width);
 
     /**
-     * @return \Mageplaza\Shopbybrand\Api\Data\Config\SeoInterface
+     * Get Brand Logo Height on Brand List
+     *
+     * @return int
      */
-    public function getSeo();
+    public function getBrandListLogoHeight();
 
     /**
-     * @param \Mageplaza\Shopbybrand\Api\Data\Config\SeoInterface $value
+     * @param int $height
      *
      * @return $this
      */
-    public function setSeo($value);
+    public function setBrandListLogoHeight($height);
+
+    /**
+     * Get Style Color
+     *
+     * @return string
+     */
+    public function getColor();
+
+    /**
+     * @param string $color
+     *
+     * @return $this
+     */
+    public function setColor($color);
+
+    /**
+     * Show Brand Short Description
+     *
+     * @return bool
+     */
+    public function getShowDescription();
+
+    /**
+     * @param int $value
+     *
+     * @return $this
+     */
+    public function setShowDescription($value);
+
+    /**
+     * Show Brand Product Quantity
+     *
+     * @return bool
+     */
+    public function getShowProductQty();
+
+    /**
+     * @param int $value
+     *
+     * @return $this
+     */
+    public function setShowProductQty($value);
+
+    /**
+     * Get custom css
+     *
+     * @return string
+     */
+    public function getCustomCss();
+
+    /**
+     * @param string $css
+     *
+     * @return $this
+     */
+    public function setCustomCss($css);
+
+    /**
+     * Show brand info in product page
+     *
+     * @return string
+     */
+    public function getShowBrandInfo();
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setShowBrandInfo($value);
+
+    /**
+     * Get Brand Logo Width in product page
+     *
+     * @return int
+     */
+    public function getLogoWidthOnProductPage();
+
+    /**
+     * @param int $width
+     *
+     * @return $this
+     */
+    public function setLogoWidthOnProductPage($width);
+
+    /**
+     * Get Brand Logo Height in product page
+     *
+     * @return int
+     */
+    public function getLogoHeightOnProductPage();
+
+    /**
+     * @param int $height
+     *
+     * @return $this
+     */
+    public function setLogoHeightOnProductPage($height);
 }

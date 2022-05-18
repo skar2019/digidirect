@@ -98,30 +98,6 @@ class Options extends OOptions
     }
 
     /**
-     * @return string
-     */
-    public function getReportPopupUrl()
-    {
-        return $this->getUrl('mpbrand/report/report');
-    }
-
-    /**
-     * @return string
-     */
-    public function getRelatedBrands()
-    {
-        return $this->getUrl('mpbrand/related/gird');
-    }
-
-    /**
-     * @return string
-     */
-    public function getBrandProductsUrl()
-    {
-        return $this->getUrl('mpbrand/products/gird');
-    }
-
-    /**
      * Returns stores sorted by Sort Order
      *
      * @return array
