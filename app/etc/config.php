@@ -547,6 +547,7 @@ return [
         'Apptrian_ImageOptimizer' => 1,
         'Bss_FacebookPixel' => 1,
         'Bss_PreOrder' => 1,
+        'Ced_MPCatch' => 0,
         'CommissionFactory_Tracking' => 1,
         'Digidirect_Utilities' => 1,
         'Digidirect_AbstractAttributes' => 1,
