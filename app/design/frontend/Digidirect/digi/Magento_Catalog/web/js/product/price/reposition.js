@@ -24,7 +24,7 @@ define([
         setTimeout(function() {
             $('.custom-preloader').attr("style", "display:none !important;");
             $('.gallery-placeholder').attr("style", "visibility: visible !important;");
-        }, 7000);
+        }, 3000);
     });
     
     $(window).load(function(){
