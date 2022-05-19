@@ -35,6 +35,7 @@
                 <value id="gstatic" type="host">*.gstatic.com</value>
                 <value id="cfjump3" type="host">https://t.cfjump.com/tag/72917</value>
                 <value id="lukyorange" type="host">https://settings.luckyorange.net</value>
+                <value id="similarinc" type="host">*.similarinc.com</value>
 
             </values>
         </policy>
@@ -49,6 +50,7 @@
                 <value id="usercentrics" type="host">*.usercentrics.eu</value>
                 <value id="fontsgoogle" type="host">https://fonts.googleapis.com</value>
                 <value id="stackadapt" type="host">https://tags.srv.stackadapt.com</value>
+                <value id="similarincstyle" type="host">*.similarinc.com</value>
             </values>
         </policy>
         <policy id="img-src">
@@ -65,6 +67,7 @@
                 <value id="facebook" type="host">*.facebook.com</value>
                 <value id="adsrvr" type="host">*.adsrvr.org</value>
                 <value id="googlephimg" type="host">https://www.google.com.ph</value>
+                <value id="similarincimg" type="host">*.similarinc.com</value>
 
             </values>
         </policy>
@@ -83,6 +86,7 @@
                 <value id="studio19connect" type="host">https://secure.studio19.com.au</value>
                 <value id="polygroupconnect" type="host">https://secure.polygongroup.com.au</value>
                 <value id="bamcellconnect" type="host">https://bam-cell.nr-data.net</value>
+                <value id="similarinccon" type="host">*.similarinc.com</value>
 
             </values>
         </policy>
@@ -95,7 +99,7 @@
                 <!--Functions-->
                 <value id="trustedshops" type="host">*.trustedshops.com</value>
                 <value id="gstaticfont" type="host">https://fonts.gstatic.com</value>
-
+                <value id="similarincfont" type="host">*.similarinc.com</value>
             </values>
         </policy>
         <policy id="frame-src">
@@ -104,7 +108,7 @@
                 <value id="flsdouble" type="host">'https://999999.fls.doubleclick.net</value>
                 <value id="insightframe" type="host">https://insight.adsrvr.org</value>
                 <value id="gstaticfont" type="host">https://fonts.gstatic.com</value>
-
+                <value id="similarincframe" type="host">*.similarinc.com</value>
             </values>
         </policy>
     </policies>
