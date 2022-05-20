@@ -1,41 +1,36 @@
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-/*browser:true*/
-/*global define*/
 define([
-    'jquery',
-    'underscore',
-    'Magento_Checkout/js/view/payment/default',
-    'braintree',
-    'braintreeCheckoutPayPalAdapter',
-    'braintreePayPalCheckout',
-    'Magento_Checkout/js/model/quote',
-    'Magento_Checkout/js/model/full-screen-loader',
-    'Magento_Checkout/js/model/payment/additional-validators',
-    'Magento_Checkout/js/model/step-navigator',
-    'Magento_Vault/js/view/payment/vault-enabler',
-    'Magento_Checkout/js/action/create-billing-address',
-    'Magento_Checkout/js/action/select-billing-address',
-    'Magento_CheckoutAgreements/js/view/checkout-agreements',
-    'mage/translate'
+    define([
+        'jquery',
+        'underscore',
+        'Magento_Checkout/js/view/payment/default',
+        'braintree',
+        'braintreeCheckoutPayPalAdapter',
+        'braintreePayPalCheckout',
+        'Magento_Checkout/js/model/quote',
+        'Magento_Checkout/js/model/full-screen-loader',
+        'Magento_Checkout/js/model/payment/additional-validators',
+        'Magento_Checkout/js/model/step-navigator',
+        'Magento_Vault/js/view/payment/vault-enabler',
+        'Magento_Checkout/js/action/create-billing-address',
+        'Magento_Checkout/js/action/select-billing-address',
+        'Magento_CheckoutAgreements/js/view/checkout-agreements',
+        'mage/translate'
 ], function (
-    $,
-    _,
-    Component,
-    braintree,
-    Braintree,
-    paypalCheckout,
-    quote,
-    fullScreenLoader,
-    additionalValidators,
-    stepNavigator,
-    VaultEnabler,
-    createBillingAddress,
-    selectBillingAddress,
-    checkoutAgreements,
-    $t
+        $,
+        _,
+        Component,
+        braintree,
+        Braintree,
+        paypalCheckout,
+        quote,
+        fullScreenLoader,
+        additionalValidators,
+        stepNavigator,
+        VaultEnabler,
+        createBillingAddress,
+        selectBillingAddress,
+        checkoutAgreements,
+        $t
 ) {
     'use strict';
 
@@ -138,7 +133,7 @@ define([
                     self.grandTotalAmount = quote.totals()['base_grand_total'];
                     var methodCode = quote.paymentMethod();
 
-                    if (methodCode && (methodCode.method === 'braintree_paypal' || methodCode.method === 'braintree_paypal_vault')) {
+                    if (methodCode === 'braintree_paypal' || methodCode === 'braintree_paypal_vault') {
                         self.reInitPayPal();
                     }
                 }
@@ -473,7 +468,6 @@ define([
                 });
             }
         },
-
         /**
          * Get locale
          * @returns {String}
@@ -500,7 +494,7 @@ define([
                 isActiveVaultEnabler = this.isActiveVault();
 
             config.paypal = {
-                flow: 'checkout',
+                flow: isActiveVaultEnabler ? 'vault' : 'checkout',
                 amount: parseFloat(this.grandTotalAmount).toFixed(2),
                 currency: totals['base_currency_code'],
                 locale: this.getLocale(),
@@ -544,6 +538,13 @@ define([
         getShippingAddress: function () {
             var address = quote.shippingAddress();
 
+            if (_.isNull(address)) {
+                return {};
+            }
+            if (!address.street) {
+                address.street = ['', '', ''];
+            }
+
             return {
                 recipientName: address.firstname + ' ' + address.lastname,
                 line1: address.street[0],
@@ -551,7 +552,7 @@ define([
                 city: address.city,
                 countryCode: address.countryId,
                 postalCode: address.postcode,
-                state: address.regionCode
+                state: address.region
             };
         },
 
@@ -587,6 +588,7 @@ define([
          * @returns {String}
          */
         getPaymentAcceptanceMarkSrc: function () {
+
             return window.checkoutConfig.payment[this.getCode()].paymentAcceptanceMarkSrc;
         },
 
@@ -652,7 +654,7 @@ define([
          * Get button id
          * @returns {String}
          */
-        getPayPalButtonId: function () {
+        getButtonId: function () {
             return this.clientConfig.buttonPayPalId;
         },
 
@@ -687,6 +689,5 @@ define([
         isCreditEnabled: function () {
             return window.checkoutConfig.payment['braintree_paypal_credit']['isActive'];
         },
-
     });
 });
