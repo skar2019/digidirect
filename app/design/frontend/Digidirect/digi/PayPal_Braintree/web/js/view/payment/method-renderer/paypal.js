@@ -65,7 +65,7 @@ define([
                  * @param {Object} context
                  */
                 onReady: function (context) {
-                    context.setupPaypal();
+                    this.setupPaypal();
                 },
 
                 /**
@@ -322,14 +322,14 @@ define([
          */
         getShippingAddress: function () {
             var address = quote.shippingAddress();
-            
+
             if (_.isNull(address)) {
                 return {};
             }
             if (!address.street) {
                 address.street = ['', '', ''];
             }
-           
+
             return {
                 recipientName: address.firstname + ' ' + address.lastname,
                 line1: address.street[0],
