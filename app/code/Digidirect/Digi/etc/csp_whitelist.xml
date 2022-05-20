@@ -40,6 +40,8 @@
                 <value id="zipscript" type="host">*.zip.co</value>
                 <value id="zdassets" type="host">*.zdassets.com</value>
                 <value id="pinterest" type="host">https://assets.pinterest.com</value>
+                <value id="zendeskassets" type="host">https://static.zdassets.com/ekr/snippet.js?key=88672bb4-20de-4954-9aae-cec47a62429f</value>
+
 
             </values>
         </policy>
