@@ -1,8 +1,16 @@
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/*browser:true*/
+/*global define*/
 define([
     'jquery',
     'underscore',
     'Magento_Checkout/js/view/payment/default',
+    'braintree',
     'braintreeCheckoutPayPalAdapter',
+    'braintreePayPalCheckout',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/model/full-screen-loader',
     'Magento_Checkout/js/model/payment/additional-validators',
@@ -10,18 +18,24 @@ define([
     'Magento_Vault/js/view/payment/vault-enabler',
     'Magento_Checkout/js/action/create-billing-address',
     'Magento_Checkout/js/action/select-billing-address',
+    'Magento_CheckoutAgreements/js/view/checkout-agreements',
+    'mage/translate'
 ], function (
     $,
     _,
     Component,
+    braintree,
     Braintree,
+    paypalCheckout,
     quote,
     fullScreenLoader,
     additionalValidators,
     stepNavigator,
     VaultEnabler,
     createBillingAddress,
-    selectBillingAddress
+    selectBillingAddress,
+    checkoutAgreements,
+    $t
 ) {
     'use strict';
 
@@ -54,7 +68,9 @@ define([
                     paypal: true
                 },
 
-                buttonId: 'braintree_paypal_placeholder',
+                buttonPayPalId: 'braintree_paypal_placeholder',
+                buttonCreditId: 'braintree_paypal_credit_placeholder',
+                buttonPaylaterId: 'braintree_paypal_paylater_placeholder',
 
                 onDeviceDataRecieved: function (deviceData) {
                     this.additionalData['device_data'] = deviceData;
@@ -65,7 +81,7 @@ define([
                  * @param {Object} context
                  */
                 onReady: function (context) {
-                    context.setupPaypal();
+                    this.setupPayPal();
                 },
 
                 /**
@@ -122,7 +138,7 @@ define([
                     self.grandTotalAmount = quote.totals()['base_grand_total'];
                     var methodCode = quote.paymentMethod();
 
-                    if (methodCode === 'braintree_paypal' || methodCode === 'braintree_paypal_vault') {
+                    if (methodCode && (methodCode.method === 'braintree_paypal' || methodCode.method === 'braintree_paypal_vault')) {
                         self.reInitPayPal();
                     }
                 }
@@ -228,15 +244,26 @@ define([
          */
         beforePlaceOrder: function (data) {
             this.setPaymentMethodNonce(data.nonce);
-
-            if (quote.shippingAddress() === quote.billingAddress()) {
-                selectBillingAddress(quote.shippingAddress());
-            } else {
-                selectBillingAddress(quote.billingAddress());
-            }
-
             this.customerEmail(data.details.email);
-            this.placeOrder();
+            if (quote.isVirtual()) {
+                this.isReviewRequired(true);
+            } else {
+                if (this.isRequiredBillingAddress() === '1' || quote.billingAddress() === null) {
+                    if (typeof data.details.billingAddress !== 'undefined') {
+                        this.setBillingAddress(data.details, data.details.billingAddress);
+                    } else {
+                        this.setBillingAddress(data.details, data.details.shippingAddress);
+                    }
+                } else {
+                    if (quote.shippingAddress() === quote.billingAddress()) {
+                        selectBillingAddress(quote.shippingAddress());
+                    } else {
+                        selectBillingAddress(quote.billingAddress());
+                    }
+                }
+
+                this.placeOrder();
+            }
         },
 
         /**
@@ -266,11 +293,201 @@ define([
         },
 
         /**
+         * Setup PayPal instance
+         */
+        setupPayPal: function () {
+            var self = this;
+
+            if (Braintree.config.paypalInstance) {
+                fullScreenLoader.stopLoader(true);
+                return;
+            }
+
+            paypalCheckout.create({
+                client: Braintree.clientInstance
+            }, function (createErr, paypalCheckoutInstance) {
+                if (createErr) {
+                    Braintree.showError($t("PayPal Checkout could not be initialized. Please contact the store owner."));
+                    console.error('paypalCheckout error', createErr);
+                    return;
+                }
+                let quoteObj = quote.totals();
+
+                var configSDK = {
+                    components: 'buttons,messages,funding-eligibility',
+                    "enable-funding": "paylater",
+                    currency: quoteObj['base_currency_code']
+                };
+                var merchantCountry = window.checkoutConfig.payment['braintree_paypal'].merchantCountry;
+                if (Braintree.getEnvironment() == 'sandbox' && merchantCountry != null) {
+                    configSDK["buyer-country"] = merchantCountry;
+                }
+                paypalCheckoutInstance.loadPayPalSDK(configSDK, function () {
+                    this.loadPayPalButton(paypalCheckoutInstance, 'paypal');
+                    if (this.isCreditEnabled()) {
+                        this.loadPayPalButton(paypalCheckoutInstance, 'credit');
+                    }
+                    if (this.isPaylaterEnabled()) {
+                        this.loadPayPalButton(paypalCheckoutInstance, 'paylater');
+                    }
+
+                }.bind(this));
+            }.bind(this));
+        },
+
+        loadPayPalButton: function (paypalCheckoutInstance, funding) {
+            var paypalPayment = Braintree.config.paypal,
+                onPaymentMethodReceived = Braintree.config.onPaymentMethodReceived;
+            var style = {
+                color: Braintree.getColor(),
+                shape: Braintree.getShape(),
+                layout: Braintree.getLayout(),
+                size: Braintree.getSize()
+            };
+
+            if (Braintree.getBranding()) {
+                style.branding = Braintree.getBranding();
+            }
+            if (Braintree.getFundingIcons()) {
+                style.fundingicons = Braintree.getFundingIcons();
+            }
+
+            if (funding === 'credit') {
+                style.layout = "horizontal";
+                style.color = "darkblue";
+                Braintree.config.buttonId = this.clientConfig.buttonCreditId;
+            } else if (funding === 'paylater') {
+                style.layout = "horizontal";
+                style.color = "white";
+                Braintree.config.buttonId = this.clientConfig.buttonPaylaterId;
+            } else {
+                Braintree.config.buttonId = this.clientConfig.buttonPayPalId;
+            }
+            // Render
+            Braintree.config.paypalInstance = paypalCheckoutInstance;
+            var events = Braintree.events;
+            $('#' + Braintree.config.buttonId).html('');
+
+            var button = paypal.Buttons({
+                fundingSource: funding,
+                env: Braintree.getEnvironment(),
+                style: style,
+                commit: true,
+                locale: Braintree.config.paypal.locale,
+
+                onInit: function (data, actions) {
+                    var agreements = checkoutAgreements().agreements,
+                        shouldDisableActions = false;
+
+                    actions.disable();
+
+                    _.each(agreements, function (item, index) {
+                        if (checkoutAgreements().isAgreementRequired(item)) {
+                            var paymentMethodCode = quote.paymentMethod().method,
+                                inputId = '#agreement_' + paymentMethodCode + '_' + item.agreementId,
+                                inputEl = document.querySelector(inputId);
+
+
+                            if (!inputEl.checked) {
+                                shouldDisableActions = true;
+                            }
+
+                            inputEl.addEventListener('change', function (event) {
+                                if (additionalValidators.validate()) {
+                                    actions.enable();
+                                } else {
+                                    actions.disable();
+                                }
+                            });
+                        }
+                    });
+
+                    if (!shouldDisableActions) {
+                        actions.enable();
+                    }
+                },
+
+                createOrder: function () {
+                    return paypalCheckoutInstance.createPayment(paypalPayment).catch(function (err) {
+                        throw err.details.originalError.details.originalError.paymentResource;
+                    });
+                },
+
+                onCancel: function (data) {
+                    console.log('checkout.js payment cancelled', JSON.stringify(data, 0, 2));
+
+                    if (typeof events.onCancel === 'function') {
+                        events.onCancel();
+                    }
+                },
+
+                onError: function (err) {
+                    if (err.errorName === 'VALIDATION_ERROR' && err.errorMessage.indexOf('Value is invalid') !== -1) {
+                        Braintree.showError($t('Address failed validation. Please check and confirm your City, State, and Postal Code'));
+                    } else {
+                        Braintree.showError($t("PayPal Checkout could not be initialized. Please contact the store owner."));
+                    }
+                    Braintree.config.paypalInstance = null;
+                    console.error('Paypal checkout.js error', err);
+
+                    if (typeof events.onError === 'function') {
+                        events.onError(err);
+                    }
+                }.bind(this),
+
+                onClick: function (data) {
+                    if (!quote.isVirtual()) {
+                        this.clientConfig.paypal.enableShippingAddress = true;
+                        this.clientConfig.paypal.shippingAddressEditable = false;
+                        this.clientConfig.paypal.shippingAddressOverride = this.getShippingAddress();
+                    }
+
+                    // To check term & conditions input checked - validate additional validators.
+                    if (!additionalValidators.validate()) {
+                        return false;
+                    }
+
+                    if (typeof events.onClick === 'function') {
+                        events.onClick(data);
+                    }
+                }.bind(this),
+
+                onApprove: function (data, actions) {
+                    return paypalCheckoutInstance.tokenizePayment(data)
+                        .then(function (payload) {
+                            onPaymentMethodReceived(payload);
+                        });
+                }
+
+            });
+            if (button.isEligible() && $('#' + Braintree.config.buttonId).length) {
+                button.render('#' + Braintree.config.buttonId).then(function () {
+                    Braintree.enableButton();
+                    if (typeof Braintree.config.onPaymentMethodError === 'function') {
+                        Braintree.config.onPaymentMethodError();
+                    }
+                }.bind(this)).then(function (data) {
+                    if (typeof events.onRender === 'function') {
+                        events.onRender(data);
+                    }
+                });
+            }
+        },
+
+        /**
          * Get locale
          * @returns {String}
          */
         getLocale: function () {
             return window.checkoutConfig.payment[this.getCode()].locale;
+        },
+
+        /**
+         * Is Billing Address required from PayPal side
+         * @returns {exports.isRequiredBillingAddress|(function())|boolean}
+         */
+        isRequiredBillingAddress: function () {
+            return window.checkoutConfig.payment[this.getCode()].isRequiredBillingAddress;
         },
 
         /**
@@ -283,7 +500,7 @@ define([
                 isActiveVaultEnabler = this.isActiveVault();
 
             config.paypal = {
-                flow: isActiveVaultEnabler ? 'vault' : 'checkout',
+                flow: 'checkout',
                 amount: parseFloat(this.grandTotalAmount).toFixed(2),
                 currency: totals['base_currency_code'],
                 locale: this.getLocale(),
@@ -302,6 +519,10 @@ define([
                     this.paymentMethodNonce = null;
                 }
             };
+
+            if (isActiveVaultEnabler) {
+                config.paypal.requestBillingAgreement = true;
+            }
 
             if (!quote.isVirtual()) {
                 config.paypal.enableShippingAddress = true;
@@ -322,14 +543,7 @@ define([
          */
         getShippingAddress: function () {
             var address = quote.shippingAddress();
-            
-            if (_.isNull(address)) {
-                return {};
-            }
-            if (!address.street) {
-                address.street = ['', '', ''];
-            }
-           
+
             return {
                 recipientName: address.firstname + ' ' + address.lastname,
                 line1: address.street[0],
@@ -337,7 +551,7 @@ define([
                 city: address.city,
                 countryCode: address.countryId,
                 postalCode: address.postcode,
-                state: address.region
+                state: address.regionCode
             };
         },
 
@@ -373,7 +587,6 @@ define([
          * @returns {String}
          */
         getPaymentAcceptanceMarkSrc: function () {
-
             return window.checkoutConfig.payment[this.getCode()].paymentAcceptanceMarkSrc;
         },
 
@@ -439,8 +652,41 @@ define([
          * Get button id
          * @returns {String}
          */
-        getButtonId: function () {
-            return this.clientConfig.buttonId;
-        }
+        getPayPalButtonId: function () {
+            return this.clientConfig.buttonPayPalId;
+        },
+
+        /**
+         * Get button id
+         * @returns {String}
+         */
+        getCreditButtonId: function () {
+            return this.clientConfig.buttonCreditId;
+        },
+
+        /**
+         * Get button id
+         * @returns {String}
+         */
+        getPaylaterButtonId: function () {
+            return this.clientConfig.buttonPaylaterId;
+        },
+
+        isPaylaterEnabled: function () {
+            return window.checkoutConfig.payment['braintree_paypal_paylater']['isActive'];
+        },
+
+        isPaylaterMessageEnabled: function () {
+            return window.checkoutConfig.payment['braintree_paypal_paylater']['isMessageActive'];
+        },
+
+        getGrandTotalAmount: function () {
+            return parseFloat(this.grandTotalAmount).toFixed(2);
+        },
+
+        isCreditEnabled: function () {
+            return window.checkoutConfig.payment['braintree_paypal_credit']['isActive'];
+        },
+
     });
 });
