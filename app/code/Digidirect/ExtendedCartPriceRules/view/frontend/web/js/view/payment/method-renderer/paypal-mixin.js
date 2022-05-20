@@ -3,13 +3,9 @@ define(function () {
 
     var mixin = {
         isActive: function () {
-            if (this.isRemoveItemRuleApplied()) {
-                var active = this.getCode() === this.isChecked();
-                this.active(false);
-                this.isEnabledPaymentButton(false);
-                return active;
-            }
-            return this._super();
+            var active = this.getCode() === this.isChecked();
+            this.active(active);
+            return active;
         }
     };
 
