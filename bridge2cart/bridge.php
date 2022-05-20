@@ -17,6 +17,11 @@ interface M1_Platform_Actions
     public function sendEmailNotifications(array $a2cData);
 
     /**
+     * @return mixed
+     */
+    public function getPlugins();
+
+    /**
      * @param array $a2cData
      *
      * @return mixed
@@ -763,6 +768,14 @@ class M1_Config_Adapter implements M1_Platform_Actions
     }
 
     /**
+     * @return mixed
+     */
+    public function getPlugins()
+    {
+        return array('error' => 'Action is not supported', 'data' => false);
+    }
+
+    /**
      * @inheritDoc
      */
     public function setMetaData(array $a2cData)
@@ -1417,11 +1430,17 @@ class M1_Config_Adapter_Zencart137 extends M1_Config_Adapter
         }
         $this->manufacturersImagesDir = $this->imagesDir;
 
-        //$this->Host      = DB_SERVER;
         $this->setHostPort(DB_SERVER);
         $this->username  = DB_SERVER_USERNAME;
         $this->password  = DB_SERVER_PASSWORD;
         $this->dbname    = DB_DATABASE;
+
+        if (defined('DB_PREFIX')) {
+            $this->tblPrefix = DB_PREFIX;
+        } else {
+            $this->tblPrefix = '';
+        }
+
         if (file_exists(M1_STORE_BASE_DIR  . "includes" . DIRECTORY_SEPARATOR . 'version.php')) {
             @require_once M1_STORE_BASE_DIR
                 . "includes" . DIRECTORY_SEPARATOR
@@ -1611,7 +1630,7 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
         if (isset($config)) {
             $configs =  M1_Bridge::removeComments($config);
             $constants = M1_Bridge::parseDefinedConstants($configs, 'DB_NAME|DB_USER|DB_PASSWORD|DB_HOST|UPLOADS|WP_HOME|WP_SITEURL|WP_CONTENT_URL');
-            preg_match('/\$table_prefix\s*=\s*[\'"](.+?)[\'"]\s*;/', $config, $tblPrefixMatch);
+            preg_match('/\$table_prefix\s*=\s*[\'"](.+?)[\'"]\s*;/', $configs, $tblPrefixMatch);
 
             if (!isset($constants['DB_NAME'], $constants['DB_USER'], $constants['DB_PASSWORD'], $constants['DB_HOST'], $tblPrefixMatch[1]) || $this->hasUrlProgrammed($constants)) {
                 $this->_tryLoadConfigs();
@@ -1741,17 +1760,36 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
         $this->cartVars['productsDirRelative'] = 'images/products/';
     }
 
+    /**
+     * @param array $constants Constants
+     *
+     * @return bool
+     */
     protected function hasUrlProgrammed($constants)
     {
         $validHomeUrl = false;
         $validSiteUrl = false;
+
         if (isset($constants['WP_HOME'])) {
-            $validHomeUrl = !filter_var($constants['WP_HOME'], FILTER_VALIDATE_URL);
+            $validHomeUrl = filter_var($constants['WP_HOME'], FILTER_VALIDATE_URL) !== false;
         } elseif (isset($constants['WP_SITEURL'])) {
-            $validSiteUrl = !filter_var($constants['WP_SITEURL'], FILTER_VALIDATE_URL);
+            $validSiteUrl = filter_var($constants['WP_SITEURL'], FILTER_VALIDATE_URL) !== false;
         }
 
         return $validHomeUrl || $validSiteUrl;
+    }
+
+    /**
+     * @return void
+     */
+    private function _resetGlobalVars()
+    {
+        foreach($GLOBALS as $varname => $value)
+        {
+            global $$varname; //$$ is no mistake here
+
+            $$varname = $value;
+        }
     }
 
     protected function _setWpecommerceData()
@@ -1798,6 +1836,9 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
         }
     }
 
+    /**
+     * @return bool
+     */
     protected function _tryLoadConfigs()
     {
         try {
@@ -1837,9 +1878,9 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
             }
 
             if (defined('WP_CONTENT_DIR')) {
-                $this->imagesDir = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'uploads';
+                $this->imagesDir = $this->_relPath(WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'uploads');
             } elseif (defined('UPLOADS')) {
-                $this->imagesDir = UPLOADS;
+                $this->imagesDir = $this->_relPath(UPLOADS);
             } else {
                 $this->imagesDir = 'wp-content' . DIRECTORY_SEPARATOR . 'uploads';
             }
@@ -1867,7 +1908,24 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
             die('ERROR_READING_STORE_CONFIG_FILE');
         }
 
+        foreach (get_defined_vars() as $key => $val) {
+            $GLOBALS[$key] = $val;
+        }
+
         return true;
+    }
+
+    /**
+     * @param string $path Absolute path
+     *
+     * @return string Relative path
+     */
+    private function _relPath($path)
+    {
+        $absPath = realpath($path);
+        $absBase = realpath(M1_STORE_BASE_DIR);
+
+        return str_replace($absBase, '', $absPath);
     }
 
     /**
@@ -2247,6 +2305,41 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
     }
 
     /**
+     * @return array
+     */
+    public function getPlugins()
+    {
+        $response = array(
+            'error_code' => self::ERROR_CODE_SUCCESS,
+            'error' => null,
+            'result' => array()
+        );
+
+        $reportError = function ($e) use ($response) {
+            $response['error'] = $e->getMessage();
+            $response['error_code'] = self::ERROR_CODE_INTERNAL_ERROR;
+
+            return $response;
+        };
+
+        try {
+            require_once M1_STORE_BASE_DIR . '/wp-load.php';
+            require_once M1_STORE_BASE_DIR . 'wp-admin/includes/plugin.php';
+
+            if (function_exists('get_plugins')) {
+                $response['result']['plugins'] = get_plugins();
+            }
+
+        } catch (Exception $e) {
+            return $reportError($e);
+        } catch (Throwable $e) {
+            return $reportError($e);
+        }
+
+        return $response;
+    }
+
+    /**
      * @param array $a2cData Data
      *
      * @return array
@@ -2268,6 +2361,12 @@ class M1_Config_Adapter_Wordpress extends M1_Config_Adapter
 
         try {
             require_once M1_STORE_BASE_DIR . '/wp-load.php';
+
+            foreach (get_defined_vars() as $key => $val) {
+                $GLOBALS[$key] = $val;
+            }
+
+            $this->_resetGlobalVars();
 
             if (function_exists('switch_to_blog')) {
                 switch_to_blog($a2cData['order']['store_id']);
@@ -2805,24 +2904,55 @@ class M1_Config_Adapter_Shopware extends M1_Config_Adapter
 
             require $m1StoreBaseDir . 'vendor/autoload.php';
 
-            preg_match('/(?:v)?\s*((?:[0-9]+\.?)+)/', PackageVersions\Versions::getVersion('shopware/core'), $matches);
+            $shopwareVersion = $composerFile = '';
 
-            if (!isset($matches[1])) {
+            if (class_exists('PackageVersions\Versions')) {
+                preg_match('/(?:v)?\s*((?:[0-9]+\.?)+)/', \PackageVersions\Versions::getVersion('shopware/core'), $matches);
+            } elseif ((class_exists('Composer\InstalledVersions'))) {
+                preg_match('/(?:v)?\s*((?:[0-9]+\.?)+)/', \Composer\InstalledVersions::getVersion('shopware/core'), $matches);
+            }
+
+
+            if (isset($matches[1])) {
+                $shopwareVersion = $matches[1];
+            } elseif (file_exists(M1_STORE_BASE_DIR . 'composer.json')) {
+                $composerFile = file_get_contents(M1_STORE_BASE_DIR . 'composer.json');
+            } elseif (file_exists(M1_STORE_BASE_DIR . '..' . DIRECTORY_SEPARATOR . 'composer.json')) {
+                $composerFile = file_get_contents(M1_STORE_BASE_DIR . '..' . DIRECTORY_SEPARATOR . 'composer.json');
+            }
+
+            if ($composerFile) {
+                $content = json_decode($composerFile, true);
+                $shopwareVersion = str_replace(['~', '^', 'v'], '', isset($content['require']['shopware/core']) ? $content['require']['shopware/core'] : '');
+            }
+
+            if (empty($shopwareVersion)) {
                 die('ERROR_DETECTING_PLATFORM_VERSION');
             }
 
-            $this->cartVars['dbVersion'] = $matches[1];
+            $this->cartVars['dbVersion'] = $shopwareVersion;
             $this->timeZone = 'UTC';
 
             $envLoader = new Symfony\Component\Dotenv\Dotenv();
             $config = $envLoader->parse(file_get_contents($m1StoreBaseDir . '.env'));
-            $dsn = parse_url($config['DATABASE_URL']);
 
-            $this->setHostPort($dsn['host'] . ':' . $dsn['port']);
+            $params = [];
+            foreach (parse_url($config['DATABASE_URL']) as $param => $value) {
+                if (is_string($value)) {
+                    $params[$param] = rawurldecode($value);
+                } else {
+                    $params[$param] = $value;
+                }
+            }
 
-            $this->dbname = ltrim($dsn['path'], '/');
-            $this->username = $dsn['user'];
-            $this->password = $dsn['pass'];
+            $this->cartVars['sdn_strategy'] = isset($config['SHOPWARE_CDN_STRATEGY_DEFAULT']) ? $config['SHOPWARE_CDN_STRATEGY_DEFAULT'] : 'id';
+
+            $port = isset($params['port']) ? ':' . $params['port'] : '';
+            $this->setHostPort($params['host'] . $port);
+
+            $this->dbname = ltrim($params['path'], '/');
+            $this->username = isset($params['user']) ? $params['user'] : '';
+            $this->password = isset($params['pass']) ? $params['pass'] : '';
         }
     }
 
@@ -3261,7 +3391,8 @@ class M1_Config_Adapter_Prestashop extends M1_Config_Adapter
         if (file_exists($path)) {
             require_once $path;
 
-            Context::getContext()->shop = new Shop($a2cData['store_id']);
+            $context = Context::getContext();
+            $context->shop = new Shop($a2cData['store_id']);
             Shop::setContext(Shop::CONTEXT_SHOP, $a2cData['store_id']);
             Configuration::loadConfiguration();
 
@@ -3272,6 +3403,11 @@ class M1_Config_Adapter_Prestashop extends M1_Config_Adapter
                 $customer = new Customer((int)$order->id_customer);
                 $cart = new Cart((int)$order->id_cart);
                 $currency = new Currency((int)$order->id_currency);
+
+                if (!$context->currency) {
+                    $context->currency = $currency;
+                }
+
                 $orderStatus = OrderHistoryCore::getLastOrderState((int)$order->id);
 
                 $module->hookActionValidateOrder(
@@ -3332,11 +3468,18 @@ class M1_Config_Adapter_Oxid extends M1_Config_Adapter
         $this->productsImagesDir      = $this->imagesDir;
         $this->manufacturersImagesDir = $this->imagesDir;
 
-        //add key for decoding config values in oxid db
-        //check slash
-        $keyConfigFile = file_get_contents(M1_STORE_BASE_DIR . '/core/oxconfk.php');
-        preg_match("/sConfigKey(.+)?=(.+)?\"(.+)?\";/", $keyConfigFile, $match);
-        $this->cartVars['sConfigKey'] = $match[3];
+        if (is_file(M1_STORE_BASE_DIR . '/core/oxconfk.php')) {
+            $keyConfigFile = file_get_contents(M1_STORE_BASE_DIR . '/core/oxconfk.php');
+            preg_match("/sConfigKey(.+)?=(.+)?\"(.+)?\";/", $keyConfigFile, $match);//$match[3]
+            $keyConfVal = $match[3];
+        } else {
+            $keyConfigFile = file_get_contents(M1_STORE_BASE_DIR . '..' . '/vendor/oxid-esales/oxideshop-ce/source/Core/Config.php');
+            preg_match('/DEFAULT_CONFIG_KEY\s*=\s*[\'"](.+?)[\'"]\s*/', $keyConfigFile, $match);
+            $keyConfVal = $match[1];
+        }
+
+        $this->cartVars['sConfigKey'] = $keyConfVal;
+
         $version = $this->getCartVersionFromDb("OXVERSION", "oxshops", "OXACTIVE=1 LIMIT 1" );
         if ($version != '') {
             $this->cartVars['dbVersion'] = $version;
@@ -4207,6 +4350,7 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
     const ERROR_CODE_INTERNAL_ERROR = 2;
 
     private $_magentoVersionMajor = null;
+    private $_countTry = 0;
 
     /**
      * M1_Config_Adapter_Magento1212 constructor.
@@ -4292,7 +4436,21 @@ class M1_Config_Adapter_Magento1212 extends M1_Config_Adapter
     public function productUpdateAction(array $a2cData)
     {
         if ($this->_magentoVersionMajor === 2) {
-            return $this->_productUpdateMage2($a2cData);
+            do {
+                try {
+                    return $this->_productUpdateMage2($a2cData);
+                } catch (Exception $e) {
+                    if (preg_match('/deadlock/', $e->getMessage())) {
+                        usleep(rand(1000000, 3000000));
+                    } else {
+                        throw $e;
+                    }
+                }
+            } while (++ $this->_countTry < 3);
+
+            if (isset($e)) {
+                throw $e;
+            }
         } else {
             throw new Exception('Action is not supported');
         }
@@ -5207,10 +5365,11 @@ class M1_Config_Adapter_Pinnacle361 extends M1_Config_Adapter
         $this->dbname = DB_NAME;
         $this->username = DB_USER;
         $this->password = DB_PASSWORD;
+        $this->tblPrefix = defined('DB_PREFIX') ? DB_PREFIX : '';
 
         $version = $this->getCartVersionFromDb(
             "value",
-            (defined('DB_PREFIX') ? DB_PREFIX : '') . "settings",
+            "settings",
             "name = 'AppVer'"
         );
         if ($version != '') {
@@ -5485,11 +5644,11 @@ class M1_Bridge_Action_Send_Notification
             switch ($_POST['cartId']) {
                 case 'Magento1212' :
                     if (!file_exists(M1_STORE_ROOT_DIR . '/app/etc/env.php')) {
-
                         include_once M1_STORE_ROOT_DIR . 'includes/config.php';
                         include_once M1_STORE_ROOT_DIR . 'app/bootstrap.php';
                         include_once M1_STORE_ROOT_DIR . 'app/Mage.php';
                         Mage::init();
+
                     } else {
                         include_once M1_STORE_ROOT_DIR . 'app/bootstrap.php';
 
@@ -5500,14 +5659,13 @@ class M1_Bridge_Action_Send_Notification
                     }
 
                     switch ($_POST['data_notification']['method']) {
-                        case 'order.update' :
+                        case 'order.update':
                             if (!file_exists(M1_STORE_ROOT_DIR . '/app/etc/env.php')) {
                                 $order = Mage::getModel('sales/order')->load($_POST['orderId']);
                                 $order->sendOrderUpdateEmail(true, $_POST['data_notification']['comment']);
                                 $order->save();
 
                                 echo json_encode($response);
-                                break;
                             } else {
                                 $state->setAreaCode('frontend');
                                 $order = $obj->create('Magento\Sales\Model\Order')->load($_POST['orderId']); // this is entity id
@@ -5515,9 +5673,11 @@ class M1_Bridge_Action_Send_Notification
                                     ->send($order, true, $_POST['data_notification']['comment']);
 
                                 echo json_encode($response);
-                                break;
                             }
-                        case 'order.shipment.add' :
+
+                            break;
+
+                        case 'order.shipment.add':
                             if (!file_exists(M1_STORE_ROOT_DIR . '/app/etc/env.php')) {
                                 $shipment = Mage::getModel('sales/order_shipment')
                                     ->loadByIncrementId($_POST['data_notification']['shipment_id']);
@@ -5525,7 +5685,6 @@ class M1_Bridge_Action_Send_Notification
                                 $shipment->save();
 
                                 echo json_encode($response);
-                                break;
                             } else {
                                 $state->setAreaCode('global');
                                 $shipment = $obj->create('Magento\Sales\Model\Order\Shipment')
@@ -5533,10 +5692,14 @@ class M1_Bridge_Action_Send_Notification
                                 $obj->create('Magento\Sales\Model\Order\Email\Sender\ShipmentSender')
                                     ->send($shipment);
 
-                                echo json_encode($response); exit;
-                                break;
+                                echo json_encode($response);
                             }
+
+                            break;
                     }
+
+                    break;
+
                 case 'Prestashop' :
                     if (version_compare($bridge->config->cartVars['dbVersion'], '1.6.0', '>=')) {
                         define('PS_DIR', M1_STORE_BASE_DIR);
@@ -6208,7 +6371,7 @@ class M1_Bridge_Action_Multiquery
 {
 
     protected $_lastInsertIds = array();
-    protected $_result        = false;
+    protected $_result        = array();
 
     /**
      * @param M1_Bridge $bridge
@@ -6979,31 +7142,85 @@ class M1_Bridge_Action_Deleteimages
 class M1_Bridge_Action_Delete
 {
 
+    const ERROR_NONE = 0;
+    const ERROR_FILES_ARE_NOT_WRITABLE = 1;
+    const ERROR_CUSTOM_FILES_DETECTED = 2;
+    const ERROR_INTERNAL_ERROR = 3;
+
+    private $_response = array(
+        'code' => self::ERROR_NONE,
+        'message' => '',
+    );
+
+    /**
+     * @param int    $code Response Code
+     * @param string $msg  Response Msg
+     */
+    private function _response($code, $msg)
+    {
+        $this->_response['code'] = $code;
+        $this->_response['message'] = $msg;
+
+        die(json_encode($this->_response));
+    }
+
     /**
      * @param M1_Bridge $bridge
      */
     public function perform(M1_Bridge $bridge)
     {
-        $response = new stdClass();
+        $allowedEntries = array(
+            '.',
+            '..',
+            '.htaccess',
+            'bridge.php',
+            'config.php',
+            'index.php',
+        );
 
-        if (is_writable(__FILE__) && is_writable(__DIR__ . '/config.php')) {
+        $entriesToDelete = array(
+            '.htaccess',
+            'bridge.php',
+            'config.php',
+            'index.php',
+        );
 
-            @unlink(__DIR__ . '/config.php');
+        $currentEntries = scandir(__DIR__);
 
-            if (@unlink(__FILE__)) {
-                $response->code    = 0;
-                $response->message = 'Deleted successfully.';
-            } else {
-                $response->code    = 1;
-                $response->message = 'Bridge is not deleted! Please contact us.';
-            }
-
-        } else {
-            $response->code    = 1;
-            $response->message = 'Bridge is not deleted! Please set write permission or delete files manually.';
+        if ($diff = array_diff($currentEntries, $allowedEntries)) {
+            $this->_response(
+                self::ERROR_CUSTOM_FILES_DETECTED,
+                'Unexpected files detected (' . implode(', ', $diff) . '). The bridge will not be removed. Please delete custom files first.'
+            );
         }
 
-        die(json_encode($response));
+        foreach ($entriesToDelete as $key => $entry) {
+            if (!file_exists($entry)) {
+                unset($entriesToDelete[$key]);
+                continue;
+            }
+
+            if (!is_writable($entry)) {
+                $this->_response(
+                    self::ERROR_FILES_ARE_NOT_WRITABLE,
+                    'Bridge is not deleted! File \'' . $entry . '\' is not writable. Please set write permission or delete files manually.'
+                );
+            }
+        }
+
+        try {
+            foreach ($entriesToDelete as $entry) {
+                unlink(__DIR__ . DIRECTORY_SEPARATOR . $entry);
+            }
+
+            rmdir(__DIR__);
+        } catch (Exception $e) {
+            $this->_response(self::ERROR_INTERNAL_ERROR, 'Bridge is not deleted! Internal error: ' . $e->getMessage());
+        } catch (Throwable $e) {
+            $this->_response(self::ERROR_INTERNAL_ERROR, 'Bridge is not deleted! Internal error: ' . $e->getMessage());
+        }
+
+        $this->_response(self::ERROR_NONE, 'Deleted successfully.');
     }
 
 }
@@ -8018,7 +8235,7 @@ class M1_Bridge_Action_GetShippingRates
 }
 
 
-define('M1_BRIDGE_VERSION', '113');
+define('M1_BRIDGE_VERSION', '127');
 define('M1_BRIDGE_DOWNLOAD_LINK', 'https://clientfiles.intelligentreach.com/global/bridge2cart/bridge.download.file');
 define('M1_BRIDGE_CHECK_REQUEST_KEY_LINK', 'https://clientfiles.intelligentreach.com/global/bridge2cart/check.json');
 define('M1_BRIDGE_DIRECTORY_NAME', basename(getcwd()));
