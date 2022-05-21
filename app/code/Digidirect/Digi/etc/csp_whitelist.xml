@@ -14,6 +14,7 @@
 
                 <!--Google-->
                 <value id="google-analytics" type="host">www.google-analytics.com</value>
+                <value id="google-maps-api" type="host">maps.googleapis.com</value>
 
                 <!--Functions-->
                 <value id="cloudfront" type="host">*.cloudfront.net</value>
