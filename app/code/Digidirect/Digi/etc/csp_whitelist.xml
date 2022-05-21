@@ -41,7 +41,9 @@
                 <value id="zipscript" type="host">*.zip.co</value>
                 <value id="zdassets" type="host">*.zdassets.com</value>
                 <value id="pinterest" type="host">https://assets.pinterest.com</value>
-                <value id="zendeskassets" type="host">https://static.zdassets.com/ekr/snippet.js?key=88672bb4-20de-4954-9aae-cec47a62429f</value>
+                <value id="zendeskassets" type="host">static.zdassets.com</value>
+                <value id="dotdigitalsrc" type="host">r3.dotdigital-pages.com</value>
+
 
 
             </values>
@@ -117,11 +119,12 @@
         <policy id="frame-src">
             <values>
                 <value id="livechatframe" type="host">https://secure.livechatinc.com</value>
-                <value id="flsdouble" type="host">'https://999999.fls.doubleclick.net</value>
+                <value id="flsdouble" type="host">https://999999.fls.doubleclick.net</value>
                 <value id="insightframe" type="host">https://insight.adsrvr.org</value>
                 <value id="gstaticfont" type="host">https://fonts.gstatic.com</value>
                 <value id="similarincframe" type="host">*.similarinc.com</value>
-                <value id="doubleclict" type="host">'*.doubleclick.net</value>
+                <value id="doubleclict" type="host">*.doubleclick.net</value>
+                <value id="evenbriteframe" type="host">*.eventbrite.com.au</value>
             </values>
         </policy>
     </policies>
