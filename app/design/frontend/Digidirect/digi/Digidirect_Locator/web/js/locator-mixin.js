@@ -8,7 +8,7 @@ define([
     'use strict';
 
     return function (target) {
-        $.widget('digidirect', target, {
+        $.widget('digidirect.locator', target, {
             initAutoComplete: function (field) {
                 if ($(field).length) {
                     this.autocomplete = new google.maps.places.Autocomplete((document.querySelector(field)), {types: ['geocode']});
@@ -63,6 +63,6 @@ define([
             }
         });
 
-        return $.digidirect;
+        return $.digidirect.locator;
     };
 });
