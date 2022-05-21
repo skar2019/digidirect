@@ -37,6 +37,12 @@
                 <value id="cfjump3" type="host">https://t.cfjump.com/tag/72917</value>
                 <value id="lukyorange" type="host">https://settings.luckyorange.net</value>
                 <value id="similarinc" type="host">*.similarinc.com</value>
+                <value id="zipmoneyscript" type="host">*.zipmoney.com.au</value>
+                <value id="zipscript" type="host">*.zip.co</value>
+                <value id="zdassets" type="host">*.zdassets.com</value>
+                <value id="pinterest" type="host">https://assets.pinterest.com</value>
+                <value id="zendeskassets" type="host">https://static.zdassets.com/ekr/snippet.js?key=88672bb4-20de-4954-9aae-cec47a62429f</value>
+
 
             </values>
         </policy>
@@ -52,6 +58,7 @@
                 <value id="fontsgoogle" type="host">https://fonts.googleapis.com</value>
                 <value id="stackadapt" type="host">https://tags.srv.stackadapt.com</value>
                 <value id="similarincstyle" type="host">*.similarinc.com</value>
+                <value id="zipstyle" type="host">*.zipmoney.com.au</value>
             </values>
         </policy>
         <policy id="img-src">
@@ -69,6 +76,7 @@
                 <value id="adsrvr" type="host">*.adsrvr.org</value>
                 <value id="googlephimg" type="host">https://www.google.com.ph</value>
                 <value id="similarincimg" type="host">*.similarinc.com</value>
+                <value id="cloudfrontimg" type="host">*.cloudfront.net</value>
 
             </values>
         </policy>
@@ -81,13 +89,16 @@
                 <value id="lukyorangeconnect" type="host">https://settings.luckyorange.net</value>
                 <value id="paconnect" type="host">https://recs-1a.particularaudience.com</value>
                 <value id="statsgconnect" type="host">https://stats.g.doubleclick.net</value>
-                <value id="popwiseconnect" type="host">https://popup.wisepops.com</value>
+                <value id="popwiseconnect" type="host">*.wisepops.com</value>
                 <value id="gaconnect" type="host">https://www.google-analytics.com</value>
                 <value id="tagssvrconnect" type="host">https://tags.srv.stackadapt.com</value>
                 <value id="studio19connect" type="host">https://secure.studio19.com.au</value>
                 <value id="polygroupconnect" type="host">https://secure.polygongroup.com.au</value>
                 <value id="bamcellconnect" type="host">https://bam-cell.nr-data.net</value>
                 <value id="similarinccon" type="host">*.similarinc.com</value>
+                <value id="zipconnect" type="host">*.zipmoney.com.au</value>
+                <value id="visitorsconnect" type="host">*.visitors.live</value>
+                <value id="googleapisconnect" type="host">*.googleapis.com</value>
 
             </values>
         </policy>
@@ -110,6 +121,7 @@
                 <value id="insightframe" type="host">https://insight.adsrvr.org</value>
                 <value id="gstaticfont" type="host">https://fonts.gstatic.com</value>
                 <value id="similarincframe" type="host">*.similarinc.com</value>
+                <value id="doubleclict" type="host">'*.doubleclick.net</value>
             </values>
         </policy>
     </policies>
