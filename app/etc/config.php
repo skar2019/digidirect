@@ -601,7 +601,7 @@ return [
         'Digidirect_SEO' => 1,
         'Digidirect_ShippingAvailabilityCheck' => 1,
         'Digidirect_ShippingAvailabilityCheckCollect' => 1,
-        'Digidirect_ShopByBrandMenu' => 1,
+        'Digidirect_ShopByBrandMenu' => 0,
         'Digidirect_ShopByCategory' => 1,
         'Digidirect_SingleCheckoutButton' => 1,
         'Digidirect_SocialSharing' => 1,
