@@ -33,7 +33,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
         window.customerData = window.checkoutConfig.customerData;
         window.cmsPayments = {"content": <?php echo json_encode(str_replace(array("\r", "\n"), "",
             $cmsPaymentsBlock))?>};
-                    
+
         login_state = window.isCustomerLoggedIn;
     </script>
     <script>
@@ -45,36 +45,39 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
             return url.setBaseUrl('<?= /* @escapeNotVerified */ $block->getBaseUrl() ?>');
         })
     </script>
-    
+
     <script type="text/javascript">
-        require(['jquery', 
-                 'accordionStep'], 
+        require(['jquery',
+                 'accordionStep'],
         function($, accordionStep) {
             $("body").on("click", ".shipping-methods.table-checkout-shipping-method.items li:not('.collect')", function(){
-                
+
+
+                let username = $('[name="username"]').val();
                 let firstname = $('[name="firstname"]').val();
                 let lastname = $('[name="lastname"]').val();
                 let telephone = $('[name="telephone"]').val();
                 let street = $('[name="street[0]"]').val();
                 let city = $('[name="city"]').val();
                 let postcode = $('[name="postcode"]').val();
-                
-                if(firstname != "" 
-                   && lastname != "" 
+
+                if(username != ""
+                    && firstname != ""
+                   && lastname != ""
                    && telephone != ""
                    && street != ""
                    && city != ""
                    && postcode != ""){
-               
+
                    var target = $('.checkout-shipping-address');
                     if (target.length) {
                         $('html,body').animate({
                             scrollTop: target.offset().top
                         }, 1000);
-                        
+
                         $(".checkout-shipping-address .accordion-step").removeClass("active");
                         $(".checkout-shipping-address .step-content").fadeOut("slow", "swing");
-                        
+
                         return false;
                     }
                 }
@@ -95,13 +98,13 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                     else{
                         $("#shipping-method-buttons-container .continue").trigger("click");
                     }
-                    
+
                 }
             });
-            
+
             $("body").on("click", "#shipping-button-extension", function(){
                 $("#shipping-method-buttons-container .continue").trigger("click");
-                
+
                 if($(".field-error").length > 0){
                     $(".checkout-shipping-address .accordion-step").addClass("active");
                     $(".checkout-shipping-method .accordion-step").addClass("active");
@@ -110,19 +113,19 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                     $(".checkout-shipping-method .step-content").fadeIn("slow", "swing");
                 }
             });
-            
+
             $("body").on("click", "#payment-button-extension", function(){
                 $(".order-trigger").trigger("click");
             });
-            
+
             $(window).load(function() {
                 var checkExist = setInterval(function() {
                     if ($("#qff_number").length) {
                         clearInterval(checkExist);
 
-                        qff_form = $("#qff-form"); 
-                        qff_number = $("#qff_number"); 
-                        qff_lastname = $("#qff_lastname"); 
+                        qff_form = $("#qff-form");
+                        qff_number = $("#qff_number");
+                        qff_lastname = $("#qff_lastname");
                         qff_trigger = $("#qff-trigger");
                         qff_error = $(".qff-link-error");
                         function verifyQffDetails(action, action_url){
@@ -144,7 +147,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                 success: function(data){
 
                                     setTimeout(
-                                    function() 
+                                    function()
                                     {
                                         if(data.result){
                                             if($(".qff-link-error").length > 0){
@@ -209,7 +212,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                             qff_number.val(window.customerData["qff_number"]);
                             qff_lastname.val(window.customerData["qff_lastname"]);
                         }
-                        
+
                         $("body").on("focus", "#qff-form input[type=text]", function(){
                             var target = $('.checkout-payment-method');
                             if (target.length) {
@@ -223,7 +226,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
                                 return false;
                             }
                         });
-                        
+
                         $("body").on("focus", ".order-comment", function(){
                             var target = $('.checkout-payment-method');
                             if (target.length) {
@@ -233,7 +236,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
 
                                 $(".checkout-qantas-wrapper .accordion-step").removeClass("active");
                                 $(".checkout-qantas-wrapper .step-content").fadeOut("slow", "swing");
-                                
+
                                 $(".checkout-payment-method .accordion-step").removeClass("active");
                                 $(".checkout-payment-method .step-content").fadeOut("slow", "swing");
 
@@ -257,10 +260,10 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
 
                             if($("#qff-trigger").attr("data-action") == "link"){
                                 var action = "update";
-                                
+
                                 $(".qff-link-error").remove();
-                                
-                                if(qff_number.val() == "" 
+
+                                if(qff_number.val() == ""
                                 || qff_lastname.val() == ""){
                                     var error_message = "<span class='qff-link-error'>Please enter the correct details.</span>";
                                     $(error_message).insertAfter(qff_lastname);
@@ -275,7 +278,7 @@ $hasWebOnly = $quoteHelper->isQuoteHasWebOnlyProducts();
 
                                     verifyQffDetails(action, action_url);
                                 }
-                                
+
                                 e.preventDefault();
                             }
                             else{
