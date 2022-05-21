@@ -624,7 +624,7 @@ return [
         'Mageplaza_Core' => 1,
         'Mageplaza_CronSchedule' => 1,
         'Mageplaza_ProductFeed' => 1,
-        'Mageplaza_Shopbybrand' => 0,
+        'Mageplaza_Shopbybrand' => 1,
         'Magezon_Core' => 1,
         'Magezon_Builder' => 1,
         'Magezon_Newsletter' => 1,
