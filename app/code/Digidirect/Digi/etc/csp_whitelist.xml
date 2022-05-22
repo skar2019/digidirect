@@ -42,7 +42,7 @@
                 <value id="zdassetsscript" type="host">*.zdassets.com</value>
                 <value id="pinterest" type="host">https://assets.pinterest.com</value>
                 <value id="dotdigitalsrc" type="host">r3.dotdigital-pages.com</value>
-
+                <value id="smoothioscriptt" type="host">api.smooch.io</value>
 
 
             </values>
@@ -80,7 +80,7 @@
                 <value id="cloudfrontimg" type="host">*.cloudfront.net</value>
                 <value id="digizendimg" type="host">digidirect.zendesk.com</value>
                 <value id="pinterestimg" type="host">*.pinterest.com</value>
-
+                <value id="analyticsyahooimg" type="host">*.analytics.yahoo.com</value>
             </values>
         </policy>
         <policy id="media-src">
@@ -140,6 +140,7 @@
                 <value id="evenbriteframe" type="host">*.eventbrite.com.au</value>
                 <value id="facebookframe" type="host">*.facebook.com</value>
                 <value id="smoothioframe" type="host">*.smooch.io</value>
+                <value id="adsrvrframe" type="host">match.adsrvr.org</value>
             </values>
         </policy>
     </policies>
