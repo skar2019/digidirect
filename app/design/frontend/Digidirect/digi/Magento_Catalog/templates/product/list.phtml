@@ -90,7 +90,7 @@ $showWishlist = true;
                 if ($brandNewProduct) {
                     $brandNewProductPrice = $brandNewProduct->getPrice();
                     $brandNewProductUrl = $brandNewProduct->getProductUrl();
-                    $secondsSavings = round(($finalProductPrice/$brandNewProductPrice)*100);
+                    $secondsSavings = round(100 - (($finalProductPrice/$brandNewProductPrice)*100));
                 }
                 
                 ?>
