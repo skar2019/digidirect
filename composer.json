@@ -12,7 +12,8 @@
         "sort-packages": true
     },
     "require": {
-        "classyllama/module-zendesk": "^1.1",
+        "classyllama/module-zendesk": "1.1.11",
+        "klarna/m2-klarna": "^1.0",
         "klevu/module-search": "^2.3",
         "livechat/module-magento-livechat": "dev-master",
         "magento/magento-cloud-metapackage": "2.4.4",
