@@ -112,6 +112,7 @@
                 <value id="zdassetsconnect" type="host">*.zdassets.com</value>
                 <value id="digizendconnect" type="host">digidirect.zendesk.com</value>
                 <value id="zipcoconnect" type="host">t.zip.co</value>
+                <value id="smoothioconnect" type="host">api.smooth.io</value>
 
             </values>
         </policy>
@@ -138,6 +139,7 @@
                 <value id="doubleclict" type="host">*.doubleclick.net</value>
                 <value id="evenbriteframe" type="host">*.eventbrite.com.au</value>
                 <value id="facebookframe" type="host">*.facebook.com</value>
+                <value id="smoothioframe" type="host">*.smooth.io</value>
             </values>
         </policy>
     </policies>
