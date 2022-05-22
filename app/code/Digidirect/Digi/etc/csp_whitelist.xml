@@ -81,14 +81,14 @@
                 <value id="digizendimg" type="host">digidirect.zendesk.com</value>
                 <value id="pinterestimg" type="host">*.pinterest.com</value>
                 <value id="analyticsyahooimg" type="host">*.analytics.yahoo.com</value>
-                <value id="digizendimg" type="host">digidirect.zendesk.com</value>
+                <value id="digizendimg" type="host">*.zendesk.com</value>
             </values>
         </policy>
         <policy id="media-src">
             <values>
 
                 <value id="cloudfrontmedia" type="host">*.cloudfront.net</value>
-                <value id="digizendmedia" type="host">digidirect.zendesk.com</value>
+                <value id="digizendmedia" type="host">*.zendesk.com</value>
 
             </values>
         </policy>
@@ -129,7 +129,7 @@
                 <value id="gstaticfont" type="host">https://fonts.gstatic.com</value>
                 <value id="similarincfont" type="host">*.similarinc.com</value>
                 <value id="zipfont" type="host">*.zipmoney.com.au</value>
-                <value id="digizendfont" type="host">digidirect.zendesk.com</value>
+                <value id="digizendfont" type="host">*.zendesk.com</value>
             </values>
         </policy>
         <policy id="frame-src">
