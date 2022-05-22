@@ -46,7 +46,7 @@
                 <value id="klarnascript" type="host">*.klarna.com</value>
                 <value id="gstaticscript" type="host">*.gstatic.com</value>
                 <value id="googlepayscript" type="host">*.google.com</value>
-
+                <value id="klarnascript" type="host">*.klarnacdn.net</value>
             </values>
         </policy>
         <policy id="style-src">
@@ -88,6 +88,7 @@
                 <value id="digizendimg" type="host">*.zendesk.com</value>
                 <value id="gstaticimg" type="host">*.gstatic.com</value>
                 <value id="googlepayimg" type="host">*.google.com</value>
+                <value id="klarnaimg" type="host">*.klarnacdn.net</value>
             </values>
         </policy>
         <policy id="media-src">
@@ -123,6 +124,7 @@
                 <value id="smoothioconnect" type="host">api.smooch.io</value>
                 <value id="gstaticconnect" type="host">*.gstatic.com</value>
                 <value id="googlepayconnect" type="host">*.google.com</value>
+                <value id="klarnaconnect" type="host">*.klarnacdn.net</value>
 
             </values>
         </policy>
@@ -154,6 +156,7 @@
                 <value id="adsrvrframe" type="host">match.adsrvr.org</value>
                 <value id="gstaticframe" type="host">*.gstatic.com</value>
                 <value id="googlepayframe" type="host">*.google.com</value>
+                <value id="klarnaframe" type="host">*.klarnacdn.net</value>
             </values>
         </policy>
     </policies>
