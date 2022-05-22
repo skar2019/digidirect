@@ -90,7 +90,7 @@ $showWishlist = true;
                 if ($brandNewProduct) {
                     $brandNewProductPrice = $brandNewProduct->getPrice();
                     $brandNewProductUrl = $brandNewProduct->getProductUrl();
-                    $secondsSavings = round(($finalProductPrice/$brandNewProductPrice)*100);
+                    $secondsSavings = round(100 - (($finalProductPrice/$brandNewProductPrice)*100));
                 }
                 
                 ?>
@@ -314,7 +314,11 @@ $showWishlist = true;
                                   $categoryName == "OPENBOX" ||
                                   $categoryName == "PRELOVED"): ?>
                             <div class="digiseconds-product-details">
-                                <div class="digiseconds-product-name"><span><?= $block->escapeHtml($productName); ?></span></div>
+                                <div class="digiseconds-product-name">
+                                    <a href="<?= $block->escapeUrl($productUrl); ?>">
+                                         <span><?= $block->escapeHtml($productName); ?></span>
+                                    </a>
+                                </div>
                                 <?php if ($d2ItemDescription): ?>
                                     <div class="item-note-wrapper-plp">
                                         <span class="item-note-label">
@@ -334,7 +338,7 @@ $showWishlist = true;
                                             <?= /* @escapeNotVerified */ $d2PackageInclusion ?>
                                         </div>
                                         <div class="digiseconds-show-more">
-                                            <a href="<?= $block->escapeUrl($productUrl) . "#whatinthebox"; ?>" title="<?= $block->escapeHtml($productName); ?>">
+                                            <a href="<?= $block->escapeUrl($productUrl); ?>" title="<?= $block->escapeHtml($productName); ?>">
                                                  Show More <i class="far fa-angle-down"></i>
                                             </a>
                                         </div>
@@ -487,6 +491,7 @@ $showWishlist = true;
         padding: 5px 0px 5px 15px;
         margin-left: -31px;
         margin-bottom: 10px;
+        min-height: 51px;
     }
     
     .digiseconds-product-name span {
@@ -506,11 +511,12 @@ $showWishlist = true;
     
     .package-inclusion-wrapper ul {
         margin-left: 40px;
+        padding-right: 20px;
     }
 
     .whats-in-the-box-wrapper {
-        height: auto;
-        max-height: 139px;
+        min-height: 113px;
+        max-height: 113px;
         overflow: hidden !important;
     }
 
@@ -594,6 +600,11 @@ $showWishlist = true;
         margin-top: -28px;
         color: #FFAE00;
         font-size: 11px;
+    }
+    
+    .digiseconds-product-name a {
+        text-decoration: none !important;
+        color: #000 !important;
     }
 
     .page-main {
