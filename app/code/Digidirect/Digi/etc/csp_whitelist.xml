@@ -89,6 +89,7 @@
                 <value id="gstaticimg" type="host">*.gstatic.com</value>
                 <value id="googlepayimg" type="host">*.google.com</value>
                 <value id="klarnaimg" type="host">*.klarnacdn.net</value>
+                <value id="facebookimg" type="host">*.facebook.net</value>
             </values>
         </policy>
         <policy id="media-src">
@@ -125,7 +126,7 @@
                 <value id="gstaticconnect" type="host">*.gstatic.com</value>
                 <value id="googlepayconnect" type="host">*.google.com</value>
                 <value id="klarnaconnect" type="host">*.klarnacdn.net</value>
-
+                <value id="visitorsconnect" type="host">wss://in.visitors.live/socket.io/</value>
             </values>
         </policy>
         <policy id="font-src">
@@ -157,6 +158,7 @@
                 <value id="gstaticframe" type="host">*.gstatic.com</value>
                 <value id="googlepayframe" type="host">*.google.com</value>
                 <value id="klarnaframe" type="host">*.klarnacdn.net</value>
+                <value id="dotdigitalframe" type="host">*.dotdigital-pages.com</value>
             </values>
         </policy>
     </policies>
