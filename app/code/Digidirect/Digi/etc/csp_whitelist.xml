@@ -108,6 +108,7 @@
                 <value id="visitorsconnect" type="host">*.visitors.live</value>
                 <value id="googleapisconnect" type="host">*.googleapis.com</value>
                 <value id="zdassetsconnect" type="host">*.zdassets.com</value>
+                <value id="digizendconnect" type="host">digidirect.zendesk.com</value>
 
             </values>
         </policy>
