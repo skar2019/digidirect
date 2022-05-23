@@ -105,7 +105,7 @@
                 <!--CDN-->
                 <value id="cloudflare" type="host">*.cloudflare.com</value>
                 <value id="paypal" type="host">*.paypal.com</value>
-                <value id="cfjump3connect" type="host">t.cfjump.com/tag/72917</value>
+                <value id="cfjump3connect" type="host">t.cfjump.com</value>
                 <value id="lukyorangeconnect" type="host">settings.luckyorange.net</value>
                 <value id="paconnect" type="host">recs-1a.particularaudience.com</value>
                 <value id="statsgconnect" type="host">stats.g.doubleclick.net</value>
@@ -160,6 +160,7 @@
                 <value id="klarnaframe" type="host">*.klarnacdn.net</value>
                 <value id="dotdigitalframe" type="host">*.dotdigital-pages.com</value>
                 <value id="sslkaptcha" type="host">ssl.kaptcha.com</value>
+                <value id="eventbrite" type="host">*.eventbrite.com.au</value>
             </values>
         </policy>
     </policies>
