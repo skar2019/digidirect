@@ -130,7 +130,9 @@
                 <value id="cardinalconnect" type="host">*.cardinalcommerce.com</value>
                 <value id="demdexconnect" type="host">*.demdex.net</value>
                 <value id="braintree" type="host">*.braintree-api.com</value>
-                <value id="braintree" type="host">*.braintreegateway.com</value>
+                <value id="braintreegateway" type="host">*.braintreegateway.com</value>
+                <value id="amcglobal" type="host">amcglobal.sc.omtrdc.net</value>
+
             </values>
         </policy>
         <policy id="font-src">
