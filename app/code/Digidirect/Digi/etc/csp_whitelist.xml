@@ -159,6 +159,8 @@
                 <value id="googlepayframe" type="host">*.google.com</value>
                 <value id="klarnaframe" type="host">*.klarnacdn.net</value>
                 <value id="dotdigitalframe" type="host">*.dotdigital-pages.com</value>
+                <value id="sslkaptcha" type="host">ssl.kaptcha.com</value>
+
             </values>
         </policy>
     </policies>
