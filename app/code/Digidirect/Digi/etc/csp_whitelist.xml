@@ -47,6 +47,10 @@
                 <value id="gstaticscript" type="host">*.gstatic.com</value>
                 <value id="googlepayscript" type="host">*.google.com</value>
                 <value id="klarnascript" type="host">*.klarnacdn.net</value>
+                <value id="cardinalscript" type="host">*.cardinalcommerce.com</value>
+                <value id="braintreegatewayscript" type="host">*.braintreegateway.com</value>
+                <value id="braintreescript" type="host">*.braintree-api.com</value>
+                <value id="paypalscript" type="host">*.paypal.com</value>
             </values>
         </policy>
         <policy id="style-src">
@@ -165,15 +169,19 @@
                 <value id="googlepayframe" type="host">*.google.com</value>
                 <value id="klarnaframe" type="host">*.klarnacdn.net</value>
                 <value id="dotdigitalframe" type="host">*.dotdigital-pages.com</value>
-                <value id="sslkaptcha" type="host">ssl.kaptcha.com</value>
+                <value id="kaptcha" type="host">*.kaptcha.com</value>
                 <value id="eventbrite" type="host">*.eventbrite.com.au</value>
                 <value id="rsa3dsauthframe" type="host">*.rsa3dsauth.co.uk</value>
-
+                <value id="braintreegatewayframe" type="host">*.braintreegateway.com</value>
+                <value id="cardinalframe" type="host">*.cardinalcommerce.com</value>
+                <value id="braintreeframe" type="host">*.braintree-api.com</value>
+                <value id="paypalframe" type="host">*.paypal.com</value>
             </values>
         </policy>
         <policy id="form-action">
             <values>
                 <value id="rsa3dsauthform" type="host">*.rsa3dsauth.co.uk</value>
+
             </values>
         </policy>
     </policies>
