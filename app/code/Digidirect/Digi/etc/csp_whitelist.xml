@@ -167,6 +167,13 @@
                 <value id="dotdigitalframe" type="host">*.dotdigital-pages.com</value>
                 <value id="sslkaptcha" type="host">ssl.kaptcha.com</value>
                 <value id="eventbrite" type="host">*.eventbrite.com.au</value>
+                <value id="rsa3dsauthframe" type="host">*.rsa3dsauth.co.uk</value>
+
+            </values>
+        </policy>
+        <policy id="form-action">
+            <values>
+                <value id="rsa3dsauthform" type="host">*.rsa3dsauth.co.uk</value>
             </values>
         </policy>
     </policies>
