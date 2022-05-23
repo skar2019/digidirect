@@ -572,7 +572,7 @@ return [
         'Digidirect_Customer' => 1,
         'Digidirect_MSI' => 1,
         'Digidirect_ExtendedCartPriceRules' => 0,
-        'Digidirect_ExtendedCartPriceRulesMSI' => 1,
+        'Digidirect_ExtendedCartPriceRulesMSI' => 0,
         'Digidirect_ExtendedCatalogPriceRule' => 1,
         'Digidirect_ExtendedShippingRates' => 1,
         'Digidirect_ExtendedShippingRatesLocalization' => 1,
