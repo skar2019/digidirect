@@ -455,6 +455,41 @@ $showWishlist = true;
     });
 </script>
 
+<div id="modal-content">
+    <div class="modal-inner-content">
+        <h2>Modal Title</h2>
+        <p>Modal content.....</p>
+    </div>
+</div>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function($, modal) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Pop-up title',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: 'modal-close',
+                    click: function (){
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            modal(options, $('#modal-content'));
+            $(".digiseconds-overlay").on('click',function(){
+                $("#modal-content").modal("openModal");
+            });
+        }
+    );
+</script>
+
 <style>
     .product-category-listing .digiseconds-left-width {
         width: 33% !important;
