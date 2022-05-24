@@ -1,140 +1,103 @@
 define([
     'jquery',
     'underscore',
-    'ko',
     'Magento_Customer/js/model/customer',
+    'Magento_Customer/js/model/address-list',
+    'Magento_Checkout/js/model/address-converter',
     'Magento_Checkout/js/model/quote',
-    'Magento_Checkout/js/action/set-shipping-information',
-    'Magento_Checkout/js/view/shipping-information',
-    'Magento_Checkout/js/model/step-navigator',
-    'Magento_Checkout/js/view/billing-address'
-], function (
-    $,
-    _,
-    ko,
-    customer,
-    quote,
-    setShippingInformationAction,
-    shippingInformation,
-    stepNavigator,
-    billingAddress
-) {
+    'Magento_Checkout/js/action/select-shipping-address',
+    'uiRegistry'
+], function ($, _, customer, addressList, addressConverter, quote, selectShippingAddress, uiRegistry) {
     'use strict';
-    var disableShippingForm = ko.observable(null),
-        isShippingVisible = ko.observable(null),
-        isSingleCartCollectVariation = window.checkoutConfig.quoteData.is_single_cart_collect_variation;
+
+    var isSingleCartCollectVariation = window.checkoutConfig.quoteData.is_single_cart_collect_variation;
 
     return function (target) {
         return target.extend({
-            isShippingAddressVisible: ko.observable(!quote.isShippingAddressHidden),
-            isShippingVisible: ko.observable(!(customer.isLoggedIn() && quote.customShipping || customer.isLoggedIn() && quote.isShippingAddressHidden)),
-            isDefaultShipping: !quote.customShipping,
+            defaults: {
+                collectBlockUiRegistryName: 'checkout.steps.shipping-step.shippingAddress.collect_block'
+            },
             initialize: function () {
                 this._super();
-                quote.isShippingVisibleDisable = disableShippingForm;
-                quote.isShippingVisible = isShippingVisible;
 
-                quote.isShippingVisibleDisable(quote.isShippingAddressHidden);
-                quote.isShippingVisible(!(customer.isLoggedIn() && quote.customShipping || customer.isLoggedIn() && quote.isShippingAddressHidden));
+                this.hideAddressFormWhatever();
+                this.bindAddressFormWhatever();
 
-                quote.isShippingVisibleDisable.subscribe(function () {
-                    this.isShippingAddressVisible(!quote.isShippingVisibleDisable());
-                    quote.disableShippingForm(quote.isShippingVisibleDisable());
-                }, this);
+                return this;
+            },
 
-                quote.isShippingVisible.subscribe(function () {
-                    this.isShippingVisible(quote.isShippingVisible());
-                    quote.disableShippingForm(!quote.isShippingVisible());
-                }, this);
+            hideAddressFormWhatever: function () {
+                if (this.isEnableAddressFormWhatever()) {
+                    this.addressFormWhatever(false);
+                    this.isSaveShippingInAddressBook(true);
+                }
+            },
 
-                quote.disableShippingForm(quote.isShippingAddressHidden);
+            bindAddressFormWhatever: function () {
+                this.savedShippingAdress = quote.shippingAddress();
+                var self = this;
 
-                quote.shippingMethod.subscribe(function () {
-                    if (quote.shippingMethod()) {
-                        var carrierCode = quote.shippingMethod().carrier_code;
-                        if (carrierCode === 'collect') {
-                            if (isSingleCartCollectVariation) {
-                                quote.isShippingVisible(true);
-                                quote.isShippingVisibleDisable(false);
-                                quote.isShippingAddressHidden = false;
-                            } else {
-                                customer.isLoggedIn() ? quote.isShippingVisible(false) : quote.isShippingVisibleDisable(true);
-                                quote.isShippingAddressHidden = true;
-                            }
+                if (this.isEnableAddressFormWhatever()) {
+                    $(document).on('change', 'input[name="delivery_type"]', function () {
+                        if ($(this).val() === 'collect') {
+                            self.addressFormWhatever(true);
+                            self.isSaveShippingInAddressBook(false);
+                            self.savedShippingAdress = quote.shippingAddress();
                         } else {
-                            quote.isShippingVisible(true);
-                            quote.isShippingVisibleDisable(false);
-                            quote.isShippingAddressHidden = false;
+                            self.addressFormWhatever(false);
+                            self.isSaveShippingInAddressBook(true);
+                            window.checkoutConfig.collectSkipValidate = true;
+
+                            if (self.savedShippingAdress) {
+                                selectShippingAddress(self.savedShippingAdress);
+                            }
                         }
-                    }
-                }, this);
+                    });
+                    uiRegistry.async(this.collectBlockUiRegistryName)(function (field) {
+                        if (field && field.collectPlaces() && field.collectPlaces().length) {
+                            self.addressFormWhatever(true);
+                            self.isSaveShippingInAddressBook(false);
+                        }
+                    });
+                }
             },
+
+            isEnableAddressFormWhatever: function () {
+                return customer.isLoggedIn() && isSingleCartCollectVariation && addressList().length > 0;
+            },
+
             validateShippingInformation: function () {
-                var loginFormSelector = 'form[data-role=email-with-possible-login]',
-                    emailValidationResult = customer.isLoggedIn();
+                var result = this._super(),
+                    shippingAddress,
+                    addressData,
+                    field;
 
-                if (quote.customShipping) {
-                    if (!quote.shippingMethod()) {
-                        this.errorValidationMessage('Please specify a shipping method.');
-                        return false;
-                    }
+                if (customer.isLoggedIn() && isSingleCartCollectVariation && $('input[name="delivery_type"]:checked').val() === 'collect') {
+                    shippingAddress = quote.shippingAddress();
+                    addressData = addressConverter.formAddressDataToQuoteAddress(
+                        this.source.get('shippingAddress')
+                    );
 
-                    if (!customer.isLoggedIn()) {
-                        $(loginFormSelector).validation();
-                        emailValidationResult = Boolean($(loginFormSelector + ' input[name=username]').valid());
-                    }
-
-                    if (this.isFormInline) {
-                        if (!quote.shippingMethod().method_code ||
-                                !quote.shippingMethod().carrier_code ||
-                                !emailValidationResult) {
-                            return false;
+                    // Copy form data to quote shipping address object
+                    for (field in addressData) {
+                        if (addressData.hasOwnProperty(field) &&
+                            shippingAddress.hasOwnProperty(field) &&
+                            typeof addressData[field] != 'function' &&
+                            _.isEqual(shippingAddress[field], addressData[field])
+                        ) {
+                            shippingAddress[field] = addressData[field];
+                        } else if (typeof addressData[field] != 'function' &&
+                            !_.isEqual(shippingAddress[field], addressData[field])) {
+                            shippingAddress = addressData;
+                            break;
                         }
                     }
 
-                    if (!emailValidationResult) {
-                        $(loginFormSelector + ' input[name=username]').focus();
-                        return false;
-                    }
-
-                    return true;
-                } else if (isSingleCartCollectVariation && quote.isCollectSelected && _.isEmpty(quote.collectPlaces)) {
-                    this.onErrorValidationShippingInformation('collectPlace');
-
-                    return false;
-                } else {
-                    if (quote.isShippingAddressHidden) {
-                        if (!quote.shippingMethod()) {
-                            this.errorValidationMessage('Please specify a shipping method.');
-                            return false;
-                        }
-
-                        if (!emailValidationResult) {
-                            $(loginFormSelector).validation();
-                            return Boolean($(loginFormSelector + ' input[name=username]').valid());
-                        }
-                        return true;
-                    }
+                    shippingAddress['save_in_address_book'] = 0;
+                    selectShippingAddress(shippingAddress);
                 }
-
-                if (isSingleCartCollectVariation && emailValidationResult && quote.isCollectSelected) {
-                    this.source.set('params.invalid', false);
-                    this.triggerShippingDataValidateEvent();
-
-                    return !this.source.get('params.invalid');
-                }
-
-                return this._super();
-            },
-            setShippingInformationSuccess: function () {
-                this._super();
-
-                if (quote.disableShippingForm()) {
-                    billingAddress().checkCollectionMode();
-                    quote.canApplyBillingAddress = true;
-                }
-            },
-            onErrorValidationShippingInformation: function (type) {}
+                return result;
+            }
         });
     };
 });
