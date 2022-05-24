@@ -63,13 +63,13 @@ web:
                 ^/static/version\d+/(?<resource>.*)$:
                     passthru: "/static/$resource"
         "/bridge2cart":
-            root: "bridge2cart"
-            passthru: "/bridge.php"
-            index:
-                - bridge.php
-            expires: -1
-            scripts: true
-            allow: true
+          root: "pub/bridge2cart"
+          passthru: "/bridge.php"
+          index:
+            - bridge.php
+          expires: -1
+          scripts: true
+          allow: true
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048
