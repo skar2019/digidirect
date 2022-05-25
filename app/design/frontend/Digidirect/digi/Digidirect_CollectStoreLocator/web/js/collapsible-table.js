@@ -23,7 +23,8 @@ define([
 
         _rowAction: function(action) {
             var $self = this,
-                rows = $self.table.find('tr:not(:first-child)'),
+                //rows = $self.table.find('tr:not(:first-child)'),
+                rows = $self.table.find('tr'),
                 $action = action || 'hide';
 
             switch ($action) {
