@@ -211,6 +211,7 @@ define([
         },
         onErrorDelivery: function (response) {},
         applyCollectPlaceToAllItems: function (id, name) {
+            console.log("applyCollectPlaceToAllItems : " + id + ", " + name);
             var self,
                 serviceUrl,
                 payload;
