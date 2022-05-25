@@ -45,6 +45,9 @@ define([
             submitLocatorStore: function (item) {
                 this.applyCollectPlaceToAllItems(item.entity_id, this.entityName);
             }
+            testLocatorFunction: function (item) {
+                console.log("testLocatorFunction Called Successfully!");
+            }
         });
     };
 });
