@@ -176,6 +176,7 @@
                 <value id="cardinalframe" type="host">*.cardinalcommerce.com</value>
                 <value id="braintreeframe" type="host">*.braintree-api.com</value>
                 <value id="paypalframe" type="host">*.paypal.com</value>
+                <value id="wooboxframe" type="host">*.woobox.com</value>
             </values>
         </policy>
         <policy id="form-action">
