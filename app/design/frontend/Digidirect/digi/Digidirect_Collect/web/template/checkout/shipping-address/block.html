@@ -35,7 +35,6 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 <!-- ko ifnot: isWebOnly() -->
 <div data-bind="css: 'collect-block'" data-role="collect-block"
      data-collect-type="collect">
-    
     <!-- ko if: isVsmAvailable -->
     <div class="pickup-available-wrapper">
         <div id="one-hour-cms" class="pickup-cms" data-bind="html: window.oneHourPickUpAvailable"></div>
@@ -56,7 +55,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 
         <a class="link -collect action primary"
            href="#collect-block-modal-checkout"
-           data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change Store'"></a>
+           data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change'"></a>
         <!-- /ko -->
     </div>
     <!-- /ko -->
@@ -71,6 +70,16 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
             <div class="title" data-bind="i18n: 'Your selected Store'"></div>
             <div data-bind="i18n: 'No store selected'"></div>
         </div>
+        <!-- ko if: getDeliveryPlace(collectPlaces()[0]) -->
+        <a class="link -change action primary"
+           href="#collect-block-modal-checkout"
+           data-bind="click: function(data, event) { showFormPopUp(data, event) }"></a>
+        <!-- /ko -->
+        <!-- ko ifnot: getDeliveryPlace(collectPlaces()[0]) -->
+        <a class="link -collect action primary"
+           href="#collect-block-modal-checkout"
+           data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Choose Your Store'"></a>
+        <!-- /ko -->
     </div>
 
     <!-- /ko -->
@@ -78,12 +87,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
 </div>
 <!-- /ko-->
 
-<div id="collect-block-modal-checkout" data-bind="visible: false">
+<div id="collect-block-modal-checkout" data-bind="visible: isSingleCartFormPopUpVisible()">
     <!-- ko template: collectFormTemplate --><!-- /ko -->
 </div>
-
-<div class="store-locator-wrapper">
-    <div data-role="locator-list" class="locator-list" data-bind="scope: 'locator_list'">
-        <!-- ko template: getTemplate() --><!-- /ko -->
-    </div>
-</div>
+<!-- /ko -->
