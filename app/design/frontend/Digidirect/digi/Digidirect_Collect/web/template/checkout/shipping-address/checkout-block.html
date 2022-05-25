@@ -41,6 +41,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         <div id="one-hour-cms" class="pickup-cms" data-bind="html: window.oneHourPickUpAvailable"></div>
     </div>
     <!-- /ko -->
+    
     <!-- ko if: collectPlaces().length > 0 -->
     <!-- ko ifnot: isVsmAvailable -->
     <div class="pickup-cms" data-bind="html: window.pickUpStoreCmsBlock"></div>
@@ -57,9 +58,9 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         <a class="link -collect action primary"
            href="#collect-block-modal-checkout"
            data-bind="click: function(data, event) { showFormPopUp(data, event) }, i18n: 'Change Store'"></a>
-        <!-- /ko -->
     </div>
     <!-- /ko -->
+    
     <!-- ko ifnot: collectPlaces().length > 0 -->
     <!-- ko ifnot: getDeliveryPlace(collectPlaces()[0]) -->
     <div class="pickup-cms" data-bind="html: window.pickUpStoreCmsBlock"></div>
