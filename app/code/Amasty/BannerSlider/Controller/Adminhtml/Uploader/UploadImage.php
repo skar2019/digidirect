@@ -13,7 +13,7 @@ class UploadImage extends \Magento\Backend\App\Action
      *
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
+    public const ADMIN_RESOURCE = 'Amasty_BannerSlider::banners_banner';
 
     /**
      * @var \Magento\Catalog\Model\ImageUploader

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,7 +12,7 @@
 namespace Liquid\Tag;
 
 use Liquid\AbstractBlock;
-use Liquid\LiquidException;
+use Liquid\Exception\ParseException;
 use Liquid\FileSystem;
 use Liquid\Regexp;
 
@@ -39,17 +39,18 @@ class TagBlock extends AbstractBlock
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\ParseException
 	 * @return \Liquid\Tag\TagBlock
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		$syntaxRegexp = new Regexp('/(\w+)/');
 
 		if ($syntaxRegexp->match($markup)) {
 			$this->block = $syntaxRegexp->matches[1];
 			parent::__construct($markup, $tokens, $fileSystem);
 		} else {
-			throw new LiquidException("Syntax Error in 'block' - Valid syntax: block [name]");
+			throw new ParseException("Syntax Error in 'block' - Valid syntax: block [name]");
 		}
 	}
 }

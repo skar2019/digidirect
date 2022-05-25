@@ -2481,7 +2481,7 @@ button.mgz-btn {
   }
 }
 .mgz-element-column > .mgz-element-inner {
-  padding: 0 10px;
+  padding: 10px;
 }
 .mgz-element-column.mgz-element-column-empty > .mgz-element-inner {
   padding: 0;

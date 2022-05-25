@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Marketplacer\BrandApi\Api\Data\MarketplacerBrandInterface" type="Marketplacer\Brand\Model\Brand"/>
+    <preference for="Marketplacer\BrandApi\Api\BrandRepositoryInterface" type="Marketplacer\Brand\Model\BrandRepository"/>
+    <preference for="Marketplacer\BrandApi\Api\MarketplacerBrandUrlInterface" type="Marketplacer\Brand\Model\BrandUrl"/>
+
+    <preference for="Marketplacer\Brand\Api\Data\BrandInterface" type="Marketplacer\Brand\Model\Brand"/>
+    <preference for="Marketplacer\Brand\Api\BrandRepositoryInterface" type="Marketplacer\Brand\Model\BrandRepository"/>
+    <preference for="Marketplacer\Brand\Api\Data\BrandCollectionInterface" type="Marketplacer\Brand\Model\ResourceModel\Brand\Collection"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="marketplacer_brand_listing_data_source" xsi:type="string">
+                    Marketplacer\Brand\Model\ResourceModel\Brand\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\Layer\Resolver">
+        <arguments>
+            <argument name="layersPool" xsi:type="array">
+                <item name="brand_category_layer" xsi:type="string">Marketplacer\Brand\Model\Layer\Brand</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Sitemap\Model\ItemProvider\Composite">
+        <arguments>
+            <argument name="itemProviders" xsi:type="array">
+                <item name="brandProvider" xsi:type="object">Marketplacer\Brand\Model\Sitemap\ItemProvider\Brand</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -18,18 +18,11 @@
                 <div class="sorter -mobile">
                     <div class="sort-label-wrapper">
                         <span class="sorter-trigger" data-container="#sorterOffcanvas" data-mage-init='{ "offcanvas": {"addOn":
-                        "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Sort By');?>
+                        "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Sort By: ');?>
                         </span>
-                        <span class="sort-label-mobile">
-                            <?php foreach ($block->getAvailableOrders() as $_key => $_order): ?>
-                                <?php if ($_order == 'Position'): /**  Label hardcoded in vendor/magento/module-catalog/Model/Config.php*/ ?>
-                                    <?php $_order = 'Bestsellers'; /**  according #287685 */ ?>
-                                <?php endif; ?>
-                                <span <?php if ($block->isOrderCurrent($_key)): ?> class="selected" <?php endif; ?> >
-                                    <?= $block->escapeHtml(__($_order)) ?>
-                                </span>
-                            <?php endforeach; ?>
-                        </span>
+                        <div class="custom-sorter-mobile">
+                            <?php include ($block->getTemplateFile('Magento_Catalog::product/list/sorter.phtml')) ?>
+                        </div>
                     </div>
                     <div class="sorter-mobile-wrapper">
                         <a title="<?= /* @escapeNotVerified */ __('Descending Direction') ?>"
@@ -48,8 +41,17 @@
                 </div>
             <?php endif; ?>
         </div>
-    </div>
-    <div id="sorterOffcanvas" class="sorter-container offcanvas-panel offcanvas-left -device-only -without-padding">
-        <?php include ($block->getTemplateFile('Magento_Catalog::product/list/sorter.phtml')) ?>
+        
     </div>
 <?php endif ?>
+
+<script>
+    require([
+        'jquery'
+    ], function($){
+        window.onload = function() {
+            //$('.desktop-row').attr("style", "visibility: visible !important;");
+            //$('.desktop-row').removeAttr("style");
+        };
+    });
+</script>

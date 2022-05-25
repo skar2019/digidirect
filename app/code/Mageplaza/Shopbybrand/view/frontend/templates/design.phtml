@@ -19,7 +19,10 @@
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
-/** @var \Mageplaza\Shopbybrand\Block\Design $block */
+use Mageplaza\Shopbybrand\Block\Design;
+use Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay;
+
+/** @var Design $block */
 $helper = $block->helper();
 ?>
 <style type="text/css">
@@ -32,6 +35,7 @@ $helper = $block->helper();
         width: <?= /** @noEscape */ $block->getLogoWidth() . 'px' ?>;
         height: <?= /** @noEscape */ $block->getLogoHeight() . 'px' ?>
     }
+
     /*===================================================================
     |                            Configuration Style                    |
     ====================================================================*/
@@ -58,13 +62,11 @@ $helper = $block->helper();
     |                           Custom STYLE                             |
     ====================================================================*/
     <?= /** @noEscape */ $block->getCustomCss() ?>
-
-    /*===================================================================
-    |           Brand Page product List Responsive Design                |
-    ====================================================================*/
-
+        /*===================================================================
+        |           Brand Page product List Responsive Design                |
+        ====================================================================*/
     .brand-list-content li {
-        width: <?= $helper->getBrandConfig('display') === \Mageplaza\Shopbybrand\Model\Config\Source\BrandListDisplay::DISPLAY_LABEL
+        width: <?= $helper->getBrandConfig('display') === BrandListDisplay::DISPLAY_LABEL
         ? '33%' : '16.3% !important' ?>;
     }
 

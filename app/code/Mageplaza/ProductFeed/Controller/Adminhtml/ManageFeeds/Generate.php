@@ -73,9 +73,9 @@ class Generate extends AbstractManageFeeds
         JsonFactory $jsonFactory,
         Layout $layout
     ) {
-        $this->helperData = $helperData;
+        $this->helperData  = $helperData;
         $this->jsonFactory = $jsonFactory;
-        $this->layout = $layout;
+        $this->layout      = $layout;
 
         parent::__construct($feedFactory, $coreRegistry, $context);
     }
@@ -85,10 +85,18 @@ class Generate extends AbstractManageFeeds
      */
     public function execute()
     {
-        $feed = $this->initFeed(true);
+        $feed       = $this->initFeed(true);
         $resultJson = $this->jsonFactory->create();
+
+        if (!$feed->getStatus()) {
+            return $resultJson->setData([
+                'success' => false,
+                'message' => __('Please enable the feed to generate.')
+            ]);
+        }
+
         try {
-            $result = $this->helperData->processRequest($feed);
+            $result            = $this->helperData->processRequest($feed);
             $result['success'] = true;
             if (isset($result['complete'])
                 && $result['complete']
@@ -99,7 +107,7 @@ class Generate extends AbstractManageFeeds
         } catch (Exception $e) {
             $result = [
                 'success' => false,
-                'message' => $e->getMessage()
+                'message' => __('Something went wrong while generating the Feed. Please try again.')
             ];
         }
 

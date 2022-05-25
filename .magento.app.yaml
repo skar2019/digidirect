@@ -11,6 +11,7 @@ build:
     flavor: composer
 
 # Enable extensions required by Magento 2
+# enabled sodium
 runtime:
     extensions:
         - redis
@@ -18,6 +19,7 @@ runtime:
         - json
         - newrelic
         - xdebug
+        - sodium
 # The relationships of the application with services or other applications.
 # The left-hand side is the name of the relationship as it will be exposed
 # to the application in the environment variable. The right-hand
@@ -61,13 +63,13 @@ web:
                 ^/static/version\d+/(?<resource>.*)$:
                     passthru: "/static/$resource"
         "/bridge2cart":
-            root: "bridge2cart"
-            passthru: "/bridge.php"
-            index:
-                - bridge.php
-            expires: -1
-            scripts: true
-            allow: true
+          root: "pub/bridge2cart"
+          passthru: "/bridge.php"
+          index:
+            - bridge.php
+          expires: -1
+          scripts: true
+          allow: true
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048

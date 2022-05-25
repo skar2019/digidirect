@@ -9,11 +9,6 @@
             <label>Banner Slider</label>
             <tab>amasty</tab>
             <resource>Amasty_BannerSlider::config</resource>
-            <group id="amasty_information" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1"
-                   showInStore="1">
-                <label>Information</label>
-                <frontend_model>Amasty\BannerSlider\Block\Adminhtml\System\Config\Information</frontend_model>
-            </group>
         </section>
     </system>
 </config>

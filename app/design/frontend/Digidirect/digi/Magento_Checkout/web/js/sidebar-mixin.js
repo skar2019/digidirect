@@ -91,15 +91,36 @@ define([
                  * @param {jQuery.Event} event
                  */
                 events['change ' + this.options.item.qty] = function (event) {
-                    self._showItemButton($(event.target));
+                    //self._showItemButton($(event.target));
                 };
 
                 /**
                  * @param {jQuery.Event} event
                  */
                 events['click ' + this.options.item.button] = function (event) {
+                    //event.stopPropagation();
+                    //console.log(this.options.item.button);
+                    //self._updateItemQty($(event.currentTarget));
+                    
+                    return false;
+                };
+                
+                /**
+                 * @param {jQuery.Event} event
+                 * Custom Event (Rondel)
+                 */
+                events['click ' + ':button.minicart-qty-increase'] = function (event) {
                     event.stopPropagation();
-                    self._updateItemQty($(event.currentTarget));
+                    self._updateItemQtyIncrease($(event.currentTarget));
+                };
+                
+                /**
+                 * @param {jQuery.Event} event
+                 * Custom Event (Rondel)
+                 */
+                events['click ' + ':button.minicart-qty-decrease'] = function (event) {
+                    event.stopPropagation();
+                    self._updateItemQtyDecrease($(event.currentTarget));
                 };
 
                 /**
@@ -108,15 +129,56 @@ define([
                 events['focusout ' + this.options.item.qty] = function (event) {
                     self._validateQty($(event.currentTarget));
                 };
+                
+                /**
+                 * @param {jQuery.Event} event
+                 */
 
                 this._on(this.element, events);
                 this._calcHeight();
             },
+
+            _updateItemQty: function (elem) {
+                //var itemId = elem.data('cart-item');
+                //$('#cart-item-' + itemId + '-qty');
+                //this._updateItemQtyIncrease(elem);
+                return false;
+            },
+            
+            //Rondel Custom Function
+            _updateItemQtyIncrease: function (elem) {
+                var itemId = elem.data('cart-item');
+
+                this._ajax(this.options.url.update, {
+                    'item_id': itemId,
+                    'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) + 1
+                }, elem, this._updateItemQtyAfter);
+            },
+            
+            //Rondel Custom Function
+            _updateItemQtyDecrease: function (elem) {
+                var itemId = elem.data('cart-item');
+
+                this._ajax(this.options.url.update, {
+                    'item_id': itemId,
+                    'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1
+                }, elem, this._updateItemQtyAfter);
+            },
+            
+            /**
+            * @param {HTMLElement} elem
+            * @private
+            */
+           _hideItemButton: function (elem) {
+               return false;
+           },
+            
             _calcHeight: function () {
                 $(this.options.minicart.list).parents(this.options.minicartScrollWrapperSelector).trigger('updateHeight');
             }
         });
 
         return $.mage.sidebar;
+        
     };
 });

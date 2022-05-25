@@ -28,6 +28,13 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="mageplaza_productfeed_reportData" xsi:type="object">Mageplaza\ProductFeed\Console\Command\ReportData</item>
+            </argument>
+        </arguments>
+    </type>
     <!--Grid collection-->
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>

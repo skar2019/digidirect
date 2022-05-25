@@ -223,6 +223,7 @@
 
         .details-qty.qty {
             display: inline-block;
+            width-min: 108px;
 
             span{
                 text-transform: uppercase;
@@ -233,9 +234,13 @@
         .action.close
         {
             &::before{
-                font-size: 42px;
-                font-weight: bold;
-                color: #222;
+                font-family: 'Font Awesome 5 Free';
+                content: '\f00d';
+                font-size: 20px;
+                font-weight: 600;
+                color: #cacaca;
+                margin-right: 30px;
+                margin-top: 15px;
             }
 
             &:hover:before{
@@ -292,37 +297,52 @@
             margin: 30px 0 5px;
             font-family: 'Poppins', sans-serif;
             font-size: 20px;
+            width: 92%;
+            margin-right: 0;
+            margin-left: auto;
 
             .subtotal-items{
                 .price-container .price{
-                    font-size: 20px;
+                    font-size: 22px;
+                    color: #ff3c00;
                 }
             }
 
             .label{
-                font-weight: bold;
+                //font-weight: bold;
+                font-weight: 500;
+                text-transform: uppercase;
             }
         }
 
         .qantas-pts-wrapper-minicart-price{
             &{
-                margin-top: 15px;
+                margin-top: 10px;
+                background: #fff !important;
+                width: fit-content;
+                padding: 1px 3px;
+                text-transform: capitalize;
             }
 
             .qantas-logo{
                 height: 18px;
+                margin-bottom: -5px;
             }
 
             .qantas-span{
-                font-weight: 600;
-                font-size: 12px;
-                text-transform: uppercase;
+                font-weight: 500;
+                font-size: 10px;
+                text-transform: capitalize;
             }
         }
 
         .qantas-pts-wrapper-minicart-subtotal {
             margin-bottom: 30px;
             font-family: 'Poppins', sans-serif;
+            background: #fff;
+            padding: 3px;
+            width: fit-content;
+            float: right;
         }
 
 /*        button{
@@ -394,8 +414,8 @@
     }
 
     .minicart-item-header{
-        background: #dcdcdc;
-        padding: 30px 15px;
+        //background: #dcdcdc;
+        padding: 60px 40px 20px 40px;
         font-size: 16px;
 
         span{
@@ -411,8 +431,18 @@
 
     .minicart-item-wrapper{
         .action.secondary{
-            border-radius: 4px;
+            border-radius: 5px;
+            background: #ff3c00 !important;
+            font-weight: 500;
         }
+    }
+    
+    #top-cart-btn-checkout:after {
+        content: '\f0a9';
+        font-family: 'Font Awesome 5 Free';
+        font-size: 20px !important;
+        font-weight: 600;
+        margin-left: 25px;
     }
 
     .circle-icon {
@@ -446,15 +476,19 @@
         font-size: 30px;
         position: relative;
     }
-    
+
     .sticky .minicart-wrapper {
         //margin-right: 100px;
         transition: none !important;
     }
-    
+
     .minicart-wrapper {
         transition: none !important;
-        
+    }
+    
+    #btn-minicart-close {
+        background: none !important;
+        -webkit-tap-highlight-color: transparent;
     }
 }
 
@@ -581,6 +615,7 @@
             &{
                 padding: 3px 0;
                 width: unset;
+                margin-top: -8px !important;
 
                 a{
                     width: unset;
@@ -628,6 +663,185 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
+    .opc-block-summary .minicart-items .product-item-details {
+        padding-left: 29px;
+        display: contents !important;
+    }
+    
+    .opc-block-summary .items-in-cart .product-image-container {
+        min-width: 80px;
+        margin-right: 10px;
+    }
+    
+    .minicart-item-header span.text {
+        font-size: 20px !important;
+        padding-left: 10px !important;
+    }
+
+    .minicart-item-header span.qty {
+        font-size: 20px !important;
+        float: right;
+        font-family: 'Poppins';
+        font-weight: 500;
+    }
+
+    .minicart-items .item-qty {
+        width: 55px;
+        border: solid 1px #cacaca;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border-right: none;
+        margin-top: 6px;
+    }
+
+    .details-qty .qty-buttons {
+        margin-left: 0 !important;
+        position: absolute;
+        height: 38px;
+        margin-left: -7px !important;
+        background: #fff !important;
+        background-color: #fff !important;
+        margin-top: 6px;
+    }
+
+    .minicart-items .update-cart-item {
+        display: block;
+        height: unset;
+        background: #fff;
+        color: #000;
+    }
+    
+    #minicart-continue-shopping-btn {
+        max-height: 30px;
+        background: #fff !important;
+        border: 1px solid #ff3c00;
+        padding: 10px 0 28px 0;
+    }
+    
+    #minicart-continue-shopping-btn > span {
+        color: #ff3c00 !important;
+        font-size: 15px !important;
+        text-transform: uppercase;
+    }
+    
+    #minicart-continue-shopping-btn > span:after {
+        content: '\f290';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        margin-left: 11px;
+    }
+    
+    #minicart-view-cart {
+        display: none;
+    }
+    
+
+    .minicart-item-row {
+        display: flex;
+    }
+    
+    .minicart-item-price-wrapper {
+        margin-top: 10px;
+    }
+
+    .minicart-item-row .product-item-pricing {
+        border: 1px solid #cacaca;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background: #fff;
+        color: #ff3c00;
+        min-width: 85px;
+        float: left;
+        margin-top: 6px;
+    }
+    
+    .minicart-item-subtotal-wrapper {
+        margin-top: 10px;
+    }
+
+    .minicart-item-row .minicart-item-subtotal {
+        font-size: 16px;
+        font-weight: 700;
+        border: 1px solid #cacaca;
+        padding: 9px 10px 5px;
+        border-radius: 5px;
+        background: #fff;
+        color: #ff3c00;
+        min-width: 85px;
+        float: left;
+        margin-top: 6px;
+    }
+    
+    minicart-item-price-label {
+        display: block;
+    }
+    
+    minicart-item-subtotal-label {
+        display: block;
+    }
+    
+    #minicart-actions-main {
+        width: 92% !important;
+        margin-right: 0 !important;
+        margin-left: auto !important;
+    }
+    
+    .minicart-item-wrapper .paypal.checkout.paypal-logo {
+        display: inline-block !important;
+        width: 49% !important;
+        height: 35px !important;
+    }
+    
+    .minicart-item-wrapper .googlepay-minicart-logo {
+        width: 49% !important;
+        display: inline-block !important;
+        float: right !important;
+        padding: 0 !important;
+        height: 20px !important;
+    }
+    
+    .minicart-item-wrapper button.braintree-googlepay-button.black {
+        padding: 0 !important;
+        min-height: unset;
+        height: 35px !important;
+        margin-top: 9px !important;
+    }
+    
+    #minicart-bottom-section {
+        width: 92%;
+        margin-right: 0;
+        margin-left: auto;
+    }
+    
+    .minicart-item-wrapper .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget {
+        width: 46% !important;
+        margin-top: 10px !important;
+        height: 20px !important;
+        display: inline-block;
+        background: linear-gradient(75deg, #fff 26%, rgba(0, 0, 0, 0) 22%), linear-gradient(75deg, #aa8fff 80%, #fff 66%);
+        border-color: #aa8fff !important;
+    }
+    
+    .klarna-widget {
+        display: inline-block !important;
+        width: 46% !important;
+        padding: 8.5px !important;
+        float: right !important;
+    }
+    
+    .klarna-widget a span {
+        padding: 0 !important;
+        font-size: 10px;
+        padding-right: 83px !important;
+        text-transform: uppercase;
+    }
+    
+    .klarna-widget a span:after {
+        width: 73px !important;
+        height: 20px !important;
+    }
+
     .minicart-wrapper {
         transition: all .5s ease;
         margin-right: 50px !important;
@@ -786,6 +1000,32 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
+    
+    #minicart-bottom-section .zip-container:last-child:before {
+        margin-top: -11px !important;
+        margin-left: -8px !important;
+        height: 30px !important;
+    }
+
+    #minicart-bottom-section .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container:last-child:after {
+        white-space: break-spaces;
+        text-align: center;
+        font-size: 10px !important;
+        font-weight: 800 !important;
+        margin-top: -10px;
+        margin-right: -16px;
+    }
+
+    #minicart-bottom-section .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
+        /* text-align: center; */
+        margin-left: 17px;
+        margin-top: 3px;
+    }
+
+    #minicart-bottom-section .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span:first-of-type:before {
+        color: #fff !important;
+    }
+    
     .minicart-wrapper {
         .price-container .price{
             font-size: 16px;

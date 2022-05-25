@@ -1135,8 +1135,11 @@
         border-top-right-radius: 5px !important;
         border-bottom-right-radius: 5px !important;
         overflow: hidden;
-        margin-left: -25px;
-        //margin-top: 1px;
+        margin-left: -17px;
+    }
+    
+    .qty-buttons div {
+        padding: 2px 5px 2px 2px;
     }
 
     .qty-buttons button {
@@ -1179,7 +1182,8 @@
     }
     //clint , pre order word appearing twice.
     .box-tocart .addcart_plus_logo{
-        display: none;
+        //display: none;
+        color: #fff !important;
     }
     .secure-pay-container {
         display: none;
@@ -1247,6 +1251,7 @@
         border-radius: 5px;
         margin-left: 60px;
         height: 22px !important;
+        margin-top: 12px !important;
 
         .zip-container {
             //height: 21px !important;
@@ -1344,11 +1349,11 @@
         background: #fff !important;
         padding: 10px !important;
         margin: 0 !important;
-        //display: inline-flex !important;
     }
 
     .s19-rentfor {
-        visibility: hidden !important;
+        //visibility: hidden !important;
+        display: none !important;
     }
 
     .s19-header:before {
@@ -1463,6 +1468,12 @@
         height: 15px;
         text-align: center !important;
         width: 170px !important;
+    }
+    
+    .live-chat-additional a {
+        width: 100%;
+        display: block;
+        text-decoration: none;
     }
 
     .catalog-product-view .product-info-main .live-chat-additional .live-chat-additional-link {
@@ -1607,6 +1618,7 @@
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
         margin: 20px;
         max-width: unset;
+        //display: none;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
@@ -1726,6 +1738,10 @@
         display: none !important;
     }
     
+    .gallery-placeholder {
+        visibility: hidden !important;
+    }
+    
     .testfreaks .review .content .extract p a {
         display: none !important;
     }
@@ -1739,8 +1755,9 @@
     }
 
     .awaiting {
-        padding-top: 15px;
-        padding-left: 40px;
+        margin-left: -20px !important;
+        margin-right: -20px !important;
+        margin-bottom: 20px;
     }
     
     .secure-pay-container .mgz-element-column>.mgz-element-inner {
@@ -1825,6 +1842,189 @@
         border: 1px solid #e6e6e6 !important;
     }
     
+    .product-add-form .braintree-paypal-logo.oneclick-container {
+        display: none !important;
+    }
+    
+    .btn_cart {
+        background: #ff3c00 !important;
+    }
+    
+    .fotorama__thumb {
+        background: #fff !important;
+    }
+
+    .fotorama__img {
+        max-height: 40px;
+        object-fit: contain;
+        background: #fff;
+    }
+    
+    .brand-new-price-wrapper.old-price-wrapper, .refurb-price-wrapper.old-price-wrapper {
+        color: #6c6c6c;
+    }
+    
+    .brand-new-price-wrapper.old-price-wrapper {
+        padding-top: 10px !important;
+    }
+    
+    .brand-new-price.old-price, .refurb-price.old-price {
+        float: right;
+        width: unset !important;
+        margin-top: 0 !important;
+        text-decoration: none !important;
+    }
+    
+    .refurb-price-wrapper.old-price-wrapper {
+        border-top: none !important;
+    }
+    
+    .item-note-wrapper {
+        text-align: left;
+        float: left;
+        width: 100%;
+        margin-bottom: 10px;
+        padding-top: 5px;
+        margin-top: 5px;
+        margin-left: 0;
+    }
+    
+    .warranty-wrapper.old-price-wrapper {
+        border: 1px solid #cacaca !important;
+        padding: 7px 14px;
+        max-width: -webkit-fill-available;
+        border-radius: 5px;
+        display: flex;
+    }
+    
+    span.warranty-label {
+        color: #e40301;
+        font-weight: 600;
+        padding-left: 20px;
+    }
+    
+    span.warranty-description {
+        margin-right: 0;
+        margin-left: auto;
+        padding-right: 20px;
+    }
+    
+    .product-item-info .digiseconds-info-wrapper {
+        display: none !important;
+    }
+    
+    .addtocart-tooltiptext {
+        visibility: hidden;
+        position: absolute;
+        width: 300px;
+        background-color: #fff;
+        color: #6e6e6e !important;
+        font-size: 12px !important;
+        font-weight: 400;
+        text-align: center;
+        padding: 20px;
+        border-radius: 6px;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity .6s;
+        border: 1px solid #fff;
+        -webkit-box-shadow: 0 0 2px #cacaca;
+        box-shadow: 0 0 2px #cacaca;
+    }
+    
+    .tooltip-bottom {
+        top: 183%;
+        left: 50%;
+        margin-left: -340px;
+    }
+    
+    .tooltip-bottom::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+    }
+    
+    .addtocart-tooltip:hover .addtocart-tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+    
+    .ribbon-wrapper {
+        position: relative;
+        z-index: 1;
+        margin: 0 !important;
+    }
+
+    .ribbon {
+        font-size: 20px !important;
+        text-transform: uppercase;
+        position: relative;
+        background: #f5f5f5;
+        color: #6e6e6e;
+        text-align: center;
+        padding: 8px !important;
+        border: 1px solid #cacaca;
+    }
+
+    .ribbon:after,
+    .ribbon:before {
+
+    }
+
+    .ribbon:before {
+        left: -2em;
+        border-right-width: 1.5em;
+        border-left-color: transparent
+    }
+
+    .ribbon:after {
+        right: -2em;
+        border-left-width: 1.5em;
+        border-right-color: transparent
+    }
+
+    .ribbon .ribbon-inner:after,
+    .ribbon .ribbon-inner:before {
+        content: "";
+        position: absolute;
+        display: block;
+        border-style: solid;
+        border-color: #cacaca transparent transparent;
+        bottom: -1em;
+    }
+
+    .ribbon .ribbon-inner:before {
+        left: 0;
+        border-width: 1em 0 0 1em
+    }
+
+    .ribbon .ribbon-inner:after {
+        right: 0;
+        border-width: 1em 1em 0 0
+    }   
+    
+    .tooltip-bottom-awaiting {
+        top: 90%;
+        left: 50%;
+        margin-left: 53px;
+        text-transform: none !important;
+    }
+    
+    .tooltip-bottom-awaiting::after {
+        content: "";
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent transparent #fff transparent;
+    }
 }
 
 //Redeploy
@@ -1926,8 +2126,8 @@
         }
 
         .product-overlay.-top-left, .product-overlay.-bottom-left {
-            left: 10px;
-            top: 10px;
+            left: 10px !important;
+            top: 10px !important;
         }
 
         .product-item .qantas-pts-wrapper {
@@ -2094,13 +2294,10 @@
     }
 
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget {
-        //margin-left: 120px !important;
-        //width: 402px !important;
         margin-left: 0 !important;
         width: unset!important;
         height: 27px !important;
-        //margin-top: 15px !important;
-        margin-top: 9px !important;
+        margin-top: 14px !important;
     }
 
     form#product_addtocart_form {
@@ -2146,6 +2343,7 @@
     .product-info-main .box-tocart, .product-options-bottom .box-tocart {
         //margin: 22px 0 !important;
         margin: 15px 0 !important;
+        margin-bottom: 40px !important;
     }
 
     .zip-container:last-child:before {
@@ -2171,8 +2369,8 @@
     }
 
     .s19-header:before {
-        height: 25px !important;
-        width: 113px !important;
+        //height: 25px !important;
+        //width: 113px !important;
         margin-top: 1px !important;
     }
 
@@ -2567,7 +2765,7 @@
      .page-title-wrapper.product h1 {
         text-align: left;
         display: inline;
-        font-size: 21px !important;
+        font-size: 17px !important;
         font-weight: 500;
         color: #101010 !important;
     }
@@ -2723,7 +2921,7 @@
         margin-left: 0 !important;
         margin-bottom: 0 !important;
         //margin-top: 15px !important;
-        width: 100% !important;
+        width: unset !important;
         overflow: hidden !important;
         background: #fff !important;
         margin-top: 12px !important;
@@ -3042,6 +3240,14 @@
     
     .product-info-main .qantas-pts-wrapper {
         margin-top: 10px !important;
+    }
+    
+    #product-options-wrapper {
+        margin-top: -6px !important;
+    }
+    
+    .studio19-wrapper > div {
+        width: 100% !important;
     }
     
 } //end mobile

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * This file is part of the Liquid package.
  *
  * For the full copyright and license information, please view the LICENSE
@@ -12,9 +12,9 @@
 namespace Liquid\Tag;
 
 use Liquid\AbstractTag;
+use Liquid\Exception\ParseException;
 use Liquid\Liquid;
 use Liquid\Context;
-use Liquid\LiquidException;
 use Liquid\FileSystem;
 use Liquid\Regexp;
 
@@ -43,15 +43,16 @@ class TagIncrement extends AbstractTag
 	 * @param array $tokens
 	 * @param FileSystem $fileSystem
 	 *
-	 * @throws \Liquid\LiquidException
+	 * @throws \Liquid\Exception\ParseException
 	 */
-	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null) {
+	public function __construct($markup, array &$tokens, FileSystem $fileSystem = null)
+	{
 		$syntax = new Regexp('/(' . Liquid::get('VARIABLE_NAME') . ')/');
 
 		if ($syntax->match($markup)) {
 			$this->toIncrement = $syntax->matches[0];
 		} else {
-			throw new LiquidException("Syntax Error in 'increment' - Valid syntax: increment [var]");
+			throw new ParseException("Syntax Error in 'increment' - Valid syntax: increment [var]");
 		}
 	}
 
@@ -62,7 +63,8 @@ class TagIncrement extends AbstractTag
 	 *
 	 * @return string|void
 	 */
-	public function render(Context $context) {
+	public function render(Context $context)
+	{
 		// If the value is not set in the environment check to see if it
 		// exists in the context, and if not set it to -1
 		if (!isset($context->environments[0][$this->toIncrement])) {
@@ -75,5 +77,7 @@ class TagIncrement extends AbstractTag
 
 		// Increment the value
 		$context->environments[0][$this->toIncrement]++;
+
+		return '';
 	}
 }

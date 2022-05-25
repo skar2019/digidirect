@@ -5,6 +5,7 @@ $coreHelper           = $this->helper('\Magezon\Core\Helper\Data');
 $compareHelper        = $this->helper('Magento\Catalog\Helper\Product\Compare');
 $element              = $this->getElement();
 $title                = $coreHelper->filter($element->getData('title'));
+$titleColor           = $element->getData('title_color');
 $titleAlign           = $element->getData('title_align');
 $titleTag             = $element->getData('title_tag') ? $element->getData('title_tag') : 'h2';
 $description          = $coreHelper->filter($element->getData('description'));
@@ -39,7 +40,7 @@ $htmlId               = $element->getHtmlId();
 	<?php if ($title || $description) { ?>
 	<div class="mgz-block-heading mgz-block-heading-align-<?= $titleAlign ?><?= $showLine ? ' mgz-block-heading-line' : '' ?> mgz-block-heading-line-position-<?= $linePosition ?>">
 		<?php if ($title) { ?>
-			<<?= $titleTag ?> class="title"><?= $title ?></<?= $titleTag ?>>
+			<<?= $titleTag ?> class="title" style="color: <?= $titleColor ?>" ><?= $title ?></<?= $titleTag ?>>
 		<?php } ?>
 		<?php if ($description) { ?>
 			<div class="info"><?= $description ?></div>
@@ -55,18 +56,6 @@ $htmlId               = $element->getHtmlId();
 				<?php foreach ($_items as $_product) { ?>
 					<div class="item product product-item mgz-grid-item">
 						<div class="product-item-info">
-                                                    <?php if ($showWishlist || $showCompare) { ?>
-                                                            <div class="actions-secondary" data-role="add-to-links">
-                                                                    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist) { ?>
-                                                                        <a href="#"
-                                                                                data-post='<?= $block->getAddToWishlistParams($_product) ?>'
-                                                                                class="action towishlist" data-action="add-to-wishlist"
-                                                                                title="<?= __('Add to Wish List') ?>">
-                                                                                <i class="fas fa-heart" style="font-size: 25px; color: #e6e6e6; float: right;"></i>
-                                                                        </a>
-                                                                    <?php } ?>
-                                                            </div>
-                                                    <?php } ?>
 							<?php if ($showImage) { ?>
 							<?php $productImage = $block->getImage($_product, $imageId); ?>
 		                    <a href="<?= $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
@@ -115,7 +104,7 @@ $htmlId               = $element->getHtmlId();
 															<button type="submit"
 															title="<?= $block->escapeHtml(__('Add to Cart')); ?>"
 															class="action tocart primary">
-                                                                                                                        <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
+															<span><?= __('Add to Cart') ?></span>
 														</button>
 													</form>
 												<?php } else { ?>
@@ -124,6 +113,25 @@ $htmlId               = $element->getHtmlId();
 													<?php } else { ?>
 														<div class="stock unavailable"><span><?= __('Out of stock') ?></span></div>
 													<?php } ?>
+												<?php } ?>
+											</div>
+										<?php } ?>
+										<?php if ($showWishlist || $showCompare) { ?>
+											<div class="actions-secondary" data-role="add-to-links">
+												<?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist) { ?>
+													<a href="#"
+														data-post='<?= $block->getAddToWishlistParams($_product) ?>'
+														class="action towishlist" data-action="add-to-wishlist"
+														title="<?= __('Add to Wish List') ?>">
+														<span><?= __('Add to Wish List') ?></span>
+													</a>
+												<?php } ?>
+												<?php if ($block->getAddToCompareUrl() && $showCompare) { ?>
+													<a href="#" class="action tocompare"
+														data-post='<?= $compareHelper->getPostDataParams($_product) ?>'
+														title="<?= __('Add to Compare') ?>">
+														<span><?= __('Add to Compare') ?></span>
+													</a>
 												<?php } ?>
 											</div>
 										<?php } ?>
@@ -146,46 +154,3 @@ $htmlId               = $element->getHtmlId();
 	}
 	</script>
 </div>
-
-<script>
-    
-//    require(['jquery', 'jquery/ui'], function($){ 
-//        
-//        jQuery(document).ready( function() {
-//            $('.product-tab-mobile-load-more').on('click', function(e) {
-//                $('.default-widget').css("display", "none");
-//                $('.mobile-hidden').css("display", "block");
-//            }),
-//
-//            $('.product-tab-mobile-show-less').on('click', function(e) {
-//                $('.default-widget').css("display", "block");
-//                $('.mobile-hidden').css("display", "none");
-//            });
-//        });
-//    });
-    
-</script>
-
-<script>
-    require(['jquery'],function(){
-        jQuery(document).ready(function() {
-            jQuery(".product-tab-mobile-load-more").click(function(){
-                jQuery(".recommended-widget-main").css("display", "none");
-                jQuery(".recommended-widget-hidden").css("display", "block");
-            });
-            jQuery(".product-tab-mobile-show-less").click(function(){
-                jQuery(".recommended-widget-main").css("display", "block");
-                jQuery(".recommended-widget-hidden").css("display", "none");
-            });
-            
-            jQuery(".product-tab-mobile-widget-load-more").click(function(){
-                jQuery(".product-widget-main").css("display", "none");
-                jQuery(".product-widget-hidden").css("display", "block");
-            });
-            jQuery(".product-tab-mobile-widget-show-less").click(function(){
-                jQuery(".product-widget-main").css("display", "block");
-                jQuery(".product-widget-hidden").css("display", "none");
-            });
-        });
-    });
-</script>

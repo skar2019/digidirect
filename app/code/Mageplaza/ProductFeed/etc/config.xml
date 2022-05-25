@@ -25,10 +25,14 @@
         <product_feed>
             <general>
                 <enabled>1</enabled>
+                <product_path>short</product_path>
+                <reports>0</reports>
+                <google_shopping>
+                    <enabled>1</enabled>
+                </google_shopping>
             </general>
             <email>
                 <enabled>0</enabled>
-                <send_to></send_to>
                 <events>0,1,2,3</events>
             </email>
         </product_feed>

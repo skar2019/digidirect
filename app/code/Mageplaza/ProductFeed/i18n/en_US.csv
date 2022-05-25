@@ -3,9 +3,10 @@ Generate,Generate
 Copy,Copy
 "Category Map","Category Map"
 "Category Mapping","Category Mapping"
-"Conditions (don't add conditions if rule is applied to all products)","Conditions (don't add conditions if rule is applied to all products)"
-Conditions,Conditions
 "Product Filter","Product Filter"
+"Conditions (don't add conditions if rule is applied to all products)","Conditions (don't add conditions if rule is applied to all products)"
+"Maximum Product Displayed on Preview Product ","Maximum Product Displayed on Preview Product "
+Conditions,Conditions
 "Delivery Config","Delivery Config"
 Delivery,Delivery
 Protocol,Protocol
@@ -14,6 +15,7 @@ Protocol,Protocol
 "It can be IP address or host name. You can add port at the end of host name. E.g: ftp.domain.com:22","It can be IP address or host name. You can add port at the end of host name. E.g: ftp.domain.com:22"
 "User Name","User Name"
 Password,Password
+"Private Key File","Private Key File"
 "Directory Path","Directory Path"
 "Full path of a directory. E.g: /var/www/path/to/your-folder/","Full path of a directory. E.g: /var/www/path/to/your-folder/"
 "Test Connection","Test Connection"
@@ -22,6 +24,7 @@ Name,Name
 Status,Status
 "Store Views","Store Views"
 "File Name","File Name"
+"Compress File","Compress File"
 "Generated File URL","Generated File URL"
 "Number of exported Products","Number of exported Products"
 "Generated On","Generated On"
@@ -48,13 +51,16 @@ General,General
 "Identify the paid keywords","Identify the paid keywords"
 "Campaign Content","Campaign Content"
 "Use to differentiate ads","Use to differentiate ads"
+"Google Shopping API","Google Shopping API"
 ID,ID
-"Generation time","Generation time"
 Type,Type
 File,File
 "Success Message","Success Message"
 "Error Message","Error Message"
+"Generation time","Generation time"
 Logs,Logs
+"Path of key file","Path of key file"
+"Delete File","Delete File"
 "Product ID","Product ID"
 Sku,Sku
 Price,Price
@@ -133,25 +139,36 @@ Floor,Floor
 "Decode Url","Decode Url"
 "Encode Url","Encode Url"
 "If Empty","If Empty"
+"Format Date","Format Date"
 "Manage Feeds","Manage Feeds"
 "Add New Feed","Add New Feed"
+"Get Access Token","Get Access Token"
 "This feed no longer exists.","This feed no longer exists."
 "Feed Logs","Feed Logs"
 "The Feed has been deleted.","The Feed has been deleted."
 "The Feed to delete was not found.","The Feed to delete was not found."
+"Feed no longer exits","Feed no longer exits"
+"Something wrong when download file: %1","Something wrong when download file: %1"
 Feed,Feed
 "Edit %1 feed","Edit %1 feed"
 "New Feed","New Feed"
+"Please enable the feed to generate.","Please enable the feed to generate."
+"Something went wrong while generating the Feed. Please try again.","Something went wrong while generating the Feed. Please try again."
 "Please correct the data sent.","Please correct the data sent."
 "Something went wrong while saving the Feed.","Something went wrong while saving the Feed."
 "Something went wrong while deleting for %1.","Something went wrong while deleting for %1."
 "A total of %1 record(s) have been deleted.","A total of %1 record(s) have been deleted."
+"Please enable the %1 feed to generate.","Please enable the %1 feed to generate."
 "Something went wrong while generating and uploading %1 feed.","Something went wrong while generating and uploading %1 feed."
 "A total of %1 record(s) have been updated.","A total of %1 record(s) have been updated."
 "Something went wrong while updating status for %1.","Something went wrong while updating status for %1."
 "The feed has been saved.","The feed has been saved."
-"Please enter the email before send.","Please enter the email before send."
-"Something went wrong while sending Email. %1","Something went wrong while sending Email. %1"
+"Please fill Authorized redirect URIs","Please fill Authorized redirect URIs"
+"The Access Token has been saved successfully. You can close this window, then clean cache and refresh configuration page.","The Access Token has been saved successfully. You can close this window, then clean cache and refresh configuration page."
+"Invalid access token. Please try again!","Invalid access token. Please try again!"
+"Grant token not found!","Grant token not found!"
+"Something went wrong while generating feed","Something went wrong while generating feed"
+"Cannot refresh access token.","Cannot refresh access token."
 "Please enable Mageplaza_ProductFeed module","Please enable Mageplaza_ProductFeed module"
 "%1 feed has been generated successfully.","%1 feed has been generated successfully."
 "Something went wrong while generating %1 Feed. %2","Something went wrong while generating %1 Feed. %2"
@@ -161,8 +178,46 @@ Feed,Feed
 "%1 feed generated fail","%1 feed generated fail"
 "%1 feed delivery successful","%1 feed delivery successful"
 "%1 feed delivery fail","%1 feed delivery fail"
+"Please check the Delivery information again.","Please check the Delivery information again."
 "Unable to open SFTP connection as %1@%2","Unable to open SFTP connection as %1@%2"
 "Unable to authenticate with server","Unable to authenticate with server"
+"Please enter the email before send.","Please enter the email before send."
+"Something went wrong while sending Email. %1","Something went wrong while sending Email. %1"
+"Accept %1 value.","Accept %1 value."
+"Insert Variable...","Insert Variable..."
+"ID or SKU","ID or SKU"
+Title,Title
+Brand,Brand
+Description,Description
+Link,Link
+"Image Link","Image Link"
+"Additional Image Links","Additional Image Links"
+Availability,Availability
+Condition,Condition
+"Country of sale","Country of sale"
+Language,Language
+Destinations,Destinations
+"Identifier exists","Identifier exists"
+"GTIN, UPC, EAN, JAN or ISBN","GTIN, UPC, EAN, JAN or ISBN"
+"Shipping Service Name","Shipping Service Name"
+"Promotion Ids","Promotion Ids"
+"Custom label 0","Custom label 0"
+"Custom label 1","Custom label 1"
+"Custom label 2","Custom label 2"
+"Custom label 3","Custom label 3"
+"Custom label 4","Custom label 4"
+"Google Product Category","Google Product Category"
+"Product Type","Product Type"
+"Age Group","Age Group"
+Color,Color
+Gender,Gender
+Size,Size
+Product,Product
+None,None
+Zip,Zip
+Gz,Gz
+Bz,Bz
+Rar,Rar
 Sunday,Sunday
 Monday,Monday
 Tuesday,Tuesday
@@ -185,8 +240,11 @@ Semi-colon,Semi-colon
 XML,XML
 CSV,CSV
 TXT,TXT
+"Longest Product Path","Longest Product Path"
+"Shortest Product Path","Shortest Product Path"
 SFTP,SFTP
 FTP,FTP
+"Stock Status","Stock Status"
 "All Store Views","All Store Views"
 "Preview Products","Preview Products"
 "--Please Select--","--Please Select--"
@@ -195,6 +253,19 @@ Value,Value
 Add,Add
 "Insert Variable","Insert Variable"
 "Add Filter","Add Filter"
+"Show Product Feed Report","Show Product Feed Report"
+"Ordered Item Quantity","Ordered Item Quantity"
+"Order Count","Order Count"
+"Total Revenue","Total Revenue"
+Refunded,Refunded
+Discount,Discount
+Tax,Tax
+"No data to display","No data to display"
+"Google Shopping API Fields","Google Shopping API Fields"
+"Magento Fields","Magento Fields"
+"Default Value","Default Value"
+"Internal Note","Internal Note"
+"This is a required field.","This is a required field."
 "%store_name sent you a feed generate notify","%store_name sent you a feed generate notify"
 "Store Name: %store_name","Store Name: %store_name"
 "Store Code: %store_code","Store Code: %store_code"
@@ -202,6 +273,16 @@ Add,Add
 "This is an automated email send from Mageplaza Product Feed and notice you that activities during generating product feeds","This is an automated email send from Mageplaza Product Feed and notice you that activities during generating product feeds"
 %mes,%mes
 "View Logs","View Logs"
+"Product Feed Revenue Report","Product Feed Revenue Report"
+Close,Close
+"Generate Completed","Generate Completed"
+Ok,Ok
+"Prepare Generate","Prepare Generate"
+"Prepare Products Data","Prepare Products Data"
+"Generate Feed","Generate Feed"
+"Generating Feed...","Generating Feed..."
+Cancel,Cancel
+"Are you sure to stop generate?","Are you sure to stop generate?"
 "Click to each attribute to add filter & insert it to template","Click to each attribute to add filter & insert it to template"
 Loading...,Loading...
 Testing...,Testing...
@@ -212,6 +293,18 @@ Attribute,Attribute
 Pattern,Pattern
 "Product Feed","Product Feed"
 Enable,Enable
+"Categories Path for Product URLs","Categories Path for Product URLs"
+"Enable Product Feed Report","Enable Product Feed Report"
+"If yes, will display the Product Feed Report in Manage Feeds Grid.","If yes, will display the Product Feed Report in Manage Feeds Grid."
+"Select Yes to sync the value to google shopping api.","Select Yes to sync the value to google shopping api."
+"Merchant ID","Merchant ID"
+"Client ID","Client ID"
+"Get Client ID <a href=""https://console.cloud.google.com/apis/credentials/oauthclient"" target=""_bank"">here</a>","Get Client ID <a href=""https://console.cloud.google.com/apis/credentials/oauthclient"" target=""_bank"">here</a>"
+"Client Secret","Client Secret"
+"Get Client Secret <a href=""https://console.cloud.google.com/apis/credentials/oauthclient"" target=""_bank"">here</a>","Get Client Secret <a href=""https://console.cloud.google.com/apis/credentials/oauthclient"" target=""_bank"">here</a>"
+"Authorized Redirect URIs","Authorized Redirect URIs"
+"Copy and paste this value to Authorized Redirect URIs field on google shopping api.","Copy and paste this value to Authorized Redirect URIs field on google shopping api."
+"Please save Client ID, Client Secret, Authorized Redirect URIs before getting Access Token","Please save Client ID, Client Secret, Authorized Redirect URIs before getting Access Token"
 "Email Alert","Email Alert"
 "To avoid sending to spam box, you should install <a href=""https://www.mageplaza.com/magento-2-smtp/"" target=""_blank"">SMTP</a>","To avoid sending to spam box, you should install <a href=""https://www.mageplaza.com/magento-2-smtp/"" target=""_blank"">SMTP</a>"
 "Send to","Send to"
@@ -229,4 +322,7 @@ Store,Store
 "Latest File","Latest File"
 "Last Generated","Last Generated"
 "Created Date","Created Date"
+Click,Click
+Impression,Impression
+CTR,CTR
 Edit,Edit

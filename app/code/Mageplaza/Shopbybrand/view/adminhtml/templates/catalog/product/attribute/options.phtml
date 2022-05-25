@@ -20,7 +20,14 @@
  */
 
 /** @var \Mageplaza\Shopbybrand\Block\Adminhtml\Attribute\Edit\Options $block */
-$stores = $block->getStoresSortedBySortOrder();
+$stores   = $block->getStoresSortedBySortOrder();
+
+try {
+    $date = $block->getDateRange();
+} catch (Exception $e) {
+    $date = [];
+}
+
 if ($block->isBrandAttribute()) : ?>
     <script id="row-template" type="text/x-magento-template">
         <tr>
@@ -231,4 +238,66 @@ if ($block->isBrandAttribute()) : ?>
             </td>
         </tr>
     </script>
+
+    <script type="text/javascript">
+    require([
+        "jquery"
+    ], function ($) {
+        var legend = $('#product_attribute_tabs_main_content .admin__fieldset.fieldset .legend');
+
+        legend.each(function () {
+            var el = $(this);
+
+            if (!el.hasClass('admin__legend')) {
+                el.append('<br><button title="<?= /** @noEscape */ __("Show report") ?>"' +
+                    'type="button" ' +
+                    'class="mp-show-report action-default scalable primary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" ' +
+                    'role="button" ' +
+                    'aria-disabled="false">Show report' +
+                    '</button>');
+                }
+            })
+        });
+    </script>
+
+    <div id="mp_report_popup" style="display: none;" class="mp_report_popup"></div>
+    <div id="brand-report-popup">
+        <div id="brand-report-popup-content"></div>
+    </div>
+
+    <div id="list-related-brands" class="mpbrand-gird"></div>
+    <div id="list-brand-products" class="mpbrand-gird" style="display: none">
+        <div id="list-products-content"></div>
+    </div>
+    <script type="text/x-magento-init">
+    {
+        "#mp_report_popup": {
+            "Mageplaza_Shopbybrand/js/report/report":{
+                "url": "<?= /** @noEscape */ $block->getReportPopupUrl() ?>",
+                "attrCode": "<?= /** @noEscape */ $block->getAttributeCode() ?>",
+                "date":<?= /** @noEscape */ json_encode($date) ?>
+            }
+        },
+        "#list-related-brands": {
+            "Mageplaza_Shopbybrand/js/related_brand/gird":{
+                "url": "<?= /** @noEscape */ $block->getRelatedBrands() ?>"
+            }
+        } ,
+        "#list-brand-products": {
+            "Mageplaza_Shopbybrand/js/product/gird":{
+                "url": "<?= /** @noEscape */ $block->getBrandProductsUrl() ?>"
+            }
+        }
+    }
+    </script>
+
+    <style>
+        .mp-show-report, .mpbrand-gird {
+            margin-bottom: 20px;
+            margin-top: 5px;
+        }
+        .admin__fieldset > .admin__field > .admin__field-control input[type="checkbox"]{
+            margin: 0;
+        }
+    </style>
 <?php endif; ?>

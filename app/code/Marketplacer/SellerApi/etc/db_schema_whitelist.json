@@ -1,0 +1,46 @@
+{
+    "sales_order": {
+        "column": {
+            "seller_ids": true,
+            "seller_names": true,
+            "seller_business_numbers": true
+        }
+    },
+    "sales_order_item": {
+        "column": {
+            "seller_id": true,
+            "seller_name": true,
+            "seller_business_number": true
+        }
+    },
+    "sales_order_grid": {
+        "column": {
+            "seller_names": true,
+            "seller_business_numbers": true
+        }
+    },
+    "sales_invoice": {
+        "column": {
+            "seller_names": true,
+            "seller_business_numbers": true
+        }
+    },
+    "sales_invoice_grid": {
+        "column": {
+            "seller_names": true,
+            "seller_business_numbers": true
+        }
+    },
+    "sales_shipment": {
+        "column": {
+            "seller_names": true,
+            "seller_business_numbers": true
+        }
+    },
+    "sales_shipment_grid": {
+        "column": {
+            "seller_names": true,
+            "seller_business_numbers": true
+        }
+    }
+}
