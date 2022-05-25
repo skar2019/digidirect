@@ -52,6 +52,7 @@
                 <value id="braintreescript" type="host">*.braintree-api.com</value>
                 <value id="paypalscript" type="host">*.paypal.com</value>
                 <value id="visitorsscript" type="host">*.visitors.live</value>
+                <value id="evenbritescript" type="host">*.eventbrite.com</value>
             </values>
         </policy>
         <policy id="style-src">
@@ -177,6 +178,8 @@
                 <value id="braintreeframe" type="host">*.braintree-api.com</value>
                 <value id="paypalframe" type="host">*.paypal.com</value>
                 <value id="wooboxframe" type="host">*.woobox.com</value>
+                <value id="wooboxframe2" type="host">woobox.com</value>
+                <value id="evenbritecomframe" type="host">*.eventbrite.com</value>
             </values>
         </policy>
         <policy id="form-action">
