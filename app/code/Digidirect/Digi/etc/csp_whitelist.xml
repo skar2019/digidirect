@@ -53,6 +53,7 @@
                 <value id="paypalscript" type="host">*.paypal.com</value>
                 <value id="visitorsscript" type="host">*.visitors.live</value>
                 <value id="evenbritescript" type="host">*.eventbrite.com</value>
+                <value id="wibmoscript" type="host">*.wibmo.com</value>
             </values>
         </policy>
         <policy id="style-src">
@@ -137,7 +138,7 @@
                 <value id="braintree" type="host">*.braintree-api.com</value>
                 <value id="braintreegateway" type="host">*.braintreegateway.com</value>
                 <value id="amcglobal" type="host">amcglobal.sc.omtrdc.net</value>
-
+                <value id="wibmoscript" type="host">*.wibmo.com</value>
             </values>
         </policy>
         <policy id="font-src">
@@ -180,6 +181,7 @@
                 <value id="wooboxframe" type="host">*.woobox.com</value>
                 <value id="wooboxframe2" type="host">woobox.com</value>
                 <value id="evenbritecomframe" type="host">*.eventbrite.com</value>
+                <value id="wibmoscript" type="host">*.wibmo.com</value>
             </values>
         </policy>
         <policy id="form-action">
