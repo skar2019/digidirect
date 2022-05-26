@@ -3,7 +3,4 @@
     <type name="Magento\Checkout\CustomerData\AbstractItem">
         <plugin name="Digidirect_Checkout_DefaultItemPlugin" type="Digidirect\Checkout\Plugin\DefaultItemPlugin" sortOrder="10"  disabled="false" />
     </type>
-    <type name="Magento\Checkout\CustomerData\Cart">
-        <plugin name="Magento_Checkout_Qantas_Cart" type="Digidirect\Checkout\Plugin\Cart" sortOrder="10"  disabled="false" />
-    </type>
 </config>

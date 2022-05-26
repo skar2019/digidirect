@@ -5,17 +5,19 @@
     $blockBrands = $block->getLayout()->createBlock('Digidirect\ShopByBrandMenu\Block\Brand');
     $categories = $blockBrands->getCategories();
     $helperCategories = $blockBrands->helper();
-    
+
     $helper = $blockBrandList->helper();
     $brandCollection = $blockBrandList->getCollection();
     $displayType = $helper->getBrandConfig('display');
-    
+
     $categoryData = $block->getData();
     $categoryId = $categoryData['data']['categoryId'];
-    
+    $this->getLayout()->getBlock('head')->setTitle('My title');
+    $this->getLayout()->getBlock('head')->setDescription('My description');
+
     $catId = 0;
     $catUrlKey = "";
-    
+
     if ($categoryId == "Cameras") {
         $catId = 17;
         $catUrlKey = 'cameras';
@@ -97,7 +99,7 @@
                 <?php else : ?>
                     <div class="brand-name-type-label-only" data-container="product-grid">
                         <strong class="product name product-item-name" style="margin: 0;">
-                            <a class="product-item-link" 
+                            <a class="product-item-link"
                                href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) ?>" style="float: left; padding-right: 10px;">
                                     <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrand($catId, $brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                             </a>
@@ -163,7 +165,7 @@
                 <?php else : ?>
                     <div class="brand-name-type-label-only" data-container="product-grid">
                         <strong class="product name product-item-name" style="margin: 0;">
-                            <a class="product-item-link" 
+                            <a class="product-item-link"
                                href="<?= /** @noEscape */ str_replace('brand', 'brands', $helper->getBrandUrl($brand)) . "/filters/cat/" . $catUrlKey . "?brand_key=" . $brand->getUrlKey() ?>" style="float: left; padding-right: 10px;">
                                     <?= $blockBrandList->showProductQty() ? /** @noEscape */ $brand->getValue() . ' (' . /** @noEscape */ $block->getProductCollectionCountWithBrand($catId, $brand->getOptionId()) . ')' : /** @noEscape */ $brand->getValue() ?>
                             </a>
