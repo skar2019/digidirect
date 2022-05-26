@@ -618,7 +618,7 @@ return [
         'Digidirect_AbstractGiftCardLogger' => 1,
         'Digidirect_Vii' => 0,
         'Digidirect_YouMayAlsoLikeProducts' => 1,
-        'Ess_M2ePro' => 1,
+        'Ess_M2ePro' => 0,
         'Fastly_Cdn' => 1,
         'Klarna_Core' => 1,
         'Klarna_Ordermanagement' => 1,
