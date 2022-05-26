@@ -138,7 +138,7 @@
                 <value id="braintree" type="host">*.braintree-api.com</value>
                 <value id="braintreegateway" type="host">*.braintreegateway.com</value>
                 <value id="amcglobal" type="host">amcglobal.sc.omtrdc.net</value>
-                <value id="wibmoscript" type="host">*.wibmo.com</value>
+                <value id="wibmoconnect" type="host">*.wibmo.com</value>
             </values>
         </policy>
         <policy id="font-src">
@@ -181,13 +181,13 @@
                 <value id="wooboxframe" type="host">*.woobox.com</value>
                 <value id="wooboxframe2" type="host">woobox.com</value>
                 <value id="evenbritecomframe" type="host">*.eventbrite.com</value>
-                <value id="wibmoscript" type="host">*.wibmo.com</value>
+                <value id="wibmosframe" type="host">*.wibmo.com</value>
             </values>
         </policy>
         <policy id="form-action">
             <values>
                 <value id="rsa3dsauthform" type="host">*.rsa3dsauth.co.uk</value>
-
+                <value id="wibmosform" type="host">*.wibmo.com</value>
             </values>
         </policy>
     </policies>
