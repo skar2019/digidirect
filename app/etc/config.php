@@ -620,12 +620,15 @@ return [
         'Digidirect_YouMayAlsoLikeProducts' => 1,
         'Ess_M2ePro' => 1,
         'Fastly_Cdn' => 1,
-        'Klevu_Logger' => 1,
-        'Klevu_Registry' => 1,
-        'Klevu_Metadata' => 1,
+
+        'Klarna_Core' => 1,
+        'Klarna_Ordermanagement' => 1,
+        'Klarna_Kp' => 1,
+        'Klarna_Onsitemessaging' => 1,
+        'Klarna_KpGraphQl' => 1,
+
         'Klevu_Search' => 1,
         'Klevu_Content' => 1,
-        'Klevu_FrontendJs' => 1,
         'Klevu_Addtocart' => 1,
         'Klevu_Troubleshoot' => 1,
         'LiveChat_LiveChat' => 1,
@@ -652,6 +655,12 @@ return [
         'PayPal_BraintreeGraphQl' => 1,
         'Studio19_Variants' => 1,
         'Temando_ShippingRemover' => 1,
+
+        'Training_Example' => 1,
+        'Vertex_Tax' => 1,
+        'Vertex_AddressValidationApi' => 1,
+        'Vertex_AddressValidation' => 1,
+
         'WebPanda_SalesProductImage' => 1,
         'Zip_ZipPayment' => 1
     ]

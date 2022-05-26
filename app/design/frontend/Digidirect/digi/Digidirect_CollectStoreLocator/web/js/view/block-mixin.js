@@ -43,6 +43,7 @@ define([
                 console.warn('Locator hasn\'t been loaded');
             },
             submitLocatorStore: function (item) {
+                console.log("submitLocatorStore : " + item.entity_id + ", " + this.entityName);
                 this.applyCollectPlaceToAllItems(item.entity_id, this.entityName);
             }
         });
