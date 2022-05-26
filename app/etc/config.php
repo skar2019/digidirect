@@ -616,17 +616,15 @@ return [
         'Digidirect_CollectStoreLocator' => 1,
         'Digidirect_StoreLocatorInfiniteScroll' => 1,
         'Digidirect_AbstractGiftCardLogger' => 1,
-        'Digidirect_Vii' => 1,
+        'Digidirect_Vii' => 0,
         'Digidirect_YouMayAlsoLikeProducts' => 1,
         'Ess_M2ePro' => 1,
         'Fastly_Cdn' => 1,
-
         'Klarna_Core' => 1,
         'Klarna_Ordermanagement' => 1,
         'Klarna_Kp' => 1,
         'Klarna_Onsitemessaging' => 1,
         'Klarna_KpGraphQl' => 1,
-
         'Klevu_Search' => 1,
         'Klevu_Content' => 1,
         'Klevu_Addtocart' => 1,
