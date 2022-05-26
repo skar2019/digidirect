@@ -9,7 +9,12 @@
     ],
     "config": {
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "magento/magento-composer-installer": true,
+            "magento/inventory-composer-installer": true,
+            "laminas/laminas-dependency-plugin": true
+        }
     },
     "repositories": {
         "repo": {
@@ -18,6 +23,7 @@
         }
     },
     "require": {
+        "klarna/m2-klarna": "^1.0",
         "klevu/module-search": "^2.3",
         "livechat/module-magento-livechat": "dev-master",
         "m2epro/magento2-extension": "^1.10",
