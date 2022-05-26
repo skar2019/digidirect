@@ -5,12 +5,11 @@
  */
 
 ?>
-
 <?php if ($block->isListPageMode()): ?>
     <div class="blog-list">
-
         <?php foreach ($block->getCollection() as $post): ?>
             <article class="post-card item">
+
                 <?php if ($block->isShowCategoryNames()) : ?>
                     <?php $categoriesArray = $block->getCategoriesTitlesAsArray($post); ?>
                     <?php $categoriesTitlesCount = count($categoriesArray); ?>

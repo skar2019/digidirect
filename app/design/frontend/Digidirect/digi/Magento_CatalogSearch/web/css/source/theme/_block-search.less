@@ -19,7 +19,7 @@
 //  _____________________________________________
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
-    
+
     .header.content {
         padding-top: 0;
         margin-bottom: 28px !important;
@@ -36,11 +36,12 @@
         margin-bottom: 25px !important;
         position: absolute;
         width: 100% !important;
+        height: 0 !important;
 
         .minisearch{
             position: absolute;
-            //max-width: 300px;
-            //margin: 0 auto;
+            /*max-width: 300px;
+            margin: 0 auto;*/
             label{
                 &:before{
                     content: "" !important;
@@ -48,6 +49,7 @@
             }
 
             .field.search{
+                height: 0 !important;
                 label{
                   span{
                         display: none;
@@ -56,7 +58,7 @@
             }
         }
     }
-    
+
     .main-header-wrapper .logo-wrapper {
         position: absolute;
         margin-left: 30px;
@@ -85,7 +87,7 @@
         color: #fff;
         padding-left: 18px;
     }
-    
+
     .block-search .action.search {
         background: 0 0;
         -moz-box-sizing: content-box;
@@ -102,33 +104,33 @@
         display: inline-block;
         padding: 3.75px 0;
     }
-    
+
     .block-search .control {
         margin: 0 !important;
         padding: 0 !important;
         padding-right: 30px !important;
     }
-    
+
     #main-header-wrapper.sticky {
         margin-left: unset !important;
         margin-right: unset !important;
         padding-left: 15px !important;
         padding-right: unset !important;
     }
-    
+
     .sticky .wrap-links {
         margin-right: 30px !important;
         transition: unset !important;
     }
-    
+
     .main-header-wrapper .wrap-links {
         transition: unset !important;
     }
-    
+
     .sticky .form.minisearch .control {
         margin-right: 15px !important;
     }
-    
+
     .sticky .block-search .actions {
         right: 45px !important;
     }
