@@ -7,11 +7,11 @@
 <div class="items-in-cart active" data-bind="mageInit: {'collapsible':{'openedState': 'active', 'active': true}}">
     <div class="title" data-role="title">
         <strong role="heading">
-            <translate args="maxCartItemsToDisplay" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate>
-            <translate args="'of'" if="maxCartItemsToDisplay < getCartLineItemsCount()"></translate>
+            <translate args="maxCartItemsToDisplay" if="maxCartItemsToDisplay < getCartLineItemsCount()"/>
+            <translate args="'of'" if="maxCartItemsToDisplay < getCartLineItemsCount()"/>
             <span data-bind="text: getCartLineItemsCount()"></span>
-            <translate args="'Item'" if="getCartLineItemsCount() === 1"></translate>
-            <translate args="'Item(s)'" if="getCartLineItemsCount() > 1"></translate>
+            <translate args="'Item'" if="getCartLineItemsCount() === 1"/>
+            <translate args="'Item(s)'" if="getCartLineItemsCount() > 1"/>
         </strong>
     </div>
     <div class="content minicart-items" data-role="content">
@@ -20,7 +20,7 @@
                 <each args="items()">
                     <li class="product-item">
                         <div class="product">
-                            <each args="$parent.elems()" render=""></each>
+                            <each args="$parent.elems()" render=""/>
                         </div>
                     </li>
                 </each>
