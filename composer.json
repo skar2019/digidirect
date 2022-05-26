@@ -18,6 +18,7 @@
         }
     },
     "require": {
+        "klarna/m2-klarna": "^1.0",
         "klevu/module-search": "^2.3",
         "livechat/module-magento-livechat": "dev-master",
         "m2epro/magento2-extension": "^1.10",
