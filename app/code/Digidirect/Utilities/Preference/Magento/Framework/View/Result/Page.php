@@ -91,4 +91,5 @@ class Page extends \Magento\Framework\View\Result\Page
         }
         return $this->getViewFileUrl('images/loader-2.gif');
     }
+    //comment to redeploy
 }
