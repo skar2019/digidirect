@@ -64,9 +64,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
             }'>
             <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
             <?php foreach ($_productCollection as $_product): ?>
-                <script>
-                    console.log("Token URL: " + "<?= $overlayBlock->getImageScr(); ?>");
-                </script>
+
                 <?php
                 $blockMode = $block->getMode();
                 $productId = $_product->getId();
