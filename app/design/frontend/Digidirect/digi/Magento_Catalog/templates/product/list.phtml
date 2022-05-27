@@ -16,7 +16,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;     
 
 $objectManagerOverlay = \Magento\Framework\App\ObjectManager::getInstance();
-$overlayBlock = $objectManagerOverlay->create('Digidirect\Catalog\Block\Overlay');
+$overlayBlock = $objectManagerOverlay->get('Digidirect\Catalog\Block\Overlay');
 
 ?>
 <?= $block->getToolbarHtml() ?>
