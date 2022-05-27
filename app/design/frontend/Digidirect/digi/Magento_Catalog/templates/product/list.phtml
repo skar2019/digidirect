@@ -13,7 +13,9 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$showWishlist = true;          
+$showWishlist = true;     
+
+$overlayBlock = $block->getLayout()->createBlock('Digidirect\ProductOverlay\Block\Overlay');
 ?>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
@@ -21,7 +23,7 @@ $showWishlist = true;
     $currentPage = $this->getRequest()->getFullActionName(); 
 ?>
 <script>
-    console.log("Current Page Log: " + "<?= $currentPage ?>");
+    console.log("Token: " + "<?= $overlayBlock->getImageScr(); ?>");
 </script>
 <?php 
     $categoryName = "";
