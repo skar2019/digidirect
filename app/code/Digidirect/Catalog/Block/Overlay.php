@@ -74,4 +74,8 @@ class Overlay extends \Magento\Framework\View\Element\Template
 
         return $this->_helper->getImageUrl($img);
     }
+    
+    public function getTestMessage() {
+        return "Testing!";
+    }
 }
