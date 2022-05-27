@@ -13,16 +13,17 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$showWishlist = true;          
+$showWishlist = true;     
+
+$overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overlay');
+
 ?>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 <?php 
     $currentPage = $this->getRequest()->getFullActionName(); 
 ?>
-<script>
-    console.log("Current Page Log: " + "<?= $currentPage ?>");
-</script>
+
 <?php 
     $categoryName = "";
     if ($currentPage != "catalogsearch_result_index") {
@@ -63,6 +64,9 @@ $showWishlist = true;
             }'>
             <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
             <?php foreach ($_productCollection as $_product): ?>
+                <script>
+                    console.log("Token URL: " + "<?= $overlayBlock->getImageScr(); ?>");
+                </script>
                 <?php
                 $blockMode = $block->getMode();
                 $productId = $_product->getId();
