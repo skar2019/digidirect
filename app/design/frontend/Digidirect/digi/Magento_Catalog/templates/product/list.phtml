@@ -13,16 +13,13 @@ use Magento\Framework\App\Action\Action;
 <?php
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-$showWishlist = true;          
+$showWishlist = true;     
 ?>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
 <?php 
     $currentPage = $this->getRequest()->getFullActionName(); 
 ?>
-<script>
-    console.log("Current Page Log: " + "<?= $currentPage ?>");
-</script>
 <?php 
     $categoryName = "";
     if ($currentPage != "catalogsearch_result_index") {
@@ -127,62 +124,61 @@ $showWishlist = true;
                     }
                     ?>
                     
-                    <?php if ($d2ItemCondition): ?>
-                        <div class="digiseconds-overlay">
-                            <?php if ($d2ItemCondition == "PRELOVED"): ?>
-                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
-                            <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
-                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-demo.png"/>
-                            <?php elseif ($d2ItemCondition == "REFURB"): ?>
-                                <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-refurbished.png"/>
-                            <?php endif; ?>
-                            <div class="digiseconds-rating">
-                                <?php if ($d2ItemRating == 5): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                <?php elseif ($d2ItemRating == 4): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php elseif ($d2ItemRating == 3): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php elseif ($d2ItemRating == 2): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php elseif ($d2ItemRating == 1): ?>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php elseif ($d2ItemRating == 0): ?>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                    
                     <?php // Product Image ?>
                     <a href="<?= $block->escapeUrl($productUrl); ?>"
                        title="<?= $block->escapeHtml($productName); ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
+                        <?php if ($d2ItemCondition): ?>
+                            <div class="digiseconds-overlay">
+                                <?php if ($d2ItemCondition == "PRELOVED"): ?>
+                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-pre-loved.png"/>
+                                <?php elseif ($d2ItemCondition == "OPENBOX"): ?>
+                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-demo.png"/>
+                                <?php elseif ($d2ItemCondition == "REFURB"): ?>
+                                    <img src="<?php echo $block->getUrl("media/wysiwyg/digiseconds/overlays/")?>badge-refurbished.png"/>
+                                <?php endif; ?>
+                                <div class="digiseconds-rating">
+                                    <?php if ($d2ItemRating == 5): ?>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    <?php elseif ($d2ItemRating == 4): ?>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    <?php elseif ($d2ItemRating == 3): ?>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    <?php elseif ($d2ItemRating == 2): ?>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    <?php elseif ($d2ItemRating == 1): ?>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    <?php elseif ($d2ItemRating == 0): ?>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>     
                         <?= $productImage->toHtml(); ?>
                     </a>
                     
@@ -463,6 +459,13 @@ $showWishlist = true;
             categoryName == "PRELOVED") {
             $('.product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo').attr("style", "margin-top: 70px !important;");
         }
+        
+        $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
+            if ($(this).find('.product-overlay').length) {
+                $(this).find('.digiseconds-overlay').attr("style", "margin-top: -5px !important; margin-left: 40px !important;");
+            }
+        });
+        
     });
 </script>
 
