@@ -459,6 +459,14 @@ $showWishlist = true;
                 }
             });
             
+            var categoryName = "<?= $categoryName ?>";
+            if (categoryName == "digiSeconds" ||
+                categoryName == "REFURB" ||
+                categoryName == "OPENBOX" ||
+                categoryName == "PRELOVED") {
+                $('.product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo').attr("style", "margin-top: 70px !important; max-height: 110px !important");
+            }
+            
         });
         var categoryName = "<?= $categoryName ?>";
         if (categoryName == "digiSeconds" ||
