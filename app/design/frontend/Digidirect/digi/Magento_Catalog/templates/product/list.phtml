@@ -309,11 +309,10 @@ $showWishlist = true;
                                   $categoryName == "REFURB" ||
                                   $categoryName == "OPENBOX" ||
                                   $categoryName == "PRELOVED"): ?>
+                        <a href="<?= $block->escapeUrl($productUrl); ?>">
                             <div class="digiseconds-product-details">
                                 <div class="digiseconds-product-name">
-                                    <a href="<?= $block->escapeUrl($productUrl); ?>">
-                                         <span><?= $block->escapeHtml($productName); ?></span>
-                                    </a>
+                                    <span><?= $block->escapeHtml($productName); ?></span>
                                 </div>
                                 <?php if ($d2ItemDescription): ?>
                                     <div class="item-note-wrapper-plp">
@@ -352,6 +351,7 @@ $showWishlist = true;
                                     </div>
                                 <?php endif; ?>
                             </div>
+                        </a>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
@@ -451,6 +451,14 @@ $showWishlist = true;
             setTimeout(function() {
                 $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
             }, 2000);
+            
+            
+            $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
+                if ($(this).find('.product-overlay').length) {
+                    $(this).find('.digiseconds-overlay').attr("style", "margin-top: -5px !important; margin-left: 40px !important;");
+                }
+            });
+            
         });
         var categoryName = "<?= $categoryName ?>";
         if (categoryName == "digiSeconds" ||
@@ -505,11 +513,15 @@ $showWishlist = true;
     .item-note-wrapper-plp {
         text-align: left;
         float: left;
-        width: 100%;
+        width: 97%;
         margin-bottom: 10px;
         margin-left: 0;
         font-size: 13px;
         font-weight: 500;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
     
     .package-inclusion-wrapper ul {
