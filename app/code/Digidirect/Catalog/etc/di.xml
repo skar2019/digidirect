@@ -13,6 +13,6 @@
         <plugin name="catalog_config_plugin" type="Digidirect\Catalog\Plugin\Config" />
     </type>
     <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
-        <plugin name="catalog_productlist_toolbar_plugin" type="Vendor\ModuleName\Plugin\Product\ProductList\Toolbar" />
+        <plugin name="catalog_productlist_toolbar_plugin" type="Digidirect\Catalog\Plugin\Product\ProductList\Toolbar" />
     </type>
 </config>
