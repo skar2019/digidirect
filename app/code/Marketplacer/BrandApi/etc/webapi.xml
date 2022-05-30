@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!-- Brand -->
+    <route url="/V1/brand/search" method="GET">
+        <service class="Marketplacer\BrandApi\Api\BrandManagementInterface" method="getList"/>
+        <resources>
+            <resource ref="Marketplacer_Brand::brand_api"/>
+        </resources>
+    </route>
+    <route url="/V1/brand" method="POST">
+        <service class="Marketplacer\BrandApi\Api\BrandManagementInterface" method="save"/>
+        <resources>
+            <resource ref="Marketplacer_Brand::brand_api"/>
+        </resources>
+    </route>
+    <route url="/V1/brand/:brandId" method="PUT">
+        <service class="Marketplacer\BrandApi\Api\BrandManagementInterface" method="save"/>
+        <resources>
+            <resource ref="Marketplacer_Brand::brand_api"/>
+        </resources>
+    </route>
+    <route url="/V1/brand/:brandId" method="DELETE">
+        <service class="Marketplacer\BrandApi\Api\BrandManagementInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Marketplacer_Brand::brand_api"/>
+        </resources>
+    </route>
+</routes>
