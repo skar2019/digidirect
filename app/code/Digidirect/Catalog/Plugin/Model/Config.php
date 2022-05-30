@@ -13,7 +13,6 @@ class Config
      */
     public function afterGetAttributeUsedForSortByArray(\Magento\Catalog\Model\Config $catalogConfig, $options)
     {
-        if (array_key_exists('position', $options)) unset($options['position']);
         if (array_key_exists('name', $options)) unset($options['name']);
         if (array_key_exists('price', $options)) unset($options['price']);
         
