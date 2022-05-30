@@ -33,6 +33,12 @@ class Config
 
         // merge default sorting options with custom options
         $options = array_merge($customOption, $options);
+        
+        $order = ['most_viewed', 'latest', 'position', 'product_name_asc', 'product_name_desc', 'price_lowest_first', 'price_highest_first', 'highest_percent_discount'];
+        
+        uksort($options, function($key1, $key2) use ($order) {
+            return ((array_search($key1, $order) > array_search($key2, $order)) ? 1 : -1);
+        });
 
         return $options;
     }

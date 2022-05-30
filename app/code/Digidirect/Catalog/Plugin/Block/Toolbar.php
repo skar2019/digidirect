@@ -88,7 +88,7 @@ class Toolbar
             $this->_collection->getSelect()->order('price DESC');
             
         } elseif ($subject->getCurrentOrder() == 'highest_percent_discount') {
-            $this->_collection->getSelect()->order('((price_index.price - at_special_price.value) / price_index.price) DESC');
+            //$this->_collection->getSelect()->order('((price_index.price - at_special_price.value) / price_index.price) DESC');
             
         }      
 
