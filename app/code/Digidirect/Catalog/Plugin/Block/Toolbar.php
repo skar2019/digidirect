@@ -74,7 +74,23 @@ class Toolbar
             
         } elseif ($subject->getCurrentOrder() == 'latest') {
             $this->_collection->getSelect()->order('created_at');
-        }
+            
+        } elseif ($subject->getCurrentOrder() == 'product_name_asc') {
+            $this->_collection->getSelect()->order('name ASC');
+            
+        } elseif ($subject->getCurrentOrder() == 'product_name_desc') {
+            $this->_collection->getSelect()->order('name DESC');
+            
+        } elseif ($subject->getCurrentOrder() == 'price_lowest_first') {
+            $this->_collection->getSelect()->order('price ASC');
+            
+        } elseif ($subject->getCurrentOrder() == 'price_highest_first') {
+            $this->_collection->getSelect()->order('price DESC');
+            
+        } elseif ($subject->getCurrentOrder() == 'highest_percent_discount') {
+            $this->_collection->getSelect()->order('1 - (price_index.final_price / price_index.price)', 'DESC');
+            
+        }      
 
         return $this;
     }
