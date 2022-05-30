@@ -8,4 +8,5 @@ class Config
         $options[] = ["latest" => __("New Products")];
         return $options;
     }
+    
 }

@@ -15,4 +15,5 @@ class Toolbar
         }
         return $proceed($collection);
     }
+    
 }
