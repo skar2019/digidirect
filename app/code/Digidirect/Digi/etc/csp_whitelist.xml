@@ -54,6 +54,9 @@
                 <value id="visitorsscript" type="host">*.visitors.live</value>
                 <value id="evenbritescript" type="host">*.eventbrite.com</value>
                 <value id="wibmoscript" type="host">*.wibmo.com</value>
+                <value id="paypalcnscript" type="host">*.paypal.cn</value>
+                <value id="paypalobjscript" type="host">*.paypalobjects.com</value>
+
             </values>
         </policy>
         <policy id="style-src">
@@ -139,6 +142,8 @@
                 <value id="braintreegateway" type="host">*.braintreegateway.com</value>
                 <value id="amcglobal" type="host">amcglobal.sc.omtrdc.net</value>
                 <value id="wibmoconnect" type="host">*.wibmo.com</value>
+                <value id="paypalcncon" type="host">*.paypal.cn</value>
+                <value id="paypalobjcon" type="host">*.paypalobjects.com</value>
             </values>
         </policy>
         <policy id="font-src">
@@ -182,12 +187,17 @@
                 <value id="wooboxframe2" type="host">woobox.com</value>
                 <value id="evenbritecomframe" type="host">*.eventbrite.com</value>
                 <value id="wibmosframe" type="host">*.wibmo.com</value>
+                <value id="paypalcnframe" type="host">*.paypal.cn</value>
+                <value id="paypalobjframe" type="host">*.paypalobjects.com</value>
             </values>
         </policy>
         <policy id="form-action">
             <values>
                 <value id="rsa3dsauthform" type="host">*.rsa3dsauth.co.uk</value>
                 <value id="wibmosform" type="host">*.wibmo.com</value>
+                <value id="paypalform" type="host">*.paypal.com</value>
+                <value id="paypalcnform" type="host">*.paypal.cn</value>
+                <value id="paypalobjform" type="host">*.paypalobjects.com</value>
             </values>
         </policy>
     </policies>
