@@ -3,19 +3,6 @@ namespace Digidirect\Catalog\Plugin\Model;
 
 class Config
 {
-    public function aroundGetAvailableOrders(
-        \Magento\Catalog\Block\Product\ProductList\Toolbar $subject,
-        \Closure $proceed
-    ) {
-        $result = $proceed();
-
-        //make sure that each array key does exist, and then remove them
-        if (array_key_exists('position', $result)) unset($result['position']);
-        if (array_key_exists('name', $result)) unset($result['name']);
-        if (array_key_exists('price', $result)) unset($result['price']);
-
-        return $result;
-    }
     /**
      * Add custom Sort By option
      *
@@ -26,6 +13,10 @@ class Config
      */
     public function afterGetAttributeUsedForSortByArray(\Magento\Catalog\Model\Config $catalogConfig, $options)
     {
+        if (array_key_exists('position', $options)) unset($options['position']);
+        if (array_key_exists('name', $options)) unset($options['name']);
+        if (array_key_exists('price', $options)) unset($options['price']);
+        
         // nmost viewed
         $customOption['most_viewed'] = __('Most Viewed');
         // new products
