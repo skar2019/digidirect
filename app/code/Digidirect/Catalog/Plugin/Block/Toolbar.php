@@ -71,6 +71,9 @@ class Toolbar
 
                 $this->_subQueryApplied = true;
             }
+            
+        } elseif ($subject->getCurrentOrder() == 'latest') {
+            $this->_collection->getSelect()->order('created_at');
         }
 
         return $this;

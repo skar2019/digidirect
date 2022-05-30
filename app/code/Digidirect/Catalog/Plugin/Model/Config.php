@@ -13,8 +13,10 @@ class Config
      */
     public function afterGetAttributeUsedForSortByArray(\Magento\Catalog\Model\Config $catalogConfig, $options)
     {
-        // new sorting option
+        // nmost viewed
         $customOption['most_viewed'] = __('Most Viewed');
+        // new products
+        $customOption['latest'] = __('New Products');
 
         // merge default sorting options with custom options
         $options = array_merge($customOption, $options);

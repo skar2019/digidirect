@@ -9,10 +9,4 @@
     <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
         <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
     </type>
-    <type name="Magento\Catalog\Model\Config">
-        <plugin name="catalog_config_plugin" type="Digidirect\Catalog\Plugin\Config" />
-    </type>
-    <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
-        <plugin name="catalog_productlist_toolbar_plugin" type="Digidirect\Catalog\Plugin\Product\ProductList\Toolbar" />
-    </type>
 </config>
