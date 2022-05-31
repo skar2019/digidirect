@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="marketplacer_brand">
+        <column xsi:type="int" name="row_id" unsigned="true" nullable="false" identity="true" comment="Row Id"/>
+        <column xsi:type="int" name="brand_id" nullable="false" comment="Brand Id"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false" default="0" comment="Store ID"/>
+        <column xsi:type="int" name="option_id" nullable="false" comment="Brand Attribute Option Id"/>
+        <column xsi:type="smallint" name="status" nullable="false" default="1" comment="Brand Status"/>
+        <!-- Brand payload fields -->
+        <column xsi:type="varchar" name="logo" nullable="true" length="1000" comment="Brand Logo Image"/>
+        <!-- SEO columns -->
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="Brand page url key"/>
+        <column xsi:type="varchar" name="meta_title" nullable="true" length="255" comment="Brand page meta title"/>
+        <column xsi:type="varchar" name="meta_description" nullable="true" length="255" comment="Brand page meta description"/>
+        <!-- Service columns -->
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <!-- Indices -->
+        <index referenceId="MARKETPLACER_BRAND_OPTION_ID_STORE_ID_INDEX" indexType="btree">
+            <column name="brand_id"/>
+            <column name="store_id"/>
+        </index>
+        <!-- Constraints -->
+        <constraint xsi:type="primary" referenceId="MARKETPLACER_BRAND_ROW_ID">
+            <column name="row_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="MARKETPLACER_BRAND_OPTION_ID_STORE_ID_CONSTRAINT">
+            <column name="store_id"/>
+            <column name="brand_id"/>
+        </constraint>
+    </table>
+</schema>

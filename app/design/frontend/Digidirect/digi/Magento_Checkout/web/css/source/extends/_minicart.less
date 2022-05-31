@@ -517,6 +517,50 @@
             }
         }
 
+        //jai
+        .details-qty.qty {
+            width: auto !important;
+            // input[type=number] {
+            //     border-right: none !important;
+            // }
+            
+            .qty-buttons {
+                display: inline !important;
+                margin-left: 0px !important;
+                border: none !important;
+                // position: absolute !important;
+                // right: 65px !important;
+                // top: 30.6% !important;
+                // display: flex !important;
+                // flex-direction: column !important;
+                width: fit-content;
+                margin: 1px;
+
+                button {
+                    background: transparent !important;
+                    color: #000 !important;
+                    // height: auto !important;
+                    height: 38px !important;
+                    // border-right: 2px solid #cfcfcf !important;
+                    // border-top: 2px solid #cfcfcf !important;
+                    // border-bottom: 2px solid #cfcfcf !important;
+
+                    i.fas.fa-angle-down {
+                        position: relative;
+                        top: 8px;
+                        left: -22px;
+                    }
+
+                    i.fas.fa-angle-up {
+                        position: relative;
+                        top: -2px;
+                        left: -46px;
+                    }
+                }
+
+            }
+        }
+
         .price-container .price{
             font-size: 12px;
             font-weight: 300;
@@ -553,6 +597,20 @@
             border-radius: 4px;
             height: 38px;
         }
+    }
+
+    //jai
+    .minicart-items .item-qty {
+        width: 55px !important;
+    }
+    
+    .minicart-items-wrapper {
+    
+        .product-image-container {
+            padding: 10px !important;
+            background: #fff !important;
+        }
+
     }
 
     .klarna-widget{
@@ -663,7 +721,11 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-    
+    //jai
+    // div#minicartSidebar {
+    //     width: 60% !important;
+    // }
+
     .opc-block-summary .minicart-items .product-item-details {
         padding-left: 29px;
         display: contents !important;

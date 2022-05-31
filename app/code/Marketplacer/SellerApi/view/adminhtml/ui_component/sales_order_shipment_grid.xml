@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="sales_order_shipment_columns">
+        <column name="seller_names">
+            <settings>
+                <label translate="true">Seller</label>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <sortable>false</sortable>
+                <visible>true</visible>
+            </settings>
+        </column>
+        <column name="seller_business_numbers">
+            <settings>
+                <label translate="true">Business Number</label>
+                <filter>text</filter>
+                <dataType>text</dataType>
+                <sortable>false</sortable>
+                <visible>true</visible>
+            </settings>
+        </column>
+    </columns>
+</listing>
