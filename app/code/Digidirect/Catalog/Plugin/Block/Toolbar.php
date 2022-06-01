@@ -87,10 +87,12 @@ class Toolbar
         } elseif ($subject->getCurrentOrder() == 'price_highest_first') {
             $this->_collection->getSelect()->order('price DESC');
             
-        } elseif ($subject->getCurrentOrder() == 'highest_percent_discount') {
-            $this->_collection->getSelect()->order('((price - special_price) / price) DESC');
-            
-        }      
+        } 
+        
+//        elseif ($subject->getCurrentOrder() == 'highest_percent_discount') {
+//            $this->_collection->getSelect()->order('((price - special_price) / price) DESC');
+//            
+//        }      
 
         return $this;
     }

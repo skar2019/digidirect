@@ -28,8 +28,8 @@ class Config
         $customOption['price_lowest_first'] = __('Price Lowest First');
         // price highest first
         $customOption['price_highest_first'] = __('Price Highest First');
-        // new products
-        $customOption['highest_percent_discount'] = __('Highest % Discount');
+        // highest percentage discount
+        //$customOption['highest_percent_discount'] = __('Highest % Discount');
 
         // merge default sorting options with custom options
         $options = array_merge($customOption, $options);
