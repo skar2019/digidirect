@@ -27,7 +27,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
 
     public function saveCustomOption(){
 
-        $catIds = array(2564);
+        $catIds = array(2564,2567,2570,2573);
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
         $collection->addFieldToFilter( 'price' , array('gt' => 100));
@@ -45,7 +45,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
         $collection->addAttributeToFilter('brand', array('neq' => '7125'));
         $collection->addAttributeToFilter('brand', array('neq' => '521'));
         $collection->addAttributeToFilter('stock_group', array('neq' => 'D1A1'));
-        $collection->addCategoriesFilter(['in' => $catIds]);
+        $collection->addCategoriesFilter(['nin' => $catIds]);
         //might check 'stock_status' => string '171'
         $x = 0;
         foreach ($collection as $item) {
