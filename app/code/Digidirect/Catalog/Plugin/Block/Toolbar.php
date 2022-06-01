@@ -73,7 +73,7 @@ class Toolbar
             }
             
         } elseif ($subject->getCurrentOrder() == 'latest') {
-            $this->_collection->getSelect()->order('created_at');
+            $this->_collection->getSelect()->order('created_at DESC');
             
         } elseif ($subject->getCurrentOrder() == 'product_name_asc') {
             $this->_collection->setOrder('name', 'ASC');
