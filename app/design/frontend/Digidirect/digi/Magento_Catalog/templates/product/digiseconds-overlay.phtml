@@ -11,16 +11,11 @@
 ?>
 
 <?php
-    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-    $categoryObject = $catalogHelperData->getCategory();
-    $categoryId = $categoryObject->getId();
-    $categoryName = $categoryObject->getName();
+    $categoryIds = $productBlock->getCategoryIds();
+    $isInCategory = in_array_any([913,915,918,921], $categoryIds);
 ?>
 
-<?php if ($categoryName == "digiSeconds" ||
-    $categoryName == "REFURB" ||
-    $categoryName == "OPENBOX" ||
-    $categoryName == "PRELOVED") : ?>
+<?php if ($isInCategory) : ?>
 
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-overlay">
