@@ -23,13 +23,13 @@
     console.log("Category Ids : <?= $categories; ?>");
     console.log("digiSeconds Ids : <?= $digiSecondsIds; ?>");
 </script>
-<?php if (in_array(913, $categoryIds)): ?>
+<?php if ($categoryIds): ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
             <?php if ($brandNewProductPrice): ?>
                 <div class="brand-new-price-wrapper old-price-wrapper">
                     <span class="brand-new-label">
-                        Brand New Price
+                        Brand New Price <?= $categories; ?>
                     </span>
                     <span class="brand-new-price old-price">
                         $<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
