@@ -1,4 +1,6 @@
 <?php
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
+    
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
     $currentCategory = $productBlock->getCurrentCategory()->getName();
     $currentProduct = $productBlock->getCurrentProduct();
@@ -12,10 +14,18 @@
     $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
 
 ?>
-<?php if ($currentCategory == "digiSeconds" ||
-    $currentCategory == "REFURB" ||
-    $currentCategory == "OPENBOX" ||
-    $currentCategory == "PRELOVED") : ?>
+
+<?php
+    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+    $categoryObject = $catalogHelperData->getCategory();
+    $categoryId = $categoryObject->getId();
+    $categoryName = $categoryObject->getName();
+?>
+
+<?php if ($categoryName == "digiSeconds" ||
+    $categoryName == "REFURB" ||
+    $categoryName == "OPENBOX" ||
+    $categoryName == "PRELOVED") : ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
             <?php if ($brandNewProductPrice): ?>

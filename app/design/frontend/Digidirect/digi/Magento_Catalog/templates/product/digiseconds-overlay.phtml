@@ -1,5 +1,6 @@
 <?php
     // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
     
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
     $currentCategory = $productBlock->getCurrentCategory()->getName();
@@ -8,10 +9,19 @@
     $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');  
     
 ?>
-<?php if ($currentCategory == "digiSeconds" ||
-    $currentCategory == "REFURB" ||
-    $currentCategory == "OPENBOX" ||
-    $currentCategory == "PRELOVED") : ?>
+
+<?php
+    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+    $categoryObject = $catalogHelperData->getCategory();
+    $categoryId = $categoryObject->getId();
+    $categoryName = $categoryObject->getName();
+?>
+
+<?php if ($categoryName == "digiSeconds" ||
+    $categoryName == "REFURB" ||
+    $categoryName == "OPENBOX" ||
+    $categoryName == "PRELOVED") : ?>
+
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-overlay">
             <?php if ($d2ItemCondition == "PRELOVED"): ?>
