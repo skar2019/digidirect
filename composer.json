@@ -13,6 +13,8 @@
     },
     "require": {
         "classyllama/module-zendesk": "1.1.11",
+        "dotdigital/dotdigital-magento2-extension-enterprise": "^1.8",
+        "dotdigital/dotdigital-magento2-os-package": "^1.0",
         "klarna/m2-klarna": "^1.0",
         "klevu/module-search": "^2.3",
         "livechat/module-magento-livechat": "dev-master",
