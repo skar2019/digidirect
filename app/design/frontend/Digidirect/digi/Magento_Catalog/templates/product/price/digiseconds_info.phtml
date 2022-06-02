@@ -1,6 +1,6 @@
 <?php
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-    $currentCategory = $productBlock->getCurrentCategory();
+    $currentCategory = $productBlock->getCurrentCategory()->getName();
     $currentProduct = $productBlock->getCurrentProduct();
 
     $d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : '');

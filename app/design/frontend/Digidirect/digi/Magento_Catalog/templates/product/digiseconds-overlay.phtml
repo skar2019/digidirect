@@ -2,7 +2,7 @@
     // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
     
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-    $currentCategory = $productBlock->getCurrentCategory();
+    $currentCategory = $productBlock->getCurrentCategory()->getName();
     $currentProduct = $productBlock->getCurrentProduct();
     $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : ''); 
     $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');  
