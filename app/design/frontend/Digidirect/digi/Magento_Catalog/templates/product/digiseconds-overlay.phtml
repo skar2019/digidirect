@@ -1,9 +1,6 @@
 <?php
     // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
-    $_helper = $this->helper('Magento\Catalog\Helper\Output');
-    
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-    $currentCategory = $productBlock->getCurrentCategory()->getName();
     $currentProduct = $productBlock->getCurrentProduct();
     $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : ''); 
     $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');  
@@ -12,9 +9,12 @@
 
 <?php
     $categoryIds = $productBlock->getCategoryIds();
-    $digiSecondsIds = [913,915,918,921];
+    $digiSecondsIds = array(913,915,918,921);
 ?>
-
+<script>
+    console.log("Category Ids : <?= $categoryIds; ?>");
+    console.log("digiSeconds Ids : <?= $digiSecondsIds; ?>");
+</script>
 <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0) : ?>
 
     <?php if ($d2ItemCondition): ?>
