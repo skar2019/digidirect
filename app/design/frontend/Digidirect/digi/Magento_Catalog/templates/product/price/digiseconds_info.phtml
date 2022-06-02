@@ -9,27 +9,14 @@
 
     $brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : '');
     $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
-    
-    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
-    $categories = $product->getCategoryIds(); /*will return category ids array*/
-    
-    $categoryIds = $currentProduct->getCategoryIds();
-    $digiSecondsIds = array(913,915,918,921);
 
 ?>
-
-<script>
-    console.log("Category Ids : <?= $categoryIds; ?>");
-    console.log("digiSeconds Ids : <?= $digiSecondsIds; ?>");
-</script>
-
 <?php if ($d2ItemCondition): ?>
     <div class="digiseconds-info-wrapper">
         <?php if ($brandNewProductPrice): ?>
             <div class="brand-new-price-wrapper old-price-wrapper">
                 <span class="brand-new-label">
-                    Brand New Price <?= $categories; ?>
+                    Brand New Price
                 </span>
                 <span class="brand-new-price old-price">
                     $<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
