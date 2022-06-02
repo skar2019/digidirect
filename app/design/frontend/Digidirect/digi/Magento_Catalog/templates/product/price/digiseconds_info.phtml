@@ -19,7 +19,10 @@
     $categoryIds = $productBlock->getCategoryIds();
     $digiSecondsIds = [913,915,918,921];
 ?>
-
+<script>
+    console.log("Category Ids : <?= $categoryIds; ?>");
+    console.log("digiSeconds Ids : <?= $digiSecondsIds; ?>");
+</script>
 <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0) : ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
