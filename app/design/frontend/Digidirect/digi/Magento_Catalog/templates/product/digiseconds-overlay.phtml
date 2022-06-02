@@ -7,9 +7,10 @@
     $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');  
     
     $categoryIds = $currentProduct->getCategoryIds();
+    $digiSecondsIds = array(913,915,918,921);
     
 ?>
-<?php if (in_array(913, $categoryIds)): ?>
+<?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-overlay">
             <?php if ($d2ItemCondition == "PRELOVED"): ?>

@@ -11,9 +11,10 @@
     $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
     
     $categoryIds = $currentProduct->getCategoryIds();
+    $digiSecondsIds = array(913,915,918,921);
 
 ?>
-<?php if (in_array(913, $categoryIds)): ?>
+<?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
             <?php if ($brandNewProductPrice): ?>
