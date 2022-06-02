@@ -18,8 +18,7 @@
     console.log("Category Ids : <?= $categories; ?>");
     console.log("digiSeconds Ids : <?= $digiSecondsIds; ?>");
 </script>
-<?php if (count(array_intersect([1,2,3], [1,2,3])) > 0) : ?>
-
+<?php if (in_array(913, $categoryIds)): ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-overlay">
             <?php if ($d2ItemCondition == "PRELOVED"): ?>
