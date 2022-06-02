@@ -17,15 +17,10 @@
 
 <?php
     $categoryIds = $productBlock->getCategoryIds();
-    
-    function in_array_any($needles, $haystack) {
-        return !empty(array_intersect($needles, $haystack));
-    }
-    
-    $isInCategory = in_array_any([913,915,918,921], $categoryIds);
+    $digiSecondsIds = [913,915,918,921];
 ?>
 
-<?php if ($isInCategory) : ?>
+<?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0) : ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
             <?php if ($brandNewProductPrice): ?>
