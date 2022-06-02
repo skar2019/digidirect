@@ -3,19 +3,22 @@
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
     $currentProduct = $productBlock->getCurrentProduct();
     $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : ''); 
-    $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');  
+    $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');
+    
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+    $categories = $product->getCategoryIds(); /*will return category ids array*/
+    
+    $categoryIds = $currentProduct->getCategoryIds();
+    $digiSecondsIds = array(913,915,918,921);
     
 ?>
 
-<?php
-    $categoryIds = $currentProduct->getCategoryIds();
-    $digiSecondsIds = [913,915,918,921];
-?>
 <script>
-    console.log("Category Ids : <?= $categoryIds; ?>");
+    console.log("Category Ids : <?= $categories; ?>");
     console.log("digiSeconds Ids : <?= $digiSecondsIds; ?>");
 </script>
-<?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0) : ?>
+<?php if (count(array_intersect($categories, $digiSecondsIds)) > 0) : ?>
 
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-overlay">
