@@ -1,0 +1,28 @@
+<?php 
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+if ($request->getFullActionName() == 'catalog_category_view') {
+    
+    $categoryName = "";
+    
+    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+    $categoryObject = $catalogHelperData->getCategory();
+    $categoryId = $categoryObject->getId();
+    $categoryName = $categoryObject->getName();
+    
+    if ($categoryId == 17 || $categoryId == 37) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('cameras-product-featured-banner')
+        ->toHtml();
+    } 
+    
+}
+
+?>
+
+
+
