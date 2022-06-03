@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!-- Seller -->
+<!-- Seller list webapi basically available but not required -->
+<!--    <route url="/V1/seller/search" method="GET">-->
+<!--        <service class="Marketplacer\SellerApi\Api\SellerManagementInterface" method="getList"/>-->
+<!--        <resources>-->
+<!--            <resource ref="Marketplacer_Seller::seller_api"/>-->
+<!--        </resources>-->
+<!--    </route>-->
+    <route url="/V1/seller" method="POST">
+        <service class="Marketplacer\SellerApi\Api\SellerManagementInterface" method="save"/>
+        <resources>
+            <resource ref="Marketplacer_Seller::seller_api"/>
+        </resources>
+    </route>
+    <route url="/V1/seller/:sellerId" method="PUT">
+        <service class="Marketplacer\SellerApi\Api\SellerManagementInterface" method="save"/>
+        <resources>
+            <resource ref="Marketplacer_Seller::seller_api"/>
+        </resources>
+    </route>
+    <route url="/V1/seller/:sellerId" method="DELETE">
+        <service class="Marketplacer\SellerApi\Api\SellerManagementInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Marketplacer_Seller::seller_api"/>
+        </resources>
+    </route>
+</routes>

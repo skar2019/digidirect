@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Marketplacer\Brand\Block\Brand\Index"
+                   name="marketplacer_brand.index.brand.list"
+                   template="Marketplacer_Brand::brand/index/all-brands.phtml"
+                   ifconfig="marketplacer_brand/general/enabled">
+                <arguments>
+                    <argument name="view_model" xsi:type="object">Marketplacer\Base\ViewModel\BaseViewModel</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

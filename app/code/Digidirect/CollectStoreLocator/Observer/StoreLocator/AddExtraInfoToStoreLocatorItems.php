@@ -76,7 +76,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             
             $place = $places[$id];
             if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
-                $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
+                $items[$key]['available'] = !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
             }
         }
         return $items;
