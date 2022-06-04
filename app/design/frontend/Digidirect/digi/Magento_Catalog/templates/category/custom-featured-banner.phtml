@@ -25,11 +25,23 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         ->toHtml();
     } 
     
-} elseif ($request->getFullActionName() == 'eaa_attribute_option_index')
+} elseif ($request->getFullActionName() == 'eaa_attribute_option_index') {
     if ($isBrandCanon == true) {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
         ->setBlockId('cameras-product-featured-banner')
         ->toHtml();
-    } 
+    }
+    ?>
+    <script>
+        require([
+            'jquery'
+        ],
+        function ($) {
+            $('.featured-banner-heading').attr("style", "margin-top: -30px !important;");
+        });
+    </script>
+<?php
+
+}
 ?>
