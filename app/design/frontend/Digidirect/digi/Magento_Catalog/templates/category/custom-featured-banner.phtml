@@ -18,19 +18,18 @@ if ($request->getFullActionName() == 'catalog_category_view') {
     $categoryId = $categoryObject->getId();
     $categoryName = $categoryObject->getName();
     
-    if ($categoryId == 17 || $categoryId == 37 || $isBrandCanon == true) {
+    if ($categoryId == 17 || $categoryId == 37) {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
         ->setBlockId('cameras-product-featured-banner')
         ->toHtml();
     } 
     
-}
-
+} elseif ($request->getFullActionName() == 'eaa_attribute_option_index')
+    if ($isBrandCanon == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('cameras-product-featured-banner')
+        ->toHtml();
+    } 
 ?>
-
-<script>
-    console.log("<?= $request->getFullActionName();?>");
-    console.log("<?= $isBrandCanon;?>");
-    console.log("<?= $currentUrl;?>");
-</script>
