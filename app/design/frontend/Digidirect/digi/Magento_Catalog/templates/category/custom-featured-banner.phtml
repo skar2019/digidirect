@@ -29,5 +29,8 @@ if ($request->getFullActionName() == 'catalog_category_view') {
 
 ?>
 
-
-
+<script>
+    console.log("<?= $request->getFullActionName();?>");
+    console.log("<?= $isBrandCanon;?>");
+    console.log("<?= $currentUrl;?>");
+</script>
