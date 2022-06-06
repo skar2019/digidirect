@@ -10,7 +10,8 @@
     <div class="toolbar toolbar-products" data-mage-init='<?php /* @escapeNotVerified */ echo $block->getWidgetOptionsJson(); ?>'>
         <div class="desktop-row">
             <div class="filter filter-trigger -mobile" data-container="#catalogSidebar" data-mage-init='{ "offcanvas": {"addOn":
-            "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Filter');?>
+            "js/components/offcanvas/dist/addons/catalog/index"} }'>
+                <i class="fas fa-filter"></i>  Filter
             </div>
             <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/amount.phtml')) ?>
             <?php if ($block->isExpanded()): ?>
@@ -38,6 +39,7 @@
                            data-value="<?php if ($block->getCurrentDirection() == 'asc'): ?>desc<?php else: ?>asc<?php endif; ?>">
                         </a>
                     </div>
+                    <i class="fas fa-sort-amount-down"></i>  Sort By
                 </div>
             <?php endif; ?>
         </div>

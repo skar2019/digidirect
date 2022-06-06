@@ -926,6 +926,7 @@
         visibility: visible;
         border: 1px solid #cacaca;
         margin-bottom: 20px;
+        margin-top: 20px;
     }
     
     .toolbar-products .desktop-row div:first-child {
@@ -1668,6 +1669,7 @@
         font-weight: 600 !important;
         margin-left: 5px !important;
         margin-right: 10px !important;
+        display: none !important;
     }
 
     .desktop-row .toolbar-sorter .sorter-action, .toolbar-products .desktop-row .sorter.-mobile .sorter-action {
@@ -1934,7 +1936,11 @@
     }
     
     .custom-sorter {
-        display: block !important;
+        display: grid !important;
+    }
+    
+    .toolbar-products .desktop-row {
+        border: none !important;
     }
 
 }
