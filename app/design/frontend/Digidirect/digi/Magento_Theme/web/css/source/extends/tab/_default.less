@@ -888,6 +888,7 @@
 
     .toolbar-products {
         margin-bottom: 0 !important;
+        margin-right: 0 !important;
     }
 
     .toolbar-sorter .sorter-label {
@@ -921,8 +922,14 @@
     }
 
     .toolbar-products .desktop-row {
-        padding: 0 0 10px 0 !important;
+        padding: 0 !important;
         visibility: visible;
+        border: 1px solid #cacaca;
+        margin-bottom: 20px;
+    }
+    
+    .toolbar-products .desktop-row div:first-child {
+        border-right: 1px solid #cacaca;
     }
 
     .rating-summary .rating-result > span:before {
@@ -1638,7 +1645,7 @@
     }
 
     .toolbar-products .filter.-mobile {
-        border: none !important;
+        //border: none !important;
         font-size: 17px !important;
         font-weight: 500 !important;
         text-transform: capitalize !important;
@@ -1651,7 +1658,7 @@
     }
 
     .toolbar-products .filter.-mobile {
-        border: none !important;
+        //border: none !important;
     }
 
     .toolbar-products .filter.-mobile:before {
@@ -1781,6 +1788,10 @@
     }
     
     .checkout-cart-index .products-widget {
+        display: none !important;
+    }
+    
+    .custom-sorter {
         display: none !important;
     }
 }
@@ -1920,6 +1931,10 @@
     
     #maincontent > .breadcrumbs {
         margin-left: 50px !important;
+    }
+    
+    .custom-sorter {
+        display: block !important;
     }
 
 }
