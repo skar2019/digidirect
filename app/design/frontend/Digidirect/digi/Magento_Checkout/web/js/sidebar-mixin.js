@@ -149,7 +149,7 @@ define([
                 }
 
 
-                return false;
+                // return false;
             },
 
             //Rondel Custom Function
