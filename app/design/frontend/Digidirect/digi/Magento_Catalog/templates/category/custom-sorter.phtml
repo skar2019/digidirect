@@ -1,11 +1,11 @@
 <div class="custom-sorter">
-    <div id="custom-most-viewed">Most Viewed</div>
-    <div id="custom-new-products">New Products</div>
-    <div id="custom-best-sellers">Best Sellers</div>
-    <div id="custom-product-name-asc">Product Name (A-Z)</div>
-    <div id="custom-product-name-desc">Product Name (Z-A)</div>
-    <div id="custom-price-asc">Price Low to High</div>
-    <div id="custom-price-desc">Price High to Low</div>
+    <div id="custom-most-viewed"><i class="fas fa-certificate"></i>  Most Viewed</div>
+    <div id="custom-new-products"><i class="fas fa-star-of-life"></i>  New Products</div>
+    <div id="custom-best-sellers"><i class="fas fa-star"></i>  Best Sellers</div>
+    <div id="custom-product-name-asc"><i class="fas fa-sort-alpha-up"></i>  Product Name (A-Z)</div>
+    <div id="custom-product-name-desc"><i class="fas fa-sort-alpha-up-alt"></i>  Product Name (Z-A)</div>
+    <div id="custom-price-asc"><i class="fas fa-sort-numeric-down"></i>  Price Low to High</div>
+    <div id="custom-price-desc"><i class="fas fa-sort-numeric-down-alt"></i>  Price High to Low</div>
 </div>
 
 <script>
@@ -14,34 +14,90 @@
     ],
     function ($) {
   
-        $( "#custom-most-viewed" ).click(function() {
+        $("#custom-most-viewed").click(function() {
             $('#sorter').val('most_viewed').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-most-viewed").addClass("custom-selected");
         });
         
-        $( "#custom-new-products" ).click(function() {
+        $("#custom-new-products").click(function() {
             $('#sorter').val('latest').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-new-products").addClass("custom-selected");
         });
         
-        $( "#custom-best-sellers" ).click(function() {
+        $("#custom-best-sellers").click(function() {
             $('#sorter').val('position').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-best-sellers").addClass("custom-selected");
         });
         
-        $( "#custom-product-name-asc" ).click(function() {
+        $("#custom-product-name-asc").click(function() {
             $('#sorter').val('product_name_asc').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-product-name-asc").addClass("custom-selected");
         });
         
-        $( "#custom-product-name-desc" ).click(function() {
+        $("#custom-product-name-desc").click(function() {
             $('#sorter').val('product_name_desc').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-product-name-desc").addClass("custom-selected");
         });
         
-        $( "#custom-price-asc" ).click(function() {
+        $("#custom-price-asc").click(function() {
             $('#sorter').val('price_lowest_first').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-price-asc").addClass("custom-selected");
         });
         
-        $( "#custom-price-desc" ).click(function() {
+        $("#custom-price-desc").click(function() {
             $('#sorter').val('price_highest_first').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-price-desc").addClass("custom-selected");
         });
+        
+        $("#custom-most-viewed").addClass("custom-selected");
         
         
     });
 </script>
+
+<style>
+    
+    .custom-sorter {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        border: 1px solid #cacaca;
+        margin-left: -57px;
+        max-width: 1093px;
+        justify-items: center;
+        margin-top: 12px;
+        cursor: pointer;
+    }
+    
+    .custom-sorter div {
+        font-size: 12px;
+        padding: 10px;
+        width: -webkit-fill-available;
+        text-align: center;
+        color: #a3a3a3;
+    }
+    
+    .custom-sorter div:not(:last-child) {
+        border-right: 1px solid #cacaca;
+    }
+    
+    .custom-selected {
+        background: #ef3c00;
+        color: #fff !important;
+        border-color: #ff3c00;
+    }
+    
+    .custom-sorter div:hover {
+        transition: .5s;
+        background: #ef3c00;
+        color: #fff !important;
+        border-color: #ff3c00;
+    }
+    
+</style>
