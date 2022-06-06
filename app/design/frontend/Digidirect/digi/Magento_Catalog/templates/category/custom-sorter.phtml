@@ -56,6 +56,8 @@
             $("#custom-price-desc").addClass("custom-selected");
         });
         
+        $("#custom-most-viewed").addClass("custom-selected");
+        
         
     });
 </script>
@@ -81,9 +83,20 @@
         color: #a3a3a3;
     }
     
+    .custom-sorter div:not(:last-child) {
+        border-right: 1px solid #cacaca;
+    }
+    
     .custom-selected {
         background: #ef3c00;
-        color: #fff;
+        color: #fff !important;
+        border-color: #ff3c00;
+    }
+    
+    .custom-sorter div:hover {
+        transition: .5s;
+        background: #ef3c00;
+        color: #fff !important;
         border-color: #ff3c00;
     }
     
