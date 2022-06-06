@@ -16,30 +16,44 @@
   
         $("#custom-most-viewed").click(function() {
             $('#sorter').val('most_viewed').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-most-viewed").addClass("custom-selected");
         });
         
         $("#custom-new-products").click(function() {
             $('#sorter').val('latest').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-new-products").addClass("custom-selected");
         });
         
         $("#custom-best-sellers").click(function() {
             $('#sorter').val('position').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-best-sellers").addClass("custom-selected");
         });
         
         $("#custom-product-name-asc").click(function() {
             $('#sorter').val('product_name_asc').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-product-name-asc").addClass("custom-selected");
         });
         
         $("#custom-product-name-desc").click(function() {
             $('#sorter').val('product_name_desc').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-product-name-desc").addClass("custom-selected");
         });
         
         $("#custom-price-asc").click(function() {
             $('#sorter').val('price_lowest_first').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-price-asc").addClass("custom-selected");
         });
         
         $("#custom-price-desc").click(function() {
             $('#sorter').val('price_highest_first').trigger('change');
+            $(".custom-sorter div").removeClass("custom-selected");
+            $("#custom-price-desc").addClass("custom-selected");
         });
         
         
@@ -62,6 +76,15 @@
     .custom-sorter div {
         font-size: 12px;
         padding: 10px;
+        width: -webkit-fill-available;
+        text-align: center;
+        color: #a3a3a3;
+    }
+    
+    .custom-selected {
+        background: #ef3c00;
+        color: #fff;
+        border-color: #ff3c00;
     }
     
 </style>
