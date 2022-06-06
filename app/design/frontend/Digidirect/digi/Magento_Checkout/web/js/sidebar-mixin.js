@@ -142,8 +142,7 @@ define([
                 //var itemId = elem.data('cart-item');
                 //$('#cart-item-' + itemId + '-qty');
                 //this._updateItemQtyIncrease(elem);
-                // return false;
-                return true;
+                return false;
             },
 
             //Rondel Custom Function
