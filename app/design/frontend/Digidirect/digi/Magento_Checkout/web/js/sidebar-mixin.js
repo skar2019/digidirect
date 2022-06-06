@@ -142,6 +142,13 @@ define([
                 //var itemId = elem.data('cart-item');
                 //$('#cart-item-' + itemId + '-qty');
                 //this._updateItemQtyIncrease(elem);
+                var eventQty = $('#cart-item-' + itemId + '-qty');
+
+                if (eventQty == 1) {
+                    $('.minicart-qty-decrease').css({ 'display': 'none' });
+                }
+
+
                 return false;
             },
 
