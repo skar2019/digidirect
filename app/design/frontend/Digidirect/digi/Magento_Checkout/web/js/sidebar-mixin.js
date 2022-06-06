@@ -167,7 +167,8 @@ define([
                 this._ajax(this.options.url.update, {
                     'item_id': itemId,
                     'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1
-                }, elem, alert("test"), this._updateItemQtyAfter);
+                }, elem, this._updateItemQtyAfter);
+                // }, elem, alert("test"), this._updateItemQtyAfter);
             },
 
             /**
