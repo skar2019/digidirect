@@ -142,8 +142,14 @@ define([
                 //var itemId = elem.data('cart-item');
                 //$('#cart-item-' + itemId + '-qty');
                 //this._updateItemQtyIncrease(elem);
-                // return false;
-                return true;
+                var eventQty = $('#cart-item-' + itemId + '-qty').val();
+
+                if (eventQty == 1) {
+                    alert("test");
+                }
+
+
+                return false;
             },
 
             //Rondel Custom Function
