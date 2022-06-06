@@ -540,24 +540,53 @@
                     background: transparent !important;
                     color: #000 !important;
                     // height: auto !important;
-                    height: 38px !important;
+                    height: 40px !important;
+                    // height: 38px !important;
                     // border-right: 2px solid #cfcfcf !important;
                     // border-top: 2px solid #cfcfcf !important;
                     // border-bottom: 2px solid #cfcfcf !important;
+                    border: 2px solid #cfcfcf !important;
+                    border-radius: 0px !important;
+
 
                     i.fas.fa-angle-down {
-                        position: relative;
-                        top: 8px;
-                        left: -22px;
+                        // position: relative;
+                        // top: 8px;
+                        // left: -22px;
+                    }
+
+                    i.fas.fa-angle-down:before {
+                        content: "\f107";
+                        content: "-";
                     }
 
                     i.fas.fa-angle-up {
-                        position: relative;
-                        top: -2px;
-                        left: -46px;
+                        // position: relative;
+                        // top: -2px;
+                        // left: -46px;
+                    }
+                    i.fas.fa-angle-up:before {
+                        content: "\f106";
+                        content: "+";
                     }
                 }
 
+                button.minicart-qty-decrease {
+                    position: relative;
+                    left: -6px;
+
+                }
+                button.minicart-qty-increase {
+                    position: relative;
+                    right: 8px;
+
+                }
+
+            }
+
+            .label {
+                display: block !important;
+                margin-bottom: 10px;
             }
         }
 
@@ -601,7 +630,7 @@
 
     //jai
     .minicart-items .item-qty {
-        width: 55px !important;
+        width: 70% !important;
     }
     
     .minicart-items-wrapper {
