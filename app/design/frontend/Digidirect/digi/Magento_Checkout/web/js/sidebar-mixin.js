@@ -144,9 +144,7 @@ define([
                 //this._updateItemQtyIncrease(elem);
                 var eventQty = $('#cart-item-' + itemId + '-qty').val();
 
-                if (eventQty == 1) {
-                    alert("test");
-                }
+                alert(eventQty);
 
 
                 // return false;
