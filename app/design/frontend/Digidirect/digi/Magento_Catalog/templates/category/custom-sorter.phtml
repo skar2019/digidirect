@@ -1,3 +1,47 @@
 <div class="custom-sorter">
-    New Custom Sorter
+    <div id="custom-most-viewed">Most Viewed</div>
+    <div id="custom-new-products">New Products</div>
+    <div id="custom-best-sellers">Best Sellers</div>
+    <div id="custom-product-name-asc">Product Name (A-Z)</div>
+    <div id="custom-product-name-desc">Product Name (Z-A)</div>
+    <div id="custom-price-asc">Price Low to High</div>
+    <div id="custom-price-desc">Price High to Low</div>
 </div>
+
+<script>
+    require([
+        'jquery'
+    ],
+    function ($) {
+  
+        $( "#custom-most-viewed" ).click(function() {
+            $('#sorter').val('most_viewed').trigger('change');
+        });
+        
+        $( "#custom-new-products" ).click(function() {
+            $('#sorter').val('latest').trigger('change');
+        });
+        
+        $( "#custom-best-sellers" ).click(function() {
+            $('#sorter').val('position').trigger('change');
+        });
+        
+        $( "#custom-product-name-asc" ).click(function() {
+            $('#sorter').val('product_name_asc').trigger('change');
+        });
+        
+        $( "#custom-product-name-desc" ).click(function() {
+            $('#sorter').val('product_name_desc').trigger('change');
+        });
+        
+        $( "#custom-price-asc" ).click(function() {
+            $('#sorter').val('price_lowest_first').trigger('change');
+        });
+        
+        $( "#custom-price-desc" ).click(function() {
+            $('#sorter').val('price_highest_first').trigger('change');
+        });
+        
+        
+    });
+</script>
