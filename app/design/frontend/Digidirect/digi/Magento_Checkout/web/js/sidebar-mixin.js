@@ -142,12 +142,12 @@ define([
                 //var itemId = elem.data('cart-item');
                 //$('#cart-item-' + itemId + '-qty');
                 //this._updateItemQtyIncrease(elem);
-                var eventQty = $('#cart-item-' + itemId + '-qty').val();
+                // var eventQty = $('#cart-item-' + itemId + '-qty').val();
 
-                alert(eventQty);
+                // alert(eventQty);
 
 
-                // return false;
+                return false;
             },
 
             //Rondel Custom Function
@@ -168,6 +168,7 @@ define([
                     'item_id': itemId,
                     'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1
                 }, elem, this._updateItemQtyAfter);
+                // }, elem, alert("test"), this._updateItemQtyAfter);
             },
 
             /**
