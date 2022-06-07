@@ -1359,6 +1359,20 @@
         width: 200px !important;
     }
     
+    .product-category-listing .product-image-wrapper {
+        z-index: 0 !important;
+    }
+    
+    .magezon-builder {
+        z-index: 0 !important;
+    }
+    
+    .custom-toolbar-amount .toolbar-amount {
+        padding: 0 0 0 5px;
+        float: left;
+        margin-bottom: 10px;
+    }
+    
 } //end common
 
 & when (@media-target = 'desktop'), (@media-target = 'all') {
@@ -1946,6 +1960,10 @@
     
     .toolbar-products .desktop-row {
         border: none !important;
+    }
+    
+    .custom-toolbar-amount {
+        display: none;
     }
 
 }
