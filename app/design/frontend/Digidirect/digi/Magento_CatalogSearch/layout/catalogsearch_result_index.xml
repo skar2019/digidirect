@@ -3,7 +3,9 @@
     <body>
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceContainer name="div.sidebar.additional" remove="true" />
-
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-sorter.phtml" name="custom-sorter" before="search.result"/>
+        </referenceContainer>
         <referenceBlock name="search_result_list">
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
                 <arguments>
