@@ -47,7 +47,7 @@
     </div>
 <?php endif ?>
 
-<div id="modal-content">
+<div id="custom-sorter-modal" style="display: none;">
     <div class="modal-inner-content">
         <div class="custom-sorter-mobile">
             <div id="custom-most-viewed"><i class="fas fa-certificate"></i>  Most Viewed</div>
@@ -82,9 +82,9 @@
                 }]
             };
 
-            modal(options, $('#modal-content'));
+            modal(options, $('#custom-sorter-modal'));
             $(".custom-sort-by").on('click',function(){
-                $("#modal-content").modal("openModal");
+                $("#custom-sorter-modal").modal("openModal");
             });
         }
     );
