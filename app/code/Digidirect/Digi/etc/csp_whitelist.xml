@@ -58,6 +58,8 @@
                 <value id="paypalobjscript" type="host">*.paypalobjects.com</value>
                 <value id="googleadscript" type="host">*.googleadservices.com</value>
                 <value id="soretoscript" type="host">*.soreto.com</value>
+                <value id="kwscript" type="host">*.kayweb.com.au</value>
+
             </values>
         </policy>
         <policy id="style-src">
@@ -75,6 +77,7 @@
                 <value id="zipstyle" type="host">*.zipmoney.com.au</value>
                 <value id="gstaticsstyle" type="host">*.gstatic.com</value>
                 <value id="googlepaystyle" type="host">*.google.com</value>
+                <value id="kwstyle" type="host">*.kayweb.com.au</value>
             </values>
         </policy>
         <policy id="img-src">
@@ -104,7 +107,7 @@
                 <value id="googleadsimg" type="host">googleads.g.doubleclick.net</value>
                 <value id="doubleclickimg" type="host">*.doubleclick.net</value>
                 <value id="wisepopsimg" type="host">*.wisepops.com</value>
-
+                <value id="kwimg" type="host">*.kayweb.com.au</value>
             </values>
         </policy>
         <policy id="media-src">
@@ -112,7 +115,7 @@
 
                 <value id="cloudfrontmedia" type="host">*.cloudfront.net</value>
                 <value id="digizendmedia" type="host">*.zendesk.com</value>
-
+                <value id="kwmedia" type="host">*.kayweb.com.au</value>
             </values>
         </policy>
         <policy id="connect-src">
@@ -149,6 +152,7 @@
                 <value id="wibmoconnect" type="host">*.wibmo.com</value>
                 <value id="paypalcncon" type="host">*.paypal.cn</value>
                 <value id="paypalobjcon" type="host">*.paypalobjects.com</value>
+                <value id="kwconnect" type="host">*.kayweb.com.au</value>
             </values>
         </policy>
         <policy id="font-src">
@@ -196,6 +200,7 @@
                 <value id="paypalobjframe" type="host">*.paypalobjects.com</value>
                 <value id="googlephframe" type="host">*.google.com.ph</value>
                 <value id="googleadframe" type="host">*.googleadservices.com</value>
+                <value id="kwframe" type="host">*.kayweb.com.au</value>
             </values>
         </policy>
         <policy id="form-action">
