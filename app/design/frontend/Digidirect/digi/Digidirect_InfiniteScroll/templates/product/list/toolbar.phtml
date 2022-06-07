@@ -49,14 +49,14 @@
 
 <div id="custom-sorter-modal" style="display: none;">
     <div class="modal-inner-content">
-        <div class="custom-sorter-mobile">
-            <div id="custom-most-viewed"><i class="fas fa-certificate"></i>  Most Viewed</div>
-            <div id="custom-new-products"><i class="fas fa-star-of-life"></i>  New Products</div>
-            <div id="custom-best-sellers"><i class="fas fa-star"></i>  Best Sellers</div>
-            <div id="custom-product-name-asc"><i class="fas fa-sort-alpha-up"></i>  Product Name (A-Z)</div>
-            <div id="custom-product-name-desc"><i class="fas fa-sort-alpha-up-alt"></i>  Product Name (Z-A)</div>
-            <div id="custom-price-asc"><i class="fas fa-sort-numeric-down"></i>  Price Low to High</div>
-            <div id="custom-price-desc"><i class="fas fa-sort-numeric-down-alt"></i>  Price High to Low</div>
+        <div class="mobile-custom-sorter">
+            <div id="mobile-custom-most-viewed"><i class="fas fa-certificate"></i>  Most Viewed</div>
+            <div id="mobile-custom-new-products"><i class="fas fa-star-of-life"></i>  New Products</div>
+            <div id="mobile-custom-best-sellers"><i class="fas fa-star"></i>  Best Sellers</div>
+            <div id="mobile-custom-product-name-asc"><i class="fas fa-sort-alpha-up"></i>  Product Name (A-Z)</div>
+            <div id="mobile-custom-product-name-desc"><i class="fas fa-sort-alpha-up-alt"></i>  Product Name (Z-A)</div>
+            <div id="mobile-custom-price-asc"><i class="fas fa-sort-numeric-down"></i>  Price Low to High</div>
+            <div id="mobile-custom-price-desc"><i class="fas fa-sort-numeric-down-alt"></i>  Price High to Low</div>
         </div>
     </div>
 </div>
@@ -79,6 +79,91 @@
             $(".custom-sort-by").on('click',function(){
                 $("#custom-sorter-modal").modal("openModal");
             });
+            
+            $("#mobile-custom-most-viewed").click(function() {
+                $('#sorter').val('most_viewed').trigger('change');
+            });
+
+            $("#mobile-custom-new-products").click(function() {
+                $('#sorter').val('latest').trigger('change');
+            });
+
+            $("#mobile-custom-best-sellers").click(function() {
+                $('#sorter').val('position').trigger('change');
+            });
+
+            $("#mobile-custom-product-name-asc").click(function() {
+                $('#sorter').val('product_name_asc').trigger('change');
+            });
+
+            $("#mobile-custom-product-name-desc").click(function() {
+                $('#sorter').val('product_name_desc').trigger('change');
+            });
+
+            $("#mobile-custom-price-asc").click(function() {
+                $('#sorter').val('price_lowest_first').trigger('change');
+            });
+
+            $("#mobile-custom-price-desc").click(function() {
+                $('#sorter').val('price_highest_first').trigger('change');
+            });
+            
         }
     );
 </script>
+
+<style>
+    
+    .modal-popup .modal-header {
+        background: #ff3c00;
+        color: #fff;
+    }
+    
+    .modal-popup .modal-title {
+        border-bottom: none !important;
+        font-size: 19px;
+        font-weight: 600 !important;
+        padding-bottom: 0 !important;
+        margin-top: -15px !important;
+    }
+    
+    .modal-header button.action-close {
+        background: none !important;
+        padding: 0 !important;
+    }
+    
+    .modal-header button.action-close:before {
+        content: '\f00d' !important;
+        font-family: 'Font Awesome 5 Free' !important;
+        font-size: 15px !important;
+        font-weight: 600 !important;
+        color: #fff !important;
+        margin-right: 8px !important;
+    }
+    
+    .modal-footer button {
+        display: none;
+    }
+    
+    .mobile-custom-sorter {
+        margin-top: 15px;
+    }
+    
+    .mobile-custom-sorter div {
+        padding: 10px 0 !important;
+        color: #a3a3a3;
+    }
+    
+    .mobile-custom-sorter div:not(:last-child) {
+        border-bottom: 1px solid #cacaca;
+    }
+    
+    .modal-popup .modal-footer {
+        margin-top: auto;
+        padding-bottom: 15px;
+        padding-top: 0;
+    }
+    
+    
+
+</style>
