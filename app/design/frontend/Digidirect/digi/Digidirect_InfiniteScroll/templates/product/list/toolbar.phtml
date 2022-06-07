@@ -70,16 +70,9 @@
         function($, modal) {
             var options = {
                 type: 'popup',
-                responsive: true,
-                innerScroll: true,
-                title: 'Pop-up title',
-                buttons: [{
-                    text: $.mage.__('Close'),
-                    class: 'modal-close',
-                    click: function (){
-                        this.closeModal();
-                    }
-                }]
+                responsive: false,
+                innerScroll: false,
+                title: 'SORT BY'
             };
 
             modal(options, $('#custom-sorter-modal'));
