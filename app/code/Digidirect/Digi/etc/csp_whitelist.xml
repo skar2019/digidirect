@@ -103,6 +103,7 @@
                 <value id="facebookimg" type="host">*.facebook.net</value>
                 <value id="googleadsimg" type="host">googleads.g.doubleclick.net</value>
                 <value id="doubleclickimg" type="host">*.doubleclick.net</value>
+                <value id="wisepopsimg" type="host">*.wisepops.com</value>
 
             </values>
         </policy>
