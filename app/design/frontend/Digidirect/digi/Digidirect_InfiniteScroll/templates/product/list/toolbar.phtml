@@ -81,30 +81,37 @@
             });
             
             $("#mobile-custom-most-viewed").click(function() {
+                $("#custom-sorter-modal").modal("closeModal");   
                 $('#sorter').val('most_viewed').trigger('change');
             });
 
             $("#mobile-custom-new-products").click(function() {
+                $("#custom-sorter-modal").modal("closeModal");   
                 $('#sorter').val('latest').trigger('change');
             });
 
             $("#mobile-custom-best-sellers").click(function() {
+                $("#custom-sorter-modal").modal("closeModal");   
                 $('#sorter').val('position').trigger('change');
             });
 
             $("#mobile-custom-product-name-asc").click(function() {
+                $("#custom-sorter-modal").modal("closeModal");   
                 $('#sorter').val('product_name_asc').trigger('change');
             });
 
             $("#mobile-custom-product-name-desc").click(function() {
+                $("#custom-sorter-modal").modal("closeModal");   
                 $('#sorter').val('product_name_desc').trigger('change');
             });
 
             $("#mobile-custom-price-asc").click(function() {
+                $("#custom-sorter-modal").modal("closeModal");   
                 $('#sorter').val('price_lowest_first').trigger('change');
             });
 
             $("#mobile-custom-price-desc").click(function() {
+                $("#custom-sorter-modal").modal("closeModal");   
                 $('#sorter').val('price_highest_first').trigger('change');
             });
             
@@ -151,7 +158,7 @@
     
     .mobile-custom-sorter div {
         padding: 10px 0 !important;
-        color: #a3a3a3;
+        color: #727272;
     }
     
     .mobile-custom-sorter div:not(:last-child) {
@@ -164,6 +171,4 @@
         padding-top: 0;
     }
     
-    
-
 </style>
