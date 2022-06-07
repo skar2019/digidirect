@@ -10,12 +10,13 @@
     <div class="toolbar toolbar-products" data-mage-init='<?php /* @escapeNotVerified */ echo $block->getWidgetOptionsJson(); ?>'>
         <div class="desktop-row">
             <div class="filter filter-trigger -mobile" data-container="#catalogSidebar" data-mage-init='{ "offcanvas": {"addOn":
-            "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Filter');?>
+            "js/components/offcanvas/dist/addons/catalog/index"} }'>
+                <i class="fas fa-filter"></i>  Filter
             </div>
             <?php include ($block->getTemplateFile('Magento_Catalog::product/list/toolbar/amount.phtml')) ?>
             <?php if ($block->isExpanded()): ?>
                 <?php include ($block->getTemplateFile('Digidirect_InfiniteScroll::product/list/sorter.phtml')) ?>
-                <div class="sorter -mobile">
+                <div class="sorter -mobile custom-sort-by">
                     <div class="sort-label-wrapper">
                         <span class="sorter-trigger" data-container="#sorterOffcanvas" data-mage-init='{ "offcanvas": {"addOn":
                         "js/components/offcanvas/dist/addons/catalog/index"} }'><?=  __('Sort By: ');?>
@@ -38,6 +39,7 @@
                            data-value="<?php if ($block->getCurrentDirection() == 'asc'): ?>desc<?php else: ?>asc<?php endif; ?>">
                         </a>
                     </div>
+                    <i class="fas fa-sort-amount-down"></i>  Sort By
                 </div>
             <?php endif; ?>
         </div>
@@ -45,13 +47,45 @@
     </div>
 <?php endif ?>
 
+<div id="custom-sorter-modal" style="display: none;">
+    <div class="modal-inner-content">
+        <div class="custom-sorter-mobile">
+            <div id="custom-most-viewed"><i class="fas fa-certificate"></i>  Most Viewed</div>
+            <div id="custom-new-products"><i class="fas fa-star-of-life"></i>  New Products</div>
+            <div id="custom-best-sellers"><i class="fas fa-star"></i>  Best Sellers</div>
+            <div id="custom-product-name-asc"><i class="fas fa-sort-alpha-up"></i>  Product Name (A-Z)</div>
+            <div id="custom-product-name-desc"><i class="fas fa-sort-alpha-up-alt"></i>  Product Name (Z-A)</div>
+            <div id="custom-price-asc"><i class="fas fa-sort-numeric-down"></i>  Price Low to High</div>
+            <div id="custom-price-desc"><i class="fas fa-sort-numeric-down-alt"></i>  Price High to Low</div>
+        </div>
+    </div>
+</div>
+
 <script>
-    require([
-        'jquery'
-    ], function($){
-        window.onload = function() {
-            //$('.desktop-row').attr("style", "visibility: visible !important;");
-            //$('.desktop-row').removeAttr("style");
-        };
-    });
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function($, modal) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Pop-up title',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: 'modal-close',
+                    click: function (){
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            modal(options, $('#custom-sorter-modal'));
+            $(".custom-sort-by").on('click',function(){
+                $("#custom-sorter-modal").modal("openModal");
+            });
+        }
+    );
 </script>

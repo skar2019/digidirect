@@ -888,6 +888,7 @@
 
     .toolbar-products {
         margin-bottom: 0 !important;
+        margin-right: 0 !important;
     }
 
     .toolbar-sorter .sorter-label {
@@ -921,8 +922,19 @@
     }
 
     .toolbar-products .desktop-row {
-        padding: 0 0 10px 0 !important;
+        padding: 0 !important;
         visibility: visible;
+        border: 1px solid #cacaca;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+    
+    .toolbar-products .desktop-row div {
+        color: #cacaca !important;
+    }
+    
+    .toolbar-products .desktop-row div:first-child {
+        border-right: 1px solid #cacaca;
     }
 
     .rating-summary .rating-result > span:before {
@@ -1615,9 +1627,10 @@
     }
     
     .toolbar-products .desktop-row .sorter.-mobile .sort-label-wrapper {
-        margin-left: -90px !important;
-        display: grid !important;
-        grid-template-columns: 70px 120px;
+        //margin-left: -90px !important;
+        //display: grid !important;
+        //grid-template-columns: 70px 120px;
+        display: none !important;
     }
 
     .toolbar-products .desktop-row .sorter.-mobile .sort-label-mobile {
@@ -1638,11 +1651,11 @@
     }
 
     .toolbar-products .filter.-mobile {
-        border: none !important;
+        //border: none !important;
         font-size: 17px !important;
         font-weight: 500 !important;
         text-transform: capitalize !important;
-        text-align: left !important;
+        //text-align: left !important;
     }
 
     .toolbar-products .desktop-row .sorter.-mobile .sorter-mobile-wrapper {
@@ -1651,7 +1664,7 @@
     }
 
     .toolbar-products .filter.-mobile {
-        border: none !important;
+        //border: none !important;
     }
 
     .toolbar-products .filter.-mobile:before {
@@ -1661,6 +1674,7 @@
         font-weight: 600 !important;
         margin-left: 5px !important;
         margin-right: 10px !important;
+        display: none !important;
     }
 
     .desktop-row .toolbar-sorter .sorter-action, .toolbar-products .desktop-row .sorter.-mobile .sorter-action {
@@ -1781,6 +1795,10 @@
     }
     
     .checkout-cart-index .products-widget {
+        display: none !important;
+    }
+    
+    .custom-sorter {
         display: none !important;
     }
 }
@@ -1920,6 +1938,14 @@
     
     #maincontent > .breadcrumbs {
         margin-left: 50px !important;
+    }
+    
+    .custom-sorter {
+        display: grid !important;
+    }
+    
+    .toolbar-products .desktop-row {
+        border: none !important;
     }
 
 }
