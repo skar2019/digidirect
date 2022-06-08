@@ -612,7 +612,15 @@ return [
         'Digidirect_AbstractGiftCardLogger' => 1,
         'Digidirect_Vii' => 0,
         'Digidirect_YouMayAlsoLikeProducts' => 1,
+        'Dotdigitalgroup_Email' => 1,
+        'Dotdigitalgroup_Chat' => 1,
+        'Dotdigitalgroup_ChatGraphQl' => 1,
+        'Dotdigitalgroup_EmailGraphQl' => 1,
+        'Dotdigitalgroup_Enterprise' => 1,
+        'Dotdigitalgroup_Sms' => 1,
         'Fastly_Cdn' => 1,
+        'Itoris_Core' => 1,
+        'Itoris_PriceMatch' => 1,
         'Klarna_Base' => 1,
         'Klarna_Backend' => 1,
         'Klarna_Kco' => 0,
@@ -652,9 +660,7 @@ return [
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
         'Zendesk_Zendesk' => 1,
-        'Zip_ZipPayment' => 1,
-        'Itoris_Core' => 1,
-        'Itoris_PriceMatch' => 1
+        'Zip_ZipPayment' => 1
     ],
     'admin_user' => [
         'locale' => [
