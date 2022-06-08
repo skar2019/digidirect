@@ -170,6 +170,7 @@
                 <value id="similarincfont" type="host">*.similarinc.com</value>
                 <value id="zipfont" type="host">*.zipmoney.com.au</value>
                 <value id="digizendfont" type="host">*.zendesk.com</value>
+                <value id="bootstrapfont" type="host">*.bootstrapcdn.com</value>
             </values>
         </policy>
         <policy id="frame-src">
