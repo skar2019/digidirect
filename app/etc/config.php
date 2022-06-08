@@ -621,6 +621,8 @@ return [
         'Digidirect_YouMayAlsoLikeProducts' => 1,
         'Ess_M2ePro' => 0,
         'Fastly_Cdn' => 1,
+        'Itoris_Core' => 1,
+        'Itoris_PriceMatch' => 1,
         'Klarna_Base' => 1,
         'Klarna_Backend' => 1,
         'Klarna_Kco' => 0,
