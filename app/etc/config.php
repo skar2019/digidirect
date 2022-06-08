@@ -652,7 +652,9 @@ return [
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
         'Zendesk_Zendesk' => 1,
-        'Zip_ZipPayment' => 1
+        'Zip_ZipPayment' => 1,
+        'Itoris_Core' => 1,
+        'Itoris_PriceMatch' => 1
     ],
     'admin_user' => [
         'locale' => [
