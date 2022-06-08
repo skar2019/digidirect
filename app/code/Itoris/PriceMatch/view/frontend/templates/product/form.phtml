@@ -1,0 +1,148 @@
+<?php
+/**
+ * ITORIS
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the ITORIS's Magento Extensions License Agreement
+ * which is available through the world-wide-web at this URL:
+ * http://www.itoris.com/magento-extensions-license.html
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to sales@itoris.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade the extensions to newer
+ * versions in the future. If you wish to customize the extension for your
+ * needs please refer to the license agreement or contact sales@itoris.com for more information.
+ *
+ * @category   ITORIS
+ * @package    ITORIS_M2_ITORIS_PRICE_MATCH
+ * @copyright  Copyright (c) 2018 ITORIS INC. (http://www.itoris.com)
+ * @license    http://www.itoris.com/magento-extensions-license.html  Commercial License
+ */
+?>
+
+<?php if($block->checkRenderLink()): ?>
+    <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 10px;">
+        <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" ><span><?php echo $block->getLink() ?></span></a>
+    </div>
+    <div id="itoris-pm-modal" style="display: none; clear: left; margin-bottom: 10px; max-width=600px;">
+        <div data-itoris-placeholder="messages"></div>
+            <fieldset class="fieldset create info">
+                <div class="itoris-pm-admin-comment"><span><?php echo $block->getComment() ?></span></div>
+                <div class="itoris-pm-field required">
+                    <label class="label" for="itoris_pm_modal_name">
+                        <span><?php echo __('Your Name') ?><span id="itoris_pm_modal_name_requred" style="color: #e02b27">*</span></span>
+                    </label>
+                    <div class="control">
+                        <input type="text" form="itoris-pm-modal-form" class="field required-entry" name="itoris_pm_modal_name" id="itoris_pm_modal_name" style="display: none;"/>
+                        <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_name_static"></span></div>
+                    </div>
+                </div>
+                <div class="itoris-pm-field">
+                    <label class="label" for="itoris_pm_modal_email">
+                        <span><?php echo __('Your Email') ?><span id="itoris_pm_modal_email_requred" style="color: #e02b27">*</span></span>
+                    </label>
+                    <div class="control">
+                        <input type="text" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_email" id="itoris_pm_modal_email" style="display: none;"/>
+                        <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_email_static"></span></div>
+                    </div>
+                </div>
+                <input style="display: none;" id="itoris_pm_modal_product_id" />
+                <div class="itoris-pm-field">
+                    <label class="label" for="itoris_pm_modal_product_name">
+                        <span><?php echo __('Price Match request for product') ?></span>
+                    </label>
+                    <div class="control">
+                        <div  style="height:30px;line-height: 30px;"><span id="itoris_pm_modal_product_name"><?php echo $block->getProductName(); ?></span></div>
+                    </div>
+                </div>
+                <div class="itoris-pm-field">
+                    <label class="label" for="itoris_pm_modal_final_price">
+                        <span><?php echo __('Our Price') ?></span>
+                    </label>
+                    <div class="control">
+                        <div style="height:30px;line-height: 30px;"><span id="itoris_pm_modal_final_price"></span></div>
+                    </div>
+                </div>
+                <div class="itoris-pm-field">
+                    <label class="label" for="itoris_pm_modal_match_price">
+                        <span><?php echo __('Matching Price') ?><span style="color: #e02b27">*</span></span>
+                    </label>
+                    <div class="control">
+                        <div  style="display: -webkit-flex;display: flex;-webkit-flex-direction: row;flex-direction: row;">
+                            <span style="text-align: center; line-height: 32px;" id="itoris-pm-currency"></span>
+                            <div style="-webkit-flex: auto;flex: auto;">
+                                <input type="text" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_match_price" id="itoris_pm_modal_match_price" data-itoris-current-price="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="itoris-pm-field">
+                    <label class="label" for="itoris_pm_modal_match_url">
+                        <span><?php echo __('Matching URL') ?><span style="color: #e02b27">*</span></span>
+                    </label>
+                    <div class="control">
+                        <input type="text" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_match_url" id="itoris_pm_modal_match_url">
+                    </div>
+                </div>
+                <div class="itoris-pm-field" style="margin: 0 0 0;">
+                    <label class="label" for="itoris_pm_modal_comment">
+                        <span><?php echo __('Comment') ?></span>
+                    </label>
+                    <div class="control">
+                        <textarea class="field" form="itoris-pm-modal-form" name="itoris_pm_modal_comment" id="itoris_pm_modal_comment"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <div id="itoris-pm-error-message"></div>
+    </div>
+    <?php if ($block->getCurrentProductType() == 'grouped') : ?>
+        <script type="text/x-magento-init">
+                {
+                    ".itoris-pm-product-marker": {
+                        "itorispm-grouped":  <?php /* @noEscape */ echo $block->configProduct() ?>
+                    }
+                }
+        </script>
+    <?php else : ?>
+        <script type="text/x-magento-init">
+                {
+                    ".itoris-pm-product-marker": {
+                        "itorispm":  <?php /* @noEscape */ echo $block->configProduct() ?>
+                    }
+                }
+        </script>
+    <?php endif ?>
+    <script>
+        require(['jquery'], function ($) {
+            $('<form class="form create" id="itoris-pm-modal-form"  method="post" data-mage-init=\'{\n' +
+                '\t"validation":{\n' +
+                '\t\t"rules": {\n' +
+                '\t\t\t"itoris_pm_modal_name": {\n' +
+                '\t\t\t\t"required":true\n' +
+                '\t\t\t},\n' +
+                '\t\t\t"itoris_pm_modal_email": {\n' +
+                '\t\t\t\t"required":true,\n' +
+                '\t\t\t\t"validate-email":true\n' +
+                '\t\t\t},\n' +
+                '\t\t\t"itoris_pm_modal_match_url": {\n' +
+                '\t\t\t    "required":true,\n' +
+                '\t\t\t\t"validate-url":true\n' +
+                '\t\t\t},\n' +
+                '\t\t\t"itoris_pm_modal_match_price": {\n' +
+                '\t\t\t\t"required":true,\n' +
+                '\t\t\t\t"validate-number":true,\n' +
+                '\t\t\t\t"validate-itoris-price":true\n' +
+                '\t\t\t},\n' +
+                '\t\t\t"itoris_pm_modal_comment": {\n' +
+                '\t\t\t\t"maxlength":2000\n' +
+                '\t\t\t}\n' +
+                '\t\t}\n' +
+                '\t}\n' +
+                '}\'> </form>').appendTo('body');
+        });
+    </script>
+<?php endif; ?>
