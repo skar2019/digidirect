@@ -131,6 +131,7 @@
                 <value id="cfjump3connect" type="host">t.cfjump.com</value>
                 <value id="lukyorangeconnect" type="host">settings.luckyorange.net</value>
                 <value id="paconnect" type="host">recs-1a.particularaudience.com</value>
+                <value id="paconnect" type="host">*.particularaudience.com</value>
                 <value id="statsgconnect" type="host">stats.g.doubleclick.net</value>
                 <value id="popwiseconnect" type="host">*.wisepops.com</value>
                 <value id="gaconnect" type="host">*.google-analytics.com</value>
@@ -139,6 +140,7 @@
                 <value id="polygroupconnect" type="host">secure.polygongroup.com.au</value>
                 <value id="bamcellconnect" type="host">bam-cell.nr-data.net</value>
                 <value id="similarinccon" type="host">*.similarinc.com</value>
+                <value id="similarincconapi" type="host">*.api.similarinc.com</value>
                 <value id="zipconnect" type="host">*.zipmoney.com.au</value>
                 <value id="visitorsconnect" type="host">*.visitors.live</value>
                 <value id="googleapisconnect" type="host">*.googleapis.com</value>
