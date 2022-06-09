@@ -547,6 +547,8 @@ define([
             $(".category-tabs .mgz-tabs-nav span:contains('Smart Home')").closest('div.mgz-tabs-tab-title').addClass('smarthome-tab-menu');
             $(".category-tabs .mgz-tabs-nav span:contains('Computers & Mobile')").closest('div.mgz-tabs-tab-title').addClass('computersmobile-tab-menu');
 
+            $(".category-tabs-second-level .mgz-tabs-nav span").closest('div.mgz-tabs-tab-title').removeClass('cameras-tab-menu');
+            
             if ( window.location.pathname == '/' ){
 
 
