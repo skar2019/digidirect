@@ -12,7 +12,7 @@ use \Digidirect\ExtendedCatalogPriceRule\Api\Data\RuleDisplayMessageInterface;
                 <div class="price-box">
                     <span class="price-container">
                         <span class="price-label"><?= /* @escapeNotVerified */ __('After Cashback'); ?></span>
-                        <span class="price-wrapper" data-price-type="afterCashback" data-amount="<?= /* @noEscape */ $rule['action_amount'] ?>"><span class="price testing"><?= /* @noEscape */ $block->formatDiscountAmount($afterCashbackPrice); ?></span></span>
+                        <span class="price-wrapper" data-price-type="afterCashback" data-amount="<?= /* @noEscape */ $rule['action_amount'] ?>"><span class="price"><?= /* @noEscape */ $block->formatDiscountAmount($afterCashbackPrice); ?></span></span>
                     </span>
                 </div>
             <?php endif; ?>
