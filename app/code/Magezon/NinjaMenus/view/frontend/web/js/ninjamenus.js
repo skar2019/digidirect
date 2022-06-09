@@ -547,7 +547,8 @@ define([
             $(".category-tabs .mgz-tabs-nav span:contains('Smart Home')").closest('div.mgz-tabs-tab-title').addClass('smarthome-tab-menu');
             $(".category-tabs .mgz-tabs-nav span:contains('Computers & Mobile')").closest('div.mgz-tabs-tab-title').addClass('computersmobile-tab-menu');
 
-            $(".category-tabs-second-level .mgz-tabs-nav span").closest('div.mgz-tabs-tab-title').removeClass('cameras-tab-menu');
+            $(".category-tabs-second-level .mgz-tabs-nav span").closest('div.mgz-tabs-tab-title')
+            .removeClass('cameras-tab-menu lenses-tab-menu drones-tab-menu lightstudio-tab-menu photoacce-tab-menu optics-tab-menu audiovisual-tab-menu provideo-tab-menu smarthome-tab-menu computersmobile-tab-menu');
             
             if ( window.location.pathname == '/' ){
 
