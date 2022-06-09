@@ -59,6 +59,7 @@
                 <value id="googleadscript" type="host">*.googleadservices.com</value>
                 <value id="soretoscript" type="host">*.soreto.com</value>
                 <value id="kwscript" type="host">*.kayweb.com.au</value>
+                <value id="pascript" type="host">p-a.io</value>
 
             </values>
         </policy>
@@ -79,7 +80,7 @@
                 <value id="googlepaystyle" type="host">*.google.com</value>
                 <value id="kwstyle" type="host">*.kayweb.com.au</value>
                 <value id="bootstrapstyle" type="host">*.bootstrapcdn.com</value>
-
+                <value id="pastyle" type="host">p-a.io</value>
             </values>
         </policy>
         <policy id="img-src">
@@ -110,6 +111,7 @@
                 <value id="doubleclickimg" type="host">*.doubleclick.net</value>
                 <value id="wisepopsimg" type="host">*.wisepops.com</value>
                 <value id="kwimg" type="host">*.kayweb.com.au</value>
+                <value id="paimg" type="host">p-a.io</value>
             </values>
         </policy>
         <policy id="media-src">
@@ -118,6 +120,7 @@
                 <value id="cloudfrontmedia" type="host">*.cloudfront.net</value>
                 <value id="digizendmedia" type="host">*.zendesk.com</value>
                 <value id="kwmedia" type="host">*.kayweb.com.au</value>
+                <value id="pamedia" type="host">p-a.io</value>
             </values>
         </policy>
         <policy id="connect-src">
@@ -156,6 +159,7 @@
                 <value id="paypalobjcon" type="host">*.paypalobjects.com</value>
                 <value id="kwconnect" type="host">*.kayweb.com.au</value>
                 <value id="nrdataconnect" type="host">*.nr-data.net</value>
+                <value id="paconnect" type="host">p-a.io</value>
             </values>
         </policy>
         <policy id="font-src">
@@ -171,6 +175,7 @@
                 <value id="zipfont" type="host">*.zipmoney.com.au</value>
                 <value id="digizendfont" type="host">*.zendesk.com</value>
                 <value id="bootstrapfont" type="host">*.bootstrapcdn.com</value>
+                <value id="pafont" type="host">p-a.io</value>
             </values>
         </policy>
         <policy id="frame-src">
