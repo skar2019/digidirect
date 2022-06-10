@@ -37,6 +37,7 @@
                 <value id="cfjump3" type="host">t.cfjump.com</value>
                 <value id="lukyorange" type="host">settings.luckyorange.net</value>
                 <value id="similarinc" type="host">*.similarinc.com</value>
+                <value id="similarincscript" type="host">*.api.similarinc.com</value>
                 <value id="zipmoneyscript" type="host">*.zipmoney.com.au</value>
                 <value id="zipscript" type="host">*.zip.co</value>
                 <value id="zdassetsscript" type="host">*.zdassets.com</value>
@@ -126,12 +127,14 @@
         <policy id="connect-src">
             <values>
                 <!--CDN-->
+
+                <value id="zendeskconnect" type="host">*.zendesk.com</value>
                 <value id="cloudflare" type="host">*.cloudflare.com</value>
                 <value id="paypal" type="host">*.paypal.com</value>
                 <value id="cfjump3connect" type="host">t.cfjump.com</value>
                 <value id="lukyorangeconnect" type="host">settings.luckyorange.net</value>
                 <value id="paconnect" type="host">recs-1a.particularaudience.com</value>
-                <value id="paconnect" type="host">*.particularaudience.com</value>
+                <value id="paconnect2" type="host">*.particularaudience.com</value>
                 <value id="statsgconnect" type="host">stats.g.doubleclick.net</value>
                 <value id="popwiseconnect" type="host">*.wisepops.com</value>
                 <value id="gaconnect" type="host">*.google-analytics.com</value>
