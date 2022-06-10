@@ -577,9 +577,8 @@ define([
         
         _initThirdLayerOpener: function () {
             $(".tablinks").click(function(){
-                console.log("Tablinks OnClick Working!");
                 $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
-                $(".menu-second-level .tab").attr("style", "width: 50% !important;");
+                //$(".menu-second-level .tab").attr("style", "width: 50% !important;");
             });
             
         }
