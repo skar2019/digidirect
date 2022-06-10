@@ -295,7 +295,7 @@
         .subtotal{
             display: flex;
             justify-content: space-between;
-            margin: 30px 0 5px;
+            margin: 10px 0 5px;
             font-family: 'Poppins', sans-serif;
             font-size: 20px;
             width: 92%;
@@ -573,7 +573,8 @@
                     color: #000 !important;
                     // height: auto !important;
                     height: 40px !important;
-                    width: 49px !important;
+                    width: 23% !important;
+                    // width: 45px !important;
                     // height: 38px !important;
                     // border-right: 2px solid #cfcfcf !important;
                     // border-top: 2px solid #cfcfcf !important;
@@ -606,12 +607,12 @@
 
                 button.minicart-qty-decrease {
                     position: relative;
-                    left: -6px;
+                    left: -10px;
 
                 }
                 button.minicart-qty-increase {
                     position: relative;
-                    right: 8px;
+                    right: 12px;
 
                 }
 
@@ -619,22 +620,23 @@
 
             .label {
                 display: block !important;
-                margin-bottom: 10px;
+                margin-bottom: 4px;
             }
         }
 
         //jai
         .price-container .price{
-            font-size: 12px;
+            // font-size: 14px !important;
             // font-weight: 300;
             color: #ff3c00 !important;
             position: absolute;
             right: 6px;
+            margin-right: 6px;
         }
 
         span.minicart-price {
             border: 2px solid #cfcfcf !important;
-            padding: 5px 95px;
+            padding: 8px 95px 4px 95px;
             position: relative;
         }
 
@@ -648,6 +650,23 @@
             font-weight: 700;
             margin-top: -5px;
             display: inline-block;
+        }
+
+        .minicart-item-subtotal {
+            border: 2px solid #cfcfcf !important;          
+            height: 30px;
+            // padding: 10px 10px 0px 0px;
+            padding-top: 10px;
+            padding-right: 10px;
+            color: #ff3c00 !important;
+            font-weight: 700 !important;
+            text-align: right;
+            margin-right: 10px;
+
+        }
+
+        .minicart-items .product-item-details .price {
+            font-size: 1.4rem !important;
         }
 
         .qantas-pts-wrapper-minicart-subtotal{
