@@ -587,6 +587,10 @@ define([
                 }
             });
             
+            $(".shop-by-category-menu").focusout(function(){
+                $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
+            });
+            
         }
     });
 
