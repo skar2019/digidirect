@@ -254,6 +254,7 @@ define([
                 $(this).parent().parent().toggleClass('ninjamenus-hamburger-active');
             });
             self._initAddCustomClass();
+            self._initThirdLayerOpener();
         },
 
         onMouseHoverIntent: function(event) {
@@ -572,6 +573,15 @@ define([
                 //
                 // ..ninjamenus
             }
+        }, 
+        
+        _initThirdLayerOpener: function () {
+            $(".tablinks").click(function(){
+                console.log("Tablinks OnClick Working!");
+                $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
+                $(".menu-second-level .tab").attr("style", "width: 50% !important;");
+            });
+            
         }
     });
 
