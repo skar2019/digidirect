@@ -93,13 +93,14 @@ define([
     });
 
     $('#live-chat-additional-link-id').click(function(){
-        $('[data-garden-id="buttons.icon_button"]').trigger("click");
-        console.log("Changed To Trigger Click!");
+        // $('[data-garden-id="buttons.icon_button"]').trigger("click");
+        // console.log("Changed To Trigger Click!");
+        $('.itoris-pm-modal').addClass('_show');
     });
 
     if( $('.itoris-pm-product-marker').length )
     {
-        $('.itoris-pm-product-marker').insertAfter($('.most-bottom-product-info'));
+        $('.itoris-pm-product-marker').insertBefore($('.studio19-wrapper'));
 
     }
 
