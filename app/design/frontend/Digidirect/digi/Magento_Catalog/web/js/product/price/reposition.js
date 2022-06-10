@@ -8,27 +8,16 @@ define([
     $('.secure-pay-container').ready(function() {
         $(".secure-pay-container").attr("style", "display: none");
 
-
         if($('#product-options-wrapper').length) {
             $('#product-options-wrapper').insertAfter($('.box-tocart'));
-            if( $('.itoris-pm-product-marker').length )
-            {
-                $('.itoris-pm-product-marker').insertAfter($('#product-options-wrapper'));
-            }
-
+            $('.studio19-wrapper').insertAfter($('#product-options-wrapper'));
         }else {
-            if( $('.itoris-pm-product-marker').length )
-            {
-                $('.itoris-pm-product-marker').insertAfter($('#product-options-wrapper'));
-            }
-            //$('.studio19-wrapper').insertAfter($('.box-tocart'));
+            $('.studio19-wrapper').insertAfter($('.box-tocart'));
         }
 
         $('#awaiting-product').insertAfter($('.box-tocart'));
 
     });
-
-    $('.studio19-wrapper').insertAfter($('.itoris-pm-product-marker'));
 
     $('.fotorama__wrap').ready(function() {
         console.log("Fotorma has been loaded!");
@@ -104,9 +93,14 @@ define([
     });
 
     $('#live-chat-additional-link-id').click(function(){
-        $('.itoris-pm-modal').show();
-        //$('[data-garden-id="buttons.icon_button"]').trigger("click");
-        //console.log("Changed To Trigger Click!");
+        $('[data-garden-id="buttons.icon_button"]').trigger("click");
+        console.log("Changed To Trigger Click!");
     });
+
+    if( $('.itoris-pm-product-marker').length )
+    {
+        $('.itoris-pm-product-marker').insertAfter($('.most-bottom-product-info'));
+
+    }
 
 });
