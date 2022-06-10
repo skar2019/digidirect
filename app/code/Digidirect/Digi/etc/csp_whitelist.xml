@@ -82,6 +82,7 @@
                 <value id="kwstyle" type="host">*.kayweb.com.au</value>
                 <value id="bootstrapstyle" type="host">*.bootstrapcdn.com</value>
                 <value id="pastyle" type="host">p-a.io</value>
+                <value id="particularaudiencestyle" type="host">*.particularaudience.com</value>
             </values>
         </policy>
         <policy id="img-src">
@@ -113,6 +114,7 @@
                 <value id="wisepopsimg" type="host">*.wisepops.com</value>
                 <value id="kwimg" type="host">*.kayweb.com.au</value>
                 <value id="paimg" type="host">p-a.io</value>
+                <value id="particularaudienceimg" type="host">*.particularaudience.com</value>
             </values>
         </policy>
         <policy id="media-src">
@@ -122,6 +124,7 @@
                 <value id="digizendmedia" type="host">*.zendesk.com</value>
                 <value id="kwmedia" type="host">*.kayweb.com.au</value>
                 <value id="pamedia" type="host">p-a.io</value>
+                <value id="particularaudiencemedia" type="host">*.particularaudience.com</value>
             </values>
         </policy>
         <policy id="connect-src">
@@ -133,7 +136,6 @@
                 <value id="paypal" type="host">*.paypal.com</value>
                 <value id="cfjump3connect" type="host">t.cfjump.com</value>
                 <value id="lukyorangeconnect" type="host">settings.luckyorange.net</value>
-                <value id="paconnect" type="host">recs-1a.particularaudience.com</value>
                 <value id="paconnect2" type="host">*.particularaudience.com</value>
                 <value id="statsgconnect" type="host">stats.g.doubleclick.net</value>
                 <value id="popwiseconnect" type="host">*.wisepops.com</value>
@@ -181,6 +183,7 @@
                 <value id="digizendfont" type="host">*.zendesk.com</value>
                 <value id="bootstrapfont" type="host">*.bootstrapcdn.com</value>
                 <value id="pafont" type="host">p-a.io</value>
+                <value id="particularaudiencefont" type="host">*.particularaudience.com</value>
             </values>
         </policy>
         <policy id="frame-src">
@@ -215,6 +218,7 @@
                 <value id="googlephframe" type="host">*.google.com.ph</value>
                 <value id="googleadframe" type="host">*.googleadservices.com</value>
                 <value id="kwframe" type="host">*.kayweb.com.au</value>
+                <value id="particularaudienceframe" type="host">*.particularaudience.com</value>
             </values>
         </policy>
         <policy id="form-action">
