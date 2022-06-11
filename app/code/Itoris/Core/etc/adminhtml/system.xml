@@ -29,25 +29,25 @@
         <tab id="itoris_extensions" translate="label" sortOrder="101">
             <label>ITORIS Extensions</label>
         </tab>
-        <section id="itoris_core" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+        <section id="itoris_core" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
             <label>General Settings</label>
             <tab>itoris_extensions</tab>
             <resource>Magento_Backend::itoris_core_installed</resource>
-			<group id="installed" translate="label" type="text" sortOrder="100" showInDefault="1" sshowInWebsite="1" showInStore="1">
-				<label>Installed ITORIS Extensions</label>
-				<frontend_model>Itoris\Core\Block\System\Installed</frontend_model>
-			</group>
-            <group id="notifications" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="installed" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Installed ITORIS Extensions</label>
+                <frontend_model>Itoris\Core\Block\System\Installed</frontend_model>
+            </group>
+            <group id="notifications" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Notifications</label>
-                <field id="updates" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="updates" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Get Notifications about Updates (recommended)</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="newext" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="newext" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Get Notifications about New Extensions from ITORIS</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="news" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="news" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Get News and Blog Posts from ITORIS</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
