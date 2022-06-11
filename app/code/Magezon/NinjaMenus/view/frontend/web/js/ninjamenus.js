@@ -581,12 +581,6 @@ define([
                 //$(".menu-second-level .tab").attr("style", "width: 50% !important;");
             });
             
-            $(document.body).click( function() {
-                if ($(".shop-by-category-menu .item-submenu.expand").length == 0) {
-                    $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
-                }
-            });
-            
             $(".shop-by-category-menu").focusout(function(){
                 $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
             });
