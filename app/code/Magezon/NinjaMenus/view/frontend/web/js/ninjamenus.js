@@ -254,7 +254,7 @@ define([
                 $(this).parent().parent().toggleClass('ninjamenus-hamburger-active');
             });
             self._initAddCustomClass();
-            //self._initThirdLayerOpener();
+            self._initThirdLayerOpener();
         },
 
         onMouseHoverIntent: function(event) {
@@ -576,25 +576,24 @@ define([
         }, 
         
         _initThirdLayerOpener: function () {
+            
+            var windowsize = $(window).width();
+            
             $(".tablinks").click(function(){
-                $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
-                //$(".menu-second-level .tab").attr("style", "width: 50% !important;");
+                if (windowsize >= 768) {
+                    console.log("Second Level Trigerred: " + windowsize);
+                    $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
+                }
             });
             
             $(".shop-by-category-menu").focusout(function(){
                 $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
             });
             
-            var windowsize = $(window).width();
             if (windowsize < 768) {
+                console.log("Screen Width: " + windowsize);
                 $("#shop-by-category-menu-id").click();
             }
-            //            $(window).resize(function() {
-            //                windowsize = $(window).width();
-            //                if (windowsize < 768) {
-            //                    $("#shop-by-category-menu-id").click();
-            //                }
-            //            });
 
             
         }
