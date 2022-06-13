@@ -166,14 +166,16 @@ define([
 
                 var itemId = elem.data('cart-item');
                 var test = Number($('#cart-item-' + itemId + '-qty').val());
-                this.test = ko.observable(1);
+                // this.test = ko.observable(1);
+
+                console.log(test);
 
 
-                if (test > 1) {
+                // if (test > 1) {
 
-                    console.log("decrease function here")
+                //     console.log("decrease function here")
 
-                }
+                // }
 
                 this._ajax(this.options.url.update, {
                     'item_id': itemId,
