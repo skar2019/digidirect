@@ -254,7 +254,7 @@ define([
                 $(this).parent().parent().toggleClass('ninjamenus-hamburger-active');
             });
             self._initAddCustomClass();
-            self._initThirdLayerOpener();
+            //self._initThirdLayerOpener();
         },
 
         onMouseHoverIntent: function(event) {
