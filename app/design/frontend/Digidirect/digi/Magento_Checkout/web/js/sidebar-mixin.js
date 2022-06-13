@@ -162,19 +162,22 @@ define([
 
             //Rondel Custom Function
             _updateItemQtyDecrease: function(elem) {
-                console.log("decrease called!")
+                // console.log("decrease called!")
 
-                // var itemId = elem.data('cart-item');
-                // var currentValue = $('#cart-item-' + itemId + '-qty');
+                var itemId = elem.data('cart-item');
+                var currentValue = 'cart-item-' + itemId + '-qty';
+                this.currentValue = ko.observable(1);
 
-                // if () {
+                if (currentValue > 1) {
 
-                // }
+                    console.log("decrease function here")
 
-                // this._ajax(this.options.url.update, {
-                //     'item_id': itemId,
-                //     'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1
-                // }, elem, this._updateItemQtyAfter);
+                }
+
+                this._ajax(this.options.url.update, {
+                    'item_id': itemId,
+                    'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1
+                }, elem, this._updateItemQtyAfter);
                 // }, elem, alert("test"), this._updateItemQtyAfter);
             },
 
