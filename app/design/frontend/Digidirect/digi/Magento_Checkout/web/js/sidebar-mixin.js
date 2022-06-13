@@ -165,8 +165,8 @@ define([
                 // console.log("decrease called!")
 
                 var itemId = elem.data('cart-item');
-                // this.qty = ko.observable(1);
                 test = Number($('#cart-item-' + itemId + '-qty').val());
+                this.test = ko.observable(1);
 
 
                 if (test > 1) {
