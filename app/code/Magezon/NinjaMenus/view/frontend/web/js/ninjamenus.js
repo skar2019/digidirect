@@ -577,13 +577,13 @@ define([
         
         _initThirdLayerOpener: function () {
             
+            var windowsize = $(window).width();
+            
             $(".mgz-tabs-nav .mgz-tabs-tab-title").click(function(){
-                if (windowsize >= 768) {
+                if (windowsize <= 768) {
                     $(".menu-second-level").removeAttr("style");
                 }
             });
-            
-            var windowsize = $(window).width();
             
             $(".tablinks").click(function(){
                 if (windowsize >= 768) {
