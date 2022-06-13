@@ -193,38 +193,7 @@
         </policy>
         <policy id="frame-src">
             <values>
-                <value id="livechatframe" type="host">secure.livechatinc.com</value>
-                <value id="flsdouble" type="host">999999.fls.doubleclick.net</value>
-                <value id="insightframe" type="host">insight.adsrvr.org</value>
-                <value id="gstaticfont" type="host">fonts.gstatic.com</value>
-                <value id="similarincframe" type="host">*.similarinc.com</value>
-                <value id="doubleclict" type="host">*.doubleclick.net</value>
-                <value id="evenbriteframe" type="host">*.eventbrite.com.au</value>
-                <value id="facebookframe" type="host">*.facebook.com</value>
-                <value id="smoothioframe" type="host">*.smooch.io</value>
-                <value id="adsrvrframe" type="host">match.adsrvr.org</value>
-                <value id="gstaticframe" type="host">*.gstatic.com</value>
-                <value id="googlepayframe" type="host">*.google.com</value>
-                <value id="klarnaframe" type="host">*.klarnacdn.net</value>
-                <value id="dotdigitalframe" type="host">*.dotdigital-pages.com</value>
-                <value id="kaptcha" type="host">*.kaptcha.com</value>
-                <value id="eventbrite" type="host">*.eventbrite.com.au</value>
-                <value id="rsa3dsauthframe" type="host">*.rsa3dsauth.co.uk</value>
-                <value id="braintreegatewayframe" type="host">*.braintreegateway.com</value>
-                <value id="cardinalframe" type="host">*.cardinalcommerce.com</value>
-                <value id="braintreeframe" type="host">*.braintree-api.com</value>
-                <value id="paypalframe" type="host">*.paypal.com</value>
-                <value id="wooboxframe" type="host">*.woobox.com</value>
-                <value id="wooboxframe2" type="host">woobox.com</value>
-                <value id="evenbritecomframe" type="host">*.eventbrite.com</value>
-                <value id="wibmosframe" type="host">*.wibmo.com</value>
-                <value id="paypalcnframe" type="host">*.paypal.cn</value>
-                <value id="paypalobjframe" type="host">*.paypalobjects.com</value>
-                <value id="googlephframe" type="host">*.google.com.ph</value>
-                <value id="googleadframe" type="host">*.googleadservices.com</value>
-                <value id="kwframe" type="host">*.kayweb.com.au</value>
-                <value id="particularaudienceframe" type="host">*.particularaudience.com</value>
-                <value id="qantasframe" type="host">*.services.qantasloyalty.com</value>
+                <value id="all_potential_frame" type="host">*</value>
             </values>
         </policy>
         <policy id="form-action">
