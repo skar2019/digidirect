@@ -165,9 +165,11 @@ define([
                 // console.log("decrease called!")
 
                 var itemId = elem.data('cart-item');
-                this.qty = ko.observable(1);
+                // this.qty = ko.observable(1);
+                test = Number($('#cart-item-' + itemId + '-qty').val());
 
-                if (qty > 1) {
+
+                if (test > 1) {
 
                     console.log("decrease function here")
 
