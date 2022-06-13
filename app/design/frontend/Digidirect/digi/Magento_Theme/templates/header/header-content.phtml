@@ -90,9 +90,9 @@
             $customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
 
             if ($customerSession->isLoggedIn() == true) { ?>    
-                $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/.thumbswysiwyg/logos/white-digi-logo.png" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/logout" title="Logout">Logout <i class="fas fa-sign-out-alt"></i></a></span>')
+                $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/logout" title="Logout">Logout <i class="fas fa-sign-out-alt"></i></a></span>')
             <?php } else { ?>
-                $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/.thumbswysiwyg/logos/white-digi-logo.png" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
+                $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
             <?php } ?>
                 
                 
