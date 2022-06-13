@@ -583,18 +583,18 @@ define([
                 if (windowsize >= 768) {
                     console.log("Second Level Trigerred: " + windowsize);
                     $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
-                }
             
-//                $(".shop-by-category-menu").focusout(function(){
-//                    $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
-//                });
+                    $(".shop-by-category-menu").focusout(function(){
+                        $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
+                    });
+                }
             
             });
             
-            $(window).load(function(){
+            $(document).ready(function(){
                 if ($(window).width() <= 768) {
                     console.log("Screen Width: " + windowsize);
-                    $("#shop-by-category-menu-id").trigger('click');
+                    $("#shop-by-category-menu-id").trigger("click");
                 }
             });
         }
