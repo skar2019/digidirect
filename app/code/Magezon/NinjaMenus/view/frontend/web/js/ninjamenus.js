@@ -581,10 +581,22 @@ define([
                 //$(".menu-second-level .tab").attr("style", "width: 50% !important;");
             });
             
-            //$(".shop-by-category-menu").focusout(function(){
-            $(".ninjamenus-desktop-wrapper").focusout(function(){
+            $(".shop-by-category-menu").focusout(function(){
                 $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
             });
+            
+            var windowsize = $(window).width();
+            if (windowsize < 768) {
+                $("#shop-by-category-menu-id").click();
+            }
+            //            $(window).resize(function() {
+            //                windowsize = $(window).width();
+            //                if (windowsize < 768) {
+            //                    $("#shop-by-category-menu-id").click();
+            //                }
+            //            });
+
+            
         }
     });
 
