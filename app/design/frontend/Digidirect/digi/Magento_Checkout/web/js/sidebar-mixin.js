@@ -165,7 +165,7 @@ define([
                 // console.log("decrease called!")
 
                 var itemId = elem.data('cart-item');
-                var currentValue = this.qty();
+                var currentValue = this.itemId();
                 this.currentValue = ko.observable(1);
 
                 if (currentValue > 1) {
