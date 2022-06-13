@@ -103,7 +103,7 @@
     }
     
     #mobile-menu-only-header {
-        margin-bottom: 20px;
+        //margin-bottom: 20px;
         background: #ff3c00 !important;
     }
     
@@ -243,12 +243,122 @@
         left: 17px !important;
     }
     
-    
-    
     .digiservices-listing-mobile a:hover {
         text-decoration: none !important;
     }
     
+    /* Style the tab */
+    .tab {
+        float: left;
+        width: 100%;
+        margin-left: 40px;
+        margin-bottom: 40px;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+        display: block;
+        background-color: inherit;
+        color: black;
+        padding: 20px 0;
+        width: 100%;
+        border: none;
+        outline: none;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 15px;
+        font-weight: 500;
+        border-bottom: 1px solid #cacaca;
+        margin-left: 40px 40px 0 40px;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        color: #ff3c00 !important;
+    }
+
+    /* Create an active/current "tab button" class */
+    .tab button.active {
+        color: #ff3c00 !important;
+        background-color: #fff !important;
+    }
+    
+    .tab button:hover {
+        color: #ff3c00 !important;
+        background: none !important;
+        border: none !important;
+        border-bottom: 1px solid #cacaca !important;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        float: left;
+        padding: 0px 12px;
+        width: 100%;
+        //height: 300px;
+        display: none;
+    }
+
+    .menu-raw-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 650px !important;
+    }
+
+    .menu-second-level {
+        margin: 40px 0 0 40px;
+        display: inline-block;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .menu-second-level > h3, .menu-third-level h3  {
+        font-size: 18px;
+        font-weight: 500;
+        color: #ff3c00;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        margin-top: 0;
+    }
+
+    .menu-third-level {
+        padding: 30px;
+        width: 100%;
+        border-left: 1px solid #cacaca;
+    }
+
+    .menu-third-level h3 {
+        margin-top: 10px;
+    }
+
+    .menu-third-level-links {
+        margin-left: 40px;
+    }
+
+    .menu-third-level-links a {
+        display: block;
+        background-color: inherit;
+        color: black;
+        padding: 20px 0;
+        width: 100%;
+        border: none;
+        outline: none;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 15px;
+        font-weight: 500;
+        border-bottom: 1px solid #cacaca;
+        margin-left: 40px 40px 0 40px;
+        text-decoration: none !important;
+    }
+    
+    .menu-third-level-links a:hover {
+        color: #ff3c00;
+        transition: .5s;
+    }
+
 }
 
 //
@@ -1070,6 +1180,33 @@
     
     .category-tabs .nav-item>a .title {
         text-transform: capitalize !important;
+    }
+    
+    .navigation .level0:not(:first-child) {
+        padding: 10px 0;
+        background: #f5f5f5;
+        border-bottom: 2px solid #fff !important;
+    }
+
+    .navigation .level0:not(:first-child) a span {
+        font-size: 17px !important;
+        /* font-weight: 500 !important; */
+    }
+
+    .ninjamenus.ninjamenus-mobile .nav-item>.opener {
+        height: 100% !important;
+    }
+
+    .ninjamenus.ninjamenus-mobile .nav-item>.opener:before {
+        left: 90%;
+        font-family: 'Font Awesome 5 Free' !important;
+        content: '\f105';
+        font-weight: 600;
+        font-size: 17px;
+    }
+
+    .ninjamenus .ninjamenus-toggle-active>.opener:before {
+        content: '\f107 !important';
     }
     
 } //end mobile
@@ -2148,6 +2285,8 @@
 
     .shop-by-category-menu .item-submenu.expand {
         width: 525px !important;
+        overflow: hidden;
+        transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .category-tabs > .mgz-element-inner {
