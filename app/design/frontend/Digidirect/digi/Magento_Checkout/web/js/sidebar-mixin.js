@@ -165,8 +165,9 @@ define([
             _updateItemQtyDecrease: function(elem) {
                 // console.log("decrease called!")
                 // this.test = ko.observable(1);
-                var test = Number($('#cart-item-' + itemId + '-qty').val());
                 var itemId = elem.data('cart-item');
+                var test = Number($('#cart-item-' + itemId + '-qty').val());
+                this.test = ko.observable(0);
 
 
                 // console.log(test);
