@@ -585,6 +585,12 @@ define([
                 }
             });
             
+            $(".return-to-second-layer").click(function(){
+                $(".menu-second-level").removeAttr("style");
+                
+            });
+            
+            
             $(".tablinks").click(function(){
                 if (windowsize >= 768) {
                     console.log("Second Level Trigerred: " + windowsize);
