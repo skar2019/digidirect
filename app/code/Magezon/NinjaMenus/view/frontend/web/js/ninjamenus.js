@@ -590,8 +590,15 @@ define([
                 
             });
             
+//            $(".tablinks").click(function(){
+//                if (windowsize >= 768) {
+//                    console.log("Second Level Trigerred: " + windowsize);
+//                    $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
+//                }
+//            });
             
-            $(".tablinks").click(function(){
+            $(".tablinks").on('mousedown', function(event) {
+                event.preventDefault();
                 if (windowsize >= 768) {
                     console.log("Second Level Trigerred: " + windowsize);
                     $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
