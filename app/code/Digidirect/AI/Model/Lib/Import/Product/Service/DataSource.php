@@ -22,7 +22,7 @@ class DataSource implements \IteratorAggregate
      *
      * @return \Iterator
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         $this->_iterator = new \ArrayIterator($this->_bunch);
         return $this->_iterator;
