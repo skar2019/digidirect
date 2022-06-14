@@ -75,6 +75,14 @@ class Toolbar
         } elseif ($subject->getCurrentOrder() == 'latest') {
             $this->_collection->getSelect()->order('created_at DESC');
             
+        } elseif ($subject->getCurrentOrder() == "best_sellers") {
+              $collection->getSelect()->joinLeft( 
+                'sales_order_item', 
+                'e.entity_id = sales_order_item.product_id', 
+                array('qty_ordered'=>'SUM(sales_order_item.qty_ordered)')) 
+                ->group('e.entity_id') 
+                ->order('qty_ordered DESC');
+              
         } elseif ($subject->getCurrentOrder() == 'product_name_asc') {
             $this->_collection->setOrder('name', 'ASC');
             

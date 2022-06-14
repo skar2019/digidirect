@@ -254,6 +254,7 @@ define([
                 $(this).parent().parent().toggleClass('ninjamenus-hamburger-active');
             });
             self._initAddCustomClass();
+            self._initThirdLayerOpener();
         },
 
         onMouseHoverIntent: function(event) {
@@ -547,6 +548,9 @@ define([
             $(".category-tabs .mgz-tabs-nav span:contains('Smart Home')").closest('div.mgz-tabs-tab-title').addClass('smarthome-tab-menu');
             $(".category-tabs .mgz-tabs-nav span:contains('Computers & Mobile')").closest('div.mgz-tabs-tab-title').addClass('computersmobile-tab-menu');
 
+            $(".category-tabs-second-level .mgz-tabs-nav span").closest('div.mgz-tabs-tab-title')
+            .removeClass('cameras-tab-menu lenses-tab-menu drones-tab-menu lightstudio-tab-menu photoacce-tab-menu optics-tab-menu audiovisual-tab-menu provideo-tab-menu smarthome-tab-menu computersmobile-tab-menu');
+            
             if ( window.location.pathname == '/' ){
 
 
@@ -569,6 +573,42 @@ define([
                 //
                 // ..ninjamenus
             }
+        }, 
+        
+        _initThirdLayerOpener: function () {
+            
+            var windowsize = $(window).width();
+            
+            $(".mgz-tabs-nav .mgz-tabs-tab-title").click(function(){
+                if (windowsize <= 768) {
+                    $(".menu-second-level").removeAttr("style");
+                }
+            });
+            
+            $(".return-to-second-layer").click(function(){
+                $(".menu-second-level").removeAttr("style");
+                
+            });
+            
+            
+            $(".tablinks").click(function(){
+                if (windowsize >= 768) {
+                    console.log("Second Level Trigerred: " + windowsize);
+                    $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
+            
+                    $(".shop-by-category-menu").focusout(function(){
+                        $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
+                    });
+                }
+            
+            });
+            
+            $(document).ready(function(){
+                if ($(window).width() <= 768) {
+                    console.log("Screen Width: " + windowsize);
+                    $("#shop-by-category-menu-id").trigger("click");
+                }
+            });
         }
     });
 

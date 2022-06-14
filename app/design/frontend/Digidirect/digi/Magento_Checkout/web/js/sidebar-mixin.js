@@ -139,6 +139,7 @@ define([
             },
 
             _updateItemQty: function(elem) {
+
                 //var itemId = elem.data('cart-item');
                 //$('#cart-item-' + itemId + '-qty');
                 //this._updateItemQtyIncrease(elem);
@@ -162,11 +163,25 @@ define([
 
             //Rondel Custom Function
             _updateItemQtyDecrease: function(elem) {
+                // console.log("decrease called!")
+                this.test = ko.observable(1);
                 var itemId = elem.data('cart-item');
+                var test = Number($('#cart-item-' + itemId + '-qty').val());
+
+                // console.log(test);
+
+                this.test = ko.computed(function() {
+                    if (this.test() === 1) {
+                        return "sample test",
+                            console.log(test);
+                    }
+                });
+
+
 
                 this._ajax(this.options.url.update, {
                     'item_id': itemId,
-                    'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1
+                    'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1,
                 }, elem, this._updateItemQtyAfter);
                 // }, elem, alert("test"), this._updateItemQtyAfter);
             },
