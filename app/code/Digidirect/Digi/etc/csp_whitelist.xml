@@ -198,11 +198,7 @@
         </policy>
         <policy id="form-action">
             <values>
-                <value id="rsa3dsauthform" type="host">*.rsa3dsauth.co.uk</value>
-                <value id="wibmosform" type="host">*.wibmo.com</value>
-                <value id="paypalform" type="host">*.paypal.com</value>
-                <value id="paypalcnform" type="host">*.paypal.cn</value>
-                <value id="paypalobjform" type="host">*.paypalobjects.com</value>
+                <value id="all_potential_form" type="host">*</value>
             </values>
         </policy>
     </policies>
