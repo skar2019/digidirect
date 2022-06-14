@@ -598,7 +598,7 @@ define([
             });
 
             if (windowsize >= 768) {
-                $(".shop-by-category-menu").blur(function(){
+                $(".shop-by-category-menu").mouseleave(function(){
                     $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
                 });
             }
