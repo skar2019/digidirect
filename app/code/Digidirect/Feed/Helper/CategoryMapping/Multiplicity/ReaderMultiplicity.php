@@ -32,7 +32,7 @@ abstract class ReaderMultiplicity implements ReaderMultiplicityInterface
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }
