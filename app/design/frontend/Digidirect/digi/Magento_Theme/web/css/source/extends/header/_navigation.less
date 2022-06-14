@@ -1289,6 +1289,23 @@
         font-size: 12px !important;
     }
     
+    .return-to-second-layer {
+        display: inline-block !important;
+    }
+    
+    .return-to-second-layer .fa-angle-left {
+        margin-top: 4px !important;
+        position: absolute;
+    }
+    
+    .return-to-second-layer h3 {
+        font-size: 14px !important;
+        text-transform: none;
+        color: #000;
+        margin: 5px 0 0 20px;
+        float: right;
+    }
+    
 } //end mobile
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
@@ -1307,6 +1324,11 @@
     .mobile-menu-main-exit {
         left: 96%;
     }
+    
+    .return-to-second-layer {
+        display: none !important;
+    }
+    
 }
 
 //
