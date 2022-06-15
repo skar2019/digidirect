@@ -83,19 +83,20 @@ define([
             $('.page-title-wrapper').insertBefore($('.product-basic'));
         }
 
-        if (win.width() <= 768) {
+        //if (win.width() <= 768) {
             //$('.testfreaks-badge').insertAfter($('.page-title'));
             //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
-        } else {
+        //} else {
             //$('.testfreaks-badge').insertAfter($('.page-title'));
             //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
-        }
+        //}
     });
 
-    $('#live-chat-additional-link-id').click(function(){
+    $('#live-chat-additional-link-id').on('click', function(){
         // $('[data-garden-id="buttons.icon_button"]').trigger("click");
-        // console.log("Changed To Trigger Click!");
+        console.log("Changed To Trigger Click!");
         $('.itoris-pm-modal').addClass('_show');
+        $('.itoris-pm-modal').modal('toggle');
     });
 
     if( $('.itoris-pm-product-marker').length )
