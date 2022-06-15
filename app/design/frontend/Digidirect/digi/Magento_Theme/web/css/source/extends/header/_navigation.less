@@ -98,13 +98,13 @@
         position: absolute;
         left: 91%;
         top: 12px;
-        color: #fff;
+        color: #727272;
         font-size: 23px;
     }
     
     #mobile-menu-only-header {
-        margin-bottom: 20px;
-        background: #ff3c00 !important;
+        //margin-bottom: 20px;
+        background: #fff !important;
     }
     
     #mobile-menu-only-header .whitebg, #mobile-menu-only-header .orangebg {
@@ -117,7 +117,7 @@
     }
     
     #mobile-menu-only-header > span > a {
-        color: white;
+        color: #727272;
         text-align: right;
         margin-top: -10px !important;
         display: block;
@@ -243,12 +243,123 @@
         left: 17px !important;
     }
     
-    
-    
     .digiservices-listing-mobile a:hover {
         text-decoration: none !important;
     }
     
+    /* Style the tab */
+    .tab {
+        float: left;
+        width: 100%;
+        margin-left: 40px;
+        margin-bottom: 40px;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+        display: block;
+        background-color: inherit;
+        color: black;
+        padding: 20px 0;
+        width: 100%;
+        border: none;
+        outline: none;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 15px;
+        font-weight: 500;
+        border-bottom: 1px solid #cacaca;
+        margin-left: 40px 40px 0 40px;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        color: #ff3c00 !important;
+    }
+
+    /* Create an active/current "tab button" class */
+    .tab button.active {
+        color: #ff3c00 !important;
+        background-color: #fff !important;
+    }
+    
+    .tab button:hover {
+        color: #ff3c00 !important;
+        background: none !important;
+        border: none !important;
+        border-bottom: 1px solid #cacaca !important;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+        float: left;
+        padding: 0px 12px;
+        width: 100%;
+        //height: 300px;
+        display: none;
+    }
+
+    .menu-raw-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 650px !important;
+        z-index: 99;
+    }
+
+    .menu-second-level {
+        margin: 40px 0 0 40px;
+        display: inline-block;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .menu-second-level > h3, .menu-third-level h3  {
+        font-size: 16px;
+        font-weight: 500;
+        color: #ff3c00;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        margin-top: 0;
+    }
+
+    .menu-third-level {
+        padding: 30px;
+        width: 100%;
+        border-left: 1px solid #cacaca;
+    }
+
+    .menu-third-level h3 {
+        margin-top: 10px;
+    }
+
+    .menu-third-level-links {
+        margin-left: 40px;
+    }
+
+    .menu-third-level-links a {
+        display: block;
+        background-color: inherit;
+        color: black;
+        padding: 20px 0;
+        width: 100%;
+        border: none;
+        outline: none;
+        text-align: left;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 15px;
+        font-weight: 500;
+        border-bottom: 1px solid #cacaca;
+        margin-left: 40px 40px 0 40px;
+        text-decoration: none !important;
+    }
+    
+    .menu-third-level-links a:hover {
+        color: #ff3c00;
+        transition: .5s;
+    }
+
 }
 
 //
@@ -885,11 +996,11 @@
     
     .category-tabs .mgz-tabs-content {
         left: 95px !important;
-        margin-top: -14px;
+        margin-top: -8px;
     }
     
     .shop-by-category-menu > div {
-        margin: 0 10px !important;
+        //margin: 0 10px !important;
     }
     
     .category-tabs .mgz-tabs-nav {
@@ -901,7 +1012,7 @@
     }
     
     .category-tabs .mgz-tabs-tab-content > div {
-        padding-top: 19px;
+        //padding-top: 19px;
     }
     
     .category-tabs .mgz-tabs-tab-content .mgz-element-heading-text {
@@ -1072,6 +1183,129 @@
         text-transform: capitalize !important;
     }
     
+    .navigation .level0:not(:first-child) {
+        padding: 10px 0;
+        background: #f5f5f5;
+        border-bottom: 2px solid #fff !important;
+    }
+
+    .navigation .level0:not(:first-child) > a span {
+        font-size: 17px !important;
+        /* font-weight: 500 !important; */
+    }
+
+    .ninjamenus.ninjamenus-mobile .nav-item>.opener {
+        height: 100% !important;
+    }
+
+    .ninjamenus.ninjamenus-mobile .nav-item>.opener:before {
+        left: 90%;
+        font-family: 'Font Awesome 5 Free' !important;
+        content: '\f105';
+        font-weight: 600;
+        font-size: 17px;
+    }
+
+    .ninjamenus .ninjamenus-toggle-active>.opener:before {
+        content: '\f107' !important;
+    }
+    
+    .navigation .ninjamenus-toggle-active {
+        background: #ff3c00 !important;
+        color: #fff !important;
+    }
+    
+    .ninjamenus.ninjamenus-mobile .item-submenu {
+        background: #fff !important;
+        margin: 10px 0 -10px 0 !important;
+        padding: 0 0 10px 0 !important;
+        border: none !important;
+    }
+    
+    .category-tabs .mgz-tabs-tab-title a {
+        height: 60px !important;
+    }
+    
+    .navigation .ninjamenus-toggle-active span.title {
+        color: #fff !important;
+    }
+    
+    .menu-second-level {
+        margin: 15px 0 0 15px !important;
+    }
+    
+    .ninjamenus.ninjamenus-mobile .item-submenu.expand .mgz-tabs-nav {
+        height: 615px !important;
+    }
+    
+    .ninjamenus.ninjamenus-mobile .item-submenu.expand .mgz-tabs-tab-content {
+        height: 635px !important;
+        background: #fff;
+        border-bottom: none !important;
+    }
+    
+    .menu-second-level {
+        margin-left: 0 !important;
+        max-width: 155px !important;
+    }
+
+    .menu-second-level .tab {
+        margin-left: 15px !important;
+    }
+
+    .tab .tablinks {
+        font-size: 13px !important;
+        padding: 10px 0 !important;
+    }
+    
+    .menu-third-level {
+        padding: 0 !important;
+        max-width: 180px;
+        border: none !important;
+    }
+
+    .menu-third-level .tabcontent span a {
+        display: none;
+    }
+
+    .menu-third-level-links {
+        margin-left: 0 !important;
+    }
+
+    .menu-third-level-links a {
+        font-size: 13px !important;
+        padding: 10px 0 !important;
+    }
+    
+    .digiseconds-listing {
+        grid-auto-rows: auto !important;
+    }
+    
+    .digiseconds-menu-description {
+        font-size: 12px !important;
+    }
+    
+    .digiservices-listing-mobile span {
+        font-size: 12px !important;
+    }
+    
+    .return-to-second-layer {
+        display: inline-block !important;
+    }
+    
+    .return-to-second-layer .fa-angle-left {
+        margin-top: 9px !important;
+        position: absolute;
+    }
+    
+    .return-to-second-layer h3 {
+        font-size: 14px !important;
+        text-transform: none !important;
+        color: #000 !important;
+        margin: 5px 0 0 20px;
+        float: right;
+    }
+    
 } //end mobile
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
@@ -1090,6 +1324,11 @@
     .mobile-menu-main-exit {
         left: 96%;
     }
+    
+    .return-to-second-layer {
+        display: none !important;
+    }
+    
 }
 
 //
@@ -2148,6 +2387,8 @@
 
     .shop-by-category-menu .item-submenu.expand {
         width: 525px !important;
+        overflow: hidden;
+        transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .category-tabs > .mgz-element-inner {
@@ -2620,6 +2861,7 @@
     .audiovisual-tab, .provideo-tab, .smarthome-tab ,
     .computers-tab {
         background: #fff !important;
+        border-left: 1px solid #CACACA;
     }
 
     .mgz-tabs:not(.mgz-tabs-no-fill-content) .mgz-tabs-tab-content {
