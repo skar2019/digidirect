@@ -598,7 +598,7 @@ define([
             });
 
             if (windowsize >= 768) {
-                $(".shop-by-category-menu").mouseleave(function(){
+                $(".shop-by-category-menu .mgz-tabs-content").mouseleave(function(){
                     $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
                 });
             }
@@ -606,7 +606,8 @@ define([
             $(document).ready(function(){
                 if ($(window).width() < 768) {
                     console.log("Screen Width: " + windowsize);
-                    $("#shop-by-category-menu-id").trigger("click");
+                    $("#shop-by-category-menu-id").addClass("ninjamenus-toggle-active");
+                    $("#shop-by-category-menu-id .item-submenu.mgz-element-inner").attr("style", "display: block;");
                 }
             });
         }
