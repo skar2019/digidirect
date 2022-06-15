@@ -2,30 +2,30 @@ define([
     'jquery',
     './jquery.drilldown.min',
     './jquery.hoverIntent.min',
-    ], function ($) {
-        'use strict';
+], function ($) {
+    'use strict';
 
-        $.widget('mgz.ninjamenus', {
+    $.widget('mgz.ninjamenus', {
 
-            options: {
-                submenuSelector: ".item-submenu",
-                openerSelector: ".opener",
-                mobileBreakpoint: 768,
-                mobileClasses: "ninjamenus-mobile",
-                desktopClasses: "ninjamenus-desktop",
-                ddAnimationDurationIn: 50,
-                stick: false,
-                caret: 'fas mgz-fa-angle-down',
-                caretHover: 'fas mgz-fa-angle-up',
-                openerHtml: '<span class="opener"></span>'
-            },
-            isMobile: false,
-            isDesktop: false,
+        options: {
+            submenuSelector: ".item-submenu",
+            openerSelector: ".opener",
+            mobileBreakpoint: 768,
+            mobileClasses: "ninjamenus-mobile",
+            desktopClasses: "ninjamenus-desktop",
+            ddAnimationDurationIn: 50,
+            stick: false,
+            caret: 'fas mgz-fa-angle-down',
+            caretHover: 'fas mgz-fa-angle-up',
+            openerHtml: '<span class="opener"></span>'
+        },
+        isMobile: false,
+        isDesktop: false,
 
         /**
          * @private
          */
-         _create: function () {
+        _create: function () {
             this.menu = this.element;
             this.menu.find('.magezon-builder > .nav-item').addClass('level0');
             this.initListeners();
@@ -204,7 +204,7 @@ define([
                 } else {
 
                     this.menu.on('mouseenter', '.nav-item.level0', function (e) {
-                            self.onMouseHover($(this));
+                        self.onMouseHover($(this));
                     });
                     this.menu.on('mouseleave', '.nav-item.level0', function (e) {
                         self.onMouseLeave($(this));
@@ -214,7 +214,7 @@ define([
             this.menu.on('click', '.nav-item > a', function (e) {
 
                 if($(this).attr("href") == "#"){
-                     e.preventDefault();
+                    e.preventDefault();
                 }
 
                 if ($(this).data('scrollto') && $($(this).data('scrollto')).length) {
@@ -254,6 +254,7 @@ define([
                 $(this).parent().parent().toggleClass('ninjamenus-hamburger-active');
             });
             self._initAddCustomClass();
+            self._initThirdLayerOpener();
         },
 
         onMouseHoverIntent: function(event) {
@@ -534,7 +535,7 @@ define([
             }
         },
 
-            //clint
+        //clint
         _initAddCustomClass: function () {
             $(".category-tabs .mgz-tabs-nav span:contains('Cameras')").closest('div.mgz-tabs-tab-title').addClass('cameras-tab-menu');
             $(".category-tabs .mgz-tabs-nav span:contains('Lenses')").closest('div.mgz-tabs-tab-title').addClass('lenses-tab-menu');
@@ -546,6 +547,9 @@ define([
             $(".category-tabs .mgz-tabs-nav span:contains('Pro Video')").closest('div.mgz-tabs-tab-title').addClass('provideo-tab-menu');
             $(".category-tabs .mgz-tabs-nav span:contains('Smart Home')").closest('div.mgz-tabs-tab-title').addClass('smarthome-tab-menu');
             $(".category-tabs .mgz-tabs-nav span:contains('Computers & Mobile')").closest('div.mgz-tabs-tab-title').addClass('computersmobile-tab-menu');
+
+            $(".category-tabs-second-level .mgz-tabs-nav span").closest('div.mgz-tabs-tab-title')
+                .removeClass('cameras-tab-menu lenses-tab-menu drones-tab-menu lightstudio-tab-menu photoacce-tab-menu optics-tab-menu audiovisual-tab-menu provideo-tab-menu smarthome-tab-menu computersmobile-tab-menu');
 
             if ( window.location.pathname == '/' ){
 
@@ -569,6 +573,43 @@ define([
                 //
                 // ..ninjamenus
             }
+        },
+
+        _initThirdLayerOpener: function () {
+
+            var windowsize = $(window).width();
+
+            $(".mgz-tabs-nav .mgz-tabs-tab-title").click(function(){
+                if (windowsize < 768) {
+                    $(".menu-second-level").removeAttr("style");
+                }
+            });
+
+            $(".return-to-second-layer").click(function(){
+                $(".menu-second-level").removeAttr("style");
+
+            });
+
+            $(".tablinks").click(function(){
+                if (windowsize >= 768) {
+                    console.log("Second Level Trigerred: " + windowsize);
+                    $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
+                }
+            });
+
+            if (windowsize >= 768) {
+                $(".shop-by-category-menu .mgz-tabs-content").mouseleave(function(){
+                    $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
+                });
+            }
+
+            $(document).ready(function(){
+                if ($(window).width() < 768) {
+                    console.log("Screen Width: " + windowsize);
+                    $("#shop-by-category-menu-id").addClass("ninjamenus-toggle-active");
+                    $("#shop-by-category-menu-id .item-submenu.mgz-element-inner").attr("style", "display: block;");
+                }
+            });
         }
     });
 
