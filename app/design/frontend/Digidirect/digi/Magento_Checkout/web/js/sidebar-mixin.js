@@ -166,24 +166,44 @@ define([
                 // console.log("decrease called!")
                 this.test = ko.observable(1);
                 var itemId = elem.data('cart-item');
-                var test = Number($('#cart-item-' + itemId + '-qty').val());
+                
+                if (Number($('#cart-item-' + itemId + '-qty').val()) == 1) {
+                    confirm({
+                        content: $t('Are you sure you would like to remove this item?'),
+                        title: 'Attention',
+                        actions: {
+                            /** @inheritdoc */
+                            confirm: function() {
+                                self._removeItem($(event.currentTarget));
+                            },
 
-                // console.log(test);
+                            /** @inheritdoc */
+                            always: function(e) {
+                                e.stopImmediatePropagation();
+                            }
+                        },
+                        buttons: [{
+                            text: $t('No, Keep It'),
+                            class: 'action primary action-dismiss',
 
-                this.test = ko.computed(function() {
-                    if (this.test() === 1) {
-                        return "sample test",
-                            console.log(test);
-                    }
-                });
+                            click: function(event) {
+                                this.closeModal(event);
+                            }
+                        }, {
+                            text: $t('Yes, Remove It'),
+                            class: 'action-primary action-accept',
 
-
-
-                this._ajax(this.options.url.update, {
-                    'item_id': itemId,
-                    'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1,
-                }, elem, this._updateItemQtyAfter);
-                // }, elem, alert("test"), this._updateItemQtyAfter);
+                            click: function(event) {
+                                this.closeModal(event, true);
+                            }
+                        }]
+                    });
+                } else {
+                    this._ajax(this.options.url.update, {
+                        'item_id': itemId,
+                        'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1,
+                    }, elem, this._updateItemQtyAfter);
+                }
             },
 
             /**
