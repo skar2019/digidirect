@@ -8,6 +8,9 @@ $isInPopup = $block->getOpenInPopup();
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left'; ?>">
             <?php echo $block->getChildHtml('storelocator.list'); ?>
         </div>
+        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right'; ?>">
+            <?php echo $block->getChildHtml('storelocator.list'); ?>
+        </div>
         <?php if ($isInPopup): ?>
             <?php echo $block->getChildHtml('storelocator.popup'); ?>
         <?php else: ?>
