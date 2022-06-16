@@ -105,5 +105,5 @@ define([
         $('.itoris-pm-product-marker').insertBefore($('.studio19-wrapper'));
 
     }
-
+    //redeploy
 });
