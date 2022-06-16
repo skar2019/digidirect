@@ -19,3 +19,15 @@ $abstractEntity = $block->getCurrentAbstractEntity();
         <?php echo $block->escapeHtml($abstractEntity->getPostcode()); ?>
     </address>
 <?php endif; ?>
+
+
+<?php if ($phone = $abstractEntity->getPhoneNumber()): ?>
+    <div class="item -phone jai">
+        <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-phone"></use>
+            </svg>
+        </span>
+        <?php echo $block->escapeHtml($phone); ?>
+    </div>
+<?php endif; ?>
