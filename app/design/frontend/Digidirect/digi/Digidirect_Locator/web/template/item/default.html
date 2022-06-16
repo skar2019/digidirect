@@ -18,12 +18,13 @@
             <!-- ko text: street --><!-- /ko -->
             <!-- ko text: city --><!-- /ko -->
             <!-- ko text: state --><!-- /ko -->
-        
+            <!-- ko text: postcode --><!-- /ko -->
         </address>
 
-        <span class="phone"> 
-            <!-- ko number: phone --><!-- /ko -->
-        </span>
+        <div class="item -phone">
+            <!-- ko number: phone -->
+            <!-- /ko -->
+        </div>
 
         <a class="link" data-bind="attr: {href: url_key, title: $t('Store Details')}, text: $t('Store Details'), click: function() { return true;}, clickBubble: false"></a>
         <!-- <a class="link" data-bind="attr: {href: url_key+'#directions', title: $t('Directions')}, text: $t('Directions'), click: function() { return true;}, clickBubble: false""></a> -->
