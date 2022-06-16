@@ -201,8 +201,6 @@ define([
 
             //Rondel Custom Function
             _updateItemQtyDecrease: function(elem) {
-                // console.log("decrease called!")
-                this.test = ko.observable(1);
                 var itemId = elem.data('cart-item');
                 
                 this._ajax(this.options.url.update, {
