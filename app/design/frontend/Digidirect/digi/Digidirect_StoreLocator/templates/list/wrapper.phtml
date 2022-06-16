@@ -5,12 +5,16 @@ $isInPopup = $block->getOpenInPopup();
 <div class="store-locator test3">
     <?php echo $block->getChildHtml('storelocator.search'); ?>
     <div class="grid-row test4">
+
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left'; ?>">
             <?php echo $block->getChildHtml('storelocator.list'); ?>
         </div>
+
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right'; ?>">
-            <?php echo $block->getChildHtml('storelocator.list'); ?>
+            <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
+            <p>test</p>
         </div>
+
         <?php if ($isInPopup): ?>
             <?php echo $block->getChildHtml('storelocator.popup'); ?>
         <?php else: ?>
