@@ -7,7 +7,7 @@
         <!-- /ko -->
     </div>
     <div class="locator-wrapper">
-        <div class="locator-items items content" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
+        <div class="locator-items items content test-locator" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko foreach: $parent.getRegion('locator_items') -->
             <!-- ko template: {name: getTemplate(), data: item} -->
             <!-- /ko -->
