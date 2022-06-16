@@ -46,7 +46,7 @@ define([
             $('#main-product-qantas').insertAfter($('.box-tocart'));
         }
         else {
-            $('#main-product-qantas').insertBefore($('.box-tocart'));
+            $('#main-product-qantas').insertAfter($('.box-tocart'));
             $('.product-options-wrapper').attr("style", "display: none !important;");
         }
     }
