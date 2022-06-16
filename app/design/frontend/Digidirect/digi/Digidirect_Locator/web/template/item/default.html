@@ -1,4 +1,4 @@
-<div class="locator-item item" data-bind="css: { 'store-wrapper column': $parents[2].locations.settings().open_in_popup }">
+<div class="locator-item item" id="" data-bind="css: { 'store-wrapper column': $parents[2].locations.settings().open_in_popup }">
     <!-- ko if: $data.image -->
     <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" />
     <!-- /ko -->
@@ -23,11 +23,11 @@
         <a class="link" data-bind="attr: {href: url_key, title: $t('Store Details')}, text: $t('Store Details'), click: function() { return true;}, clickBubble: false"></a>
         <!-- <a class="link" data-bind="attr: {href: url_key+'#directions', title: $t('Directions')}, text: $t('Directions'), click: function() { return true;}, clickBubble: false""></a> -->
 
-        <span class="pin">
+        <!-- <span class="pin">
             <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>
             </svg>
-        </span>
+        </span> -->
     </div>
     <!-- ko foreach: $parent.getRegion('itemEnd') -->
     <!-- ko template: getTemplate() -->
