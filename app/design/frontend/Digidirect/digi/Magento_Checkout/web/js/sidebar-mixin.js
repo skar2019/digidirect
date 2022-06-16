@@ -120,7 +120,45 @@ define([
                  */
                 events['click ' + ':button.minicart-qty-decrease'] = function(event) {
                     event.stopPropagation();
-                    self._updateItemQtyDecrease($(event.currentTarget));
+                    
+                    let itemId     = $(event.currentTarget).data('cart-item');
+                    let qtyElement = $('#cart-item-'+itemId+'-qty');
+                    let qtyValue   = parseInt(qtyElement.val());
+                    
+                    if (qtyValue == 1) {
+                        confirm({
+                            content: $t('Are you sure you would like to remove this item?'),
+                            title: 'Attention',
+                            actions: {
+                                /** @inheritdoc */
+                                confirm: function() {
+                                    self._removeItem($(event.currentTarget));
+                                },
+
+                                /** @inheritdoc */
+                                always: function(e) {
+                                    e.stopImmediatePropagation();
+                                }
+                            },
+                            buttons: [{
+                                text: $t('No, Keep It'),
+                                class: 'action primary action-dismiss',
+
+                                click: function(event) {
+                                    this.closeModal(event);
+                                }
+                            }, {
+                                text: $t('Yes, Remove It'),
+                                class: 'action-primary action-accept',
+
+                                click: function(event) {
+                                    this.closeModal(event, true);
+                                }
+                            }]
+                        });
+                    } else {
+                        self._updateItemQtyDecrease($(event.currentTarget));
+                    }
                 };
 
                 /**
@@ -166,24 +204,11 @@ define([
                 // console.log("decrease called!")
                 this.test = ko.observable(1);
                 var itemId = elem.data('cart-item');
-                var test = Number($('#cart-item-' + itemId + '-qty').val());
-
-                // console.log(test);
-
-                this.test = ko.computed(function() {
-                    if (this.test() === 1) {
-                        return "sample test",
-                            console.log(test);
-                    }
-                });
-
-
-
+                
                 this._ajax(this.options.url.update, {
                     'item_id': itemId,
                     'item_qty': Number($('#cart-item-' + itemId + '-qty').val()) - 1,
                 }, elem, this._updateItemQtyAfter);
-                // }, elem, alert("test"), this._updateItemQtyAfter);
             },
 
             /**
