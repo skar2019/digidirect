@@ -42,7 +42,7 @@ define([
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
-        if($('.product-options-wrapper').length) {
+        if($('.digiprotect-info-logo').length) {
             $('#main-product-qantas').insertAfter($('.box-tocart'));
         }
         else {
