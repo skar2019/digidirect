@@ -47,6 +47,7 @@ define([
         }
         else {
             $('#main-product-qantas').insertBefore($('.box-tocart'));
+            $('.product-options-wrapper').attr("style", "display: none !important;");
         }
     }
 
