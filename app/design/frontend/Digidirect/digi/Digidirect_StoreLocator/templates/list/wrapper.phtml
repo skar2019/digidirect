@@ -13,24 +13,43 @@ $isInPopup = $block->getOpenInPopup();
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right'; ?>">
             <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
             <p>test</p>
-            <div class="store_tab">
-                <input type="radio" id="tab-1" name="tab-group-1" checked>
-                <label for="tab-1">Осень</label>
+                <div id="tabs">
+                    <ul>
+                        <li>
+                            <a href="#a">Tab A</a>
+                        </li>
+                        <li>
+                            <a href="#b">Tab B</a>
+                        </li>
+                        <li>
+                            <a href="#c">Tab C</a>
+                        </li>
+                        <li>
+                            <a href="#d">Tab D</a>
+                        </li>
+                    </ul>
 
-                <div class="store_content">
-                    <span>tabik 1</span>
-                </div> 
-            </div>
+                    <div id="a">
+                        Content of A
+                    </div>
+                    <div id="b">
+                        Content of B
+                    </div>
+                    <div id="c">
+                        Content of C
+                    </div>
+                    <div id="d">
+                        Content of D
+                    </div>
 
-            <div class="store_tab">
-                <input type="radio" id="tab-2" name="tab-group-1">
-                <label for="tab-2">Зима</label>
+                    <script type="text/javascript">
+                        $('#tabs')
+                        .tabs()
+                        // .addClass('ui-tabs-vertical ui-helper-clearfix');
 
-                <div class="store_content">
-                <span>tabik 2</<span>
-                </div> 
-            </div>
-            
+                    </script>
+                </div>
+
         </div>
 
         <?php if ($isInPopup): ?>
