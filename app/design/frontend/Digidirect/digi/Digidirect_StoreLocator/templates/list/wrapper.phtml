@@ -18,8 +18,8 @@ $isInPopup = $block->getOpenInPopup();
         <?php if ($isInPopup): ?>
             <?php echo $block->getChildHtml('storelocator.popup'); ?>
         <?php else: ?>
-            <div class="google-map-wrapper column -main">
-                <//?php echo $block->getChildHtml('storelocator.map'); ?>
+            <div class="google-map-wrapper column -main storemap">
+                <?php echo $block->getChildHtml('storelocator.map'); ?>
             </div>
         <?php endif; ?>
     </div>
