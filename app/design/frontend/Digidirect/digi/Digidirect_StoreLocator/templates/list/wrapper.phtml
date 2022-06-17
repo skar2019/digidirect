@@ -13,6 +13,24 @@ $isInPopup = $block->getOpenInPopup();
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right'; ?>">
             <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
             <p>test</p>
+            <div class="store_tab">
+                <input type="radio" id="tab-1" name="tab-group-1" checked>
+                <label for="tab-1">Осень</label>
+
+                <div class="store_content">
+                    <span>tabik 1</span>
+                </div> 
+            </div>
+
+            <div class="store_tab">
+                <input type="radio" id="tab-2" name="tab-group-1">
+                <label for="tab-2">Зима</label>
+
+                <div class="store_content">
+                <span>tabik 2</<span>
+                </div> 
+            </div>
+            
         </div>
 
         <?php if ($isInPopup): ?>
