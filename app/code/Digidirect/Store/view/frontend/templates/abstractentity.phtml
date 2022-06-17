@@ -3,7 +3,7 @@
 $abstractEntity = $block->getCurrentAbstractEntity();
 ?>
 <?php if ($abstractEntity): ?>
-    <address class="address">
+    <address class="address testD1">
         <?php if ($posCountry = $abstractEntity->getCountry()): ?>
             <?php echo $block->escapeHtml($block->getCountryName($posCountry)); ?>,
         <?php endif; ?>
