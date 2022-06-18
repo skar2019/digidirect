@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 -->
-<div class="payment-method" data-bind="css: {'_active': isActive()}" id="payment-method-braintree-paypal">
+<div class="payment-method paypal-method-wrapper" data-bind="css: {'_active': isActive()}" id="payment-method-braintree-paypal">
     <div class="payment-method-title field choice">
         <input type="radio"
                name="payment[method]"
@@ -12,10 +12,7 @@
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()" />
         <label class="label" data-bind="attr: {'for': getCode()}">
             <!-- PayPal Logo -->
-            <img data-bind="attr: {src: getPaymentAcceptanceMarkSrc(), alt: $t('Acceptance Mark')}"
-                 class="payment-icon"/>
-            <!-- PayPal Logo -->
-            <span text="getTitle()"></span>
+            <span class="title" translate="'PayPal'"></span>
         </label>
     </div>
 
@@ -50,11 +47,6 @@
         </div>
         <!-- /ko -->
         <div class="actions-toolbar braintree-paypal-actions" data-bind="visible: isReviewRequired()">
-            <div class="payment-method-billing-address">
-                <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
-                <!-- ko template: getTemplate() --><!-- /ko -->
-                <!--/ko-->
-            </div>
             <div class="payment-method-item braintree-paypal-account">
                 <span class="payment-method-type">PayPal</span>
                 <span class="payment-method-description" text="customerEmail()"></span>
@@ -82,6 +74,8 @@
                  data-bind='attr: {"data-pp-amount": getGrandTotalAmount()}'
             ></div>
             <!-- /ko -->
+
         </div>
     </div>
 </div>
+
