@@ -48,8 +48,8 @@ class Toolbar
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterSetCollection(\Magento\Catalog\Block\Product\ProductList\Toolbar $subject,
-                                                                                          $result,
-                                                                                          $collection
+        $result,
+        $collection
     ) {
         $this->_collection = $collection;
 
@@ -71,28 +71,36 @@ class Toolbar
 
                 $this->_subQueryApplied = true;
             }
-
+            
         } elseif ($subject->getCurrentOrder() == 'latest') {
             $this->_collection->getSelect()->order('created_at DESC');
-
+            
+        } elseif ($subject->getCurrentOrder() == "best_sellers") {
+              $collection->getSelect()->joinLeft( 
+                'sales_order_item', 
+                'e.entity_id = sales_order_item.product_id', 
+                array('qty_ordered'=>'SUM(sales_order_item.qty_ordered)')) 
+                ->group('e.entity_id') 
+                ->order('qty_ordered DESC');
+              
         } elseif ($subject->getCurrentOrder() == 'product_name_asc') {
             $this->_collection->setOrder('name', 'ASC');
-
+            
         } elseif ($subject->getCurrentOrder() == 'product_name_desc') {
             $this->_collection->setOrder('name', 'DESC');
-
+            
         } elseif ($subject->getCurrentOrder() == 'price_lowest_first') {
             $this->_collection->getSelect()->order('price ASC');
-
+            
         } elseif ($subject->getCurrentOrder() == 'price_highest_first') {
             $this->_collection->getSelect()->order('price DESC');
-
-        }
-
+            
+        } 
+        
 //        elseif ($subject->getCurrentOrder() == 'highest_percent_discount') {
 //            $this->_collection->getSelect()->order('((price - special_price) / price) DESC');
-//
-//        }
+//            
+//        }      
 
         return $this;
     }

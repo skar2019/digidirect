@@ -38,14 +38,16 @@ define([
         $('#product-addtocart-button').removeAttr("title");
     });
 
+
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
-        if($('.product-options-wrapper').length) {
-            $('#main-product-qantas').insertAfter($('.product-options-wrapper'));
+        if($('.digiprotect-info-logo').length) {
+            $('#main-product-qantas').insertAfter($('.box-tocart'));
         }
         else {
-            $('#main-product-qantas').insertBefore($('.box-tocart'));
+            $('#main-product-qantas').insertAfter($('.box-tocart'));
+            $('.product-options-wrapper').attr("style", "display: none !important;");
         }
     }
 

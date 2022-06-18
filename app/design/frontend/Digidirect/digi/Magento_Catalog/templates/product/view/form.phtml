@@ -52,6 +52,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
     }
 ?>
 
+
 <?php if ($productQuantity > 0):?>
 <!--    <div class="shipping-notice stock available">
         <span class="stock-availability"><?= $escaper->escapeHtml(__('Leaves warehouse in 3-5 business days.')) ?></span>
@@ -63,7 +64,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
 <?php endif; ?>
 
 <?php if($points > 0):?>
-    <div class="qantas-pts-wrapper" id="main-product-qantas" style="display: none !important;">
+    <div class="qantas-pts-wrapper" id="main-product-qantas">
         <img src="https://www.digidirect.com.au/static/version1644407894/frontend/Digidirect/digi/en_AU/images/qff-logo-new.svg" 
              style="
                 width: 80px;
