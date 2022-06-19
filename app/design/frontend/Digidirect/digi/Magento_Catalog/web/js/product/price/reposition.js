@@ -96,8 +96,7 @@ define([
 
     $('#live-chat-additional-link-id').on('click', function(){
         // $('[data-garden-id="buttons.icon_button"]').trigger("click");
-        console.log("Changed To Trigger Click!");
-        $('.itoris-pm-modal').addClass('_show');
+        //console.log("Changed To Trigger Click!");
         $('.itoris-pm-modal').modal('toggle');
     });
 
