@@ -51,6 +51,7 @@ class ValidateCollectPlaceMsiSource implements ObserverInterface
         $items = $observer->getEvent()->getData('quote_items');
         /** @var CollectPlaceInterface $place */
         $place = $observer->getEvent()->getData('collect_place');
+        echo $place;
 
         $skuQty = [];
         /** @var Item $item */
