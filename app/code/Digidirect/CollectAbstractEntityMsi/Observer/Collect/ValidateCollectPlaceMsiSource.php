@@ -59,7 +59,7 @@ class ValidateCollectPlaceMsiSource implements ObserverInterface
         }
 
         $sourceItems = $this->msiAvailability->prepareSourceDataForItems(array_keys($skuQty));
-        $available = $this->msiAvailability->isPlaceAvailable($place, $sourceItems, $skuQty);
+        $available = true; // Andrew requested that all store is selectable; $this->msiAvailability->isPlaceAvailable($place, $sourceItems, $skuQty);
 
         if (!$available) {
             throw new CollectException(
