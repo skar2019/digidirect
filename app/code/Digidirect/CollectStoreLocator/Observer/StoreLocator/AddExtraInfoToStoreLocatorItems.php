@@ -53,8 +53,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     {
         $transportObject = $observer->getTransportObject();
         $locatorStores = $transportObject->getData('items');
-
+        echo "locatorStores getData : " + $locatorStores;
         $locatorStores = $this->addAvailabilityInfoToItems($locatorStores);
+        echo "locatorStores addAvailabilityInfoToItems : " + $locatorStores;
         $transportObject->setData(['items' => $locatorStores]);
     }
 
