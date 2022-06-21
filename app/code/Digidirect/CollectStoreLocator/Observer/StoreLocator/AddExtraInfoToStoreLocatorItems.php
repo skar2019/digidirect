@@ -68,17 +68,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
-        
-        echo $this->console_log("quoteItems : " . $quoteItems);
-        //echo $this->console_log("skuQty : " . $skuQty);
-        //echo $this->console_log("places : " . $places);
 
         foreach ($items as $key => $storeData) {
             $id = $storeData['entity_id'];
             if (empty($places[$id])) {
                 continue;
             }
-
+            echo $this->console_log("places : " . $places[$id]);
             $place = $places[$id];
             if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
