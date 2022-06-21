@@ -13,32 +13,31 @@ $isInPopup = $block->getOpenInPopup();
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right'; ?>">
             <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
             <p>test</p>
-                <div id="tabs">
+               <div id="tabsection">
                     <ul>
                         <li>
-                            <a href="#a">Tab A</a>
+                            <a class="tablinks" href="#tabs1">Tab A</a>
                         </li>
                         <li>
-                            <a href="#b">Tab B</a>
+                            <a class="tablinks" href="#tabs2">Tab B</a>
                         </li>
                         <li>
-                            <a href="#c">Tab C</a>
+                            <a class="tablinks" href="#tabs3">Tab C</a>
                         </li>
                         <li>
-                            <a href="#d">Tab D</a>
+                            <a class="tablinks" href="#tabs4">Tab D</a>
                         </li>
                     </ul>
-
-                    <div id="a">
+                    <div id="tabs" class="tabcontent">
                         Content of A
                     </div>
-                    <div id="b">
+                    <div id="tabs" class="tabcontent">
                         Content of B
                     </div>
-                    <div id="c">
+                    <div id="tabs" class="tabcontent">
                         Content of C
                     </div>
-                    <div id="d">
+                    <div id="tabs" class="tabcontent">
                         Content of D
                     </div>
 
@@ -64,6 +63,19 @@ $isInPopup = $block->getOpenInPopup();
         'jquery/ui'
     ],
     function ($, tabs) {
-        $('#tabs').tabs();
+        $('#tabsection').tabs();
+
+        var tabID = 0;
+        var tabContentID = 0;
+
+        $('tablinks, .tabcontent').each(function(){
+        tabContentID++;
+        tabID++;
+
+        var tabContentnewID='tabs'+tabContentID;
+        var tabnewID='tabs'+tabID;
+        $(this).attr('id',tabContentnewID);
+        $(this).attr('id',tabnewID);
+        });
     });
 </script>
