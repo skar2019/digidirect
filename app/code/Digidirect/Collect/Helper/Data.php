@@ -762,6 +762,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getSkuToQtyByItems($quoteItems)
     {
+        echo $this->console_log($quoteItems);
         $skuToQty = [];
         foreach ($quoteItems as $quoteItem) {
             if ($quoteItem->getProductType() == \Magento\Bundle\Model\Product\Type::TYPE_CODE) {
@@ -781,8 +782,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $skuToQty[$sku] = 0;
             }
             $skuToQty[$sku] += $quoteItem->getQty();
-        
-            echo $this->console_log($quoteItems);
         }
 
         return $skuToQty;
