@@ -60,9 +60,10 @@ $isInPopup = $block->getOpenInPopup();
 
 <script>
     require([
-        'jquery'
+        'jquery',
+        'jquery/ui'
     ],
-    function ($) {
+    function ($, tabs) {
         $('#tabs').tabs();
     });
 </script>
