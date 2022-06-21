@@ -43,21 +43,6 @@ $isInPopup = $block->getOpenInPopup();
                     </div>
 
                 </div>
-
-                <script>
-                    require(
-                        [
-                            'jquery',
-                        ],
-                        function($) {
-
-                            $('#tabs')
-                            .tabs()
-
-                        }
-                    );
-            </script>
-
         </div>
 
         <?php if ($isInPopup): ?>
@@ -71,3 +56,13 @@ $isInPopup = $block->getOpenInPopup();
 </div>
 
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
+
+
+<script>
+    require([
+        'jquery'
+    ],
+    function ($) {
+        $('#tabs').tabs();
+    });
+</script>
