@@ -13,17 +13,49 @@ $isInPopup = $block->getOpenInPopup();
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right'; ?>">
             <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
             <p>test</p>
-            <script>
-            require(
-                [
-                    'jquery',
-                ],
-                function($) {
-            
-                    alert("test locator");
-            
-                }
-            );
+                <div id="tabs">
+                    <ul>
+                        <li>
+                            <a href="#a">Tab A</a>
+                        </li>
+                        <li>
+                            <a href="#b">Tab B</a>
+                        </li>
+                        <li>
+                            <a href="#c">Tab C</a>
+                        </li>
+                        <li>
+                            <a href="#d">Tab D</a>
+                        </li>
+                    </ul>
+
+                    <div id="a">
+                        Content of A
+                    </div>
+                    <div id="b">
+                        Content of B
+                    </div>
+                    <div id="c">
+                        Content of C
+                    </div>
+                    <div id="d">
+                        Content of D
+                    </div>
+
+                </div>
+
+                <script>
+                    require(
+                        [
+                            'jquery',
+                        ],
+                        function($) {
+
+                            $('#tabs')
+                            .tabs()
+
+                        }
+                    );
             </script>
 
         </div>
