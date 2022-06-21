@@ -762,6 +762,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getSkuToQtyByItems($quoteItems)
     {
+        echo $this->console_log($quoteItems);
         $skuToQty = [];
         foreach ($quoteItems as $quoteItem) {
             if ($quoteItem->getProductType() == \Magento\Bundle\Model\Product\Type::TYPE_CODE) {
@@ -784,5 +785,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return $skuToQty;
+    }
+    
+    function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+    ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 }

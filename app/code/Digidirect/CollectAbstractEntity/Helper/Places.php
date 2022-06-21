@@ -35,6 +35,16 @@ class Places extends AbstractHelper
      */
     public function getAllCollectPlacesEntities(array $skuQty)
     {
+        echo $this->console_log($this->collectPlaceRepository->getListBySkus(array_keys($skuQty), $skuQty));
         return $this->collectPlaceRepository->getListBySkus(array_keys($skuQty), $skuQty);
+    }
+    
+    function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+    ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 }
