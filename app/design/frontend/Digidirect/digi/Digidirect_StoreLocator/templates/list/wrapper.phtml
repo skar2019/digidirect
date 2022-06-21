@@ -13,31 +13,32 @@ $isInPopup = $block->getOpenInPopup();
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right'; ?>">
             <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
             <p>test</p>
-               <div id="tabsection">
+                <div id="tabs">
                     <ul>
                         <li>
-                            <a class="tablinks" href="#tabs1">Tab A</a>
+                            <a href="#a">Tab A</a>
                         </li>
                         <li>
-                            <a class="tablinks" href="#tabs2">Tab B</a>
+                            <a href="#b">Tab B</a>
                         </li>
                         <li>
-                            <a class="tablinks" href="#tabs3">Tab C</a>
+                            <a href="#c">Tab C</a>
                         </li>
                         <li>
-                            <a class="tablinks" href="#tabs4">Tab D</a>
+                            <a href="#d">Tab D</a>
                         </li>
                     </ul>
-                    <div id="tabs" class="tabcontent">
+
+                    <div id="a">
                         Content of A
                     </div>
-                    <div id="tabs" class="tabcontent">
+                    <div id="b">
                         Content of B
                     </div>
-                    <div id="tabs" class="tabcontent">
+                    <div id="c">
                         Content of C
                     </div>
-                    <div id="tabs" class="tabcontent">
+                    <div id="d">
                         Content of D
                     </div>
 
@@ -63,19 +64,6 @@ $isInPopup = $block->getOpenInPopup();
         'jquery/ui'
     ],
     function ($, tabs) {
-        $('#tabsection').tabs();
-
-        var tabID = 0;
-        var tabContentID = 0;
-
-        $('tablinks, .tabcontent').each(function(){
-        tabContentID++;
-        tabID++;
-
-        var tabContentnewID='tabs'+tabContentID;
-        var tabnewID='tabs'+tabID;
-        $(this).attr('id',tabContentnewID);
-        $(this).attr('id',tabnewID);
-        });
+        $('#tabs').tabs();
     });
 </script>
