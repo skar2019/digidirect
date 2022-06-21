@@ -53,10 +53,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     {
         $transportObject = $observer->getTransportObject();
         $locatorStores = $transportObject->getData('items');
-
+        echo $this->console_log("Before : " . $locatorStores);
         $locatorStores = $this->addAvailabilityInfoToItems($locatorStores);
         $transportObject->setData(['items' => $locatorStores]);
-        //echo $this->console_log($locatorStores);
+        echo $this->console_log("After : " . $locatorStores);
     }
 
     /**
@@ -74,7 +74,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             if (empty($places[$id])) {
                 continue;
             }
-            echo $this->console_log("places : " . $places[$id]);
+
             $place = $places[$id];
             if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
