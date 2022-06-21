@@ -781,9 +781,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $skuToQty[$sku] = 0;
             }
             $skuToQty[$sku] += $quoteItem->getQty();
-        }
         
-        echo $this->console_log($skuToQty);
+            echo $this->console_log($quoteItems);
+        }
 
         return $skuToQty;
     }
