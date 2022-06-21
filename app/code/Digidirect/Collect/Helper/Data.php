@@ -782,7 +782,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
             $skuToQty[$sku] += $quoteItem->getQty();
         }
+        
+        echo $this->console_log($skuToQty);
 
         return $skuToQty;
+    }
+    
+    function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+    ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 }
