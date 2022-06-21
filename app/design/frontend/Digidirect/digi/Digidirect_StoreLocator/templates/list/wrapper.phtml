@@ -4,44 +4,42 @@ $isInPopup = $block->getOpenInPopup();
 ?>
 <div class="store-locator test3">
     <?php echo $block->getChildHtml('storelocator.search'); ?>
-    <div class="grid-row test4">
+    <div class="grid-row test4" id="tabs">
 
-        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left'; ?>">
+        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left sbanner1'; ?>">
             <?php echo $block->getChildHtml('storelocator.list'); ?>
         </div>
 
-        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right'; ?>">
+        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right sbanner1'; ?>">
             <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
             <p>test</p>
-                <div id="tabs">
+                <div id="tabsection">
                     <ul>
                         <li>
-                            <a href="#a">Tab A</a>
+                            <a class="tablinks" href="#tabs">Tab A</a>
                         </li>
                         <li>
-                            <a href="#b">Tab B</a>
+                            <a class="tablinks" href="#tabs">Tab B</a>
                         </li>
                         <li>
-                            <a href="#c">Tab C</a>
+                            <a class="tablinks" href="#tabs">Tab C</a>
                         </li>
                         <li>
-                            <a href="#d">Tab D</a>
+                            <a class="tablinks" href="#tabs" >Tab D</a>
                         </li>
                     </ul>
-
-                    <div id="a">
+                    <div id="tabs" class="tabcontent">
                         Content of A
                     </div>
-                    <div id="b">
+                    <div id="tabs" class="tabcontent">
                         Content of B
                     </div>
-                    <div id="c">
+                    <div id="tabs" class="tabcontent">
                         Content of C
                     </div>
-                    <div id="d">
+                    <div id="tabs" class="tabcontent">
                         Content of D
                     </div>
-
                 </div>
         </div>
 
@@ -64,6 +62,30 @@ $isInPopup = $block->getOpenInPopup();
         'jquery/ui'
     ],
     function ($, tabs) {
-        $('#tabs').tabs();
+        var tabID = 0;
+        var tabContentID = 0;
+
+        $(".tablinks").each(function(){
+        tabID++;
+        var tabnewID="#"+"tabs"+tabID;
+        // var newID='store'+i;
+        // $(this).attr('id',newID);
+        $(this).attr("href",tabnewID);
+        // $(this).val(i);
+
+        // alert(tabnewID);
+        });	
+
+        $(".tabcontent").each(function(){
+        tabContentID++;
+        var tabContentnewID='tabs'+tabContentID;
+
+        $(this).attr('id',tabContentnewID);
+
+        // alert(tabContentnewID);
+
+        });
+
+        $("#tabsection").tabs()
     });
 </script>
