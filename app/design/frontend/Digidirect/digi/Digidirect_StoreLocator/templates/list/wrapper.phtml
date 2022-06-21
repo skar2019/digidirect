@@ -4,16 +4,11 @@ $isInPopup = $block->getOpenInPopup();
 ?>
 <div class="store-locator test3">
     <?php echo $block->getChildHtml('storelocator.search'); ?>
-    <div class="grid-row test4" id="tabs">
+    <div class="grid-row test4" id="tabsection">
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left sbanner1'; ?>">
             <?php echo $block->getChildHtml('storelocator.list'); ?>
-        </div>
 
-        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right sbanner1'; ?>">
-            <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
-            <p>test</p>
-                <div id="tabsection">
                     <ul>
                         <li>
                             <a class="tablinks" href="#tabs">Tab A</a>
@@ -28,6 +23,12 @@ $isInPopup = $block->getOpenInPopup();
                             <a class="tablinks" href="#tabs" >Tab D</a>
                         </li>
                     </ul>
+        </div>
+
+        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right sbanner1'; ?>">
+            <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
+            <p>test</p>
+
                     <div id="tabs" class="tabcontent">
                         Content of A
                     </div>
@@ -40,7 +41,7 @@ $isInPopup = $block->getOpenInPopup();
                     <div id="tabs" class="tabcontent">
                         Content of D
                     </div>
-                </div>
+              
         </div>
 
         <?php if ($isInPopup): ?>
