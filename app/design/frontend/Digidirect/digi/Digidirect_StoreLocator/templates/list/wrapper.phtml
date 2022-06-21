@@ -4,9 +4,10 @@ $isInPopup = $block->getOpenInPopup();
 ?>
 <div class="store-locator test3">
     <?php echo $block->getChildHtml('storelocator.search'); ?>
-    <div class="grid-row test4">
+    <div class="grid-row test4" id="tabs">
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left'; ?>">
+        <img src="{{media url=img-model-protect.png}}" style="display: none;">
             <?php echo $block->getChildHtml('storelocator.list'); ?>
         </div>
 
