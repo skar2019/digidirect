@@ -55,6 +55,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $locatorStores = $transportObject->getData('items');
         $locatorStores = $this->addAvailabilityInfoToItems($locatorStores);
         $transportObject->setData(['items' => $locatorStores]);
+        echo $this->console_log($locatorStores);
     }
 
     /**
@@ -66,7 +67,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
-        echo $this->console_log($quoteItems);
 
         foreach ($items as $key => $storeData) {
             $id = $storeData['entity_id'];
