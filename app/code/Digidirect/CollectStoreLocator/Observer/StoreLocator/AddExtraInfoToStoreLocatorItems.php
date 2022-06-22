@@ -95,13 +95,19 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+                
+                $sydnQty = 0;
 
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     echo $this->console_log($sourceItem->getQuantity());
                     echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
                     
-                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN' && $sourceItem->getQuantity() > 0) {
+                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN') {
+                        $sydnQty = $sydnQty * $sourceItem->getQuantity();
+                    }
+                    
+                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN' && $sydnQty > 0) {
                         $items[$key]['available'] = true;
                     } else {
                         $items[$key]['available'] = false;
