@@ -90,6 +90,11 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             }
             
             $sydnQty = 1;
+            $bondQty = 1;
+            $melbQty = 1;
+            $brisQty = 1;
+            $miraQty = 1;
+            $cannQty = 1;
             
             foreach ($cartItems as $cartItem) {
             
@@ -99,21 +104,42 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
                 
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                    echo $this->console_log($sourceItem->getQuantity());
-                    echo $this->console_log($sourceItem->getSourceCode());
+                    //echo $this->console_log($sourceItem->getQuantity());
+                    //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
                     
                     if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $sourceItem->getQuantity();
+                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BOND') {
+                        $bondQty = $bondQty * $sourceItem->getQuantity();
+                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'MELB') {
+                        $melbQty = $melbQty * $sourceItem->getQuantity();
+                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
+                        $brisQty = $brisQty * $sourceItem->getQuantity();
+                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'MIRA') {
+                        $miraQty = $miraQty * $sourceItem->getQuantity();
+                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'CANN') {
+                        $cannQty = $cannQty * $sourceItem->getQuantity();
                     }
                 }
             }
                     
             if ($sydnQty > 1) {
                 $items[$key]['available'] = true;
+            } elseif ($bondQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($melbQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($brisQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($miraQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($cannQty > 1) {
+                $items[$key]['available'] = true;
             } else {
                 $items[$key]['available'] = false;
             }
+            
         }
         return $items;
     }
