@@ -89,6 +89,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     echo $this->console_log($sourceItem->getQuantity());
+                    echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
                 }
             }
