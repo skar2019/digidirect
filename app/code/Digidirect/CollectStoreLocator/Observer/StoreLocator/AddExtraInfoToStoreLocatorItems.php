@@ -107,7 +107,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $sydnQty = $sydnQty * $sourceItem->getQuantity();
                     }
                     
-                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN' && $sydnQty > 0) {
+                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN' && $sydnQty > 1) {
                         $items[$key]['available'] = true;
                     } else {
                         $items[$key]['available'] = false;
