@@ -7,6 +7,7 @@ use Magento\Checkout\Model\Session;
 use Digidirect\CollectAbstractEntity\Helper\Places;
 use Digidirect\Collect\Helper\Data;
 use Digidirect\Collect\Api\CollectPlaceRepositoryInterface;
+use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 
 /**
  * Class AddExtraInfoToStoreLocatorItems
@@ -38,11 +39,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
     public function __construct(
         Session $checkoutSession,
         Places $placesHelper,
-        Data $collectHelper
+        Data $collectHelper,
+        GetSourceItemsBySku $getSourceItemsBySku
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->placesHelper = $placesHelper;
         $this->collectHelper = $collectHelper;
+        $this->getSourceItemsBySku = $getSourceItemsBySku;
     }
 
     /**
@@ -67,9 +70,30 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
+        
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+        $items = $cart->getQuote()->getAllItems();
 
         foreach ($items as $key => $storeData) {
+            
             $id = $storeData['entity_id'];
+            $qty = 0;
+            foreach ($items as $item) {
+            
+                $prodId = $item->getProductId();
+                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+
+                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+                foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                    echo $this->console_log($sourceItem->getQuantity());
+                    //$qty .= $sourceItem->getQuantity();
+                }
+            }
+            
+            
             if (empty($places[$id])) {
                 continue;
             }
