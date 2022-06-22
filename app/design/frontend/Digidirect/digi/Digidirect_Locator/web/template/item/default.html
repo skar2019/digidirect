@@ -1,14 +1,64 @@
-<ul>
-    <li>
-        <a class="tablinks" href="#tabs">Tab A</a>
-    </li>
-    <li>
-        <a class="tablinks" href="#tabs">Tab B</a>
-    </li>
-    <li>
-        <a class="tablinks" href="#tabs">Tab C</a>
-    </li>
-    <li>
-        <a class="tablinks" href="#tabs">Tab D</a>
-    </li>
-</ul>
+<div class="locator-item item" id="" data-bind="css: { 'store-wrapper column': $parents[2].locations.settings().open_in_popup }">
+    <!-- ko if: $data.image -->
+    <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" />
+    <!-- /ko -->
+    <!-- ko ifnot: $data.image -->
+    <!-- ko if: $parents[2].locations.settings().default_image -->
+    <img class="image  _hide-for-mobile" data-bind="attr: {src: $parents[2].locations.settings().default_image, alt: name}" />
+    <!-- /ko -->
+    <!-- /ko -->
+    <div class="details">
+        <span class="name"><!-- ko text: name --><!-- /ko --></span>
+        <span class="icon">
+            <i class="fa fa-building" aria-hidden="true" style="color: gray !important;"></i>
+            <!-- old <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-building"></use>
+            </svg> -->
+        </span>
+        <address class="address">
+            <!-- ko text: street --><!-- /ko -->
+            <!-- ko text: city --><!-- /ko -->
+            <!-- ko text: state --><!-- /ko -->
+            <!-- ko text: postcode --><!-- /ko -->
+        </address>
+
+        <div class="item -phone">
+            <!-- ko number: phone -->
+            <!-- /ko -->
+        </div>
+
+        <a class="link" id="testing" data-bind="attr: {href: url_key, title: $t('Store Details')}, text: $t('Store Details'), click: function() { return true;}, clickBubble: false"></a>
+        <!-- <a class="link" data-bind="attr: {href: url_key+'#directions', title: $t('Directions')}, text: $t('Directions'), click: function() { return true;}, clickBubble: false""></a> -->
+
+        <!-- <span class="pin">
+            <svg xmlns="http://www.w3.org/2000/svg" class="svg-icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-pin"></use>
+            </svg>
+        </span> -->
+    </div>
+    <!-- ko foreach: $parent.getRegion('itemEnd') -->
+    <!-- ko template: getTemplate() -->
+    <!-- /ko -->
+    <!-- /ko -->
+</div>
+
+
+<script>
+    require([
+            'jquery',
+        ],
+        function($) {
+            var testingID = 0;
+
+            $(".link").each(function() {
+                testingID++;
+                var testingnewID = "testing " + testingID;
+                // var newID='store'+i;
+                // $(this).attr('id',newID);
+                $(this).attr("id", testingnewID);
+                // $(this).val(i);
+
+                // alert(tabnewID);
+            });
+        });
+</script>
