@@ -7,15 +7,27 @@ $isInPopup = $block->getOpenInPopup();
     <div class="grid-row test4">
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left sbanner1'; ?>">
-
-            <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
             
             <?php echo $block->getChildHtml('storelocator.list'); ?>
 
+                    <ul>
+                        <li>
+                            <a class="tablinks" href="#tabs">Tab A</a>
+                        </li>
+                        <li>
+                            <a class="tablinks" href="#tabs">Tab B</a>
+                        </li>
+                        <li>
+                            <a class="tablinks" href="#tabs">Tab C</a>
+                        </li>
+                        <li>
+                            <a class="tablinks" href="#tabs" >Tab D</a>
+                        </li>
+                    </ul>
         </div>
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right sbanner2'; ?>">
-            <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner2.png" alt="store-locatorbanner1">
+            <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
             <p>test</p>
 
                     <div id="tabs" class="tabcontent">
@@ -45,3 +57,37 @@ $isInPopup = $block->getOpenInPopup();
 
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
 
+
+<script>
+    require([
+        'jquery',
+        'jquery/ui'
+    ],
+    function ($, tabs) {
+        var tabID = 0;
+        var tabContentID = 0;
+
+        $(".tablinks").each(function(){
+        tabID++;
+        var tabnewID="#"+"tabs"+tabID;
+        // var newID='store'+i;
+        // $(this).attr('id',newID);
+        $(this).attr("href",tabnewID);
+        // $(this).val(i);
+
+        // alert(tabnewID);
+        });	
+
+        $(".tabcontent").each(function(){
+        tabContentID++;
+        var tabContentnewID='tabs'+tabContentID;
+
+        $(this).attr('id',tabContentnewID);
+
+        // alert(tabContentnewID);
+
+        });
+
+        $("#tabsection").tabs()
+    });
+</script>
