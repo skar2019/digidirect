@@ -2,18 +2,16 @@
 /** @var \Digidirect\Storelocator\Block\Wrapper $block */
 $isInPopup = $block->getOpenInPopup();
 ?>
-<div class="store-locator test3">
+<div class="store-locator test3" id="tabsection">
     <?php echo $block->getChildHtml('storelocator.search'); ?>
-    <div class="grid-row test4" id="tabs">
+    <div class="grid-row test4">
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left sbanner1'; ?>">
-            <?php echo $block->getChildHtml('storelocator.list'); ?>
-        </div>
 
-        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right sbanner1'; ?>">
-            <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
-            <p>test</p>
-                <div id="tabsection">
+            <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
+            
+            <?php echo $block->getChildHtml('storelocator.list'); ?>
+
                     <ul>
                         <li>
                             <a class="tablinks" href="#tabs">Tab A</a>
@@ -28,6 +26,12 @@ $isInPopup = $block->getOpenInPopup();
                             <a class="tablinks" href="#tabs" >Tab D</a>
                         </li>
                     </ul>
+        </div>
+
+        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right sbanner2'; ?>">
+            <!-- <//?php echo $block->getChildHtml('storelocator.list'); ?> -->
+            <p>test</p>
+
                     <div id="tabs" class="tabcontent">
                         Content of A
                     </div>
@@ -40,7 +44,7 @@ $isInPopup = $block->getOpenInPopup();
                     <div id="tabs" class="tabcontent">
                         Content of D
                     </div>
-                </div>
+              
         </div>
 
         <?php if ($isInPopup): ?>
