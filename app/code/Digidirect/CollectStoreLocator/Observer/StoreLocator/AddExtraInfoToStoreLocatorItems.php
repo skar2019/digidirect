@@ -110,15 +110,15 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     
                     if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $sourceItem->getQuantity();
-                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BOND') {
+                    } elseif ($id == 13 && $sourceItem->getSourceCode() == 'BOND') {
                         $bondQty = $bondQty * $sourceItem->getQuantity();
-                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'MELB') {
+                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'MELB') {
                         $melbQty = $melbQty * $sourceItem->getQuantity();
-                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
+                    } elseif ($id == 22 && $sourceItem->getSourceCode() == 'BRIS') {
                         $brisQty = $brisQty * $sourceItem->getQuantity();
-                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'MIRA') {
+                    } elseif ($id == 25 && $sourceItem->getSourceCode() == 'MIRA') {
                         $miraQty = $miraQty * $sourceItem->getQuantity();
-                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'CANN') {
+                    } elseif ($id == 28 && $sourceItem->getSourceCode() == 'CANN') {
                         $cannQty = $cannQty * $sourceItem->getQuantity();
                     }
                 }
