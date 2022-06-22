@@ -89,6 +89,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
             }
             
+            $sydnQty = 1;
+            
             foreach ($cartItems as $cartItem) {
             
                 $prodId = $cartItem->getProductId();
@@ -96,8 +98,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
 
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
                 
-                $sydnQty = 1;
-
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     echo $this->console_log($sourceItem->getQuantity());
                     echo $this->console_log($sourceItem->getSourceCode());
@@ -106,13 +106,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $sourceItem->getQuantity();
                     }
-                    
-                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN' && $sydnQty > 1) {
-                        $items[$key]['available'] = true;
-                    } else {
-                        $items[$key]['available'] = false;
-                    }
                 }
+            }
+                    
+            if ($sydnQty > 1) {
+                $items[$key]['available'] = true;
+            } else {
+                $items[$key]['available'] = false;
             }
         }
         return $items;
