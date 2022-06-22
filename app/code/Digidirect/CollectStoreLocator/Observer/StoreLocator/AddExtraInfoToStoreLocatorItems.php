@@ -73,27 +73,12 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
-        $items = $cart->getQuote()->getAllItems();
+        $cartItems = $cart->getQuote()->getAllItems();
 
         foreach ($items as $key => $storeData) {
             
             $id = $storeData['entity_id'];
             $qty = 0;
-            foreach ($items as $item) {
-            
-                $prodId = $item->getProductId();
-                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
-
-                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
-                foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                    echo $this->console_log($sourceItem->getQuantity());
-                    echo $this->console_log($sourceItem->getSourceCode());
-                    //$qty .= $sourceItem->getQuantity();
-                }
-            }
-            
             
             if (empty($places[$id])) {
                 continue;
@@ -102,6 +87,26 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $place = $places[$id];
             if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
+            }
+            
+            foreach ($cartItems as $cartItem) {
+            
+                $prodId = $cartItem->getProductId();
+                $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
+
+                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+
+                foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                    echo $this->console_log($sourceItem->getQuantity());
+                    echo $this->console_log($sourceItem->getSourceCode());
+                    //$qty .= $sourceItem->getQuantity();
+                    
+                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN' && $sourceItem->getQuantity() > 0) {
+                        $items[$key]['available'] = true;
+                    } else {
+                        $items[$key]['available'] = false;
+                    }
+                }
             }
         }
         return $items;
