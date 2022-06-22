@@ -176,7 +176,8 @@ define([
                 this._calcHeight();
                 
                 $("#mini-cart").bind("DOMSubtreeModified", function() {
-                    alert("tree changed");
+                    //alert("tree changed");
+                    
                 });
             },
 
