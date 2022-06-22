@@ -45,37 +45,3 @@ $isInPopup = $block->getOpenInPopup();
 
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
 
-
-<script>
-    require([
-        'jquery',
-        'jquery/ui'
-    ],
-    function ($, tabs) {
-        var tabID = 0;
-        var tabContentID = 0;
-
-        $(".tablinks").each(function(){
-        tabID++;
-        var tabnewID="#"+"tabs"+tabID;
-        // var newID='store'+i;
-        // $(this).attr('id',newID);
-        $(this).attr("href",tabnewID);
-        // $(this).val(i);
-
-        // alert(tabnewID);
-        });	
-
-        $(".tabcontent").each(function(){
-        tabContentID++;
-        var tabContentnewID='tabs'+tabContentID;
-
-        $(this).attr('id',tabContentnewID);
-
-        // alert(tabContentnewID);
-
-        });
-
-        $("#tabsection").tabs()
-    });
-</script>
