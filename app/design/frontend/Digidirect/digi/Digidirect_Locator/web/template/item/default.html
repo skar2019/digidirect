@@ -27,7 +27,7 @@
             <!-- /ko -->
         </div>
 
-        <a class="link" id="testing" data-bind="attr: {href: url_key, title: $t('Store Details')}, text: $t('Store Details'), click: function() { return true;}, clickBubble: false"></a>
+        <a class="link" data-bind="attr: {href: url_key, title: $t('Store Details')}, text: $t('Store Details'), click: function() { return true;}, clickBubble: false"></a>
         <!-- <a class="link" data-bind="attr: {href: url_key+'#directions', title: $t('Directions')}, text: $t('Directions'), click: function() { return true;}, clickBubble: false""></a> -->
 
         <!-- <span class="pin">
@@ -41,24 +41,3 @@
     <!-- /ko -->
     <!-- /ko -->
 </div>
-
-
-<script>
-    require([
-            'jquery',
-        ],
-        function($) {
-            var testingID = 0;
-
-            $(".link").each(function() {
-                testingID++;
-                var testingnewID = "testing" + testingID;
-                // var newID='store'+i;
-                // $(this).attr('id',newID);
-                $(this).attr("id", testingnewID);
-                // $(this).val(i);
-
-                alert(testingID);
-            });
-        });
-</script>

@@ -36,7 +36,7 @@
         .grid-row {
             display: flex;
             margin-top: 30px;
-            align-items: center;
+            // align-items: center;
             justify-content: start;
         }
 
@@ -46,7 +46,7 @@
         }
 
         .grid-row > .column.-left {
-            flex-basis: 700px;
+            flex-basis: 530px;
         }
 
         .store-view.grid-row > .column.-left {
@@ -65,6 +65,20 @@
         .locator-search {
             margin-bottom: 38px;
             display: none;
+        }
+
+        .store-wrapper {
+            .store-items {
+                display: flex;
+                flex-direction: row;
+            }
+    
+            .store-details {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                margin-left: 15px;
+            }
         }
     }
 }
@@ -121,7 +135,6 @@
 
         margin-left: auto;
         margin-right: auto;
-
 
     }
 }
