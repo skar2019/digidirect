@@ -8,8 +8,6 @@ $isInPopup = $block->getOpenInPopup();
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left sbanner1'; ?>">
         <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
-            
-
 
                     <ul>
                         <li class="store-items">
@@ -40,7 +38,7 @@ $isInPopup = $block->getOpenInPopup();
                         Content of A
                     </div>
                     <div id="tabs" class="tabcontent">
-                        Content of B
+                    <?php echo $block->getChildHtml('storelocator.description'); ?>
                     </div>
                     <div id="tabs" class="tabcontent">
                         Content of C
