@@ -7,27 +7,29 @@ $isInPopup = $block->getOpenInPopup();
     <div class="grid-row test4">
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left sbanner1'; ?>">
-        <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
+            <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
 
-                    <ul>
-                        <li class="store-items">
-                            <img src="https://mcstaging2.digidirect.com.au/media/digidirect/abstractentity/images/s/y/sydney.jpeg" alt="sydney" width="150">
-                            <div class="store-details">
-                                <span class="name">Sydney CBD</span>
-                                <p>Level 1 Shop 1044/500 Oxford Street Bondi Junction New South Wales 2022</p>
-                                <a class="tablinks" href="#tabs">Tab A</a>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="tablinks" href="#tabs">Tab B</a>
-                        </li>
-                        <li>
-                            <a class="tablinks" href="#tabs">Tab C</a>
-                        </li>
-                        <li>
-                            <a class="tablinks" href="#tabs" >Tab D</a>
-                        </li>
-                    </ul>
+            <?php echo $block->getChildHtml('storelocator.list'); ?>
+
+            <ul>
+                <li class="store-items">
+                    <img src="https://mcstaging2.digidirect.com.au/media/digidirect/abstractentity/images/s/y/sydney.jpeg" alt="sydney" width="150">
+                    <div class="store-details">
+                        <span class="name">Sydney CBD</span>
+                        <p>Level 1 Shop 1044/500 Oxford Street Bondi Junction New South Wales 2022</p>
+                        <a class="tablinks" href="#tabs">Tab A</a>
+                    </div>
+                </li>
+                <li>
+                    <a class="tablinks" href="#tabs">Tab B</a>
+                </li>
+                <li>
+                    <a class="tablinks" href="#tabs">Tab C</a>
+                </li>
+                <li>
+                    <a class="tablinks" href="#tabs" >Tab D</a>
+                </li>
+            </ul>
         </div>
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right sbanner2'; ?>">
