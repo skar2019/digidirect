@@ -6,7 +6,7 @@ $isInPopup = $block->getOpenInPopup();
     <?php echo $block->getChildHtml('storelocator.search'); ?>
     <div class="grid-row test4">
 
-        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -left sbanner1'; ?>">
+        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup -left sbanner1' : 'store-wrapper column -left sbanner1'; ?>">
         <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
             
             <?php echo $block->getChildHtml('storelocator.list'); ?>
@@ -31,7 +31,7 @@ $isInPopup = $block->getOpenInPopup();
                     </ul>
         </div>
 
-        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup' : 'store-wrapper column -right sbanner2'; ?>">
+        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup -right sbanner2' : 'store-wrapper column -right sbanner2'; ?>">
         <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner2.png" alt="store-locatorbanner2">
 
             <p>test</p>
