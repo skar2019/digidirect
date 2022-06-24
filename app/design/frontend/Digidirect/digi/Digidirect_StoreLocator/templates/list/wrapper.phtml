@@ -62,9 +62,7 @@ $isInPopup = $block->getOpenInPopup();
         function($, tabs) {
             var tabID = 0;
             var tabContentID = 0;
-            var cityidentifier = $(".cityID").val();
-
-
+         
             $(".tablinks").each(function() {
                 tabID++;
                 var tabnewID = "#" + "tabs" + tabID;
@@ -87,6 +85,18 @@ $isInPopup = $block->getOpenInPopup();
             });
 
             $("#tabsection").tabs()
+
+            //  alert(cityidentifier);
+
+        });
+</script>
+
+<script>
+        require([
+            'jquery'
+        ],
+        function($) {
+            var cityidentifier = $(".cityID").val();
 
              alert(cityidentifier);
 
