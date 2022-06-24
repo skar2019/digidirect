@@ -11,18 +11,6 @@ $isInPopup = $block->getOpenInPopup();
             
             <?php echo $block->getChildHtml('storelocator.list'); ?>
 
-            <li>
-            <a class="tablinks" href="#tabs">Tab A</a>
-            </li>
-            <li>
-            <a class="tablinks" href="#tabs">Tab B</a>
-            </li>
-            <li>
-            <a class="tablinks" href="#tabs">Tab C</a>
-            </li>
-            <li>
-            <a class="tablinks" href="#tabs" >Tab D</a>
-            </li>
         </div>
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup psbanner2' : 'store-wrapper column -right sbanner2'; ?>">
@@ -90,6 +78,6 @@ $isInPopup = $block->getOpenInPopup();
 
             $("#tabsection").tabs()
 
-            alert("test alert");
+            // alert("test alert");
         });
 </script>
