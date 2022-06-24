@@ -1,12 +1,12 @@
 <!-- ko if: locationsList().length -->
-<div class="store-section test-jireh" id="tabsection">
+<div class="store-section test-jireh">
     <div class="count _hide-for-mobile-tablet-l">
         <!-- ko text: locations.items().length -->
         <!-- /ko -->
         <!-- ko i18n: 'Store(s)' -->
         <!-- /ko -->
     </div>
-    <div class="locator-wrapper">
+    <div class="locator-wrapper" id="tabsection">
 
         <ul class="locator-items items content test-locator" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko foreach: $parent.getRegion('locator_items') -->
