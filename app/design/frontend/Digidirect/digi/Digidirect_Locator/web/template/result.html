@@ -1,5 +1,5 @@
 <!-- ko if: locationsList().length -->
-<div class="store-section test-jireh">
+<div class="store-section test-jireh" id="tabsection">
     <div class="count _hide-for-mobile-tablet-l">
         <!-- ko text: locations.items().length -->
         <!-- /ko -->
@@ -13,9 +13,6 @@
             <!-- ko template: {name: getTemplate(), data: item} -->
             <!-- /ko -->
             <!--/ko-->
-            <li>
-                <a class="tablinks" href="#tabs">Tab name</a>
-            </li>
         </ul>
 
     </div>
