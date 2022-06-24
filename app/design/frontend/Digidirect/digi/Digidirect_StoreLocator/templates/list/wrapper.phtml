@@ -62,6 +62,8 @@ $isInPopup = $block->getOpenInPopup();
         function($, tabs) {
             var tabID = 0;
             var tabContentID = 0;
+            var cityidentifier = $(".cityID").val();
+
 
             $(".tablinks").each(function() {
                 tabID++;
@@ -86,6 +88,7 @@ $isInPopup = $block->getOpenInPopup();
 
             $("#tabsection").tabs()
 
-             alert("test alert");
+             alert(cityidentifier);
+
         });
 </script>
