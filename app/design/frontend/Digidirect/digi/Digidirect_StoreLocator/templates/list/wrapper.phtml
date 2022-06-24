@@ -96,9 +96,14 @@ $isInPopup = $block->getOpenInPopup();
             'jquery'
         ],
         function($) {
-            var cityidentifier = $(".cityID").val();
+            // var cityidentifier = $(".cityID").val();
+            var cityidentifier = $('.cityID').attr('value')
 
-             alert(cityidentifier);
+        //    console.log(cityidentifier);
+
+        alert(cityidentifier);
+
+           
 
         });
 </script>
