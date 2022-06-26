@@ -142,7 +142,7 @@
                         </block>
                     </block>
                 </container>
-                <block name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" as="block_rules" class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" after="-"/>
+                <block name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" as="block_rules" class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" after="product.info.main.bottom"/>
             </container>  
             <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info.main.bottom"/> 
         </referenceBlock>
