@@ -101,7 +101,7 @@ define([
 
     if( $('.itoris-pm-product-marker').length )
     {
-        $('.itoris-pm-product-marker').insertBefore($('.studio19-wrapper'));
+        $('.itoris-pm-product-marker').insertAfter($('.product-info-main-bottom'));
 
     }
 
