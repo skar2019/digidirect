@@ -26,7 +26,13 @@
 
 <?php if($block->checkRenderLink()): ?>
     <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 10px;">
-        <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" ><span><?php echo $block->getLink() ?></span></a>
+        <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" >
+            <i class="fas fa-tags"></i>
+            <div class="pricematch-caption">
+                <span>FOUND A BETTER PRICE?</span><br>
+                <span>Click here and watch us try to beat it.</span>
+            </div>
+        </a>
     </div>
     <div id="itoris-pm-modal" style="display: none; clear: left; margin-bottom: 10px; max-width=600px;">
         <div data-itoris-placeholder="messages"></div>
