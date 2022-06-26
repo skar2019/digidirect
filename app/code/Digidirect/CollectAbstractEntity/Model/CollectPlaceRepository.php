@@ -165,9 +165,19 @@ class CollectPlaceRepository implements CollectPlaceRepositoryInterface
             $this->logger->error(
                 __("Can't get a collection of entities with Attribute Set {$setId}.") . $e->getMessage()
             );
+            echo $this->console_log("Can't get a collection of entities with Attribute Set {$setId}." . $e->getMessage());
             return [];
         }
         return $collection->getItems();
+    }
+    
+    function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+    ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 
     /**

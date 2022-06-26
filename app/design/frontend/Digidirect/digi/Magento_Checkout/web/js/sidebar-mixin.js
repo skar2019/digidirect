@@ -174,6 +174,11 @@ define([
 
                 this._on(this.element, events);
                 this._calcHeight();
+                
+                $("#mini-cart").bind("DOMSubtreeModified", function() {
+                    //alert("tree changed");
+                    
+                });
             },
 
             _updateItemQty: function(elem) {

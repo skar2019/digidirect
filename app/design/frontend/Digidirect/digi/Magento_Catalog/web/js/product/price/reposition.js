@@ -99,10 +99,4 @@ define([
         $('.itoris-pm-modal').modal('toggle');
     });
 
-    if( $('.itoris-pm-product-marker').length )
-    {
-        $('.itoris-pm-product-marker').insertBefore($('.studio19-wrapper'));
-
-    }
-
 });
