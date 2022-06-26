@@ -36,6 +36,13 @@ define([
 
         }
         $('#product-addtocart-button').removeAttr("title");
+        
+        
+        if( $('.itoris-pm-product-marker').length )
+        {
+            $('.itoris-pm-product-marker').insertAfter($('.product-info-main-bottom'));
+        }
+
     });
 
     if( $('#main-product-qantas').length )
@@ -98,11 +105,5 @@ define([
         $('.itoris-pm-modal').addClass('_show');
         $('.itoris-pm-modal').modal('toggle');
     });
-
-    if( $('.itoris-pm-product-marker').length )
-    {
-        $('.itoris-pm-product-marker').insertAfter($('.product-info-main-bottom'));
-
-    }
 
 });
