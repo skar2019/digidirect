@@ -437,9 +437,9 @@
         }
 
         .product-addto-links {
-            width: -webkit-calc(~'50% - 20px');
-            width: calc(~'50% - 20px');
-            display: inline-block;
+            //width: -webkit-calc(~'50% - 20px');
+            //width: calc(~'50% - 20px');
+            //display: inline-block;
             text-align: left;
             margin: 0px !important;
         }
@@ -1032,25 +1032,6 @@
         }
     }
 
-    //clint itoris
-    .catalog-product-view .modal-popup.itoris-pm-modal {
-        .modal-header {
-            display: block !important;
-        }
-
-        .modal-content {
-            padding: 10px;
-        }
-    }
-
-    .modal-popup.itoris-pm-modal .modal-title {
-        text-align: center;
-        color: #323232;
-    }
-
-    .itoris-pm-product-marker {
-        margin-top: 10px;
-    }
     .catalog-product-view .product-info-main .live-chat-additional {
         font-weight: bold;
         .lib-font-size(12);
@@ -1448,11 +1429,11 @@
     .product-addto-links {
         border: 1px solid #e40301;
         padding: 10px 20px;
-        float: left;
+        //float: left;
         border-radius: 5px;
         text-align: center !important;
         height: 15px;
-        width: 170px !important;
+        //width: 170px !important;
     }
 
     a.action.towishlist {
@@ -2038,11 +2019,30 @@
         border-style: solid;
         border-color: transparent transparent #fff transparent;
     }
-
-    //clint pricematch modal
-     .modal-popup.itoris-pm-modal .modal-inner-wrap {
-        padding: 25px;
-        width: 50%;
+    
+    .itoris-pm-product-marker {
+        margin-top: 15px;
+        border: 1px solid #004F67;
+        border-radius: 5px !important;
+        padding: 7px 20px;
+        text-align: center;
+        background: #004f67;
+        display: none;
+    }
+    
+    .itoris-pm-product-marker a {
+        color: #fff !important;
+        text-decoration: none !important;
+        display: grid;
+        font-size: 12px;
+    }
+    
+    .itoris-pm-product-marker i {
+        font-weight: 600;
+        font-size: 60px;
+        margin-left: -12px;
+        position: absolute;
+        clip-path: polygon(4000% 70%, 0% 70%, 0% 50%, 0% 0%);
     }
 }
 
@@ -2413,9 +2413,9 @@
 
     .product-info-main .most-bottom-product-info {
         margin-top: 0 !important;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-column-gap: 10px;
+        //display: grid;
+        //grid-template-columns: repeat(2, 1fr);
+        //grid-column-gap: 10px;
     }
 
     .product-info-main .product-addto-links {
@@ -2928,7 +2928,7 @@
     }
 
     .product-info-main .product-addto-links {
-        width: 39% !important;
+        //width: 39% !important;
     }
 
     .catalog-product-view .product-info-main .live-chat-additional {
@@ -3020,7 +3020,7 @@
     .product-info-main .product-addto-links {
         border: 1px solid #e40301;
         padding: 8px 15px;
-        float: left;
+        //float: left;
         border-radius: 5px;
         text-align: center !important;
         height: 15px;
@@ -3269,13 +3269,10 @@
         width: 100% !important;
     }
     
-    //clint pricematch modal
-    .modal-popup.itoris-pm-modal .modal-inner-wrap {
-        padding: 20px;
-        width: 90% !important;
-        top: 60% !important;
+    .pricematch-caption {
+        margin-left: 80px;
     }
-
+    
 } //end mobile
 
 //

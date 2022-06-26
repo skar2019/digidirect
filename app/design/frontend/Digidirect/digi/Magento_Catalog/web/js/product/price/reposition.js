@@ -36,18 +36,24 @@ define([
 
         }
         $('#product-addtocart-button').removeAttr("title");
-    });
+        
+        
+        if( $('.itoris-pm-product-marker').length )
+        {
+            $('.itoris-pm-product-marker').insertAfter($('.product-info-main-bottom'));
+            $(".itoris-pm-product-marker").attr("style", "display: block");
+        }
 
+    });
 
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
-        if($('.digiprotect-info-logo').length) {
-            $('#main-product-qantas').insertAfter($('.box-tocart'));
+        if($('.product-options-wrapper').length) {
+            $('#main-product-qantas').insertAfter($('.product-options-wrapper'));
         }
         else {
-            $('#main-product-qantas').insertAfter($('.box-tocart'));
-            $('.product-options-wrapper').attr("style", "display: none !important;");
+            $('#main-product-qantas').insertBefore($('.box-tocart'));
         }
     }
 
@@ -86,24 +92,19 @@ define([
         }
 
         //if (win.width() <= 768) {
-            //$('.testfreaks-badge').insertAfter($('.page-title'));
-            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+        //$('.testfreaks-badge').insertAfter($('.page-title'));
+        //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         //} else {
-            //$('.testfreaks-badge').insertAfter($('.page-title'));
-            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+        //$('.testfreaks-badge').insertAfter($('.page-title'));
+        //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         //}
     });
 
     $('#live-chat-additional-link-id').on('click', function(){
         // $('[data-garden-id="buttons.icon_button"]').trigger("click");
-        //console.log("Changed To Trigger Click!");
+        console.log("Changed To Trigger Click!");
+        $('.itoris-pm-modal').addClass('_show');
         $('.itoris-pm-modal').modal('toggle');
     });
 
-    if( $('.itoris-pm-product-marker').length )
-    {
-        $('.itoris-pm-product-marker').insertBefore($('.studio19-wrapper'));
-
-    }
-    //redeploy
 });

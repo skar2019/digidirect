@@ -26,7 +26,13 @@
 
 <?php if($block->checkRenderLink()): ?>
     <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 10px;">
-        <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" ><span><?php echo $block->getLink() ?></span></a>
+        <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" >
+            <i class="fas fa-tags"></i>
+            <div class="pricematch-caption">
+                <span>FOUND A BETTER PRICE?</span><br>
+                <span>Click here and watch us try to beat it.</span>
+            </div>
+        </a>
     </div>
     <div id="itoris-pm-modal" style="display: none; clear: left; margin-bottom: 10px; max-width=600px;">
         <div data-itoris-placeholder="messages"></div>
@@ -53,7 +59,7 @@
                 <input style="display: none;" id="itoris_pm_modal_product_id" />
                 <div class="itoris-pm-field">
                     <label class="label" for="itoris_pm_modal_product_name">
-                        <span><?php echo __('Price to Match request for product') ?></span>
+                        <span><?php echo __('Price Match request for product') ?></span>
                     </label>
                     <div class="control">
                         <div  style="height:30px;line-height: 30px;"><span id="itoris_pm_modal_product_name"><?php echo $block->getProductName(); ?></span></div>
@@ -69,7 +75,7 @@
                 </div>
                 <div class="itoris-pm-field">
                     <label class="label" for="itoris_pm_modal_match_price">
-                        <span><?php echo __('Price to match (AUD)') ?><span style="color: #e02b27">*</span></span>
+                        <span><?php echo __('Matching Price') ?><span style="color: #e02b27">*</span></span>
                     </label>
                     <div class="control">
                         <div  style="display: -webkit-flex;display: flex;-webkit-flex-direction: row;flex-direction: row;">
@@ -82,7 +88,7 @@
                 </div>
                 <div class="itoris-pm-field">
                     <label class="label" for="itoris_pm_modal_match_url">
-                        <span><?php echo __('Link to source') ?><span style="color: #e02b27">*</span></span>
+                        <span><?php echo __('Matching URL') ?><span style="color: #e02b27">*</span></span>
                     </label>
                     <div class="control">
                         <input type="text" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_match_url" id="itoris_pm_modal_match_url">
