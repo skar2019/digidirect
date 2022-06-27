@@ -10,34 +10,12 @@ $isInPopup = $block->getOpenInPopup();
         <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
             
             <?php echo $block->getChildHtml('storelocator.list'); ?>
-            <li>
-                <a class="tablinks" href="#tabs">Tab test</a>
-            </li>
-            <li>
-                <a class="tablinks" href="#tabs">Tab test</a>
-            </li>
-            <li>
-                <a class="tablinks" href="#tabs">Tab test</a>
-            </li>
         </div>
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup psbanner2' : 'store-wrapper column -right sbanner2'; ?>">
         <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner2.png" alt="store-locatorbanner2">
 
             <p>test</p>
-
-                    <div id="tabs" class="tabcontent">
-                        Content of A
-                    </div>
-                    <div id="tabs" class="tabcontent">
-                        Content of B
-                    </div>
-                    <div id="tabs" class="tabcontent">
-                        Content of C
-                    </div>
-                    <div id="tabs" class="tabcontent">
-                        Content of D
-                    </div>
               
         </div>
 
@@ -52,57 +30,3 @@ $isInPopup = $block->getOpenInPopup();
 </div>
 
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
-
-
-<script>
-    require([
-            'jquery',
-            'jquery/ui'
-        ],
-        function($, tabs) {
-            var tabID = 0;
-            var tabContentID = 0;
-         
-            $(".tablinks").each(function() {
-                tabID++;
-                var tabnewID = "#" + "tabs" + tabID;
-                // var newID='store'+i;
-                // $(this).attr('id',newID);
-                $(this).attr("href", tabnewID);
-                // $(this).val(i);
-
-                // alert(tabnewID);
-            });
-
-            $(".tabcontent").each(function() {
-                tabContentID++;
-                var tabContentnewID = 'tabs' + tabContentID;
-
-                $(this).attr('id', tabContentnewID);
-
-                // alert(tabContentnewID);
-
-            });
-
-            $("#tabsection").tabs()
-
-            //  alert(cityidentifier);
-
-        });
-</script>
-
-<script>
-        require([
-            'jquery',
-            'domReady!'
-        ],
-        function($) {
-            
-            $(document).ready(function(){
-            alert($("#cityID").val());
-            });
-
-           
-
-        });
-</script>
