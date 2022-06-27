@@ -7,7 +7,7 @@
         <!-- /ko -->
     </div>
     <div class="locator-wrapper" id="tabsection">
-        
+
         <div class="locator-items items content test-locator store_tab" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko foreach: $parent.getRegion('locator_items') -->
             <!-- ko template: {name: getTemplate(), data: item} -->
@@ -33,3 +33,27 @@
 <!-- ko template: getTemplate() -->
 <!-- /ko -->
 <!--/ko-->
+
+
+<script type="text/javascript">
+    var viewModelStore2 = function() {
+        this.radioSelectedOptionValue = ko.observable();
+        this.Sydney = ko.computed({
+            read: function() {
+                return this.radioSelectedOptionValue() == "Sydney";
+            },
+            write: function(value) {
+                if (value) this.radioSelectedOptionValue("Sydney");
+            }
+        }, this);
+        this.Brisbane = ko.computed({
+            read: function() {
+                return this.radioSelectedOptionValue() == "Brisbane";
+            },
+            write: function(value) {
+                if (value) this.radioSelectedOptionValue("Brisbane");
+            }
+        }, this);
+    };
+    ko.applyBindings(new viewModelStore2());
+</script>
