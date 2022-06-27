@@ -24,6 +24,8 @@
  */
 
 namespace Itoris\PriceMatch\Setup;
+use Magento\Framework\Setup\UpgradeSchemaInterface;
+use Magento\Framework\DB\Ddl\Table;
 
 class UpgradeSchema implements \Magento\Framework\Setup\UpgradeSchemaInterface
 {
