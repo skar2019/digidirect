@@ -34,7 +34,7 @@
         }
 
         .grid-row {
-            display: flex;
+            /*display: flex;*/
             margin-top: 30px;
             // align-items: center;
             justify-content: start;
@@ -81,24 +81,65 @@
             }
         }
 
-        #Sydney:checked ~ #content1
-        {
+        .Sydney:checked ~ .scontent-Sydney {
             display: block;
         }
 
-        #Brisbane:checked ~ #content2
-        {
+        .Brisbane:checked ~ .scontent-Brisbane{
             display: block;
         }
 
-        #content1
-        {
+        .Bondi.Junction:checked ~ .scontent-Bondi.Junction{
+            display: block;
+        }
+
+        .Melbourne:checked ~ .scontent-Melbourne{
+            display: block;
+        }
+
+        .Miranda:checked ~ .scontent-Miranda{
+            display: block;
+        }
+
+        .Cannington:checked ~ .scontent-Cannington{
+            display: block;
+        }
+
+        .scontent-Sydney {
             display:none;
         }
 
-        #content2
-        {
+        .scontent-Brisbane{
             display:none;
+        }
+
+        .scontent-Bondi.Junction{
+            display:none;
+        }
+
+        .scontent-Melbourne{
+            display:none;
+        }
+
+        .scontent-Miranda{
+            display:none;
+        }
+
+        .scontent-Cannington{
+            display:none;
+        }
+        
+        .parent-storelist {
+            display: grid;
+            grid-gap: 0.5rem;
+            grid-template-columns: 1fr 2fr;
+            grid-auto-flow: dense;
+            padding: 0.5rem;
+        }
+        
+        input[type="radio"] {
+            display: none;
+            /*display: block;*/
         }
     }
 }
