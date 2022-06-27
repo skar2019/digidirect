@@ -30,3 +30,28 @@ $isInPopup = $block->getOpenInPopup();
 </div>
 
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
+
+
+
+<script type="text/javascript">
+    var viewModelStore2 = function() {
+        this.radioSelectedOptionValue = ko.observable();
+        this.Sydney = ko.computed({
+            read: function() {
+                return this.radioSelectedOptionValue() == "Sydney";
+            },
+            write: function(value) {
+                if (value) this.radioSelectedOptionValue("Sydney");
+            }
+        }, this);
+        this.Brisbane = ko.computed({
+            read: function() {
+                return this.radioSelectedOptionValue() == "Brisbane";
+            },
+            write: function(value) {
+                if (value) this.radioSelectedOptionValue("Brisbane");
+            }
+        }, this);
+    };
+    ko.applyBindings(new viewModelStore2());
+</script>
