@@ -33,7 +33,6 @@ class UpgradeSchema implements \Magento\Framework\Setup\UpgradeSchemaInterface
         \Magento\Framework\Setup\ModuleContextInterface $context
     ) {
         $setup->startSetup();
-        
         $connection = $setup->getConnection();
         $connection->addColumn(
             $setup->getTable('itoris_pricematch_data'),
