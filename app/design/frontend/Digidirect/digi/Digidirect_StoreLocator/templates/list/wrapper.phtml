@@ -12,12 +12,6 @@ $isInPopup = $block->getOpenInPopup();
             <?php echo $block->getChildHtml('storelocator.list'); ?>
         </div>
 
-        <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup psbanner2' : 'store-wrapper column -right sbanner2'; ?>">
-        <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner2.png" alt="store-locatorbanner2">
-
-            
-              
-        </div>
 
         <?php if ($isInPopup): ?>
             <?php echo $block->getChildHtml('storelocator.popup'); ?>
