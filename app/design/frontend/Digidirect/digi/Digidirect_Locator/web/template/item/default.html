@@ -1,6 +1,6 @@
 <div class="locator-item item" id="" data-bind="css: { 'store-wrapper column': $parents[2].locations.settings().open_in_popup }">
     <input class="cityID" id="cityID" type="text" data-bind="value:city">
-    <input type="radio" name="tab-group-1" data-bind="value:city, attr: {id:city}">
+    <input type="radio" data-bind="value:city, name:city, checked:city, attr: {id:city}">
     <label data-bind="text: city"></label>
     <!-- ko if: $data.image -->
     <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" />
