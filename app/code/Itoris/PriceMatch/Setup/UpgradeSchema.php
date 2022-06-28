@@ -34,6 +34,11 @@ class UpgradeSchema implements \Magento\Framework\Setup\UpgradeSchemaInterface
     ) {
         $setup->startSetup();
         
+        $setup->run("
+            ALTER TABLE `{$setup->getTable('itoris_pricematch_data')}`
+                ADD COLUMN contact_number VARCHAR(255) AFTER email"
+        );
+        
         if (version_compare($context->getVersion(), '1.0.4') < 0) {
             $setup->run("
                 ALTER TABLE `{$setup->getTable('itoris_pricematch_data')}`
