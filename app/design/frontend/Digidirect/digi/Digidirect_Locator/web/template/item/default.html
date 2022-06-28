@@ -45,10 +45,10 @@
 </div>
 
 <div data-bind=" attr: {id:'scontent' + city, class: 'scontent-' + city + ' ' + 'sdetails'}">
-    <!-- ko text: city --><!-- /ko -->
+    <h1 class="name-city"><!-- ko text: city --><!-- /ko --><h1>
     
     <!-- ko if: $data.image -->
-    <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" />
+    <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" width="200"/>
     <!-- /ko -->
     <!-- ko ifnot: $data.image -->
     <!-- ko if: $parents[2].locations.settings().default_image -->
