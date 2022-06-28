@@ -31,9 +31,9 @@ $isInPopup = $block->getOpenInPopup();
             // $("input .Syndey").prop("checked", true);
             // console.log("default city");
 
-            var $citydefault = $('input:radio[name=storelist]');
+            var $citydefault = $('input:radio[name="storelist"]');
                 if($citydefault.is(':checked') === false) {
-                $citydefault.filter('[value=Sydney]').prop('checked', true);
+                $citydefault.filter('[value="Sydney"]').prop('checked', true);
             }
 
              alert(citydefault);
