@@ -24,3 +24,12 @@ $isInPopup = $block->getOpenInPopup();
 </div>
 
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
+
+<script>
+    require(['jquery'],
+        function ($) {
+            $("input .Syndey").prop("checked", true);
+            console.log("default city");
+        }
+    );
+</script>
