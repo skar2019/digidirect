@@ -32,8 +32,8 @@ $isInPopup = $block->getOpenInPopup();
             // console.log("default city");
 
             var $citydefault = $('input:radio[name=storelist]');
-                if($radios.is(':checked') === false) {
-                $radios.filter('[value=Sydney]').prop('checked', true);
+                if($citydefault.is(':checked') === false) {
+                $citydefault.filter('[value=Sydney]').prop('checked', true);
             }
         }
     );
