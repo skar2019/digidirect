@@ -25,3 +25,20 @@ $isInPopup = $block->getOpenInPopup();
 
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
 
+<script>
+    require(['jquery'],
+        function ($) {
+            // $("input .Syndey").prop("checked", true);
+            // console.log("default city");
+
+            var $citydefault = $('input:radio[name=storelist]');
+                if($citydefault.is(':checked') === false) {
+                $citydefault.filter('[value=Sydney]').prop('checked', true);
+            }
+
+             alert("test city default");
+            
+//            document.querySelector('input[name=storelist][value=Sydney]').checked = true;
+        }
+    );
+</script>
