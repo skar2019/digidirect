@@ -44,5 +44,20 @@
     <!-- /ko -->
 </div>
 
-<span data-bind=" attr: {id:'scontent' + city, class: 'scontent-' + city}"><!-- ko text: city --><!-- /ko --></span>
+<div data-bind=" attr: {id:'scontent' + city, class: 'scontent-' + city}">
+    <!-- ko text: city --><!-- /ko -->
+    
+    <!-- ko if: $data.image -->
+    <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" />
+    <!-- /ko -->
+    <!-- ko ifnot: $data.image -->
+    <!-- ko if: $parents[2].locations.settings().default_image -->
+    <img class="image  _hide-for-mobile" data-bind="attr: {src: $parents[2].locations.settings().default_image, alt: name}" />
+    <!-- /ko -->
+    <!-- /ko -->
+    
+    <div class="open-hours collapsible-table" data-bind="mageInit:{'Digidirect_CollectStoreLocator/js/collapsible-table':{}}, html: opening_hours"></div>
+    
+    <div class="desc" data-bind=" html: description"></div>
+</div>
 </label>
