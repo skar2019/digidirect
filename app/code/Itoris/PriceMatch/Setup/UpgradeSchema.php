@@ -32,6 +32,7 @@ class UpgradeSchema implements \Magento\Framework\Setup\UpgradeSchemaInterface
         \Magento\Framework\Setup\SchemaSetupInterface $setup,
         \Magento\Framework\Setup\ModuleContextInterface $context
     ) {
+        
         $setup->startSetup();
          
         if (version_compare($context->getVersion(), '1.0.4') < 0) {
