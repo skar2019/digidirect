@@ -28,8 +28,17 @@ $isInPopup = $block->getOpenInPopup();
 <script>
     require(['jquery'],
         function ($) {
-            $("input .Syndey").prop("checked", true);
-            console.log("default city");
+            // $("input .Syndey").prop("checked", true);
+            // console.log("default city");
+
+            var $citydefault = $('input:radio[name=storelist]');
+                if($citydefault.is(':checked') === false) {
+                $citydefault.filter('[value=Sydney]').prop('checked', true);
+            }
+
+            // alert(citydefault);
+            
+            document.querySelector('input[name=storelist][value=Sydney]').checked = true;
         }
     );
 </script>
