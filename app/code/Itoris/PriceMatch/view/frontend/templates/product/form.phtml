@@ -33,126 +33,126 @@
         </a>
     </div>
     
-        <div id="itoris-pm-modal" style="display: none; clear: left; margin-bottom: 10px; max-width=600px;">
-            <div data-itoris-placeholder="messages" style="display: none;"></div>
-                <div class="itoris-custom-main-grid">
-                    <div class="itoris-custom-image">
-                        <img src="<?php echo $block->getUrl("media/wysiwyg")?>best-offer.png"/>
+    <div id="itoris-pm-modal" style="display: none; clear: left; margin-bottom: 10px; max-width=600px;">
+        <div data-itoris-placeholder="messages" style="display: none;"></div>
+            <div class="itoris-custom-main-grid">
+                <div class="itoris-custom-image">
+                    <img src="<?php echo $block->getUrl("media/wysiwyg")?>best-offer.png"/>
+                </div>
+                <fieldset class="fieldset create info">
+                    <div class="itoris-pm-admin-comment">
+                        <span><h1>We don't like being beaten on price.</h1>
+                            <span>Please fill in details below and we will respond shortly.</span>
+                        </span>
                     </div>
-                    <fieldset class="fieldset create info">
-                        <div class="itoris-pm-admin-comment">
-                            <span><h1>We don't like being beaten on price.</h1>
-                                <span>Please fill in details below and we will respond shortly.</span>
-                            </span>
+                    <div class="itoris-pm-field required" style="display: none;">
+                        <label class="label" for="itoris_pm_modal_name">
+                            <span><?php echo __('Your Name') ?><span id="itoris_pm_modal_name_requred" style="color: #e02b27">*</span></span>
+                        </label>
+                        <div class="control">
+                            <input type="text" form="itoris-pm-modal-form" class="field required-entry" name="itoris_pm_modal_name" id="itoris_pm_modal_name" style="display: none;"/>
+                            <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_name_static"></span></div>
                         </div>
-                        <div class="itoris-pm-field required" style="display: none;">
-                            <label class="label" for="itoris_pm_modal_name">
-                                <span><?php echo __('Your Name') ?><span id="itoris_pm_modal_name_requred" style="color: #e02b27">*</span></span>
+                    </div>
+                    <div class="itoris-custom-grid">
+                        <div class="itoris-pm-field required">
+                            <label class="label" for="itoris_pm_modal_fname" style="display: none;">
+                                <span><?php echo __('First Name') ?></span>
                             </label>
                             <div class="control">
-                                <input type="text" form="itoris-pm-modal-form" class="field required-entry" name="itoris_pm_modal_name" id="itoris_pm_modal_name" style="display: none;"/>
-                                <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_name_static"></span></div>
+                                <input type="text" placeholder="First Name" form="itoris-pm-modal-form" class="field required-entry" name="itoris_pm_modal_fname" id="itoris_pm_modal_fname" style="display: none;"/>
+                                <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_fname_static"></span></div>
                             </div>
                         </div>
-                        <div class="itoris-custom-grid">
-                            <div class="itoris-pm-field required">
-                                <label class="label" for="itoris_pm_modal_fname" style="display: none;">
-                                    <span><?php echo __('First Name') ?></span>
-                                </label>
-                                <div class="control">
-                                    <input type="text" placeholder="First Name" form="itoris-pm-modal-form" class="field required-entry" name="itoris_pm_modal_fname" id="itoris_pm_modal_fname" style="display: none;"/>
-                                    <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_fname_static"></span></div>
-                                </div>
-                            </div>
-                            <div class="itoris-pm-field required">
-                                <label class="label" for="itoris_pm_modal_lname" style="display: none;">
-                                    <span><?php echo __('Last Name') ?></span>
-                                </label>
-                                <div class="control">
-                                    <input type="text" placeholder="Last Name" form="itoris-pm-modal-form" class="field required-entry" name="itoris_pm_modal_lname" id="itoris_pm_modal_lname" style="display: none;"/>
-                                    <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_lname_static"></span></div>
-                                </div>
+                        <div class="itoris-pm-field required">
+                            <label class="label" for="itoris_pm_modal_lname" style="display: none;">
+                                <span><?php echo __('Last Name') ?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" placeholder="Last Name" form="itoris-pm-modal-form" class="field required-entry" name="itoris_pm_modal_lname" id="itoris_pm_modal_lname" style="display: none;"/>
+                                <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_lname_static"></span></div>
                             </div>
                         </div>
-                        <div class="itoris-custom-grid">
-                            <div class="itoris-pm-field">
-                                <label class="label" for="itoris_pm_modal_contact" style="display: none;">
-                                    <span><?php echo __('Contact Number') ?></span>
-                                </label>
-                                <div class="control">
-                                    <input type="text" placeholder="Contact Number" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_contact" id="itoris_pm_modal_contact" style="display: none;"/>
-                                    <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_contact_static"></span></div>
-                                </div>
-                            </div>
-                            <div class="itoris-pm-field">
-                                <label class="label" for="itoris_pm_modal_email" style="display: none;">
-                                    <span><?php echo __('Your Email') ?></span>
-                                </label>
-                                <div class="control">
-                                    <input type="text" placeholder="Email Address" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_email" id="itoris_pm_modal_email" style="display: none;"/>
-                                    <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_email_static"></span></div>
-                                </div>
+                    </div>
+                    <div class="itoris-custom-grid">
+                        <div class="itoris-pm-field">
+                            <label class="label" for="itoris_pm_modal_contact" style="display: none;">
+                                <span><?php echo __('Contact Number') ?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" placeholder="Contact Number" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_contact" id="itoris_pm_modal_contact" style="display: none;"/>
+                                <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_contact_static"></span></div>
                             </div>
                         </div>
-                        
-                        <input style="display: none;" id="itoris_pm_modal_product_id" />
-                        <div class="itoris-custom-request">
-                            <div class="itoris-pm-field">
-                                <label class="label" for="itoris_pm_modal_product_name">
-                                    <span><?php echo __('PRICE MATCH REQUEST FOR:') ?></span>
-                                </label>
-                                <div class="control">
-                                    <div  style="height:30px;line-height: 30px;"><span id="itoris_pm_modal_product_name"><?php echo $block->getProductName(); ?></span></div>
-                                </div>
-                            </div>
-                            <div class="itoris-pm-field">
-                                <label class="label" for="itoris_pm_modal_final_price">
-                                    <span style="color: #ff3c00; font-weight: 600;">digi</span>
-                                    <span style="font-weight: 600;margin-left: -2px;">Direct</span>
-                                    <span style="font-weight: 400;">Price</span>
-                                </label>
-                                <div class="control">
-                                    <div style="height:30px;line-height: 30px;"><span id="itoris_pm_modal_final_price"></span></div>
-                                </div>
+                        <div class="itoris-pm-field">
+                            <label class="label" for="itoris_pm_modal_email" style="display: none;">
+                                <span><?php echo __('Your Email') ?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" placeholder="Email Address" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_email" id="itoris_pm_modal_email" style="display: none;"/>
+                                <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_email_static"></span></div>
                             </div>
                         </div>
-                        
-                        <div class="itoris-custom-grid">
-                            <div class="itoris-pm-field">
-                                <label class="label" for="itoris_pm_modal_match_price" style="display: none;">
-                                    <span><?php echo __('Matching Price') ?></span>
-                                </label>
-                                <div class="control">
-                                    <div  style="display: -webkit-flex;display: flex;-webkit-flex-direction: row;flex-direction: row;">
-                                        <span style="text-align: center; line-height: 32px; display: none;" id="itoris-pm-currency"></span>
-                                        <div style="-webkit-flex: auto;flex: auto;">
-                                            <input type="text" placeholder="Price to match (AUD):" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_match_price" id="itoris_pm_modal_match_price" data-itoris-current-price="">
-                                        </div>
+                    </div>
+
+                    <input style="display: none;" id="itoris_pm_modal_product_id" />
+                    <div class="itoris-custom-request">
+                        <div class="itoris-pm-field">
+                            <label class="label" for="itoris_pm_modal_product_name">
+                                <span><?php echo __('PRICE MATCH REQUEST FOR:') ?></span>
+                            </label>
+                            <div class="control">
+                                <div  style="height:30px;line-height: 30px;"><span id="itoris_pm_modal_product_name"><?php echo $block->getProductName(); ?></span></div>
+                            </div>
+                        </div>
+                        <div class="itoris-pm-field">
+                            <label class="label" for="itoris_pm_modal_final_price">
+                                <span style="color: #ff3c00; font-weight: 600;">digi</span>
+                                <span style="font-weight: 600;margin-left: -2px;">Direct</span>
+                                <span style="font-weight: 400;">Price</span>
+                            </label>
+                            <div class="control">
+                                <div style="height:30px;line-height: 30px;"><span id="itoris_pm_modal_final_price"></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="itoris-custom-grid">
+                        <div class="itoris-pm-field">
+                            <label class="label" for="itoris_pm_modal_match_price" style="display: none;">
+                                <span><?php echo __('Matching Price') ?></span>
+                            </label>
+                            <div class="control">
+                                <div  style="display: -webkit-flex;display: flex;-webkit-flex-direction: row;flex-direction: row;">
+                                    <span style="text-align: center; line-height: 32px; display: none;" id="itoris-pm-currency"></span>
+                                    <div style="-webkit-flex: auto;flex: auto;">
+                                        <input type="text" placeholder="Price to match (AUD):" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_match_price" id="itoris_pm_modal_match_price" data-itoris-current-price="">
                                     </div>
                                 </div>
                             </div>
-                            <div class="itoris-pm-field">
-                                <label class="label" for="itoris_pm_modal_match_url" style="display: none;">
-                                    <span><?php echo __('Matching URL') ?></span>
-                                </label>
-                                <div class="control">
-                                    <input type="text" placeholder="Link to source:" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_match_url" id="itoris_pm_modal_match_url">
-                                </div>
-                            </div>
                         </div>
-
-                        <div class="itoris-pm-field" style="margin: 0 0 0;">
-                            <label class="label" for="itoris_pm_modal_comment" style="display: none;">
-                                <span><?php echo __('Comment') ?></span>
+                        <div class="itoris-pm-field">
+                            <label class="label" for="itoris_pm_modal_match_url" style="display: none;">
+                                <span><?php echo __('Matching URL') ?></span>
                             </label>
                             <div class="control">
-                                <textarea placeholder="Your Comment" class="field" form="itoris-pm-modal-form" name="itoris_pm_modal_comment" id="itoris_pm_modal_comment"></textarea>
+                                <input type="text" placeholder="Link to source:" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_match_url" id="itoris_pm_modal_match_url">
                             </div>
                         </div>
-                    </fieldset>
-                </div>
-                <div id="itoris-pm-error-message"></div>
-        </div>
+                    </div>
+
+                    <div class="itoris-pm-field" style="margin: 0 0 0;">
+                        <label class="label" for="itoris_pm_modal_comment" style="display: none;">
+                            <span><?php echo __('Comment') ?></span>
+                        </label>
+                        <div class="control">
+                            <textarea placeholder="Your Comment" class="field" form="itoris-pm-modal-form" name="itoris_pm_modal_comment" id="itoris_pm_modal_comment"></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div id="itoris-pm-error-message"></div>
+    </div>
     
     
     <?php if ($block->getCurrentProductType() == 'grouped') : ?>

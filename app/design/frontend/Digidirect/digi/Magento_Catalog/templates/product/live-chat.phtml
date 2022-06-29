@@ -3,3 +3,51 @@
         <span id="live-chat-additional-link-id" class="live-chat-additional-link">Pricematch<i class="fas fa-tags" style="margin-left: 5px;"></i></span>
     </div>
 </a>
+
+<?php if ($block->getCurrentProductType() == 'grouped') : ?>
+    <script type="text/x-magento-init">
+            {
+                ".itoris-pm-product-marker": {
+                    "itorispm-grouped":  <?php /* @noEscape */ echo $block->configProduct() ?>
+                }
+            }
+    </script>
+<?php else : ?>
+    <script type="text/x-magento-init">
+            {
+                ".itoris-pm-product-marker": {
+                    "itorispm":  <?php /* @noEscape */ echo $block->configProduct() ?>
+                }
+            }
+    </script>
+<?php endif ?>
+    
+<script>
+    require(['jquery'], function ($) {
+        $('<form class="form create" id="itoris-pm-modal-form"  method="post" data-mage-init=\'{\n' +
+            '\t"validation":{\n' +
+            '\t\t"rules": {\n' +
+            '\t\t\t"itoris_pm_modal_name": {\n' +
+            '\t\t\t\t"required":true\n' +
+            '\t\t\t},\n' +
+            '\t\t\t"itoris_pm_modal_email": {\n' +
+            '\t\t\t\t"required":true,\n' +
+            '\t\t\t\t"validate-email":true\n' +
+            '\t\t\t},\n' +
+            '\t\t\t"itoris_pm_modal_match_url": {\n' +
+            '\t\t\t    "required":true,\n' +
+            '\t\t\t\t"validate-url":true\n' +
+            '\t\t\t},\n' +
+            '\t\t\t"itoris_pm_modal_match_price": {\n' +
+            '\t\t\t\t"required":true,\n' +
+            '\t\t\t\t"validate-number":true,\n' +
+            '\t\t\t\t"validate-itoris-price":true\n' +
+            '\t\t\t},\n' +
+            '\t\t\t"itoris_pm_modal_comment": {\n' +
+            '\t\t\t\t"maxlength":2000\n' +
+            '\t\t\t}\n' +
+            '\t\t}\n' +
+            '\t}\n' +
+            '}\'> </form>').appendTo('body');
+    });
+</script>
