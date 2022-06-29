@@ -48,6 +48,9 @@ define([
 
                 if (!param['name'] && !param['email']) {
                     $("#itoris_pm_modal_name").show();
+                    $("#itoris_pm_modal_fname").show();
+                    $("#itoris_pm_modal_lname").show();
+                    $("#itoris_pm_modal_contact").show();
                     $("#itoris_pm_modal_email").show();
                 }else {
                     mainParam['name'] = param['name'];
@@ -128,11 +131,12 @@ define([
                 if (checkValidName && checkValidEmail && checkValidPrice && checkValidUrl) {
                     var dataPost = {
                         id      : $("#itoris_pm_modal_product_id").val(),
-                        name    : $("#itoris_pm_modal_name").val(),
+                        //name    : $("#itoris_pm_modal_name").val(),
+                        name    : $("#itoris_pm_modal_fname").val() + " " +  $("#itoris_pm_modal_lname").val(),
                         email   : $("#itoris_pm_modal_email").val(),
                         price   : $("#itoris_pm_modal_match_price").val(),
                         url     : $("#itoris_pm_modal_match_url").val(),
-                        comment : $("#itoris_pm_modal_comment").val()
+                        comment : $("#itoris_pm_modal_comment").val() + "#contact_number:" + $("#itoris_pm_modal_contact").val()
                     };
 
                     //$("#itoris-pm-modal").modal('closeModal');
@@ -147,6 +151,9 @@ define([
 
                                 if(!mainParam['name'] && !mainParam['email']){
                                     $("#itoris_pm_modal_name").val('');
+                                    $("#itoris_pm_modal_fname").val('');
+                                    $("#itoris_pm_modal_lname").val('');
+                                    $("#itoris_pm_modal_contact").val('');
                                     $("#itoris_pm_modal_email").val('');
                                 }
                                 $("#itoris_pm_modal_match_price").val('');
