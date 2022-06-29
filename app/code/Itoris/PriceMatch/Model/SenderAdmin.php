@@ -40,7 +40,7 @@ class SenderAdmin extends SenderAbstract
                 'storeview' => $this->storeFactory->create()->load($item['store_id'])->getName(),
                 'customer_name' => $item['name'], //$this->helperData->genEmailAdmin($item['store_id']),
                 'date_time' => $item['date_created'],
-                'contact' => $splitCommentData[0],
+                'contact' => $splitCommentData[1],
                 'email' => $item['customer_email'],
                 'current_price' => $this->formatPrice($item['final_price'], $item['store_id']),
                 'requested_price' => $this->formatPrice($item['match_price'], $item['store_id']),
