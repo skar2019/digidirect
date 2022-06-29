@@ -40,7 +40,7 @@ define([
         
         if( $('.itoris-pm-product-marker').length )
         {
-            $('.itoris-pm-product-marker').insertAfter($('.product-info-main-bottom'));
+            $('.itoris-pm-product-marker').insertAfter($('.box-tocart'));
             $(".itoris-pm-product-marker").attr("style", "display: block");
         }
 
@@ -100,11 +100,12 @@ define([
         //}
     });
 
-    $('#live-chat-additional-link-id').on('click', function(){
+    $('#itoris-pm-link-custom').on('click', function(){
         // $('[data-garden-id="buttons.icon_button"]').trigger("click");
+        //$('.itoris-pm-modal').addClass('_show');
+        //$('.itoris-pm-modal').modal('toggle');
+        $('#itoris-pm-link').trigger("click");
         console.log("Changed To Trigger Click!");
-        $('.itoris-pm-modal').addClass('_show');
-        $('.itoris-pm-modal').modal('toggle');
     });
 
 });
