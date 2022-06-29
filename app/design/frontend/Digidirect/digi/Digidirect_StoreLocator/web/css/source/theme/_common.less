@@ -21,6 +21,101 @@
             font-family: 'Poppins', sans-serif;
         }
     /*}*/
+
+    .store-locator {
+
+        .Sydney:checked ~ .scontent-Sydney {
+            display: block;
+            background: #F5F5F5;
+        }
+
+        .Brisbane:checked ~ .scontent-Brisbane{
+            display: block;
+            background: #F5F5F5;
+        }
+
+        .Bondi.Junction:checked ~ .scontent-Bondi.Junction{
+            display: block;
+            background: #F5F5F5;
+        }
+
+        .Melbourne:checked ~ .scontent-Melbourne{
+            display: block;
+            background: #F5F5F5;
+        }
+
+        .Miranda:checked ~ .scontent-Miranda{
+            display: block;
+            background: #F5F5F5;
+        }
+
+        .Cannington:checked ~ .scontent-Cannington{
+            display: block;
+            background: #F5F5F5;
+        }
+
+        .scontent-Sydney {
+            display:none;
+        }
+
+        .scontent-Brisbane{
+            display:none;
+        }
+
+        .scontent-Bondi.Junction{
+            display:none;
+        }
+
+        .scontent-Melbourne{
+            display:none;
+        }
+
+        .scontent-Miranda{
+            display:none;
+        }
+
+        .scontent-Cannington{
+            display:none;
+        }
+
+        .parent-storelist {
+            display: grid;
+            grid-gap: 0.5rem;
+            grid-template-columns: 1fr 2fr;
+            grid-auto-flow: dense;
+            padding: 0.5rem;
+
+            
+        }
+        
+        input[type="radio"] {
+            display: none;
+            /*display: block;*/
+        }
+
+        input[type="radio"]:checked  ~ .sldetails{
+            background-color: #F5F5F5;
+        }
+
+        .sdetails {
+            position: absolute;
+            top: 0;
+            /*left: 286px;*/
+            /*background: red;*/
+            right: 255px;
+            bottom: 0;
+            padding: 5px;
+            border: 1px solid #ccc;
+            width: 860px;
+            height: 1200px;
+
+            .name-city{
+                color: #e65504 !important;
+                font-weight: 700;
+            }
+        }
+
+    }
 }
 
 //
@@ -80,88 +175,21 @@
                 margin-left: 15px;
             }
         }
-
-        .Sydney:checked ~ .scontent-Sydney {
-            display: block;
-            background: #F5F5F5;
-        }
-
-        .Brisbane:checked ~ .scontent-Brisbane{
-            display: block;
-            background: #F5F5F5;
-        }
-
-        .Bondi.Junction:checked ~ .scontent-Bondi.Junction{
-            display: block;
-            background: #F5F5F5;
-        }
-
-        .Melbourne:checked ~ .scontent-Melbourne{
-            display: block;
-            background: #F5F5F5;
-        }
-
-        .Miranda:checked ~ .scontent-Miranda{
-            display: block;
-            background: #F5F5F5;
-        }
-
-        .Cannington:checked ~ .scontent-Cannington{
-            display: block;
-            background: #F5F5F5;
-        }
-
-        .scontent-Sydney {
-            display:none;
-        }
-
-        .scontent-Brisbane{
-            display:none;
-        }
-
-        .scontent-Bondi.Junction{
-            display:none;
-        }
-
-        .scontent-Melbourne{
-            display:none;
-        }
-
-        .scontent-Miranda{
-            display:none;
-        }
-
-        .scontent-Cannington{
-            display:none;
-        }
         
-        .parent-storelist {
-            display: grid;
-            grid-gap: 0.5rem;
-            grid-template-columns: 1fr 2fr;
-            grid-auto-flow: dense;
-            padding: 0.5rem;
-        }
+
         
-        input[type="radio"] {
-            display: none;
-            /*display: block;*/
-        }
-
-        input[type="radio"]:checked  ~ .sldetails{
-			background-color: #F5F5F5 !important;
-		}
-
-        .sdetails {
-			position: absolute;
-			top: 100px;
-			left: 286px;
-			/*background: green;*/
-			right: 0;
-			bottom: 0;
-			padding: 5px;
-			border: 1px solid #ccc;
-		}
+        // .sdetails {
+        //     position: absolute;
+        //     top: 500px;
+        //     /*left: 286px;*/
+        //     /*background: red;*/
+        //     right: 255px;
+        //     bottom: 0;
+        //     padding: 5px;
+        //     border: 1px solid #ccc;
+        //     width: 860px;
+        //     height: 1200px;
+        // }
     }
 }
 
