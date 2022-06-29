@@ -229,6 +229,7 @@ define([
                             success: function(data){
                                 addMessage(data);
                                 $("#itoris-pm-link").css("pointer-events", 'auto');
+                                $("#itoris-pm-link-custom").css("pointer-events", 'auto');
 
                                 if(!param['name'] && !param['email']){
                                     $("#itoris_pm_modal_name").val('');
@@ -244,6 +245,7 @@ define([
                         });
                     }else{
                         $("#itoris-pm-link").css("pointer-events", 'auto');
+                        $("#itoris-pm-link-custom").css("pointer-events", 'auto');
                     }
 
                     return false;
@@ -258,6 +260,7 @@ define([
                             click: function() {
                                 $("#itoris-pm-modal [generated=true].mage-error").remove();
                                 $("#itoris-pm-link").css("pointer-events", 'none');
+                                $("#itoris-pm-link-custom").css("pointer-events", 'none');
                                 form.submit();
                             }
                         }],
