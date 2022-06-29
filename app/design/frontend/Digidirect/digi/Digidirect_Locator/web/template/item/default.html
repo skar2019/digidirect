@@ -52,6 +52,11 @@
         <div class="shours-section">
 
             <div class="store-hour">
+                <h3 class="storehours"> Store Hours</h3>
+                <div class="open-hours collapsible-tabless" data-bind="mageInit:{'Digidirect_CollectStoreLocator/js/collapsible-table':{}}, html: opening_hours"></div>
+            </div>
+            
+            <div class="store-hour">
                 <!-- ko if: $data.image -->
                 <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" width="200" />
                 <!-- /ko -->
@@ -62,10 +67,7 @@
                 <!-- /ko -->
             </div>
 
-            <div class="store-hour">
-                <h3 class="storehours"> Store Hours</h3>
-                <div class="open-hours collapsible-tabless" data-bind="mageInit:{'Digidirect_CollectStoreLocator/js/collapsible-table':{}}, html: opening_hours"></div>
-            </div>
+           
    
         </div>
     
