@@ -2050,9 +2050,10 @@
 }
     
     .itoris-pm-modal .modal-inner-wrap {
-        width: 55%;
+        width: 55% !important;
         max-height: 600px;
         background: #f5f5f5;
+        border-radius: 5px;
     }
     
     .itoris-custom-main-grid {
@@ -2092,9 +2093,42 @@
     }
     
     .itoris-pm-field input {
-        border: none;
-        border-bottom: 1px solid;
-        background: #f5f5f5;
+        border: none !important;
+        border-bottom: 1px solid !important;
+        background: #f5f5f5 !important;
+        padding: 0 !important;
+    }
+    
+    .itoris-pm-field input::placeholder {
+        color: #6e6e6e;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    
+    .itoris-pm-field textarea::placeholder {
+        color: #6e6e6e;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    
+    .itoris-pm-field input:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    
+    .itoris-pm-admin-comment {
+        text-align: center;
+    }
+    
+    .itoris-pm-admin-comment span > h1 {
+        font-weight: 500 !important;
+        margin-bottom: 5px !important;
+        font-size: 25px !important;
+    }
+    
+    .itoris-pm-admin-comment > span > span {
+        font-size: 18px;
+        color: #6e6e6e;
     }
 }
 
