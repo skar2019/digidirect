@@ -40,7 +40,7 @@ define([
         
         if( $('.itoris-pm-product-marker').length )
         {
-            $('.itoris-pm-product-marker').insertAfter($('.product-info-main-bottom'));
+            $('.itoris-pm-product-marker').insertAfter($('.box-tocart'));
             $(".itoris-pm-product-marker").attr("style", "display: block");
         }
 
