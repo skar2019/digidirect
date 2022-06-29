@@ -2045,10 +2045,27 @@
         clip-path: polygon(4000% 70%, 0% 70%, 0% 50%, 0% 0%);
     }
     
+    .itoris-pm-modal .modal-content {
+    padding-top: 0 !important;
+}
+    
+    .itoris-pm-modal .modal-inner-wrap {
+        width: 55%;
+        max-height: 600px;
+        background: #f5f5f5;
+    }
+    
     .itoris-custom-main-grid {
         display: grid;
         grid-template-columns: 33.33% 66.66%;
         padding: 30px;
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+    
+    #itoris-pm-modal .fieldset.create.info {
+        margin: 0;
+        padding: 30px 30px 0 0;
     }
 
     .itoris-custom-grid {
@@ -2059,15 +2076,25 @@
 
     .itoris-custom-image > img {
         display: block;
-        margin-left: auto;
+        //margin-left: auto;
         margin-right: auto;
-        width: 50%;
+        width: 65%;
+    }
+    
+    .itoris-pm-modal .modal-footer {
+        padding-top: 0;
     }
 
     .itoris-pm-modal .modal-footer button {
         margin-left: 33.33% !important;
         width: 12%;
         border-radius: 5px;
+    }
+    
+    .itoris-pm-field input {
+        border: none;
+        border-bottom: 1px solid;
+        background: #f5f5f5;
     }
 }
 
