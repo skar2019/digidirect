@@ -6,7 +6,7 @@ $isInPopup = $block->getOpenInPopup();
 
     <div class="storebanners">
         <img style="display: inline; margin: 0 15px;" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
-        <img style="display: inline; margin: 0 15px;" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner2.png" alt="store-locatorbanner2" width="60%">
+        <img style="display: inline; margin: 0 15px;" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner2.png" alt="store-locatorbanner2" width="64%">
     </div>
 
     <?php echo $block->getChildHtml('storelocator.search'); ?>
@@ -33,11 +33,11 @@ $isInPopup = $block->getOpenInPopup();
 
 <script>
 
-    
-    var $citydefault = $('input[name="storelist"]');
-
-    if($citydefault.is(':checked') == false) {
-        $citydefault.filter('[value="Sydney"]').prop('checked', true);
-    }
-    
+    require(['jquery'],
+            function ($) {
+                $('.store-locator .scontent-Sydney').attr("style", "display:block;");
+            }
+        );    
 </script>
+
+
