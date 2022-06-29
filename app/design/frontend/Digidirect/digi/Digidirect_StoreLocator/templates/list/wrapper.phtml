@@ -3,10 +3,10 @@
 $isInPopup = $block->getOpenInPopup();
 ?>
 <div class="store-locator test3">
-    
+
     <div class="storebanners">
         <img style="display: inline; margin: 0 5px;" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
-        <img style="display: inline; margin: 0 5px;" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
+        <img style="display: inline; margin: 0 5px;" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner2.png" alt="store-locatorbanner1">
     </div>
 
     <?php echo $block->getChildHtml('storelocator.search'); ?>
@@ -32,19 +32,12 @@ $isInPopup = $block->getOpenInPopup();
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
 
 <script>
-    require(['jquery'],
-        function ($) {
-            // $("input .Syndey").prop("checked", true);
-            // console.log("default city");
 
-           var $citydefault = $('input[name="storelist"]');
-               if($citydefault.is(':checked') === false) {
-               $citydefault.filter('[value="Sydney"]').prop('checked', true);
-           }
+    
+    var $citydefault = $('input[name="storelist"]');
 
-            //  alert("test alert");
-            
-//            document.querySelector('input[name=storelist][value=Sydney]').checked = true;
-        }
-    );
+    if($citydefault.is(':checked') == false) {
+        $citydefault.filter('[value="Sydney"]').prop('checked', true);
+    }
+    
 </script>
