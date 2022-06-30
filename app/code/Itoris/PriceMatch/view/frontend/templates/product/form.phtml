@@ -207,6 +207,8 @@
         
             if ("<?= $customerSession->isLoggedIn()?>") {
                 $(".itoris-display-block").attr("style", "display: block");
+            } else {
+                $(".itoris-display-block").removeAttr("style");
             }
         
         });
