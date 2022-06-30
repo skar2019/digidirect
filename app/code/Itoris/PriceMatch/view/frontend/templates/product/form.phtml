@@ -24,6 +24,11 @@
  */
 ?>
 
+<?php
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
+ ?>
+
 <?php if($block->checkRenderLink()): ?>
     <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 10px;">
         <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" >
@@ -74,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="itoris-custom-grid">
+                    <div class="itoris-custom-grid itoris-display-block">
                         <div class="itoris-pm-field">
                             <label class="label" for="itoris_pm_modal_contact" style="display: none;">
                                 <span><?php echo __('Contact Number') ?></span>
@@ -199,6 +204,11 @@
                 '\t\t}\n' +
                 '\t}\n' +
                 '}\'> </form>').appendTo('body');
+        
+            if ("<?= $customerSession->isLoggedIn()?>") {
+                $(".itoris-display-block").attr("style", "display: block");
+            }
+        
         });
     </script>
 <?php endif; ?>
