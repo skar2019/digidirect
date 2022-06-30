@@ -66,11 +66,11 @@
             margin-right: -25px;
         }
 
-        .Brisbane:checked ~ #sldetails-Sydney, 
-        .Bondi.Junction:checked ~ #sldetails-Sydney,
-        .Melbourne:checked ~ #sldetails-Sydney,
-        .Miranda:checked ~ #sldetails-Sydney,
-        .Cannington:checked ~ #sldetails-Sydney {
+        .Brisbane:checked + .Sydney:not(:checked) ~ #sldetails-Sydney, 
+        .Bondi.Junction:checked + .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Melbourne:checked + .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Miranda:checked + .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Cannington:checked + .Sydney:not(:checked) ~ #sldetails-Sydney {
             background: transparent;
         }
 
