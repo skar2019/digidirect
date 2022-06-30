@@ -62,11 +62,11 @@
             
             <div class="store-hour">
                 <!-- ko if: $data.image -->
-                <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" width="250" style="height: 210px;"/>
+                <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" width="230" style="height: 210px;"/>
                 <!-- /ko -->
                 <!-- ko ifnot: $data.image -->
                 <!-- ko if: $parents[2].locations.settings().default_image -->
-                <img class="image  _hide-for-mobile" data-bind="attr: {src: $parents[2].locations.settings().default_image, alt: name}" width="250" style="height: 210px;" />
+                <img class="image  _hide-for-mobile" data-bind="attr: {src: $parents[2].locations.settings().default_image, alt: name}" width="230" style="height: 210px;" />
                 <!-- /ko -->
                 <!-- /ko -->
             </div>
