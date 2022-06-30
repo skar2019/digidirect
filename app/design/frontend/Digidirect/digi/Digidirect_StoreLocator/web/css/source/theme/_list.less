@@ -32,6 +32,7 @@
 //@locator-item-image__float: left;
 @locator-item-image__margin: 0 40px 0 0;
 @locator-item-image__max-width: 150px;
+@locator-item-image__height: 100px;
 //  Item:details
 //@locator-item-details__overflow: hidden;
 //  Item:name
@@ -68,8 +69,6 @@
             border: none;
             padding: 15px;
         }
-
-
         
     }
     
@@ -81,6 +80,12 @@
         .mCSB_scrollTools {
             right: -9px;
         }
+
+        .store-section {
+            > .count {
+                display: none !important;
+            }
+        }
         
         .store-section .count:not(._hide-for-mobile-tablet-l) {
             .lib-css(border-color, @border-color__base);
@@ -89,7 +94,6 @@
             
             border-width: 1px 0;
             border-style: solid;
-            display: none;
         }
     
         .details {

@@ -52,17 +52,21 @@
         <div class="shours-section">
 
             <div class="store-hour">
+                    <img src="https://mcstaging2.digidirect.com.au/media/.thumbswysiwyg/we-are-open.png" alt="openhourimage">
+            </div>
+
+            <div class="store-hour">
                 <h3 class="storehours"> Store Hours</h3>
                 <div class="open-hours collapsible-tabless" data-bind="mageInit:{'Digidirect_CollectStoreLocator/js/collapsible-table':{}}, html: opening_hours"></div>
             </div>
             
             <div class="store-hour">
                 <!-- ko if: $data.image -->
-                <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" width="300" />
+                <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" width="250" style="height: 210px;"/>
                 <!-- /ko -->
                 <!-- ko ifnot: $data.image -->
                 <!-- ko if: $parents[2].locations.settings().default_image -->
-                <img class="image  _hide-for-mobile" data-bind="attr: {src: $parents[2].locations.settings().default_image, alt: name}" width="300" />
+                <img class="image  _hide-for-mobile" data-bind="attr: {src: $parents[2].locations.settings().default_image, alt: name}" width="250" style="height: 210px;" />
                 <!-- /ko -->
                 <!-- /ko -->
             </div>
