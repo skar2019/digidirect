@@ -24,6 +24,8 @@
 
     .store-locator {
 
+        margin-top: 100px;
+
         .Sydney:checked ~ .scontent-Sydney {
             display: block;
             background: #F5F5F5;
@@ -56,13 +58,17 @@
 
         .scontent-Sydney {
             display:block;
-            // background: #F5F5F5;
+            background: #F5F5F5;
         }
 
-        // .Sydney ~ .sldetails {
-        //     background: #F5F5F5;
-        //     margin-right: -25px;
-        // }
+        .Sydney ~ .sldetails {
+            background: #F5F5F5;
+            margin-right: -25px;
+        }
+
+        .Brisbane:checked, .Bondi.Junction:checked, .Melbourne:checked, .Miranda:checked, .Cannington:checked, .Sydney ~ .scontent-Sydney {
+            background: transparent;
+        }
 
         .scontent-Brisbane{
             display:none;
@@ -231,6 +237,15 @@
     .store-locator {
         .locator-search {
             display: none;
+        }
+
+        .sdetails {
+            position: initial;
+            padding: 0px;
+        }
+
+        .parent-storelist {
+            display: block;
         }
 
         .grid-row {
