@@ -33,12 +33,14 @@ $isInPopup = $block->getOpenInPopup();
 
 <script src="text/javascript">
     require(['jquery', 'jquery/ui'], function($){
-        jQuery(document).ready(function(){
-            $('input:radio[name="storelist"]').change(function(){
-                if($(this).val() == 'Sydney'){
-                    alert("Success check Sydney");
-                }
-            });
-        });
+
+        document.getElementById('Sydney').onclick = function(){
+
+        var radios = document.getElementsByName("storelist");
+        var selected = Array.from(radios).find(radio => radio.checked);
+        alert(selected.value);
+
+
+        };
     });
 </script>
