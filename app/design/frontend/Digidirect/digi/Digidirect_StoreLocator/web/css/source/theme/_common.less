@@ -57,7 +57,7 @@
         }
 
         .scontent-Sydney {
-            display:block;
+            display:none;
             // background: #F5F5F5;
         }
 
@@ -209,6 +209,10 @@
             display: none;
         }
 
+        .scontent-Sydney {
+            display:block;
+        }
+
         .store-wrapper {
             .store-items {
                 display: flex;
@@ -233,6 +237,20 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .store-locator {
+        
+        margin-top: 50px;
+
+        .storebanners {
+
+            img {
+                margin: 0;
+            }
+
+            .store-locatorbanner2 {
+                display: none;
+            }
+        }
+
         .locator-search {
             display: none;
         }
