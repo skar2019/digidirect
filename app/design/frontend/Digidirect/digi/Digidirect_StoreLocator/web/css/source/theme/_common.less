@@ -61,31 +61,32 @@
             background: #F5F5F5;
         }
 
-/*        .Sydney ~ #sldetails-Sydney {
+        .Sydney ~ #sldetails-Sydney {
             background: #F5F5F5;
             margin-right: -25px;
-        }*/
-        
-        .Sydney:not(:checked) ~ #sldetails-Sydney,
-        .Brisbane:not(:checked) ~ #sldetails-Sydney, 
-        .Bondi.Junction:not(:checked) ~ #sldetails-Sydney,
-        .Melbourne:not(:checked) ~ #sldetails-Sydney,
-        .Miranda:not(:checked) ~ #sldetails-Sydney,
-        .Cannington:not(:checked)  ~ #sldetails-Sydney {
-             background: #F5F5F5;
-            margin-right: -25px;
-        }
-
-        .Brisbane:checked .Sydney:not(:checked) ~ #sldetails-Sydney, 
-        .Bondi.Junction:checked  .Sydney:not(:checked) ~ #sldetails-Sydney,
-        .Melbourne:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
-        .Miranda:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
-        .Cannington:checked .Sydney:not(:checked) ~ #sldetails-Sydney {
-            background: red;
         }
 
         // .Sydney:not(:checked) ~ #sldetails-Sydney {
         //     background: transparent;
+        // }
+
+
+        .Brisbane:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Bondi.Junction:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Melbourne:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Miranda:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Cannington:checked .Sydney:not(:checked) ~ #sldetails-Sydney {
+            background: transparent;
+        }
+
+        // .Sydney:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Brisbane:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Bondi.Junction:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Melbourne:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Miranda:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Cannington:not(:checked) .Sydney ~ #sldetails-Sydney {
+        //     background: #F5F5F5;
+        //     margin-right: -25px;
         // }
 
         .scontent-Brisbane{
@@ -286,6 +287,10 @@
 
         .parent-storelist {
             display: block;
+
+            .image {
+                display: block !important;
+            }
         }
 
         .grid-row {
