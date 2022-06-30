@@ -31,4 +31,15 @@ $isInPopup = $block->getOpenInPopup();
 
 <?php echo $block->getChildHtml('storelocator.list.after'); ?>
 
+<script src="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){
+        jQuery(document).ready(function(){
+            $('input:radio[name="storelist"]').change(function(){
+                if($(this).val() == 'Sydney'){
+                    alert("Success check Sydney");
+                }
+            });
+        });
+    });
+</script>
 
