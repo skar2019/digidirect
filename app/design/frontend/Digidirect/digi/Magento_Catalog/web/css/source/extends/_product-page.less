@@ -2162,6 +2162,26 @@
     #itoris_pm_modal_final_price {
         font-weight: 600;
     }
+    
+    .itoris-pm-modal .modal-header {
+        display: block !important;
+        padding: 0 !important;
+    }
+
+    .itoris-pm-modal .modal-title {
+        display: none;
+    }
+
+    .itoris-pm-modal .modal-header button {
+        padding: 0 !important;
+        margin-top: -10px;
+        margin-right: -8px;
+    }
+
+    .itoris-pm-modal .modal-header button:before {
+        font-size: 20px;
+        color: #cacaca;
+    }
 }
 
 //Redeploy
@@ -2759,6 +2779,11 @@
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
         margin: auto;
         height: 550px !important;
+    }
+    
+    .itoris-pm-modal .modal-header button:before {
+        content: '\f00d' !important;
+        font-family: 'Font Awesome 5 Free' !important;
     }
 }
 
@@ -3427,6 +3452,19 @@
     .itoris-pm-modal .modal-footer button {
         margin-left: 0 !important;
         width: 100% !important;
+    }
+    
+    .itoris-pm-modal .modal-header button:before {
+        font-size: 30px !important;
+    }
+    
+    .itoris-pm-modal .modal-header button {
+        margin-top: unset !important;
+        margin-right: unset !important;
+    }
+    
+    .itoris-pm-modal .modal-header button:focus {
+        background: none !important;
     }
     
 } //end mobile
