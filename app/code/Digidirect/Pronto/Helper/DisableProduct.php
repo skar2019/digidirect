@@ -38,9 +38,8 @@ class DisableProduct extends AbstractHelper
             $ids = [];
             $i = 0;
             foreach ($collection as $item) {
-                echo $item->getSku() . "<br/>";
-                $ids[$i] = $item->getEntityId();
-                echo $ids[$i]. "<br/>";
+                echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                $ids[$i] = $item->getEntityId();;
                 $i++;
             }
             $this->productAction->updateAttributes($ids, array('status' => 2), $storeId);
@@ -54,10 +53,11 @@ class DisableProduct extends AbstractHelper
     public function getProductCollection()
     {
         $now = new \DateTime();
-        $collection = $this->_productCollectionFactory->create();
-        $collection->addAttributeToSelect('date_update',['lt' => $now->format('Y-m-d')]);
-        $collection->addAttributeToSelect('status', array('eq' => 2));
-        $collection->setPageSize(10); // fetching only 3 products
+        $collection = $this->_productCollectionFactory->create()
+        ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
+        ->addAttributeToFilter('date_update',['lt' => $now->format('Y-m-d')]);
+        //->setPageSize(12); // fetching only 3 products
+
         return $collection;
     }
 }
