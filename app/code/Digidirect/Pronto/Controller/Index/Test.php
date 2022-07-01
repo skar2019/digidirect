@@ -1,7 +1,7 @@
 <?php
 namespace Digidirect\Pronto\Controller\Index;
 
-use Digidirect\Pronto\Helper\Inventory;
+use Digidirect\Pronto\Helper\DisableProduct;
 
 class Test extends \Magento\Framework\App\Action\Action
 {
@@ -9,7 +9,7 @@ class Test extends \Magento\Framework\App\Action\Action
 
 	public function __construct(
 		\Magento\Framework\App\Action\Context $context,
-                Inventory $helper)
+        DisableProduct $helper)
 	{
                 $this->helper = $helper;
 		return parent::__construct($context);
@@ -17,7 +17,7 @@ class Test extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-        $this->helper->enquireInventoryTest();
+        $this->helper->toDisableProducts();
         //comment to redeploy
     }
 }

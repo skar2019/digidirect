@@ -65,7 +65,7 @@ class CronStockStatusUpdate extends \Magento\Framework\App\Action\Action
                 }
             }
 
-            echo $product->getName() . " - "  . $product->getSku() . " <br />";
+            //echo $product->getName() . " - "  . $product->getSku() . " <br />";
         }
 
         exit();
