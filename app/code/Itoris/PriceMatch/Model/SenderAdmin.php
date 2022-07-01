@@ -29,19 +29,23 @@ class SenderAdmin extends SenderAbstract
 {
     protected function getFommatVar($item, $method)
     {
+        $rawCommentData = $item['comment'];
+        $splitCommentData = explode("#contact_number:", $rawCommentData);
+        
         return [
             'send_vars' => [
                 'product_name' => $item['product_name'],
                 'request_id' => $item['item_id'],
                 'status' => $item['status'],
                 'storeview' => $this->storeFactory->create()->load($item['store_id'])->getName(),
-                'customer_name' => $this->helperData->genEmailAdmin($item['store_id']),
+                'customer_name' => $item['name'], //$this->helperData->genEmailAdmin($item['store_id']),
                 'date_time' => $item['date_created'],
+                'contact' => $splitCommentData[1],
                 'email' => $item['customer_email'],
                 'current_price' => $this->formatPrice($item['final_price'], $item['store_id']),
                 'requested_price' => $this->formatPrice($item['match_price'], $item['store_id']),
                 'url' => ($item['match_url']) ? $item['match_url'] : __('n/a'),
-                'comment' => $item['comment'],
+                'comment' => $splitCommentData[0],
             ],
             'email' => $this->helperData->genEmailAdmin($item['store_id']),
             'store_id' => $item['store_id'],

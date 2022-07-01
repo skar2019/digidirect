@@ -119,8 +119,8 @@
 //  Related
 @catalog-pdp-related-block-actions__margin: 0 0 15px;
 @catalog-pdp-related-action-select__margin: 0 @indent__xs;
+//  Redeploy
 
-//
 //  Common
 //  ---------------------------------------------
 
@@ -1036,7 +1036,7 @@
         font-weight: bold;
         .lib-font-size(12);
         display: inline-block;
-        width: 50%;
+        //width: 50%;
         cursor: pointer;
         float: right;
 
@@ -1467,7 +1467,7 @@
         border-radius: 5px;
         height: 15px;
         text-align: center !important;
-        width: 170px !important;
+        //width: 170px !important;
     }
 
     .catalog-product-view .product-info-main .live-chat-additional .live-chat-additional-link {
@@ -1480,7 +1480,7 @@
         font-size: 11px !important;
         font-weight: 500 !important;
         margin-top: -3px !important;
-        visibility: hidden;
+        //visibility: hidden;
         white-space: nowrap;
     }
 
@@ -1489,6 +1489,7 @@
         content: "Pricematch";
         visibility: visible;
         position: initial !important;
+        display: none;
     }
 
     .catalog-product-view .product-info-main .live-chat-additional .live-chat-additional-link:after {
@@ -1502,6 +1503,7 @@
         margin-top: -5px;
         visibility: visible;
         margin-left: -115px;
+        display: none;
     }
 
     .product-info-main .box-tocart .input-text.qty, .product-options-bottom .box-tocart .input-text.qty {
@@ -1570,6 +1572,9 @@
     /*clint changes*/
     .most-bottom-product-info {
         margin-top: 15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px !important;
     }
 
     //clint
@@ -2021,29 +2026,163 @@
     }
     
     .itoris-pm-product-marker {
-        margin-top: 15px;
-        border: 1px solid #004F67;
-        border-radius: 5px !important;
-        padding: 7px 20px;
-        text-align: center;
-        background: #004f67;
-        display: none;
+        margin-bottom: 15px;
+        //border: 1px solid #004F67;
+        //border-radius: 5px !important;
+        //padding: 7px 20px;
+        //text-align: center;
+        //background: #004f67;
+        //display: none;
     }
     
     .itoris-pm-product-marker a {
-        color: #fff !important;
-        text-decoration: none !important;
-        display: grid;
-        font-size: 12px;
+        //color: #fff !important;
+        //text-decoration: none !important;
+        //display: grid;
+        //font-size: 12px;
+    }
+    
+    .pricematch-caption {
+        text-align: center;
     }
     
     .itoris-pm-product-marker i {
-        font-weight: 600;
-        font-size: 60px;
-        margin-left: -12px;
-        position: absolute;
-        clip-path: polygon(4000% 70%, 0% 70%, 0% 50%, 0% 0%);
+        //font-weight: 600;
+        //font-size: 60px;
+        //margin-left: -12px;
+        //position: absolute;
+        //clip-path: polygon(4000% 70%, 0% 70%, 0% 50%, 0% 0%);
     }
+    
+    .itoris-pm-modal .modal-content {
+        padding-top: 0 !important;
+    }
+    
+    .itoris-pm-modal .modal-inner-wrap {
+        width: 55%;
+        max-height: 600px;
+        background: #f5f5f5;
+        border-radius: 5px;
+    }
+    
+    .itoris-custom-main-grid {
+        display: grid;
+        grid-template-columns: 33.33% 66.66%;
+        padding: 30px;
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+    
+    #itoris-pm-modal .fieldset.create.info {
+        margin: 0;
+        padding: 30px 30px 0 0;
+    }
+
+    .itoris-custom-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 20px;
+    }
+
+    .itoris-custom-image > img {
+        display: block;
+        //margin-left: auto;
+        margin-right: auto;
+        width: 65%;
+    }
+    
+    .itoris-pm-modal .modal-footer {
+        padding-top: 0;
+    }
+
+    .itoris-pm-modal .modal-footer button {
+        margin-left: 33.33%;
+        width: 12%;
+        border-radius: 5px;
+    }
+    
+    .itoris-pm-field input {
+        border: none !important;
+        border-bottom: 1px solid !important;
+        background: #f5f5f5 !important;
+        padding: 0 !important;
+    }
+    
+    .itoris-pm-field input::placeholder {
+        color: #6e6e6e;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    
+    .itoris-pm-field textarea::placeholder {
+        color: #6e6e6e;
+        font-size: 14px;
+        font-weight: 400;
+    }
+    
+    .itoris-pm-field input:focus {
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    
+    .itoris-pm-admin-comment {
+        text-align: center;
+        margin-bottom: 5px !important;
+    }
+    
+    .itoris-pm-field {
+        margin: 0 0 10px !important;
+    }
+    
+    .itoris-pm-admin-comment span > h1 {
+        font-weight: 500 !important;
+        margin-bottom: 5px !important;
+        font-size: 25px;
+    }
+    
+    .itoris-pm-admin-comment > span > span {
+        font-size: 18px;
+        color: #6e6e6e;
+    }
+    
+    .itoris-custom-request {
+        border: 1px solid #cacaca;
+        border-radius: 5px;
+        background: #fff;
+        padding: 15px 15px 5px;
+        text-align: center;
+        margin: 10px 0 10px 0;
+        box-shadow: 0px 3px 16px -7px #6e6e6e;
+    }
+    
+    .itoris-custom-request .itoris-pm-field {
+        margin-bottom: 5px;
+    }
+    
+    #itoris_pm_modal_final_price {
+        font-weight: 600;
+    }
+    
+    .itoris-pm-modal .modal-header {
+        display: block !important;
+        padding: 0 !important;
+    }
+
+    .itoris-pm-modal .modal-title {
+        display: none;
+    }
+
+    .itoris-pm-modal .modal-header button {
+        padding: 0 !important;
+        margin-top: -10px;
+        margin-right: -8px;
+    }
+
+    .itoris-pm-modal .modal-header button:before {
+        font-size: 20px;
+        color: #cacaca;
+    }
+    
 }
 
 //Redeploy
@@ -2416,6 +2555,9 @@
         //display: grid;
         //grid-template-columns: repeat(2, 1fr);
         //grid-column-gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 10px !important;
     }
 
     .product-info-main .product-addto-links {
@@ -2639,6 +2781,11 @@
         margin: auto;
         height: 550px !important;
     }
+    
+    .itoris-pm-modal .modal-header button:before {
+        content: '\f00d' !important;
+        font-family: 'Font Awesome 5 Free' !important;
+    }
 }
 
 //
@@ -2859,7 +3006,7 @@
         border-radius: 5px;
         height: 15px;
         text-align: center !important;
-        width: 120px !important;
+        //width: 120px !important;
     }
     .product-info-main .live-chat-additional .live-chat-additional-link {
         padding: 0px;
@@ -2932,7 +3079,7 @@
     }
 
     .catalog-product-view .product-info-main .live-chat-additional {
-        width: 39% !important;
+        //width: 39% !important;
     }
 
     .product-info-main .studio19-wrapper {
@@ -3270,7 +3417,55 @@
     }
     
     .pricematch-caption {
-        margin-left: 80px;
+        //margin-left: 80px;
+    }
+    
+    .itoris-custom-image {
+        display: none !important;
+    }
+
+    .itoris-pm-modal .modal-inner-wrap {
+        width: 85% !important;
+        max-height: 750px !important;
+    }
+
+    #itoris-pm-modal .fieldset.create.info {
+        padding: 10px 0 0 0 !important;
+    }
+
+    .itoris-custom-main-grid {
+        display: block !important;
+        padding: 20px 20px 0 20px !important;
+    }
+
+    .itoris-custom-grid {
+        display: block !important;
+    }
+
+    .itoris-pm-admin-comment span>h1 {
+        font-size: 20px !important;
+    }
+
+    .itoris-pm-admin-comment>span>span {
+        font-size: 15px !important;
+    }
+
+    .itoris-pm-modal .modal-footer button {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+    
+    .itoris-pm-modal .modal-header button:before {
+        font-size: 30px !important;
+    }
+    
+    .itoris-pm-modal .modal-header button {
+        margin-top: unset !important;
+        margin-right: unset !important;
+    }
+    
+    .itoris-pm-modal .modal-header button:focus {
+        background: none !important;
     }
     
 } //end mobile
@@ -3295,7 +3490,7 @@
         float: unset;
 
         .fieldset{
-            padding: 30px;
+            //padding: 30px;
             background: #f3f3f3;
             margin: 0;
         }
