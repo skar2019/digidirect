@@ -60,6 +60,35 @@
             display:none;
             background: #F5F5F5;
         }
+	
+        // .Sydney ~ #sldetails-Sydney {
+        //     background: #F5F5F5;
+        //     margin-right: -25px;
+        // }
+
+        // .Sydney:not(:checked) ~ #sldetails-Sydney {
+        //     background: transparent;
+        // }
+
+
+        .Brisbane:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Bondi.Junction:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Melbourne:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Miranda:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        .Cannington:checked .Sydney:not(:checked) ~ #sldetails-Sydney {
+            background: transparent;
+            color: red;
+        }
+
+        .Sydney:not(:checked) .Sydney ~ #sldetails-Sydney,
+        .Brisbane:not(:checked) .Sydney ~ #sldetails-Sydney,
+        .Bondi.Junction:not(:checked) .Sydney ~ #sldetails-Sydney,
+        .Melbourne:not(:checked) .Sydney ~ #sldetails-Sydney,
+        .Miranda:not(:checked) .Sydney ~ #sldetails-Sydney,
+        .Cannington:not(:checked) .Sydney ~ #sldetails-Sydney {
+            background: #F5F5F5;
+            margin-right: -25px;
+        }
 
         .scontent-Brisbane{
             display:none;
@@ -232,6 +261,7 @@
     .store-locator {
         
         margin-top: 50px;
+        // display: none;
 
         .storebanners {
 
@@ -253,12 +283,16 @@
         }
 
         .sdetails {
-            position: initial;
+            position: initial !important;
             padding: 0px;
         }
 
         .parent-storelist {
-            display: block;
+            display: block !important;
+            
+            .image {
+                display: block !important;
+            }
         }
 
         .grid-row {
