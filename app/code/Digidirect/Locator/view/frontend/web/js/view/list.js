@@ -157,14 +157,3 @@ define([
         onRenderList: function() {}
     });
 });
-
-
-  require(['jquery', 'jquery/ui'], function($){
-
-        if ($('#Sydney').is(':checked')) {
-    alert("yes");
-} else {
-    alert("no");
-}
-
-    });
