@@ -9,7 +9,13 @@ define([
     'Magento_Ui/js/modal/alert',
     'jquery/ui',
     'jquery/validate'
-], function ($, mageTemplate, setLocations, modal, events, infoBoxTmpl, alert) {
+], function($, mageTemplate, setLocations, modal, events, infoBoxTmpl, alert) {
+    if ($('#Sydney').is(':checked')) {
+        alert("yes");
+    } else {
+        alert("no");
+    }
+
     'use strict';
 
     $.widget('digidirect.locator', {
@@ -73,7 +79,7 @@ define([
                 useRestrictions: true
             }
         },
-        _create: function () {
+        _create: function() {
             this.isLoad = false;
             this.isIgnoreRadius = false;
             this.isMarkerClusterReady = false;
@@ -91,9 +97,9 @@ define([
                 this._searchOnLoad();
             }
         },
-        _bind: function () {
+        _bind: function() {
             var self = this;
-            $(this.options.search.form).on('submit', function (e) {
+            $(this.options.search.form).on('submit', function(e) {
                 var $this = $(this);
                 e.preventDefault();
                 if ($this.valid() && !self.isLoad) {
@@ -108,20 +114,20 @@ define([
 
             this.bindCurrentPosition();
         },
-        _loadGoogleApi: function (mapUrl) {
-            require([mapUrl], function () {
+        _loadGoogleApi: function(mapUrl) {
+            require([mapUrl], function() {
                 this._initMap();
                 this.initAutoComplete(this.options.search.term, this.options.autocomplete.useRestrictions);
                 this._setInlineMap();
-            }.bind(this), function () {
+            }.bind(this), function() {
                 console.error('Failed to load Google Maps API');
                 // to trigger search if necessary
                 $(document).trigger('locator.map.initialized');
             });
         },
-        initAutoComplete: function (field, useRestrictions) {
+        initAutoComplete: function(field, useRestrictions) {
             if ($(field).length) {
-                this.autocomplete = new google.maps.places.Autocomplete((document.querySelector(field)), {types: ['geocode']});
+                this.autocomplete = new google.maps.places.Autocomplete((document.querySelector(field)), { types: ['geocode'] });
                 if (useRestrictions) {
                     this.autocomplete.setComponentRestrictions({
                         'country': this.options.availableCountries
@@ -129,11 +135,11 @@ define([
                 }
             }
         },
-        _initMap: function () {
+        _initMap: function() {
             var options = $.extend({}, this.getMapSettings(), this.options.map.settings);
 
             if (this.options.openInPopup) {
-                events.on('location.show', function (location, settings) {
+                events.on('location.show', function(location, settings) {
                     var center = new google.maps.LatLng(location.latitude, location.longitude);
 
                     this.renderOnMap([location], center, settings);
@@ -150,25 +156,25 @@ define([
             this.setGeoLocation();
             $(document).trigger('locator.map.initialized');
         },
-        setGeoLocation: function () {
+        setGeoLocation: function() {
             if (this.options.geoLocation.enable) {
                 this._setUserGeoLocation();
             }
         },
-        _setUserGeoLocation: function (isManual) {
+        _setUserGeoLocation: function(isManual) {
             var self = this;
 
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
+                navigator.geolocation.getCurrentPosition(function(position) {
                     self.onSuccessGeoLocation(position);
-                }, function (error) {
+                }, function(error) {
                     self.onErrorGeoLocation(error, isManual);
                 });
             } else {
                 console.warn('The browser does not support Geolocation.');
             }
         },
-        onSuccessGeoLocation: function (position) {
+        onSuccessGeoLocation: function(position) {
             var self = this,
                 latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
@@ -178,7 +184,7 @@ define([
                 if (this.isReadyDefaultCountry) {
                     this.setCenterByCurrentPosition(latLng);
                 } else {
-                    $(document).on('locator.after.setDefaultCountry', function () {
+                    $(document).on('locator.after.setDefaultCountry', function() {
                         self.setCenterByCurrentPosition(latLng);
                     });
                 }
@@ -188,32 +194,32 @@ define([
 
             this.setGeoLocationMarker(latLng);
         },
-        onErrorGeoLocation: function (error, isManual) {
+        onErrorGeoLocation: function(error, isManual) {
             switch (error.code) {
                 case error.PERMISSION_DENIED:
                     if (isManual) {
-                        alert({content: this.options.geoLocation.noPermissionMessage});
+                        alert({ content: this.options.geoLocation.noPermissionMessage });
                     } else {
                         console.warn('User denied the request for Geolocation.');
                     }
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    alert({content: 'Location information is unavailable.'});
+                    alert({ content: 'Location information is unavailable.' });
                     break;
                 case error.TIMEOUT:
-                    alert({content: 'The request to get user location timed out.'});
+                    alert({ content: 'The request to get user location timed out.' });
                     break;
                 case error.UNKNOWN_ERROR:
-                    alert({content: 'An unknown error occurred.'});
+                    alert({ content: 'An unknown error occurred.' });
                     break;
             }
         },
-        setGeoLocationMarker: function (latLng) {
+        setGeoLocationMarker: function(latLng) {
             var options = $.extend({}, this.getMarkerSettings({}, latLng), this.options.geoLocation.markerSettings);
 
             this.geoLocationMarker = new google.maps.Marker(options);
         },
-        setCenterByCurrentPosition: function (latLng) {
+        setCenterByCurrentPosition: function(latLng) {
             this.map.setCenter(latLng);
             if (this.options.geoLocation.zoom) {
                 this.map.setZoom(this.options.geoLocation.zoom);
@@ -221,52 +227,52 @@ define([
 
             this.sortItemByDistance(latLng);
         },
-        sortItemByDistance: function (center) {
+        sortItemByDistance: function(center) {
             var entity = this.options.defaultLocations[this.options.entityName],
                 settings = entity.settings;
 
             setLocations([], {});
 
             this.setItemsDistance(center);
-            this.list.sort(function (a, b) {
+            this.list.sort(function(a, b) {
                 return a.geo_distance - b.geo_distance;
             });
 
             setLocations(this.list, settings);
         },
-        setItemsDistance: function (center, itemKey) {
+        setItemsDistance: function(center, itemKey) {
             var self = this,
                 key = itemKey || 'geo_distance';
 
-            $.each(this.list, function (index, item) {
+            $.each(this.list, function(index, item) {
                 var latlng = new google.maps.LatLng(item.latitude, item.longitude),
                     distance = self.calculateDistance(center, latlng) / 1000;
                 item[key] = distance;
                 item[key + '_formatted'] = self.setFormattedDistance(distance);
             });
         },
-        setFormattedDistance: function (distance) {
+        setFormattedDistance: function(distance) {
             return parseFloat(this.getConvertedGeoLocationDistance(distance).toFixed(2)) + ' ' + this.options.radius.metricType;
         },
-        bindCurrentPosition: function () {
+        bindCurrentPosition: function() {
             var self = this;
 
-            $(this.options.geoLocation.action).on('click', function (e) {
+            $(this.options.geoLocation.action).on('click', function(e) {
                 e.preventDefault();
 
                 self._setUserGeoLocation(true);
             });
         },
-        getMap: function () {
+        getMap: function() {
             return this.map;
         },
-        getMapSettings: function () {
+        getMapSettings: function() {
             return {
                 zoom: 4,
-                center: {lat: -25.271027, lng: 133.595936}
+                center: { lat: -25.271027, lng: 133.595936 }
             };
         },
-        setDefaultCountry: function () {
+        setDefaultCountry: function() {
             if (!$.isEmptyObject(this.options.defaultLocations)) {
                 this.isReadyDefaultCountry = false;
                 var entity = this.options.defaultLocations[this.options.entityName],
@@ -278,7 +284,7 @@ define([
 
                 if (this.options.openInPopup) return;
 
-                this.geocoder.geocode({address: this.options.defaultAddress}, function (results, status) {
+                this.geocoder.geocode({ address: this.options.defaultAddress }, function(results, status) {
                     if (status === google.maps.GeocoderStatus.OK) {
                         this.isIgnoreRadius = true;
                         this.setMarkers(items, results[0].geometry.location, settings);
@@ -295,7 +301,7 @@ define([
                 }.bind(this));
             }
         },
-        _search: function ($form) {
+        _search: function($form) {
             var term = $(this.options.search.term).val(),
                 params = {
                     address: term,
@@ -306,7 +312,7 @@ define([
                 params.bounds = this.defaultBounds;
             }
 
-            this.geocoder.geocode(params, function (results, status) {
+            this.geocoder.geocode(params, function(results, status) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     this.searchByGeocode($form, term, results[0].geometry.location);
                 } else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
@@ -316,7 +322,7 @@ define([
                 }
             }.bind(this));
         },
-        searchByGeocode: function ($form, term, location) {
+        searchByGeocode: function($form, term, location) {
             if (this.options.search.mode === 'ALL') {
                 this.isIgnoreRadius = true;
                 this.renderLocations(this.getAllItems(), location);
@@ -326,7 +332,7 @@ define([
                 this.sendRequest($form, term, location);
             }
         },
-        _searchOnLoad: function () {
+        _searchOnLoad: function() {
             var self = this;
             $(this.options.search.term).val(this.options.defaultAddress);
 
@@ -335,26 +341,26 @@ define([
                 return;
             }
 
-            $(document).on('locator.map.initialized', function () {
+            $(document).on('locator.map.initialized', function() {
                 self._search($(self.options.search.form));
             });
         },
-        _searchOnQueryLimit: function ($form) {
+        _searchOnQueryLimit: function($form) {
             var self = this,
                 $submitSearch = $form.find('button:submit');
 
             $submitSearch.prop('disabled', true);
-            setTimeout(function () {
+            setTimeout(function() {
                 $submitSearch.prop('disabled', false);
                 self._search($form);
             }, 2000);
         },
-        clearAll: function () {
+        clearAll: function() {
             this.clearLocations();
             this.clearMap();
             setLocations([], {});
         },
-        _getDefaultSearchParams: function ($form, term, location) {
+        _getDefaultSearchParams: function($form, term, location) {
             return {
                 isAjax: true,
                 blockName: $form.data('locator'),
@@ -364,18 +370,18 @@ define([
                 radius: this.getConvertedDistance()
             };
         },
-        getConvertedDistance: function (data) {
+        getConvertedDistance: function(data) {
             var distance = data || $(this.options.search.radius).val();
             return this.options.radius.metricType === 'km' ? distance : distance * this.options.radius.conversionConstant;
         },
-        getConvertedGeoLocationDistance: function (distance) {
+        getConvertedGeoLocationDistance: function(distance) {
             return this.options.radius.metricType === 'km' ? distance : distance * this.options.geoLocation.conversionConstant;
         },
-        sendRequest: function ($form, term, location) {
+        sendRequest: function($form, term, location) {
             var self = this,
                 jqxhr,
                 defaultParams = this._getDefaultSearchParams($form, term, location),
-                formData = $form.serializeArray().reduce(function (res, v) {
+                formData = $form.serializeArray().reduce(function(res, v) {
                     if (v.name === 'radius') {
                         v.name = self.getConvertedDistance(v.value);
                     } else {
@@ -398,18 +404,18 @@ define([
 
             return jqxhr;
         },
-        onSendRequest: function (jqxhr, location) {
+        onSendRequest: function(jqxhr, location) {
             var self = this;
 
-            jqxhr.done(function (response) {
+            jqxhr.done(function(response) {
                 self.renderLocations(response.result[self.options.entityName], location);
-            }).fail(function (xhr) {
+            }).fail(function(xhr) {
                 console.warn('Search failed: ', xhr.statusText);
-            }).always(function () {
+            }).always(function() {
                 self.isLoad = false;
             });
         },
-        _setInlineMap: function () {
+        _setInlineMap: function() {
             var item = this.options.mapInline.item;
             if (this.options.mapInline.enable && item.latitude && item.longitude) {
                 this.list.push(item);
@@ -417,7 +423,7 @@ define([
                 this.fitMarkers();
             }
         },
-        renderLocations: function (entity, center) {
+        renderLocations: function(entity, center) {
             var items = entity.items,
                 settings = entity.settings;
 
@@ -430,7 +436,7 @@ define([
 
             if (this.options.search.mode === 'RADIUS' && this.options.sortOrder === 'DISTANCE') {
                 this.setItemsDistance(center, 'radius_distance');
-                this.list.sort(function (a, b) {
+                this.list.sort(function(a, b) {
                     return a.radius_distance - b.radius_distance;
                 });
             }
@@ -447,13 +453,13 @@ define([
                 }
             }
         },
-        renderOnMap: function (items, center, settings) {
+        renderOnMap: function(items, center, settings) {
             this.clearMap();
             this.setMarkers(items, center, settings);
             this.initCircle(center);
             this.fitLocations();
         },
-        getAllItems: function () {
+        getAllItems: function() {
             if (!$.isEmptyObject(this.options.defaultLocations)) {
                 var entity = this.options.defaultLocations[this.options.entityName];
 
@@ -468,7 +474,7 @@ define([
                 };
             }
         },
-        getInternalRadiusItems: function (center) {
+        getInternalRadiusItems: function(center) {
             var self = this,
                 result = this.getAllItems(),
                 radius,
@@ -478,7 +484,7 @@ define([
             if (!$.isEmptyObject(this.options.defaultLocations)) {
                 radius = this.getRadius();
 
-                $.each(result.items, function (index, item) {
+                $.each(result.items, function(index, item) {
                     latlng = new google.maps.LatLng(item.latitude, item.longitude);
                     if (self.calculateDistance(center, latlng) <= radius) {
                         items.push(item);
@@ -488,14 +494,14 @@ define([
             }
             return result;
         },
-        setMarkers: function (items, center, settings) {
+        setMarkers: function(items, center, settings) {
             var self = this;
 
-            $.each(items, function (index, item) {
+            $.each(items, function(index, item) {
                 self.createMarker(item, center, settings);
 
                 if (item.child_items) {
-                    $.each(item.child_items, function (i, child) {
+                    $.each(item.child_items, function(i, child) {
                         self.createMarker(child, center, settings);
                     });
                 }
@@ -503,7 +509,7 @@ define([
 
             this.setMarkerClustering();
         },
-        createMarker: function (item, center, settings) {
+        createMarker: function(item, center, settings) {
             var latlng = new google.maps.LatLng(item.latitude, item.longitude);
 
             if (this.options.radius.enable && !this.isIgnoreRadius) {
@@ -514,13 +520,13 @@ define([
                 this.initMarker(item, latlng, settings);
             }
         },
-        initMarker: function (item, latlng) {
+        initMarker: function(item, latlng) {
             var self = this,
                 options = $.extend({}, this.getMarkerSettings(item, latlng), this.options.marker.settings),
                 marker = new google.maps.Marker(options);
 
             if (!$.isEmptyObject(item)) {
-                google.maps.event.addListener(marker, 'click', function () {
+                google.maps.event.addListener(marker, 'click', function() {
                     self.infoWindow.setContent(self.getInfoBoxTemplate(item));
                     self.infoWindow.open(self.map, marker);
                 });
@@ -528,14 +534,14 @@ define([
             this.markers.push(marker);
             this.bounds.extend(latlng);
         },
-        getMarkerSettings: function (item, latlng) {
+        getMarkerSettings: function(item, latlng) {
             return {
                 map: this.map,
                 position: this.fixSameCoordinates(latlng),
                 title: item.name
             };
         },
-        initCircle: function (center) {
+        initCircle: function(center) {
             if (this.options.radius.enable) {
                 this.extendRadius(this.markers);
                 var options = $.extend({}, this.getCircleSettings(center), this.options.radius.settings);
@@ -543,24 +549,24 @@ define([
                 this.markers.push(this.circle);
             }
         },
-        getCircleSettings: function (center) {
+        getCircleSettings: function(center) {
             return {
                 center: center,
                 radius: this.getRadius(),
                 map: this.map
             };
         },
-        getInfoBoxTemplate: function (item, settings) {
+        getInfoBoxTemplate: function(item, settings) {
             return mageTemplate(this.options.infoBox.template, {
                 data: item,
                 settings: settings,
                 extra: this.options.extraData
             });
         },
-        calculateDistance: function (center, latlng) {
+        calculateDistance: function(center, latlng) {
             return google.maps.geometry.spherical.computeDistanceBetween(center, latlng);
         },
-        compareDistance: function (a, b) {
+        compareDistance: function(a, b) {
             if (a.distance < b.distance) {
                 return -1;
             }
@@ -569,7 +575,7 @@ define([
             }
             return 0;
         },
-        getRadius: function () {
+        getRadius: function() {
             var $radius = $(this.options.search.radius);
             if ($radius.length && $radius.val()) {
                 return this.convertRadius($radius.val());
@@ -581,10 +587,10 @@ define([
          * @param radius
          * @returns {number}
          */
-        convertRadius: function (radius) {
+        convertRadius: function(radius) {
             return this.options.radius.metricType === 'km' ? radius * 1000 : radius * 1000 * this.options.radius.conversionConstant;
         },
-        extendRadius: function (markers) {
+        extendRadius: function(markers) {
             var $radius = $(this.options.search.radius),
                 $nextRadius;
             if (this.options.radius.extensible && !markers.length && $radius.length) {
@@ -598,7 +604,7 @@ define([
         /**
          * Fit and Pan marker(s) and circle to Bounds
          */
-        fitLocations: function () {
+        fitLocations: function() {
             if (this.options.radius.enable) {
                 if (this.options.radius.allMarkers) {
                     this.fitMarkers();
@@ -613,17 +619,17 @@ define([
         /**
          * Fit and Pan marker(s) to Bounds
          */
-        fitMarkers: function () {
+        fitMarkers: function() {
             this.map.fitBounds(this.bounds);
             this.map.panToBounds(this.bounds);
         },
         /**
          * Clear previously displayed locations
          */
-        clearLocations: function () {
+        clearLocations: function() {
             this.list.length = 0;
         },
-        clearMap: function () {
+        clearMap: function() {
             this.infoWindow.close();
             for (var i = 0; i < this.markers.length; i++) {
                 this.markers[i].setMap(null);
@@ -634,37 +640,37 @@ define([
                 this.markerCluster.clearMarkers();
             }
         },
-        loadMarkerClustering: function () {
+        loadMarkerClustering: function() {
             if (this.options.marker.useClustering) {
-                require(['markerClustering'], function (MarkerClusterer) {
+                require(['markerClustering'], function(MarkerClusterer) {
                     this.isMarkerClusterReady = true;
                     this.clusterJS = MarkerClusterer;
                     this.initMarkerClustering(this.clusterJS);
-                }.bind(this), function () {
+                }.bind(this), function() {
                     console.error('Failed to load Marker Clustering');
                 });
             }
         },
-        initMarkerClustering: function (MarkerClusterer) {
+        initMarkerClustering: function(MarkerClusterer) {
             if (this.options.marker.useClustering) {
                 this.markerCluster = new MarkerClusterer(this.map, this.markers, this.options.marker.clusteringOptions);
             }
         },
-        setMarkerClustering: function () {
+        setMarkerClustering: function() {
             if (this.isMarkerClusterReady) {
                 this.initMarkerClustering(this.clusterJS);
             } else {
                 this.loadMarkerClustering();
             }
         },
-        fixSameCoordinates: function (latlng) {
+        fixSameCoordinates: function(latlng) {
             var self = this,
                 newLat,
                 newLng,
                 finalLatLng = latlng;
 
             if (this.options.marker.useClustering) {
-                $.each(this.markers, function (i, marker) {
+                $.each(this.markers, function(i, marker) {
                     // if a marker already exists in the same position as this marker
                     if (typeof marker.getPosition !== 'undefined' && marker.getPosition().equals(latlng)) {
                         var a = 360.0 / self.markers.length;
