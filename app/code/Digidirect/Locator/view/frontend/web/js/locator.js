@@ -10,12 +10,6 @@ define([
     'jquery/ui',
     'jquery/validate'
 ], function($, mageTemplate, setLocations, modal, events, infoBoxTmpl, alert) {
-    if ($('#Sydney').is(':checked')) {
-        alert("yes");
-    } else {
-        alert("no");
-    }
-
     'use strict';
 
     $.widget('digidirect.locator', {
