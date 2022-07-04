@@ -112,7 +112,7 @@
 
         .parent-storelist {
             display: grid;
-            // grid-gap: 0.5rem;
+            grid-gap: 0.5rem;
             grid-template-columns: 1fr 2fr;
             grid-auto-flow: dense;
             padding: 0.5rem;
@@ -125,10 +125,6 @@
 
         input[type="radio"]:checked  ~ .sldetails{
             background-color: #F5F5F5;
-            margin-right: -25px;
-        }
-
-        .sldetails {
             margin-right: -25px;
         }
 
@@ -294,7 +290,7 @@
             // position: initial;
             position: initial !important;
             // padding: 0px;
-            width: 98% !important;
+            width: 100% !important;
             height: auto !important;
             margin: 0 !important;
 
@@ -356,10 +352,9 @@
         }
 
         input[type=radio]:checked~.sldetails {
-            margin-right: -1px !important;
+            margin-right: 0px !important;
             border: none !important;
         }
-
 
         .grid-row {
             display: flex;
