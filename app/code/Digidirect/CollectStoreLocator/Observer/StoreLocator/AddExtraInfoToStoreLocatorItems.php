@@ -89,13 +89,13 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
             }
             
-            $sydnQty = 0;
-            $bondQty = 0;
-            $melbQty = 0;
-            $brisQty = 0;
-            $miraQty = 0;
-            $cannQty = 0;
-            $parrQty = 0;
+            $sydnQty = 1;
+            $bondQty = 1;
+            $melbQty = 1;
+            $brisQty = 1;
+            $miraQty = 1;
+            $cannQty = 1;
+            $parrQty = 1;
             
             foreach ($cartItems as $cartItem) {
             
@@ -110,60 +110,36 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //$qty .= $sourceItem->getQuantity();
                     
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
-                        $sydnQty = $sourceItem->getQuantity();
+                        $sydnQty = $sydnQty * $sourceItem->getQuantity();
                     } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
-                        $bondQty = $sourceItem->getQuantity();
+                        $bondQty = $bondQty * $sourceItem->getQuantity();
                     } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
-                        $melbQty = $sourceItem->getQuantity();
+                        $melbQty = $melbQty * $sourceItem->getQuantity();
                     } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
-                        $brisQty = $sourceItem->getQuantity();
+                        $brisQty = $brisQty * $sourceItem->getQuantity();
                     } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
-                        $miraQty = $sourceItem->getQuantity();
+                        $miraQty = $miraQty * $sourceItem->getQuantity();
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-                        $cannQty = $sourceItem->getQuantity();
+                        $cannQty = $cannQty * $sourceItem->getQuantity();
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
-                        $parrQty = $sourceItem->getQuantity();
+                        $parrQty = $cannQty * $sourceItem->getQuantity();
                     }
                 }
             }
                     
-            if ($sydnQty > 0) {
+            if ($sydnQty > 1) {
                 $items[$key]['available'] = true;
-            } else {
-                $items[$key]['available'] = false;
-            }
-            
-            if ($bondQty > 0) {
+            } elseif ($bondQty > 1) {
                 $items[$key]['available'] = true;
-            } else {
-                $items[$key]['available'] = false;
-            }
-            
-            if ($melbQty > 0) {
+            } elseif ($melbQty > 1) {
                 $items[$key]['available'] = true;
-            } else {
-                $items[$key]['available'] = false;
-            }
-            
-            if ($brisQty > 0) {
+            } elseif ($brisQty > 1) {
                 $items[$key]['available'] = true;
-            } else {
-                $items[$key]['available'] = false;
-            }
-            
-            if ($miraQty > 0) {
+            } elseif ($miraQty > 1) {
                 $items[$key]['available'] = true;
-            } else {
-                $items[$key]['available'] = false;
-            }
-            
-            if ($cannQty > 0) {
+            } elseif ($cannQty > 1) {
                 $items[$key]['available'] = true;
-            } else {
-                $items[$key]['available'] = false;
-            }
-            
-            if ($parrQty > 0) {
+            } elseif ($parrQty > 1) {
                 $items[$key]['available'] = true;
             } else {
                 $items[$key]['available'] = false;
