@@ -11,12 +11,7 @@
         <job name="pronto_product_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="execute">
             <schedule>0 0 * * *</schedule>
         </job>
-
-        <job name="pronto_productstock_sync" instance="Digidirect\Pronto\Cron\CronStockStatusUpdate" method="execute">
-            <schedule>0 2 * * *</schedule>
-        </job>
-
-        <job name="pronto_disableproduct" instance="Digidirect\Pronto\Cron\CronStockStatusUpdate" method="execute">
+        <job name="pronto_disableproduct" instance="Digidirect\Pronto\Cron\DisableProduct" method="execute">
             <schedule>0 3 * * *</schedule>
         </job>
 
