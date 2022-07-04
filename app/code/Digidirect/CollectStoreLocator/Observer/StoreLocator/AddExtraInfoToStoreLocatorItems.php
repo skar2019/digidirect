@@ -122,7 +122,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
                         $cannQty = $cannQty * $sourceItem->getQuantity();
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
-                        $parrQty = $cannQty * $sourceItem->getQuantity();
+                        $parrQty = $parrQty * $sourceItem->getQuantity();
                     }
                 }
             }
