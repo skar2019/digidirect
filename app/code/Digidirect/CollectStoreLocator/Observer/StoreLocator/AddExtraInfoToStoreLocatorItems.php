@@ -110,19 +110,19 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //$qty .= $sourceItem->getQuantity();
                     
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
-                        $sydnQty = $sourceItem->getQuantity();
+                        $sydnQty = $sydnQty + $sourceItem->getQuantity();
                     } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
-                        $bondQty = $sourceItem->getQuantity();
+                        $bondQty = $bondQty + $sourceItem->getQuantity();
                     } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
-                        $melbQty = $sourceItem->getQuantity();
+                        $melbQty = $melbQty + $sourceItem->getQuantity();
                     } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
-                        $brisQty = $sourceItem->getQuantity();
+                        $brisQty = $brisQty + $sourceItem->getQuantity();
                     } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
-                        $miraQty = $sourceItem->getQuantity();
+                        $miraQty = $miraQty + $sourceItem->getQuantity();
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
-                        $cannQty = $sourceItem->getQuantity();
+                        $cannQty = $cannQty + $sourceItem->getQuantity();
                     } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
-                        $parrQty = $sourceItem->getQuantity();
+                        $parrQty = $parrQty + $sourceItem->getQuantity();
                     }
                 }
             }
