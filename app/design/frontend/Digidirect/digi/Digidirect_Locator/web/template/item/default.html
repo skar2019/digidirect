@@ -1,6 +1,5 @@
 <label class="parent-storelist">
 <input type="radio" name="storelist" data-bind="value:city, attr: {id:city, class: city}" >
-<input type="checkbox" id="sl-close" name="sl-close">
 <div class="locator-item item sldetails" data-bind="css: { 'store-wrapper column': $parents[2].locations.settings().open_in_popup }, attr: {id: 'sldetails-' + city }">
     <!-- ko if: $data.image -->
     <img class="image _hide-for-mobile" data-bind="attr: {src: image, alt: name}" />
@@ -11,6 +10,7 @@
     <!-- /ko -->
     <!-- /ko -->
     <div class="details">
+        <input type="checkbox" id="sl-close" name="sl-close">
         <span class="name"><!-- ko text: name --><!-- /ko --></span>
         <span class="icon">
             <i class="fa fa-building" aria-hidden="true" style="color: gray !important;"></i>
