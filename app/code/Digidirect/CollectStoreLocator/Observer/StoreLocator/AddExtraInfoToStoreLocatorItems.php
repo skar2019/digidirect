@@ -95,6 +95,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $brisQty = 1;
             $miraQty = 1;
             $cannQty = 1;
+            $parrQty = 1;
             
             foreach ($cartItems as $cartItem) {
             
@@ -108,33 +109,37 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
                     
-                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN') {
+                    if ($sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $sourceItem->getQuantity();
-                    } elseif ($id == 13 && $sourceItem->getSourceCode() == 'BOND') {
+                    } elseif ($sourceItem->getSourceCode() == 'BOND') {
                         $bondQty = $bondQty * $sourceItem->getQuantity();
-                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'MELB') {
+                    } elseif ($sourceItem->getSourceCode() == 'MELB') {
                         $melbQty = $melbQty * $sourceItem->getQuantity();
-                    } elseif ($id == 22 && $sourceItem->getSourceCode() == 'BRIS') {
+                    } elseif ($sourceItem->getSourceCode() == 'BRIS') {
                         $brisQty = $brisQty * $sourceItem->getQuantity();
-                    } elseif ($id == 25 && $sourceItem->getSourceCode() == 'MIRA') {
+                    } elseif ($sourceItem->getSourceCode() == 'MIRA') {
                         $miraQty = $miraQty * $sourceItem->getQuantity();
-                    } elseif ($id == 28 && $sourceItem->getSourceCode() == 'CANN') {
+                    } elseif ($sourceItem->getSourceCode() == 'CANN') {
                         $cannQty = $cannQty * $sourceItem->getQuantity();
+                    } elseif ($sourceItem->getSourceCode() == 'PARR') {
+                        $parrQty = $parrQty * $sourceItem->getQuantity();
                     }
                 }
             }
                     
-            if ($sydnQty > 1) {
+            if ($sydnQty > 0) {
                 $items[$key]['available'] = true;
-            } elseif ($bondQty > 1) {
+            } elseif ($bondQty > 0) {
                 $items[$key]['available'] = true;
-            } elseif ($melbQty > 1) {
+            } elseif ($melbQty > 0) {
                 $items[$key]['available'] = true;
-            } elseif ($brisQty > 1) {
+            } elseif ($brisQty > 0) {
                 $items[$key]['available'] = true;
-            } elseif ($miraQty > 1) {
+            } elseif ($miraQty > 0) {
                 $items[$key]['available'] = true;
-            } elseif ($cannQty > 1) {
+            } elseif ($cannQty > 0) {
+                $items[$key]['available'] = true;
+            } elseif ($parrQty > 0) {
                 $items[$key]['available'] = true;
             } else {
                 $items[$key]['available'] = false;
