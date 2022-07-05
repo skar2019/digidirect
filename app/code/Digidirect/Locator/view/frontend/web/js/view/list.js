@@ -3,7 +3,7 @@ define([
     'uiComponent',
     'Digidirect_Locator/js/model/locations',
     'Magento_Ui/js/lib/core/events'
-], function (ko, Component, locations, events) {
+], function(ko, Component, locations, events) {
     'use strict';
 
     return Component.extend({
@@ -16,56 +16,56 @@ define([
                 details: 'locator_details'
             }
         },
-        initialize: function () {
+        initialize: function() {
             this._super();
             this.renderItems();
         },
-        renderItems: function () {
+        renderItems: function() {
             if (this.isPaginationEnable) {
                 this.pageFrame--;
                 this.paginationObservable();
             } else {
-                this.perPage = function () {
+                this.perPage = function() {
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
             }
         },
-        paginationObservable: function () {
+        paginationObservable: function() {
             var self = this;
 
             self.frameStart = ko.observable(1);
             self.frameEnd = ko.observable(1 + this.pageFrame);
 
-            self.perPage = ko.computed(function () {
+            self.perPage = ko.computed(function() {
                 if (locations.settings() !== undefined && locations.settings().stores_on_locator_page) {
                     return locations.settings().stores_on_locator_page;
                 }
                 return self.defaultPerPage;
             });
 
-            self.locationsList = ko.computed(function () {
+            self.locationsList = ko.computed(function() {
                 var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
                 return locations.items().slice(startIndex, startIndex + self.perPage());
             });
 
-            self.totalItemCount = ko.computed(function () {
+            self.totalItemCount = ko.computed(function() {
                 return locations.items().length;
             });
 
-            self.lastPage = ko.computed(function () {
+            self.lastPage = ko.computed(function() {
                 return Math.floor((self.totalItemCount() - 1) / self.perPage()) + 1;
             });
 
-            self.hasNextPage = ko.computed(function () {
+            self.hasNextPage = ko.computed(function() {
                 return self.currentPage() < self.lastPage();
             });
 
-            self.hasPrevPage = ko.computed(function () {
+            self.hasPrevPage = ko.computed(function() {
                 return self.currentPage() > 1;
             });
 
-            self.pager = ko.computed(function () {
+            self.pager = ko.computed(function() {
                 var pagesArray = [],
                     i,
                     pageCount = self.lastPage(),
@@ -84,44 +84,44 @@ define([
                 return pagesArray;
             });
 
-            self.canShowPreviousJump = ko.computed(function () {
+            self.canShowPreviousJump = ko.computed(function() {
                 return self.getPreviousJumpPage() !== null;
             });
 
-            self.canShowNextJump = ko.computed(function () {
+            self.canShowNextJump = ko.computed(function() {
                 return self.getNextJumpPage() !== null;
             });
         },
-        getFrameStart: function () {
+        getFrameStart: function() {
             return Math.floor(this.pageFrame / 2);
         },
-        getFrameEnd: function () {
+        getFrameEnd: function() {
             return Math.ceil(this.pageFrame / 2);
         },
         currentPage: locations.currentPage,
         locations: locations,
-        prevItem: function () {
+        prevItem: function() {
             this.currentPage(this.currentPage() - 1);
         },
-        nextItem: function () {
+        nextItem: function() {
             this.currentPage(this.currentPage() + 1);
         },
-        isCurrentPage: function (item) {
+        isCurrentPage: function(item) {
             return item === this.currentPage();
         },
-        goToPage: function (page) {
+        goToPage: function(page) {
             this.currentPage(page);
         },
-        getJump: function () {
+        getJump: function() {
             return parseInt(this.pageJump, 10);
         },
-        canShowFirst: function () {
+        canShowFirst: function() {
             return this.getJump() > 1 && this.frameStart() > 1;
         },
-        canShowLast: function () {
+        canShowLast: function() {
             return this.getJump() > 1 && this.frameEnd() < this.lastPage();
         },
-        getPreviousJumpPage: function () {
+        getPreviousJumpPage: function() {
             if (!this.getJump()) {
                 return null;
             }
@@ -133,7 +133,7 @@ define([
 
             return null;
         },
-        getNextJumpPage: function () {
+        getNextJumpPage: function() {
             if (!this.getJump()) {
                 return null;
             }
@@ -145,16 +145,15 @@ define([
 
             return null;
         },
-        showDetails: function (location, e) {
-//            if (!locations.settings().open_in_popup) return true;
-//
-//            e.preventDefault();
+        showDetails: function(location, e) {
+            //            if (!locations.settings().open_in_popup) return true;
+            //
+            //            e.preventDefault();
 
             console.log("click");
             this.details().location = location;
             events.trigger('location.show', location, locations.settings());
         },
-        onRenderList: function () {
-        }
+        onRenderList: function() {}
     });
 });

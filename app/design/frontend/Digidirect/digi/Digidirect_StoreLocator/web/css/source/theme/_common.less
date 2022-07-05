@@ -57,18 +57,38 @@
         }
 
         .scontent-Sydney {
-            display:block;
+            display:none;
             background: #F5F5F5;
         }
+	
+        // .Sydney ~ #sldetails-Sydney {
+        //     background: #F5F5F5;
+        //     margin-right: -25px;
+        // }
 
-        .Sydney ~ .sldetails {
-            background: #F5F5F5;
-            margin-right: -25px;
-        }
+        // .Sydney:not(:checked) ~ #sldetails-Sydney {
+        //     background: transparent;
+        // }
 
-        .Brisbane:checked, .Bondi.Junction:checked, .Melbourne:checked, .Miranda:checked, .Cannington:checked, .Sydney ~ .scontent-Sydney {
-            background: transparent;
-        }
+
+        // .Brisbane:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        // .Bondi.Junction:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        // .Melbourne:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        // .Miranda:checked .Sydney:not(:checked) ~ #sldetails-Sydney,
+        // .Cannington:checked .Sydney:not(:checked) ~ #sldetails-Sydney {
+        //     background: transparent;
+        //     color: red;
+        // }
+
+        // .Sydney:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Brisbane:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Bondi.Junction:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Melbourne:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Miranda:not(:checked) .Sydney ~ #sldetails-Sydney,
+        // .Cannington:not(:checked) .Sydney ~ #sldetails-Sydney {
+        //     background: #F5F5F5;
+        //     margin-right: -25px;
+        // }
 
         .scontent-Brisbane{
             display:none;
@@ -92,7 +112,7 @@
 
         .parent-storelist {
             display: grid;
-            grid-gap: 0.5rem;
+            // grid-gap: 0.5rem;
             grid-template-columns: 1fr 2fr;
             grid-auto-flow: dense;
             padding: 0.5rem;
@@ -177,6 +197,10 @@
             margin-bottom: 60px;
         }
 
+        .sldetails {
+            margin-right: -25px;
+        }
+
         .grid-row {
             /*display: flex;*/
             margin-top: 30px;
@@ -211,6 +235,10 @@
             display: none;
         }
 
+        .scontent-Sydney {
+            display:block;
+        }
+
         .store-wrapper {
             .store-items {
                 display: flex;
@@ -235,6 +263,25 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .store-locator {
+        
+        margin-top: 50px;
+        // display: none;
+
+        .storebanners {
+
+            // img {
+            //     margin: 0;
+            // }
+
+            img.store-locatorbanner2 {
+                display: none !important;
+            }
+
+            img.store-locatorbanner1 {
+                margin: 0 !important;
+            }
+        }
+
         .locator-search {
             display: none;
         }
@@ -244,12 +291,112 @@
         }
 
         .sdetails {
-            position: initial;
-            padding: 0px;
+            // position: initial;
+            position: initial !important;
+            // padding: 0px;
+            width: 98% !important;
+            height: auto !important;
+            margin: 0 !important;
+
+            h2.name-city {
+                display: none !important;
+            }
+
+            .scontent-inner {
+                margin: 5px !important;
+            }
+
+        }
+
+        .locator-item {
+
+            .address {
+                margin: 0 0 5px;
+                font-size: 12px;
+                display: flex;
+            }
+
+            .name {
+                margin: 0 0 5px
+            }
+
+            .main.-phone {
+                font-size: 12px;
+            }
+
+            .image {
+                // display: block;
+                display: block !important;
+                margin: 0 20px 0 0;
+            }
+            
         }
 
         .parent-storelist {
+            // display: block;
+            display: block !important;
+
+            .store-hour {
+                    
+                margin: 5px !important;
+
+                .image {
+                    display: none !important;
+                }
+
+                .openwelcome {
+                    width: 80%;
+                }
+            }
+                
+            input[type="checkbox"]:checked {
+                background: red;
+            }
+
+            input[type="checkbox"] {
+                -webkit-appearance: initial;
+                appearance: initial;
+                color: black;
+                position: relative;
+                right: -55px;
+                font-size: 15px;
+            }
+
+            input[type="checkbox"]:checked:after {
+                content: "x";
+                color: red;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%,-50%);
+                -moz-transform: translate(-50%,-50%);
+                -ms-transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%);
+            }
+
+            input[type="checkbox"]:not(:checked):before {
+            content: 'x';
+
+            }
+
+        }
+
+        .locator-wrapper .locator-item.item.sldetails.store-wrapper.column {
+            border: 1px solid #c7c7c7 !important;
+        }
+
+        
+        input[type=radio]:checked~.sl-close {
             display: block;
+        }
+
+        input[type=radio]:not(:checked)~.sl-close {
+            display: block;
+        }
+
+        input[type=radio]:checked~.sldetails {
+            margin-right: 0px !important;
+            border: none !important;
         }
 
         .grid-row {
