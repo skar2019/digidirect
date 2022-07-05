@@ -80,7 +80,22 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $id = $storeData['entity_id'];
             $qty = 0;
             
-            $qtyArray = array();
+            if (empty($places[$id])) {
+                continue;
+            }
+
+            $place = $places[$id];
+            if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
+                $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
+            }
+            
+            $sydnQty = 1;
+            $bondQty = 1;
+            $melbQty = 1;
+            $brisQty = 1;
+            $miraQty = 1;
+            $cannQty = 1;
+            $parrQty = 1;
             
             foreach ($cartItems as $cartItem) {
             
@@ -90,43 +105,47 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
                 
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                    //echo $this->console_log($sourceItem->getQuantity());
+                    //echo $this->console_log($sourceItem->getSourceCode());
+                    //$qty .= $sourceItem->getQuantity();
                     
-                    if ($sourceItem->getSourceCode() != 'default' && $sourceItem->getSourceCode() != 'SWHS') {
-                        $sourceItemQty = $sourceItem->getQuantity() < 0 ? 0 : $sourceItem->getQuantity();
-                        array_push($qtyArray, $sourceItemQty);
+                    if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
+                        $sydnQty = $sydnQty * $sourceItem->getQuantity();
+                    } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
+                        $bondQty = $bondQty * $sourceItem->getQuantity();
+                    } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB') {
+                        $melbQty = $melbQty * $sourceItem->getQuantity();
+                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS') {
+                        $brisQty = $brisQty * $sourceItem->getQuantity();
+                    } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA') {
+                        $miraQty = $miraQty * $sourceItem->getQuantity();
+                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
+                        $cannQty = $cannQty * $sourceItem->getQuantity();
+                    } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
+                        $parrQty = $parrQty * $sourceItem->getQuantity();
                     }
-                    
-                    if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN' && $sourceItemQty > 0) {
-                        $storeData['available'] = true;
-                    } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND' && $sourceItemQty > 0) {
-                        $storeData['available'] = true;
-                    } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB' && $sourceItemQty > 0) {
-                        $storeData['available'] = true;
-                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS' && $sourceItemQty > 0) {
-                        $storeData['available'] = true;
-                    } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA' && $sourceItemQty > 0) {
-                        $storeData['available'] = true;
-                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN' && $sourceItemQty > 0) {
-                        $storeData['available'] = true;
-                    } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR' && $sourceItemQty > 0) {
-                        $storeData['available'] = true;
-                    }
-                    
                 }
             }
-            
-            
-            
-            /*echo $this->console_log($qtyArray);*/
-            
-            /*if (in_array(0, $qtyArray)) {
-                $items[$key]['available'] = false;
-            } else {
+                    
+            if ($sydnQty > 1) {
                 $items[$key]['available'] = true;
-            }*/
+            } elseif ($bondQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($melbQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($brisQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($miraQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($cannQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($parrQty > 1) {
+                $items[$key]['available'] = true;
+            } else {
+                $items[$key]['available'] = false;
+            }
             
         }
-        
         return $items;
     }
     
