@@ -90,7 +90,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
                 
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                    array_push($qtyArray, max($sourceItem->getQuantity(), 0));
+                    $sourceItemQty = $sourceItem->getQuantity() < 0 ? 0 : $sourceItem->getQuantity();
+                    array_push($qtyArray, $sourceItemQty);
                 }
             }
                     
