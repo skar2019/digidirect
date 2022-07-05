@@ -348,6 +348,36 @@
                     width: 80%;
                 }
             }
+                
+            input[type="checkbox"]:checked {
+                background: red;
+            }
+
+            input[type="checkbox"] {
+                -webkit-appearance: initial;
+                appearance: initial;
+                color: black;
+                position: relative;
+                right: -55px;
+
+            }
+
+            input[type="checkbox"]:checked:after {
+                content: "x";
+                color: red;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%,-50%);
+                -moz-transform: translate(-50%,-50%);
+                -ms-transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%);
+            }
+
+            input[type="checkbox"]:not(:checked):before {
+            content: 'x';
+
+            }
 
         }
 
