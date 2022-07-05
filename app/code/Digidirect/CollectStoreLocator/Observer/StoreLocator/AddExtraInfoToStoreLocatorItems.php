@@ -94,7 +94,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     array_push($qtyArray, $sourceItemQty);
                 }
             }
-                    
+            
+            echo $this->console_log($qtyArray);
+            
             if (in_array(0, $qtyArray)) {
                 $items[$key]['available'] = false;
             } else {
