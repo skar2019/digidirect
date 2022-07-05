@@ -90,20 +90,40 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
                 
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                    
                     if ($sourceItem->getSourceCode() != 'default' && $sourceItem->getSourceCode() != 'SWHS') {
                         $sourceItemQty = $sourceItem->getQuantity() < 0 ? 0 : $sourceItem->getQuantity();
                         array_push($qtyArray, $sourceItemQty);
                     }
+                    
+                    if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN' && $sourceItemQty > 0) {
+                        $storeData['available'] = true;
+                    } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND' && $sourceItemQty > 0) {
+                        $storeData['available'] = true;
+                    } elseif ($id == 7 && $sourceItem->getSourceCode() == 'MELB' && $sourceItemQty > 0) {
+                        $storeData['available'] = true;
+                    } elseif ($id == 10 && $sourceItem->getSourceCode() == 'BRIS' && $sourceItemQty > 0) {
+                        $storeData['available'] = true;
+                    } elseif ($id == 13 && $sourceItem->getSourceCode() == 'MIRA' && $sourceItemQty > 0) {
+                        $storeData['available'] = true;
+                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN' && $sourceItemQty > 0) {
+                        $storeData['available'] = true;
+                    } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR' && $sourceItemQty > 0) {
+                        $storeData['available'] = true;
+                    }
+                    
                 }
             }
             
-            echo $this->console_log($qtyArray);
             
-            if (in_array(0, $qtyArray)) {
+            
+            /*echo $this->console_log($qtyArray);*/
+            
+            /*if (in_array(0, $qtyArray)) {
                 $items[$key]['available'] = false;
             } else {
                 $items[$key]['available'] = true;
-            }
+            }*/
             
         }
         
