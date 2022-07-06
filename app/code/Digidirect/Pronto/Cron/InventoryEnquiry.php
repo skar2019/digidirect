@@ -24,6 +24,7 @@ class InventoryEnquiry
 
     public function execute()
     {
+        //comment to redeploy
         $this->helper->enquireInventory();
 
     }
