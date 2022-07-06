@@ -6,278 +6,106 @@
 //  Variables
 //  ---------------------------------------------
 
-//@locator-list__margin: 0 0 20px;
-//@locator-list__padding: false;
-//@locator-list-count__text-align: center;
-//@locator-list-count__font: @font-weight__semibold 16px @font-family__base;
+@locator-list__margin: 0 0 20px;
+@locator-list__padding: false;
+@locator-list-count__text-align: center;
+@locator-list-count__font: @font-weight__semibold 16px @font-family__base;
 
 //  Items
-//@locator-items__position: false;
-//@locator-items__float: false;
-@locator-items__max-height: false;
-//@locator-items__margin: false;
-//@locator-items__padding: false;
-//@locator-items__overflow: auto;
-@locator-items-parent__max-height: 350px;
-@locator-items-parent__max-height__m: 400px;
-@locator-items-parent__max-height__l: 570px;
+@locator-items__position: false;
+@locator-items__float: false;
+@locator-items__max-height: 600px;
+@locator-items__margin: false;
+@locator-items__padding: false;
+@locator-items__overflow: auto;
 
 //  Item
-//@locator-item__margin: false;
-@locator-item__padding: 18px 0 18px 0;
-//@locator-item__overflow: hidden;
-//@locator-item__border-top: @border-width__base solid @border-color__base;
-//@locator-item__background-color: false;
+@locator-item__margin: false;
+@locator-item__padding: 10px 5px;
+@locator-item__overflow: hidden;
+@locator-item__border-top: @border-width__base solid @border-color__base;
+@locator-item__background-color: false;
 //  Item:image
-//@locator-item-image__float: left;
-@locator-item-image__margin: 0 40px 0 0;
-@locator-item-image__max-width: 150px;
-@locator-item-image__height: 120px;
+@locator-item-image__float: left;
+@locator-item-image__margin: 0 10px 0 0;
+@locator-item-image__max-width: 50px;
 //  Item:details
-//@locator-item-details__overflow: hidden;
+@locator-item-details__overflow: hidden;
 //  Item:name
-//@locator-item-name__display: block;
-@locator-item-name__margin: 0 0 14px;
-//@locator-item-name__padding: false;
-@locator-item-name__font: @font-weight__heavier 13px @font-family__base;
+@locator-item-name__display: block;
+@locator-item-name__margin: 0 0 5px;
+@locator-item-name__padding: false;
+@locator-item-name__font: @font-weight__bold 14px @font-family__base;
 //  Item:address
-@locator-item-address__margin: 0 0 18px;
-//@locator-item-address__padding: false;
+@locator-item-address__margin: 0 0 5px;
+@locator-item-address__padding: false;
 // Item:children
-//@locator-item-children__margin: 5px 0 0 20px;
+@locator-item-children__margin: 5px 0 0 20px;
 
 //
 //  Common
 //  ---------------------------------------------
 
 & when (@media-common = true) {
-    .locator-wrapper {
-
-        position: relative;
-
+    .locator-list {
         & {
-            padding-top: 20px;
-            overflow: hidden;
+            .lib-css(margin, @locator-list__margin);
+            .lib-css(padding, @locator-list__padding);
         }
-
-        .mCSB_container.mCS_no_scrollbar_y.mCS_y_hidden {
-            padding-right: 16px;
+        > .count {
+            .lib-css(text-align, @locator-list-count__text-align);
+            .lib-css(font, @locator-list-count__font);
         }
-
-
-        .locator-item.item.sldetails.store-wrapper.column {
-            border: none;
-            padding: 15px;
-        }
-
     }
 
-    .locator-list {
-        .locator-item:first-child {
-            padding-top: 0;
+    .locator-items {
+        .lib-css(position, @locator-items__position);
+        .lib-css(float, @locator-items__float);
+        .lib-css(max-height, @locator-items__max-height);
+        .lib-css(margin, @locator-items__margin);
+        .lib-css(padding, @locator-items__padding);
+        .lib-css(overflow, @locator-items__overflow);
+    }
+
+    .locator-item {
+        & {
+            .lib-css(margin, @locator-item__margin);
+            .lib-css(padding, @locator-item__padding);
+            .lib-css(overflow, @locator-item__overflow);
+            .lib-css(background-color, @locator-item__background-color);
         }
 
-        .mCSB_scrollTools {
-            right: -9px;
+        &:not(:first-child) {
+            .lib-css(border-top, @locator-item__border-top);
         }
 
-        .store-section {
-            > .count {
-                display: none !important;
-            }
-        }
+        .image {
+            .lib-css(float, @locator-item-image__float);
+            .lib-css(margin, @locator-item-image__margin);
+            .lib-css(max-width, @locator-item-image__max-width);
+            .lib-css(height, @locator-item-image__height);
 
-        .store-section .count:not(._hide-for-mobile-tablet-l) {
-            .lib-css(border-color, @border-color__base);
-            .lib-css(font-weight, @font-weight__bold);
-            .lib-font-size(14);
-
-            border-width: 1px 0;
-            border-style: solid;
+            border-radius: 5px !important;
         }
 
         .details {
-
-            position: relative;
-
-            .name{
-                color: #e65504;
-            }
-        }
-
-        .details > .icon {
-            float: left;
-            margin-right: 12px;
-        }
-
-        .details > .icon .svg-icon {
-            width: 15px;
-            height: 15px;
-        }
-
-        .address {
-            font-size: 14px;
-        }
-
-        .details > .link {
-            .lib-font-size(11);
-            color: #e65504 !important;
-            font-weight: 500 !important;
-            text-decoration: underline !important;
-            text-transform: uppercase;
-        }
-
-        .details > .link + .link {
-            margin-left: 24px;
-        }
-
-        .details > .pin {
-            .lib-css(color, @color-2-1);
-
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
-        .pin > .svg-icon {
-            width: 18px;
-            height: 22px;
-        }
-    }
-}
-
-//
-//  Tablet +
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l) {
-    .locator-wrapper {
-        & {
-            display: none;
-        }
-
-        .store-section.active & {
-            display: block;
-        }
-    }
-}
-
-//
-//  Tablet +
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
-
-
-    .locator-item {
-        & {
-            padding-top: 20px;
-            // padding-bottom: 20px;
+            .lib-css(overflow, @locator-item-details__overflow);
         }
 
         .name {
-            .lib-font-size(14);
-
-            padding-right: 20px;
+            .lib-css(display, @locator-item-name__display);
+            .lib-css(margin, @locator-item-name__margin);
+            .lib-css(padding, @locator-item-name__padding);
+            .lib-css(font, @locator-item-name__font);
         }
 
         .address {
-            font-size: 14px;
+            .lib-css(margin, @locator-item-address__margin);
+            .lib-css(padding, @locator-item-address__padding);
         }
 
-        .details > .link {
-            .lib-font-size(12);
-            font-weight: 500;
-            color: #222;
-            margin-top: 15px;
-            display: inline-block;
-        }
-    }
-}
-
-//
-//  Desktop +
-//  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__l) {
-    .digidirect_storelocator-index-index.simple-structure {
-        .locator-items {
-            padding-left: 5px;
-            // padding-left: 20px;
-        }
-    }
-
-    .locator-wrapper {
-        margin-bottom: 30px;
-    }
-
-    .locator-map {
-        height: 100%;
-    }
-
-    .locator-list {
-        & {
-            margin: 0;
-        }
-
-        .locator-item {
-            margin-left: 0;
-        }
-
-        .locator-item .image {
-            margin-right: 6.6%;
-        }
-
-        .locator-wrapper {
-            // padding-bottom: 20px;
-        }
-
-        .mCSB_scrollTools {
-            right: 0;
-        }
-
-        .locator-wrapper > .locator-items {
-            margin-right: 16px;
-
-            .details{
-                .name{
-                    font-size: 22px;
-                    font-weight: bold;
-                    color: #e65504;
-                }
-            }
-        }
-
-        .action.-select{
-            border-radius: 4px;
-            color: #fff;
-            transition: all .5s ease;
-            float: right;
-            border: 2px solid #e65401 !important;
-
-            &::hover{
-                border: 2px solid #e65504 !important;
-            }
-        }
-    }
-
-    .store-section {
-        > .count {
-            font-size: 22px;
-            padding: 20px 20px 0;
-            text-align: left;
-            font-weight: bold;
-        }
-    }
-
-    .locator-item {
-        .name {
-            .lib-font-size(16);
-        }
-        .address {
-            font-size: 14px;
-            margin-bottom: 0;
-            display: flex;
+        .children {
+            .lib-css(margin, @locator-item-children__margin);
         }
     }
 }
