@@ -95,6 +95,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $brisQty = 1;
             $miraQty = 1;
             $cannQty = 1;
+            $parrQty = 1;
             
             foreach ($cartItems as $cartItem) {
             
@@ -120,6 +121,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $miraQty = $miraQty * $sourceItem->getQuantity();
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
                         $cannQty = $cannQty * $sourceItem->getQuantity();
+                    } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
+                        $parrQty = $parrQty * $sourceItem->getQuantity();
                     }
                 }
             }
@@ -135,6 +138,8 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             } elseif ($miraQty > 1) {
                 $items[$key]['available'] = true;
             } elseif ($cannQty > 1) {
+                $items[$key]['available'] = true;
+            } elseif ($parrQty > 1) {
                 $items[$key]['available'] = true;
             } else {
                 $items[$key]['available'] = false;
