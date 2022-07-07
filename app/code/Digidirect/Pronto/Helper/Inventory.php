@@ -548,6 +548,7 @@ class Inventory extends AbstractHelper
 
         $this->logger->info($forLogs);
 
+        exit; //for testing
         if($startitem == $lastCode)
         {
             return true;
