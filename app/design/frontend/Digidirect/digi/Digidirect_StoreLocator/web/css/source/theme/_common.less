@@ -28,7 +28,7 @@
 
         .Sydney:checked ~ .scontent-Sydney {
             display: block;
-            background: #F5F5F5;
+            background: red;
         }
 
         .Brisbane:checked ~ .scontent-Brisbane{
@@ -61,10 +61,10 @@
             background: #F5F5F5;
         }
 
-        .scontent-Sydney {
-            display:none;
-            background: #F5F5F5;
-        }
+        // .scontent-Sydney {
+        //     display:none;
+        //     background: #F5F5F5;
+        // }
 	
         // .Sydney ~ #sldetails-Sydney {
         //     background: #F5F5F5;
@@ -244,9 +244,7 @@
             display: none;
         }
 
-        .scontent-Sydney {
-            display:block;
-        }
+
 
         .store-wrapper {
             .store-items {
@@ -260,6 +258,10 @@
                 justify-content: center;
                 margin-left: 15px;
             }
+        }
+
+        .locator-item.item.sldetails.store-wrapper.column {
+            border: none;
         }
         
 
@@ -393,7 +395,6 @@
         .locator-wrapper .locator-item.item.sldetails.store-wrapper.column {
             border: 1px solid #c7c7c7;
         }
-
         
         input[type=radio]:checked~.sl-close {
             display: block;
