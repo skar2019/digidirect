@@ -115,45 +115,7 @@ class Inventory extends AbstractHelper
 
                     }
 
-                    if($prodRes['stk-condition-code'] == 'O')
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    }
-                    else
-                    {
-                        //web flag
-                        //if blank, set to disable
-                        if($prodRes['stk-user-only-alpha4-1'] == '')
-                        {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        }
-                        else if($prodRes['stk-user-only-alpha4-1'] == 'N')
-                        {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        }
-                        else {
-                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        }
 
-                    }
-                    //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
-                    if($prodRes['stk-user-only-alpha4-1'] == 'A')
-                    {
-                        $prod->setCustomAttribute('awaiting_product', '1');
-                        $forLogs .= "Awaiting 1 \n";
-                    }
-                    else {
-                        $prod->setCustomAttribute('awaiting_product', '0');
-                        $forLogs .= "Awaiting 0 \n";
-                    }
-
-                    if($prodRes['stk-abc-class'] == 'P')
-                    {
-                        $prod->setCustomAttribute('pre_order', '1');
-                        $prod->setCustomAttribute('preorder', '1');
-                        $forLogs .= "Pre Order 1 \n";
-                        //echo "pre_order 1  <br/>";
-                    }
 
                     $totalwrhs = 0;
                     if(isset($prodRes['warehouse']['whse']))
@@ -224,6 +186,46 @@ class Inventory extends AbstractHelper
                         $this->productRepository->save($prod);
                     }
 
+                    if($prodRes['stk-condition-code'] == 'O')
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else
+                    {
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'N')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else {
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
+
+                    }
+                    //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                    if($prodRes['stk-user-only-alpha4-1'] == 'A')
+                    {
+                        $prod->setCustomAttribute('awaiting_product', '1');
+                        $forLogs .= "Awaiting 1 \n";
+                    }
+                    else {
+                        $prod->setCustomAttribute('awaiting_product', '0');
+                        $forLogs .= "Awaiting 0 \n";
+                    }
+
+                    if($prodRes['stk-abc-class'] == 'P')
+                    {
+                        $prod->setCustomAttribute('pre_order', '1');
+                        $prod->setCustomAttribute('preorder', '1');
+                        $forLogs .= "Pre Order 1 \n";
+                        //echo "pre_order 1  <br/>";
+                    }
+
                     if(isset($prodRes['warehouse']['whse']))
                     {
                         foreach ($prodRes['warehouse']['whse'] as $qt)
@@ -285,13 +287,13 @@ class Inventory extends AbstractHelper
             $startitem = 0;
         }
 
-
         $lastCode = 0;
         $forLogs = "";
         date_default_timezone_set('UTC');
         $newTime = strtotime('-20 minutes');
         $prontofilter = date('dmYHis', $newTime);//$now->format('dmYhis');
 
+        echo $prontofilter ."<br/>";
         //$prontofilter = '05072021000000';
         // testing
 
@@ -315,13 +317,14 @@ class Inventory extends AbstractHelper
         $this->curl->get($url);
 
         $result = $this->curl->getBody();
-        // echo $result;
+
         $json = $this->jsonSerializer->unserialize($result);
+
 
         if(isset($json['response']) && ($json['response']['status'] == 'FAIL'))
         {
             $msg =  $json['response']['message'];
-            $this->logger->error('Pronto Inventory Sync', array('info' => $msg));
+            //$this->logger->error('Pronto Inventory Sync', array('info' => $msg));
             exit;
         }
 
@@ -336,23 +339,25 @@ class Inventory extends AbstractHelper
 
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
-                $forLogs .= "SKU - ".$sku."\n";
+                echo  "SKU - ".$sku."<br/>";
+
                 //pricing
-                try {
+                try
+                {
                     $prod = $this->productRepository->get($sku);
                     if(isset($prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax']))
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                         $prod->setPrice($retail);
-                        $forLogs .= "Price - ".$retail."\n";
+                        echo "Price - ".$retail."<br/>";
 
                     }
-                    $endis = 'nochange';
-                    echo $prodRes['stk-condition-code']. " stk-condition-code <br />";
+
+                    echo $prodRes['stk-user-only-alpha4-1']."<br/>";
                     if($prodRes['stk-condition-code'] == 'O')
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        $endis = 'disabled';
+                        echo "stock condition 0"." <br/>";
                     }
                     else
                     {
@@ -361,37 +366,38 @@ class Inventory extends AbstractHelper
                         if($prodRes['stk-user-only-alpha4-1'] == '')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                            $endis = 'disabled';
+                            echo "disable "."<br/>";
                         }
-                        else if($prod['stk-user-only-alpha4-1'] == 'W') //enable this since this is a inventory sync, new products wont be in this sync (hopefully)
-                        {
-                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
-                        }
-                        else if($prod['stk-user-only-alpha4-1'] == 'N')
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                            $endis = 'disabled';
+                            echo "disable N "."<br/>";
                         }
                         else {
                             //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            echo "do nothing "."<br/>";
                         }
-                    }
-                    //web flag
-                    //if blank, set to disable
-                    echo $prodRes['stk-user-only-alpha4-1']. " stk-user-only-alpha4-1 <br />";
-//                    if($prodRes['stk-user-only-alpha4-1'] == '')
-//                    {
-//                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-//                        $endis = 'disabled';
-//                    }
-//                    else if($prodRes['stk-user-only-alpha4-1'] == 'W')
-//                    {
-//                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//                        $endis = 'enabled';
-//                    }
 
-                    echo $endis . "<br/>";
+                    }
+                    //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                    if($prodRes['stk-user-only-alpha4-1'] == 'A')
+                    {
+                        $prod->setCustomAttribute('awaiting_product', '1');
+                        echo "Awaiting 1" . "<br/>";
+                    }
+                    else {
+                        $prod->setCustomAttribute('awaiting_product', '0');
+                        echo "Awaiting 0" . "<br/>";
+                    }
+
+                    if($prodRes['stk-abc-class'] == 'P')
+                    {
+                        $prod->setCustomAttribute('pre_order', '1');
+                        $prod->setCustomAttribute('preorder', '1');
+                        echo "Pre Order 1" ."<br/>";
+                        //echo "pre_order 1  <br/>";
+                    }
+
                     $totalwrhs = 0;
                     if(isset($prodRes['warehouse']['whse']))
                     {
@@ -405,7 +411,7 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
                                 $totalwrhs = $totalwrhs + $qt['qty_available'];
-                                $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                                echo $qt['code']." - ".$qt['qty_available']."<br/>";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                             else
@@ -417,7 +423,7 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
                                 $totalwrhs = $totalwrhs + $qt['qty_available'];
-                                $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
+                                echo $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."<br/>";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                         }
@@ -427,11 +433,12 @@ class Inventory extends AbstractHelper
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
-
+                    $prod->setCustomAttribute('stock_condition', $prodRes['stk-condition-code']);
                     $this->productRepository->save($prod);
-
-                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-                    $forLogs .= "SKU not exist - ".$sku."\n";
+                }
+                catch (\Magento\Framework\Exception\NoSuchEntityException $e)
+                {
+                    echo "SKU not exist - ".$sku."<br/>";
                 }
             }
         }
@@ -447,8 +454,8 @@ class Inventory extends AbstractHelper
 
                 $sku =  $prodRes['code'];
                 $lastCode = $sku;
-                $forLogs .= "SKU - ".$sku."\n";
-                echo $sku."<br>";
+                echo "SKU - ".$sku."<br/>";
+                //pricing
                 try {
 
                     $prod = $this->productRepository->get($sku);
@@ -456,16 +463,15 @@ class Inventory extends AbstractHelper
                     {
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                         $prod->setPrice($retail);
-                        $forLogs .= "Price - ".$retail."\n";
-                        //$this->productRepository->save($prod);
+                        echo "Price - ".$retail."<br/>";
+                        $this->productRepository->save($prod);
                     }
 
-                    $endis = 'nochange';
-                    echo $prodRes['stk-condition-code']. " stk-condition-code <br />";
+                    echo $prodRes['stk-user-only-alpha4-1']."<br/>";
                     if($prodRes['stk-condition-code'] == 'O')
                     {
                         $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        $endis = 'disabled';
+                        echo "stock condition 0"." <br/>";
                     }
                     else
                     {
@@ -474,21 +480,38 @@ class Inventory extends AbstractHelper
                         if($prodRes['stk-user-only-alpha4-1'] == '')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                            $endis = 'disabled';
+                            echo "disable "."<br/>";
                         }
-                        else if($prodRes['stk-user-only-alpha4-1'] == 'W')
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            echo "disable N "."<br/>";
                         }
                         else {
                             //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            echo "do nothing "."<br/>";
                         }
 
                     }
+                    //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                    if($prodRes['stk-user-only-alpha4-1'] == 'A')
+                    {
+                        $prod->setCustomAttribute('awaiting_product', '1');
+                        echo "Awaiting 1" . "<br/>";
+                    }
+                    else {
+                        $prod->setCustomAttribute('awaiting_product', '0');
+                        echo "Awaiting 0" . "<br/>";
+                    }
 
-                    echo $endis . "<br/>";
-                    $totalwrhs = 0;
+                    if($prodRes['stk-abc-class'] == 'P')
+                    {
+                        $prod->setCustomAttribute('pre_order', '1');
+                        $prod->setCustomAttribute('preorder', '1');
+                        echo "Pre Order 1" ."<br/>";
+                        //echo "pre_order 1  <br/>";
+                    }
+
                     if(isset($prodRes['warehouse']['whse']))
                     {
                         foreach ($prodRes['warehouse']['whse'] as $qt)
@@ -500,8 +523,7 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($qt['qty_available']);
-                                $totalwrhs = $totalwrhs + $qt['qty_available'];
-                                $forLogs .= $qt['code']." - ".$qt['qty_available']."\n";
+                                echo $qt['code']." - ".$qt['qty_available']."<br/>";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                             else
@@ -512,25 +534,15 @@ class Inventory extends AbstractHelper
                                 $sourceItem->setSku($prodRes['code']);
                                 $sourceItem->setStatus(1);
                                 $sourceItem->setQuantity($prodRes['warehouse']['whse']['qty_available']);
-                                $totalwrhs = $totalwrhs + $qt['qty_available'];
-                                $forLogs .= $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."\n";
+                                echo $prodRes['warehouse']['whse']['code']." - ".$prodRes['warehouse']['whse']['qty_available']."<br/>";
                                 $this->sourceItemsSaveInterface->execute([$sourceItem]);
                             }
                         }
                     }
-
-                    if($prodRes['stk-condition-code'] == 'T' && $totalwrhs == 0)
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                        echo "Set disabled dun to T and 0 SOH <br/>";
-                    }
-
-                    $this->productRepository->save($prod);
-
+                    //echo $lastCode."<br>";
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-                    $forLogs .= "SKU not exist - ".$sku."\n";
+                    echo "SKU not exist - ".$sku."<br/>";
                 }
-
             }
         }
 
@@ -538,7 +550,7 @@ class Inventory extends AbstractHelper
 
         if($startitem == $lastCode)
         {
-            exit;
+            return true;
         }
 
         $this->enquireInventoryTest($lastCode);
