@@ -16,15 +16,15 @@
 //  ---------------------------------------------
 & when (@media-common = true) {
     /*.store-locator {*/
-        .locator-details .name,
-        .locator-item .name{
-            font-family: 'Poppins', sans-serif;
-        }
+    .locator-details .name,
+    .locator-item .name{
+        font-family: 'Poppins', sans-serif;
+    }
     /*}*/
 
     .store-locator {
 
-        margin-top: 100px;
+        margin-top: 50px;
 
         .Sydney:checked ~ .scontent-Sydney {
             display: block;
@@ -65,7 +65,7 @@
             display:none;
             background: #F5F5F5;
         }
-	
+
         // .Sydney ~ #sldetails-Sydney {
         //     background: #F5F5F5;
         //     margin-right: -25px;
@@ -126,7 +126,7 @@
             grid-auto-flow: dense;
             padding: 0.5rem;
         }
-        
+
         input[type="radio"] {
             display: none;
             /*display: block;*/
@@ -244,16 +244,12 @@
             display: none;
         }
 
-        .scontent-Sydney {
-            display:block;
-        }
-
         .store-wrapper {
             .store-items {
                 display: flex;
                 flex-direction: row;
             }
-    
+
             .store-details {
                 display: flex;
                 flex-direction: column;
@@ -261,7 +257,11 @@
                 margin-left: 15px;
             }
         }
-        
+
+        .locator-item.item.sldetails.store-wrapper.column {
+            border: none;
+        }
+
 
     }
 }
@@ -272,7 +272,7 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .store-locator {
-        
+
         margin-top: 50px;
         // display: none;
 
@@ -338,7 +338,7 @@
                 display: block !important;
                 margin: 0 20px 0 0;
             }
-            
+
         }
 
         .parent-storelist {
@@ -346,7 +346,7 @@
             display: block !important;
 
             .store-hour {
-                    
+
                 margin: 5px !important;
 
                 .image {
@@ -357,7 +357,7 @@
                     width: 80%;
                 }
             }
-                
+
             input[type="checkbox"]:checked {
                 background: red;
             }
@@ -384,7 +384,7 @@
             }
 
             input[type="checkbox"]:not(:checked):before {
-            content: 'x';
+                content: 'x';
 
             }
 
@@ -394,7 +394,6 @@
             border: 1px solid #c7c7c7;
         }
 
-        
         input[type=radio]:checked~.sl-close {
             display: block;
         }
