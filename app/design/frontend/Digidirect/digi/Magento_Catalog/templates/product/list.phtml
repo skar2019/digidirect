@@ -175,12 +175,6 @@ $showWishlist = true;
                                                     <i class="far fa-star"></i>
                                                     <i class="far fa-star"></i>
                                                     <i class="far fa-star"></i>
-                                                <?php elseif ($d2ItemRating == 0): ?>
-                                                    <i class="far fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <i class="far fa-star"></i>
-                                                    <i class="far fa-star"></i>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -573,6 +567,10 @@ $showWishlist = true;
         margin-bottom: 4px !important;
         padding-left: 15px;
         margin-top: 4px;
+    }
+    
+    .package-inclusion-wrapper li:nth-of-type(1n+4) {
+        display: none;
     }
     
     .package-inclusion-wrapper p {
