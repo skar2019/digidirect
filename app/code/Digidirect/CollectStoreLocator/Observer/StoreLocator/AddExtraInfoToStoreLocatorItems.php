@@ -70,16 +70,16 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
-        
+
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
         $cartItems = $cart->getQuote()->getAllItems();
 
         foreach ($items as $key => $storeData) {
-            
+
             $id = $storeData['entity_id'];
             $qty = 0;
-            
+
             if (empty($places[$id])) {
                 continue;
             }
@@ -88,7 +88,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
                 $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
             }
-            
+
             $sydnQty = 1;
             $bondQty = 1;
             $melbQty = 1;
@@ -96,19 +96,20 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $miraQty = 1;
             $cannQty = 1;
             $parrQty = 1;
-            
+            $stPetersQty = 1;
+
             foreach ($cartItems as $cartItem) {
-            
+
                 $prodId = $cartItem->getProductId();
                 $product = $objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-                
+
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
                     //echo $this->console_log($sourceItem->getQuantity());
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
-                    
+
                     if ($id == 1 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $sourceItem->getQuantity();
                     } elseif ($id == 31 && $sourceItem->getSourceCode() == 'BOND') {
@@ -121,12 +122,14 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $miraQty = $miraQty * $sourceItem->getQuantity();
                     } elseif ($id == 16 && $sourceItem->getSourceCode() == 'CANN') {
                         $cannQty = $cannQty * $sourceItem->getQuantity();
-                    } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
+                    } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
+                        $stPetersQty = $stPetersQty * $sourceItem->getQuantity();
+                    } /*elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $sourceItem->getQuantity();
-                    }
+                    }*/
                 }
             }
-                    
+
             if ($sydnQty > 1) {
                 $items[$key]['available'] = true;
             } elseif ($bondQty > 1) {
@@ -139,19 +142,21 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $items[$key]['available'] = true;
             } elseif ($cannQty > 1) {
                 $items[$key]['available'] = true;
-            } elseif ($parrQty > 1) {
+            } elseif ($stPetersQty > 1) {
                 $items[$key]['available'] = true;
-            } else {
+            } /*elseif ($parrQty > 1) {
+                $items[$key]['available'] = true;
+            }*/ else {
                 $items[$key]['available'] = false;
             }
-            
+
         }
         return $items;
     }
-    
+
     function console_log($output, $with_script_tags = true) {
-        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
-    ');';
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
+            ');';
         if ($with_script_tags) {
             $js_code = '<script>' . $js_code . '</script>';
         }
