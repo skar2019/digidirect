@@ -57,7 +57,8 @@ class TestPronto extends AbstractHelper
         '10' => 'B5P',
         '13' => 'M6P',
         '16' => 'C3P',
-        '19' => 'B5P'
+        '32' => 'P4P',
+        '35' => 'C9W'
 
     ];
 
@@ -199,6 +200,8 @@ class TestPronto extends AbstractHelper
                         }
 
                     }
+
+                    echo "Rep ".$rep."<br/>";
 
                     $contactname = $accountname;
                     //check pronto if customer has an account.
@@ -581,6 +584,7 @@ class TestPronto extends AbstractHelper
     public function getRep(OrderInterface $order) {
         if ($order->getShippingMethod() == 'collect_collect') {
             if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+                echo "collectPlaceId -".$collectPlaceId."<br/>";
                 $mapping = $this->repCodeForPickUp;
                 return $mapping[$collectPlaceId] ?? '';
             }
@@ -791,6 +795,16 @@ class TestPronto extends AbstractHelper
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
             $countrycode = $address->getCountryId();
+            $countryName = "";
+            if(isset($countrycode))
+            {
+                $country = $this->countryFactory->create()->loadByCode($countrycode);
+                if ($country) {
+                    $countryName = $country->getName();
+                }
+            }
+
+
             $amShipping = $order->getShippingDescription();
             $is_am_order = false;
             $is_am_fba = false;
@@ -921,12 +935,6 @@ class TestPronto extends AbstractHelper
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
             $countrycode = $address->getCountryId();
-            $countryName = "Australia";
-            $country = $this->countryFactory->create()->loadByCode($countrycode);
-            if ($country) {
-                $countryName = $country->getName();
-            }
-
             $phone = $address->getTelephone();
             $mobile = $address->getMobile();
             $company = $address->getCompany();
@@ -1064,6 +1072,10 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+            if(($is_am_order) && ($payment_type == "EB")){
+                $payment_type = "AM";
+            }
+
             $withpaymentref = true;
             if(($payment_type == "Y"))
             {
@@ -1076,6 +1088,18 @@ class TestPronto extends AbstractHelper
             if(($payment_type == "VI"))
             {
                 $withpaymentref = false;
+            }
+            //gift cards
+            $withGC = false;
+            $gift_amount = $order->getGiftCardsAmount();
+            if($gift_amount > 0)
+            {
+                $withGC = true;
+                $gift_amount = round($gift_amount, 2);
+                $gc_reference = $order->getGiftCards('c');
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
+                $data['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
             }
 
             $amount_tendered = $order->getBaseGrandTotal();
