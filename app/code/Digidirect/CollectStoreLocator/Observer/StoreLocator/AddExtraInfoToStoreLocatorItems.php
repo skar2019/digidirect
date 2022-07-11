@@ -162,4 +162,5 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
         }
         echo $js_code;
     }
+    //to commit
 }
