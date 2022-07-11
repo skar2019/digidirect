@@ -199,10 +199,10 @@
 }
 
 //
-//  Mobile
+//  Tablet
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+@media only screen and (min-width: @screen__m) and (max-width: (@screen__xl - 1)) {
     .page-products .offcanvas-panel.device-only {
         position: fixed;
         top: 0;
@@ -225,4 +225,8 @@
     .page-products .offcanvas-panel.device-only.offcanvas-left.-active {
         left: 0;
     }
+}
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+    
 }
