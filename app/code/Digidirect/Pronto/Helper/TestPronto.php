@@ -866,6 +866,8 @@ class TestPronto extends AbstractHelper
 
             }
 
+            echo "Rep ".$rep."<br/>";
+
             $directToWhse = false;
             if($isMarketPlace)
             {
