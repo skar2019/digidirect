@@ -253,7 +253,7 @@
             }
 
             .product-item {
-                width: calc(~'(100% - 10%) / 6.5');
+                width: calc(~'(100% - 6.5%) / 5');
             }
         }
     }
@@ -351,14 +351,19 @@
     
     .category-view {
         display: block !important;
-        padding: 15px !important;
-        background: #ff3c00;
+        background: #fff;
+        margin: 20px 0 0;
+        position: relative;
+    }
+    
+    .category-view .page-title-wrapper .page-title {
+        color: #000;
+        font-size: 27px;
     }
 
     .toolbar-products .desktop-row {
         border: 1px solid #cacaca !important;
         width: unset !important;
-
     }
 
     .custom-sorter {
@@ -375,6 +380,11 @@
 
     .toolbar-products .filter.-mobile {
         width: 50% !important;
+        display: block !important;
+    }
+    
+    .toolbar-products .sorter.-mobile {
+        display: block !important;
     }
 
     .products.wrapper.products-widget.product-category-listing.grid.products-grid {
