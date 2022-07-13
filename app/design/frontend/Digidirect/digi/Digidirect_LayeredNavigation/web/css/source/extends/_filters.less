@@ -63,6 +63,14 @@
             margin-bottom: 20px;
         }
     }
+    
+    .nav-open .block-search {
+        z-index: 0;
+    }
+
+    .nav-open .page-main {
+        z-index: 0;
+    }
 }
 
 //
@@ -447,7 +455,7 @@
         text-align: center !important;
     }
     
-    //header modification
+    //Header Modifictaion Tablet View
     .header.content {
         height: 155px;
     }
@@ -521,7 +529,7 @@
     
     .sticky {
         padding: 15px !important;
-        margin: 0;
+        margin: 0 !important;
         height: 110px;
     }
 
@@ -536,6 +544,33 @@
     .sticky .minicart-wrapper {
         transition: none !important;
         margin-right: 30px !important;
+    }
+    
+    //Menu Modification Tablet View
+    .navigation .level0:not(:first-child) {
+        padding: 10px 0;
+        background: #f5f5f5;
+        border-bottom: 2px solid #fff !important;
+    }
+
+    .navigation .level0:not(:first-child)>a span {
+        font-size: 17px !important;
+    }
+
+    .ninjamenus.ninjamenus-mobile .nav-item>.opener {
+        width: 100% !important;
+    }
+
+    .ninjamenus.ninjamenus-mobile .nav-item>.opener:before {
+        left: 90%;
+        font-family: 'Font Awesome 5 Free' !important;
+        content: '\f105';
+        font-weight: 600;
+        font-size: 17px;
+    }
+
+    #mobile-menu-only-header {
+        display: block !important;
     }
 
 }
