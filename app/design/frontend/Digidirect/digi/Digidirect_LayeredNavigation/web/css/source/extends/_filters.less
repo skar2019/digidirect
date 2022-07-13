@@ -452,13 +452,9 @@
         height: 155px;
     }
 
-    .logo-wrapper {
-        margin-left: 0 !important;
-    }
-
     .main-header-wrapper .logo-wrapper {
         position: absolute;
-        margin-left: 30px;
+        margin-left: 30px !important;
     }
 
     .block-search {
@@ -511,13 +507,35 @@
         height: 40px;
     }
 
-
+    .main-header-wrapper .wrap-links {
+        display: block !important;
+    }
+    
     .minicart-wrapper {
         margin-right: 0 !important;
     }
 
     .minicart-wrapper .action.showcart .text {
         display: none;
+    }
+    
+    .sticky {
+        padding: 15px !important;
+        margin: 0;
+        height: 110px;
+    }
+
+    .sticky .block-search .actions {
+        right: 60px;
+    }
+
+    .sticky .form.minisearch .control {
+        margin-right: 30px !important;
+    }
+
+    .sticky .minicart-wrapper {
+        transition: none !important;
+        margin-right: 30px !important;
     }
 
 }
