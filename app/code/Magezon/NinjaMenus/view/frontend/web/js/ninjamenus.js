@@ -578,33 +578,35 @@ define([
         _initThirdLayerOpener: function () {
 
             var windowsize = $(window).width();
+            
+            //$(".menu-third-level").attr("style", "display: none;");
 
             $(".mgz-tabs-nav .mgz-tabs-tab-title").click(function(){
-                if (windowsize < 768) {
+                if (windowsize < 1279) {
                     $(".menu-second-level").removeAttr("style");
                 }
             });
 
             $(".return-to-second-layer").click(function(){
                 $(".menu-second-level").removeAttr("style");
-
+               // $(".menu-third-level").attr("style", "display: none;");
             });
 
             $(".tablinks").click(function(){
-                if (windowsize >= 768) {
+                if (windowsize >= 1279) {
                     console.log("Second Level Trigerred: " + windowsize);
                     $(".shop-by-category-menu .item-submenu.expand").attr("style", "width: 850px !important;");
                 }
             });
 
-            if (windowsize >= 768) {
+            if (windowsize >= 1279) {
                 $(".shop-by-category-menu .mgz-tabs-content").mouseleave(function(){
                     $("#shop-by-category-menu-id .item-submenu").removeAttr("style");
                 });
             }
 
             $(document).ready(function(){
-                if ($(window).width() < 768) {
+                if ($(window).width() < 1279) {
                     console.log("Screen Width: " + windowsize);
                     $("#shop-by-category-menu-id").addClass("ninjamenus-toggle-active");
                     $("#shop-by-category-menu-id .item-submenu.mgz-element-inner").attr("style", "display: block;");
