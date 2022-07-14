@@ -59,39 +59,34 @@
 
 <div class="category-page-banner" style="width: 1095px;margin-right: 0;margin-left: auto;">
     <div class="custom-preloader-container"><div class="custom-preloader"></div></div>
-    <script>
-        var imgUrl = "";
-        if($(window).width() >= 1440) {
-            imgUrl = "media/wysiwyg/category-header";
-        }else {
-            imgUrl = "media/wysiwyg/category-header/tablet";
-        }
-    </script>
-    <?php 
-        $imgUrl = "<script>document.writeln(imgUrl);</script>";
-    ?>
     <?php if (in_array($categoryId, $allChildrenCategoryIdsCameras)) :?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>cameras.png"/>
+        <script>
+            if ($(window).width() >= 1440) {
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>cameras.png"/>
+            }else {
+                <img src="<?php echo $block->getUrl("media/wysiwyg/category-header/tablet")?>cameras.png"/>
+            }
+        </script>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsLenses)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>lenses.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>lenses.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsAudioAndVisual)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>audio_and_visual.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>audio_and_visual.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsComputersAndMobile)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>computers_and_mobile.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>computers_and_mobile.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDrones)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>drones.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>drones.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsLightingAndStudio)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>lighting_and_studio.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>lighting_and_studio.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsOptics)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>optics.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>optics.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsPhotoAndAccessories)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>photo_and_accessories.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>photo_and_accessories.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsProVideo)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>pro_video.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>pro_video.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsSmartHome)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>smart_home.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>smart_home.png"/>
     <?php elseif (in_array($categoryId, $allChildrenCategoryIdsDigiSeconds)) : ?>
-        <img src="<?php echo $block->getUrl($imgUrl)?>digiseconds.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/category-header")?>digiseconds.png"/>
     <?php endif; ?>
     
 </div>
