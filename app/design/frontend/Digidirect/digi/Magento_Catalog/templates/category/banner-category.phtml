@@ -68,7 +68,7 @@
         }
     </script>
     <?php 
-        $imgUrl = "<script>imgUrl</script>";
+        $imgUrl = echo "<script>imgUrl;</script>";
     ?>
     <?php if (in_array($categoryId, $allChildrenCategoryIdsCameras)) :?>
         <img src="<?php echo $block->getUrl($imgUrl)?>cameras.png"/>
