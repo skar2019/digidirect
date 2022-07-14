@@ -13,7 +13,7 @@ define(['jquery'], function($){
                 {
                     hash = 'Bondi.Junction';
                 }
-                alert(hash);
+
                 $(".scontent-"+hash).ready(function() {
                     $('#'+hash).attr('checked', true); //can be removed if it scrolls up the page
                     $(".scontent-"+hash).css({ display: "block" });
