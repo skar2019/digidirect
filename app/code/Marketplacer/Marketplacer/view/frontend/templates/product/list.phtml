@@ -191,8 +191,8 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                         
                         <?php endif; ?>  
                         <?= $productImage->toHtml(); ?>
+                        <div class="overlay-container"></div>
                     </a>
-                    <div class="overlay-container"></div>
                     <?php
                         $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
                     ?>
@@ -473,6 +473,8 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
         
         $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
             if ($(this).find('.product-overlay').length) {
+                $(this).find('.overlay-container').append($(this).find('.product-overlay'));
+                
                 $(this).find('.digiseconds-overlay').attr("style", "margin-top: -5px !important; margin-left: 40px !important;");
             }
         });
