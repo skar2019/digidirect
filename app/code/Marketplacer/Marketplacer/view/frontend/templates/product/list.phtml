@@ -657,4 +657,16 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
     .page-main {
         background: #f5f5f5;
     }
+    
+    .overlay-container {
+        position: absolute;
+        top: 15px;
+    }
+    
+    .product-overlay.-top-left.-ready:not(.-hide)~.-top-left.-ready {
+        -webkit-transform: unset !important;
+        -moz-transform: unset !important;
+        -ms-transform: unset !important;
+        transform: unset !important;
+    }
 </style>
