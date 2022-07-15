@@ -14,6 +14,7 @@ $nativeText = strip_tags($text);
 $containerPath = $block->getContainerPath();
 $hasImageSize = $overlay->getImageSize() ? ' -has-size' : '';
 ?>
+<div class="overlay-container"></div>
 <?php if ($containerPath): ?>
     <div data-testid="productOverlay-overlayBlock"
          class="product-overlay-<?= $block->escapeHtml($key); ?> product-overlay -<?= $block->escapeHtml($overlay->getCssClass()) ?><?= /* @escapeNotVerified */ $hasImageSize ?>"
