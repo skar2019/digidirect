@@ -31,8 +31,8 @@ define([
             if (this.options.path && this.options.path !== '') {
                 newParent = this.element.closest(this.options.productGridSelector).find(this.options.path);
                 if (newParent.length) {
-                    this.parent = newParent;
-                    newParent.append(this.element);
+                    //this.parent = newParent;
+                    //newParent.append(this.element);
                 } else {
                     this.element.addClass('-hide');
                 }
