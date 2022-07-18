@@ -89,6 +89,9 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                 $objectManagerProduct = \Magento\Framework\App\ObjectManager::getInstance();
                 $brandNewProduct = $objectManagerProduct->get('Magento\Catalog\Model\Product')->loadByAttribute('sku', $d2BrandNewProductSKU);
                 
+                $categoryIds = $_product->getCategoryIds();
+                $digiSecondsIds = array(2564,2567,2570,2573);
+                            
                 if ($brandNewProduct) {
                     $brandNewProductPrice = $brandNewProduct->getPrice();
                     $brandNewProductUrl = $brandNewProduct->getProductUrl();
@@ -134,10 +137,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                        title="<?= $block->escapeHtml($productName); ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
-                       <?php if ($categoryName == "digiSeconds" ||
-                            $categoryName == "REFURB" ||
-                            $categoryName == "OPENBOX" ||
-                            $categoryName == "PRELOVED") : ?>
+                        <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                                     <?php if ($d2ItemCondition): ?>
                                         <div class="digiseconds-overlay">
                                             <?php if ($d2ItemCondition == "PRELOVED"): ?>
@@ -397,6 +397,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                     categoryName == "OPENBOX" ||
                     categoryName == "PRELOVED") {
                     var win = $(this);
+                    $('.testfreaks-items').attr('style','display:none !important');
                     if (win.width() >= 1440) {
                         $('.product-item-info>a').addClass('digiseconds-left-width');
                         $('.testfreaks-items').addClass('digiseconds-left-width');
@@ -429,6 +430,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                     categoryName == "OPENBOX" ||
                     categoryName == "PRELOVED") {
                     var win = $(window);
+                    $('.testfreaks-items').attr('style','display:none !important');
                     if (win.width() >= 1440) {
                         $('.product-item-info>a').addClass('digiseconds-left-width');
                         $('.testfreaks-items').addClass('digiseconds-left-width');
@@ -463,12 +465,22 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                 $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
             }, 2000);
         });
+            
         var categoryName = "<?= $categoryName ?>";
         if (categoryName == "digiSeconds" ||
             categoryName == "REFURB" ||
             categoryName == "OPENBOX" ||
             categoryName == "PRELOVED") {
-            $('.product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo').attr("style", "margin-top: 70px !important;");
+                $('.product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo').attr("style", "margin-top: 70px !important; max-height: 110px !important");
+        }
+        
+        });
+        var categoryName = "<?= $categoryName ?>";
+        if (categoryName == "digiSeconds" ||
+            categoryName == "REFURB" ||
+            categoryName == "OPENBOX" ||
+            categoryName == "PRELOVED") {
+            $('.product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo').attr("style", "margin-top: 70px !important; max-height: 110px !important");
         }
         
         $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
@@ -511,7 +523,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
     .digiseconds-product-name {
         width: 280px;
         overflow: hidden;
-        min-height: 47px;
+        min-height: 45px;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -567,6 +579,10 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
         margin-top: 4px;
     }
     
+    .package-inclusion-wrapper li:nth-of-type(1n+4) {
+        display: none;
+    }
+    
     .package-inclusion-wrapper p {
         margin-bottom: 4px;
     }
@@ -590,10 +606,10 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
     }
 
     .digiseconds-show-more i {
-        color: #e6e6e6 !important;
+        color: #727272 !important;
         font-weight: 600;
         margin-right: 5px;
-}
+    }
 
     span.item-note-label {
         color: #8f8f8f;
