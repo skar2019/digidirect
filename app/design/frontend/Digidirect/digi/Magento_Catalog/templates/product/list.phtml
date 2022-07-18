@@ -14,9 +14,6 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;     
-
-$overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overlay');
-
 ?>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
@@ -193,6 +190,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                         <?= $productImage->toHtml(); ?>
                         <div class="overlay-container"></div>
                     </a>
+                    
                     <?php
                         $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
                     ?>
@@ -464,6 +462,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
             setTimeout(function() {
                 $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
             }, 2000);
+            
         });
             
         var categoryName = "<?= $categoryName ?>";
