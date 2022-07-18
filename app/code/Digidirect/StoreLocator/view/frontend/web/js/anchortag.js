@@ -23,7 +23,7 @@ define(['jquery'], function($){
                     if ($(this).find('._hide-for-mobile').length) {
                         $(this).attr("style", "display:block;");
                     } else {
-                        $(this).attr("style", "display:none;");
+                        $(this).attr("style", "display:none !important;");
                     }
                 });
 
