@@ -93,7 +93,7 @@ define([
                         var newParent = $(self.options.path);
                         if (newParent.length && !self.isExistInParent(newParent)) {
                             self.parent = newParent;
-                            newParent.append(self.element);
+                            //newParent.append(self.element);
                             if (!(newParent.attr('class').indexOf('fotorama') > -1)) {
                                 newParent.css('position', 'relative');
                             }
