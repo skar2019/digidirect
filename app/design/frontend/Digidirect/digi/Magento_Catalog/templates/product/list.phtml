@@ -483,17 +483,18 @@ $showWishlist = true;
             $('.product-category-listing>.product-items>.product-item>.product-item-info>a>span>.product-image-wrapper>.product-image-photo').attr("style", "margin-top: 70px !important; max-height: 110px !important");
         }
         
-        $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
-            if ($(this).find('.product-overlay').length) {
-                $(this).find('.overlay-container').append($(this).find('.product-overlay'));
-                //$(this).find('.digiseconds-overlay').attr("style", "margin-top: -5px !important; margin-left: 40px !important;");
-            }
-            if ($(this).find('.digiseconds-overlay').length) {
-                $(this).find('.overlay-container').attr("style", "top: 65px;");
-            }
+        $(window).load(function(){
+            $('.product-category-listing li .product-item-info .product-item-photo').each(function(){
+                if ($(this).find('.product-overlay').length) {
+                    $(this).find('.overlay-container').append($(this).find('.product-overlay'));
+                    //$(this).find('.digiseconds-overlay').attr("style", "margin-top: -5px !important; margin-left: 40px !important;");
+                }
+                if ($(this).find('.digiseconds-overlay').length) {
+                    $(this).find('.overlay-container').attr("style", "top: 65px;");
+                }
+            });
         });
         
-                     
     });
 </script>
 
