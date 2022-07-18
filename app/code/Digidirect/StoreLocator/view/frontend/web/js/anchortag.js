@@ -21,9 +21,9 @@ define(['jquery'], function($){
                 
                 $('.parent-storelist').each(function() {
                     if ($(this).find('._hide-for-mobile').length) {
-                        $(this).find('label').attr("style", "display:block;");
+                        $(this).attr("style", "display:block;");
                     } else {
-                        $(this).find('label').attr("style", "display:none;");
+                        $(this).attr("style", "display:none;");
                     }
                 });
 
