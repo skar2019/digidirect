@@ -124,9 +124,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                         $cannQty = $cannQty * $sourceItem->getQuantity();
                     } elseif ($id == 35 && $sourceItem->getSourceCode() == 'SWHS') {
                         $stPetersQty = $stPetersQty * $sourceItem->getQuantity();
-                    } /*elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
+                    } elseif ($id == 32 && $sourceItem->getSourceCode() == 'PARR') {
                         $parrQty = $parrQty * $sourceItem->getQuantity();
-                    }*/
+                    }
                 }
             }
 
@@ -144,9 +144,9 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 $items[$key]['available'] = true;
             } elseif ($stPetersQty > 1) {
                 $items[$key]['available'] = true;
-            } /*elseif ($parrQty > 1) {
+            } elseif ($parrQty > 1) {
                 $items[$key]['available'] = true;
-            }*/ else {
+            } else {
                 $items[$key]['available'] = false;
             }
 
