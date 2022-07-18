@@ -34,6 +34,7 @@
             <block class="Mageplaza\Shopbybrand\Block\Brand\View" name="brand.category.products" template="Mageplaza_Shopbybrand::brand/view.phtml">
                 <block class="Magento\Framework\View\Element\Template" name="brand.category.products.list" as="brand_product_list" template="Mageplaza_Shopbybrand::brand/productList.phtml"/>
             </block>
+            <block class="Mageplaza\Shopbybrand\Block\Brand\View" name="related_brands" template="Mageplaza_Shopbybrand::brand/related_brands.phtml" />
         </referenceContainer>
         <move element="category.products.list" destination="brand.category.products.list"/>
         <referenceBlock name="category.products" remove="true"/>

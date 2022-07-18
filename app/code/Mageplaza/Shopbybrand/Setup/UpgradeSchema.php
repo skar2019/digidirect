@@ -62,7 +62,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         $installer = $setup;
         $installer->startSetup();
 
-        if (!$this->helperData->versionCompare('2.3.0') && version_compare($context->getVersion(), '2.2.0', '<')) {
+        if (version_compare($context->getVersion(), '2.4.0', '<')) {
             if (!$installer->tableExists('mageplaza_shopbybrand_category')) {
                 $table = $installer->getConnection()
                     ->newTable($installer->getTable('mageplaza_shopbybrand_category'))
@@ -70,7 +70,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         'identity' => true,
                         'unsigned' => true,
                         'nullable' => false,
-                        'primary' => true
+                        'primary'  => true
                     ])
                     ->addColumn('name', Table::TYPE_TEXT, '256')
                     ->addColumn('status', Table::TYPE_SMALLINT, 1, ['nullable' => false, 'default' => 1])
@@ -98,7 +98,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     ->addColumn('cat_id', Table::TYPE_INTEGER, null, [
                         'unsigned' => true,
                         'nullable' => false,
-                        'primary' => true
+                        'primary'  => true
                     ])
                     ->addColumn(
                         'option_id',
@@ -148,6 +148,72 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     ->setComment('Mageplaza Shopbybrand brand category table');
 
                 $installer->getConnection()->createTable($table);
+            }
+
+            if (!$installer->tableExists('mageplaza_brand_reports_reindex')) {
+                $table = $installer->getConnection()
+                    ->newTable($installer->getTable('mageplaza_brand_reports_reindex'))
+                    ->addColumn('id', Table::TYPE_INTEGER, null, [
+                        'identity' => true,
+                        'unsigned' => true,
+                        'nullable' => false,
+                        'primary'  => true
+                    ], 'Id')
+                    ->addColumn('code', Table::TYPE_TEXT, 255, [], 'Reports Code')
+                    ->addColumn('name', Table::TYPE_TEXT, 255, [], 'Reports Name')
+                    ->addColumn('description', Table::TYPE_TEXT, 255, [], 'Reports Description')
+                    ->addColumn('updated_at', Table::TYPE_TIMESTAMP, null, [], 'Updated At')
+                    ->setComment('Mageplaza Brand Reports Reindex Table');
+                $installer->getConnection()->createTable($table);
+            }
+
+            if (!$installer->tableExists('mageplaza_brand_report')) {
+                $table = $installer->getConnection()
+                    ->newTable($installer->getTable('mageplaza_brand_report'))
+                    ->addColumn('id', Table::TYPE_INTEGER, null, [
+                        'identity' => true,
+                        'unsigned' => true,
+                        'nullable' => false,
+                        'primary'  => true
+                    ], 'Id')
+                    ->addColumn('order_created_at', Table::TYPE_DATE, null, [], 'Period')
+                    ->addColumn('store_id', Table::TYPE_INTEGER, null, [], 'Store Id')
+                    ->addColumn('status', Table::TYPE_TEXT, 10, [], 'Order Status')
+                    ->addColumn('order_id', Table::TYPE_INTEGER, null, [], 'Order Id')
+                    ->addColumn('qty_order', Table::TYPE_INTEGER, null, [], 'Total Qty Order')
+                    ->addColumn('qty_item', Table::TYPE_INTEGER, null, [], 'Qty Item')
+                    ->addColumn('row_total', Table::TYPE_DECIMAL, '20,04', [], 'Row Total')
+                    ->addColumn('discount', Table::TYPE_DECIMAL, '20,04', [], 'Discount')
+                    ->addColumn('tax', Table::TYPE_DECIMAL, '20,04', [], 'Tax')
+                    ->addColumn('refunded', Table::TYPE_DECIMAL, '20,04', [], 'Refunded')
+                    ->addColumn('canceled', Table::TYPE_DECIMAL, '20,04', [], 'Canceled')
+                    ->addColumn('product_id', Table::TYPE_INTEGER, 10, [], 'Product Id')
+                    ->addColumn('item_id', Table::TYPE_INTEGER, 10, [], 'Product Id')
+                    ->addColumn('product_name', Table::TYPE_TEXT, 255, [], 'Product Name')
+                    ->addColumn('sku', Table::TYPE_TEXT, 255, [], 'SKU')
+                    ->addColumn('attribute_id', Table::TYPE_INTEGER, 10, [], 'Attribute Id')
+                    ->addColumn('attribute_code', Table::TYPE_TEXT, 255, [], 'Attribute Code')
+                    ->addColumn('attribute_value', Table::TYPE_TEXT, 255, [], 'Attribute Value')
+                    ->addColumn('attribute_name', Table::TYPE_TEXT, 255, [], 'Attribute Name')
+                    ->setComment('Mageplaza Reports Sales By Brand');
+                $installer->getConnection()->createTable($table);
+            }
+            if ($installer->tableExists('mageplaza_brand')) {
+                $eavTable = $installer->getTable('mageplaza_brand');
+                $connection = $installer->getConnection();
+                $connection->addColumn($eavTable, 'is_display', [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                    'size' => 1,
+                    'default' => 1,
+                    'nullable' => true,
+                    'comment' => 'Display Brand',
+                ]);
+                $connection->addColumn($eavTable, 'related_brands', [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'size' => 255,
+                    'nullable' => true,
+                    'comment' => 'Related Brands',
+                ]);
             }
         }
 

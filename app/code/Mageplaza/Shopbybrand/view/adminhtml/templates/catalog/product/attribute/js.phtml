@@ -19,6 +19,7 @@
  * @license     https://www.mageplaza.com/LICENSE.txt
  */
 
+/** @var \Mageplaza\Shopbybrand\Block\Adminhtml\Attribute\Edit\Options $block */
 if ($block->isBrandAttribute()) : ?>
     <div id="brand-attribute-popup">
         <div class="messages">
@@ -70,6 +71,8 @@ if ($block->isBrandAttribute()) : ?>
                                             if (result.success) {
                                                 $('#brand-attribute-popup-content').html(result.html);
                                                 $('#brand_attribute_save').mage('validation', {});
+                                                window.isGirdProductOpened = false;
+                                                window.isGirdRelatedOpened = false;
                                                 $(successMessage + ' .content').html(result.message);
                                                 $(successMessage).show();
                                             } else {
@@ -133,7 +136,10 @@ if ($block->isBrandAttribute()) : ?>
                     success: function (response) {
                         if (response.success) {
                             $('#brand-attribute-popup-content').html(response.html);
-
+                            window.isGirdProductOpened = false;
+                            window.isGirdRelatedOpened = false;
+                            $('.show-brand-products').trigger('click');
+                            $('.show-related-brand').trigger('click');
                             var storeSwitcher = $('#brand-store-switcher');
                             storeSwitcher.html(response.switcher);
                             storeSwitcher.trigger('contentUpdated');

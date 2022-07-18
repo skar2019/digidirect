@@ -22,12 +22,13 @@
 namespace Mageplaza\Shopbybrand\Model;
 
 use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
-use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Mageplaza\Shopbybrand\Model\ResourceModel\Category as ResourceModel;
+use Mageplaza\Shopbybrand\Model\ResourceModel\Category\Collection as ResourceModelCollection;
 use Magento\Framework\Registry;
 use Mageplaza\Shopbybrand\Api\Data\BrandCategoryInterface;
+use Mageplaza\Shopbybrand\Helper\Data as Helper;
 use Mageplaza\Shopbybrand\Model\ResourceModel\Category\CollectionFactory;
 
 /**
@@ -48,14 +49,20 @@ class Category extends AbstractModel implements BrandCategoryInterface
     protected $tableBrandCategory;
 
     /**
+     * @type Helper
+     */
+    protected $helper;
+
+    /**
      * Category constructor.
      *
      * @param Context $context
      * @param Registry $registry
      * @param ResourceConnection $resourceConnection
      * @param CollectionFactory $categoryCollectionFactory
-     * @param AbstractResource|null $resource
-     * @param AbstractDb|null $resourceCollection
+     * @param ResourceModel|null $resource
+     * @param ResourceModelCollection|null $resourceCollection
+     * @param Helper $helper
      * @param array $data
      */
     public function __construct(
@@ -63,8 +70,9 @@ class Category extends AbstractModel implements BrandCategoryInterface
         Registry $registry,
         ResourceConnection $resourceConnection,
         CollectionFactory $categoryCollectionFactory,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
+        ResourceModel $resource = null,
+        ResourceModelCollection $resourceCollection = null,
+        Helper $helper,
         array $data = []
     ) {
         $this->categoryCollectionFactory = $categoryCollectionFactory;
@@ -72,6 +80,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->tableBrandCategory = $resourceConnection->getTableName('mageplaza_shopbybrand_brand_category');
+        $this->helper             = $helper;
     }
 
     /**
@@ -79,7 +88,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
      */
     public function _construct()
     {
-        $this->_init(ResourceModel\Category::class);
+        $this->_init(ResourceModel::class);
     }
 
     /**
@@ -94,7 +103,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
      * @param null $whereCond
      * @param null $groupCond
      *
-     * @return ResourceModel\Category\Collection
+     * @return ResourceModel\Collection
      */
     public function getCategoryCollection($whereCond = null, $groupCond = null)
     {
@@ -109,6 +118,36 @@ class Category extends AbstractModel implements BrandCategoryInterface
         if ($groupCond !== null) {
             $collection->getSelect()->group($groupCond);
         }
+        $storeId = $this->helper->getStoreId();
+        if ($storeId) {
+            $connection       = $collection->getConnection();
+            $storeIdCondition = $connection->select()
+                ->from(['ab' => $collection->getTable('mageplaza_brand')], 'MAX(ab.store_id)')
+                ->where('ab.option_id = br.option_id AND ab.store_id IN (0, ' . $storeId . ')');
+            $collection->getSelect()->joinLeft(
+                ['br' => $collection->getTable('mageplaza_brand')],
+                'brand_cat_tbl.option_id = br.option_id
+                AND br.store_id = (' . $storeIdCondition . ')',
+                [
+                    'br.is_display'
+                ]
+            );
+            $collection->getSelect()->where('br.is_display = 1 OR br.is_display is null');
+        }
+
+        return $collection;
+    }
+
+    /**
+     * @return ResourceModel\Collection
+     */
+    public function getCategorys()
+    {
+        $collection = $this->categoryCollectionFactory->create();
+        $collection->getSelect()->joinInner(
+            ['brand_cat_tbl' => $this->tableBrandCategory],
+            'main_table.cat_id = brand_cat_tbl.cat_id'
+        );
 
         return $collection;
     }
