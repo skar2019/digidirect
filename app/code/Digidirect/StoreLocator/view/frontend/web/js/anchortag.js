@@ -18,6 +18,14 @@ define(['jquery'], function($){
                     $('#'+hash).attr('checked', true); //can be removed if it scrolls up the page
                     //$(".scontent-"+hash).css({ display: "block" });
                 });
+                
+                $('.parent-storelist').each(function() {
+                    if ($(this).find('._hide-for-mobile').length) {
+                        $(this).find('label').attr("style", "display:block;");
+                    } else {
+                        $(this).find('label').attr("style", "display:none;");
+                    }
+                });
 
             });
         })
