@@ -1,9 +1,25 @@
 <div class="overlay-container-pdp"></div>
 
+
+<script>
+    require([
+        'jquery'
+    ],
+    function ($) {
+        if ($(this).find('.product-overlay').length) {
+            $(this).find('.overlay-container-pdp').append($(this).find('.product-overlay'));
+        } 
+    });
+</script>
+
+
+
+
 <style>
     .overlay-container-pdp {
         position: absolute !important;
         top: 15px;
+        left: 15px;
     }
     
     .product-overlay.-top-left.-ready:not(.-hide)~.-top-left.-ready {
@@ -13,9 +29,17 @@
         transform: unset !important;
     }
     
-    .product-overlay img {
+    .overlay-container-pdp .product-overlay {
+        max-height: unset;
+    }
+
+    .overlay-container-pdp .product-overlay {
+        height: 100% !important;
+    }
+
+    .overlay-container-pdp .product-overlay img {
         float: left !important;
-        height: 35px;
+        height: 70px;
         width: auto !important;
         object-fit: contain;
     }
