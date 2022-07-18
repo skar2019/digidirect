@@ -8,9 +8,14 @@ Featured,Featured
 Enabled,Enabled
 Disabled,Disabled
 "If 'Enabled', this brand will be displayed on featured brand slider.","If 'Enabled', this brand will be displayed on featured brand slider."
+"If 'Yes', this brand will display.","If 'Yes', this brand will display."
 "Short Description","Short Description"
 Description,Description
 "CMS Block","CMS Block"
+"Related Brands","Related Brands"
+"Show/Hide Related Brands","Show/Hide Related Brands"
+"Branded Products","Branded Products"
+"Show/Hide Products","Show/Hide Products"
 "Meta Information","Meta Information"
 "Meta Title","Meta Title"
 "Meta Keywords","Meta Keywords"
@@ -34,6 +39,27 @@ ID,ID
 Edit,Edit
 Delete,Delete
 "Are you sure?","Are you sure?"
+"Simple Product","Simple Product"
+"Virtual Product","Virtual Product"
+"Configurable Product","Configurable Product"
+"Downloadable Product","Downloadable Product"
+"Product ID","Product ID"
+SKU,SKU
+Quantity,Quantity
+Price,Price
+Type,Type
+"Add Products","Add Products"
+"Remove Products","Remove Products"
+"Brand Name","Brand Name"
+"Option ID","Option ID"
+"Store view","Store view"
+Brand,Brand
+"Ordered Item Quantity","Ordered Item Quantity"
+"Order Count","Order Count"
+"Total Revenue","Total Revenue"
+Refunded,Refunded
+Discount,Discount
+Tax,Tax
 "Use following code to show featured brand block in any place which you want.","Use following code to show featured brand block in any place which you want."
 "CMS Page/Static Block","CMS Page/Static Block"
 "Template .phtml file","Template .phtml file"
@@ -70,6 +96,7 @@ Home,Home
 "Missing category name.","Missing category name."
 "The url key has been used.","The url key has been used."
 "Missing category url key","Missing category url key"
+"Module Shop By Brand is disabled","Module Shop By Brand is disabled"
 "Logo Only","Logo Only"
 "Logo and Label","Logo and Label"
 "Label Only","Label Only"
@@ -80,8 +107,11 @@ Toplink,Toplink
 "Footer link","Footer link"
 "Slider View","Slider View"
 "Simple View","Simple View"
-Listing,Listing
-"Mega Listing","Mega Listing"
+"Drop-down type","Drop-down type"
+"Grid type","Grid type"
+"2 Columns","2 Columns"
+"3 Columns","3 Columns"
+"4 Columns","4 Columns"
 "INDEX,FOLLOW","INDEX,FOLLOW"
 "NOINDEX,NOFOLLOW","NOINDEX,NOFOLLOW"
 "NOINDEX,FOLLOW","NOINDEX,FOLLOW"
@@ -89,6 +119,11 @@ Listing,Listing
 "Not show","Not show"
 "Brand Name","Brand Name"
 "Brand Logo","Brand Logo"
+"Brand Description","Brand Description"
+"Brand Logo Only","Brand Logo Only"
+"Brand Name Only","Brand Name Only"
+"Brand Logo & Brand Name","Brand Logo & Brand Name"
+"Brand Name & Brand Logo","Brand Name & Brand Logo"
 "-- Please Select --","-- Please Select --"
 "Brand By OptionID Widget","Brand By OptionID Widget"
 "Featured Brand Widget","Featured Brand Widget"
@@ -102,9 +137,9 @@ Configure,Configure
 "Choose a color","Choose a color"
 "Upload a file","Upload a file"
 Clear,Clear
+"Show report","Show report"
 Selected,Selected
 "Option Id","Option Id"
-"Store view","Store view"
 "All store view","All store view"
 "No brand found","No brand found"
 All,All
@@ -130,14 +165,20 @@ Enable,Enable
 "Brand Link Title","Brand Link Title"
 "Enter the title of brand link. Default: 'Brands'","Enter the title of brand link. Default: 'Brands'"
 "Show Brand Link In","Show Brand Link In"
-"Show Brands in Drop-down Category Menu","Show Brands in Drop-down Category Menu"
-"Select <b>Yes</b> to allow brand names to show up in the drop-down category menu","Select <b>Yes</b> to allow brand names to show up in the drop-down category menu"
-"Brand's Qty Limit on Dropdown Menu","Brand's Qty Limit on Dropdown Menu"
-"Enter the maximum number of brand displayed in dropdown menu.","Enter the maximum number of brand displayed in dropdown menu."
-"Show Brand Name on Product Listing Page","Show Brand Name on Product Listing Page"
-"Show Brand Name in the Product Listing Page such as Category, Catalog Search results","Show Brand Name in the Product Listing Page such as Category, Catalog Search results"
+"Show Brands in Category Menu","Show Brands in Category Menu"
+"What to show","What to show"
+"Brand Menu Grid Layout","Brand Menu Grid Layout"
+"The number of columns in the grid","The number of columns in the grid"
+"Maximum brands to show","Maximum brands to show"
+"Enter the maximum number of brand displayed in menu.","Enter the maximum number of brand displayed in menu."
+"Show brands without products on menu","Show brands without products on menu"
+"Select <b>Yes</b> to show brands without products on menu","Select <b>Yes</b> to show brands without products on menu"
+"Show Brand Info on Product Listing Page","Show Brand Info on Product Listing Page"
+"Show Brand Info in the Product Listing Page such as Category, Catalog Search results","Show Brand Info in the Product Listing Page such as Category, Catalog Search results"
 "Show Brand Info in Product Page","Show Brand Info in Product Page"
 "Display brand info in the product page, <a href=""https://goo.gl/1eS5r8"" target=""blank"">learn more</a>","Display brand info in the product page, <a href=""https://goo.gl/1eS5r8"" target=""blank"">learn more</a>"
+"Show Brand Info in Product Admin Grid","Show Brand Info in Product Admin Grid"
+"For example, If you select Brand Logo & Brand Name, the brand logo will display before the brand name","For example, If you select Brand Logo & Brand Name, the brand logo will display before the brand name"
 "Brand Logo Width in Product Page","Brand Logo Width in Product Page"
 "Brand Logo Height in Product Page","Brand Logo Height in Product Page"
 "All Brands Page Settings","All Brands Page Settings"
@@ -153,6 +194,8 @@ Enable,Enable
 "The main color of Brand Page.","The main color of Brand Page."
 "Show Brand Short Description","Show Brand Short Description"
 "Select <b>Yes</b> to show short description of each brand in brand list. Default: NO","Select <b>Yes</b> to show short description of each brand in brand list. Default: NO"
+"Show brands without products","Show brands without products"
+"Select <b>Yes</b> to show brands without products","Select <b>Yes</b> to show brands without products"
 "Show Brand Product Quantity","Show Brand Product Quantity"
 "Select <b>Yes</b> to show product quantity of each brand list. Default: NO","Select <b>Yes</b> to show product quantity of each brand list. Default: NO"
 "Show Brand Quick View Popup","Show Brand Quick View Popup"

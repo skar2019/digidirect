@@ -25,7 +25,6 @@ use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Block\Product\ListProduct;
 use Magento\Catalog\Model\Layer\Resolver;
-use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
@@ -152,7 +151,7 @@ class TabProduct extends ListProduct
      */
     public function getLimitProductConfig()
     {
-        return (int)$this->_helper->getBrandConfig('related_products/limit_product') ?: self::LIMIT;
+        return (int) $this->_helper->getBrandConfig('related_products/limit_product') ?: self::LIMIT;
     }
 
     /**

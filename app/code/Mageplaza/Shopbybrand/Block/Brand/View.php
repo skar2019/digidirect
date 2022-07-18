@@ -22,6 +22,7 @@
 namespace Mageplaza\Shopbybrand\Block\Brand;
 
 use Magento\Cms\Block\Block;
+use Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\Collection;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Mageplaza\Shopbybrand\Block\Brand;
@@ -175,5 +176,36 @@ class View extends Brand
     public function getProductListHtml()
     {
         return $this->getChildHtml();
+    }
+
+    /**
+     * @return array|Collection
+     */
+    public function getRelatedBrands()
+    {
+        if ($this->getBrand()) {
+            return $this->helper()->getBrandList()->addFieldToFilter('main_table.option_id', [
+                'in' => $this->getBrand()->getData('related_brands')
+            ]);
+        }
+
+        return [];
+    }
+
+    /**
+     * @return string
+     * @throws LocalizedException
+     */
+    public function includeCssLib()
+    {
+        $cssFiles = ['Mageplaza_Core::css/owl.carousel.css', 'Mageplaza_Core::css/owl.theme.css'];
+        $template = '<link rel="stylesheet" type="text/css" media="all" href="%s">' . "\n";
+        $result   = '';
+        foreach ($cssFiles as $file) {
+            $asset  = $this->_assetRepo->createAsset($file);
+            $result .= sprintf($template, $asset->getUrl());
+        }
+
+        return $result;
     }
 }

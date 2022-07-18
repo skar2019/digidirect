@@ -127,7 +127,7 @@ class BrandCategory extends Element
         $optionIds = [];
         $model = $this->coreRegistry->registry('current_brand_category');
         if ($model->getId()) {
-            $collection = $this->brandCategoryFactory->create()->getCollection();
+            $collection = $this->brandCategoryFactory->create()->getCategorys();
             $collection->getSelect()
                 ->joinInner(
                     ['at' => $collection->getTable('mageplaza_shopbybrand_brand_category')],

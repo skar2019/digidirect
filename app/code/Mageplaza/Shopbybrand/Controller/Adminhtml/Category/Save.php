@@ -158,7 +158,7 @@ class Save extends Category
         }
 
         if (isset($data['url_key'])) {
-            $pages = $this->categoryFactory->create()->getCollection()
+            $pages = $this->categoryFactory->create()->getCategorys()
                 ->addFieldToFilter('url_key', $data['url_key']);
             if ($pages->getSize()) {
                 if (isset($data['cat_id'])) {
