@@ -137,7 +137,10 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                        title="<?= $block->escapeHtml($productName); ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
-                        <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
+                       <?php if ($categoryName == "digiSeconds" ||
+                            $categoryName == "REFURB" ||
+                            $categoryName == "OPENBOX" ||
+                            $categoryName == "PRELOVED") : ?>
                                     <?php if ($d2ItemCondition): ?>
                                         <div class="digiseconds-overlay">
                                             <?php if ($d2ItemCondition == "PRELOVED"): ?>
