@@ -15,8 +15,6 @@ $_productCollection = $block->getLoadedProductCollection();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $showWishlist = true;     
 
-$overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overlay');
-
 ?>
 <?= $block->getToolbarHtml() ?>
 <?= $block->getAdditionalHtml() ?>
@@ -137,10 +135,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                        title="<?= $block->escapeHtml($productName); ?>"
                        class="product photo product-item-photo"
                        tabindex="-1">
-                       <?php if ($categoryName == "digiSeconds" ||
-                            $categoryName == "REFURB" ||
-                            $categoryName == "OPENBOX" ||
-                            $categoryName == "PRELOVED") : ?>
+                        <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
                                     <?php if ($d2ItemCondition): ?>
                                         <div class="digiseconds-overlay">
                                             <?php if ($d2ItemCondition == "PRELOVED"): ?>
@@ -196,6 +191,7 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
                         <?= $productImage->toHtml(); ?>
                         <div class="overlay-container"></div>
                     </a>
+                    
                     <?php
                         $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
                     ?>
@@ -467,7 +463,6 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
             setTimeout(function() {
                 $('.block-content.filter-content').attr("style", "display: block !important;").fadeIn();
             }, 2000);
-        });
             
         var categoryName = "<?= $categoryName ?>";
         if (categoryName == "digiSeconds" ||
@@ -683,9 +678,6 @@ $overlayBlock = $block->getLayout()->createBlock('Digidirect\Catalog\Block\Overl
     }
     
     .product-overlay.-top-left.-ready:not(.-hide)~.-top-left.-ready {
-        -webkit-transform: unset !important;
-        -moz-transform: unset !important;
-        -ms-transform: unset !important;
         transform: unset !important;
     }
     
