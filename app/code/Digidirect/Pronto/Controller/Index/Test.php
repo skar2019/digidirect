@@ -18,6 +18,5 @@ class Test extends \Magento\Framework\App\Action\Action
 	public function execute()
 	{
         $this->helper->toDisableProducts();
-        //comment to redeploy
     }
 }
