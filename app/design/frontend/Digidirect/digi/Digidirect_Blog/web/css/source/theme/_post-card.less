@@ -82,9 +82,13 @@
 //  ---------------------------------------------
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
+    .page-layout-2columns-left .column.main {
+        padding-left: 0px !important;
+    }
+
     .post-card {
         > .container {
-            background: #2A2A2A;
+            // background: #2A2A2A;
             padding: 15px !important;
             
             > .content,
@@ -94,12 +98,13 @@
             }
             
             .link{
-                color: #fff !important;
+                color: #222 !important;
+                font-weight: 500 !important;
             }
         }
         
         .posted{
-            color: #fff;
+            color: #222;
         }
         
         .svgi-arrow{
@@ -122,7 +127,8 @@
         }
         
         .more-title{
-            color: #fff !important;
+            color: #ff3c00 !important;
+            font-weight: 500;
         }
     }
     
