@@ -3,10 +3,19 @@
  * @var \Digidirect\Blog\Block\Widget\Search $block
  */
 ?>
+
+<div class="digilife-hbanner control">
+    <img src="https://www.digidirect.com.au/media/digilife_banner_2_92.png" alt="digilife banner"/>
+    <!-- <img src="https://www.digidirect.com.au/media/digirent_banner.png" alt="digilife banner"/> -->
+</div>
+
 <div class="blog-search blog-widget widget">
     <form class="form" id="blog_search_mini_form" action="<?php echo $block->escapeUrl($block->getUrl($block->getSearchUrl())) ?>" method="get" data-mage-init='{"validation":{}}'>
         <div class="input-group">
-            <div class="control">
+            <div class="blog-title-new">
+                <h1>Latest Blog Posts</h1>
+            </div>
+            <div class="control blog-searchbox" align="right">
                 <input id="search_blog" type="text" name="s"
                        value="<?php echo $block->escapeHtml($block->getSearchQuery()) ?>"
                        class="input input-text" aria-haspopup="false" maxlength="128"
