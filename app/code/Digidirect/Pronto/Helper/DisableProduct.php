@@ -34,15 +34,18 @@ class DisableProduct extends AbstractHelper
 
         try {
             $collection = $this->getProductCollection();
-            $storeId = $this->storeManager->getStore()->getId();
+            //$storeId = $this->storeManager->getStore()->getId();
             $ids = [];
             $i = 0;
             foreach ($collection as $item) {
-                echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                //echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
                 $ids[$i] = $item->getEntityId();;
                 $i++;
             }
-            $this->productAction->updateAttributes($ids, array('status' => 2), $storeId);
+            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 0);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 1);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED), 5);
 
         } catch (\Exception $e) {
             echo $e->getMessage();
