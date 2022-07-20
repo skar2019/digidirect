@@ -118,7 +118,7 @@
             parent.append(items);
         }
     
-        sortUsingNestedText($('#narrow-by-list'), ".filter-options-item", ".filter-options-title");
+        //sortUsingNestedText($('#narrow-by-list'), ".filter-options-item", ".filter-options-title");
         
         function prependPriorityAttributes(attribute) {
             $('#narrow-by-list > .filter-options-item').each(function () {
@@ -146,8 +146,8 @@
             
             if (priorityAttributes.includes(attributeCode)) {
                 console.log("<?= $isBrandPage?>" + ', ' + attributeCode);
-                if (("<?= $isBrandPage?>") == "true" && attributeCode == "Brand") {
-                    $(this).hide();
+                if (("<?= $isBrandPage?>") == "1" && attributeCode == "Brand") {
+                    $(this).remove();
                 }
             }else {
                 $(this).hide();
@@ -239,7 +239,7 @@
             $('#narrow-by-list > .filter-options-item:hidden').each(function () {
                 hiddenFilter++;
             });
-            console.log(hiddenFilter);
+            console.log("Hidden Filter : " + hiddenFilter);
             console.log($(this));
             
             if (hiddenFilter == 0) {
