@@ -140,6 +140,9 @@
         //prependPriorityAttributes(val);
         //});
         
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            $(this).hide();
+        });
         
         $('#narrow-by-list > .filter-options-item').each(function () {
             var attributeCode = $.trim($(this).children('.filter-options-title').text());
@@ -149,8 +152,7 @@
                 if (("<?= $isBrandPage?>") == "1" && attributeCode == "Brand") {
                     $(this).remove();
                 }
-            }else {
-                //$(this).hide();
+                $(this).show();
             }
             
         });
