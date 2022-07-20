@@ -145,8 +145,8 @@
             var attributeCode = $.trim($(this).children('.filter-options-title').text());
             
             if (priorityAttributes.includes(attributeCode)) {
-                console.log(<?= $isBrandPage?> + ', ' + attributeCode);
-                if ((<?= $isBrandPage?>) == "true" && attributeCode == "Brand") {
+                console.log("<?= $isBrandPage?>" + ', ' + attributeCode);
+                if (("<?= $isBrandPage?>") == "true" && attributeCode == "Brand") {
                     $(this).hide();
                 }
             }else {
