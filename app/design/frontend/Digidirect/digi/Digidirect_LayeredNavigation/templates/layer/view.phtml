@@ -146,7 +146,7 @@
             
             if (priorityAttributes.includes(attributeCode)) {
                 console.log(<?= $isBrandPage?> + ', ' + attributeCode);
-                if (<?= $isBrandPage?> == true && attributeCode == 'Brand') {
+                if ((<?= $isBrandPage?>) == "true" && attributeCode == "Brand") {
                     $(this).hide();
                 }
             }else {
