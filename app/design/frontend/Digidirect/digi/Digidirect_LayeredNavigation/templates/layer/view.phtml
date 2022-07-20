@@ -56,7 +56,7 @@
             <?php $isTabActive = ($i == 0 || $i == 1 || $activeCount) ? true : false; ?>
                 <?php if (!$wrapOptions): ?>
                     <div class="filter-options" data-role="content" id="narrow-by-list">
-                <?php $wrapOptions = true; ?>
+                    <?php $wrapOptions = true; ?>
                 <?php endif; ?>
                 <?php if ($filter->getItemsCount()): ?>
                     <div data-role="collapsible" data-mage-init='{"collapsible":{"openedState": "active",
@@ -85,6 +85,61 @@
             <?php if ($wrapOptions): ?>
                 </div>
             <?php endif; ?>
+            <div id="show-more-less" class="show-more-less" 
+                 style="text-align: 
+                 center;cursor: 
+                 pointer;margin-top: 20px;
+                 font-size: 13px;
+                 font-weight: 500;"><span class="show-option">+ More</span></div>
         </div>
     </div>
 <?php endif; ?>
+
+<style type="text/css">
+    .show-more-less:hover {
+        color: #ff3c00;
+        font-size: 18px;
+    }
+    
+    strong.filter-options-title.title {
+        padding-right: 20px !important;
+        font-size: 1.3rem !important;
+    }
+    
+    strong.filter-options-title.title::before {
+        top: 18px !important;
+    }
+    
+    .block-content.filter-content {
+        width: 90%;
+    }
+    
+    .filter-content .filter-link .label {
+        font-size: 1.2rem !important;
+    }
+    
+    #layered-nav-id .label:before {
+        border-radius: 50% !important;
+        border: 1px solid;
+        height: 16px !important;
+        width: 16px !important;
+    }
+    
+    #layered-nav-id input[type=checkbox]:checked + label:before {
+        background: none !important;
+    }
+    
+    
+    #layered-nav-id input[type=checkbox]:checked + label:after {
+        top: 14px !important;
+        left: 4px;
+        width: 9px;
+        height: 6px;
+        border-left: 3px solid #000 !important;
+        border-bottom: 3px solid #000 !important;
+        transform: rotate(-45deg);
+    }
+
+    
+    
+</style>
