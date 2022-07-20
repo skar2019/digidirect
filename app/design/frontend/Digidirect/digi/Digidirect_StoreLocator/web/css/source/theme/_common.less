@@ -132,11 +132,16 @@
         }
 
         .parent-storelist {
-            display: grid;
+            display: grid !important; //Rondel Fix
             // grid-gap: 0.5rem;
             grid-template-columns: 1fr 2fr;
             grid-auto-flow: dense;
             padding: 0.5rem;
+        }
+        
+        //Rondel Fix
+        .store-hour .image._hide-for-mobile {
+            object-fit: contain;
         }
 
         input[type="radio"] {
