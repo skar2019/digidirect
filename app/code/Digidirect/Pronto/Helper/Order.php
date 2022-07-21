@@ -62,6 +62,26 @@ class Order extends AbstractHelper
 
     ];
 
+    protected $invCodeAll = [
+        'BOND',
+        'BRIS',
+        'CANN',
+        'MELB',
+        'MIRA',
+        'PARR',
+        'SWHS',
+        'SYDN'
+    ];
+
+    protected $invCode = [
+        'BRIS',
+        'CANN',
+        'MELB',
+        'MIRA',
+        'SWHS',
+        'SYDN'
+    ];
+
     /**
      * @var array
      */
