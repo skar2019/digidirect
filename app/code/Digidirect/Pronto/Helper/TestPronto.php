@@ -62,6 +62,26 @@ class TestPronto extends AbstractHelper
 
     ];
 
+    protected $invCodeAll = [
+        'BOND',
+        'BRIS',
+        'CANN',
+        'MELB',
+        'MIRA',
+        'PARR',
+        'SWHS',
+        'SYDN'
+    ];
+
+    protected $invCode = [
+        'BRIS',
+        'CANN',
+        'MELB',
+        'MIRA',
+        'SWHS',
+        'SYDN'
+    ];
+
     /**
      * @var array
      */
@@ -645,6 +665,21 @@ class TestPronto extends AbstractHelper
     }
 
     /**
+     * @param string $sourceCode
+     * @param array $productsSkus
+     * @return bool
+     */
+    protected function isProductsInStockAll($sourceCode, array $productsSkus) {
+        $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
+        foreach ($sourceItems as $sourceItem) {
+            if ($sourceItem->getQuantity() < 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * @param OrderItemInterface $item
      * @return array
      */
@@ -902,20 +937,99 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['contactname'] = $contactname;
             $data['sales-order']['header']['email'] = $customerEmail;
             $data['sales-order']['header']['reference'] = $entityId;
+
+            //changes
+            $paymentInstance = $order->getPayment();
+
+            //payment details
+
+            //$methodInst = $paymentInstance->getMethodInstance();
+            $method = $paymentInstance->getMethod();
+
+            $payment_type = $this->getPaymentType($paymentInstance);
+            $cc = "";
+            if($payment_type == 'BT')
+            {
+                $cc = $paymentInstance->getCcType();
+            }
+
             if($directToWhse)
             {
                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                 $data['sales-order']['header']['set-on-status'] = "P";
+
+                if($is_am_fba)
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+
             }
             else
             {
-                $data['sales-order']['header']['on-hold-reason-code'] = "01";
+                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                 $data['sales-order']['header']['set-on-status'] = "H";
-            }
+//                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
+                if($isMarketPlace) // since it did not go to P, we assume there is no stock
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+                else {
 
-            if ($is_am_fba)
-            {
-                $data['sales-order']['header']['set-on-status'] = "H";
+                    //check for stock
+                    //check for fraud BT
+
+                    $skus = $this->getProductsSkus($order);
+                    $instockInv = false;
+                    foreach ($this->invCode as $sourceCode) {
+                        if ($this->isProductsInStockAll($sourceCode, $skus)) {
+                            $instockInv = true;
+                            break;
+                        }
+                    }
+
+                    if($payment_type == 'BT'){
+                        if ($order->getStatus() != 'fraud')
+                        {
+                            if($instockInv)
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            else
+                            {
+                                //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
+                                //check if all product has stock
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "B";
+                            }
+
+                        }
+                        else {
+                            $data['sales-order']['header']['on-hold-reason-code'] = "WF";
+                            $data['sales-order']['header']['set-on-status'] = "H";
+                        }
+                    } elseif($payment_type == 'Y') {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";
+                    }
+                    else {
+                        if($instockInv)
+                        {
+                            $data['sales-order']['header']['on-hold-reason-code'] = "";
+                            $data['sales-order']['header']['set-on-status'] = "P";
+                        }
+                        else
+                        {
+                            $data['sales-order']['header']['on-hold-reason-code'] = "";
+                            $data['sales-order']['header']['set-on-status'] = "B";
+                        }
+                    }
+                }
+
             }
 
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
@@ -982,6 +1096,13 @@ class TestPronto extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
+                //all click and collect should go to picking, no need to check stock since they cannot select Click and Collect if it doesn't have stock when ordering
+                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                $data['sales-order']['header']['set-on-status'] = "P";
+                if($payment_type == 'Y') {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
             }
             else if($rep == "WESTFIELD")
             {
@@ -999,19 +1120,6 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
-            $paymentInstance = $order->getPayment();
-
-            //payment details
-
-            //$methodInst = $paymentInstance->getMethodInstance();
-            $method = $paymentInstance->getMethod();
-
-            $payment_type = $this->getPaymentType($paymentInstance);
-            $cc = "";
-            if($payment_type == 'BT')
-            {
-                $cc = $paymentInstance->getCcType();
-            }
 
             $payment_reference = $paymentInstance->getLastTransId();
 
