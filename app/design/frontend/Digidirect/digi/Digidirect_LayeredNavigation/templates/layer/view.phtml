@@ -12,6 +12,15 @@
     $brandLabels = false;
     $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
     $filterExclusions = ['cat'];
+    
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+    $urlInterface = $objectManager->get('Magento\Framework\UrlInterface');
+    $currentUrl = $urlInterface->getCurrentUrl();
+
+    $isBrandPage = str_contains($currentUrl, 'brands/');
 ?>
 <?php if ($block->canShowBlock()): ?>
     <div class="block filter">
@@ -94,6 +103,156 @@
         </div>
     </div>
 <?php endif; ?>
+
+<script>
+    
+    require(['jquery', 'jquery/ui'], function($){ 
+        
+        function sortUsingNestedText(parent, childSelector, keySelector) {
+            
+            var items = parent.children(childSelector).sort(function(a, b) {
+                var vA = $(keySelector, a).text();
+                var vB = $(keySelector, b).text();
+                return (vB > vA) ? -1 : (vB < vA) ? 1 : 0;
+            });
+            parent.append(items);
+        }
+    
+        //sortUsingNestedText($('#narrow-by-list'), ".filter-options-item", ".filter-options-title");
+        
+        function prependPriorityAttributes(attribute) {
+            $('#narrow-by-list > .filter-options-item').each(function () {
+                //console.log($.trim($(this).children('.filter-options-title').text()));
+                var attributeCode = $.trim($(this).children('.filter-options-title').text());
+                if (attributeCode == attribute) {
+                    var parent = $('#narrow-by-list');
+                    parent.prepend($(this));
+                } else {
+                    //$(this).hide();
+                }
+            });
+        }
+        
+        var priorityAttributes = ["Price", "Color", "Brand", "Category"];
+        //        
+        //$.each(priorityAttributes , function(index, val) { 
+        //console.log(index, val);
+        //prependPriorityAttributes(val);
+        //});
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            $(this).hide();
+        });
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            var attributeCode = $.trim($(this).children('.filter-options-title').text());
+            
+            if (priorityAttributes.includes(attributeCode)) {
+                console.log("<?= $isBrandPage?>" + ', ' + attributeCode);
+                if (("<?= $isBrandPage?>") == "1" && attributeCode == "Brand") {
+                    $(this).remove();
+                }
+                $(this).show();
+            }
+            
+        });
+        
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            var ctrOption = 0;
+            var hiddenOptions = 0;
+            $(this).children('.filter-options-content')
+            .children('#filter-list-wrapper')
+            .children('#layered-nav-id')
+            .children('.item').each(function () {
+                ctrOption++;
+                if (ctrOption > 5) {
+                    $(this).hide();
+                    hiddenOptions++;
+                }
+            });
+            
+            if (hiddenOptions == 0) {
+                //console.log($.trim($(this).children('.filter-options-title').text()));
+                //console.log(hiddenOptions);
+                $(this).children('.filter-options-content').children('#filter-list-wrapper').children('#show-more-options').hide();
+            }
+        });
+        
+        
+        
+        
+        
+        
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            
+            var optionLimit = 5;
+            var optionCtr = 0;
+            $(this).children('.filter-options-content').children('#filter-list-wrapper').children('#show-more-options').click(function() {
+                //console.log($(this).parent('#layered-nav-id').children('li').text());
+                //var wrapper = $(this).closest('#layered-nav-id');
+                //console.log(wrapper);
+
+                $(this).prev().each(function () {
+                    
+                    $(this).children('.item:hidden').each(function () {
+                        optionCtr++;
+                        $(this).show();
+                        if (optionCtr == optionLimit) {
+                            optionCtr = 0;
+                            return false;
+                        }
+                    })
+                    //console.log($(this));
+                    
+                    var hiddenOption = 0;
+                    $(this).children('.item:hidden').each(function () {
+                        hiddenOption++;
+                        //console.log($(this));
+                    })
+                    
+                    if (hiddenOption == 0) {
+                        $(this).next().hide();
+                    }
+                    
+                    //console.log($(this).children('.item'));
+                    
+                });
+            });
+            
+            
+        });
+        
+        $(".load-area:hidden:first");
+        var limit = 5;
+        var ctr = 0;
+        $("#show-more-less").click(function() {
+            $('#narrow-by-list > .filter-options-item:hidden').each(function () {
+                $(this).show();
+                ctr++;
+                if (ctr == limit){
+                    ctr = 0;
+                    return false;
+                }
+
+            });
+            
+            var hiddenFilter = 0;
+            $('#narrow-by-list > .filter-options-item:hidden').each(function () {
+                hiddenFilter++;
+            });
+            console.log("Hidden Filter : " + hiddenFilter);
+            console.log($(this));
+            
+            if (hiddenFilter == 0) {
+                $(this).hide();
+            }
+            
+        });
+    
+    });
+    
+</script>
 
 <style type="text/css">
     .show-more-less:hover {
