@@ -659,6 +659,7 @@ return [
         'Studio19_Variants' => 1,
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
+        'Yireo_LinkPreload' => 1,
         'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1
     ],
