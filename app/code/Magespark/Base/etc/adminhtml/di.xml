@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * DISCLAIMER
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  MageSpark
+ * @package   MageSpark\Base
+ * @author    MageSpark team <support@magespark.com>
+ * @copyright 2020 MageSpark
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\AdminNotification\Block\Grid\Renderer\Actions">
+        <plugin name="MageSpark_Base::show-unsubscribe-link"
+                type="MageSpark\Base\Plugin\AdminNotification\Block\Grid\Renderer\Actions"/>
+    </type>
+
+    <type name="Magento\AdminNotification\Block\Grid\Renderer\Notice">
+        <plugin name="MageSpark_Base::add-magespark-class"
+                type="MageSpark\Base\Plugin\AdminNotification\Block\Grid\Renderer\Notice"/>
+    </type>
+
+    <type name="Magento\AdminNotification\Block\ToolbarEntry">
+        <plugin name="MageSpark_Base::add-magespark-class-logo"
+                type="MageSpark\Base\Plugin\AdminNotification\Block\ToolbarEntry"/>
+    </type>
+
+    <type name="Magento\Config\Block\System\Config\Form\Field">
+        <plugin name="MageSpark_Base::replace-image-path"
+                type="MageSpark\Base\Plugin\Config\Block\System\Config\Form\Field"/>
+    </type>
+
+    <type name="Magento\Backend\Block\Widget\Form\Element\Dependence">
+        <plugin name="MageSpark_Base::fix-dependence"
+                type="MageSpark\Base\Plugin\Adminhtml\Block\Widget\Form\Element\Dependence"/>
+    </type>
+
+    <type name="Magento\Backend\Block\Menu">
+        <plugin name="MageSpark_Base:menu"
+                type="MageSpark\Base\Plugin\Backend\Block\Menu"/>
+    </type>
+
+    <type name="Magento\Backend\Model\Menu\Item">
+        <plugin name="MageSpark_Base:correct-market-url"
+                type="MageSpark\Base\Plugin\Backend\Model\Menu\Item"/>
+    </type>
+</config>

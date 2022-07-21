@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * DISCLAIMER
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  MageSpark
+ * @package   MageSpark\DeferJS
+ * @author    MageSpark Developer <support@magespark.com>
+ * @copyright 2020 MageSpark
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="MageSpark_DeferJS::deferjs"
+             title="Defer Javascript"
+             module="MageSpark_DeferJS"
+             sortOrder="50"
+             resource="MageSpark_DeferJS::deferjs"
+             parent="MageSpark_Base::menu"/>
+        <add id="MageSpark_DeferJS::configuration"
+             title="Configuration"
+             module="MageSpark_DeferJS"
+             sortOrder="100"
+             action="adminhtml/system_config/edit/section/deferjs"
+             resource="MageSpark_DeferJS::configuration"
+             parent="MageSpark_DeferJS::deferjs"/>
+    </menu>
+</config>

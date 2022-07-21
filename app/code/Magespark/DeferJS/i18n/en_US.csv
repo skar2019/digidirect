@@ -1,0 +1,18 @@
+"Use Default","Use Default"
+"Use Website","Use Website"
+"Matched Expression","Matched Expression"
+"Add Match","Add Match"
+Controllers,Controllers
+Path,Path
+"Defer Javascript","Defer Javascript"
+General,General
+"Enable DeferJs","Enable DeferJs"
+"DeferJs Display","DeferJs Display"
+"Defer Iframes For Javascript","Defer Iframes For Javascript"
+"Show Controllers And Paths For Javascript","Show Controllers And Paths For Javascript"
+"Exclude Controllers For Javascript","Exclude Controllers For Javascript"
+"Exclude Paths For Javascript","Exclude Paths For Javascript"
+"Exclude Home Page For Module","Exclude Home Page For Module"
+"Put Defer Javascript In HTML Body Tag","Put Defer Javascript In HTML Body Tag"
+"DeferJs Information","DeferJs Information"
+"Information about excluding JS from defer","Information about excluding JS from defer"
