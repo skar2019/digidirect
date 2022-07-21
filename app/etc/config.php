@@ -640,6 +640,8 @@ return [
         'Klevu_Addtocart' => 1,
         'Klevu_Troubleshoot' => 1,
         'LiveChat_LiveChat' => 0,
+        'MageSpark_Base' => 1,
+        'MageSpark_DeferJS' => 1,
         'Mageplaza_Core' => 1,
         'Mageplaza_CronSchedule' => 1,
         'Mageplaza_ProductFeed' => 1,
