@@ -318,6 +318,7 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if($prod['stk-condition-code'] == 'T')
@@ -601,6 +602,7 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
@@ -944,6 +946,7 @@ class Product extends AbstractHelper
                     $stock_condition = 183;
                 }
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $product->setCustomAttribute('stock_condition', $stock_condition);
@@ -1216,6 +1219,7 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
