@@ -77,7 +77,7 @@ return [
                     'allow_symlink' => '0'
                 ],
                 'js' => [
-                    'merge_files' => '1',
+                    'merge_files' => '0',
                     'minify_files' => '1',
                     'minify_exclude' => [
                         'tiny_mce' => '/tiny_mce/',
@@ -85,14 +85,14 @@ return [
                     ],
                     'session_storage_logging' => '0',
                     'translate_strategy' => 'dictionary',
-                    'enable_js_bundling' => '0'
+                    'enable_js_bundling' => '1'
                 ],
                 'css' => [
                     'minify_files' => '1',
                     'minify_exclude' => [
                         'tiny_mce' => '/tiny_mce/'
                     ],
-                    'merge_css_files' => '1'
+                    'merge_css_files' => '0'
                 ]
             ]
         ],
