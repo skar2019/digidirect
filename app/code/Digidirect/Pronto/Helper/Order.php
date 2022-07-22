@@ -322,6 +322,13 @@ class Order extends AbstractHelper
 
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
+
+            $grandTotal = (double) $order->getBaseGrandTotal();
+            $subTotal = (double) $order->getBaseSubtotalInclTax();
+            $tax = (double) $order->getBaseTaxAmount();
+            $shipping = (double) $order->getBaseShippingInclTax();
+
+
             if($payment_type == 'BT')
             {
                 $cc = $paymentInstance->getCcType();
@@ -365,18 +372,28 @@ class Order extends AbstractHelper
                         }
                     }
 
+                    //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
+                    //check if all product has stock
                     if($payment_type == 'BT'){
                         if ($order->getStatus() != 'fraud')
                         {
                             if($instockInv)
                             {
-                                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                $data['sales-order']['header']['set-on-status'] = "P";
+                                if($grandTotal < 200)
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+                                }
+                                else //$grandTotal >= 200
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                    $data['sales-order']['header']['set-on-status'] = "H";
+                                }
+
                             }
                             else
                             {
-                                //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
-                                //check if all product has stock
+
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "B";
                             }
@@ -389,12 +406,19 @@ class Order extends AbstractHelper
                     } elseif($payment_type == 'Y') {
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
-                    }
-                    else {
+                    } else {
                         if($instockInv)
                         {
-                            $data['sales-order']['header']['on-hold-reason-code'] = "";
-                            $data['sales-order']['header']['set-on-status'] = "P";
+                            if($grandTotal < 200)
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            else //$grandTotal >= 200
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+                            }
                         }
                         else
                         {
@@ -409,10 +433,6 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
-            $grandTotal = (double) $order->getBaseGrandTotal();
-            $subTotal = (double) $order->getBaseSubtotalInclTax();
-            $tax = (double) $order->getBaseTaxAmount();
-            $shipping = (double) $order->getBaseShippingInclTax();
 
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
