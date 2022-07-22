@@ -14,21 +14,11 @@ $brands = $block->getBrands();
 
 <div class="shop-by-category-dropdown">
     <label class="label-brands-dropdown" for="brands-dropdown">Shop By Category</label>
-    <input name="brands-text-mobile" id="brands-text-mobile" type="text" list="brands-dropdown" style="width: 45%" placeholder="Type Brand Name Here To Refine"/>
-    <i class="fas fa-search" style="margin-left: -20px;"></i>
-    <datalist name="brands-dropdown" id="brands-dropdown" style="width: 45%">
-        <option data-value="all-brands">All Brands</option>
-        <?php foreach($brands as $brand) : ?>
-            <?php if ($brand) :?>
-                <?php $brandName = $brand->getLabel();?>
-                <option data-value="<?php echo $brand->getValue();?>" value="<?php echo $brandName; ?>"></option>
-            <?php endif; ?>
-        <?php endforeach ?>
-    </datalist>
+
 </div>
 
 <div id="shop-by-category-mobile-main">
-    <div id="shop-by-category-container" class="shop-by-category-container"> 
+    <div id="shop-by-category-container" class="shop-by-category-container">
         <div class="shop-by-category-category">
             <a href="<?php echo $block->getUrl("cameras")?>">
                 <img src="<?php echo $block->getUrl("media/wysiwyg/category-grid")?>category-cameras.jpg" loading="lazy"/>
@@ -97,7 +87,7 @@ $brands = $block->getBrands();
 
 <script>
     require(['jquery'],function(){
-        
+
         jQuery(document).on('change','#brands-text-mobile',function(){
             var value = jQuery('#brands-text-mobile').val();
             //alert(jQuery('#brands-dropdown [value="' + value + '"]').data('value'));
@@ -119,9 +109,9 @@ $brands = $block->getBrands();
                 }
             });
         });
-        
+
         jQuery(document).ready(function() {
-            
+
         });
     });
 </script>
