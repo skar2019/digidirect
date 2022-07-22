@@ -657,11 +657,11 @@ class TestPronto extends AbstractHelper
     protected function isProductsInStockMP($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            if ($sourceItem->getQuantity() < 1) {
-                return false;
+            if ($sourceItem->getQuantity() > 1) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -672,11 +672,11 @@ class TestPronto extends AbstractHelper
     protected function isProductsInStockAll($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            if ($sourceItem->getQuantity() < 1) {
-                return false;
+            if ($sourceItem->getQuantity() > 1) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -908,7 +908,7 @@ class TestPronto extends AbstractHelper
             {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStockMP('swhs', $skus)) {
+                if ($this->isProductsInStockMP('SWHS', $skus)) {
                     $directToWhse = true;
                 }
             }
@@ -948,6 +948,12 @@ class TestPronto extends AbstractHelper
 
             $payment_type = $this->getPaymentType($paymentInstance);
             $cc = "";
+
+            $grandTotal = (double) $order->getBaseGrandTotal();
+            $subTotal = (double) $order->getBaseSubtotalInclTax();
+            $tax = (double) $order->getBaseTaxAmount();
+            $shipping = (double) $order->getBaseShippingInclTax();
+
             if($payment_type == 'BT')
             {
                 $cc = $paymentInstance->getCcType();
@@ -996,8 +1002,16 @@ class TestPronto extends AbstractHelper
                         {
                             if($instockInv)
                             {
-                                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                $data['sales-order']['header']['set-on-status'] = "P";
+                                if($grandTotal < 200)
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+                                }
+                                else //$grandTotal >= 200
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                    $data['sales-order']['header']['set-on-status'] = "H";
+                                }
                             }
                             else
                             {
@@ -1019,8 +1033,16 @@ class TestPronto extends AbstractHelper
                     else {
                         if($instockInv)
                         {
-                            $data['sales-order']['header']['on-hold-reason-code'] = "";
-                            $data['sales-order']['header']['set-on-status'] = "P";
+                            if($grandTotal < 200)
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            else //$grandTotal >= 200
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+                            }
                         }
                         else
                         {
@@ -1035,10 +1057,7 @@ class TestPronto extends AbstractHelper
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
-            $grandTotal = (double) $order->getBaseGrandTotal();
-            $subTotal = (double) $order->getBaseSubtotalInclTax();
-            $tax = (double) $order->getBaseTaxAmount();
-            $shipping = (double) $order->getBaseShippingInclTax();
+
 
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
