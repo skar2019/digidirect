@@ -280,7 +280,7 @@ class Order extends AbstractHelper
             {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStockMP('swhs', $skus)) {
+                if ($this->isProductsInStockMP('SWHS', $skus)) {
                     $directToWhse = true;
                 }
             }
@@ -379,6 +379,7 @@ class Order extends AbstractHelper
                         {
                             if($instockInv)
                             {
+                                //check if stock_group A1L1
                                 if($grandTotal < 200)
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "";
@@ -1035,11 +1036,11 @@ class Order extends AbstractHelper
     protected function isProductsInStockAll($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            if ($sourceItem->getQuantity() < 1) {
-                return false;
+            if ($sourceItem->getQuantity() > 0) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
@@ -1050,11 +1051,11 @@ class Order extends AbstractHelper
     protected function isProductsInStockMP($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            if ($sourceItem->getQuantity() < 1) {
-                return false;
+            if ($sourceItem->getQuantity() > 1) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
