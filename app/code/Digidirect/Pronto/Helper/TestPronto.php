@@ -1324,7 +1324,8 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
 
-                if($directToWhse)
+
+                if($data['sales-order']['header']['set-on-status'] == "P")
                 {
                     $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                     $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
@@ -1336,6 +1337,7 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
                     $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                 }
+
 
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
