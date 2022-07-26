@@ -657,7 +657,9 @@ class TestPronto extends AbstractHelper
     protected function isProductsInStockMP($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
+            echo "sourceitem ".$sourceItem->getQuantity()."<br>";
             if ($sourceItem->getQuantity() > 1) {
+                echo $sourceItem->getQuantity()."<br>";
                 return true;
             }
         }
@@ -902,15 +904,19 @@ class TestPronto extends AbstractHelper
             }
 
             echo "Rep ".$rep."<br/>";
-
+            echo "Is marketplace ".$isMarketPlace."<br/>";
             $directToWhse = false;
+
             if($isMarketPlace)
             {
+                echo "It is marketplace ".$isMarketPlace."<br/>";
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
+                var_dump($skus);
                 if ($this->isProductsInStockMP('SWHS', $skus)) {
                     $directToWhse = true;
                 }
+                echo "directToWhse ".$directToWhse."<br/>";
             }
 
             $contactname = $accountname;
