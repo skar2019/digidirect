@@ -28,32 +28,14 @@ class Editor extends AbstractElement
     {
         $config = array_replace_recursive([
             'templateOptions' => [
-                'templateUrl' => 'Magezon_Builder/js/templates/form/element/textarea.html',
+                'element'            => 'Magezon_Builder/js/form/element/editor',
+                'templateUrl'        => 'Magezon_Builder/js/templates/form/element/editor.html',
                 'wrapperTemplateUrl' => 'Magezon_Builder/js/templates/form/field.html',
-                'rows' => 3,
-            ],
-            'defaultOptions' => [
-                'ngModelAttrs' => [
-                    'rows' => [
-                        'attribute' => 'rows',
-                    ],
-                    'cols' => [
-                        'attribute' => 'cols',
-                    ],
-                ],
-            ],
+            ]
         ], (array) $this->getData('config'));
 
-        // $config = array_replace_recursive([
-        //     'templateOptions' => [
-        //         'element'            => 'Magezon_Builder/js/form/element/editor',
-        //         'templateUrl'        => 'Magezon_Builder/js/templates/form/element/editor.html',
-        //         'wrapperTemplateUrl' => 'Magezon_Builder/js/templates/form/field.html',
-        //     ]
-        // ], (array) $this->getData('config'));
-
         return [
-            'config' => $config,
+            'config' => $config
         ];
     }
 }

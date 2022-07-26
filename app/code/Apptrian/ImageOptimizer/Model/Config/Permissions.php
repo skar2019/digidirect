@@ -14,6 +14,8 @@ use Magento\Framework\Exception\LocalizedException;
 class Permissions extends \Magento\Framework\App\Config\Value
 {
     /**
+     * Validate and prepare data before saving config value.
+     *
      * @return $this
      * @throws \Magento\Framework\Exception\LocalizedException
      */
