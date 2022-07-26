@@ -64,7 +64,7 @@ class Configuration extends \Magento\Catalog\Helper\Product\Configuration
 
         $addOptions = $item->getOptionByCode('additional_options');
         if ($addOptions) {
-            $options = array_merge($options, $this->serializer->unserialize($addOptions->getValue()));
+            //$options = array_merge($options, $this->serializer->unserialize($addOptions->getValue()));
         }
 
         return $options;
