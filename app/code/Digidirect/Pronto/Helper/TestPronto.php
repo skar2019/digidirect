@@ -999,8 +999,10 @@ class TestPronto extends AbstractHelper
                     foreach ($this->invCode as $sourceCode) {
                         if ($this->isProductsInStockAll($sourceCode, $skus)) {
                             $instockInv = true;
+                            echo "instockInv ".$instockInv;
                             break;
                         }
+                        echo "foreeach instockInv ".$instockInv;
                     }
 
                     if($payment_type == 'BT'){
