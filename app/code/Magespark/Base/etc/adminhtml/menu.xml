@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * DISCLAIMER
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  MageSpark
+ * @package   MageSpark\Base
+ * @author    MageSpark team <support@magespark.com>
+ * @copyright 2020 MageSpark
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="MageSpark_Base::menu"
+             title="MageSpark"
+             module="MageSpark_Base"
+             translate="title"
+             sortOrder="70"
+             resource="MageSpark_Base::menu"/>
+        <add id="MageSpark_Base::extensions"
+             title="Modules &amp; Notifications"
+             module="MageSpark_Base"
+             translate="title"
+             sortOrder="1"
+             action="adminhtml/system_config/edit/section/magespark_base"
+             parent="MageSpark_Base::menu"
+             resource="MageSpark_Base::config"/>
+        <add id="MageSpark_Base::marketplace"
+             title="MageSpark Marketplace"
+             module="MageSpark_Base"
+             translate="title"
+             sortOrder="2"
+             action="msbase/marketplace"
+             parent="MageSpark_Base::menu"
+             resource="MageSpark_Base::marketplace"/>
+    </menu>
+</config>

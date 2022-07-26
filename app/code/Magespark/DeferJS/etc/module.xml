@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * DISCLAIMER
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  MageSpark
+ * @package   MageSpark_CopyCmsPageBlock
+ * @author    MageSpark team <support@magespark.com>
+ * @copyright 2020 MageSpark
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="MageSpark_DeferJS" setup_version="1.2.0"/>
+</config>

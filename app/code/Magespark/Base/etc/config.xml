@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * DISCLAIMER
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  MageSpark
+ * @package   MageSpark\Base
+ * @author    MageSpark team <support@magespark.com>
+ * @copyright 2020 MageSpark
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <magespark_base>
+            <notifications>
+                <type>INFO,PROMO,INSTALLED_UPDATE,TIPS_TRICKS</type>
+                <frequency>5</frequency>
+            </notifications>
+            <menu>
+                <enable>1</enable>
+            </menu>
+        </magespark_base>
+    </default>
+</config>

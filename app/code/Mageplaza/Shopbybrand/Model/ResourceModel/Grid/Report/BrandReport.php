@@ -217,7 +217,6 @@ class BrandReport extends AbstractReport
                 [
                     Type::TYPE_BUNDLE       => Type::TYPE_BUNDLE,
                     Grouped::TYPE_CODE      => Grouped::TYPE_CODE,
-                    Configurable::TYPE_CODE => Configurable::TYPE_CODE
                 ]
             );
 

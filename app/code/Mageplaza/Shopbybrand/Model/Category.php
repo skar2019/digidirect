@@ -22,10 +22,10 @@
 namespace Mageplaza\Shopbybrand\Model;
 
 use Magento\Framework\App\ResourceConnection;
-use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
-use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Mageplaza\Shopbybrand\Model\ResourceModel\Category as ResourceModel;
+use Mageplaza\Shopbybrand\Model\ResourceModel\Category\Collection as ResourceModelCollection;
 use Magento\Framework\Registry;
 use Mageplaza\Shopbybrand\Api\Data\BrandCategoryInterface;
 use Mageplaza\Shopbybrand\Helper\Data as Helper;
@@ -60,8 +60,8 @@ class Category extends AbstractModel implements BrandCategoryInterface
      * @param Registry $registry
      * @param ResourceConnection $resourceConnection
      * @param CollectionFactory $categoryCollectionFactory
-     * @param AbstractResource|null $resource
-     * @param AbstractDb|null $resourceCollection
+     * @param ResourceModel|null $resource
+     * @param ResourceModelCollection|null $resourceCollection
      * @param Helper $helper
      * @param array $data
      */
@@ -70,9 +70,9 @@ class Category extends AbstractModel implements BrandCategoryInterface
         Registry $registry,
         ResourceConnection $resourceConnection,
         CollectionFactory $categoryCollectionFactory,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
-        Helper                $helper,
+        ResourceModel $resource = null,
+        ResourceModelCollection $resourceCollection = null,
+        Helper $helper,
         array $data = []
     ) {
         $this->categoryCollectionFactory = $categoryCollectionFactory;
@@ -80,7 +80,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->tableBrandCategory = $resourceConnection->getTableName('mageplaza_shopbybrand_brand_category');
-        $this->helper = $helper;
+        $this->helper             = $helper;
     }
 
     /**
@@ -88,7 +88,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
      */
     public function _construct()
     {
-        $this->_init(ResourceModel\Category::class);
+        $this->_init(ResourceModel::class);
     }
 
     /**
@@ -103,7 +103,7 @@ class Category extends AbstractModel implements BrandCategoryInterface
      * @param null $whereCond
      * @param null $groupCond
      *
-     * @return ResourceModel\Category\Collection
+     * @return ResourceModel\Collection
      */
     public function getCategoryCollection($whereCond = null, $groupCond = null)
     {
@@ -134,6 +134,20 @@ class Category extends AbstractModel implements BrandCategoryInterface
             );
             $collection->getSelect()->where('br.is_display = 1 OR br.is_display is null');
         }
+
+        return $collection;
+    }
+
+    /**
+     * @return ResourceModel\Collection
+     */
+    public function getCategorys()
+    {
+        $collection = $this->categoryCollectionFactory->create();
+        $collection->getSelect()->joinInner(
+            ['brand_cat_tbl' => $this->tableBrandCategory],
+            'main_table.cat_id = brand_cat_tbl.cat_id'
+        );
 
         return $collection;
     }

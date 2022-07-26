@@ -16,19 +16,19 @@
 //  ---------------------------------------------
 & when (@media-common = true) {
     /*.store-locator {*/
-        .locator-details .name,
-        .locator-item .name{
-            font-family: 'Poppins', sans-serif;
-        }
+    .locator-details .name,
+    .locator-item .name{
+        font-family: 'Poppins', sans-serif;
+    }
     /*}*/
 
     .store-locator {
 
-        margin-top: 100px;
+        margin-top: 50px;
 
         .Sydney:checked ~ .scontent-Sydney {
             display: block;
-            background: red;
+            background: #F5F5F5;
         }
 
         .Brisbane:checked ~ .scontent-Brisbane{
@@ -61,11 +61,21 @@
             background: #F5F5F5;
         }
 
-        // .scontent-Sydney {
-        //     display:none;
-        //     background: #F5F5F5;
-        // }
-	
+
+        //st peter hide
+        div#sldetails-New\ South\ Wales {
+            display: none !important;
+        }
+
+        div#scontentNew\ South\ Wales {
+            display: none !important;
+        }
+
+        .scontent-Sydney {
+            display:none;
+            // background: #F5F5F5;
+        }
+
         // .Sydney ~ #sldetails-Sydney {
         //     background: #F5F5F5;
         //     margin-right: -25px;
@@ -99,9 +109,11 @@
             display:none;
         }
 
-        .scontent-Bondi.Junction{
-            display:none;
-        }
+        // .scontent-Bondi.Junction{
+        //     display: block;
+        //     background: #F5F5F5;
+        //     // background-color: #F5F5F5;
+        // }
 
         .scontent-Melbourne{
             display:none;
@@ -120,13 +132,18 @@
         }
 
         .parent-storelist {
-            display: grid;
+            display: grid; //Rondel Fix
             // grid-gap: 0.5rem;
             grid-template-columns: 1fr 2fr;
             grid-auto-flow: dense;
             padding: 0.5rem;
         }
-        
+
+        //Rondel Fix
+        .store-hour .image._hide-for-mobile {
+            object-fit: contain;
+        }
+
         input[type="radio"] {
             display: none;
             /*display: block;*/
@@ -167,9 +184,9 @@
                 table {
                     width: 100%;
 
-                    tbody tr:nth-child(3) {
-                        color: #e65504 !important;
-                    }
+                    // tbody tr:nth-child(3) {
+                    //     color: #e65504 !important;
+                    // }
 
                     tr>td {
                         padding-bottom: 1px !important;
@@ -210,6 +227,16 @@
             margin-right: -25px;
         }
 
+        .parent-storelist {
+            display: grid !important; //Rondel Fix
+        }
+
+        .scontent-Bondi.Junction{
+            display: block;
+            background: #F5F5F5;
+            // background-color: #F5F5F5;
+        }
+
         .grid-row {
             /*display: flex;*/
             margin-top: 30px;
@@ -244,14 +271,12 @@
             display: none;
         }
 
-
-
         .store-wrapper {
             .store-items {
                 display: flex;
                 flex-direction: row;
             }
-    
+
             .store-details {
                 display: flex;
                 flex-direction: column;
@@ -260,10 +285,18 @@
             }
         }
 
-        .locator-item.item.sldetails.store-wrapper.column {
-            border: none;
+        img[alt="Melbourne CBD"] {
+            width: 145px !important;
         }
-        
+
+        .locator-list .locator-item {
+            border: none !important;
+        }
+
+        .locator-item .address {
+            margin: 0 5px 18px !important;
+        }
+
 
     }
 }
@@ -274,7 +307,7 @@
 
 .media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) {
     .store-locator {
-        
+
         margin-top: 50px;
         // display: none;
 
@@ -297,8 +330,16 @@
             display: none;
         }
 
-        .scontent-Sydney {
-            display:none;
+        // .scontent-Sydney {
+        //     display:none;
+        // }
+
+        .scontent-Bondi.Junction{
+            display: none;
+        }
+
+        img[alt="Melbourne CBD"] {
+            width: 145px !important;
         }
 
         .sdetails {
@@ -340,15 +381,18 @@
                 display: block !important;
                 margin: 0 20px 0 0;
             }
-            
+
         }
 
         .parent-storelist {
             // display: block;
             display: block !important;
+            border: 1px solid #c7c7c7 !important;
+            margin-bottom: 15px;
+            background: #F5F5F5;
 
             .store-hour {
-                    
+
                 margin: 5px !important;
 
                 .image {
@@ -359,7 +403,7 @@
                     width: 80%;
                 }
             }
-                
+
             input[type="checkbox"]:checked {
                 background: red;
             }
@@ -386,16 +430,18 @@
             }
 
             input[type="checkbox"]:not(:checked):before {
-            content: 'x';
+                content: 'x';
 
             }
 
         }
 
-        .locator-wrapper .locator-item.item.sldetails.store-wrapper.column {
-            border: 1px solid #c7c7c7;
-        }
-        
+        // .locator-wrapper.locator-item.item.sldetails.store-wrapper.column {
+        //     border: 1px solid #c7c7c7 !important;
+        // }
+
+
+
         input[type=radio]:checked~.sl-close {
             display: block;
         }

@@ -49,7 +49,6 @@ class Order extends AbstractHelper
         '31' => 'B4P',
         '17' => 'M1P',
         '21' => 'M6P',
-        '19' => 'B5P',
         '23' => 'C3P',
         '1'  => 'S7P',
         '4'  => 'B4P',
@@ -57,8 +56,30 @@ class Order extends AbstractHelper
         '10' => 'B5P',
         '13' => 'M6P',
         '16' => 'C3P',
-        '19' => 'B5P'
+        '19' => 'B5P',
+        '32' => 'P4P',
+        '35' => 'C9W'
 
+    ];
+
+    protected $invCodeAll = [
+        'BOND',
+        'BRIS',
+        'CANN',
+        'MELB',
+        'MIRA',
+        'PARR',
+        'SWHS',
+        'SYDN'
+    ];
+
+    protected $invCode = [
+        'BRIS',
+        'CANN',
+        'MELB',
+        'MIRA',
+        'SWHS',
+        'SYDN'
     ];
 
     /**
@@ -259,7 +280,7 @@ class Order extends AbstractHelper
             {
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                if ($this->isProductsInStockMP('swhs', $skus)) {
+                if ($this->isProductsInStockMP('SWHS', $skus)) {
                     $directToWhse = true;
                 }
             }
@@ -291,29 +312,128 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['contactname'] = $contactname;
             $data['sales-order']['header']['email'] = $customerEmail;
             $data['sales-order']['header']['reference'] = $entityId;
+
+            $paymentInstance = $order->getPayment();
+
+            //payment details
+
+            //$methodInst = $paymentInstance->getMethodInstance();
+            $method = $paymentInstance->getMethod();
+
+            $payment_type = $this->getPaymentType($paymentInstance);
+            $cc = "";
+
+            $grandTotal = (double) $order->getBaseGrandTotal();
+            $subTotal = (double) $order->getBaseSubtotalInclTax();
+            $tax = (double) $order->getBaseTaxAmount();
+            $shipping = (double) $order->getBaseShippingInclTax();
+
+
+            if($payment_type == 'BT')
+            {
+                $cc = $paymentInstance->getCcType();
+            }
+
             if($directToWhse)
             {
                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                 $data['sales-order']['header']['set-on-status'] = "P";
+
+                if($is_am_fba)
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+
             }
             else
             {
-                $data['sales-order']['header']['on-hold-reason-code'] = "01";
+                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                 $data['sales-order']['header']['set-on-status'] = "H";
-            }
+//                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
+                if($isMarketPlace) // since it did not go to P, we assume there is no stock
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+                else {
 
-            if ($is_am_fba)
-            {
-                $data['sales-order']['header']['set-on-status'] = "H";
+                    //check for stock
+                    //check for fraud BT
+
+                    $skus = $this->getProductsSkus($order);
+                    $instockInv = false;
+                    foreach ($this->invCode as $sourceCode) {
+                        if ($this->isProductsInStockAll($sourceCode, $skus)) {
+                            $instockInv = true;
+                            break;
+                        }
+                    }
+
+                    //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
+                    //check if all product has stock
+                    if($payment_type == 'BT'){
+                        if ($order->getStatus() != 'fraud')
+                        {
+                            if($instockInv)
+                            {
+                                //check if stock_group A1L1
+                                if($grandTotal < 200)
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+                                }
+                                else //$grandTotal >= 200
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                    $data['sales-order']['header']['set-on-status'] = "H";
+                                }
+
+                            }
+                            else
+                            {
+
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "B";
+                            }
+
+                        }
+                        else {
+                            $data['sales-order']['header']['on-hold-reason-code'] = "WF";
+                            $data['sales-order']['header']['set-on-status'] = "H";
+                        }
+                    } elseif($payment_type == 'Y') {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";
+                    } else {
+                        if($instockInv)
+                        {
+                            if($grandTotal < 200)
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            else //$grandTotal >= 200
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+                            }
+                        }
+                        else
+                        {
+                            $data['sales-order']['header']['on-hold-reason-code'] = "";
+                            $data['sales-order']['header']['set-on-status'] = "B";
+                        }
+                    }
+                }
+
             }
 
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
-            $grandTotal = (double) $order->getBaseGrandTotal();
-            $subTotal = (double) $order->getBaseSubtotalInclTax();
-            $tax = (double) $order->getBaseTaxAmount();
-            $shipping = (double) $order->getBaseShippingInclTax();
 
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
@@ -369,6 +489,13 @@ class Order extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
+                //all click and collect should go to picking, no need to check stock since they cannot select Click and Collect if it doesn't have stock when ordering
+                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                $data['sales-order']['header']['set-on-status'] = "P";
+                if($payment_type == 'Y') {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
             }
             else if($rep == "WESTFIELD")
             {
@@ -385,20 +512,6 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
             $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
-
-            $paymentInstance = $order->getPayment();
-
-            //payment details
-
-            //$methodInst = $paymentInstance->getMethodInstance();
-            $method = $paymentInstance->getMethod();
-
-            $payment_type = $this->getPaymentType($paymentInstance);
-            $cc = "";
-            if($payment_type == 'BT')
-            {
-                $cc = $paymentInstance->getCcType();
-            }
 
             $payment_reference = $paymentInstance->getLastTransId();
 
@@ -920,14 +1033,29 @@ class Order extends AbstractHelper
      * @param array $productsSkus
      * @return bool
      */
+    protected function isProductsInStockAll($sourceCode, array $productsSkus) {
+        $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
+        foreach ($sourceItems as $sourceItem) {
+            if ($sourceItem->getQuantity() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param string $sourceCode
+     * @param array $productsSkus
+     * @return bool
+     */
     protected function isProductsInStockMP($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            if ($sourceItem->getQuantity() < 1) {
-                return false;
+            if ($sourceItem->getQuantity() > 1) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
