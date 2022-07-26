@@ -9,6 +9,16 @@
         </div>
     </div>
 </div>
+<div class="store-section">
+    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
+        <div class="locator-items items content" data-role="content"
+             data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
+            <!-- ko foreach: $parent.getRegion('locator_items') -->
+            <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
+            <!--/ko-->
+        </div>
+    </div>
+</div>
 <!-- /ko -->
 <!-- ko ifnot: locationsList().length -->
     <div class="message info empty"><span data-bind="i18n: 'Nothing was found on your request. Please, check your address.'"></span></div>
