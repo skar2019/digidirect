@@ -96,7 +96,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             $brisQty = 1;
             $miraQty = 1;
             $cannQty = 1;
-            $parrQty = 1;
             
             foreach ($cartItems as $cartItem) {
             
@@ -110,20 +109,18 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                     //echo $this->console_log($sourceItem->getSourceCode());
                     //$qty .= $sourceItem->getQuantity();
                     
-                    if ($sourceItem->getSourceCode() == 'SYDN') {
+                    if ($id == 10 && $sourceItem->getSourceCode() == 'SYDN') {
                         $sydnQty = $sydnQty * $sourceItem->getQuantity();
-                    } elseif ($sourceItem->getSourceCode() == 'BOND') {
+                    } elseif ($id == 13 && $sourceItem->getSourceCode() == 'BOND') {
                         $bondQty = $bondQty * $sourceItem->getQuantity();
-                    } elseif ($sourceItem->getSourceCode() == 'MELB') {
+                    } elseif ($id == 16 && $sourceItem->getSourceCode() == 'MELB') {
                         $melbQty = $melbQty * $sourceItem->getQuantity();
-                    } elseif ($sourceItem->getSourceCode() == 'BRIS') {
+                    } elseif ($id == 22 && $sourceItem->getSourceCode() == 'BRIS') {
                         $brisQty = $brisQty * $sourceItem->getQuantity();
-                    } elseif ($sourceItem->getSourceCode() == 'MIRA') {
+                    } elseif ($id == 25 && $sourceItem->getSourceCode() == 'MIRA') {
                         $miraQty = $miraQty * $sourceItem->getQuantity();
-                    } elseif ($sourceItem->getSourceCode() == 'CANN') {
+                    } elseif ($id == 28 && $sourceItem->getSourceCode() == 'CANN') {
                         $cannQty = $cannQty * $sourceItem->getQuantity();
-                    } elseif ($sourceItem->getSourceCode() == 'PARR') {
-                        $parrQty = $parrQty * $sourceItem->getQuantity();
                     }
                 }
             }
@@ -139,8 +136,6 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             } elseif ($miraQty > 0) {
                 $items[$key]['click_and_collect'] = true;
             } elseif ($cannQty > 0) {
-                $items[$key]['click_and_collect'] = true;
-            } elseif ($parrQty > 0) {
                 $items[$key]['click_and_collect'] = true;
             } else {
                 $items[$key]['click_and_collect'] = false;
