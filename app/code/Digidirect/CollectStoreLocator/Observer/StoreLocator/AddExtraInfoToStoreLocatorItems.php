@@ -85,10 +85,10 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 continue;
             }
 
-            $place = $places[$id];
-            if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
-                $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
-            }
+            //$place = $places[$id];
+            //if ($place->hasData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE)) {
+            $items[$key]['available'] = true; // Andrew requested that all store is selectable; !$place->getData(CollectPlaceRepositoryInterface::KEY_IS_UNAVAILABLE);
+            //}
             
             $sydnQty = 1;
             $bondQty = 1;
@@ -129,21 +129,21 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
             }
                     
             if ($sydnQty > 0) {
-                $items[$key]['available'] = true;
+                $items[$key]['click_and_collect'] = true;
             } elseif ($bondQty > 0) {
-                $items[$key]['available'] = true;
+                $items[$key]['click_and_collect'] = true;
             } elseif ($melbQty > 0) {
-                $items[$key]['available'] = true;
+                $items[$key]['click_and_collect'] = true;
             } elseif ($brisQty > 0) {
-                $items[$key]['available'] = true;
+                $items[$key]['click_and_collect'] = true;
             } elseif ($miraQty > 0) {
-                $items[$key]['available'] = true;
+                $items[$key]['click_and_collect'] = true;
             } elseif ($cannQty > 0) {
-                $items[$key]['available'] = true;
+                $items[$key]['click_and_collect'] = true;
             } elseif ($parrQty > 0) {
-                $items[$key]['available'] = true;
+                $items[$key]['click_and_collect'] = true;
             } else {
-                $items[$key]['available'] = false;
+                $items[$key]['click_and_collect'] = false;
             }
             
         }
