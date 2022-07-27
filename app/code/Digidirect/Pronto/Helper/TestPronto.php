@@ -673,7 +673,7 @@ class TestPronto extends AbstractHelper
     protected function isProductsInStockAll($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            echo "sourceitem".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
+            echo "sourceitem ".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
             if ($sourceItem->getQuantity() > 1) {
                 return true;
             }
@@ -999,10 +999,10 @@ class TestPronto extends AbstractHelper
                     foreach ($this->invCode as $sourceCode) {
                         if ($this->isProductsInStockAll($sourceCode, $skus)) {
                             $instockInv = true;
-                            echo "instockInv ".$instockInv;
+                            echo "instockInv ".$instockInv."<br>";
                             break;
                         }
-                        echo "foreeach instockInv ".$instockInv;
+                        echo "foreeach instockInv ".$instockInv."<br>";
                     }
 
                     if($payment_type == 'BT'){
