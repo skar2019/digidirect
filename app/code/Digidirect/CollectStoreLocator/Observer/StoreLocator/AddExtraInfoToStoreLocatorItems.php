@@ -125,17 +125,17 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
                 }
             }
                     
-            if ($sydnQty > 0) {
+            if ($sydnQty > 1) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($bondQty > 0) {
+            } elseif ($bondQty > 1) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($melbQty > 0) {
+            } elseif ($melbQty > 1) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($brisQty > 0) {
+            } elseif ($brisQty > 1) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($miraQty > 0) {
+            } elseif ($miraQty > 1) {
                 $items[$key]['click_and_collect'] = true;
-            } elseif ($cannQty > 0) {
+            } elseif ($cannQty > 1) {
                 $items[$key]['click_and_collect'] = true;
             } else {
                 $items[$key]['click_and_collect'] = false;
