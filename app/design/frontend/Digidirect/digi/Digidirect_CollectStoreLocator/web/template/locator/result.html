@@ -1,11 +1,5 @@
 <!-- ko if: locationsList().length -->
 <div class="store-section">
-    <div class="title-cc">CLICK & COLLECT</div>
-    <div class="description-cc">
-        <p style="color: #ff3c00;font-weight: 600;">All the products from your order are available to Click & Collect at the following store(s).</p>
-        <p>Click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
-        <p style="font-style: italic;">Remember to wait for a notification email that tells you that your order is ready for pick-up. We will endeavour to send you this email between 1-4 hours.</p>
-    </div>
     <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
@@ -17,12 +11,6 @@
         </div>
     </div>
     <div style="height: 50px"><div>
-    <div class="title-cc">OR DELIVER TO LOCAL STORE FOR CLICK & COLLECT</div>
-    <div class="description-cc">
-        <p>Although all products from your order are not available from the following digiDirect stores, you can select any of the stores below and we will deliver to the store within 24-72 hours for you to collect from your chosen location.</p>
-        <p>Simply click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
-        <p style="font-style: italic;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</p>
-    </div>
     <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
