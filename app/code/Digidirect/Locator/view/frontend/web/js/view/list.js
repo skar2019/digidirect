@@ -30,7 +30,6 @@ define([
                 };
                 this.locationsList = locations.items;
             }
-            console.log("JS for checkout!");
         },
         paginationObservable: function () {
             var self = this;

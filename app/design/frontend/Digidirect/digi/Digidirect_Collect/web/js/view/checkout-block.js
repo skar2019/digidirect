@@ -83,6 +83,7 @@ define([
                 };
                 this.locationList = locations.items;
             }
+            console.log(json_encode(locations.items));
         },
         onSubscribe: function () {
             var self = this;
