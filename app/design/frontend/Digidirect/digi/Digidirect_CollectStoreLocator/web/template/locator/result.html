@@ -4,8 +4,22 @@
         <div class="locator-items items content" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
             <!-- ko if: item.click_and_collect == true -->
-            <!-- ko foreach: $parent.getRegion('locator_items') -->
-            <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
+                <!-- ko foreach: $parent.getRegion('locator_items') -->
+                <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
+                <!--/ko-->
+            <!--/ko-->
+        </div>
+    </div>
+</div>
+
+<div class="store-section">
+    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
+        <div class="locator-items items content" data-role="content"
+             data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
+            <!-- ko if: item.click_and_collect == false -->
+                <!-- ko foreach: $parent.getRegion('locator_items') -->
+                <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
+                <!--/ko-->
             <!--/ko-->
         </div>
     </div>
