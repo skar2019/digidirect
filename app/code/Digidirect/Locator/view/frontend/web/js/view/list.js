@@ -30,6 +30,7 @@ define([
                 };
                 this.locationsList = locations.items;
             }
+            console.log("locations.items : " + locations.items);
         },
         paginationObservable: function () {
             var self = this;
