@@ -1,11 +1,9 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Digidirect\Checkout\Block\Onepage;
 
-use Magento\Customer\Model\Context;
+use
+    Magento\Customer\Model\Context;
 use Magento\Sales\Model\Order;
 
 
@@ -90,7 +88,8 @@ class Success extends \Magento\Framework\View\Element\Template
                 ),
                 'can_print_order' => $this->isVisible($order),
                 'can_view_order'  => $this->canViewOrder($order),
-                'order_id'  => $order->getIncrementId()
+                'order_id'  => $order->getIncrementId(),
+                'shipping_details' => $order->getShippingDescription()
             ]
         );
     }
