@@ -11,7 +11,6 @@ $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
         <?php if ($block->getShippingDetails() == "Pick Up in Store - Click and Collect Shipping"): ?>
             <span class="header"><?= /* @escapeNotVerified */__('YOUR CLICK & COLLECT HAS BEEN RECEIVED') ?></span>
             <span class="title"><?= /* @escapeNotVerified */__('Thank you for your purchase') ?></span>
-            <br/>
             <?php if ($block->getCanViewOrder()) : ?>
                 <span class="title -addition"><?= __('Your order no # %1', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></span>
             <?php else : ?>
@@ -39,7 +38,6 @@ $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
 
     <?php endif; ?>
 
-    <?=  $block->getShippingDetails() ?>
     <?= $block->getAdditionalInfoHtml() ?>
 
     <div class="actions-toolbar">
