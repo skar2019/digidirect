@@ -690,15 +690,13 @@ class Data extends AbstractData
      */
     public function getCategoryList()
     {
-        $collection = $this->categoryFactory->create()
-            ->getCollection()
+        return $this->categoryFactory->create()
+            ->getCategoryCollection()
             ->addFieldToFilter('status', '1')
             ->addFieldToFilter(['store_ids', 'store_ids'], [
                 ['finset' => $this->getStoreId()],
                 ['finset' => 0]
             ]);
-
-        return $collection;
     }
 
     /**

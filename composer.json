@@ -13,7 +13,8 @@
         "allow-plugins": {
             "magento/magento-composer-installer": true,
             "magento/inventory-composer-installer": true,
-            "laminas/laminas-dependency-plugin": true
+            "laminas/laminas-dependency-plugin": true,
+            "magento/composer-dependency-version-audit-plugin": true
         }
     },
     "repositories": {

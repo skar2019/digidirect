@@ -31,8 +31,8 @@ define([
             if (this.options.path && this.options.path !== '') {
                 newParent = this.element.closest(this.options.productGridSelector).find(this.options.path);
                 if (newParent.length) {
-                    this.parent = newParent;
-                    newParent.append(this.element);
+                    //this.parent = newParent;
+                    //newParent.append(this.element);
                 } else {
                     this.element.addClass('-hide');
                 }
@@ -93,7 +93,7 @@ define([
                         var newParent = $(self.options.path);
                         if (newParent.length && !self.isExistInParent(newParent)) {
                             self.parent = newParent;
-                            newParent.append(self.element);
+                            //newParent.append(self.element);
                             if (!(newParent.attr('class').indexOf('fotorama') > -1)) {
                                 newParent.css('position', 'relative');
                             }

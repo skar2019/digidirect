@@ -21,14 +21,14 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
                 <label class="label" for="qty"><span><?= /* @escapeNotVerified */ __('Qty') ?></span></label>
                 <div class="control qty-group-control" data-bind="scope: 'qty-change'">
                     <input data-bind="value: qty()"
-                           type="number" 
-                           name="qty" 
-                           id="qty" 
-                           value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>" 
-                           title="<?= /* @escapeNotVerified */ __('Qty') ?>" 
-                           class="input-text qty qty-pdp" 
-                           data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" /> 
-                    
+                           type="number"
+                           name="qty"
+                           id="qty"
+                           value="<?= /* @escapeNotVerified */ $block->getProductDefaultQty() * 1 ?>"
+                           title="<?= /* @escapeNotVerified */ __('Qty') ?>"
+                           class="input-text qty qty-pdp"
+                           data-validate="<?= $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>" />
+
                     <div class="qty-buttons">
                         <div role="button" data-bind="click: increaseQty"><i class="fas fa-angle-up"></i></div>
                         <div role="button" data-bind="click: decreaseQty"><i class="fas fa-angle-down"></i></div>
@@ -63,7 +63,7 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
                             <i class="fa-solid fa-cart-plus" style=" font-family: 'Font Awesome 5 Free';font-style: unset;float: right;color: #fff;"></i>
                         </button>
                     <?php endif; ?>
-                
+
                 <?= $block->getChildHtml('', true) ?>
             </div>
         </div>
@@ -112,13 +112,13 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
         }
     }
 </script>
-<script>
-    paypal.Buttons({
-      style: {
-        layout:  'vertical',
-        color:   'blue',
-        shape:   'rect',
-        label:   'paypal'
-      }
-    }).render('#paypal-button-container');
-</script>
+<!--<script>-->
+<!--    paypal.Buttons({-->
+<!--      style: {-->
+<!--        layout:  'vertical',-->
+<!--        color:   'blue',-->
+<!--        shape:   'rect',-->
+<!--        label:   'paypal'-->
+<!--      }-->
+<!--    }).render('#paypal-button-container');-->
+<!--</script>-->

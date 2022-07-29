@@ -15,7 +15,7 @@
             margin-top: 40px;
             margin-bottom: 20px;
         }
-        
+
         p::first-child{
             font-size: 22px;
             color: #000;
@@ -37,10 +37,29 @@
             margin-bottom: 20px;
         }
 
-        > .content {
+        > contentcontainer {
             max-width: 525px;
             margin: 15px auto;
+            border-style: dashed;
+            border-color: #ff6600;
+            padding: 20px;
+        }
+        > contentcontainer > .importantnote {
+            max-width: 505px;
+            .lib-font-size(16);
+            margin: 15px auto;
+            color: #ff6600;
+        }
+        > contentcontainer > .content {
+            max-width: 505px;
+            margin: 15px auto;
             .lib-font-size(14);
+        }
+        > contentcontainer > .secondcontent {
+            max-width: 505px;
+            margin: 15px auto;
+            .lib-font-size(14);
+            font-style: italic;
         }
 
         > .actions-toolbar {

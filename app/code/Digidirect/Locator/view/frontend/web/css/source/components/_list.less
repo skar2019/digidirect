@@ -29,6 +29,7 @@
 @locator-item-image__float: left;
 @locator-item-image__margin: 0 10px 0 0;
 @locator-item-image__max-width: 50px;
+@locator-item-image__height: 120px;
 //  Item:details
 @locator-item-details__overflow: hidden;
 //  Item:name
@@ -76,7 +77,7 @@
         }
 
         &:not(:first-child) {
-            .lib-css(border-top, @locator-item__border-top);
+            // .lib-css(border-top, @locator-item__border-top);
         }
 
         .image {
@@ -84,8 +85,8 @@
             .lib-css(margin, @locator-item-image__margin);
             .lib-css(max-width, @locator-item-image__max-width);
             .lib-css(height, @locator-item-image__height);
-            
-            border-radius: 5px;
+
+            border-radius: 5px !important;
         }
 
         .details {

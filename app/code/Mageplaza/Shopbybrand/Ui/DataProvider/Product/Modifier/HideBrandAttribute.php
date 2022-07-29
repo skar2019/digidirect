@@ -89,7 +89,8 @@ class HideBrandAttribute extends AbstractModifier
     protected function checkHasParent($productId)
     {
         $currentAction = $this->request->getFullActionName();
-        if ($currentAction !== 'catalog_product_new') {
+        $excludeAction = ['catalog_product_reload','catalog_product_new'];
+        if (!in_array($currentAction, $excludeAction)) {
             $parentByChild = $this->_catalogProductTypeConfigurable->getParentIdsByChild($productId);
             if (isset($parentByChild[0])) {
                 $this->_hasParent = true;

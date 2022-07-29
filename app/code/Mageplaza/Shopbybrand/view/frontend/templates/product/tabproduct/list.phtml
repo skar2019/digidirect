@@ -45,7 +45,7 @@ $_helper = $block->getData('outputHelper');
     /**
      * Position for actions regarding image size changing in vde if needed
      */
-    $pos = $block->getPositioned();
+    $pos = $block->getPositioned() ?: '';
     ?>
     <div class="products wrapper <?= /* @noEscape */
     $viewMode ?> products-<?= /* @noEscape */

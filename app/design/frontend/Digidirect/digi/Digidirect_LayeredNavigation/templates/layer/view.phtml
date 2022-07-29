@@ -12,6 +12,15 @@
     $brandLabels = false;
     $faceBookPixel = $this->helper('Digidirect\Digi\Helper\FaceBookPixel');
     $filterExclusions = ['cat'];
+    
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
+    $_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+    $urlInterface = $objectManager->get('Magento\Framework\UrlInterface');
+    $currentUrl = $urlInterface->getCurrentUrl();
+
+    $isBrandPage = str_contains($currentUrl, 'brands/');
 ?>
 <?php if ($block->canShowBlock()): ?>
     <div class="block filter">
@@ -109,7 +118,7 @@
             parent.append(items);
         }
     
-        sortUsingNestedText($('#narrow-by-list'), ".filter-options-item", ".filter-options-title");
+        //sortUsingNestedText($('#narrow-by-list'), ".filter-options-item", ".filter-options-title");
         
         function prependPriorityAttributes(attribute) {
             $('#narrow-by-list > .filter-options-item').each(function () {
@@ -125,20 +134,25 @@
         }
         
         var priorityAttributes = ["Price", "Color", "Brand", "Category"];
+        //        
+        //$.each(priorityAttributes , function(index, val) { 
+        //console.log(index, val);
+        //prependPriorityAttributes(val);
+        //});
         
-        $.each(priorityAttributes , function(index, val) { 
-          //console.log(index, val);
-          prependPriorityAttributes(val);
+        $('#narrow-by-list > .filter-options-item').each(function () {
+            $(this).hide();
         });
-        
         
         $('#narrow-by-list > .filter-options-item').each(function () {
             var attributeCode = $.trim($(this).children('.filter-options-title').text());
             
             if (priorityAttributes.includes(attributeCode)) {
-                //console.log(attributeCode);
-            }else {
-                $(this).hide();
+                console.log("<?= $isBrandPage?>" + ', ' + attributeCode);
+                if (("<?= $isBrandPage?>") == "1" && attributeCode == "Brand") {
+                    $(this).remove();
+                }
+                $(this).show();
             }
             
         });
@@ -209,13 +223,6 @@
             
         });
         
-        
-        
-        
-        
-        
-        
-        
         $(".load-area:hidden:first");
         var limit = 5;
         var ctr = 0;
@@ -234,7 +241,7 @@
             $('#narrow-by-list > .filter-options-item:hidden').each(function () {
                 hiddenFilter++;
             });
-            console.log(hiddenFilter);
+            console.log("Hidden Filter : " + hiddenFilter);
             console.log($(this));
             
             if (hiddenFilter == 0) {

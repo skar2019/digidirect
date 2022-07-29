@@ -77,14 +77,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public $utilExt  = null;
     
     /**
-     * Index filename.
+     * Index filename. Can be changed to any value.
      *
      * @var string $indexFilename
      */
     public $indexFilename = 'apptrian_imageoptimizer_index.data';
     
     /**
-     * Index path.
+     * Directory path to index file.
      *
      * @var null|string $indexPath
      */
@@ -256,8 +256,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
     
     /**
-     * Based on config returns array of all paths that will be scaned
-     * for images.
+     * Based on config returns array of all paths that will be scaned for images.
      *
      * @return array
      */
@@ -546,8 +545,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
     
     /**
-     * Formats and returns the shell command string for an image optimization
-     * utility.
+     * Formats and returns the shell command string for an image optimization utility.
      *
      * @param string $type - This is image type. Valid values gif|jpg|png
      * @param string $filePath - Path to the image to be optimized
@@ -578,8 +576,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
     
     /**
-     * Gets and stores utility extension.
-     * Checks server OS and determine utility extension.
+     * Gets and stores utility extension. Checks server OS and determine utility extension.
      *
      * @return string
      */
@@ -593,8 +590,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
     
     /**
-     * Gets and stores path to utilities. Checks server OS and config to
-     * determine the path where image optimization utilities are.
+     * Gets and stores path to utilities.
+     *
+     * Checks server OS and config to determine the path where image optimization utilities are.
      *
      * @return string
      */

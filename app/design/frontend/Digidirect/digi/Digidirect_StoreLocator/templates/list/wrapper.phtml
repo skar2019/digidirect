@@ -2,19 +2,19 @@
 /** @var \Digidirect\Storelocator\Block\Wrapper $block */
 $isInPopup = $block->getOpenInPopup();
 ?>
-<div class="store-locator test3">
+<div class="store-locator" >
 
     <div class="storebanners">
-        <img style="display: inline; margin: 0 0 0 10px;" class="store-locatorbanner1" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1">
-        <img style="display: inline; margin: 0 0 0 10px;" class="store-locatorbanner2" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner2.png" alt="store-locatorbanner2" width="64%">
+        <img style="display: inline; margin: 0 0 0 10px;" class="store-locatorbanner1" src="https://digidirect.com.au/media/wysiwyg/store-locator/store-locatorbanner1.png" alt="store-locatorbanner1">
+        <img style="display: inline; margin: 0 0 0 10px;" class="store-locatorbanner2" src="https://digidirect.com.au/media/wysiwyg/store-locator/store-locatorbanner2.png" alt="store-locatorbanner2" width="64%">
     </div>
 
     <?php echo $block->getChildHtml('storelocator.search'); ?>
-    <div class="grid-row test4">
+    <div class="grid-row" id="storelocatoranchor">
 
         <div class="<?php echo /* @noEscape */ $isInPopup ? 'inpopup plist-section' : 'store-wrapper column -left list-section'; ?>">
         <!-- <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/store-locatorbanner1.png" alt="store-locatorbanner1"> -->
-            
+
             <?php echo $block->getChildHtml('storelocator.list'); ?>
         </div>
 
@@ -28,19 +28,13 @@ $isInPopup = $block->getOpenInPopup();
         <?php endif; ?>
     </div>
 </div>
+<script>
+    require(['jquery', 'anchortag'], function($, anchortag) {
+        $(document).ready(function() {
+            anchortag();
+        });
 
-<?php echo $block->getChildHtml('storelocator.list.after'); ?>
-
-<script src="text/javascript">
-    require(['jquery', 'jquery/ui'], function($){
-
-        document.getElementById('Sydney').onclick = function(){
-
-        var radios = document.getElementsByName("storelist");
-        var selected = Array.from(radios).find(radio => radio.checked);
-        alert(selected.value);
-
-
-        };
     });
 </script>
+
+<?php echo $block->getChildHtml('storelocator.list.after'); ?>
