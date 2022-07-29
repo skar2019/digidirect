@@ -400,7 +400,8 @@ class Order extends AbstractHelper
                     $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                     $data['sales-order']['header']['set-on-status'] = "H";
                 }
-                else {
+                else
+                {
 
                     //check for stock
                     //check for fraud BT
@@ -416,7 +417,8 @@ class Order extends AbstractHelper
 
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if all product has stock
-                    if($payment_type == 'BT'){
+                    if($payment_type == 'BT')
+                    {
                         if ($order->getStatus() != 'fraud')
                         {
                             if($instockInv)
@@ -446,10 +448,15 @@ class Order extends AbstractHelper
                             $data['sales-order']['header']['on-hold-reason-code'] = "WF";
                             $data['sales-order']['header']['set-on-status'] = "H";
                         }
-                    } elseif($payment_type == 'Y') {
+                    }
+                    elseif($payment_type == 'Y')
+                    {
+
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
-                    } else {
+                    }
+                    else
+                    {
                         if($instockInv)
                         {
                             if($grandTotal < 200)
@@ -1081,7 +1088,9 @@ class Order extends AbstractHelper
     protected function isProductsInStockAll($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            if ($sourceItem->getQuantity() > 0) {
+            $qty = $sourceItem->getQuantity();
+            $qty = (int)$qty;
+            if ( $qty > 0) {
                 return true;
             }
         }
@@ -1096,7 +1105,9 @@ class Order extends AbstractHelper
     protected function isProductsInStockMP($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            if ($sourceItem->getQuantity() > 1) {
+            $qty = $sourceItem->getQuantity();
+            $qty = (int)$qty;
+            if ( $qty > 0) {
                 return true;
             }
         }

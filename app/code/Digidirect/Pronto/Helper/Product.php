@@ -1022,6 +1022,7 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+
                 //set brands
                 if($prod['stk-brand-desc'] == 'digiSeconds')
                 {
@@ -1349,7 +1350,8 @@ class Product extends AbstractHelper
                 echo "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
                 //set name, price, stock status
-//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
@@ -1701,6 +1703,7 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+                $product->setMetaTitle($prodname);
                 //set brand
                 //digiSeconds brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
