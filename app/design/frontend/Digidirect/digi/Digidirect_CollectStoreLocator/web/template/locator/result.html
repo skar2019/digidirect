@@ -35,24 +35,6 @@
         </div>
     </div>
 </div>
-<div class="store-section">
-    <div class="title-cc">DELIVER TO LOCAL STORE FOR CLICK & COLLECT</div>
-    <div class="description-cc">
-        <p>Although all products from your order are not available at a single digiDirect store, you can select any of the stores below and we will deliver to the store within 24-72 hours for you to collect from your chosen location.</p>
-        <p>Simply click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
-        <p style="font-style: italic;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</p>
-    </div>
-    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
-        <div class="locator-items items content" data-role="content"
-             data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
-            <!-- ko if: item.click_and_collect == false -->
-                <!-- ko foreach: $parent.getRegion('locator_items') -->
-                <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
-                <!--/ko-->
-            <!--/ko-->
-        </div>
-    </div>
-</div>
 
 <!-- /ko -->
 <!-- ko ifnot: locationsList().length -->

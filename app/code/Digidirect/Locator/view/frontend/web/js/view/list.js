@@ -31,10 +31,6 @@ define([
                 this.locationsList = locations.items;
             }
             
-            locations.items.forEach(function (arrayItem) {
-                console.log(arrayItem);
-            });
-            
             this.testCount = 15;
             console.log("testCount : " + this.testCount);
         },
