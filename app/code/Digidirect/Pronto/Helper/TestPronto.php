@@ -657,6 +657,7 @@ class TestPronto extends AbstractHelper
     protected function isProductsInStockMP($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
+            echo "sourceitem".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
             if ($sourceItem->getQuantity() > 1) {
                 return true;
             }
@@ -672,6 +673,7 @@ class TestPronto extends AbstractHelper
     protected function isProductsInStockAll($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
+            echo "sourceitem ".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
             if ($sourceItem->getQuantity() > 1) {
                 return true;
             }
@@ -902,15 +904,19 @@ class TestPronto extends AbstractHelper
             }
 
             echo "Rep ".$rep."<br/>";
-
+            echo "Is marketplace ".$isMarketPlace."<br/>";
             $directToWhse = false;
+
             if($isMarketPlace)
             {
+                echo "It is marketplace ".$isMarketPlace."<br/>";
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
+                var_dump($skus);
                 if ($this->isProductsInStockMP('SWHS', $skus)) {
                     $directToWhse = true;
                 }
+                echo "directToWhse ".$directToWhse."<br/>";
             }
 
             $contactname = $accountname;
@@ -993,8 +999,10 @@ class TestPronto extends AbstractHelper
                     foreach ($this->invCode as $sourceCode) {
                         if ($this->isProductsInStockAll($sourceCode, $skus)) {
                             $instockInv = true;
+                            echo "instockInv ".$instockInv."<br>";
                             break;
                         }
+                        echo "foreeach instockInv ".$instockInv."<br>";
                     }
 
                     if($payment_type == 'BT'){
@@ -1324,7 +1332,8 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
 
-                if($directToWhse)
+
+                if($data['sales-order']['header']['set-on-status'] == "P")
                 {
                     $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                     $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
@@ -1336,6 +1345,7 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
                     $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                 }
+
 
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
@@ -1564,4 +1574,5 @@ class TestPronto extends AbstractHelper
         return $collection;
 
     }
+
 }

@@ -545,6 +545,7 @@ return [
         'Amasty_BannerSlider' => 1,
         'Amasty_BannerSliderGraphql' => 1,
         'Apptrian_ImageOptimizer' => 1,
+        'Bss_DeleteOrder' => 1,
         'Bss_FacebookPixel' => 1,
         'Bss_PreOrder' => 1,
         'CommissionFactory_Tracking' => 1,
