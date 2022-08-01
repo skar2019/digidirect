@@ -67,6 +67,7 @@ class AddExtraInfoToStoreLocatorItems implements ObserverInterface
      */
     public function addAvailabilityInfoToItems($items)
     {
+        //Redeploy
         $quoteItems = $this->checkoutSession->getQuote()->getAllVisibleItems();
         $skuQty = $this->collectHelper->getSkuToQtyByItems($quoteItems);
         $places = $this->placesHelper->getAllCollectPlacesEntities($skuQty);
