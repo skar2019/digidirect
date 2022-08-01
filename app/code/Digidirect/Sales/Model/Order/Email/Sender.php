@@ -12,7 +12,7 @@ use Magento\Sales\Model\Order\Address\Renderer;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Quote\Api\Data\ShippingMethodInterface;
 
-class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
+class Sender extends \Magento\Sales\Model\Order\Email\Sender
 {
     /**
      * @var CustomerRepositoryInterface
