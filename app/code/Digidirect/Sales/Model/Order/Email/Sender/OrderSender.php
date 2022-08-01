@@ -59,7 +59,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
             $templateId = $this->identityContainer->getGuestTemplateId();
             $customerName = $order->getBillingAddress()->getName();
         } else {
-            $email_template = $this->emailTemplate->load('Customer Approve Pending New Order', 'template_code');
+            $email_template = $this->emailTemplate->load('Custom Header', 'template_code');
             $customerDisTemplate  =  $email_template->getId();
             
             $isApproved = $this->isCustomerApproved($order->getCustomerId());
