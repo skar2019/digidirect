@@ -76,6 +76,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         $this->identityContainer->setCustomerEmail($order->getCustomerEmail());
         $this->templateContainer->setTemplateId($templateId);
     }
+    
     private function isCustomerApproved($customerId)
     {
         try {
@@ -88,5 +89,14 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
             return false;
         }
         return false;
+    }
+    
+    function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
+    ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 }
