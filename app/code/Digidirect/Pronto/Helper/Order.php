@@ -424,10 +424,16 @@ class Order extends AbstractHelper
                             if($instockInv)
                             {
                                 //check if stock_group A1L1
+                                //
+                                
                                 if($grandTotal < 200)
                                 {
-                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                    $data['sales-order']['header']['set-on-status'] = "P";
+//                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                    $data['sales-order']['header']['set-on-status'] = "P";
+                                    
+                                    //temp solution below
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                                    $data['sales-order']['header']['set-on-status'] = "H";
                                 }
                                 else //$grandTotal >= 200
                                 {
@@ -459,16 +465,19 @@ class Order extends AbstractHelper
                     {
                         if($instockInv)
                         {
-                            if($grandTotal < 200)
-                            {
-                                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                $data['sales-order']['header']['set-on-status'] = "P";
-                            }
-                            else //$grandTotal >= 200
-                            {
-                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                                $data['sales-order']['header']['set-on-status'] = "H";
-                            }
+                            //temp solution below
+                            $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                            $data['sales-order']['header']['set-on-status'] = "H";
+//                            if($grandTotal < 200)
+//                            {
+//                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                $data['sales-order']['header']['set-on-status'] = "P";
+//                            }
+//                            else //$grandTotal >= 200
+//                            {
+//                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+//                                $data['sales-order']['header']['set-on-status'] = "H";
+//                            }
                         }
                         else
                         {
@@ -539,8 +548,11 @@ class Order extends AbstractHelper
             {
                 $shipcompany = 'Click and Collect';
                 //all click and collect should go to picking, no need to check stock since they cannot select Click and Collect if it doesn't have stock when ordering
-                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                $data['sales-order']['header']['set-on-status'] = "P";
+                //$data['sales-order']['header']['on-hold-reason-code'] = "";
+                //$data['sales-order']['header']['set-on-status'] = "P";
+                //temp solution below
+                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+                $data['sales-order']['header']['set-on-status'] = "H";
                 if($payment_type == 'Y') {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                     $data['sales-order']['header']['set-on-status'] = "H";
