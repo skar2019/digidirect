@@ -51,7 +51,7 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
     {
         parent::prepareTemplate($order);
         $methodTitle = $this->shippingMethod->getMethodTitle();
-        echo $this->console_log($methodTitle);
+        echo $this->console_log("Preference Working!");
         
         $this->templateContainer->setTemplateOptions($this->getTemplateOptions());
 
