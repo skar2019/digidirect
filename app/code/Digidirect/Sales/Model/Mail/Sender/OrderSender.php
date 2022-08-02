@@ -39,5 +39,27 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
 
     public function send(\Magento\Sales\Model\Order $order, $forceSyncMode = false)
     {
+        $items = $order->getAllVisibleItems();
+        $IncrementId = $order->getIncrementId();
+       
+
+        $paymentMethod = $order->getPayment()->getMethod();
+
+    
+
+        //Define email template for each payment method
+        switch ($paymentMethod) {
+            case 'banktransfer' :
+                $templateId = 'custom_template_cod';
+                break;
+            // Add cases if you have more payment methods
+            default:
+                $templateId = $order->getCustomerIsGuest() ? $this->identityContainer->getGuestTemplateId() : $this->identityContainer->getTemplateId();
+
+        }
+
+   	$this->templateContainer->setTemplateid(15);  
+      
+        return parent::send($order, $forceSyncMode);
     }
 }
