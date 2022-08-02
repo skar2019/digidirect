@@ -14,6 +14,9 @@
         <job name="pronto_disableproduct" instance="Digidirect\Pronto\Cron\DisableProductCron" method="execute">
             <schedule>0 3 * * *</schedule>
         </job>
+        <job name="pronto_disableproduct" instance="Digidirect\Pronto\Cron\DisableProductCron" method="toEnable">
+            <schedule>0 4 * * *</schedule>
+        </job>
 
     </group>
 </config>

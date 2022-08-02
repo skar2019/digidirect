@@ -39,7 +39,7 @@ class DisableProduct extends AbstractHelper
             $i = 0;
             foreach ($collection as $item) {
                 //echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
-                $ids[$i] = $item->getEntityId();;
+                $ids[$i] = $item->getEntityId();
                 $i++;
             }
             //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -53,6 +53,33 @@ class DisableProduct extends AbstractHelper
 
     }
 
+    public function toEnableProducts()
+    {
+//        $productCollection = $this->getProductCollection();
+//        foreach ($productCollection as $product) {
+//            //disable product
+//        }
+
+        try {
+            $collection = $this->getProductCollectionToEnable();
+            //$storeId = $this->storeManager->getStore()->getId();
+            $ids = [];
+            $i = 0;
+            foreach ($collection as $item) {
+                //echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                $ids[$i] = $item->getEntityId();
+                $i++;
+            }
+            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 0);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 1);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 5);
+
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+    }
     
     public function getProductCollection()
     {
@@ -65,4 +92,17 @@ class DisableProduct extends AbstractHelper
 
         return $collection;
     }
+    
+    public function getProductCollectionToEnable()
+    {
+        $date = new DateTime();
+        $date->sub(new DateInterval('P3D'));
+        $collection = $this->_productCollectionFactory->create()
+        ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
+        ->addAttributeToFilter('date_update',['lt' => $date->format('Y-m-d')]);
+        //->setPageSize(12); // fetching only 3 products
+
+        return $collection;
+    }
+    
 }
