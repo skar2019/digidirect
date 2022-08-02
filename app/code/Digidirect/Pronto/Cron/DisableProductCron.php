@@ -27,4 +27,10 @@ class DisableProductCron
         $this->helper->toDisableProducts();
 
     }
+    
+    public function toEnable()
+    {
+        $this->helper->toEnableProducts();
+
+    }
 }
