@@ -53,12 +53,14 @@ class DisableProduct extends AbstractHelper
 
     }
 
+    
     public function getProductCollection()
     {
-        $now = new \DateTime();
+        $date = new DateTime();
+        $date->sub(new DateInterval('P5D'));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-        ->addAttributeToFilter('date_update',['lt' => $now->format('Y-m-d')]);
+        ->addAttributeToFilter('date_update',['lt' => $date->format('Y-m-d')]);
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;
