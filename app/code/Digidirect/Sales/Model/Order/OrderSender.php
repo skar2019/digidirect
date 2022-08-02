@@ -10,19 +10,16 @@ class OrderSender extends \Magento\Sales\Model\Order\Email\Sender\OrderSender
         //Get Payment Method
         $paymentMethod = $order->getPayment()->getMethod();
         
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $cart = $objectManager->get('\Magento\Checkout\Model\Cart'); 
+        $shippingAddress = $cart->getQuote()->getShippingAddress();
+        $shippingMethod = $shippingAddress->getShippingMethod();
+        
         parent::prepareTemplate($order);
 
-        //Define email template for each payment method
-        switch ($paymentMethod) {
-            case 'banktransfer' :
-                $templateId = 'custom_template_cod';
-                break;
-            // Add cases if you have more payment methods
-            default:
-                $templateId = $order->getCustomerIsGuest() ? $this->identityContainer->getGuestTemplateId() : $this->identityContainer->getTemplateId();
-
+        if ($shippingMethod == 'collect') {
+            $this->templateContainer->setTemplateId(15);
         }
 
-        $this->templateContainer->setTemplateId(15);
     }
 }
