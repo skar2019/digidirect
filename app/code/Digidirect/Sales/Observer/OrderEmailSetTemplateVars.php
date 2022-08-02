@@ -89,7 +89,6 @@ class OrderEmailSetTemplateVars extends \Magento\Sales\Model\Order\Email\Sender 
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        echo $this->console_log("Observer Working!");
         $this->logger->debug('Observer '.__CLASS__.' called.');
         $transportObject = $observer->getEvent()->getTransport();
         
@@ -131,12 +130,4 @@ class OrderEmailSetTemplateVars extends \Magento\Sales\Model\Order\Email\Sender 
         
     }
     
-    function console_log($output, $with_script_tags = true) {
-        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
-    ');';
-        if ($with_script_tags) {
-            $js_code = '<script>' . $js_code . '</script>';
-        }
-        echo $js_code;
-    }
 }
