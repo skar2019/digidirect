@@ -99,7 +99,7 @@ class DisableProduct extends AbstractHelper
         $date->sub(new DateInterval('P3D'));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
-        ->addAttributeToFilter('date_update',['lt' => $date->format('Y-m-d')]);
+        ->addAttributeToFilter('date_update',['gteq' => $date->format('Y-m-d')]);
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;
