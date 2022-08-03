@@ -53,7 +53,7 @@ class DisableProduct extends AbstractHelper
 
     }
 
-    public function toEnableProducts()
+    public function toEnableProducts($test)
     {
 //        $productCollection = $this->getProductCollection();
 //        foreach ($productCollection as $product) {
@@ -66,7 +66,11 @@ class DisableProduct extends AbstractHelper
             $ids = [];
             $i = 0;
             foreach ($collection as $item) {
-                //echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                if($test)
+                {
+                    echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                }
+                
                 $ids[$i] = $item->getEntityId();
                 $i++;
             }
@@ -83,11 +87,10 @@ class DisableProduct extends AbstractHelper
     
     public function getProductCollection()
     {
-        $date = new DateTime();
-        $date->sub(new DateInterval('P5D'));
+        $date = strtotime(date("Y-m-d", strtotime("-5 day")));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-        ->addAttributeToFilter('date_update',['lt' => $date->format('Y-m-d')]);
+        ->addAttributeToFilter('date_update',['lt' => $date]);
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;
@@ -95,11 +98,11 @@ class DisableProduct extends AbstractHelper
     
     public function getProductCollectionToEnable()
     {
-        $date = new DateTime();
-        $date->sub(new DateInterval('P3D'));
+
+        $date = strtotime(date("Y-m-d", strtotime("-3 day")));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
-        ->addAttributeToFilter('date_update',['gteq' => $date->format('Y-m-d')]);
+        ->addAttributeToFilter('date_update',['gteq' => $date]);
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;
