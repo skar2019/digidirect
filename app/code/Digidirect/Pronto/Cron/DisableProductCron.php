@@ -24,7 +24,8 @@ class DisableProductCron
 
     public function execute()
     {
-        $this->helper->toDisableProducts();
+        $test = 0;
+        $this->helper->toDisableProducts($test);
 
     }
     

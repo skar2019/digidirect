@@ -25,7 +25,7 @@ class DisableProduct extends AbstractHelper
 
     }
 
-    public function toDisableProducts()
+    public function toDisableProducts($test)
     {
 //        $productCollection = $this->getProductCollection();
 //        foreach ($productCollection as $product) {
@@ -38,7 +38,10 @@ class DisableProduct extends AbstractHelper
             $ids = [];
             $i = 0;
             foreach ($collection as $item) {
-                //echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                if($test)
+                {
+                    echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                }
                 $ids[$i] = $item->getEntityId();
                 $i++;
             }
