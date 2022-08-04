@@ -16,7 +16,6 @@ use Digidirect\AbstractEntity\Model\AbstractEntityRepository;
 use Digidirect\InvoiceIncrementId\Model\IncrementIdUpdater;
 use Magento\Directory\Model\Country;
 use Magento\Directory\Model\CountryFactory;
-
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
