@@ -18,7 +18,7 @@ class SendReadytoPickupEmail
     
     public function __construct(
             LoggerInterface $logger,
-            Order $helper)
+            ReadytoPickup $helper)
     {
         $this->logger = $logger;
         $this->helper = $helper;
