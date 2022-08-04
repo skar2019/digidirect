@@ -195,11 +195,10 @@ class ReadytoPickup extends AbstractHelper
             
             //Send ReadytoPickup Confirmation Email
             
-            $customer = $observer->getEvent()->getCustomer();
-            // If customer data is empty then doesn't need to process
-            if (!$customer) {
-                return $this;
-            }
+            //$customer = $observer->getEvent()->getCustomer();
+            
+            $customerFirstName = $order->getCustomerFirstname();
+            $orderNumber = $order->getIncrementId();
 
             /* Receiver Detail */
             $receiverInfo = [
@@ -209,7 +208,7 @@ class ReadytoPickup extends AbstractHelper
 
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_transactional_email_customer_logged_in_email_template'
@@ -254,6 +253,7 @@ class ReadytoPickup extends AbstractHelper
             ->addFieldToFilter('pronto_order_number', array('null' => true))
             ->addFieldToFilter('status',array('neq' => 'canceled'))
             ->addFieldToFilter('entity_id', array('gteq' => 615813))
+            ->addFieldToFilter('status', 'completed')
             ->addFieldToFilter('pickup_email', 0)
             ->addFieldToFilter('shipping_description', 'Pick Up in Store - Click and Collect Shipping')
             ->setOrder('created_at', 'asc');
