@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\JaiTestEmail\Observer;
+namespace Digidirect\ReadytoPickup\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
