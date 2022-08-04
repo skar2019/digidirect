@@ -46,7 +46,7 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
                     'templateVar'  => 'My Topic',
                 ])
                 ->setFrom($sender)
-                ->addTo('jireh@kayweb.com.au')
+                ->addTo('dev4@digidirect.com.au')
                 ->getTransport();
             $transport->sendMessage();
             $this->inlineTranslation->resume();
