@@ -198,13 +198,10 @@ class ReadytoPickup extends AbstractHelper
             //$customer = $observer->getEvent()->getCustomer();
             
             $customerFirstName = $order->getCustomerFirstname();
+            $customerEmail = $order->getCustomerEmail();
+            
             $orderNumber = $order->getIncrementId();
 
-            /* Receiver Detail */
-            $receiverInfo = [
-                'name' => 'Dev',
-                'email' => 'dev4@digidirect.com.au'
-            ];
 
             $store = $this->storeManager->getStore();
 
@@ -215,7 +212,7 @@ class ReadytoPickup extends AbstractHelper
                 )->setTemplateOptions(
                     ['area' => 'frontend', 'store' => $store->getId()]
                 )->addTo(
-                    $receiverInfo['email'], $receiverInfo['name']
+                    $customerEmail, $customerFirstName
                 )->setTemplateVars(
                     $templateParams
                 )->setFrom(
