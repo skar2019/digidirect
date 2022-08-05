@@ -247,7 +247,7 @@ class ReadytoPickup extends AbstractHelper
 
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('entity_id', array('gteq' => 615813))
+            ->addFieldToFilter('created_at', array('gteq' => '2022-08-05'))
             ->addFieldToFilter('status', array('eq' => 'completed'))
             ->addFieldToFilter('pickup_email', array('eq' => 0))
             ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
