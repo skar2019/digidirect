@@ -8,15 +8,35 @@ $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
 <?php /** @var $block \Magento\Checkout\Block\Onepage\Success */ ?>
 <div class="checkout-success">
     <?php if ($block->getOrderId()): ?>
-        <span class="header"><?= /* @escapeNotVerified */__('Your order has been received') ?></span>
-        <span class="title"><?= /* @escapeNotVerified */__('Thank you for your purchase') ?></span>
-        <?php if ($block->getCanViewOrder()) : ?>
-            <span class="title -addition"><?= __('Your order no # %1', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></span>
+        <?php if ($block->getShippingDetails() == "Pick Up in Store - Click and Collect Shipping"): ?>
+            <span class="header"><?= /* @escapeNotVerified */__('YOUR CLICK & COLLECT HAS BEEN RECEIVED') ?></span>
+            <span class="title"><?= /* @escapeNotVerified */__('Thank you for your purchase') ?></span>
+            <?php if ($block->getCanViewOrder()) : ?>
+                <span class="title -addition"><?= __('Your order no # %1', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></span>
+            <?php else : ?>
+                <span class="title -addition"><?= __('Your order # <span>%1</span>', $block->escapeHtml($block->getOrderId())) ?></span>
+            <?php endif; ?>
+            <div class="contentcontainer">
+                <p class="importantnote"><?= /* @escapeNotVerified */__('IMPORTANT!') ?></p>
+                <br/>
+                <p class="content"><?= /* @escapeNotVerified */__('You will receive an order confirmation email with details of your order. Then you will receive a second email notifying you that your order is ready for pick-up.') ?></p>
+                <br/>
+                <p class="secondcontent"><?= /* @escapeNotVerified */__('NOTE: You must wait for the email notifying you that your order is ready for pick-up before making your way to your chosen Click & Collect location.') ?></p>
+
+            </div>
+
         <?php else : ?>
-            <span class="title -addition"><?= __('Your order # <span>%1</span>', $block->escapeHtml($block->getOrderId())) ?></span>
+            <span class="header"><?= /* @escapeNotVerified */__('Your order has been received') ?></span>
+            <span class="title"><?= /* @escapeNotVerified */__('Thank you for your purchase') ?></span>
+            <?php if ($block->getCanViewOrder()) : ?>
+                <span class="title -addition"><?= __('Your order no # %1', sprintf('<a href="%s" class="order-number"><strong>%s</strong></a>', $block->escapeHtml($block->getViewOrderUrl()), $block->escapeHtml($block->getOrderId()))) ?></span>
+            <?php else : ?>
+                <span class="title -addition"><?= __('Your order # <span>%1</span>', $block->escapeHtml($block->getOrderId())) ?></span>
+            <?php endif; ?>
+            <p class="content"><?= /* @escapeNotVerified */__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
         <?php endif; ?>
-        <p class="content"><?= /* @escapeNotVerified */__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>    
-        <?php endif; ?>
+
+    <?php endif; ?>
 
     <?= $block->getAdditionalInfoHtml() ?>
 
