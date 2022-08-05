@@ -445,8 +445,8 @@ class Order extends AbstractHelper
                             else
                             {
 
-                                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                $data['sales-order']['header']['set-on-status'] = "B";
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WS"; //blank
+                                $data['sales-order']['header']['set-on-status'] = "H"; //B
                             }
 
                         }
@@ -481,8 +481,8 @@ class Order extends AbstractHelper
                         }
                         else
                         {
-                            $data['sales-order']['header']['on-hold-reason-code'] = "";
-                            $data['sales-order']['header']['set-on-status'] = "B";
+                            $data['sales-order']['header']['on-hold-reason-code'] = "WS"; //blank
+                            $data['sales-order']['header']['set-on-status'] = "H"; //B
                         }
                     }
                 }
