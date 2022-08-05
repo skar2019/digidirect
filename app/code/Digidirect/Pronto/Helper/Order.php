@@ -409,6 +409,7 @@ class Order extends AbstractHelper
                     $skus = $this->getProductsSkus($order);
                     $instockInv = false;
                     foreach ($this->invCode as $sourceCode) {
+                        $instockInv = false;
                         if ($this->isProductsInStockAll($sourceCode, $skus)) {
                             $instockInv = true;
                             break;
@@ -1102,7 +1103,6 @@ class Order extends AbstractHelper
         foreach ($sourceItems as $sourceItem) {
             $qty = $sourceItem->getQuantity();
             $qty = (int)$qty;
-            echo $qty . "<br>";
             if ( $qty > 0) {
                 return true;
             }
@@ -1120,7 +1120,6 @@ class Order extends AbstractHelper
         foreach ($sourceItems as $sourceItem) {
             $qty = $sourceItem->getQuantity();
             $qty = (int)$qty;
-            echo $qty . "<br>";
             if ( $qty > 0) {
                 return true;
             }

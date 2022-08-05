@@ -246,7 +246,7 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['contactname'] = $contactname;
                     $data['sales-order']['header']['email'] = $customerEmail;
                     $data['sales-order']['header']['reference'] = $entityId;
-                    $data['sales-order']['header']['on-hold-reason-code'] = "01";
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                     $data['sales-order']['header']['set-on-status'] = "H";
 
 
@@ -985,7 +985,7 @@ class TestPronto extends AbstractHelper
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
 //                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
 //                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
-                if($isMarketPlace) // since it did not go to P, we assume there is no stock
+                if($isMarketPlace) // since it did not go to $directToWhse, we assume there is no stock
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                     $data['sales-order']['header']['set-on-status'] = "H";
@@ -998,6 +998,7 @@ class TestPronto extends AbstractHelper
                     $skus = $this->getProductsSkus($order);
                     $instockInv = false;
                     foreach ($this->invCode as $sourceCode) {
+                        $instockInv = false;
                         if ($this->isProductsInStockAll($sourceCode, $skus)) {
                             $instockInv = true;
                             echo "instockInv ".$instockInv."<br>";
