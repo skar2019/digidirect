@@ -24,9 +24,9 @@ class Test extends \Magento\Framework\App\Action\Action
                 $test = $_GET["test"];
             }
             if(isset($_GET["disable"])){
-                $test = $_GET["disable"];
+                $disable = $_GET["disable"];
             }
-            
+
             if($disable)
             {
                 $this->helper->toDisableProducts($test);
