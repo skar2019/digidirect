@@ -552,12 +552,13 @@ class Order extends AbstractHelper
                 //$data['sales-order']['header']['on-hold-reason-code'] = "";
                 //$data['sales-order']['header']['set-on-status'] = "P";
                 //temp solution below
-                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
-                $data['sales-order']['header']['set-on-status'] = "H";
-                if($payment_type == 'Y') {
-                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                    $data['sales-order']['header']['set-on-status'] = "H";
-                }
+//                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
+//                $data['sales-order']['header']['set-on-status'] = "H";
+//                
+//                if($payment_type == 'Y') {
+//                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+//                    $data['sales-order']['header']['set-on-status'] = "H";
+//                }
             }
             else if($rep == "WESTFIELD")
             {

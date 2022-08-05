@@ -675,7 +675,13 @@ class TestPronto extends AbstractHelper
 
         foreach ($sourceItems as $sourceItem) {
             echo "sourceitem ".$sourceItem->getSku() ." - ".$sourceItem->getStatus() ." -".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
-            if ($sourceItem->getQuantity() > 0) {
+            $qty = $sourceItem->getQuantity();
+            $qty = (int)$qty;
+            if ($qty < 1) {
+                return false;
+            }
+            else 
+            {
                 return true;
             }
         }
@@ -996,21 +1002,21 @@ class TestPronto extends AbstractHelper
                     //check for fraud BT
 
                     $skus = $this->getProductsSkus($order);
-                    $instockInv = false;
+                    $instockInv = 0;
                     foreach ($this->invCode as $sourceCode) {
-                        $instockInv = false;
+                        $instockInv = 0;
                         if ($this->isProductsInStockAll($sourceCode, $skus)) {
-                            $instockInv = true;
+                            $instockInv = 1;
                             echo "instockInv ".$instockInv."<br>";
                             break;
                         }
-                        echo "foreeach instockInv ".$instockInv."<br>";
+                        echo "foreeach invCode ".$instockInv."<br>";
                     }
 
                     if($payment_type == 'BT'){
                         if ($order->getStatus() != 'fraud')
                         {
-                            if($instockInv)
+                            if($instockInv == 1)
                             {
                                 if($grandTotal < 200)
                                 {
@@ -1040,8 +1046,9 @@ class TestPronto extends AbstractHelper
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
                     }
-                    else {
-                        if($instockInv)
+                    else 
+                    {
+                        if($instockInv == 1)
                         {
                             if($grandTotal < 200)
                             {
@@ -1126,12 +1133,12 @@ class TestPronto extends AbstractHelper
             {
                 $shipcompany = 'Click and Collect';
                 //all click and collect should go to picking, no need to check stock since they cannot select Click and Collect if it doesn't have stock when ordering
-                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                $data['sales-order']['header']['set-on-status'] = "P";
-                if($payment_type == 'Y') {
-                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                    $data['sales-order']['header']['set-on-status'] = "H";
-                }
+//                $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                $data['sales-order']['header']['set-on-status'] = "P";
+//                if($payment_type == 'Y') {
+//                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+//                    $data['sales-order']['header']['set-on-status'] = "H";
+//                }
             }
             else if($rep == "WESTFIELD")
             {
