@@ -211,7 +211,7 @@ class ReadytoPickup extends AbstractHelper
             $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
-                'digidirect_transactional_email_customer_logged_in_email_template'
+                'digidirect_readytopickup_email_template'
                 )->setTemplateOptions(
                     ['area' => 'frontend', 'store' => $store->getId()]
                 )->addTo(

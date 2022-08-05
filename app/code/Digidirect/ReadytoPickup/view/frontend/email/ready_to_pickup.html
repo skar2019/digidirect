@@ -1,0 +1,24 @@
+{{template config_path="design/email/header_template"}}
+
+<p class="greeting">{{trans "Dear <b>%customer_firstname</b>," customer_firstname=$customer_firstname }}</p>
+
+<p>
+    {{trans 'Good news! Your order number <span class="no-link">#%order_number</span>' order_number=$order_number |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
+</p>
+
+<p>
+    {{trans "Please make your way to the digiDirect location to collect your goods."}}
+</p>
+
+<p style="color:#1E1E1E;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:17px;margin:0;font-weight:normal;">
+    {{trans 'For our hours of operation and contact information, please click here <a href="/store-locator" style="color:black;text-decoration:underline">Store Locator</a>' store_email=$store_email |raw}}
+</p>
+
+<p>
+    {{trans "Kind Regards,"}}
+</p>
+<p>
+    {{trans "digiDirect"}}
+</p>
+
+{{template config_path="design/email/footer_template"}}
