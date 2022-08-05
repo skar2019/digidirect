@@ -55,10 +55,6 @@ class DisableProduct extends AbstractHelper
 
     public function toEnableProducts($test)
     {
-//        $productCollection = $this->getProductCollection();
-//        foreach ($productCollection as $product) {
-//            //disable product
-//        }
 
         try {
             $collection = $this->getProductCollectionToEnable();
@@ -87,6 +83,7 @@ class DisableProduct extends AbstractHelper
     
     public function getProductCollection()
     {
+        //if there's still issue on some products not being disabled, adjust the date close to most recent date. e,g. date yesterday or -2 day
         $date = date("Y-m-d", strtotime("-3 day"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
