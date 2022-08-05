@@ -81,6 +81,48 @@ class TestPronto extends AbstractHelper
         'SWHS',
         'SYDN'
     ];
+    
+    protected $acceGroup = [
+        "A1A1",
+        "A1B1",
+        "A1C1",
+        "A1D1",
+        "A1E1",
+        "A1F1",
+        "A1G1",
+        "A1H1",
+        "A1I1",
+        "A1J1",
+        "A1K1",
+        "A1L1",
+        "A1M1",
+        "A1N1",
+        "A1O1",
+        "A1P1",
+        "B1C2",
+        "C1A1",
+        "D1A1",
+        "D1B1",
+        "D1C1",
+        "G1A1",
+        "H1A1",
+        "H1B1",
+        "H1C1",
+        "I1A1",
+        "I1B1",
+        "I1C1",
+        "J1A1",
+        "J1B1",
+        "J1C1",
+        "K1A1",
+        "N1A1",
+        "N1B1",
+        "N1C1",
+        "N1D1",
+        "N1E1",
+        "N1F1",
+        "N1G1"
+    ];
 
     /**
      * @var array
@@ -919,7 +961,7 @@ class TestPronto extends AbstractHelper
                 echo "It is marketplace ".$isMarketPlace."<br/>";
                 //check if all product has stock in swhs
                 $skus = $this->getProductsSkus($order);
-                var_dump($skus);
+                //var_dump($skus);
                 if ($this->isProductsInStockMP('SWHS', $skus)) {
                     $directToWhse = true;
                 }
@@ -1013,7 +1055,22 @@ class TestPronto extends AbstractHelper
                         echo "foreeach invCode ".$instockInv."<br>";
                     }
 
-                    if($payment_type == 'BT'){
+                    //check if accessories group
+                    $is_acce = true;
+                    foreach ($order->getAllVisibleItems() as $item) {
+                        /* @var $item \Magento\Sales\Model\Order\Item */
+                        
+                        $stockgroup = $item->getCustomAttribute('stock_group');
+                        echo "stockgroup - ".$stockgroup."<br>";
+                        if(!in_array($stockgroup,$this->acceGroup)){
+                            $is_acce = false; //order has one that is not accessories
+                            break;
+                        }
+                    }
+                    
+                    //check if braintree and fraud
+                    if($payment_type == 'BT')
+                    {
                         if ($order->getStatus() != 'fraud')
                         {
                             if($instockInv == 1)
@@ -1023,10 +1080,18 @@ class TestPronto extends AbstractHelper
                                     $data['sales-order']['header']['on-hold-reason-code'] = "";
                                     $data['sales-order']['header']['set-on-status'] = "P";
                                 }
-                                else //$grandTotal >= 200
+                                else //$grandTotal >= 200 
                                 {
-                                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                                    $data['sales-order']['header']['set-on-status'] = "H";
+                                    if($is_acce) //greater than 200 and is accessories
+                                    {
+                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                        $data['sales-order']['header']['set-on-status'] = "P";
+                                    }
+                                    else 
+                                    {
+                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                        $data['sales-order']['header']['set-on-status'] = "H";
+                                    }
                                 }
                             }
                             else
@@ -1038,11 +1103,15 @@ class TestPronto extends AbstractHelper
                             }
 
                         }
-                        else {
+                        else 
+                        {
                             $data['sales-order']['header']['on-hold-reason-code'] = "WF";
                             $data['sales-order']['header']['set-on-status'] = "H";
                         }
-                    } elseif($payment_type == 'Y') {
+                        
+                    } 
+                    elseif($payment_type == 'Y') 
+                    {
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
                     }
@@ -1055,7 +1124,12 @@ class TestPronto extends AbstractHelper
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "P";
                             }
-                            else //$grandTotal >= 200
+                            if($is_acce) //greater than 200 and is accessories
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            else 
                             {
                                 $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                 $data['sales-order']['header']['set-on-status'] = "H";
@@ -1132,13 +1206,7 @@ class TestPronto extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
-                //all click and collect should go to picking, no need to check stock since they cannot select Click and Collect if it doesn't have stock when ordering
-//                $data['sales-order']['header']['on-hold-reason-code'] = "";
-//                $data['sales-order']['header']['set-on-status'] = "P";
-//                if($payment_type == 'Y') {
-//                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-//                    $data['sales-order']['header']['set-on-status'] = "H";
-//                }
+
             }
             else if($rep == "WESTFIELD")
             {
@@ -1297,6 +1365,8 @@ class TestPronto extends AbstractHelper
                 $skus = array();
                 $productSku = "";
                 $digiProtect = "";
+                $stockgroup = $item->getCustomAttribute('stock_group');
+                echo "stockgroup - ".$stockgroup."<br>";
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
@@ -1309,6 +1379,7 @@ class TestPronto extends AbstractHelper
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;
                 $digiProtectTotal = 0;
+                
 
                 $sku = $item->getSku();
                 if(strpos($sku, '-') !== false)
