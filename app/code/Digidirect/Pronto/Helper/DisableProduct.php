@@ -27,11 +27,8 @@ class DisableProduct extends AbstractHelper
 
     public function toDisableProducts($test)
     {
-//        $productCollection = $this->getProductCollection();
-//        foreach ($productCollection as $product) {
-//            //disable product
-//        }
 
+        echo "To Disable <br>";
         try {
             $collection = $this->getProductCollection();
             //$storeId = $this->storeManager->getStore()->getId();
@@ -90,11 +87,11 @@ class DisableProduct extends AbstractHelper
     
     public function getProductCollection()
     {
-        $date = strtotime(date("Y-m-d", strtotime("-5 day")));
+        $date = date("Y-m-d", strtotime("-3 day"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-        ->addAttributeToFilter('date_update',array('lteq' => $date))
-        ->setPageSize(100); // fetching only 3 products
+        ->addAttributeToFilter('date_update',array('lteq' => $date));
+        //->setPageSize(110); // fetching only 3 products
 
         return $collection;
     }
@@ -102,7 +99,7 @@ class DisableProduct extends AbstractHelper
     public function getProductCollectionToEnable()
     {
 
-        $date = strtotime(date("Y-m-d", strtotime("-3 day")));
+        $date = date("Y-m-d", strtotime("-2 day"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
         ->addAttributeToFilter('date_update',array('gteq' => $date));

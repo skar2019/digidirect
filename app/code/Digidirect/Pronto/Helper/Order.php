@@ -1102,6 +1102,7 @@ class Order extends AbstractHelper
         foreach ($sourceItems as $sourceItem) {
             $qty = $sourceItem->getQuantity();
             $qty = (int)$qty;
+            echo $qty . "<br>";
             if ( $qty > 0) {
                 return true;
             }
@@ -1119,6 +1120,7 @@ class Order extends AbstractHelper
         foreach ($sourceItems as $sourceItem) {
             $qty = $sourceItem->getQuantity();
             $qty = (int)$qty;
+            echo $qty . "<br>";
             if ( $qty > 0) {
                 return true;
             }
@@ -1228,17 +1230,4 @@ class Order extends AbstractHelper
         return $prontoStatus;
     }
 
-    public function getTestOrderCollectionByDay()
-    {
-        $date = '2021-08-02';
-        $fromDate = date('Y-m-d'. ' 00:00:00',strtotime($date));
-        $toDate = date('Y-m-d'. ' 23:59:59',strtotime($date));
-        $collection = $this->_orderCollectionFactory->create()
-            ->addAttributeToSelect('*')
-            ->addFieldToFilter('pronto_order_number', array('null' => true))
-            ->addFieldToFilter('created_at', array('gteq' => $fromDate))
-            ->addFieldToFilter('created_at', array('lteq' => $toDate));
-        return $collection;
-    }
-    //comment to redeploy
 }

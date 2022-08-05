@@ -657,8 +657,8 @@ class TestPronto extends AbstractHelper
     protected function isProductsInStockMP($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
-            echo "sourceitem".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
-            if ($sourceItem->getQuantity() > 1) {
+            echo "sourceitem ".$sourceItem->getSku() ." - ".$sourceItem->getStatus() ." -".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
+            if ($sourceItem->getQuantity() > 0) {
                 return true;
             }
         }
@@ -672,9 +672,10 @@ class TestPronto extends AbstractHelper
      */
     protected function isProductsInStockAll($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
+
         foreach ($sourceItems as $sourceItem) {
-            echo "sourceitem ".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
-            if ($sourceItem->getQuantity() > 1) {
+            echo "sourceitem ".$sourceItem->getSku() ." - ".$sourceItem->getStatus() ." -".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
+            if ($sourceItem->getQuantity() > 0) {
                 return true;
             }
         }
