@@ -722,12 +722,8 @@ class TestPronto extends AbstractHelper
             if ($qty < 1) {
                 return false;
             }
-            else 
-            {
-                return true;
-            }
         }
-        return false;
+        return true;
     }
 
     /**
@@ -1038,7 +1034,8 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                     $data['sales-order']['header']['set-on-status'] = "H";
                 }
-                else {
+                else 
+                {
 
                     //check for stock
                     //check for fraud BT
@@ -1060,15 +1057,26 @@ class TestPronto extends AbstractHelper
                     foreach ($order->getAllVisibleItems() as $item) {
                         /* @var $item \Magento\Sales\Model\Order\Item */
                         
-                        $stockgroup = $item->getCustomAttribute('stock_group');
-                        echo "stockgroup - ".$stockgroup."<br>";
-                        if(!in_array($stockgroup,$this->acceGroup)){
-                            $is_acce = false; //order has one that is not accessories
-                            break;
+                        echo $item->getSku()."<br>";
+                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+                        if(is_null($stockgroup)) 
+                        {
+                            
                         }
+                        else 
+                        {
+                            $accgroup = $stockgroup->getValue();
+                            if(!in_array($stockgroup,$this->acceGroup)){
+                                $is_acce = false; //order has one that is not accessories
+                                break;
+                            }
+                        }
+                        
                     }
                     
+                    //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
+                    //check if all product has stock
                     if($payment_type == 'BT')
                     {
                         if ($order->getStatus() != 'fraud')
@@ -1096,8 +1104,7 @@ class TestPronto extends AbstractHelper
                             }
                             else
                             {
-                                //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
-                                //check if all product has stock
+                                
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "B";
                             }
@@ -1124,15 +1131,18 @@ class TestPronto extends AbstractHelper
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "P";
                             }
-                            if($is_acce) //greater than 200 and is accessories
-                            {
-                                $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                $data['sales-order']['header']['set-on-status'] = "P";
-                            }
                             else 
                             {
-                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                                $data['sales-order']['header']['set-on-status'] = "H";
+                                if($is_acce) //greater than 200 and is accessories
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+                                }
+                                else 
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                    $data['sales-order']['header']['set-on-status'] = "H";
+                                }
                             }
                         }
                         else
@@ -1365,8 +1375,6 @@ class TestPronto extends AbstractHelper
                 $skus = array();
                 $productSku = "";
                 $digiProtect = "";
-                $stockgroup = $item->getCustomAttribute('stock_group');
-                echo "stockgroup - ".$stockgroup."<br>";
                 $price = (double) $item->getBasePriceInclTax();
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();

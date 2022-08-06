@@ -395,95 +395,123 @@ class Order extends AbstractHelper
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
 //                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
 //                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
-                if($isMarketPlace) // since it did not go to P, we assume there is no stock
+                if($isMarketPlace) // since it did not go to $directToWhse, we assume there is no stock
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                     $data['sales-order']['header']['set-on-status'] = "H";
                 }
-                else
+                else 
                 {
 
                     //check for stock
                     //check for fraud BT
 
                     $skus = $this->getProductsSkus($order);
-                    $instockInv = false;
+                    $instockInv = 0;
                     foreach ($this->invCode as $sourceCode) {
-                        $instockInv = false;
+                        $instockInv = 0;
                         if ($this->isProductsInStockAll($sourceCode, $skus)) {
-                            $instockInv = true;
+                            $instockInv = 1;
                             break;
                         }
                     }
 
+                    //check if accessories group
+                    $is_acce = true;
+                    foreach ($order->getAllVisibleItems() as $item) {
+                        /* @var $item \Magento\Sales\Model\Order\Item */
+                        
+                        $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
+                        if(is_null($stockgroup)) 
+                        {
+                            
+                        }
+                        else 
+                        {
+                            $accgroup = $stockgroup->getValue();
+                            if(!in_array($stockgroup,$this->acceGroup)){
+                                $is_acce = false; //order has one that is not accessories
+                                break;
+                            }
+                        }
+                        
+                    }
+                    
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
+                    //check if braintree and fraud
                     //check if all product has stock
                     if($payment_type == 'BT')
                     {
                         if ($order->getStatus() != 'fraud')
                         {
-                            if($instockInv)
+                            if($instockInv == 1)
                             {
-                                //check if stock_group A1L1
-                                //
-                                
                                 if($grandTotal < 200)
                                 {
-//                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
-//                                    $data['sales-order']['header']['set-on-status'] = "P";
-                                    
-                                    //temp solution below
-                                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
-                                    $data['sales-order']['header']['set-on-status'] = "H";
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
                                 }
-                                else //$grandTotal >= 200
+                                else //$grandTotal >= 200 
+                                {
+                                    if($is_acce) //greater than 200 and is accessories
+                                    {
+                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                        $data['sales-order']['header']['set-on-status'] = "P";
+                                    }
+                                    else 
+                                    {
+                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                        $data['sales-order']['header']['set-on-status'] = "H";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "B";
+                            }
+
+                        }
+                        else 
+                        {
+                            $data['sales-order']['header']['on-hold-reason-code'] = "WF";
+                            $data['sales-order']['header']['set-on-status'] = "H";
+                        }
+                        
+                    } 
+                    elseif($payment_type == 'Y') 
+                    {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";
+                    }
+                    else 
+                    {
+                        if($instockInv == 1)
+                        {
+                            if($grandTotal < 200)
+                            {
+                                $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                $data['sales-order']['header']['set-on-status'] = "P";
+                            }
+                            else 
+                            {
+                                if($is_acce) //greater than 200 and is accessories
+                                {
+                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+                                    $data['sales-order']['header']['set-on-status'] = "P";
+                                }
+                                else 
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                     $data['sales-order']['header']['set-on-status'] = "H";
                                 }
-
                             }
-                            else
-                            {
-
-                                $data['sales-order']['header']['on-hold-reason-code'] = "WS"; //blank
-                                $data['sales-order']['header']['set-on-status'] = "H"; //B
-                            }
-
-                        }
-                        else {
-                            $data['sales-order']['header']['on-hold-reason-code'] = "WF";
-                            $data['sales-order']['header']['set-on-status'] = "H";
-                        }
-                    }
-                    elseif($payment_type == 'Y')
-                    {
-
-                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                        $data['sales-order']['header']['set-on-status'] = "H";
-                    }
-                    else
-                    {
-                        if($instockInv)
-                        {
-                            //temp solution below
-                            $data['sales-order']['header']['on-hold-reason-code'] = "WS";
-                            $data['sales-order']['header']['set-on-status'] = "H";
-//                            if($grandTotal < 200)
-//                            {
-//                                $data['sales-order']['header']['on-hold-reason-code'] = "";
-//                                $data['sales-order']['header']['set-on-status'] = "P";
-//                            }
-//                            else //$grandTotal >= 200
-//                            {
-//                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-//                                $data['sales-order']['header']['set-on-status'] = "H";
-//                            }
                         }
                         else
                         {
-                            $data['sales-order']['header']['on-hold-reason-code'] = "WS"; //blank
-                            $data['sales-order']['header']['set-on-status'] = "H"; //B
+                            $data['sales-order']['header']['on-hold-reason-code'] = "";
+                            $data['sales-order']['header']['set-on-status'] = "B";
                         }
                     }
                 }
@@ -548,17 +576,7 @@ class Order extends AbstractHelper
             if($delivery == "Pick Up in Store - Click and Collect Shipping")
             {
                 $shipcompany = 'Click and Collect';
-                //all click and collect should go to picking, no need to check stock since they cannot select Click and Collect if it doesn't have stock when ordering
-                //$data['sales-order']['header']['on-hold-reason-code'] = "";
-                //$data['sales-order']['header']['set-on-status'] = "P";
-                //temp solution below
-//                $data['sales-order']['header']['on-hold-reason-code'] = "WS";
-//                $data['sales-order']['header']['set-on-status'] = "H";
-//                
-//                if($payment_type == 'Y') {
-//                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-//                    $data['sales-order']['header']['set-on-status'] = "H";
-//                }
+
             }
             else if($rep == "WESTFIELD")
             {
@@ -1101,14 +1119,15 @@ class Order extends AbstractHelper
      */
     protected function isProductsInStockAll($sourceCode, array $productsSkus) {
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
+
         foreach ($sourceItems as $sourceItem) {
             $qty = $sourceItem->getQuantity();
             $qty = (int)$qty;
-            if ( $qty > 0) {
-                return true;
+            if ($qty < 1) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
