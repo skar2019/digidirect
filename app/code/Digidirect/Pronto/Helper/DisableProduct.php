@@ -74,6 +74,10 @@ class DisableProduct extends AbstractHelper
             $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 0);
             $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 1);
             $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 5);
+            $today = date('Y-m-d');
+            $this->productAction->updateAttributes($ids, array('date_update' => $today), 0);
+            $this->productAction->updateAttributes($ids, array('date_update' => $today), 1);
+            $this->productAction->updateAttributes($ids, array('date_update' => $today), 5);
 
         } catch (\Exception $e) {
             echo $e->getMessage();
@@ -96,10 +100,13 @@ class DisableProduct extends AbstractHelper
     public function getProductCollectionToEnable()
     {
 
-        $date = date("Y-m-d", strtotime("-3 day"));
+        $date = date("Y-m-d", strtotime("2022-05-01"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
-        ->addAttributeToFilter('date_update',array('gteq' => $date));
+        ->addAttributeToFilter('date_update',array('gteq' => $date))
+        ->addAttributeToFilter('item_codition',array('neq' => 'OPENBOX'))
+        ->addAttributeToFilter('item_codition',array('neq' => 'REFURB'))
+        ->addAttributeToFilter('item_codition',array('neq' => 'PRELOVED'));
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;
