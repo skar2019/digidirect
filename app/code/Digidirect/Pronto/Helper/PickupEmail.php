@@ -164,7 +164,11 @@ class PickupEmail extends AbstractHelper
 
         foreach ($orders as $order)
         {
-            echo "orders <br>";
+            if($test)
+            {
+                echo "orders <br>";
+            }
+            
             //Send ReadytoPickup Confirmation Email
             
             //$customer = $observer->getEvent()->getCustomer();
@@ -173,8 +177,11 @@ class PickupEmail extends AbstractHelper
             $customerEmail = $order->getCustomerEmail();
             
             $orderNumber = $order->getIncrementId();
-
-            echo "order -" .$orderNumber." to ".$customerEmail." <br>";
+            if($test)
+            {
+                echo "order -" .$orderNumber." to ".$customerEmail." <br>";
+            }
+            
             $store = $this->storeManager->getStore();
 
             $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName];
@@ -195,12 +202,16 @@ class PickupEmail extends AbstractHelper
 
             try {
                 // Send an email
-                echo "tosend <br>";
+                //echo "tosend <br>";
                 $transport->sendMessage();
             } catch (\Exception $e) {
                 // Write a log message whenever get errors
-                //$this->logger->critical($e->getMessage());
-                echo $e->getMessage()."<br>";
+                if($test)
+                {
+                    echo $e->getMessage()."<br>";
+                }
+                $this->logger->critical($e->getMessage());
+                
             }
             
             
