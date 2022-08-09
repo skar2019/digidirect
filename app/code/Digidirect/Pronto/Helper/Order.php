@@ -234,6 +234,7 @@ class Order extends AbstractHelper
             $isMarketPlace = false;
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
+            
             $territory = "WEBS";
             if($wrehs != 'SWHS')
             {
@@ -242,6 +243,7 @@ class Order extends AbstractHelper
                     $territory = $wrehs;
                 }
             }
+            $sourceCode = $wrehs;
             $accountname = $this->getAccountName($order);
             $account = $this->getAccount($order);
             $address = $order->getBillingAddress();
