@@ -32,6 +32,11 @@ define([
                 };
                 this.locationsList = locations.items;
                 console.log("locationsList : " + this.locationsList);
+                
+                this.locationsList.forEach(myFunction);
+                function myFunction(storeItem, index) {
+                    console.log("storeItem : " + storeItem);
+                }
             }
             
             this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
