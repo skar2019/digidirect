@@ -71,6 +71,7 @@ define([
                 this.isCollectSelected(false);
                 quote.isCollectSelected = false;
             }
+            console.log("checkIsCollectSelected");
         },
         renderItems: function () {
             var self = this;
@@ -235,7 +236,7 @@ define([
                 });
             }
         },
-        toggleStoreListDisplay: function (response) {
+        toggleStoreListDisplay: function () {
             $(".collect-block .link.action.primary").click(function(){
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:block !important;");
@@ -245,6 +246,8 @@ define([
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
+            
+            console.log("toggleStoreListDisplay");
         },
         onSuccessApplyPlace: function (response) {
             this.onClosePopUp();
