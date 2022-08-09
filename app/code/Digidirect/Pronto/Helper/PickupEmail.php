@@ -218,16 +218,19 @@ class PickupEmail extends AbstractHelper
                     $templateParams
                 )->setFrom(
                     'general'
+                )->addBcc(
+                    'clint@kayweb.com.au'    
                 )->getTransport();
 
             try {
                 // Send an email
+                echo "tosend <br>";
                 $transport->sendMessage();
             } catch (\Exception $e) {
                 // Write a log message whenever get errors
-                $this->logger->critical($e->getMessage());
+                //$this->logger->critical($e->getMessage());
+                echo $e->getMessage()."<br>";
             }
-            return $this;
             
             //End Send ReadytoPickup Confirmation Email
             
@@ -245,10 +248,10 @@ class PickupEmail extends AbstractHelper
 
     public function getOrderCollection()
     {
-
+            //live 1139532
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('entity_id', array('gt' => 1139532))
+            ->addFieldToFilter('entity_id', array('gt' => 1075932))
             ->addFieldToFilter('status', array('eq' => 'complete'))
             ->addFieldToFilter('pickup_email', array('eq' => 0))
             ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
