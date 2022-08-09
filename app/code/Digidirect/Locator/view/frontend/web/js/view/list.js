@@ -20,7 +20,6 @@ define([
         initialize: function () {
             this._super();
             this.renderItems();
-            this.toggleStoreBlockDisplay();
             this.toggleStoreListDisplay();
         },
         renderItems: function () {
@@ -49,18 +48,6 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             })
             
-        },
-        toggleStoreBlockDisplay: function () { 
-            $('.store-section').ready(function() {
-                if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                    $(".pickup-available").removeAttr("style");
-                    $(".pickup-available").attr("style", "display:none !important;");
-                }
-                if ($('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                    $(".pickup-unavailable").removeAttr("style");
-                    $(".pickup-unavailable").attr("style", "display:none !important;");
-                }
-            });
         },
         paginationObservable: function () {
             var self = this;
