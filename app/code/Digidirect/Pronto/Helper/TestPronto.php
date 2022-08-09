@@ -1042,15 +1042,20 @@ class TestPronto extends AbstractHelper
 
                     $skus = $this->getProductsSkus($order);
                     $instockInv = 0;
-                    foreach ($this->invCode as $sourceCode) {
-                        $instockInv = 0;
-                        if ($this->isProductsInStockAll($sourceCode, $skus)) {
-                            $instockInv = 1;
-                            echo "instockInv ".$instockInv."<br>";
-                            break;
-                        }
-                        echo "foreeach invCode ".$instockInv."<br>";
+                    //use warehouse
+                    if ($this->isProductsInStockAll($wrehs, $skus)) {
+                        $instockInv = 1;
+                        echo "instockInv ".$instockInv."<br>";
                     }
+//                    foreach ($this->invCode as $sourceCode) {
+//                        $instockInv = 0;
+//                        if ($this->isProductsInStockAll($wrehs, $skus)) {
+//                            $instockInv = 1;
+//                            echo "instockInv ".$instockInv."<br>";
+//                            break;
+//                        }
+//                        echo "foreeach invCode ".$instockInv."<br>";
+//                    }
 
                     //check if accessories group
                     $is_acce = true;

@@ -408,13 +408,17 @@ class Order extends AbstractHelper
 
                     $skus = $this->getProductsSkus($order);
                     $instockInv = 0;
-                    foreach ($this->invCode as $sourceCode) {
-                        $instockInv = 0;
-                        if ($this->isProductsInStockAll($sourceCode, $skus)) {
-                            $instockInv = 1;
-                            break;
-                        }
+                    if ($this->isProductsInStockAll($sourceCode, $skus)) {
+                        $instockInv = 1;
+
                     }
+//                    foreach ($this->invCode as $sourceCode) {
+//                        $instockInv = 0;
+//                        if ($this->isProductsInStockAll($sourceCode, $skus)) {
+//                            $instockInv = 1;
+//                            break;
+//                        }
+//                    }
 
                     //check if accessories group
                     $is_acce = true;
