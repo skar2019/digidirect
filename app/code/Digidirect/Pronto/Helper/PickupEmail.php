@@ -223,7 +223,7 @@ class PickupEmail extends AbstractHelper
             //live 1139532
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('entity_id', array('gt' => 1075932))
+            ->addFieldToFilter('entity_id', array('gt' => 1139532))
             ->addFieldToFilter('status', array('eq' => 'complete'))
             ->addFieldToFilter('pickup_email', array('eq' => 0))
             ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
