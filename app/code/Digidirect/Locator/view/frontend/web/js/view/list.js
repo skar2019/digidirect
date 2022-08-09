@@ -50,18 +50,17 @@ define([
             })
             
         },
-        toggleStoreBlockDisplay: function () {
-            
-            if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                $(".pickup-available").removeAttr("style");
-                $(".pickup-available").attr("style", "display:none !important;");
-            }
-            
-            if ($('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                $(".pickup-unavailable").removeAttr("style");
-                $(".pickup-unavailable").attr("style", "display:none !important;");
-            }
-            
+        toggleStoreBlockDisplay: function () { 
+            $(document).ready(function() {
+                if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
+                    $(".pickup-available").removeAttr("style");
+                    $(".pickup-available").attr("style", "display:none !important;");
+                }
+                if ($('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length == 0) {
+                    $(".pickup-unavailable").removeAttr("style");
+                    $(".pickup-unavailable").attr("style", "display:none !important;");
+                }
+            });
         },
         paginationObservable: function () {
             var self = this;
