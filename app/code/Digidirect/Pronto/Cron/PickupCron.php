@@ -1,5 +1,5 @@
 <?php
-namespace Digidirect\Pronto\Controller\Index;
+namespace Digidirect\Pronto\Cron;
 
 use Psr\Log\LoggerInterface;
 use Digidirect\Pronto\Helper\PickupEmail;
