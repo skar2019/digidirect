@@ -4,7 +4,7 @@ namespace Digidirect\Pronto\Cron;
 use Psr\Log\LoggerInterface;
 use Digidirect\Pronto\Helper\PickupEmail;
 
-class PickupCron extends \Magento\Framework\App\Action\Action
+class PickupCron
 {
     /**
      * @var LoggerInterface
