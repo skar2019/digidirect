@@ -237,13 +237,13 @@ define([
         },
         toggleStoreListDisplay: function (response) {
             $(".collect-block .link.action.primary").click(function(){
-                $("store-locator-wrapper").removeAttr("style");
-                $("store-locator-wrapper").attr("style", "display:block !important;");
+                $(".store-locator-wrapper").removeAttr("style");
+                $(".store-locator-wrapper").attr("style", "display:block !important;");
             });
             
             $(".locator-items button.action.-select").click(function(){
-                $("store-locator-wrapper").removeAttr("style");
-                $("store-locator-wrapper").attr("style", "display:none !important;");
+                $(".store-locator-wrapper").removeAttr("style");
+                $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
         },
         onSuccessApplyPlace: function (response) {
