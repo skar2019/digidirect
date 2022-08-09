@@ -19,6 +19,7 @@ define([
         initialize: function () {
             this._super();
             this.renderItems();
+            this.toggleStoreListDisplay();
         },
         renderItems: function () {
             if (this.isPaginationEnable) {
@@ -33,6 +34,19 @@ define([
             
             this.testCount = 15;
             console.log("testCount : " + this.testCount);
+        },
+        toggleStoreListDisplay: function () {
+            $(".collect-block .link.action.primary").click(function(){
+                $(".store-locator-wrapper").removeAttr("style");
+                $(".store-locator-wrapper").attr("style", "display:block !important;");
+            });
+            
+            $(".locator-items button.action.-select").click(function(){
+                $(".store-locator-wrapper").removeAttr("style");
+                $(".store-locator-wrapper").attr("style", "display:none !important;");
+            });
+            
+            console.log("toggleStoreListDisplay");
         },
         paginationObservable: function () {
             var self = this;
