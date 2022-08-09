@@ -39,8 +39,14 @@ define([
         toggleStoreListDisplay: function () {
             
             $(document).on('click', '.collect-block .link.action.primary', function () {
-                alert("Change Store Has Been Clicked!");
-            });
+                $(".store-locator-wrapper").removeAttr("style");
+                $(".store-locator-wrapper").attr("style", "display:block !important;");
+            })
+            
+            $(document).on('click', '.locator-items button.action.-select', function () {
+                $(".store-locator-wrapper").removeAttr("style");
+                $(".store-locator-wrapper").attr("style", "display:none !important;");
+            })
             
         },
         paginationObservable: function () {
