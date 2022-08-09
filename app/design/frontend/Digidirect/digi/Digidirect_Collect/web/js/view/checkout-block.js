@@ -55,7 +55,6 @@ define([
             this.onSubscribe();
             this.setPlacesToQuote();
             this.renderItems();
-            this.toggleStoreListDisplay();
         },
         formItemId: '',
         isSingleCartFormPopUpVisible: formPopUpState.isVisible,
@@ -71,7 +70,6 @@ define([
                 this.isCollectSelected(false);
                 quote.isCollectSelected = false;
             }
-            console.log("checkIsCollectSelected");
         },
         renderItems: function () {
             var self = this;
@@ -235,19 +233,6 @@ define([
                     self.isInProgress = false;
                 });
             }
-        },
-        toggleStoreListDisplay: function () {
-            $(".collect-block .link.action.primary").click(function(){
-                $(".store-locator-wrapper").removeAttr("style");
-                $(".store-locator-wrapper").attr("style", "display:block !important;");
-            });
-            
-            $(".locator-items button.action.-select").click(function(){
-                $(".store-locator-wrapper").removeAttr("style");
-                $(".store-locator-wrapper").attr("style", "display:none !important;");
-            });
-            
-            console.log("toggleStoreListDisplay");
         },
         onSuccessApplyPlace: function (response) {
             this.onClosePopUp();
