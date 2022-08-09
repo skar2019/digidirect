@@ -20,6 +20,7 @@ define([
         initialize: function () {
             this._super();
             this.renderItems();
+            this.toggleStoreBlockDisplay();
             this.toggleStoreListDisplay();
         },
         renderItems: function () {
@@ -47,6 +48,17 @@ define([
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             })
+            
+        },
+        toggleStoreBlockDisplay: function () {
+            
+            if ($('.pickup-available .locator-items .locator-item').length) {
+                $('.pickup-available').hide();
+            }
+            
+            if ($('.pickup-unavailable .locator-items .locator-item').length) {
+                $('.pickup-unavailable').hide();
+            }
             
         },
         paginationObservable: function () {
