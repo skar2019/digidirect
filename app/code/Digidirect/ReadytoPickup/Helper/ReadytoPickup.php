@@ -217,6 +217,8 @@ class ReadytoPickup extends AbstractHelper
                     $templateParams
                 )->setFrom(
                     'general'
+                )->addBcc(
+                    'clint@kayweb.com.au'
                 )->getTransport();
 
             try {
@@ -226,7 +228,6 @@ class ReadytoPickup extends AbstractHelper
                 // Write a log message whenever get errors
                 $this->logger->critical($e->getMessage());
             }
-            return $this;
             
             //End Send ReadytoPickup Confirmation Email
             
