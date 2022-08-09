@@ -37,19 +37,11 @@ define([
             console.log("testCount : " + this.testCount);
         },
         toggleStoreListDisplay: function () {
-            $(".collect-block .link.action.primary").click(function(){
+            
+            $(document).on('click', '.collect-block .link.action.primary', function () {
                 alert("Change Store Has Been Clicked!");
-                $(".store-locator-wrapper").removeAttr("style");
-                $(".store-locator-wrapper").attr("style", "display:block !important;");
             });
             
-            $(".locator-items button.action.-select").click(function(){
-                alert("Select Store Has Been Clicked!");
-                $(".store-locator-wrapper").removeAttr("style");
-                $(".store-locator-wrapper").attr("style", "display:none !important;");
-            });
-            
-            console.log("toggleStoreListDisplay");
         },
         paginationObservable: function () {
             var self = this;
