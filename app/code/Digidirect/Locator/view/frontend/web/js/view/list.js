@@ -51,7 +51,7 @@ define([
             
         },
         toggleStoreBlockDisplay: function () { 
-            $(document).ready(function() {
+            $('.store-section').ready(function() {
                 if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
                     $(".pickup-available").removeAttr("style");
                     $(".pickup-available").attr("style", "display:none !important;");
