@@ -52,11 +52,11 @@ define([
         },
         toggleStoreBlockDisplay: function () {
             
-            if ($('.pickup-available .locator-items .locator-item').length) {
+            if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length) {
                 $('.pickup-available').hide();
             }
             
-            if ($('.pickup-unavailable .locator-items .locator-item').length) {
+            if ($('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length) {
                 $('.pickup-unavailable').hide();
             }
             
