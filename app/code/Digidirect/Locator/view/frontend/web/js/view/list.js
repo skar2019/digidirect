@@ -38,11 +38,13 @@ define([
         },
         toggleStoreListDisplay: function () {
             $(".collect-block .link.action.primary").click(function(){
+                alert("Change Store Has Been Clicked!");
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:block !important;");
             });
             
             $(".locator-items button.action.-select").click(function(){
+                alert("Select Store Has Been Clicked!");
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
