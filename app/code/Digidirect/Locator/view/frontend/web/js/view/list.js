@@ -31,6 +31,7 @@ define([
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
+                console.log("locationsList : " + this.locationsList);
             }
             
             this.testCount = 15;
