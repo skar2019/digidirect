@@ -66,35 +66,6 @@ class PickupEmail extends AbstractHelper
 
     ];
 
-    protected $invCodeAll = [
-        'BOND',
-        'BRIS',
-        'CANN',
-        'MELB',
-        'MIRA',
-        'PARR',
-        'SWHS',
-        'SYDN'
-    ];
-
-    protected $invCode = [
-        'BRIS',
-        'CANN',
-        'MELB',
-        'MIRA',
-        'SWHS',
-        'SYDN'
-    ];
-
-    /**
-     * @var array
-     */
-    protected $repDispatchWarehouseMap = [
-        'MELB' => '85',
-        'CANN' => 'C3W',
-        'SWHS' => 'C9W'
-    ];
-
     /**
      * @var array
      */
@@ -231,6 +202,7 @@ class PickupEmail extends AbstractHelper
                 //$this->logger->critical($e->getMessage());
                 echo $e->getMessage()."<br>";
             }
+            
             
             //End Send ReadytoPickup Confirmation Email
             
