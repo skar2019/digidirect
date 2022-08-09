@@ -227,7 +227,7 @@ class PickupEmail extends AbstractHelper
                 // Write a log message whenever get errors
                 $this->logger->critical($e->getMessage());
             }
-            return $this;
+            //return $this;
             
             //End Send ReadytoPickup Confirmation Email
             
