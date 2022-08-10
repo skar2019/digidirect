@@ -49,14 +49,14 @@ define([
             
             $(".store-locator-wrapper").ready(function() {
                 alert("store-locator-wrapper ready!");
-                if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                    $(".pickup-available").removeAttr("style");
+                //if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
+                    //$(".pickup-available").removeAttr("style");
                     $(".pickup-available").attr("style", "display:none !important;");
-                }
-                if ($('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                    $(".pickup-unavailable").removeAttr("style");
+                //}
+                //if ($('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length == 0) {
+                    //$(".pickup-unavailable").removeAttr("style");
                     $(".pickup-unavailable").attr("style", "display:none !important;");
-                }
+                //}
             });
             //this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
             //this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
