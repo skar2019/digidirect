@@ -4,12 +4,18 @@
 <!--ko text: pickUpUnavailable --><!--/ko-->
 
 <!-- ko available_count = 0 --><!-- /ko -->
-<div id="pickup-available-count" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
-   <!-- ko if: item.click_and_collect == true -->
+<!-- ko foreach: { data: locationsList(), as: 'item' } -->
+    <!-- ko if: item.click_and_collect == true -->
         <!-- ko available_count = available_count + 1 --><!-- /ko -->
-   <!--/ko-->
-   <!--ko text: available_count --><!--/ko-->
-</div>
+    <!--/ko-->
+<!-- /ko -->
+
+<!-- ko unavailable_count = 0 --><!-- /ko -->
+<!-- ko foreach: { data: locationsList(), as: 'item' } -->
+    <!-- ko if: item.click_and_collect == false -->
+        <!-- ko unavailable_count = unavailable_count + 1 --><!-- /ko -->
+    <!--/ko-->
+<!-- /ko -->
 
 <!-- ko unavailable_count = 0 --><!-- /ko -->
 <div id="pickup-unavailable-count" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
