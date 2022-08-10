@@ -6,7 +6,7 @@
 <!-- ko available_count = 0 --><!-- /ko -->
 <div id="pickup-available-count" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
    <!-- ko if: item.click_and_collect == true -->
-        <!-- ko available_count++ --><!-- /ko -->
+        <!-- ko available_count = available_count + 1 --><!-- /ko -->
    <!--/ko-->
    <!--ko text: available_count --><!--/ko-->
 </div>
@@ -14,7 +14,7 @@
 <!-- ko unavailable_count = 0 --><!-- /ko -->
 <div id="pickup-unavailable-count" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
    <!-- ko if: item.click_and_collect == false -->
-        <!-- ko unavailable_count++ --><!-- /ko -->
+        <!-- ko unavailable_count = unavailable_count + 1 --><!-- /ko -->
    <!--/ko-->
    <!--ko text: unavailable_count --><!--/ko-->
 </div>
