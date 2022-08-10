@@ -47,10 +47,6 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
             
-            for (const element of locations.items) {
-                console.log("location : " + element);
-            }
-            
             this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
             this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
 
