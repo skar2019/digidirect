@@ -48,11 +48,11 @@ define([
             });
             
             $("#pickup-available").ready(function() {
-                alert("#pickup-available ready!");
-                //if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                    $("#pickup-available").removeAttr("style");
-                    $("#pickup-available").attr("style", "display:none !important;");
-                //}
+                if ($('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
+                    alert("#pickup-available length is zero!");
+                    //$("#pickup-available").removeAttr("style");
+                    //$("#pickup-available").attr("style", "display:none !important;");
+                }
             });
             //this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
             //this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
