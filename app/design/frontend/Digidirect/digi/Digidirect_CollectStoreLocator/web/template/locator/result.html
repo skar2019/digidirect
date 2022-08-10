@@ -3,73 +3,49 @@
 <!--ko text: pickUpAvailable --><!--/ko-->
 <!--ko text: pickUpUnavailable --><!--/ko-->
 
-<script>
-    var available_count = 0;
-    var unavailable_count = 0;
-</script>
-
-<!-- ko foreach: { data: locationsList(), as: 'item' } -->
-    <!-- ko if: item.click_and_collect == true -->
-        <!-- ko available_count = available_count + 1 --><!-- /ko -->
-    <!--/ko-->
-<!-- /ko -->
-
-<!-- ko foreach: { data: locationsList(), as: 'item' } -->
-    <!-- ko if: item.click_and_collect == false -->
-        <!-- ko unavailable_count = unavailable_count + 1 --><!-- /ko -->
-    <!--/ko-->
-<!-- /ko -->
-
-<!-- ko if: available_count != 0 -->
-    <div class="store-section pickup-available" style="margin-bottom: 50px;">
-        <div class="title-cc">SELECT A STORE TO COLLECT YOUR ORDER</div>
-        <div class="description-cc">
-            <p style="color: #ff3c00;font-weight: 600;">All the products from your order are available to Click & Collect at the following store(s).</p>
-            <p>Click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
-            <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span> We will endeavour to send you this email between <b style="color: #ff3c00;">1-4 hours</b>.</p>
-        </div>
-        <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
-            <div class="locator-items items content" data-role="content"
-                 data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
-                <!-- ko if: item.click_and_collect == true -->
-                    <!-- ko foreach: $parent.getRegion('locator_items') -->
-                    <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
-                    <!--/ko-->
+<div class="store-section pickup-available" style="margin-bottom: 50px;">
+    <div class="title-cc">SELECT A STORE TO COLLECT YOUR ORDER</div>
+    <div class="description-cc">
+        <p style="color: #ff3c00;font-weight: 600;">All the products from your order are available to Click & Collect at the following store(s).</p>
+        <p>Click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
+        <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span> We will endeavour to send you this email between <b style="color: #ff3c00;">1-4 hours</b>.</p>
+    </div>
+    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
+        <div class="locator-items items content" data-role="content"
+             data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
+            <!-- ko if: item.click_and_collect == true -->
+                <!-- ko foreach: $parent.getRegion('locator_items') -->
+                <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
                 <!--/ko-->
-            </div>
+            <!--/ko-->
         </div>
     </div>
-<!--/ko-->
+</div>
 
-<!-- ko if: unavailable_count != 0 -->
-    <div class="store-section pickup-unavailable" style="margin-bottom: 50px;">
-        <div class="title-cc">OR DELIVER TO LOCAL STORE FOR CLICK & COLLECT</div>
-        <div class="description-cc">
-            <p>Although all products from your order are not available from the following digiDirect stores, you can select any of the stores below and we will deliver to the store within <b style="color: #ff3c00;">24-72 hours</b> for you to collect from your chosen location.</p>
-            <p>Simply click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
-            <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span></p>
+<div class="store-section pickup-unavailable" style="margin-bottom: 50px;">
+    <div class="title-cc">OR DELIVER TO LOCAL STORE FOR CLICK & COLLECT</div>
+    <div class="description-cc">
+        <p>Although all products from your order are not available from the following digiDirect stores, you can select any of the stores below and we will deliver to the store within <b style="color: #ff3c00;">24-72 hours</b> for you to collect from your chosen location.</p>
+        <p>Simply click the Select Store button on your chosen location, enter your information and Continue the checkout process.</p>
+        <p style="font-style: italic;"><span style="color: #ff3c00;font-weight: 600;">Remember to wait for a notification email that tells you that your order is ready for pick-up.</span></p>
+    </div>
+    <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
+        <div class="locator-items items content" data-role="content"
+             data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
+            <!-- ko if: item.click_and_collect == false -->
+                <!-- ko foreach: $parent.getRegion('locator_items') -->
+                <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
+                <!--/ko-->
+            <!--/ko-->
         </div>
-        <div data-bind="mageInit:{'customScrollbarInit':{}}" class="collectlocator-wrapper">
-            <div class="locator-items items content" data-role="content"
-                 data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
-                <!-- ko if: item.click_and_collect == false -->
-                    <!-- ko foreach: $parent.getRegion('locator_items') -->
-                    <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
-                    <!--/ko-->
-                <!--/ko-->
-            </div>
-            <div class="locator-items items content click-and-collect-note" data-role="content"
-                 data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList" style="margin-top: 25px;">
-                <!-- ko if: item.click_and_collect == false && item.entity_id == 16 -->
-                    <span>* Orders are likely to take longer than <b style="color: #ff3c00;">24-72 hours</b> for delivery to Cannington in Western Australia.</span>
-                <!--/ko-->
-            </div>
+        <div class="locator-items items content click-and-collect-note" data-role="content"
+             data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList" style="margin-top: 25px;">
+            <!-- ko if: item.click_and_collect == false && item.entity_id == 16 -->
+                <span>* Orders are likely to take longer than <b style="color: #ff3c00;">24-72 hours</b> for delivery to Cannington in Western Australia.</span>
+            <!--/ko-->
         </div>
     </div>
-<!--/ko-->
-
-
-
+</div>
 
 <!-- /ko -->
 <!-- ko ifnot: locationsList().length -->
