@@ -40,17 +40,17 @@ define([
             $(document).on('click', '.collect-block .link.action.primary', function () {
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:block !important;");
-            })
+            });
             
             $(document).on('click', '.locator-items button.action.-select', function () {
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
-            })
+            });
             
-            $(document).ready(function() {
+            $(window).load(function(){
                 this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
                 this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
-            })
+            });
             
         },
         paginationObservable: function () {
