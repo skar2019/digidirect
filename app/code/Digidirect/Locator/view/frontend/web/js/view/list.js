@@ -34,10 +34,6 @@ define([
                 console.log("locationsList : " + this.locationsList);
             }
             
-            this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
-            this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
-            
-            console.log("testCount : " + this.testCount);
         },
         toggleStoreListDisplay: function () {
             
@@ -50,6 +46,9 @@ define([
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             })
+            
+            this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
+            this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
             
         },
         paginationObservable: function () {
