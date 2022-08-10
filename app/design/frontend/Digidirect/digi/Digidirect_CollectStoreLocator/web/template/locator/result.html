@@ -3,14 +3,17 @@
 <!--ko text: pickUpAvailable --><!--/ko-->
 <!--ko text: pickUpUnavailable --><!--/ko-->
 
-<!-- ko var available_count = 0 --><!-- /ko -->
+<script>
+    var available_count = 0;
+    var unavailable_count = 0;
+</script>
+
 <!-- ko foreach: { data: locationsList(), as: 'item' } -->
     <!-- ko if: item.click_and_collect == true -->
         <!-- ko available_count = available_count + 1 --><!-- /ko -->
     <!--/ko-->
 <!-- /ko -->
 
-<!-- ko var unavailable_count = 0 --><!-- /ko -->
 <!-- ko foreach: { data: locationsList(), as: 'item' } -->
     <!-- ko if: item.click_and_collect == false -->
         <!-- ko unavailable_count = unavailable_count + 1 --><!-- /ko -->
