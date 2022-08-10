@@ -1,8 +1,23 @@
 <!-- ko if: locationsList().length -->
 
+<!--ko text: pickUpAvailable --><!--/ko-->
+<!--ko text: pickUpUnavailable --><!--/ko-->
+
+<!-- ko available_count = 0 --><!-- /ko -->
+<div id="pickup-available-count" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
+   <!-- ko if: item.click_and_collect == true -->
+        <!-- ko available_count++ --><!-- /ko -->
+   <!--/ko-->
+</div>
+
+<!-- ko unavailable_count = 0 --><!-- /ko -->
+<div id="pickup-unavailable-count" data-role="content" data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList">
+   <!-- ko if: item.click_and_collect == false -->
+        <!-- ko unavailable_count++ --><!-- /ko -->
+   <!--/ko-->
+</div>
+
 <div class="store-section pickup-available" style="margin-bottom: 50px;">
-    <!--ko text: pickUpAvailable --><!--/ko-->
-    <!--ko text: pickUpUnavailable --><!--/ko-->
     <div class="title-cc">SELECT A STORE TO COLLECT YOUR ORDER</div>
     <div class="description-cc">
         <p style="color: #ff3c00;font-weight: 600;">All the products from your order are available to Click & Collect at the following store(s).</p>
