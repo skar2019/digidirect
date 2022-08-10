@@ -8,6 +8,7 @@
    <!-- ko if: item.click_and_collect == true -->
         <!-- ko available_count++ --><!-- /ko -->
    <!--/ko-->
+   <!--ko text: available_count --><!--/ko-->
 </div>
 
 <!-- ko unavailable_count = 0 --><!-- /ko -->
@@ -15,6 +16,7 @@
    <!-- ko if: item.click_and_collect == false -->
         <!-- ko unavailable_count++ --><!-- /ko -->
    <!--/ko-->
+   <!--ko text: unavailable_count --><!--/ko-->
 </div>
 
 <div class="store-section pickup-available" style="margin-bottom: 50px;">
