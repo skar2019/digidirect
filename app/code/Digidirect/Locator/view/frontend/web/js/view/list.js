@@ -46,9 +46,6 @@ define([
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
-            
-            this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
-            this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
 
         },
         paginationObservable: function () {
@@ -175,6 +172,8 @@ define([
             events.trigger('location.show', location, locations.settings());
         },
         onRenderList: function () {
+            this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
+            this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
         }
     });
 });
