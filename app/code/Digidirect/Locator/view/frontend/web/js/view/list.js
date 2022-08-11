@@ -46,8 +46,8 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
             
-            this.locationsListAvailable = locations.items_available;
-            this.locationsListUnavailable = locations.items_available;
+            this.locationsListAvailable = $('#pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
+            this.locationsListUnavailable = $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
             
         },
         paginationObservable: function () {
