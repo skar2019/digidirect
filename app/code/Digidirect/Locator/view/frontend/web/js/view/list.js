@@ -46,8 +46,8 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
             
-            this.locationsListAvailable = 5;
-            this.locationsListUnavailable = 15;
+            this.locationsListAvailable = locations.items_available;
+            this.locationsListUnavailable = locations.items_available;
             
         },
         paginationObservable: function () {
@@ -67,7 +67,15 @@ define([
                 var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
                 return locations.items().slice(startIndex, startIndex + self.perPage());
             });
-
+            
+            self.locationsListAvailable = ko.computed(function () {
+                return locations.items_available;
+            });
+            
+            self.locationsListUnavailable = ko.computed(function () {
+                return locations.items_unavailable;
+            });
+            
             self.totalItemCount = ko.computed(function () {
                 return locations.items().length;
             });
