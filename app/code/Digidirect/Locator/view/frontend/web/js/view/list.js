@@ -68,11 +68,11 @@ define([
             });
             
             self.locationsListAvailable = ko.computed(function () {
-                return locations.items_available();
+                return locations.items_available;
             });
             
             self.locationsListUnavailable = ko.computed(function () {
-                return locations.items_unavailable();
+                return locations.items_unavailable;
             });
 
             self.totalItemCount = ko.computed(function () {
