@@ -31,8 +31,8 @@ define([
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
-                this.locationsListAvailable = locations.items_available;
-                this.locationsListUnavailable = locations.items_unavailable;
+                this.locationsListAvailable = locations.items;
+                this.locationsListUnavailable = locations.items;
             }
             
         },
@@ -48,22 +48,6 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
             
-            if ($('#pickup-available .collectlocator-wrapper .locator-items .locator-item').length != 0) {
-                //alert("#pickup-available length is zero!");
-                //$("#pickup-available").removeAttr("style");
-                //$("#pickup-available").attr("style", "display:none !important;");
-            }
-            if ($('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length != 0) {
-                //alert("#pickup-unavailable length is zero!");
-                //$("#pickup-available").removeAttr("style");
-                //$("#pickup-available").attr("style", "display:none !important;");
-            }
-            
-            console.log("locationsList : ");
-            console.log(JSON.stringify(locations.items));
-            
-            this.pickUpAvailable = locations.items().length;
-            this.pickUpUnavailable = locations.items().length;
         },
         paginationObservable: function () {
             var self = this;
