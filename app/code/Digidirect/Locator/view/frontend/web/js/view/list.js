@@ -63,16 +63,16 @@ define([
             });
 
             self.locationsList = ko.computed(function () {
-                var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
-                return locations.items().slice(startIndex, startIndex + self.perPage());
+                //var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
+                //return locations.items().slice(startIndex, startIndex + self.perPage());
             });
             
             self.locationsListAvailable = ko.computed(function () {
-                return locations.items_available;
+                //return locations.items_available;
             });
             
             self.locationsListUnavailable = ko.computed(function () {
-                return locations.items_unavailable;
+                //return locations.items_unavailable;
             });
 
             self.totalItemCount = ko.computed(function () {
