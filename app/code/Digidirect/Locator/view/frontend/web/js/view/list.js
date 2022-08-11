@@ -31,7 +31,8 @@ define([
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
-                console.log("locationsList : " + this.locationsList);
+                console.log("locationsList : ");
+                console.log(JSON.stringify(this.locationsList));
             }
             
         },
