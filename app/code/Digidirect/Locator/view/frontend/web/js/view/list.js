@@ -66,6 +66,16 @@ define([
                 var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
                 return locations.items().slice(startIndex, startIndex + self.perPage());
             });
+            
+            self.locationsListAvailable = ko.computed(function () {
+                var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
+                return locations.items().slice(startIndex, startIndex + self.perPage());
+            });
+            
+            self.locationsListUnavailable = ko.computed(function () {
+                var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
+                return locations.items().slice(startIndex, startIndex + self.perPage());
+            });
 
             self.totalItemCount = ko.computed(function () {
                 return locations.items().length;
