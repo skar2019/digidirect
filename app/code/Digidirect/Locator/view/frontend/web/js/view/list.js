@@ -31,6 +31,8 @@ define([
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
+                this.locationsListAvailable = locations.items_available;
+                this.locationsListUnavailable = locations.items_unavailable;
             }
             
         },

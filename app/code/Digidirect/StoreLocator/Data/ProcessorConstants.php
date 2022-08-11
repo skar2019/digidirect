@@ -8,6 +8,8 @@ class ProcessorConstants
      * Result array main keys
      */
     const ITEMS = 'items';
+    const ITEMS_AVAILABLE = 'items_available';
+    const ITEMS_UNAVAILABLE = 'items_unavailable';
     const SETTINGS = 'settings';
     const DEBUG = 'debug';
 
