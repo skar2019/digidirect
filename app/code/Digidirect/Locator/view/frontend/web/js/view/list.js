@@ -47,22 +47,19 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
             
-            $("#pickup-available .collectlocator-wrapper .locator-items .locator-item").ready(function() {
-                if ($('#pickup-available .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                    alert("#pickup-available length is zero!");
-                    //$("#pickup-available").removeAttr("style");
-                    //$("#pickup-available").attr("style", "display:none !important;");
-                }
-            });
-            $("#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item").ready(function() {
-                if ($('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length == 0) {
-                    alert("#pickup-unavailable length is zero!");
-                    //$("#pickup-available").removeAttr("style");
-                    //$("#pickup-available").attr("style", "display:none !important;");
-                }
-            });
-            //this.pickUpAvailable = $('.pickup-available .collectlocator-wrapper .locator-items .locator-item').length;
-            //this.pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length;
+            if ($('#pickup-available .collectlocator-wrapper .locator-items .locator-item').length != 0) {
+                //alert("#pickup-available length is zero!");
+                //$("#pickup-available").removeAttr("style");
+                //$("#pickup-available").attr("style", "display:none !important;");
+            }
+            if ($('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length != 0) {
+                //alert("#pickup-unavailable length is zero!");
+                //$("#pickup-available").removeAttr("style");
+                //$("#pickup-available").attr("style", "display:none !important;");
+            }
+            
+            this.pickUpAvailable = 5;
+            this.pickUpUnavailable = 15;
         },
         paginationObservable: function () {
             var self = this;
