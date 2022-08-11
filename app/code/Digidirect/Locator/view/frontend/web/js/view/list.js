@@ -31,8 +31,8 @@ define([
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
-                this.locationsListAvailable = locations.items_available;
-                this.locationsListUnavailable = locations.items_unavailable;
+                this.locationsListAvailable = 5;
+                this.locationsListUnavailable = 15;
             }
             
         },
@@ -63,16 +63,8 @@ define([
             });
 
             self.locationsList = ko.computed(function () {
-                //var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
-                //return locations.items().slice(startIndex, startIndex + self.perPage());
-            });
-            
-            self.locationsListAvailable = ko.computed(function () {
-                //return locations.items_available;
-            });
-            
-            self.locationsListUnavailable = ko.computed(function () {
-                //return locations.items_unavailable;
+                var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
+                return locations.items().slice(startIndex, startIndex + self.perPage());
             });
 
             self.totalItemCount = ko.computed(function () {
