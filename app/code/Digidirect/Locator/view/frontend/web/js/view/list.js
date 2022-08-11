@@ -31,8 +31,6 @@ define([
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
-                this.locationsListAvailable = 5;
-                this.locationsListUnavailable = 15;
             }
             
         },
@@ -47,6 +45,9 @@ define([
                 $(".store-locator-wrapper").removeAttr("style");
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
+            
+            this.locationsListAvailable = 5;
+            this.locationsListUnavailable = 15;
             
         },
         paginationObservable: function () {
