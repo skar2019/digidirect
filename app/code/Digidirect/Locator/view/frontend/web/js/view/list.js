@@ -31,8 +31,6 @@ define([
                     return this.defaultPerPage;
                 };
                 this.locationsList = locations.items;
-                console.log("locationsList : ");
-                console.log(JSON.stringify(this.locationsList));
             }
             
         },
@@ -58,6 +56,9 @@ define([
                 //$("#pickup-available").removeAttr("style");
                 //$("#pickup-available").attr("style", "display:none !important;");
             }
+            
+            console.log("locationsList : ");
+            console.log(JSON.stringify(locations.items));
             
             this.pickUpAvailable = 5;
             this.pickUpUnavailable = 15;
