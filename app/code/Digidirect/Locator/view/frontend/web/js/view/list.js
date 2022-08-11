@@ -60,8 +60,8 @@ define([
             console.log("locationsList : ");
             console.log(JSON.stringify(locations.items));
             
-            this.pickUpAvailable = 5;
-            this.pickUpUnavailable = 15;
+            this.pickUpAvailable = locations.items().length;
+            this.pickUpUnavailable = locations.items().length;
         },
         paginationObservable: function () {
             var self = this;
