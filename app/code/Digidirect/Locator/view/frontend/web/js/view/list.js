@@ -175,7 +175,7 @@ define([
             events.trigger('location.show', location, locations.settings());
         },
         onRenderList: function () {
-            alert("onRenderList!");
+            alert('Unavailable : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
         }
     });
 });
