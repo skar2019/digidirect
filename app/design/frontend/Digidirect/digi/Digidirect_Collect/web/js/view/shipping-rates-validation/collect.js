@@ -15,6 +15,8 @@ define([
 
     defaultShippingRatesValidator.registerValidator('collect', collectShippingRatesValidator);
     defaultShippingRatesValidationRules.registerRules('collect', collectShippingRatesValidationRules);
+    
+    alert('Unavailable : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
 
     return Component;
 });
