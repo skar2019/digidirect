@@ -46,9 +46,6 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
             
-            this.locationsListAvailable = $('.store-locator-wrapper').length;
-            this.locationsListUnavailable = $('.store-section').length;
-            
         },
         paginationObservable: function () {
             var self = this;
@@ -66,14 +63,6 @@ define([
             self.locationsList = ko.computed(function () {
                 var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
                 return locations.items().slice(startIndex, startIndex + self.perPage());
-            });
-            
-            self.locationsListAvailable = ko.computed(function () {
-                return locations.items_available;
-            });
-            
-            self.locationsListUnavailable = ko.computed(function () {
-                return locations.items_unavailable;
             });
             
             self.totalItemCount = ko.computed(function () {
@@ -118,6 +107,10 @@ define([
             self.canShowNextJump = ko.computed(function () {
                 return self.getNextJumpPage() !== null;
             });
+            
+            this.locationsListAvailable = $('.store-locator-wrapper').length;
+            this.locationsListUnavailable = $('.store-section').length;
+            
         },
         getFrameStart: function () {
             return Math.floor(this.pageFrame / 2);
