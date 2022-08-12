@@ -175,6 +175,7 @@ define([
             events.trigger('location.show', location, locations.settings());
         },
         onRenderList: function () {
+            alert("onRenderList!");
         }
     });
 });
