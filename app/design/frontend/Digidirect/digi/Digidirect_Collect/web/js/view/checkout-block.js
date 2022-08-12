@@ -83,6 +83,8 @@ define([
                 };
                 this.locationList = locations.items;
             }
+            
+            alert('renderItems : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
         },
         onSubscribe: function () {
             var self = this;
@@ -233,6 +235,8 @@ define([
                     self.isInProgress = false;
                 });
             }
+            
+            alert('applyCollectPlaceToAllItems : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
         },
         onSuccessApplyPlace: function (response) {
             this.onClosePopUp();
@@ -377,6 +381,7 @@ define([
         },
         onRenderList: function () {
 //            this.getPopUp().closeModal();
+            alert('onRenderList : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
         }
     });
 });
