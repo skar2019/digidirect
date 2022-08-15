@@ -162,7 +162,7 @@ return [
         'Magento_AdvancedCatalog' => 1,
         'Magento_Security' => 1,
         'Magento_CmsGraphQl' => 1,
-        'Magento_Search' => 0,
+        'Magento_Search' => 1,
         'Magento_CatalogSearch' => 1,
         'Magento_SalesArchive' => 1,
         'Magento_CatalogImportExport' => 1,
