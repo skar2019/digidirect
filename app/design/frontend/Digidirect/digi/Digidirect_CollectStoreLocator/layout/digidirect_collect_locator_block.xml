@@ -20,6 +20,7 @@
                                     <item name="displayArea" xsi:type="string">locator_items</item>
                                     <item name="config" xsi:type="array">
                                         <item name="template" xsi:type="string">Digidirect_CollectStoreLocator/locator/item/default</item>
+                                        <item name="component" xsi:type="string">Digidirect_Locator/js/view/display</item>
                                     </item>
                                     <item name="children" xsi:type="array">
                                         <item name="item.collect" xsi:type="array">
@@ -30,7 +31,6 @@
                                             </item>
                                         </item>
                                     </item>
-                                    <item name="component" xsi:type="string">Digidirect_Locator/js/view/display</item>
                                 </item>
                             </item>
                         </item>
