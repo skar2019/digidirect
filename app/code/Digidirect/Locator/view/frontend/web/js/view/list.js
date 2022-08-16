@@ -1,9 +1,10 @@
 define([
+    'jquery',
     'ko',
     'uiComponent',
     'Digidirect_Locator/js/model/locations',
     'Magento_Ui/js/lib/core/events'
-], function (ko, Component, locations, events) {
+], function ($, ko, Component, locations, events) {
     'use strict';
 
     return Component.extend({
@@ -19,6 +20,7 @@ define([
         initialize: function () {
             this._super();
             this.renderItems();
+            this.toggleStoreListDisplay();
         },
         renderItems: function () {
             if (this.isPaginationEnable) {
@@ -30,6 +32,19 @@ define([
                 };
                 this.locationsList = locations.items;
             }
+        },
+        toggleStoreListDisplay: function () {
+            
+            $(document).on('click', '.collect-block .link.action.primary', function () {
+                $(".store-locator-wrapper").removeAttr("style");
+                $(".store-locator-wrapper").attr("style", "display:block !important;");
+            });
+            
+            $(document).on('click', '.locator-items button.action.-select', function () {
+                $(".store-locator-wrapper").removeAttr("style");
+                $(".store-locator-wrapper").attr("style", "display:none !important;");
+            });
+            
         },
         paginationObservable: function () {
             var self = this;
@@ -48,7 +63,7 @@ define([
                 var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
                 return locations.items().slice(startIndex, startIndex + self.perPage());
             });
-
+            
             self.totalItemCount = ko.computed(function () {
                 return locations.items().length;
             });
