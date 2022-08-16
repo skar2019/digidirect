@@ -18,6 +18,7 @@
                                 <item name="locator_items" xsi:type="array">
                                     <item name="component" xsi:type="string">uiComponent</item>
                                     <item name="displayArea" xsi:type="string">locator_items</item>
+                                    <item name="component" xsi:type="string">Digidirect_Locator/js/view/list</item>
                                     <item name="config" xsi:type="array">
                                         <item name="template" xsi:type="string">Digidirect_CollectStoreLocator/locator/item/default</item>
                                     </item>
