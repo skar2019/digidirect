@@ -15,6 +15,9 @@ define([
             
             
             $(".locator-list").bind("DOMSubtreeModified", function() { 
+                
+                console.log("DOMSubtreeModified triggered!");
+                
                 if ($('#pickup-available .collectlocator-wrapper .locator-items .locator-item').length != 0) {
                     alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .locator-items .locator-item').length);
                     //$("#pickup-available").removeAttr("style");
