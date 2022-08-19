@@ -47,6 +47,10 @@ define([
             });
             
         },
+        testDataBind: function () {
+            alert("#pickup-available length is " + $('#pickup-available').length);
+            alert("#pickup-unavailable length is " + $('#pickup-unavailable').length);
+        },
         paginationObservable: function () {
             var self = this;
 
