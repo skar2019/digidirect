@@ -13,6 +13,7 @@
                             <item name="component" xsi:type="string">Digidirect_Locator/js/view/list</item>
                             <item name="config" xsi:type="array">
                                 <item name="template" xsi:type="string">Digidirect_CollectStoreLocator/locator/result</item>
+                                <item name="component" xsi:type="string">Digidirect_Locator/js/view/display</item>
                             </item>
                             <item name="children" xsi:type="array">
                                 <item name="locator_items" xsi:type="array">
@@ -32,7 +33,6 @@
                                     </item>
                                 </item>
                             </item>
-                            <item name="component" xsi:type="string">Digidirect_Locator/js/view/display</item>
                         </item>
                     </item>
                 </argument>
