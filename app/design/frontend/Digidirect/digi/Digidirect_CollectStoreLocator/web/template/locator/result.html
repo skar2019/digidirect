@@ -18,8 +18,8 @@
                 <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
                 <!--/ko-->
             <!--/ko-->
-            <div data-bind="afterRender: testDataBind"></div>
         </div>
+        <div data-bind="afterRender: testDataBind"></div>
     </div>
 </div>
 
@@ -38,8 +38,8 @@
                 <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
                 <!--/ko-->
             <!--/ko-->
-            <div data-bind="afterRender: testDataBind"></div>
         </div>
+        <div data-bind="afterRender: testDataBind"></div>
         <div class="locator-items items content click-and-collect-note" data-role="content"
              data-bind="foreach: { data: locationsList(), as: 'item' }, afterRender: onRenderList" style="margin-top: 25px;">
             <!-- ko if: item.click_and_collect == false && item.entity_id == 16 -->
