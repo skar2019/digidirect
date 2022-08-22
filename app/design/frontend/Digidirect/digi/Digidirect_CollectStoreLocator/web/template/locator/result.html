@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<div id="pickup-unavailable" class="store-section" style="margin-bottom: 50px;" data-bind="afterRender: testDataBind">
+<div id="pickup-unavailable" class="store-section" style="margin-bottom: 50px;">
     <div class="title-cc">OR DELIVER TO LOCAL STORE FOR CLICK & COLLECT</div>
     <div class="description-cc">
         <p>Although all products from your order are not available from the following digiDirect stores, you can select any of the stores below and we will deliver to the store within <b style="color: #ff3c00;">24-72 hours</b> for you to collect from your chosen location.</p>
@@ -44,9 +44,10 @@
                 <span>* Orders are likely to take longer than <b style="color: #ff3c00;">24-72 hours</b> for delivery to Cannington in Western Australia.</span>
             <!--/ko-->
         </div>
-        <div data-bind="afterRender: testDataBind"></div>
     </div>
 </div>
+
+<div data-bind="afterRender: testDataBind"></div>
 
 <!-- /ko -->
 <!-- ko ifnot: locationsList().length -->
