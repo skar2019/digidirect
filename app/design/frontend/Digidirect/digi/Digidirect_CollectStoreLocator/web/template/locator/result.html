@@ -35,7 +35,6 @@
             <!-- ko if: item.click_and_collect == false -->
                 <!-- ko foreach: $parent.getRegion('locator_items') -->
                 <!-- ko template: {name: getTemplate(), data: item} --><!-- /ko -->
-                    <div data-bind="afterRender: testDataBind"></div>
                 <!--/ko-->
             <!--/ko-->
         </div>
@@ -47,6 +46,8 @@
         </div>
     </div>
 </div>
+
+<div data-bind="afterRender: testDataBind"></div>
 
 <!-- /ko -->
 <!-- ko ifnot: locationsList().length -->
