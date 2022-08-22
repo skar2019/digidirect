@@ -48,8 +48,8 @@ define([
             
         },
         testDataBind: function () {
-            alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .locator-items .locator-item').length);
-            alert("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
+            alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper').length);
+            alert("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper').length);
         },
         paginationObservable: function () {
             var self = this;
