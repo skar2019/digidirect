@@ -46,11 +46,6 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
             
-            $(document).on('click', '#collect_type_collect', function () {
-                alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
-                alert("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
-            });
-            
         },
         testDataBind: function () {
             $(document.getElementsByClassName('mCustomScrollBox')[0]).ready(function(){
