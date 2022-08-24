@@ -182,7 +182,9 @@ define([
         },
         onRenderList: function () {
             //alert('Unavailable : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
-            console.log('onRenderList Fired!');
+            //console.log('onRenderList Fired!');
+            console.log("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
+            console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
         }
     });
 });
