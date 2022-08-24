@@ -194,13 +194,17 @@ define([
             
                 if (pickUpAvailable > 0) {
                     $('#pickup-available').attr("style", "margin-bottom: 50px; display:block !important;");
-                } else {
+                } 
+                
+                if (pickUpAvailable == 0) {
                     $('#pickup-available').attr("style", "margin-bottom: 50px; display:none !important;");
                 }
                 
                 if (pickUpUnavailable > 0) {
                     $('#pickup-unavailable').attr("style", "margin-bottom: 50px; display:block !important;");
-                } else {
+                } 
+                
+                if (pickUpUnavailable == 0) {
                     $('#pickup-unavailable').attr("style", "margin-bottom: 50px; display:none !important;");
                 }
                 
