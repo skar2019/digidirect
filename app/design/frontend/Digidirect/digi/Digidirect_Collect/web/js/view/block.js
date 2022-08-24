@@ -83,6 +83,11 @@ define([
                 };
                 this.locationList = locations.items;
             }
+            
+            $(document).on('click', '#collect_type_collect', function () {
+                alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
+                alert("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
+            });
         },
         onSubscribe: function () {
 //            var self = this;
