@@ -182,6 +182,7 @@ define([
         },
         onRenderList: function () {
             //alert('Unavailable : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
+            console.log('onRenderList Fired!');
         }
     });
 });
