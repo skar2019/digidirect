@@ -187,7 +187,19 @@ define([
             //console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
             
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
-                console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length);
+                
+                var pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                var pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                
+                if (pickUpAvailable == 0) {
+                    $('#pickup-available').hide();
+                }
+                
+                if (pickUpUnavailable == 0) {
+                    $('#pickup-unavailable').hide();
+                }
+                
+                //console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length);
             });
         }
     });
