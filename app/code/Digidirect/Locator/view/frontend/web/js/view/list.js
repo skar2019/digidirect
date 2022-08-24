@@ -48,9 +48,9 @@ define([
             
         },
         testDataBind: function () {
-            $('.fththrthrthr').ready(function(){
-                //alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
-                //alert("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
+            $(document.getElementsByClassName('mCustomScrollBox')[0]).ready(function(){
+                alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
+                alert("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
             });
         },
         paginationObservable: function () {
