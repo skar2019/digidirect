@@ -187,7 +187,7 @@ define([
             //console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
             
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
-                console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
+                console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length);
             });
         }
     });
