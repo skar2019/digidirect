@@ -116,7 +116,7 @@ define([
             
             this.locationsListAvailable = $('.store-locator-wrapper').length;
             this.locationsListUnavailable = $('.store-section').length;
-            
+                      
         },
         getFrameStart: function () {
             return Math.floor(this.pageFrame / 2);
@@ -183,8 +183,12 @@ define([
         onRenderList: function () {
             //alert('Unavailable : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
             //console.log('onRenderList Fired!');
-            console.log("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
-            console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
+            //console.log("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
+            //console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
+            
+            $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
+                console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
+            });
         }
     });
 });
