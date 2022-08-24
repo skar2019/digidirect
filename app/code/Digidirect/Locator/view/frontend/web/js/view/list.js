@@ -193,10 +193,14 @@ define([
                 
                 if (pickUpAvailable == 0) {
                     $('#pickup-available').hide();
+                } else {
+                    $('#pickup-available').show();
                 }
                 
                 if (pickUpUnavailable == 0) {
                     $('#pickup-unavailable').hide();
+                } else {
+                    $('#pickup-unavailable').show();
                 }
                 
                 //console.log("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length);
