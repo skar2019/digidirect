@@ -217,7 +217,10 @@ define([
                 } else if (pickUpAvailableLast == 0 && pickUpUnavailableLast == 0) {
                     $('#pickup-available').hide();
                     $('#pickup-unavailable').show();
-                } 
+                } else if (pickUpAvailableLast > 0 && pickUpUnavailableLast > 0) {
+                    $('#pickup-available').show();
+                    $('#pickup-unavailable').show();
+                }  
 
                 console.log('pickUpAvailableLast : ' + pickUpAvailableLast);
                 console.log('pickUpUnavailableLast : ' + pickUpUnavailableLast);
