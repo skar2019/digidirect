@@ -182,10 +182,10 @@ define([
         },
         onRenderList: function () {
             
-            var pickUpAvailable;
-            var pickUpUnavailable;
-            
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
+                
+                let pickUpAvailable;
+                let pickUpUnavailable;
                 
                 pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
