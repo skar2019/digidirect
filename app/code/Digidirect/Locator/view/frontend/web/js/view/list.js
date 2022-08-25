@@ -201,26 +201,26 @@ define([
 
                 //console.log('#pickup-available : ' + pickUpAvailable);
                 //console.log('#pickup-unavailable : ' + pickUpUnavailable);
-                
-                pickUpAvailableLast = pickUpAvailableArr.slice(-1).pop();
-                pickUpUnavailableLast = pickUpUnavailableArr.slice(-1).pop();
-                
-                if (pickUpAvailableLast == 0 && pickUpUnavailableLast > 0) {
-                    $('#pickup-available').hide();
-                    $('#pickup-unavailable').show();
-                } else if (pickUpAvailableLast > 0 && pickUpUnavailableLast == 0) {
-                    $('#pickup-available').show();
-                    $('#pickup-unavailable').hide();
-                } else if (pickUpAvailableLast == 0 && pickUpUnavailableLast == 0) {
-                    $('#pickup-available').hide();
-                    $('#pickup-unavailable').show();
-                } 
-                
-                console.log('pickUpAvailableLast : ' + pickUpAvailableLast);
-                console.log('pickUpUnavailableLast : ' + pickUpUnavailableLast);
                 //JSON.stringify(filters);
                 
             });
+                
+            pickUpAvailableLast = pickUpAvailableArr.slice(-1).pop();
+            pickUpUnavailableLast = pickUpUnavailableArr.slice(-1).pop();
+
+            if (pickUpAvailableLast == 0 && pickUpUnavailableLast > 0) {
+                $('#pickup-available').hide();
+                $('#pickup-unavailable').show();
+            } else if (pickUpAvailableLast > 0 && pickUpUnavailableLast == 0) {
+                $('#pickup-available').show();
+                $('#pickup-unavailable').hide();
+            } else if (pickUpAvailableLast == 0 && pickUpUnavailableLast == 0) {
+                $('#pickup-available').hide();
+                $('#pickup-unavailable').show();
+            } 
+
+            console.log('pickUpAvailableLast : ' + pickUpAvailableLast);
+            console.log('pickUpUnavailableLast : ' + pickUpUnavailableLast);
 
         }
     });
