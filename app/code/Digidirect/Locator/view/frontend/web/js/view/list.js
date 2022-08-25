@@ -190,14 +190,13 @@ define([
                 pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 
-                console.log('#pickup-available : ' + pickUpAvailable);
-                console.log('#pickup-unavailable : ' + pickUpUnavailable);
-                
                 if (pickUpAvailable == 0) {
+                    console.log('#pickup-available : ' + pickUpAvailable);
                     $('#pickup-available').attr("style", "margin-bottom: 50px; display:none !important;");
                 } 
                 
                 if (pickUpUnavailable == 0) {
+                    console.log('#pickup-unavailable : ' + pickUpUnavailable);
                     $('#pickup-unavailable').attr("style", "margin-bottom: 50px; display:none !important;");
                 }
                 
