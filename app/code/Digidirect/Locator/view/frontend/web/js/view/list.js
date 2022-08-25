@@ -190,20 +190,16 @@ define([
                 pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 
-                if (pickUpUnavailable > 0) {
-                    console.log('#pickup-unavailable : ' + pickUpUnavailable);
-                    $('#pickup-unavailable').show();
-                }
-                
-                if (pickUpAvailable == 0) {
-                    console.log('#pickup-available : ' + pickUpAvailable);
+                if (pickUpAvailable == 0 && pickUpUnavailable > 0) {
                     $('#pickup-available').hide();
-                } 
-                
-                if (pickUpUnavailable == 0) {
-                    console.log('#pickup-unavailable : ' + pickUpUnavailable);
+                    $('#pickup-unavailable').show();
+                } else if (pickUpAvailable > 0 && pickUpUnavailable == 0) {
+                    $('#pickup-available').show();
                     $('#pickup-unavailable').hide();
-                }
+                } else if (pickUpAvailable == 0 && pickUpUnavailable == 0) {
+                    $('#pickup-available').hide();
+                    $('#pickup-unavailable').show();
+                } 
                 
                 //console.log('After #pickup-available : ' + pickUpAvailable);
                 //console.log('After #pickup-unavailable : ' + pickUpUnavailable);
