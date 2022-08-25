@@ -205,8 +205,8 @@ define([
                 //JSON.stringify(filters);
                 
                 
-                pickUpAvailableLast = pickUpAvailableArr.slice(-1).pop();
-                pickUpUnavailableLast = pickUpUnavailableArr.slice(-1).pop();
+                pickUpAvailableLast = parseInt(pickUpAvailableArr.slice(-1).pop());
+                pickUpUnavailableLast = parseInt(pickUpUnavailableArr.slice(-1).pop());
 
                 if (pickUpAvailableLast == 0 && pickUpUnavailableLast > 0) {
                     $('#pickup-available').hide();
