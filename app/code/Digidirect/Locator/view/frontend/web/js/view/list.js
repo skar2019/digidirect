@@ -182,24 +182,30 @@ define([
         },
         onRenderList: function () {
             
+            var pickUpAvailable;
+            var pickUpUnavailable;
+            
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
                 
-                if ($('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length == 0 && $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length > 0) {
-                    $('#pickup-available').hide();
-                    $('#pickup-unavailable').show();
-                } else if ($('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length > 0 && $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length == 0) {
-                    $('#pickup-available').show();
-                    $('#pickup-unavailable').hide();
-                } else if ($('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length == 0 && $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length == 0) {
-                    $('#pickup-available').hide();
-                    $('#pickup-unavailable').show();
-                } 
-                
-                console.log('#pickup-available : ' + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length);
-                console.log('#pickup-unavailable : ' + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length);
+                pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 
             });
             
+            if (pickUpAvailable == 0 && pickUpUnavailable > 0) {
+                $('#pickup-available').hide();
+                $('#pickup-unavailable').show();
+            } else if (pickUpAvailable > 0 && pickUpUnavailable == 0) {
+                $('#pickup-available').show();
+                $('#pickup-unavailable').hide();
+            } else if (pickUpAvailable == 0 && pickUpUnavailable == 0) {
+                $('#pickup-available').hide();
+                $('#pickup-unavailable').show();
+            } 
+
+            console.log('#pickup-available : ' + pickUpAvailable);
+            console.log('#pickup-unavailable : ' + pickUpUnavailable);
+
         }
     });
 });
