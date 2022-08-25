@@ -219,7 +219,7 @@ define([
                     console.log('pickUpAvailableLast is not 0 : ' + pickUpAvailableLast);
                     console.log('pickUpUnavailableLast is 0 : ' + pickUpUnavailableLast);
                 } else if (pickUpAvailableLast == 0 && pickUpUnavailableLast == 0) {
-                    $('#pickup-available').hide();
+                    //$('#pickup-available').hide();
                     $('#pickup-unavailable').show();
                     console.log('pickUpAvailableLast is 0 : ' + pickUpAvailableLast);
                     console.log('pickUpUnavailableLast is 0 : ' + pickUpUnavailableLast);
