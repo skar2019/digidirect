@@ -196,24 +196,26 @@ define([
                 pickUpAvailableArr.push(pickUpAvailable);
                 pickUpUnavailableArr.push(pickUpUnavailable);
 
-                console.log('#pickup-available : ' + pickUpAvailable);
-                console.log('#pickup-unavailable : ' + pickUpUnavailable);
+                //console.log('#pickup-available : ' + pickUpAvailable);
+                //console.log('#pickup-unavailable : ' + pickUpUnavailable);
                 
-            
-                if (pickUpAvailable == 0 && pickUpUnavailable > 0) {
+                pickUpAvailableLast = pickUpAvailableArr.slice(-1).pop();
+                pickUpUnavailableLast = pickUpUnavailableArr.slice(-1).pop();
+                
+                if (pickUpAvailableLast == 0 && pickUpUnavailableLast > 0) {
                     $('#pickup-available').hide();
                     $('#pickup-unavailable').show();
-                } else if (pickUpAvailable > 0 && pickUpUnavailable == 0) {
+                } else if (pickUpAvailableLast > 0 && pickUpUnavailableLast == 0) {
                     $('#pickup-available').show();
                     $('#pickup-unavailable').hide();
-                } else if (pickUpAvailable == 0 && pickUpUnavailable == 0) {
+                } else if (pickUpAvailableLast == 0 && pickUpUnavailableLast == 0) {
                     $('#pickup-available').hide();
                     $('#pickup-unavailable').show();
                 } 
                 
-                console.log('#pickup-available Array : ' + JSON.stringify(pickUpAvailableArr));
-                console.log('#pickup-unavailable Array : ' + JSON.stringify(pickUpUnavailableArr));
-                JSON.stringify(filters);
+                //console.log('#pickup-available Array : ' + JSON.stringify(pickUpAvailableArr));
+                //console.log('#pickup-unavailable Array : ' + JSON.stringify(pickUpUnavailableArr));
+                //JSON.stringify(filters);
                 
             });
 
