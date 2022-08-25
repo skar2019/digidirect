@@ -181,27 +181,31 @@ define([
             events.trigger('location.show', location, locations.settings());
         },
         onRenderList: function () {
-           
+            
+            var pickUpAvailable;
+            var pickUpUnavailable;
+            
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
                 
-                this.pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
-                this.pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+
+                console.log('#pickup-available : ' + pickUpAvailable);
+                console.log('#pickup-unavailable : ' + pickUpUnavailable);
+                
+            
+                if (pickUpAvailable == 0 && pickUpUnavailable > 0) {
+                    $('#pickup-available').hide();
+                    $('#pickup-unavailable').show();
+                } else if (pickUpAvailable > 0 && pickUpUnavailable == 0) {
+                    $('#pickup-available').show();
+                    $('#pickup-unavailable').hide();
+                } else if (pickUpAvailable == 0 && pickUpUnavailable == 0) {
+                    $('#pickup-available').hide();
+                    $('#pickup-unavailable').show();
+                } 
                 
             });
-            
-            if (this.pickUpAvailable == 0 && this.pickUpUnavailable > 0) {
-                $('#pickup-available').hide();
-                $('#pickup-unavailable').show();
-            } else if (this.pickUpAvailable > 0 && this.pickUpUnavailable == 0) {
-                $('#pickup-available').show();
-                $('#pickup-unavailable').hide();
-            } else if (this.pickUpAvailable == 0 && this.pickUpUnavailable == 0) {
-                $('#pickup-available').hide();
-                $('#pickup-unavailable').show();
-            } 
-
-            console.log('#pickup-available : ' + this.pickUpAvailable);
-            console.log('#pickup-unavailable : ' + this.pickUpUnavailable);
 
         }
     });
