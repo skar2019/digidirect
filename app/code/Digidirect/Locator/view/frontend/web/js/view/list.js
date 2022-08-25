@@ -200,6 +200,11 @@ define([
                     $('#pickup-unavailable').hide();
                 }
                 
+                if (pickUpUnavailable > 0) {
+                    console.log('#pickup-unavailable : ' + pickUpUnavailable);
+                    $('#pickup-unavailable').show();
+                }
+                
                 //console.log('After #pickup-available : ' + pickUpAvailable);
                 //console.log('After #pickup-unavailable : ' + pickUpUnavailable);
                 
