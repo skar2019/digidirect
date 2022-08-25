@@ -188,6 +188,9 @@ define([
             var pickUpAvailable;
             var pickUpUnavailable;
             
+            var pickUpAvailableLast;
+            var pickUpUnavailableLast;
+            
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
                 
                 pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
