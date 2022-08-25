@@ -181,18 +181,18 @@ define([
             events.trigger('location.show', location, locations.settings());
         },
         onRenderList: function () {
-            //alert('Unavailable : ' + $('#pickup-unavailable .collectlocator-wrapper .locator-items .locator-item').length);
-            //console.log('onRenderList Fired!');
-           
+            
+            var pickUpAvailable;
+            var pickUpUnavailable;
+            
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
                 
-                var pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
-                var pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 
                 console.log('#pickup-available : ' + pickUpAvailable);
                 console.log('#pickup-unavailable : ' + pickUpUnavailable);
                 
-                pickUpUnavailable = 1;
                 if (pickUpUnavailable > 0) {
                     $('#pickup-unavailable').attr("style", "margin-bottom: 50px; display:block !important;");
                 } 
@@ -202,6 +202,7 @@ define([
                 }
                 
             });
+            
         }
     });
 });
