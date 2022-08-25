@@ -191,7 +191,9 @@ define([
                 
                 console.log('#pickup-available : ' + pickUpAvailable);
                 console.log('#pickup-unavailable : ' + pickUpUnavailable);
-            
+                
+                pickUpUnavailable = 1;
+                
                 if (pickUpUnavailable > 0) {
                     $('#pickup-unavailable').attr("style", "margin-bottom: 50px; display:block !important;");
                 } 
