@@ -182,16 +182,17 @@ define([
         },
         onRenderList: function () {
             
-            var pickUpAvailableArr = [];
-            var pickUpUnavailableArr = [];
-            
-            var pickUpAvailable;
-            var pickUpUnavailable;
-            
-            var pickUpAvailableLast;
-            var pickUpUnavailableLast;
             
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
+                
+                var pickUpAvailableArr = [];
+                var pickUpUnavailableArr = [];
+
+                var pickUpAvailable;
+                var pickUpUnavailable;
+
+                var pickUpAvailableLast;
+                var pickUpUnavailableLast;
                 
                 pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
@@ -203,24 +204,25 @@ define([
                 //console.log('#pickup-unavailable : ' + pickUpUnavailable);
                 //JSON.stringify(filters);
                 
-            });
                 
-            pickUpAvailableLast = pickUpAvailableArr.slice(-1).pop();
-            pickUpUnavailableLast = pickUpUnavailableArr.slice(-1).pop();
+                pickUpAvailableLast = pickUpAvailableArr.slice(-1).pop();
+                pickUpUnavailableLast = pickUpUnavailableArr.slice(-1).pop();
 
-            if (pickUpAvailableLast == 0 && pickUpUnavailableLast > 0) {
-                $('#pickup-available').hide();
-                $('#pickup-unavailable').show();
-            } else if (pickUpAvailableLast > 0 && pickUpUnavailableLast == 0) {
-                $('#pickup-available').show();
-                $('#pickup-unavailable').hide();
-            } else if (pickUpAvailableLast == 0 && pickUpUnavailableLast == 0) {
-                $('#pickup-available').hide();
-                $('#pickup-unavailable').show();
-            } 
+                if (pickUpAvailableLast == 0 && pickUpUnavailableLast > 0) {
+                    $('#pickup-available').hide();
+                    $('#pickup-unavailable').show();
+                } else if (pickUpAvailableLast > 0 && pickUpUnavailableLast == 0) {
+                    $('#pickup-available').show();
+                    $('#pickup-unavailable').hide();
+                } else if (pickUpAvailableLast == 0 && pickUpUnavailableLast == 0) {
+                    $('#pickup-available').hide();
+                    $('#pickup-unavailable').show();
+                } 
 
-            console.log('pickUpAvailableLast : ' + pickUpAvailableLast);
-            console.log('pickUpUnavailableLast : ' + pickUpUnavailableLast);
+                console.log('pickUpAvailableLast : ' + pickUpAvailableLast);
+                console.log('pickUpUnavailableLast : ' + pickUpUnavailableLast);
+                
+            });
 
         }
     });
