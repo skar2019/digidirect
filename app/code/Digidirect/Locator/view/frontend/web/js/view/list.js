@@ -182,6 +182,9 @@ define([
         },
         onRenderList: function () {
             
+            var pickUpAvailableArr = [];
+            var pickUpUnavailableArr = [];
+            
             var pickUpAvailable;
             var pickUpUnavailable;
             
@@ -189,6 +192,9 @@ define([
                 
                 pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
                 pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                
+                pickUpAvailableArr.push(pickUpAvailable);
+                pickUpUnavailableArr.push(pickUpUnavailable);
 
                 console.log('#pickup-available : ' + pickUpAvailable);
                 console.log('#pickup-unavailable : ' + pickUpUnavailable);
@@ -204,6 +210,10 @@ define([
                     $('#pickup-available').hide();
                     $('#pickup-unavailable').show();
                 } 
+                
+                console.log('#pickup-available Array : ' + JSON.stringify(pickUpAvailableArr));
+                console.log('#pickup-unavailable Array : ' + JSON.stringify(pickUpUnavailableArr));
+                JSON.stringify(filters);
                 
             });
 
