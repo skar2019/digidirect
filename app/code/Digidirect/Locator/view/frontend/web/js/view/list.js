@@ -216,8 +216,8 @@ define([
                     $('#pickup-unavailable').show();
                 } 
                 
-                //console.log('#pickup-available Array : ' + JSON.stringify(pickUpAvailableArr));
-                //console.log('#pickup-unavailable Array : ' + JSON.stringify(pickUpUnavailableArr));
+                console.log('pickUpAvailableLast : ' + pickUpAvailableLast);
+                console.log('pickUpUnavailableLast : ' + pickUpUnavailableLast);
                 //JSON.stringify(filters);
                 
             });
