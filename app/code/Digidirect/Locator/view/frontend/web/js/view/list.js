@@ -200,6 +200,9 @@ define([
                     $('#pickup-unavailable').attr("style", "margin-bottom: 50px; display:none !important;");
                 }
                 
+                console.log('After #pickup-available : ' + pickUpAvailable);
+                console.log('After #pickup-unavailable : ' + pickUpUnavailable);
+                
             });
             
         }
