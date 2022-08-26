@@ -228,8 +228,8 @@ define([
                     
                 }  
 
-                console.log('pickUpAvailable : ' + pickUpAvailable);
-                console.log('pickUpUnavailable : ' + pickUpUnavailable);
+                //console.log('pickUpAvailable : ' + pickUpAvailable);
+                //console.log('pickUpUnavailable : ' + pickUpUnavailable);
                 
             });
 
