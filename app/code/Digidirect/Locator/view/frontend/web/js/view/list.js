@@ -196,8 +196,8 @@ define([
                     
                     $('.pickup-unavailable .title-cc').hide();
                     $('.pickup-unavailable .description-cc').hide();
-                    $('title-cc-unavailable').show();
-                    $('description-cc-unavailable').show();
+                    $('.title-cc-unavailable').show();
+                    $('.description-cc-unavailable').show();
                     
                 } else if (pickUpAvailable > 0 && pickUpUnavailable == 0) {
                     $('.pickup-available').show();
@@ -205,8 +205,8 @@ define([
                     
                     $('.pickup-unavailable .title-cc').show();
                     $('.pickup-unavailable .description-cc').show();
-                    $('title-cc-unavailable').hide();
-                    $('description-cc-unavailable').hide();
+                    $('.title-cc-unavailable').hide();
+                    $('.description-cc-unavailable').hide();
                     
                 } else if (pickUpAvailable == 0 && pickUpUnavailable == 0) {
                     $('.pickup-available').hide();
@@ -214,8 +214,8 @@ define([
                     
                     $('.pickup-unavailable .title-cc').hide();
                     $('.pickup-unavailable .description-cc').hide();
-                    $('title-cc-unavailable').show();
-                    $('description-cc-unavailable').show();
+                    $('.title-cc-unavailable').show();
+                    $('.description-cc-unavailable').show();
                     
                 } else if (pickUpAvailable > 0 && pickUpUnavailable > 0) {
                     $('.pickup-available').show();
@@ -223,8 +223,8 @@ define([
                     
                     $('.pickup-unavailable .title-cc').show();
                     $('.pickup-unavailable .description-cc').show();
-                    $('title-cc-unavailable').hide();
-                    $('description-cc-unavailable').hide();
+                    $('.title-cc-unavailable').hide();
+                    $('.description-cc-unavailable').hide();
                     
                 }  
 
