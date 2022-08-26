@@ -32,6 +32,7 @@ define([
                 };
                 this.locationsList = locations.items;
             }
+            
         },
         toggleStoreListDisplay: function () {
             
@@ -45,6 +46,12 @@ define([
                 $(".store-locator-wrapper").attr("style", "display:none !important;");
             });
             
+        },
+        testDataBind: function () {
+            $(document.getElementsByClassName('mCustomScrollBox')[0]).ready(function(){
+                //alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
+                //alert("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
+            });
         },
         paginationObservable: function () {
             var self = this;
@@ -106,6 +113,10 @@ define([
             self.canShowNextJump = ko.computed(function () {
                 return self.getNextJumpPage() !== null;
             });
+            
+            this.locationsListAvailable = $('.store-locator-wrapper').length;
+            this.locationsListUnavailable = $('.store-section').length;
+                      
         },
         getFrameStart: function () {
             return Math.floor(this.pageFrame / 2);
@@ -170,6 +181,58 @@ define([
             events.trigger('location.show', location, locations.settings());
         },
         onRenderList: function () {
+            
+            $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
+                
+                var pickUpAvailable;
+                var pickUpUnavailable;
+                
+                pickUpAvailable = $('.pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+
+                if (pickUpAvailable == 0 && pickUpUnavailable > 0) {
+                    $('.pickup-available').hide();
+                    $('.pickup-unavailable').show();
+                    
+                    $('.pickup-unavailable .title-cc').hide();
+                    $('.pickup-unavailable .description-cc').hide();
+                    $('.title-cc-unavailable').show();
+                    $('.description-cc-unavailable').show();
+                    
+                } else if (pickUpAvailable > 0 && pickUpUnavailable == 0) {
+                    $('.pickup-available').show();
+                    $('.pickup-unavailable').hide();
+                    
+                    $('.pickup-unavailable .title-cc').show();
+                    $('.pickup-unavailable .description-cc').show();
+                    $('.title-cc-unavailable').hide();
+                    $('.description-cc-unavailable').hide();
+                    
+                } else if (pickUpAvailable == 0 && pickUpUnavailable == 0) {
+                    $('.pickup-available').hide();
+                    $('.pickup-unavailable').show();
+                    
+                    $('.pickup-unavailable .title-cc').hide();
+                    $('.pickup-unavailable .description-cc').hide();
+                    $('.title-cc-unavailable').show();
+                    $('.description-cc-unavailable').show();
+                    
+                } else if (pickUpAvailable > 0 && pickUpUnavailable > 0) {
+                    $('.pickup-available').show();
+                    $('.pickup-unavailable').show();
+                    
+                    $('.pickup-unavailable .title-cc').show();
+                    $('.pickup-unavailable .description-cc').show();
+                    $('.title-cc-unavailable').hide();
+                    $('.description-cc-unavailable').hide();
+                    
+                }  
+
+                //console.log('pickUpAvailable : ' + pickUpAvailable);
+                //console.log('pickUpUnavailable : ' + pickUpUnavailable);
+                
+            });
+
         }
     });
 });
