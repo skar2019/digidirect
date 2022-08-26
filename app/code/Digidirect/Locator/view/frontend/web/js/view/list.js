@@ -182,56 +182,30 @@ define([
         },
         onRenderList: function () {
             
-            
             $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
                 
-                var pickUpAvailableArr = [];
-                var pickUpUnavailableArr = [];
-
                 var pickUpAvailable;
                 var pickUpUnavailable;
+                
+                pickUpAvailable = $('.pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
+                pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
 
-                var pickUpAvailableLast;
-                var pickUpUnavailableLast;
-                
-                pickUpAvailable = $('#pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
-                pickUpUnavailable = $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
-                
-                pickUpAvailableArr.push(pickUpAvailable);
-                pickUpUnavailableArr.push(pickUpUnavailable);
-
-                //console.log('#pickup-available : ' + pickUpAvailable);
-                //console.log('#pickup-unavailable : ' + pickUpUnavailable);
-                //JSON.stringify(filters);
-                
-                
-                pickUpAvailableLast = parseInt(pickUpAvailableArr.slice(-1).pop());
-                pickUpUnavailableLast = parseInt(pickUpUnavailableArr.slice(-1).pop());
-
-                if (pickUpAvailableLast == 0 && pickUpUnavailableLast > 0) {
-                    $('#pickup-available').hide();
-                    $('#pickup-unavailable').show();
-                    console.log('pickUpAvailableLast is 0 : ' + pickUpAvailableLast);
-                    console.log('pickUpUnavailableLast is not 0 : ' + pickUpUnavailableLast);
-                } else if (pickUpAvailableLast > 0 && pickUpUnavailableLast == 0) {
-                    $('#pickup-available').show();
-                    $('#pickup-unavailable').hide();
-                    console.log('pickUpAvailableLast is not 0 : ' + pickUpAvailableLast);
-                    console.log('pickUpUnavailableLast is 0 : ' + pickUpUnavailableLast);
-                } else if (pickUpAvailableLast == 0 && pickUpUnavailableLast == 0) {
-                    //$('#pickup-available').hide();
-                    $('#pickup-unavailable').show();
-                    console.log('pickUpAvailableLast is 0 : ' + pickUpAvailableLast);
-                    console.log('pickUpUnavailableLast is 0 : ' + pickUpUnavailableLast);
-                } else if (pickUpAvailableLast > 0 && pickUpUnavailableLast > 0) {
-                    $('#pickup-available').show();
-                    $('#pickup-unavailable').show();
-                    console.log('pickUpAvailableLast is not 0 : ' + pickUpAvailableLast);
-                    console.log('pickUpUnavailableLast is not 0 : ' + pickUpUnavailableLast);
+                if (pickUpAvailable == 0 && pickUpUnavailable > 0) {
+                    $('.pickup-available').hide();
+                    $('.pickup-unavailable').show();
+                } else if (pickUpAvailable > 0 && pickUpUnavailable == 0) {
+                    $('.pickup-available').show();
+                    $('.pickup-unavailable').hide();
+                } else if (pickUpAvailable == 0 && pickUpUnavailable == 0) {
+                    $('.pickup-available').hide();
+                    $('.pickup-unavailable').show();
+                } else if (pickUpAvailable > 0 && pickUpUnavailable > 0) {
+                    $('.pickup-available').show();
+                    $('.pickup-unavailable').show();
                 }  
 
-                //console.log('pickUpAvailableLast : ' + pickUpAvailableLast);
-                //console.log('pickUpUnavailableLast : ' + pickUpUnavailableLast);
+                console.log('pickUpAvailable : ' + pickUpAvailable);
+                console.log('pickUpUnavailable : ' + pickUpUnavailable);
                 
             });
 
