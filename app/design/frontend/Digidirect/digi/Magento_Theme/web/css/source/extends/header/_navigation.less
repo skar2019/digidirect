@@ -1302,6 +1302,48 @@
         float: right;
     }
     
+    //New changes on Mobile Menu Top Brands
+    .cameras-tab-brands,
+    .lenses-brand-tab,
+    .drones-brand-tab,
+    .lenses-brand-tab,
+    .lightstudio-brand-tab,
+    .photoacce-brand-tab,
+    .optics-brand-tab,
+    .audiovisual-brand-tab,
+    .provideo-brand-tab,
+    .smarthome-brand-tab,
+    .computers-brand-tab {
+        width: 220px;
+    }
+
+    .category-tabs .mgz-tabs-tab-content .mgz-element-heading-text {
+        text-align: left;
+    }
+
+    .category-tabs .mgz-element-single_image {
+        display: block !important;
+    }
+
+    .mobile-menu-tabs-brands {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(5, 55px);
+    }
+
+    .mobile-menu-tabs-brands:before {
+        display: none;
+    }
+
+    .mobile-menu-tabs-brands a img {
+        border: 1px solid #cacaca;
+    }
+
+    .shop-by-category-menu .expand {
+        height: 880px;
+    }
+    
+    
 } //end mobile
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
@@ -2039,47 +2081,6 @@
     .category-tabs .mgz-tabs-tab-title a i {
         position: absolute !important;
         right: -85% !important;
-    }
-    
-    //New changes on Mobile Menu Top Brands
-    .cameras-tab-brands,
-    .lenses-brand-tab,
-    .drones-brand-tab,
-    .lenses-brand-tab,
-    .lightstudio-brand-tab,
-    .photoacce-brand-tab,
-    .optics-brand-tab,
-    .audiovisual-brand-tab,
-    .provideo-brand-tab,
-    .smarthome-brand-tab,
-    .computers-brand-tab {
-        width: 220px;
-    }
-
-    .category-tabs .mgz-tabs-tab-content .mgz-element-heading-text {
-        text-align: left;
-    }
-
-    .category-tabs .mgz-element-single_image {
-        display: block !important;
-    }
-
-    .mobile-menu-tabs-brands {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(5, 55px);
-    }
-
-    .mobile-menu-tabs-brands:before {
-        display: none;
-    }
-
-    .mobile-menu-tabs-brands a img {
-        border: 1px solid #cacaca;
-    }
-
-    .shop-by-category-menu .expand {
-        height: 880px;
     }
     
 }
