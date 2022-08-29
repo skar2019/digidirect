@@ -112,6 +112,28 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
         }
     }
 </script>
+
+<!-- FeedOps - Dynamic Remarketing - Version 1 START -->
+<script>
+    function addToCartClick() {
+        dataLayer.push({
+            'event': 'DynamicRemarketing',
+            'ecomm_pagetype': 'cart',
+            'ecomm_totalvalue': <?php echo $_product->getPrice() ?>,
+            'currency': 'AUD',
+            'ecomm_prodid': [
+                <?php echo $_product->getId() ?>
+            ]
+        });
+    }
+    var form = document.getElementById("product-addtocart-button");
+    if(form.addEventListener){
+        form.addEventListener("submit", addToCartClick, false);
+    }else if(form.attachEvent){
+        form.attachEvent('onsubmit', addToCartClick);
+    }
+</script>
+<!-- FeedOps - Dynamic Remarketing - Version 1 END -->
 <!--<script>-->
 <!--    paypal.Buttons({-->
 <!--      style: {-->
