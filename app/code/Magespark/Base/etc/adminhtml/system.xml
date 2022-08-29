@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * DISCLAIMER
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  MageSpark
+ * @package   MageSpark\Base
+ * @author    MageSpark team <support@magespark.com>
+ * @copyright 2020 MageSpark
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="magespark" translate="label" sortOrder="999999" class="magespark-tab">
+            <label>MageSpark Extensions</label>
+        </tab>
+        <section id="magespark_base" translate="label" type="text" sortOrder="-5000" showInDefault="1" showInWebsite="1"
+                 showInStore="1">
+            <label><![CDATA[Extensions &amp; Notifications]]></label>
+            <tab>magespark</tab>
+            <resource>MageSpark_Base::config</resource>
+            <group id="notifications" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Notifications</label>
+                <field id="frequency" translate="label" type="select" sortOrder="10" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>Update Frequency</label>
+                    <source_model>MageSpark\Base\Model\Source\Frequency</source_model>
+                </field>
+                <field id="type" translate="label" type="multiselect" sortOrder="20" showInDefault="1"
+                       showInWebsite="1" showInStore="1">
+                    <label>I want to Receive Notifications about:</label>
+                    <source_model>MageSpark\Base\Model\Source\NotificationType</source_model>
+                    <backend_model>MageSpark\Base\Model\Config\Backend\Unsubscribe</backend_model>
+                </field>
+            </group>
+            <group id="extensions" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Installed Extensions</label>
+                <frontend_model>MageSpark\Base\Block\Extensions</frontend_model>
+            </group>
+            <group id="information" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>System Information</label>
+                <frontend_model>MageSpark\Base\Block\Info</frontend_model>
+            </group>
+        </section>
+    </system>
+</config>

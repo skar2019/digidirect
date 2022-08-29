@@ -318,6 +318,7 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if($prod['stk-condition-code'] == 'T')
@@ -601,6 +602,7 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
@@ -944,6 +946,7 @@ class Product extends AbstractHelper
                     $stock_condition = 183;
                 }
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 $product->setCustomAttribute('stock_condition', $stock_condition);
@@ -1019,6 +1022,7 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+
                 //set brands
                 if($prod['stk-brand-desc'] == 'digiSeconds')
                 {
@@ -1216,6 +1220,7 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
+                $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
@@ -1345,7 +1350,8 @@ class Product extends AbstractHelper
                 echo "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
                 //set name, price, stock status
-//                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
+                $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
@@ -1367,11 +1373,11 @@ class Product extends AbstractHelper
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         $endis = 'disabled';
                     }
-//                    else if($prod['stk-user-only-alpha4-1'] == 'W')
-//                    {
-//                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//                        $endis = 'enabled';
-//                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'enabled';
+                    }
                     else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -1697,6 +1703,7 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+                $product->setMetaTitle($prodname);
                 //set brand
                 //digiSeconds brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')

@@ -183,7 +183,7 @@ class Inventory extends AbstractHelper
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
-                        $this->productRepository->save($prod);
+                        
                     }
 
                     if($prodRes['stk-condition-code'] == 'O')
@@ -253,6 +253,8 @@ class Inventory extends AbstractHelper
                             }
                         }
                     }
+                    
+                    $this->productRepository->save($prod);
                     //echo $lastCode."<br>";
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     $forLogs .= "SKU not exist - ".$sku."\n";

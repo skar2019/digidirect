@@ -77,7 +77,7 @@ return [
                     'allow_symlink' => '0'
                 ],
                 'js' => [
-                    'merge_files' => '1',
+                    'merge_files' => '0',
                     'minify_files' => '1',
                     'minify_exclude' => [
                         'tiny_mce' => '/tiny_mce/',
@@ -92,7 +92,7 @@ return [
                     'minify_exclude' => [
                         'tiny_mce' => '/tiny_mce/'
                     ],
-                    'merge_css_files' => '1'
+                    'merge_css_files' => '0'
                 ]
             ]
         ],
@@ -211,7 +211,7 @@ return [
         'Magento_CustomerBalance' => 1,
         'Magento_CustomerBalanceGraphQl' => 1,
         'Magento_CustomerSegment' => 1,
-        'Magento_DownloadableGraphQl' => 0,
+        'Magento_DownloadableGraphQl' => 1,
         'Magento_CustomerFinance' => 1,
         'Magento_CustomerGraphQl' => 1,
         'Magento_CustomerImportExport' => 1,
@@ -240,7 +240,7 @@ return [
         'Magento_Tax' => 1,
         'Magento_GiftCardAccount' => 1,
         'Magento_GiftCardAccountGraphQl' => 1,
-        'Magento_WishlistGraphQl' => 0,
+        'Magento_WishlistGraphQl' => 1,
         'Magento_Sitemap' => 1,
         'Magento_CatalogEvent' => 1,
         'Magento_GiftMessage' => 1,
@@ -391,7 +391,7 @@ return [
         'Magento_MsrpGroupedProduct' => 1,
         'Magento_MsrpStaging' => 1,
         'Magento_MultipleWishlist' => 1,
-        'Magento_SalesGraphQl' => 0,
+        'Magento_SalesGraphQl' => 1,
         'Magento_InventoryInStorePickupMultishipping' => 1,
         'Magento_MysqlMq' => 1,
         'Magento_NewRelicReporting' => 1,
@@ -488,7 +488,7 @@ return [
         'Magento_CustomerAnalytics' => 1,
         'Magento_Securitytxt' => 1,
         'Magento_SendFriend' => 1,
-        'Magento_SendFriendGraphQl' => 0,
+        'Magento_SendFriendGraphQl' => 1,
         'Magento_InventoryInStorePickupSalesAdminUi' => 1,
         'Magento_AwsS3PageBuilder' => 1,
         'Magento_StagingGraphQl' => 1,
@@ -502,7 +502,7 @@ return [
         'Magento_SwaggerWebapiAsync' => 1,
         'Magento_Swat' => 1,
         'Magento_Swatches' => 1,
-        'Magento_SwatchesGraphQl' => 0,
+        'Magento_SwatchesGraphQl' => 1,
         'Magento_SwatchesLayeredNavigation' => 1,
         'Magento_CatalogInventoryStaging' => 1,
         'Magento_TargetRuleGraphQl' => 1,
@@ -545,6 +545,7 @@ return [
         'Amasty_BannerSlider' => 1,
         'Amasty_BannerSliderGraphql' => 1,
         'Apptrian_ImageOptimizer' => 1,
+        'Bss_DeleteOrder' => 1,
         'Bss_FacebookPixel' => 1,
         'Bss_PreOrder' => 1,
         'CommissionFactory_Tracking' => 1,
@@ -597,9 +598,11 @@ return [
         'Digidirect_Pronto' => 1,
         'Digidirect_Qantas' => 1,
         'Digidirect_QuickView' => 1,
+        'Digidirect_ReadytoPickup' => 1,
         'Digidirect_RecommendedProducts' => 1,
         'Digidirect_RelatedProduct' => 1,
         'Digidirect_SEO' => 1,
+        'Digidirect_Sales' => 1,
         'Digidirect_ShippingAvailabilityCheck' => 1,
         'Digidirect_ShippingAvailabilityCheckCollect' => 1,
         'Digidirect_ShopByBrandMenu' => 0,
@@ -640,6 +643,8 @@ return [
         'Klevu_Addtocart' => 1,
         'Klevu_Troubleshoot' => 1,
         'LiveChat_LiveChat' => 0,
+        'MageSpark_Base' => 1,
+        'MageSpark_DeferJS' => 1,
         'Mageplaza_Core' => 1,
         'Mageplaza_CronSchedule' => 1,
         'Mageplaza_ProductFeed' => 1,
@@ -659,6 +664,7 @@ return [
         'Studio19_Variants' => 1,
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
+        'Yireo_LinkPreload' => 1,
         'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1
     ],

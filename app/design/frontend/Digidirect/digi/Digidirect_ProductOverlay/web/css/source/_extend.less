@@ -68,7 +68,7 @@
         .text {
             .lib-css(font-weight, @font-weight__bold);
         }
-        
+
         .text > * {
             margin: 0;
         }
@@ -101,13 +101,24 @@
             line-height: 16px;
         }
     }
-    
+
     .product-basic{
         .product-overlay {
-            width: 100%;
+            width: 100% !important;
             max-width: 120px;
             padding: 5px;
         }
+    }
+
+    .temp-slider-class-inner .product-overlay.-top-left {
+        top: -6px !important;
+        position: absolute;
+    }
+
+    .temp-slider-class-inner .product-overlay .owl-lazy {
+        height: 35px;
+        width: auto;
+        float: left;
     }
 }
 
@@ -177,9 +188,5 @@
         .text {
             .lib-font-size(12);
         }
-    }
-    
-    .temp-slider-class-inner .product-overlay.-top-left {
-        top: -6px !important;
     }
 }

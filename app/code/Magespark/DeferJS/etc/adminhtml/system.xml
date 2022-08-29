@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * DISCLAIMER
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future.
+ *
+ * @category  MageSpark
+ * @package   MageSpark_CopyCmsPageBlock
+ * @author    MageSpark team <support@magespark.com>
+ * @copyright 2020 MageSpark
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="deferjs" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Defer Javascript</label>
+            <tab>magespark</tab>
+            <resource>MageSpark_DeferJS::config_deferjs</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable DeferJs</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Choose 'yes' to enable MageSpark defer javascript module.]]></comment>
+                </field>
+            </group>
+            <group id="config" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>DeferJs Display</label>
+                <field id="iframe" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Defer Iframes For Javascript</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Choose 'yes' to enable defer js load in iframes.]]></comment>
+                </field>
+                <field id="show_path" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Controllers And Paths For Javascript</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Help you to see controllers and paths of page. (table will show in end of the page).]]></comment>
+                </field>
+                <field id="controller" translate="label" sortOrder="20" showInDefault="30" showInWebsite="1" showInStore="1">
+                    <label>Exclude Controllers For Javascript</label>
+                    <frontend_model>MageSpark\DeferJS\Block\System\Form\Field\RegexArray</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment><![CDATA[Listed controllers will be unaffected by defer javascript module.<br>Use syntax: {module}_{controller}_{action}.]]></comment>
+                </field>
+                <field id="path" translate="label" sortOrder="40" showInDefault="40" showInWebsite="1" showInStore="1">
+                    <label>Exclude Paths For Javascript</label>
+                    <frontend_model>MageSpark\DeferJS\Block\System\Form\Field\RegexArray</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                    <comment><![CDATA[Listed paths will be unaffected by defer javascript module.<br>Use: (Example: women/tops-women/jackets-women.html).]]></comment>
+                </field>
+                <field id="home_page" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Exclude Home Page For Module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Home page will be unaffected by defer javascript]]></comment>
+                </field>
+                <field id="in_body" type="select" translate="label" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Put Defer Javascript In HTML Body Tag</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Choose 'yes' to put all defer javascript in end of HTML body tag.]]></comment>
+                </field>
+            </group>
+            <group id="information" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>DeferJs Information</label>
+                <field id="help" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Information about excluding JS from defer</label>
+                    <frontend_model>MageSpark\DeferJS\Block\System\Form\Field\Information</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

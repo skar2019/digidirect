@@ -65,7 +65,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
        }
 
        if(!empty($resultProductIds)){
-           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(15);
+           $this->getSelect()->orderRand()->where('e.entity_id IN (' . implode(',', $resultProductIds) .')')->group('e.entity_id')->limit(5); //reduce to 5 clint
            return $this;
        }
        else{

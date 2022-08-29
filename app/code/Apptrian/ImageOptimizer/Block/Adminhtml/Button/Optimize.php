@@ -26,8 +26,8 @@ class Optimize extends \Magento\Config\Block\System\Config\Form\Field
         
         /** @var \Magento\Backend\Block\Widget\Button $buttonBlock  */
         $buttonBlock = $this->getForm()->getLayout()
-            ->createBlock('Magento\Backend\Block\Widget\Button');
-       
+            ->createBlock(\Magento\Backend\Block\Widget\Button::class);
+        
         $url = $this->getUrl("apptrian_imageoptimizer/optimizer/optimize");
             
         $data = [
