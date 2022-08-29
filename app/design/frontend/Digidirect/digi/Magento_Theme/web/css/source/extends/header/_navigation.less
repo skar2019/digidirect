@@ -1235,7 +1235,7 @@
     }
     
     .ninjamenus.ninjamenus-mobile .item-submenu.expand .mgz-tabs-tab-content {
-        height: 635px !important;
+        //height: 635px !important;
         background: #fff;
         border-bottom: none !important;
     }
@@ -2100,7 +2100,7 @@
     }
     
     .ninjamenus.ninjamenus-mobile .item-submenu.expand .mgz-tabs-tab-content {
-        height: 635px !important;
+        //height: 635px !important;
         background: #fff;
         border-bottom: none !important;
     }
@@ -2169,6 +2169,46 @@
     
     .category-tabs .mgz-tabs-content {
         margin-top: -10px !important;
+    }
+    
+    .cameras-tab-brands,
+    .lenses-brand-tab,
+    .drones-brand-tab,
+    .lenses-brand-tab,
+    .lightstudio-brand-tab,
+    .photoacce-brand-tab,
+    .optics-brand-tab,
+    .audiovisual-brand-tab,
+    .provideo-brand-tab,
+    .smarthome-brand-tab,
+    .computers-brand-tab {
+        width: 220px;
+    }
+
+    .category-tabs .mgz-tabs-tab-content .mgz-element-heading-text {
+        text-align: left;
+    }
+
+    .category-tabs .mgz-element-single_image {
+        display: block !important;
+    }
+
+    .mobile-menu-tabs-brands {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(5, 55px);
+    }
+
+    .mobile-menu-tabs-brands:before {
+        display: none;
+    }
+
+    .mobile-menu-tabs-brands a img {
+        border: 1px solid #cacaca;
+    }
+
+    .shop-by-category-menu .expand {
+        height: 880px;
     }
     
 }
