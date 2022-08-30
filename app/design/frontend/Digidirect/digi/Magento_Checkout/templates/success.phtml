@@ -64,9 +64,9 @@ $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
 
 <!-- FeedOps - Dynamic Remarketing - Version 1 START -->
 <?php
-    $order_id = $block->getReadOrderId();
-    $total = $block->getRealOrderDetail()->getGrandTotal();
-    $items = $block->getRealOrderDetail()->getAllVisibleItems();
+    $order_id = $block->getOrderId();
+    $total = $block->getGrandTotal();
+    $items = $block->getAllVisibleItems();
     $email = $block->getCustomerEmail();
     
     $product_ids = array();
