@@ -592,6 +592,7 @@ return [
         'Digidirect_Digi' => 1,
         'Digidirect_MyStoreWidget' => 1,
         'Digidirect_MyStoreWidgetCollect' => 1,
+        'Digidirect_NotFound' => 0,
         'Digidirect_OnSaleProducts' => 1,
         'Digidirect_Order' => 1,
         'Digidirect_ProductOverlay' => 1,
@@ -664,7 +665,7 @@ return [
         'Studio19_Variants' => 1,
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
-        'Yireo_LinkPreload' => 1,
+        'Yireo_LinkPreload' => 0,
         'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1
     ],
