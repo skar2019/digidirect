@@ -61,29 +61,3 @@ $googleAnalytic = $this->helper('Digidirect\Digi\Helper\GoogleAnalytics');
 
     ga('ecommerce:send');
 </script>
-
-<!-- FeedOps - Dynamic Remarketing - Version 1 START -->
-<?php
-    $order_id = $block->getOrderId();
-    $total = $block->getGrandTotal();
-    $items = $block->getAllVisibleItems();
-    $email = $block->getCustomerEmail();
-    
-    $product_ids = array();
-    foreach($items as $item) {
-        array_push($product_ids, $item->getProductId());
-    }
-?>
-
-<script>
-    dataLayer.push({
-        'event': 'DynamicRemarketing',
-        'user_email': <?php echo $email ?>,
-        'ecomm_pagetype': 'purchase',
-        'order_id': <?php echo $order_id ?>,
-        'ecomm_totalvalue': <?php echo $total ?>,
-        'currency': 'AUD',
-        'ecomm_prodid': <?php echo json_encode($product_ids) ?>
-    });
-</script>
-<!-- FeedOps - Dynamic Remarketing - Version 1 END -->
