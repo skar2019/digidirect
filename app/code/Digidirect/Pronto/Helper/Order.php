@@ -754,10 +754,10 @@ class Order extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
-                if($coupon != "")
-                {
-                    $discount = 0;
-                }
+                //if($coupon != "")
+                //{
+                    $discount = 0; //set this to zero since we subtract it to total
+                //}
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;
