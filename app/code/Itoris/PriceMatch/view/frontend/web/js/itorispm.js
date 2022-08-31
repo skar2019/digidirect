@@ -205,8 +205,10 @@ define([
                         checkValidName = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_name"));
                         checkValidEmail = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_email"));
                     }
+                    
+                    checkValidContact = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_contact"));
 
-                    if(checkValidName && checkValidEmail && checkValidPrice && checkValidUrl){
+                    if(checkValidName && checkValidContact && checkValidEmail && checkValidPrice && checkValidUrl){
                         var dataPost = {
                             id: config['productId'],
                             //name: $("#itoris_pm_modal_name").val(),
