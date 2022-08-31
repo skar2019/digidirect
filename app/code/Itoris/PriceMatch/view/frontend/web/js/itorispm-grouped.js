@@ -143,7 +143,7 @@ define([
                         comment : $("#itoris_pm_modal_comment").val() + "#contact_number:" + $("#itoris_pm_modal_contact").val()
                     };
 
-                    //$("#itoris-pm-modal").modal('closeModal');
+                    $("#itoris-pm-modal").modal('closeModal');
                     $.ajax({
                         url         : config['urlAdd'],
                         type        : "POST",
@@ -164,6 +164,7 @@ define([
                                 $("#itoris_pm_modal_match_price").val('');
                                 $("#itoris_pm_modal_match_url").val('');
                                 $("#itoris_pm_modal_comment").val('');
+                                $(".itoris-custom-main-grid .mage-error").hide();
                             }
                         });
                     } else {

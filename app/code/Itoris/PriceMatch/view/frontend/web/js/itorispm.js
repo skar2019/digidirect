@@ -221,7 +221,7 @@ define([
                         if( !$.isEmptyObject(super_attribute) ){
                             dataPost['super_attribute'] = JSON.stringify(super_attribute);
                         }
-          //              $("#itoris-pm-modal").modal('closeModal');
+                        $("#itoris-pm-modal").modal('closeModal');
                         $.ajax({
                             url: config['urlAdd'],
                             type: "POST",
