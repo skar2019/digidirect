@@ -198,6 +198,7 @@ define([
                 form.submit(function(){
                     var checkValidName = true,
                         checkValidEmail = true,
+                        checkValidContact = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_contact")),
                         checkValidPrice = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_match_price")),
                         checkValidUrl = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_match_url"));
 
@@ -205,8 +206,6 @@ define([
                         checkValidName = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_name"));
                         checkValidEmail = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_email"));
                     }
-                    
-                    checkValidContact = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_contact"));
 
                     if(checkValidName && checkValidContact && checkValidEmail && checkValidPrice && checkValidUrl){
                         var dataPost = {

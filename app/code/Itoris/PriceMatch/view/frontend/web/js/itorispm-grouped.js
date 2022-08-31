@@ -121,6 +121,7 @@ define([
             form.submit(function() {
                 var checkValidName = true,
                     checkValidEmail = true,
+                    checkValidContact = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_contact")),
                     checkValidPrice = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_match_price")),
                     checkValidUrl = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_match_url"));
 

@@ -8,6 +8,7 @@
 .itoris-pm-field{
     letter-spacing: normal;
     margin: 0 0 20px;
+    margin-bottom: 0 !important;
 }
 .itoris-pm-field label{
     font-weight: 600;
