@@ -25,21 +25,21 @@ class DisableProduct extends AbstractHelper
 
     }
 
-    public function toDisableProducts()
+    public function toDisableProducts($test)
     {
-//        $productCollection = $this->getProductCollection();
-//        foreach ($productCollection as $product) {
-//            //disable product
-//        }
 
+        echo "To Disable <br>";
         try {
             $collection = $this->getProductCollection();
             //$storeId = $this->storeManager->getStore()->getId();
             $ids = [];
             $i = 0;
             foreach ($collection as $item) {
-                //echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
-                $ids[$i] = $item->getEntityId();;
+                if($test)
+                {
+                    echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                }
+                $ids[$i] = $item->getEntityId();
                 $i++;
             }
             //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -53,14 +53,63 @@ class DisableProduct extends AbstractHelper
 
     }
 
+    public function toEnableProducts($test)
+    {
+
+        try {
+            $collection = $this->getProductCollectionToEnable();
+            //$storeId = $this->storeManager->getStore()->getId();
+            $ids = [];
+            $i = 0;
+            foreach ($collection as $item) {
+                if($test)
+                {
+                    echo $item->getDateUpdate(). " - ". $item->getSku() . " - " .$item->getStatus() . "<br/>";
+                }
+                
+                $ids[$i] = $item->getEntityId();
+                $i++;
+            }
+            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 0);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 1);
+            $this->productAction->updateAttributes($ids, array('status' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED), 5);
+            $today = date('Y-m-d');
+            $this->productAction->updateAttributes($ids, array('date_update' => $today), 0);
+            $this->productAction->updateAttributes($ids, array('date_update' => $today), 1);
+            $this->productAction->updateAttributes($ids, array('date_update' => $today), 5);
+
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+    }
+    
     public function getProductCollection()
     {
-        $now = new \DateTime();
+        //if there's still issue on some products not being disabled, adjust the date close to most recent date. e,g. date yesterday or -2 day
+        $date = date("Y-m-d", strtotime("-3 day"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-        ->addAttributeToFilter('date_update',['lt' => $now->format('Y-m-d')]);
+        ->addAttributeToFilter('date_update',array('lteq' => $date));
+        //->setPageSize(110); // fetching only 3 products
+
+        return $collection;
+    }
+    
+    public function getProductCollectionToEnable()
+    {
+
+        $date = date("Y-m-d", strtotime("2022-05-01"));
+        $collection = $this->_productCollectionFactory->create()
+        ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
+        ->addAttributeToFilter('date_update',array('gteq' => $date))
+        ->addAttributeToFilter('item_codition',array('neq' => 'OPENBOX'))
+        ->addAttributeToFilter('item_codition',array('neq' => 'REFURB'))
+        ->addAttributeToFilter('item_codition',array('neq' => 'PRELOVED'));
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;
     }
+    
 }

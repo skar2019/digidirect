@@ -1,4 +1,4 @@
-<!--@subject {{trans "Your %store_name order confirmation C&C" store_name=$store.getFrontendName()}} @-->
+<!--@subject {{trans "Your %store_name order confirmation" store_name=$store.getFrontendName()}} @-->
 <!--@vars {
 "var formattedBillingAddress|raw":"Billing Address",
 "var order.getEmailCustomerNote()":"Email Order Note",
@@ -39,23 +39,21 @@
                                                                             <tr>
                                                                                 <td align="left" style="padding:0px">
                                                                                     <h1 style="color:#000000;font-size:20px;font-family:Arial,Helvetica,sans-serif;line-height:normal;margin:0;font-weight:bold;">
-                                                                                        Test Jireh Click & Collect 123 Thank you for purchasing from digiDirect.
+                                                                                        Thank you for purchasing from digiDirect.
                                                                                     </h1>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td align="left" style="padding:23px 0px 0px">
                                                                                     <p style="color:#000000;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:1.36;margin:0;font-weight:normal;">
-                                                                                        {{trans 'Once your package ships we will send you an email to confirm your shipment. If you have registered an account, you can log in to your account to <a href="%account_url"
-                                                                                            style="color:#000000;text-decoration:underline">track your order</a>.' account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}
+                                                                                        {{trans 'Once your package ships we will send you an email to confirm your shipment. If you have registered an account, you can log in to your account to <a href="%account_url" style="color:#000000;text-decoration:underline">track your order</a>.' account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}
                                                                                     </p>
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td align="left" style="padding:18px 0px 0px">
                                                                                     <p style="color:#000000;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:1.36;margin:0;font-weight:normal;">
-                                                                                        {{trans 'Don&#39;t have an account? <a href="%register_url" style="color:#000000;text-decoration:underline">Sign up</a> today, so you can track your next order and
-                                                                                        access all your orders and invoices at any time.' register_url=$this.getUrl($store,'customer/account/create/',[_nosid:1]) |raw}}
+                                                                                        {{trans 'Don&#39;t have an account? <a href="%register_url" style="color:#000000;text-decoration:underline">Sign up</a> today, so you can track your next order and access all your orders and invoices at any time.' register_url=$this.getUrl($store,'customer/account/create/',[_nosid:1]) |raw}}
                                                                                     </p>
                                                                                 </td>
                                                                             </tr>
@@ -124,7 +122,8 @@
                     </td>
                 </tr>
             </table>
-            {{/depend}} {{layout handle="sales_email_order_items" order=$order}}
+            {{/depend}}
+            {{layout handle="sales_email_order_items" order=$order}}
             <table class="order-details">
                 <tr>
                     <td class="address-details" style="padding-right:30px;">
@@ -186,8 +185,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td>
-                                                                                                {{trans '<a href="%account_url" title="FAQS" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:24px;margin:0;font-weight:normal;text-decoration:none;">View our FAQs</a>'
-                                                                                                account_url=$this.getUrl($store,'faq',[_nosid:1]) |raw}}
+                                                                                                {{trans '<a href="%account_url" title="FAQS" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:24px;margin:0;font-weight:normal;text-decoration:none;">View our FAQs</a>' account_url=$this.getUrl($store,'faq',[_nosid:1]) |raw}}
                                                                                             </td>
                                                                                         </tr>
                                                                                     </table>
@@ -218,8 +216,7 @@
                                                                                         </tr>
                                                                                         <tr>
                                                                                             <td>
-                                                                                                {{trans '<a href="%account_url" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:24px;margin:0;font-weight:normal;text-decoration:none;">View My Account</a>'
-                                                                                                account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}
+                                                                                                {{trans '<a href="%account_url" style="color:#666666;font-size:14px;font-family:Arial,Helvetica,sans-serif;line-height:24px;margin:0;font-weight:normal;text-decoration:none;">View My Account</a>' account_url=$this.getUrl($store,'customer/account/',[_nosid:1]) |raw}}
                                                                                             </td>
                                                                                         </tr>
                                                                                     </table>

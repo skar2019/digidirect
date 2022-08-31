@@ -33,10 +33,10 @@
             <label>General Settings</label>
             <tab>itoris_extensions</tab>
             <resource>Magento_Backend::itoris_core_installed</resource>
-			<group id="installed" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
-				<label>Installed ITORIS Extensions</label>
-				<frontend_model>Itoris\Core\Block\System\Installed</frontend_model>				
-			</group>
+            <group id="installed" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Installed ITORIS Extensions</label>
+                <frontend_model>Itoris\Core\Block\System\Installed</frontend_model>
+            </group>
             <group id="notifications" translate="label" type="text" sortOrder="110" showInDefault="1" showInWebsite="0" showInStore="0">
                 <label>Notifications</label>
                 <field id="updates" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">

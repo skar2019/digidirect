@@ -217,6 +217,8 @@ class ReadytoPickup extends AbstractHelper
                     $templateParams
                 )->setFrom(
                     'general'
+                )->addBcc(
+                    'clint@kayweb.com.au'
                 )->getTransport();
 
             try {
@@ -226,7 +228,6 @@ class ReadytoPickup extends AbstractHelper
                 // Write a log message whenever get errors
                 $this->logger->critical($e->getMessage());
             }
-            return $this;
             
             //End Send ReadytoPickup Confirmation Email
             
@@ -247,12 +248,10 @@ class ReadytoPickup extends AbstractHelper
 
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('pronto_order_number', array('null' => true))
-            ->addFieldToFilter('status',array('neq' => 'canceled'))
-            ->addFieldToFilter('entity_id', array('gteq' => 615813))
-            ->addFieldToFilter('status', 'completed')
-            ->addFieldToFilter('pickup_email', 0)
-            ->addFieldToFilter('shipping_description', 'Pick Up in Store - Click and Collect Shipping')
+            ->addFieldToFilter('entity_id', array('gt' => 1139532))
+            ->addFieldToFilter('status', array('eq' => 'complete'))
+            ->addFieldToFilter('pickup_email', array('eq' => 0))
+            ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
             ->setOrder('created_at', 'asc');
 
         return $collection;

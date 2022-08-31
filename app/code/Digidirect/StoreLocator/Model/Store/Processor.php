@@ -221,8 +221,6 @@ class Processor implements ProcessorInterface
         $items = $transportObject->getItems();
 
         $result[ProcessorConstants::ITEMS] = $this->prepareStores($items, $store, $callbacks);
-        $result[ProcessorConstants::ITEMS_AVAILABLE] = $this->prepareStoresAvailable($items, $store, $callbacks);
-        $result[ProcessorConstants::ITEMS_UNAVAILABLE] = $this->prepareStoresUnavailable($items, $store, $callbacks);
         $result[ProcessorConstants::SETTINGS] = [
             ProcessorConstants::SHOW_FEATURED_AT_THE_TOP => $this->configHelper->isShowFeaturedStoresAtTheTop(),
             ProcessorConstants::SORT_ORDER => $this->configHelper->getSortOrder(),
@@ -618,70 +616,6 @@ class Processor implements ProcessorInterface
                         }
                     }
                 }
-            }
-        }
-
-        return $items;
-    }
-    
-    protected function prepareStoresAvailable($items, $store, $callbacks)
-    {
-        foreach ($items as &$item) {
-            if (!empty($item['url_key'])) {
-                if ($store) {
-                    $this->urlBuilder->setScope($store);
-                }
-                $item['url_key'] = $this->getUrl((string)$this->urlBuilder->getUrl($item['url_key'], ['_nosid' => 1]));
-            }
-
-            if (!empty($item['image'])) {
-                $item['image'] = $this->mediaConfig->getBaseMediaUrl() . $item['image'];
-            }
-
-            if (!empty($callbacks)) {
-                foreach ($callbacks as $attribute => $callback) {
-                    if (!empty($item[$attribute])) {
-                        if (\is_callable($callback)) {
-                            $item[$attribute] = \call_user_func_array($callback, [$item[$attribute]]);
-                        }
-                    }
-                }
-            }
-            
-            if ($item['click_and_collect'] == false) {
-                unset($item);
-            }
-        }
-
-        return $items;
-    }
-    
-    protected function prepareStoresUnavailable($items, $store, $callbacks)
-    {
-        foreach ($items as &$item) {
-            if (!empty($item['url_key'])) {
-                if ($store) {
-                    $this->urlBuilder->setScope($store);
-                }
-                $item['url_key'] = $this->getUrl((string)$this->urlBuilder->getUrl($item['url_key'], ['_nosid' => 1]));
-            }
-
-            if (!empty($item['image'])) {
-                $item['image'] = $this->mediaConfig->getBaseMediaUrl() . $item['image'];
-            }
-
-            if (!empty($callbacks)) {
-                foreach ($callbacks as $attribute => $callback) {
-                    if (!empty($item[$attribute])) {
-                        if (\is_callable($callback)) {
-                            $item[$attribute] = \call_user_func_array($callback, [$item[$attribute]]);
-                        }
-                    }
-                }
-            }
-            
-            if ($item['click_and_collect'] == true) {
-                unset($item);
             }
         }
 

@@ -17,6 +17,24 @@ class Test extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-        $this->helper->toDisableProducts();
+            $test = 0;
+            $disable = 0;
+            
+            if(isset($_GET["test"])){
+                $test = $_GET["test"];
+            }
+            if(isset($_GET["disable"])){
+                $disable = $_GET["disable"];
+            }
+
+            if($disable)
+            {
+                $this->helper->toDisableProducts($test);
+            }
+            else 
+            {
+                $this->helper->toEnableProducts($test);
+            }
+            
     }
 }

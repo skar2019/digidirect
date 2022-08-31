@@ -18,9 +18,7 @@
 <div>
     Dear {{var customer_name}},
 </div>
-<div style="margin: 10px 0 0">
-    Your price match request for <strong>{{var product_name}}</strong> was {{var status}}.
-</div>
+
 <div>
     {{if check_method_coupon}}
          Please use the following coupon code to get <strong>{{var difference}} OFF</strong> for the product requested: <strong>{{var coupon}}</strong>.
@@ -32,7 +30,5 @@
 <div style="margin: 10px 0">
     <pre style="font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;display: inline;border:none;padding:0px;background:none;font-style:normal;font-weight: normal;line-height:1.42857143;font-size:14px;">{{var admin_response}}</pre>
 </div>
-<div>
-    {{var storeview}} Customer Care.
-</div>
+
 {{template config_path="design/email/footer_template"}}

@@ -8,6 +8,7 @@ $urlInterface = $objectManager->get('Magento\Framework\UrlInterface');
 $currentUrl = $urlInterface->getCurrentUrl();
 
 $isBrandCanon = str_contains($currentUrl, 'brands/canon');
+$isBrandNikon = str_contains($currentUrl, 'brands/nikon');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
     
@@ -31,17 +32,21 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         ->createBlock('Magento\Cms\Block\Block')
         ->setBlockId('cameras-product-featured-banner')
         ->toHtml();
+    } elseif ($isBrandNikon == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-nikon-featured-banner')
+        ->toHtml();
     }
-    ?>
-    <script>
-        require([
-            'jquery'
-        ],
-        function ($) {
-            $('.featured-banner-heading').attr("style", "margin-top: -30px !important;");
-        });
-    </script>
-<?php
-
 }
+
 ?>
+
+<script>
+    require([
+        'jquery'
+    ],
+    function ($) {
+        $('.featured-banner-heading').attr("style", "margin-top: -30px !important;");
+    });
+</script>
