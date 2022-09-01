@@ -246,6 +246,7 @@ define([
                             }
                         });
                     }else{
+                        $(".itoris-custom-main-grid .mage-error").remove();
                         $("#itoris-pm-link").css("pointer-events", 'auto');
                         $("#itoris-pm-link-custom").css("pointer-events", 'auto');
                     }
