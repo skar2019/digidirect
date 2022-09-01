@@ -222,6 +222,7 @@ define([
                             dataPost['super_attribute'] = JSON.stringify(super_attribute);
                         }
                         $("#itoris-pm-modal").modal('closeModal');
+                        $(".itoris-custom-main-grid .mage-error").hide();
                         $.ajax({
                             url: config['urlAdd'],
                             type: "POST",

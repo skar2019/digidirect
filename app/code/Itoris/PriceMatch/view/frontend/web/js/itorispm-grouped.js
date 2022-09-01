@@ -144,6 +144,7 @@ define([
                     };
 
                     $("#itoris-pm-modal").modal('closeModal');
+                    $(".itoris-custom-main-grid .mage-error").hide();
                     $.ajax({
                         url         : config['urlAdd'],
                         type        : "POST",
@@ -164,7 +165,6 @@ define([
                                 $("#itoris_pm_modal_match_price").val('');
                                 $("#itoris_pm_modal_match_url").val('');
                                 $("#itoris_pm_modal_comment").val('');
-                                $(".itoris-custom-main-grid .mage-error").hide();
                             }
                         });
                     } else {
