@@ -206,7 +206,8 @@ define([
                         checkValidName = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_name"));
                         checkValidEmail = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_email"));
                     }
-
+                    $(".itoris-custom-main-grid .mage-error").remove();
+                    
                     if(checkValidName && checkValidContact && checkValidEmail && checkValidPrice && checkValidUrl){
                         var dataPost = {
                             id: config['productId'],
@@ -222,7 +223,7 @@ define([
                             dataPost['super_attribute'] = JSON.stringify(super_attribute);
                         }
                         $("#itoris-pm-modal").modal('closeModal');
-                        $(".itoris-custom-main-grid .mage-error").hide();
+                        //$(".itoris-custom-main-grid .mage-error").hide();
                         $.ajax({
                             url: config['urlAdd'],
                             type: "POST",
@@ -246,7 +247,7 @@ define([
                             }
                         });
                     }else{
-                        $(".itoris-custom-main-grid .mage-error").remove();
+                        //$(".itoris-custom-main-grid .mage-error").remove();
                         $("#itoris-pm-link").css("pointer-events", 'auto');
                         $("#itoris-pm-link-custom").css("pointer-events", 'auto');
                     }
