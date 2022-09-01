@@ -207,7 +207,7 @@ define([
                         checkValidEmail = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_email"));
                     }
                     //$(".itoris-custom-main-grid .mage-error").remove();
-                    $("#itoris-pm-modal [generated=true].mage-error").remove();
+                    //$("#itoris-pm-modal [generated=true].mage-error").remove();
                     if(checkValidName && checkValidContact && checkValidEmail && checkValidPrice && checkValidUrl){
                         var dataPost = {
                             id: config['productId'],
@@ -247,7 +247,7 @@ define([
                             }
                         });
                     }else{
-                        //$(".itoris-custom-main-grid .mage-error").remove();
+                        $(".itoris-custom-main-grid div.mage-error").remove();
                         $("#itoris-pm-link").css("pointer-events", 'auto');
                         $("#itoris-pm-link-custom").css("pointer-events", 'auto');
                     }
