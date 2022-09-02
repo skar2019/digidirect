@@ -121,6 +121,7 @@ define([
             form.submit(function() {
                 var checkValidName = true,
                     checkValidEmail = true,
+                    checkValidContact = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_contact")),
                     checkValidPrice = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_match_price")),
                     checkValidUrl = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_match_url"));
 
@@ -128,8 +129,10 @@ define([
                     checkValidName = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_name"));
                     checkValidEmail = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_email"));
                 }
+                
+                checkValidContact = $.validator.validateSingleElement(document.getElementById("itoris_pm_modal_contact"));
 
-                if (checkValidName && checkValidEmail && checkValidPrice && checkValidUrl) {
+                if (checkValidName && checkValidContact && checkValidEmail && checkValidPrice && checkValidUrl) {
                     var dataPost = {
                         id      : $("#itoris_pm_modal_product_id").val(),
                         //name    : $("#itoris_pm_modal_name").val(),
@@ -140,7 +143,8 @@ define([
                         comment : $("#itoris_pm_modal_comment").val() + "#contact_number:" + $("#itoris_pm_modal_contact").val()
                     };
 
-                    //$("#itoris-pm-modal").modal('closeModal');
+                    $("#itoris-pm-modal").modal('closeModal');
+                    $(".itoris-custom-main-grid .mage-error").hide();
                     $.ajax({
                         url         : config['urlAdd'],
                         type        : "POST",
@@ -164,6 +168,7 @@ define([
                             }
                         });
                     } else {
+                        $("div.mage-error:not(:first-of-type)").remove();
                         $("#itoris-pm-link").css("pointer-events", 'auto');
                         $("#itoris-pm-link-custom").css("pointer-events", 'auto');
                     }

@@ -81,16 +81,16 @@
                             </label>
                             <div class="control">
                                 <input type="text" placeholder="Contact Number" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_contact" id="itoris_pm_modal_contact" style="display: none;"/>
-                                <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_contact_static"></span></div>
+                                <div style="height:30px;line-height:30px;display:none;"><span id="itoris_pm_modal_contact_static"></span></div>
                             </div>
                         </div>
                         <div class="itoris-pm-field">
                             <label class="label" for="itoris_pm_modal_email" style="display: none;">
                                 <span><?php echo __('Your Email') ?></span>
                             </label>
-                            <div class="control" style="margin-top: 5px;">
+                            <div class="control">
                                 <input type="text" placeholder="Email Address" form="itoris-pm-modal-form" class="field" name="itoris_pm_modal_email" id="itoris_pm_modal_email" style="display: none;"/>
-                                <div style="display: none;height:30px;line-height: 30px;"><span id="itoris_pm_modal_email_static"></span></div>
+                                <div style="height:30px;line-height:30px;display:none;"><span id="itoris_pm_modal_email_static"></span></div>
                             </div>
                         </div>
                     </div>
@@ -178,6 +178,9 @@
                 '\t"validation":{\n' +
                 '\t\t"rules": {\n' +
                 '\t\t\t"itoris_pm_modal_name": {\n' +
+                '\t\t\t\t"required":true\n' +
+                '\t\t\t},\n' +
+                '\t\t\t"itoris_pm_modal_contact": {\n' +
                 '\t\t\t\t"required":true\n' +
                 '\t\t\t},\n' +
                 '\t\t\t"itoris_pm_modal_email": {\n' +
