@@ -317,6 +317,13 @@ class Order extends AbstractHelper
                     $account = "QANT00";
                     $rep = "QANTAS";
                 }
+                else if (strpos($orderId, 'WW') !== false) {
+                    $rep ="WOOLWORTHS";
+                    $account = "WOOL00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
+                }
 
             }
             $directToWhse = false;
