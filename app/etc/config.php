@@ -581,7 +581,7 @@ return [
         'Digidirect_DigiSecondsMenu' => 1,
         'Digidirect_ExtendedCartPriceRules' => 0,
         'Digidirect_ExtendedCartPriceRulesMSI' => 0,
-        'Digidirect_ExtendedCatalogPriceRule' => 1,
+        'Digidirect_ExtendedCatalogPriceRule' => 0,
         'Digidirect_ExtendedShippingRates' => 1,
         'Digidirect_ExtendedShippingRatesLocalization' => 1,
         'Digidirect_Faq' => 1,
