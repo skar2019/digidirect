@@ -174,6 +174,8 @@ class TestPronto extends AbstractHelper
      * @var Country
      */
     public $countryFactory;
+    
+    protected $productDigiprot;
 
     public function __construct(
                         Curl $curl,
@@ -189,7 +191,8 @@ class TestPronto extends AbstractHelper
                         CustomerRepositoryInterface $customerRepository,
                         \Digidirect\CustomOrderLog\Logger\Logger $logger,
                         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
-                        CountryFactory $countryFactory)
+                        CountryFactory $countryFactory,
+                        \Magento\Catalog\Model\ProductFactory $productFactory)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -205,6 +208,7 @@ class TestPronto extends AbstractHelper
                         $this->logger = $logger;
                         $this->timezone = $timezone;
                         $this->countryFactory = $countryFactory;
+                        $this->productFactory = $productFactory;
 
     }
 
@@ -1401,17 +1405,28 @@ class TestPronto extends AbstractHelper
                     $productSku = $skus[0];
                     $digiProtect = $skus[1];
 
-                    $price = (double) $item->getBasePriceInclTax();
-                    $orig = (double) $item->getOriginalPrice();
-                    $digiProtectPrice = $price - $orig;
+//                    $price = (double) $item->getBasePriceInclTax();
+//                    $orig = (double) $item->getOriginalPrice();
+//                    $digiProtectPrice = $price - $orig;
+//                    $digiProtectQty = (double) $item->getQtyOrdered();
+//                    $digiProtectdiscount = (double) $item->getDiscountAmount();
+//                    if($coupon != "")
+//                    {
+//                        $digiProtectdiscount = 0;
+//                    }
+//                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    
+                    $productDigiprot = $this->productFactory->create();
+                    $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
+                    $digiProtectPrice = $productPriceBySku;
                     $digiProtectQty = (double) $item->getQtyOrdered();
-                    $digiProtectdiscount = (double) $item->getDiscountAmount();
+                    $digiProtectdiscount = 0;
                     if($coupon != "")
                     {
                         $digiProtectdiscount = 0;
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
-
+                    echo "digiprotect price ".$digiProtectPrice."<br/>";
                 }
                 else
                 {
