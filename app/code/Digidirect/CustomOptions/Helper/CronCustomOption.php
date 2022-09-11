@@ -117,7 +117,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
                                 'title' => '+ 3 years',
                                 'price' => 89.95,
                                 'price_type' => 'fixed',
-                                'sku' => '138939',
+                                'sku' => '139537',
                                 'sort_order' => 1,
                             ]
                         ]
