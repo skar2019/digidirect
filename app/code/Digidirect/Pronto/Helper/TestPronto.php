@@ -704,7 +704,9 @@ class TestPronto extends AbstractHelper
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
             echo "sourceitem ".$sourceItem->getSku() ." - ".$sourceItem->getStatus() ." -".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
-            if ($sourceItem->getQuantity() > 0) {
+            $qty = $sourceItem->getQuantity();
+            $qty = (int)$qty;
+            if ($qty > 0) {
                 return true;
             }
         }
