@@ -826,8 +826,8 @@ class Order extends AbstractHelper
                 else
                 {
                     $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                    $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                    $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
                 }
 
 
