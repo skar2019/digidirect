@@ -151,7 +151,17 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('awaiting_product', '0');
                     $awaiting = "Awaiting Product = 0";
                 }
-
+                
+                //stk-user-only-alpha4-3 is_qantas_product
+                if($prod['stk-user-only-alpha4-3'] == "Q")
+                {
+                    $product->setCustomAttribute('is_qantas_product', '1');
+                }
+                else 
+                {
+                    $product->setCustomAttribute('is_qantas_product', '0');
+                }
+                
                 $forLogs .= $awaiting."\n";
                 //set to pre order
                 if($prod['stk-abc-class'] == 'P')
@@ -1402,7 +1412,13 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('awaiting_product', '0');
                     echo "awaiting 0  <br/>";
                 }
-
+                
+                 //stk-user-only-alpha4-3 is_qantas_product
+                if($prod['stk-user-only-alpha4-3'] == "Q")
+                {
+                    $product->setCustomAttribute('is_qantas_product', '1');
+                }
+                
                 if($prod['stk-abc-class'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
@@ -2070,6 +2086,16 @@ class Product extends AbstractHelper
                     echo "awaiting 0  <br/>";
                 }
 
+                 //stk-user-only-alpha4-3 is_qantas_product
+                if($prod['stk-user-only-alpha4-3'] == "Q")
+                {
+                    $product->setCustomAttribute('is_qantas_product', '1');
+                }
+                else 
+                {
+                    $product->setCustomAttribute('is_qantas_product', '0');
+                }
+                
                 if($prod['stk-abc-class'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
