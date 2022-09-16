@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46525aa047c805dcb05e54bb303bf2cb",
+    "content-hash": "cb1d33d3b84b9587ea18a45586ce4e6d",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -5789,37 +5789,6 @@
                 "AFL-3.0"
             ],
             "description": "Magento composer library helps to instantiate Composer application and run composer commands."
-        },
-        {
-            "name": "magento/composer-dependency-version-audit-plugin",
-            "version": "0.1.1",
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/2tvenom/CBOREncode/zipball/42aedccb861d01fc0554782348cc08f8ebf22332",
-                "reference": "42aedccb861d01fc0554782348cc08f8ebf22332",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "composer/composer": "^1.9 || ^2.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Magento\\ComposerDependencyVersionAuditPlugin\\Plugin"
-            },
-            "autoload": {
-                "psr-4": {
-                    "Magento\\ComposerDependencyVersionAuditPlugin\\": "src/"
-                }
-            },
-            "license": [
-                "OSL-3.0",
-                "AFL-3.0"
-            ],
-            "description": "Validating packages through a composer plugin"
         },
         {
             "name": "magento/ece-tools",
