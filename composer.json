@@ -18,7 +18,6 @@
         "klarna/m2-klarna": "^1.0",
         "klevu/module-search": "^2.3",
         "livechat/module-magento-livechat": "dev-master",
-        "magento/product-community-edition": "2.4.4",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
         "vlucas/valitron": "^1.4",
         "zendesk/zendesk_api_client_php": "^2.2"
