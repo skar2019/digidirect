@@ -825,9 +825,20 @@ class Order extends AbstractHelper
                 }
                 else
                 {
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                    //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
+                    if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                    {
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                    }
+                    else 
+                    {
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                    }
+                    
                 }
 
 
