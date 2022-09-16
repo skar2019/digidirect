@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb1d33d3b84b9587ea18a45586ce4e6d",
+    "content-hash": "46525aa047c805dcb05e54bb303bf2cb",
     "packages": [
         {
             "name": "2tvenom/cborencode",
