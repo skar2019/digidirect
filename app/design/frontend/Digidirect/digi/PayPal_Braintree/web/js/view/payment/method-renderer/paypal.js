@@ -575,6 +575,7 @@ define([
          * @returns {Object}
          */
         getData: function () {
+            console.log("Paypal getData()");
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
