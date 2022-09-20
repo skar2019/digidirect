@@ -817,17 +817,28 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
 
-                if($data['sales-order']['header']['set-on-status'] == "P")
-                {
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
-                }
-                else
+                if($data['sales-order']['header']['set-on-status'] == "B")
                 {
                     $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                     $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
                     $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                }
+                else
+                {
+                    //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
+                    if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                    {
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                    }
+                    else 
+                    {
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                    }
+                    
                 }
 
 
