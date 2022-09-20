@@ -667,7 +667,7 @@ return [
         'Magezon_PageBuilderPreview' => 1,
         'Magezon_UiBuilder' => 1,
         'OlegKoval_RegenerateUrlRewrites' => 1,
-        'PayPal_Braintree' => 0,
+        'PayPal_Braintree' => 1,
         'PayPal_BraintreeGraphQl' => 1,
         'Studio19_Variants' => 1,
         'Temando_ShippingRemover' => 1,
