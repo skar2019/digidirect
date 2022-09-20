@@ -305,7 +305,7 @@ define(
                             'product_decription': window.checkoutConfig.quoteItemData[0].description,
                             'product_code': window.checkoutConfig.quoteItemData[0].sku,
                             'product_name': window.checkoutConfig.quoteItemData[0].name,
-                            'gift_card': window.checkoutConfig.quoteData[0].gift_cards
+                            'gift_card': window.checkoutConfig.quoteData.gift_cards
                         }
                     }
                 };
