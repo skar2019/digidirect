@@ -300,13 +300,7 @@ define(
                     'method': this.getCode(),
                     'additional_data': {
                         'payment_method_nonce': this.paymentMethodNonce,
-                        'g-recaptcha-response' : $("#token-grecaptcha-braintree").val(),
-                        'custom_fields' : {
-                            'product_decription': window.checkoutConfig.quoteItemData[0].description,
-                            'product_code': window.checkoutConfig.quoteItemData[0].sku,
-                            'product_name': window.checkoutConfig.quoteItemData[0].name,
-                            'gift_card': window.checkoutConfig.quoteData.gift_cards
-                        }
+                        'g-recaptcha-response' : $("#token-grecaptcha-braintree").val()
                     }
                 };
 

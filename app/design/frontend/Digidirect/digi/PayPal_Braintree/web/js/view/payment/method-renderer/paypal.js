@@ -579,13 +579,7 @@ define([
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
-                    'payment_method_nonce': this.paymentMethodNonce,
-                    'custom_fields' : {
-                        'product_decription': window.checkoutConfig.quoteItemData[0].description,
-                        'product_code': window.checkoutConfig.quoteItemData[0].sku,
-                        'product_name': window.checkoutConfig.quoteItemData[0].name,
-                        'gift_card': window.checkoutConfig.quoteData.gift_cards
-                    }
+                    'payment_method_nonce': this.paymentMethodNonce
                 }
             };
 
