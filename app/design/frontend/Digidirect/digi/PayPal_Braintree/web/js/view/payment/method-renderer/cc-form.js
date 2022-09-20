@@ -296,6 +296,7 @@ define(
              */
             getData: function () {
                 console.log("Credit Card Braintree getData()");
+                console.log("quoteItemData: " + window.checkoutConfig.quoteItemData);
                 var data = {
                     'method': this.getCode(),
                     'additional_data': {

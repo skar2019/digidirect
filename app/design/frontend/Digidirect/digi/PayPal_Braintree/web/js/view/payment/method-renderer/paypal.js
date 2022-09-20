@@ -576,6 +576,7 @@ define([
          */
         getData: function () {
             console.log("Paypal getData()");
+            console.log("quoteItemData: " + window.checkoutConfig.quoteItemData);
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
