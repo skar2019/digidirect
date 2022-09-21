@@ -49,10 +49,6 @@ define([
             grandTotalAmount: null,
             isReviewRequired: false,
             customerEmail: null,
-            productDescription: '',
-            productCode: '',
-            productName: '',
-            giftCard: '',
 
             /**
              * Additional payment data
