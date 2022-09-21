@@ -576,10 +576,6 @@ define([
          */
         getData: function () {
             console.log("Paypal getData()");
-            console.log(this.productDescription);
-            console.log(this.productCode);
-            console.log(this.productName);
-            console.log(this.giftCard);
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
