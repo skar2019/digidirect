@@ -296,20 +296,20 @@ define(
              */
             getData: function () {
                 console.log("Credit Card Braintree getData()");
-                console.log(window.checkoutConfig.quoteItemData[0].description);
-                console.log(window.checkoutConfig.quoteItemData[0].sku);
-                console.log(window.checkoutConfig.quoteItemData[0].name);
-                console.log(window.checkoutConfig.quoteData.gift_cards);
+                console.log((window.checkoutConfig.quoteItemData[0].description) ? window.checkoutConfig.quoteItemData[0].description : "");
+                console.log((window.checkoutConfig.quoteItemData[0].sku) ? window.checkoutConfig.quoteItemData[0].sku : "");
+                console.log((window.checkoutConfig.quoteItemData[0].name) ? window.checkoutConfig.quoteItemData[0].name : "");
+                console.log((window.checkoutConfig.quoteData.gift_cards) ? window.checkoutConfig.quoteData.gift_cards : "");
                 var data = {
                     'method': this.getCode(),
                     'additional_data': {
                         'payment_method_nonce': this.paymentMethodNonce,
                         'g-recaptcha-response' : $("#token-grecaptcha-braintree").val(),
                         'custom_fields' : {
-                            'product_decription': null,
-                            'product_code': null,
-                            'product_name': null,
-                            'gift_card': null
+                            'product_decription': (window.checkoutConfig.quoteItemData[0].description) ? window.checkoutConfig.quoteItemData[0].description : "",
+                            'product_code': (window.checkoutConfig.quoteItemData[0].sku) ? window.checkoutConfig.quoteItemData[0].sku : "",
+                            'product_name': (window.checkoutConfig.quoteItemData[0].name) ? window.checkoutConfig.quoteItemData[0].name : "",
+                            'gift_card': (window.checkoutConfig.quoteData.gift_cards) ? window.checkoutConfig.quoteData.gift_cards : ""
                         }
                     }
                 };
