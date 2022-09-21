@@ -39,7 +39,11 @@ define(
                 validatorManager: validatorManager,
                 code: 'braintree',
                 isProcessing: false,
-                
+                productDescription: window.checkoutConfig.quoteItemData[0].sku,
+                productCode: window.checkoutConfig.quoteItemData[0].sku,
+                productName: window.checkoutConfig.quoteItemData[0].sku,
+                giftCard: window.checkoutConfig.quoteItemData[0].sku,
+
                 /**
                  * Additional payment data
                  *
@@ -300,7 +304,11 @@ define(
                     'method': this.getCode(),
                     'additional_data': {
                         'payment_method_nonce': this.paymentMethodNonce,
-                        'g-recaptcha-response' : $("#token-grecaptcha-braintree").val()
+                        'g-recaptcha-response' : $("#token-grecaptcha-braintree").val(),
+                        'product_decription': this.productDescription,
+                        'product_code': this.productCode,
+                        'product_name': this.productName,
+                        'gift_card': this.giftCard
                     }
                 };
 
