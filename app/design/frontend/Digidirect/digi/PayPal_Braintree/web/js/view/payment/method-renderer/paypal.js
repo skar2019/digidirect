@@ -576,19 +576,19 @@ define([
          */
         getData: function () {
             console.log("Paypal getData()");
-            console.log(toString(window.checkoutConfig.quoteItemData[0].description));
-            console.log(toString(window.checkoutConfig.quoteItemData[0].sku));
-            console.log(toString(window.checkoutConfig.quoteItemData[0].name));
-            console.log(toString(window.checkoutConfig.quoteData.gift_cards));
+            console.log(JSON.stringify(window.checkoutConfig.quoteItemData[0].description));
+            console.log(JSON.stringify(window.checkoutConfig.quoteItemData[0].sku));
+            console.log(JSON.stringify(window.checkoutConfig.quoteItemData[0].name));
+            console.log(JSON.stringify(window.checkoutConfig.quoteData.gift_cards));
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
                     'payment_method_nonce': this.paymentMethodNonce,
                     'custom_fields' : {
-                        'product_decription': toString(window.checkoutConfig.quoteItemData[0].description),
-                        'product_code': toString(window.checkoutConfig.quoteItemData[0].sku),
-                        'product_name': toString(window.checkoutConfig.quoteItemData[0].name),
-                        'gift_card': toString(window.checkoutConfig.quoteData.gift_cards)
+                        'product_decription': JSON.stringify(window.checkoutConfig.quoteItemData[0].description),
+                        'product_code': JSON.stringify(window.checkoutConfig.quoteItemData[0].sku),
+                        'product_name': JSON.stringify(window.checkoutConfig.quoteItemData[0].name),
+                        'gift_card': JSON.stringify(window.checkoutConfig.quoteData.gift_cards)
                     }
                 }
             };

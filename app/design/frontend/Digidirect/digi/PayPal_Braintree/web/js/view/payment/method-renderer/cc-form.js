@@ -296,11 +296,21 @@ define(
              */
             getData: function () {
                 console.log("Credit Card Braintree getData()");
+                console.log(JSON.stringify(window.checkoutConfig.quoteItemData[0].description));
+                console.log(JSON.stringify(window.checkoutConfig.quoteItemData[0].sku));
+                console.log(JSON.stringify(window.checkoutConfig.quoteItemData[0].name));
+                console.log(JSON.stringify(window.checkoutConfig.quoteData.gift_cards));
                 var data = {
                     'method': this.getCode(),
                     'additional_data': {
                         'payment_method_nonce': this.paymentMethodNonce,
-                        'g-recaptcha-response' : $("#token-grecaptcha-braintree").val()
+                        'g-recaptcha-response' : $("#token-grecaptcha-braintree").val(),
+                        'custom_fields' : {
+                            'product_decription': JSON.stringify(window.checkoutConfig.quoteItemData[0].description),
+                            'product_code': JSON.stringify(window.checkoutConfig.quoteItemData[0].sku),
+                            'product_name': JSON.stringify(window.checkoutConfig.quoteItemData[0].name),
+                            'gift_card': JSON.stringify(window.checkoutConfig.quoteData.gift_cards)
+                        }
                     }
                 };
 
