@@ -39,6 +39,10 @@ define(
                 validatorManager: validatorManager,
                 code: 'braintree',
                 isProcessing: false,
+                productDecription: window.checkoutConfig.quoteItemData[0].sku,
+                productCode: window.checkoutConfig.quoteItemData[0].sku,
+                productName: window.checkoutConfig.quoteItemData[0].sku,
+                giftCard: window.checkoutConfig.quoteItemData[0].sku,
 
                 /**
                  * Additional payment data
@@ -306,10 +310,10 @@ define(
                         'payment_method_nonce': this.paymentMethodNonce,
                         'g-recaptcha-response' : $("#token-grecaptcha-braintree").val(),
                         'custom_fields' : {
-                            'product_decription': window.checkoutConfig.quoteItemData[0].sku,
-                            'product_code': window.checkoutConfig.quoteItemData[0].sku,
-                            'product_name': window.checkoutConfig.quoteItemData[0].sku,
-                            'gift_card': window.checkoutConfig.quoteItemData[0].sku
+                            'product_decription': this.productDescription,
+                            'product_code': this.productCode,
+                            'product_name': this.productName,
+                            'gift_card': this.giftCard
                         }
                     }
                 };

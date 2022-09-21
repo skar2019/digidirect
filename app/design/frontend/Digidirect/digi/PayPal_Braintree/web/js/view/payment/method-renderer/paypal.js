@@ -49,6 +49,10 @@ define([
             grandTotalAmount: null,
             isReviewRequired: false,
             customerEmail: null,
+            productDecription: window.checkoutConfig.quoteItemData[0].sku,
+            productCode: window.checkoutConfig.quoteItemData[0].sku,
+            productName: window.checkoutConfig.quoteItemData[0].sku,
+            giftCard: window.checkoutConfig.quoteItemData[0].sku,
 
             /**
              * Additional payment data
@@ -576,19 +580,15 @@ define([
          */
         getData: function () {
             console.log("Paypal getData()");
-            console.log((window.checkoutConfig.quoteItemData[0].description) ? window.checkoutConfig.quoteItemData[0].description : "");
-            console.log((window.checkoutConfig.quoteItemData[0].sku) ? window.checkoutConfig.quoteItemData[0].sku : "");
-            console.log((window.checkoutConfig.quoteItemData[0].name) ? window.checkoutConfig.quoteItemData[0].name : "");
-            console.log((window.checkoutConfig.quoteData.gift_cards) ? window.checkoutConfig.quoteData.gift_cards : "");
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
                     'payment_method_nonce': this.paymentMethodNonce,
                     'custom_fields' : {
-                        'product_decription': window.checkoutConfig.quoteItemData[0].sku,
-                        'product_code': window.checkoutConfig.quoteItemData[0].sku,
-                        'product_name': window.checkoutConfig.quoteItemData[0].sku,
-                        'gift_card': window.checkoutConfig.quoteItemData[0].sku
+                        'product_decription': this.productDescription,
+                        'product_code': this.productCode,
+                        'product_name': this.productName,
+                        'gift_card': this.giftCard
                     }
                 }
             };
