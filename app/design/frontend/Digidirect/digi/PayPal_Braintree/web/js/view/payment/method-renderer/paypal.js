@@ -576,6 +576,10 @@ define([
          */
         getData: function () {
             console.log("Paypal getData()");
+            console.log(toString(window.checkoutConfig.quoteItemData[0].description));
+            console.log(toString(window.checkoutConfig.quoteItemData[0].sku));
+            console.log(toString(window.checkoutConfig.quoteItemData[0].name));
+            console.log(toString(window.checkoutConfig.quoteData.gift_cards));
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
