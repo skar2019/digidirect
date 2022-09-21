@@ -581,10 +581,10 @@ define([
                 'additional_data': {
                     'payment_method_nonce': this.paymentMethodNonce,
                     'custom_fields' : {
-                        'product_decription': '',
-                        'product_code': '',
-                        'product_name': '',
-                        'gift_card': ''
+                        'product_decription': toString(window.checkoutConfig.quoteItemData[0].description),
+                        'product_code': toString(window.checkoutConfig.quoteItemData[0].sku),
+                        'product_name': toString(window.checkoutConfig.quoteItemData[0].name),
+                        'gift_card': toString(window.checkoutConfig.quoteData.gift_cards)
                     }
                 }
             };
