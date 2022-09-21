@@ -49,7 +49,7 @@ define([
             grandTotalAmount: null,
             isReviewRequired: false,
             customerEmail: null,
-            productDecription: window.checkoutConfig.quoteItemData[0].sku,
+            productDescription: window.checkoutConfig.quoteItemData[0].sku,
             productCode: window.checkoutConfig.quoteItemData[0].sku,
             productName: window.checkoutConfig.quoteItemData[0].sku,
             giftCard: window.checkoutConfig.quoteItemData[0].sku,
@@ -580,6 +580,10 @@ define([
          */
         getData: function () {
             console.log("Paypal getData()");
+            console.log(this.productDescription);
+            console.log(this.productCode);
+            console.log(this.productName);
+            console.log(this.giftCard);
             var data = {
                 'method': this.getCode(),
                 'additional_data': {

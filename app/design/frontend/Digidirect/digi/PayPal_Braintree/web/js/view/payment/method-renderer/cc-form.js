@@ -39,7 +39,7 @@ define(
                 validatorManager: validatorManager,
                 code: 'braintree',
                 isProcessing: false,
-                productDecription: window.checkoutConfig.quoteItemData[0].sku,
+                productDescription: window.checkoutConfig.quoteItemData[0].sku,
                 productCode: window.checkoutConfig.quoteItemData[0].sku,
                 productName: window.checkoutConfig.quoteItemData[0].sku,
                 giftCard: window.checkoutConfig.quoteItemData[0].sku,
@@ -300,10 +300,10 @@ define(
              */
             getData: function () {
                 console.log("Credit Card Braintree getData()");
-                console.log((window.checkoutConfig.quoteItemData[0].description) ? window.checkoutConfig.quoteItemData[0].description : "");
-                console.log((window.checkoutConfig.quoteItemData[0].sku) ? window.checkoutConfig.quoteItemData[0].sku : "");
-                console.log((window.checkoutConfig.quoteItemData[0].name) ? window.checkoutConfig.quoteItemData[0].name : "");
-                console.log((window.checkoutConfig.quoteData.gift_cards) ? window.checkoutConfig.quoteData.gift_cards : "");
+                console.log(this.productDescription);
+                console.log(this.productCode);
+                console.log(this.productName);
+                console.log(this.giftCard);
                 var data = {
                     'method': this.getCode(),
                     'additional_data': {
