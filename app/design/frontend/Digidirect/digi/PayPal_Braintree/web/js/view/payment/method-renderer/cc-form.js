@@ -39,10 +39,10 @@ define(
                 validatorManager: validatorManager,
                 code: 'braintree',
                 isProcessing: false,
-                productDescription: window.checkoutConfig.quoteItemData[0].sku,
-                productCode: window.checkoutConfig.quoteItemData[0].sku,
-                productName: window.checkoutConfig.quoteItemData[0].sku,
-                giftCard: window.checkoutConfig.quoteItemData[0].sku,
+                productDescription: 'test',
+                productCode: 'test',
+                productName: 'test',
+                giftCard: 'test',
 
                 /**
                  * Additional payment data
