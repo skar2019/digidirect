@@ -39,10 +39,10 @@ define(
                 validatorManager: validatorManager,
                 code: 'braintree',
                 isProcessing: false,
-                productDescription: 'test',
-                productCode: 'test',
-                productName: 'test',
-                giftCard: 'test',
+                productDescription: '',
+                productCode: '',
+                productName: '',
+                giftCard: '',
 
                 /**
                  * Additional payment data
