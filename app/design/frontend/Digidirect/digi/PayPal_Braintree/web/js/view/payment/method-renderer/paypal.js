@@ -579,13 +579,7 @@ define([
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
-                    'payment_method_nonce': this.paymentMethodNonce,
-                    'custom_fields' : {
-                        'product_decription': '',
-                        'product_code': '',
-                        'product_name': '',
-                        'gift_card': ''
-                    }
+                    'payment_method_nonce': this.paymentMethodNonce
                 }
             };
 
