@@ -585,10 +585,10 @@ define([
                 'additional_data': {
                     'payment_method_nonce': this.paymentMethodNonce,
                     'custom_fields' : {
-                        'product_decription': "",
-                        'product_code': "",
-                        'product_name': "",
-                        'gift_card': ""
+                        'product_decription': window.checkoutConfig.quoteItemData[0].sku,
+                        'product_code': window.checkoutConfig.quoteItemData[0].sku,
+                        'product_name': window.checkoutConfig.quoteItemData[0].sku,
+                        'gift_card': window.checkoutConfig.quoteItemData[0].sku
                     }
                 }
             };
