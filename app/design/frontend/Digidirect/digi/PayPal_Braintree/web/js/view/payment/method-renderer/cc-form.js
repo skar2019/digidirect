@@ -310,10 +310,10 @@ define(
                         'payment_method_nonce': this.paymentMethodNonce,
                         'g-recaptcha-response' : $("#token-grecaptcha-braintree").val(),
                         'custom_fields' : {
-                            'product_decription': this.productDescription,
-                            'product_code': this.productCode,
-                            'product_name': this.productName,
-                            'gift_card': this.giftCard
+                            'product_decription': '',
+                            'product_code': '',
+                            'product_name': '',
+                            'gift_card': ''
                         }
                     }
                 };
