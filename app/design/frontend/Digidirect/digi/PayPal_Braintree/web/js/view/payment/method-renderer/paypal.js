@@ -49,6 +49,10 @@ define([
             grandTotalAmount: null,
             isReviewRequired: false,
             customerEmail: null,
+            productDescription: window.checkoutConfig.quoteItemData[0].sku,
+            productCode: window.checkoutConfig.quoteItemData[0].sku,
+            productName: window.checkoutConfig.quoteItemData[0].sku,
+            giftCard: window.checkoutConfig.quoteItemData[0].sku,
 
             /**
              * Additional payment data
@@ -575,10 +579,15 @@ define([
          * @returns {Object}
          */
         getData: function () {
+            console.log("Paypal getData()");
             var data = {
                 'method': this.getCode(),
                 'additional_data': {
-                    'payment_method_nonce': this.paymentMethodNonce
+                    'payment_method_nonce': this.paymentMethodNonce,
+                    'product_decription': this.productDescription,
+                    'product_code': this.productCode,
+                    'product_name': this.productName,
+                    'gift_card': this.giftCard
                 }
             };
 
