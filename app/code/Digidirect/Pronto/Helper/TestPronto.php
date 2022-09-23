@@ -174,6 +174,8 @@ class TestPronto extends AbstractHelper
      * @var Country
      */
     public $countryFactory;
+    
+    protected $productDigiprot;
 
     public function __construct(
                         Curl $curl,
@@ -189,7 +191,8 @@ class TestPronto extends AbstractHelper
                         CustomerRepositoryInterface $customerRepository,
                         \Digidirect\CustomOrderLog\Logger\Logger $logger,
                         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
-                        CountryFactory $countryFactory)
+                        CountryFactory $countryFactory,
+                        \Magento\Catalog\Model\ProductFactory $productFactory)
                     {
                         $this->curl = $curl;
                         $this->jsonSerializer = $jsonSerializer;
@@ -205,6 +208,7 @@ class TestPronto extends AbstractHelper
                         $this->logger = $logger;
                         $this->timezone = $timezone;
                         $this->countryFactory = $countryFactory;
+                        $this->productFactory = $productFactory;
 
     }
 
@@ -700,7 +704,9 @@ class TestPronto extends AbstractHelper
         $sourceItems = $this->getSourceItemBySourceCodeAndSku($sourceCode, $productsSkus);
         foreach ($sourceItems as $sourceItem) {
             echo "sourceitem ".$sourceItem->getSku() ." - ".$sourceItem->getStatus() ." -".$sourceCode. " - ".$sourceItem->getQuantity()."<br>";
-            if ($sourceItem->getQuantity() > 0) {
+            $qty = $sourceItem->getQuantity();
+            $qty = (int)$qty;
+            if ($qty > 0) {
                 return true;
             }
         }
@@ -1401,17 +1407,28 @@ class TestPronto extends AbstractHelper
                     $productSku = $skus[0];
                     $digiProtect = $skus[1];
 
-                    $price = (double) $item->getBasePriceInclTax();
-                    $orig = (double) $item->getOriginalPrice();
-                    $digiProtectPrice = $price - $orig;
+//                    $price = (double) $item->getBasePriceInclTax();
+//                    $orig = (double) $item->getOriginalPrice();
+//                    $digiProtectPrice = $price - $orig;
+//                    $digiProtectQty = (double) $item->getQtyOrdered();
+//                    $digiProtectdiscount = (double) $item->getDiscountAmount();
+//                    if($coupon != "")
+//                    {
+//                        $digiProtectdiscount = 0;
+//                    }
+//                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    
+                    $productDigiprot = $this->productFactory->create();
+                    $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
+                    $digiProtectPrice = $productPriceBySku;
                     $digiProtectQty = (double) $item->getQtyOrdered();
-                    $digiProtectdiscount = (double) $item->getDiscountAmount();
+                    $digiProtectdiscount = 0;
                     if($coupon != "")
                     {
                         $digiProtectdiscount = 0;
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
-
+                    echo "digiprotect price ".$digiProtectPrice."<br/>";
                 }
                 else
                 {
@@ -1426,17 +1443,27 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
 
 
-                if($data['sales-order']['header']['set-on-status'] == "P")
-                {
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
-                    $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
-                }
-                else
+                if($data['sales-order']['header']['set-on-status'] == "B")
                 {
                     $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                     $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
                     $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                }
+                else
+                {
+                    //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
+                    if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                    {
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                    }
+                    else 
+                    {
+                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                        $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                    }
                 }
 
 

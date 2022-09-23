@@ -178,15 +178,8 @@ class ApplyButtonPreOrder
         $parentType,
         $parentStatusCheck
     ) {
-//        if ((!$isInStock && $preorder == Order::ORDER_OUT_OF_STOCK)
-//            || ($preorder == Order::ORDER_YES && $isAvailablePreOrder) || $parentStatusCheck
-//        ) {
-//            $block  = $this->getReturnResults($product, $parentType, $parentStatusCheck);
-//            $result .= $block;
-//        }
-        //clint removed $isAvailablePreOrder
         if ((!$isInStock && $preorder == Order::ORDER_OUT_OF_STOCK)
-            || ($preorder == Order::ORDER_YES ) || $parentStatusCheck
+            || ($preorder == Order::ORDER_YES && $isAvailablePreOrder) || $parentStatusCheck
         ) {
             $block  = $this->getReturnResults($product, $parentType, $parentStatusCheck);
             $result .= $block;

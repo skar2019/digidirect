@@ -17,7 +17,6 @@
  */
 namespace Bss\PreOrder\Plugin\Model\Layer;
 
-use Magento\Catalog\Model\Product;
 use Bss\PreOrder\Helper\Data as PreOrderHelper;
 
 class CheckOutOfStockOptions
@@ -49,38 +48,12 @@ class CheckOutOfStockOptions
         \Magento\Catalog\Model\Layer $layer,
         $collection
     ) {
-        if ($this->preOrderHelper->isEnable()) {
-            /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $collection */
-            $productCollection = clone $collection;
-            $ignoreProductIds = [];
-            /** @var Product $product */
-            foreach ($productCollection as $product) {
-                $productId = $this->dontShowProductId($product);
-                if ($productId) {
-                    $ignoreProductIds[] = $productId;
-                }
-            }
-            if (!empty($ignoreProductIds)) {
-                $collection->addAttributeToFilter('entity_id', ['nin' => $ignoreProductIds]);
+        if ($this->preOrderHelper->isEnable() && $this->preOrderHelper->isDisplayOutOfStockProduct()) {
+            if (!$collection->isLoaded()) {
+                /** @var \Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection $collection */
+                $collection->setFlag("allow_check_out_stock_pre_order", true);
             }
         }
         return $collection;
-    }
-
-    /**
-     * Check Ignore Product Id
-     *
-     * @param Product $product
-     * @return bool|int
-     */
-    protected function dontShowProductId($product)
-    {
-        if (!$product->getData('preorder') &&
-            !$product->isSaleable() &&
-            !$product->isAvailable() &&
-            $this->preOrderHelper->isDisplayOutOfStockProduct()) {
-            return (int)$product->getId();
-        }
-        return false;
     }
 }

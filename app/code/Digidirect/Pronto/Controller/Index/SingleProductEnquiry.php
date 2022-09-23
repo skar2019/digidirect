@@ -18,8 +18,8 @@ class SingleProductEnquiry extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-            if(isset($_GET["p"])){
-                $startItem = $_GET["p"];
+            if(isset($_GET["start"])){
+                $startItem = $_GET["start"];
             }
             echo "Pronto Product <br />";
             $this->helper->productProntoSingle($startItem);

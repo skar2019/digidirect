@@ -151,7 +151,17 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('awaiting_product', '0');
                     $awaiting = "Awaiting Product = 0";
                 }
-
+                
+                //stk-user-only-alpha4-3 is_qantas_product
+                if($prod['stk-user-only-alpha4-3'] == "Q")
+                {
+                    $product->setCustomAttribute('is_qantas_product', '1');
+                }
+                else 
+                {
+                    $product->setCustomAttribute('is_qantas_product', '0');
+                }
+                
                 $forLogs .= $awaiting."\n";
                 //set to pre order
                 if($prod['stk-abc-class'] == 'P')
@@ -1402,7 +1412,13 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('awaiting_product', '0');
                     echo "awaiting 0  <br/>";
                 }
-
+                
+                 //stk-user-only-alpha4-3 is_qantas_product
+                if($prod['stk-user-only-alpha4-3'] == "Q")
+                {
+                    $product->setCustomAttribute('is_qantas_product', '1');
+                }
+                
                 if($prod['stk-abc-class'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
@@ -1985,13 +2001,13 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-        //$this->curl->addHeader("compcode", "DIG"); //live
-        //$this->curl->addHeader("user", "ewaveapi");
-        //$this->curl->addHeader("token", "904241bdbf10efa9");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        $this->curl->addHeader("compcode", "UA1"); //test
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+//        $this->curl->addHeader("compcode", "UA1"); //test
+//        $this->curl->addHeader("user", "clint.mercado");
+//        $this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -2010,18 +2026,101 @@ class Product extends AbstractHelper
 
             $lastCode = $prod['code'];
 
-            try {
-
+            try
+            {
+                //product update
                 $forLogs .= "SKU ".$prod['code']."\n";
+                echo "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
+                //set name, price, stock status
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
-                $product->setName($prodname);
+                $product->setMetaTitle($prodname);
+//                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
+                $endis = "nochange";
+                echo $prod['stk-user-only-alpha4-1']." <br>";
+                echo "Stock Condition " .$prod['stk-condition-code']." <br>";
+                if($prod['stk-condition-code'] == 'O')
+                {
+                    $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    $endis = 'disabled';
+                }
+                else
+                {
+                    //web flag
+                    //if blank, set to disable
+                    if($prod['stk-user-only-alpha4-1'] == '')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        $endis = 'disabled';
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'enabled';
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'N')
+                    {
+                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else {
+                        //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        $endis = 'as is';
+                    }
 
-                //set brands
-                $brandName = strtolower($prod['stk-brand-desc']);
+                }
+
+                echo $endis." <br/>";
+
+                if($prod['stk-user-only-alpha4-1'] == 'A')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('awaiting_product', '1');
+                    echo "awaiting 1  <br/>";
+                }
+                else {
+                    //$product->setData('awaiting_product', '0');
+                    $product->setCustomAttribute('awaiting_product', '0');
+                    echo "awaiting 0  <br/>";
+                }
+
+                 //stk-user-only-alpha4-3 is_qantas_product
+                if($prod['stk-user-only-alpha4-3'] == "Q")
+                {
+                    $product->setCustomAttribute('is_qantas_product', '1');
+                }
+                else 
+                {
+                    $product->setCustomAttribute('is_qantas_product', '0');
+                }
+                
+                if($prod['stk-abc-class'] == 'P')
+                {
+                    //$product->setData('awaiting_product', '1');
+                    $product->setCustomAttribute('pre_order', '1');
+                    $product->setCustomAttribute('preorder', '1');
+                    echo "pre_order 1  <br/>";
+                }
+                //set brand
+                //digiSeconds brand
+                echo $prod['stk-brand-desc'] ."<br/>";
+                if($prod['stk-brand-desc'] == 'digiSeconds')
+                {
+                    if(isset($prod['d2brand']))
+                    {
+                        $brandName = strtolower($prod['d2brand']);
+                    }
+                    else
+                    {
+                        $brandName = strtolower($prod['stk-brand-desc']);
+                    }
+                }
+                else
+                {
+                    $brandName = strtolower($prod['stk-brand-desc']);
+                }
                 $forLogs .= $brandName."\n";
                 if($brandName == "thinktank")
                 {
@@ -2045,7 +2144,9 @@ class Product extends AbstractHelper
                 $categoryIds = array();
                 $catList = "";
                 $productCategoryIds = $product->getCategoryIds();
-                if(count($productCategoryIds) < 2)
+                $shouldupdate = false;
+
+                if((count($productCategoryIds) < 2) || (isset($prod['d2lvl1'])))
                 {
                     if (count($getCategoryList))
                     {
@@ -2057,6 +2158,32 @@ class Product extends AbstractHelper
                                 $catList .= $category['name'] . " - " .$category['id']." : ";
                                 $categoryIds[] = $category['id'];
                             }
+
+                            //digiSeconds
+                            if(isset($prod['d2lvl1']))
+                            {
+                                if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                                //digiSeconds
+                                if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+
+                                //digiSeconds
+                                if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                                {
+                                    $catList .= $category['name'] . " - " .$category['id']." : ";
+                                    $categoryIds[] = $category['id'];
+                                }
+                            }
+
+
 
                             if($category['name'] == $prod['web-category1'])
                             {
@@ -2101,6 +2228,49 @@ class Product extends AbstractHelper
                     }
                 }
 
+                //set apn and gtin
+//                $barcode1 = "";
+//                $barcode2 = "";
+//                $barcode3 = "";
+//                $barcode4 = "";
+//                if(isset($prod['gtins']['gtin'])) {
+//                    //set barcode
+//                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
+//                        $barcode1 = $prod['gtins']['gtin']['id'];
+//
+//                    } else {
+//                        $x = 1;
+//                        foreach ($prod['gtins']['gtin'] as $gtin) {
+//                            switch ($x)
+//                            {
+//                                case 1:
+//                                    $barcode1 = $gtin['id'];
+//                                    break;
+//                                case 2:
+//                                    $barcode2 = $gtin['id'];
+//                                    break;
+//                                case 3:
+//                                    $barcode3 = $gtin['id'];
+//                                    break;
+//                                case 4:
+//                                    $barcode4 = $gtin['id'];
+//                                    break;
+//                                default:
+//
+//                            }
+//                            $x++;
+//                        }
+//                    }
+//                }
+//                //work around to set
+//                $product->setCustomAttribute('barcode1',$barcode1);
+//                $product->setCustomAttribute('barcode2',$barcode2);
+//                $product->setCustomAttribute('barcode3',$barcode3);
+//                $product->setCustomAttribute('barcode4',$barcode4);
+//                $forLogs .= "barcode1 ".$barcode1."\n";
+//                $forLogs .= "barcode2 ".$barcode2."\n";
+//                $forLogs .= "barcode3 ".$barcode3."\n";
+//                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -2131,13 +2301,84 @@ class Product extends AbstractHelper
 
                     }
                 }
+
+                $sourceItem = $this->sourceItemFactory->create();
+                $sourceItem->setSourceCode('default');
+                $sourceItem->setSku($prod['code']);
+                $sourceItem->setStatus(1);
+                $sourceItem->setQuantity(0);
+                $forLogs .="default - 0 \n";
+                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if($prod['stk-condition-code'] == 'T')
+                {
+                    $stock_condition = 181;
+                }
+                else if ($prod['stk-condition-code'] == 'O')
+                {
+                    $stock_condition = 179;
+                }
+                else
+                {
+                    $stock_condition = 183;
+                }
+                $product->setCustomAttribute('stock_condition', $stock_condition);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
-                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                //digiSeconds item quality rating 1 - 5
-                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
+                {
+                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                }
+                else {
+                    $product->setCustomAttribute('item_codition', " ");
+                }
+                if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
+                {
+                    $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                }
+                else {
+                    $product->setCustomAttribute('item_rating', " ");
+                }
+
+                if((isset($prod['d2desc'])) && (!empty($prod['d2desc'])))
+                {
+                    $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                }
+                else {
+                    $product->setCustomAttribute('d2desc', " ");
+                }
+
+                if((isset($prod['d2newsku'])) && (!empty($prod['d2newsku'])))
+                {
+                    $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
+                }
+                else {
+                    $product->setCustomAttribute('d2newsku', " ");
+                }
+
+
+                if(isset($prod['stk-storage-type-flag']))
+                {
+                    if($prod['stk-storage-type-flag'] == 'H')
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '0');
+                    }
+
+                }
+                else
+                {
+                    $product->setCustomAttribute('dangerous_goods', '0');
+                }
+
+                $today = date('Y-m-d');
+                $product->setCustomAttribute('date_update', $today);
+                echo $today . "<br>";
                 $this->productRepository->save($product);
                 //echo "update ".$lastCode ."<br/>";
 
@@ -2155,18 +2396,24 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
-
+                $product->setMetaTitle($prodname);
                 //set brand
                 //digiSeconds brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
                 {
-                    $brandName = strtolower($prod['d2brand']);
+                    if(isset($prod['d2brand']))
+                    {
+                        $brandName = strtolower($prod['d2brand']);
+                    }
+                    else
+                    {
+                        $brandName = strtolower($prod['stk-brand-desc']);
+                    }
                 }
                 else
                 {
                     $brandName = strtolower($prod['stk-brand-desc']);
                 }
-
                 $forLogs .= "Brand: ".$brandName."\n";
                 if(isset($this->attributeOptions[strtolower($brandName)]))
                 {
@@ -2188,6 +2435,31 @@ class Product extends AbstractHelper
                             $catList .= $category['name'] . " - " .$category['id']." : ";
                             $categoryIds[] = $category['id'];
                         }
+
+                        //digiSeconds
+                        if(isset($prod['d2lvl1']))
+                        {
+                            if($prod['d2lvl1'] == 'OPENBOX' && $category['name'] == 'OPENBOX')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'REFURB' && $category['name'] == 'REFURB')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+
+                            //digiSeconds
+                            if($prod['d2lvl1'] == 'PRELOVED' && $category['name'] == 'PRELOVED')
+                            {
+                                $catList .= $category['name'] . " - " .$category['id']." : ";
+                                $categoryIds[] = $category['id'];
+                            }
+                        }
+
 
                         if($category['name'] == $prod['web-category1'])
                         {
@@ -2223,7 +2495,7 @@ class Product extends AbstractHelper
                     }
                 }
 
-                echo $catList."<br>";
+                echo $catList ."<br/>";
                 if (count($categoryIds)) {
                     $forLogs .= "Categories: ".$catList."\n";
                     //$this->categoryLinkManagement->assignProductToCategories($prod['code'], $categoryIds);
@@ -2313,13 +2585,68 @@ class Product extends AbstractHelper
                     }
                 }
 
+//                $sourceItem = $this->sourceItemFactory->create();
+//                $sourceItem->setSourceCode('default');
+//                $sourceItem->setSku($prod['code']);
+//                $sourceItem->setStatus(1);
+//                $sourceItem->setQuantity(0);
+//                $forLogs .="default - 0 \n";
+//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
-                $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
-                //digiSeconds item quality rating 1 - 5
-                $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
+                {
+                    $product->setCustomAttribute('item_codition', $prod['d2lvl1']);
+                }
+                else {
+                    $product->setCustomAttribute('item_codition', " ");
+                }
+                if((isset($prod['d2lvl2'])) && (!empty($prod['d2lvl2'])))
+                {
+                    $product->setCustomAttribute('item_rating', $prod['d2lvl2']);
+                }
+                else {
+                    $product->setCustomAttribute('item_rating', " ");
+                }
+
+                if((isset($prod['d2desc'])) && (!empty($prod['d2desc'])))
+                {
+                    $product->setCustomAttribute('d2desc', $prod['d2desc']);
+                }
+                else {
+                    $product->setCustomAttribute('d2desc', " ");
+                }
+
+                if((isset($prod['d2newsku'])) && (!empty($prod['d2newsku'])))
+                {
+                    $product->setCustomAttribute('d2newsku', $prod['d2newsku']);
+                }
+                else {
+                    $product->setCustomAttribute('d2newsku', " ");
+                }
+
+                if(isset($prod['stk-storage-type-flag']))
+                {
+                    if($prod['stk-storage-type-flag'] == 'H')
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '1');
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('dangerous_goods', '0');
+                    }
+
+                }
+                else
+                {
+                    $product->setCustomAttribute('dangerous_goods', '0');
+                }
+
+                $today = date('Y-m-d');
+                $product->setCustomAttribute('date_update', $today);
                 $this->productRepository->save($product);
 
             }

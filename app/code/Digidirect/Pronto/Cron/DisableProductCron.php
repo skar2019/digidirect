@@ -32,7 +32,7 @@ class DisableProductCron
     public function toEnable()
     {
         $test = 0;
-        $this->helper->toEnableProducts($test);
+        //$this->helper->toEnableProducts($test);
 
     }
 }
