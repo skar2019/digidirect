@@ -30,6 +30,7 @@ class QuoteSubmitSuccess implements ObserverInterface
      */
     protected $abstractGiftCardEntityRepository;
 
+    protected $logger;
     /**
      * QuoteSubmitSuccess constructor.
      *
@@ -42,12 +43,14 @@ class QuoteSubmitSuccess implements ObserverInterface
         \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
-        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository
+        \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
+        \Digidirect\CustomGiftCardLog\Logger\Logger $logger
     ) {
         $this->giftCAHelper = $giftCAHelper;
         $this->helper = $helper;
         $this->giftCardAccountFactory = $giftcardaccountFactory;
         $this->abstractGiftCardEntityRepository = $abstractGiftCardEntityRepository;
+        $this->logger = $logger;
     }
 
     /**
@@ -61,14 +64,14 @@ class QuoteSubmitSuccess implements ObserverInterface
          */
         $this->logger->info('GiftCard log start');
         if (!$this->helper->isActive()) {
-            //$this->logger->info('GiftCard helper not active');
+            $this->logger->info('GiftCard helper not active');
             return;
         }
 
         $order = $observer->getEvent()->getOrder();
         $cards = $this->giftCAHelper->getCards($order);
         if (empty($cards)) {
-            //$this->logger->info('GiftCard is empty');
+            $this->logger->info('GiftCard is empty');
             return;
         }
 
@@ -86,6 +89,7 @@ class QuoteSubmitSuccess implements ObserverInterface
                 }
 
                 if ($giftCard[Giftcardaccount::CODE] != $entity->getCode()) {
+                    $this->logger->info('GiftCard Code not equal '.$entity->getCode());
                     continue;
                 }
 
@@ -97,7 +101,7 @@ class QuoteSubmitSuccess implements ObserverInterface
                     $service->setOrder($order);
                     $service->validate()->accept($amount, $entity->getToken());
                     $entityOrderData->setStatus(AbstractGiftCardEntity::STATUS_ACCEPT);
-                    //$this->logger->info('GiftCard accept');
+                    $this->logger->info('GiftCard accept');
 //                }
 
                 $entityOrderData->setOrderId($order->getId());
@@ -106,7 +110,7 @@ class QuoteSubmitSuccess implements ObserverInterface
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
             } catch (NoSuchEntityException $e) {
-                //$this->logger->info('GiftCard error '.$e->getMessage());
+                $this->logger->info('GiftCard error '.$e->getMessage());
                 continue;
             }
             

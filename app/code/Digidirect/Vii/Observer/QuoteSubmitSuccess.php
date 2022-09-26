@@ -22,6 +22,8 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
      * @var \Digidirect\Vii\Service\Config\Config
      */
     protected $config;
+    
+    protected $logger;
 
     /**
      * QuoteSubmitSuccess constructor.
@@ -38,9 +40,10 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
         \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
         \Digidirect\Vii\Api\AbstractGiftCardEntityRepositoryInterface $viiGiftCardEntityRepository,
+        \Digidirect\CustomGiftCardLog\Logger\Logger $logger,
         \Digidirect\Vii\Service\Config\Config $config
     ) {
-        parent::__construct($giftCAHelper, $helper, $giftcardaccountFactory, $abstractGiftCardEntityRepository);
+        parent::__construct($giftCAHelper, $helper, $giftcardaccountFactory, $abstractGiftCardEntityRepository, $logger);
         $this->viiGiftCardEntityRepository = $viiGiftCardEntityRepository;
         $this->config = $config;
     }
@@ -55,13 +58,16 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
         /**
          * @var \Magento\Sales\Model\Order $order
          */
-        if (!$this->config->isActive()) {
+        $this->logger->info('GiftCard log start');
+        if (!$this->helper->isActive()) {
+            $this->logger->info('GiftCard helper not active');
             return;
         }
 
         $order = $observer->getEvent()->getOrder();
         $cards = $this->giftCAHelper->getCards($order);
         if (empty($cards)) {
+            $this->logger->info('GiftCard is empty');
             return;
         }
 
@@ -81,6 +87,7 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
                 }
 
                 if ($giftCard[Giftcardaccount::CODE] != $entity->getCode()) {
+                    $this->logger->info('GiftCard Code not equal '.$entity->getCode());
                     continue;
                 }
 
@@ -106,13 +113,15 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
                 $service->setOrder($order);
                 $service->validate()->accept($amount, $entity->getToken());
                 $entityOrderData->setStatus(AbstractGiftCardEntity::STATUS_ACCEPT);
-                
+                $this->logger->info('GiftCard accept');
                 $entityOrderData->setOrderId($order->getId());
                 $entityOrderData->setAmount($amount);
                 $entityOrderData->setToken($entity->getToken());
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
+                
             } catch (NoSuchEntityException $e) {
+                $this->logger->info('GiftCard error '.$e->getMessage());
                 continue;
             }
         }
