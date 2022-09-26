@@ -30,7 +30,6 @@ class QuoteSubmitSuccess implements ObserverInterface
      */
     protected $abstractGiftCardEntityRepository;
 
-    protected $logger;
     /**
      * QuoteSubmitSuccess constructor.
      *
@@ -43,13 +42,11 @@ class QuoteSubmitSuccess implements ObserverInterface
         \Magento\GiftCardAccount\Helper\Data $giftCAHelper,
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
-        \Digidirect\CustomOrderLog\Logger\Logger $logger,
         \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository
     ) {
         $this->giftCAHelper = $giftCAHelper;
         $this->helper = $helper;
         $this->giftCardAccountFactory = $giftcardaccountFactory;
-        $this->logger = $logger;
         $this->abstractGiftCardEntityRepository = $abstractGiftCardEntityRepository;
     }
 
@@ -62,16 +59,13 @@ class QuoteSubmitSuccess implements ObserverInterface
         /**
          * @var \Magento\Sales\Model\Order $order
          */
-        $this->logger->info('Gift Card QuoteSubmitSuccess');
         if (!$this->helper->isActive()) {
-            $this->logger->info('Gift Card Helper not active');
             return;
         }
 
         $order = $observer->getEvent()->getOrder();
         $cards = $this->giftCAHelper->getCards($order);
         if (empty($cards)) {
-            $this->logger->info('Gift Card Empty');
             return;
         }
 
@@ -89,7 +83,6 @@ class QuoteSubmitSuccess implements ObserverInterface
                 }
 
                 if ($giftCard[Giftcardaccount::CODE] != $entity->getCode()) {
-                    $this->logger->info('Gift Card Error Not Equal ' .$entity->getCode());
                     continue;
                 }
 
@@ -109,7 +102,6 @@ class QuoteSubmitSuccess implements ObserverInterface
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
             } catch (NoSuchEntityException $e) {
-                $this->logger->info('Gift Card Error' .$e->getMessage());
                 continue;
             }
         }
