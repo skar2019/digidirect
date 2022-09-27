@@ -566,7 +566,7 @@ return [
         'Digidirect_CollectAbstractEntity' => 1,
         'Digidirect_CollectAbstractEntityMSI' => 1,
         'Digidirect_Localization' => 1,
-        'Digidirect_CustomGiftCardLog' => 1,
+        'Digidirect_CustomGiftCardLog' => 0,
         'Digidirect_CustomInventoryLog' => 1,
         'Digidirect_CustomLog' => 1,
         'Digidirect_CustomOptions' => 1,
