@@ -615,7 +615,7 @@ return [
         'Digidirect_CollectStoreLocator' => 1,
         'Digidirect_StoreLocatorInfiniteScroll' => 1,
         'Digidirect_AbstractGiftCardLogger' => 1,
-        'Digidirect_Vii' => 0,
+        'Digidirect_Vii' => 1,
         'Digidirect_YouMayAlsoLikeProducts' => 1,
         'Fastly_Cdn' => 1,
         'Itoris_Core' => 1,
