@@ -3,13 +3,13 @@
 "var store.getFrontendName()":"Store Name",
 "var customer.name":"Customer Name",
 } @-->
-
+​
 {{template config_path="design/email/header_template"}}
-
+​
 <table>
     <tr class="email-intro">
         <td>
-            <p class="greeting">{{trans "Dear %customer_firstname," customer_firstname=$customer_firstname}}</p>
+            <p class="greeting">{{trans "Dear %name," name=$order.getCustomerName()}}</p>
             <p>
                 {{trans 'Good news! Your order number <span class="no-link">#%order_number</span>' order_number=$order_number |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
             </p>
@@ -25,7 +25,7 @@
             </p>
         </td>
     </tr>
-
+​
     <tr>
         <td style="padding:25px 0;">
             <p>
@@ -36,9 +36,9 @@
             </p>
         </td>
     </tr>
-
-
-
+​
+​
+​
     <tr class="email-information">
         <td>
             {{depend order_data.email_customer_note}}
@@ -53,5 +53,5 @@
         </td>
     </tr>
 </table>
-
+​
 {{template config_path="design/email/footer_template"}}
