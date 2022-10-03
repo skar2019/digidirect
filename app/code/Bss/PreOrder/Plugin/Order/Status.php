@@ -15,6 +15,7 @@
  * @copyright  Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
+
 namespace Bss\PreOrder\Plugin\Order;
 
 use Bss\PreOrder\Model\Attribute\Source\Order;
@@ -33,7 +34,8 @@ class Status
      */
     public function __construct(
         \Bss\PreOrder\Helper\Data $helper
-    ) {
+    )
+    {
         $this->helper = $helper;
     }
 
@@ -54,7 +56,7 @@ class Status
             if ($productPreOrder && $productPreOrder != '[]') {
                 $listPreOrder = array_keys($this->helper->serializeClass()->unserialize($productPreOrder));
             }
-            $notAllowType = ['configurable','bundle', 'grouped'];
+            $notAllowType = ['configurable', 'bundle', 'grouped'];
             foreach ($items as $item) {
                 /** @var Product|null $product */
                 $product = $item->getProduct();
@@ -69,13 +71,28 @@ class Status
                             && in_array($productId, $listPreOrder) && $subject->getStatus() != 'processing_preorder') {
                             $status = 'processing_preorder';
                         }
+                        if ($status == 'payment_review') {
+                            $listPreOrder[] = $productId;
+                        }
                     }
                 }
             }
         }
         return [$status];
     }
-
+    /**
+     * @param \Magento\Sales\Model\Order $subject
+     * @param $result
+     * @param $status
+     * @return mixed
+     */
+    public function afterSetStatus(\Magento\Sales\Model\Order $subject, $result, $status)
+    {
+        if ($status == 'payment_review' && $subject->getProductPreorder()) {
+            $subject->setCheckPreOrder(1);
+        }
+       return $result;
+    }
     /**
      * Check Have Pre Order Product
      *

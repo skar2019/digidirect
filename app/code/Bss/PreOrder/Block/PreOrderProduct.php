@@ -12,7 +12,7 @@
  * @category  BSS
  * @package   Bss_PreOrder
  * @author    Extension Team
- * @copyright Copyright (c) 2018-2019 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright Copyright (c) 2018-2022 BSS Commerce Co. ( http://bsscommerce.com )
  * @license   http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Block;
@@ -142,7 +142,13 @@ class PreOrderProduct extends Template
      */
     public function getNote()
     {
-        $note = explode(" ", $this->helper->getNote());
+        $getNote = $this->helper->getNote();
+        if ($getNote !== null) {
+            $note = explode(" ", $getNote);
+        } else {
+            $note = [];
+        }
+
         $key = array_search("{date}", $note);
         $key2 = array_search("{preorder_date}", $note);
 

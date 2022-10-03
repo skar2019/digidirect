@@ -123,7 +123,12 @@ define([
 
                     // eslint-disable-next-line eqeqeq
                     if ($widget.options.oldtextstock !='') {
-                        $($widget.element).parents(parent).find($widget.options.stockSelector).html($widget.options.oldtextstock);
+                        if (!status) {
+                            $($widget.element).parents(parent).find(this.options.stockSelector).children('span').html($t('Out Of Stock'));
+                        } else {
+                            // eslint-disable-next-line max-len
+                            $($widget.element).parents(parent).find($widget.options.stockSelector).html($widget.options.oldtextstock);
+                        }
                     }
                     if (availability_message) {
                         // eslint-disable-next-line max-depth

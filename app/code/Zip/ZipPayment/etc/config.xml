@@ -10,18 +10,17 @@
 */
 -->
 
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <payment>
             <zippayment>
                 <debug>1</debug>
-                <active>1</active>
+                <active>0</active>
                 <model>ZipMoneyGatewayFacade</model>
-                <title>Zip - Own it now, pay later</title>
+                <title>Zip now, pay later</title>
                 <widget_region>au</widget_region>
-                <merchant_private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <merchant_public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <merchant_private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <merchant_public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
                 <order_status>processing</order_status>
                 <display_widget_mode>iframe</display_widget_mode>
                 <min_order_total>1</min_order_total>
@@ -39,6 +38,7 @@
                 <can_cancel>1</can_cancel>
                 <can_use_checkout>1</can_use_checkout>
                 <is_gateway>1</is_gateway>
+                <enable_tokenisation>0</enable_tokenisation>
                 <incontext_checkout>0</incontext_checkout>
                 <sort_order>0</sort_order>
                 <can_use_for_multishipping>0</can_use_for_multishipping>

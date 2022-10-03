@@ -78,7 +78,7 @@ class DecisionBlock extends Block
      * @return bool
      * @throws \Exception
      */
-    protected function _interpretCondition($left, $right, $op = null, &$context)
+    protected function _interpretCondition($left, $right, $op, &$context)
     {
         if ($op === null) {
             $value = $this->_stringValue($context->get($left));

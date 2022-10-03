@@ -8,6 +8,7 @@ use Zip\ZipPayment\MerchantApi\Lib\Model\CommonUtil;
 
 class Config implements ConfigInterface
 {
+    const MODULE_NAME = 'Zip_ZipPayment';
     /**
      * Method Code name in magento
      *
@@ -88,6 +89,13 @@ class Config implements ConfigInterface
     const PAYMENT_ZIPMONEY_INCONTEXT_CHECKOUT = 'incontext_checkout';
 
     /**
+     * Incontext Checkout
+     *
+     * @const
+     */
+    const PAYMENT_ZIPMONEY_ENABLE_TOKENISATION = 'enable_tokenisation';
+
+    /**
      * Minimum Order Total
      *
      * @const
@@ -111,7 +119,7 @@ class Config implements ConfigInterface
     /**
      * Homepage banner html element selector
      */
-    const ADVERTS_HOMEPAGE_BANNER_SELECTOR= 'zip_advert/homepage/banner_selector';
+    const ADVERTS_HOMEPAGE_BANNER_SELECTOR = 'zip_advert/homepage/banner_selector';
 
     /**
      * Product Page Banner Active
@@ -276,6 +284,8 @@ class Config implements ConfigInterface
      */
     protected $_locale;
 
+    protected $_moduleList;
+
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -284,7 +294,8 @@ class Config implements ConfigInterface
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Zip\ZipPayment\Helper\Logger $logger,
-        \Magento\Framework\Locale\Resolver $locale
+        \Magento\Framework\Locale\Resolver $locale,
+        \Magento\Framework\Module\ModuleListInterface $moduleList
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
@@ -294,6 +305,7 @@ class Config implements ConfigInterface
         $this->_messageManager = $messageManager;
         $this->_urlBuilder = $urlBuilder;
         $this->_locale = $locale;
+        $this->_moduleList = $moduleList;
 
         $this->setStoreId($this->_storeManager->getStore()->getId());
     }
@@ -317,7 +329,7 @@ class Config implements ConfigInterface
      * @param int $storeId
      * @return bool
      */
-    public function isMethodActive($method, $storeId = null)
+    public function isMethodActive($storeId = null)
     {
         if (!isset($storeId)) {
             $storeId = $this->_storeId;
@@ -375,6 +387,8 @@ class Config implements ConfigInterface
         if (!$storeId) {
             $storeId = $this->_storeId;
         }
+
+        $key = $key ?? '';
 
         $underscored = strtolower(preg_replace('/(.)([A-Z])/', "$1_$2", $key));
 
@@ -510,6 +524,21 @@ class Config implements ConfigInterface
             return false;
         }
         return $this->getConfigData(self::PAYMENT_ZIPMONEY_INCONTEXT_CHECKOUT);
+    }
+
+    /**
+     * Check if enable_tokenisation is active
+     *
+     * @return bool
+     */
+    public function isTokenisationEnabled()
+    {
+        $currentCurrencyCode = $this->_storeManager->getStore()->getCurrentCurrencyCode();
+        if ($currentCurrencyCode != CommonUtil::CURRENCY_AUD) {
+            return false;
+        }
+
+        return (bool) $this->getConfigData(self::PAYMENT_ZIPMONEY_ENABLE_TOKENISATION);
     }
 
     /**
@@ -674,5 +703,14 @@ class Config implements ConfigInterface
     {
         $currentLanguageCode = substr($this->_locale->getLocale(), 0, strpos($this->_locale->getLocale(), '_'));
         return $currentLanguageCode;
+    }
+
+    /**
+     * get module version
+     */
+    public function getVersion()
+    {
+        return $this->_moduleList
+            ->getOne(self::MODULE_NAME)['setup_version'];
     }
 }

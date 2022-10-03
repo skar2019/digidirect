@@ -100,13 +100,16 @@ define([
                 parent
             ) {
                 var $widget = this;
-
                 $($widget.element).parents(parent).find($widget.options.availabilityMessageClass).remove();
                 // eslint-disable-next-line eqeqeq
                 if (preorder == 1 && availability_preorder || preorder == 2 && !status) {
                     if ($widget.options.oldtextstock !='') {
-                        // eslint-disable-next-line max-len
-                        $($widget.element).parents(parent).find($widget.options.stockSelector).html($widget.options.oldtextstock);
+                        if (!status) {
+                            $($widget.element).parents(parent).find(this.options.stockSelector).children('span').html($t('Out Of Stock'));
+                        } else {
+                            // eslint-disable-next-line max-len
+                            $($widget.element).parents(parent).find($widget.options.stockSelector).html($widget.options.oldtextstock);
+                        }
                     }
                     if (availability_message) {
                         // eslint-disable-next-line max-depth

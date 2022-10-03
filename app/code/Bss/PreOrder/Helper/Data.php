@@ -12,11 +12,12 @@
  * @category   BSS
  * @package    Bss_PreOrder
  * @author     Extension Team
- * @copyright  Copyright (c) 2018-2021 BSS Commerce Co. ( http://bsscommerce.com )
+ * @copyright  Copyright (c) 2018-2022 BSS Commerce Co. ( http://bsscommerce.com )
  * @license    http://bsscommerce.com/Bss-Commerce-License.txt
  */
 namespace Bss\PreOrder\Helper;
 
+use Bss\PreOrder\Model\Attribute\Source\Order as SourceOrder;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Framework\App\Helper\AbstractHelper;
@@ -181,7 +182,7 @@ class Data extends AbstractHelper
         if ($this->checkVersion()) {
             $qtyProduct = $this->getStockItem($productId)->getQty() + $itemQtyOrdered;
         } else {
-            $qtyProduct = $this->getSalableQty($product->getSku()) + $itemQtyOrdered;
+            $qtyProduct = $this->getSalableQtyOnlyStock($product->getSku()) + $itemQtyOrdered;
         }
         return $qtyProduct ? $qtyProduct : 0;
     }
@@ -189,6 +190,7 @@ class Data extends AbstractHelper
     /**
      * @param string|null $sku
      * @return int|float
+     * @deprecated 1.2.0
      */
     public function getSalableQty($sku)
     {
@@ -202,6 +204,17 @@ class Data extends AbstractHelper
             }
         }
         return $qtySalable;
+    }
+
+    /**
+     * Get salable qty by stock current website
+     *
+     * @param string $sku
+     * @return int|float
+     */
+    public function getSalableQtyOnlyStock($sku)
+    {
+        return $this->multiSourceInventory->getSalableQtyOnlyStock($sku);
     }
 
     /**
@@ -222,7 +235,7 @@ class Data extends AbstractHelper
      */
     public function getPreOrder($productId, $storeId = null)
     {
-        $storeId = $storeId ? $storeId : $this->storeManager->getStore();
+        $storeId = $storeId ? $storeId : $this->getStoreId();
         $preOrderData = $this->resourceProduct->getAttributeRawValue(
             $productId,
             'preorder',
@@ -319,19 +332,23 @@ class Data extends AbstractHelper
      */
     public function getStoreId()
     {
+        if ($this->storeManager->isSingleStoreMode()) {
+            return 0;
+        }
         return $this->storeManager->getStore()->getId();
     }
 
     /**
      * Is Enable Module
-     *
+     * @param int|null $storeId
      * @return bool
      */
-    public function isEnable()
+    public function isEnable($storeId = null)
     {
         return $this->scopeConfig->isSetFlag(
             'preorder/general/enable',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
@@ -347,12 +364,12 @@ class Data extends AbstractHelper
         $fromDateStr = $this->resourceProduct->getAttributeRawValue(
             $productId,
             'pre_oder_from_date',
-            $this->storeManager->getStore()
+            $this->getStoreId()
         );
         $toDateStr = $this->resourceProduct->getAttributeRawValue(
             $productId,
             'pre_oder_to_date',
-            $this->storeManager->getStore()
+            $this->getStoreId()
         );
         return $this->isAvailablePreOrderFromFlatData($fromDateStr, $toDateStr);
     }
@@ -394,7 +411,7 @@ class Data extends AbstractHelper
      */
     public function getPreOrderFromDate($productId, $storeId = null)
     {
-        $storeId = $storeId ? $storeId : $this->storeManager->getStore();
+        $storeId = $storeId ? $storeId : $this->getStoreId();
         $fromDateStr = $this->resourceProduct->getAttributeRawValue(
             $productId,
             'pre_oder_from_date',
@@ -411,7 +428,7 @@ class Data extends AbstractHelper
      */
     public function getPreOrderToDate($productId, $storeId = null)
     {
-        $storeId = $storeId ? $storeId : $this->storeManager->getStore();
+        $storeId = $storeId ? $storeId : $this->getStoreId();
         $toDateStr = $this->resourceProduct->getAttributeRawValue(
             $productId,
             'pre_oder_to_date',
@@ -423,65 +440,75 @@ class Data extends AbstractHelper
     /**
      * Is Mixed Order
      *
+     * @param int|null $storeId
      * @return bool
      */
-    public function isMix()
+    public function isMix($storeId = null)
     {
         return $this->isEnable() && $this->scopeConfig->isSetFlag(
             'preorder/general/mix',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
     /**
      * Get Button Html Text
      *
+     * @param int|null $storeId
      * @return string
      */
-    public function getButton()
+    public function getButton($storeId = null)
     {
         return $this->scopeConfig->getValue(
             'preorder/general/button',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
     /**
      * Get Message Pre Order
      *
+     * @param int|null $storeId
      * @return string
      */
-    public function getMess()
+    public function getMess($storeId = null)
     {
         return $this->scopeConfig->getValue(
             'preorder/general/mess',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
     /**
      * Get Note Pre Order
      *
+     * @param int|null $storeId
      * @return string
      */
-    public function getNote()
+    public function getNote($storeId = null)
     {
         return $this->scopeConfig->getValue(
             'preorder/general/note',
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
     /**
      * Get Display Out Of Stock With Pre-Order Only
      *
+     * @param int|null $storeId
      * @return mixed
      */
-    public function getDisplayOutOfStock()
+    public function getDisplayOutOfStock($storeId = null)
     {
         return $this->scopeConfig->getValue(
             self::DISPLAY_OOS_PATH_CONFIG,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            $storeId
         );
     }
 
@@ -543,6 +570,10 @@ class Data extends AbstractHelper
     public function replaceVariableX($mess, $fromDate, $toDate)
     {
         $preOrderDate = '';
+        $fromDate = $fromDate !== null ? $fromDate : '';
+        $toDate = $toDate !== null ? $toDate : '';
+        $mess = $mess !== null ? $mess : '';
+
         if (trim($fromDate) != '' && trim($toDate) != '') {
             $preOrderDate = __('from %1 to %2', $fromDate, $toDate);
         } elseif (trim($fromDate) != '' && trim($toDate) == '') {
@@ -672,11 +703,17 @@ class Data extends AbstractHelper
             $isPreOrderItem = $this->getPreOrder($product->getId()) == 1
                 && $this->isAvailablePreOrder($product->getId());
         }
+
         $qtyOrder = isset($requestInfo['qty']) ? $requestInfo['qty'] : 1;
-        $productId = $requestInfo['product'];
+        $productId = $this->getProductId($requestInfo, $product);
         if (!$isPreOrderItem && $productId) {
             if ($product->getTypeId() == Configurable::TYPE_CODE) {
                 $product = $this->getProductById($productId);
+
+                if (!isset($requestInfo['super_attribute'])) {
+                    throw new LocalizedException($this->configurable->getSpecifyOptionMessage());
+                }
+
                 $product = $this->configurable->getProductByAttributes(
                     $requestInfo['super_attribute'],
                     $product
@@ -694,6 +731,18 @@ class Data extends AbstractHelper
             'qtyOrder' => $qtyOrder,
             'productId' => $productId
         ];
+    }
+
+    /**
+     * Get product Id
+     *
+     * @param array $requestInfo
+     * @param mixed $product
+     * @return int
+     */
+    private function getProductId($requestInfo, $product)
+    {
+        return isset($requestInfo['product']) ? $requestInfo['product'] : $product->getId();
     }
 
     /**
@@ -909,5 +958,54 @@ class Data extends AbstractHelper
     public function getRegistry()
     {
         return $this->registry;
+    }
+
+    /**
+     * Check if product can be preordered
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Quote\Model\Quote\Item $item
+     * @return bool
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function checkPreOrderAvailability($product, $item)
+    {
+        $isInStock = $product->getData('is_salable');
+        $preOrder = $product->getData('preorder');
+        $fromDate =  $this->getPreOrderFromDate($product->getId());
+        $toDate =  $this->getPreOrderToDate($product->getId());
+        if (
+            (
+                $preOrder ==  SourceOrder::ORDER_YES
+                && $this->isAvailablePreOrderFromFlatData($fromDate, $toDate)
+            )
+            ||
+            (
+                $preOrder == SourceOrder::ORDER_OUT_OF_STOCK &&
+                    $isInStock == 0 || $this->checkQtyItemProduct($product, $item)
+            )
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Check qty salable product with qty of item
+     *
+     * @param \Magento\Catalog\Model\Product $product
+     * @param \Magento\Quote\Model\Quote\Item $item
+     * @return bool
+     */
+    public function checkQtyItemProduct($product, $item)
+    {
+        $productSalableQty = $this->getProductSalableQty(
+            $product,
+            $product->getId()
+        );
+        if ($item->getQty() > $productSalableQty || ($item->getQtyOrdered() && $productSalableQty < 0)) {
+            return true;
+        }
+        return false;
     }
 }

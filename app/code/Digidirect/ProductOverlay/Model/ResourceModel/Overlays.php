@@ -119,6 +119,8 @@ class Overlays extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $select = $this->getConnection()->select()
             ->from($this->getOverlayStoreTable(), ['store_id'])
             ->where($this->getConnection()->quoteInto('overlay_id =?', $object->getId()));
-        return $this->getConnection()->fetchCol($select, ['store_id']);
+        return $this->getConnection()->fetchCol($select);
+        //return $this->getConnection()->fetchCol($select, ['store_id']);
+        
     }
 }

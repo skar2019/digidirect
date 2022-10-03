@@ -103,7 +103,7 @@ class PreOrderProducts implements ConfigProviderInterface
             /** @var \Magento\Quote\Api\Data\CartItemInterface $item */
             foreach ($quoteItems as $item) {
                 foreach ($products as $product) {
-                    if ($product->getSku() == $item->getSku() && $this->checkPreOrderAvailability($product, $item)) {
+                    if ($product->getSku() == $item->getSku() && $this->preOrderHelper->checkPreOrderAvailability($product, $item)) {
                         $dataAfter[$item->getItemId()] = $product->getSku();
                     }
                 }
@@ -112,31 +112,4 @@ class PreOrderProducts implements ConfigProviderInterface
         return $this->preOrderHelper->serializeClass()->serialize($dataAfter);
     }
 
-    /**
-     * Check if product can be preordered
-     * @param \Magento\Catalog\Model\Product $product
-     * @param mixed $item
-     * @return bool
-     * @throws \Magento\Framework\Exception\LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    protected function checkPreOrderAvailability($product, $item)
-    {
-        $isInStock = $product->getData('is_salable');
-        $preOrder = $product->getData('preorder');
-        $fromDate =  $this->preOrderHelper->getPreOrderFromDate($product->getId());
-        $toDate =  $this->preOrderHelper->getPreOrderToDate($product->getId());
-        if ((
-                $preOrder == Order::ORDER_YES
-                && $this->preOrderHelper->isAvailablePreOrderFromFlatData($fromDate, $toDate)
-            )
-            ||
-            ($preOrder == Order::ORDER_OUT_OF_STOCK &&
-                ($isInStock == 0 ||
-                    $item->getQty() > $this->preOrderHelper->getProductSalableQty($product, $product->getId())))
-        ) {
-            return true;
-        }
-        return false;
-    }
 }
