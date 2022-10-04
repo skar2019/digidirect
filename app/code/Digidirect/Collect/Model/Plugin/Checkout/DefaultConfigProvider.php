@@ -124,7 +124,6 @@ class DefaultConfigProvider
 
             $qty = 0;
             foreach ($items as $item) {
-            
                 $prodId = $item->getProductId();
                 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                 $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
