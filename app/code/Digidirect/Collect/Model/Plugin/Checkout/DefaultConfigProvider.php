@@ -142,7 +142,6 @@ class DefaultConfigProvider
             } else {
                 $result['quoteData']['products_available_in_any_store'] = false;
             }
-            
             $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
 
             $singleVariation = $this->collectHelper->isSingleVariation();
