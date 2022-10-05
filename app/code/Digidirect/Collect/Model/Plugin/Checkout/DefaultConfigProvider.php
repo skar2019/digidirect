@@ -144,7 +144,6 @@ class DefaultConfigProvider
             }
             
             $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
-
             $singleVariation = $this->collectHelper->isSingleVariation();
             $singleCartVariation = $this->collectHelper->isSingleCartVariation();
             $result['quoteData']['is_single_collect_variation'] = $singleVariation;

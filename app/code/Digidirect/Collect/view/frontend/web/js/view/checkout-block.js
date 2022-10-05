@@ -76,7 +76,7 @@ define([
         checkProductAvailabilityForCC: function () {
             if (productsAvailableInAnyStore == false) {
                 $('.collect-type-collect-label').hide();
-                $('.collect-type-collect-delivery').attr("style", "width: 100% !important");
+                $('.collect-type-delivery-label').attr("style", "width: 100% !important");
             }
         },
         renderItems: function () {
