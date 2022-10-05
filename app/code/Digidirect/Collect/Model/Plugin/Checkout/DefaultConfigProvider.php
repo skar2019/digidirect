@@ -117,8 +117,14 @@ class DefaultConfigProvider
                     $result['paymentMethods'] = $paymentMethods;
                 }
             }
-            $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
+            
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+            $items = $cart->getQuote()->getAllItems();
 
+            $qty = 0;
+            
+            $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
             $singleVariation = $this->collectHelper->isSingleVariation();
             $singleCartVariation = $this->collectHelper->isSingleCartVariation();
             $result['quoteData']['is_single_collect_variation'] = $singleVariation;
