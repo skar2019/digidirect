@@ -16,6 +16,7 @@ attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         <span class="text"><!-- ko i18n: 'Pick up in-store'--><!-- /ko --></span>
         </svg>
     </label>
+    
     <!-- /ko-->
         <!-- ko if: isWebOnly() -->
         <input type="radio" id="collect_type_delivery" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
