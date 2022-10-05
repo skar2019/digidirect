@@ -23,7 +23,6 @@ define([
         placesUrl = window.checkoutConfig.quoteData.get_places_url,
         distanceList = window.checkoutConfig.quoteData.distance_list,
         selectedStore = window.checkoutConfig.quoteData.selected_collect_place;
-        productsAvailableInAnyStore = window.checkoutConfig.quoteData.products_available_in_any_store;
 
     return Component.extend({
         defaults: {
@@ -51,7 +50,6 @@ define([
 
             this._super();
 
-            this.checkProductAvailabilityForCC;
             this.setPreselectedStore();
             this.checkIsCollectSelected();
             this.onSubscribe();
@@ -71,12 +69,6 @@ define([
             } else {
                 this.isCollectSelected(false);
                 quote.isCollectSelected = false;
-            }
-        },
-        checkProductAvailabilityForCC: function () {
-            if (productsAvailableInAnyStore == false) {
-                $('.collect-type-collect-label').hide();
-                $('.collect-type-delivery-label').attr("style", "width: 100% !important");
             }
         },
         renderItems: function () {

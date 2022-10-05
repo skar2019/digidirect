@@ -117,33 +117,8 @@ class DefaultConfigProvider
                     $result['paymentMethods'] = $paymentMethods;
                 }
             }
-            
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
-            $items = $cart->getQuote()->getAllItems();
-
-            $qty = 0;
-            foreach ($items as $item) {
-            
-                $prodId = $item->getProductId();
-                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
-
-                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
-                foreach ($sourceItems as $sourceItemId => $sourceItem) {
-
-                    $qty .= $sourceItem->getQuantity();
-                }
-            }
-            
-            if ($qty > 0) {
-                $result['quoteData']['products_available_in_any_store'] = true;
-            } else {
-                $result['quoteData']['products_available_in_any_store'] = false;
-            }
-            
             $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
+
             $singleVariation = $this->collectHelper->isSingleVariation();
             $singleCartVariation = $this->collectHelper->isSingleCartVariation();
             $result['quoteData']['is_single_collect_variation'] = $singleVariation;
