@@ -128,7 +128,7 @@ class DefaultConfigProvider
                 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                 $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
-                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+//                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
 //                foreach ($sourceItems as $sourceItemId => $sourceItem) {
 //
