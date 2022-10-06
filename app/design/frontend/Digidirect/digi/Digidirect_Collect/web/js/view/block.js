@@ -22,7 +22,7 @@ define([
         quoteCollectPlaces = window.checkoutConfig.quoteData.collect_places,
         placesUrl = window.checkoutConfig.quoteData.get_places_url,
         distanceList = window.checkoutConfig.quoteData.distance_list,
-        selectedStore = window.checkoutConfig.quoteData.selected_collect_place;
+        selectedStore = window.checkoutConfig.quoteData.selected_collect_place,
         productsAvailableInAnyStore = window.checkoutConfig.quoteData.products_available_in_any_store;
 
     return Component.extend({
@@ -63,7 +63,7 @@ define([
         isSingleCartCollectVariation: ko.observable(isSingleCartCollectVariation || false),
         placesUrl: placesUrl,
         distanceList: distanceList,
-        //productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
+        productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
         checkIsCollectSelected: function () {
             if (this.collectPlaces().length > 0) {
                 this.isCollectSelected(true);
