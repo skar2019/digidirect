@@ -2,7 +2,6 @@
     <div class="collect-type">
     <!-- ko ifnot: isWebOnly() -->
     <span class="name"><!-- ko text: productsAvailableInAnyStore --><!-- /ko --></span>
-    <!-- ko if: productsAvailableInAnyStore -->
         <input type="radio" id="collect_type_delivery" class="half-width" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
     attr:{'checked': collectPlaces().length <= 0 ? 'checked' : false}"/>
         <label for="collect_type_delivery" class="label collect-type-delivery-label">
@@ -18,7 +17,6 @@
             <span class="text"><!-- ko i18n: 'Pick up in-store'--><!-- /ko --></span>
             </svg>
         </label>
-    <!-- /ko-->
     
     <!-- ko ifnot: productsAvailableInAnyStore -->
         <input type="radio" id="collect_type_delivery" class="half-width" name="delivery_type" value="delivery" data-bind="event: {change: function(data, event) {toggleCollectType(data, event)}},
