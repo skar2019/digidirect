@@ -60,10 +60,10 @@ define([
         formItemId: '',
         isSingleCartFormPopUpVisible: formPopUpState.isVisible,
         isCollectEnableOnCheckout: ko.observable(isCollectEnableOnCheckout || false),
-        productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
         isSingleCartCollectVariation: ko.observable(isSingleCartCollectVariation || false),
         placesUrl: placesUrl,
         distanceList: distanceList,
+        //productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
         checkIsCollectSelected: function () {
             if (this.collectPlaces().length > 0) {
                 this.isCollectSelected(true);
