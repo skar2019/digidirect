@@ -51,7 +51,7 @@ define([
 
             this._super();
 
-            this.checkProductAvailabilityForCC;
+            this.checkProductAvailabilityForCC();
             this.setPreselectedStore();
             this.checkIsCollectSelected();
             this.onSubscribe();
@@ -61,6 +61,7 @@ define([
         formItemId: '',
         isSingleCartFormPopUpVisible: formPopUpState.isVisible,
         isCollectEnableOnCheckout: ko.observable(isCollectEnableOnCheckout || false),
+        productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
         isSingleCartCollectVariation: ko.observable(isSingleCartCollectVariation || false),
         placesUrl: placesUrl,
         distanceList: distanceList,
@@ -74,6 +75,7 @@ define([
             }
         },
         checkProductAvailabilityForCC: function () {
+            console.log("block.js checkProductAvailabilityForCC : " + productsAvailableInAnyStore);
             if (productsAvailableInAnyStore == false) {
                 $('.collect-type-collect-label').hide();
                 $('.collect-type-delivery-label').attr("style", "width: 100% !important");
