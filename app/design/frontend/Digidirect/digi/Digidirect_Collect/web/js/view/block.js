@@ -23,6 +23,7 @@ define([
         placesUrl = window.checkoutConfig.quoteData.get_places_url,
         distanceList = window.checkoutConfig.quoteData.distance_list,
         selectedStore = window.checkoutConfig.quoteData.selected_collect_place;
+        productsAvailableInAnyStore = window.checkoutConfig.quoteData.products_available_in_any_store;
 
     return Component.extend({
         defaults: {
@@ -59,6 +60,7 @@ define([
         formItemId: '',
         isSingleCartFormPopUpVisible: formPopUpState.isVisible,
         isCollectEnableOnCheckout: ko.observable(isCollectEnableOnCheckout || false),
+        productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
         isSingleCartCollectVariation: ko.observable(isSingleCartCollectVariation || false),
         placesUrl: placesUrl,
         distanceList: distanceList,
@@ -211,7 +213,6 @@ define([
         },
         onErrorDelivery: function (response) {},
         applyCollectPlaceToAllItems: function (id, name) {
-            console.log("applyCollectPlaceToAllItems : " + id + ", " + name);
             var self,
                 serviceUrl,
                 payload;
