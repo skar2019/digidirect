@@ -51,7 +51,7 @@ define([
 
             this._super();
 
-            this.checkProductAvailabilityForCC;
+            this.checkProductAvailabilityForCC();
             this.setPreselectedStore();
             this.checkIsCollectSelected();
             this.onSubscribe();
