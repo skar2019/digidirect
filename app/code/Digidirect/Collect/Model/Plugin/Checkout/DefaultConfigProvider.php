@@ -133,17 +133,17 @@ class DefaultConfigProvider
 
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
-//                foreach ($sourceItems as $sourceItemId => $sourceItem) {
-//
-//                    $qty .= $sourceItem->getQuantity();
-//                }
+                foreach ($sourceItems as $sourceItemId => $sourceItem) {
+
+                    $qty .= $sourceItem->getQuantity();
+                }
             }
             
-//            if ($qty > 0) {
-//                $result['quoteData']['products_available_in_any_store'] = true;
-//            } else {
-//                $result['quoteData']['products_available_in_any_store'] = false;
-//            }
+            if ($qty > 0) {
+                $result['quoteData']['products_available_in_any_store'] = true;
+            } else {
+                $result['quoteData']['products_available_in_any_store'] = false;
+            }
             
             $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
             $singleVariation = $this->collectHelper->isSingleVariation();
