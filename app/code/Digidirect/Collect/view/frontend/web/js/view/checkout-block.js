@@ -74,6 +74,7 @@ define([
             }
         },
         checkProductAvailabilityForCC: function () {
+            console.log("block.js checkProductAvailabilityForCC : " + productsAvailableInAnyStore);
             if (productsAvailableInAnyStore == false) {
                 $('.collect-type-collect-label').hide();
                 $('.collect-type-delivery-label').attr("style", "width: 100% !important");
