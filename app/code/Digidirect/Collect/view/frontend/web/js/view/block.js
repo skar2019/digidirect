@@ -61,7 +61,7 @@ define([
         formItemId: '',
         isSingleCartFormPopUpVisible: formPopUpState.isVisible,
         isCollectEnableOnCheckout: ko.observable(isCollectEnableOnCheckout || false),
-        productsAvailableInAnyStore: ko.observable(productsAvailableInAnyStore || false),
+        productsAvailableInAnyStore: productsAvailableInAnyStore,
         isSingleCartCollectVariation: ko.observable(isSingleCartCollectVariation || false),
         placesUrl: placesUrl,
         distanceList: distanceList,
