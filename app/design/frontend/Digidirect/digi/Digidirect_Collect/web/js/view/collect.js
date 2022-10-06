@@ -18,6 +18,7 @@ define([
         placesUrl = window.checkoutConfig.quoteData.get_places_url,
         collectDeliverInsteadUrl = window.checkoutConfig.quoteData.deliver_instead_url,
         distanceList = window.checkoutConfig.quoteData.distance_list;
+        productsAvailableInAnyStore = window.checkoutConfig.quoteData.products_available_in_any_store;
 
     return Component.extend({
         defaults: {
@@ -42,6 +43,7 @@ define([
         formItemId: '',
         isFormPopUpVisible: formPopUpState.isVisible,
         isCollectEnableOnCheckout: ko.observable(isCollectEnableOnCheckout || false),
+        productsAvailableInAnyStore: productsAvailableInAnyStore,
         isSingleCartCollectVariation: ko.observable(isSingleCartCollectVariation || false),
         changePlaceUrl: changePlaceUrl,
         placesUrl: placesUrl,
