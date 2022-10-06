@@ -8,6 +8,7 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
+use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -70,7 +71,8 @@ class DefaultConfigProvider
         \Digidirect\Collect\Model\StorageHandler $storageHandler,
         CollectHelper $collectHelper,
         AddressCollectHelper $addressCollectHelper,
-        EventManagerInterface $eventManager = null
+        EventManagerInterface $eventManager = null,
+        GetSourceItemsBySku $getSourceItemsBySku
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quoteRepository = $quoteRepository;
@@ -79,6 +81,7 @@ class DefaultConfigProvider
         $this->collectHelper = $collectHelper;
         $this->addressCollectHelper = $addressCollectHelper;
         $this->eventManager = $eventManager ?: ObjectManager::getInstance()->get(EventManagerInterface::class);
+        $this->getSourceItemsBySku = $getSourceItemsBySku;
     }
 
     /**
@@ -128,7 +131,7 @@ class DefaultConfigProvider
                 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                 $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
-//                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
 //                foreach ($sourceItems as $sourceItemId => $sourceItem) {
 //
