@@ -23,6 +23,7 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
      */
     protected $config;
     
+    protected $logger;
 
     /**
      * QuoteSubmitSuccess constructor.
@@ -38,10 +39,11 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
         \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
+        \Digidirect\CustomGiftCardLog\Logger\Logger $logger,
         \Digidirect\Vii\Api\AbstractGiftCardEntityRepositoryInterface $viiGiftCardEntityRepository,
         \Digidirect\Vii\Service\Config\Config $config
     ) {
-        parent::__construct($giftCAHelper, $helper, $giftcardaccountFactory, $abstractGiftCardEntityRepository);
+        parent::__construct($giftCAHelper, $helper, $giftcardaccountFactory, $abstractGiftCardEntityRepository, $logger);
         $this->viiGiftCardEntityRepository = $viiGiftCardEntityRepository;
         $this->config = $config;
     }
