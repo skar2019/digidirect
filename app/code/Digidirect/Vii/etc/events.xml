@@ -4,7 +4,6 @@
         <observer name="digidirect_abstractgiftcard_order_place_before" />
     </event>
     <event name="sales_model_service_quote_submit_success">
-        <observer name="digidirect_abstractgiftcard_quote_submit_success" />
         <observer name="Digidirect_Vii::digidirect_abstractgiftcard_quote_submit_success" instance="Digidirect\Vii\Observer\QuoteSubmitSuccess" />
     </event>
     <event name="sales_model_service_quote_submit_failure">
