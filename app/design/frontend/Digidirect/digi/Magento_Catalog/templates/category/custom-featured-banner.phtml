@@ -10,6 +10,7 @@ $currentUrl = $urlInterface->getCurrentUrl();
 $isBrandCanon = str_contains($currentUrl, 'brands/canon');
 $isBrandNikon = str_contains($currentUrl, 'brands/nikon');
 $isBrandAsus = str_contains($currentUrl, 'brands/asus');
+$isBrandFujifilm = str_contains($currentUrl, 'brands/fujifilm');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
     
@@ -42,6 +43,11 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
         ->setBlockId('brands-asus-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandFujifilm == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-fujifilm-featured-banner')
         ->toHtml();
     }
 }
