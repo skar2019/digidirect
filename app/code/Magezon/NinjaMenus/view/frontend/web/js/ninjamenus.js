@@ -2,30 +2,30 @@ define([
     'jquery',
     './jquery.drilldown.min',
     './jquery.hoverIntent.min',
-], function ($) {
-    'use strict';
+    ], function ($) {
+        'use strict';
 
-    $.widget('mgz.ninjamenus', {
+        $.widget('mgz.ninjamenus', {
 
-        options: {
-            submenuSelector: ".item-submenu",
-            openerSelector: ".opener",
-            mobileBreakpoint: 768,
-            mobileClasses: "ninjamenus-mobile",
-            desktopClasses: "ninjamenus-desktop",
-            ddAnimationDurationIn: 50,
-            stick: false,
-            caret: 'fas mgz-fa-angle-down',
-            caretHover: 'fas mgz-fa-angle-up',
-            openerHtml: '<span class="opener"></span>'
-        },
-        isMobile: false,
-        isDesktop: false,
+            options: {
+                submenuSelector: ".item-submenu",
+                openerSelector: ".opener",
+                mobileBreakpoint: 768,
+                mobileClasses: "ninjamenus-mobile",
+                desktopClasses: "ninjamenus-desktop",
+                ddAnimationDurationIn: 50,
+                stick: false,
+                caret: 'fas mgz-fa-angle-down',
+                caretHover: 'fas mgz-fa-angle-up',
+                openerHtml: '<span class="opener"></span>'
+            },
+            isMobile: false,
+            isDesktop: false,
 
         /**
          * @private
          */
-        _create: function () {
+         _create: function () {
             this.menu = this.element;
             this.menu.find('.magezon-builder > .nav-item').addClass('level0');
             this.initListeners();
@@ -151,10 +151,10 @@ define([
             } else {
                 if (self.options.hasOwnProperty('hoverDelayTimeout')) {
                     $('.nav-item', this.menu).hoverIntent({
-                        sensitivity: 2,
-                        interval: 100,
-                        over: self.onMouseHoverIntent.bind(this),
-                        timeout: self.options.hoverDelayTimeout,
+                        sensitivity: 2, 
+                        interval: 100, 
+                        over: self.onMouseHoverIntent.bind(this), 
+                        timeout: self.options.hoverDelayTimeout, 
                         out: self.onMouseLeaveIntent.bind(this)
                     });
                 } else {
@@ -572,7 +572,7 @@ define([
 
                 //
                 // ..ninjamenus
-            }
+        }
         },
 
         _initThirdLayerOpener: function () {
@@ -585,7 +585,7 @@ define([
                 if (windowsize < 1279) {
                     $(".menu-second-level").removeAttr("style");
                 }
-            });
+    });
 
             $(".return-to-second-layer").click(function(){
                 $(".menu-second-level").removeAttr("style");
