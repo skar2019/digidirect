@@ -124,6 +124,8 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
                 $this->logger->info('GiftCardLog Error : ' .$e->getMessage());
                 continue;
             }
+            
+            $this->logger->info('GiftCardLog End');
         }
     }
 }
