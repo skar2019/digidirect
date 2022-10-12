@@ -61,6 +61,27 @@ define([
                     }
                 }
 
+                if (window.ninjaMenusCategories) {
+                    if (document.referrer) {
+                        categoryCrumbs = [];
+                        var categories = $.parseJSON(window.ninjaMenusCategories);
+                        var status = true;
+                        for (var i = 0; i < categories.length; i++) {
+                            if (status) {
+                                categoryCrumbs.push({
+                                    'name': 'category',
+                                    'label': categories[i]['label'],
+                                    'link': categories[i]['link'],
+                                    'title': ''
+                                });
+                            }
+                            if (document.referrer.indexOf(categories[i]['link']) !== -1) {
+                                status = false;
+                            }
+                        }
+                    }
+                }
+
                 return categoryCrumbs;
             },
 

@@ -42,7 +42,7 @@ define([
          */
         _assignControls: function () {
             this.controls = {
-                toggleBtn: $('[data-action="toggle-nav"], .close-hamburger'),
+                toggleBtn: $('[data-action="toggle-nav"]'),
                 swipeArea: $('.nav-sections')
             };
             return this;

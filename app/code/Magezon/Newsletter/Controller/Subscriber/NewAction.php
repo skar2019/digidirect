@@ -22,7 +22,7 @@ class NewAction extends \Magento\Newsletter\Controller\Subscriber\NewAction
     /**
      * New subscription action
      *
-     * @return \Magento\Framework\Controller\Result\Redirect
+     * @return \Magento\Framework\Controller\Result\Redirect|void
      */
     public function execute()
     {
@@ -64,14 +64,13 @@ class NewAction extends \Magento\Newsletter\Controller\Subscriber\NewAction
         $this->getResponse()->representJson(
             $this->_objectManager->get(\Magento\Framework\Json\Helper\Data::class)->jsonEncode($result)
         );
-        return;
     }
 
     /**
      * Get success message
      *
      * @param int $status
-     * @return Phrase
+     * @return \Magento\Framework\Phrase
      */
     private function getSubscriberSuccessMessage($status)
     {
