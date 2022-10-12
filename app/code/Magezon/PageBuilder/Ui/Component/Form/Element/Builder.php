@@ -42,7 +42,7 @@ class Builder extends \Magezon\Builder\Ui\Component\Form\Element\Builder
     /**
      * @var Repository
      */
-    private $assetRepo;
+    protected $assetRepo;
 
     /**
      * @param ContextInterface                      $context
