@@ -2,30 +2,30 @@ define([
     'jquery',
     './jquery.drilldown.min',
     './jquery.hoverIntent.min',
-], function ($) {
-    'use strict';
+    ], function ($) {
+        'use strict';
 
-    $.widget('mgz.ninjamenus', {
+        $.widget('mgz.ninjamenus', {
 
-        options: {
-            submenuSelector: ".item-submenu",
-            openerSelector: ".opener",
-            mobileBreakpoint: 768,
-            mobileClasses: "ninjamenus-mobile",
-            desktopClasses: "ninjamenus-desktop",
-            ddAnimationDurationIn: 50,
-            stick: false,
-            caret: 'fas mgz-fa-angle-down',
-            caretHover: 'fas mgz-fa-angle-up',
-            openerHtml: '<span class="opener"></span>'
-        },
-        isMobile: false,
-        isDesktop: false,
+            options: {
+                submenuSelector: ".item-submenu",
+                openerSelector: ".opener",
+                mobileBreakpoint: 768,
+                mobileClasses: "ninjamenus-mobile",
+                desktopClasses: "ninjamenus-desktop",
+                ddAnimationDurationIn: 50,
+                stick: false,
+                caret: 'fas mgz-fa-angle-down',
+                caretHover: 'fas mgz-fa-angle-up',
+                openerHtml: '<span class="opener"></span>'
+            },
+            isMobile: false,
+            isDesktop: false,
 
         /**
          * @private
          */
-        _create: function () {
+         _create: function () {
             this.menu = this.element;
             this.menu.find('.magezon-builder > .nav-item').addClass('level0');
             this.initListeners();
@@ -89,52 +89,8 @@ define([
             });
 
             this.menu.find('.mgz-tabs-tab-title').on('click', function() { //remove hover ; clint
-
                 let item = $(this).closest('.level0');
                 self.loadLazyImages(item);
-                //clint
-                var clickedMenu = $('.shop-by-category-menu .mgz-tabs-tab-content.mgz-active').attr('id');
-
-                if(activeclick === clickedMenu)
-                {
-                    if($('.shop-by-category-menu .mgz-tabs-tab-title').hasClass('retract'))
-                    {
-                        $('.shop-by-category-menu .mgz-tabs-tab-title').removeClass('retract');
-                        $('.shop-by-category-menu .item-sub-menu').removeClass('expand');
-                        $('.shop-by-category-menu .mgz-tabs-tab-title span').show();
-                        $('.shop-by-category-menu .mgz-tabs-tab-title span.tabs-opener').hide();
-                        $('.shop-by-category-menu .mgz-tabs-tab-title').removeClass('mgz-active');
-                        $('.shop-by-category-menu .item-submenu.mgz-element-inner').removeClass('expand');
-                        $('.shop-by-category-menu .mgz-tabs-content .mgz-tabs-tab-content').removeClass('mgz-active');
-                    }
-                    else
-                    {
-                        $('.shop-by-category-menu .mgz-tabs-tab-title').addClass('retract');
-                        $('.shop-by-category-menu .item-submenu').addClass('expand');
-                        $('.shop-by-category-menu .mgz-tabs-tab-title span').hide();
-                    }
-
-                }
-                else
-                {
-                    $('.shop-by-category-menu .mgz-tabs-tab-title').addClass('retract');
-                    $('.shop-by-category-menu .item-submenu').addClass('expand');
-                    $('.shop-by-category-menu .mgz-tabs-tab-title span').hide();
-                }
-                activeclick = clickedMenu;
-
-                //mobile
-
-                let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
-
-                if (isMobile) {
-                    $('.category-tabs .mgz-tabs-tab-title').addClass('retract');
-                    $('.category-tabs .item-submenu').addClass('expand');
-                    $('.category-tabs .mgz-tabs-tab-title span').hide();
-                }
-
-                //redeploy
-
             });
 
             self.menu.find('.nav-item').each(function(index, el) {
@@ -195,10 +151,10 @@ define([
             } else {
                 if (self.options.hasOwnProperty('hoverDelayTimeout')) {
                     $('.nav-item', this.menu).hoverIntent({
-                        sensitivity: 2,
-                        interval: 100,
-                        over: self.onMouseHoverIntent.bind(this),
-                        timeout: self.options.hoverDelayTimeout,
+                        sensitivity: 2, 
+                        interval: 100, 
+                        over: self.onMouseHoverIntent.bind(this), 
+                        timeout: self.options.hoverDelayTimeout, 
                         out: self.onMouseLeaveIntent.bind(this)
                     });
                 } else {
@@ -253,6 +209,50 @@ define([
             this.menu.parent().on("click", ".menu-trigger-inner", function (e) {
                 $(this).parent().parent().toggleClass('ninjamenus-hamburger-active');
             });
+            
+            //clint
+            var clickedMenu = $('.shop-by-category-menu .mgz-tabs-tab-content.mgz-active').attr('id');
+
+            if(activeclick === clickedMenu)
+            {
+                if($('.shop-by-category-menu .mgz-tabs-tab-title').hasClass('retract'))
+                {
+                    $('.shop-by-category-menu .mgz-tabs-tab-title').removeClass('retract');
+                    $('.shop-by-category-menu .item-sub-menu').removeClass('expand');
+                    $('.shop-by-category-menu .mgz-tabs-tab-title span').show();
+                    $('.shop-by-category-menu .mgz-tabs-tab-title span.tabs-opener').hide();
+                    $('.shop-by-category-menu .mgz-tabs-tab-title').removeClass('mgz-active');
+                    $('.shop-by-category-menu .item-submenu.mgz-element-inner').removeClass('expand');
+                    $('.shop-by-category-menu .mgz-tabs-content .mgz-tabs-tab-content').removeClass('mgz-active');
+                }
+                else
+                {
+                    $('.shop-by-category-menu .mgz-tabs-tab-title').addClass('retract');
+                    $('.shop-by-category-menu .item-submenu').addClass('expand');
+                    $('.shop-by-category-menu .mgz-tabs-tab-title span').hide();
+                }
+
+            }
+            else
+            {
+                $('.shop-by-category-menu .mgz-tabs-tab-title').addClass('retract');
+                $('.shop-by-category-menu .item-submenu').addClass('expand');
+                $('.shop-by-category-menu .mgz-tabs-tab-title span').hide();
+            }
+            activeclick = clickedMenu;
+
+            //mobile
+
+            let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
+            if (isMobile) {
+                $('.category-tabs .mgz-tabs-tab-title').addClass('retract');
+                $('.category-tabs .item-submenu').addClass('expand');
+                $('.category-tabs .mgz-tabs-tab-title span').hide();
+            }
+
+            //redeploy
+
             self._initAddCustomClass();
             self._initThirdLayerOpener();
         },
@@ -572,7 +572,7 @@ define([
 
                 //
                 // ..ninjamenus
-            }
+        }
         },
 
         _initThirdLayerOpener: function () {
@@ -585,7 +585,7 @@ define([
                 if (windowsize < 1279) {
                     $(".menu-second-level").removeAttr("style");
                 }
-            });
+    });
 
             $(".return-to-second-layer").click(function(){
                 $(".menu-second-level").removeAttr("style");
