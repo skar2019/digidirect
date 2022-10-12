@@ -24,6 +24,7 @@ define([
 
         /**
          * @private
+         * redeploy
          */
         _create: function () {
             this.menu = this.element;
