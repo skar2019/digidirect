@@ -28,7 +28,6 @@
 				</field>
 				<field id="enabled" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Enable Ninja Menus</label>
-					<comment>if you want to Disable the module and view the default menu, please select No. Don’t forget to refresh cache layout</comment>
 					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 				</field>
 			</group>

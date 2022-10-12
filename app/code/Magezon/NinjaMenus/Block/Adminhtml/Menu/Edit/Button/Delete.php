@@ -28,7 +28,7 @@ class Delete extends Generic
                 'class'    => 'delete',
                 'on_click' => 'deleteConfirm(\'' . __(
                     'Are you sure you want to do this?'
-                ) . '\', \'' . $this->getUrl('*/*/delete', ['menu_id' => $this->getCurrentMenu()->getId()]) . '\')',
+                ) . '\', \'' . $this->getUrl('*/*/delete', ['id' => $this->getCurrentMenu()->getId()]) . '\')',
                 'sort_order' => 20
             ];
         }
