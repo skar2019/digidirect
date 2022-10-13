@@ -22,7 +22,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
     const TAB_RESPONSIVE = 'tab_responsive';
 
     /**
-     * @var \Magezon\Builder\Data\Form\Element\Fieldset
+     * @var Magezon\Builder\Data\Form\Element\Fieldset
      */
     protected $_formTab;
 
@@ -52,9 +52,9 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
     protected $_allFields = [];
 
     /**
-     * @param \Magezon\Builder\Data\FormFactory $formFactory
-     * @param \Magezon\Builder\Helper\Data      $builderHelper
-     * @param array                             $data
+     * @param \Magezon\Builder\Data\FormFactory $formFactory 
+     * @param \Magezon\Builder\Helper\Data      $builderHelper  
+     * @param array                             $data        
      */
     public function __construct(
         \Magezon\Builder\Data\FormFactory $formFactory,
@@ -74,6 +74,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
      */
     protected function _construct()
     {
+
     }
 
     /**
@@ -149,9 +150,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
             $id      = $element->getId();
             $type    = $element->getType();
             $field   = $element->getConfig();
-            if (!isset($field['config']['sortOrder'])) {
-                $field['config']['sortOrder'] = 0;
-            }
+            if (!isset($field['config']['sortOrder'])) $field['config']['sortOrder'] = 0;
 
             if (isset($field['config']['key'])) {
                 if ($key) {
@@ -178,9 +177,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
             $field['config']['templateOptions']['builderType'] = $type;
             $field['config']['templateOptions']['elementId']   = $id;
 
-            if (!isset($field['config']['className'])) {
-                $field['config']['className'] = '';
-            }
+            if (!isset($field['config']['className'])) $field['config']['className'] = '';
 
             if (isset($field['config']['templateOptions']['controlInline']) && $field['config']['templateOptions']['controlInline']) {
                 $field['config']['className'] .= ' mgz__field-control-inline';
@@ -192,8 +189,8 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
 
             $fields[$id] = $field;
 
-            usort($fields, function ($a, $b) {
-                return $a['config']['sortOrder'] <=> $b['config']['sortOrder'];
+            usort($fields, function($a, $b) {
+                return ($a['config']['sortOrder'] > $b['config']['sortOrder']);
             });
             $key = $orgiKey;
         }
@@ -211,7 +208,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
      */
     public function getFormFields()
     {
-        if ($this->_formFields == null) {
+        if ($this->_formFields == NULL) {
             $this->_formFields = $this->getElementFields($this->getForm()->getElements()->usort([$this, "compare"]));
         }
         return $this->_formFields;
@@ -228,11 +225,11 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
     }
 
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function getFormTab()
     {
-        if ($this->_formTab == null) {
+        if ($this->_formTab == NULL) {
             $this->_formTab = $this->getForm()->addTab('tab', ['className' => 'mgz-modal-tab']);
         }
         return $this->_formTab;
@@ -252,9 +249,6 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
 
     /**
      * Remove tab by name
-     *
-     * @param string $tab
-     * @return $this
      */
     public function removeTab($tab)
     {
@@ -277,7 +271,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
     }
 
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareGeneralTab()
     {
@@ -470,7 +464,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
     }
 
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareDesignTab()
     {
@@ -1609,7 +1603,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
     }
 
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareCarouselTab($sortOrder = 80)
     {
@@ -1755,6 +1749,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
                                 ]
                             ]
                         );
+
 
             $container1 = $carousel->addContainerGroup(
                 'container1',
@@ -2126,8 +2121,9 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
         return $carousel;
     }
 
+
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareGridTab($sortOrder = 80)
     {
@@ -2238,11 +2234,12 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
                     ]
                 );
 
+
         return $grid;
     }
 
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareButtonTab()
     {
@@ -2374,6 +2371,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
                         ]
                     ]
                 );
+
 
             $border1 = $button->addContainerGroup(
                 'border1',
@@ -2552,7 +2550,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
     }
 
     /**
-     * @return \Magezon\Builder\Data\Form\Element\Fieldset
+     * @return Magezon\Builder\Data\Form\Element\Fieldset
      */
     public function prepareButtonDesignTab()
     {
@@ -2667,6 +2665,7 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
                         ]
                     ]
                 );
+
 
             $border1 = $design->addContainerGroup(
                 'border1',
@@ -3126,15 +3125,15 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
     }
 
     /**
-     * @param  int  $from
-     * @param  int  $to
-     * @param  boolean $prefix
-     * @return array
+     * @param  int  $from   
+     * @param  int  $to     
+     * @param  boolean $prefix 
+     * @return array          
      */
     public function getRange($from, $to, $step = 1, $prefix = false, $suffix = '')
     {
         $options = [];
-        for ($i = $from; $i <= $to; $i) {
+        for ($i = $from; $i <= $to; $i) { 
             $label = $value = $i;
             if ($i < 10 && $prefix) {
                 $label = '0' . $label;
@@ -3148,9 +3147,6 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
         return $options;
     }
 
-    /**
-     * @return array
-     */
     public function getGridColumn()
     {
         $options = [];
@@ -3408,9 +3404,6 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getButtonStyle()
     {
         return [
@@ -3429,9 +3422,6 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getContentPosition()
     {
         return [
@@ -3474,9 +3464,6 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getFloatOptions()
     {
         return [
@@ -3495,9 +3482,6 @@ abstract class AbstractElement extends \Magento\Framework\DataObject
         ];
     }
 
-    /**
-     * @return array
-     */
     public function getOrientationOptions()
     {
         return [

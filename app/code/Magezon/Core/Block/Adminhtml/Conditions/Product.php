@@ -172,7 +172,6 @@ class Product extends Extended
             ['is_in_stock']
         );
         $collection->getSelect()->group('e.entity_id');
-
         $this->setCollection($collection);
         if (empty($productIds)) {
             $productIds = 0;

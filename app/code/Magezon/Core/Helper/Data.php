@@ -44,17 +44,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $cmsPage;
 
     /**
-     * @var \Magezon\Core\Framework\Serialize\Serializer\Json
+     * @var \Magezon\Builder\Serialize\Serializer\Json
      */
     protected $serializer;
 
     /**
-     * @param \Magento\Framework\App\Helper\Context             $context
-     * @param \Magento\Store\Model\StoreManagerInterface        $storeManager
-     * @param \Magento\Cms\Model\Template\FilterProvider        $filterProvider
-     * @param \Magento\Framework\Registry                       $registry
-     * @param \Magento\Cms\Model\Page                           $cmsPage
-     * @param \Magezon\Core\Framework\Serialize\Serializer\Json $serializer
+     * @param \Magento\Framework\App\Helper\Context             $context        
+     * @param \Magento\Store\Model\StoreManagerInterface        $storeManager   
+     * @param \Magento\Cms\Model\Template\FilterProvider        $filterProvider 
+     * @param \Magento\Framework\Registry                       $registry       
+     * @param \Magento\Cms\Model\Page                           $cmsPage           
+     * @param \Magezon\Core\Framework\Serialize\Serializer\Json $serializer     
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -74,24 +74,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
    
     public function filter($str)
     {
-        if (!$str || !is_string($str)) {
-            return $str;
-        }
+        if (!$str) return;
         $str       = $this->decodeDirectiveImages($str);
         $storeId   = $this->_storeManager->getStore()->getId();
         $filter    = $this->filterProvider->getBlockFilter()->setStoreId($storeId);
         $variables = [];
-        if ($this->cmsPage->getId()) {
-            $variables['page'] = $this->cmsPage;
-        }
-        if ($category = $this->getCurrentCategory()) {
-            $variables['category'] = $category;
-        }
-        if ($product = $this->getCurrentProduct()) {
-            $variables['product'] = $product;
-        }
+        if ($this->cmsPage->getId()) $variables['page'] = $this->cmsPage;
+        if ($category = $this->getCurrentCategory()) $variables['category'] = $category;
+        if ($product = $this->getCurrentProduct()) $variables['product'] = $product;
         $filter->setVariables($variables);
-        $productMetadata = ObjectManager::getInstance()->get(\Magento\Framework\App\ProductMetadataInterface::class);
+        $productMetadata = ObjectManager::getInstance()->get('Magento\Framework\App\ProductMetadataInterface');
         if ($productMetadata->getVersion() >= '2.4.0') {
             $filter->setStrictMode(false);
         }
@@ -116,12 +108,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param  string $content
-     * @return string
+     * @return string         
      */
-    public function decodeDirectiveImages($content)
-    {
+    public function decodeDirectiveImages($content) {
         $matches = $search = $replace = [];
-        preg_match_all('/<img[\s\r\n]+.*?>/is', $content, $matches);
+        preg_match_all( '/<img[\s\r\n]+.*?>/is', $content, $matches );
         foreach ($matches[0] as $imgHTML) {
             $key = 'directive/___directive/';
             if (strpos($imgHTML, $key) !== false) {
@@ -138,7 +129,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 }
             }
         }
-        return str_replace($search, $replace, $content);
+        return str_replace( $search, $replace, $content );
     }
 
     public function unserialize($string)
@@ -205,7 +196,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param  string $string
-     * @return string
+     * @return string         
      */
     public function getImageUrl($string)
     {
@@ -280,28 +271,28 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Filter images with placeholders in the content
-     *
+     * 
      * @param  string $content
      * @return string
      */
     public function filterCarouselLazyImage($content)
     {
         $matches = $search = $replace = [];
-        preg_match_all('/<img[\s\r\n]+.*?>/is', $content, $matches);
+        preg_match_all( '/<img[\s\r\n]+.*?>/is', $content, $matches );
         $placeHolderUrl = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg==';
         $lazyClasses    = 'owl-lazy';
 
         foreach ($matches[0] as $imgHTML) {
-            if (! preg_match("/src=['\"]data:image/is", $imgHTML) && strpos($imgHTML, 'data-src')===false) {
+            if ( ! preg_match( "/src=['\"]data:image/is", $imgHTML ) && strpos($imgHTML, 'data-src')===false) {
 
                 // replace the src and add the data-src attribute
-                $replaceHTML = preg_replace('/<img(.*?)src=/is', '<img$1src="' . $placeHolderUrl . '" data-src=', $imgHTML);
+                $replaceHTML = preg_replace( '/<img(.*?)src=/is', '<img$1src="' . $placeHolderUrl . '" data-src=', $imgHTML );
 
                 // add the lazy class to the img element
-                if (preg_match('/class=["\']/i', $replaceHTML)) {
-                    $replaceHTML = preg_replace('/class=(["\'])(.*?)["\']/is', 'class=$1' . $lazyClasses . ' $2$1', $replaceHTML);
+                if ( preg_match( '/class=["\']/i', $replaceHTML ) ) {
+                    $replaceHTML = preg_replace( '/class=(["\'])(.*?)["\']/is', 'class=$1' . $lazyClasses . ' $2$1', $replaceHTML );
                 } else {
-                    $replaceHTML = preg_replace('/<img/is', '<img class="' . $lazyClasses . '"', $replaceHTML);
+                    $replaceHTML = preg_replace( '/<img/is', '<img class="' . $lazyClasses . '"', $replaceHTML );
                 }
 
                 $search[]  = $imgHTML;
@@ -309,14 +300,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
-        $content = str_replace($search, $replace, $content);
+        $content = str_replace( $search, $replace, $content );
 
         return $content;
     }
 
     /**
-     * @param  int $number
-     * @return int
+     * @param  int $number 
+     * @return int         
      */
     public function getResponsiveClass($number)
     {
@@ -330,8 +321,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param  string $value
-     * @return string
+     * @param  string $value 
+     * @return string        
      */
     public function getStyleColor($value, $isImportant = false)
     {
@@ -348,7 +339,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param  string $value
-     * @return string
+     * @return string       
      */
     public function getStyleProperty($value, $isImportant = false, $unit = '')
     {
@@ -359,9 +350,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $value .= 'px';
             }
         }
-        if ($value == '-') {
-            $value = '';
-        }
+        if ($value == '-') $value = '';
         if ($value && $isImportant) {
             $value .= ' !important';
         }
@@ -369,10 +358,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param  string|array $target
-     * @param  array $styles
-     * @param  string $suffix
-     * @return string
+     * @param  string|array $target 
+     * @param  array $styles 
+     * @param  string $suffix 
+     * @return string         
      */
     public function getStyles($target, $styles, $suffix = '')
     {
@@ -387,7 +376,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $count = count($target);
             foreach ($target as $_selector) {
                 $html .= $_selector . $suffix;
-                if ($i!=$count-1) {
+                if ($i!=$count-1)  {
                     $html .= ',';
                 }
                 $i++;
@@ -396,9 +385,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $html = $target . $suffix;
         }
         $stylesHtml = $this->parseStyles($styles);
-        if (!$stylesHtml) {
-            return;
-        }
+        if (!$stylesHtml) return;
         if ($styles) {
             $html .= '{';
             $html .= $stylesHtml;
@@ -408,32 +395,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param  array $styles
-     * @return string
+     * @param  array $styles 
+     * @return string       
      */
     public function parseStyles($styles)
     {
         $result = '';
         foreach ($styles as $k => $v) {
-            if ($v=='') {
-                continue;
-            }
+            if ($v=='') continue;
             $result .= $k . ':' . $v . ';';
         }
         return $result;
     }
 
-    /**
-     * Check value is null
-     *
-     * @param $value
-     * @return bool
-     */
-    public function isNull($value)
-    {
-        if (is_numeric($value)) {
-            return false;
-        }
+    public function isNull($value) {
+        if (is_numeric($value)) return false;
         if ($value === '' || $value === null) {
             return true;
         }
@@ -441,8 +417,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @param  string $html
-     * @return string
+     * @param  string $html 
+     * @return string       
      */
     public function cleanStyle($html)
     {

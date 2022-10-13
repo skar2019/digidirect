@@ -2,7 +2,7 @@
     "name": "magezon/module-pagebuilder",
     "description": "Magento 2 Page Builder: Page Builder, Landing Page Builder, Home Page, Static Block, Product Description",
     "require": {
-        "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0|~8.1.0",
+        "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0||~8.1.0",
         "magezon/module-core": "*",
         "magezon/module-builder": "*",
         "magezon/module-newsletter": "*"

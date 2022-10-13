@@ -66,8 +66,8 @@ class ImageCarousel extends \Magezon\Builder\Block\Element
     {
         $size    = [];
         $element = $this->getElement();
-        if ($imgSize = $element->getData('image_size')) {
-            $size    = array_filter(explode("x", $imgSize));
+        $size    = array_filter(explode("x", $element->getData('image_size')));
+        if ($size) {
             $width  = $size[0];
             $height = isset($size[1]) ? $size[1] : 0;
             $size = [
@@ -77,7 +77,6 @@ class ImageCarousel extends \Magezon\Builder\Block\Element
         }
         return $size;
     }
-
     /**
      * @return string
      */

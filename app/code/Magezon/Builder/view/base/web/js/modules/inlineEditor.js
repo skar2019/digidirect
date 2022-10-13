@@ -1,77 +1,59 @@
-define(["jquery", "angular"], function ($, angular) {
-    var directive = function (
-        $rootScope,
-        magezonBuilderEditor,
-        magezonBuilderService,
-        magezonBuilderFilter,
-        $document,
-        $timeout
-    ) {
-        return {
-            require: "ngModel",
-            link: function (scope, element, attrs, ngModel) {
-                element.addClass("mgz-inline-editor");
-                element.attr("contenteditable", true);
+define([
+	'jquery',
+	'angular'
+], function ($, angular) {
 
-                scope.id = magezonBuilderService.uniqueid();
-                scope.wysiwyg = Object.extend(
-                    angular.copy($rootScope.builderConfig.wysiwyg),
-                    scope.wysiwyg
-                );
-                scope.wysiwyg["inline"] = true;
-                scope.wysiwyg["fixed_toolbar_container"] =
-                    "." + scope.element.id + " .mgz-element-inner";
-                element.attr("id", scope.id);
+	var directive = function($rootScope, magezonBuilderEditor, magezonBuilderService, magezonBuilderFilter, $document, $timeout) {
+		return {
+			require: "ngModel",
+			link: function(scope, element, attrs, ngModel) {
+				element.addClass('mgz-inline-editor');
+				element.attr('contenteditable', true);
 
-                ngModel.$render = function () {
-                    element.html(
-                        magezonBuilderFilter.encodeContent(
-                            ngModel.$viewValue
-                        ) || ""
-                    );
-                };
+				scope.id = magezonBuilderService.uniqueid();
+				scope.wysiwyg = Object.extend(angular.copy($rootScope.builderConfig.wysiwyg), scope.wysiwyg);
+				scope.wysiwyg['inline'] = true;
+				scope.wysiwyg['fixed_toolbar_container'] = '.' + scope.element.id + ' .mgz-element-inner';
+				element.attr('id', scope.id);
 
-                element.bind("click", function (e) {
-                    $rootScope.$broadcast("disableEditing", scope.element);
-                    $timeout(function () {
-                        scope.element.builder.editing = true;
-                    }, 1000);
-                    e.stopPropagation();
-                });
+				ngModel.$render = function() {
+					element.html(magezonBuilderFilter.encodeContent(ngModel.$viewValue) || "");
+				};
 
-                const config = scope.wysiwyg;
-                if (config) {
-                    element.on("mouseenter", function () {
-                        magezonBuilderEditor.initTinymce(
-                            scope.id,
-                            config,
-                            function (value) {
-                                ngModel.$setViewValue(
-                                    magezonBuilderFilter.decodeContent(value)
-                                );
-                            }
-                        );
-                    });
-                }
+				element.bind("click", function(e) {
+					$rootScope.$broadcast('disableEditing', scope.element);
+					$timeout(function () {
+						scope.element.builder.editing = true;
+					}, 1000);
+					e.stopPropagation();
+				});
 
-                element.bind("blur", function (e) {
-                    if (scope.element) {
-                        $timeout(function () {
-                            scope.element.builder.editing = false;
-                        });
-                    }
-                });
+				if ($rootScope.builderConfig.wysiwyg.tinymce4) {
+					element.on('mouseenter', function() {
+						magezonBuilderEditor.initTinymce(scope.id, scope.wysiwyg, function(value) {
+							ngModel.$setViewValue(magezonBuilderFilter.decodeContent(value));
+						});
+					});
+				}
 
-                scope.$on("disableEditing", function (e, elem) {
-                    if (scope.element) {
-                        if (elem.id !== scope.element.id) {
-                            scope.element.builder.editing = false;
-                        }
-                    }
-                });
-            },
-        };
-    };
+				element.bind("blur", function(e) {
+					if (scope.element) {
+						$timeout(function () {
+							scope.element.builder.editing = false;
+						});
+					}
+				});
 
-    return directive;
+				scope.$on('disableEditing', function(e, elem) {
+					if (scope.element) {
+						if (elem.id !== scope.element.id) {
+							scope.element.builder.editing = false;
+						}
+					}
+				});
+			}
+		}
+	}
+
+	return directive;
 });

@@ -14,6 +14,8 @@
 
 namespace Magezon\Builder\Ui\Component\Form\Element;
 
+use \Magento\Framework\App\ObjectManager;
+
 use Magento\Framework\Data\Form\Element\Editor;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\Data\Form;
@@ -37,14 +39,14 @@ class Builder extends \Magento\Ui\Component\Form\Element\AbstractElement
     protected $editor;
 
     /**
-     * @param ContextInterface                      $context
-     * @param FormFactory                           $formFactory
-     * @param ConfigInterface                       $wysiwygConfig
-     * @param \Magento\Framework\View\LayoutFactory $layoutFactory
-     * @param \Magento\Framework\Registry           $registry
-     * @param array                                 $components
-     * @param array                                 $data
-     * @param array                                 $config
+     * @param ContextInterface                      $context       
+     * @param FormFactory                           $formFactory   
+     * @param ConfigInterface                       $wysiwygConfig 
+     * @param \Magento\Framework\View\LayoutFactory $layoutFactory 
+     * @param \Magento\Framework\Registry           $registry      
+     * @param array                                 $components    
+     * @param array                                 $data          
+     * @param array                                 $config        
      */
     public function __construct(
         ContextInterface $context,
@@ -56,6 +58,7 @@ class Builder extends \Magento\Ui\Component\Form\Element\AbstractElement
         array $data = [],
         array $config = []
     ) {
+        //echo $config['disableMagezonBuilder'];die;
         if (!isset($config['disableMagezonBuilder']) || !$config['disableMagezonBuilder']) {
             $htmlId                        = $context->getNamespace() . '_' . $data['name'];
             $data['config']['htmlId']      = $htmlId;
