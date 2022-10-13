@@ -57,6 +57,18 @@
     $categoryName = $categoryObject->getName();
 ?>
 
+
+<!--digi-seconds modal-->
+<div class="digi-seconds-modal" style="width: 1095px;margin-right: 0;margin-left: auto;">
+    <a href="#" id="digisecondsForm_trigger">
+       test modal
+    </a>
+    <div id="digisecondsForm">
+        <h1> Hi I'm here.... </h1>
+    </div>
+    
+</div>
+
 <div class="category-page-banner" style="width: 1095px;margin-right: 0;margin-left: auto;">
     <div class="custom-preloader-container"><div class="custom-preloader"></div></div>
     <div class="banner-desktop" style="display: none;">
@@ -130,6 +142,44 @@
             //console.log("DOMSubtreeModified Working On Banner Category");
         });
     });
+    
+//    digi-seconds modal form
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: '',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }],
+                opened: function($Event) {
+                    // $(".modal-footer").hide();
+                    $(".modal-header").css("background-color","yellow");
+                    $(".modal-footer").hide();
+                }
+            };
+
+
+            var popup = modal(options, $('#digisecondsForm'));
+            $("#digisecondsForm_trigger").on('click',function(){ 
+                $("#digisecondsForm").modal("openModal");
+            });
+
+        }
+    );
 </script>
 
 <style>
