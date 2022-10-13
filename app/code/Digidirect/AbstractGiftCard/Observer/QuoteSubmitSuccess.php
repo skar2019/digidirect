@@ -108,7 +108,7 @@ class QuoteSubmitSuccess implements ObserverInterface
                 $entityOrderData->setToken($entity->getToken());
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
-                $this->logger->info('GiftCardLog Save Entity Order Data '.$entityOrderData);
+                $this->logger->info('GiftCardLog Save Entity Order Data ');
             } catch (NoSuchEntityException $e) {
                 $this->logger->info('GiftCardLog Error : ' .$e->getMessage());
                 continue;
