@@ -164,8 +164,14 @@
                     click: function () {
                         this.closeModal();
                     }
-                }]
+                }],
+                opened: function($Event) {
+                    // $(".modal-footer").hide();
+                    $(".modal-header").css("background-color","yellow");
+                    $(".modal-footer").hide();
+                }
             };
+
 
             var popup = modal(options, $('#digisecondsForm'));
             $("#digisecondsForm_trigger").on('click',function(){ 
