@@ -19,28 +19,34 @@ $id        = $this->getHtmlId();
         data-mage-init='{"Magezon_Newsletter/js/form":{"emailAjaxUrl": "<?= $block->escapeUrl($block->getEmailUrl()) ?>"}}'>
         <div class="mgz-newsletter-fields">
             <div class="mgz-newsletter-field email required">
-                <input name="email" type="email"
-                       placeholder="<?= $block->escapeHtmlAttr(__('Your email')) ?>"
-                       data-mage-init='{"mage/trim-input":{}}'
-                       data-validate="{required:true, 'validate-email':true}"
-                />
+                <label>
+                    <input name="email" type="email"
+                           placeholder="<?= $block->escapeHtmlAttr(__('Your email')) ?>"
+                           data-mage-init='{"mage/trim-input":{}}'
+                           data-validate="{required:true, 'validate-email':true}"
+                    />
+                </label>
             </div>
             <?php if ($firstname) { ?>
             <div class="mgz-newsletter-field firstname required">
-                <input name="firstname" type="text"
-                       placeholder="<?= $block->escapeHtmlAttr(__('First Name')) ?>"
-                       data-mage-init='{"mage/trim-input":{}}'
-                       data-validate="{required:true}"
-                />
+                <label>
+                    <input name="firstname" type="text"
+                           placeholder="<?= $block->escapeHtmlAttr(__('First Name')) ?>"
+                           data-mage-init='{"mage/trim-input":{}}'
+                           data-validate="{required:true}"
+                    />
+                </label>
             </div>
             <?php } ?>
             <?php if ($lastname) { ?>
             <div class="mgz-newsletter-field lastname required">
-                <input name="lastname" type="text"
-                       placeholder="<?= $block->escapeHtmlAttr(__('Last Name')) ?>"
-                       data-mage-init='{"mage/trim-input":{}}'
-                       data-validate="{required:true}"
-                />
+                <label>
+                    <input name="lastname" type="text"
+                           placeholder="<?= $block->escapeHtmlAttr(__('Last Name')) ?>"
+                           data-mage-init='{"mage/trim-input":{}}'
+                           data-validate="{required:true}"
+                    />
+                </label>
             </div>
             <?php } ?>
         </div>
