@@ -61,7 +61,7 @@
 <!--digi-seconds modal-->
 <div class="digi-seconds-modal" style="width: 1095px;margin-right: 0;margin-left: auto;">
     <a href="#" id="digisecondsForm_trigger">
-        <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/digiseconds/digi-seconds-trigger-button.png">
+        <img class="digisecondsForm_triggerImg" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/digiseconds/digi-seconds-trigger-button.png">
         <!-- <//?php if (in_array($categoryId, $allChildrenCategoryIdsDigiSeconds)) : ?>
             <img src="<//?php echo $block->getUrl("media/wysiwyg/digiseconds")?>digi-seconds-trigger-button.png"/>
         <//?php endif; ?> -->
@@ -181,6 +181,7 @@
             $("#digisecondsForm_trigger").on('click',function(){ 
                 $("#digisecondsForm").modal("openModal");
             });
+            $( "#digisecondsForm_trigger" ).prepend( "<b>Hello </b>" );
 
         }
     );
