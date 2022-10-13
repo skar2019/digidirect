@@ -61,7 +61,10 @@
 <!--digi-seconds modal-->
 <div class="digi-seconds-modal" style="width: 1095px;margin-right: 0;margin-left: auto;">
     <a href="#" id="digisecondsForm_trigger">
-        <img src="{{media url=wysiwyg/digiseconds/digi-seconds-trigger-button.png}}">
+        <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/digiseconds/digi-seconds-trigger-button.png">
+        <!-- <//?php if (in_array($categoryId, $allChildrenCategoryIdsDigiSeconds)) : ?>
+            <img src="<//?php echo $block->getUrl("media/wysiwyg/digiseconds")?>digi-seconds-trigger-button.png"/>
+        <//?php endif; ?> -->
     </a>
 
     <div id="digisecondsForm">
