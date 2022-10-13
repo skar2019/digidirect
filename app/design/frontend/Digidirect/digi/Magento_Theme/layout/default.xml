@@ -40,9 +40,9 @@
         <move element="my-account-link" destination="authorization-link"/>
         
          <referenceBlock name="store.menu">
-            <block class="Magezon\NinjaMenus\Block\TopMenu" name="catalog.topnav" template="Magezon_NinjaMenus::topmenu.phtml" before="-">
+            <block class="Magento\Cms\Block\Block" name="new.test.block">
                 <arguments>
-                    <argument name="identifier" translate="true" xsi:type="string">topmenu</argument>
+                    <argument name="block_id" xsi:type="string">new-test-block</argument>
                 </arguments>
             </block>
         </referenceBlock>
