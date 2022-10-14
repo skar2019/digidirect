@@ -67,49 +67,49 @@
         <//?php endif; ?> -->
     </a>
 
-    <div id="digisecondsForm formContentBgGrey">
+    <div id="digisecondsForm">
         <div id="digiSecondFormTitle">
       		<h2>Sell Your Used Gear and Gadgets</h2>
 	      	<p>Fill out the information form and our representative will contact you for the next steps</p>
       	</div>
 
-        <form id="digiSecondFormSell">
-            <div class="formContentBgWhite">
-                <div class="grid-column">
-                    <input name="firstname" type="text" placeholder="First Name">
-                    <input name="lastname" type="text" placeholder="Last Name">
-                    <input name="phone" type="text" placeholder="Contact Number">
-                    <input name="email" type="text" placeholder="Email Addres">
+       	      
+			<form id="digiSecondFormSell">
+
+                <!-- <form action="<?php echo $block->getFormAction() ?>" method="post"> -->
+                <div class="formContentBgWhite">
+                    <div class="grid-column">
+                        <input name="firstname" type="text" placeholder="First Name">
+                        <input name="lastname" type="text" placeholder="Last Name">
+                        <input name="phone" type="text" placeholder="Contact Number">
+                        <input name="email" type="text" placeholder="Email Addres">
+                    </div>
+                    <div class="sell-text">
+                        <p>WHAT YOU LIKE TO SELL?</p>
+                    </div>
+
+                    <div class="grid-column">
+                        <input name="brands" type="text" placeholder="Brand">
+                        <input name="productName" type="text" placeholder="Product Name / Model">
+                        <input name="purchaseYear" type="text" placeholder="Year of Purchase">
+                    </div>
+
+                    <br>
+                    <div class="notes">
+                        <p>Note (Add all accessories you want to include)</p>
+                        <textarea  name="notes"></textarea>
+                    </div>
+                    <div class="grid-column">
+                        <input name="askingPrice" type="text" placeholder="Asking Price">
+                    </div>
+                    <br>
                 </div>
 
-                <div class="sell-text">
-                    <p>WHAT YOU LIKE TO SELL?</p>
+                <div class="digiSecondFormBtn">
+                    <input type="submit" value="Submit">
                 </div>
 
-                <div class="grid-column">
-                    <input name="brands" type="text" placeholder="Brand">
-                    <input name="productName" type="text" placeholder="Product Name / Model">
-                    <input name="purchaseYear" type="text" placeholder="Year of Purchase">
-                </div>
-
-                <br>
-                <div class="notes">
-                    <p>Note (Add all accessories you want to include)</p>
-                    <textarea  name="notes"></textarea>
-                </div>
-
-                <div class="grid-column">
-                    <input name="askingPrice" type="text" placeholder="Asking Price">
-                </div>
-                <br>
-
-            </div>
-
-            <div class="digiSecondFormBtn">
-                <input type="submit" value="Submit">
-            </div>
-
-        </form>
+            </form>
     </div>
     
 </div>
@@ -233,14 +233,7 @@
     .digiseconds-li {
         width: 46.7% !important;
     }
-    #digiSecondFormSell, #digiSecondFormTitle {
-		margin: 15px;
-	}
-
-	#digiSecondFormTitle {
-		margin: 35px;
-	}
-	#digiSecondFormTitle h2 {
+    #digiSecondFormTitle h2 {
 		color: black;
 		font-weight: 500;	
 	}
@@ -249,49 +242,11 @@
 		font-weight: 400;
 	}
 
-	#digiSecondFormSell .grid-column {
+    #digiSecondFormSell .grid-column {
 	    display: grid;
 	    grid-template-columns: 1fr 1fr;
 	    grid-gap: 20px;
 	    margin: 0 25px;
-	}
-	#digiSecondFormSell input {
-		height: 35px;
-		border: none;
-		border-bottom: 1px solid #727272;
-		font-size: 15px;
-		outline: none;
-	}
-
-	#digiSecondFormSell textarea {
-		height: 100px;
-		width: 100% !important;
-		font-size: 15px;
-		outline: none;
-		border: 1px solid #cacaca;
-	}
-
-	#digiSecondFormSell .notes, #digiSecondFormSell .sell-text {
-		margin: 15px 25px;
-	}
-
-	.formContentBgGrey {
-		background: lightgrey;
-	}
-
-	 .formContentBgWhite {
-		background: white;
-		padding: 25px 15px;
-		margin: 25px;
-	}
-
-	.digiSecondFormBtn input {
-		background: #ff3c00;
-		border: none !important;
-		margin: 0 25px;
-		color: white;
-		width: 100px;
-		height: 150px;
 	}
 </style>
 
