@@ -47,6 +47,7 @@ $groupCss = $block->getGroupCss();
     .nav-mobile-menu {
         left: 0;
         z-index: 99;
+        border-right: 1px solid #cacaca !important;
     }
 </style>
 
@@ -56,8 +57,8 @@ $groupCss = $block->getGroupCss();
             $("#nav-sections-id").addClass("nav-mobile-menu");
         });
         
-        $("#nav-sections-id").focusout(function(){
-            $(this).removeClass("nav-mobile-menu");
+        $(".mobile-menu-main-exit").click(function(){
+            $("#nav-sections-id").removeClass("nav-mobile-menu");
         });
     });
 </script>
