@@ -42,3 +42,22 @@ $groupCss = $block->getGroupCss();
         </div>
     </div>
 <?php endif; ?>
+
+<style>
+    .nav-mobile-menu {
+        left: 0;
+        z-index: 99;
+    }
+</style>
+
+<script>
+    require(['jquery'],function($){
+        $("#header-toggle-nav").click(function() {
+            $("#nav-sections-id").addClass("nav-mobile-menu");
+        });
+        
+        $("#nav-sections-id").focusout(function(){
+            $(this).removeClass("nav-mobile-menu");
+        });
+    });
+</script>
