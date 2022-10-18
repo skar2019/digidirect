@@ -221,7 +221,7 @@
                     var handleMatchMedia = function(md) {
                         if (md.matches) {
                             // alert("matched");
-                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: #f5f5f5 !important; width: 80% !important;');
+                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: #f5f5f5 !important; width: 80% !important; top: 50%;');
                         } else {
                             // alert("not matched");
                             $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: #f5f5f5 !important; width: 50% !important;');
@@ -347,6 +347,10 @@
     @media only screen and (max-width: 780px) {
         #digiSecondFormSell .grid-column {
             display: block !important;
+        }
+
+        #digiSecondFormSell, #digiSecondFormTitle {
+            margin: 0px;
         }
     }
 </style>
