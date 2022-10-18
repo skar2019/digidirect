@@ -1,3 +1,5 @@
+<?php
+?>
 <?php if ($detailedInfoGroup = $block->getGroupChildNames('detailed_info', 'getChildHtml')): ?>
     <?php $childNames = $block->getChildNames();?>
     <?php $detailedInfoGroup = array_intersect($childNames, $detailedInfoGroup); ?>
@@ -81,26 +83,14 @@
 </script>
 <?php endif; ?>
 
-<?php $_product = $block->getProduct(); 
-    $attr_exists = $_product->getResource()->getAttribute('brand');
-
-    if ($attr_exists){
-        $brand_name = $_product->getAttributeText('brand');
-    }
-    
-    $attr2_exists = $_product->getResource()->getAttribute('apn');
-
-    if ($attr2_exists){
-        $apn = $_product->getAttributeText('apn');
-    }
-?>
+<?php $_product = $block->getProduct(); ?>
 
 <script type='text/javascript'>
     var ccs_cc_args = ccs_cc_args || [];
 
     // 1WS Product Page
-    ccs_cc_args.push(['mf', '<?php $brand_name; ?>']);
-    ccs_cc_args.push(['pn', '<?php $apn; ?>']);
+    ccs_cc_args.push(['mf', '<?php echo $_product->getCustomAttribute('brand')->getValue(); ?>']);
+    ccs_cc_args.push(['pn', '<?php echo $_product->getCustomAttribute('apn')->getValue(); ?>']);
     ccs_cc_args.push(['lang', 'EN']);
     ccs_cc_args.push(['market', 'AU']);
 
