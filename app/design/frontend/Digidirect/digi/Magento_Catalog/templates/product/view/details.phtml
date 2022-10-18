@@ -5,6 +5,8 @@
     <?php $detailedInfoGroup = array_intersect($childNames, $detailedInfoGroup); ?>
 <div class="product info detailed">
     <?php $layout = $block->getLayout(); ?>
+    <?php echo $_product->getAttributeText('brand'); ?>
+    <?php echo $_product->getAttributeText('apn'); ?>
     <div class="product data items details-tab" id="details-tab">
         
         <?php foreach ($detailedInfoGroup as $name): ?>
@@ -89,8 +91,8 @@
     var ccs_cc_args = ccs_cc_args || [];
 
     // 1WS Product Page
-    ccs_cc_args.push(['mf', 'Canon']);
-    ccs_cc_args.push(['pn', '123']);
+    ccs_cc_args.push(['mf', '']);
+    ccs_cc_args.push(['pn', '']);
     ccs_cc_args.push(['lang', 'EN']);
     ccs_cc_args.push(['market', 'AU']);
 
