@@ -1,5 +1,3 @@
-<?php
-?>
 <?php if ($detailedInfoGroup = $block->getGroupChildNames('detailed_info', 'getChildHtml')): ?>
     <?php $childNames = $block->getChildNames();?>
     <?php $detailedInfoGroup = array_intersect($childNames, $detailedInfoGroup); ?>
@@ -84,16 +82,16 @@
 <?php endif; ?>
 
 <?php $_product = $block->getProduct(); 
-    $attr_exists = $product->getResource()->getAttribute('brand');
+    $attr_exists = $_product->getResource()->getAttribute('brand');
 
     if ($attr_exists){
-        $brand_name = $product->getAttributeText('brand');
+        $brand_name = $_product->getAttributeText('brand');
     }
     
-    $attr2_exists = $product->getResource()->getAttribute('apn');
+    $attr2_exists = $_product->getResource()->getAttribute('apn');
 
     if ($attr2_exists){
-        $apn = $product->getAttributeText('apn');
+        $apn = $_product->getAttributeText('apn');
     }
 ?>
 
