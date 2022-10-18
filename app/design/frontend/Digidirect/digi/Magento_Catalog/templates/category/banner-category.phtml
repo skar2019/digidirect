@@ -211,23 +211,23 @@
                     }
                 }],
                 opened: function($Event) {
+                    let modalwidth = window.matchMedia("(max-width: 480px)")
+                    
                     // $(".modal-footer").hide();
                     $(".modal-header").css("background-color","transparent");
                     // $(".modal-header button.action-close:before").css("color","#cacaca");
                     // $(".modal-inner-wrap").css("width","50% !important");
 
                     if (modalwidth.matches) { // If media query matches
-                        $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: red !important; width: 50% !important;');
+                        $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: red !important;');
                     } else {
-                        $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: yellow !important; width: 50% !important;');
+                        $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: yellow !important;');
                     }
 
                     // $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: #f5f5f5 !important; width: 50% !important;');
                     $(".modal-footer").hide();
                 }
             };
-
-            var modalwidth = window.matchMedia("(max-width: 700px)")
 
 
             var popup = modal(options, $('#digisecondsForm'));
