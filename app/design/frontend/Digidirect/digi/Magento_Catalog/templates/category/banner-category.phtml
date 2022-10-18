@@ -217,28 +217,29 @@
                     // $(".modal-header button.action-close:before").css("color","#cacaca");
                     // $(".modal-inner-wrap").css("width","50% !important");
 
-                    // Create a match Function
-                    function myFunction(x) {
-                    if (x.matches) {
-                        $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: red !important;');
+                    var handleMatchMedia = function(md) {
+                    if (md.matches) {
+                    alert("matched");
+                   $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: pink !important;');
                     } else {
-                        $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: yellow !important;');
+                        alert("not matched");
+                   $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: yellow !important;');
                     }
                     }
+                    var mq = window.matchMedia("(max-width: 768px)");
 
                     // $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: #f5f5f5 !important; width: 50% !important;');
                     $(".modal-footer").hide();
+
+                    // 2) call the function
+                    handleMatchMedia(mq);
+
+                    //3) call the addListener function  
+                    mq.addListener(handleMatchMedia);
+
+
                 }
             };  
-
-            const mmObj = window.matchMedia("(max-width: 480px)")
-
-                // Call the match function at run time:
-                myFunction(mmObj);
-
-                // Add the match function as a listener for state changes:
-                mmObj.addListener(myFunction)
-
 
             var popup = modal(options, $('#digisecondsForm'));
             $("#digisecondsForm_trigger").on('click',function(){ 
