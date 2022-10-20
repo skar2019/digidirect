@@ -354,6 +354,14 @@ class Order extends AbstractHelper
             if (!empty($account) && !$order->getCustomerIsGuest()) {
                 $customertype = "WA";
             }
+            
+            if(!$isMarketPlace)
+            {
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00") 
+                {
+                    $account = "";
+                }
+            }
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
