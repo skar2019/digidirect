@@ -1,5 +1,5 @@
 <?php
-namespace Digidirect\Catalog\Controller\Index;
+namespace Digidirect\Catalog\Controller;
  
 use Zend\Log\Filter\Timestamp;
 use Magento\Store\Model\StoreManagerInterface;
@@ -21,7 +21,7 @@ class Post extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Psr\Log\LoggerInterface $loggerInterface,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
         array $data = []
          
         )
