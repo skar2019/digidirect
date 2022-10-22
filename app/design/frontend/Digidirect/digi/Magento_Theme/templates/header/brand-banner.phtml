@@ -13,17 +13,8 @@ $isBrandSmallRig = str_contains($currentUrl, 'cameras/action-cameras');
 
 if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
     <div class="brand-banner">
-        <img src="<?php echo $block->getUrl("media/wysiwyg/brands-store-page/smallrig")?>header.png"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/brands-store-page")?>smallrig-header.png"/>
     </div>
 <?php }
 
 ?>
-
-<script>
-    require([
-        'jquery'
-    ],
-    function ($) {
-        
-    });
-</script>
