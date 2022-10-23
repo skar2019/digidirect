@@ -21,7 +21,11 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
                 <i class="fas fa-check-circle" style=" position: absolute; color: #ff3c00; top: 0; right: 0; font-size: 20px; margin: 15px; "></i>
                 <div style=" text-align: center; font-size: 19px; font-weight: 700; margin-top: -35px; position: relative; ">@ digi<span style="color: #ff3c00;">Direct</span></div>
                 <div class="brand-banner-links" style=" text-align: center; background: #ff3c00; margin: 10px; padding: 5px; position: relative; ">
-                    <a href="" style=" color: #fff; width: 100%; font-weight: 600; ">ALL PRODUCTS</a>
+                    <?php if ($isStoreBrandSmallRig) { ?>
+                        <a href="https://www.digidirect.com.au/brands/smallrig" style=" color: #fff; width: 100%; font-weight: 600; ">ALL PRODUCTS</a>
+                    <?php } elseif ($isBrandSmallRig) {?>
+                        <a href="https://www.digidirect.com.au/smallrig-store" style=" color: #fff; width: 100%; font-weight: 600; ">VIEW STORE</a>
+                    <?php }?>
                 </div>
             </div>
         </div>
@@ -42,7 +46,11 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
             <div style="text-align: center;font-size: 15px;font-weight: 700;margin-top: -27px;position: relative;">@ digi<span style="color: #ff3c00;">Direct</span></div>
         </div>
         <div class="brand-banner-links" style="text-align: center;background: #ff3c00;margin: 10px;padding: 5px;position: relative;width: 50%;top: -86px;left: 42%;">
-            <a href="" style=" color: #fff; width: 100%; font-weight: 600; ">ALL PRODUCTS</a>
+            <?php if ($isStoreBrandSmallRig) { ?>
+                <a href="https://www.digidirect.com.au/brands/smallrig" style=" color: #fff; width: 100%; font-weight: 600; ">ALL PRODUCTS</a>
+            <?php } elseif ($isBrandSmallRig) {?>
+                <a href="https://www.digidirect.com.au/smallrig-store" style=" color: #fff; width: 100%; font-weight: 600; ">VIEW STORE</a>
+            <?php }?>
         </div>
         <div class="brand-qantas" style="position: relative;top: -75px;padding: 5px;border: 1px solid #e40301;margin: 0 10px;">
             <img src="https://www.digidirect.com.au/static/version1644407894/frontend/Digidirect/digi/en_AU/images/qff-logo-new.svg" style="width: 80px;display: inline-block;margin: 1.5px 0 0 2px;">
@@ -60,6 +68,16 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
 <style style="display: none;">
     .breadcrumbs {
         visibility: hidden !important;
+    }
+    
+    .brand-banner-links a:hover {
+        text-decoration: none;
+        color: #ff3c00 !important;
+    }
+
+    .brand-banner-links:hover {
+        background: #fff !important;
+        border: 1px solid #ff3c00 !important;
     }
     
     @media only screen and (max-width: 1279px) {
