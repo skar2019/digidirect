@@ -12,9 +12,54 @@ $isStoreBrandSmallRig = str_contains($currentUrl, 'smallrig-store');
 $isBrandSmallRig = str_contains($currentUrl, 'cameras/action-cameras');
 
 if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
-    <div class="brand-banner">
-        <img src="<?php echo $block->getUrl("media/wysiwyg/brands-store-page")?>smallrig-header.png"/>
-    </div>
+    <div class="brand-banner" style="
+        max-height: 500px;
+    "><img src="<?php echo $block->getUrl("media/wysiwyg/brands-store-page")?>smallrig-header.png"/>
+        
+    <div class="brand-profile" style="
+        width: 300px;
+        position: relative;
+        top: -125px;
+        left: 270px;
+        border: 1px solid #cacacaca;
+        bottom: 0;
+    ">
+    <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/brand-logos/smallrig.jpg" style="
+        width: 300px;
+        position: relative;
+    "><i class="fas fa-check-circle" style="
+        position: absolute;
+        color: #ff3c00;
+        top: 0;
+        right: 0;
+        font-size: 20px;
+        z-index: 9999;
+        margin: 15px;
+    "></i><div style="
+        text-align: center;
+        font-size: 21px;
+        font-weight: 700;
+        margin-top: -45px;
+        position: relative;
+    ">@ digi<span style="color: #ff3c00;">Direct</span></div>
+
+    <div class="brand-banner-links" style="
+        text-align: center;
+        background: #ff3c00;
+        margin: 20px 10px 10px 10px;
+        padding: 5px;
+        position: relative;
+    ">
+        <a href="" style="
+        color: #fff;
+        width: 100%;
+        font-weight: 600;
+    ">ALL PRODUCTS</a></div>
+            </div></div>
+
+
+
+
 <?php }
 
 ?>
