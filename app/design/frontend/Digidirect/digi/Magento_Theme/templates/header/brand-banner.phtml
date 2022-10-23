@@ -20,7 +20,7 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
         width: 225px;
         position: relative;
         top: -125px;
-        left: 285px;
+        left: 15%;
         border: 1px solid #cacacaca;
         bottom: 0;
         background: #fff;
@@ -61,7 +61,7 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
     <div class="brand-qantas" style="
         position: relative;
         top: -172px;
-        left: 715px;
+        left: 36%;
     "><img src="<?php echo $block->getUrl("media/wysiwyg/brands-store-page")?>desktop-qantas.png"/><div style="
         max-width: 529px;
         position: relative;
@@ -88,5 +88,11 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
 <style style="display: none;">
     .breadcrumbs {
         visibility: hidden !important;
+    }
+    
+    @media only screen and (max-width: 1279) {
+        .brand-banner {
+            margin-top: 20px;
+        }
     }
 </style>
