@@ -13,9 +13,9 @@ $isBrandSmallRig = str_contains($currentUrl, 'brands/smallrig');
 
 if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
     
-    <div class="brand-banner" style=" max-height: 500px; ">
+    <div class="brand-banner" style=" max-height: 515px; ">
         <img src="<?php echo $block->getUrl("media/wysiwyg/brands-store-page")?>smallrig-header.png"/>
-        <div class="brand-profile" style="width: 225px;position: relative;top: -125px;left: 15%;/* border: 1px solid #cacacaca; */bottom: 0;background: #fff;height: 0;">
+        <div class="brand-profile" style="width: 230px;position: relative;top: -125px;left: 15%;bottom: 0;background: #fff;height: 0;">
             <div style="background: #ffff;border: 1px solid #cacaca;">
                 <img src="<?php echo $block->getUrl("media/wysiwyg/brands-store-page")?>smallrig.jpg" style="width: 300px;position: relative;">
                 <i class="fas fa-check-circle" style=" position: absolute; color: #ff3c00; top: 0; right: 0; font-size: 20px; margin: 15px; "></i>
@@ -68,6 +68,8 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
 <style style="display: none;">
     .breadcrumbs {
         visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
     }
     
     .brand-banner-links a:hover {
@@ -101,6 +103,12 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
         }
         .brand-banner {
             display: block;
+        }
+    }
+    
+    @media only screen and (min-width: 1200px) {
+        .brand-banner {
+            max-height: 320px;
         }
     }
     
