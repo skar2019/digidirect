@@ -39,6 +39,12 @@
         <move element="authorization-link" destination="header.wrapper.links"/>
         <move element="my-account-link" destination="authorization-link"/>
         
+        <referenceContainer name="page.wrapper">
+            <container name="brand.banner.block" before="main.content">
+                <block class="Magento\Framework\View\Element\Template" template="Magento_Theme::header/brand-banner.phtml" name="brand-banner" after="new.test.block"/>
+            </container>
+        </referenceContainer>
+        
          <referenceBlock name="store.menu">
             <block class="Magento\Cms\Block\Block" name="new.test.block">
                 <arguments>
