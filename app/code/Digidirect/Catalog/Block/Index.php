@@ -1,6 +1,6 @@
 <?php
  
-namespace Digidirect\Catalog\Block;
+namespace Digidirect\Catalog\Block\Index;
  
  
 class Index extends \Magento\Framework\View\Element\Template {

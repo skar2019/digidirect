@@ -47,8 +47,10 @@ class Post extends \Magento\Framework\App\Action\Action
             $this->_inlineTranslation->suspend();
                          
             $sender = [
-                'name' => $post['name'],
-                'email' => $post['email']
+                // 'name' => $post['name'],
+                // 'email' => $post['email']
+                'name' => 'Jireh Test',
+                'email' => 'jireh@kayweb.com.au',
             ];
              
             $sentToEmail = $this->_scopeConfig ->getValue('trans_email/ident_general/email',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
