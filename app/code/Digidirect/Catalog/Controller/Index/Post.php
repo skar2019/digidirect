@@ -79,7 +79,8 @@ class Post extends \Magento\Framework\App\Action\Action
                  
                 $this->_inlineTranslation->resume();
                 $this->messageManager->addSuccess('Email sent successfully');
-                $this->_redirect('customemail/index/index');
+                $this->_redirect('catalog/index/index');
+                // $this->_redirect('customemail/index/index');
                  
         } catch(\Exception $e){
             $this->messageManager->addError($e->getMessage());
