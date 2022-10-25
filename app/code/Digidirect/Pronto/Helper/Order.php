@@ -539,6 +539,12 @@ class Order extends AbstractHelper
                             $data['sales-order']['header']['set-on-status'] = "B";
                         }
                     }
+                    
+                    if($method == "braintree_googlepay")
+                    {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";  
+                    }
                 }
 
             }
