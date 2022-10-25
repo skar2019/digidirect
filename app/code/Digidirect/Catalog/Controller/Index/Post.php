@@ -1,5 +1,5 @@
 <?php
-namespace Digidirect\Catalog\Controller;
+namespace Digidirect\Catalog\Controller\Index;
  
 use Zend\Log\Filter\Timestamp;
 use Magento\Store\Model\StoreManagerInterface;
