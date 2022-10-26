@@ -12,6 +12,8 @@ $isBrandNikon = str_contains($currentUrl, 'brands/nikon');
 $isBrandAsus = str_contains($currentUrl, 'brands/asus');
 $isBrandFujifilm = str_contains($currentUrl, 'brands/fujifilm');
 $isBrandSony = str_contains($currentUrl, 'brands/sony');
+$isBrandRode = str_contains($currentUrl, 'brands/rode');
+$isBrandOlympus = str_contains($currentUrl, 'brands/olympus');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
     
@@ -54,6 +56,16 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
         ->setBlockId('brands-sony-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandRode == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-rode-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandOlympus == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-olympus-featured-banner')
         ->toHtml();
     }
 }
