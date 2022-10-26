@@ -29,6 +29,15 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
             background: #fff !important;
             border: 1px solid #ff3c00 !important;
         }
+        
+        .brand-banner-links:hover {
+            background: #fff;
+            border: 1px solid #ff3c00;
+        }
+
+        .brand-banner-links:hover a {
+            color: #ff3c00 !important;
+        }
 
         @media only screen and (max-width: 1279px) {
             .brand-banner {
@@ -85,7 +94,7 @@ if ($isStoreBrandSmallRig || $isBrandSmallRig) { ?>
             </div>
         </div>
         <div class="brand-qantas" style="position: relative;top: -10px;left: 36%;">
-            <a href="https://www.digidirect.com.au/qantas">
+            <a href="https://www.digidirect.com.au/qantas" style="text-decoration: none;">
                 <img src="<?php echo $block->getUrl("media/wysiwyg/brands-store-page")?>desktop-qantas.png">
                 <div style=" max-width: 529px; position: relative; top: -44px; text-align: center; color: #fff; font-size: 10px; left: 30px; cursor: pointer;">
                     <div style=" ">Earn <span style=" font-weight: 700; ">1 Qantas Points per $1 spent</span></div>
