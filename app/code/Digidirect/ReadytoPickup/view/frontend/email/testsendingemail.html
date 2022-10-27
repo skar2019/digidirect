@@ -1,4 +1,4 @@
-<!--@subject {{trans "Your order from %store_name is Ready to Pickup" store_name=$store.getFrontendName()}} @-->
+<!--@subject {{trans "Test Sending Email" }} @-->
 <!--@vars {
 "var store.getFrontendName()":"Store Name",
 "var customer.name":"Customer Name",
@@ -9,12 +9,9 @@
 <table>
     <tr class="email-intro">
         <td>
-            <p class="greeting">{{trans "Dear %customer_name," customer_name=$order_data.customer_name}}</p>
+           
             <p>
-                {{trans 'Good newsss123! Your order number <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
-            </p>
-            <p>
-                {{trans "Please make your way to the digiDirect location to collect your goods."}}
+                {{trans "This is test email"}}
             </p>
             <td>
     </tr>
