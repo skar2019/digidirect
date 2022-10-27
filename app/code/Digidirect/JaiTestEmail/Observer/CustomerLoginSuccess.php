@@ -53,7 +53,7 @@ class CustomerLoginSuccess implements ObserverInterface
 
         /* Receiver Detail */
         $receiverInfo = [
-            'name' => 'Dev',
+            'name' => 'Dev_Jireh',
             'email' => 'dev4@digidirect.com.au'
         ];
 
@@ -62,7 +62,7 @@ class CustomerLoginSuccess implements ObserverInterface
         $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
 
         $transport = $this->transportBuilder->setTemplateIdentifier(
-            'digidirect_transactional_email_customer_logged_in_email_template'
+            'digisecond_sendingemail_template'
         )->setTemplateOptions(
             ['area' => 'frontend', 'store' => $store->getId()]
         )->addTo(
