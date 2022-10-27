@@ -68,7 +68,7 @@ class CustomerLoginSuccess implements ObserverInterface
             'note' => 'test note'
         ];
 
-        $templateParams = ['store' => $store, 'customer' => $customer, 'sender_details' => $senderDetails['ds_firstname'], $senderDetails['ds_lastname']];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_firstname'] ];
 
         // $sender = [
         //     'name' => $this->_escaper->escapeHtml($post['name']),
