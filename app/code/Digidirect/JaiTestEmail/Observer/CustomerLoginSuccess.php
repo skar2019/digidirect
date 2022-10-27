@@ -60,7 +60,7 @@ class CustomerLoginSuccess implements ObserverInterface
             'email' => 'dev4@digidirect.com.au'
         ];
 
-        // $store = $this->storeManager->getStore();
+        $store = $this->storeManager->getStore();
 
         // $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
 
