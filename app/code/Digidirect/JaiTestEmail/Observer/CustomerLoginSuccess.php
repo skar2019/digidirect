@@ -62,7 +62,7 @@ class CustomerLoginSuccess implements ObserverInterface
 
         $store = $this->storeManager->getStore();
 
-        // $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
 
         // $sender = [
         //     'name' => $this->_escaper->escapeHtml($post['name']),
@@ -76,13 +76,14 @@ class CustomerLoginSuccess implements ObserverInterface
         </div>";
 
         $transport = $this->transportBuilder->setTemplateIdentifier(
-            'digisecond_sendingemail_template'
+            'digisecond_sendingemail_template',
+            $receiverInfo
         )->setTemplateOptions(
             ['area' => 'frontend', 'store' => $store->getId()]
         )->addTo(
             $receiverInfo['email'], $receiverInfo['name']
         )->setTemplateVars(
-            $senderDetails
+            $templateParams
         )->setFrom(
             'general'
         )->getTransport();
