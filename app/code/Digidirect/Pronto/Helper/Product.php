@@ -2039,6 +2039,11 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
+                echo "cost " . $product->getCustomAttribute('cost')."<br>";
+                $cost = $prod['stk-replacement-cost'];
+                $product->setCustomAttribute('cost', $cost);
+                echo "pronto cost " . $product->getCustomAttribute('cost')."<br>";
+                
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
                 echo "Stock Condition " .$prod['stk-condition-code']." <br>";
