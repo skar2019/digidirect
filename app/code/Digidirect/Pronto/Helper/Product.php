@@ -114,6 +114,10 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
+                
+                $cost = $prod['stk-replacement-cost'];
+                $product->setCustomAttribute('cost', $cost);
+                
                 $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
@@ -737,6 +741,9 @@ class Product extends AbstractHelper
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
+                $cost = $prod['stk-replacement-cost'];
+                $product->setCustomAttribute('cost', $cost);
+                
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
                 $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
@@ -1366,6 +1373,9 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
+                $cost = $prod['stk-replacement-cost'];
+                $product->setCustomAttribute('cost', $cost);
+                
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
                 echo "Stock Condition " .$prod['stk-condition-code']." <br>";
