@@ -94,9 +94,13 @@
             <?php } else { ?>
                 $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
             <?php } ?>
-
-            $('.ninjamenus-drilldown-back').prepend('<i class="fas fa-times mobile-menu-main-exit" style="color: #cacaca; left: 92%"></i>');
-            
+                
+            $('.ninjamenus-drilldown-back').prepend('<i class="fas fa-times mobile-menu-main-exit" style="color: #cacaca; left: 92%"></i>')
+                
+            $(".mobile-menu-main-exit").click(function(){
+                $("#nav-sections-id").removeClass("nav-mobile-menu");
+            });
+          
         }
     );
     
