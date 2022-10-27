@@ -1,5 +1,5 @@
 <?php
-namespace Digidirect\Catalog\Controller;
+namespace Digidirect\Catalog\Controller\Index;
  
 use Zend\Log\Filter\Timestamp;
 use Magento\Store\Model\StoreManagerInterface;
@@ -47,8 +47,10 @@ class Post extends \Magento\Framework\App\Action\Action
             $this->_inlineTranslation->suspend();
                          
             $sender = [
-                'name' => $post['name'],
-                'email' => $post['email']
+                // 'name' => $post['name'],
+                // 'email' => $post['email']
+                'name' => 'Jireh Test',
+                'email' => 'jireh@kayweb.com.au',
             ];
              
             $sentToEmail = $this->_scopeConfig ->getValue('trans_email/ident_general/email',\Magento\Store\Model\ScopeInterface::SCOPE_STORE);
@@ -77,7 +79,8 @@ class Post extends \Magento\Framework\App\Action\Action
                  
                 $this->_inlineTranslation->resume();
                 $this->messageManager->addSuccess('Email sent successfully');
-                $this->_redirect('customemail/index/index');
+                $this->_redirect('catalog/index/index');
+                // $this->_redirect('customemail/index/index');
                  
         } catch(\Exception $e){
             $this->messageManager->addError($e->getMessage());

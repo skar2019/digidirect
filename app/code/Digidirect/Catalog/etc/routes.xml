@@ -2,7 +2,7 @@
 
 <router id="standard">
     <route id="digidirect" frontName="digidirect_catalog">
-       <module name="Digidirect_Catalog" before="Magento_Catalog" />
+       <module name="Digidirect_Catalog" before="Digidirect_Catalog" />
     </route>
 </router>
 
