@@ -46,9 +46,9 @@
         </referenceContainer>
         
          <referenceBlock name="store.menu">
-            <block class="Magezon\NinjaMenus\Block\TopMenu" name="catalog.topnav" template="Magezon_NinjaMenus::topmenu.phtml" before="-">
+            <block class="Magento\Cms\Block\Block" name="new.navigation.menu">
                 <arguments>
-                    <argument name="identifier" translate="true" xsi:type="string">topmenu</argument>
+                    <argument name="block_id" xsi:type="string">new-navigation-menu</argument>
                 </arguments>
             </block>
         </referenceBlock>
