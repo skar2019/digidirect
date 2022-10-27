@@ -2,7 +2,7 @@
  
  {{template config_path="design/email/header_template"}}
 
-<p >{{trans "TestValue <b>%sender_details</b>,"  sender_details=$sender_details|row}}</p>
+<p >{{trans "TestValue <b>%ds_firstname %ds_lastname</b>,"  ds_firstname=$ds_firstname ds_firstname=$ds_lastname|row}}</p>
 
 <p>{{trans 'The customer named <b>%customer_name</b> Jireh123 just logged into the %store_name:' customer_name=$customer.name store_name=$store.getFrontendName()|row}}</p>
 
