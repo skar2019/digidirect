@@ -51,35 +51,18 @@ class CustomerLoginSuccess implements ObserverInterface
             return $this;
         }
 
-        $firstname = "Jireh";
-        $lastname = "Capao";
-
         /* Receiver Detail */
         $receiverInfo = [
-            'name' => 'Dev_Jireh',
+            'name' => 'Dev',
             'email' => 'dev4@digidirect.com.au'
         ];
 
         $store = $this->storeManager->getStore();
 
-        $senderDetails = "
-            'ds_firstname' => 'Jireh',
-            'ds_lastname' => 'Capao',
-            'note' => 'test note'
-        ";
-
-        $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name'], 'sender_details' => $senderDetails['ds_firstname']];
-
-        // $sender = [
-        //     'name' => $this->_escaper->escapeHtml($post['name']),
-        //     'email' => $this->_escaper->escapeHtml($post['email']),
-        // ];
-
-
+        $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
 
         $transport = $this->transportBuilder->setTemplateIdentifier(
-            'digisecond_sendingemail_template',
-            $receiverInfo
+            'digisecond_sendingemail'
         )->setTemplateOptions(
             ['area' => 'frontend', 'store' => $store->getId()]
         )->addTo(
