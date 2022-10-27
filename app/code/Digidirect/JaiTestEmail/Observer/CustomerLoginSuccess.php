@@ -62,18 +62,20 @@ class CustomerLoginSuccess implements ObserverInterface
 
         $store = $this->storeManager->getStore();
 
-        $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
+        $senderDetails = "
+            'ds_firstname' => 'Jireh',
+            'ds_lastname' => 'Capao',
+            'note' => 'test note'
+        ";
+
+        $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name'], 'sender_details' => $senderDetails['ds_firstname']];
 
         // $sender = [
         //     'name' => $this->_escaper->escapeHtml($post['name']),
         //     'email' => $this->_escaper->escapeHtml($post['email']),
         // ];
 
-        $senderDetails = "
-        <div>
-        <b>".$firstname."</b>
-        <i>".$lastname."</i>
-        </div>";
+
 
         $transport = $this->transportBuilder->setTemplateIdentifier(
             'digisecond_sendingemail_template',
