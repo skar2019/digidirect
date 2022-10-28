@@ -51,9 +51,8 @@ class CustomerLoginSuccess implements ObserverInterface
             return $this;
         }
 
-        $firstname = "Jireh";
-        $lastname = "Capao";
-        $note = "this is note";
+        $firstname = "Jireh123";
+        $lastname = "Capao123";
 
         /* Receiver Detail */
         $receiverInfo = [
@@ -63,13 +62,13 @@ class CustomerLoginSuccess implements ObserverInterface
 
         $store = $this->storeManager->getStore();
 
-        // $senderDetails = [
-        //     'ds_firstname' => 'Jireh',
-        //     'ds_lastname' => 'Capao',
-        //     'note' => 'test note'
-        // ];
+        $senderDetails = [
+            'ds_firstname' => 'Jireh',
+            'ds_lastname' => 'Capao',
+            'note' => 'test note'
+        ];
 
-        $templateParams = ['store' => $store, 'customer' => $customer, 'ds_firstname' => $firstname, 'ds_lastnanme' => $lastname, 'note' => $note];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
 
         // $sender = [
         //     'name' => $this->_escaper->escapeHtml($post['name']),
@@ -85,8 +84,7 @@ class CustomerLoginSuccess implements ObserverInterface
         )->addTo(
             $receiverInfo['email'], $receiverInfo['name']
         )->setTemplateVars(
-            $templateParams,
-            $senderDetails['note']
+            $templateParams
         )->setFrom(
             'general'
         )->getTransport();
