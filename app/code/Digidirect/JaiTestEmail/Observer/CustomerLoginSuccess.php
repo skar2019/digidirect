@@ -57,12 +57,12 @@ class CustomerLoginSuccess implements ObserverInterface
         /* Receiver Detail */
         $receiverInfo = [
             'name' => 'Dev_Jireh',
-            'email' => 'jireh@digidirect.com.au'
+            'email' => 'dev4@digidirect.com.au'
         ];
 
         $digiInfo = [
             'name' => 'StoreName123',
-            'email' => 'store@digidirect.com.au'
+            'email' => 'storetest@digidirect.com.au'
         ];
 
         $store = $this->storeManager->getStore();
