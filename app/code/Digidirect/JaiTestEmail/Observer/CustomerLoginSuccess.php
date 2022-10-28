@@ -53,6 +53,7 @@ class CustomerLoginSuccess implements ObserverInterface
 
         $firstname = "Jireh123";
         $lastname = "Capao123";
+        $testme = "Test value ito";
 
         /* Receiver Detail */
         $receiverInfo = [
@@ -68,7 +69,7 @@ class CustomerLoginSuccess implements ObserverInterface
             'note' => 'test note'
         ];
 
-        $templateParams = ['store' => $store, 'customer' => $customer, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'testme' => $testme, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
 
         // $sender = [
         //     'name' => $this->_escaper->escapeHtml($post['name']),
