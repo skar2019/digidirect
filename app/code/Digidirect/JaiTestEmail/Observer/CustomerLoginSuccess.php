@@ -51,6 +51,8 @@ class CustomerLoginSuccess implements ObserverInterface
             return $this;
         }
 
+        $firstname = "Jireh123";
+        $lastname = "Capao123";
         $testme = "Test value ito";
 
         /* Receiver Detail */
@@ -59,13 +61,15 @@ class CustomerLoginSuccess implements ObserverInterface
             'email' => 'dev4@digidirect.com.au'
         ];
 
+        $store = $this->storeManager->getStore();
+
         $senderDetails = [
             'ds_firstname' => 'Jireh',
             'ds_lastname' => 'Capao',
             'note' => 'test note'
         ];
 
-        $templateParams = ['testme' => $testme, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'testme' => $testme, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
 
         // $sender = [
         //     'name' => $this->_escaper->escapeHtml($post['name']),
