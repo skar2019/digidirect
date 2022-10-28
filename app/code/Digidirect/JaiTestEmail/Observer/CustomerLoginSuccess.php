@@ -60,11 +60,6 @@ class CustomerLoginSuccess implements ObserverInterface
             'email' => 'dev4@digidirect.com.au'
         ];
 
-        $digiInfo = [
-            'name' => 'StoreName123',
-            'email' => 'storetest@digidirect.com.au'
-        ];
-
         $store = $this->storeManager->getStore();
 
         $senderDetails = [
@@ -91,7 +86,7 @@ class CustomerLoginSuccess implements ObserverInterface
         )->setTemplateVars(
             $templateParams
         )->setFrom(
-            $digiInfo['email'], $digiInfo['name']
+            'general'
         )->getTransport();
 
         try {
