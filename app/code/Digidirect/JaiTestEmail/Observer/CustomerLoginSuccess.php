@@ -51,10 +51,18 @@ class CustomerLoginSuccess implements ObserverInterface
             return $this;
         }
 
+        $firstname = "Jireh";
+        $lastname = "Capao";
+
         /* Receiver Detail */
         $receiverInfo = [
             'name' => 'Dev_Jireh',
-            'email' => 'dev4@digidirect.com.au'
+            'email' => 'jireh@digidirect.com.au'
+        ];
+
+        $digiInfo = [
+            'name' => 'StoreName123',
+            'email' => 'store@digidirect.com.au'
         ];
 
         $store = $this->storeManager->getStore();
@@ -62,11 +70,10 @@ class CustomerLoginSuccess implements ObserverInterface
         $senderDetails = [
             'ds_firstname' => 'Jireh',
             'ds_lastname' => 'Capao',
-            'note' => 'test note',
-            'email' => 'test@gmail.com'
+            'note' => 'test note'
         ];
 
-        $templateParams = ['store' => $store, 'customer' => $customer, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_firstname' => $senderDetails['ds_lastname'] ];
 
         // $sender = [
         //     'name' => $this->_escaper->escapeHtml($post['name']),
@@ -77,15 +84,14 @@ class CustomerLoginSuccess implements ObserverInterface
 
         $transport = $this->transportBuilder->setTemplateIdentifier(
             'digisecond_sendingemail_template',
-            $receiverInfo
         )->setTemplateOptions(
             ['area' => 'frontend', 'store' => $store->getId()]
         )->addTo(
-            $senderDetails['note'], $senderDetails['email']
+            $receiverInfo['email'], $receiverInfo['name']
         )->setTemplateVars(
             $templateParams
         )->setFrom(
-            'general'
+            $digiInfo['email'], $digiInfo['name']
         )->getTransport();
 
         try {
