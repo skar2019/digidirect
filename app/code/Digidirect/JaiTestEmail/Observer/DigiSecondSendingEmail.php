@@ -7,7 +7,7 @@ use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 
-class DigiSecondSendingEmail implements ObserverInterface
+class CustomerLoginSuccess implements ObserverInterface
 {
     /**
      * @var TransportBuilder
