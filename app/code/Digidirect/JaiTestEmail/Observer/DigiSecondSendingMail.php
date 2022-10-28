@@ -7,7 +7,7 @@ use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 
-class CustomerLoginSuccess implements ObserverInterface
+class DigiSecondSendingMail implements ObserverInterface
 {
     /**
      * @var TransportBuilder
@@ -51,8 +51,6 @@ class CustomerLoginSuccess implements ObserverInterface
             return $this;
         }
 
-        $firstname = "Jireh123";
-        $lastname = "Capao123";
         $testme = "Test value ito";
 
         /* Receiver Detail */
@@ -65,8 +63,7 @@ class CustomerLoginSuccess implements ObserverInterface
 
         $senderDetails = [
             'ds_firstname' => 'Jireh',
-            'ds_lastname' => 'Capao',
-            'note' => 'test note'
+            'ds_lastname' => 'Capao'
         ];
 
         $templateParams = ['store' => $store, 'customer' => $customer, 'testme' => $testme, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
