@@ -24,6 +24,7 @@
         }
     },
     "require": {
+        "instant/instant-checkout": "^1.8",
         "klarna/m2-klarna": "^1.0",
         "klevu/module-search": "^2.3",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
