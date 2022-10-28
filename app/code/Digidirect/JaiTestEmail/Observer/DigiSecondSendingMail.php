@@ -66,7 +66,7 @@ class DigiSecondSendingMail implements ObserverInterface
             'ds_lastname' => 'Capao'
         ];
 
-        $templateParams = ['store' => $store, 'customer' => $customer, 'testme' => $testme, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
+        $templateParams = ['testme' => $testme, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
 
         // $sender = [
         //     'name' => $this->_escaper->escapeHtml($post['name']),
