@@ -90,6 +90,7 @@ class DigiSecondSendingMail implements ObserverInterface
         try {
             // Send an email
             $transport->sendMessage();
+            $this->messageManager->addSuccess('Email sent successfully');
         } catch (\Exception $e) {
             // Write a log message whenever get errors
             $this->logger->critical($e->getMessage());
