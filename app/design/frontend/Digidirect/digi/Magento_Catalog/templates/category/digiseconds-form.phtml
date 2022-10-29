@@ -16,9 +16,10 @@
       	</div>
 
        	      
-            <form id="digiSecondFormSell">
+            <!--<form id="digiSecondFormSell">-->
 
-                <!-- <form action="<//?php echo $block->getFormAction() ?>" method="post"> -->
+                 <form id="digiSecondFormSell" action="<?php echo $block->getBaseUrl().'Digidirect\JaiTestEmail\Observer\DigiSecondSendingMail';?>" method="post"> 
+                     
                 <div class="formContentBgWhite">
                     <div class="grid-column">
                         <input name="firstname" type="text" placeholder="First Name">
@@ -48,7 +49,10 @@
                 </div>
 
                 <div class="digiSecondFormBtn">
-                    <input type="submit" value="Submit">
+                    <!--<input type="submit" value="Submit">-->
+                    <button type="submit" title="<?php echo __('Submit') ?>" class="action submit primary">
+                        <span><?php echo __('Submit') ?></span>
+                    </button>
                 </div>
 
             </form>
@@ -151,7 +155,7 @@
 		border-bottom: 1px solid #000000;
 		font-size: 15px;
 		outline: none !important;
-        padding: 0px !important;
+                padding: 0px !important;
 	}
 
     #digiSecondFormSell input:focus, #digiSecondFormSell textarea:focus {
