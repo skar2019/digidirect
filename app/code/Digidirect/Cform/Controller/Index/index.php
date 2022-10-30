@@ -22,6 +22,9 @@ class Index extends Action
         $data->save();
         /* echo "hello";
         exit; */
+
+        print_r($post);
+        print_r($data);
         
         $this->messageManager->addSuccess(__('Form successfully submitted'));
              
