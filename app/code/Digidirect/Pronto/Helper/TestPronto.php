@@ -1008,7 +1008,7 @@ class TestPronto extends AbstractHelper
                 $gc_reference = $order->getGiftCards();
                 if($test)
                 {
-                    var_dump($gc_reference);
+                    echo "gc ref " .$gc_reference['c'];
                 }
                 
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
