@@ -716,6 +716,7 @@ class Order extends AbstractHelper
                 $arr = explode(",",$gc_data);
                 $gc_ref = explode(":", $arr[1]);
                 $gc_reference = $gc_ref[1];
+                $gc_reference = str_replace('"', "", $gc_reference);
                 
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
