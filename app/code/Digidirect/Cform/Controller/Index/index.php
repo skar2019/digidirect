@@ -16,9 +16,6 @@ class Index extends Action
     {
         $post = $this->getRequest()->getPostValue();
         
-        // Get your post values
-        $firstname = "Jireh";
-        $lastname = "Sy";
 
         // Send Mail functionality starts from here 
         $from = "from_email_address@example.com";
