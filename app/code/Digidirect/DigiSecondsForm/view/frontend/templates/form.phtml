@@ -1,4 +1,4 @@
-<form id="contact-form" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
+<form id="digisecondsForm" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
     <h1><?= $block->escapeHtml(__('DigiSecondsForm Test')) ?></h1>
     <fieldset class="fieldset">
         <div class="field name">
@@ -46,7 +46,7 @@ require(['jquery'],function($){
                 console.log(result);
             }
         });
-        $('#contact-form')[0].reset(); 
+        $('#digisecondsForm')[0].reset(); 
         return false;
         });
     });
