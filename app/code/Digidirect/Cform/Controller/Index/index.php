@@ -16,17 +16,6 @@ class Index extends Action
     {
         $post = $this->getRequest()->getPostValue();
         
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
-        $data = $objectManager->create('Digidirect\Cform\Model\Cform');
-        $data->setData($post);
-        $data->save();
-        /* echo "hello";
-        exit; */
-
-        echo $post;
-        echo $data;
-
-
         // Get your post values
         $firstname = "Jireh";
         $lastname = "Sy";
@@ -49,6 +38,17 @@ class Index extends Action
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
         $email->send();
+        
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
+        $data = $objectManager->create('Digidirect\Cform\Model\Cform');
+        $data->setData($post);
+        $data->save();
+        echo "success";
+        /* echo "hello";
+        exit; */
+
+
+       
         
         $this->messageManager->addSuccess(__('Form successfully submitted'));
              
