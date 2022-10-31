@@ -707,11 +707,16 @@ class Order extends AbstractHelper
             //gift cards
             $withGC = false;
             $gift_amount = $order->getGiftCardsAmount();
+            $gc_reference = "";
             if($gift_amount > 0)
             {
                 $withGC = true;
                 $gift_amount = round($gift_amount, 2);
-                $gc_reference = $order->getGiftCards('c');
+                $gc_data = $order->getGiftCards();
+                $arr = explode(",",$gc_data);
+                $gc_ref = explode(":", $arr[1]);
+                $gc_reference = $gc_ref[1];
+                
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
