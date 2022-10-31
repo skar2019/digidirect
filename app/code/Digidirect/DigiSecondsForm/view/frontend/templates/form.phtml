@@ -1,5 +1,5 @@
-<form id="contact-form" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("cform/index/index")?>">
-    <h1><?= $block->escapeHtml(__('Contact Form')) ?></h1>
+<form id="contact-form" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
+    <h1><?= $block->escapeHtml(__('DigiSecondsForm Test')) ?></h1>
     <fieldset class="fieldset">
         <div class="field name">
             <label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
@@ -36,7 +36,7 @@
 require(['jquery'],function($){
     $(document).ready(function(){
         $("#add").click(function(){
-        var customurl = "<?php echo $this->getUrl("cform/index/index") ?>";
+        var customurl = "<?php echo $this->getUrl("digisecondsform/index/index") ?>";
         $.ajax({
             url: customurl,
             type: "POST",
