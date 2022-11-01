@@ -1,51 +1,22 @@
-
 //clint
 define([
     'jquery'
 ], function ($) {
     //clint changes cashback
-    //Redeploy
-    $('.secure-pay-container').ready(function() {
-        $(".secure-pay-container").attr("style", "display: none");
-
-        if($('#product-options-wrapper').length) {
-            $('#product-options-wrapper').insertAfter($('.box-tocart'));
-            $('.studio19-wrapper').insertAfter($('#product-options-wrapper'));
-        }else {
-            $('.studio19-wrapper').insertAfter($('.box-tocart'));
-        }
-
-        $('#awaiting-product').insertAfter($('.box-tocart'));
-
-    });
-
-    $('.fotorama__wrap').ready(function() {
-        console.log("Fotorma has been loaded!");
-        setTimeout(function() {
-        $('.custom-preloader').attr("style", "display:none !important;");
-        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
-        }, 3000);
-    });
-
-    $(window).load(function(){
+    
+    window.onload = function() {
+        $(".secure-pay-container").attr("style", "display: inline-block");
         if ($(window).width() <= 768) {
             $('.testfreaks-badge').insertAfter($('.page-title'));
             $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
             console.log("Test OnLoad : Window width is " + $(window).width());
         } else {
 
-        }
-        $('#product-addtocart-button').removeAttr("title");
-        
-        
-        if( $('.itoris-pm-product-marker').length )
-        {
-            $('.itoris-pm-product-marker').insertAfter($('.box-tocart'));
-            $(".itoris-pm-product-marker").attr("style", "display: block");
-        }
-
-    });
-
+        } 
+        $('.custom-preloader').attr("style", "display:none !important;");
+        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+    };
+    
     if( $('#main-product-qantas').length )
     {
         //$('.qantas-new-container').append($('.qantas-pts-wrapper'));
@@ -82,30 +53,22 @@ define([
 //    }else {
 //        $('.page-title-wrapper').insertBefore($('.product-info-price'));
 //    }
-
+    
     $(window).on('resize', function(){
         var win = $(this); //this = window
         if (win.width() >= 1440) {
             $('.page-title-wrapper').insertBefore($('.product-info-price'));
         } else {
             $('.page-title-wrapper').insertBefore($('.product-basic'));
-        }
-
-        //if (win.width() <= 768) {
-        //$('.testfreaks-badge').insertAfter($('.page-title'));
-        //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
-        //} else {
-        //$('.testfreaks-badge').insertAfter($('.page-title'));
-        //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
-        //}
-    });
-
-    $('#itoris-pm-link-custom').on('click', function(){
-        // $('[data-garden-id="buttons.icon_button"]').trigger("click");
-        //$('.itoris-pm-modal').addClass('_show');
-        //$('.itoris-pm-modal').modal('toggle');
-        $('#itoris-pm-link').trigger("click");
-        console.log("Changed To Trigger Click!");
+        } 
+        
+        if (win.width() <= 768) {
+            //$('.testfreaks-badge').insertAfter($('.page-title'));
+            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+        } else {
+            //$('.testfreaks-badge').insertAfter($('.page-title'));
+            //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
+        } 
     });
 
 });
