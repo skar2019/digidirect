@@ -17,7 +17,7 @@ class Index extends Action
         $post = $this->getRequest()->getPostValue();
         
         // Get post values
-        $fname = $this->getRequest()->getParam('name');
+        $fname = $this->getRequest()->getParam('firstname');
         $email = $this->getRequest()->getParam('email');
 
         // Send Mail functionality starts from here 
