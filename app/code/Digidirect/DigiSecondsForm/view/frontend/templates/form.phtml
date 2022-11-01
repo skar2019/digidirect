@@ -1,8 +1,8 @@
-<form id="contact-form" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
+<form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
     <h1><?= $block->escapeHtml(__('DigiSecondsForm Test')) ?></h1>
     <fieldset class="fieldset">
         <div class="field name">
-            <label class="label" for="firstname"><span><?= $block->escapeHtml(__('firstname')) ?></span></label>
+            <label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
             <div class="control">
                 <input name="firstname" id="firstname" class="input-text" type="text" />
             </div>
@@ -46,7 +46,7 @@ require(['jquery'],function($){
                 console.log(result);
             }
         });
-        $('#contact-form')[0].reset(); 
+        $('#digiSecondFormSell')[0].reset(); 
         return false;
         });
     });
