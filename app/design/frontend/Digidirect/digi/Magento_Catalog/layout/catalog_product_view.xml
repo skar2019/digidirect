@@ -70,12 +70,14 @@
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
                     <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
                     <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/digiseconds-form.phtml" name="digiseconds-form" before="product.view.top"/>
-                    <block class="Magento\Framework\View\Element\Template" template="Digidirect_Cform::form.phtml" name="testmail-form" before="digiseconds-form"/>
+                    <block class="Magento\Framework\View\Element\Template" template="Digidirect_DigiSecondsForm::form.phtml" name="testmail-form" before="digiseconds-form"/>
                     <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
                         <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area"></container>
                     </container>
                 </container>
             </container>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.view.media.overview"/>
+        
         </referenceContainer>
         <referenceContainer name="product.info.media">
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/digiseconds-overlay.phtml" name="pdp-digiseconds-overlay" before="product.info.media.image"/>
