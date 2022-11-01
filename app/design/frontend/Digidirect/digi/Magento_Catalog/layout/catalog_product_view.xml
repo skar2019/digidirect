@@ -69,8 +69,7 @@
             <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
                     <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
-                    <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/digiseconds-form.phtml" name="digiseconds-form" before="product.view.top"/>
-                    <block class="Magento\Framework\View\Element\Template" template="Digidirect_DigiSecondsForm::form.phtml" name="testmail-form" before="digiseconds-form"/>
+                    <block class="Magento\Framework\View\Element\Template" template="Digidirect_DigiSecondsForm::form.phtml" name="testmail-form" before="product.view.top"/>
                     <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
                         <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area"></container>
                     </container>
