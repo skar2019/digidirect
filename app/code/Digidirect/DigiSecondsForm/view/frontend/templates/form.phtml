@@ -127,6 +127,27 @@
     );
 </script>
 
+<script>
+require(['jquery'],function($){
+    $(document).ready(function(){
+        $("#add").click(function(){
+        var customurl = "<?php echo $this->getUrl("digisecondsform/index/index") ?>";
+        $.ajax({
+            url: customurl,
+            type: "POST",
+            data: $(this).closest('form').serialize(),
+            dataType: "json",
+            success: function(result){
+                console.log(result);
+            }
+        });
+        $('#contact-form')[0].reset(); 
+        return false;
+        });
+    });
+}); 
+</script>
+
 
 <style>
     #digiSecondFormSell, #digiSecondFormTitle {
