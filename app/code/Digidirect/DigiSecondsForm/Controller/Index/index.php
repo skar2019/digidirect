@@ -26,28 +26,23 @@ class Index extends Action
         $purchaseYear = $this->getRequest()->getParam('purchaseYear');
         $notes = $this->getRequest()->getParam('notes');
         $askingPrice = $this->getRequest()->getParam('askingPrice');
+        
+        $testme = "Test value ito";
 
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = "From Name";
         $to = "dev4@digidirect.com.au";
         $nameTo = "To Name";
-        $body = "
-        <div>
-            <li>".$firstname."</li>
-            <li>".$lastname."</li>
-            <li>".$phone."</li>
-            <li>".$email."</li>
-            <li>".$brands."</li>
-            <li>".$productName."</li>
-            <li>".$purchaseYear."</li>
-            <li>".$notes."</li>
-            <li>".$askingPrice."</li>
-        </div>";
+        
+        $templateParams = ['testme' => $testme];
+        
 
         $email = new \Zend_Mail();
+        $email->setTemplateIdentifier('sending_email');
         $email->setSubject("DigiSecondsform Test"); 
-        $email->setBodyHtml($body);     // use it to send html data
+        $email->setTemplateVars($templateParams);
+//        $email->setBodyHtml($body);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
