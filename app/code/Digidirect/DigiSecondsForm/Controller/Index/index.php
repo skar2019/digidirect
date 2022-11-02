@@ -8,12 +8,9 @@ use Magento\Framework\App\Action\Action;
 class Index extends Action
 {
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        TransportBuilder $transportBuilder
-        
+        \Magento\Framework\App\Action\Context $context
     ) {
         parent::__construct($context);
-        $this->transportBuilder = $transportBuilder;
     }   
     public function execute()
     {
@@ -29,35 +26,33 @@ class Index extends Action
         $purchaseYear = $this->getRequest()->getParam('purchaseYear');
         $notes = $this->getRequest()->getParam('notes');
         $askingPrice = $this->getRequest()->getParam('askingPrice');
-        
-        $templateParams = ['testme' => $testme];
 
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = "From Name";
         $to = "dev4@digidirect.com.au";
         $nameTo = "To Name";
-//        $body = "
-//        <div>
-//            <li>".$firstname."</li>
-//            <li>".$lastname."</li>
-//            <li>".$phone."</li>
-//            <li>".$email."</li>
-//            <li>".$brands."</li>
-//            <li>".$productName."</li>
-//            <li>".$purchaseYear."</li>
-//            <li>".$notes."</li>
-//            <li>".$askingPrice."</li>
-//        </div>";
-//
-//        $email = new \Zend_Mail();
-//        $email->setSubject("DigiSecondsform Test"); 
-//        $email->setBodyHtml($body);     // use it to send html data
-//        //$email->setBodyText($body);   // use it to send simple text data
-//        $email->setFrom($from, $nameFrom);
-//        $email->addTo($to, $nameTo);
-//        $email->send();
-//        
+        $body = "
+        <div>
+            <li>".$firstname."</li>
+            <li>".$lastname."</li>
+            <li>".$phone."</li>
+            <li>".$email."</li>
+            <li>".$brands."</li>
+            <li>".$productName."</li>
+            <li>".$purchaseYear."</li>
+            <li>".$notes."</li>
+            <li>".$askingPrice."</li>
+        </div>";
+
+        $email = new \Zend_Mail();
+        $email->setSubject("DigiSecondsform Test"); 
+        $email->setBodyHtml($body);     // use it to send html data
+        //$email->setBodyText($body);   // use it to send simple text data
+        $email->setFrom($from, $nameFrom);
+        $email->addTo($to, $nameTo);
+        $email->send();
+        
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
         $data = $objectManager->create('Digidirect\DigiSecondsForm\Model\DigiSecondsForm');
         $data->setData($post);
@@ -65,28 +60,11 @@ class Index extends Action
         echo "success";
         /* echo "hello";
         exit; */
-        
-//        $this->messageManager->addSuccess(__('Form successfully submitted'));
-             
-        
-        $transport = $this->transportBuilder->setTemplateIdentifier(
-            'sending_email'
-        )->addTo(
-           $to, $nameTo
-        )->setTemplateVars(
-            $templateParams
-        )->setFrom(
-            $from, $nameFrom
-        )->getTransport();
 
-        try {
-            // Send an email
-            $transport->sendMessage();
-            $this->messageManager->addSuccess('Email sent successfully');
-        } catch (\Exception $e) {
-            // Write a log message whenever get errors
-           echo "error ba ito?";
-        }
-        return $this;
+
+       
+        
+        $this->messageManager->addSuccess(__('Form successfully submitted'));
+             
     }
 }
