@@ -116,6 +116,11 @@ class Product extends AbstractHelper
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
                 
                 $cost = $prod['stk-replacement-cost'];
+                if($cost == '0')
+                {
+                    $cost = $prod['stk-current-buy'];
+                }
+                
                 $product->setCustomAttribute('cost', $cost);
                 
                 $endis = "Enabled = 0";
@@ -420,6 +425,15 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+                
+                $cost = $prod['stk-replacement-cost'];
+                if($cost == '0')
+                {
+                    $cost = $prod['stk-current-buy'];
+                }
+                
+                $product->setCustomAttribute('cost', $cost);
+                
                 //set brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
                 {
