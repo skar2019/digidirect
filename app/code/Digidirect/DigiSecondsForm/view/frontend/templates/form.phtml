@@ -15,10 +15,7 @@
 	      	<p>Fill out the information form and our representative will contact you for the next steps</p>
       	</div>
 
-       	      
-            <!--<form id="digiSecondFormSell">-->
-
-                <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
+            <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
                      
                 <div class="formContentBgWhite">
                     <div class="grid-column">
@@ -151,35 +148,38 @@ require(['jquery'],function($){
 
 <style>
     #digiSecondFormSell, #digiSecondFormTitle {
-		margin: 15px;
-	}
+        margin: 15px;
+    }
 
-	#digiSecondFormTitle {
-		margin: 35px;
-	}
-	#digiSecondFormTitle h2 {
-		color: black;
-		font-weight: 500;	
-	}
-	#digiSecondFormTitle p {
-		color: #727272;
-		font-weight: 400;
-	}
+    #digiSecondFormTitle {
+        margin: 35px;
+    }
+    
+    #digiSecondFormTitle h2 {
+        color: black;
+        font-weight: 500;	
+    }
+    
+    #digiSecondFormTitle p {
+        color: #727272;
+        font-weight: 400;
+    }
 
-	#digiSecondFormSell .grid-column {
-	    display: grid;
-	    grid-template-columns: 1fr 1fr;
-	    grid-gap: 20px;
-	    margin: 0 15px;
-	}
-	#digiSecondFormSell input {
-		height: 35px;
-		border: none;
-		border-bottom: 1px solid #000000;
-		font-size: 15px;
-		outline: none !important;
-                padding: 0px !important;
-	}
+    #digiSecondFormSell .grid-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+        margin: 0 15px;
+    }
+    
+    #digiSecondFormSell input {
+        height: 35px;
+        border: none;
+        border-bottom: 1px solid #000000;
+        font-size: 15px;
+        outline: none !important;
+        padding: 0px !important;
+    }
 
     #digiSecondFormSell input:focus, #digiSecondFormSell textarea:focus {
         outline: none !important;
@@ -198,21 +198,20 @@ require(['jquery'],function($){
         color: #727272;
     }
 
-
-	#digiSecondFormSell textarea {
-		height: 100px;
-		width: 100% !important;
-		font-size: 15px;
-		outline: none;
-		border: 1px solid #cacaca;
-	}
+    #digiSecondFormSell textarea {
+        height: 100px;
+        width: 100% !important;
+        font-size: 15px;
+        outline: none;
+        border: 1px solid #cacaca;
+    }
     
     #digiSecondFormSell .sell-text {
         margin-top: 35px;
         margin-left: 15px;
         font-weight: 600;
 
-	}
+    }
 
     #digiSecondFormSell .notes {
         color: #727272;
@@ -221,25 +220,30 @@ require(['jquery'],function($){
         margin-bottom: 15px;
     }
 
-	.formContentBgGrey {
-		background: lightgrey;
-	}
+    .formContentBgGrey {
+        background: lightgrey;
+    }
 
-	 .formContentBgWhite {
-		background: white;
-		padding: 25px 15px;
-		/* margin: 25px; */
-	}
+    .formContentBgWhite {
+        background: white;
+        padding: 25px 15px;
+        /* margin: 25px; */
+    }
 
-	.digiSecondFormBtn input {
-		background: #ff3c00;
-		border: none !important;
-		/* margin: 0 25px; */
-		color: white;
-		width: 100px;
-		height: 150px;
+    .digiSecondFormBtn input {
+        background: #ff3c00;
+        border: none !important;
+        /* margin: 0 25px; */
+        color: white;
+        width: 100px;
+        height: 150px;
         margin-top: 25px;
-	}
+    }
+    
+    .action.submit.primary:hover {
+        background: #ff3c00;
+        opacity: 0.8;
+    }
 
     @media only screen and (max-width: 780px) {
         #digiSecondFormSell .grid-column {
