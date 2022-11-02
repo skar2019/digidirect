@@ -17,8 +17,15 @@ class Index extends Action
         $post = $this->getRequest()->getPostValue();
         
         // Get post values
-        $fname = $this->getRequest()->getParam('name');
+        $firstname = $this->getRequest()->getParam('firstname');
+        $lastname = $this->getRequest()->getParam('lastname');
+        $phone = $this->getRequest()->getParam('phone');
         $email = $this->getRequest()->getParam('email');
+        $brands = $this->getRequest()->getParam('brands');
+        $productName = $this->getRequest()->getParam('productName');
+        $purchaseYear = $this->getRequest()->getParam('purchaseYear');
+        $notes = $this->getRequest()->getParam('notes');
+        $askingPrice = $this->getRequest()->getParam('askingPrice');
 
         // Send Mail functionality starts from here 
         $from = $email;
@@ -27,8 +34,15 @@ class Index extends Action
         $nameTo = "To Name";
         $body = "
         <div>
-        <b>".$fname."</b>
-        <i>".$email."</i>
+            <li>".$firstname."</li>
+            <li>".$lastname."</li>
+            <li>".$phone."</li>
+            <li>".$email."</li>
+            <li>".$brands."</li>
+            <li>".$productName."</li>
+            <li>".$purchaseYear."</li>
+            <li>".$notes."</li>
+            <li>".$askingPrice."</li>
         </div>";
 
         $email = new \Zend_Mail();
