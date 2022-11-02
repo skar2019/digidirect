@@ -23,7 +23,7 @@ define([
         console.log("Fotorma has been loaded!");
         setTimeout(function() {
         $('.custom-preloader').attr("style", "display:none !important;");
-        $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+        $('.gallery-placeholder').attr("style", "display:block !important;");
         }, 3000);
     });
 
