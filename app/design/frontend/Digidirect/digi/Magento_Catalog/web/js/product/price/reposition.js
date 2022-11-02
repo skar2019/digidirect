@@ -27,7 +27,7 @@ define([
         }, 3000);
     });
 
-    $(window).load(function(){
+    //$(window).load(function(){
         if ($(window).width() <= 768) {
             $('.testfreaks-badge').insertAfter($('.page-title'));
             $('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
@@ -44,7 +44,7 @@ define([
             $(".itoris-pm-product-marker").attr("style", "display: block");
         }
 
-    });
+    //});
 
     if( $('#main-product-qantas').length )
     {
