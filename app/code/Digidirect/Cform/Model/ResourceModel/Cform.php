@@ -1,8 +1,8 @@
 <?php
 
-namespace Digidirect\DigiSecondsForm\Model\ResourceModel;
+namespace Digidirect\Cform\Model\ResourceModel;
 
-class DigiSecondsForm extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+class Cform extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     protected $storeManager;
     
