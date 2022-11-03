@@ -33,11 +33,12 @@ class Index extends Action
 
         // Send Mail functionality starts from here 
         $from = $email;
-        $nameFrom = "From Name";
+        $nameFrom = $firstname." ".$lastname;
         $to = "dev4@digidirect.com.au";
-        $nameTo = "To Name";
+        $nameTo = "Digidirect";
+        $brandColor = "#990000";
         $body = "
-        <div>
+        <div style=color:<?php echo $brandColor; ?>>
             <li>FullName: ".$firstname." ".$lastname."</li>
             <li>Phone: ".$phone."</li>
             <li>Email: ".$email."</li>
