@@ -70,7 +70,7 @@
                 <container name="product.section" htmlTag="div" htmlClass="section-center">
                     <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
                     <block class="Magento\Framework\View\Element\Template" template="Digidirect_DigiSecondsForm::form.phtml" name="digisecondsform" before="product.view.top"/>
-                    <block class="Magento\Framework\View\Element\Template" template="Digidirect_Cform::form.phtml" name="testmail-form" before="digisecondsform"/>
+                    <!--<block class="Magento\Framework\View\Element\Template" template="Digidirect_Cform::form.phtml" name="testmail-form" before="digisecondsform"/>-->
                     <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
                         <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area"></container>
                     </container>
