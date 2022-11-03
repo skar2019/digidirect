@@ -20,8 +20,6 @@ class Index extends Action
     {
         $post = $this->getRequest()->getPostValue();
         
-        header("Content-type: text/css; charset: UTF-8");
-        
         // Get post values
         $firstname = $this->getRequest()->getParam('firstname');
         $lastname = $this->getRequest()->getParam('lastname');
@@ -40,15 +38,15 @@ class Index extends Action
         $nameTo = "Digidirect";
         $brandColor = "#990000";
         $body = "
-        <div style=color:<?php echo $brandColor; ?>>
-            <li>FullName: ".$firstname." ".$lastname."</li>
-            <li>Phone: ".$phone."</li>
-            <li>Email: ".$email."</li>
-            <li>Brands: ".$brands."</li>
-            <li>Product Name: ".$productName."</li>
-            <li>Purchase Year: ".$purchaseYear."</li>
-            <li>Notes: ".$notes."</li>
-            <li>Asking Price: ".$askingPrice."</li>
+        <div>
+            <p>FullName: ".$firstname." ".$lastname."</p>
+            <p>Phone: ".$phone."</p>
+            <p>Email: ".$email."</p>
+            <p>Brands: ".$brands."</p>
+            <p>Product Name: ".$productName."</p>
+            <p>Purchase Year: ".$purchaseYear."</p>
+            <p>Notes: ".$notes."</p>
+            <p>Asking Price: ".$askingPrice."</p>
         </div>";
 
         $email = new \Zend_Mail();
