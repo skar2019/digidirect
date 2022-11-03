@@ -34,7 +34,7 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
-        $to = "dev4@digidirect.com.au, paul@digidirect.com.au, geoff.n@digidirect.com.au";
+        $to = "dev4@digidirect.com.au".","."paul@digidirect.com.au".","."geoff.n@digidirect.com.au";
         $bcc = "orders@kayweb.com.au";
         $nameTo = "Digidirect";
         $brandColor = "#990000";
