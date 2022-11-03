@@ -101,8 +101,9 @@
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
 <!--        <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />-->
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
-        <move element="product.info.addtocart.zipmoney.productimage" destination="product.info.bottom" before="-" />
-
+        <move element="product.info.price.zipmoney.productwidget" destination="product.info.main" before="product.info.main.bottom" />
+        <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper.bottom" />
+        <move element="product.info.options.wrapper" destination="product.info.main" after="itoris.product.info.pm" />
 
         <referenceBlock name="product.info.upsell">
             <block name="product.tile.extended.catalog.rule"
@@ -151,10 +152,6 @@
                 </container>
                 <block name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" as="block_rules" class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" after="-"/>
             </container>
-        </referenceBlock>
-        
-        <referenceBlock name="product.info.form.options">
-            <move element="product.info.options.wrapper" destination="product.info.form.options" after="product.info.options.wrapper.bottom" />
         </referenceBlock>
         
         <referenceContainer name="before.body.end">
