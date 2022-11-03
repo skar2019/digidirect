@@ -2,7 +2,7 @@
 
 namespace Digidirect\DigiSecondsForm\Model\ResourceModel;
 
-class Cform extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+class DigiSecondsForm extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
     protected $storeManager;
     

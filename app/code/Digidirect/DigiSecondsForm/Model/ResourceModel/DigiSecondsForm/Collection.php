@@ -1,12 +1,12 @@
 <?php
-namespace Digidirect\Cform\Model\ResourceModel\Cform;
+namespace Digidirect\Cform\Model\ResourceModel\DigiSecondsForm;
  
 use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
  
 class Collection extends AbstractCollection
 {
  
-    protected $_idFieldName = \Digidirect\Cform\Model\Cform::CONTECT_ID;
+    protected $_idFieldName = \Digidirect\DigiSecondsForm\Model\Cform::CONTECT_ID;
      
     /**
      * Define resource model

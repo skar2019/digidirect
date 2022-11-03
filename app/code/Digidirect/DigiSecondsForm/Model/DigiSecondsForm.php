@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\Cform\Model;
+namespace Digidirect\DigiSecondsForm\Model;
 
 class Cform extends \Magento\Framework\Model\AbstractModel
 {
@@ -12,7 +12,7 @@ class Cform extends \Magento\Framework\Model\AbstractModel
     
     protected function _construct()
     {
-        $this->_init('Digidirect\DigiSeconsForm\Model\ResourceModel\DigiSecondsForm');
+        $this->_init('Digidirect\DigiSecondsForm\Model\ResourceModel\DigiSecondsForm');
     }
 
 }
