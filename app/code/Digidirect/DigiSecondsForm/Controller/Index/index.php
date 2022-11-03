@@ -35,6 +35,7 @@ class Index extends Action
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
         $to = "dev4@digidirect.com.au";
+        $bcc = "jireh@kayweb.com.au";
         $nameTo = "Digidirect";
         $brandColor = "#990000";
         $body = "
@@ -55,6 +56,7 @@ class Index extends Action
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
+        $email->addBcc($bcc);
         $email->send();
         
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
