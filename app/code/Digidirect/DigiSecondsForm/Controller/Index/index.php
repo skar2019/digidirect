@@ -20,6 +20,8 @@ class Index extends Action
     {
         $post = $this->getRequest()->getPostValue();
         
+        header("Content-type: text/css; charset: UTF-8");
+        
         // Get post values
         $firstname = $this->getRequest()->getParam('firstname');
         $lastname = $this->getRequest()->getParam('lastname');
