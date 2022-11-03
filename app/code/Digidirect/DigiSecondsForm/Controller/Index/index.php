@@ -34,9 +34,6 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
-        $receiver1 = "geoff.n@digidirect.com.au";
-        $receiver2 = "paul@digidirect.com.au";
-        $receiver3 = "dev4@digidirect.com.au";
         $bcc = "orders@kayweb.com.au";
         $nameTo = "Digidirect";
         $brandColor = "#990000";
@@ -57,7 +54,7 @@ class Index extends Action
         $email->setBodyHtml($body);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
-        $email->addTo($receiver1, $receiver2, $receiver3, $nameTo);
+        $email->addTo('geoff.n@digidirect.com.au', 'paul@digidirect.com.au', 'dev4@digidirect.com.au');
         $email->addBcc($bcc);
         $email->send();
         
