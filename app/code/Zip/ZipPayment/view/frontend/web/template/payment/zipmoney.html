@@ -1,4 +1,4 @@
-<div class="payment-method zipmoney" data-bind="css: {'_active': (getCode() == isChecked())}">
+<div class="payment-method zipmoney" afterRender="zipCheckoutTitle" data-bind="css: {'_active': (getCode() == isChecked())}">
     <div class="payment-method-title field choice">
         <input class="radio"
                data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"
@@ -6,9 +6,11 @@
                type="radio"/>
         <label class="label" data-bind="attr: {'for': getCode()}">
             <!-- zipMoney Logo -->
-            <span data-zm-asset="checkouttitle" data-zm-widget="inline" style="margin-left:-100px;"><img class="payment-icon"
+            <img class="payment-icon zip-checkout-icon"
                  data-bind="attr: {src: getPaymentAcceptanceMarkSrc(), alt: $t('zipMoney Acceptance Mark')}"
-                 style="height:27px;"/><span style="margin-left:-220px"><!-- ko i18n: 'Own it now, pay later' --><!-- /ko --></span></span>
+                 style="height:26px"/>
+            <!-- zipMoney Logo -->
+            <span data-zm-asset="checkouttitle" data-zm-widget="inline"><!-- ko i18n: 'Zip now, pay later' --><!-- /ko --></span>
         </label>
     </div>
 
@@ -20,6 +22,10 @@
                id="zipmoney-learn-more" style="display: inline !important">
                 <!-- ko i18n: 'Learn More?' --><!-- /ko -->
             </a>
+        </div>
+        <div class="col-mp mp-12" data-bind="visible: isTokenisationActive()">
+            <input type="checkbox" name="tokenisation" data-bind="checked: isCustomerWantTokenisation, attr: {id: 'place-order-tokenisation'}"/>
+            <label data-bind="attr: {for: 'place-order-tokenisation'}"><span data-bind="i18n: 'Save Zip for future purchases'"></span></label>
         </div>
 
         <!-- ko foreach: getRegion('messages') -->

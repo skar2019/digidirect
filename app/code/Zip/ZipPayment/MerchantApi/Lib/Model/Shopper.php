@@ -383,6 +383,9 @@ class Shopper implements ArrayAccess
     public function setGender($gender)
     {
         $allowed_values = ['Male', 'Female', 'Other'];
+        if (!is_null($gender)) {
+            $gender = ucfirst(strtolower($gender));
+        }
         if (!is_null($gender) && (!in_array($gender, $allowed_values))) {
             throw new \InvalidArgumentException("Invalid value for 'gender', must be one of 'Male', 'Female', 'Other'");
         }
@@ -438,6 +441,7 @@ class Shopper implements ArrayAccess
      * @param integer $offset Offset
      * @return boolean
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->container[$offset]);
@@ -448,6 +452,7 @@ class Shopper implements ArrayAccess
      * @param integer $offset Offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->container[$offset]) ? $this->container[$offset] : null;
@@ -459,6 +464,7 @@ class Shopper implements ArrayAccess
      * @param mixed $value Value to be set
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
@@ -473,6 +479,7 @@ class Shopper implements ArrayAccess
      * @param integer $offset Offset
      * @return void
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->container[$offset]);
