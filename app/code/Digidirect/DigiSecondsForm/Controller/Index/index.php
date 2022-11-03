@@ -38,15 +38,14 @@ class Index extends Action
         $nameTo = "To Name";
         $body = "
         <div>
-            <li>".$firstname."</li>
-            <li>".$lastname."</li>
-            <li>".$phone."</li>
-            <li>".$email."</li>
-            <li>".$brands."</li>
-            <li>".$productName."</li>
-            <li>".$purchaseYear."</li>
-            <li>".$notes."</li>
-            <li>".$askingPrice."</li>
+            <li>FullName: ".$firstname." ".$lastname."</li>
+            <li>Phone: ".$phone."</li>
+            <li>Email: ".$email."</li>
+            <li>Brands: ".$brands."</li>
+            <li>Product Name: ".$productName."</li>
+            <li>Purchase Year: ".$purchaseYear."</li>
+            <li>Notes: ".$notes."</li>
+            <li>Asking Price: ".$askingPrice."</li>
         </div>";
 
         $email = new \Zend_Mail();
@@ -61,7 +60,7 @@ class Index extends Action
         $data = $objectManager->create('Digidirect\DigiSecondsForm\Model\DigiSecondsForm');
         $data->setData($post);
         $data->save();
-        echo "success";
+//        echo "success";
         /* echo "hello";
         exit; */
         
