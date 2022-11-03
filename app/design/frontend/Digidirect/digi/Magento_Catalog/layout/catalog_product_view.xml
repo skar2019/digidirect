@@ -152,6 +152,11 @@
                 <block name="pdp.prod.overview.rules" template="Digidirect_ExtendedCatalogPriceRule::product/view/description_rule.phtml" as="block_rules" class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage" after="-"/>
             </container>
         </referenceBlock>
+        
+        <referenceBlock name="product.info.form.options">
+            <move element="product.info.options.wrapper" destination="product.info.form.options" after="product.info.options.wrapper.bottom" />
+        </referenceBlock>
+        
         <referenceContainer name="before.body.end">
 <!--            <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">-->
 <!--                <arguments>-->
