@@ -34,19 +34,21 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
-        $to = array("geoff.n@digidirect.com.au","paul@digidirect.com.au");
+        $to = array("geoff.n@digidirect.com.au","paul@digidirect.com.au","dev4@digidirect.com.au");
         $bcc = "orders@kayweb.com.au";
         $nameTo = "Digidirect";
         $body = "
         <div>
-            <p>FullName: ".$firstname." ".$lastname."</p>
-            <p>Phone: ".$phone."</p>
-            <p>Email: ".$email."</p>
-            <p>Brands: ".$brands."</p>
-            <p>Product Name: ".$productName."</p>
-            <p>Purchase Year: ".$purchaseYear."</p>
-            <p>Notes: ".$notes."</p>
-            <p>Asking Price: ".$askingPrice."</p>
+            <img src='<?php echo $block->getViewFileUrl('/wysiwyg/digi_seconds_email_banner.jpg'); ?>' >;
+            <br>
+            <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
+            <p><b>Phone:</b> ".$phone."</p>
+            <p><b>Email:</b> ".$email."</p>
+            <p><b>Brands:</b> ".$brands."</p>
+            <p><b>Product Name:</b> ".$productName."</p>
+            <p><b>Purchase Year:</b> ".$purchaseYear."</p>
+            <p><b>Notes:</b> ".$notes."</p>
+            <p><b>Asking Price:</b> ".$askingPrice."</p>
         </div>";
 
         $email = new \Zend_Mail();
