@@ -30,7 +30,8 @@ class Index extends Action
         $purchaseYear = $this->getRequest()->getParam('purchaseYear');
         $notes = $this->getRequest()->getParam('notes');
         $askingPrice = $this->getRequest()->getParam('askingPrice');
-        $digi_headbanner_email = $this->getViewFileUrl('Digidirect_DigiSeconds::images/logo.png');
+//        $digi_headbanner_email = $this->getViewFileUrl('Digidirect_DigiSeconds::images/logo.png');
+        $digi_headbanner_email = Digidirect::DigiSecondsForm('images/Chris-Sig.gif');
 
         // Send Mail functionality starts from here 
         $from = $email;
