@@ -40,14 +40,14 @@ class Index extends Action
         $nameTo = "Digidirect";
         $body = "
         <div>
-            <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
-            <p><b>Phone:</b> ".$phone."</p>
-            <p><b>Email:</b> ".$email."</p>
-            <p><b>Brands:</b> ".$brands."</p>
-            <p><b>Product Name:</b> ".$productName."</p>
-            <p><b>Purchase Year:</b> ".$purchaseYear."</p>
-            <p><b>Notes:</b> ".$notes."</p>
-            <p><b>Asking Price:</b> ".$askingPrice."</p>
+            <p><b>'.FullName:</b>.' ".$firstname." ".$lastname."</p>
+            <p><b>'.Phone:</b>.' ".$phone."</p>
+            <p>Email: ".$email."</p>
+            <p>Brands: ".$brands."</p>
+            <p>Product Name: ".$productName."</p>
+            <p>Purchase Year: ".$purchaseYear."</p>
+            <p>Notes: ".$notes."</p>
+            <p>Asking Price: ".$askingPrice."</p>
         </div>";
 
         $email = new \Zend_Mail();
