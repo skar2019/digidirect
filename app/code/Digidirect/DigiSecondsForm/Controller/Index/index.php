@@ -34,13 +34,13 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
-        $to = array("geoff.n@digidirect.com.au","paul@digidirect.com.au","dev4@digidirect.com.au");
+//        $to = array("geoff.n@digidirect.com.au","paul@digidirect.com.au","dev4@digidirect.com.au");
         $to = "dev4@digidirect.com.au";
         $bcc = "orders@kayweb.com.au";
         $nameTo = "Digidirect";
         $body = "
         <div>
-            <p>'.<b>FullName:</b>.' ".$firstname." ".$lastname."</p>
+            <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
             <p><b>Phone:</b> ".$phone."</p>
             <p><b>Email:</b> ".$email."</p>
             <p><b>Brands:</b> ".$brands."</p>
