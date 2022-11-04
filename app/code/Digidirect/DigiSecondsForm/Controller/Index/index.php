@@ -30,6 +30,7 @@ class Index extends Action
         $purchaseYear = $this->getRequest()->getParam('purchaseYear');
         $notes = $this->getRequest()->getParam('notes');
         $askingPrice = $this->getRequest()->getParam('askingPrice');
+        $digi_headbanner_email = $this->getViewFileUrl('Digidirect_DigiSeconds::images/logo.png');
 
         // Send Mail functionality starts from here 
         $from = $email;
@@ -39,7 +40,7 @@ class Index extends Action
         $nameTo = "Digidirect";
         $body = "
         <div>
-            <img src=<?php echo $this->getViewFileUrl('Digidirect_DigiSeconds::images/logo.png'); ?>
+            <img src=$digi_headbanner_email>
             <br>
             <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
             <p><b>Phone:</b> ".$phone."</p>
