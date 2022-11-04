@@ -35,11 +35,12 @@ class Index extends Action
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
         $to = array("geoff.n@digidirect.com.au","paul@digidirect.com.au","dev4@digidirect.com.au");
+        $to = "dev4@digidirect.com.au";
         $bcc = "orders@kayweb.com.au";
         $nameTo = "Digidirect";
         $body = "
         <div>
-            <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
+            <p>'.<b>FullName:</b>.' ".$firstname." ".$lastname."</p>
             <p><b>Phone:</b> ".$phone."</p>
             <p><b>Email:</b> ".$email."</p>
             <p><b>Brands:</b> ".$brands."</p>
@@ -50,13 +51,13 @@ class Index extends Action
         </div>";
 
         $email = new \Zend_Mail();
-        $email->setSubject("DigiSeconds Form"); 
+        $email->setSubject("DigiSeconds Form");
         $email->setBodyHtml($body);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
 //        $email->addTo($to, $nameTo);
         $email->addTo($to, $nameTo);
-        $email->addBcc($bcc);
+//        $email->addBcc($bcc);
         $email->send();
         
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
