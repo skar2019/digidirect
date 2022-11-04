@@ -39,7 +39,7 @@ class Index extends Action
         $nameTo = "Digidirect";
         $body = "
         <div>
-            <img src='<?php echo $block->getViewFileUrl('/wysiwyg/digi_seconds_email_banner.jpg'); ?>' >;
+            <img src=<?php echo $this->getViewFileUrl('Digidirect_DigiSeconds::images/logo.png'); ?>
             <br>
             <p><b>FullName:</b> ".$firstname." ".$lastname."</p>
             <p><b>Phone:</b> ".$phone."</p>
