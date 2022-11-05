@@ -116,7 +116,9 @@
 
             var popup = modal(options, $('#digisecondsForm'));
             $("#digisecondsForm_trigger").on('click',function(){ 
-                $("#digisecondsForm").modal("openModal");
+                window.setTimeout(function () {
+                    $("#digisecondsForm").modal("openModal");
+                }, 5000);
             });
             // $( "#digisecondsForm_trigger" ).prepend( "<b>Hello </b>" );
 
