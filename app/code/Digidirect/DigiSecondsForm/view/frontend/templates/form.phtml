@@ -116,11 +116,13 @@
 
             var popup = modal(options, $('#digisecondsForm'));
             $("#digisecondsForm_trigger").on('click',function(){ 
-                window.setTimeout(function () {
-                    $("#digisecondsForm").modal("openModal");
-                }, 5000);
+                $("#digisecondsForm").modal("openModal");
             });
             // $( "#digisecondsForm_trigger" ).prepend( "<b>Hello </b>" );
+            
+           window.onload = function() {
+              document.getElementById('digisecondsForm').style.display = 'none';
+            };
 
         }
     );
