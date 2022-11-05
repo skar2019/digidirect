@@ -9,7 +9,7 @@
         <//?php endif; ?> -->
     </a>
 
-    <div id="digisecondsForm">
+    <div id="digisecondsForm" style="display: none;">
         <div id="digiSecondFormTitle">
       		<h2>Sell Your Used Gear and Gadgets</h2>
 	      	<p>Fill out the information form and our representative will contact you for the next steps</p>
@@ -120,9 +120,9 @@
             });
             // $( "#digisecondsForm_trigger" ).prepend( "<b>Hello </b>" );
             
-           window.onload = function() {
-              document.getElementById('digisecondsForm').style.display = 'none';
-            };
+            window.setTimeout(function () {
+                $("#digisecondsForm").attr('style', 'display: block;');
+            }, 3000);
 
         }
     );
