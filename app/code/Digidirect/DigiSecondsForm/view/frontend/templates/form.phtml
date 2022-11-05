@@ -28,7 +28,7 @@ if ($currentPage != "catalogsearch_result_index") {
                     <//?php endif; ?> -->
                 </a>
 
-                <div id="digisecondsForm">
+                <div id="digisecondsForm" style="display: none;">
                     <div id="digiSecondFormTitle">
                         <h2>Sell Your Used Gear and Gadgets</h2>
                         <p>Fill out the information form and our representative will contact you for the next steps</p>
@@ -137,6 +137,10 @@ if ($currentPage != "catalogsearch_result_index") {
                 $("#digisecondsForm").modal("openModal");
             });
             // $( "#digisecondsForm_trigger" ).prepend( "<b>Hello </b>" );
+            
+            window.setTimeout(function () {
+                $("#digisecondsForm").attr('style', 'display: block;');
+            }, 3000);
 
         }
     );
