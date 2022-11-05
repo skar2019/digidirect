@@ -3547,8 +3547,10 @@
 //  Desktop large
 //  ---------------------------------------------
 
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-    
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xl) {
+    #digisecondsForm_trigger {
+        display: none;
+    }
 }
 
 //
