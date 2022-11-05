@@ -18,6 +18,7 @@
         </referenceContainer>
         
         <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" template="Digidirect_DigiSecondsForm::form.phtml" name="digisecondsform" before="product.view.top"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/banner-category.phtml" name="banner-category" before="category.products"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-sorter.phtml" name="custom-sorter" after="banner-category"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::category/custom-featured-banner.phtml" name="custom-featured-banner" after="banner-category"/>  
