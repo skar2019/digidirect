@@ -40,8 +40,8 @@ define([
         
         if( $('.itoris-pm-product-marker').length )
         {
-            //$('.itoris-pm-product-marker').insertAfter($('.box-tocart'));
-            //$(".itoris-pm-product-marker").attr("style", "display: block");
+            $('.itoris-pm-product-marker').insertAfter($('.box-tocart'));
+            $(".itoris-pm-product-marker").attr("style", "display: block");
         }
 
     });
