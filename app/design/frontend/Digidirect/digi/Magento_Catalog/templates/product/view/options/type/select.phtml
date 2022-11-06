@@ -14,7 +14,7 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
     <?php
         if ($_option->getTitle() == 'digiProtect') {?>
         <div class="tooltip protect-tooltip">
-            <img class="digiprotect-info-logo" data-bind="attr: { src: require.toUrl('images/digiProtect.png') }" />
+            <img class="digiprotect-info-logo" src="<?php echo $block->getUrl("media/wysiwyg/digiprotect")?>digiProtect.png"/>
             <span class="tooltiptext" style="display: none;">
                 <a href="#" class="close-tooltip-trigger">
                     
