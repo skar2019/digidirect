@@ -116,7 +116,7 @@ $imageHelper = $block->getImageHelper();
                                         <?php endif ?>
                                     </div>
 
-                                    <div class="product-options-wrapper" id="product-options-wrapper">
+                                    <div class="product-options-wrapper digiprotect-option" id="product-options-wrapper">
                                         <fieldset class="fieldset" tabindex="0">
                                             <?php if ($optionsBlock = $block->getChildBlock($product->getTypeId() . '_prototype')): ?>
                                                 <?php echo $optionsBlock->setProduct($product)->setRuleId($ruleId)->toHtml(); ?>
