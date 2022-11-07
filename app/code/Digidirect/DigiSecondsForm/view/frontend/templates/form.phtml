@@ -2,12 +2,16 @@
 
 <!--digi-seconds modal-->
 <div class="digi-seconds-modal" style="width: 1095px;margin-right: 0;margin-left: auto;">
-    <a href="#" id="digisecondsForm_trigger">
-        <img class="digisecondsForm_triggerImg" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/digiseconds/digi-seconds-trigger-button.png">
-        <!-- <//?php if (in_array($categoryId, $allChildrenCategoryIdsDigiSeconds)) : ?>
-            <img src="<//?php echo $block->getUrl("media/wysiwyg/digiseconds")?>digi-seconds-trigger-button.png"/>
-        <//?php endif; ?> -->
-    </a>
+    <div class="digisecond-trigger-sec">
+        <a href="#" id="digisecondsForm_trigger">
+            <div class="digiseconds-eclipse">
+                <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/digiseconds/digi-seconds-eclipse.png">
+            </div>
+            <div class="digiseconds-text">
+                <p>If you have old gear you don’t need, we’d love to buy it from you. <span>Get Started Now</span></p>
+            </div>
+        </a>
+    </div>
 
     <div id="digisecondsForm" style="display: none;">
         <div id="digiSecondFormTitle">
@@ -153,6 +157,20 @@ require(['jquery'],function($){
 <style>
     #digiSecondFormSell, #digiSecondFormTitle {
         margin: 15px;
+    }
+    
+    .digisecond-trigger-sec {
+        display: inline-flex;
+        border: 1px solid #ff3c00;
+    }
+    
+    .digiseconds-eclipse {
+         flex: 1;
+    }
+    
+    .digiseconds-text {
+        flex: 1;
+        text-align: center;
     }
 
     #digiSecondFormTitle {
