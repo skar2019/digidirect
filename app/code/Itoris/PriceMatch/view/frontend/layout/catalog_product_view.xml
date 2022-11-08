@@ -30,7 +30,7 @@
     </head>
     <body>
         <referenceContainer name="product.info.main">
-            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="qantas.points"/>
+            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" before="product.info.price"/>
         </referenceContainer>
     </body>
 </page>

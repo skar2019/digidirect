@@ -27,10 +27,10 @@ define([
 
                 if (opts.length) {
                     elemSupporting = $(".product-info-main #product-options-wrapper .swatch-opt,.product-info-main #product-options-wrapper .configurable");
-                    //elemSupporting.after(elem);
+                    elemSupporting.after(elem);
                 } else {
-                    elemSupporting =  elem.siblings('.product-info-price');
-                    //elemSupporting.before(elem);
+                    elemSupporting =  elem.siblings('.product-add-form');
+                    elemSupporting.before(elem);
                 }
 
                 var showLink = function () {
