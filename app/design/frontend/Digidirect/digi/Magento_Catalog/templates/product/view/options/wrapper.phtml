@@ -7,8 +7,13 @@ if ($block->hasRequiredOptions()) {
     $required = ' data-hasrequired="' . $block->escapeHtmlAttr(__('* Required Fields')) . '"';
 }
 ?>
-<div class="product-options-wrapper digiprotect-option" id="product-options-wrapper"<?= /* @noEscape */ $required ?>>
-    <div class="fieldset" tabindex="0">
-        <?= $block->getChildHtml('', true) ?>
+<?php
+if ($block->hasOptions()) { ?>
+    <div class="product-options-wrapper digiprotect-option" id="product-options-wrapper"<?= /* @noEscape */ $required ?>>
+        <div class="fieldset" tabindex="0">
+            <?= $block->getChildHtml('', true) ?>
+        </div>
     </div>
-</div>
+<?php 
+    }
+?>
