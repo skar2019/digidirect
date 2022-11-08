@@ -340,6 +340,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -634,6 +643,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -1660,6 +1678,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -1943,6 +1970,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -2340,6 +2376,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -2623,6 +2668,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
