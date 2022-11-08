@@ -14,40 +14,23 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
     <?php
         if ($_option->getTitle() == 'digiProtect') {?>
         <div class="tooltip protect-tooltip">
-            <img class="digiprotect-info-logo" data-bind="attr: { src: require.toUrl('images/digiProtect.png') }" />
+            <img class="digiprotect-info-logo" src="<?php echo $block->getUrl("media/wysiwyg/digiprotect")?>digiProtect.png"/>
             <span class="tooltiptext" style="display: none;">
-                <a href="#" class="close-tooltip-trigger">
-                    
-                </a>
-                
+                <a href="#" class="close-tooltip-trigger"></a>
                 digiProtect your purchase beyond the manufacturer's warranty and have access to replacement 
                 or repair guarantee, surge protection, freight and service call cover and more. Click <a target="_blank" href="https://digidirect.com.au/digiprotect">here</a> for more info.
             </span>
         </div>
-    
-    <script>
-        require(['jquery'], 
-        function($) {
-            $(".digiprotect-info-logo").click(function() {
-                $(".protect-tooltip .tooltiptext").fadeToggle();
-            });
-            
-            $(".close-tooltip-trigger").click(function(){
-                $(".protect-tooltip .tooltiptext").fadeOut();
-            });
-        });
-    </script>
-            
     <?php
         } ?>
     <?php
         if ($_option->getTitle() != 'digiProtect') {?>
         <label class="label" for="select_<?= $block->escapeHtmlAttr($_option->getId()) ?>">
             <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
-        </label> 
+        </label>
     <?php
         } ?>
-            
+                
     <div class="control">
         <?= $block->getValuesHtml() ?>
         <?php if ($_option->getIsRequire()) :?>
@@ -57,3 +40,17 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
         <?php endif;?>
     </div>
 </div>
+
+<script>
+    require(['jquery'], 
+    function($) {
+        $(".digiprotect-info-logo").click(function() {
+            $(".protect-tooltip .tooltiptext").fadeToggle();
+        });
+
+        $(".close-tooltip-trigger").click(function(){
+            $(".protect-tooltip .tooltiptext").fadeOut();
+        });
+    });
+</script>
+            
