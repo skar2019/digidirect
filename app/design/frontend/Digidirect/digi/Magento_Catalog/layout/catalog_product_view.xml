@@ -102,7 +102,7 @@
 <!--        <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />-->
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
         <move element="product.info.price.zipmoney.productwidget" destination="product.info.main" before="product.info.main.bottom" />
-        <move element="itoris.product.info.pm" destination="product.info.main" after="product.info" />
+        <move element="itoris.product.info.pm" destination="product.info.main" after="qantas.points" />
         <move element="product.info.options.wrapper" destination="product.info.main" after="itoris.product.info.pm" />
 
         <referenceBlock name="product.info.upsell">
