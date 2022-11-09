@@ -7,7 +7,6 @@
             </container>
         </referenceContainer>
         <referenceContainer name="sidebar.main">
-            <block class="Magento\Framework\View\Element\Template" template="Digidirect_DigiSecondsForm::form.phtml" name="digisecondsform" before="digidirect.layerednavigation.apply"/>
             <block class="Digidirect\LayeredNavigation\Block\Apply" name="digidirect.layerednavigation.apply" template="Digidirect_LayeredNavigation::layer/apply.phtml" after="-"/>
         </referenceContainer>
     </body>
