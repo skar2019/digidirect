@@ -27,7 +27,7 @@ define([
         }, 3000);
     });
 
-    $(window).load(function(){
+    $(window).on('load', function(){
         if ($(window).width() <= 768) {
             //$('.testfreaks-badge').insertAfter($('.page-title'));
             //$('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
