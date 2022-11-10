@@ -72,6 +72,11 @@ web:
             expires: -1
             scripts: true
             allow: true
+        "/.well-known":
+            root: "pub/.well-known"
+            expires: -1
+            scripts: false
+            allow: true
 
 
 # The size of the persistent disk of the application (in MB).
