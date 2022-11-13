@@ -5,6 +5,11 @@ define([
 ], function ($) {
     //clint changes cashback
     //Redeploy
+    
+    if($('.s19-component').length == 0) {
+        $('.studio19-wrapper').attr("style", "display:none !important;");
+    }
+    
     $('.secure-pay-container').ready(function() {
         $(".secure-pay-container").attr("style", "display: none");
 
