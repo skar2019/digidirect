@@ -235,6 +235,7 @@ class TestPronto extends AbstractHelper
         //echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
         $payment = $paymentInstance->getMethod();
+        echo "<br >get payment type ".$payment."<br>";
         switch ($payment) {
             case "braintree":
                 $type = 'BT';
@@ -274,6 +275,9 @@ class TestPronto extends AbstractHelper
                 break;
             case "klarna_kp":
                 $type = "KL";
+                break;
+            case "braintree_applepay":
+                $type = "BT";
                 break;
             default:
           break;
@@ -671,6 +675,7 @@ class TestPronto extends AbstractHelper
             $method = $paymentInstance->getMethod();
 
             $payment_type = $this->getPaymentType($paymentInstance);
+            echo "Payment type ".$payment_type."<br/>";
             $cc = "";
 
             $grandTotal = (double) $order->getBaseGrandTotal();

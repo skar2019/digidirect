@@ -1094,6 +1094,9 @@ class Order extends AbstractHelper
             case "klarna_kp":
                 $type = "KL";
                 break;
+            case "braintree_applepay":
+                $type = 'BT';
+                break;
             default:
                 break;
         }
