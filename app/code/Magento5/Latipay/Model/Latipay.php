@@ -141,12 +141,12 @@ class Latipay extends \Magento\Payment\Model\Method\AbstractMethod
 
     public function getInstructions()
     {
-        return trim($this->getConfigData('instructions'));
+        return trim($this->getConfigData('instructions') ?? '');
     }
 
     public function getTooltip()
     {
-        return trim($this->getConfigData('tooltip'));
+        return trim($this->getConfigData('tooltip') ?? '');
     }
 
     public function getRedirectUrl()
