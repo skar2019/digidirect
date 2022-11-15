@@ -10,7 +10,11 @@
     <tr class="email-intro">
         <td>
             <p>Edited2</p>
+            <p> {{trans "Dear %customer_firstname," customer_firstname=$customer_firstname}} </p>
+
             <p class="greeting">{{trans "Dear %customer_name," customer_name=$order_data.customer_name}}</p>
+
+            <p class="greeting">{{trans "Dear %customer," customer=$order_data.customer}}</p>
             <p>
                 {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
             </p>
