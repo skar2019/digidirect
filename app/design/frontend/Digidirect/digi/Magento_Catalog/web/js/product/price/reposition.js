@@ -1,10 +1,15 @@
-
 //clint
 define([
     'jquery'
 ], function ($) {
-    //clint changes cashback
-    //Redeploy
+    
+    //Content Syndication DIVs
+    $('#productoverview').append('<div id="ccs-feature-icons"></div><div id="ccs-logos"></div><div id="ccs-inline-content"></div>');
+    
+    if($('.s19-component').length == 0) {
+        $('.studio19-wrapper').attr("style", "display:none !important;");
+    }
+    
     $('.secure-pay-container').ready(function() {
         $(".secure-pay-container").attr("style", "display: none");
 
@@ -27,7 +32,7 @@ define([
         }, 3000);
     });
 
-    $(window).load(function(){
+    $(window).on('load', function(){
         if ($(window).width() <= 768) {
             //$('.testfreaks-badge').insertAfter($('.page-title'));
             //$('.product-info-price>.product.attribute.sku').insertAfter($('.testfreaks-badge'));
