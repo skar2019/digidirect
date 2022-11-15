@@ -35,7 +35,7 @@ if ($request->getFullActionName() == 'catalog_category_view') {
     if ($isBrandCanon == true) {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('cameras-product-featured-banner')
+        ->setBlockId('brands-canon-featured-banner')
         ->toHtml();
     } elseif ($isBrandNikon == true) {
         echo $this->getLayout()
