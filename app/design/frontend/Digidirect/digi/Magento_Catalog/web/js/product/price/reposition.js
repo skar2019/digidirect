@@ -4,9 +4,7 @@ define([
 ], function ($) {
     
     //Content Syndication DIVs
-    $('.gallery-placeholder').prepend('<div id="ccs-feature-icons"></div>');
-    $('.product-info-main').prepend('<div id="ccs-logos"></div>');
-    $('#productoverview').append('<div id="ccs-inline-content"></div>');
+    $('#productoverview').append('<div id="ccs-feature-icons"></div><div id="ccs-logos"></div><div id="ccs-inline-content"></div>');
     
     if($('.s19-component').length == 0) {
         $('.studio19-wrapper').attr("style", "display:none !important;");
