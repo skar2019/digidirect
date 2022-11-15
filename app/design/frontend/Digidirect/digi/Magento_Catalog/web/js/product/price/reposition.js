@@ -6,9 +6,13 @@ define([
     //clint changes cashback
     //Redeploy
     
-    $('.studio19-wrapper').attr("style", "display:none !important;");
     if($('.s19-component').length != 0) {
-        $('.studio19-wrapper').attr("style", "display:block !important;");
+        var windowsize = $window.width();
+        if (windowsize > 768) {
+            $('.studio19-wrapper').attr("style", "display:block !important;");
+        } else {
+            $('.studio19-wrapper').attr("style", "display:flex !important;");
+        }
     }
     
     $('.secure-pay-container').ready(function() {
