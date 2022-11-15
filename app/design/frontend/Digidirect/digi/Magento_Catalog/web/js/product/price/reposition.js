@@ -6,8 +6,9 @@ define([
     //clint changes cashback
     //Redeploy
     
-    if($('.s19-component').length == 0) {
-        $('.studio19-wrapper').attr("style", "display:none !important;");
+    $('.studio19-wrapper').attr("style", "display:none !important;");
+    if($('.s19-component').length != 0) {
+        $('.studio19-wrapper').attr("style", "display:block !important;");
     }
     
     $('.secure-pay-container').ready(function() {
