@@ -7,7 +7,7 @@ define([
     //Redeploy
     
     if($('.s19-component').length != 0) {
-        var windowsize = $window.width();
+        var windowsize = $(window).width();
         if (windowsize > 768) {
             $('.studio19-wrapper').attr("style", "display:block !important;");
         } else {
