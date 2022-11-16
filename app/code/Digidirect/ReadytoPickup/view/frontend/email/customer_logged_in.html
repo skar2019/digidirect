@@ -21,8 +21,6 @@
          
             <p class="greeting">{{trans "Dear %customer_fullname," customer_fullname=$order_data.customer_fullname}}</p>
 
-            <p>{{htmlescape var=$order.getCustomerFirstname()}</p>
-            
             <p>{{trans 'The customer named %customer_name just logged into the %store_name:' customer_name=$customer.name store_name=$store.getFrontendName()|row}}</p>
 
             <!-- <h4>Ficou com d&uacute;vidas? {{var order.getCustomerFirstname()}}</h4> -->
