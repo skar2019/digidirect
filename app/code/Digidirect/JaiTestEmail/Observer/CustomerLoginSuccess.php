@@ -59,7 +59,8 @@ class CustomerLoginSuccess implements ObserverInterface
 
         $store = $this->storeManager->getStore();
 
-        $customer_firstname = $order->getCustomerFirstname();
+        $customer_firstname = $this->getCustomerFirstname();
+        $customer_fullname = $this->getCustomerName();
 
         $templateParams = ['store' => $store, 'customer' => $customer, 'customer_firstname' => $customer_firstname, 'administrator_name' => $receiverInfo['name']];
 
