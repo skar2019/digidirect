@@ -53,8 +53,8 @@ class CustomerLoginSuccess implements ObserverInterface
 
         /* Receiver Detail */
         $receiverInfo = [
-            'name' => 'Dev',
-            'email' => 'dev4@digidirect.com.au'
+            'name' => 'Jai',
+            'email' => 'jireh@kayweb.com.au'
         ];
 
         $store = $this->storeManager->getStore();
@@ -70,7 +70,7 @@ class CustomerLoginSuccess implements ObserverInterface
         )->setTemplateVars(
             $templateParams
         )->setFrom(
-            'jirehsales@kayweb.com.au'
+            'general'
         )->getTransport();
 
         try {
