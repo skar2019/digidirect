@@ -70,7 +70,7 @@ class CustomerLoginSuccess implements ObserverInterface
         )->setTemplateVars(
             $templateParams
         )->setFrom(
-            'general'
+            'jirehsales@kayweb.com.au'
         )->getTransport();
 
         try {
