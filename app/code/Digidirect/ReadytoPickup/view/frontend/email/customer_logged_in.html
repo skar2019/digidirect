@@ -2,6 +2,7 @@
 <!--@vars {
 "var store.getFrontendName()":"Store Name",
 "var customer.name":"Customer Name",
+"var order.getCustomerFirstname()"
 } @-->
 
 {{template config_path="design/email/header_template"}}
@@ -17,7 +18,13 @@
             <p class="greeting">{{trans "Dear %customer," customer=$order_data.customer}}</p>
 
             <p class="greeting">{{trans "Dear %administrator_name," administrator_name=$order_data.administrator_name}}</p>
-            
+
+            <p class="greeting">{{trans "Dear %customer_fullname," customer_fullname=$order_data.customer_fullname}}</p>
+
+            {{htmlescape var=$order.getCustomerFirstname()}
+
+            <h4>Ficou com d&uacute;vidas? {{var order.getCustomerFirstname()}}</h4>
+
             <p>
                 {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
             </p>
