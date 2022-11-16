@@ -17,7 +17,7 @@
             <p class="greeting">{{trans "Dear %customer," customer=$order_data.customer}}</p>
 
             <p class="greeting">{{trans "Dear %administrator_name," administrator_name=$order_data.administrator_name}}</p>
-            administrator_name
+            
             <p>
                 {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
             </p>

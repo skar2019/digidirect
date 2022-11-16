@@ -58,6 +58,7 @@ class CustomerLoginSuccess implements ObserverInterface
         ];
 
         $store = $this->storeManager->getStore();
+
         $customer_firstname = $order->getCustomerFirstname();
 
         $templateParams = ['store' => $store, 'customer' => $customer, 'customer_firstname' => $customer_firstname, 'administrator_name' => $receiverInfo['name']];
@@ -71,7 +72,7 @@ class CustomerLoginSuccess implements ObserverInterface
         )->setTemplateVars(
             $templateParams
         )->setFrom(
-            'general'
+            'jireh@kayweb.com.au'
         )->getTransport();
 
         try {
