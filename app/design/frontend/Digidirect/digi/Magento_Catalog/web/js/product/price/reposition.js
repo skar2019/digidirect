@@ -6,8 +6,13 @@ define([
     //clint changes cashback
     //Redeploy
     
-    if($('.s19-component').length == 0) {
-        $('.studio19-wrapper').attr("style", "display:none !important;");
+    if($('.s19-component').length != 0) {
+        var windowsize = $(window).width();
+        if (windowsize > 768) {
+            $('.studio19-wrapper').attr("style", "display:block !important;");
+        } else {
+            $('.studio19-wrapper').attr("style", "display:flex !important;");
+        }
     }
     
     $('.secure-pay-container').ready(function() {
@@ -71,11 +76,6 @@ define([
     //$('.product-info-price .current-price-wrapper').insertBefore($('#main-product-qantas'));
     if($('#leftmenu').contents().length == 0) {
 
-    }
-
-    if ($('.studio19-wrapper').is(':empty')){
-        //$('.studio19-wrapper').addClass('studio19-hide');
-        $('.studio19-wrapper').attr("style", "display:none !important;");
     }
 
     //for mobile = 760
