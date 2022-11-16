@@ -17,13 +17,15 @@
 
             <p class="greeting">{{trans "Dear %customer," customer=$order_data.customer}}</p>
 
-            <p class="greeting">{{trans "Dear %administrator_name," administrator_name=$order_data.administrator_name}}</p>
-
+            <p class="greeting">{{trans "Hello %administrator_name," administrator_name=$administrator_name|row}}</p>
+         
             <p class="greeting">{{trans "Dear %customer_fullname," customer_fullname=$order_data.customer_fullname}}</p>
 
-            {{htmlescape var=$order.getCustomerFirstname()}
+            <p>{{htmlescape var=$order.getCustomerFirstname()}</p>
+            
+            <p>{{trans 'The customer named %customer_name just logged into the %store_name:' customer_name=$customer.name store_name=$store.getFrontendName()|row}}</p>
 
-            <h4>Ficou com d&uacute;vidas? {{var order.getCustomerFirstname()}}</h4>
+            <!-- <h4>Ficou com d&uacute;vidas? {{var order.getCustomerFirstname()}}</h4> -->
 
             <p>
                 {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
