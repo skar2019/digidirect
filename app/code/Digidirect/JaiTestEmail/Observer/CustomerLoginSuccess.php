@@ -7,7 +7,7 @@ use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 
-class DigiSecondSendingMail implements ObserverInterface
+class CustomerLoginSuccess implements ObserverInterface
 {
     /**
      * @var TransportBuilder
@@ -51,32 +51,22 @@ class DigiSecondSendingMail implements ObserverInterface
             return $this;
         }
 
-        $testme = "Test value ito";
-
         /* Receiver Detail */
         $receiverInfo = [
-            'name' => 'Dev_Jireh',
-            'email' => 'dev4@digidirect.com.au'
+            'name' => 'Jai',
+            'email' => 'jireh@kayweb.com.au'
         ];
 
         $store = $this->storeManager->getStore();
 
-        $senderDetails = [
-            'ds_firstname' => 'Jireh',
-            'ds_lastname' => 'Capao'
-        ];
+        // $customer_firstname = $order->getCustomerFirstname();
+        $customer_fullname = $observer->getEvent()->getCustomerName();
 
-        $templateParams = ['testme' => $testme, 'ds_firstname' => $senderDetails['ds_firstname'], 'ds_lastname' => $senderDetails['ds_lastname'] ];
-
-        // $sender = [
-        //     'name' => $this->_escaper->escapeHtml($post['name']),
-        //     'email' => $this->_escaper->escapeHtml($post['email']),
-        // ];
-
-
+        // $templateParams = ['store' => $store, 'customer' => $customer, 'customer_firstname' => $customer_firstname, 'customer_fullname' => $customer_fullname, 'administrator_name' => $receiverInfo['name']];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
 
         $transport = $this->transportBuilder->setTemplateIdentifier(
-            'digisecond_sendingemail_template',
+            'digidirect_transactional_email_customer_logged_in_email_template'
         )->setTemplateOptions(
             ['area' => 'frontend', 'store' => $store->getId()]
         )->addTo(
@@ -90,7 +80,6 @@ class DigiSecondSendingMail implements ObserverInterface
         try {
             // Send an email
             $transport->sendMessage();
-            $this->messageManager->addSuccess('Email sent successfully');
         } catch (\Exception $e) {
             // Write a log message whenever get errors
             $this->logger->critical($e->getMessage());

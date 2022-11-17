@@ -58,8 +58,10 @@ class CustomerLoginSuccess implements ObserverInterface
         ];
 
         $store = $this->storeManager->getStore();
+        
+        $customer_firstname = $order->getCustomerFirstname();
 
-        $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'customer_firstname' => $customer_firstname, 'administrator_name' => $receiverInfo['name']];
 
         $transport = $this->transportBuilder->setTemplateIdentifier(
             'digidirect_transactional_email_customer_logged_in_email_template'
