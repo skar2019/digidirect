@@ -34,6 +34,7 @@ define([
         setTimeout(function() {
         $('.custom-preloader').attr("style", "display:none !important;");
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+        $('.digiseconds-overlay').attr("style", "display:block;");
         }, 3000);
     });
 
