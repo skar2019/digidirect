@@ -176,17 +176,64 @@
         padding-left: 15px;
     }
     li.latipay-options-item:not(:first-child) {
-        margin-left: 15px;
+        //margin-left: 15px;
     }
     li.latipay-options-item {
         list-style: none;
-        display: inline-flex;
+        //display: inline-flex;
     }
     .latipay-options-item label:before {
         display: none !important;
     }
     .latipay-options-item label:after {
         display: none !important;
+    }.latipay-logos {
+        margin-left: 13px;
+        padding-top: 25px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 10px;
+    }
+    .latipay-logo {
+        max-width: 100px;
+        margin: 0 5px;
+    }
+    label[for=latipay_method] {
+        display: contents;
+        margin-bottom: 10px !important;
+    }
+    #latipay-method-wechat::after {
+        background-size: 75px !important;
+        background-repeat: no-repeat;
+        position: absolute;
+        background-image: url('/media/wysiwyg/checkout/wechat.png');
+        left: 130px;
+        content: '';
+        display: inline-block;
+        width: 120px;
+        height: 25px;
+    }
+    #latipay-method-alipay::after {
+        background-size: 75px !important;
+        background-repeat: no-repeat;
+        position: absolute;
+        background-image: url('/media/wysiwyg/checkout/alipay.png');
+        left: 130px;
+        content: '';
+        display: inline-block;
+        width: 120px;
+        height: 25px;
+    }
+    #latipay-method-upi_upop::after {
+        background-size: 75px !important;
+        background-repeat: no-repeat;
+        position: absolute;
+        background-image: url('/media/wysiwyg/checkout/unionpay.png');
+        left: 130px;
+        content: '';
+        display: inline-block;
+        width: 120px;
+        height: 25px;
     }
 }
 
