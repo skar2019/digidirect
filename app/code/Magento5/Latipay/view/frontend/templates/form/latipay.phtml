@@ -11,17 +11,14 @@ $methodCode = $block->escapeHtml($block->getMethodCode());
             <ul class="latipay-options">
                 <li class="latipay-options-item">
                     <input name="payment[latipay_method]" id="latipay-method-wechat" type="radio" value="wechat" checked="checked">
-                    <img class="latipay-logo-option" src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('wechat.png') ?>">
                     <label for="latipay-method-wechat">Wechat</label>
                 </li>
                 <li class="latipay-options-item">
                     <input name="payment[latipay_method]" id="latipay-method-alipay" type="radio" value="alipay">
-                    <img class="latipay-logo-option" src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('alipay.png') ?>">
                     <label for="latipay-method-alipay">Alipay</label>
                 </li>
                 <li class="latipay-options-item">
                     <input name="payment[latipay_method]" id="latipay-method-bank" type="radio" value="onlineBank">
-                    <img class="latipay-logo-option" src="<?= /* @escapeNotVerified */ $block->getViewFileUrl('unionpay.png') ?>">
                     <label for="latipay-method-bank">Online Bank</label>
                 </li>
             </ul>
