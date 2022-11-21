@@ -6,7 +6,7 @@
 namespace Digidirect\Checkout\Model\Total;
 
 
-class Customfee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
+class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 {
    /**
      * Collect grand total address amount
@@ -23,14 +23,15 @@ class Customfee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         $this->quoteValidator = $quoteValidator;
     }
     public function collect(
-        \Magento\Quote\Model\Quote $quote,        \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
+        \Magento\Quote\Model\Quote $quote,        
+        \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
         \Magento\Quote\Model\Quote\Address\Total $total
     ) {
         parent::collect($quote, $shippingAssignment, $total);
 
         $exist_amount = 0; //$quote->getCustomfee(); 
         $customfee = 100; //enter amount which you want to set
-        $balance = $customfee - $exist_amount;//final amount
+        $balance = $total->getGrandTotal() * 0.095; //$customfee - $exist_amount; //final amount
 
         $total->setTotalAmount('customfee', $balance);
         $total->setBaseTotalAmount('customfee', $balance);
