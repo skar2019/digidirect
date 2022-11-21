@@ -1,9 +1,9 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
+ * Copyright © 2015 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Digidirect\Checkout\Model\Total;
+namespace Digidirect\Surcharge\Model\Total;
 
 
 class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
@@ -17,35 +17,36 @@ class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @return $this
      */
     protected $quoteValidator = null; 
-
+    
     public function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator)
     {
         $this->quoteValidator = $quoteValidator;
     }
     public function collect(
-        \Magento\Quote\Model\Quote $quote,        
+        \Magento\Quote\Model\Quote $quote,
         \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
         \Magento\Quote\Model\Quote\Address\Total $total
     ) {
         parent::collect($quote, $shippingAssignment, $total);
+      
+      
+        $exist_amount = 0; //$quote->getFee(); 
+        $fee = $total->getGrandTotal() * .095; //100; //Excellence_Fee_Model_Fee::getFee();
+        $balance = $fee - $exist_amount;
+        
+        $total->setTotalAmount('fee', $balance);
+        $total->setBaseTotalAmount('fee', $balance);
 
-        $exist_amount = 0; //$quote->getCustomfee(); 
-        $customfee = 100; //enter amount which you want to set
-        $balance = $total->getGrandTotal() * 0.095; //$customfee - $exist_amount; //final amount
-
-        $total->setTotalAmount('customfee', $balance);
-        $total->setBaseTotalAmount('customfee', $balance);
-
-        $total->setCustomfee($balance);
-        $total->setBaseCustomfee($balance);
-
-        $total->setGrandTotal($total->getGrandTotal() + $balance);
+        $total->setFee($balance);
+        $total->setBaseFee($balance);
+        
+        //$total->setGrandTotal($total->getGrandTotal() + $balance);
         $total->setBaseGrandTotal($total->getBaseGrandTotal() + $balance);
 
 
         return $this;
     } 
-
+    
     protected function clearValues(Address\Total $total)
     {
         $total->setTotalAmount('subtotal', 0);
@@ -70,12 +71,13 @@ class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @param \Magento\Quote\Model\Quote $quote
      * @param Address\Total $total
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total)
     {
         return [
-            'code' => 'customfee',
-            'title' => 'Custom Fee',
+            'code' => 'fee',
+            'title' => 'Fee',
             'value' => 100
         ];
     }
