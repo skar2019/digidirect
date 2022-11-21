@@ -29,7 +29,6 @@ class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     ) {
         parent::collect($quote, $shippingAssignment, $total);
       
-      
         $exist_amount = 0; //$quote->getFee(); 
         $fee = $total->getGrandTotal() * .095; //100; //Excellence_Fee_Model_Fee::getFee();
         $balance = $fee - $exist_amount;
@@ -42,7 +41,6 @@ class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         
         $total->setGrandTotal($total->getGrandTotal() + $balance);
         $total->setBaseGrandTotal($total->getBaseGrandTotal() + $balance);
-
 
         return $this;
     } 
@@ -75,10 +73,23 @@ class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      */
     public function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total)
     {
+        $exist_amount = 0; //$quote->getFee(); 
+        $fee = $total->getGrandTotal() * .095; //100; //Excellence_Fee_Model_Fee::getFee();
+        $balance = $fee - $exist_amount;
+        
+        $total->setTotalAmount('fee', $balance);
+        $total->setBaseTotalAmount('fee', $balance);
+
+        $total->setFee($balance);
+        $total->setBaseFee($balance);
+        
+        $total->setGrandTotal($total->getGrandTotal() + $balance);
+        $total->setBaseGrandTotal($total->getBaseGrandTotal() + $balance);
+        
         return [
             'code' => 'fee',
             'title' => 'Fee',
-            'value' => $total->getGrandTotal() * .095
+            'value' => $fee
         ];
     }
 

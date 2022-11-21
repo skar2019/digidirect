@@ -107,18 +107,18 @@ class Surcharge extends \Magento\Framework\View\Element\Template
         $store = $this->getStore();
         
         $fee = new \Magento\Framework\DataObject(
-                [
-                    'code' => 'fee',
-                    'strong' => false,
-                    'value' => 100,
-                    //'value' => $this->_source->getFee(),
-                    'label' => __('Fee'),
-                ]
-            );
-     
-            $parent->addTotal($fee, 'fee');
+            [
+                'code' => 'fee',
+                'strong' => false,
+                'value' => 100,
+                //'value' => $this->_source->getFee(),
+                'label' => __('Fee'),
+            ]
+        );
 
-            return $this;
+        $parent->addTotal($fee, 'fee');
+
+        return $this;
     }
 
 }
