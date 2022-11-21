@@ -40,7 +40,7 @@ class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         $total->setFee($balance);
         $total->setBaseFee($balance);
         
-        //$total->setGrandTotal($total->getGrandTotal() + $balance);
+        $total->setGrandTotal($total->getGrandTotal() + $balance);
         $total->setBaseGrandTotal($total->getBaseGrandTotal() + $balance);
 
 
@@ -78,7 +78,7 @@ class Surcharge extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         return [
             'code' => 'fee',
             'title' => 'Fee',
-            'value' => 100
+            'value' => $total->getGrandTotal() * .095
         ];
     }
 
