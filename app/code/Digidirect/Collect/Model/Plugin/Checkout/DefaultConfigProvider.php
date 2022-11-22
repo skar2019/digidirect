@@ -125,21 +125,23 @@ class DefaultConfigProvider
             $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
             $items = $cart->getQuote()->getAllItems();
 
-            $qty = 1;
+            
+            $totalqty = 1;
             foreach ($items as $item) {
                 $prodId = $item->getProductId();
                 $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
                 $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
                 $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
-
+                $qty = 0;
                 foreach ($sourceItems as $sourceItemId => $sourceItem) {
 
-                    $qty = $qty * $sourceItem->getQuantity();
+                    $qty = $qty + $sourceItem->getQuantity();
                 }
+                $totalqty = $totalqty * $qty
             }
             
-            if ($qty > 0) {
+            if ($totalqty > 0) {
                 $result['quoteData']['products_available_in_any_store'] = true;
             } else {
                 $result['quoteData']['products_available_in_any_store'] = false;
