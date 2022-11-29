@@ -7,7 +7,7 @@
 -->
 <div class="block-title minicart-item-header">
     <i class="fas fa-shopping-bag" style="font-size: 30px;color: #ff3c00;"></i>
-    <span class="text" translate="'Cart Items'"></span>
+    <span class="text" translate="Cart Items"></span>
     <span class="qty">Total Items = 
         <span class="empty"
               text="getCartParam('summary_count')"
@@ -28,7 +28,7 @@
              },
             click: closeMinicart()
     ">
-        <span translate="'Close'"/>
+        <span translate="Close"/>
     </button>
 
     <if args="getCartParam('summary_count')">
@@ -59,7 +59,7 @@
                             },
                             click: closeMinicart()
                         "
-                        translate="'CHECKOUT NOW'"
+                        translate="CHECKOUT NOW"
                 />
                 <div data-bind="html: getCartParam('extra_actions')"></div>
             </div>
@@ -133,7 +133,7 @@
 
             <div class="secondary">
                 <button id="minicart-continue-shopping-btn" class="action secondary _full-width" data-bind="click: closeMinicart()">
-                    <span translate="'Continue Shopping'"/>
+                    <span translate="Continue Shopping"/>
                 </button>
             </div>
         </div>
@@ -141,12 +141,12 @@
 
     <ifnot args="getCartParam('summary_count')">
         <p class="minicart empty text"
-                translate="'Your cart is empty.'"
+                translate="Your cart is empty."
         />
         <div class="actions secondary">
             <div class="secondary">
                 <button class="action secondary _full-width" data-bind="click: closeMinicart()">
-                    <span translate="'Continue Shopping'"/>
+                    <span translate="Continue Shopping"/>
                 </button>
             </div>
         </div>
@@ -155,7 +155,7 @@
             <div class="actions">
                 <div class="secondary">
                     <a class="action viewcart" data-bind="attr: {href: shoppingCartUrl}">
-                        <span translate="'View and Edit Cart'"/>
+                        <span translate="View and Edit Cart"/>
                     </a>
                 </div>
             </div>
@@ -165,7 +165,7 @@
     <div id="minicart-view-cart" class="actions" if="getCartParam('summary_count')">
         <div class="secondary">
             <a class="action viewcart" data-bind="attr: {href: shoppingCartUrl}">
-                <span translate="'View and Edit Cart'"/>
+                <span translate="View and Edit Cart"/>
             </a>
         </div>
     </div>
