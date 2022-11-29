@@ -27,16 +27,6 @@ define(['jquery'], function($){
                     }
                 });
 
-                $(".sl-closebtn").click(function() {
-                    var status = $(document.querySelector("input[type=radio][name=storelist]:checked"));
-            
-                    if(status.is(":checked")) {
-                        status.prop("checked", false);
-                    } else {
-                        status.prop("checked", true);
-                    }
-                });
-
             });
         })
 
