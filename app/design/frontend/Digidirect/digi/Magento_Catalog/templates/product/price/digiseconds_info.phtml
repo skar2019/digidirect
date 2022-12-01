@@ -17,7 +17,7 @@
 <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
-            <?php if ($brandNewProductPrice): ?>
+            <?php if (isset($brandNewProductPrice)): ?>
                 <div class="brand-new-price-wrapper old-price-wrapper">
                     <span class="brand-new-label">
                         Brand New Price
@@ -36,7 +36,7 @@
                     $2,500
                 </span>
             </div>
-            <?php if ($d2ItemDescription): ?>
+            <?php if (isset($d2ItemDescription)): ?>
                 <div class="item-note-wrapper">
                     <span class="item-note-label">
                         Item Note:
