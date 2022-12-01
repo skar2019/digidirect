@@ -17,7 +17,6 @@
 <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
-            <?php if (!empty($brandNewProductPrice)): ?>
                 <div class="brand-new-price-wrapper old-price-wrapper">
                     <span class="brand-new-label">
                         Brand New Price
@@ -26,7 +25,6 @@
                         $<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
                     </span>
                 </div>
-            <?php endif; ?>
 
             <div class="refurb-price-wrapper old-price-wrapper" style="display: none !important;">
                 <span class="refurb-label">
@@ -36,7 +34,6 @@
                     $2,500
                 </span>
             </div>
-            <?php if (!empty($d2ItemDescription)): ?>
                 <div class="item-note-wrapper">
                     <span class="item-note-label">
                         Item Note:
@@ -45,7 +42,6 @@
                         <?= /* @escapeNotVerified */ $d2ItemDescription ?>
                     </span>
                 </div>
-            <?php endif; ?>
 
             <div class="warranty-wrapper old-price-wrapper" style="display: none !important;">
                 <span class="warranty-label">
