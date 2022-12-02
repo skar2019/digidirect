@@ -10,15 +10,8 @@
     
     if ($d2BrandNewProductSKU) {
         $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
-    }
-    
-    
-    //if ($brandNewProduct) {
-    //    $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : false);
-    //} else {
-    //    $brandNewProductPrice = 0;
-    //}
-    //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : false);
+        $brandNewProductPrice = $brandNewProduct->getPrice();
+    }    
     
     $categoryIds = $currentProduct->getCategoryIds();
     $digiSecondsIds = array(2564,2567,2570,2573);
@@ -33,6 +26,7 @@
                         Brand New Price
                     </span>
                     <span class="brand-new-price old-price">
+                        $<?= /* @escapeNotVerified */ number_format($brandNewProductPrice, 2) ?>
                     </span>
                 </div>
             <?php endif; ?>
