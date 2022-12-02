@@ -7,7 +7,11 @@
     $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');
     
     $d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : false);
-    $brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : false);
+    
+    if ($d2BrandNewProductSKU) {
+        $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+    }
+    
     
     //if ($brandNewProduct) {
     //    $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : false);
