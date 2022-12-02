@@ -9,11 +9,11 @@
     $d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : false);
     $brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : false);
     
-    if ($brandNewProduct) {
-        $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : false);
-    } else {
-        $brandNewProductPrice = 0;
-    }
+    //if ($brandNewProduct) {
+    //    $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : false);
+    //} else {
+    //    $brandNewProductPrice = 0;
+    //}
     //$brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : false);
     
     $categoryIds = $currentProduct->getCategoryIds();
