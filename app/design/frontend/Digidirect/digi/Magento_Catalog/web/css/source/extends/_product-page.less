@@ -1251,7 +1251,7 @@
         border-radius: 5px;
         margin-left: 60px;
         height: 22px !important;
-        margin-top: 0 !important;
+        margin-top: 10px !important;
 
         .zip-container {
             //height: 21px !important;
@@ -2357,6 +2357,14 @@
     }
 }
 
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: 1280px) {
+        .product-info-main .page-title-wrapper.product {
+            margin-left: -70px !important;
+        }
+    }
+}
+
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xs){
     .product-info-main .msiavailability-wrapper .mystore-text .current-store-link {
@@ -2626,7 +2634,7 @@
             margin: 0;
             padding: 0 !important;
             margin-top: -7px !important;
-            margin-left: -70px !important;
+            margin-left: -70px;
             margin-bottom: 15px !important;
             
             
@@ -2991,7 +2999,7 @@
         border: 1px solid #cacaca;
         border-radius: 5px;
         margin-bottom: 20px;
-        display: flex;
+        //display: flex;
         height: 40px;
         width: 90%;
         margin-left: 15px;
@@ -3091,7 +3099,7 @@
     }
 
     .product-info-main .studio19-wrapper {
-        display: flex !important;
+        //display: flex !important;
         margin-left: 0 !important;
         margin-bottom: 0 !important;
         //margin-top: 15px !important;
@@ -3365,7 +3373,7 @@
     }
     
     .product-section .page-title-wrapper {
-        margin: 0 -15px !important;
+        //margin: 0 -15px !important;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
@@ -3409,7 +3417,7 @@
     }
     
     .catalog-product-view .product-options-wrapper {
-        margin-bottom: 10px !important;
+        //margin-bottom: 10px !important;
     }
     
     .product-info-main .qantas-pts-wrapper {
@@ -3479,6 +3487,11 @@
     .itoris-pm-product-marker {
         margin-top: 0 !important;
         margin-bottom: 10px !important;
+    }
+    
+    #pa-priceCheckButtonContainer {
+        padding-bottom: 0 !important;
+        margin-bottom: -4px;
     }
     
 } //end mobile
