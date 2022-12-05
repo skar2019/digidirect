@@ -1,19 +1,19 @@
 define(['jquery'], function($){
     "use strict";
-
+​
     return function anchortag()
     {
-
+​
         $(window).on('load', function (e) {
-
+​
             $('#storelocatoranchor').ready(function() {
-
+​
                 var hash = window.location.hash.substr(1);
                 if(hash === '')
                 {
                     hash = 'Bondi Junction';
                 }
-
+​
                 $(".scontent-"+hash).ready(function() {
                     $('#'+hash).attr('checked', true); //can be removed if it scrolls up the page
                     //$(".scontent-"+hash).css({ display: "block" });
@@ -26,11 +26,29 @@ define(['jquery'], function($){
                         $(this).attr("style", "display:none !important;");
                     }
                 });
-
+​
+                $(".sl-closebtn").click(function() {
+                    var status = $(document.querySelector("input[type=radio][name=storelist]:checked"));
+            
+                    if(status.is(":checked")) {
+                        status.prop("checked", false);
+                    } else {
+                        status.prop("checked", true);
+                    }
+                });
+​
+                var i=0;
+                $('.sl-closebtn').each(function(){
+                    i++;
+                    var newID='closebtn'+i;
+                    $(this).attr('id',newID);
+                    $(this).val(i);
+                });
+​
             });
         })
-
-
-
+​
+​
+​
     }
 });
