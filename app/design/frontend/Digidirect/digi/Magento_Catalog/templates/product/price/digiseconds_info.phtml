@@ -9,9 +9,9 @@
     //$d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : false);
     
     if (is_null($currentProduct->getData('d2newsku')) || $currentProduct->getData('d2newsku') == " ") {
-        $d2BrandNewProductSKU == false;
+        $d2BrandNewProductSKU = false;
     } else {
-        $d2BrandNewProductSKU == $currentProduct->getData('d2newsku');
+        $d2BrandNewProductSKU = $currentProduct->getData('d2newsku');
     }
     
     if ($d2BrandNewProductSKU) {
