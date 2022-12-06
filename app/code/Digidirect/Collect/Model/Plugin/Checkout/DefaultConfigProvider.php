@@ -124,7 +124,6 @@ class DefaultConfigProvider
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
             $items = $cart->getQuote()->getAllItems();
-
             
             $totalqty = 1;
             foreach ($items as $item) {
