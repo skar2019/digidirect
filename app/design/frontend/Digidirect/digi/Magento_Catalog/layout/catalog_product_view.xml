@@ -76,6 +76,7 @@
                     </container>
                 </container>
             </container>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/custom-featured-products.phtml" name="custom-featured-products" after="product.section.wrapper"/> 
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.view.media.overview"/>
         
         </referenceContainer>

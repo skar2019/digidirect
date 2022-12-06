@@ -2,7 +2,6 @@
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
- * Commit  
  */
 -->
 <div class="block-title minicart-item-header">
@@ -10,9 +9,9 @@
     <span class="text" translate="'Cart Items'"></span>
     <span class="qty">Total Items = 
         <span class="empty"
-              text="getCartParam('summary_count')"
-              data-bind="css: { empty: !!getCartParam('summary_count') == false },
-                         attr: { title: $t('Items in Cart') }">
+            text="getCartParam('summary_count')"
+            data-bind="css: { empty: !!getCartParam('summary_count') == false },
+                       attr: { title: $t('Items in Cart') }">
         </span>
     </span>
 </div>
@@ -23,12 +22,12 @@
             class="action close"
             data-action="close"
             data-bind="
-            attr: {
-             title: $t('Close')
-             },
-            click: closeMinicart()
-    ">
-        <span translate="'Close'"/>
+                attr: {
+                    title: $t('Close')
+                },
+                click: closeMinicart()
+            ">
+        <span translate="'Close'"></span>
     </button>
 
     <if args="getCartParam('summary_count')">
@@ -37,7 +36,7 @@
             <ol id="mini-cart" class="minicart-items" data-bind="foreach: { data: getCartItems(), as: 'item' }">
                 <each args="$parent.getRegion($parent.getItemRenderer(item.product_type))"
                       render="{name: getTemplate(), data: item, afterRender: function() {$parents[1].initSidebar()}}"
-                />
+                ></each>
             </ol>
         </div>
     </if>
@@ -60,7 +59,7 @@
                             click: closeMinicart()
                         "
                         translate="'CHECKOUT NOW'"
-                />
+                ></button>
                 <div data-bind="html: getCartParam('extra_actions')"></div>
             </div>
         </div>
@@ -121,7 +120,7 @@
                     <img class="zip-logo" src="https://static.zipmoney.com.au/assets/default/product-widget/img/zip-button-wht.svg">
                     <button id="zip-info-link" class="zip-info-link" tabindex="0" aria-label="Zip payment information - Opens a dialog" title="Zip payment Information">
                         <span class="zip-learn-more">ⓘ</span>
-                    </button>
+                </button>
                 </p>
             </div>
             <!--  end clint cheap hack-->
@@ -129,33 +128,33 @@
                 <a href="/checkout">
                     <span>Buy now, Pay Later with</span>
                 </a>
-            </div>
+        </div>
 
             <div class="secondary">
                 <button id="minicart-continue-shopping-btn" class="action secondary _full-width" data-bind="click: closeMinicart()">
-                    <span translate="'Continue Shopping'"/>
+                    <span translate="'Continue Shopping'"></button>
                 </button>
-            </div>
+        </div>
         </div>
     </if>
 
     <ifnot args="getCartParam('summary_count')">
         <p class="minicart empty text"
                 translate="'Your cart is empty.'"
-        />
+        ></p>
         <div class="actions secondary">
             <div class="secondary">
                 <button class="action secondary _full-width" data-bind="click: closeMinicart()">
-                    <span translate="'Continue Shopping'"/>
+                    <span translate="'Continue Shopping'"></span>
                 </button>
             </div>
         </div>
         <if args="getCartParam('cart_empty_message')">
-            <p class="minicart empty text" text="getCartParam('cart_empty_message')"/>
+            <p class="minicart empty text" text="getCartParam('cart_empty_message')"></p>
             <div class="actions">
                 <div class="secondary">
                     <a class="action viewcart" data-bind="attr: {href: shoppingCartUrl}">
-                        <span translate="'View and Edit Cart'"/>
+                        <span translate="'View and Edit Cart'"></span>
                     </a>
                 </div>
             </div>
@@ -165,13 +164,13 @@
     <div id="minicart-view-cart" class="actions" if="getCartParam('summary_count')">
         <div class="secondary">
             <a class="action viewcart" data-bind="attr: {href: shoppingCartUrl}">
-                <span translate="'View and Edit Cart'"/>
+                <span translate="'View and Edit Cart'"></span>
             </a>
         </div>
     </div>
 
     <div id="minicart-widgets" class="minicart-widgets">
-        <each args="getRegion('promotion')" render=""/>
+        <each args="getRegion('promotion')" render=""></each>
     </div>
 </div>
-<each args="getRegion('sign-in-popup')" render=""/>
+<each args="getRegion('sign-in-popup')" render=""></each>
