@@ -2,13 +2,20 @@
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
     $currentProduct = $productBlock->getCurrentProduct();
 
-    $d2BrandNewProductSKU = ($currentProduct->getData('d2newsku') ? $currentProduct->getData('d2newsku') : '');
     $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : '');
     $d2ItemDescription = ($currentProduct->getData('d2desc') ? $currentProduct->getData('d2desc') : '');
     $d2ItemRating = ($currentProduct->getItemRating() ? $currentProduct->getItemRating() : '');
-
-    $brandNewProduct = ($productBlock->getProductBySku($d2BrandNewProductSKU) ? $productBlock->getProductBySku($d2BrandNewProductSKU) : '');
-    $brandNewProductPrice = ($brandNewProduct->getPrice() ? $brandNewProduct->getPrice() : '');
+    
+    if (is_null($currentProduct->getData('d2newsku')) || $currentProduct->getData('d2newsku') == " ") {
+        $d2BrandNewProductSKU = false;
+    } else {
+        $d2BrandNewProductSKU = $currentProduct->getData('d2newsku');
+    }
+    
+    if ($d2BrandNewProductSKU) {
+        $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
+        $brandNewProductPrice = $brandNewProduct->getPrice();
+    }    
     
     $categoryIds = $currentProduct->getCategoryIds();
     $digiSecondsIds = array(2564,2567,2570,2573);
@@ -17,7 +24,7 @@
 <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
-            <?php if ($brandNewProductPrice): ?>
+            <?php if ($d2BrandNewProductSKU): ?>
                 <div class="brand-new-price-wrapper old-price-wrapper">
                     <span class="brand-new-label">
                         Brand New Price

@@ -2,7 +2,7 @@
 //  Locator:common
 //  _____________________________________________
 
-//
+//  Redeploy
 //  Variables
 //  ---------------------------------------------
 
@@ -317,175 +317,175 @@
 //  Tablet +
 //  ---------------------------------------------
 
+@media (min-width:768px) and (max-width: 1024px) {
 // .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) { 
-//     .store-locator {
-//         margin-top: 50px;
-//         // display: none;
+        .store-locator {
+        margin-top: 50px;
+        // display: none;
 
-//         .storebanners {
+        .storebanners {
+            img.store-locatorbanner2 {
+                // display: none !important;
+                width: 60% !important;
+            }
 
-//             img.store-locatorbanner2 {
-//                 // display: none !important;
-//                 width: 60% !important;
-//             }
+            img.store-locatorbanner1 {
+                margin: 0 !important;
+                width: 30% !important;
+            }
+        }
 
-//             img.store-locatorbanner1 {
-//                 margin: 0 !important;
-//                 width: 30% !important;
-//             }
-//         }
+        .locator-search {
+            display: none;
+        }
 
-//         .locator-search {
-//             display: none;
-//         }
+        // .scontent-Sydney {
+        //     display:none;
+        // }
 
-//         // .scontent-Sydney {
-//         //     display:none;
-//         // }
+        .scontent-Bondi.Junction{
+            display: none;
+        }
 
-//         .scontent-Bondi.Junction{
-//             display: none;
-//         }
+        img[alt="Melbourne CBD"] {
+            width: 145px !important;
+        }
 
-//         img[alt="Melbourne CBD"] {
-//             width: 145px !important;
-//         }
+        .sdetails {
+            // position: initial;
+            position: initial !important;
+            // padding: 0px;
+            width: 98% !important;
+            height: auto !important;
+            margin: 0 !important;
 
-//         .sdetails {
-//             // position: initial;
-//             position: initial !important;
-//             // padding: 0px;
-//             width: 98% !important;
-//             height: auto !important;
-//             margin: 0 !important;
+            h2.name-city {
+                display: none !important;
+            }
 
-//             h2.name-city {
-//                 display: none !important;
-//             }
+            .scontent-inner {
+                margin: 5px !important;
+            }
 
-//             .scontent-inner {
-//                 margin: 5px !important;
-//             }
+        }
 
-//         }
+        .locator-item {
 
-//         .locator-item {
+            .address {
+                margin: 0 0 5px;
+                font-size: 12px;
+                display: flex;
+            }
 
-//             .address {
-//                 margin: 0 0 5px;
-//                 font-size: 12px;
-//                 display: flex;
-//             }
+            .name {
+                margin: 0 0 5px
+            }
 
-//             .name {
-//                 margin: 0 0 5px
-//             }
+            .main.-phone {
+                font-size: 12px;
+            }
 
-//             .main.-phone {
-//                 font-size: 12px;
-//             }
+            .image {
+                // display: block;
+                display: block !important;
+                margin: 0 20px 0 0;
+            }
 
-//             .image {
-//                 // display: block;
-//                 display: block !important;
-//                 margin: 0 20px 0 0;
-//             }
+        }
 
-//         }
+        .parent-storelist {
+            // display: block;
+            display: block !important;
+            border: 1px solid #c7c7c7 !important;
+            margin-bottom: 15px;
+            background: #F5F5F5;
 
-//         .parent-storelist {
-//             // display: block;
-//             display: block !important;
-//             border: 1px solid #c7c7c7 !important;
-//             margin-bottom: 15px;
-//             background: #F5F5F5;
+            .store-hour {
 
-//             .store-hour {
+                margin: 5px !important;
 
-//                 margin: 5px !important;
+                .image {
+                    display: none !important;
+                }
 
-//                 .image {
-//                     display: none !important;
-//                 }
+                .openwelcome {
+                    width: 80%;
+                }
+            }
 
-//                 .openwelcome {
-//                     width: 80%;
-//                 }
-//             }
+            input[type="checkbox"]:checked {
+                background: red;
+            }
 
-//             input[type="checkbox"]:checked {
-//                 background: red;
-//             }
+            input[type="checkbox"] {
+                -webkit-appearance: initial;
+                appearance: initial;
+                color: black;
+                position: relative;
+                right: -55px;
+                font-size: 15px;
+            }
 
-//             input[type="checkbox"] {
-//                 -webkit-appearance: initial;
-//                 appearance: initial;
-//                 color: black;
-//                 position: relative;
-//                 right: -55px;
-//                 font-size: 15px;
-//             }
+            input[type="checkbox"]:checked:after {
+                content: "x";
+                color: red;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                -webkit-transform: translate(-50%,-50%);
+                -moz-transform: translate(-50%,-50%);
+                -ms-transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%);
+            }
 
-//             input[type="checkbox"]:checked:after {
-//                 content: "x";
-//                 color: red;
-//                 position: absolute;
-//                 left: 50%;
-//                 top: 50%;
-//                 -webkit-transform: translate(-50%,-50%);
-//                 -moz-transform: translate(-50%,-50%);
-//                 -ms-transform: translate(-50%,-50%);
-//                 transform: translate(-50%,-50%);
-//             }
+            input[type="checkbox"]:not(:checked):before {
+                content: 'x';
 
-//             input[type="checkbox"]:not(:checked):before {
-//                 content: 'x';
+            }
 
-//             }
+        }
 
-//         }
-
-//         // .locator-wrapper.locator-item.item.sldetails.store-wrapper.column {
-//         //     border: 1px solid #c7c7c7 !important;
-//         // }
-
+        // .locator-wrapper.locator-item.item.sldetails.store-wrapper.column {
+        //     border: 1px solid #c7c7c7 !important;
+        // }
 
 
-//         input[type=radio]:checked~.sl-close {
-//             display: block;
-//         }
 
-//         input[type=radio]:not(:checked)~.sl-close {
-//             display: block;
-//         }
+        input[type=radio]:checked~.sl-close {
+            display: block;
+        }
 
-//         input[type=radio]:checked~.sldetails {
-//             margin-right: 0px !important;
-//             border: none !important;
-//         }
+        input[type=radio]:not(:checked)~.sl-close {
+            display: block;
+        }
 
-//         .store-view.grid-row > .column.-main {
-//             align-items: unset;
-//             justify-content: unset;
-//         }
+        input[type=radio]:checked~.sldetails {
+            margin-right: 0px !important;
+            border: none !important;
+        }
 
-//         .locator-list .details > .link{
-//             color: #222;
-//             font-weight: bold;
-//         }
+        .store-view.grid-row > .column.-main {
+            align-items: unset;
+            justify-content: unset;
+        }
 
-//         .locator-details .name,
-//         .locator-item .name{
-//             font-size: 18px;
-//             font-weight: bold;
-//         }
+        .locator-list .details > .link{
+            color: #222;
+            font-weight: bold;
+        }
 
-//         div#locator-map {
-//             display: none;
-//         }
+        .locator-details .name,
+        .locator-item .name{
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-//     }
-// }
+        div#locator-map {
+            display: none;
+        }
+
+    }
+}
 
 //
 //  Mobile Only
