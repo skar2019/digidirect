@@ -84,8 +84,18 @@ hooks:
     # We run build hooks before your application has been packaged.
     build: |
         set -e
-        php ./vendor/bin/ece-tools build:generate
-        php ./vendor/bin/ece-tools build:transfer
+
+        pip install setuptools --upgrade --user
+        pip install colorama --upgrade --user
+        pip install awscli --upgrade --user
+        unset NPM_CONFIG_PREFIX
+        curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.35.1/install.sh | bash
+        export NVM_DIR="$HOME/.nvm"
+        [ -s "$NVM_DIR/nvm.sh"  ] && \. "$NVM_DIR/nvm.sh"
+        nvm install --lts=dubnium  
+
+        #npm install -g webpack@5.73.0 webpack-cli@4.9.2 rimraf@3.0.2 yarn@1.22.19 
+        grunt prod
     # We run deploy hook after your application has been deployed and started.
     deploy: |
         php ./vendor/bin/ece-tools deploy
