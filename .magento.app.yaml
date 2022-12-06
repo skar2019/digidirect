@@ -95,8 +95,7 @@ hooks:
         set -e
         npm install
         php ./vendor/bin/ece-tools build:generate
-        #grunt prod
-        npm install -g webpack@5.73.0 webpack-cli@4.9.2 rimraf@3.0.2 yarn@1.22.19
+        grunt prod
         php ./vendor/bin/ece-tools build:transfer
     # We run deploy hook after your application has been deployed and started.
     deploy: |
@@ -124,8 +123,8 @@ crons:
 dependencies:
     ruby:
         sass: "3.4.7"
-    #nodejs:
-        #grunt-cli: "~1.2.0"
+    nodejs:
+        grunt-cli: "~1.2.0"
 
 # Environment variables
 variables:
