@@ -103,7 +103,7 @@ crons:
         
 dependencies:
     php:
-        composer: "^2"
+        composer/composer: "^2"
 # Environment variables
 variables:
     env:
