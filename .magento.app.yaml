@@ -86,8 +86,6 @@ hooks:
         set -e
         php ./vendor/bin/ece-tools build:generate
         php ./vendor/bin/ece-tools build:transfer
-        #npm install -g webpack@5.73.0 webpack-cli@4.9.2 rimraf@3.0.2 yarn@1.22.19 
-        grunt prod
     # We run deploy hook after your application has been deployed and started.
     deploy: |
         php ./vendor/bin/ece-tools deploy
@@ -101,9 +99,6 @@ crons:
         spec: "* * * * *"
         cmd: "php bin/magento cron:run"
         
-dependencies:
-    php:
-        composer/composer: "^2"
 # Environment variables
 variables:
     env:
