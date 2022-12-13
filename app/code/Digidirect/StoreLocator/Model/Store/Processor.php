@@ -219,7 +219,8 @@ class Processor implements ProcessorInterface
             ['transport_object' => $transportObject]
         );
         $items = $transportObject->getItems();
-
+        echo $this->console_log($items);
+        
         $result[ProcessorConstants::ITEMS] = $this->prepareStores($items, $store, $callbacks);
         $result[ProcessorConstants::SETTINGS] = [
             ProcessorConstants::SHOW_FEATURED_AT_THE_TOP => $this->configHelper->isShowFeaturedStoresAtTheTop(),
@@ -250,6 +251,17 @@ class Processor implements ProcessorInterface
         }
 
         return $result;
+    }
+    
+    function console_log($output, $with_script_tags = true) {
+        $test_log = 'console.log(' . 'Processor' .
+        ');';
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
+        ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 
     /**
