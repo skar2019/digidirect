@@ -44,7 +44,7 @@ class QuoteSubmitSuccess implements ObserverInterface
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
         \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
-        \Digidirect\CustomGiftCardLog\Logger\Logger $logger
+        \Digidirect\CustomGiftCardLog\Logger\Logger $logger,
     ) {
         $this->giftCAHelper = $giftCAHelper;
         $this->helper = $helper;
@@ -108,7 +108,7 @@ class QuoteSubmitSuccess implements ObserverInterface
                 $entityOrderData->setToken($entity->getToken());
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
-                $this->logger->info('GiftCardLog Save Entity Order Data ');
+                $this->logger->info('GiftCardLog Save Entity Order Data '.$entityOrderData);
             } catch (NoSuchEntityException $e) {
                 $this->logger->info('GiftCardLog Error : ' .$e->getMessage());
                 continue;

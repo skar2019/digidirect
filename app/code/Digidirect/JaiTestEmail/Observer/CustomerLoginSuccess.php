@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\ReadytoPickup\Observer;
+namespace Digidirect\JaiTestEmail\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
@@ -53,15 +53,17 @@ class CustomerLoginSuccess implements ObserverInterface
 
         /* Receiver Detail */
         $receiverInfo = [
-            'name' => 'Dev',
-            'email' => 'dev4@digidirect.com.au'
+            'name' => 'Jai',
+            'email' => 'jireh@kayweb.com.au'
         ];
 
         $store = $this->storeManager->getStore();
-        
-        $customer_firstname = $order->getCustomerFirstname();
 
-        $templateParams = ['store' => $store, 'customer' => $customer, 'customer_firstname' => $customer_firstname, 'administrator_name' => $receiverInfo['name']];
+        // $customer_firstname = $order->getCustomerFirstname();
+        $customer_fullname = $observer->getEvent()->getCustomerName();
+
+        // $templateParams = ['store' => $store, 'customer' => $customer, 'customer_firstname' => $customer_firstname, 'customer_fullname' => $customer_fullname, 'administrator_name' => $receiverInfo['name']];
+        $templateParams = ['store' => $store, 'customer' => $customer, 'administrator_name' => $receiverInfo['name']];
 
         $transport = $this->transportBuilder->setTemplateIdentifier(
             'digidirect_transactional_email_customer_logged_in_email_template'

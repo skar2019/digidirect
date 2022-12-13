@@ -198,7 +198,6 @@ class ReadytoPickup extends AbstractHelper
             //$customer = $observer->getEvent()->getCustomer();
             
             $customerFirstName = $order->getCustomerFirstname();
-            $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             
             $orderNumber = $order->getIncrementId();
@@ -206,7 +205,7 @@ class ReadytoPickup extends AbstractHelper
 
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_readytopickup_email_template'
@@ -219,7 +218,7 @@ class ReadytoPickup extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'jireh@kayweb.com.au'
+                    'clint@kayweb.com.au'
                 )->getTransport();
 
             try {

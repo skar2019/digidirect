@@ -61,7 +61,7 @@ class StatusOptions implements JsonSerializable
      *
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize():mixed
     {
         if (empty($this->options)) {
             $this->prepareOptionsData();

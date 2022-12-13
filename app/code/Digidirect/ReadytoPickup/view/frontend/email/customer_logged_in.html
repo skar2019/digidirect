@@ -2,6 +2,7 @@
 <!--@vars {
 "var store.getFrontendName()":"Store Name",
 "var customer.name":"Customer Name",
+"var order.getCustomerFirstname()"
 } @-->
 
 {{template config_path="design/email/header_template"}}
@@ -9,7 +10,21 @@
 <table>
     <tr class="email-intro">
         <td>
+            <p>Edited2</p>
+            <p> {{trans "Dear %customer_firstname," customer_firstname=$customer_firstname}} </p>
+
             <p class="greeting">{{trans "Dear %customer_name," customer_name=$order_data.customer_name}}</p>
+
+            <p class="greeting">{{trans "Dear %customer," customer=$order_data.customer}}</p>
+
+            <p class="greeting">{{trans "Hello %administrator_name," administrator_name=$administrator_name|row}}</p>
+         
+            <p class="greeting">{{trans "Dear %customer_fullname," customer_fullname=$order_data.customer_fullname}}</p>
+
+            <p>{{trans 'The customer named %customer_name just logged into the %store_name:' customer_name=$customer.name store_name=$store.getFrontendName()|row}}</p>
+
+            <!-- <h4>Ficou com d&uacute;vidas? {{var order.getCustomerFirstname()}}</h4> -->
+
             <p>
                 {{trans 'Good news! Your order number <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
             </p>

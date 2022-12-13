@@ -79,6 +79,11 @@ class CategoryMetadata implements MetadataInterface
      */
     protected function _stripTagsAndLimit($string = '')
     {
-        return substr(strip_tags($string), 0, self::MAX_META_DESCRIPTION_LENGTH);
+        if(!empty($string))
+        {
+            return substr(strip_tags($string), 0, self::MAX_META_DESCRIPTION_LENGTH);
+        }
+        
+        return $string;
     }
 }

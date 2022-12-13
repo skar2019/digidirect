@@ -22,9 +22,8 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
      * @var \Digidirect\Vii\Service\Config\Config
      */
     protected $config;
-    
-    protected $logger;
 
+    protected $logger;
     /**
      * QuoteSubmitSuccess constructor.
      * @param \Magento\GiftCardAccount\Helper\Data $giftCAHelper
@@ -39,14 +38,13 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
         \Digidirect\AbstractGiftCard\Helper\Data $helper,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftcardaccountFactory,
         \Digidirect\AbstractGiftCard\Api\AbstractGiftCardEntityRepositoryInterface $abstractGiftCardEntityRepository,
-        \Digidirect\CustomGiftCardLog\Logger\Logger $logger,
         \Digidirect\Vii\Api\AbstractGiftCardEntityRepositoryInterface $viiGiftCardEntityRepository,
-        \Digidirect\Vii\Service\Config\Config $config
+        \Digidirect\Vii\Service\Config\Config $config,
+        \Digidirect\CustomGiftCardLog\Logger\Logger $logger,
     ) {
+        parent::__construct($giftCAHelper, $helper, $giftcardaccountFactory, $abstractGiftCardEntityRepository, $logger);
         $this->viiGiftCardEntityRepository = $viiGiftCardEntityRepository;
         $this->config = $config;
-        parent::__construct($giftCAHelper, $helper, $giftcardaccountFactory, $abstractGiftCardEntityRepository, $logger);
-        
     }
 
     /**
@@ -60,7 +58,7 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
          * @var \Magento\Sales\Model\Order $order
          */
         $this->logger->info('GiftCardLog Start');
-        if (!$this->helper->isActive()) {
+        if (!$this->config->isActive()) {
             $this->logger->info('GiftCardLog Helper Not Active');
             return;
         }
@@ -114,18 +112,19 @@ class QuoteSubmitSuccess extends \Digidirect\AbstractGiftCard\Observer\QuoteSubm
                 $service->setOrder($order);
                 $service->validate()->accept($amount, $entity->getToken());
                 $entityOrderData->setStatus(AbstractGiftCardEntity::STATUS_ACCEPT);
+                
                 $entityOrderData->setOrderId($order->getId());
                 $entityOrderData->setAmount($amount);
                 $entityOrderData->setToken($entity->getToken());
                 $entityOrderData->setAbstractGiftCardEntityId($entity->getEntityId());
                 $this->abstractGiftCardEntityRepository->saveEntityOrderData($entityOrderData);
-                $this->logger->info('GiftCardLog Save Entity Order Data');
+                $this->logger->info('GiftCardLog Save Entity Order Data '.$entityOrderData);
             } catch (NoSuchEntityException $e) {
                 $this->logger->info('GiftCardLog Error : ' .$e->getMessage());
                 continue;
             }
-            
-            $this->logger->info('GiftCardLog End');
         }
+        
+        $this->logger->info('GiftCardLog End');
     }
 }

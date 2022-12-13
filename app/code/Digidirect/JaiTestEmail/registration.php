@@ -1,10 +1,7 @@
 <?php
-/**
- * Author : Rondel Y. Dalumpines
- */
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Digidirect_ShopByBrandMenu',
+    'Digidirect_JaiTestEmail',
     __DIR__
 );
