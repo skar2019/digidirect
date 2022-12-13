@@ -81,13 +81,13 @@ class Product extends AbstractHelper
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-//        $this->curl->addHeader("compcode", "DIG"); //live
-//        $this->curl->addHeader("user", "ewaveapi");
-//        $this->curl->addHeader("token", "904241bdbf10efa9");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        $this->curl->addHeader("compcode", "UA1"); //test
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -114,6 +114,15 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
+                
+                $cost = $prod['stk-replacement-cost'];
+                if($cost == '0')
+                {
+                    $cost = $prod['stk-current-buy'];
+                }
+                
+                $product->setCustomAttribute('cost', $cost);
+                
                 $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
@@ -331,6 +340,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -416,6 +434,15 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+                
+                $cost = $prod['stk-replacement-cost'];
+                if($cost == '0')
+                {
+                    $cost = $prod['stk-current-buy'];
+                }
+                
+                $product->setCustomAttribute('cost', $cost);
+                
                 //set brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
                 {
@@ -522,7 +549,9 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
+                
                 $toUrl = $prodname."-".$prod['code'];
+                $toUrl = preg_replace('/[+]/', "", $toUrl);
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -616,6 +645,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
 
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -697,22 +735,22 @@ class Product extends AbstractHelper
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
-        //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-//        $this->curl->addHeader("compcode", "DIG"); //live
-//        $this->curl->addHeader("user", "ewaveapi");
-//        $this->curl->addHeader("token", "904241bdbf10efa9");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        $this->curl->addHeader("compcode", "UA1"); //test
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -737,6 +775,9 @@ class Product extends AbstractHelper
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
+                $cost = $prod['stk-replacement-cost'];
+                $product->setCustomAttribute('cost', $cost);
+                
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
                 $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
@@ -1141,6 +1182,7 @@ class Product extends AbstractHelper
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
+                $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -1318,22 +1360,22 @@ class Product extends AbstractHelper
 
         //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
-        $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
+        //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
         //live port :8084
-        //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
 
         $this->curl->addHeader("Content-Type", "application/json");
         $this->curl->addHeader("Accept", "application/json");
-//        $this->curl->addHeader("compcode", "DIG"); //live
-//        $this->curl->addHeader("user", "ewaveapi");
-//        $this->curl->addHeader("token", "904241bdbf10efa9");
+        $this->curl->addHeader("compcode", "DIG"); //live
+        $this->curl->addHeader("user", "ewaveapi");
+        $this->curl->addHeader("token", "904241bdbf10efa9");
 
-        $this->curl->addHeader("compcode", "UA1"); //test
-        $this->curl->addHeader("user", "clint.mercado");
-        $this->curl->addHeader("token", "849cd5080faff5ce");
+        //$this->curl->addHeader("compcode", "UA1"); //test
+        //$this->curl->addHeader("user", "clint.mercado");
+        //$this->curl->addHeader("token", "849cd5080faff5ce");
         // get method
         $this->curl->get($url);
 
@@ -1366,6 +1408,9 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
 
+                $cost = $prod['stk-replacement-cost'];
+                $product->setCustomAttribute('cost', $cost);
+                
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
                 echo "Stock Condition " .$prod['stk-condition-code']." <br>";
@@ -1636,6 +1681,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -1829,6 +1883,7 @@ class Product extends AbstractHelper
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
+                $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -1919,6 +1974,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -2038,11 +2102,9 @@ class Product extends AbstractHelper
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setStockStatus($prod['stk-stock-status']);
-                
-                echo "cost " . $product->getCustomAttribute('cost')."<br>";
+
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
-                echo "pronto cost " . $product->getCustomAttribute('cost')."<br>";
                 
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
@@ -2318,6 +2380,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -2511,6 +2582,7 @@ class Product extends AbstractHelper
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
+                $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
@@ -2601,6 +2673,15 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                if(isset($prod['qff-store-product-name']))
+                {
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                }
+                if(isset($prod['qff-store-price']))
+                {
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                }
+                
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -2738,5 +2819,4 @@ class Product extends AbstractHelper
 
         return $getSubCategory;
     }
-    //redeploy
 }

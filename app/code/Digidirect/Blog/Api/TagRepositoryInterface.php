@@ -25,8 +25,4 @@ interface TagRepositoryInterface
      * @return Collection
      */
     public function getTagsByPostId($postId);
-    
-    /**
-     * redeploy
-     */
 }

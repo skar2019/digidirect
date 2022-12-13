@@ -228,18 +228,11 @@ class Logger extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getLogFilePath()
     {
-        $configValue = "";
-        if(null !== $this->getConfValue('digidirect_ai/logs/logs_path'))
-        {
-            $configValue = trim($this->getConfValue('digidirect_ai/logs/logs_path'));
-            
-        }
-        
+        $configValue = trim($this->getConfValue('digidirect_ai/logs/logs_path'));
         $path = $configValue ? $configValue
-                : $this->_directoryList->getPath('var');
+            : $this->_directoryList->getPath('var');
 
-            return $path . DIRECTORY_SEPARATOR . self::LOG_DIRECTORY_POSTFIX;
-        
+        return $path . DIRECTORY_SEPARATOR . self::LOG_DIRECTORY_POSTFIX;
     }
 
     /**

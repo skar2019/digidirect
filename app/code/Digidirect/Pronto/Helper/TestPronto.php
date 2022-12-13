@@ -212,348 +212,6 @@ class TestPronto extends AbstractHelper
 
     }
 
-    public function testordersync()
-    {
-        $piwikItems = array();
-        $piwikOrder = array();
-        //get order data
-        $orders = $this->getOrderCollection();
-        $counter = 0;
-        foreach ($orders as $order) {
-            $data = array();
-            $counter++;
-            //var_dump($order);
-            /* @var $order \Magento\Sales\Model\Order */
-
-            if ($order->getState() == 'canceled') {
-                continue;
-            }
-
-            $orderId = $order->getIncrementId();
-            if($orderId == '000629196' || $orderId == 'AM000158655' || $orderId == 'AM000158646')
-            {
-                    $entityId = $order->getId();
-                    $this->logger->info('Pronto Order Sync - '.$orderId);
-                    //Amazon Logic
-                    $wrehs = $this->getWarehouse($order);
-                    $territory = "WEBS";
-                    $accountname = $this->getAccountName($order);
-                    $account = $this->getAccount($order);
-
-                    $is_am_order = false;
-                    if (strpos($orderId, 'AM') !== false) {
-                        $is_am_order = true;
-                    }
-
-                    if($is_am_order){
-                        $rep = "AMAZON MFH";
-                        if($accountname == "N/A N/A")
-                        {
-                            $rep = "AMAZON FBA";
-                            $account = "AMAZ00";
-                            $wrehs = "AWHS";
-                            $territory = "AWHS";
-                        }
-                    }
-                    else
-                    {
-                        $rep = $this->getRep($order);
-                        if (strpos($orderId, 'EB') !== false) {
-                            $rep ="EBAY";
-                        }
-                        else if (strpos($orderId, 'CATCH') !== false) {
-                            $rep ="CATCH";
-                        }
-
-                    }
-
-                    echo "Rep ".$rep."<br/>";
-
-                    $contactname = $accountname;
-                    //check pronto if customer has an account.
-                    //if not, create customer account to pronto
-                    $orderdate = date("Y-m-d", strtotime($order->getCreatedAt($order)));
-                    $customerEmail = $order->getCustomerEmail();
-
-                    $customertype = "WG";
-                    if (!empty($account) && !$order->getCustomerIsGuest()) {
-                        $customertype = "WA";
-                    }
-
-                    $data['sales-order']['header']['accountname'] = $accountname;
-                    $data['sales-order']['header']['account'] = $account;
-                    $data['sales-order']['header']['order-date'] = $orderdate;
-                    $data['sales-order']['header']['warehouse'] = $wrehs;
-                    $data['sales-order']['header']['customer-type'] = $customertype;
-                    $data['sales-order']['header']['so-cust-type'] = $customertype;
-                    $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
-                    $data['sales-order']['header']['territory'] = $territory;
-                    $data['sales-order']['header']['rep'] = $rep;
-                    $data['sales-order']['header']['contactname'] = $contactname;
-                    $data['sales-order']['header']['email'] = $customerEmail;
-                    $data['sales-order']['header']['reference'] = $entityId;
-                    $data['sales-order']['header']['on-hold-reason-code'] = "WS";
-                    $data['sales-order']['header']['set-on-status'] = "H";
-
-
-                    $grandTotal = (double) $order->getBaseGrandTotal();
-                    $subTotal = (double) $order->getBaseSubtotalInclTax();
-                    $tax = (double) $order->getBaseTaxAmount();
-                    $shipping = (double) $order->getBaseShippingInclTax();
-                    $discount = abs((double) $order->getBaseDiscountAmount());
-
-
-                    $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
-
-                    $address = $order->getBillingAddress();
-
-                    $strt = $address->getStreet();
-                    if(is_array($strt))
-                    {
-                        $street = implode(",", $strt);
-                    }
-                    $city = $address->getCity();
-                    $region = $address->getRegion();
-                    $postcode = $address->getPostcode();
-                    $countrycode = $address->getCountryid();
-                    $phone = $address->getPhone();
-                    $mobile = $address->getMobile();
-                    $company = $address->getCompany();
-
-                    $data['sales-order']['header']['billing-address']['line-2'] = $street;
-                    $data['sales-order']['header']['billing-address']['line-3'] = $city;
-                    $data['sales-order']['header']['billing-address']['line-4'] = $region;
-                    $data['sales-order']['header']['billing-address']['postcode'] = $postcode;
-                    $data['sales-order']['header']['billing-address']['country-code'] = $countrycode;
-                    $data['sales-order']['header']['billing-address']['phone'] = $phone;
-                    $data['sales-order']['header']['billing-address']['mobile'] = $mobile;
-
-                    $delivery = $order->getShippingDescription();
-
-                    $shipaddress = $order->getShippingAddress();
-                    $shipstrt = $shipaddress->getStreet();
-                    if(is_array($shipstrt))
-                    {
-                        if($delivery == "Pick Up in Store - Click and Collect Shipping")
-                        {
-                            $shipstreet = 'Click and Collect: ' .implode(",", $shipstrt);
-                        }
-                        else
-                        {
-                            $shipstreet = implode(",", $shipstrt);
-                        }
-                    }
-                    $shipcity = $shipaddress->getCity();
-                    $shipregion = $shipaddress->getRegion();
-                    $shippostcode = $shipaddress->getPostcode();
-                    $shipcountrycode = $shipaddress->getCountryid();
-                    $shipphone = $shipaddress->getPhone();
-                    $shipmobile = $shipaddress->getMobile();
-                    $shipcompany = $shipaddress->getCompany();
-
-
-                    $data['sales-order']['header']['delivery-address']['line-1'] = $contactname;
-                    $data['sales-order']['header']['delivery-address']['line-2'] = $shipcompany;
-                    $data['sales-order']['header']['delivery-address']['line-3'] = $shipstreet;
-                    $data['sales-order']['header']['delivery-address']['line-4'] = $shipcity;
-                    $data['sales-order']['header']['delivery-address']['line-5'] = $shipregion;
-                    $data['sales-order']['header']['delivery-address']['postcode'] = $shippostcode;
-                    $data['sales-order']['header']['delivery-address']['country-code'] = $shipcountrycode;
-                    $data['sales-order']['header']['delivery-address']['phone'] = $shipphone;
-                    $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
-
-                    $paymentInstance = $order->getPayment();
-                    //payment details
-                    //bank should sync as confirmed by Michael from Emmanuel
-        //            $is_bank = false;
-        //
-        //            $methodInst = $paymentInstance->getMethodInstance();
-        //            echo "<br> payment - ". $paymentInstance->getMethod();
-        //            $methodTitle = $methodInst->getTitle();
-        //            //echo "<br >method - ".$methodTitle;
-        //
-        //            if ($paymentInstance->getMethod() == "banktransfer") {
-        //                unset($data);
-        //                $is_bank = true;
-        //            }
-        //
-        //            if($is_bank){
-        //                continue;
-        //            }
-
-                    //echo "<br >payment_reference - ".$payment_reference;
-                    $method = $paymentInstance->getMethod();
-                    $payment_type = $this->getPaymentType($paymentInstance);
-                    $cc = "";
-                    if($payment_type == 'BT')
-                    {
-                        $cc = $paymentInstance->getCcType();
-                    }
-                    $payment_reference = $paymentInstance->getLastTransId();
-
-    //            if (empty($payment_reference) && ($method == 'm2epropayment')) {
-    //                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
-    //            }
-                    //ebay
-                    if (($method == 'm2epropayment')) {
-                        if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
-                        {
-                            $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
-                        }
-                        else if (empty($payment_reference))
-                        {
-                            $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
-                        }
-                    }
-
-                    $amount_tendered = $order->getBaseGrandTotal();
-                    $amount_tendered = round($amount_tendered, 2);
-                    if(!$is_am_order){
-                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-                        $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
-                    }
-
-                    //CUSTOM DATA
-                    $qffNumber = $order->getQffNumber();
-                    $qffLastname = $order->getQffLastname();
-                    if (!empty($qffNumber) && !empty($qffLastname)) {
-                        $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
-                        $data['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
-                        $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
-                        $data['sales-order']['header']['custom-data']['data'][1]['value'] = $qffLastname;
-                    }
-                    else
-                    {
-                        $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
-                        $data['sales-order']['header']['custom-data']['data'][0]['value'] = NULL;
-                        $data['sales-order']['header']['custom-data']['data'][1]['key'] = 'QFFSURNAME';
-                        $data['sales-order']['header']['custom-data']['data'][1]['value'] = NULL;
-                    }
-
-                    $data['sales-order']['header']['custom-data']['data'][2]['key'] = 'magento-order-number';
-                    $data['sales-order']['header']['custom-data']['data'][2]['value'] = $orderId;
-
-                    $data['sales-order']['header']['custom-data']['data'][3]['key'] = 'email';
-                    $data['sales-order']['header']['custom-data']['data'][3]['value'] = $customerEmail;
-
-                    //product lines
-                    $x = 0;
-                    foreach ($order->getAllVisibleItems() as $item) {
-                        /* @var $item \Magento\Sales\Model\Order\Item */
-                        $price = (double) $item->getBasePriceInclTax();
-                        $qty = (double) $item->getQtyOrdered();
-                        $discount = (double) $item->getDiscountAmount();
-                        $total = ($price * $qty) - $discount;
-
-                        $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
-                        $data['sales-order']['detail']['line'][$x]['stock-code'] = $item->getSku();
-                        $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
-                        $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
-                        $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
-                        $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
-                        $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
-                        $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
-                        $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
-                        $x++;
-                    }
-                    //to redeploy
-                    //shipping details
-                    $shippingprice = (double) $order->getShippingAmount();
-
-                    $shippingDesc = $order->getShippingDescription();
-                    if($shippingDesc == "Express - (1 to 3 Days)")
-                    {
-                        $shippingDesc = "Australia Post – express";
-                    }
-                    else if($shippingDesc == "Standard - (4 to 7 Days)")
-                    {
-                        $shippingDesc = "Australia Post – eParcel";
-                    }
-
-                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                    $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
-                    $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
-                    $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                    $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                    $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                    $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
-                    $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
-
-                    //should be inside the foreach above
-
-                    $toJson['data'] = $data['sales-order'];
-                    $this->logger->info('Pronto Order Sync Data - '.json_encode($toJson['data']));
-                    //create xml of order data here
-                    $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
-
-                    //TEST
-                    //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //test
-
-                    //LIVE - port :8084
-                    $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders'; //LIVE
-                    $username = 'clint.mercado';
-                    $password = '849cd5080faff5ce';
-                    $jsonData = '{}';
-
-                    $this->curl->addHeader("Content-Type", "application/xml");
-                    $this->curl->addHeader("Accept", "application/json");
-                    $this->curl->addHeader("compcode", "DIG"); //LIVE
-                    $this->curl->addHeader("user", "ewaveapi");
-                    $this->curl->addHeader("token", "904241bdbf10efa9");
-                    //
-                    //$this->curl->addHeader("compcode", "UA1"); //test
-                   // $this->curl->addHeader("user", "clint.mercado");
-                    //$this->curl->addHeader("token", "849cd5080faff5ce");
-                    $this->curl->post($url, $xml);
-
-                    $result = $this->curl->getBody();
-
-                    $json = $this->jsonSerializer->unserialize($result);
-
-                    if(isset($json['response']['status']) && ($json['response']['status'] == 'FAIL'))
-                    {
-                        $msg =  $json['response']['message'];
-                        $this->logger->error('Pronto Order Sync', array('info' => $msg));
-
-                    }
-                    else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
-                        $msg =  $json['sales-orders']['response']['message'];
-                        $this->logger->error('Pronto Order Sync', array('info' => $msg));
-
-                    }
-                    else {
-                        //success
-                        //update order data with pronto order-no below
-                        //$json['sales-order']['sales-order']['order-no']
-
-                        $pronto = $json['sales-orders']['sales-order']['order-no'];
-                        $invoiceno = $json['sales-orders']['sales-order']['invoice-no'];
-                        $prontostatus = $json['sales-orders']['sales-order']['order-status-code'];
-                        $order->setData('pronto_order_number',$pronto);
-                        $order->setData('pronto_status_code',$prontostatus);
-                        $order->save();
-
-                        $this->logger->info('Pronto Order Sync', $json['sales-orders']['sales-order']);
-
-                        $account = $json['sales-orders']['sales-order']['account'];
-                        if (!empty($account) && !$order->getCustomerIsGuest()) {
-                            $customer = $this->customerRepository->getById($order->getCustomerId());
-                            $customer->setData('pronto_account_id', $account);
-                            $customer->setCustomAttribute('pronto_account_id', $account);
-                            $this->customerRepository->save($customer);
-                        }
-                        /** @var \Magento\Sales\Model\Order\Invoice $invoice */
-                        $invoice = $order->getInvoiceCollection()->getFirstItem();
-                        $this->incrementIdUpdater->update($invoice, $invoiceno);
-
-                    }
-            }
-            $this->logger->info('Pronto Order End Sync');
-
-        }
-
-    }
 
     public function getOrderCollection()
     {
@@ -577,6 +235,7 @@ class TestPronto extends AbstractHelper
         //echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
         $payment = $paymentInstance->getMethod();
+        echo "<br >get payment type ".$payment."<br>";
         switch ($payment) {
             case "braintree":
                 $type = 'BT';
@@ -616,6 +275,12 @@ class TestPronto extends AbstractHelper
                 break;
             case "klarna_kp":
                 $type = "KL";
+                break;
+            case "braintree_applepay":
+                $type = "BT";
+                break;
+            case "latipay":
+                $type = 'LP';
                 break;
             default:
           break;
@@ -982,6 +647,15 @@ class TestPronto extends AbstractHelper
                 $customertype = "WA";
             }
 
+            if(!$isMarketPlace)
+            {
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00") 
+                {
+                    $account = "";
+                }
+            }
+            //comment to redeploy
+            
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
             $data['sales-order']['header']['account'] = $account;
@@ -1004,6 +678,7 @@ class TestPronto extends AbstractHelper
             $method = $paymentInstance->getMethod();
 
             $payment_type = $this->getPaymentType($paymentInstance);
+            echo "Payment type ".$payment_type."<br/>";
             $cc = "";
 
             $grandTotal = (double) $order->getBaseGrandTotal();
@@ -1163,6 +838,12 @@ class TestPronto extends AbstractHelper
                         }
                     }
                 }
+                
+                if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay")
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";  
+                }
 
             }
 
@@ -1305,6 +986,12 @@ class TestPronto extends AbstractHelper
                     $catchRef = str_replace("EB","",$catchRef);
                     $payment_reference = $catchRef;
                 }
+                else if (strpos($orderId, 'WW') !== false) {
+                    $payment_type ="WW";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("WW","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             if(($is_am_order) && ($payment_type == "EB")){
@@ -1327,11 +1014,20 @@ class TestPronto extends AbstractHelper
             //gift cards
             $withGC = false;
             $gift_amount = $order->getGiftCardsAmount();
+            
             if($gift_amount > 0)
             {
                 $withGC = true;
                 $gift_amount = round($gift_amount, 2);
-                $gc_reference = $order->getGiftCards('c');
+                $gc_data = $order->getGiftCards();
+                $arr = explode(",",$gc_data);
+                $gc_ref = explode(":", $arr[1]);
+                $gc_reference = $gc_ref[1];
+                if($test)
+                {
+                    echo "gc ref " .$gc_reference;
+                }
+                
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
@@ -1549,23 +1245,23 @@ class TestPronto extends AbstractHelper
             $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'sales-orders');
 
             //TEST
-            $url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
+            //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/sales?call-type=create_orders'; //TEST
 
             //LIVE - port :8084
-            //$url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
+            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=create_orders';
 
 
             if(!$test)
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-                //$this->curl->addHeader("compcode", "DIG"); //live
-                //$this->curl->addHeader("user", "ewaveapi");
-                //$this->curl->addHeader("token", "904241bdbf10efa9");
+                $this->curl->addHeader("compcode", "DIG"); //live
+                $this->curl->addHeader("user", "ewaveapi");
+                $this->curl->addHeader("token", "904241bdbf10efa9");
                 //
-                $this->curl->addHeader("compcode", "UA1"); //test
-                $this->curl->addHeader("user", "clint.mercado");
-                $this->curl->addHeader("token", "849cd5080faff5ce");
+                //$this->curl->addHeader("compcode", "UA1"); //test
+                //$this->curl->addHeader("user", "clint.mercado");
+                //$this->curl->addHeader("token", "849cd5080faff5ce");
 
                 $this->curl->post($url, $xml);
 

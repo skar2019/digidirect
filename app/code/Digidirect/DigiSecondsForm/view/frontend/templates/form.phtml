@@ -1,69 +1,83 @@
-<?php ?>
+<?php
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+$currentPage = $this->getRequest()->getFullActionName();
+?>
 
-<!--digi-seconds modal-->
-<div class="digi-seconds-modal" style="width: 1095px;margin-right: 0;margin-left: auto;">
-    <a href="#" id="digisecondsForm_trigger">
-        <div class="digisecond-trigger-sec">
-                <div class="digiseconds-eclipse">
-                    <img src="https://mcstaging2.digidirect.com.au/media/wysiwyg/digiseconds/digi-seconds-eclipse.png">
+<?php
+$categoryName = "";
+if ($currentPage != "catalogsearch_result_index") {
+    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
+    $categoryObject = $catalogHelperData->getCategory();
+    $categoryId = $categoryObject->getId();
+    $categoryName = $categoryObject->getName();
+}
+?>
+
+<?php if ($currentPage != "catalogsearch_result_index"): ?>
+    <?php if ($categoryName == "digiSeconds" ||
+        $categoryName == "REFURB" ||
+        $categoryName == "OPENBOX" ||
+        $categoryName == "PRELOVED") : ?>
+        
+            <!--digi-seconds modal-->
+            <div class="digi-seconds-modal" style="margin-right: 0;margin-left: auto;padding-left: 50px;margin-bottom: 10px; display: none;">
+                <a href="#" id="digisecondsForm_trigger">
+                    <img class="digisecondsForm_triggerImg" src="https://mcstaging2.digidirect.com.au/media/wysiwyg/digiseconds/digi-seconds-trigger-button.png" style="width: 229px;">
+                    <!-- <//?php if (in_array($categoryId, $allChildrenCategoryIdsDigiSeconds)) : ?>
+                        <img src="<//?php echo $block->getUrl("media/wysiwyg/digiseconds")?>digi-seconds-trigger-button.png"/>
+                    <//?php endif; ?> -->
+                </a>
+
+                <div id="digisecondsForm" style="display: none;">
+                    <div id="digiSecondFormTitle">
+                        <h2>Sell Your Used Gear and Gadgets</h2>
+                        <p>Fill out the information form and our representative will contact you for the next steps</p>
+                    </div>
+
+                    <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
+                        <div class="formContentBgWhite">
+                            <div class="grid-column">
+                                <input name="firstname" type="text" placeholder="First Name">
+                                <input name="lastname" type="text" placeholder="Last Name">
+                                <input name="phone" type="number" placeholder="Contact Number" maxlength="20">
+                                <input name="email" type="text" placeholder="Email Addres">
+                            </div>
+                            <div class="sell-text">
+                                <p>WHAT YOU LIKE TO SELL?</p>
+                            </div>
+
+                            <div class="grid-column">
+                                <input name="brands" type="text" placeholder="Brand">
+                                <input name="productName" type="text" placeholder="Product Name / Model">
+                                <input name="purchaseYear" type="text" placeholder="Year of Purchase">
+                            </div>
+
+                            <br>
+                            <div class="notes">
+                                <p>Note (Add all accessories you want to include)</p>
+                                <textarea  name="notes"></textarea>
+                            </div>
+                            <div class="grid-column">
+                                <input name="askingPrice" type="number" placeholder="Asking Price">
+                            </div>
+                            <br>
+                        </div>
+
+                        <?=$block->getChildHtml('form.additional.info') ?>
+
+                        <div class="digiSecondFormBtn primary">
+                            <input type="hidden" name="hideit" id="hideit" value="" />
+                            <button type="submit" id="add" title="" class="action submit primary">
+                                <span><?= $block->escapeHtml(__('Submit')) ?></span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="digiseconds-text">
-                    <p>If you have old gear you don’t need, we’d love to buy it from you. <span>Get Started Nowss</span></p>
-                </div>
-        </div>
-    </a>
 
-    <div id="digisecondsForm" style="display: none;">
-        <div id="digiSecondFormTitle">
-      		<h2>Sell Your Used Gear and Gadgets</h2>
-	      	<p>Fill out the information form and our representative will contact you for the next steps</p>
-      	</div>
+            </div>
 
-            <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("digisecondsform/index/index")?>">
-                     
-                <div class="formContentBgWhite">
-                    <div class="grid-column">
-                        <input name="firstname" type="text" placeholder="First Name">
-                        <input name="lastname" type="text" placeholder="Last Name">
-                        <input name="phone" type="number" placeholder="Contact Number" maxlength="20">
-                        <input name="email" type="text" placeholder="Email Addres">
-                    </div>
-                    <div class="sell-text">
-                        <p>WHAT YOU LIKE TO SELL?</p>
-                    </div>
-
-                    <div class="grid-column">
-                        <input name="brands" type="text" placeholder="Brand">
-                        <input name="productName" type="text" placeholder="Product Name / Model">
-                        <input name="purchaseYear" type="text" placeholder="Year of Purchase">
-                    </div>
-
-                    <br>
-                    <div class="notes">
-                        <p>Note (Add all accessories you want to include)</p>
-                        <textarea  name="notes"></textarea>
-                    </div>
-                    <div class="grid-column">
-                        <input name="askingPrice" type="number" placeholder="Asking Price">
-                    </div>
-                    <br>
-                </div>
-                    
-                <?=$block->getChildHtml('form.additional.info') ?>
-
-                <div class="digiSecondFormBtn primary">
-                    <input type="hidden" name="hideit" id="hideit" value="" />
-                    <button type="submit" id="add" title="" class="action submit primary">
-                        <span><?= $block->escapeHtml(__('Submit')) ?></span>
-                    </button>
-                </div>
-
-            </form>
-    </div>
-    
-</div>
-
-
+    <?php endif; ?>
+<?php endif; ?>
 
 <script>
     
@@ -157,21 +171,6 @@ require(['jquery'],function($){
 <style>
     #digiSecondFormSell, #digiSecondFormTitle {
         margin: 15px;
-    }
-    
-    .digisecond-trigger-sec {
-        display: flex;
-    }
-    
-    .digiseconds-eclipse {
-       margin: 5px 0px 0px 5px;
-       flex: 50%;
-    }
-    
-    .digiseconds-text {
-        flex: 50%;
-        text-align: center;
-        margin: 5px;
     }
 
     #digiSecondFormTitle {
