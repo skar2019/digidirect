@@ -173,7 +173,7 @@ class Product extends AbstractHelper
                 
                 $forLogs .= $awaiting."\n";
                 //set to pre order
-                if($prod['stk-abc-class'] == 'P')
+                if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('pre_order', '1');
@@ -818,7 +818,7 @@ class Product extends AbstractHelper
                 }
                 $forLogs .= $awaiting."\n";
                 //set to pre order
-                if($prod['stk-abc-class'] == 'P')
+                if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('pre_order', '1');
@@ -1464,7 +1464,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('is_qantas_product', '1');
                 }
                 
-                if($prod['stk-abc-class'] == 'P')
+                if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('pre_order', '1');
@@ -2163,7 +2163,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('is_qantas_product', '0');
                 }
                 
-                if($prod['stk-abc-class'] == 'P')
+                if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
                     $product->setCustomAttribute('pre_order', '1');
