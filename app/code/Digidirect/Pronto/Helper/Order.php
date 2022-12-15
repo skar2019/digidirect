@@ -354,6 +354,14 @@ class Order extends AbstractHelper
             if (!empty($account) && !$order->getCustomerIsGuest()) {
                 $customertype = "WA";
             }
+            
+            if(!$isMarketPlace)
+            {
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00") 
+                {
+                    $account = "";
+                }
+            }
 
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
@@ -531,6 +539,12 @@ class Order extends AbstractHelper
                             $data['sales-order']['header']['set-on-status'] = "B";
                         }
                     }
+                    
+                    if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay")
+                    {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";  
+                    }
                 }
 
             }
@@ -671,6 +685,12 @@ class Order extends AbstractHelper
                     $catchRef = str_replace("EB","",$catchRef);
                     $payment_reference = $catchRef;
                 }
+                else if (strpos($orderId, 'WW') !== false) {
+                    $payment_type ="WW";
+                    $catchRef = $orderId;
+                    $catchRef = str_replace("WW","",$catchRef);
+                    $payment_reference = $catchRef;
+                }
             }
 
             if(($is_am_order) && ($payment_type == "EB")){
@@ -693,11 +713,17 @@ class Order extends AbstractHelper
             //gift cards
             $withGC = false;
             $gift_amount = $order->getGiftCardsAmount();
+            $gc_reference = "";
             if($gift_amount > 0)
             {
                 $withGC = true;
                 $gift_amount = round($gift_amount, 2);
-                $gc_reference = $order->getGiftCards('c');
+                $gc_data = $order->getGiftCards();
+                $arr = explode(",",$gc_data);
+                $gc_ref = explode(":", $arr[1]);
+                $gc_reference = $gc_ref[1];
+                $gc_reference = str_replace('"', "", $gc_reference);
+                
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
@@ -932,9 +958,9 @@ class Order extends AbstractHelper
             {
                 $this->curl->addHeader("Content-Type", "application/xml");
                 $this->curl->addHeader("Accept", "application/json");
-                //$this->curl->addHeader("compcode", "DIG"); //live
-                //$this->curl->addHeader("user", "ewaveapi");
-                //$this->curl->addHeader("token", "904241bdbf10efa9");
+//                $this->curl->addHeader("compcode", "DIG"); //live
+//                $this->curl->addHeader("user", "ewaveapi");
+//                $this->curl->addHeader("token", "904241bdbf10efa9");
                 //
                 $this->curl->addHeader("compcode", "UA1"); //test
                 $this->curl->addHeader("user", "clint.mercado");
@@ -1031,7 +1057,7 @@ class Order extends AbstractHelper
 
     public function getPaymentType($paymentInstance){
 
-        //echo "<br >get payment type ". $paymentInstance->getMethod();
+        echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
         $payment = $paymentInstance->getMethod();
         switch ($payment) {
@@ -1073,6 +1099,12 @@ class Order extends AbstractHelper
                 break;
             case "klarna_kp":
                 $type = "KL";
+                break;
+            case "braintree_applepay":
+                $type = 'BT';
+                break;
+            case "latipay":
+                $type = 'LP';
                 break;
             default:
                 break;
@@ -1288,5 +1320,4 @@ class Order extends AbstractHelper
         return $prontoStatus;
     }
 
-    //redeploy
 }
