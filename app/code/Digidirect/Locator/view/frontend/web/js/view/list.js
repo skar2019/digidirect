@@ -1,10 +1,9 @@
 define([
-    'jquery',
     'ko',
     'uiComponent',
     'Digidirect_Locator/js/model/locations',
     'Magento_Ui/js/lib/core/events'
-], function ($, ko, Component, locations, events) {
+], function (ko, Component, locations, events) {
     'use strict';
 
     return Component.extend({
@@ -20,7 +19,6 @@ define([
         initialize: function () {
             this._super();
             this.renderItems();
-            this.toggleStoreListDisplay();
         },
         renderItems: function () {
             if (this.isPaginationEnable) {
@@ -32,26 +30,6 @@ define([
                 };
                 this.locationsList = locations.items;
             }
-            
-        },
-        toggleStoreListDisplay: function () {
-            
-            $(document).on('click', '.collect-block .link.action.primary', function () {
-                $(".store-locator-wrapper").removeAttr("style");
-                $(".store-locator-wrapper").attr("style", "display:block !important;");
-            });
-            
-            $(document).on('click', '.locator-items button.action.-select', function () {
-                $(".store-locator-wrapper").removeAttr("style");
-                $(".store-locator-wrapper").attr("style", "display:none !important;");
-            });
-            
-        },
-        testDataBind: function () {
-            $(document.getElementsByClassName('mCustomScrollBox')[0]).ready(function(){
-                //alert("#pickup-available length is " + $('#pickup-available .collectlocator-wrapper .mCustomScrollBox').length);
-                //alert("#pickup-unavailable length is " + $('#pickup-unavailable .collectlocator-wrapper .mCustomScrollBox').length);
-            });
         },
         paginationObservable: function () {
             var self = this;
@@ -70,7 +48,7 @@ define([
                 var startIndex = self.currentPage() === 1 ? 0 : (self.currentPage() - 1) * self.perPage();
                 return locations.items().slice(startIndex, startIndex + self.perPage());
             });
-            
+
             self.totalItemCount = ko.computed(function () {
                 return locations.items().length;
             });
@@ -113,10 +91,6 @@ define([
             self.canShowNextJump = ko.computed(function () {
                 return self.getNextJumpPage() !== null;
             });
-            
-            this.locationsListAvailable = $('.store-locator-wrapper').length;
-            this.locationsListUnavailable = $('.store-section').length;
-                      
         },
         getFrameStart: function () {
             return Math.floor(this.pageFrame / 2);
@@ -172,67 +146,13 @@ define([
             return null;
         },
         showDetails: function (location, e) {
-//            if (!locations.settings().open_in_popup) return true;
-//
-//            e.preventDefault();
+            if (!locations.settings().open_in_popup) return true;
 
-            console.log("click");
+            e.preventDefault();
             this.details().location = location;
             events.trigger('location.show', location, locations.settings());
         },
         onRenderList: function () {
-            
-            $(".store-locator-wrapper").bind("DOMSubtreeModified", function() {
-                
-                var pickUpAvailable;
-                var pickUpUnavailable;
-                
-                pickUpAvailable = $('.pickup-available .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
-                pickUpUnavailable = $('.pickup-unavailable .collectlocator-wrapper .mCustomScrollBox .locator-item').length;
-
-                if (pickUpAvailable == 0 && pickUpUnavailable > 0) {
-                    $('.pickup-available').hide();
-                    $('.pickup-unavailable').show();
-                    
-                    $('.pickup-unavailable .title-cc').hide();
-                    $('.pickup-unavailable .description-cc').hide();
-                    $('.title-cc-unavailable').show();
-                    $('.description-cc-unavailable').show();
-                    
-                } else if (pickUpAvailable > 0 && pickUpUnavailable == 0) {
-                    $('.pickup-available').show();
-                    $('.pickup-unavailable').hide();
-                    
-                    $('.pickup-unavailable .title-cc').show();
-                    $('.pickup-unavailable .description-cc').show();
-                    $('.title-cc-unavailable').hide();
-                    $('.description-cc-unavailable').hide();
-                    
-                } else if (pickUpAvailable == 0 && pickUpUnavailable == 0) {
-                    $('.pickup-available').hide();
-                    $('.pickup-unavailable').show();
-                    
-                    $('.pickup-unavailable .title-cc').hide();
-                    $('.pickup-unavailable .description-cc').hide();
-                    $('.title-cc-unavailable').show();
-                    $('.description-cc-unavailable').show();
-                    
-                } else if (pickUpAvailable > 0 && pickUpUnavailable > 0) {
-                    $('.pickup-available').show();
-                    $('.pickup-unavailable').show();
-                    
-                    $('.pickup-unavailable .title-cc').show();
-                    $('.pickup-unavailable .description-cc').show();
-                    $('.title-cc-unavailable').hide();
-                    $('.description-cc-unavailable').hide();
-                    
-                }  
-
-                //console.log('pickUpAvailable : ' + pickUpAvailable);
-                //console.log('pickUpUnavailable : ' + pickUpUnavailable);
-                
-            });
-
         }
     });
 });
