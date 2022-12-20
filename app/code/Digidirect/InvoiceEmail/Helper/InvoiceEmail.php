@@ -183,7 +183,7 @@ class InvoiceEmail extends AbstractHelper
             $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
-                'digidirect_readytopickup_email_template'
+                'digidirect_invoice_email_template'
                 )->setTemplateOptions(
                     ['area' => 'frontend', 'store' => $store->getId()]
                 )->addTo(
