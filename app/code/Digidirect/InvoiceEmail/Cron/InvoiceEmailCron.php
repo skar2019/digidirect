@@ -2,7 +2,7 @@
 namespace Digidirect\InvoiceEmail\Cron;
 
 use Psr\Log\LoggerInterface;
-use Digidirect\Pronto\Helper\InvoiceEmail;
+use Digidirect\InvoiceEmail\Helper\InvoiceEmail;
 
 class InvoiceEmailCron
 {
