@@ -5,6 +5,22 @@
 } @-->
 ​
 {{template config_path="design/email/header_template"}}
+
+ <table class="order-details">
+    <tr>
+        <td class="address-details">
+            <h3>{{trans "Sold To:"}}</h3>
+            <p>{{var formattedBillingAddress|raw}}</p>
+        </td>
+        {{depend order.getIsNotVirtual()}}
+        <td class="address-details">
+            <h3>{{trans "Deliver To:"}}</h3>
+            <p>{{var formattedShippingAddress|raw}}</p>
+        </td>
+        {{/depend}}
+    </tr>
+</table>
+
 <table>
     <tr class="email-intro">
         <td>
@@ -20,6 +36,10 @@
         <td>
             <h1>{{trans "Your Invoice #%invoice_id for Order #%order_id" invoice_id=$invoice.increment_id order_id=$order.increment_id}}</h1>
         </td>
+    </tr>
+    
+    <tr>
+         {{layout area="frontend" handle="sales_email_order_invoice_items" invoice=$invoice order=$order}}
     </tr>
     <tr>
         <td align="center" style="padding:25px 0;">
