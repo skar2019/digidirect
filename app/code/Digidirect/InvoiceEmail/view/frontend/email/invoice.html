@@ -5,13 +5,13 @@
 } @-->
 ​
 {{template config_path="design/email/header_template"}}
+
 <table>
     <tr class="email-intro">
         <td>
-            <h1>Invoice Email</h1>
             <p class="greeting">{{trans "Dear %customer_name," customer_name=$order_data.customer_name}}</p>
             <p>
-                {{trans 'Good news! Your order number <span class="no-link">#%order_number</span>' order_number=$order_number |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
+                {{trans 'Good news! This is your invoice for your order number <span class="no-link">#%order_number</span>' order_number=$order_number |raw}} {{trans " is now ready for pick-up from %store_name." store_name=$store.frontend_name}}
             </p>
             <p>
                 {{trans "Please make your way to the digiDirect location to collect your goods."}}
