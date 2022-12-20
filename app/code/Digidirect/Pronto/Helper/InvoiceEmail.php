@@ -219,9 +219,9 @@ class InvoiceEmail extends AbstractHelper
         
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('entity_id', array('gt' => 1172878))
+            ->addFieldToFilter('entity_id', array('gt' => 1172881))
             ->addFieldToFilter('store_id', array('eq' => 1))
-            ->addFieldToFilter('status', array('eq' => 'complete'))
+            ->addFieldToFilter('status', array('eq' => 'pending'))
             ->addFieldToFilter('invoice_email', array('eq' => 0))
             ->addFieldToFilter('shipping_description', array('neq' =>'Pick Up in Store - Click and Collect Shipping'))
             ->setOrder('created_at', 'asc');
