@@ -18,7 +18,7 @@
         <td class="address-details">
             <h3>{{trans "Sold To:"}}</h3>
             <p>{{var formattedBillingAddress|raw}}</p>
-            <p>{{trans "Dear %billingAddress,"  billingAddress=$billingAddress|row}}</p>
+            <p>{{trans "%billingAddress,"  billingAddress=$billingAddress|row}}</p>
         </td>
         {{depend order.getIsNotVirtual()}}
         <td class="address-details">
