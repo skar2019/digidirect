@@ -2,8 +2,6 @@
 <!--@vars {
 "var store.getFrontendName()":"Store Name",
 "var customer.name":"Customer Name",
-"var formattedBillingAddress|raw":"Billing Address",
-"var formattedShippingAddress|raw":"Shipping Address",
 "var order.increment_id":"Order Id",
 "var order":"Order"
 } @-->
@@ -16,13 +14,11 @@
             <h3>{{trans "Sold To:"}}</h3>
             <p>{{trans "Customername: %customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
             <p>{{trans "Billing address: %billingAddress" billingAddress=$billingAddress|raw}}</p>
-            <p>{{var formattedBillingAddress|raw}}</p>
         </td>
-        {{depend order.getIsNotVirtual()}}
+        {{depend order.getIsNotVirtual()}}  
         <td class="address-details">
             <h3>{{trans "Deliver To:"}}</h3>
             <p>{{trans "%shippingAddress" shippingAddress=$shippingAddress|raw}}</p>
-            <p>{{var formattedShippingAddress|raw}}</p>
         </td>
         {{/depend}}
     </tr>
