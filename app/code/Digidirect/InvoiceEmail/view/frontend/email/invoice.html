@@ -16,7 +16,6 @@
             <h3>{{trans "Sold To:"}}</h3>
             <p>{{trans "Customername: %customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
             <p>{{trans "Billing address: %billingAddress" billingAddress=$billingAddress|raw}}</p>
-            <p>{{trans "Billing address2: %billingAddress2" billingAddress2=$billingAddress2|raw}}</p>
             <p>{{var formattedBillingAddress|raw}}</p>
         </td>
         {{depend order.getIsNotVirtual()}}
