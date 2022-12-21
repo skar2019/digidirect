@@ -10,13 +10,13 @@
     <tr>
         <td class="address-details">
             <h3>{{trans "Sold To:"}}</h3>
-            <p>{{trans "%customer_fullname"  customer_fullname=$customer_fullname|row}}</p>
-            <p>{{trans "%billingAddress"  billingAddress=$billingAddress|row}}</p>
+            <p>{{trans "%customer_fullname" customer_fullname=$customer_fullname|row}}</p>
+            <p>{{trans "%billingAddress" billingAddress=$billingAddress|row}}</p>
         </td>
         {{depend order.getIsNotVirtual()}}
         <td class="address-details">
             <h3>{{trans "Deliver To:"}}</h3>
-            <p>{{trans "%shippingAddress,"  shippingAddress=$shippingAddress|row}}</p>
+            <p>{{trans "%shippingAddress" shippingAddress=$shippingAddress|row}}</p>
         </td>
         {{/depend}}
     </tr>
@@ -30,8 +30,8 @@
             <p>
                 {{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="sales@digidirect.com.au">sales@digidirect.com.au</a>'}}
             </p>
-            <p>{{trans 'or email <a href="mailto:%store_email" style="color:#ffffff;text-decoration:underline">%store_email</a>' store_email=$store_email |raw}} </p>
-            <p>{{trans 'or call us at <a href="tel:1300 889 148">1300 889 148</a>'}}</p>
+            <p>{{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="mailto:%store_email" style="color:#1E1E1E;text-decoration:underline">%store_email</a>' store_email=$store_email |raw}} </p>
+            <p>{{trans 'or call us at %store_phone' store_phone=$store_phone |raw}}</p>
             
         <td>
     </tr>
