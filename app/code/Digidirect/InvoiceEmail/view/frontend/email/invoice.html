@@ -2,13 +2,6 @@
 <!--@vars {
 "var store.getFrontendName()":"Store Name",
 "var customer.name":"Customer Name",
-"var formattedBillingAddress|raw":"Billing Address",
-"var order.getBillingAddress().getName()":"Guest Customer Name",
-"var order.increment_id":"Order Id",
-"var formattedShippingAddress|raw":"Shipping Address",
-"var created_at_formatted":"Order Created At (datetime)",
-"var store_email":"Store Email",
-"var order":"Order"
 } @-->
 ​
 {{template config_path="design/email/header_template"}}
@@ -17,14 +10,12 @@
     <tr>
         <td class="address-details">
             <h3>{{trans "Sold To:"}}</h3>
-            <p>{{trans "%customer_fullname,"  customer_fullname=$customer_fullname|row}}</p>
-            <p>{{var formattedBillingAddress|raw}}</p>
+            <p>{{trans "%customer_fullname"  customer_fullname=$customer_fullname|row}}</p>
             <p>{{trans "%billingAddress,"  billingAddress=$billingAddress|row}}</p>
         </td>
         {{depend order.getIsNotVirtual()}}
         <td class="address-details">
             <h3>{{trans "Deliver To:"}}</h3>
-            <p>{{var formattedShippingAddress|raw}}</p>
             <p>{{trans "%shippingAddress,"  shippingAddress=$shippingAddress|row}}</p>
         </td>
         {{/depend}}
