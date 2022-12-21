@@ -33,7 +33,7 @@ class Email extends \Magento\Framework\App\Helper\AbstractHelper
             $this->inlineTranslation->suspend();
             $sender = [
                 'name' => $this->escaper->escapeHtml('Test'),
-                'email' => $this->escaper->escapeHtml('jireh@kayweb.com.au'),
+                'email' => $this->escaper->escapeHtml('sales@digidirect.com.au'),
             ];
             $transport = $this->transportBuilder
                 ->setTemplateIdentifier('email_demo_template')
