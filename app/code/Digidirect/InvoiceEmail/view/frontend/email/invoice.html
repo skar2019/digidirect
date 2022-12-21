@@ -7,6 +7,7 @@
 "var order.increment_id":"Order Id",
 "var formattedShippingAddress|raw":"Shipping Address",
 "var created_at_formatted":"Order Created At (datetime)",
+"var store_email":"Store Email",
 "var order":"Order"
 } @-->
 ​
@@ -17,6 +18,7 @@
         <td class="address-details">
             <h3>{{trans "Sold To:"}}</h3>
             <p>{{var formattedBillingAddress|raw}}</p>
+            <p>{{trans "Dear %billingAddress,"  billingAddress=$billingAddress|row}}</p>
         </td>
         {{depend order.getIsNotVirtual()}}
         <td class="address-details">
