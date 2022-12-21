@@ -171,16 +171,16 @@ class InvoiceEmail extends AbstractHelper
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $billingAddress = "vergara St. Tumana, Marikina";
-            // $billingAddress = $_order->getBillingAddress();
-            $shippingAddress = $_order->getShippingAddress();
+            // $billingAddress = $order->getBillingAddress();
+            $shippingAddress = $order->getShippingAddress();
 
-            $strt = $address->getStreet();
-            $city = $address->getCity();
-            $region = $address->getRegion();
-            $postcode = $address->getPostcode();
-            $countrycode = $address->getCountryId();
+            // $strt = $address->getStreet();
+            // $city = $address->getCity();
+            // $region = $address->getRegion();
+            // $postcode = $address->getPostcode();
+            // $countrycode = $address->getCountryId();
 
-            $billingAddress2 = $strt . $city .  $region . $postcode .   $countrycode;
+            // $billingAddress2 = $strt . $city .  $region . $postcode .   $countrycode;
             
             $orderNumber = $order->getIncrementId();
             if($test)
