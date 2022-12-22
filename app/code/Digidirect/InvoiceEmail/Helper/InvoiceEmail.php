@@ -20,6 +20,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Magento\Customer\Api\AddressRepositoryInterface;
+use Exception;
 
 class InvoiceEmail extends AbstractHelper
 {
@@ -135,7 +137,8 @@ class InvoiceEmail extends AbstractHelper
         CountryFactory $countryFactory,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        AddressRepositoryInterface $addressRepository
     )
     {
         $this->curl = $curl;
@@ -154,6 +157,7 @@ class InvoiceEmail extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
+        $this->addressRepository = $addressRepository;
 
     }
 
@@ -173,8 +177,8 @@ class InvoiceEmail extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
-            $billingAddress = $order->getBillingAddressId();
-            $shippingAddress = $order->getShippingAddressId();
+            $billingAddress = $this->getAddressData($order->getBillingAddressId());
+            $shippingAddress = $this->getAddressData($order->getShippingAddressId());
             
             if($test)
             {
@@ -231,6 +235,16 @@ class InvoiceEmail extends AbstractHelper
 
         return $collection;
 
+    }
+    
+    public function getAddressData($addressId)
+    {
+        try {
+            $addressData = $this->addressRepository->getById($addressId);
+        } catch (Exception $exception) {
+            throw new Exception($exception->getMessage());
+        };
+        return $addressData;
     }
 
     
