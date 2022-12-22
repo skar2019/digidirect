@@ -135,7 +135,9 @@ class InvoiceEmail extends AbstractHelper
         CountryFactory $countryFactory,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
-        LoggerInterface $logger)
+        LoggerInterface $logger,
+        \Magento\Sales\Model\ResourceModel\Order\Address\CollectionFactory $addressCollection
+    )
     {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -153,6 +155,7 @@ class InvoiceEmail extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
+        $this->addressCollection = $addressCollection;
 
     }
 
@@ -171,16 +174,8 @@ class InvoiceEmail extends AbstractHelper
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
-            $billingAddress = "Antipolo City";
-            $shippingAddress = $order->getShippingAddress();
-
-            // $strt = $address->getStreet();
-            // $city = $address->getCity();
-            // $region = $address->getRegion();
-            // $postcode = $address->getPostcode();
-            // $countrycode = $address->getCountryId();
-
-            // $billingAddress2 = $strt . $city .  $region . $postcode .   $countrycode;
+            $billingAddress = $this->getBillingAddress($order->getId());
+            $shippingAddress = $this->getShippingAddress($order->getId());
             
             $orderNumber = $order->getIncrementId();
             if($test)
@@ -238,6 +233,27 @@ class InvoiceEmail extends AbstractHelper
 
         return $collection;
 
+    }
+
+    /* get Billing address data of specific order */
+    public function getBillingAddress($orderId) {
+        $order = $this->getOrderData($orderId);
+        $orderBillingId = $order->getBillingAddressId();
+        $address = $this->addressCollection->create()->addFieldToFilter('entity_id',array($orderBillingId))->getFirstItem();
+        return $address;
+
+    }
+    
+    /* get Shipping address data of specific order */
+    public function getShippingAddress($orderId) {
+        $order = $this->getOrderData($orderId);
+        /* check order is not virtual */
+        if(!$order->getIsVirtual()) {
+            $orderShippingId = $order->getShippingAddressId();
+            $address = $this->addressCollection->create()->addFieldToFilter('entity_id',array($orderShippingId))->getFirstItem();
+            return $address;
+        }
+        return null;
     }
 
     
