@@ -136,8 +136,6 @@ class InvoiceEmail extends AbstractHelper
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
-        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
-        \Magento\Sales\Model\ResourceModel\Order\Address\CollectionFactory $addressCollection
     )
     {
         $this->curl = $curl;
@@ -156,8 +154,6 @@ class InvoiceEmail extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-        $this->orderRepository = $orderRepository;
-        $this->addressCollection = $addressCollection;
 
     }
 
@@ -177,8 +173,8 @@ class InvoiceEmail extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
-            $billingAddress = $this->getBillingAddress($orderNumber);
-            $shippingAddress = $this->getShippingAddress($orderNumber);
+            $billingAddress = $this->getBillingAddressId();
+            $shippingAddress = $this->getShippingAddressId();
             
             if($test)
             {
@@ -235,40 +231,6 @@ class InvoiceEmail extends AbstractHelper
 
         return $collection;
 
-    }
-    
-    /**
-      *@param int $id The order ID.
-      */
-    public function getOrderData($id)
-    {
-        try {
-            $order = $this->orderRepository->get($id);
-        } catch (NoSuchEntityException $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('This order no longer exists.'));
-        }
-    }
-    
-
-    /* get Billing address data of specific order */
-    public function getBillingAddress($orderId) {
-        $order = $this->getOrderData($orderId);
-        $orderBillingId = $order->getBillingAddressId();
-        $address = $this->addressCollection->create()->addFieldToFilter('entity_id',array($orderBillingId))->getFirstItem();
-        return $address;
-
-    }
-    
-    /* get Shipping address data of specific order */
-    public function getShippingAddress($orderId) {
-        $order = $this->getOrderData($orderId);
-        /* check order is not virtual */
-        if(!$order->getIsVirtual()) {
-            $orderShippingId = $order->getShippingAddressId();
-            $address = $this->addressCollection->create()->addFieldToFilter('entity_id',array($orderShippingId))->getFirstItem();
-            return $address;
-        }
-        return null;
     }
 
     
