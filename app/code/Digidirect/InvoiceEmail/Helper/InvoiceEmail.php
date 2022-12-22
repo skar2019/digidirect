@@ -234,6 +234,19 @@ class InvoiceEmail extends AbstractHelper
         return $collection;
 
     }
+    
+    /**
+      *@param int $id The order ID.
+      */
+    public function getOrderData($id)
+    {
+        try {
+            $order = $this->orderRepository->get($id);
+        } catch (NoSuchEntityException $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('This order no longer exists.'));
+        }
+    }
+    
 
     /* get Billing address data of specific order */
     public function getBillingAddress($orderId) {
