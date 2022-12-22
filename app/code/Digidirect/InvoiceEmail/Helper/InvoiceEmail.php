@@ -136,6 +136,7 @@ class InvoiceEmail extends AbstractHelper
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Model\ResourceModel\Order\Address\CollectionFactory $addressCollection
     )
     {
@@ -155,6 +156,7 @@ class InvoiceEmail extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
+        $this->orderRepository = $orderRepository;
         $this->addressCollection = $addressCollection;
 
     }
