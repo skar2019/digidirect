@@ -173,9 +173,17 @@ class InvoiceEmail extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
+            
             $billingAddress = $order->getBillingAddress();
             $billingCity = $billingAddress->getCity();
+            $billingRegion = $billingAddress->getRegion();
+            $billingPostal = $billingAddress->getPostcode();
+            $billingCountry = $billingAddress->getCountryId();
+            $billingAddressConcat = $billingCity . $billingRegion . $billingPostal . $billingCountry;
+            
             $shippingAddress = $order->getShippingAddress();
+            
+           
             
             if($test)
             {
@@ -184,7 +192,7 @@ class InvoiceEmail extends AbstractHelper
             
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingCity, 'shippingAddress' => $shippingAddress];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddress];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
