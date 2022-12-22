@@ -171,7 +171,7 @@ class InvoiceEmail extends AbstractHelper
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
-            $billingAddress = $order->getBillingAddress();
+            $billingAddress = "Antipolo City";
             $shippingAddress = $order->getShippingAddress();
 
             // $strt = $address->getStreet();

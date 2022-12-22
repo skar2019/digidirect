@@ -2,11 +2,7 @@
 <!--@vars {
 "var store.getFrontendName()":"Store Name",
 "var customer.name":"Customer Name",
-"var formattedBillingAddress|raw":"Billing Address",
-"var order.getBillingAddress().getName()":"Guest Customer Name",
 "var order.increment_id":"Order Id",
-"var formattedShippingAddress|raw":"Shipping Address",
-"var created_at_formatted":"Order Created At (datetime)",
 "var order":"Order"
 } @-->
 ​
@@ -16,12 +12,13 @@
     <tr>
         <td class="address-details">
             <h3>{{trans "Sold To:"}}</h3>
-            <p>{{var formattedBillingAddress|raw}}</p>
+            <p>{{trans "Customername: %customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
+            <p>{{trans "Billing address: %billingAddress" billingAddress=$billingAddress|raw}}</p>
         </td>
-        {{depend order.getIsNotVirtual()}}
+        {{depend order.getIsNotVirtual()}}  
         <td class="address-details">
             <h3>{{trans "Deliver To:"}}</h3>
-            <p>{{var formattedShippingAddress|raw}}</p>
+            <p>{{trans "%shippingAddress" shippingAddress=$shippingAddress|raw}}</p>
         </td>
         {{/depend}}
     </tr>
@@ -30,11 +27,8 @@
 <table>
     <tr class="email-intro">
         <td>
-            <!-- <p class="greeting">{{trans "Dear %customer_fullname,"  customer_fullname=$customer_fullname|row}}</p> -->
-​              
-            <p>
-                {{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="sales@digidirect.com.au">sales@digidirect.com.au</a> or call us at <a href="tel:1300 889 148">1300 889 148</a>'}}
-            </p>
+            <p>{{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="mailto:%store_email" style="color:#1E1E1E;text-decoration:underline">%store_email</a>' store_email=$store_email |raw}} </p>
+            <p>{{trans 'or call us at %store_phone' store_phone=$store_phone |raw}}</p>
             
         <td>
     </tr>
