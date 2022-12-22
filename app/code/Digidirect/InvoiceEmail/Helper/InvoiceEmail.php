@@ -180,9 +180,14 @@ class InvoiceEmail extends AbstractHelper
             $billingRegion = $billingAddress->getRegion();
             $billingPostal = $billingAddress->getPostcode();
             $billingCountry = $billingAddress->getCountryId();
-            $billingAddressConcat = $billingCity ." ". $billingRegion ." ". $billingPostal ." ". $billingCountry;
+            $billingAddressConcat = $billingCity ."<br>". $billingRegion ." ". $billingPostal ." ". $billingCountry;
             
             $shippingAddress = $order->getShippingAddress();
+            $shippingCity = $shippingAddress->getCity();
+            $shippingRegion = $shippingAddress->getRegion();
+            $shippingPostal = $shippingAddress->getPostcode();
+            $shippingCountry = $shippingAddress->getCountryId();
+            $shippingAddressConcat = $shippingCity ."<br>". $shippingRegion ." ". $shippingPostal ." ". $shippingCountry;
             
            
             
@@ -193,7 +198,7 @@ class InvoiceEmail extends AbstractHelper
             
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddress];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
