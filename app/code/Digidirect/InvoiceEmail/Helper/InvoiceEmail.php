@@ -20,8 +20,6 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
-use Magento\Customer\Api\AddressRepositoryInterface;
-use Exception;
 
 class InvoiceEmail extends AbstractHelper
 {
@@ -137,8 +135,7 @@ class InvoiceEmail extends AbstractHelper
         CountryFactory $countryFactory,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
-        LoggerInterface $logger,
-        AddressRepositoryInterface $addressRepository
+        LoggerInterface $logger
     )
     {
         $this->curl = $curl;
@@ -157,7 +154,6 @@ class InvoiceEmail extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-        $this->addressRepository = $addressRepository;
 
     }
 
@@ -177,8 +173,9 @@ class InvoiceEmail extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
-            $billingAddress = $this->getAddressData($order->getBillingAddressId());
-            $shippingAddress = $this->getAddressData($order->getShippingAddressId());
+            $billingAddress = $order->getBillingAddress();
+            $billingCity = $billingAddress->getCity();
+            $shippingAddress = $order->getShippingAddress();
             
             if($test)
             {
@@ -187,7 +184,7 @@ class InvoiceEmail extends AbstractHelper
             
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddress, 'shippingAddress' => $shippingAddress];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingCity, 'shippingAddress' => $shippingAddress];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
@@ -200,7 +197,7 @@ class InvoiceEmail extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'jireh@kayweb.com.au', 'rondel@kayweb.com.au'    
+                    'jireh@kayweb.com.au' 
                 )->getTransport();
 
             try {
@@ -235,16 +232,6 @@ class InvoiceEmail extends AbstractHelper
 
         return $collection;
 
-    }
-    
-    public function getAddressData($addressId)
-    {
-        try {
-            $addressData = $this->addressRepository->getById($addressId);
-        } catch (Exception $exception) {
-            throw new Exception($exception->getMessage());
-        };
-        return $addressData;
     }
 
     

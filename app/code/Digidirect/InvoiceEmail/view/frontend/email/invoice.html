@@ -15,12 +15,10 @@
             <p>{{trans "Customername: %customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
             <p>{{trans "Billing address: %billingAddress" billingAddress=$billingAddress|raw}}</p>
         </td>
-        {{depend order.getIsNotVirtual()}}  
         <td class="address-details">
             <h3>{{trans "Deliver To:"}}</h3>
             <p>{{trans "%shippingAddress" shippingAddress=$shippingAddress|raw}}</p>
-        </td>
-        {{/depend}}
+        </td>   
     </tr>
 </table>
 
