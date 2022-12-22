@@ -135,7 +135,7 @@ class InvoiceEmail extends AbstractHelper
         CountryFactory $countryFactory,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
-        LoggerInterface $logger,
+        LoggerInterface $logger
     )
     {
         $this->curl = $curl;
@@ -173,8 +173,8 @@ class InvoiceEmail extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
-            $billingAddress = $this->getBillingAddress();
-            $shippingAddress = $this->getShippingAddress();
+            $billingAddress = $this->getBillingAddressId();
+            $shippingAddress = $this->getShippingAddressId();
             
             if($test)
             {
