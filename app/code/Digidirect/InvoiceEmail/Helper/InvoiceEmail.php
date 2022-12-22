@@ -180,14 +180,14 @@ class InvoiceEmail extends AbstractHelper
             $billingRegion = $billingAddress->getRegion();
             $billingPostal = $billingAddress->getPostcode();
             $billingCountry = $billingAddress->getCountryId();
-            $billingAddressConcat = $billingCity ."<br>". $billingRegion ." ". $billingPostal ." ". $billingCountry;
+            $billingAddressConcat = $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
             
             $shippingAddress = $order->getShippingAddress();
             $shippingCity = $shippingAddress->getCity();
             $shippingRegion = $shippingAddress->getRegion();
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
-            $shippingAddressConcat = $shippingCity ."<br>". $shippingRegion ." ". $shippingPostal ." ". $shippingCountry;
+            $shippingAddressConcat = $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
             
            
             
