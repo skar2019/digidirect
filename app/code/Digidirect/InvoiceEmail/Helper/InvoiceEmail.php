@@ -184,7 +184,7 @@ class InvoiceEmail extends AbstractHelper
             $billingRegion = $billingAddress->getRegion();
             $billingPostal = $billingAddress->getPostcode();
             $billingCountry = $billingAddress->getCountryId();
-            $billingAddressConcat = $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
+            $billingAddressConcat = $billingStreet ." ". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
             
             $shippingAddress = $order->getShippingAddress();
             $shippingStreet = $shippingAddress->getStreet();
@@ -193,6 +193,9 @@ class InvoiceEmail extends AbstractHelper
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
+
+            $trackTitle = $order->getTracksCollection()->fetchItem()->getTitle();
+            $trackNumber = $order->getTracksCollection()->fetchItem()->getTrackNumber(); 
             
            
             
@@ -203,7 +206,7 @@ class InvoiceEmail extends AbstractHelper
             
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
