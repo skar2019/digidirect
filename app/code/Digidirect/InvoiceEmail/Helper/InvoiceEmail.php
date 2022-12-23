@@ -200,6 +200,93 @@ class InvoiceEmail extends AbstractHelper
 
             $trackTitle = $order->getTracksCollection()->fetchItem()->getTitle();
             $trackNumber = $order->getTracksCollection()->fetchItem()->getTrackNumber(); 
+
+            // product line
+            foreach ($order->getAllVisibleItems() as $item) {
+                 /* @var $item \Magento\Sales\Model\Order\Item */
+                 $skus = array();
+                 $productSku = "";
+                 $digiProtect = "";
+                 $price = (double) $item->getBasePriceInclTax();
+                 $qty = (double) $item->getQtyOrdered();
+                 $discount = (double) $item->getDiscountAmount();
+                 $total = ($price * $qty) - $discount;
+                 //if($coupon != "")
+                 //{
+                     $discount = 0; //set this to zero since we subtract it to total
+                 //}
+                 $digiProtectPrice = 0;
+                 $digiProtectQty = 0;
+                 $digiProtectdiscount = 0;
+                 $digiProtectTotal = 0;
+                 $sku = $item->getSku();
+                 if(strpos($sku, '-') !== false)
+                 {
+                     $skus = explode('-', $sku);
+                     $productSku = $skus[0];
+                     $digiProtect = $skus[1];
+                     $productDigiprot = $this->productFactory->create();
+                     $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
+                     $digiProtectPrice = $productPriceBySku;
+                     $digiProtectQty = (double) $item->getQtyOrdered();
+                     $digiProtectdiscount = 0;
+                     if($coupon != "")
+                     {
+                         $digiProtectdiscount = 0;
+                     }
+                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                 }
+                 else
+                 {
+                     $productSku = $sku;
+                 }
+                 $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+                 $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
+                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
+                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
+                 if($data['sales-order']['header']['set-on-status'] == "B")
+                 {
+                     $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                     $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                     $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                 }
+                 else
+                 {
+                     //if instock shipped = qty backordered = 0, if out of stock shipped = 0 backordered = qty
+                     if($data['sales-order']['header']['on-hold-reason-code'] == "WS")
+                     {
+                         $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                         $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                         $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
+                     }
+                     else
+                     {
+                         $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
+                         $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
+                         $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
+                     }
+                 }
+                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
+                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
+                 $x++;
+                 if(!empty($digiProtect))
+                 {
+                     $price = (double) $item->getBasePriceInclTax();
+                     $qty = (double) $item->getQtyOrdered();
+                     $discount = (double) $item->getDiscountAmount();
+                     $total = ($price * $qty) - $discount;
+                     $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
+                     $data['sales-order']['detail']['line'][$x]['stock-code'] = $digiProtect;
+                     $data['sales-order']['detail']['line'][$x]['description'] = "digiProtect";
+                     $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $digiProtectPrice;
+                     $data['sales-order']['detail']['line'][$x]['ordered'] = $digiProtectQty;
+                     $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
+                     $data['sales-order']['detail']['line'][$x]['backordered'] = $digiProtectQty;
+                     $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $digiProtectdiscount;
+                     $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $digiProtectTotal;
+                     $x++;
+                 }
+            }
             
            
             
@@ -211,7 +298,7 @@ class InvoiceEmail extends AbstractHelper
             $store = $this->storeManager->getStore();
 
             // $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber, 'item' => $item, 'sku' => $sku];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
