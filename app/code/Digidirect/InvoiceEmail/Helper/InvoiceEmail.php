@@ -188,7 +188,7 @@ class InvoiceEmail extends AbstractHelper
             
             $shippingAddress = $order->getShippingAddress();
             $shippingStreet = $shippingAddress->getStreet();
-            if(is_array($billingStreet))
+            if(is_array($shippingStreet))
             {
                 $shippingStreet = implode(",", $shippingStreet);
             }

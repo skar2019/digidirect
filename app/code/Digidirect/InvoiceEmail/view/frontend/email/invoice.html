@@ -17,19 +17,13 @@
         </td>
         <td>
             <h3>{{trans "Deliver To:"}}</h3>
+            <p>{{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
             <p>{{trans "%shippingAddress" shippingAddress=$shippingAddress|raw}}</p>
         </td>   
     </tr>
 </table>
 
 <table>
-    <tr class="email-intro">
-        <td>
-            <p>{{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="mailto:%store_email" style="color:#1E1E1E;text-decoration:underline">%store_email</a>' store_email=$store_email |raw}} </p>
-            <p>{{trans 'or call us at %store_phone' store_phone=$store_phone |raw}}</p>
-            
-        <td>
-    </tr>
     <tr class="email-summary">
         <td>
             <!-- <h1>{{trans "Your Invoice #%invoice_id for Order #%order_id" invoice_id=$invoice.increment_id order_id=$order.increment_id}}</h1> -->
@@ -39,10 +33,12 @@
             <p>{{trans "%trackNumber" trackNumber=$trackNumber|raw}}</p> -->
         </td>
     </tr>
-    
-    <tr>
-         {{layout area="frontend" handle="sales_email_order_invoice_items" invoice=$invoice order=$order}}
-         {{layout handle="sales_email_order_items" order=$order}}
+    <tr class="email-intro">
+        <td>
+            <p>{{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="mailto:%store_email" style="color:#1E1E1E;text-decoration:underline">%store_email</a>' store_email=$store_email |raw}} </p>
+            <p>{{trans 'or call us at %store_phone' store_phone=$store_phone |raw}}</p>
+            
+        <td>
     </tr>
     <tr>
         <td align="center" style="padding:25px 0;">
