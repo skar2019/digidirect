@@ -647,7 +647,7 @@ class Product extends AbstractHelper
 
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
@@ -1683,7 +1683,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
@@ -1976,7 +1976,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
@@ -2382,7 +2382,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
@@ -2675,7 +2675,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
