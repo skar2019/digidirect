@@ -184,16 +184,19 @@ class InvoiceEmail extends AbstractHelper
             $billingRegion = $billingAddress->getRegion();
             $billingPostal = $billingAddress->getPostcode();
             $billingCountry = $billingAddress->getCountryId();
-            // $billingAddressConcat = $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
-            $billingAddressConcat = $billingStreet ." ". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
+            $billingAddressConcat = $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
             
             $shippingAddress = $order->getShippingAddress();
-            // $shippingStreet = $shippingAddress->getStreet();
+            $shippingStreet = $shippingAddress->getStreet();
+            if(is_array($billingStreet))
+            {
+                $shippingStreet = implode(",", $shippingStreet);
+            }
             $shippingCity = $shippingAddress->getCity();
             $shippingRegion = $shippingAddress->getRegion();
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
-            $shippingAddressConcat = $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
+            $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
 
             // $trackTitle = $order->getTracksCollection()->fetchItem()->getTitle();
             // $trackNumber = $order->getTracksCollection()->fetchItem()->getTrackNumber(); 
