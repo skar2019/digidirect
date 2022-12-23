@@ -17,6 +17,7 @@ $isBrandOlympus = str_contains($currentUrl, 'brands/olympus');
 $isBrandAOC = str_contains($currentUrl, 'brands/aoc');
 $isBrandLeica = str_contains($currentUrl, 'brands/leica');
 $isBrandLacie = str_contains($currentUrl, 'brands/lacie');
+$isBrandDell = str_contains($currentUrl, 'brands/dell');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
     
@@ -84,6 +85,11 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
         ->setBlockId('brands-lacie-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandDell == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-dell-featured-banner')
         ->toHtml();
     }
 }
