@@ -202,28 +202,28 @@ class InvoiceEmail extends AbstractHelper
             $trackNumber = $order->getTracksCollection()->fetchItem()->getTrackNumber(); 
 
             // product line
-            foreach ($order->getAllVisibleItems() as $item) {
-                 /* @var $item \Magento\Sales\Model\Order\Item */
-                 $skus = array();
-                 $productSku = "";
-                 $digiProtect = "";
-                 $price = (double) $item->getBasePriceInclTax();
-                 $qty = (double) $item->getQtyOrdered();
-                 $discount = (double) $item->getDiscountAmount();
-                 $total = ($price * $qty) - $discount;
-                 //if($coupon != "")
-                 //{
-                     $discount = 0; //set this to zero since we subtract it to total
-                 //}
-                 $digiProtectPrice = 0;
-                 $digiProtectQty = 0;
-                 $digiProtectdiscount = 0;
-                 $digiProtectTotal = 0;
-                 $sku = $item->getSku();
-                
-                 
-                 
-            }
+//            foreach ($order->getAllVisibleItems() as $item) {
+//                 /* @var $item \Magento\Sales\Model\Order\Item */
+//                 $skus = array();
+//                 $productSku = "";
+//                 $digiProtect = "";
+//                 $price = (double) $item->getBasePriceInclTax();
+//                 $qty = (double) $item->getQtyOrdered();
+//                 $discount = (double) $item->getDiscountAmount();
+//                 $total = ($price * $qty) - $discount;
+//                 //if($coupon != "")
+//                 //{
+//                     $discount = 0; //set this to zero since we subtract it to total
+//                 //}
+//                 $digiProtectPrice = 0;
+//                 $digiProtectQty = 0;
+//                 $digiProtectdiscount = 0;
+//                 $digiProtectTotal = 0;
+//                 $sku = $item->getSku();
+//                
+//                 
+//                 
+//            }
             
            
             
