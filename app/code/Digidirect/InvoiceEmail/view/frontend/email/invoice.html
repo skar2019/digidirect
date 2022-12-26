@@ -10,37 +10,37 @@
 
  <table class="order-details">
     <tr>
-        <td style="white-space: normal; width:300px;">
+        <td class="address-details">
             <h3>{{trans "Sold To:"}}</h3>
-            <p>{{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
-            <p>{{trans "%billingAddress" billingAddress=$billingAddress|raw}}</p>
+            <p>{{trans "Customername: %customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
+            <p>{{trans "Billing address: %billingAddress" billingAddress=$billingAddress|raw}}</p>
         </td>
-        <td style="white-space: normal; width:300px;">
+        <td class="address-details">
             <h3>{{trans "Deliver To:"}}</h3>
-            <p>{{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
             <p>{{trans "%shippingAddress" shippingAddress=$shippingAddress|raw}}</p>
-        </td> 
+        </td>   
     </tr>
 </table>
 
-        <!--<p>Test deliver to</p>-->
-        <!--<p>Test tracking title2</p>-->
-        <!--<p>Test items</p>-->
-        <p>Test order number</p>
 <table>
-    <tr class="email-summary">
-        <td>
-            <!--<h1>{{trans "Your Invoice #%invoice_id for Order #%order_id" invoice_id=$invoice.increment_id order_id=$order.increment_id}}</h1>-->
-            <p>{{trans "%trackTitle" trackTitle=$trackTitle|raw}}</p>
-            <p>{{trans "%trackNumber" trackNumber=$trackNumber|raw}}</p>
-        </td>
-    </tr>
     <tr class="email-intro">
         <td>
             <p>{{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="mailto:%store_email" style="color:#1E1E1E;text-decoration:underline">%store_email</a>' store_email=$store_email |raw}} </p>
             <p>{{trans 'or call us at %store_phone' store_phone=$store_phone |raw}}</p>
             
         <td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <!-- <h1>{{trans "Your Invoice #%invoice_id for Order #%order_id" invoice_id=$invoice.increment_id order_id=$order.increment_id}}</h1> -->
+            <h1>{{trans 'Your Order <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}}</h1>
+            <p>{{trans 'Placed on <span class="no-link">%created_at</span>' created_at=$created_at_formatted |raw}}</p>
+        </td>
+    </tr>
+    
+    <tr>
+         {{layout area="frontend" handle="sales_email_order_invoice_items" invoice=$invoice order=$order}}
+         {{layout handle="sales_email_order_items" order=$order}}
     </tr>
     <tr>
         <td align="center" style="padding:25px 0;">
