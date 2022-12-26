@@ -172,7 +172,11 @@ class InvoiceEmail extends AbstractHelper
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
-            $orderNumber = $order->getIncrementId();
+//            $orderNumber = $order->getIncrementId();
+            
+            $ordersCollection = $this->_orderCollectionFactory->create()->addFieldToSelect(array('*'))->addFieldToFilter('entity_id', $invoice->getOrderId());
+            $order = $ordersCollection->getData();
+            $orderNumber = $order[0]["increment_id"];
             
             $billingAddress = $order->getBillingAddress();
             $billingStreet = $billingAddress->getStreet();
