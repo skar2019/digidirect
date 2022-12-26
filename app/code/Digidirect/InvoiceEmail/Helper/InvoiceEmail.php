@@ -164,7 +164,7 @@ class InvoiceEmail extends AbstractHelper
         
          $order = $this->order->create()->loadByIncrementId($id);
 
-        foreach ($orders->getInvoiceCollection() as $order)
+        foreach ($orders as $order)
         {
             if($test)
             {
