@@ -169,8 +169,8 @@ class InvoiceEmail extends AbstractHelper
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
 
-            //$trackTitle = $order->getTracksCollection()->fetchItem()->getTitle();
-            //$trackNumber = $order->getTracksCollection()->fetchItem()->getTrackNumber(); 
+            $trackTitle = "Test Track Title"; //$order->getTracksCollection()->fetchItem()->getTitle();
+            $trackNumber = "Test Track Number"; //$order->getTracksCollection()->fetchItem()->getTrackNumber(); 
 
             // product line
             // foreach ($order->getAllVisibleItems() as $item) {
@@ -203,8 +203,9 @@ class InvoiceEmail extends AbstractHelper
             
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName, 'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
+            //$templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName, 'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
             //$templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber, 'item' => $sku];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
