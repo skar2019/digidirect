@@ -159,14 +159,12 @@ class InvoiceEmail extends AbstractHelper
 
     public function sendInvoiceEmail($test) {
 
-        $orders = $this->getOrderCollection();
+//        $orders = $this->getOrderCollection();
         $counter = 0;
         
-        $orderId = 999;
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $order = $objectManager->create('\Magento\Sales\Model\OrderRepository')->get($orderId);  
+         $order = $this->order->create()->loadByIncrementId($id);
 
-        foreach ($orders as $order)
+        foreach ($orders->getInvoiceCollection() as $order)
         {
             if($test)
             {
@@ -176,7 +174,8 @@ class InvoiceEmail extends AbstractHelper
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
-            $orderNumber = $order->getIncrementId();
+//            $orderNumber = $order->getIncrementId();
+             $orderNumber = $order->getIncrementId();
             
             
             $billingAddress = $order->getBillingAddress();
