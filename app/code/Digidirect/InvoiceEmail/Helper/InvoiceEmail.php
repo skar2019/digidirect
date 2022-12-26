@@ -131,6 +131,8 @@ class InvoiceEmail extends AbstractHelper
 
         $orders = $this->getOrderCollection();
         $counter = 0;
+        
+        //$order = $this->order->create()->loadByIncrementId($id);
 
         foreach ($orders as $order)
         {
@@ -144,9 +146,54 @@ class InvoiceEmail extends AbstractHelper
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
             $billingAddress = $order->getBillingAddress();
+            $billingStreet = $billingAddress->getStreet();
+            if(is_array($billingStreet))
+            {
+                $billingStreet = implode(",", $billingStreet);
+            }
             $billingCity = $billingAddress->getCity();
-            $shippingAddress = $order->getShippingAddress();
+            $billingRegion = $billingAddress->getRegion();
+            $billingPostal = $billingAddress->getPostcode();
+            $billingCountry = $billingAddress->getCountryId();
+            $billingAddressConcat = $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
             
+            $shippingAddress = $order->getShippingAddress();
+            $shippingStreet = $shippingAddress->getStreet();
+            if(is_array($shippingStreet))
+            {
+                $shippingStreet = implode(",", $shippingStreet);
+            }
+            $shippingCity = $shippingAddress->getCity();
+            $shippingRegion = $shippingAddress->getRegion();
+            $shippingPostal = $shippingAddress->getPostcode();
+            $shippingCountry = $shippingAddress->getCountryId();
+            $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
+
+            $trackTitle = "Test Track Title"; //$order->getTracksCollection()->fetchItem()->getTitle();
+            $trackNumber = "Test Track Number"; //$order->getTracksCollection()->fetchItem()->getTrackNumber(); 
+
+            // product line
+            // foreach ($order->getAllVisibleItems() as $item) {
+            //   /* @var $item \Magento\Sales\Model\Order\Item */
+            //   $skus = array();
+            //   $productSku = "";
+            //   $digiProtect = "";
+            //   $price = (double) $item->getBasePriceInclTax();
+            //   $qty = (double) $item->getQtyOrdered();
+            //   $discount = (double) $item->getDiscountAmount();
+            //   $total = ($price * $qty) - $discount;
+            //   //if($coupon != "")
+            //     //{
+            //        $discount = 0; //set this to zero since we subtract it to total
+            //     //}
+            //   $digiProtectPrice = 0;
+            //   $digiProtectQty = 0;
+            //   $digiProtectdiscount = 0;
+            //   $digiProtectTotal = 0;
+            //   $sku = $item->getSku();         
+            //                 
+            //   }
+        
             if($test)
             {
                 echo "order -" .$orderNumber." to ".$customerEmail." <br>";
@@ -154,7 +201,9 @@ class InvoiceEmail extends AbstractHelper
             
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingCity, 'shippingAddress' => $shippingAddress];
+            //$templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName, 'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
+            //$templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber, 'item' => $sku];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
@@ -167,7 +216,7 @@ class InvoiceEmail extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'jireh@kayweb.com.au' 
+                    'rondel@kayweb.com.au' 
                 )->getTransport();
 
             try {
