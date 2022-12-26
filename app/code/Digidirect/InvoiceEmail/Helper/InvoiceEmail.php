@@ -39,36 +39,6 @@ class InvoiceEmail extends AbstractHelper
     /**
      * @var array
      */
-    protected $relocateWarehouseMap = [
-        'MELB' => 'SWHS',
-        'CANN' => 'SWHS',
-        'SWHS' => 'MELB'
-    ];
-
-    /**
-     * @var array
-     */
-    protected $repCodeForPickUp = [
-        '11' => 'S7P',
-        '31' => 'B4P',
-        '17' => 'M1P',
-        '21' => 'M6P',
-        '23' => 'C3P',
-        '1'  => 'S7P',
-        '4'  => 'B4P',
-        '7'  => 'M1P',
-        '10' => 'B5P',
-        '13' => 'M6P',
-        '16' => 'C3P',
-        '19' => 'B5P',
-        '32' => 'P4P',
-        '35' => 'C9W'
-
-    ];
-
-    /**
-     * @var array
-     */
     protected $warehouseCode = [];
 
     /**
@@ -161,6 +131,8 @@ class InvoiceEmail extends AbstractHelper
 
         $orders = $this->getOrderCollection();
         $counter = 0;
+        
+        //$order = $this->order->create()->loadByIncrementId($id);
 
         foreach ($orders as $order)
         {
@@ -173,7 +145,6 @@ class InvoiceEmail extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
-            
             $billingAddress = $order->getBillingAddress();
             $billingStreet = $billingAddress->getStreet();
             if(is_array($billingStreet))
@@ -198,36 +169,41 @@ class InvoiceEmail extends AbstractHelper
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
 
-//            $trackTitle = $order->getTracksCollection()->fetchItem()->getTitle();
-//            $trackNumber = $order->getTracksCollection()->fetchItem()->getTrackNumber(); 
+            //$trackTitle = $order->getTracksCollection()->fetchItem()->getTitle();
+            //$trackNumber = $order->getTracksCollection()->fetchItem()->getTrackNumber(); 
 
             // product line
-//            foreach ($order->getAllVisibleItems() as $item) {
-//                 /* @var $item \Magento\Sales\Model\Order\Item */
-//                 $skus = array();
-//                 $productSku = "";
-//                 $digiProtect = "";
-//                 $price = (double) $item->getBasePriceInclTax();
-//                 $qty = (double) $item->getQtyOrdered();
-//                 $discount = (double) $item->getDiscountAmount();
-//                 $total = ($price * $qty) - $discount;
-//                 //if($coupon != "")
-//                 //{
-//                     $discount = 0; //set this to zero since we subtract it to total
-//                 //}
-//                 $digiProtectPrice = 0;
-//                 $digiProtectQty = 0;
-//                 $digiProtectdiscount = 0;
-//                 $digiProtectTotal = 0;
-//                 $sku = $item->getSku();
-//                
-//                 
-//                 
-//            }
+            // foreach ($order->getAllVisibleItems() as $item) {
+            //   /* @var $item \Magento\Sales\Model\Order\Item */
+            //   $skus = array();
+            //   $productSku = "";
+            //   $digiProtect = "";
+            //   $price = (double) $item->getBasePriceInclTax();
+            //   $qty = (double) $item->getQtyOrdered();
+            //   $discount = (double) $item->getDiscountAmount();
+            //   $total = ($price * $qty) - $discount;
+            //   //if($coupon != "")
+            //     //{
+            //        $discount = 0; //set this to zero since we subtract it to total
+            //     //}
+            //   $digiProtectPrice = 0;
+            //   $digiProtectQty = 0;
+            //   $digiProtectdiscount = 0;
+            //   $digiProtectTotal = 0;
+            //   $sku = $item->getSku();         
+            //                 
+            //   }
+            
+           
+            
+            if($test)
+            {
+                echo "order -" .$orderNumber." to ".$customerEmail." <br>";
+            }
             
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName, 'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
             //$templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber, 'item' => $sku];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
@@ -241,7 +217,7 @@ class InvoiceEmail extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'jireh@kayweb.com.au' 
+                    'rondel@kayweb.com.au' 
                 )->getTransport();
 
             try {
