@@ -21,12 +21,13 @@
             <p>{{trans "%shippingAddress" shippingAddress=$shippingAddress|raw}}</p>
         </td> 
     </tr>
+    <tr>
+        <td>
+            {{layout handle="email_product_list" items=$items area="frontend"}}
+        </td>
+    </tr>
 </table>
-
-        <!--<p>Test deliver to</p>-->
-        <!--<p>Test tracking title2</p>-->
-        <!--<p>Test items</p>-->
-        <p>Test order number</p>
+<p>Test order number</p>
 <table>
     <tr class="email-summary">
         <td>

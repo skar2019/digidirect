@@ -1,0 +1,76 @@
+<?php $_items = $block->getItems() ?>
+<table class="email-items">
+    <thead>
+    <tr>
+        <th class="item-info">
+            <?= /* @escapeNotVerified */  __('Product Image'); ?>
+        </th>
+        <th class="item-info">
+            <?= /* @escapeNotVerified */  __('Product Name'); ?>
+        </th>
+        <th class="item-qty">
+            <?= /* @escapeNotVerified */  __('Qty'); ?>
+        </th>
+        <th class="item-qty">
+            <?= /* @escapeNotVerified */  __('Each Price'); ?>
+        </th>
+        <th class="item-price">
+            <?= /* @escapeNotVerified */  __('Total Price'); ?>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+        $om = \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager = $om->create('\Magento\Store\Model\StoreManagerInterface');
+        $thumbNail =  $storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product';
+        $productRepository = $storeManager = $om->create('\Magento\Catalog\Api\ProductRepositoryInterface');
+        $totalAmount = 0;
+    ?>
+    <?php foreach ($_items as $_item): ?>
+        <?php $_product = $productRepository->getById($_item->getProductId()); ?>
+        <tr>
+            <td>
+                <?php $product_image_url =  $thumbNail . $_product->getThumbnail();?>
+                <img id='image' src="<?php echo $product_image_url; ?>" style='border-width:0px;height:80px;width:80px;'>
+            </td>
+            <td>
+                <a href="<?php echo $block->getBaseUrl() . $_item->getProduct()->getUrlKey(); ?>">
+                    <p class="product-name"><?php echo $block->escapeHtml($_item->getName()) ?></p>
+                </a>
+                <p class="sku">
+                    <b><?php /* @escapeNotVerified */ echo  __('SKU') . ' : '  ?></b>
+                    <a href="<?php echo $block->getBaseUrl() . $_item->getProduct()->getUrlKey(); ?>">
+                        <?php echo $block->escapeHtml($_item->getSku()); ?>
+                    </a>
+                </p>
+                <p class="sku">
+                    <b><?php /* @escapeNotVerified */ echo  __('Available Store') . ' : '  ?></b>
+                    <?php echo $block->escapeHtml($_product->getAvailableStore()); ?>
+                </p>
+            </td>
+            <td class="item-qty">
+                <span><?php echo $_item->getQtyOrdered() ?></span>
+            </td>
+            <td class="item-price">
+                <span><?php echo $_item->getOriginalPrice() ?></span>
+            </td>
+            <td class="item-price">
+                <span><?php echo $_item->getQtyOrdered() * $_item->getOriginalPrice() ?></span>
+            </td>
+            <?php
+            $tAmount = $_item->getQtyOrdered() * $_item->getOriginalPrice();
+            $totalAmount += $tAmount;
+            ?>
+        </tr>
+    <?php endforeach; ?>
+        <tr>
+            <td colspan="4" style="text-align: right;font-size: 16px;font-weight: bold;">
+                <span>Total: </span>
+            </td>
+            <td style="text-align: right;font-size: 16px;font-weight: bold;">
+               <span><?php echo $totalAmount ?></span>
+            </td>
+        </tr>
+    </tbody>
+</table>

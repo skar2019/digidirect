@@ -171,39 +171,26 @@ class InvoiceEmail extends AbstractHelper
 
             $trackTitle = "Test Track Title"; //$order->getTracksCollection()->fetchItem()->getTitle();
             $trackNumber = "Test Track Number"; //$order->getTracksCollection()->fetchItem()->getTrackNumber(); 
-
-            // product line
-            // foreach ($order->getAllVisibleItems() as $item) {
-            //   /* @var $item \Magento\Sales\Model\Order\Item */
-            //   $skus = array();
-            //   $productSku = "";
-            //   $digiProtect = "";
-            //   $price = (double) $item->getBasePriceInclTax();
-            //   $qty = (double) $item->getQtyOrdered();
-            //   $discount = (double) $item->getDiscountAmount();
-            //   $total = ($price * $qty) - $discount;
-            //   //if($coupon != "")
-            //     //{
-            //        $discount = 0; //set this to zero since we subtract it to total
-            //     //}
-            //   $digiProtectPrice = 0;
-            //   $digiProtectQty = 0;
-            //   $digiProtectdiscount = 0;
-            //   $digiProtectTotal = 0;
-            //   $sku = $item->getSku();         
-            //                 
-            //   }
         
             if($test)
             {
                 echo "order -" .$orderNumber." to ".$customerEmail." <br>";
             }
             
+            $items = $order->getAllItems();
             $store = $this->storeManager->getStore();
 
-            //$templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName, 'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat];
-            //$templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber, 'item' => $sku];
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName,'billingAddress' => $billingAddressConcat, 'shippingAddress' => $shippingAddressConcat, 'trackTitle' => $trackTitle, 'trackNumber' => $trackNumber];
+            $templateParams = [
+                'store' => $store, 
+                'order_number' => $orderNumber, 
+                'customer_firstname' => $customerFirstName, 
+                'customer_fullname' => $customerFullName,
+                'billingAddress' => $billingAddressConcat, 
+                'shippingAddress' => $shippingAddressConcat, 
+                'trackTitle' => $trackTitle, 
+                'trackNumber' => $trackNumber, 
+                'items' => $items
+            ];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_invoice_email_template'
