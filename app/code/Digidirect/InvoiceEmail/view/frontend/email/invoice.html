@@ -36,7 +36,7 @@
 <table>
     <tr class="email-intro">
         <td>
-            <h1>{{trans "Your Order #%order_id" order_id=$order.increment_id}}</h1>
+            <h1>{{trans "Your Order #%order_number" order_number=$order_number|raw}}</h1>
             <p>{{trans 'Thank you for your order from digiDirect. If you have questions about your order, you can email us at <a href="mailto:%store_email" style="color:#1E1E1E;text-decoration:underline">%store_email</a>' store_email=$store_email |raw}} </p>
             <p>{{trans 'or call us at %store_phone' store_phone=$store_phone |raw}}</p>
             
