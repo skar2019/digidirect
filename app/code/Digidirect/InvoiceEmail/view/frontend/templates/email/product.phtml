@@ -3,16 +3,13 @@
     <thead>
     <tr>
         <th class="item-info">
-            <?= /* @escapeNotVerified */  __('Product Image'); ?>
-        </th>
-        <th class="item-info">
-            <?= /* @escapeNotVerified */  __('Product Name'); ?>
+            <?= /* @escapeNotVerified */  __('Product'); ?>
         </th>
         <th class="item-qty">
             <?= /* @escapeNotVerified */  __('Qty'); ?>
         </th>
         <th class="item-qty">
-            <?= /* @escapeNotVerified */  __('Each Price'); ?>
+            <?= /* @escapeNotVerified */  __('Price'); ?>
         </th>
         <th class="item-price">
             <?= /* @escapeNotVerified */  __('Total Price'); ?>
@@ -31,10 +28,6 @@
         <?php $_product = $productRepository->getById($_item->getProductId()); ?>
         <tr>
             <td>
-                <?php $product_image_url =  $thumbNail . $_product->getThumbnail();?>
-                <img id='image' src="<?php echo $product_image_url; ?>" style='border-width:0px;height:80px;width:80px;'>
-            </td>
-            <td>
                 <a href="<?php echo $block->getBaseUrl() . $_item->getProduct()->getUrlKey(); ?>">
                     <p class="product-name"><?php echo $block->escapeHtml($_item->getName()) ?></p>
                 </a>
@@ -44,19 +37,15 @@
                         <?php echo $block->escapeHtml($_item->getSku()); ?>
                     </a>
                 </p>
-                <p class="sku">
-                    <b><?php /* @escapeNotVerified */ echo  __('Available Store') . ' : '  ?></b>
-                    <?php echo $block->escapeHtml($_product->getAvailableStore()); ?>
-                </p>
             </td>
             <td class="item-qty">
-                <span><?php echo $_item->getQtyOrdered() ?></span>
+                <span><?php echo floor($_item->getQtyOrdered()) ?></span>
             </td>
             <td class="item-price">
-                <span><?php echo $_item->getOriginalPrice() ?></span>
+                <span><?php echo round($_item->getOriginalPrice(), 2) ?></span>
             </td>
             <td class="item-price">
-                <span><?php echo $_item->getQtyOrdered() * $_item->getOriginalPrice() ?></span>
+                <span><?php echo round($_item->getQtyOrdered() * $_item->getOriginalPrice(), 2) ?></span>
             </td>
             <?php
             $tAmount = $_item->getQtyOrdered() * $_item->getOriginalPrice();
@@ -69,7 +58,7 @@
                 <span>Total: </span>
             </td>
             <td style="text-align: right;font-size: 16px;font-weight: bold;">
-               <span><?php echo $totalAmount ?></span>
+               <span><?php echo round($totalAmount, 2) ?></span>
             </td>
         </tr>
     </tbody>
