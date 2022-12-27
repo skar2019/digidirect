@@ -168,9 +168,16 @@ class InvoiceEmail extends AbstractHelper
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
+            
+            $tracksCollection = $order->getTracksCollection();
 
-            $trackTitle = $order->getTracksCollection()->fetchItem()->getTitle();
-            $trackNumber = $order->getTracksCollection()->fetchItem()->getTrackNumber(); 
+            $trackNumberString = "";
+            foreach ($tracksCollection->getItems() as $track) {
+                $trackNumberString .= $track->getTrackNumber();
+            }
+
+            //$trackTitle = "Test Track Title"; //$order->getTracksCollection()->fetchItem()->getTitle();
+            $trackNumber = $trackNumberString; //$order->getTracksCollection()->fetchItem()->getTrackNumber(); 
         
             if($test)
             {
