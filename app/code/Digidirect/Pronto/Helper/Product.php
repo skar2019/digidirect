@@ -342,7 +342,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
@@ -647,7 +647,7 @@ class Product extends AbstractHelper
 
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
@@ -1681,13 +1681,16 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                echo $prod['qff-store-product-name'] . "<br/>";
+                echo $prod['qff-store-price'] . "<br/>";
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
                     $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                    echo "set qff-store-price <br/>";
                 }
                 
                 if($prod['stk-condition-code'] == 'T')
@@ -1976,7 +1979,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
@@ -2380,13 +2383,16 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
+                echo $prod['qff-store-product-name'] ."<br/>";
+                echo $prod['qff-store-price'] ."<br/>";
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
                     $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                    echo "set qff-store-price <br/>";
                 }
                 
                 if($prod['stk-condition-code'] == 'T')
@@ -2675,7 +2681,7 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-bonus-points-per-dollar']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
