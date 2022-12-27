@@ -193,8 +193,7 @@ class InvoiceEmail extends AbstractHelper
                 'customer_firstname' => $customerFirstName, 
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat, 
-                'shippingAddress' => $shippingAddressConcat, 
-                'trackTitle' => $trackTitle, 
+                'shippingAddress' => $shippingAddressConcat,
                 'trackNumber' => $trackNumber, 
                 'items' => $items
             ];
