@@ -198,7 +198,8 @@ class InvoiceEmail extends AbstractHelper
             $store = $this->storeManager->getStore();
 
             $templateParams = [
-                'store' => $store, 
+                'store' => $store,
+                'order' => $order,
                 'order_number' => $orderNumber, 
                 'invoice_date' => $invoiceDate, 
                 'customer_firstname' => $customerFirstName, 
