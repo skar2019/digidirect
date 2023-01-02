@@ -130,7 +130,7 @@ class InvoiceEmail extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-        $this->data = $date;
+        $this->date = $date;
     }
 
     public function sendInvoiceEmail($test) {
@@ -175,7 +175,7 @@ class InvoiceEmail extends AbstractHelper
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
             
-            $invoiceDate = $date = $this->date->gmtDate();
+            $invoiceDate = $this->date->gmtDate();
             
             $tracksCollection = $order->getTracksCollection();
             $trackTitleString = "";
