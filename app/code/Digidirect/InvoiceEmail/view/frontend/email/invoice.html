@@ -11,11 +11,13 @@
  <table class="order-details">
     <tr class="email-summary">
         <td>
-            <p>Tracking #: {{trans "%trackNumber" trackNumber=$trackNumber|raw}}</p>
+            <h1>Tracking Info: {{trans "%trackTitle" trackTitle=$trackTitle|raw}} {{trans "%trackNumber" trackNumber=$trackNumber|raw}}</h1>
         </td>
     </tr>
     <tr>
         <td style="white-space: normal; width:300px;">
+            <p>{{trans "ABN 92 122 703 806 "}}</p>
+            <p>{{trans "Invoice Date: %invoice_date" invoice_date=$invoice_date|raw}}</p>
             <h3>{{trans "Sold To:"}}</h3>
             <p>{{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
             <p>{{trans "%billingAddress" billingAddress=$billingAddress|raw}}</p>
@@ -32,7 +34,7 @@
         </td>
     </tr>
 </table>
-<p>Test order number</p>
+
 <table>
     <tr class="email-intro">
         <td>

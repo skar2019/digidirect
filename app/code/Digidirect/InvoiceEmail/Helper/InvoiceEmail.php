@@ -20,6 +20,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class InvoiceEmail extends AbstractHelper
 {
@@ -87,6 +89,9 @@ class InvoiceEmail extends AbstractHelper
      * @var LoggerInterface
      */
     protected $logger;
+    
+    
+    protected $date;
 
 
     public function __construct(
@@ -105,7 +110,8 @@ class InvoiceEmail extends AbstractHelper
         CountryFactory $countryFactory,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date
     )
     {
         $this->curl = $curl;
@@ -124,7 +130,7 @@ class InvoiceEmail extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-
+        $this->data = $date;
     }
 
     public function sendInvoiceEmail($test) {
@@ -169,14 +175,18 @@ class InvoiceEmail extends AbstractHelper
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
             
+            $invoiceDate = $date = $this->date->gmtDate();
+            
             $tracksCollection = $order->getTracksCollection();
-
+            $trackTitleString = "";
             $trackNumberString = "";
+            
             foreach ($tracksCollection->getItems() as $track) {
+                $trackTitleString .= $track->getTitle();
                 $trackNumberString .= $track->getTrackNumber();
             }
 
-            //$trackTitle = "Test Track Title"; //$order->getTracksCollection()->fetchItem()->getTitle();
+            $trackTitle = $trackTitleString; //$order->getTracksCollection()->fetchItem()->getTitle();
             $trackNumber = $trackNumberString; //$order->getTracksCollection()->fetchItem()->getTrackNumber(); 
         
             if($test)
@@ -190,10 +200,12 @@ class InvoiceEmail extends AbstractHelper
             $templateParams = [
                 'store' => $store, 
                 'order_number' => $orderNumber, 
+                'invoice_date' => $invoiceDate, 
                 'customer_firstname' => $customerFirstName, 
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat, 
                 'shippingAddress' => $shippingAddressConcat,
+                'trackTitle' => $trackTitle, 
                 'trackNumber' => $trackNumber, 
                 'items' => $items
             ];
