@@ -152,6 +152,7 @@ class InvoiceEmail extends AbstractHelper
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
             $orderSubtotal = round($order->getSubtotal(), 2);
+            $couponDiscount = round($order->getBaseDiscountAmount(), 2);
             
             $billingAddress = $order->getBillingAddress();
             $billingStreet = $billingAddress->getStreet();
@@ -206,6 +207,7 @@ class InvoiceEmail extends AbstractHelper
                 'order' => $order,
                 'order_number' => $orderNumber, 
                 'order_subtotal' => $orderSubtotal, 
+                'coupon_discount' => $couponDiscount,
                 'invoice_date' => $invoiceDate, 
                 'customer_firstname' => $customerFirstName, 
                 'customer_fullname' => $customerFullName,
