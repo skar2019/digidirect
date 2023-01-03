@@ -175,7 +175,7 @@ class InvoiceEmail extends AbstractHelper
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
-            $shippingAmount = $order->getShippingAmount();
+            $shippingAmount = "Shipping Amount";
             
             $invoiceDate = date('d/m/Y', strtotime($this->date->gmtDate()));
             
