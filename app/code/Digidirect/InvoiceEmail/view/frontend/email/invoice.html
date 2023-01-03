@@ -45,12 +45,22 @@
     </tr>
     <tr>
         <td align="right">
-            <p>{{trans "Grand Total: %order_grandtotal" order_grandtotal=$order_grandtotal|raw}}</p>
+            <p>{{trans "Shipping Amount: %shippingAmount" shippingAmount=$shippingAmount|raw}}</p>
         </td>
     </tr>
     <tr>
         <td align="right">
-            <p>{{trans "Shipping Amount: %shippingAmount" shippingAmount=$shippingAmount|raw}}</p>
+            <p>{{trans "Total Ex: %total_ex" total_ex=$total_ex|raw}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            <p>{{trans "GST: %gst" gst=$gst|raw}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">
+            <p>{{trans "Total: %total_for_gst" total_for_gst=$total_for_gst|raw}}</p>
         </td>
     </tr>
 </table>
