@@ -153,6 +153,7 @@ class InvoiceEmail extends AbstractHelper
             $orderNumber = $order->getIncrementId();
             $billingAddress = $order->getBillingAddress();
             $billingStreet = $billingAddress->getStreet();
+            
             if(is_array($billingStreet))
             {
                 $billingStreet = implode(",", $billingStreet);
@@ -174,6 +175,7 @@ class InvoiceEmail extends AbstractHelper
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
+            $shippingAmount = $order->getShippingAmount();
             
             $invoiceDate = date('d/m/Y', strtotime($this->date->gmtDate()));
             
@@ -206,6 +208,7 @@ class InvoiceEmail extends AbstractHelper
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat, 
                 'shippingAddress' => $shippingAddressConcat,
+                'shippingAmount' => $shippingAmount,
                 'trackTitle' => $trackTitle, 
                 'trackNumber' => $trackNumber, 
                 'items' => $items

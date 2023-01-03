@@ -30,7 +30,12 @@
     </tr>
     <tr>
         <td>
-            {{layout handle="email_product_list" items=$items order_id=$orderNumber area="frontend"}}
+            {{layout handle="email_product_list" items=$items area="frontend"}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p>{{trans "%shippingAmount" shippingAmount=$shippingAmount|raw}}</p>
         </td>
     </tr>
 </table>
