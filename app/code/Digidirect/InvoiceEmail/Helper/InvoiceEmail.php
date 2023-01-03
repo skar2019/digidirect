@@ -151,7 +151,7 @@ class InvoiceEmail extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
-            $orderSubtotal = $order->getSubtotal();
+            $orderSubtotal = round($order->getSubtotal(), 2);
             
             $billingAddress = $order->getBillingAddress();
             $billingStreet = $billingAddress->getStreet();
@@ -177,7 +177,7 @@ class InvoiceEmail extends AbstractHelper
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
-            $shippingAmount = $order->getShippingAmount();
+            $shippingAmount = round($order->getShippingAmount(), 2);
             
             $invoiceDate = date('d/m/Y', strtotime($this->date->gmtDate()));
             
