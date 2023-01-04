@@ -181,9 +181,9 @@ class InvoiceEmail extends AbstractHelper
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
             $shippingAmount = round($order->getShippingAmount(), 2);
             
-            $totalFOrGst = round($orderGrandTotal - $shippingAmount, 2);
-            $totalEx = round($totalFOrGst / 1.1, 2);
-            $gst = round($totalFOrGst - $totalEx, 2);
+            //$totalFOrGst = round($orderGrandTotal - $shippingAmount, 2);
+            $totalEx = round($orderGrandTotal / 1.1, 2);
+            $gst = round($orderGrandTotal - $totalEx, 2);
             
             $invoiceDate = date('d/m/Y', strtotime($this->date->gmtDate()));
             
@@ -215,7 +215,6 @@ class InvoiceEmail extends AbstractHelper
                 'order_grandtotal' => $orderGrandTotal,
                 'total_ex' => $totalEx,
                 'gst' => $gst,
-                'total_for_gst' => $totalFOrGst,
                 'coupon_discount' => $couponDiscount,
                 'invoice_date' => $invoiceDate, 
                 'customer_firstname' => $customerFirstName, 
