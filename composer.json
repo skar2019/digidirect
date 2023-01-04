@@ -9,16 +9,22 @@
     ],
     "config": {
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "laminas/laminas-dependency-plugin": true,
+            "magento/composer-dependency-version-audit-plugin": true,
+            "magento/magento-composer-installer": true,
+            "magento/inventory-composer-installer": true
+        }
     },
     "require": {
         "classyllama/module-zendesk": "1.1.11",
         "dotdigital/dotdigital-magento2-extension-enterprise": "^1.8",
-        "dotdigital/dotdigital-magento2-os-package": "^1.0",
         "klarna/m2-klarna": "^1.0",
         "klevu/module-search": "^2.3",
         "livechat/module-magento-livechat": "dev-master",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
+        "marketplacer/magento2-plugin-metapackage": "^2.0",
         "vlucas/valitron": "^1.4",
         "zendesk/zendesk_api_client_php": "^2.2"
     },
