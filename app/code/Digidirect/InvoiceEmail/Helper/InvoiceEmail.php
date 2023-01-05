@@ -238,7 +238,7 @@ class InvoiceEmail extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'rondel@kayweb.com.au' 
+                    'clint@kayweb.com.au' 
                 )->getTransport();
 
             try {
