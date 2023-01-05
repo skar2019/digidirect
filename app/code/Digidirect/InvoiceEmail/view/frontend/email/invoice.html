@@ -11,11 +11,13 @@
  <table class="order-details">
     <tr class="email-summary">
         <td>
-            <h1>Tracking #: {{trans "%trackNumber" trackNumber=$trackNumber|raw}}</h1>
+            <h1>Tracking Info: {{trans "%trackTitle" trackTitle=$trackTitle|raw}} {{trans "%trackNumber" trackNumber=$trackNumber|raw}}</h1>
         </td>
     </tr>
     <tr>
         <td style="white-space: normal; width:300px;">
+            <p>{{trans "ABN 92 122 703 806 "}}</p>
+            <p>{{trans "Invoice Date: %invoice_date" invoice_date=$invoice_date|raw}}</p>
             <h3>{{trans "Sold To:"}}</h3>
             <p>{{trans "%customer_fullname,"  customer_fullname=$customer_fullname|raw}}</p>
             <p>{{trans "%billingAddress" billingAddress=$billingAddress|raw}}</p>
@@ -29,6 +31,36 @@
     <tr>
         <td>
             {{layout handle="email_product_list" items=$items area="frontend"}}
+        </td>
+    </tr>
+    <tr>
+        <td align="left">
+            <p>{{trans "Subtotal: %order_subtotal" order_subtotal=$order_subtotal|raw}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="left">
+            <p>{{trans "Coupon Discount: %coupon_discount" coupon_discount=$coupon_discount|raw}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="left">
+            <p>{{trans "Shipping Amount: %shippingAmount" shippingAmount=$shippingAmount|raw}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="left">
+            <p>{{trans "Total Ex: %total_ex" total_ex=$total_ex|raw}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="left">
+            <p>{{trans "GST: %gst" gst=$gst|raw}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="left">
+            <p>{{trans "Total: %order_grandtotal" order_grandtotal=$order_grandtotal|raw}}</p>
         </td>
     </tr>
 </table>
