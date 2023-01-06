@@ -2592,8 +2592,8 @@ class Product extends AbstractHelper
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
-                //$toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
+                $url = preg_replace('/[^0-9a-z]/', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
