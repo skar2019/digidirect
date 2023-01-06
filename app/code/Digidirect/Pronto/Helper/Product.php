@@ -552,7 +552,7 @@ class Product extends AbstractHelper
                 
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', "plus", $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-plus-', $toUrl);
+                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
@@ -1183,7 +1183,7 @@ class Product extends AbstractHelper
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-plus-', $toUrl);
+                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
@@ -1889,7 +1889,7 @@ class Product extends AbstractHelper
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-plus-', $toUrl);
+                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
@@ -2389,14 +2389,14 @@ class Product extends AbstractHelper
                 if(isset($prod['qff-store-product-name']))
                 {
                     $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
-                    echo $prod['qff-store-product-name'] ."<br/>";
+                    //echo $prod['qff-store-product-name'] ."<br/>";
                 
                 }
                 if(isset($prod['qff-store-price']))
                 {
                     $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
                     echo "set qff-store-price <br/>";
-                    echo $prod['qff-store-price'] ."<br/>";
+                    //echo $prod['qff-store-price'] ."<br/>";
                 }
                 
                 if($prod['stk-condition-code'] == 'T')
@@ -2593,7 +2593,7 @@ class Product extends AbstractHelper
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-plus-', $toUrl);
+                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
