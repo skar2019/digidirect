@@ -552,7 +552,7 @@ class Product extends AbstractHelper
                 
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', "plus", $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $url = preg_replace('[^0-9a-z]', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
@@ -703,6 +703,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', '20329');
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
 
@@ -1183,7 +1185,7 @@ class Product extends AbstractHelper
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $url = preg_replace('[^0-9a-z]', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
@@ -1324,6 +1326,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', '20329');
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
 
@@ -1889,7 +1893,7 @@ class Product extends AbstractHelper
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $url = preg_replace('[^0-9a-z]', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
 
@@ -2037,6 +2041,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', '20329');
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 $this->productRepository->save($product);
@@ -2462,6 +2468,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', '20329');
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 echo $today . "<br>";
