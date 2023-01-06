@@ -703,7 +703,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
-                $product->setCustomAttribute('marketplacer_seller', '20329');
+                $product->setCustomAttribute('marketplacer_seller', 20329);
                 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -1326,7 +1326,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
-                $product->setCustomAttribute('marketplacer_seller', '20329');
+                $product->setCustomAttribute('marketplacer_seller', 20329);
                 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -2041,7 +2041,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
-                $product->setCustomAttribute('marketplacer_seller', '20329');
+                $product->setCustomAttribute('marketplacer_seller', 20329);
                 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
@@ -2468,7 +2468,7 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
-                $product->setCustomAttribute('marketplacer_seller', '20329');
+                $product->setCustomAttribute('marketplacer_seller', 20329);
                 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
