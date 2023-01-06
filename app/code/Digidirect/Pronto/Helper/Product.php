@@ -2060,7 +2060,7 @@ class Product extends AbstractHelper
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
         //var_dump($getCategoryList);
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$startItem;
@@ -2592,7 +2592,7 @@ class Product extends AbstractHelper
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
-                $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
+                //$toUrl = preg_replace('/[+]/', 'plus', $toUrl);
                 $url = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
                 $url = strtolower($url);
                 $product->setUrlKey($url);
