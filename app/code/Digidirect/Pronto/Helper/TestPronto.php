@@ -932,9 +932,10 @@ class TestPronto extends AbstractHelper
 
             $payment_reference = $paymentInstance->getLastTransId();
 
-//            if (empty($payment_reference) && ($method == 'm2epropayment')) {
-//                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
-//            }
+            if (empty($payment_reference) && ($method == 'latipay')) {
+                continue;
+            }
+            
             //ebay
             if (($method == 'm2epropayment')) {
                 if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
