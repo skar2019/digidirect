@@ -148,7 +148,7 @@ class InvoiceEmail extends AbstractHelper
             }
 
             //Check store hours if source is SWHS
-            $shwhStoreHours = $this->getStoreSwhsStoreHOurs();
+            $shwhStoreHours = $this->getStoreSwhsStoreHOurs($order);
             
             
             $customerFirstName = $order->getCustomerFirstname();
