@@ -146,6 +146,10 @@ class InvoiceEmail extends AbstractHelper
             {
                 echo "orders <br>";
             }
+
+            //Check store hours if source is SWHS
+            $shwhStoreHours = $this->getStoreSwhsStoreHOurs();
+            
             
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
@@ -224,7 +228,8 @@ class InvoiceEmail extends AbstractHelper
                 'shippingAmount' => $shippingAmount,
                 'trackTitle' => $trackTitle, 
                 'trackNumber' => $trackNumber, 
-                'items' => $items
+                'items' => $items,
+                'swhs_store_hours' => $shwhStoreHours
             ];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
@@ -273,6 +278,23 @@ class InvoiceEmail extends AbstractHelper
 
         return $collection;
 
+    }
+    
+    public function getStoreSwhsStoreHOurs(OrderInterface $order) {
+        $storeHours = "";
+        if (!isset($this->warehouseCode[$order->getEntityId()])) {
+            $whse = '';
+            $storeHours = "<span>Open Everyday!</span>";
+//            if ($order->getShippingMethod() == 'collect_collect') {
+//                if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+//                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+//                    if ($whse == "SWHS") {
+//                        $storeHours = "<span>Open Everyday!</span>";
+//                    }
+//                }
+//            }
+        }
+        return $storeHOurs;
     }
 
     
