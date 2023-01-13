@@ -192,11 +192,10 @@ class ReadytoPickup extends AbstractHelper
         $counter = 0;
         foreach ($orders as $order)
         {
+            //Check store hours if source is SWHS
+            $shwhStoreHours = $this->getStoreSwhsStoreHOurs();
             
             //Send ReadytoPickup Confirmation Email
-            
-            //$customer = $observer->getEvent()->getCustomer();
-            
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
@@ -206,7 +205,7 @@ class ReadytoPickup extends AbstractHelper
 
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName];
+            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName, 'swhs_store_hours' => $shwhStoreHours];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_readytopickup_email_template'
@@ -257,6 +256,22 @@ class ReadytoPickup extends AbstractHelper
 
         return $collection;
 
+    }
+    
+    public function getStoreSwhsStoreHOurs(OrderInterface $order) {
+        $storeHours = "";
+        if (!isset($this->warehouseCode[$order->getEntityId()])) {
+            $whse = '';
+            if ($order->getShippingMethod() == 'collect_collect') {
+                if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+                    if ($whse == "SWHS") {
+                        $storeHours = "<span>Open Everyday!</span>";
+                    }
+                }
+            }
+        }
+        return $storeHOurs;
     }
 
     
