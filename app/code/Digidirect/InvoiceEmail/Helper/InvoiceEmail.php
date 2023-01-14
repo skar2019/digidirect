@@ -170,13 +170,14 @@ class InvoiceEmail extends AbstractHelper
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
             
             $tracksCollection = $order->getTracksCollection();
-
+            $trackTitleString = "";
             $trackNumberString = "";
             foreach ($tracksCollection->getItems() as $track) {
+                $trackTitleString .= $track->getTitle();
                 $trackNumberString .= $track->getTrackNumber();
             }
 
-            //$trackTitle = "Test Track Title"; //$order->getTracksCollection()->fetchItem()->getTitle();
+            $trackTitle = $trackTitleString; //$order->getTracksCollection()->fetchItem()->getTitle();
             $trackNumber = $trackNumberString; //$order->getTracksCollection()->fetchItem()->getTrackNumber(); 
         
             if($test)
@@ -194,6 +195,7 @@ class InvoiceEmail extends AbstractHelper
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat, 
                 'shippingAddress' => $shippingAddressConcat,
+                'trackTitle' => $trackTitle, 
                 'trackNumber' => $trackNumber, 
                 'items' => $items
             ];
