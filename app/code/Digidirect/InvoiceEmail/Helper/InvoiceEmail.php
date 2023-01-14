@@ -294,7 +294,7 @@ class InvoiceEmail extends AbstractHelper
 //                }
 //            }
         }
-        return $storeHOurs;
+        return $storeHours;
     }
 
     
