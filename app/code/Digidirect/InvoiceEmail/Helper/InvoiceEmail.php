@@ -284,7 +284,39 @@ class InvoiceEmail extends AbstractHelper
         $storeHours = "";
         if (!isset($this->warehouseCode[$order->getEntityId()])) {
             $whse = '';
-            $storeHours = "<span>Open Everyday!</span>";
+            $storeHours = "<span>St. Peters Store Hours</span> 
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Monday</td>
+                            <td>9:30 AM - 6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday</td>
+                            <td>9:30 AM - 6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Wednesday</td>
+                            <td>9:30 AM - 6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Thursday</td>
+                            <td>9:30 AM - 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Friday</td>
+                            <td>9:30 AM - 6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Saturday</td>
+                            <td>10:00 AM - 5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Sunday</td>
+                            <td>10:00 AM - 5:00 PM</td>
+                        </tr>
+                    </tbody>
+                </table>";
 //            if ($order->getShippingMethod() == 'collect_collect') {
 //                if ($collectPlaceId = $this->getCollectPlaceId($order)) {
 //                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
