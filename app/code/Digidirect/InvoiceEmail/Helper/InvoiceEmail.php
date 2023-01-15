@@ -20,6 +20,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class InvoiceEmail extends AbstractHelper
 {
@@ -87,6 +89,9 @@ class InvoiceEmail extends AbstractHelper
      * @var LoggerInterface
      */
     protected $logger;
+    
+    
+    protected $date;
 
 
     public function __construct(
@@ -105,7 +110,8 @@ class InvoiceEmail extends AbstractHelper
         CountryFactory $countryFactory,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        \Magento\Framework\Stdlib\DateTime\DateTime $date
     )
     {
         $this->curl = $curl;
@@ -124,7 +130,7 @@ class InvoiceEmail extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-
+        $this->date = $date;
     }
 
     public function sendInvoiceEmail($test) {
@@ -145,8 +151,13 @@ class InvoiceEmail extends AbstractHelper
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
             $orderNumber = $order->getIncrementId();
+            $orderSubtotal = round($order->getSubtotal(), 2);
+            $orderGrandTotal = round($order->getGrandtotal(), 2);
+            $couponDiscount = round($order->getBaseDiscountAmount(), 2);
+            
             $billingAddress = $order->getBillingAddress();
             $billingStreet = $billingAddress->getStreet();
+            
             if(is_array($billingStreet))
             {
                 $billingStreet = implode(",", $billingStreet);
@@ -168,10 +179,18 @@ class InvoiceEmail extends AbstractHelper
             $shippingPostal = $shippingAddress->getPostcode();
             $shippingCountry = $shippingAddress->getCountryId();
             $shippingAddressConcat = $shippingStreet ."<br>". $shippingCity ."<br>". $shippingRegion ."<br>". $shippingPostal ." ". $shippingCountry;
+            $shippingAmount = round($order->getShippingAmount(), 2);
+            
+            //$totalFOrGst = round($orderGrandTotal - $shippingAmount, 2);
+            $totalEx = round($orderGrandTotal / 1.1, 2);
+            $gst = round($orderGrandTotal - $totalEx, 2);
+            
+            $invoiceDate = date('d/m/Y', strtotime($this->date->gmtDate()));
             
             $tracksCollection = $order->getTracksCollection();
             $trackTitleString = "";
             $trackNumberString = "";
+            
             foreach ($tracksCollection->getItems() as $track) {
                 $trackTitleString .= $track->getTitle();
                 $trackNumberString .= $track->getTrackNumber();
@@ -189,12 +208,20 @@ class InvoiceEmail extends AbstractHelper
             $store = $this->storeManager->getStore();
 
             $templateParams = [
-                'store' => $store, 
+                'store' => $store,
+                'order' => $order,
                 'order_number' => $orderNumber, 
+                'order_subtotal' => $orderSubtotal, 
+                'order_grandtotal' => $orderGrandTotal,
+                'total_ex' => $totalEx,
+                'gst' => $gst,
+                'coupon_discount' => $couponDiscount,
+                'invoice_date' => $invoiceDate, 
                 'customer_firstname' => $customerFirstName, 
                 'customer_fullname' => $customerFullName,
                 'billingAddress' => $billingAddressConcat, 
                 'shippingAddress' => $shippingAddressConcat,
+                'shippingAmount' => $shippingAmount,
                 'trackTitle' => $trackTitle, 
                 'trackNumber' => $trackNumber, 
                 'items' => $items

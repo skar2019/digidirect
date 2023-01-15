@@ -42,18 +42,18 @@
                 <span><?php echo floor($_item->getQtyOrdered()) ?></span>
             </td>
             <td class="item-price">
-                <span><?php echo round($_item->getOriginalPrice(), 2) ?></span>
+                <span><?php echo round($_item->getPrice(), 2) ?></span>
             </td>
             <td class="item-price">
-                <span><?php echo round($_item->getQtyOrdered() * $_item->getOriginalPrice(), 2) ?></span>
+                <span><?php echo round($_item->getQtyOrdered() * $_item->getPrice(), 2) ?></span>
             </td>
             <?php
-            $tAmount = $_item->getQtyOrdered() * $_item->getOriginalPrice();
+            $tAmount = $_item->getQtyOrdered() * $_item->getPrice();
             $totalAmount += $tAmount;
             ?>
         </tr>
     <?php endforeach; ?>
-        <tr>
+        <tr style="display: none;">
             <td colspan="4" style="text-align: right;font-size: 16px;font-weight: bold;">
                 <span>Total: </span>
             </td>

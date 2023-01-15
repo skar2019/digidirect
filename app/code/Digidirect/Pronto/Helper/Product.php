@@ -552,9 +552,9 @@ class Product extends AbstractHelper
                 
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', "plus", $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-plus-', $toUrl);
-                $url = strtolower($url);
-                $product->setUrlKey($url);
+                $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $urltext = strtolower($urltext);
+                $product->setUrlKey($urltext);
 
                 // set gtin and apn
                 $barcode1 = "";
@@ -703,6 +703,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', 20329);
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
 
@@ -1183,9 +1185,9 @@ class Product extends AbstractHelper
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-plus-', $toUrl);
-                $url = strtolower($url);
-                $product->setUrlKey($url);
+                $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $urltext = strtolower($urltext);
+                $product->setUrlKey($urltext);
 
                 // set gtin and apn
                 $barcode1 = "";
@@ -1324,6 +1326,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', 20329);
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
 
@@ -1681,16 +1685,18 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                echo $prod['qff-store-product-name'] . "<br/>";
-                echo $prod['qff-store-price'] . "<br/>";
+                
                 if(isset($prod['qff-store-product-name']))
                 {
+                    echo $prod['qff-store-product-name'] . " qff-store-product-name<br/>";
+                
                     $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
                 }
                 if(isset($prod['qff-store-price']))
                 {
                     $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
                     echo "set qff-store-price <br/>";
+                    echo $prod['qff-store-price'] . "<br/>";
                 }
                 
                 if($prod['stk-condition-code'] == 'T')
@@ -1887,9 +1893,9 @@ class Product extends AbstractHelper
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-plus-', $toUrl);
-                $url = strtolower($url);
-                $product->setUrlKey($url);
+                $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $urltext = strtolower($urltext);
+                $product->setUrlKey($urltext);
 
                 // set gtin and apn
                 $barcode1 = "";
@@ -2035,6 +2041,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', 20329);
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 $this->productRepository->save($product);
@@ -2058,7 +2066,7 @@ class Product extends AbstractHelper
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
         //var_dump($getCategoryList);
-        //$this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$startItem;
@@ -2383,16 +2391,18 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                echo $prod['qff-store-product-name'] ."<br/>";
-                echo $prod['qff-store-price'] ."<br/>";
+                
                 if(isset($prod['qff-store-product-name']))
                 {
                     $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
+                    //echo $prod['qff-store-product-name'] ."<br/>";
+                
                 }
                 if(isset($prod['qff-store-price']))
                 {
                     $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
                     echo "set qff-store-price <br/>";
+                    //echo $prod['qff-store-price'] ."<br/>";
                 }
                 
                 if($prod['stk-condition-code'] == 'T')
@@ -2458,6 +2468,8 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('dangerous_goods', '0');
                 }
 
+                $product->setCustomAttribute('marketplacer_seller', 20329);
+                
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 echo $today . "<br>";
@@ -2589,9 +2601,9 @@ class Product extends AbstractHelper
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', 'plus', $toUrl);
-                $url = preg_replace('#[^0-9a-z]+#i', '-plus-', $toUrl);
-                $url = strtolower($url);
-                $product->setUrlKey($url);
+                $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
+                $urltext = strtolower($urltext);
+                $product->setUrlKey($urltext);
 
                 // set gtin and apn
                 $barcode1 = "";
