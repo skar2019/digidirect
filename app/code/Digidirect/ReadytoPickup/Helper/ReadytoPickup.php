@@ -263,8 +263,7 @@ class ReadytoPickup extends AbstractHelper
 
     }
     
-    public function getStoreSwhsStoreHOurs(OrderInterface $order) {
-        
+    public function getStoreSwhsStoreHOurs(OrderInterface $order) {      
         $storeHours = "";
         if (!isset($this->warehouseCode[$order->getEntityId()])) {
             $whse = '';
