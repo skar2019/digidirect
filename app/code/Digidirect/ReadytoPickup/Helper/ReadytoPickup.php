@@ -310,6 +310,5 @@ class ReadytoPickup extends AbstractHelper
         }
         return $storeHours;
     }
-
-    
+  
 }
