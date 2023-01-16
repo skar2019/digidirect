@@ -192,11 +192,10 @@ class ReadytoPickup extends AbstractHelper
         $counter = 0;
         foreach ($orders as $order)
         {
+            //Check store hours if source is SWHS
+            $shwhStoreHours = $this->getStoreSwhsStoreHOurs($order);
             
             //Send ReadytoPickup Confirmation Email
-            
-            //$customer = $observer->getEvent()->getCustomer();
-            
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
@@ -206,7 +205,12 @@ class ReadytoPickup extends AbstractHelper
 
             $store = $this->storeManager->getStore();
 
-            $templateParams = ['store' => $store, 'order_number' => $orderNumber, 'customer_firstname' => $customerFirstName, 'customer_fullname' => $customerFullName];
+            $templateParams = ['store' => $store, 
+                'order_number' => $orderNumber, 
+                'customer_firstname' => $customerFirstName, 
+                'customer_fullname' => $customerFullName, 
+                'swhs_store_hours' => $shwhStoreHours
+            ];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_readytopickup_email_template'
@@ -219,7 +223,7 @@ class ReadytoPickup extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'jireh@kayweb.com.au'
+                    'rondel@kayweb.com.au'
                 )->getTransport();
 
             try {
@@ -258,6 +262,53 @@ class ReadytoPickup extends AbstractHelper
         return $collection;
 
     }
-
     
+    public function getStoreSwhsStoreHOurs(OrderInterface $order) {      
+        $storeHours = "";
+        if (!isset($this->warehouseCode[$order->getEntityId()])) {
+            $whse = '';
+            if ($order->getShippingMethod() == 'collect_collect') {
+                if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+                    if ($whse == "SWHS") {
+                        $storeHours = "<span>St. Peters Store Hours</span> 
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>9:30 AM - 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>9:30 AM - 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>9:30 AM - 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>9:30 AM - 9:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>9:30 AM - 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday</td>
+                                    <td>10:00 AM - 5:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday</td>
+                                    <td>10:00 AM - 5:00 PM</td>
+                                </tr>
+                            </tbody>
+                        </table>";
+                    }
+                }
+            }
+        }
+        return $storeHours;
+    }
+  
 }
