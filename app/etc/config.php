@@ -643,7 +643,6 @@ return [
         'MageSpark_Base' => 1,
         'MageSpark_DeferJS' => 1,
         'Mageplaza_Core' => 1,
-        'Mageplaza_CronSchedule' => 1,
         'Mageplaza_ProductFeed' => 1,
         'Mageplaza_Shopbybrand' => 1,
         'Magezon_Core' => 1,
@@ -661,7 +660,7 @@ return [
         'Studio19_Variants' => 1,
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
-        'Zendesk_Zendesk' => 1,
+        'Zendesk_Zendesk' => 0,
         'Zip_ZipPayment' => 1,
         'Digidirect_DigiSecondsForm' => 0,
         'Magento5_Latipay' => 1
