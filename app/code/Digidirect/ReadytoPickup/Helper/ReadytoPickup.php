@@ -1,7 +1,5 @@
 <?php
-
 namespace Digidirect\ReadytoPickup\Helper;
-
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
@@ -20,22 +18,17 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
-
 class ReadytoPickup extends AbstractHelper
 {
-
     /**
     * @var Curl
     */
     protected $curl;
-
     protected $_orderCollectionFactory;
-
     /**
      * @var SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
-
     /**
      * @var array
      */
@@ -44,7 +37,6 @@ class ReadytoPickup extends AbstractHelper
         'CANN' => 'SWHS',
         'SWHS' => 'MELB'
     ];
-
     /**
      * @var array
      */
@@ -63,9 +55,7 @@ class ReadytoPickup extends AbstractHelper
         '19' => 'B5P',
         '32' => 'P4P',
         '35' => 'C9W'
-
     ];
-
     protected $invCodeAll = [
         'BOND',
         'BRIS',
@@ -76,7 +66,6 @@ class ReadytoPickup extends AbstractHelper
         'SWHS',
         'SYDN'
     ];
-
     protected $invCode = [
         'BRIS',
         'CANN',
@@ -85,7 +74,6 @@ class ReadytoPickup extends AbstractHelper
         'SWHS',
         'SYDN'
     ];
-
     /**
      * @var array
      */
@@ -94,60 +82,47 @@ class ReadytoPickup extends AbstractHelper
         'CANN' => 'C3W',
         'SWHS' => 'C9W'
     ];
-
     /**
      * @var array
      */
     protected $warehouseCode = [];
-
     /**
      * @var SourceItemRepositoryInterface
      */
     protected $sourceItemRepository;
-
     /**
      * @var AbstractEntityRepository
      */
     protected $abstractEntityRepository;
-
     /**
      * @var IncrementIdUpdater
      */
     protected $incrementIdUpdater;
-
     /**
      * @var CustomerRepositoryInterface
      */
     protected $customerRepository;
-
     /**
      * @var CustomerInterface[]|array
      */
     protected $customer = [];
-
     private $timezone;
-
     /**
      * @var Country
      */
     public $countryFactory;
-    
     /**
      * @var TransportBuilder
      */
     protected $transportBuilder;
-
     /**
      * @var StoreManagerInterface
      */
     protected $storeManager;
-
     /**
      * @var LoggerInterface
      */
     protected $logger;
-
-
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -182,11 +157,8 @@ class ReadytoPickup extends AbstractHelper
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-
     }
-
     public function sendReadytoPickupEmail() {
-
         //get order data
         $orders = $this->getOrderCollection();
         $counter = 0;
@@ -194,24 +166,18 @@ class ReadytoPickup extends AbstractHelper
         {
             //Check store hours if source is SWHS
             $shwhStoreHours = $this->getStoreSwhsStoreHOurs($order);
-            
             //Send ReadytoPickup Confirmation Email
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
             $customerEmail = $order->getCustomerEmail();
-            
             $orderNumber = $order->getIncrementId();
-
-
             $store = $this->storeManager->getStore();
-
-            $templateParams = ['store' => $store, 
-                'order_number' => $orderNumber, 
-                'customer_firstname' => $customerFirstName, 
-                'customer_fullname' => $customerFullName, 
+            $templateParams = ['store' => $store,
+                'order_number' => $orderNumber,
+                'customer_firstname' => $customerFirstName,
+                'customer_fullname' => $customerFullName,
                 'swhs_store_hours' => $shwhStoreHours
             ];
-
             $transport = $this->transportBuilder->setTemplateIdentifier(
                 'digidirect_readytopickup_email_template'
                 )->setTemplateOptions(
@@ -225,7 +191,6 @@ class ReadytoPickup extends AbstractHelper
                 )->addBcc(
                     'rondel@kayweb.com.au'
                 )->getTransport();
-
             try {
                 // Send an email
                 $transport->sendMessage();
@@ -233,24 +198,16 @@ class ReadytoPickup extends AbstractHelper
                 // Write a log message whenever get errors
                 $this->logger->critical($e->getMessage());
             }
-            
             //End Send ReadytoPickup Confirmation Email
-            
-            
             //Change ReadytoPickup Status
-            
             $order->setData('pickup_email', 1);
             $order->save();
-            
             //End Change ReadytoPickup Status
-            
         }
         return true;
     }
-
     public function getOrderCollection()
     {
-
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('entity_id', array('gt' => 1139532))
@@ -258,57 +215,53 @@ class ReadytoPickup extends AbstractHelper
             ->addFieldToFilter('pickup_email', array('eq' => 0))
             ->addFieldToFilter('shipping_description', array('eq' =>'Pick Up in Store - Click and Collect Shipping'))
             ->setOrder('created_at', 'asc');
-
         return $collection;
-
     }
-    
-    public function getStoreSwhsStoreHOurs(OrderInterface $order) {      
+    public function getStoreSwhsStoreHOurs(OrderInterface $order) {
         $storeHours = "";
-        if (!isset($this->warehouseCode[$order->getEntityId()])) {
-            $whse = '';
-            if ($order->getShippingMethod() == 'collect_collect') {
-                if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
-                    if ($whse == "SWHS") {
-                        $storeHours = "<span>St. Peters Store Hours</span> 
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>Monday</td>
-                                    <td>9:30 AM - 6:00 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>Tuesday</td>
-                                    <td>9:30 AM - 6:00 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>Wednesday</td>
-                                    <td>9:30 AM - 6:00 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>Thursday</td>
-                                    <td>9:30 AM - 9:00 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>Friday</td>
-                                    <td>9:30 AM - 6:00 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>Saturday</td>
-                                    <td>10:00 AM - 5:00 PM</td>
-                                </tr>
-                                <tr>
-                                    <td>Sunday</td>
-                                    <td>10:00 AM - 5:00 PM</td>
-                                </tr>
-                            </tbody>
-                        </table>";
-                    }
+        //if (!isset($this->warehouseCode[$order->getEntityId()])) {
+        $whse = '';
+        if ($order->getShippingMethod() == 'collect_collect') {
+            if ($collectPlaceId = $this->getCollectPlaceId($order)) {
+                $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
+                if ($whse == "SWHS") {
+                    $storeHours = "<span>St. Peters Store Hours</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:30 AM - 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>";
                 }
             }
         }
+        //}
         return $storeHours;
     }
-  
 }
