@@ -206,6 +206,7 @@ class ReadytoPickup extends AbstractHelper
         }
         return true;
     }
+    
     public function getOrderCollection()
     {
         $collection = $this->_orderCollectionFactory->create()
@@ -217,6 +218,20 @@ class ReadytoPickup extends AbstractHelper
             ->setOrder('created_at', 'asc');
         return $collection;
     }
+    
+    /**
+     * @param OrderInterface $order
+     * @return int|null
+     */
+    protected function getCollectPlaceId(OrderInterface $order) {
+        foreach ($order->getAllVisibleItems() as $item) {
+            if ($collectPlaceId = $item->getCollectPlaceId()) {
+                return $collectPlaceId;
+            }
+        }
+        return null;
+    }
+    
     public function getStoreSwhsStoreHOurs(OrderInterface $order) {
         $storeHours = "";
         //if (!isset($this->warehouseCode[$order->getEntityId()])) {
