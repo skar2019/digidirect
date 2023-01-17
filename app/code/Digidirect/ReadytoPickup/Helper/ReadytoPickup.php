@@ -240,7 +240,7 @@ class ReadytoPickup extends AbstractHelper
             if ($collectPlaceId = $this->getCollectPlaceId($order)) {
                 $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
                 if ($whse == "SWHS") {
-                    $storeHours = "<span>St. Peters Store Hours</span>
+                    $storeHours = "<span>St. Peters Pick-Up Hours of Operation</span>
                     <table>
                         <tbody>
                             <tr>
@@ -265,11 +265,11 @@ class ReadytoPickup extends AbstractHelper
                             </tr>
                             <tr>
                                 <td>Saturday</td>
-                                <td>10:00 AM - 5:00 PM</td>
+                                <td>CLOSED</td>
                             </tr>
                             <tr>
                                 <td>Sunday</td>
-                                <td>10:00 AM - 5:00 PM</td>
+                                <td>CLOSED</td>
                             </tr>
                         </tbody>
                     </table>";
