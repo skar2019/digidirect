@@ -1,0 +1,434 @@
+diff --git a/vendor/magento/module-customer-balance/Block/Adminhtml/Sales/Order/Create/Payment.php b/vendor/magento/module-customer-balance/Block/Adminhtml/Sales/Order/Create/Payment.php
+index ec1fcbaac66..ad6711a1ed2 100644
+--- a/vendor/magento/module-customer-balance/Block/Adminhtml/Sales/Order/Create/Payment.php
++++ b/vendor/magento/module-customer-balance/Block/Adminhtml/Sales/Order/Create/Payment.php
+@@ -5,6 +5,8 @@
+  */
+ namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
+ 
++use Magento\Payment\Model\Method\Free;
++
+ /**
+  * Customer balance block for order creation page
+  *
+@@ -53,13 +55,13 @@ class Payment extends \Magento\Framework\View\Element\Template
+      * @param array $data
+      */
+     public function __construct(
+-        \Magento\Framework\View\Element\Template\Context $context,
+-        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
+-        \Magento\Backend\Model\Session\Quote $sessionQuote,
+-        \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+-        \Magento\CustomerBalance\Helper\Data $customerBalanceHelper,
+-        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+-        array $data = []
++        \Magento\Framework\View\Element\Template\Context   $context,
++        \Magento\CustomerBalance\Model\BalanceFactory      $balanceFactory,
++        \Magento\Backend\Model\Session\Quote               $sessionQuote,
++        \Magento\Sales\Model\AdminOrder\Create             $orderCreate,
++        \Magento\CustomerBalance\Helper\Data               $customerBalanceHelper,
++        \Magento\Framework\Pricing\PriceCurrencyInterface  $priceCurrency,
++        array                                              $data = []
+     ) {
+         $this->_balanceFactory = $balanceFactory;
+         $this->_sessionQuote = $sessionQuote;
+@@ -189,6 +191,10 @@ class Payment extends \Magento\Framework\View\Element\Template
+      */
+     public function canUseCustomerBalance()
+     {
++        if (!$this->_scopeConfig->isSetFlag(Free::XML_PATH_PAYMENT_FREE_ACTIVE)) {
++            return false;
++        }
++
+         $quote = $this->_orderCreate->getQuote();
+         return $this->getBalance() && ($quote->getBaseGrandTotal() + $quote->getBaseCustomerBalAmountUsed() > 0);
+     }
+diff --git a/vendor/magento/module-customer-balance/Block/Checkout/Onepage/Payment/Additional.php b/vendor/magento/module-customer-balance/Block/Checkout/Onepage/Payment/Additional.php
+index 6e606d01da0..881b8db098b 100644
+--- a/vendor/magento/module-customer-balance/Block/Checkout/Onepage/Payment/Additional.php
++++ b/vendor/magento/module-customer-balance/Block/Checkout/Onepage/Payment/Additional.php
+@@ -5,6 +5,8 @@
+  */
+ namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
+ 
++use Magento\Payment\Model\Method\Free;
++
+ /**
+  * Customer balance as an additional payment option during checkout
+  *
+@@ -134,6 +136,10 @@ class Additional extends \Magento\Framework\View\Element\Template
+      */
+     public function isAllowed()
+     {
++        if (!$this->_scopeConfig->isSetFlag(Free::XML_PATH_PAYMENT_FREE_ACTIVE)) {
++            return false;
++        }
++
+         if (!$this->isDisplayContainer()) {
+             return false;
+         }
+diff --git a/vendor/magento/module-customer-balance/Plugin/Block/Checkout/LayoutProcessorPlugin.php b/vendor/magento/module-customer-balance/Plugin/Block/Checkout/LayoutProcessorPlugin.php
+new file mode 100644
+index 00000000000..8788e309a1a
+--- /dev/null
++++ b/vendor/magento/module-customer-balance/Plugin/Block/Checkout/LayoutProcessorPlugin.php
+@@ -0,0 +1,72 @@
++<?php
++/**
++ * Copyright Â© Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++declare(strict_types=1);
++
++namespace Magento\CustomerBalance\Plugin\Block\Checkout;
++
++use Magento\Checkout\Block\Checkout\LayoutProcessor;
++use Magento\Framework\Stdlib\ArrayManager;
++use Magento\CustomerBalance\Helper\Data;
++use Magento\Framework\App\Config\ScopeConfigInterface;
++use Magento\Payment\Model\Method\Free;
++
++/**
++ * Plugin for removing Store Credit if free payment method isn't available
++ *
++ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
++ */
++class LayoutProcessorPlugin
++{
++    /**
++     * @var ArrayManager
++     */
++    private $arrayManager;
++
++    /**
++     * @var ScopeConfigInterface
++     */
++    private $scopeConfig;
++
++    /**
++     * @var Data
++     */
++    private $helperData;
++
++    /**
++     * @param ScopeConfigInterface $scopeConfig
++     * @param Data $helperData
++     * @param ArrayManager $arrayManager
++     */
++    public function __construct(
++        ScopeConfigInterface $scopeConfig,
++        Data $helperData,
++        ArrayManager $arrayManager
++    ) {
++        $this->arrayManager = $arrayManager;
++        $this->scopeConfig = $scopeConfig;
++        $this->helperData = $helperData;
++    }
++
++    /**
++     * Remove store credit component if free payment not allowed
++     *
++     * @param LayoutProcessor $subject
++     * @param array $jsLayout
++     * @return array
++     *
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++     */
++    public function afterProcess(LayoutProcessor $subject, $jsLayout)
++    {
++        $path = $this->arrayManager->findPath('storeCredit', $jsLayout);
++        if ($path &&
++            !$this->scopeConfig->isSetFlag(Free::XML_PATH_PAYMENT_FREE_ACTIVE)
++        ) {
++            $jsLayout = $this->arrayManager->remove($path, $jsLayout);
++        }
++        return $jsLayout;
++    }
++}
+diff --git a/vendor/magento/module-customer-balance/etc/adminhtml/system.xml b/vendor/magento/module-customer-balance/etc/adminhtml/system.xml
+index f55d11b23e7..66335baef46 100644
+--- a/vendor/magento/module-customer-balance/etc/adminhtml/system.xml
++++ b/vendor/magento/module-customer-balance/etc/adminhtml/system.xml
+@@ -14,6 +14,7 @@
+                     <label>Enable Store Credit Functionality</label>
+                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                     <backend_model>Magento\Config\Model\Config\Backend\Cache</backend_model>
++                    <comment>For Store Credit to be fully functional on checkout, "Zero Subtotal Checkout" payment method needs to be enabled as well.</comment>
+                 </field>
+                 <field id="show_history" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                     <label>Show Store Credit History to Customers</label>
+diff --git a/vendor/magento/module-customer-balance/etc/frontend/di.xml b/vendor/magento/module-customer-balance/etc/frontend/di.xml
+index 5a609b5923d..24b43da0eaa 100644
+--- a/vendor/magento/module-customer-balance/etc/frontend/di.xml
++++ b/vendor/magento/module-customer-balance/etc/frontend/di.xml
+@@ -20,4 +20,7 @@
+             </argument>
+         </arguments>
+     </type>
++    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
++        <plugin name="extra_checks_customerbalance_allowed_on_checkout" type="Magento\CustomerBalance\Plugin\Block\Checkout\LayoutProcessorPlugin"/>
++    </type>
+ </config>
+diff --git a/vendor/magento/module-company-payment/Plugin/Checkout/Block/LayoutProcessorPlugin.php b/vendor/magento/module-company-payment/Plugin/Checkout/Block/LayoutProcessorPlugin.php
+new file mode 100644
+index 0000000000..9a2d0e7b47
+--- /dev/null
++++ b/vendor/magento/module-company-payment/Plugin/Checkout/Block/LayoutProcessorPlugin.php
+@@ -0,0 +1,85 @@
++<?php
++/**
++ * Copyright Â© Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++declare(strict_types=1);
++
++namespace Magento\CompanyPayment\Plugin\Checkout\Block;
++
++use Magento\Checkout\Block\Checkout\LayoutProcessor;
++use Magento\Checkout\Model\Session;
++use Magento\CompanyPayment\Model\Payment\Checks\CanUseForCompany;
++use Magento\Framework\Exception\LocalizedException;
++use Magento\Framework\Exception\NoSuchEntityException;
++use Magento\Framework\Stdlib\ArrayManager;
++use Magento\Payment\Model\Method\Free;
++
++/**
++ * Plugin for removing Store Credit if free payment method isn't available
++ *
++ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
++ */
++class LayoutProcessorPlugin
++{
++    /**
++     * @var CanUseForCompany
++     */
++    private $canUseForCompany;
++
++    /**
++     * @var Session
++     */
++    private $checkoutSession;
++
++    /**
++     * @var Free
++     */
++    private $freeMethod;
++
++    /**
++     * @var ArrayManager
++     */
++    private $arrayManager;
++
++    /**
++     * @param CanUseForCompany $canUseForCompany
++     * @param Session $checkoutSession
++     * @param Free $freeMethod
++     * @param ArrayManager $arrayManager
++     */
++    public function __construct(
++        CanUseForCompany $canUseForCompany,
++        Session $checkoutSession,
++        Free $freeMethod,
++        ArrayManager $arrayManager
++    ) {
++        $this->canUseForCompany = $canUseForCompany;
++        $this->checkoutSession = $checkoutSession;
++        $this->freeMethod = $freeMethod;
++        $this->arrayManager = $arrayManager;
++    }
++
++    /**
++     * Remove store credit component if free payment not allowed
++     *
++     * @param LayoutProcessor $subject
++     * @param array $jsLayout
++     * @return array
++     * @throws LocalizedException
++     * @throws NoSuchEntityException
++     *
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++     */
++    public function afterProcess(LayoutProcessor $subject, $jsLayout)
++    {
++        $quote = $this->checkoutSession->getQuote();
++        $path = $this->arrayManager->findPath('storeCredit', $jsLayout);
++        if ($path &&
++            !$this->canUseForCompany->isApplicable($this->freeMethod, $quote)
++        ) {
++            $jsLayout = $this->arrayManager->remove($path, $jsLayout);
++        }
++        return $jsLayout;
++    }
++}
+diff --git a/vendor/magento/module-company-payment/Plugin/CustomerBalance/Block/Adminhtml/Sales/Order/Create/PaymentPlugin.php b/vendor/magento/module-company-payment/Plugin/CustomerBalance/Block/Adminhtml/Sales/Order/Create/PaymentPlugin.php
+new file mode 100644
+index 0000000000..f548800d8e
+--- /dev/null
++++ b/vendor/magento/module-company-payment/Plugin/CustomerBalance/Block/Adminhtml/Sales/Order/Create/PaymentPlugin.php
+@@ -0,0 +1,64 @@
++<?php
++/**
++ * Copyright Â© Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++declare(strict_types=1);
++
++namespace Magento\CompanyPayment\Plugin\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
++
++use Magento\CompanyPayment\Model\Payment\Checks\CanUseForCompany;
++use Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment;
++use Magento\Payment\Model\Method\Free;
++use Magento\Sales\Model\AdminOrder\Create;
++
++/**
++ * Plugin for checking is free payment is enabled to use SC on checkout
++ */
++class PaymentPlugin
++{
++    /**
++     * @var CanUseForCompany
++     */
++    private $canUseForCompany;
++
++    /**
++     * @var Create
++     */
++    private $orderCreate;
++
++    /**
++     * @var Free
++     */
++    private $freeMethod;
++
++    /**
++     * @param CanUseForCompany $canUseForCompany
++     * @param Create $orderCreate
++     * @param Free $freeMethod
++     */
++    public function __construct(CanUseForCompany $canUseForCompany, Create $orderCreate, Free $freeMethod)
++    {
++        $this->canUseForCompany = $canUseForCompany;
++        $this->orderCreate = $orderCreate;
++        $this->freeMethod = $freeMethod;
++    }
++
++    /**
++     * Check if free method is available to use SC
++     *
++     * @param Payment $subject
++     * @param bool $result
++     * @return bool
++     *
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++     */
++    public function afterCanUseCustomerBalance(Payment $subject, $result)
++    {
++        $quote = $this->orderCreate->getQuote();
++        if (!$this->canUseForCompany->isApplicable($this->freeMethod, $quote)) {
++            $result = false;
++        }
++        return $result;
++    }
++}
+diff --git a/vendor/magento/module-company-payment/Plugin/CustomerBalance/Block/Checkout/Onepage/Payment/AdditionalPlugin.php b/vendor/magento/module-company-payment/Plugin/CustomerBalance/Block/Checkout/Onepage/Payment/AdditionalPlugin.php
+new file mode 100644
+index 0000000000..edb9d35dc5
+--- /dev/null
++++ b/vendor/magento/module-company-payment/Plugin/CustomerBalance/Block/Checkout/Onepage/Payment/AdditionalPlugin.php
+@@ -0,0 +1,57 @@
++<?php
++/**
++ * Copyright Â© Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++declare(strict_types=1);
++
++namespace Magento\CompanyPayment\Plugin\CustomerBalance\Block\Checkout\Onepage\Payment;
++
++use Magento\CompanyPayment\Model\Payment\Checks\CanUseForCompany;
++use Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional;
++use Magento\Payment\Model\Method\Free;
++
++/**
++ * Plugin for checking if Free payment is allowed for company
++ */
++class AdditionalPlugin
++{
++
++    /**
++     * @var CanUseForCompany
++     */
++    private $canUseForCompany;
++
++    /**
++     * @var Free
++     */
++    private $freeMethod;
++
++    /**
++     * @param CanUseForCompany $canUseForCompany
++     * @param Free $freeMethod
++     */
++    public function __construct(CanUseForCompany $canUseForCompany, Free $freeMethod)
++    {
++        $this->canUseForCompany = $canUseForCompany;
++        $this->freeMethod = $freeMethod;
++    }
++
++    /**
++     * Check if free method is available for company to allow SC
++     *
++     * @param Additional $subject
++     * @param bool $result
++     * @return bool
++     *
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++     */
++    public function afterIsAllowed(Additional $subject, $result)
++    {
++        $quote = $subject->getQuote();
++        if (!$this->canUseForCompany->isApplicable($this->freeMethod, $quote)) {
++            $result = false;
++        }
++        return $result;
++    }
++}
+diff --git a/vendor/magento/module-company-payment/etc/adminhtml/di.xml b/vendor/magento/module-company-payment/etc/adminhtml/di.xml
+new file mode 100644
+index 0000000000..fb80cc36e9
+--- /dev/null
++++ b/vendor/magento/module-company-payment/etc/adminhtml/di.xml
+@@ -0,0 +1,12 @@
++<?xml version="1.0"?>
++<!--
++/**
++ * Copyright Â© Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++-->
++<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
++    <type name="Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create\Payment">
++        <plugin name="company_customerbalance_can_use_plugin" type="Magento\CompanyPayment\Plugin\CustomerBalance\Block\Adminhtml\Sales\Order\Create\PaymentPlugin"/>
++    </type>
++</config>
+diff --git a/vendor/magento/module-company-payment/etc/frontend/di.xml b/vendor/magento/module-company-payment/etc/frontend/di.xml
+new file mode 100644
+index 0000000000..5cd9933f8a
+--- /dev/null
++++ b/vendor/magento/module-company-payment/etc/frontend/di.xml
+@@ -0,0 +1,15 @@
++<?xml version="1.0"?>
++<!--
++/**
++ * Copyright Â© Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++-->
++<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
++    <type name="Magento\CustomerBalance\Block\Checkout\Onepage\Payment\Additional">
++        <plugin name="company_customerbalance_is_allowed_plugin" type="Magento\CompanyPayment\Plugin\CustomerBalance\Block\Checkout\Onepage\Payment\AdditionalPlugin"/>
++    </type>
++    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
++        <plugin name="company_customerbalance_allowed_on_checkout" type="Magento\CompanyPayment\Plugin\Checkout\Block\LayoutProcessorPlugin"/>
++    </type>
++</config>
