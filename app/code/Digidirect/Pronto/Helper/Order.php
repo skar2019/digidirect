@@ -628,7 +628,11 @@ class Order extends AbstractHelper
             $payment_reference = $paymentInstance->getLastTransId();
 
             if (empty($payment_reference) && ($method == 'latipay')) {
-                continue;
+                $payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+                if (empty($payment_reference)){
+                    continue;
+                }
+                
             }
             //ebay
             if (($method == 'm2epropayment')) {
