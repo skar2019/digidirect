@@ -245,23 +245,23 @@ class ReadytoPickup extends AbstractHelper
                         <tbody>
                             <tr>
                                 <td>Monday</td>
-                                <td>9:30 AM - 6:00 PM</td>
+                                <td>9:30 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Tuesday</td>
-                                <td>9:30 AM - 6:00 PM</td>
+                                <td>9:30 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Wednesday</td>
-                                <td>9:30 AM - 6:00 PM</td>
+                                <td>9:30 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Thursday</td>
-                                <td>9:30 AM - 9:00 PM</td>
+                                <td>9:30 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Friday</td>
-                                <td>9:30 AM - 6:00 PM</td>
+                                <td>9:30 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Saturday</td>
