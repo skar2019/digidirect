@@ -269,7 +269,7 @@ class ReadytoPickup extends AbstractHelper
                             </tr>
                             <tr>
                                 <td>Sunday</td>
-                                <td>CLOSED</td>
+                                <td>9:30 AM - 4:00 PM</td>
                             </tr>
                         </tbody>
                     </table>";
