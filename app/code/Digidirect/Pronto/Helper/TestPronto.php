@@ -512,6 +512,7 @@ class TestPronto extends AbstractHelper
         $counter = 0;
         foreach ($orders as $order)
         {
+            var_dump($order);
             $data = array();
             $counter++;
 
