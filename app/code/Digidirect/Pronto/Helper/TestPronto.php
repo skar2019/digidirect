@@ -512,7 +512,6 @@ class TestPronto extends AbstractHelper
         $counter = 0;
         foreach ($orders as $order)
         {
-            var_dump($order);
             $data = array();
             $counter++;
 
@@ -1053,6 +1052,9 @@ class TestPronto extends AbstractHelper
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
+            //clint 01-20-23
+            $surcharge = $order->getPaymentFee();
+            
             if (!empty($qffNumber) && !empty($qffLastname)) {
                 $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
                 $data['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
@@ -1201,6 +1203,20 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
                 $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
+                $x++; // for shipping counter
+            }
+            
+            //surcharge clint 01-20-23
+            if($surcharge != "")
+            {
+                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                $data['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
+                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
+                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
+                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
                 $x++; // for shipping counter
             }
 
