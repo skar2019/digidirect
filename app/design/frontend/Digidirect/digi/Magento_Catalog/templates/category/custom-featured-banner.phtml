@@ -1,12 +1,12 @@
 <?php 
-​
+
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
 $_helper = $this->helper('Magento\Catalog\Helper\Output');
-​
+
 $urlInterface = $objectManager->get('Magento\Framework\UrlInterface');
 $currentUrl = $urlInterface->getCurrentUrl();
-​
+
 $isBrandCanon = str_contains($currentUrl, 'brands/canon');
 $isBrandNikon = str_contains($currentUrl, 'brands/nikon');
 $isBrandAsus = str_contains($currentUrl, 'brands/asus');
@@ -100,9 +100,9 @@ if ($request->getFullActionName() == 'catalog_category_view') {
     }
     
 }
-​
+
 ?>
-​
+
 <script>
     require([
         'jquery'
