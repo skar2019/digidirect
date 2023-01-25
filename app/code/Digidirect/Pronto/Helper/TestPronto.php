@@ -1026,6 +1026,7 @@ class TestPronto extends AbstractHelper
             //gift cards
             $withGC = false;
             $gift_amount = $order->getGiftCardsAmount();
+            echo "gift_amount ".$gift_amount."<br/>";
             
             if($gift_amount > 0)
             {
@@ -1051,9 +1052,18 @@ class TestPronto extends AbstractHelper
             {
                 if($withpaymentref)
                 {
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    if($withGC)
+                    {
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
+                    }
+                    else
+                    {
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    }
                 }
 
             }
