@@ -41,6 +41,10 @@ class Attribute extends ProcessorAbstract
 
             $urlSuffix = $this->urlHelper->getUrlSuffix($store->getId());
             $requestPath = sprintf(self::REQUEST_PATH_PATTERN, $attrUrlKey) . $urlSuffix;
+            if($requestPath == 'brands.html')
+            {
+                $requestPath = 'digibrands.html';
+            }
             $urls[] = $this->urlRewriteFactory->create()
                 ->setEntityType(self::URL_ENTITY_TYPE)
                 ->setEntityId($attrId)
