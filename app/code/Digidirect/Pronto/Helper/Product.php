@@ -112,6 +112,7 @@ class Product extends AbstractHelper
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
                 
@@ -433,6 +434,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setAttributeSetId(4);
                 
                 $cost = $prod['stk-replacement-cost'];
@@ -776,6 +778,7 @@ class Product extends AbstractHelper
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setStockStatus($prod['stk-stock-status']);
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
@@ -1410,6 +1413,7 @@ class Product extends AbstractHelper
                 $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 $cost = $prod['stk-replacement-cost'];
@@ -1781,6 +1785,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
                 //set brand
@@ -2112,6 +2117,7 @@ class Product extends AbstractHelper
                 $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 $cost = $prod['stk-replacement-cost'];
@@ -2489,6 +2495,7 @@ class Product extends AbstractHelper
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
                 //set brand

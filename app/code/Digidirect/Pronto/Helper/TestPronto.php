@@ -517,9 +517,13 @@ class TestPronto extends AbstractHelper
 
             /* @var $order \Magento\Sales\Model\Order */
 
-            if ($order->getState() == 'canceled') {
-                continue;
+            if(!$test)
+            {
+                if ($order->getState() == 'canceled') {
+                    continue;
+                }
             }
+            
 
             $prontoOrderNumber = $order->getData('pronto_order_number');
             if(is_numeric($prontoOrderNumber))
