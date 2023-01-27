@@ -3,10 +3,10 @@
      data-bind="css: { 'store-wrapper column': $parents[2].locations.settings().open_in_popup }">
     <div class="details">
         <!-- ko if: (available)-->
-        <span class="name -available"><!-- ko text: name --><!-- /ko --></span>
+        <span class="name -available"><!-- ko text: name --><!-- /ko --> <!-- ko if: entity_id == 35 --><span>* (Monday to Friday only)</span><!--/ko--></span>
         <!-- /ko -->
         <!-- ko ifnot: (available)-->
-        <span class="name"><!-- ko text: name --><!-- /ko --></span>
+        <span class="name"><!-- ko text: name --><!-- /ko --> <!-- ko if: entity_id == 35 --><span>* (Monday to Friday only)</span><!--/ko--></span>
         <!-- /ko -->
     </div>
     <div class="item -address">
@@ -26,11 +26,6 @@
     <!-- ko if: entity_id == 16 -->
         <div class="item -cannington-note" style="padding-left: 0;">
             <span>* Orders are likely to take longer than <b style="color: #ff3c00;">24-72 hours</b> for delivery to Cannington in Western Australia.</span>
-        </div>
-    <!--/ko-->
-    <!-- ko if: entity_id == 35 -->
-        <div class="item -stpeters-note" style="padding-left: 0;">
-            <span>* (Monday to Friday only)</span>
         </div>
     <!--/ko-->
     <div class="item -available">
