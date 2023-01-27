@@ -660,7 +660,7 @@ return [
         'Studio19_Variants' => 1,
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
-        'Zendesk_Zendesk' => 0,
+        'Zendesk_Zendesk' => 1,
         'Zip_ZipPayment' => 1,
         'Digidirect_DigiSecondsForm' => 0,
         'Magento5_Latipay' => 1
