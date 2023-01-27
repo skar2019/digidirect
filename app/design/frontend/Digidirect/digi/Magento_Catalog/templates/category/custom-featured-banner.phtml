@@ -19,6 +19,7 @@ $isBrandLeica = str_contains($currentUrl, 'brands/leica');
 $isBrandLacie = str_contains($currentUrl, 'brands/lacie');
 $isBrandDell = str_contains($currentUrl, 'brands/dell');
 $isBrandPolarPro = str_contains($currentUrl, 'brands/polarpro');
+$isBrandAudioTechnica = str_contains($currentUrl, 'brands/audio-technica');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
     
@@ -96,6 +97,11 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
         ->setBlockId('brands-polarpro-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandAudioTechnica == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-audio-technica-featured-banner')
         ->toHtml();
     }
     
