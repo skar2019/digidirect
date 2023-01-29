@@ -358,7 +358,7 @@ return [
         'Magento_LoginAsCustomerQuote' => 1,
         'Magento_LoginAsCustomerSales' => 1,
         'Magento_LoginAsCustomerWebsiteRestriction' => 1,
-        'Magento_Marketplace' => 0,
+        'Magento_Marketplace' => 1,
         'Magento_MediaContent' => 1,
         'Magento_MediaContentApi' => 1,
         'Magento_MediaContentCatalog' => 1,

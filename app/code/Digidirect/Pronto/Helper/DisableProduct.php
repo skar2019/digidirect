@@ -100,13 +100,13 @@ class DisableProduct extends AbstractHelper
     public function getProductCollectionToEnable()
     {
 
-        $date = date("Y-m-d", strtotime("2022-05-01"));
+        $date = date("Y-m-d", strtotime("2023-01-24"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
-        ->addAttributeToFilter('date_update',array('gteq' => $date))
-        ->addAttributeToFilter('item_codition',array('neq' => 'OPENBOX'))
-        ->addAttributeToFilter('item_codition',array('neq' => 'REFURB'))
-        ->addAttributeToFilter('item_codition',array('neq' => 'PRELOVED'));
+        ->addAttributeToFilter('date_update',array('gteq' => $date));
+//        ->addAttributeToFilter('item_codition',array('neq' => 'OPENBOX'))
+//        ->addAttributeToFilter('item_codition',array('neq' => 'REFURB'))
+//        ->addAttributeToFilter('item_codition',array('neq' => 'PRELOVED'));
         //->setPageSize(12); // fetching only 3 products
 
         return $collection;
