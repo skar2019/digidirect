@@ -100,7 +100,7 @@ class DisableProduct extends AbstractHelper
     public function getProductCollectionToEnable()
     {
 
-        $date = date("Y-m-d", strtotime("2023-01-26"));
+        $date = date("Y-m-d", strtotime("2023-01-24"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
         ->addAttributeToFilter('date_update',array('gteq' => $date));
