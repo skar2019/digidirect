@@ -240,28 +240,28 @@ class ReadytoPickup extends AbstractHelper
             if ($collectPlaceId = $this->getCollectPlaceId($order)) {
                 $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
                 if ($whse == "SWHS") {
-                    $storeHours = "<span>St. Peters Pick-Up Hours of Operation</span>
+                    $storeHours = "<span>St. Peters Hours</span>
                     <table>
                         <tbody>
                             <tr>
                                 <td>Monday</td>
-                                <td>9:30 AM - 5:00 PM</td>
+                                <td>9:00 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Tuesday</td>
-                                <td>9:30 AM - 5:00 PM</td>
+                                <td>9:00 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Wednesday</td>
-                                <td>9:30 AM - 5:00 PM</td>
+                                <td>9:00 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Thursday</td>
-                                <td>9:30 AM - 5:00 PM</td>
+                                <td>9:00 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Friday</td>
-                                <td>9:30 AM - 5:00 PM</td>
+                                <td>9:00 AM - 5:00 PM</td>
                             </tr>
                             <tr>
                                 <td>Saturday</td>
@@ -269,7 +269,245 @@ class ReadytoPickup extends AbstractHelper
                             </tr>
                             <tr>
                                 <td>Sunday</td>
-                                <td>9:30 AM - 4:00 PM</td>
+                                <td>CLOSED</td>
+                            </tr>
+                        </tbody>
+                    </table>";
+                } elseif ($whse == "BOND") {
+                    $storeHours = "<span>Bondi Junction Hours</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:30 AM - 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>";
+                } elseif ($whse == "CANN") {
+                    $storeHours = "<span>Cannington Hours</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:00 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:00 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:00 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:00 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:00 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>9:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>11:00 AM - 4:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>";
+                } elseif ($whse == "PARR") {
+                    $storeHours = "<span>Parramatta Hours</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:30 AM - 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>";
+                } elseif ($whse == "SYDN") {
+                    $storeHours = "<span>Sydney CBD Hours</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:30 AM - 7:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>";
+                } elseif ($whse == "BRIS") {
+                    $storeHours = "<span>Brisbane Hours</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:30 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:30 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:30 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:30 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:00 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>10:00 AM - 4:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>10:00 AM - 3:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>";
+                } elseif ($whse == "MELB") {
+                    $storeHours = "<span>Melbourne CBD Hours</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:30 AM - 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>10:00 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>11:00 AM - 5:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>";
+                } elseif ($whse == "MIRA") {
+                    $storeHours = "<span>Miranda Hours</span>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:30 AM - 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:30 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:30 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:30 AM - 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:30 AM - 5:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>9:30 AM - 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>10:00 AM - 5:00 PM</td>
                             </tr>
                         </tbody>
                     </table>";
