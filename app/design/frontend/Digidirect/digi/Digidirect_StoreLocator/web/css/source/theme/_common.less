@@ -27,14 +27,19 @@
          margin-top: 50px;
         
          //St Peter Hide
-         div#sldetails-St\ Peters {
-             display: none !important;
-         }
+        //  div#sldetails-St\ Peters {
+        //      display: none !important;
+        //  }
          
-         #scontentSt\ Peters {
-             display: none !important;
-         }
+        //  #scontentSt\ Peters {
+        //      display: none !important;
+        //  }
          //
+
+        .St.Peters:checked ~ .scontent-St.Peters {
+            display: block;
+            background: #F5F5F5;
+        }
          
          .Sydney:checked ~ .scontent-Sydney {
              display: block;
@@ -73,13 +78,17 @@
  
  
          //st peter hide
-         div#sldetails-New\ South\ Wales {
-             display: none !important;
-         }
+        //  div#sldetails-New\ South\ Wales {
+        //      display: none !important;
+        //  }
  
-         div#scontentNew\ South\ Wales {
-             display: none !important;
-         }
+        //  div#scontentNew\ South\ Wales {
+        //      display: none !important;
+        //  }
+
+        .scontent-St.Peters {
+            display:none;
+        }
  
          .scontent-Sydney {
              display:none;
