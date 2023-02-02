@@ -582,7 +582,7 @@ return [
         'Digidirect_Faq' => 1,
         'Digidirect_Feed' => 1,
         'Digidirect_FilterShipping' => 1,
-        'Digidirect_FreeGift' => 0,
+        'Digidirect_FreeGift' => 1,
         'Digidirect_AddressVerification' => 1,
         'Digidirect_HotDealsProducts' => 1,
         'Digidirect_BlogInfiniteScroll' => 1,
