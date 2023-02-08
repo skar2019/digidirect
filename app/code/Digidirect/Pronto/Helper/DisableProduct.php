@@ -96,7 +96,8 @@ class DisableProduct extends AbstractHelper
         $date = date("Y-m-d", strtotime("-3 day"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-        ->addAttributeToFilter('date_update',array('lteq' => $date));
+        ->addAttributeToFilter([['attribute'=>'date_update',array('lteq' => $date)],['attribute'=>'updated_at',array('lteq' => $date)]]);
+        //->addAttributeToFilter('date_update',array('lteq' => $date));
         //->setPageSize(110); // fetching only 3 products
 
         return $collection;
