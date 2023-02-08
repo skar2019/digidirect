@@ -109,7 +109,7 @@ class DisableProduct extends AbstractHelper
         $date = date("Y-m-d", strtotime("-3 day"));
         $collection = $this->_productCollectionFactory->create()
         ->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
-        ->addAttributeToFilter('date_update',array('gteq' => $date));
+        ->addAttributeToFilter([['attribute'=>'date_update',array('gteq' => $date)],['attribute'=>'updated_at',array('gteq' => $date)]]);
 //        ->addAttributeToFilter('item_codition',array('neq' => 'OPENBOX'))
 //        ->addAttributeToFilter('item_codition',array('neq' => 'REFURB'))
 //        ->addAttributeToFilter('item_codition',array('neq' => 'PRELOVED'));
