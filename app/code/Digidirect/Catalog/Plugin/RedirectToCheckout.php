@@ -11,20 +11,18 @@ class RedirectToCheckout
     public function __construct(
         \Magento\Framework\UrlInterface $url,
         \Magento\Framework\App\Request\Http $request,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Request\Http $request
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     )
     {
         $this->_url = $url;
         $this->request = $request;
         $this->storeManager = $storeManager;
-        $this->_request = $request;
     }
 		
     public function beforeAddProduct($subject, $productInfo, $requestInfo = null)
     {
         //Check if product page
-        if ($this->_request->getFullActionName() == 'catalog_product_view') {
+        if ($this->request->getFullActionName() == 'catalog_product_view') {
             $cartrtnurl=$this->storeManager->getStore()->getBaseUrl()."checkout/";
             if($cartrtnurl != '' && isset($cartrtnurl))
                    {
