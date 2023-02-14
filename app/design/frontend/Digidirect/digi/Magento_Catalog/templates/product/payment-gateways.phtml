@@ -5,13 +5,13 @@
 <div class="payment-gateways">
     <div class="row-first">
         <div class="credit-cards">
-            <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>visa.png"/><span>
-            <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>mastercard.png"/><span>
-            <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>amex.png"/><span>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>visa.png"/>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>mastercard.png"/>
+            <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>amex.png"/>
         </div>
-        <div class="paypal-custom">
+        <div id="paypal-custom">
         </div>
-        <div class="zip-custom">
+        <div id="zip-custom">
             <span>
                 <span>0% Interest for 6 Months</span>
                 <span>APPLY NOW!</span>
@@ -19,3 +19,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    require([
+            'jquery'
+        ],
+        function ($) {
+           $('#paypal-custom').append('paypal-smart-button')
+    });
+</script>
