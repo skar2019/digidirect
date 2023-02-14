@@ -137,7 +137,7 @@
                 </container>
 
                 <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="-"/>
-                <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="studio19.wrapper">
+                <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="-">
                     <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways-bottom.phtml" />
                 </container>
 
