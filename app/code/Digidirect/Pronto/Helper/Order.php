@@ -1128,6 +1128,9 @@ class Order extends AbstractHelper
             case "latipay":
                 $type = 'LP';
                 break;
+            case "latitude":
+                $type = 'LA';
+                break;
             default:
                 break;
         }
