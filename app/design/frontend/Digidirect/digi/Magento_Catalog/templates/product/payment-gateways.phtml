@@ -1,7 +1,11 @@
+<?php
+    $postData = ['is_custom' => true];
+?>
+
 <div class="actions">
     <button type="submit"
         class="action tocart btn_cart tocart-pdp-btn"
-        id="product-addtocart-button"
+        data-post="<?php /* @escapeNotVerified */ echo $postData; ?>"
         data-action="add-to-cart-action"
         >
         <span class="addcart_words">Add To Cart</span>
