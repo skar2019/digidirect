@@ -28,11 +28,14 @@ class RedirectToCheckout
         
         if ($isCustom) {
             $cartrtnurl=$this->storeManager->getStore()->getBaseUrl()."checkout/";
-            if($cartrtnurl != '' && isset($cartrtnurl))
-            {
-                 $accUrl = $this->_url->getUrl($cartrtnurl);
-                 $this->request->setParam('return_url', $accUrl);
-            }
+        } else {
+            $cartrtnurl=$this->storeManager->getStore()->getBaseUrl();
+        }
+        
+        if($cartrtnurl != '' && isset($cartrtnurl))
+        {
+             $accUrl = $this->_url->getUrl($cartrtnurl);
+             $this->request->setParam('return_url', $accUrl);
         }
         
         return [$productInfo, $requestInfo];
