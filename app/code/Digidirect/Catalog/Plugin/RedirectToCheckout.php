@@ -26,7 +26,7 @@ class RedirectToCheckout
         
         $isCustom = $subject->getRequest()->getParam('is_custom');
         
-        if ($isCustom) {
+        if ($isCustom == "yes") {
             $cartrtnurl=$this->storeManager->getStore()->getBaseUrl()."checkout/";
             if($cartrtnurl != '' && isset($cartrtnurl))
             {
