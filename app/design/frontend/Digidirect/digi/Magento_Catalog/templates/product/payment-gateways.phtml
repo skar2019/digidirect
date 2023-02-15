@@ -1,6 +1,12 @@
-<?php
-
+<?php 
+    $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
+    $postData = $postDataHelper->getPostData($block->getAddToCartUrl($_item), ['product' => $_item->getEntityId()])
 ?>
+<button class="action tocart primary"
+    data-post='<?php /* @escapeNotVerified */ echo $postData; ?>'
+    type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart1') ?>">
+    <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+</button>
 
 <div class="payment-gateways">
     <div class="row-first">
