@@ -65,12 +65,15 @@ class Product extends AbstractHelper
     {
         $startItem = 0;
         $lastCode = 0;
+        
+
+        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        
         $this->attributeOptions = $this->getOptionHash('brand');
         $forLogs = "";
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
-
-        $this->logger->info('Pronto Product Sync - start item: '.$startItem);
+        
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
@@ -1370,6 +1373,12 @@ class Product extends AbstractHelper
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
+        
+        if($endItem == '0')
+        {
+            $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
+        }
+        
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';

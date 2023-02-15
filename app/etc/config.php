@@ -515,7 +515,7 @@ return [
         'Magento_TwoFactorAuth' => 0,
         'Magento_ElasticsearchCatalogPermissions' => 1,
         'Magento_Ups' => 1,
-        'Magento_SampleData' => 1,
+        'Magento_SampleData' => 0,
         'Magento_CatalogUrlRewriteGraphQl' => 1,
         'Magento_AsynchronousOperations' => 1,
         'Magento_Usps' => 1,
