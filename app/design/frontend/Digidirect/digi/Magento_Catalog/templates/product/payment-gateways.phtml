@@ -1,6 +1,7 @@
 <?php 
+    $currentProduct = $block->getCurrentProduct();
     $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
-    $postData = $postDataHelper->getPostData($block->getAddToCartUrl($block->getProduct()), ['product' => $block->getProduct()->getEntityId()])
+    $postData = $postDataHelper->getPostData($block->getAddToCartUrl($currentProduct), ['product' => $currentProduct->getEntityId()])
 ?>
 <button class="action tocart primary"
     data-post='<?php /* @escapeNotVerified */ echo $postData; ?>'
