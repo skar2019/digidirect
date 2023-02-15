@@ -1,13 +1,12 @@
-<?php 
-    $currentProduct = $block->getCurrentProduct();
-    $postDataHelper = $this->helper('Magento\Framework\Data\Helper\PostHelper');
-    $postData = $postDataHelper->getPostData($block->getAddToCartUrl($currentProduct), ['product' => $currentProduct->getEntityId()])
-?>
-<button class="action tocart primary"
-    data-post='<?php /* @escapeNotVerified */ echo $postData; ?>'
-    type="button" title="<?php /* @escapeNotVerified */ echo __('Add to Cart1') ?>">
-    <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
-</button>
+<div class="actions">
+    <button type="submit"
+        class="action tocart btn_cart tocart-pdp-btn"
+        id="product-addtocart-button"
+        data-action="add-to-cart-action"
+        >
+        <span class="addcart_words">Add To Cart</span>
+    </button>
+</div>
 
 <div class="payment-gateways">
     <div class="row-first">
