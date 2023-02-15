@@ -22,7 +22,7 @@ class RedirectToCheckout
     public function beforeAddProduct($subject, $productInfo, $requestInfo = null)
     {
         //Check if product page
-        if ($this->request->getFullActionName() == 'catalog_product_view') {
+        //if ($this->request->getFullActionName() == 'catalog_product_view') {
             $cartrtnurl=$this->storeManager->getStore()->getBaseUrl()."checkout/";
             if($cartrtnurl != '' && isset($cartrtnurl))
                    {
@@ -30,6 +30,6 @@ class RedirectToCheckout
                         $this->request->setParam('return_url', $accUrl);
                    }
             return [$productInfo, $requestInfo];
-        }
+        //}
     }
 }
