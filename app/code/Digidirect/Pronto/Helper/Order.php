@@ -1131,6 +1131,9 @@ class Order extends AbstractHelper
             case "latitude":
                 $type = 'LA';
                 break;
+            case "instant":
+                $type = 'IP';
+                break;
             default:
                 break;
         }

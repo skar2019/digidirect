@@ -282,6 +282,9 @@ class TestPronto extends AbstractHelper
             case "latipay":
                 $type = 'LP';
                 break;
+            case "latitude":
+                $type = 'LA';
+                break;
             case "instant":
                 $type = 'IP';
                 break;
