@@ -12,4 +12,5 @@
     <type name="Magento\Checkout\Model\Cart">
         <plugin name="add_product_to_cart" type="Digidirect\Catalog\Plugin\RedirectToCheckout" sortOrder="10" disabled="false"/>
     </type>
+    
 </config>
