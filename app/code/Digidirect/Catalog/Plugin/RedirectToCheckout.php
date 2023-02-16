@@ -19,7 +19,7 @@ class RedirectToCheckout
         $this->storeManager = $storeManager;
     }
 		
-    public function beforeAddProduct($subject, $productInfo, $requestInfo = null)
+    public function afterAddProduct($subject, $productInfo, $requestInfo = null)
     {
         //Check if product page
         //if ($this->request->getFullActionName() == 'catalog_product_view') {
