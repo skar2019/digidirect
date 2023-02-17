@@ -24,18 +24,18 @@ class RedirectToCheckout
         //Check if product page
         //if ($this->request->getFullActionName() == 'catalog_product_view') {
         
-        /*$isCustom = $subject->getRequest()->getPost('is_custom');
+        //$isCustom = $subject->getRequest()->getPost('is_custom');
         
-        if ($isCustom == "yes") {
-            $cartrtnurl=$this->storeManager->getStore()->getBaseUrl()."checkout/";
-            if($cartrtnurl != '' && isset($cartrtnurl))
-            {
-                 $accUrl = $this->_url->getUrl($cartrtnurl);
-                 $this->request->setParam('return_url', $accUrl);
-            }
+        //if ($isCustom == "yes") {
+        $cartrtnurl=$this->storeManager->getStore()->getBaseUrl()."checkout/";
+        if($cartrtnurl != '' && isset($cartrtnurl))
+        {
+             $accUrl = $this->_url->getUrl($cartrtnurl);
+             $this->request->setParam('return_url', $accUrl);
+        }
 
-            return [$productInfo, $requestInfo];
-        }*/
+        return [$productInfo, $requestInfo];
+        //}
         
         //}
     }
