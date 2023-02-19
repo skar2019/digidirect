@@ -1,4 +1,11 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
     <!-- add option with quote item when add to cart -->
+    <event name="checkout_cart_product_add_after">
+        <observer name="digi_checkout_cart_product_add_after" instance="Digidirect\Catalog\Observer\CheckoutCartAddObserver" />
+    </event>
+    <!-- add option with quote item with ORDER -->
+    <event name="sales_model_service_quote_submit_before">
+        <observer name="digi_sales_model_service_quote_submit_before" instance="Digidirect\Catalog\Observer\QuoteSubmitObserver" />
+    </event>
 </config>
