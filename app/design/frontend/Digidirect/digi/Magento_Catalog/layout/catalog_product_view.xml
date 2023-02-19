@@ -158,6 +158,9 @@
             </container>
         </referenceBlock>
         
+        <referenceContainer name="product.info.form.content">
+            <block class="Magento\Catalog\Block\Product\View" name="color.shade" template="Magento_Catalog::product/color_shade.phtml" before="product.info.addtocart" />
+        </referenceContainer>
         
         <referenceContainer name="before.body.end">
 <!--            <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">-->
