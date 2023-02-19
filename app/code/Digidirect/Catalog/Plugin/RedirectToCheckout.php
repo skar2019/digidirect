@@ -24,7 +24,7 @@ class RedirectToCheckout
         //Check if product page
         //if ($this->request->getFullActionName() == 'catalog_product_view') {
         
-        $isCustom = $subject->getRequest()->getPost('product_color_shade');
+        //$isCustom = $subject->getRequest()->getPost('product_color_shade');
         
         //if ($isCustom == "yes") {
         $cartrtnurl=$this->storeManager->getStore()->getBaseUrl()."checkout/";
