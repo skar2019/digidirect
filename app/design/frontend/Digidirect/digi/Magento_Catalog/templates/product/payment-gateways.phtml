@@ -1,16 +1,20 @@
-<div class="actions">
-    <input type="text" value="yes" name="is_custom" hidden />
-    <button type="submit"
-        class="action tocart btn_cart tocart-pdp-btn"
-        id="product-addtocart-button"
-        data-action="add-to-cart-action"
-        >
-        <span class="addcart_words">Add To Cart</span>
-    </button>
-</div>
+
 
 <div class="payment-gateways">
     <div class="row-first">
+        <div class="actions">
+            <button type="submit"
+                class="action tocart btn_cart tocart-pdp-btn"
+                id="product-addtocart-button"
+                data-action="add-to-cart-action"
+                >
+                <div class="credit-cards">
+                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>visa.png"/>
+                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>mastercard.png"/>
+                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>amex.png"/>
+                </div>
+            </button>
+        </div>
         <div class="credit-cards">
             <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>visa.png"/>
             <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>mastercard.png"/>
