@@ -141,7 +141,8 @@
                 <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="-">
                     <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
                 </container>
-                <container name="payment.gateways-bottom" htmlTag="div"  htmlClass="payment-gateways-container-bottom" after="-">
+                
+                <container name="payment.gateways.bottom" htmlTag="div"  htmlClass="payment-gateways-container-bottom" after="-">
                     <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block.bottom" template="Magento_Catalog::product/payment-gateways-bottom.phtml" />
                 </container>
 

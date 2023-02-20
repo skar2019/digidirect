@@ -1,3 +1,10 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+$listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+$addToCartUrl =  $listBlock->getAddToCartUrl($product);
+?>
+
 <div class="payment-gateways">
     <div class="row-first">
         <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
