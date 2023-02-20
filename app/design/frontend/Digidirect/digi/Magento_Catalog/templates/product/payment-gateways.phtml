@@ -23,15 +23,12 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
         </form>
         <div id="paypal-custom">
         </div>
-        <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
-            <?php echo $block->getBlockHtml('formkey')?>
-            <div id="zip-custom">
-                <span class="zip-caption">
-                    <span class="zip-interest">0% Interest for 6 Months</span>
-                    <span class="zip-apply-now">APPLY NOW!</span>
-                </span>
-            </div>
-        </form>
+        <div id="zip-custom">
+            <span class="zip-caption">
+                <span class="zip-interest">0% Interest for 6 Months</span>
+                <span class="zip-apply-now">APPLY NOW!</span>
+            </span>
+        </div>
     </div>
 </div>
 
