@@ -1,6 +1,7 @@
 <div class="payment-gateways">
     <div class="row-first">
-        <div class="actions">
+        <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
+            <?php echo $block->getBlockHtml('formkey')?>
             <button type="submit"
                 class="action tocart btn_cart tocart-pdp-btn"
                 id="product-addtocart-button"
@@ -12,6 +13,9 @@
                     <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>amex.png"/>
                 </div>
             </button>
+        </form>
+        <div class="actions">
+            
         </div>
         <div id="paypal-custom">
         </div>
@@ -24,43 +28,6 @@
     </div>
 </div>
 
-<div class="payment-gateways-bottom">
-    <div class="row-bottom">
-        <div class="actions">
-            <button type="submit"
-                class="action tocart btn_cart tocart-pdp-btn"
-                id="product-addtocart-button"
-                data-action="add-to-cart-action"
-                >
-                <div id="union-alipay-wechat">
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>union-alipay-wechat.png"/>
-                </div>
-            </button>
-        </div>
-        <div class="actions">
-            <button type="submit"
-                class="action tocart btn_cart tocart-pdp-btn"
-                id="product-addtocart-button"
-                data-action="add-to-cart-action"
-                >
-                <div id="latitude-pay-custom">
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>latitudepay.png"/>
-                </div>
-            </button>
-        </div>
-        <div class="actions">
-            <button type="submit"
-                class="action tocart btn_cart tocart-pdp-btn"
-                id="product-addtocart-button"
-                data-action="add-to-cart-action"
-                >
-                <div id="klarna-custom">
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>klarna.png"/>
-                </div>
-            </button>
-        </div>
-    </div>
-</div>
 
 <script>
     require([

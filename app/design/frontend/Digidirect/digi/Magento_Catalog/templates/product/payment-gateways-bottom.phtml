@@ -19,7 +19,8 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
                 </div>
             </button>
         </form>
-        <div class="actions">
+        <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
+            <?php echo $block->getBlockHtml('formkey')?>
             <button type="submit"
                 class="action tocart btn_cart tocart-pdp-btn"
                 id="product-addtocart-button"
@@ -29,8 +30,9 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
                     <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>latitudepay.png"/>
                 </div>
             </button>
-        </div>
-        <div class="actions">
+        </form>
+        <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
+            <?php echo $block->getBlockHtml('formkey')?>
             <button type="submit"
                 class="action tocart btn_cart tocart-pdp-btn"
                 id="product-addtocart-button"
@@ -40,7 +42,7 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
                     <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>klarna.png"/>
                 </div>
             </button>
-        </div>
+        </form>
     </div>
 </div>
 
