@@ -2190,6 +2190,143 @@
     #product-addtocart-button {
         margin-top: -10px;
     }
+    
+    .payment-gateways {
+        margin-top: 120px;
+    }
+
+    .row-first {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 5px;
+    }
+    
+    .row-first > div {
+        border: 1px solid #cacaca;
+        border-radius: 5px;
+    }
+
+    .credit-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        align-items: center;
+        padding: 0 5px;
+    }
+
+    .credit-cards img {
+        max-width: 25px;
+        max-height: 20px;
+        object-fit: contain;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    #paypal-custom {
+        background: #eee;
+    }
+
+    #paypal-custom:hover {
+        background: #e2e2e2;
+    }
+    
+    #paypal-smart-button {
+        padding-top: 5px !important;
+    }
+    
+    #zip-custom {
+        display: flex;
+        padding: 3px;
+    }
+    
+    #zip-custom:before {
+        content: "";
+        background-repeat: no-repeat;
+        background-image: url(https://static.zipmoney.com.au/assets/default/product-widget/img/zip-button-wht.svg);
+        background-size: contain;
+        width: 75px;
+        margin-top: 4px;
+    }
+    
+    .zip-caption {
+        text-align: center;
+        line-height: 10px;
+        margin-top: 1px;
+    }
+    
+    .zip-interest {
+        font-size: 8px;
+    }
+    
+    .zip-apply-now {
+        font-size: 10px;
+        font-weight: 600;
+        color: #e40301;
+    }
+    
+    .payment-gateways-bottom {
+        margin-top: 14px;
+    }
+    
+    .row-bottom {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 5px;
+    }
+
+    .row-bottom > div {
+        border: 1px solid #cacaca;
+        border-radius: 5px;
+    }
+    
+    #klarna-custom {
+        display: flex;
+        justify-content: center;
+        background: #f7adc1;
+    }
+
+    #klarna-custom img {
+        max-height: 40px;
+    }
+
+    #union-alipay-wechat {
+        display: flex;
+        justify-content: center;
+    }
+
+    #union-alipay-wechat img {
+        max-width: 120px;
+        object-fit: contain;
+    }
+
+    #latitude-pay-custom {
+        display: flex;
+        justify-content: center;
+    }
+
+    #latitude-pay-custom img {
+        max-width: 120px;
+        object-fit: contain;
+    }
+    
+    .payment-gateways .tocart-pdp-btn {
+        width: 100% !important;
+        background: none !important;
+        border: none !important;
+        height: unset !important;
+        margin-top: 0 !important;
+        padding: 8px 0px !important;
+    }
+    
+    .payment-gateways-bottom .tocart-pdp-btn {
+        width: 100% !important;
+        background: none !important;
+        border: none !important;
+        height: unset !important;
+        margin-top: 0 !important;
+        padding: 8px 0px !important;
+    }
+
 }
 
 //Redeploy
