@@ -15,6 +15,10 @@ build:
 dependencies:
     php:
         composer/composer: '^2.0'
+    ruby:
+        sass: "3.4.7"
+    nodejs:
+        grunt-cli: "~1.2.0"
 
 # Enable extensions required by Magento 2
 runtime:
@@ -125,12 +129,6 @@ crons:
         spec: "0 2 * * *"
         cmd: "/bin/bash ~/var/remove-integration-logs.sh > /dev/null 2>&1"
 
-#For FE - grunt
-dependencies:
-    ruby:
-        sass: "3.4.7"
-    nodejs:
-        grunt-cli: "~1.2.0"
 
 # Environment variables
 variables:
