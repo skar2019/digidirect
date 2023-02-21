@@ -8,7 +8,7 @@ name: mymagento
 # The toolstack used to build the application.
 type: php:8.1
 build:
-    flavor: composer
+    flavor: none
 
 # Enable extensions required by Magento 2
 runtime:
@@ -92,6 +92,7 @@ hooks:
     # We run build hooks before your application has been packaged.
     build: |
         set -e
+        composer --no-ansi --no-interaction install --no-progress --prefer-dist --optimize-autoloader
         npm install
         php ./vendor/bin/ece-tools build:generate
         grunt prod
@@ -125,7 +126,7 @@ dependencies:
     nodejs:
         grunt-cli: "~1.2.0"
     php:
-        composer/composer: ">=2.0 <2.2.4"
+        composer/composer: "^2.0"
 
 # Environment variables
 variables:
