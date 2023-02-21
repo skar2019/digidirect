@@ -52,19 +52,26 @@ class OrderPlaceBefore implements \Magento\Framework\Event\ObserverInterface {
         //Set unit number for Shipping Address
         $shipAddress = $order->getShippingAddress();
         $initialShippingAddressUnitNumber = $order->getShippingAddress()->getUnitNumber();
-        $initialShippingAddressUnitNumber = str_replace("unit_number", "", $initialShippingAddressUnitNumber);
-        $shippingAddressUnitNumber = str_replace("\n", "", $initialShippingAddressUnitNumber);
-
-        $shipAddress->setUnitNumber($shippingAddressUnitNumber);
+        if(!empty($initialShippingAddressUnitNumber))
+        {
+            $initialShippingAddressUnitNumber = str_replace("unit_number", "", $initialShippingAddressUnitNumber);
+            $shippingAddressUnitNumber = str_replace("\n", "", $initialShippingAddressUnitNumber);
+            $shipAddress->setUnitNumber($shippingAddressUnitNumber);
+        }
+        
         $this->repositoryAddress->save($shipAddress);
 
 //        //Set unit number for Billing Address
         $billingAddress = $order->getBillingAddress();
         $initialBillingAddressUnitNumber = $order->getBillingAddress()->getUnitNumber();
-        $initialBillingAddressUnitNumber = str_replace("unit_number", "", $initialBillingAddressUnitNumber);
-        $billingAddressUnitNumber = str_replace("\n", "", $initialBillingAddressUnitNumber);
+        if(!empty($initialBillingAddressUnitNumber))
+        {
+            $initialBillingAddressUnitNumber = str_replace("unit_number", "", $initialBillingAddressUnitNumber);
+            $billingAddressUnitNumber = str_replace("\n", "", $initialBillingAddressUnitNumber);
 
-        $billingAddress->setUnitNumber($billingAddressUnitNumber);
+            $billingAddress->setUnitNumber($billingAddressUnitNumber);
+        }
+        
         $this->repositoryAddress->save($billingAddress);
     }
 

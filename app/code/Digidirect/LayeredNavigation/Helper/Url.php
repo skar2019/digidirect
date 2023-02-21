@@ -225,12 +225,16 @@ class Url extends AbstractHelper
     public function removeCategorySuffix($url)
     {
         $suffix = $this->helper->getSuffix();
-        if (strlen($suffix)) {
-            $p = strrpos($url, $suffix);
-            if ($p !== false && $p == strlen($url) - strlen($suffix)) {
-                $url = substr($url, 0, $p);
+        if(!empty($suffix))
+        {
+            if (strlen($suffix)) {
+                $p = strrpos($url, $suffix);
+                if ($p !== false && $p == strlen($url) - strlen($suffix)) {
+                    $url = substr($url, 0, $p);
+                }
             }
         }
+        
         return $url;
     }
 

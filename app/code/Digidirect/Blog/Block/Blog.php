@@ -95,8 +95,8 @@ class Blog extends Template
         CategoryHelper $categoryHelper,
         Arrow $arrowHelper,
         UrlModel $urlModel,
-        array $data = [],
-        \Magento\Framework\UrlInterface $urlInterface
+        \Magento\Framework\UrlInterface $urlInterface,
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->dataHelper = $dataHelper;

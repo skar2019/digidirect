@@ -70,7 +70,12 @@ class AbstractEntities extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $options = [];
         if ($product->getId()) {
-            $features = explode(',', $product->getKeyFeatures());
+            $features = "";
+            if($product->getKeyFeatures())
+            {
+                $features = explode(',', $product->getKeyFeatures());  
+            }
+            
             if (!empty($features)) {
                 $attributeSetId = $this->abstractEntityResource->getAttributeSetIdByName(
                     self::KF_ATTRIBUTE_SET_NAME

@@ -228,7 +228,11 @@ class Logger extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getLogFilePath()
     {
-        $configValue = trim($this->getConfValue('digidirect_ai/logs/logs_path'));
+        $configValue = "";
+        if(!empty($this->getConfValue('digidirect_ai/logs/logs_path')))
+        {
+            $configValue = trim($this->getConfValue('digidirect_ai/logs/logs_path'));
+        }
         $path = $configValue ? $configValue
             : $this->_directoryList->getPath('var');
 
@@ -242,7 +246,12 @@ class Logger extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getLogFilesBackupFolder()
     {
-        $configValue = trim($this->getConfValue('digidirect_ai/logs/backup_logs_path'));
+        $configValue = "";
+        if(!empty($this->getConfValue('digidirect_ai/logs/logs_path')))
+        {
+            $configValue = trim($this->getConfValue('digidirect_ai/logs/backup_logs_path'));
+        }
+        
         $path = $configValue ? $configValue
             : $this->getLogFilePath() .
             DIRECTORY_SEPARATOR . self::BACKUP_FILE_PREFIX;
