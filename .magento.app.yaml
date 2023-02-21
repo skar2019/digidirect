@@ -7,8 +7,14 @@ name: mymagento
 
 # The toolstack used to build the application.
 type: php:8.1
+# 1. Change flavor to none.
 build:
     flavor: none
+
+# 2. Add Composer ^2.0 as a php dependency.
+dependencies:
+    php:
+        composer/composer: '^2.0'
 
 # Enable extensions required by Magento 2
 runtime:
@@ -125,8 +131,6 @@ dependencies:
         sass: "3.4.7"
     nodejs:
         grunt-cli: "~1.2.0"
-    php:
-        composer/composer: "^2.0"
 
 # Environment variables
 variables:
