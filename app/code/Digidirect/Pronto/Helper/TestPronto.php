@@ -289,7 +289,7 @@ class TestPronto extends AbstractHelper
                 $type = 'IP';
                 break;
             default:
-          break;
+                break;
         }
 
         return $type;
