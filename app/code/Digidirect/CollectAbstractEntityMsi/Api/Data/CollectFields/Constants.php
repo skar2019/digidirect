@@ -1,9 +1,9 @@
 <?php
-namespace Digidirect\CollectAbstractEntityMSI\Api\Data\CollectFields;
+namespace Digidirect\CollectAbstractEntityMsi\Api\Data\CollectFields;
 
 /**
  * Interface Constants
- * @package Digidirect\CollectAbstractEntityMSI\Api\Data\CollectFields
+ * @package Digidirect\CollectAbstractEntityMsi\Api\Data\CollectFields
  */
 interface Constants
 {

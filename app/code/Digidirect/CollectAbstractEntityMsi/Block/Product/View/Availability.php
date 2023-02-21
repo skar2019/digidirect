@@ -1,18 +1,18 @@
 <?php
 
-namespace Digidirect\CollectAbstractEntityMSI\Block\Product\View;
+namespace Digidirect\CollectAbstractEntityMsi\Block\Product\View;
 
 use Magento\Framework\Registry;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Digidirect\CollectAbstractEntity\Model\CollectPlaceRepository;
-use Digidirect\CollectAbstractEntityMSI\Model\MsiAvailability;
-use Digidirect\CollectAbstractEntityMSI\Model\ProductTypeHandlerPool;
+use Digidirect\CollectAbstractEntityMsi\Model\MsiAvailability;
+use Digidirect\CollectAbstractEntityMsi\Model\ProductTypeHandlerPool;
 use Digidirect\CollectAbstractEntity\Api\Data\CollectPlaceInterface;
-use Digidirect\CollectAbstractEntityMSI\Helper\ProductType as ProductTypeHelper;
+use Digidirect\CollectAbstractEntityMsi\Helper\ProductType as ProductTypeHelper;
 
 /**
  * Class Availability
- * @package Digidirect\CollectAbstractEntityMSI\Block\Product\View
+ * @package Digidirect\CollectAbstractEntityMsi\Block\Product\View
  */
 class Availability extends \Magento\Framework\View\Element\Template
 {

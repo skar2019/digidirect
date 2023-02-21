@@ -1,6 +1,6 @@
 {
   "name": "digidirect/collectabstractentitymsi",
-  "description": "Digidirect CollectAbstractEntityMSI",
+  "description": "Digidirect CollectAbstractEntityMsi",
   "type": "magento2-module",
   "version": "1.1.0.0",
   "autoload": {
@@ -8,7 +8,7 @@
       "registration.php"
     ],
     "psr-4": {
-      "Digidirect\\CollectAbstractEntityMSI\\": ""
+      "Digidirect\\CollectAbstractEntityMsi\\": ""
     }
   }
 }

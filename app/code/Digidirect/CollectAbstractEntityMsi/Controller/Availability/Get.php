@@ -1,13 +1,13 @@
 <?php
 
-namespace Digidirect\CollectAbstractEntityMSI\Controller\Availability;
+namespace Digidirect\CollectAbstractEntityMsi\Controller\Availability;
 
 use Digidirect\Faq\Api\CategoryRepositoryInterface;
 use Magento\Framework\Controller\ResultFactory;
 
 /**
  * Class Get
- * @package Digidirect\CollectAbstractEntityMSI\Controller\Availability
+ * @package Digidirect\CollectAbstractEntityMsi\Controller\Availability
  */
 class Get extends \Magento\Framework\App\Action\Action
 {

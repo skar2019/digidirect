@@ -1,12 +1,12 @@
 <?php
-namespace Digidirect\CollectAbstractEntityMSI\Plugin\Digidirect\CollectAbstractEntity\Model\System\Config\Source;
+namespace Digidirect\CollectAbstractEntityMsi\Plugin\Digidirect\CollectAbstractEntity\Model\System\Config\Source;
 
 use Digidirect\CollectAbstractEntity\Model\System\Config\Source\CollectField;
-use Digidirect\CollectAbstractEntityMSI\Api\Data\CollectFields\Constants;
+use Digidirect\CollectAbstractEntityMsi\Api\Data\CollectFields\Constants;
 
 /**
  * Class CollectFieldPlugin
- * @package Digidirect\CollectAbstractEntityMSI\Plugin\Digidirect\CollectAbstractEntity\Model\System\Config\Source
+ * @package Digidirect\CollectAbstractEntityMsi\Plugin\Digidirect\CollectAbstractEntity\Model\System\Config\Source
  */
 class CollectFieldPlugin
 {

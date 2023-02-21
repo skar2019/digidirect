@@ -1,4 +1,4 @@
-Digidirect CollectAbstractEntityMSI
+Digidirect CollectAbstractEntityMsi
 =====================
 
 [wiki link](https://wiki.digidirect.com/pages/viewpage.action?pageId=31174235)
