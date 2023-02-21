@@ -564,7 +564,7 @@ return [
         'Digidirect_CheckoutFields' => 1,
         'Digidirect_Collect' => 1,
         'Digidirect_CollectAbstractEntity' => 1,
-        'Digidirect_CollectAbstractEntityMSI' => 1,
+        'Digidirect_CollectAbstractEntityMsi' => 1,
         'Digidirect_Localization' => 1,
         'Digidirect_CustomGiftCardLog' => 1,
         'Digidirect_CustomInventoryLog' => 1,
