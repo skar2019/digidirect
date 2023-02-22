@@ -106,7 +106,7 @@
         <move element="product.info.price.zipmoney.productwidget" destination="product.info.main" before="product.info.main.bottom" />
         <move element="product.info.options.wrapper" destination="product.info.main" after="product.info" />
         <move element="studio19.wrapper" destination="product.info.main" after="product.info.options.wrapper" />
-        
+
         <referenceContainer name="product.info.main">
             <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info"/>
         </referenceContainer>
@@ -139,6 +139,14 @@
             <container name="product.info.main.bottom" label="Bottom part" htmlTag="div" htmlClass="product-info-main-bottom" after="-">
                 <container name="secure.pay.container" label="Secure Pay" htmlTag="div" htmlClass="secure-pay-container" before="-">
                     <block class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" before="-" />
+                </container>
+
+                <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="-">
+                    <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
+                </container>
+                
+                <container name="payment.gateways.bottom" htmlTag="div"  htmlClass="payment-gateways-container-bottom" after="-">
+                    <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block.bottom" template="Magento_Catalog::product/payment-gateways-bottom.phtml" />
                 </container>
 
                 <container name="most.bottom.product.info" htmlTag="div" htmlClass="most-bottom-product-info" after="-">
