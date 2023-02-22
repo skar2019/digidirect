@@ -1,12 +1,12 @@
 <?php
-namespace Digidirect\Googleapi\Helper;
+namespace Digidirect\GoogleApi\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Store\Model\ScopeInterface;
 
 /**
  * Class Config
- * @package Digidirect\Googleapi\Helper
+ * @package Digidirect\GoogleApi\Helper
  */
 class Config extends AbstractHelper
 {
