@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae84a90cd835a676b9e704c097b5c71b",
+    "content-hash": "905c544e8c3887d1e569170aee29d9af",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -143,16 +143,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.259.1",
+            "version": "3.260.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "b200fc0a04e904bfc44922767388b279bf90ffe4"
+                "reference": "25a14f63cc927d72adad3cc24d6bcdadfe6e0fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/b200fc0a04e904bfc44922767388b279bf90ffe4",
-                "reference": "b200fc0a04e904bfc44922767388b279bf90ffe4",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/25a14f63cc927d72adad3cc24d6bcdadfe6e0fc7",
+                "reference": "25a14f63cc927d72adad3cc24d6bcdadfe6e0fc7",
                 "shasum": ""
             },
             "require": {
@@ -231,9 +231,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.259.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.260.0"
             },
-            "time": "2023-02-20T19:21:16+00:00"
+            "time": "2023-02-21T20:26:17+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -1353,16 +1353,16 @@
         },
         {
             "name": "dotdigital/dotdigital-magento2-extension",
-            "version": "4.20.0",
+            "version": "4.20.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dotmailer/dotmailer-magento2-extension.git",
-                "reference": "ea295452a317a9c00c2744584f12f91e26e3bb8f"
+                "reference": "764720556c3b9dfed4be2b0dc26511f8a880e43a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension/zipball/ea295452a317a9c00c2744584f12f91e26e3bb8f",
-                "reference": "ea295452a317a9c00c2744584f12f91e26e3bb8f",
+                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension/zipball/764720556c3b9dfed4be2b0dc26511f8a880e43a",
+                "reference": "764720556c3b9dfed4be2b0dc26511f8a880e43a",
                 "shasum": ""
             },
             "require": {
@@ -1423,9 +1423,9 @@
             "description": "Dotdigital for Magento 2",
             "support": {
                 "issues": "https://github.com/dotmailer/dotmailer-magento2-extension/issues",
-                "source": "https://github.com/dotmailer/dotmailer-magento2-extension/tree/v4.20.0"
+                "source": "https://github.com/dotmailer/dotmailer-magento2-extension/tree/v4.20.1"
             },
-            "time": "2023-02-14T09:43:53+00:00"
+            "time": "2023-02-22T09:04:35+00:00"
         },
         {
             "name": "dotdigital/dotdigital-magento2-extension-enterprise",
@@ -5694,6 +5694,41 @@
                 }
             ],
             "time": "2022-12-12T11:44:10+00:00"
+        },
+        {
+            "name": "latitudefinancial/payment",
+            "version": "3.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Latitude-Financial/magento2-latitude.git",
+                "reference": "e82dc7608bed6bbf887e389dcd060395a3039286"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Latitude-Financial/magento2-latitude/zipball/e82dc7608bed6bbf887e389dcd060395a3039286",
+                "reference": "e82dc7608bed6bbf887e389dcd060395a3039286",
+                "shasum": ""
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "LatitudeNew\\Payment\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "Latitude Payment Plugin offering 3-in-1 integration with Interest Free, LatitudePay, and Genoapay",
+            "support": {
+                "issues": "https://github.com/Latitude-Financial/magento2-latitude/issues",
+                "source": "https://github.com/Latitude-Financial/magento2-latitude/tree/3.0.8"
+            },
+            "time": "2022-12-12T02:35:08+00:00"
         },
         {
             "name": "league/flysystem",

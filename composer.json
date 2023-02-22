@@ -22,6 +22,7 @@
         "dotdigital/dotdigital-magento2-extension-enterprise": "^1.8",
         "klarna/m2-klarna": "^1.0",
         "klevu/module-search": "^2.3",
+        "latitudefinancial/payment": "^3.0",
         "livechat/module-magento-livechat": "dev-master",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
