@@ -281,8 +281,8 @@ if ($currentPage != "catalogsearch_result_index") {
 
                         <div class="product-item-inner">
                             <?= $block->getProductDetailsHtml($_product); ?>
-                            <div class="product actions product-item-actions"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
-                                <div class="actions-primary"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>
+                            <div class="product actions product-item-actions">
+                                <div class="actions-primary">
                                     <?php $postParams = $block->getAddToCartPostParams($_product); ?>
                                     <form data-role="tocart-form"
                                           data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
