@@ -1134,6 +1134,10 @@ class Order extends AbstractHelper
             case "instant":
                 $type = 'IP';
                 break;
+            case "paypal_express":
+                $type = 'PPW';
+                break;
+            
             default:
                 break;
         }
