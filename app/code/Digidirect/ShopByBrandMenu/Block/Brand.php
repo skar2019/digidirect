@@ -429,6 +429,10 @@ class Brand extends Template
          * remove empty  field in array
          */
         foreach ($this->_char as $offset => $row) {
+            if(empty($row))
+            {
+                unset($this->_char[$offset]);   
+            }
             if (trim($row) === '') {
                 unset($this->_char[$offset]);
             }

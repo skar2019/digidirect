@@ -159,6 +159,10 @@ class ContextualRedirectRouter implements RouterInterface
      */
     protected function preparePathsByRequest(RequestInterface $request)
     {
+        if(empty($request->getPathInfo()))
+        {
+            return '';
+        }
         /** @var Request $request */
         $path = trim($request->getPathInfo(), self::URL_DELIMITER);
         $parts = array_filter(explode(self::URL_DELIMITER, $path));

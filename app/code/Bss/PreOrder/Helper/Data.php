@@ -550,6 +550,10 @@ class Data extends AbstractHelper
         } elseif (trim($fromDate) == '' && trim($toDate) != '') {
             $preOrderDate = __('to %1', $toDate);
         }
+        if(empty($mess))
+        {
+            return "";
+        }
         return str_replace(["{preorder_date}"], [$preOrderDate], $mess);
     }
 

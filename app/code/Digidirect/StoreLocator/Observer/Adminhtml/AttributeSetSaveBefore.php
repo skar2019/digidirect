@@ -117,6 +117,10 @@ class AttributeSetSaveBefore implements ObserverInterface
      */
     protected function normalizeName($name)
     {
+        if(empty($name))
+        {
+            return $name;
+        }
         return trim(strtolower($name));
     }
 }

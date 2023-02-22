@@ -8,7 +8,15 @@ $overlay = $this->getOverlay();
 $product = $block->getProduct();
 $key = (int)$overlay->getId() . '-' . (int)$product->getId();
 $text = $overlay->getText();
-$nativeText = strip_tags($text);
+if(empty($text))
+{
+    $nativeText = '';
+}
+else 
+{
+    $nativeText = strip_tags($text);
+}
+
 $containerPath = $block->getContainerPath();
 $hasImageSize = $overlay->getImageSize() ? ' -has-size' : '';
 ?>

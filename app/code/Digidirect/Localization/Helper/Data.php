@@ -86,7 +86,15 @@ class Data extends AbstractHelper
             $state,
             'holiday_column'
         );
-        return array_filter(array_map('trim', explode(',', $holidays)));
+        if(empty($holidays))
+        {
+            return '';
+        }
+        else 
+        {
+            return array_filter(array_map('trim', explode(',', $holidays)));
+        }
+        
     }
 
     /**
