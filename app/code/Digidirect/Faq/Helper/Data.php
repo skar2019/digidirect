@@ -124,7 +124,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getFaqSuffix(): string
     {
-        return (string)trim($this->scopeConfig->getValue(static::FAQ_SUFFIX));
+        if(!empty($this->scopeConfig->getValue(static::FAQ_SUFFIX)))
+        {
+            return (string)trim($this->scopeConfig->getValue(static::FAQ_SUFFIX));
+        }
+        
+        return;
     }
 
     /**
