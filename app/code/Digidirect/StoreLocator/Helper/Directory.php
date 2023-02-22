@@ -159,6 +159,10 @@ class Directory extends AbstractHelper
      */
     public function getCountryCodeByName($name = '')
     {
+        if(empty($name))
+        {
+            return null;
+        }
         $name = \strtolower(\trim($name));
         if(!$name) {
             return null;
