@@ -116,6 +116,8 @@ class Overlays extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function getStoresByOverlay(\Magento\Framework\Model\AbstractModel $object)
     {
+        //clint work around 02-22-23
+        return 1;
         $select = $this->getConnection()->select()
             ->from($this->getOverlayStoreTable(), ['store_id'])
             ->where($this->getConnection()->quoteInto('overlay_id =?', $object->getId()));
