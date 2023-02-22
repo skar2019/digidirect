@@ -1135,7 +1135,7 @@ class Order extends AbstractHelper
                 $type = 'IP';
                 break;
             case "paypal_express":
-                $type = 'PPW';
+                $type = 'PY';
                 break;
             
             default:
