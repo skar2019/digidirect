@@ -8,6 +8,7 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\DataObject;
 use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
+use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -70,7 +71,8 @@ class DefaultConfigProvider
         \Digidirect\Collect\Model\StorageHandler $storageHandler,
         CollectHelper $collectHelper,
         AddressCollectHelper $addressCollectHelper,
-        EventManagerInterface $eventManager = null
+        EventManagerInterface $eventManager = null,
+        GetSourceItemsBySku $getSourceItemsBySku
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->quoteRepository = $quoteRepository;
@@ -79,6 +81,7 @@ class DefaultConfigProvider
         $this->collectHelper = $collectHelper;
         $this->addressCollectHelper = $addressCollectHelper;
         $this->eventManager = $eventManager ?: ObjectManager::getInstance()->get(EventManagerInterface::class);
+        $this->getSourceItemsBySku = $getSourceItemsBySku;
     }
 
     /**
@@ -117,8 +120,32 @@ class DefaultConfigProvider
                     $result['paymentMethods'] = $paymentMethods;
                 }
             }
-            $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
+            
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+            $items = $cart->getQuote()->getAllItems();
+            
+            $totalqty = 1;
+            foreach ($items as $item) {
+                $prodId = $item->getProductId();
+                $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
+                $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+                $qty = 0;
+                foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                    $qty = $qty + $sourceItem->getQuantity();
+                }
+                $totalqty = $totalqty * $qty;
+            }
+            
+            if ($totalqty > 0) {
+                $result['quoteData']['products_available_in_any_store'] = true;
+            } else {
+                $result['quoteData']['products_available_in_any_store'] = false;
+            }
+            
+            $result['quoteData']['collect_places'] = $this->getCollectPlaceInformation();
             $singleVariation = $this->collectHelper->isSingleVariation();
             $singleCartVariation = $this->collectHelper->isSingleCartVariation();
             $result['quoteData']['is_single_collect_variation'] = $singleVariation;
