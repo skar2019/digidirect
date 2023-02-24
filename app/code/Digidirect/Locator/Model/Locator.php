@@ -69,7 +69,7 @@ class Locator
 
         }
         $this->eventManager->dispatch(
-            'digidirect_locator_entites_after_load',
+            'Digidirect_locator_entites_after_load',
             [static::RESULT_OBJECT_EVENT => $this->resultObject]
         );
         return $this->resultObject->getData();
