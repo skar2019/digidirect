@@ -123,15 +123,17 @@ class AdminhtmlBlockHtmlBeforeObserver implements ObserverInterface
 
 
         // Handle prices that are shown when admin reviews customers shopping cart
-        $pos = !empty($pos) ? $pos : '';
-        if ($pos && stripos($block->getNameInLayout(), 'customer_cart_') === 0) {
-            if (!$this->observerData->isCanReadProductPrice()) {
-                if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
-                    $this->_removeColumnFromGrid($block, 'price');
-                    $this->_removeColumnFromGrid($block, 'total');
+        if(!empty($block->getNameInLayout())) {
+            if (stripos($block->getNameInLayout(), 'customer_cart_') === 0) {
+                if (!$this->observerData->isCanReadProductPrice()) {
+                    if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
+                        $this->_removeColumnFromGrid($block, 'price');
+                        $this->_removeColumnFromGrid($block, 'total');
+                    }
                 }
             }
         }
+        
     }
 
     /**
