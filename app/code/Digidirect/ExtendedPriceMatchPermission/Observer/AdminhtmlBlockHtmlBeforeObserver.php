@@ -141,6 +141,8 @@ class AdminhtmlBlockHtmlBeforeObserver implements ObserverInterface
            $getlayout = '';
         }
 
+        return "test";
+
 
         if (stripos($block->getNameInLayout(), 'customer_cart_') === 0) {
             if (!$this->observerData->isCanReadProductPrice()) {
