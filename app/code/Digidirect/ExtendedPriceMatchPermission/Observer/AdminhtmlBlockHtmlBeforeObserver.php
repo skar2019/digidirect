@@ -121,15 +121,32 @@ class AdminhtmlBlockHtmlBeforeObserver implements ObserverInterface
 
         $this->_filterByBlockName($block);
 
+        $getlayout = !empty($block->getNameInLayout()) ? $block->getNameInLayout() : '';
 
         // Handle prices that are shown when admin reviews customers shopping cart
-        if(!empty($block->getNameInLayout())) {
-            if (stripos($block->getNameInLayout(), 'customer_cart_') === 0) {
-                if (!$this->observerData->isCanReadProductPrice()) {
-                    if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
-                        $this->_removeColumnFromGrid($block, 'price');
-                        $this->_removeColumnFromGrid($block, 'total');
-                    }
+        // if(!empty($block->getNameInLayout())) {
+        //     if (stripos($block->getNameInLayout(), 'customer_cart_') === 0) {
+        //         if (!$this->observerData->isCanReadProductPrice()) {
+        //             if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
+        //                 $this->_removeColumnFromGrid($block, 'price');
+        //                 $this->_removeColumnFromGrid($block, 'total');
+        //             }
+        //         }
+        //     }
+        // }
+
+        
+        if(!$getlayout)
+        {
+           $getlayout = '';
+        }
+
+
+        if (stripos($block->getNameInLayout(), 'customer_cart_') === 0) {
+            if (!$this->observerData->isCanReadProductPrice()) {
+                if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
+                    $this->_removeColumnFromGrid($block, 'price');
+                    $this->_removeColumnFromGrid($block, 'total');
                 }
             }
         }
