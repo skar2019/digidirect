@@ -1,7 +1,7 @@
 var config = {
     map: {
         '*': {
-            //'anchortag': 'Digidirect_StoreLocator/js/anchortag'
+            'anchortag': 'Digidirect_StoreLocator/js/anchortag'
         }
     }
 };
