@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Magento\PricePermissions\Observer;
+namespace Digidirect\PricePermissions\Observer;
 
 use Magento\Backend\Block\Template;
 use Magento\Framework\Event\Observer as EventObserver;
@@ -121,8 +121,6 @@ class AdminhtmlBlockHtmlBeforeObserver implements ObserverInterface
 
         $this->_filterByBlockName($block);
 
-        $getlayout = !empty($block->getNameInLayout()) ? $block->getNameInLayout() : '';
-
         // Handle prices that are shown when admin reviews customers shopping cart
         
         if(!empty($block->getNameInLayout())) {
@@ -132,10 +130,7 @@ class AdminhtmlBlockHtmlBeforeObserver implements ObserverInterface
                         $this->_removeColumnFromGrid($block, 'total');
                     }
                 }
-            }
-        
-
-
+        }
         
     }
 
