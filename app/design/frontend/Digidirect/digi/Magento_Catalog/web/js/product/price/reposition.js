@@ -115,8 +115,8 @@ define([
     });
     
     $('#zip-custom').on('click', function(){
-        //$('.zip-container').trigger("click");
-        $('.zip-container')[0].click();
+        $('.zip-widget__wrapper').trigger("click");
+        //$('.zip-container')[0].click();
         console.log("ZIP Custom Clicked!");
     });
 
