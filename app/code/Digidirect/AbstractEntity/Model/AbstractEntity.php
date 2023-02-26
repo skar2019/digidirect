@@ -387,7 +387,15 @@ class AbstractEntity extends AbstractExtensibleModel implements AbstractEntityIn
     public function beforeSave()
     {
         $this->validate();
-        $urlKey = trim($this->getUrlKey());
+        if(empty($this->getUrlKey()))
+        {
+            $urlKey = '';
+        }
+        else 
+        {
+            $urlKey = trim($this->getUrlKey());
+        }
+        
         $name = $this->getName();
         if (($urlKey === '' || $urlKey === null) && $name) {
             $this->setUrlKey($this->filterManager->translitUrl($name));

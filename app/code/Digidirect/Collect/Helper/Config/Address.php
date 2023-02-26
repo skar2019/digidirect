@@ -183,8 +183,9 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if (null === $this->defaultAddressHtml) {
             $addressTemplate = $this->getDefaultShippingValue(self::XML_DEFAULT_ADDRESS_TEMPLATE);
-            if (!trim($addressTemplate)) {
-                $this->defaultAddressHtml = '';
+            if(empty($addressTemplate))
+            {
+                $this->defaultAddressHtml = ''; 
             } else {
                 $collectAddressType = new \Magento\Framework\DataObject();
                 $collectAddressType->setCode('html')
