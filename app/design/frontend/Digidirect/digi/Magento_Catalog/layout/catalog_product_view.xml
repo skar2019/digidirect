@@ -40,11 +40,7 @@
         </referenceContainer>
         
         <referenceContainer name="product.info.main">
-            <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="product.info"/>
-            
-            <container name="payment.gateways.bottom" htmlTag="div"  htmlClass="payment-gateways-container-bottom" after="studio19.wrapper">
-                <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block.bottom" template="Magento_Catalog::product/payment-gateways-bottom.phtml" />
-            </container>
+            <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="product.info.options.wrapper"/>
         </referenceContainer>
         
         <referenceContainer name="content">
@@ -109,13 +105,16 @@
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
         <move element="product.info.price.zipmoney.productwidget" destination="product.info.main" before="product.info.main.bottom" />
         <move element="product.info.options.wrapper" destination="product.info.main" after="product.info" />
-        <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper" />
+        <move element="studio19.wrapper" destination="product.info.main" after="product.info.options.wrapper" />
 
         <referenceContainer name="product.info.main">
-            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info.options.wrapper"/>
-            
-            <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="itoris.product.info.pm">
+            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info"/>
+            <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="-">
                 <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
+            </container>
+
+            <container name="payment.gateways.bottom" htmlTag="div"  htmlClass="payment-gateways-container-bottom" after="-">
+                <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block.bottom" template="Magento_Catalog::product/payment-gateways-bottom.phtml" />
             </container>
         </referenceContainer>
 
