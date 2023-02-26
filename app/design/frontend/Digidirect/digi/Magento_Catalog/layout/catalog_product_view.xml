@@ -41,11 +41,6 @@
         
         <referenceContainer name="product.info.main">
             <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="product.info.options.wrapper"/>
-            
-            <container name="payment.gateways.bottom" htmlTag="div"  htmlClass="payment-gateways-container-bottom" after="studio19.wrapper">
-                <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block.bottom" template="Magento_Catalog::product/payment-gateways-bottom.phtml" />
-            </container>
-            
         </referenceContainer>
         
         <referenceContainer name="content">
@@ -114,10 +109,6 @@
 
         <referenceContainer name="product.info.main">
             <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info"/>
-            
-            <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="itoris.product.info.pm">
-                <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
-            </container>
         </referenceContainer>
 
         <referenceBlock name="product.info.upsell">
@@ -149,7 +140,15 @@
                 <container name="secure.pay.container" label="Secure Pay" htmlTag="div" htmlClass="secure-pay-container" before="-">
                     <block class="Digidirect\Catalog\Block\SecurePay" name="secure.pay" template="Magento_Catalog::product/view/secure-pay.phtml" before="-" />
                 </container>
+
+                <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="-">
+                    <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
+                </container>
                 
+                <container name="payment.gateways.bottom" htmlTag="div"  htmlClass="payment-gateways-container-bottom" after="-">
+                    <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block.bottom" template="Magento_Catalog::product/payment-gateways-bottom.phtml" />
+                </container>
+
                 <container name="most.bottom.product.info" htmlTag="div" htmlClass="most-bottom-product-info" after="-">
                     <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="Magento_Catalog::product/view/addto.phtml">
                         <block class="Magento\Catalog\Block\Product\View\AddTo\Compare" name="view.addto.compare" after="view.addto.wishlist"
