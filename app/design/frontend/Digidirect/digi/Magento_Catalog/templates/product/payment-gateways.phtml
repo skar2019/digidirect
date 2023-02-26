@@ -40,8 +40,8 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
         function ($) {
             $('#paypal-custom').append($('#paypal-smart-button'));
             
-            $(window).on('load', function(){ 
-                $('#zip-apply-now').append($('#zip-info-link'));
-            });
+            //$(window).on('load', function(){ 
+            $('#zip-custom').append($('.zip-widget__wrapper'));
+            //});
     });
 </script>
