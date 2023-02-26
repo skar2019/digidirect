@@ -24,9 +24,12 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
         <div id="paypal-custom">
         </div>
         <div id="zip-custom">
-            <span class="zip-caption" style="display: none;">
+            <span class="zip-caption">
                 <span class="zip-interest">0% Interest for 6 Months</span>
                 <span id="zip-apply-now" class="zip-apply-now">APPLY NOW!</span>
+                <a href="javascript://" id="zip-apply-now">
+                    APPLY NOW!
+                </a>
             </span>
         </div>
     </div>
@@ -39,9 +42,5 @@ $addToCartUrl =  $listBlock->getAddToCartUrl($product);
         ],
         function ($) {
             $('#paypal-custom').append($('#paypal-smart-button'));
-            
-            //$(window).on('load', function(){ 
-            $('#zip-custom').append($('.widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget'));
-            //});
     });
 </script>
