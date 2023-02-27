@@ -111,7 +111,7 @@
         <move element="studio19.wrapper" destination="product.info.main" after="payment.gateways" />
 
         <referenceContainer name="product.info.main">
-            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info"/>
+            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info.options.wrapper"/>
             
             <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="itoris.product.info.pm">
                 <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
