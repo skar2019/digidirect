@@ -6,140 +6,30 @@
         <referenceBlock name="product.info.mailto" remove="true" />
         <referenceBlock name="product.info.overview" remove="true" />
         <referenceBlock name="product.info.addtocart.additional.zipmoney.productimage" remove="false" />
-        <!-- in case us/288107-->
         <referenceBlock name="product.attributes" remove="true" />
-        <!-- in case us/288107-->
-        <move element="breadcrumbs" destination="product.section" before="-"/>
-        <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
-        <move element="page.main.title" destination="product.info.main" before="-" />
-        <move element="product.info.sku" destination="product.info.price" before="-"/>
-        <!--<move element="product.info.review" destination="product.info.holder" after="page.main.title" />-->
-        <move element="product.info.stock.sku" destination="product.info.price" after="-" />
-        <move element="product.info.main" destination="product.view.top" after="-" />
-        <move element="product.info.media" destination="product.view.media.overview" before="-" />
-        <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
-        
-        <!-- Rondel Changes -->
-        <move element="frequently.bought.with" destination="content" before="-"/>
-<!--        <move element="catalog.product.related" destination="content" after="-"/>-->
-<!--        <move element="product.info.upsell" destination="content" after="catalog.product.related"/>-->
-        
         <referenceBlock name="catalog.product.related" remove="true"/>
         <referenceBlock name="product.info.upsell" remove="true"/>
+        <referenceBlock name="product.places" remove="true" /><!--    Free shipping on orders over $99    -->
+        <referenceBlock name="product.info.attachment" remove="true" />
+        <referenceBlock name="collect_places_detail" remove="true" /><!--   PICKUP in STORE FORM     -->
         
-        <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
-     
-        <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
-            <arguments>
-                <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
-            </arguments>
-        </block>
         
         <referenceContainer name="product.info.main">
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiseconds_info.phtml" name="pdp-digiseconds-info" after="product.info.price"/>
         </referenceContainer>
         
         <referenceContainer name="product.info.main">
+            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info.options.wrapper"/> 
+            <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="itoris.product.info.pm">
+                <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
+            </container>
+            
             <container name="studio19.wrapper" htmlTag="div" htmlClass="studio19-wrapper" after="payment.gateways"/>     
             <container name="payment.gateways.bottom" htmlTag="div"  htmlClass="payment-gateways-container-bottom" after="studio19.wrapper">
                 <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block.bottom" template="Magento_Catalog::product/payment-gateways-bottom.phtml" />
             </container>
         </referenceContainer>
         
-        <referenceContainer name="content">
-            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
-            <referenceBlock name="product.info.details" >
-                <referenceBlock name="product.info.description">
-                    <arguments>
-                        <argument name="title" translate="true" xsi:type="string">Description</argument>
-                    </arguments>
-                </referenceBlock>
-                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec" as="spec" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info" after="product.info.description">
-                    <arguments>
-                        <argument translate="true" name="title" xsi:type="string">Specs</argument>
-                    </arguments>
-                </block>
-                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox" as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.review">
-                    <arguments>
-                        <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
-                    </arguments>
-                </block>
-                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.short_description" as="productoverview" template="Magento_Catalog::product/view/product-overview.phtml" group="detailed_info" before="product.info.description">
-                    <arguments>
-                        <argument translate="true" name="title" xsi:type="string">Product Overview</argument>
-                    </arguments>
-                </block>
-            </referenceBlock>
-        </referenceContainer>
-        <referenceContainer name="page.wrapper">
-            <!-- htmlClass "column main" added special for JS swatches logic -->
-            <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
-                <container name="product.section" htmlTag="div" htmlClass="section-center">
-                    <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
-                    <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
-                        <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area"></container>
-                    </container>
-                </container>
-            </container>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.view.media.overview"/>
-        
-        </referenceContainer>
-        <referenceContainer name="product.info.media">
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/digiseconds-overlay.phtml" name="pdp-digiseconds-overlay" before="product.info.media.image"/>
-            <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
-                   template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
-            </block>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/overlay-container.phtml" name="overlay-container" before="product.info.media.image"/>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.info.media.image"/>
-        
-
-        </referenceContainer>
-
-
-        <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
-
-        <referenceContainer name="product.info.extrahint">
-            <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" />
-        </referenceContainer>
-
-        <!--        <move element="product.info.extrahint" destination="product.info.price" before="product.info.stock.sku" />-->
-        <move element="product.store.availability" destination="product.info.main" after="product.info.price" /> <!--  Availability Store Widget    -->
-<!--        <move element="product.info.bottom" destination="product.info.main" before="product.view.overview" />-->
-        <move element="qantas.points" destination="product.info.main" after="page.main.title" />
-        <move element="product.info.price.zipmoney.productwidget" destination="product.info.main" before="product.info.main.bottom" />
-        <move element="product.info.options.wrapper" destination="product.info.main" after="product.info" />
-        <move element="studio19.wrapper" destination="product.info.main" after="payment.gateways" />
-
-        <referenceContainer name="product.info.main">
-            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info.options.wrapper"/>
-            
-            <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" after="itoris.product.info.pm">
-                <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
-            </container>
-        </referenceContainer>
-        
-        <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper" />
-        <move element="payment.gateways" destination="product.info.main" after="itoris.product.info.pm" />
-
-        <referenceBlock name="product.info.upsell">
-            <block name="product.tile.extended.catalog.rule"
-                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
-                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
-        </referenceBlock>
-        
-        <referenceContainer name="content.aside">
-            <block class="Magento\Cms\Block\Block" name="also.viewed">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">also-viewed</argument>
-                </arguments>
-            </block>
-            <block class="Magento\Cms\Block\Block" name="pdp.you.may.also.like">
-                <arguments>
-                    <argument name="block_id" xsi:type="string">pdp-you-may-also-like</argument>
-                </arguments>
-            </block>
-        </referenceContainer>
-
         <referenceBlock name="product.info.main">
             <block class="Digidirect\ExtendedCatalogPriceRule\Block\Pdp\DisplayMessage"
                    name="digidirectextended.catalog.price.rule.product.view.core"
@@ -168,12 +58,78 @@
             </container>
         </referenceBlock>
         
+        <referenceContainer name="content">
+            <container name="product.info.media.wrapper" htmlTag="div" htmlClass="product attributes negative-gutter" after="product.info.media"></container>
+            <referenceBlock name="product.info.details" >
+                <referenceBlock name="product.info.description">
+                    <arguments>
+                        <argument name="title" translate="true" xsi:type="string">Description</argument>
+                    </arguments>
+                </referenceBlock>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.spec" as="spec" template="Magento_Catalog::product/view/specs.phtml" group="detailed_info" after="product.info.description">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Specs</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox" as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.review">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.short_description" as="productoverview" template="Magento_Catalog::product/view/product-overview.phtml" group="detailed_info" before="product.info.description">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">Product Overview</argument>
+                    </arguments>
+                </block>
+            </referenceBlock>
+        </referenceContainer>
+        
+        <referenceContainer name="page.wrapper">
+            <!-- htmlClass "column main" added special for JS swatches logic -->
+            <container name="product.section.wrapper" htmlTag="div" htmlClass="product-section column main" before="main.content">
+                <container name="product.section" htmlTag="div" htmlClass="section-center">
+                    <container name="product.info.holder" htmlTag="div" htmlClass="product-holder"></container>
+                    <container name="product.view.top" htmlTag="div" htmlClass="product-basic" after="product.info.holder">
+                        <container name="product.view.media.overview" htmlTag="div" htmlClass="media-area"></container>
+                    </container>
+                </container>
+            </container>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.view.media.overview"/>
+        </referenceContainer>
+        
+        <referenceContainer name="product.info.media">
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/digiseconds-overlay.phtml" name="pdp-digiseconds-overlay" before="product.info.media.image"/>
+            <block class="Magento\Framework\View\Element\Template" before="product.info.media.image"
+                   template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
+            </block>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/overlay-container.phtml" name="overlay-container" before="product.info.media.image"/>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.info.media.image"/>       
+        </referenceContainer>
+
+        <referenceContainer name="product.info.extrahint">
+            <container name="product.info.bottom" label="Product Info Bottom container" htmlTag="div"  htmlClass="product-extra" before="-" />
+        </referenceContainer>
+
+        <referenceBlock name="product.info.upsell">
+            <block name="product.tile.extended.catalog.rule"
+                   class="Digidirect\ExtendedCatalogPriceRule\Block\ExtendedRule"
+                   template="Digidirect_ExtendedCatalogPriceRule::product/view/list/display_message.phtml" />
+        </referenceBlock>
+        
+        <referenceContainer name="content.aside">
+            <block class="Magento\Cms\Block\Block" name="also.viewed">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">also-viewed</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Cms\Block\Block" name="pdp.you.may.also.like">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">pdp-you-may-also-like</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
         <referenceContainer name="before.body.end">
-<!--            <block class="Digidirect\HotDealsProducts\Block\Widget\HotdealsProducts" name="digidirectsocial.sharing.additional" before="product.info.details" template="widget/hotdeals-products.phtml">-->
-<!--                <arguments>-->
-<!--                    <argument translate="true" name="title" xsi:type="string">sample</argument>-->
-<!--                </arguments>-->
-<!--            </block>-->
             <block class="Magento\Cms\Block\Block" name="product.tile.rent">
                 <arguments>
                     <argument name="block_id" xsi:type="string">product-tile-rent</argument>
@@ -195,9 +151,34 @@
                 </block>
             </block>
         </container>
-        <!--Temporary solution -->
-        <referenceBlock name="product.places" remove="true" /><!--    Free shipping on orders over $99    -->
-        <referenceBlock name="product.info.attachment" remove="true" />
-        <referenceBlock name="collect_places_detail" remove="true" /><!--   PICKUP in STORE FORM     -->
+        
+        
+        <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
+            <arguments>
+                <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
+            </arguments>
+        </block>
+        
+        <move element="breadcrumbs" destination="product.section" before="-"/>
+        <move element="page.messages" destination="page.wrapper" before="product.section.wrapper" />
+        <move element="page.main.title" destination="product.info.main" before="-" />
+        <move element="product.info.sku" destination="product.info.price" before="-"/>
+        <move element="product.info.stock.sku" destination="product.info.price" after="-" />
+        <move element="product.info.main" destination="product.view.top" after="-" />
+        <move element="product.info.media" destination="product.view.media.overview" before="-" />
+        <move element="product.info.details" destination="product.info.media.wrapper" before="-"/>
+        <move element="frequently.bought.with" destination="content" before="-"/>
+        <move element="product.places" destination="product.info.main" after="free_gift_rule_description"/>
+        <move element="product.store.availability" destination="product.info.main" after="product.info.price" />
+        <move element="qantas.points" destination="product.info.main" after="page.main.title" />
+        <move element="product.info.price.zipmoney.productwidget" destination="product.info.main" before="product.info.main.bottom" />
+        <move element="product.info.options.wrapper" destination="product.info.main" after="product.info" />
+        <move element="studio19.wrapper" destination="product.info.main" after="payment.gateways" /> 
+        <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper" />
+        <move element="payment.gateways" destination="product.info.main" after="itoris.product.info.pm" />
+        <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
+
+
+        
     </body>
 </page>
