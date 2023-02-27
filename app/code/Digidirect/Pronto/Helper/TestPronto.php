@@ -1196,7 +1196,7 @@ class TestPronto extends AbstractHelper
                 }
 
 
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
 
