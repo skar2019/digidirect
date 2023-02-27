@@ -189,7 +189,7 @@
         display: none !important;
     }.latipay-logos {
         margin-left: 13px;
-        padding-top: 25px;
+        padding-top: 15px;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         column-gap: 10px;
@@ -245,7 +245,7 @@
         height: 25px;
     }
     
-        //clint 02-14-23
+    //clint 02-14-23
     .checkout-container .opc-wrapper .input-text {
         height: 40px !important;
         font-size: 1.3rem !important;
@@ -334,6 +334,19 @@
     .checkout-payment-method .payment-method + .payment-method .payment-method-title {
         border-top: 1px solid #e6e6e6 !important;
     }
+    
+    .payment-group .payment-method:has(#paypal_express) {
+        display: none;
+    }
+    
+    .checkout-index-index .zipmoney .field.choice .label span:before {
+        background-image: url('https://static.zipmoney.com.au/assets/default/product-widget/img/zip-button-wht.svg');
+    }
+
+    .zip-widget__wrapper.zip-widget__wrapper--display-inline.zip-widget__wrapper--type-checkouttitle {
+        margin-left: 0 !important;
+        padding: 0;
+    }
 }
 
 //
@@ -347,6 +360,11 @@
             align-items: center;
             justify-content: center;
         }
+    }
+
+    .latipay-logo {
+        max-width: 70px !important;
+        margin: 0 5px;
     }
 }
 

@@ -414,9 +414,6 @@
         -webkit-animation: spin 2s linear infinite; /* Safari */
         animation: spin 2s linear infinite;
     }
-    
-    /*jai code*/
-    
 }
 
 //
@@ -968,6 +965,13 @@
 
     #block-feature-brand-heading {
         opacity: 0;
+    }
+}
+
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xl) {
+    .digi-seconds-modal {
+        display: none;
     }
 }
 

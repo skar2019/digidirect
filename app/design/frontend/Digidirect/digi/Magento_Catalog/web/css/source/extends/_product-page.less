@@ -1251,7 +1251,8 @@
         border-radius: 5px;
         margin-left: 60px;
         height: 22px !important;
-        margin-top: 12px !important;
+        margin-top: 10px !important;
+        display: none !important;
 
         .zip-container {
             //height: 21px !important;
@@ -1319,6 +1320,7 @@
         display: inline-block;
     }
 
+    //Redeploy
     .zip-container span:first-of-type:before {
         visibility: visible;
         content: "0% Interest for 6 Months";
@@ -1338,7 +1340,7 @@
         border: 1px solid #cacaca;
         border-radius: 5px;
         margin-bottom: 20px;
-        display: flex;
+        display: none;
         height: 40px;
         width: 80%;
         margin-left: 60px;
@@ -1633,7 +1635,7 @@
     
     .fotorama__arr {
         background: none !important;
-        //height: 500px !important;
+        height: 510px;
     }
     
     .fotorama__arr--prev .fotorama__arr__arr {
@@ -1756,7 +1758,8 @@
     .awaiting {
         margin-left: -20px !important;
         margin-right: -20px !important;
-        margin-bottom: 20px;
+        margin-bottom: 0;
+        margin-top: 14px;
     }
     
     .secure-pay-container .mgz-element-column>.mgz-element-inner {
@@ -2183,12 +2186,21 @@
         color: #cacaca;
     }
     
+    .testfreaks-badge {
+        z-index: 0 !important;
+    }
+    
+    .product-options-wrapper {
+        margin-top: 15px;
+        display: none;
+    }
+    
     #ic-pdp-btn {
         margin-bottom: -5px;
     }
 
     #product-addtocart-button {
-        margin-top: -10px;
+        //margin-top: -10px;
     }
     
     .payment-gateways {
@@ -2237,6 +2249,7 @@
     #zip-custom {
         display: flex;
         padding: 3px;
+        cursor: pointer;
     }
     
     #zip-custom:before {
@@ -2335,7 +2348,6 @@
     .payment-gateways form#product_addtocart_form {
         width: unset !important;
     }
-
 }
 
 //Redeploy
@@ -2391,7 +2403,7 @@
                     border: 1px solid #cacaca;
                     border-radius: 5px;
                     height: 33px;
-                    margin-top: 15px;
+                    margin-top: 5px;
                 }
 
                 .qantas-text {
@@ -2502,6 +2514,14 @@
     }
 }
 
+& when (@media-target = 'desktop'), (@media-target = 'all') {
+    @media only screen and (min-width: 1280px) {
+        .product-info-main .page-title-wrapper.product {
+            margin-left: -70px !important;
+        }
+    }
+}
+
 
 .media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xs){
     .product-info-main .msiavailability-wrapper .mystore-text .current-store-link {
@@ -2597,11 +2617,6 @@
         padding-left: 0 !important;
         //margin-bottom: 50px !important;
         width: 100% !important;
-        //Add Margin For Intant Checkout Button
-        margin-bottom: 130px;
-    }
-    #paypal-smart-button {
-        padding-top: 10px;
     }
 
     .studio19-wrapper {
@@ -2659,7 +2674,7 @@
     .product-info-main .box-tocart, .product-options-bottom .box-tocart {
         //margin: 22px 0 !important;
         margin: 15px 0 !important;
-        margin-bottom: 40px !important;
+        margin-bottom: 25px !important;
     }
 
     .zip-container:last-child:before {
@@ -2696,7 +2711,7 @@
         width: unset;
         height: 43px !important;
         overflow: hidden !important;
-        display: block !important;
+        display: none !important;
         margin-bottom: 0 !important;
     }
     
@@ -2776,7 +2791,7 @@
             margin: 0;
             padding: 0 !important;
             margin-top: -7px !important;
-            margin-left: -70px !important;
+            margin-left: -70px;
             margin-bottom: 15px !important;
             
             
@@ -3141,7 +3156,7 @@
         border: 1px solid #cacaca;
         border-radius: 5px;
         margin-bottom: 20px;
-        display: flex;
+        //display: flex;
         height: 40px;
         width: 90%;
         margin-left: 15px;
@@ -3241,14 +3256,14 @@
     }
 
     .product-info-main .studio19-wrapper {
-        display: flex !important;
+        //display: flex !important;
         margin-left: 0 !important;
         margin-bottom: 0 !important;
         //margin-top: 15px !important;
         width: unset !important;
         overflow: hidden !important;
         background: #fff !important;
-        margin-top: 12px !important;
+        margin-top: 10px !important;
     }
 
     .s19-rentfor {
@@ -3481,6 +3496,9 @@
 
     .awaiting {
         padding-left: 20px !important;
+        margin-top: 0 !important;
+        padding-right: 20px !important;
+        margin-bottom: 10px !important;
     }
     
     .product-info-main .qantas-pts-wrapper {
@@ -3515,7 +3533,7 @@
     }
     
     .product-section .page-title-wrapper {
-        margin: 0 -15px !important;
+        //margin: 0 -15px !important;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
@@ -3559,7 +3577,7 @@
     }
     
     .catalog-product-view .product-options-wrapper {
-        margin-bottom: 10px !important;
+        //margin-bottom: 10px !important;
     }
     
     .product-info-main .qantas-pts-wrapper {
@@ -3567,7 +3585,7 @@
     }
     
     #product-options-wrapper {
-        margin-top: -6px !important;
+        margin-top: 10px !important;
     }
     
     .studio19-wrapper > div {
@@ -3626,6 +3644,16 @@
         background: none !important;
     }
     
+    .itoris-pm-product-marker {
+        margin-top: 0 !important;
+        margin-bottom: 10px !important;
+    }
+    
+    #pa-priceCheckButtonContainer {
+        padding-bottom: 0 !important;
+        margin-bottom: -4px;
+    }
+    
 } //end mobile
 
 //
@@ -3661,7 +3689,7 @@
                 border: 1px solid #cacaca;
                 border-radius: 5px;
                 height: 33px;
-                margin-top: 15px;
+                margin-top: 5px;
             }
 
             .qantas-text {
@@ -3696,10 +3724,6 @@
 //
 //  Desktop large
 //  ---------------------------------------------
-
-.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__xl) {
-    
-}
 
 //
 //  L +

@@ -5,9 +5,9 @@ define([
 ], function ($) {
     
     //$('.columns').append('<div class="custom-preloader-container""><div class="custom-preloader"></div></div>');
-    window.onload = function() {   
+    //window.onload = function() {   
         
-    };
+    //};
     
     $('.products-grid').ready(function() {
         $('.desktop-row').attr("style", "visibility: visible !important;");

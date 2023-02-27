@@ -9,6 +9,18 @@ $currentUrl = $urlInterface->getCurrentUrl();
 
 $isBrandCanon = str_contains($currentUrl, 'brands/canon');
 $isBrandNikon = str_contains($currentUrl, 'brands/nikon');
+$isBrandAsus = str_contains($currentUrl, 'brands/asus');
+$isBrandFujifilm = str_contains($currentUrl, 'brands/fujifilm');
+$isBrandSony = str_contains($currentUrl, 'brands/sony');
+$isBrandRode = str_contains($currentUrl, 'brands/rode');
+$isBrandOlympus = str_contains($currentUrl, 'brands/olympus');
+$isBrandAOC = str_contains($currentUrl, 'brands/aoc');
+$isBrandLeica = str_contains($currentUrl, 'brands/leica');
+$isBrandLacie = str_contains($currentUrl, 'brands/lacie');
+$isBrandDell = str_contains($currentUrl, 'brands/dell');
+$isBrandPolarPro = str_contains($currentUrl, 'brands/polarpro');
+$isBrandAudioTechnica = str_contains($currentUrl, 'brands/audio-technica');
+$isBrandSamsung = str_contains($currentUrl, 'brands/samsung');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
     
@@ -30,14 +42,75 @@ if ($request->getFullActionName() == 'catalog_category_view') {
     if ($isBrandCanon == true) {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('cameras-product-featured-banner')
+        ->setBlockId('brands-canon-featured-banner')
         ->toHtml();
     } elseif ($isBrandNikon == true) {
         echo $this->getLayout()
         ->createBlock('Magento\Cms\Block\Block')
         ->setBlockId('brands-nikon-featured-banner')
         ->toHtml();
+    } elseif ($isBrandAsus == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-asus-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandFujifilm == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-fujifilm-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandSony == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-sony-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandRode == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-rode-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandOlympus == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-olympus-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandAOC == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-aoc-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandLeica == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-leica-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandLacie == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-lacie-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandDell == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-dell-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandPolarPro == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-polarpro-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandAudioTechnica == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-audio-technica-featured-banner')
+        ->toHtml();
+    } elseif ($isBrandSamsung == true) {
+        echo $this->getLayout()
+        ->createBlock('Magento\Cms\Block\Block')
+        ->setBlockId('brands-samsung-featured-banner')
+        ->toHtml();
     }
+    
 }
 
 ?>

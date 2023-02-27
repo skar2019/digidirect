@@ -1,13 +1,18 @@
+//redeploy
 //clint
 define([
     'jquery'
 ], function ($) {
+    //clint changes cashback
+    //Redeploy
     
-    //Content Syndication DIVs
-    $('#productoverview').append('<div id="ccs-feature-icons"></div><div id="ccs-logos"></div><div id="ccs-inline-content"></div>');
-    
-    if($('.s19-component').length == 0) {
-        $('.studio19-wrapper').attr("style", "display:none !important;");
+    if($('.s19-component').length != 0) {
+        var windowsize = $(window).width();
+        if (windowsize > 768) {
+            $('.studio19-wrapper').attr("style", "display:block !important;");
+        } else {
+            $('.studio19-wrapper').attr("style", "display:flex !important;");
+        }
     }
     
     $('.secure-pay-container').ready(function() {
@@ -29,6 +34,7 @@ define([
         setTimeout(function() {
         $('.custom-preloader').attr("style", "display:none !important;");
         $('.gallery-placeholder').attr("style", "visibility: visible !important;");
+        $('.digiseconds-overlay').attr("style", "display:block;");
         }, 3000);
     });
 
@@ -73,11 +79,6 @@ define([
 
     }
 
-    if ($('.studio19-wrapper').is(':empty')){
-        //$('.studio19-wrapper').addClass('studio19-hide');
-        $('.studio19-wrapper').attr("style", "display:none !important;");
-    }
-
     //for mobile = 760
     //Changed to 1439 for tablet *Rondel
     let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
@@ -104,6 +105,10 @@ define([
         //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         //}
     });
+    
+    if($('#product-options-wrapper .control').length) {
+        $('#product-options-wrapper').attr("style", "display:block !important;");
+    }
 
     $('#itoris-pm-link-custom').on('click', function(){
         // $('[data-garden-id="buttons.icon_button"]').trigger("click");
@@ -111,6 +116,12 @@ define([
         //$('.itoris-pm-modal').modal('toggle');
         $('#itoris-pm-link').trigger("click");
         console.log("Changed To Trigger Click!");
+    });
+    
+    $('#zip-custom').on('click', function(){
+        $('.zip-widget__wrapper').trigger("click");
+        //$('.zip-container')[0].click();
+        console.log("ZIP Custom Clicked!");
     });
 
 });
