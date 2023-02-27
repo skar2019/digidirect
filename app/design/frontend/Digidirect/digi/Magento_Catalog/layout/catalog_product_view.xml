@@ -13,7 +13,6 @@
         <referenceBlock name="product.info.attachment" remove="true" />
         <referenceBlock name="collect_places_detail" remove="true" /><!--   PICKUP in STORE FORM     -->
         
-        
         <referenceContainer name="product.info.main">
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiseconds_info.phtml" name="pdp-digiseconds-info" after="product.info.price"/>
         </referenceContainer>
