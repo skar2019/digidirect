@@ -86,7 +86,7 @@ class AdminhtmlBlockHtmlBeforeObserver implements ObserverInterface
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        ObserverData $observerData,
+        \Magento\PricePermissions\Observer\ObserverData $observerData,
         array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -122,16 +122,23 @@ class AdminhtmlBlockHtmlBeforeObserver implements ObserverInterface
         $this->_filterByBlockName($block);
 
         // Handle prices that are shown when admin reviews customers shopping cart
-        
-        if(!empty($block->getNameInLayout())) {
-                if (!$this->observerData->isCanReadProductPrice()) {
-                    if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
-                        $this->_removeColumnFromGrid($block, 'price');
-                        $this->_removeColumnFromGrid($block, 'total');
-                    }
+        if(empty($block->getNameInLayout()))
+        {
+            if (!$this->observerData->isCanReadProductPrice()) {
+                if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
+                    $this->_removeColumnFromGrid($block, 'price');
+                    $this->_removeColumnFromGrid($block, 'total');
                 }
+            }
         }
-        
+//        if (stripos($block->getNameInLayout(), 'customer_cart_') === 0) {
+//            if (!$this->observerData->isCanReadProductPrice()) {
+//                if ($block->getParentBlock()->getNameInLayout() == 'admin.customer.carts') {
+//                    $this->_removeColumnFromGrid($block, 'price');
+//                    $this->_removeColumnFromGrid($block, 'total');
+//                }
+//            }
+//        }
     }
 
     /**
