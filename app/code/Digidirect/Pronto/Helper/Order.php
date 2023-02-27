@@ -171,7 +171,7 @@ class Order extends AbstractHelper
      * @var Country
      */
     public $countryFactory;
-    
+
     protected $productDigiprot;
 
     public function __construct(
@@ -238,7 +238,7 @@ class Order extends AbstractHelper
             $isMarketPlace = false;
             //Amazon Logic
             $wrehs = $this->getWarehouse($order);
-            
+
             $territory = "WEBS";
             if($wrehs != 'SWHS')
             {
@@ -354,10 +354,10 @@ class Order extends AbstractHelper
             if (!empty($account) && !$order->getCustomerIsGuest()) {
                 $customertype = "WA";
             }
-            
+
             if(!$isMarketPlace)
             {
-                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00") 
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00")
                 {
                     $account = "";
                 }
@@ -421,7 +421,7 @@ class Order extends AbstractHelper
                     $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                     $data['sales-order']['header']['set-on-status'] = "H";
                 }
-                else 
+                else
                 {
 
                     //check for stock
@@ -445,13 +445,13 @@ class Order extends AbstractHelper
                     $is_acce = true;
                     foreach ($order->getAllVisibleItems() as $item) {
                         /* @var $item \Magento\Sales\Model\Order\Item */
-                        
+
                         $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
-                        if(is_null($stockgroup)) 
+                        if(is_null($stockgroup))
                         {
-                            
+
                         }
-                        else 
+                        else
                         {
                             $accgroup = $stockgroup->getValue();
                             if(!in_array($stockgroup,$this->acceGroup)){
@@ -459,9 +459,9 @@ class Order extends AbstractHelper
                                 break;
                             }
                         }
-                        
+
                     }
-                    
+
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
                     //check if all product has stock
@@ -476,14 +476,14 @@ class Order extends AbstractHelper
                                     $data['sales-order']['header']['on-hold-reason-code'] = "";
                                     $data['sales-order']['header']['set-on-status'] = "P";
                                 }
-                                else //$grandTotal >= 200 
+                                else //$grandTotal >= 200
                                 {
                                     if($is_acce) //greater than 200 and is accessories
                                     {
                                         $data['sales-order']['header']['on-hold-reason-code'] = "";
                                         $data['sales-order']['header']['set-on-status'] = "P";
                                     }
-                                    else 
+                                    else
                                     {
                                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                         $data['sales-order']['header']['set-on-status'] = "H";
@@ -492,25 +492,25 @@ class Order extends AbstractHelper
                             }
                             else
                             {
-                                
+
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "B";
                             }
 
                         }
-                        else 
+                        else
                         {
                             $data['sales-order']['header']['on-hold-reason-code'] = "WF";
                             $data['sales-order']['header']['set-on-status'] = "H";
                         }
-                        
-                    } 
-                    elseif($payment_type == 'Y') 
+
+                    }
+                    elseif($payment_type == 'Y')
                     {
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
                     }
-                    else 
+                    else
                     {
                         if($instockInv == 1)
                         {
@@ -519,14 +519,14 @@ class Order extends AbstractHelper
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "P";
                             }
-                            else 
+                            else
                             {
                                 if($is_acce) //greater than 200 and is accessories
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "";
                                     $data['sales-order']['header']['set-on-status'] = "P";
                                 }
-                                else 
+                                else
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                     $data['sales-order']['header']['set-on-status'] = "H";
@@ -539,11 +539,11 @@ class Order extends AbstractHelper
                             $data['sales-order']['header']['set-on-status'] = "B";
                         }
                     }
-                    
+
                     if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay")
                     {
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                        $data['sales-order']['header']['set-on-status'] = "H";  
+                        $data['sales-order']['header']['set-on-status'] = "H";
                     }
                 }
 
@@ -632,7 +632,7 @@ class Order extends AbstractHelper
                 if (empty($payment_reference)){
                     continue;
                 }
-                
+
             }
             //ebay
             if (($method == 'm2epropayment')) {
@@ -727,7 +727,7 @@ class Order extends AbstractHelper
                 $gc_ref = explode(":", $arr[1]);
                 $gc_reference = $gc_ref[1];
                 $gc_reference = str_replace('"', "", $gc_reference);
-                
+
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
@@ -759,10 +759,10 @@ class Order extends AbstractHelper
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
-            
+
             //clint 01-20-23
             $surcharge = $order->getPaymentFee();
-            
+
             if (!empty($qffNumber) && !empty($qffLastname)) {
                 $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
                 $data['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
@@ -799,9 +799,10 @@ class Order extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
+                $discperc = ($discount / $price) * 100;
                 //if($coupon != "")
                 //{
-                    $discount = 0; //set this to zero since we subtract it to total
+                //    $discount = 0; //set this to zero since we subtract it to total
                 //}
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
@@ -826,7 +827,7 @@ class Order extends AbstractHelper
 //                    }
 //                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
 //                    $price = $orig;
-                    
+
                     $productDigiprot = $this->productFactory->create();
                     $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
                     $digiProtectPrice = $productPriceBySku;
@@ -866,17 +867,17 @@ class Order extends AbstractHelper
                         $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
                         $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                     }
-                    else 
+                    else
                     {
                         $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                         $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
                         $data['sales-order']['detail']['line'][$x]['backordered'] = 0;
                     }
-                    
+
                 }
 
 
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
 
@@ -913,7 +914,7 @@ class Order extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
                 $x++; // for shipping counter
             }
-            
+
             if($coupon != "")
             {
                 $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
@@ -1137,7 +1138,7 @@ class Order extends AbstractHelper
             case "paypal_express":
                 $type = 'PY';
                 break;
-            
+
             default:
                 break;
         }

@@ -365,7 +365,7 @@ class Processor implements ProcessorInterface
             {
                 $searchTerm = null;
             }
-            if (empty(\trim($searchTerm))) {
+            if (empty($searchTerm)){
                 $searchTerm = null;
             }
 
