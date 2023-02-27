@@ -117,6 +117,9 @@
                 <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
             </container>
         </referenceContainer>
+        
+        <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper" />
+        <move element="payment.gateways" destination="product.info.main" after="itoris.product.info.pm" />
 
         <referenceBlock name="product.info.upsell">
             <block name="product.tile.extended.catalog.rule"
