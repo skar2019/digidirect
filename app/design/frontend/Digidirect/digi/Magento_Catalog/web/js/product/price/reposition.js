@@ -113,5 +113,11 @@ define([
         $('#itoris-pm-link').trigger("click");
         console.log("Changed To Trigger Click!");
     });
+    
+    $('#zip-custom').on('click', function(){
+        $('.zip-widget__wrapper').trigger("click");
+        //$('.zip-container')[0].click();
+        console.log("ZIP Custom Clicked!");
+    });
 
 });
