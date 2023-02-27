@@ -105,6 +105,10 @@ define([
         //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
         //}
     });
+    
+    if($('#product-options-wrapper .control').length) {
+        $('#product-options-wrapper').attr("style", "display:block !important;");
+    }
 
     $('#itoris-pm-link-custom').on('click', function(){
         // $('[data-garden-id="buttons.icon_button"]').trigger("click");
