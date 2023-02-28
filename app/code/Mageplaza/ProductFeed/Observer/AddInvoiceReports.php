@@ -90,9 +90,14 @@ class AddInvoiceReports implements ObserverInterface
         $this->helperData->addStoreFilter($feedCollection, $storeId);
         $items      = $invoice->getAllItems();
         $reportData = [];
+        $orderItemFeedKeys = [];
         foreach ($items as $item) {
             /** @var Item $item */
-            $orderItemFeedKeys = explode(',', $item->getOrderItem()->getMpProductfeedKey());
+            if(!empty($item->getOrderItem()->getMpProductfeedKey()))
+            {
+                $orderItemFeedKeys = explode(',', $item->getOrderItem()->getMpProductfeedKey());
+            }
+
             $feedIds = [];
             foreach ($orderItemFeedKeys as $feedKey) {
                 $feedIds[] = $this->helperData->feedKeyDecode($feedKey);
