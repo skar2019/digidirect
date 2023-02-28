@@ -29,6 +29,8 @@
         <css src="Itoris_PriceMatch::css/itoris-pm.css"/>
     </head>
     <body>
-        
+        <referenceContainer name="product.info.main">
+            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" before="product.info.price"/>
+        </referenceContainer>
     </body>
 </page>
