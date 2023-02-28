@@ -30,7 +30,8 @@
     </head>
     <body>
         <referenceContainer name="product.info.main">
-            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" before="product.info.price"/>
+            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="payment.gateways"/>
         </referenceContainer>
+        <move element="itoris.product.info.pm" destination="product.info.main" after="payment.gateways" />
     </body>
 </page>
