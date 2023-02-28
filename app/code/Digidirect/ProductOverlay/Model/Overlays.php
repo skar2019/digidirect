@@ -107,7 +107,11 @@ class Overlays extends AbstractOverlays
     public function getStockLabel()
     {
         $label = $this->getValue('stock_label');
-        preg_match_all('/{([a-zA-Z:\_0-9]+)}/', $label, $vars);
+        if(!empty($label))
+        {
+            preg_match_all('/{([a-zA-Z:\_0-9]+)}/', $label, $vars);
+        }
+
         if (isset($vars[1])) {
             $vars = $vars[1];
             foreach ($vars as $var) {
@@ -355,8 +359,12 @@ class Overlays extends AbstractOverlays
         foreach ($parametersToConvert as $parameter) {
             $arrayParameter = $this->getData($parameter);
             if (!is_array($arrayParameter)) {
-                $arrayParameter = explode(',', $arrayParameter);
-                $arrayParameter = array_filter($arrayParameter);
+                if(!empty($arrayParameter))
+                {
+                    $arrayParameter = explode(',', $arrayParameter);
+                    $arrayParameter = array_filter($arrayParameter);
+                }
+
             }
             $this->setData($parameter, $arrayParameter);
         }
