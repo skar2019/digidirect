@@ -320,6 +320,8 @@ class Order extends AbstractHelper
                 else if (strpos($orderId, 'Q') !== false) {
                     $account = "QANT00";
                     $rep = "QANTAS";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
                 }
                 else if (strpos($orderId, 'WW') !== false) {
                     $rep ="WOOLWORTHS";
