@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $request = $objectManager->get('Magento\Framework\App\Action\Context')->getRequest();
@@ -21,105 +21,123 @@ $isBrandDell = str_contains($currentUrl, 'brands/dell');
 $isBrandPolarPro = str_contains($currentUrl, 'brands/polarpro');
 $isBrandAudioTechnica = str_contains($currentUrl, 'brands/audio-technica');
 $isBrandSamsung = str_contains($currentUrl, 'brands/samsung');
+$isBrandPanasonic = str_contains($currentUrl, 'brands/panasonic');
+$isBrandSmallRig = str_contains($currentUrl, 'brands/smallrig');
+$isBrandLoupedeck = str_contains($currentUrl, 'brands/loupedeck');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
-    
+
     $categoryName = "";
-    
+
     $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
     $categoryObject = $catalogHelperData->getCategory();
     $categoryId = $categoryObject->getId();
     $categoryName = $categoryObject->getName();
-    
+
     if ($categoryId == 17 || $categoryId == 37) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('cameras-product-featured-banner')
-        ->toHtml();
-    } 
-    
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('cameras-product-featured-banner')
+            ->toHtml();
+    }
+
 } elseif ($request->getFullActionName() == 'eaa_attribute_option_index') {
     if ($isBrandCanon == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-canon-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-canon-featured-banner')
+            ->toHtml();
     } elseif ($isBrandNikon == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-nikon-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-nikon-featured-banner')
+            ->toHtml();
     } elseif ($isBrandAsus == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-asus-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-asus-featured-banner')
+            ->toHtml();
     } elseif ($isBrandFujifilm == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-fujifilm-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-fujifilm-featured-banner')
+            ->toHtml();
     } elseif ($isBrandSony == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-sony-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-sony-featured-banner')
+            ->toHtml();
     } elseif ($isBrandRode == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-rode-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-rode-featured-banner')
+            ->toHtml();
     } elseif ($isBrandOlympus == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-olympus-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-olympus-featured-banner')
+            ->toHtml();
     } elseif ($isBrandAOC == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-aoc-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-aoc-featured-banner')
+            ->toHtml();
     } elseif ($isBrandLeica == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-leica-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-leica-featured-banner')
+            ->toHtml();
     } elseif ($isBrandLacie == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-lacie-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-lacie-featured-banner')
+            ->toHtml();
     } elseif ($isBrandDell == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-dell-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-dell-featured-banner')
+            ->toHtml();
     } elseif ($isBrandPolarPro == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-polarpro-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-polarpro-featured-banner')
+            ->toHtml();
     } elseif ($isBrandAudioTechnica == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-audio-technica-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-audio-technica-featured-banner')
+            ->toHtml();
     } elseif ($isBrandSamsung == true) {
         echo $this->getLayout()
-        ->createBlock('Magento\Cms\Block\Block')
-        ->setBlockId('brands-samsung-featured-banner')
-        ->toHtml();
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-samsung-featured-banner')
+            ->toHtml();
+    } elseif ($isBrandPanasonic == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-panasonic-featured-banner')
+            ->toHtml();
+    } elseif ($isBrandSmallRig == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-smallrig-featured-banner')
+            ->toHtml();
+    } elseif ($isBrandLoupedeck == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-loupedeck-featured-banner')
+            ->toHtml();
     }
-    
+
 }
 
 ?>
 
 <script>
     require([
-        'jquery'
-    ],
-    function ($) {
-        $('.featured-banner-heading').attr("style", "margin-top: -30px !important;");
-    });
+            'jquery'
+        ],
+        function ($) {
+            $('.featured-banner-heading').attr("style", "margin-top: -30px !important;");
+        });
 </script>
