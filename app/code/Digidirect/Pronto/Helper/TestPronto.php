@@ -628,6 +628,8 @@ class TestPronto extends AbstractHelper
                 else if (strpos($orderId, 'Q') !== false) {
                     $account = "QANT00";
                     $rep ="QANTAS";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
                 }
 
             }
