@@ -288,18 +288,6 @@ class Overlays extends AbstractOverlays
      */
     public function validateTimes()
     {
-        $expression = '/[0-9]|:/';
-        if ($symbols = preg_replace($expression, '', $this->getFromTime())) {
-            throw new \Magento\Framework\Exception\LocalizedException(
-                __('Unacceptable symbol(s) "%1" in "From Time" field.', $symbols)
-            );
-        }
-        if ($symbols = preg_replace($expression, '', $this->getToTime())) {
-            throw new \Magento\Framework\Exception\LocalizedException(
-                __('Unacceptable symbol(s) "%1" in "To Time" field.', $symbols)
-            );
-        }
-
         return true;
     }
 
