@@ -58,7 +58,7 @@ class Overlays extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
             $setStoreTable = $this->getTable('digidirect_product_overlay_store');
 
             $select = $connection->select()
-                ->from($setStoreTable, ['store_id'])
+                ->from($setStoreTable, ['*'])
                 ->where($connection->quoteInto('overlay_id = ?', $object->getId()));
 
             $oldSetIds = $connection->fetchCol($select, ['store_id']);
