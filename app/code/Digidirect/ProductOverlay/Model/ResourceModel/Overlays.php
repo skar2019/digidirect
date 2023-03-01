@@ -61,29 +61,29 @@ class Overlays extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 ->from($setStoreTable, ['store_id'])
                 ->where($connection->quoteInto('overlay_id = ?', $object->getId()));
 
-            //            $oldSetIds = $connection->fetchCol($select, ['store_id']);
-            //
-            //            $insert = array_diff($setsIdsArray, $oldSetIds);
-            //            $delete = array_diff($oldSetIds, $setsIdsArray);
-            //
-            //            if (!empty($delete)) {
-            //                foreach ($delete as $storeId) {
-            //                    $condition = ['overlay_id = ?' => (int)$object->getId(), 'store_id = ?' => (int)$storeId];
-            //                    $connection->delete($setStoreTable, $condition);
-            //                }
-            //            }
-            //
-            //            if (!empty($insert)) {
-            //                $ids = [];
-            //                foreach ($setsIdsArray as $setId) {
-            //                    $ids[] = ['store_id' => $setId, 'overlay_id' => $object->getId()];
-            //                }
-            //
-            //                $this->getConnection()->insertOnDuplicate(
-            //                    $setStoreTable,
-            //                    $ids
-            //                );
-            //            }
+                //$oldSetIds = $connection->fetchCol($select, ['store_id']);
+
+                //$insert = array_diff($setsIdsArray, $oldSetIds);
+                //$delete = array_diff($oldSetIds, $setsIdsArray);
+
+                //if (!empty($delete)) {
+                //    foreach ($delete as $storeId) {
+                //       $condition = ['overlay_id = ?' => (int)$object->getId(), 'store_id = ?' => (int)$storeId];
+                //        $connection->delete($setStoreTable, $condition);
+                //    }
+                //}
+
+                //if (!empty($insert)) {
+                $ids = [];
+                //foreach ($setsIdsArray as $setId) {
+                $ids[] = ['store_id' => 0, 'overlay_id' => $object->getId()];
+                //}
+
+                $this->getConnection()->insertOnDuplicate(
+                    $setStoreTable,
+                    $ids
+                );
+                //}
         }
     }
 
