@@ -2,8 +2,8 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="digidirect_pronto">
-        <job name="pronto_order_sync" instance="Digidirect\Pronto\Cron\SendOrder" method="execute">
-            <schedule>*/2 * * * *</schedule>
+        <job name="pronto_order_sync" instance="Digidirect\Pronto\Cron\SendOrder" method="sendOrder">
+            <schedule>* * * * *</schedule>
         </job>
         <job name="pronto_inventory_sync" instance="Digidirect\Pronto\Cron\InventoryEnquiry" method="execute">
             <schedule>*/10 * * * *</schedule>

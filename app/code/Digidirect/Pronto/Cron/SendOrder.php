@@ -15,7 +15,7 @@ class SendOrder
      * @var Inventory
      */
     protected $helper;
-    
+
     public function __construct(
             LoggerInterface $logger,
             Order $helper)
@@ -26,8 +26,15 @@ class SendOrder
 
     public function execute()
     {
+        //$this->helper->orderPost();
+        exit;
+
+    }
+
+    public function sendOrder()
+    {
         $this->helper->orderPost();
 
     }
-    
+
 }

@@ -631,6 +631,13 @@ class TestPronto extends AbstractHelper
                     $territory = "MRKT";
                     $isMarketPlace = true;
                 }
+                else if (strpos($orderId, 'WW') !== false) {
+                    $rep ="WOOLWORTHS";
+                    $account = "WOOL00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
+                }
 
             }
 
