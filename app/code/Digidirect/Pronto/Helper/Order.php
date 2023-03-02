@@ -218,8 +218,6 @@ class Order extends AbstractHelper
         foreach ($orders as $order)
         {
             $data = array();
-            $counter++;
-
             /* @var $order \Magento\Sales\Model\Order */
 
             if ($order->getState() == 'canceled') {
@@ -332,6 +330,13 @@ class Order extends AbstractHelper
                 }
                 //to redeploy
             }
+            //workaround sync clint MAR-03-23
+            if(!$isMarketPlace)
+            {
+                continue;
+            }
+            $counter++;
+
             $directToWhse = false;
             if($isMarketPlace)
             {
