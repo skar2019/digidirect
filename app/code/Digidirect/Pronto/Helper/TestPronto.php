@@ -1091,7 +1091,7 @@ class TestPronto extends AbstractHelper
             $surcharge = $order->getPaymentFee();
             if($surcharge == '0.0000')
             {
-                $surcharge = $grandTotal * 0.095;
+                $surcharge = $grandTotal * 0.0095;
             }
             echo "surcharge - " .$surcharge;
 
