@@ -764,6 +764,10 @@ class Order extends AbstractHelper
 
             //clint 01-20-23
             $surcharge = $order->getPaymentFee();
+            if($surcharge == '0.0000')
+            {
+                $surcharge = $grandTotal * 0.095;
+            }
 
             if (!empty($qffNumber) && !empty($qffLastname)) {
                 $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
