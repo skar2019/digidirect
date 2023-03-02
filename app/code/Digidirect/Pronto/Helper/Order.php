@@ -801,7 +801,11 @@ class Order extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
-                $discperc = ($discount / $price) * 100;
+                if($price > 0)
+                {
+                    $discperc = ($discount / $price) * 100;
+                }
+
                 //if($coupon != "")
                 //{
                 //    $discount = 0; //set this to zero since we subtract it to total
