@@ -1089,6 +1089,11 @@ class TestPronto extends AbstractHelper
 
             //clint 01-20-23
             $surcharge = $order->getPaymentFee();
+            if($surcharge == '0.0000')
+            {
+                $surcharge = $grandTotal * 0.095;
+            }
+            echo "surcharge - " .$surcharge;
 
             if (!empty($qffNumber) && !empty($qffLastname)) {
                 $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
@@ -1127,7 +1132,10 @@ class TestPronto extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
-                $discperc = ($discount / $price) * 100;
+                if($price > 0)
+                {
+                    $discperc = ($discount / $price) * 100;
+                }
 //                if($coupon != "")
 //                {
 //                    $discount = 0;
