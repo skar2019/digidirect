@@ -708,6 +708,18 @@ class TestPronto extends AbstractHelper
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
 
+            //Workaround clint Mar 3 23.
+            $disregardshipping = false;
+            $modifygrandtotal = false;
+            $surcharge = $order->getPaymentFee();
+            if($surcharge == '0.0000') //manually created orders
+            {
+                $surcharge = $grandTotal * 0.0095;
+                $grandTotal = $grandTotal + $surcharge;
+                $disregardshipping = true;
+                $modifygrandtotal = true;
+            }
+
             if($payment_type == 'BT')
             {
                 $cc = $paymentInstance->getCcType();
@@ -873,7 +885,7 @@ class TestPronto extends AbstractHelper
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
 
-
+            $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
             $strt = $address->getStreet();
@@ -1062,6 +1074,10 @@ class TestPronto extends AbstractHelper
             }
 
             $amount_tendered = $order->getBaseGrandTotal();
+            if($modifygrandtotal)
+            {
+                $amount_tendered = $amount_tendered + $surcharge;
+            }
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
@@ -1087,13 +1103,7 @@ class TestPronto extends AbstractHelper
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
 
-            //clint 01-20-23
-            $surcharge = $order->getPaymentFee();
-            if($surcharge == '0.0000')
-            {
-                $surcharge = $grandTotal * 0.0095;
-                $grandTotal = $grandTotal + $surcharge;
-            }
+
             echo "surcharge - " .$surcharge;
 
             if (!empty($qffNumber) && !empty($qffLastname)) {
@@ -1290,7 +1300,11 @@ class TestPronto extends AbstractHelper
             {
                 $shippingDesc = "Australia Post – eParcel";
             }
-            //shipping details
+            //shipping details clint Mar 3 23
+            if($disregardshipping)
+            {
+                $shippingprice = 0;
+            }
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;

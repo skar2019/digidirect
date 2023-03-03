@@ -404,6 +404,17 @@ class Order extends AbstractHelper
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
 
+            //Workaround clint Mar 3 23.
+            $disregardshipping = false;
+            $modifygrandtotal = false;
+            $surcharge = $order->getPaymentFee();
+            if($surcharge == '0.0000') //manually created orders
+            {
+                $surcharge = $grandTotal * 0.0095;
+                $grandTotal = $grandTotal + $surcharge;
+                $disregardshipping = true;
+                $modifygrandtotal = true;
+            }
 
             if($payment_type == 'BT')
             {
@@ -565,7 +576,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
-
+            $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
             $strt = $address->getStreet();
@@ -747,6 +758,10 @@ class Order extends AbstractHelper
             }
 
             $amount_tendered = $order->getBaseGrandTotal();
+            if($modifygrandtotal)
+            {
+                $amount_tendered = $amount_tendered + $surcharge;
+            }
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
@@ -773,13 +788,6 @@ class Order extends AbstractHelper
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
 
-            //clint 01-20-23
-            $surcharge = $order->getPaymentFee();
-            if($surcharge == '0.0000')
-            {
-                $surcharge = $grandTotal * 0.0095;
-                $grandTotal = $grandTotal + $surcharge;
-            }
 
             if (!empty($qffNumber) && !empty($qffLastname)) {
                 $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
@@ -978,6 +986,10 @@ class Order extends AbstractHelper
             }
 
             //shipping details
+            if($disregardshipping)
+            {
+                $shippingprice = 0;
+            }
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
