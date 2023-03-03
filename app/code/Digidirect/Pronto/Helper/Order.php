@@ -765,6 +765,10 @@ class Order extends AbstractHelper
             if($modifygrandtotal)
             {
                 $amount_tendered = $amount_tendered + $surcharge;
+                if($disregardshipping)
+                {
+                    $amount_tendered = $amount_tendered - 9.9;
+                }
             }
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))

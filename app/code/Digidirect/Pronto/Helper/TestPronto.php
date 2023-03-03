@@ -1085,6 +1085,10 @@ class TestPronto extends AbstractHelper
             if($modifygrandtotal)
             {
                 $amount_tendered = $amount_tendered + $surcharge;
+                if($disregardshipping)
+                {
+                    $amount_tendered = $amount_tendered - 9.9;
+                }
             }
             $amount_tendered = round($amount_tendered, 2);
             echo "amount_tendered ".$amount_tendered."<br/>";
