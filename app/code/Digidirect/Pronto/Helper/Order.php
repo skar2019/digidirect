@@ -335,7 +335,7 @@ class Order extends AbstractHelper
             {
                 //check if Mar 2 and up
                 $checkcreated = $order->getCreatedAt();
-                if($checkcreated <= "2023-03-01")
+                if($checkcreated <= "2023-03-01 00:00:00")
                 {
                     continue;
                 }
