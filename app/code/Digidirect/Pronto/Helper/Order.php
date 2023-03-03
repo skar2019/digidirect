@@ -410,6 +410,10 @@ class Order extends AbstractHelper
             $surcharge = $order->getPaymentFee();
             if($surcharge == '0.0000') //manually created orders
             {
+                if($grandTotal >= 99)
+                {
+                    $grandTotal = $grandTotal - 9.9;
+                }
                 $surcharge = $grandTotal * 0.0095;
                 $grandTotal = $grandTotal + $surcharge;
                 $disregardshipping = true;
