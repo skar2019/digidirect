@@ -413,10 +413,10 @@ class Order extends AbstractHelper
                 if($grandTotal <= 99)
                 {
                     $grandTotal = $grandTotal - 9.9;
+                    $disregardshipping = true;
                 }
                 $surcharge = $grandTotal * 0.0095;
                 $grandTotal = $grandTotal + $surcharge;
-                $disregardshipping = true;
                 $modifygrandtotal = true;
             }
 

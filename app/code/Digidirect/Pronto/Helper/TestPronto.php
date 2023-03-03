@@ -718,13 +718,13 @@ class TestPronto extends AbstractHelper
                 if($grandTotal <= 99)
                 {
                     $grandTotal = $grandTotal - 9.9;
+                    $disregardshipping = true;
                 }
                 $surcharge = $grandTotal * 0.0095;
                 $grandTotal = $grandTotal + $surcharge;
-                echo "new grandTotal - ".$surcharge."<br/>";
+                echo "new grandTotal - ".$grandTotal."<br/>";
                 echo "surcharge - ".$surcharge."<br/>";
 
-                $disregardshipping = true;
                 $modifygrandtotal = true;
             }
 
