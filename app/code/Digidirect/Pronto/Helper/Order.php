@@ -333,8 +333,15 @@ class Order extends AbstractHelper
             //workaround sync clint MAR-03-23
             if(!$isMarketPlace)
             {
-                continue;
+                //check if Mar 2 and up
+                $checkcreated = $order->getCreatedAt();
+                if($checkcreated <= "2023-03-01")
+                {
+                    continue;
+                }
+
             }
+
             $counter++;
 
             $directToWhse = false;
