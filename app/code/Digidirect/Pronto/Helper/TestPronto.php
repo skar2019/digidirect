@@ -704,6 +704,7 @@ class TestPronto extends AbstractHelper
             $cc = "";
 
             $grandTotal = (double) $order->getBaseGrandTotal();
+            echo "grandTotal - ".$grandTotal."<br/>";
             $subTotal = (double) $order->getBaseSubtotalInclTax();
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
@@ -714,12 +715,15 @@ class TestPronto extends AbstractHelper
             $surcharge = $order->getPaymentFee();
             if($surcharge == '0.0000') //manually created orders
             {
-                if($grandTotal >= 99)
+                if($grandTotal <= 99)
                 {
                     $grandTotal = $grandTotal - 9.9;
                 }
                 $surcharge = $grandTotal * 0.0095;
                 $grandTotal = $grandTotal + $surcharge;
+                echo "new grandTotal - ".$surcharge."<br/>";
+                echo "surcharge - ".$surcharge."<br/>";
+
                 $disregardshipping = true;
                 $modifygrandtotal = true;
             }
@@ -1083,6 +1087,7 @@ class TestPronto extends AbstractHelper
                 $amount_tendered = $amount_tendered + $surcharge;
             }
             $amount_tendered = round($amount_tendered, 2);
+            echo "amount_tendered ".$amount_tendered."<br/>";
             if((!$is_am_fba))
             {
                 if($withpaymentref)
