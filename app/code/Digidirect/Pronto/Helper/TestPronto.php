@@ -1092,6 +1092,7 @@ class TestPronto extends AbstractHelper
             if($surcharge == '0.0000')
             {
                 $surcharge = $grandTotal * 0.0095;
+                $grandTotal = $grandTotal + $surcharge;
             }
             echo "surcharge - " .$surcharge;
 

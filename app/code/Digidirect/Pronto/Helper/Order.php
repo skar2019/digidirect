@@ -778,6 +778,7 @@ class Order extends AbstractHelper
             if($surcharge == '0.0000')
             {
                 $surcharge = $grandTotal * 0.0095;
+                $grandTotal = $grandTotal + $surcharge;
             }
 
             if (!empty($qffNumber) && !empty($qffLastname)) {
