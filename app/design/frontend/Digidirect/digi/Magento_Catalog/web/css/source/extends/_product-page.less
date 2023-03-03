@@ -296,7 +296,9 @@
             text-decoration: none;
         }
         .old-price-wrapper .old-price .price-label{
-            color: #101010;
+            color: #6c6c6c;
+            display: block;
+            text-align: unset;
         }
 
         .old-price-wrapper .old-price .price {
@@ -390,15 +392,12 @@
 
         .price-box span.old-price {
             display: inline-block;
-            //margin-top: 21px;
-            margin-top: 8px;
             width: 100%;
         }
 
          .special-price {
-            display: inline-block;
-            margin: 10px 0;
-            float: right;
+            display: block;
+            margin: 0;
         }
 
         .after-cashback span.price-label-pr {
@@ -430,6 +429,8 @@
             left: 0;
             padding-top: 15px !important;
             margin-top: 0 !important;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
         }
 
         .product-info-stock-sku{
@@ -1585,12 +1586,8 @@
     }
 
     .product-info-price svg.svg-icon.digidirectprice {
-        display: inline-block !important;
-        float: left;
-        //padding-left: 104px;
+        display: block !important;
         padding-left: 0 !important;
-        padding-top: 10px;
-        clear: both;
     }
 
     .product-info-main .old-price-wrapper {
@@ -1598,15 +1595,10 @@
         //width: 80%;
         width: 100%;
         margin-bottom: 0px;
-        padding-top: 5px;
-        border-top: 1px solid #cacaca;
-        //margin-top: 10px;
-        //margin-left: 100px;
-        margin-top: 5px;
         margin-left: 0;
     }
     .product-info-price .svg-icon.digidirectprice {
-        width: 130px !important;
+        width: 110px !important;
         height: 17px !important;
     }
     
