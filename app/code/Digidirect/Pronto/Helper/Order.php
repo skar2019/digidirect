@@ -339,9 +339,8 @@ class Order extends AbstractHelper
                 {
                     continue;
                 }
-
             }
-
+            //redeploy
             $counter++;
 
             $directToWhse = false;
