@@ -331,15 +331,15 @@ class Order extends AbstractHelper
                 //to redeploy
             }
             //workaround sync clint MAR-03-23
-            if(!$isMarketPlace)
-            {
-                //check if Mar 2 and up
-                $checkcreated = $order->getCreatedAt();
-                if($checkcreated <= "2023-03-01 00:00:00")
-                {
-                    continue;
-                }
-            }
+//            if(!$isMarketPlace)
+//            {
+//                //check if Mar 2 and up
+//                $checkcreated = $order->getCreatedAt();
+//                if($checkcreated <= "2023-03-01 00:00:00")
+//                {
+//                    continue;
+//                }
+//            }
             //redeploy
             $counter++;
 
