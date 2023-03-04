@@ -408,17 +408,21 @@ class Order extends AbstractHelper
             $disregardshipping = false;
             $modifygrandtotal = false;
             $surcharge = $order->getPaymentFee();
-            if($surcharge == '0.0000') //manually created orders
+            if(!$isMarketPlace)
             {
-                if($grandTotal <= 99)
+                if($surcharge == '0.0000') //manually created orders
                 {
-                    $grandTotal = $grandTotal - 9.9;
-                    $disregardshipping = true;
+                    if($grandTotal <= 99)
+                    {
+                        $grandTotal = $grandTotal - 9.9;
+                        $disregardshipping = true;
+                    }
+                    $surcharge = $grandTotal * 0.0095;
+                    $grandTotal = $grandTotal + $surcharge;
+                    $modifygrandtotal = true;
                 }
-                $surcharge = $grandTotal * 0.0095;
-                $grandTotal = $grandTotal + $surcharge;
-                $modifygrandtotal = true;
             }
+
 
             if($payment_type == 'BT')
             {
