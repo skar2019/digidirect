@@ -1,0 +1,13 @@
+diff --git a/vendor/magento/module-media-storage/App/Media.php b/vendor/magento/module-media-storage/App/Media.php
+index b98dc8ef41e..bc0ac5e56d6 100644
+--- a/vendor/magento/module-media-storage/App/Media.php
++++ b/vendor/magento/module-media-storage/App/Media.php
+@@ -148,7 +148,7 @@ class Media implements AppInterface
+             DirectoryList::MEDIA,
+             Filesystem\DriverPool::FILE
+         );
+-        $mediaDirectory = trim($mediaDirectory);
++        $mediaDirectory = $mediaDirectory === null ? '' : trim($mediaDirectory);
+         if (!empty($mediaDirectory)) {
+             // phpcs:ignore Magento2.Functions.DiscouragedFunction
+             $this->mediaDirectoryPath = str_replace('\\', '/', $file->getRealPath($mediaDirectory));
