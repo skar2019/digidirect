@@ -5,7 +5,7 @@
     </head>
     <body>
         <referenceContainer name="product.info.main">
-            <block class="Magento\Framework\View\Element\Template" template="PaSalesForceProductRecommendation::etc/frontend/templates/retrievedata/paretrievedata.phtml" name="pa-salesforce-data" />
+            <block class="Digidirect\PaSalesForceProductRecommendation\View\adminhtml\templates\retrievedata\paretrievedata" template="Digidirect_PaSalesForceProductRecommendation::view/adminhtml/templates/retrievedata/paretrievedata.phtml" name="pa-salesforce-data" />
         </referenceContainer>
     </body>
 </page>
