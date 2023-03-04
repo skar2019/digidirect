@@ -28,11 +28,11 @@ class Index implements ActionInterface {
 
     public function execute() {
         // die('Test module');
-        // return $this->resultFactory->create()->setContents('Test Customer ID');
+        return $this->resultFactory->create()->setContents('Test Customer ID');
 
-        $resultPage = $this->resultPageFactory ->create();
-        $blockInstance = $resultPage->getLayout()->getBlock('pa-salesforce-data');
+        // $resultPage = $this->resultPageFactory ->create();
+        // $blockInstance = $resultPage->getLayout()->getBlock('pa-salesforce-data');
 
-        return $resultPage;
+        // return $resultPage;
     }
 }
