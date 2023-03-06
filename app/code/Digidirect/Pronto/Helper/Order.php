@@ -218,8 +218,6 @@ class Order extends AbstractHelper
         foreach ($orders as $order)
         {
             $data = array();
-            $counter++;
-
             /* @var $order \Magento\Sales\Model\Order */
 
             if ($order->getState() == 'canceled') {
@@ -332,6 +330,19 @@ class Order extends AbstractHelper
                 }
                 //to redeploy
             }
+            //workaround sync clint MAR-03-23
+//            if(!$isMarketPlace)
+//            {
+//                //check if Mar 2 and up
+//                $checkcreated = $order->getCreatedAt();
+//                if($checkcreated <= "2023-03-01 00:00:00")
+//                {
+//                    continue;
+//                }
+//            }
+            //redeploy
+            $counter++;
+
             $directToWhse = false;
             if($isMarketPlace)
             {
@@ -393,6 +404,31 @@ class Order extends AbstractHelper
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
 
+            //Workaround clint Mar 3 23.
+            $disregardshipping = false;
+            $modifygrandtotal = false;
+            $surcharge = $order->getPaymentFee();
+            if(!$isMarketPlace)
+            {
+                if($payment_type == 'BT')
+                {
+                    if($surcharge == '0.0000') //manually created orders
+                    {
+                        if($grandTotal <= 99)
+                        {
+                            $grandTotal = $grandTotal - 9.9;
+                            $disregardshipping = true;
+                        }
+                        $surcharge = $grandTotal * 0.0095;
+                        $grandTotal = $grandTotal + $surcharge;
+                        echo "new grandTotal - ".$grandTotal."<br/>";
+                        echo "surcharge - ".$surcharge."<br/>";
+
+                        $modifygrandtotal = true;
+                    }
+                }
+            }
+
 
             if($payment_type == 'BT')
             {
@@ -416,7 +452,7 @@ class Order extends AbstractHelper
                 $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                 $data['sales-order']['header']['set-on-status'] = "H";
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
-//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a `marketplace` order where there is no stock in SWHS )
 //                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
                 if($isMarketPlace) // since it did not go to $directToWhse, we assume there is no stock
                 {
@@ -554,7 +590,7 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
-
+            $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
             $strt = $address->getStreet();
@@ -736,6 +772,14 @@ class Order extends AbstractHelper
             }
 
             $amount_tendered = $order->getBaseGrandTotal();
+            if($modifygrandtotal)
+            {
+                $amount_tendered = $amount_tendered + $surcharge;
+                if($disregardshipping)
+                {
+                    $amount_tendered = $amount_tendered - 9.9;
+                }
+            }
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
@@ -762,12 +806,6 @@ class Order extends AbstractHelper
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
 
-            //clint 01-20-23
-            $surcharge = $order->getPaymentFee();
-            if($surcharge == '0.0000')
-            {
-                $surcharge = $grandTotal * 0.095;
-            }
 
             if (!empty($qffNumber) && !empty($qffLastname)) {
                 $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
@@ -810,10 +848,12 @@ class Order extends AbstractHelper
                     $discperc = ($discount / $price) * 100;
                 }
 
-                //if($coupon != "")
-                //{
-                //    $discount = 0; //set this to zero since we subtract it to total
-                //}
+                if($coupon != "")
+                {
+                    $discount = 0; //set this to zero since we subtract it to total
+                    $discperc = 0;
+                }
+
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;
@@ -966,6 +1006,10 @@ class Order extends AbstractHelper
             }
 
             //shipping details
+            if($disregardshipping)
+            {
+                $shippingprice = 0;
+            }
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;

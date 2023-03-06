@@ -704,9 +704,36 @@ class TestPronto extends AbstractHelper
             $cc = "";
 
             $grandTotal = (double) $order->getBaseGrandTotal();
+            echo "grandTotal - ".$grandTotal."<br/>";
             $subTotal = (double) $order->getBaseSubtotalInclTax();
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
+
+            //Workaround clint Mar 3 23.
+            $disregardshipping = false;
+            $modifygrandtotal = false;
+            $surcharge = $order->getPaymentFee();
+            if(!$isMarketPlace)
+            {
+                if($payment_type == 'BT')
+                {
+                    if($surcharge == '0.0000') //manually created orders
+                    {
+                        if($grandTotal <= 99)
+                        {
+                            $grandTotal = $grandTotal - 9.9;
+                            $disregardshipping = true;
+                        }
+                        $surcharge = $grandTotal * 0.0095;
+                        $grandTotal = $grandTotal + $surcharge;
+                        echo "new grandTotal - ".$grandTotal."<br/>";
+                        echo "surcharge - ".$surcharge."<br/>";
+
+                        $modifygrandtotal = true;
+                    }
+                }
+            }
+
 
             if($payment_type == 'BT')
             {
@@ -873,7 +900,7 @@ class TestPronto extends AbstractHelper
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
 
-
+            $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
             $strt = $address->getStreet();
@@ -1062,7 +1089,16 @@ class TestPronto extends AbstractHelper
             }
 
             $amount_tendered = $order->getBaseGrandTotal();
+            if($modifygrandtotal)
+            {
+                $amount_tendered = $amount_tendered + $surcharge;
+                if($disregardshipping)
+                {
+                    $amount_tendered = $amount_tendered - 9.9;
+                }
+            }
             $amount_tendered = round($amount_tendered, 2);
+            echo "amount_tendered ".$amount_tendered."<br/>";
             if((!$is_am_fba))
             {
                 if($withpaymentref)
@@ -1087,12 +1123,7 @@ class TestPronto extends AbstractHelper
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
 
-            //clint 01-20-23
-            $surcharge = $order->getPaymentFee();
-            if($surcharge == '0.0000')
-            {
-                $surcharge = $grandTotal * 0.095;
-            }
+
             echo "surcharge - " .$surcharge;
 
             if (!empty($qffNumber) && !empty($qffLastname)) {
@@ -1136,10 +1167,11 @@ class TestPronto extends AbstractHelper
                 {
                     $discperc = ($discount / $price) * 100;
                 }
-//                if($coupon != "")
-//                {
-//                    $discount = 0;
-//                }
+                if($coupon != "")
+                {
+                    $discount = 0;
+                    $discperc = 0;
+                }
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;
@@ -1289,7 +1321,11 @@ class TestPronto extends AbstractHelper
             {
                 $shippingDesc = "Australia Post – eParcel";
             }
-            //shipping details
+            //shipping details clint Mar 3 23
+            if($disregardshipping)
+            {
+                $shippingprice = 0;
+            }
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
