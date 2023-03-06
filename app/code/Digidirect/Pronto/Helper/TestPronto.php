@@ -515,6 +515,7 @@ class TestPronto extends AbstractHelper
         settype($size,"integer");
         //get order data
         $orders = $this->getTestOrderCollection($orderId, $date, $size, $page);
+        var_dump($orders);
         $counter = 0;
         foreach ($orders as $order)
         {
