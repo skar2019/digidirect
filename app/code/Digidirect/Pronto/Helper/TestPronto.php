@@ -716,20 +716,24 @@ class TestPronto extends AbstractHelper
             $surcharge = $order->getPaymentFee();
             if(!$isMarketPlace)
             {
-                if($surcharge == '0.0000') //manually created orders
+                if($payment_type == 'BT')
                 {
-                    if($grandTotal <= 99)
+                    if($surcharge == '0.0000') //manually created orders
                     {
-                        $grandTotal = $grandTotal - 9.9;
-                        $disregardshipping = true;
-                    }
-                    $surcharge = $grandTotal * 0.0095;
-                    $grandTotal = $grandTotal + $surcharge;
-                    echo "new grandTotal - ".$grandTotal."<br/>";
-                    echo "surcharge - ".$surcharge."<br/>";
+                        if($grandTotal <= 99)
+                        {
+                            $grandTotal = $grandTotal - 9.9;
+                            $disregardshipping = true;
+                        }
+                        $surcharge = $grandTotal * 0.0095;
+                        $grandTotal = $grandTotal + $surcharge;
+                        echo "new grandTotal - ".$grandTotal."<br/>";
+                        echo "surcharge - ".$surcharge."<br/>";
 
-                    $modifygrandtotal = true;
+                        $modifygrandtotal = true;
+                    }
                 }
+
             }
 
 
@@ -769,6 +773,7 @@ class TestPronto extends AbstractHelper
                     //check for fraud BT
 
                     $skus = $this->getProductsSkus($order);
+                    echo "sku ".$skus;
                     $instockInv = 0;
                     //use warehouse
                     if ($this->isProductsInStockAll($wrehs, $skus)) {
@@ -1177,7 +1182,12 @@ class TestPronto extends AbstractHelper
 
 
                 $sku = $item->getSku();
-                if(strpos($sku, '-') !== false)
+                if(strpos($sku, 'mp-') !== false)
+                {
+                    $productSku = $sku;
+                    //should coordinate with Michael markeplacer SKU to sync.
+                }
+                else if(strpos($sku, '-') !== false)
                 {
                     $skus = explode('-', $sku);
                     $productSku = $skus[0];
