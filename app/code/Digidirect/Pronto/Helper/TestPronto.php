@@ -1164,10 +1164,11 @@ class TestPronto extends AbstractHelper
                 {
                     $discperc = ($discount / $price) * 100;
                 }
-//                if($coupon != "")
-//                {
-//                    $discount = 0;
-//                }
+                if($coupon != "")
+                {
+                    $discount = 0;
+                    $discperc = 0;
+                }
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;

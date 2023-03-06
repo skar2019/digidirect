@@ -446,7 +446,7 @@ class Order extends AbstractHelper
                 $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                 $data['sales-order']['header']['set-on-status'] = "H";
 //                WF – Web Fraud  ( this would be orders flagged in BT or other platforms as needing a fraud check )
-//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a marketplace order where there is no stock in SWHS )
+//                WS – Web Stock Shortage ( this would be an order placed on hold for a stock shortage reason. For example a `marketplace` order where there is no stock in SWHS )
 //                WP – Web Payment ( this would be for orders we cannot process because we need to apply payment example would be direct deposit but maybe also Studio 19 ?? )
                 if($isMarketPlace) // since it did not go to $directToWhse, we assume there is no stock
                 {
@@ -842,10 +842,12 @@ class Order extends AbstractHelper
                     $discperc = ($discount / $price) * 100;
                 }
 
-                //if($coupon != "")
-                //{
-                //    $discount = 0; //set this to zero since we subtract it to total
-                //}
+                if($coupon != "")
+                {
+                    $discount = 0; //set this to zero since we subtract it to total
+                    $discperc = 0;
+                }
+
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;
