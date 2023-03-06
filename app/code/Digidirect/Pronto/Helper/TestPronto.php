@@ -773,7 +773,6 @@ class TestPronto extends AbstractHelper
                     //check for fraud BT
 
                     $skus = $this->getProductsSkus($order);
-                    echo "sku ".$skus;
                     $instockInv = 0;
                     //use warehouse
                     if ($this->isProductsInStockAll($wrehs, $skus)) {
