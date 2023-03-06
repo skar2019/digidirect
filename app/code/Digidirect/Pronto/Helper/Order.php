@@ -860,7 +860,12 @@ class Order extends AbstractHelper
                 $digiProtectTotal = 0;
 
                 $sku = $item->getSku();
-                if(strpos($sku, '-') !== false)
+                if(strpos($sku, 'mp-') !== false)
+                {
+                    $productSku = $sku;
+                    //should coordinate with Michael markeplacer SKU to sync.
+                }
+                else if(strpos($sku, '-') !== false)
                 {
                     $skus = explode('-', $sku);
                     $productSku = $skus[0];
