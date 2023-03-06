@@ -842,10 +842,12 @@ class Order extends AbstractHelper
                     $discperc = ($discount / $price) * 100;
                 }
 
-                //if($coupon != "")
-                //{
-                //    $discount = 0; //set this to zero since we subtract it to total
-                //}
+                if($coupon != "")
+                {
+                    $discount = 0; //set this to zero since we subtract it to total
+                    $discperc = 0;
+                }
+
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;

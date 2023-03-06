@@ -21,8 +21,8 @@ class TestPronto extends AbstractHelper
 {
 
     /**
-    * @var Curl
-    */
+     * @var Curl
+     */
     protected $curl;
 
     protected $_orderCollectionFactory;
@@ -81,7 +81,7 @@ class TestPronto extends AbstractHelper
         'SWHS',
         'SYDN'
     ];
-    
+
     protected $acceGroup = [
         "A1A1",
         "A1B1",
@@ -174,41 +174,41 @@ class TestPronto extends AbstractHelper
      * @var Country
      */
     public $countryFactory;
-    
+
     protected $productDigiprot;
 
     public function __construct(
-                        Curl $curl,
-                        JsonSerializer $jsonSerializer,
-                        \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
-                        \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
-                        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
-                        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
-                        SearchCriteriaBuilder $searchCriteriaBuilder,
-                        SourceItemRepositoryInterface $sourceItemRepository,
-                        AbstractEntityRepository $abstractEntityRepository,
-                        IncrementIdUpdater $incrementIdUpdater,
-                        CustomerRepositoryInterface $customerRepository,
-                        \Digidirect\CustomOrderLog\Logger\Logger $logger,
-                        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
-                        CountryFactory $countryFactory,
-                        \Magento\Catalog\Model\ProductFactory $productFactory)
-                    {
-                        $this->curl = $curl;
-                        $this->jsonSerializer = $jsonSerializer;
-                        $this->sourceItemsBySku = $sourceItemsBySku;
-                        $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
-                        $this->sourceItemFactory = $sourceItemFactory;
-                        $this->_orderCollectionFactory = $orderCollectionFactory;
-                        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-                        $this->sourceItemRepository = $sourceItemRepository;
-                        $this->abstractEntityRepository = $abstractEntityRepository;
-                        $this->incrementIdUpdater = $incrementIdUpdater;
-                        $this->customerRepository = $customerRepository;
-                        $this->logger = $logger;
-                        $this->timezone = $timezone;
-                        $this->countryFactory = $countryFactory;
-                        $this->productFactory = $productFactory;
+        Curl $curl,
+        JsonSerializer $jsonSerializer,
+        \Magento\InventoryApi\Api\GetSourceItemsBySkuInterface $sourceItemsBySku,
+        \Magento\InventoryApi\Api\SourceItemsSaveInterface $sourceItemsSaveInterface,
+        \Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory $sourceItemFactory,
+        \Magento\Sales\Model\ResourceModel\Order\CollectionFactory $orderCollectionFactory,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        SourceItemRepositoryInterface $sourceItemRepository,
+        AbstractEntityRepository $abstractEntityRepository,
+        IncrementIdUpdater $incrementIdUpdater,
+        CustomerRepositoryInterface $customerRepository,
+        \Digidirect\CustomOrderLog\Logger\Logger $logger,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone,
+        CountryFactory $countryFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory)
+    {
+        $this->curl = $curl;
+        $this->jsonSerializer = $jsonSerializer;
+        $this->sourceItemsBySku = $sourceItemsBySku;
+        $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
+        $this->sourceItemFactory = $sourceItemFactory;
+        $this->_orderCollectionFactory = $orderCollectionFactory;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->sourceItemRepository = $sourceItemRepository;
+        $this->abstractEntityRepository = $abstractEntityRepository;
+        $this->incrementIdUpdater = $incrementIdUpdater;
+        $this->customerRepository = $customerRepository;
+        $this->logger = $logger;
+        $this->timezone = $timezone;
+        $this->countryFactory = $countryFactory;
+        $this->productFactory = $productFactory;
 
     }
 
@@ -226,13 +226,13 @@ class TestPronto extends AbstractHelper
             ->addFieldToFilter('created_at', array('lteq' => $toDate))
             ->setOrder('created_at', 'desc');
 
-     return $collection;
+        return $collection;
 
     }
 
     public function getPaymentType($paymentInstance){
 
-        echo "<br >get payment type ". $paymentInstance->getMethod();
+        //echo "<br >get payment type ". $paymentInstance->getMethod();
         $type = "";
         $payment = $paymentInstance->getMethod();
         echo "<br >get payment type ".$payment."<br>";
@@ -250,14 +250,14 @@ class TestPronto extends AbstractHelper
                 $type = 'EB';
                 break;
             case "braintree_paypal":
-              $type = 'PY';
-              break;
+                $type = 'PY';
+                break;
             case "banktransfer":
                 $type = 'Y';
                 break;
             case "paybympcatch":
                 $type = 'CA';
-                 break;
+                break;
             case "zippayment":
                 $type = "ZM";
                 break;
@@ -282,11 +282,17 @@ class TestPronto extends AbstractHelper
             case "latipay":
                 $type = 'LP';
                 break;
+            case "latitude":
+                $type = 'LA';
+                break;
             case "instant":
                 $type = 'IP';
                 break;
+            case "paypal_express":
+                $type = 'PY';
+                break;
             default:
-          break;
+                break;
         }
 
         return $type;
@@ -348,7 +354,7 @@ class TestPronto extends AbstractHelper
         return $skus;
     }
 
-     /**
+    /**
      * @param string $sourceCode
      * @param array $productsSkus
      * @return bool
@@ -420,9 +426,9 @@ class TestPronto extends AbstractHelper
      */
     protected function getSourceItemBySourceCodeAndSku($sourceCode, array $sku) {
         $searchCriteria = $this->searchCriteriaBuilder
-                ->addFilter(SourceItemInterface::SOURCE_CODE, $sourceCode)
-                ->addFilter(SourceItemInterface::SKU, $sku, 'in')
-                ->create();
+            ->addFilter(SourceItemInterface::SOURCE_CODE, $sourceCode)
+            ->addFilter(SourceItemInterface::SKU, $sku, 'in')
+            ->create();
         $sourceItemsResult = $this->sourceItemRepository->getList($searchCriteria);
         return $sourceItemsResult->getItems();
     }
@@ -517,9 +523,13 @@ class TestPronto extends AbstractHelper
 
             /* @var $order \Magento\Sales\Model\Order */
 
-            if ($order->getState() == 'canceled') {
-                continue;
+            if(!$test)
+            {
+                if ($order->getState() == 'canceled') {
+                    continue;
+                }
             }
+
 
             $prontoOrderNumber = $order->getData('pronto_order_number');
             if(is_numeric($prontoOrderNumber))
@@ -618,6 +628,15 @@ class TestPronto extends AbstractHelper
                 else if (strpos($orderId, 'Q') !== false) {
                     $account = "QANT00";
                     $rep ="QANTAS";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                }
+                else if (strpos($orderId, 'WW') !== false) {
+                    $rep ="WOOLWORTHS";
+                    $account = "WOOL00";
+                    $territory = "MRKT";
+                    $isMarketPlace = true;
+                    //for woolworths
                 }
 
             }
@@ -652,13 +671,13 @@ class TestPronto extends AbstractHelper
 
             if(!$isMarketPlace)
             {
-                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00") 
+                if($account == "WOOL00" || $account == "QANT00" ||  $account == "WEST00" ||  $account == "MYDE00" ||  $account == "CATC00" ||  $account == "EBAY00" || $account == "AMAZ01" || $account == "AMAZ02" || $account == "AMAZ00")
                 {
                     $account = "";
                 }
             }
             //comment to redeploy
-            
+
             $customerEmail = $order->getCustomerEmail();
             $data['sales-order']['header']['accountname'] = $accountname;
             $data['sales-order']['header']['account'] = $account;
@@ -685,9 +704,33 @@ class TestPronto extends AbstractHelper
             $cc = "";
 
             $grandTotal = (double) $order->getBaseGrandTotal();
+            echo "grandTotal - ".$grandTotal."<br/>";
             $subTotal = (double) $order->getBaseSubtotalInclTax();
             $tax = (double) $order->getBaseTaxAmount();
             $shipping = (double) $order->getBaseShippingInclTax();
+
+            //Workaround clint Mar 3 23.
+            $disregardshipping = false;
+            $modifygrandtotal = false;
+            $surcharge = $order->getPaymentFee();
+            if(!$isMarketPlace)
+            {
+                if($surcharge == '0.0000') //manually created orders
+                {
+                    if($grandTotal <= 99)
+                    {
+                        $grandTotal = $grandTotal - 9.9;
+                        $disregardshipping = true;
+                    }
+                    $surcharge = $grandTotal * 0.0095;
+                    $grandTotal = $grandTotal + $surcharge;
+                    echo "new grandTotal - ".$grandTotal."<br/>";
+                    echo "surcharge - ".$surcharge."<br/>";
+
+                    $modifygrandtotal = true;
+                }
+            }
+
 
             if($payment_type == 'BT')
             {
@@ -718,7 +761,7 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['on-hold-reason-code'] = "WS";
                     $data['sales-order']['header']['set-on-status'] = "H";
                 }
-                else 
+                else
                 {
 
                     //check for stock
@@ -745,14 +788,14 @@ class TestPronto extends AbstractHelper
                     $is_acce = true;
                     foreach ($order->getAllVisibleItems() as $item) {
                         /* @var $item \Magento\Sales\Model\Order\Item */
-                        
+
                         echo $item->getSku()."<br>";
                         $stockgroup = $item->getProduct()->getCustomAttribute('stock_group');
-                        if(is_null($stockgroup)) 
+                        if(is_null($stockgroup))
                         {
-                            
+
                         }
-                        else 
+                        else
                         {
                             $accgroup = $stockgroup->getValue();
                             if(!in_array($stockgroup,$this->acceGroup)){
@@ -760,9 +803,9 @@ class TestPronto extends AbstractHelper
                                 break;
                             }
                         }
-                        
+
                     }
-                    
+
                     //set ['set-on-status'] to B if no stock. if BT payment method, check if not fraud
                     //check if braintree and fraud
                     //check if all product has stock
@@ -777,14 +820,14 @@ class TestPronto extends AbstractHelper
                                     $data['sales-order']['header']['on-hold-reason-code'] = "";
                                     $data['sales-order']['header']['set-on-status'] = "P";
                                 }
-                                else //$grandTotal >= 200 
+                                else //$grandTotal >= 200
                                 {
                                     if($is_acce) //greater than 200 and is accessories
                                     {
                                         $data['sales-order']['header']['on-hold-reason-code'] = "";
                                         $data['sales-order']['header']['set-on-status'] = "P";
                                     }
-                                    else 
+                                    else
                                     {
                                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                         $data['sales-order']['header']['set-on-status'] = "H";
@@ -793,25 +836,25 @@ class TestPronto extends AbstractHelper
                             }
                             else
                             {
-                                
+
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "B";
                             }
 
                         }
-                        else 
+                        else
                         {
                             $data['sales-order']['header']['on-hold-reason-code'] = "WF";
                             $data['sales-order']['header']['set-on-status'] = "H";
                         }
-                        
-                    } 
-                    elseif($payment_type == 'Y') 
+
+                    }
+                    elseif($payment_type == 'Y')
                     {
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
                     }
-                    else 
+                    else
                     {
                         if($instockInv == 1)
                         {
@@ -820,14 +863,14 @@ class TestPronto extends AbstractHelper
                                 $data['sales-order']['header']['on-hold-reason-code'] = "";
                                 $data['sales-order']['header']['set-on-status'] = "P";
                             }
-                            else 
+                            else
                             {
                                 if($is_acce) //greater than 200 and is accessories
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "";
                                     $data['sales-order']['header']['set-on-status'] = "P";
                                 }
-                                else 
+                                else
                                 {
                                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                                     $data['sales-order']['header']['set-on-status'] = "H";
@@ -841,11 +884,11 @@ class TestPronto extends AbstractHelper
                         }
                     }
                 }
-                
+
                 if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay")
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                    $data['sales-order']['header']['set-on-status'] = "H";  
+                    $data['sales-order']['header']['set-on-status'] = "H";
                 }
 
             }
@@ -854,7 +897,7 @@ class TestPronto extends AbstractHelper
 
             //echo "<br> WH - ".$data['sales-order']['header']['warehouse'];
 
-
+            $grandTotal = round($grandTotal, 2);
             $data['sales-order']['header']['order-total-inc-tax'] = $grandTotal;
 
             $strt = $address->getStreet();
@@ -931,10 +974,15 @@ class TestPronto extends AbstractHelper
 
 
             $payment_reference = $paymentInstance->getLastTransId();
+            echo "payment_reference - " .$payment_reference ."<br>";
+            if (empty($payment_reference) && ($method == 'latipay')) {
+                $payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+                if (empty($payment_reference)){
+                    continue;
+                }
 
-//            if (empty($payment_reference) && ($method == 'm2epropayment')) {
-//                $payment_reference = $paymentInstance->getAdditionalInformation('channel_order_id');
-//            }
+            }
+
             //ebay
             if (($method == 'm2epropayment')) {
                 if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
@@ -949,11 +997,11 @@ class TestPronto extends AbstractHelper
 
             if (($payment_type == 'ZM')) {
 
-               $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
-               if($payment_reference == '')
-               {
-                   $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
-               }
+                $payment_reference = $paymentInstance->getAdditionalInformation('receipt_number');
+                if($payment_reference == '')
+                {
+                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
+                }
             }
 
             //work around for IR orders coming as H
@@ -1017,7 +1065,8 @@ class TestPronto extends AbstractHelper
             //gift cards
             $withGC = false;
             $gift_amount = $order->getGiftCardsAmount();
-            
+            echo "gift_amount ".$gift_amount."<br/>";
+
             if($gift_amount > 0)
             {
                 $withGC = true;
@@ -1030,21 +1079,39 @@ class TestPronto extends AbstractHelper
                 {
                     echo "gc ref " .$gc_reference;
                 }
-                
+
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-type'] = "VI";
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['payment-reference'] = $gc_reference;
                 $data['sales-order']['header']['payment-details']['payment-detail'][0]['amount-tendered'] = $gift_amount;
             }
 
             $amount_tendered = $order->getBaseGrandTotal();
+            if($modifygrandtotal)
+            {
+                $amount_tendered = $amount_tendered + $surcharge;
+                if($disregardshipping)
+                {
+                    $amount_tendered = $amount_tendered - 9.9;
+                }
+            }
             $amount_tendered = round($amount_tendered, 2);
+            echo "amount_tendered ".$amount_tendered."<br/>";
             if((!$is_am_fba))
             {
                 if($withpaymentref)
                 {
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
-                    $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    if($withGC)
+                    {
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['payment-type'] = $payment_type;
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['payment-reference'] = $payment_reference." ".$cc;
+                        $data['sales-order']['header']['payment-details']['payment-detail'][1]['amount-tendered'] = $amount_tendered;
+                    }
+                    else
+                    {
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-type'] = $payment_type;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['payment-reference'] = $payment_reference." ".$cc;
+                        $data['sales-order']['header']['payment-details']['payment-detail']['amount-tendered'] = $amount_tendered;
+                    }
                 }
 
             }
@@ -1052,9 +1119,10 @@ class TestPronto extends AbstractHelper
             //CUSTOM DATA
             $qffNumber = $order->getQffNumber();
             $qffLastname = $order->getQffLastname();
-            //clint 01-20-23
-            $surcharge = $order->getPaymentFee();
-            
+
+
+            echo "surcharge - " .$surcharge;
+
             if (!empty($qffNumber) && !empty($qffLastname)) {
                 $data['sales-order']['header']['custom-data']['data'][0]['key'] = 'QFF';
                 $data['sales-order']['header']['custom-data']['data'][0]['value'] = $qffNumber;
@@ -1092,15 +1160,20 @@ class TestPronto extends AbstractHelper
                 $qty = (double) $item->getQtyOrdered();
                 $discount = (double) $item->getDiscountAmount();
                 $total = ($price * $qty) - $discount;
+                if($price > 0)
+                {
+                    $discperc = ($discount / $price) * 100;
+                }
                 if($coupon != "")
                 {
                     $discount = 0;
+                    $discperc = 0;
                 }
                 $digiProtectPrice = 0;
                 $digiProtectQty = 0;
                 $digiProtectdiscount = 0;
                 $digiProtectTotal = 0;
-                
+
 
                 $sku = $item->getSku();
                 if(strpos($sku, '-') !== false)
@@ -1119,7 +1192,7 @@ class TestPronto extends AbstractHelper
 //                        $digiProtectdiscount = 0;
 //                    }
 //                    $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
-                    
+
                     $productDigiprot = $this->productFactory->create();
                     $productPriceBySku = $productDigiprot->loadByAttribute('sku', $digiProtect)->getPrice();
                     $digiProtectPrice = $productPriceBySku;
@@ -1160,7 +1233,7 @@ class TestPronto extends AbstractHelper
                         $data['sales-order']['detail']['line'][$x]['shipped'] = 0;
                         $data['sales-order']['detail']['line'][$x]['backordered'] = $qty;
                     }
-                    else 
+                    else
                     {
                         $data['sales-order']['detail']['line'][$x]['ordered'] = $qty;
                         $data['sales-order']['detail']['line'][$x]['shipped'] = $qty;
@@ -1169,7 +1242,7 @@ class TestPronto extends AbstractHelper
                 }
 
 
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discount;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = $discperc;
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $total;
                 $x++;
 
@@ -1192,6 +1265,19 @@ class TestPronto extends AbstractHelper
                 }
             }
 
+            //surcharge clint 01-20-23
+            if($surcharge != "0.0000")
+            {
+                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
+                $data['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
+                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
+                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
+                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
+                $x++; // for shipping counter
+            }
 
             if($coupon != "")
             {
@@ -1203,20 +1289,6 @@ class TestPronto extends AbstractHelper
                 $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
                 $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C5";
                 $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $couponDiscount;
-                $x++; // for shipping counter
-            }
-            
-            //surcharge clint 01-20-23
-            if($surcharge != "")
-            {
-                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
-                $data['sales-order']['detail']['line'][$x]['description'] = "Surcharge";
-                $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $surcharge;
-                $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
-                $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
-                $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
-                $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C3";
-                $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $surcharge;
                 $x++; // for shipping counter
             }
 
@@ -1246,7 +1318,11 @@ class TestPronto extends AbstractHelper
             {
                 $shippingDesc = "Australia Post – eParcel";
             }
-            //shipping details
+            //shipping details clint Mar 3 23
+            if($disregardshipping)
+            {
+                $shippingprice = 0;
+            }
             $data['sales-order']['detail']['line'][$x]['line-type'] = 'SC';
             $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
             $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
@@ -1363,7 +1439,7 @@ class TestPronto extends AbstractHelper
                 ->addFieldToFilter('pronto_order_number', array('null' => true))
                 ->addFieldToFilter('created_at', array('gteq' => $fromDate))
                 ->addFieldToFilter('created_at', array('lteq' => $toDate));
-                //->setCurPage($page);
+            //->setCurPage($page);
             return $collection;
         }
 
