@@ -2547,6 +2547,63 @@
     }
 }
 
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__l){
+    
+    .payment-gateways form#product_addtocart_form {
+        background: #fff !important;
+    }
+
+    .payment-gateways-bottom form#product_addtocart_form {
+        background: #fff !important;
+    }
+
+    .paypal-buttons {
+        min-width: unset !important;
+        min-height: unset !important;
+        overflow: hidden;
+    }
+
+    #union-alipay-wechat img {
+        width: 100% !important;
+    }
+    
+    #latitude-pay-custom {
+        padding: 5px;
+    }
+
+    #latitude-pay-custom img {
+        width: 100%;
+    }
+
+    #zip-custom {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        background: #fff;
+    }
+
+    .zip-caption {
+        display: grid;
+        margin-top: 0;
+        line-height: 15px;
+    }
+
+    .zip-interest {
+        font-size: 7px !important;
+    }
+
+    .zip-apply-now {
+        font-size: 8px !important;
+    }
+
+    #zip-custom:before {
+        width: unset;
+        margin: 0;
+        background-position: center;
+    }
+}
+
+
 //
 //  M +
 //  ---------------------------------------------
@@ -3652,58 +3709,6 @@
     #pa-priceCheckButtonContainer {
         padding-bottom: 0 !important;
         margin-bottom: -4px;
-    }
-    
-    .payment-gateways form#product_addtocart_form {
-        background: #fff !important;
-    }
-
-    .payment-gateways-bottom form#product_addtocart_form {
-        background: #fff !important;
-    }
-
-    .paypal-buttons {
-        min-width: unset !important;
-        min-height: unset !important;
-        overflow: hidden;
-    }
-
-    #union-alipay-wechat img {
-        width: 100% !important;
-    }
-    
-    #latitude-pay-custom {
-        padding: 5px;
-    }
-
-    #latitude-pay-custom img {
-        width: 100%;
-    }
-
-    #zip-custom {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        background: #fff;
-    }
-
-    .zip-caption {
-        display: grid;
-        margin-top: 0;
-        line-height: 15px;
-    }
-
-    .zip-interest {
-        font-size: 7px !important;
-    }
-
-    .zip-apply-now {
-        font-size: 8px !important;
-    }
-
-    #zip-custom:before {
-        width: unset;
-        margin: 0;
-        background-position: center;
     }
     
 } //end mobile
