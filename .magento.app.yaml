@@ -81,23 +81,17 @@ mounts:
     "pub/static": "shared:files/static"
 
 hooks:
-  # We run build hooks before your application has been packaged.
-  build: |
-    set -e
-    composer --no-ansi --no-interaction install --no-progress --prefer-dist --optimize-autoloader
-    npm install
-    php ./vendor/bin/ece-tools build:generate
-    grunt prod
-    php ./vendor/bin/ece-tools build:transfer
-  # We run deploy hook after your application has been deployed and started.
-  deploy: |
-    php ./bin/magento maintenance:enable
-    php ./vendor/bin/ece-tools deploy
-    php ./bin/magento maintenance:disable
-    php ./bin/magento cache:enable
-  # We run post deploy hook to clean and warm the cache. Available with ECE-Tools 2002.0.10.
-  post_deploy: |
-    php ./vendor/bin/ece-tools post-deploy
+    # We run build hooks before your application has been packaged.
+    build: |
+        set -e
+        php ./vendor/bin/ece-tools build:generate
+        php ./vendor/bin/ece-tools build:transfer
+    # We run deploy hook after your application has been deployed and started.
+    deploy: |
+        php ./vendor/bin/ece-tools deploy
+    # We run post deploy hook to clean and warm the cache. Available with ECE-Tools 2002.0.10.
+    post_deploy: |
+        php ./vendor/bin/ece-tools post-deploy
 
 # Default Magento 2 cron jobs
 crons:
@@ -110,4 +104,3 @@ variables:
     env:
         CONFIG__DEFAULT__PAYPAL_ONBOARDING__MIDDLEMAN_DOMAIN: 'payment-broker.magento.com'
         CONFIG__STORES__DEFAULT__PAYPAL__NOTATION_CODE: 'Magento_Enterprise_Cloud'
-        ADMIN_LOCALE: 'en_AU'
