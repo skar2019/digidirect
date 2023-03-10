@@ -52,6 +52,7 @@ localStorage.setItem("Magento_PA_Id", magento_pa_id);
 
 console.log(JSON.stringify(sample))
 
+</script>
         
 
         ');
