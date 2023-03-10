@@ -981,7 +981,10 @@ class TestPronto extends AbstractHelper
             if (empty($payment_reference) && ($method == 'latipay')) {
                 //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
                 //if (empty($payment_reference)){
-                    continue;
+                    if(!$test)
+                    {
+                        continue;
+                    }
                 //}
 
             }
