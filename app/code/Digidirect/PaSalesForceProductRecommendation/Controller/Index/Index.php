@@ -35,7 +35,7 @@ class Index implements ActionInterface {
 
 <script type="text/javascript">
 
-  const sample = localStorage.getItem("configData-dbd6c84f-2332-ec11-aae9-02dca44cceec");
+  const sample = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
 
 
 var testget = document.getElementById("input4");
@@ -46,6 +46,8 @@ var magento_pa_id = document.getElementById("input4").value;
 localStorage.setItem("Magento_PA_Id", magento_pa_id); 
 
 // alert(testdata);
+
+ alert(sample);
 
 
 console.log(JSON.stringify(sample))
