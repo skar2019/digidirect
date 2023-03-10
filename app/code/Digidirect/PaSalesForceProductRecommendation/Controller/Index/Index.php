@@ -44,6 +44,7 @@ class Index implements ActionInterface {
           localStorage.setItem("Magento_PA_Id", magento_pa_id); 
 
           alert(retrievepa);
+          alert(get_PaId);
 
 
           console.log(JSON.stringify(get_PaId))
