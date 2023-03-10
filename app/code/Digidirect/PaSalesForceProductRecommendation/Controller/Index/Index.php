@@ -38,8 +38,8 @@ class Index implements ActionInterface {
         //staging configData configData-60007039-e927-ec11-aaf7-061f6a8be99c
         const get_PaId = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
 
-          var testget = document.getElementById("customerpaId");
-          testget.value = JSON.stringify(get_PaId.c);
+          var retrievepa = document.getElementById("customerpaId");
+          retrievepa.value = JSON.stringify(get_PaId.c);
 
           var magento_pa_id = document.getElementById("customerpaId").value;
 
