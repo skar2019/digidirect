@@ -30,7 +30,7 @@ class Index implements ActionInterface {
         // die('Test module');
         return $this->resultFactory->create()->setContents('
 
-          <p id="retrievepa_id"></p>
+          <p id="retrievepa_id2"></p>
           <input type="text" id="retrievepa_id">
 
           <script type="text/javascript">
@@ -38,10 +38,10 @@ class Index implements ActionInterface {
               const loadconfigdata = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
 
 
-              var getpaID = document.getElementById("retrievepa_id");
-              getpaID.value = JSON.stringify(loadconfigdata.c);
+              var getpaID = document.getElementById("retrievepa_id2");
+              getpaID.innerHTML = JSON.stringify(loadconfigdata);
 
-              var magento_pa_id = document.getElementById("retrievepa_id").value;
+              var magento_pa_id = document.getElementById("retrievepa_id2").innerHTML;
 
               localStorage.setItem("Magento_PA_Id", magento_pa_id); 
 
@@ -51,7 +51,7 @@ class Index implements ActionInterface {
 
 
               console.log(JSON.stringify(loadconfigdata))
-              console.log(JSON.stringify(loadconfigdata.c))
+              console.log(JSON.stringify(loadconfigdata.rec))
 
           </script>
         
