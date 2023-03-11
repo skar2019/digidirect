@@ -39,7 +39,7 @@ class Index implements ActionInterface {
 
               const myObj = JSON.parse(loadconfigdata);
 
-              document.getElementById("retrievepa_id2").innerHTML = myObj.c;
+              document.getElementById("retrievepa_id").value = myObj.c;
 
 
           </script>
