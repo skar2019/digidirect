@@ -37,21 +37,10 @@ class Index implements ActionInterface {
 
               const loadconfigdata = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
 
+              const myObj = JSON.parse(loadconfigdata);
 
-              var getpaID = document.getElementById("retrievepa_id2");
-              getpaID.innerHTML = JSON.stringify(loadconfigdata.rec);
+              document.getElementById("retrievepa_id2").innerHTML = myObj.c;
 
-              var magento_pa_id = document.getElementById("retrievepa_id2").innerHTML;
-
-              localStorage.setItem("Magento_PA_Id", magento_pa_id); 
-
-              alert(getpaID);
-
-              alert(loadconfigdata);
-
-
-              console.log(JSON.stringify(loadconfigdata))
-              console.log(JSON.stringify(loadconfigdata.rec))
 
           </script>
         
