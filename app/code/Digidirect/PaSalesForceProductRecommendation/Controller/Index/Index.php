@@ -39,7 +39,7 @@ class Index implements ActionInterface {
 
 
               var getpaID = document.getElementById("retrievepa_id2");
-              getpaID.innerHTML = JSON.stringify(loadconfigdata.c);
+              getpaID.innerHTML = JSON.stringify(loadconfigdata.r);
 
               var magento_pa_id = document.getElementById("retrievepa_id2").innerHTML;
 
