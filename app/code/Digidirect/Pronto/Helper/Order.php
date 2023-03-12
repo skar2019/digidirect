@@ -410,7 +410,7 @@ class Order extends AbstractHelper
             $surcharge = $order->getPaymentFee();
             if(!$isMarketPlace)
             {
-                if($payment_type == 'BT')
+                if($payment_type == 'BT' || $payment_type == 'PY')
                 {
                     if($surcharge == '0.0000') //manually created orders
                     {
@@ -666,10 +666,10 @@ class Order extends AbstractHelper
             $payment_reference = $paymentInstance->getLastTransId();
 
             if (empty($payment_reference) && ($method == 'latipay')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
-                if (empty($payment_reference)){
+                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+                //if (empty($payment_reference)){
                     continue;
-                }
+                //}
 
             }
             //ebay

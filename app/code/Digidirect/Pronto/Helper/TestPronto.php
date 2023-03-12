@@ -715,7 +715,7 @@ class TestPronto extends AbstractHelper
             $surcharge = $order->getPaymentFee();
             if(!$isMarketPlace)
             {
-                if($payment_type == 'BT')
+                if($payment_type == 'BT' || $payment_type == 'PY')
                 {
                     if($surcharge == '0.0000') //manually created orders
                     {
@@ -979,10 +979,13 @@ class TestPronto extends AbstractHelper
             $payment_reference = $paymentInstance->getLastTransId();
             echo "payment_reference - " .$payment_reference ."<br>";
             if (empty($payment_reference) && ($method == 'latipay')) {
-                $payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
-                if (empty($payment_reference)){
-                    continue;
-                }
+                //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
+                //if (empty($payment_reference)){
+                    if(!$test)
+                    {
+                        continue;
+                    }
+                //}
 
             }
 
