@@ -30,28 +30,22 @@ class Index implements ActionInterface {
         // die('Test module');
         return $this->resultFactory->create()->setContents('
 
-        <input type="text" id="customerpaId">
+          <p id="retrievepa_id2"></p>
+          <input type="text" id="retrievepa_id">
 
-        <script type="text/javascript">
+          <script type="text/javascript">
 
-        // live configData configData-dbd6c84f-2332-ec11-aae9-02dca44cceec
-        //staging configData configData-60007039-e927-ec11-aaf7-061f6a8be99c
-        const get_PaId = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
+            const loadconfigdata = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
 
-          var testget = document.getElementById("customerpaId");
-          testget.value = JSON.stringify(get_PaId.c);
+            const myObj = JSON.parse(loadconfigdata);
 
-          var magento_pa_id = document.getElementById("customerpaId").value;
+            document.getElementById("retrievepa_id").value = myObj.c;
 
-          localStorage.setItem("Magento_PA_Id", magento_pa_id); 
+            var magento_pa_id = document.getElementById("retrievepa_id").value;
 
-          alert(get_PaId);
+            localStorage.setItem("Magento_PA_Id", magento_pa_id); 
 
-
-          console.log(JSON.stringify(get_PaId))
-
-        </script>
-
+          </script>
         
 
         ');
