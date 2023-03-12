@@ -344,13 +344,15 @@ class ProntoOrder extends AbstractHelper
     {
         $store = $this->storeManager->getStore(7); //from backend, retail store id 7 on staging2
         $storeId = $store->getStoreId();
-        echo "store id ".$storeId."\n";
+        echo "store id ".$storeId."\n <br/>";
         $websiteId = 10;//$this->storeManager->getStore()->getWebsiteId();
-        echo "website id ".$websiteId."\n";
+        echo "website id ".$websiteId."\n <br/>";
         $customer = $this->customerFactory->create();
         $customer->setWebsiteId($websiteId);
+        echo "customer email ".$orderInfo['email']." <br/>";
         $customer->loadByEmail($orderInfo['email']);// load customet by email address
         if(!$customer->getId()){
+            echo "create customer \n <br/>";
             //For guest customer create new cusotmer
             $customer->setWebsiteId($websiteId)
                 ->setStore($store)
