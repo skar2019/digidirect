@@ -376,6 +376,7 @@ class ProntoOrder extends AbstractHelper
         echo "assign Customer <br />";
         //add items in quote
         foreach($orderInfo[0]['items'] as $item){
+            echo "to add product <br />";
             $product = $this->productRepository->get($item['sku']);
             /* for simple product */
             $quote->addProduct($product,intval($item['qty']));
