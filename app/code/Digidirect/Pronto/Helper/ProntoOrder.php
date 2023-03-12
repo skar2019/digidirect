@@ -126,7 +126,7 @@ class ProntoOrder extends AbstractHelper
 
     }
 
-    public function GetProntoOrders()
+    public function GetProntoOrders($status)
     {
 
         $data = array();
@@ -164,15 +164,15 @@ class ProntoOrder extends AbstractHelper
 
         $this->curl->addHeader("X-Pronto-Token", $token);
         //Filters TerritoryCode not working
-        $data['Filters']['TerritoryCode']['Like']='SYDN%';
-        $data['Filters']['TerritoryCode']['Like']='MELB%';
-        $data['Filters']['TerritoryCode']['Like']='BRIS%';
-        $data['Filters']['TerritoryCode']['Like']='MIRA%';
-        $data['Filters']['StatusCode']['Like']='80';
+//        $data['Filters']['TerritoryCode']['Like']='SYDN%';
+//        $data['Filters']['TerritoryCode']['Like']='MELB%';
+//        $data['Filters']['TerritoryCode']['Like']='BRIS%';
+//        $data['Filters']['TerritoryCode']['Like']='MIRA%';
+        $data['Filters']['StatusCode']['Like']=$status;
 
         //$data['Filters']['TerritoryCode']['Like']='BOND%';
         //$data['Filters']['TerritoryCode']['Like']='PARR%';
-        //$data['Filters']['TerritoryCode']['NotLike']='WEBS%';
+        $data['Filters']['TerritoryCode']['NotLike']='WEBS%';
 
         $data['RequestFields']['SalesOrders']['SalesOrder']['SOOrderNo']='';
         $data['RequestFields']['SalesOrders']['SalesOrder']['CustomerCode']='';
@@ -203,6 +203,11 @@ class ProntoOrder extends AbstractHelper
 
         foreach($xmlresult->SalesOrders->SalesOrder as $orderdata)
         {
+            $TerritoryCode = $orderdata->TerritoryCode;
+            if($TerritoryCode == "MRKT" || $TerritoryCode == "WEBS")
+            {
+                continue;
+            }
             $x++;
 
             $email = (string)$orderdata->CustomerEmail;
