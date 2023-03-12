@@ -373,24 +373,24 @@ class ProntoOrder extends AbstractHelper
         $customer = $this->customerRepository->getById($customer->getId());
         $quote->setCurrency();
         $quote->assignCustomer($customer); //Assign quote to customer
-
+        echo "assign Customer <br />";
         //add items in quote
         foreach($orderInfo[0]['items'] as $item){
             $product = $this->productRepository->get($item['sku']);
             /* for simple product */
             $quote->addProduct($product,intval($item['qty']));
-
+            echo "add product <br />";
         }
 
         //Set Billing and shipping Address to quote
         $quote->getBillingAddress()->addData($orderInfo['address']);
         $quote->getShippingAddress()->addData($orderInfo['address']);
-
+        echo "billing and shipping <br />";
         // set shipping method
         $shippingAddress=$quote->getShippingAddress();
         $shippingAddress->setCollectShippingRates(true)
             ->collectShippingRates()
-            ->setShippingMethod('flatrate_flatrate'); //shipping method, please verify flat rate shipping must be enable
+            ->setShippingMethod('standard'); //shipping method, please verify flat rate shipping must be enable
         $quote->setPaymentMethod('checkmo'); //payment method, please verify checkmo must be enable from admin
         $quote->setInventoryProcessed(false); //decrease item stock equal to qty
         $quote->save(); //quote save
