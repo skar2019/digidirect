@@ -365,6 +365,7 @@ class ProntoOrder extends AbstractHelper
             $customer->save();
         }
 
+        echo "to quote <br />";
         $quote=$this->quote->create(); //Create object of quote
         $quote->setStore($store); //set store for our quote
         /* for registered customer */
@@ -400,6 +401,7 @@ class ProntoOrder extends AbstractHelper
         // Create Order From Quote Object
         $order = $this->quoteManagement->submit($quote);
 
+        echo "quote submitted <br />";
         /* get order real id from order */
         $orderId = $order->getIncrementId();
 
@@ -411,8 +413,10 @@ class ProntoOrder extends AbstractHelper
             ->save();
 
         if($orderId){
+            echo "order id ".$orderId."<br/>";
             $result['success']= $orderId;
         }else{
+            echo "error <br/>";
             $result=['error'=>true,'msg'=>'Error occurs for Order placed'];
         }
         return $result;
