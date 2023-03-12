@@ -348,7 +348,8 @@ class ProntoOrder extends AbstractHelper
         $websiteId = 10;//$this->storeManager->getStore()->getWebsiteId();
         echo "website id ".$websiteId."\n <br/>";
         $customer = $this->customerFactory->create();
-        $customer->setWebsiteId($websiteId);
+        //$customer->setWebsiteId($websiteId);
+        $customer->setWebsiteId(1); // use 1 for digidirect store work around so it will not create new customer on different store
         echo "customer email ".$orderInfo['email']." <br/>";
         $customer->loadByEmail($orderInfo['email']);// load customet by email address
         if(!$customer->getId()){
