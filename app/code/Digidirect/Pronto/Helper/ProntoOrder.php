@@ -158,7 +158,7 @@ class ProntoOrder extends AbstractHelper
         $result = $this->curl->getBody();
         $xml=simplexml_load_string($result);
         $token = $xml->token;
-
+        echo $token ."\n";
         $this->curl->addHeader("Content-Type", "application/xml");
         $this->curl->addHeader("Accept", "application/xml");
 
@@ -225,7 +225,7 @@ class ProntoOrder extends AbstractHelper
             }
 
             $soorderno = $orderdata->SOOrderNo;
-
+            echo $soorderno . "\n";
             $street = (string)$orderdata->Address2;
             if(empty($street))
             {
@@ -246,7 +246,7 @@ class ProntoOrder extends AbstractHelper
             {
                 $postcode = "N/A";
             }
-            echo $region;
+            echo $region ."\n";
             switch ($region) {
                 case "QLD":
                     $region = 'Queensland';
@@ -266,7 +266,7 @@ class ProntoOrder extends AbstractHelper
             }
 
             $regiondetails = $this->getRegionCode($region);
-            var_dump($regiondetails);
+            //var_dump($regiondetails);
             $regionId = $regiondetails['region_id'];
 
             $orderInfo = [
@@ -342,10 +342,10 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(10); //from backend, retail store id 10 on staging2
+        $store = $this->storeManager->getStore(7); //from backend, retail store id 7 on staging2
         $storeId = $store->getStoreId();
         echo "store id ".$storeId."\n";
-        $websiteId = 6;//$this->storeManager->getStore()->getWebsiteId();
+        $websiteId = 10;//$this->storeManager->getStore()->getWebsiteId();
         echo "website id ".$websiteId."\n";
         $customer = $this->customerFactory->create();
         $customer->setWebsiteId($websiteId);
