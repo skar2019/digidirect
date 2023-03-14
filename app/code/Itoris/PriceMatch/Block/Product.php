@@ -73,9 +73,9 @@ class Product extends Template
     }
 
     public function checkRenderLink() {
-        if( !(\Magento\Framework\App\ObjectManager::getInstance()->get('Itoris\PriceMatch\Helper\Data')->isEnabled()) ){
-            return false;
-        }
+        //if( !(\Magento\Framework\App\ObjectManager::getInstance()->get('Itoris\PriceMatch\Helper\Data')->isEnabled()) ){
+        //    return false;
+        //}
         return true;
     }
 
