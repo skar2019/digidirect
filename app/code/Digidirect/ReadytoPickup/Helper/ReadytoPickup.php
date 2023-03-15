@@ -106,6 +106,7 @@ class ReadytoPickup extends AbstractHelper
      * @var CustomerInterface[]|array
      */
     protected $customer = [];
+    
     private $timezone;
     /**
      * @var Country
