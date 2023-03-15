@@ -124,6 +124,7 @@ class ReadytoPickup extends AbstractHelper
      * @var LoggerInterface
      */
     protected $logger;
+    
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
