@@ -1100,6 +1100,11 @@ class TestPronto extends AbstractHelper
                     $amount_tendered = $amount_tendered - 9.9;
                 }
             }
+            //pao's order 001313994-1 001313991-1
+            if($orderId == '001313991-1' || $orderId == '001313994-1')
+            {
+                $amount_tendered = 1604.10;
+            }
             $amount_tendered = round($amount_tendered, 2);
             echo "amount_tendered ".$amount_tendered."<br/>";
             if((!$is_am_fba))
