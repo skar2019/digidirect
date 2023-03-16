@@ -1,5 +1,7 @@
 <?php
+
 namespace Digidirect\ReadytoPickup\Helper;
+
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
