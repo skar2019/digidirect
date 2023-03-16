@@ -106,6 +106,7 @@ class ReadytoPickup extends AbstractHelper
      * @var CustomerInterface[]|array
      */
     protected $customer = [];
+    
     private $timezone;
     /**
      * @var Country
@@ -123,6 +124,7 @@ class ReadytoPickup extends AbstractHelper
      * @var LoggerInterface
      */
     protected $logger;
+    
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -272,7 +274,8 @@ class ReadytoPickup extends AbstractHelper
                                 <td>CLOSED</td>
                             </tr>
                         </tbody>
-                    </table>";
+                    </table>
+                    <span>Address: 11 Burrows Road South, St Peters New South Wales 2044</span>";
                 } elseif ($whse == "BOND") {
                     $storeHours = "<span>Bondi Junction Hours</span>
                     <table>
@@ -306,7 +309,8 @@ class ReadytoPickup extends AbstractHelper
                                 <td>10:00 AM - 5:00 PM</td>
                             </tr>
                         </tbody>
-                    </table>";
+                    </table>
+                    <span>Address: Level 1 Shop 1044/500 Oxford Street Bondi Junction New South Wales 2022</span>";
                 } elseif ($whse == "CANN") {
                     $storeHours = "<span>Cannington Hours</span>
                     <table>
@@ -340,7 +344,8 @@ class ReadytoPickup extends AbstractHelper
                                 <td>11:00 AM - 4:00 PM</td>
                             </tr>
                         </tbody>
-                    </table>";
+                    </table>
+                    <span>Address: 12 Cecil Ave Cannington Western Australia 6107</span>";
                 } elseif ($whse == "PARR") {
                     $storeHours = "<span>Parramatta Hours</span>
                     <table>
@@ -374,7 +379,8 @@ class ReadytoPickup extends AbstractHelper
                                 <td>10:00 AM - 5:00 PM</td>
                             </tr>
                         </tbody>
-                    </table>";
+                    </table>
+                    <span>Address: Shop 2101-2103 Level 2 (159 Church Street) Parramatta New South Wales 2150</span>";
                 } elseif ($whse == "SYDN") {
                     $storeHours = "<span>Sydney CBD Hours</span>
                     <table>
@@ -408,7 +414,8 @@ class ReadytoPickup extends AbstractHelper
                                 <td>10:00 AM - 5:00 PM</td>
                             </tr>
                         </tbody>
-                    </table>";
+                    </table>
+                    <span>Address: Shop 3/75 King Street Sydney New South Wales 2000</span>";
                 } elseif ($whse == "BRIS") {
                     $storeHours = "<span>Brisbane Hours</span>
                     <table>
@@ -442,7 +449,8 @@ class ReadytoPickup extends AbstractHelper
                                 <td>10:00 AM - 3:00 PM</td>
                             </tr>
                         </tbody>
-                    </table>";
+                    </table>
+                    <span>Address: 166 Adelaide Street Brisbane Queensland 4000</span>";
                 } elseif ($whse == "MELB") {
                     $storeHours = "<span>Melbourne CBD Hours</span>
                     <table>
@@ -476,7 +484,8 @@ class ReadytoPickup extends AbstractHelper
                                 <td>11:00 AM - 5:00 PM</td>
                             </tr>
                         </tbody>
-                    </table>";
+                    </table>
+                    <span>Address: 217 Elizabeth Street Melbourne Victoria 3000</span>";
                 } elseif ($whse == "MIRA") {
                     $storeHours = "<span>Miranda Hours</span>
                     <table>
@@ -510,7 +519,8 @@ class ReadytoPickup extends AbstractHelper
                                 <td>10:00 AM - 5:00 PM</td>
                             </tr>
                         </tbody>
-                    </table>";
+                    </table>
+                    <span>Address: Shop 1098/600 Kingsway Miranda New South Wales 2228</span>";
                 }
             }
         }
