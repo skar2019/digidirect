@@ -18,12 +18,14 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+
 class ReadytoPickup extends AbstractHelper
 {
     /**
     * @var Curl
     */
     protected $curl;
+    
     protected $_orderCollectionFactory;
     /**
      * @var SearchCriteriaBuilder
