@@ -421,8 +421,6 @@ class Order extends AbstractHelper
                         }
                         $surcharge = $grandTotal * 0.0095;
                         $grandTotal = $grandTotal + $surcharge;
-                        echo "new grandTotal - ".$grandTotal."<br/>";
-                        echo "surcharge - ".$surcharge."<br/>";
 
                         $modifygrandtotal = true;
                     }
