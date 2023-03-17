@@ -36,5 +36,9 @@ class CustomerLogin implements ObserverInterface
         $family_name = $controller->getRequest()->getParam('pa_customer_id');*/
 
         $customer->setData('pa_customer_id', 'Testing!')->save();
+        
+        $customer = $this->customerRepository->getById($customer->getId());
+        $customer->setCustomAttribute('pa_customer_id', 'Testing!');
+        $this->customerRepository->save($customer);
     }
 }
