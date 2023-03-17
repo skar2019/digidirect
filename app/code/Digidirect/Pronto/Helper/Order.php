@@ -778,6 +778,18 @@ class Order extends AbstractHelper
                     $amount_tendered = $amount_tendered - 9.9;
                 }
             }
+
+            //dia's order 001313994-1 001313991-1
+            if($orderId == '001312161-1' || $orderId == '001312188-2')
+            {
+                $amount_tendered = 56.33;
+            }
+
+            //Dia 's order 001313994-1 001313991-1
+            if($orderId == '001313991-1' || $orderId == '001313994-1')
+            {
+                $amount_tendered = 1604.10;
+            }
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
