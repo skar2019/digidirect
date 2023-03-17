@@ -1,5 +1,7 @@
 <?php
+
 namespace Digidirect\ReadytoPickup\Helper;
+
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
@@ -18,12 +20,14 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+
 class ReadytoPickup extends AbstractHelper
 {
     /**
     * @var Curl
     */
     protected $curl;
+    
     protected $_orderCollectionFactory;
     /**
      * @var SearchCriteriaBuilder
