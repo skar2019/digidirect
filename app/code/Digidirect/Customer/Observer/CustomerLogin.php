@@ -21,20 +21,9 @@ class CustomerLogin implements ObserverInterface
     
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        /*echo "Customer LoggedIn";
+        echo "Customer LoggedIn";
         $customer = $observer->getEvent()->getCustomer();
         echo $customer->getName(); //Get customer name
-        exit;*/
-        
-        $customer = $observer->getEvent()->getCustomer();
-        /*if(!$customer instanceof \Magento\Customer\Model\Customer){
-            $customer = $this->customerFactory->create()->load($customer->getId());
-        }*/
-
-        /* Save customer Custom*/
-        /*$controller = $observer->getAccountController();
-        $family_name = $controller->getRequest()->getParam('pa_customer_id');*/
-
-        $customer->setData('pa_customer_id', 'Testing!')->save();
+        exit;
     }
 }
