@@ -159,7 +159,14 @@ class Db extends \Magento\Framework\Model\AbstractModel implements TypesInterfac
      */
     public function addHeader($message, $level = null)
     {
-        $comment = trim($this->getComment());
+        if(!empty($this->getComment()))
+        {
+            $comment = trim($this->getComment());
+        }
+        else
+        {
+            $comment = $this->getComment();
+        }
         $comment = $comment ? $comment . PHP_EOL . $message : $message;
         $this->setComment($comment);
         $this->saveUsingDirectQuery();
