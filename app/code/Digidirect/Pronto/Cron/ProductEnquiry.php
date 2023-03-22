@@ -20,6 +20,12 @@ class ProductEnquiry
 
     public function execute()
     {
+        return;
+        $this->helper->productSync();
+    }
+
+    public function executeSync()
+    {
         $this->helper->productSync();
     }
 

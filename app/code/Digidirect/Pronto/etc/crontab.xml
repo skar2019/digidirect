@@ -8,7 +8,7 @@
         <job name="pronto_inventory_sync" instance="Digidirect\Pronto\Cron\InventoryEnquiry" method="execute">
             <schedule>*/10 * * * *</schedule>
         </job>
-        <job name="pronto_product_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="execute">
+        <job name="pronto_product_sync" instance="Digidirect\Pronto\Cron\ProductEnquiry" method="executeSync">
             <schedule>0 0 * * *</schedule>
         </job>
     </group>
