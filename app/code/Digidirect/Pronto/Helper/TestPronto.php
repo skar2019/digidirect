@@ -289,7 +289,7 @@ class TestPronto extends AbstractHelper
                 $type = 'IP';
                 break;
             case "paypal_express":
-                $type = 'PY';
+                $type = 'PX';
                 break;
             default:
                 break;
