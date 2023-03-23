@@ -639,7 +639,7 @@ return [
         'Klevu_Logger' => 1,
         'Klevu_Registry' => 1,
         'Klevu_Metadata' => 1,
-        'Klevu_Search' => 0,
+        'Klevu_Search' => 1,
         'Klevu_Content' => 1,
         'Klevu_FrontendJs' => 1,
         'Klevu_Addtocart' => 1,
