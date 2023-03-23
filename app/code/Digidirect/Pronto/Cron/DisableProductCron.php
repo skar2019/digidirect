@@ -25,7 +25,14 @@ class DisableProductCron
     public function execute()
     {
         $test = 0;
-        return; //do not run the below
+        exit; //do not run the below
+        $this->helper->toDisableProducts($test);//toDisableProducts($test);
+
+    }
+
+    public function toDisable()
+    {
+        $test = 0;
         $this->helper->toDisableProducts($test);//toDisableProducts($test);
 
     }
