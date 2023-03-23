@@ -126,7 +126,7 @@ class ProntoOrder extends AbstractHelper
 
     }
 
-    public function GetProntoOrders()
+    public function GetProntoOrders($status)
     {
 
         $data = array();
@@ -158,21 +158,21 @@ class ProntoOrder extends AbstractHelper
         $result = $this->curl->getBody();
         $xml=simplexml_load_string($result);
         $token = $xml->token;
-
+        echo $token ."\n";
         $this->curl->addHeader("Content-Type", "application/xml");
         $this->curl->addHeader("Accept", "application/xml");
 
         $this->curl->addHeader("X-Pronto-Token", $token);
         //Filters TerritoryCode not working
-        $data['Filters']['TerritoryCode']['Like']='SYDN%';
-        $data['Filters']['TerritoryCode']['Like']='MELB%';
-        $data['Filters']['TerritoryCode']['Like']='BRIS%';
-        $data['Filters']['TerritoryCode']['Like']='MIRA%';
-        $data['Filters']['StatusCode']['Like']='80';
+//        $data['Filters']['TerritoryCode']['Like']='SYDN%';
+//        $data['Filters']['TerritoryCode']['Like']='MELB%';
+//        $data['Filters']['TerritoryCode']['Like']='BRIS%';
+//        $data['Filters']['TerritoryCode']['Like']='MIRA%';
+        $data['Filters']['StatusCode']['Like']=$status;
 
         //$data['Filters']['TerritoryCode']['Like']='BOND%';
         //$data['Filters']['TerritoryCode']['Like']='PARR%';
-        //$data['Filters']['TerritoryCode']['NotLike']='WEBS%';
+        $data['Filters']['TerritoryCode']['NotLike']='WEBS%';
 
         $data['RequestFields']['SalesOrders']['SalesOrder']['SOOrderNo']='';
         $data['RequestFields']['SalesOrders']['SalesOrder']['CustomerCode']='';
@@ -203,6 +203,11 @@ class ProntoOrder extends AbstractHelper
 
         foreach($xmlresult->SalesOrders->SalesOrder as $orderdata)
         {
+            $TerritoryCode = $orderdata->TerritoryCode;
+            if($TerritoryCode == "MRKT" || $TerritoryCode == "WEBS")
+            {
+                continue;
+            }
             $x++;
 
             $email = (string)$orderdata->CustomerEmail;
@@ -220,7 +225,7 @@ class ProntoOrder extends AbstractHelper
             }
 
             $soorderno = $orderdata->SOOrderNo;
-
+            echo $soorderno . "\n";
             $street = (string)$orderdata->Address2;
             if(empty($street))
             {
@@ -241,7 +246,7 @@ class ProntoOrder extends AbstractHelper
             {
                 $postcode = "N/A";
             }
-            echo $region;
+            echo $region ."\n";
             switch ($region) {
                 case "QLD":
                     $region = 'Queensland';
@@ -261,7 +266,7 @@ class ProntoOrder extends AbstractHelper
             }
 
             $regiondetails = $this->getRegionCode($region);
-            var_dump($regiondetails);
+            //var_dump($regiondetails);
             $regionId = $regiondetails['region_id'];
 
             $orderInfo = [
@@ -337,15 +342,18 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(10); //from backend, retail store id 10 on staging2
+        $store = $this->storeManager->getStore(7); //from backend, retail store id 7 on staging2
         $storeId = $store->getStoreId();
-        echo "store id ".$storeId."\n";
-        $websiteId = 6;//$this->storeManager->getStore()->getWebsiteId();
-        echo "website id ".$websiteId."\n";
+        echo "store id ".$storeId."\n <br/>";
+        $websiteId = 10;//$this->storeManager->getStore()->getWebsiteId();
+        echo "website id ".$websiteId."\n <br/>";
         $customer = $this->customerFactory->create();
-        $customer->setWebsiteId($websiteId);
+        //$customer->setWebsiteId($websiteId);
+        $customer->setWebsiteId(1); // use 1 for digidirect store work around so it will not create new customer on different store
+        echo "customer email ".$orderInfo['email']." <br/>";
         $customer->loadByEmail($orderInfo['email']);// load customet by email address
         if(!$customer->getId()){
+            echo "create customer \n <br/>";
             //For guest customer create new cusotmer
             $customer->setWebsiteId($websiteId)
                 ->setStore($store)
@@ -358,30 +366,32 @@ class ProntoOrder extends AbstractHelper
             $customer->save();
         }
 
+        echo "to quote <br />";
         $quote=$this->quote->create(); //Create object of quote
         $quote->setStore($store); //set store for our quote
         /* for registered customer */
         $customer = $this->customerRepository->getById($customer->getId());
         $quote->setCurrency();
         $quote->assignCustomer($customer); //Assign quote to customer
-
+        echo "assign Customer <br />";
         //add items in quote
         foreach($orderInfo[0]['items'] as $item){
+            echo "to add product <br />";
             $product = $this->productRepository->get($item['sku']);
             /* for simple product */
             $quote->addProduct($product,intval($item['qty']));
-
+            echo "add product <br />";
         }
 
         //Set Billing and shipping Address to quote
         $quote->getBillingAddress()->addData($orderInfo['address']);
         $quote->getShippingAddress()->addData($orderInfo['address']);
-
+        echo "billing and shipping <br />";
         // set shipping method
         $shippingAddress=$quote->getShippingAddress();
         $shippingAddress->setCollectShippingRates(true)
             ->collectShippingRates()
-            ->setShippingMethod('flatrate_flatrate'); //shipping method, please verify flat rate shipping must be enable
+            ->setShippingMethod('standard'); //shipping method, please verify flat rate shipping must be enable
         $quote->setPaymentMethod('checkmo'); //payment method, please verify checkmo must be enable from admin
         $quote->setInventoryProcessed(false); //decrease item stock equal to qty
         $quote->save(); //quote save
@@ -393,6 +403,7 @@ class ProntoOrder extends AbstractHelper
         // Create Order From Quote Object
         $order = $this->quoteManagement->submit($quote);
 
+        echo "quote submitted <br />";
         /* get order real id from order */
         $orderId = $order->getIncrementId();
 
@@ -404,8 +415,10 @@ class ProntoOrder extends AbstractHelper
             ->save();
 
         if($orderId){
+            echo "order id ".$orderId."<br/>";
             $result['success']= $orderId;
         }else{
+            echo "error <br/>";
             $result=['error'=>true,'msg'=>'Error occurs for Order placed'];
         }
         return $result;

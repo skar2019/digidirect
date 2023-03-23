@@ -15,7 +15,9 @@ define(
 
                 let isEnabled = window.checkoutConfig.lof_paymentfee.isEnabled;
                 if (isEnabled) {
-                    totals(isLoading, paymentMethod['method']);
+                    if(paymentMethod) { 
+                        totals(isLoading, paymentMethod['method']);
+                    }   
                 }
             });
         };

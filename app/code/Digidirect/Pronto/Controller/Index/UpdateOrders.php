@@ -17,7 +17,10 @@ class UpdateOrders extends \Magento\Framework\App\Action\Action
 
 	public function execute()
 	{
-            
-            $this->helper->GetProntoOrders();
+        $status = 80;
+        if(isset($_GET["status"])){
+            $status = $_GET["status"];
+        }
+        $this->helper->GetProntoOrders($status);
 	}
 }
