@@ -581,6 +581,13 @@ class Order extends AbstractHelper
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
                     }
+
+                    if($payment_type == 'LP')
+                    {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";
+                    }
+
                 }
 
             }
