@@ -984,6 +984,11 @@ class TestPronto extends AbstractHelper
 
             $payment_reference = $paymentInstance->getLastTransId();
             echo "payment_reference - " .$payment_reference ."<br>";
+            if($method == 'latipay')
+            {
+                echo $paymentInstance->getAdditionalInformation();
+
+            }
             if (empty($payment_reference) && ($method == 'latipay')) {
                 //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
                 //if (empty($payment_reference)){
