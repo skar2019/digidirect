@@ -224,6 +224,10 @@ class Order extends AbstractHelper
                 continue;
             }
 
+            if ($order->getState() == 'pending') {
+                continue;
+            }
+
             $prontoOrderNumber = $order->getData('pronto_order_number');
             if($prontoOrderNumber != "")
             {
@@ -586,7 +590,6 @@ class Order extends AbstractHelper
                     {
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
-                        continue;
                     }
 
                 }
@@ -1137,7 +1140,7 @@ class Order extends AbstractHelper
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
-            ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval')))
+            ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval','pending')))
             ->addFieldToFilter('entity_id', array('gteq' => 1499838)) //615813
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))

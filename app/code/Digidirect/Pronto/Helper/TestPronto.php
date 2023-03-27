@@ -520,12 +520,16 @@ class TestPronto extends AbstractHelper
         {
             $data = array();
             $counter++;
-
+            $state = $order->getState();
             /* @var $order \Magento\Sales\Model\Order */
 
             if(!$test)
             {
                 if ($order->getState() == 'canceled') {
+                    continue;
+                }
+
+                if ($order->getState() == 'pending') {
                     continue;
                 }
             }
@@ -898,6 +902,11 @@ class TestPronto extends AbstractHelper
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                     $data['sales-order']['header']['set-on-status'] = "H";
+                    if($state == 'pending' && $test)
+                    {
+                        echo "latipay pending";
+                        continue;
+                    }
                 }
 
             }
@@ -983,9 +992,7 @@ class TestPronto extends AbstractHelper
 
 
             $payment_reference = $paymentInstance->getLastTransId();
-            echo "payment_reference - " .$payment_reference ."<br>";
-            echo "status - ".$paymentInstance->getAdditionalInformation('status');
-            if($method == 'latipay')
+            if($method == 'latipay' && $test)
             {
                 $latdata = $paymentInstance->getAdditionalInformation();
                 var_dump($latdata);
