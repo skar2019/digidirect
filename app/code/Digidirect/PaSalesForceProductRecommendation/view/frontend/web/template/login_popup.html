@@ -1,0 +1,18 @@
+<div id="modal-content">
+    <div>Hello <%- data.name %>, This is your modal popup content in module <%- data.module %></div>
+    <input type="text" id="retrievepa_id">
+
+</div>
+
+<script>
+    const loadconfigdata = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
+
+    const myObj = JSON.parse(loadconfigdata);
+
+    document.getElementById("retrievepa_id").value = myObj.c;
+
+    var magento_pa_id = document.getElementById("retrievepa_id").value;
+
+    localStorage.setItem("Magento_PA_Id", magento_pa_id); 
+    
+</script>
