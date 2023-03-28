@@ -146,8 +146,20 @@ class Product extends AbstractHelper
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
+
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
                         //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = "Enabled = 1";
+
                     }
 
                 }
@@ -712,7 +724,7 @@ class Product extends AbstractHelper
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
-
+                $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
             }
@@ -1336,7 +1348,7 @@ class Product extends AbstractHelper
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
-
+                $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
             }
@@ -1447,8 +1459,18 @@ class Product extends AbstractHelper
                     }
                     else if($prod['stk-user-only-alpha4-1'] == 'W')
                     {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
+
                     }
                     else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
@@ -2059,6 +2081,7 @@ class Product extends AbstractHelper
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
+                $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
             }
@@ -2121,6 +2144,7 @@ class Product extends AbstractHelper
                 $forLogs .= "SKU ".$prod['code']."\n";
                 echo "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
+
                 //set name, price, stock status
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product->setMetaTitle($prodname);
@@ -2131,6 +2155,18 @@ class Product extends AbstractHelper
 
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
+
+                $isNda = $product->getIsNda();
+                if($isNda)
+                {
+                    echo "is nda";
+                    echo "<br />";
+                }
+                else
+                {
+                    echo "not nda";
+                    echo "<br />";
+                }
 
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
@@ -2151,8 +2187,18 @@ class Product extends AbstractHelper
                     }
                     else if($prod['stk-user-only-alpha4-1'] == 'W')
                     {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
+
                     }
                     else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
@@ -2767,6 +2813,7 @@ class Product extends AbstractHelper
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
+                $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
             }
