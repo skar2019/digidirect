@@ -790,6 +790,13 @@ class Order extends AbstractHelper
                 }
             }
 
+            //darry work around
+            if($orderId == '001340389')
+            {
+                $amount_tendered = 94.89;
+            }
+
+
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
