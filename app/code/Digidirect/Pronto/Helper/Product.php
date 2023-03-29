@@ -2553,6 +2553,7 @@ class Product extends AbstractHelper
                 $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
+                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 //set brand
                 //digiSeconds brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
@@ -2658,7 +2659,7 @@ class Product extends AbstractHelper
                     $product->setCategoryIds($categoryIds);
                 }
 
-                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
