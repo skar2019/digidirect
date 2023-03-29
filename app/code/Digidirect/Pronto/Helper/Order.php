@@ -1085,15 +1085,15 @@ class Order extends AbstractHelper
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
                     //echo $msg ."<br>";
-                    if($msg == 'Error on opening batch reference.')
-                    {
+                    //if($msg == 'Error on opening batch reference.')
+                    //{
                         //do nothing
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         $order->setData('pronto_order_number',$msg);
                         $order->save();
-                    }
+                    //}
 
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
