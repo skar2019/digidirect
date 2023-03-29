@@ -795,7 +795,11 @@ class Order extends AbstractHelper
             {
                 $amount_tendered = 94.89;
             }
-
+            //glen order :express paypal no surcharge
+            if($orderId == '001343543')
+            {
+                $amount_tendered = 67.15;
+            }
 
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
