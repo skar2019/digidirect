@@ -71,7 +71,7 @@ class Bootstrap extends \Magento\Framework\App\Action\Action
         $response = [
             'product_name' => $product->getName(),
             'final_price' => $product->getFinalPrice(),
-            'check_render_link' => ($this->calculateRenderLink()) ? 1 : '',
+            'check_render_link' => 1,//($this->calculateRenderLink()) ? 1 : '',
         ];
 
         if( $this->customerSession->isLoggedIn() ){
