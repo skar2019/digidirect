@@ -334,29 +334,29 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
 
         $this->_prepareDefaultOrder();
 
-        if ($this->relevanceOrderDirection) {
-            $this->getSelect()->order(
-                new \Zend_Db_Expr(
-                    $this->_conn->quoteInto(
-                        'FIELD(e.entity_id, ?) ' . $this->relevanceOrderDirection,
-                        $ids
-                    )
-                )
-            );
-        }
+//        if ($this->relevanceOrderDirection) {
+//            $this->getSelect()->order(
+//                new \Zend_Db_Expr(
+//                    $this->_conn->quoteInto(
+//                        'FIELD(e.entity_id, ?) ' . $this->relevanceOrderDirection,
+//                        $ids
+//                    )
+//                )
+//            );
+//        }
 
         $joinedTables = $this->getSelect()->getPart('from');
-        if (!isset($joinedTables['search_result'])) {
-            $temporaryStorage = $this->temporaryStorageFactory->create();
-            $table = $temporaryStorage->storeApiDocuments($items);
-            $this->getSelect()->joinInner(
-                [
-                    'search_result' => $table->getName(),
-                ],
-                'e.entity_id = search_result.' . TemporaryStorage::FIELD_ENTITY_ID,
-                []
-            );
-        }
+//        if (!isset($joinedTables['search_result'])) {
+//            $temporaryStorage = $this->temporaryStorageFactory->create();
+//            $table = $temporaryStorage->storeApiDocuments($items);
+//            $this->getSelect()->joinInner(
+//                [
+//                    'search_result' => $table->getName(),
+//                ],
+//                'e.entity_id = search_result.' . TemporaryStorage::FIELD_ENTITY_ID,
+//                []
+//            );
+//        }
     }
 
     /**
