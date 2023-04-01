@@ -1,0 +1,115 @@
+diff --git a/vendor/magento/module-media-storage/Model/File/Validator/Image.php b/vendor/magento/module-media-storage/Model/File/Validator/Image.php
+index a8bce7cfee20..aa66010647d7 100644
+--- a/vendor/magento/module-media-storage/Model/File/Validator/Image.php
++++ b/vendor/magento/module-media-storage/Model/File/Validator/Image.php
+@@ -9,6 +9,7 @@
+ 
+ use Magento\Framework\File\Mime;
+ use Magento\Framework\Filesystem\Driver\File;
++use Magento\Framework\Image\Factory;
+ 
+ /**
+  * Image validator
+@@ -33,6 +34,11 @@ class Image extends \Zend_Validate_Abstract
+      */
+     private $fileMime;
+ 
++    /**
++     * @var Factory
++     */
++    private $imageFactory;
++
+     /**
+      * @var File
+      */
+@@ -40,13 +46,16 @@ class Image extends \Zend_Validate_Abstract
+ 
+     /**
+      * @param Mime $fileMime
++     * @param Factory $imageFactory
+      * @param File $file
+      */
+     public function __construct(
+         Mime $fileMime,
++        Factory $imageFactory,
+         File $file
+     ) {
+         $this->fileMime = $fileMime;
++        $this->imageFactory = $imageFactory;
+         $this->file = $file;
+     }
+ 
+@@ -60,10 +69,8 @@ public function isValid($filePath): bool
+ 
+         if (in_array($fileMimeType, $this->imageMimeTypes)) {
+             try {
+-                //phpcs:ignore Magento2.Functions.DiscouragedFunction
+-                $image = imagecreatefromstring($this->file->fileGetContents($filePath));
+-
+-                $isValid = $image ? true : false;
++                $image = $this->imageFactory->create($filePath);
++                $image->open();
+             } catch (\Exception $e) {
+                 $isValid = false;
+             }
+diff --git a/vendor/magento/framework/Image/Adapter/Gd2.php b/vendor/magento/framework/Image/Adapter/Gd2.php
+index bebf64c56596..361d1c7daa8f 100644
+--- a/vendor/magento/framework/Image/Adapter/Gd2.php
++++ b/vendor/magento/framework/Image/Adapter/Gd2.php
+@@ -79,7 +79,7 @@ public function open($filename)
+             throw new \OverflowException('Memory limit has been reached.');
+         }
+         $this->imageDestroy();
+-        $this->_imageHandler = call_user_func(
++        $this->_imageHandler = @call_user_func(
+             $this->_getCallback('create', null, sprintf('Unsupported image format. File: %s', $this->_fileName)),
+             $this->_fileName
+         );
+@@ -220,7 +220,7 @@ public function save($destination = null, $newName = null)
+             $functionParameters[] = $quality;
+         }
+ 
+-        call_user_func_array($this->_getCallback('output'), $functionParameters);
++        @call_user_func_array($this->_getCallback('output'), $functionParameters);
+     }
+ 
+     /**
+@@ -233,7 +233,7 @@ public function save($destination = null, $newName = null)
+     public function getImage()
+     {
+         ob_start();
+-        call_user_func($this->_getCallback('output'), $this->_imageHandler);
++        @call_user_func($this->_getCallback('output'), $this->_imageHandler);
+         return ob_get_clean();
+     }
+ 
+@@ -451,7 +451,7 @@ public function watermark($imagePath, $positionX = 0, $positionY = 0, $opacity =
+     {
+         list($watermarkSrcWidth, $watermarkSrcHeight, $watermarkFileType,) = $this->_getImageOptions($imagePath);
+         $this->_getFileAttributes();
+-        $watermark = call_user_func(
++        $watermark = @call_user_func(
+             $this->_getCallback('create', $watermarkFileType, 'Unsupported watermark image format.'),
+             $imagePath
+         );
+diff --git a/vendor/magento/framework/Image/Adapter/ImageMagick.php b/vendor/magento/framework/Image/Adapter/ImageMagick.php
+index 31793d281ac5..d55f26ed3db8 100644
+--- a/vendor/magento/framework/Image/Adapter/ImageMagick.php
++++ b/vendor/magento/framework/Image/Adapter/ImageMagick.php
+@@ -104,7 +104,15 @@ public function open($filename)
+         $this->_getFileAttributes();
+ 
+         try {
+-            $this->_imageHandler = new \Imagick($this->_fileName);
++            if (is_callable('exif_imagetype')) {
++                $fileType = exif_imagetype($this->_fileName);
++
++                if ($fileType === IMAGETYPE_ICO) {
++                    $filename = 'ico:' . $this->_fileName;
++                }
++            }
++
++            $this->_imageHandler = new \Imagick($filename);
+         } catch (\ImagickException $e) {
+             //phpcs:ignore Magento2.Exceptions.DirectThrow
+             throw new LocalizedException(

@@ -183,7 +183,7 @@ class Inventory extends AbstractHelper
                         $retail = $prodRes['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                         $prod->setPrice($retail);
                         $forLogs .= "Price - ".$retail."\n";
-                        
+
                     }
 
                     if($prodRes['stk-condition-code'] == 'O')
@@ -196,7 +196,7 @@ class Inventory extends AbstractHelper
                         //if blank, set to disable
                         if($prodRes['stk-user-only-alpha4-1'] == '')
                         {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {
@@ -253,7 +253,7 @@ class Inventory extends AbstractHelper
                             }
                         }
                     }
-                    
+
                     $this->productRepository->save($prod);
                     //echo $lastCode."<br>";
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
@@ -367,8 +367,8 @@ class Inventory extends AbstractHelper
                         //if blank, set to disable
                         if($prodRes['stk-user-only-alpha4-1'] == '')
                         {
-                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                            echo "disable "."<br/>";
+//                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+//                            echo "disable "."<br/>";
                         }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {

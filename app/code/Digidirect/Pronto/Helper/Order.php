@@ -224,6 +224,10 @@ class Order extends AbstractHelper
                 continue;
             }
 
+            if ($order->getState() == 'pending') {
+                continue;
+            }
+
             $prontoOrderNumber = $order->getData('pronto_order_number');
             if($prontoOrderNumber != "")
             {
@@ -581,6 +585,13 @@ class Order extends AbstractHelper
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
                     }
+
+                    if($payment_type == 'LP')
+                    {
+                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                        $data['sales-order']['header']['set-on-status'] = "H";
+                    }
+
                 }
 
             }
@@ -778,6 +789,18 @@ class Order extends AbstractHelper
                     $amount_tendered = $amount_tendered - 9.9;
                 }
             }
+
+            //darry work around
+            if($orderId == '001340389')
+            {
+                $amount_tendered = 94.89;
+            }
+            //glen order :express paypal no surcharge
+            if($orderId == '001343543')
+            {
+                $amount_tendered = 67.15;
+            }
+
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
@@ -1073,15 +1096,15 @@ class Order extends AbstractHelper
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
                     //echo $msg ."<br>";
-                    if($msg == 'Error on opening batch reference.')
-                    {
+                    //if($msg == 'Error on opening batch reference.')
+                    //{
                         //do nothing
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         $order->setData('pronto_order_number',$msg);
                         $order->save();
-                    }
+                    //}
 
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
@@ -1128,7 +1151,7 @@ class Order extends AbstractHelper
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
-            ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval')))
+            ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval','pending')))
             ->addFieldToFilter('entity_id', array('gteq' => 1499838)) //615813
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))
@@ -1195,7 +1218,7 @@ class Order extends AbstractHelper
                 $type = 'IP';
                 break;
             case "paypal_express":
-                $type = 'PY';
+                $type = 'PX';
                 break;
 
             default:
@@ -1411,4 +1434,5 @@ class Order extends AbstractHelper
 
         return $prontoStatus;
     }
+    //redeploy
 }

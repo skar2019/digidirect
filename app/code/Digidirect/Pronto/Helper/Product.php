@@ -63,17 +63,17 @@ class Product extends AbstractHelper
 
     public function productSync()
     {
+        set_time_limit(600);
         $startItem = 0;
         $lastCode = 0;
-        
 
         $this->logger->info('Pronto Product Sync - start item: '.$startItem);
-        
+
         $this->attributeOptions = $this->getOptionHash('brand');
         $forLogs = "";
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
-        
+
         //echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;//.$startitem; //test
         //live port :8084
@@ -118,15 +118,15 @@ class Product extends AbstractHelper
                 $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
-                
+
                 $cost = $prod['stk-replacement-cost'];
                 if($cost == '0')
                 {
                     $cost = $prod['stk-current-buy'];
                 }
-                
+
                 $product->setCustomAttribute('cost', $cost);
-                
+
                 $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
                 {
@@ -146,8 +146,20 @@ class Product extends AbstractHelper
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
                     else {
+
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
                         //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = "Enabled = 1";
+
                     }
 
                 }
@@ -164,17 +176,17 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('awaiting_product', '0');
                     $awaiting = "Awaiting Product = 0";
                 }
-                
+
                 //stk-user-only-alpha4-3 is_qantas_product
                 if($prod['stk-user-only-alpha4-3'] == "Q")
                 {
                     $product->setCustomAttribute('is_qantas_product', '1');
                 }
-                else 
+                else
                 {
                     $product->setCustomAttribute('is_qantas_product', '0');
                 }
-                
+
                 $forLogs .= $awaiting."\n";
                 //set to pre order
                 if($prod['stk-user-only-alpha4-1'] == 'P')
@@ -346,13 +358,13 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
                 }
                 if(isset($prod['qff-store-price']))
                 {
-                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
                 }
-                
+
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -439,15 +451,15 @@ class Product extends AbstractHelper
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setAttributeSetId(4);
-                
+
                 $cost = $prod['stk-replacement-cost'];
                 if($cost == '0')
                 {
                     $cost = $prod['stk-current-buy'];
                 }
-                
+
                 $product->setCustomAttribute('cost', $cost);
-                
+
                 //set brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
                 {
@@ -554,7 +566,7 @@ class Product extends AbstractHelper
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
-                
+
                 $toUrl = $prodname."-".$prod['code'];
                 $toUrl = preg_replace('/[+]/', "plus", $toUrl);
                 $urltext = preg_replace('#[^0-9a-z]+#i', '-', $toUrl);
@@ -652,13 +664,13 @@ class Product extends AbstractHelper
 
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
                 }
                 if(isset($prod['qff-store-price']))
                 {
-                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
                 }
-                
+
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -709,10 +721,10 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
-                
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
-
+                $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
             }
@@ -785,7 +797,7 @@ class Product extends AbstractHelper
                 $product->setStockStatus($prod['stk-stock-status']);
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
-                
+
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
                 $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
@@ -1333,10 +1345,10 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
-                
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
-
+                $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
             }
@@ -1373,12 +1385,12 @@ class Product extends AbstractHelper
         //$url = 'https://digi-pronto.abtonline.com.au:8083/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
         //live port :8084
         $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem.'&end-item='.$endItem;
-        
+
         if($endItem == '0')
         {
             $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/stock-master?call-type=full_enquiry&start-item='.$startItem;
         }
-        
+
         $username = 'clint.mercado';
         $password = '849cd5080faff5ce';
         $jsonData = '{}';
@@ -1427,7 +1439,7 @@ class Product extends AbstractHelper
 
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
-                
+
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
                 echo "Stock Condition " .$prod['stk-condition-code']." <br>";
@@ -1447,8 +1459,18 @@ class Product extends AbstractHelper
                     }
                     else if($prod['stk-user-only-alpha4-1'] == 'W')
                     {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
+
                     }
                     else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
@@ -1474,13 +1496,13 @@ class Product extends AbstractHelper
                     $product->setCustomAttribute('awaiting_product', '0');
                     echo "awaiting 0  <br/>";
                 }
-                
+
                  //stk-user-only-alpha4-3 is_qantas_product
                 if($prod['stk-user-only-alpha4-3'] == "Q")
                 {
                     $product->setCustomAttribute('is_qantas_product', '1');
                 }
-                
+
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
@@ -1698,20 +1720,20 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                
+
                 if(isset($prod['qff-store-product-name']))
                 {
                     echo $prod['qff-store-product-name'] . " qff-store-product-name<br/>";
-                
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
+
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
                 }
                 if(isset($prod['qff-store-price']))
                 {
-                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
                     echo "set qff-store-price <br/>";
                     echo $prod['qff-store-price'] . "<br/>";
                 }
-                
+
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -1999,13 +2021,13 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
                 }
                 if(isset($prod['qff-store-price']))
                 {
-                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
                 }
-                
+
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -2056,9 +2078,10 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
-                
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
+                $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
             }
@@ -2075,7 +2098,7 @@ class Product extends AbstractHelper
         $this->attributeOptions = $this->getOptionHash('brand');
         $lastCode = 0;
         $forLogs = "";
-        echo 'Pronto Product Sync - start item: '.$startItem."<br/>";
+        echo 'Manual Pronto Product Sync - start item: '.$startItem."<br/>";
         $parentID = 2;
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
@@ -2121,6 +2144,7 @@ class Product extends AbstractHelper
                 $forLogs .= "SKU ".$prod['code']."\n";
                 echo "SKU ".$prod['code']."\n";
                 $product = $this->productRepository->get($prod['code']);
+
                 //set name, price, stock status
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product->setMetaTitle($prodname);
@@ -2131,7 +2155,19 @@ class Product extends AbstractHelper
 
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
-                
+
+                $isNda = $product->getIsNda();
+                if($isNda)
+                {
+                    echo "is nda";
+                    echo "<br />";
+                }
+                else
+                {
+                    echo "not nda";
+                    echo "<br />";
+                }
+
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
                 echo "Stock Condition " .$prod['stk-condition-code']." <br>";
@@ -2151,8 +2187,18 @@ class Product extends AbstractHelper
                     }
                     else if($prod['stk-user-only-alpha4-1'] == 'W')
                     {
-                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                        $endis = 'enabled';
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            $endis = 'enabled';
+                        }
+
                     }
                     else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
@@ -2184,11 +2230,11 @@ class Product extends AbstractHelper
                 {
                     $product->setCustomAttribute('is_qantas_product', '1');
                 }
-                else 
+                else
                 {
                     $product->setCustomAttribute('is_qantas_product', '0');
                 }
-                
+
                 if($prod['stk-user-only-alpha4-1'] == 'P')
                 {
                     //$product->setData('awaiting_product', '1');
@@ -2406,20 +2452,20 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
-                
+
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
                     //echo $prod['qff-store-product-name'] ."<br/>";
-                
+
                 }
                 if(isset($prod['qff-store-price']))
                 {
-                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
                     echo "set qff-store-price <br/>";
                     //echo $prod['qff-store-price'] ."<br/>";
                 }
-                
+
                 if($prod['stk-condition-code'] == 'T')
                 {
                     $stock_condition = 181;
@@ -2484,7 +2530,7 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
-                
+
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
                 echo $today . "<br>";
@@ -2507,6 +2553,7 @@ class Product extends AbstractHelper
                 $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
+                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                 //set brand
                 //digiSeconds brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
@@ -2612,7 +2659,7 @@ class Product extends AbstractHelper
                     $product->setCategoryIds($categoryIds);
                 }
 
-                $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+
 //                // If desired, you can set a tax class like so:
 //                //$product->setCustomAttribute('tax_class_id', $taxClassId);
                 $toUrl = $prodname."-".$prod['code'];
@@ -2709,13 +2756,13 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('qff_bonus_points', $prod['qff-bonus-points-per-dollar']);
                 if(isset($prod['qff-store-product-name']))
                 {
-                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);   
+                    $product->setCustomAttribute('qff_store_product_name', $prod['qff-store-product-name']);
                 }
                 if(isset($prod['qff-store-price']))
                 {
-                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);   
+                    $product->setCustomAttribute('qff_store_price', $prod['qff-store-price']);
                 }
-                
+
                 //digiSeconds Condition : OPENBOX, PRELOVED, REFURB
                 if((isset($prod['d2lvl1'])) && (!empty($prod['d2lvl1'])))
                 {
@@ -2767,6 +2814,7 @@ class Product extends AbstractHelper
 
                 $today = date('Y-m-d');
                 $product->setCustomAttribute('date_update', $today);
+                $product->setCustomAttribute('is_nda', 1);
                 $this->productRepository->save($product);
 
             }
@@ -2853,4 +2901,6 @@ class Product extends AbstractHelper
 
         return $getSubCategory;
     }
+
+    //redeploy
 }

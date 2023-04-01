@@ -289,7 +289,7 @@ class TestPronto extends AbstractHelper
                 $type = 'IP';
                 break;
             case "paypal_express":
-                $type = 'PY';
+                $type = 'PX';
                 break;
             default:
                 break;
@@ -520,12 +520,16 @@ class TestPronto extends AbstractHelper
         {
             $data = array();
             $counter++;
-
+            $state = $order->getState();
             /* @var $order \Magento\Sales\Model\Order */
 
             if(!$test)
             {
                 if ($order->getState() == 'canceled') {
+                    continue;
+                }
+
+                if ($order->getState() == 'pending') {
                     continue;
                 }
             }
@@ -894,6 +898,17 @@ class TestPronto extends AbstractHelper
                     $data['sales-order']['header']['set-on-status'] = "H";
                 }
 
+                if($payment_type == 'LP')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                    if($state == 'pending' && $test)
+                    {
+                        echo "latipay pending";
+                        continue;
+                    }
+                }
+
             }
 
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
@@ -977,7 +992,12 @@ class TestPronto extends AbstractHelper
 
 
             $payment_reference = $paymentInstance->getLastTransId();
-            echo "payment_reference - " .$payment_reference ."<br>";
+            if($method == 'latipay' && $test)
+            {
+                $latdata = $paymentInstance->getAdditionalInformation();
+                var_dump($latdata);
+
+            }
             if (empty($payment_reference) && ($method == 'latipay')) {
                 //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
                 //if (empty($payment_reference)){
@@ -1105,6 +1125,8 @@ class TestPronto extends AbstractHelper
             {
                 $amount_tendered = 1604.10;
             }
+
+
             $amount_tendered = round($amount_tendered, 2);
             echo "amount_tendered ".$amount_tendered."<br/>";
             if((!$is_am_fba))
