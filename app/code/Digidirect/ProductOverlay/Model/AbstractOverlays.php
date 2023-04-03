@@ -262,7 +262,7 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
             /** @var \Digidirect\ProductOverlay\Model\Rule $overlayRule */
             $overlayRule = $this->_overlayRuleFactory->create();
             $overlayRule->setConditions([]);
-            $overlayRule->setStores($this->getStores());
+            $overlayRule->setStores([0,1]);
             $overlayRule->setConditionsSerialized($this->getCondSerialize());
             $overlayRule->setProduct($product);
 
@@ -731,7 +731,7 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
      */
     public function getStores()
     {
-        return $this->_getDataArray(self::STORES);
+        //return $this->_getDataArray(self::STORES);
     }
 
     /**
@@ -1340,7 +1340,7 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
      */
     public function getCatalogPriceRulesIds()
     {
-        return $this->_getDataArray(self::CATALOG_PRICE_RULES_IDS);
+        //return $this->_getDataArray(self::CATALOG_PRICE_RULES_IDS);
     }
 
     /**
