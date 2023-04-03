@@ -81,6 +81,10 @@ class Overlay
         $excludeImages = $this->data['exclude_images'] ?? [];
         if ($subject->getImageId()) {
             foreach ($excludeImages as $excludeImage) {
+                if(empty($excludeImage))
+                {
+                    return false;
+                }
                 if (trim($excludeImage) == $subject->getImageId()) {
                     return false;
                 }
