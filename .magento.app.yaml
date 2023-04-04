@@ -14,7 +14,7 @@ build:
 # 2. Add Composer ^2.0 as a php dependency.
 dependencies:
     php:
-        composer/composer: '^2.0'
+        composer/composer: '2.2.4'
     ruby:
         sass: "3.4.7"
     nodejs:
