@@ -1393,12 +1393,8 @@ class AbstractOverlays extends AbstractModel implements OverlayInterface, Identi
     {
         $value = $this->getData($key);
         if (!is_array($value)) {
-            if ($value) {
-                $value = array_filter(explode(',', $value));
-                $this->setData(self::CATALOG_PRICE_RULES_IDS, $value);
-            } else {
-                $this->setData(self::CATALOG_PRICE_RULES_IDS, 0);
-            }
+            $value = array_filter(explode(',', $value));
+            $this->setData(self::CATALOG_PRICE_RULES_IDS, $value);
         }
         return $value;
     }
