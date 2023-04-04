@@ -23,6 +23,7 @@
         "klarna/m2-klarna": "^1.0",
         "latitudefinancial/payment": "^3.0",
         "livechat/module-magento-livechat": "dev-master",
+        "magento/composer-root-update-plugin": "~2.0",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
         "swissup/attributepages": "^1.5",
