@@ -703,6 +703,16 @@ class Order extends AbstractHelper
                 }
             }
 
+            //paypal express fix
+            if (($payment_type == 'PX')) {
+
+                $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
+                if($payment_status == 'pending')
+                {
+                    continue;
+                }
+            }
+
             //work around for new and old catch
             if($payment_type == 'H')
             {

@@ -1030,6 +1030,17 @@ class TestPronto extends AbstractHelper
                }
             }
 
+            //paypal express fix
+            if (($payment_type == 'PX')) {
+
+                $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
+                if($payment_status == 'pending')
+                {
+                    echo "pending paypal <br />";
+                    continue;
+                }
+            }
+
             //work around for IR orders coming as H
             if($payment_type == 'H')
             {
