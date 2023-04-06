@@ -799,7 +799,11 @@ class Order extends AbstractHelper
                     $amount_tendered = $amount_tendered - 9.9;
                 }
             }
-
+            //pao order
+            if($orderId == '001327339')
+            {
+                $amount_tendered = 1414.97;
+            }
             //darry work around
             if($orderId == '001340389')
             {
