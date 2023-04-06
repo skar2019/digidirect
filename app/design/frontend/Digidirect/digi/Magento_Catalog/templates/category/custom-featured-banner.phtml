@@ -23,6 +23,7 @@ $isBrandAudioTechnica = str_contains($currentUrl, 'brands/audio-technica');
 $isBrandSamsung = str_contains($currentUrl, 'brands/samsung');
 $isBrandPanasonic = str_contains($currentUrl, 'brands/panasonic');
 $isBrandSmallRig = str_contains($currentUrl, 'brands/smallrig');
+$isBrandLenovo = str_contains($currentUrl, 'brands/lenovo');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -121,9 +122,14 @@ if ($request->getFullActionName() == 'catalog_category_view') {
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-smallrig-featured-banner')
             ->toHtml();
+    } elseif ($isBrandLenovo == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-lenovo-featured-banner')
+            ->toHtml();
     }
 
-}//redeploy
+}
 ?>
 
 <script>
