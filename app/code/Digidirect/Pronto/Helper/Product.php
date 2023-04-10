@@ -145,6 +145,21 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
+                        }
+
+                    }
                     else {
 
                         $isNda = $product->getIsNda();
@@ -838,6 +853,21 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
+                        }
+
+                    }
                     else {
 //                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
 //                        $endis = "Enabled = 1";
@@ -1508,8 +1538,8 @@ class Product extends AbstractHelper
                         }
                         else
                         {
-                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
                         }
 
                     }
@@ -2256,8 +2286,8 @@ class Product extends AbstractHelper
                         }
                         else
                         {
-                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
                         }
 
                     }

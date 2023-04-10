@@ -198,6 +198,15 @@ class Inventory extends AbstractHelper
                         {
                             //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                         }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $isNda = $prod->getIsNda();
+                            if($isNda)
+                            {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            }
+
+                        }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
@@ -375,6 +384,17 @@ class Inventory extends AbstractHelper
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                             echo "disable N "."<br/>";
                         }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $isNda = $prod->getIsNda();
+                            if($isNda)
+                            {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                                echo "disable NDA "."<br/>";
+                            }
+
+
+                        }
                         else {
                             //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
                             echo "do nothing "."<br/>";
@@ -483,6 +503,15 @@ class Inventory extends AbstractHelper
                         {
                             $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                             echo "disable "."<br/>";
+                        }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $isNda = $prod->getIsNda();
+                            if($isNda)
+                            {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            }
+
                         }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'N')
                         {
