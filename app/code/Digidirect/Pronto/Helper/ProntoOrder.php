@@ -205,6 +205,11 @@ class ProntoOrder extends AbstractHelper
         $xmlresult = simplexml_load_string($resultdata);
         $x = 0;
 
+        if(is_null($xmlresult))
+        {
+            exit;
+        }
+
         foreach($xmlresult->SalesOrders->SalesOrder as $orderdata)
         {
             $TerritoryCode = $orderdata->TerritoryCode;
