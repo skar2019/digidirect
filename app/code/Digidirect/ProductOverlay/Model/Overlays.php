@@ -107,9 +107,11 @@ class Overlays extends AbstractOverlays
     public function getStockLabel()
     {
         $label = $this->getValue('stock_label');
-        if(!empty($vars))
+        if(!empty($label))
         {
             preg_match_all('/{([a-zA-Z:\_0-9]+)}/', $label, $vars);
+        }
+
             if (isset($vars[1])) {
                 $vars = $vars[1];
                 foreach ($vars as $var) {
@@ -117,8 +119,6 @@ class Overlays extends AbstractOverlays
                     $label = str_replace('{' . $var . '}', $value, $label);
                 }
             }
-        }
-        
         return (string)$label;
     }
 
@@ -288,7 +288,7 @@ class Overlays extends AbstractOverlays
      */
     public function validateTimes()
     {
-        $expression = '/[0-9]|:/';
+        /*$expression = '/[0-9]|:/';
         if ($symbols = preg_replace($expression, '', $this->getFromTime())) {
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Unacceptable symbol(s) "%1" in "From Time" field.', $symbols)
@@ -298,7 +298,7 @@ class Overlays extends AbstractOverlays
             throw new \Magento\Framework\Exception\LocalizedException(
                 __('Unacceptable symbol(s) "%1" in "To Time" field.', $symbols)
             );
-        }
+        }*/
 
         return true;
     }
@@ -364,6 +364,7 @@ class Overlays extends AbstractOverlays
                     $arrayParameter = explode(',', $arrayParameter);
                     $arrayParameter = array_filter($arrayParameter);
                 }
+
             }
             $this->setData($parameter, $arrayParameter);
         }
