@@ -150,7 +150,7 @@ class ProntoOrder extends AbstractHelper
         $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($dataxml, 'sales');
 
         //TEST
-        $url = 'https://digi-pronto.abtonline.com.au:443/pronto/rest/ua1.salesorder/login'; //TEST
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/login'; //TEST
 
         $this->curl->addHeader("Content-Type", "application/xml");
         $this->curl->addHeader("Accept", "application/xml");
@@ -196,7 +196,7 @@ class ProntoOrder extends AbstractHelper
 
         $xmldata = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'SalesOrderGetSalesOrdersRequest');
 
-        $urldata = 'https://digi-pronto.abtonline.com.au:443/pronto/rest/ua1.salesorder/api/SalesOrderGetSalesOrders';
+        $urldata = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/api/SalesOrderGetSalesOrders';
 
         $this->curl->post($urldata, $xmldata);
 
