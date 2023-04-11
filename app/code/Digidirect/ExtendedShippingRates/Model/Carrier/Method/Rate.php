@@ -648,7 +648,7 @@ class Rate extends AbstractExtensibleModel implements RateInterface
         \Digidirect\ExtendedShippingRates\Model\Carrier\Method $methodData
     ) {
         $result = $this->getCalculatedPrice($request, $methodData);
-        $method->setPrice($result);
+        $method->setPrice($result + 20);
 
         // Change method title
         if ($this->getTitle()) {

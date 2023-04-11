@@ -365,7 +365,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             //end modification
             //
             //$method->setMethodTitle($methodData->getData('title'));
-             $method->setPrice($methodData->getData('price'));
+            $method->setPrice($methodData->getData('price'));
         }
         
         //$method->setPrice($methodData->getData('price') + 20);
@@ -420,7 +420,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
         /** @var \Digidirect\ExtendedShippingRates\Model\Carrier\Method\Rate $rate */
         foreach ($rates as $currentRate) {
             if (!isset($rate) || $rate->getPriority() <= $currentRate->getPriority()) {
-                $rate = $currentRate + 20;
+                $rate = $currentRate;
             }
         }
 
@@ -447,7 +447,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             $currentRatePrice = $currentRate->getCalculatedPrice($request, $methodData);
             if (!isset($rate) || $actualRateCalculatedPrice <= $currentRatePrice) {
                 $rate = $currentRate;
-                $actualRateCalculatedPrice = $currentRatePrice + 20;
+                $actualRateCalculatedPrice = $currentRatePrice;
             }
         }
 
@@ -474,7 +474,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             $currentRatePrice = $currentRate->getCalculatedPrice($request, $methodData);
             if (!isset($rate) || $actualRateCalculatedPrice >= $currentRatePrice) {
                 $rate = $currentRate;
-                $actualRateCalculatedPrice = $currentRatePrice + 20;
+                $actualRateCalculatedPrice = $currentRatePrice;
             }
         }
 
