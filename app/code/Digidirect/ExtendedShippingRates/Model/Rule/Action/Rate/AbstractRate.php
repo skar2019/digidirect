@@ -165,7 +165,7 @@ abstract class AbstractRate implements AbstractRateInterface
         $rate = $this->getRate();
         $amountValue = $this->getAmountValue();
         $price = $this->convertPrice($amountValue);
-        $rate->setPrice($price + 20);
+        $rate->setPrice($price);
 
         return $this;
     }
@@ -223,7 +223,7 @@ abstract class AbstractRate implements AbstractRateInterface
      */
     protected function _setAmountValue($value)
     {
-        $this->amountValue = floatval($value);
+        $this->amountValue = floatval($value) + 20;
         return $this;
     }
 
