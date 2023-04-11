@@ -344,7 +344,7 @@ abstract class AbstractRate implements AbstractRateInterface
      */
     public function setRate(Method $rate)
     {
-        $this->rate = $rate + 20;
+        $this->rate = $rate;
         return $this;
     }
 
