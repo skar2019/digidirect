@@ -18,12 +18,12 @@
     localStorage.setItem("Magento_PA_Id", magento_pa_id); 
     
 
-$.ajax({
-url: aw,
-type: "GET",
-dataType: "json",
-success: function (data) {
-    alert(data);
-}
-});
+    $.ajax({
+    url: "login_popup.html",
+    type: "POST",
+    data: aw,
+    success: function (data) {
+        alert(data);
+    }
+    });
     </script>
