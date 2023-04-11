@@ -368,7 +368,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
              $method->setPrice($methodData->getData('price'));
         }
         
-        $method->setPrice($methodData->getData('price') + 20);
+        //$method->setPrice($methodData->getData('price') + 20);
         return $method;
     }
 
