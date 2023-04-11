@@ -334,14 +334,14 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             //Redeploy
             if ($methodCode == "standard") {
                 if($qty > 0){
-                    $method->setMethodTitle(" (5 to 9 Days)");
+                    $method->setMethodTitle(" (5 to 9 Days) Test");
                 }
                 else{
                     $method->setMethodTitle(" (9 to 12 Days)");
                 }
             }elseif ($methodCode == "express") {
                 if($qty > 0){
-                    $method->setMethodTitle(" (1 to 4 Days)");
+                    $method->setMethodTitle(" (1 to 4 Days) Test");
                 }
                 else{
                     $method->setMethodTitle(" (4 to 9 Days)");
@@ -365,7 +365,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
             //end modification
             //
             //$method->setMethodTitle($methodData->getData('title'));
-             $method->setPrice($methodData->getData('price'));
+             $method->setPrice($methodData->getData('price') + 20);
         }
 
         return $method;
