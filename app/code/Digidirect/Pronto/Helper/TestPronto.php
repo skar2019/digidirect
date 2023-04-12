@@ -992,12 +992,13 @@ class TestPronto extends AbstractHelper
 
 
             $payment_reference = $paymentInstance->getLastTransId();
-            if($method == 'latipay' && $test)
+            if($test)
             {
                 $latdata = $paymentInstance->getAdditionalInformation();
                 var_dump($latdata);
 
             }
+
             if (empty($payment_reference) && ($method == 'latipay')) {
                 //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
                 //if (empty($payment_reference)){
@@ -1028,6 +1029,17 @@ class TestPronto extends AbstractHelper
                {
                    $payment_reference = $paymentInstance->getAdditionalInformation('zip_checkout_id');
                }
+            }
+
+            //paypal express fix
+            if (($payment_type == 'PX')) {
+
+                $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
+                if($payment_status == 'pending')
+                {
+                    echo "pending paypal <br />";
+                    continue;
+                }
             }
 
             //work around for IR orders coming as H

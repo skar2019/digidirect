@@ -145,6 +145,21 @@ class Product extends AbstractHelper
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                     }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
+                        }
+
+                    }
                     else {
 
                         $isNda = $product->getIsNda();
@@ -155,8 +170,8 @@ class Product extends AbstractHelper
                         }
                         else
                         {
-                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
                         }
                         //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
 
@@ -423,10 +438,21 @@ class Product extends AbstractHelper
                         $product->setCustomAttribute('dangerous_goods', '0');
                     }
 
+                    if($prod['stk-storage-type-flag'] == 'B')
+                    {
+                        $product->setCustomAttribute('bulky_item', 1);
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('bulky_item', 0);
+                    }
+
                 }
                 else
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
+                    $product->setCustomAttribute('bulky_item', 0);
+
                 }
 
                 $today = date('Y-m-d');
@@ -714,10 +740,20 @@ class Product extends AbstractHelper
                         $product->setCustomAttribute('dangerous_goods', '0');
                     }
 
+                    if($prod['stk-storage-type-flag'] == 'B')
+                    {
+                        $product->setCustomAttribute('bulky_item', 1);
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('bulky_item', 0);
+                    }
+
                 }
                 else
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
+                    $product->setCustomAttribute('bulky_item', 0);
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
@@ -816,6 +852,21 @@ class Product extends AbstractHelper
                     else if($prod['stk-user-only-alpha4-1'] == 'N')
                     {
                         $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else if($prod['stk-user-only-alpha4-1'] == 'W')
+                    {
+                        $isNda = $product->getIsNda();
+                        if($isNda)
+                        {
+                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            $endis = 'disabled';
+                        }
+                        else
+                        {
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
+                        }
+
                     }
                     else {
 //                        $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
@@ -1066,10 +1117,20 @@ class Product extends AbstractHelper
                         $product->setCustomAttribute('dangerous_goods', '0');
                     }
 
+                    if($prod['stk-storage-type-flag'] == 'B')
+                    {
+                        $product->setCustomAttribute('bulky_item', 1);
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('bulky_item', 0);
+                    }
+
                 }
                 else
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
+                    $product->setCustomAttribute('bulky_item', 0);
                 }
 
                 $today = date('Y-m-d');
@@ -1338,10 +1399,20 @@ class Product extends AbstractHelper
                         $product->setCustomAttribute('dangerous_goods', '0');
                     }
 
+                    if($prod['stk-storage-type-flag'] == 'B')
+                    {
+                        $product->setCustomAttribute('bulky_item', 1);
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('bulky_item', 0);
+                    }
+
                 }
                 else
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
+                    $product->setCustomAttribute('bulky_item', 0);
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
@@ -1467,8 +1538,8 @@ class Product extends AbstractHelper
                         }
                         else
                         {
-                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
                         }
 
                     }
@@ -1791,10 +1862,20 @@ class Product extends AbstractHelper
                         $product->setCustomAttribute('dangerous_goods', '0');
                     }
 
+                    if($prod['stk-storage-type-flag'] == 'B')
+                    {
+                        $product->setCustomAttribute('bulky_item', 1);
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('bulky_item', 0);
+                    }
+
                 }
                 else
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
+                    $product->setCustomAttribute('bulky_item', 0);
                 }
 
                 $today = date('Y-m-d');
@@ -2071,10 +2152,20 @@ class Product extends AbstractHelper
                         $product->setCustomAttribute('dangerous_goods', '0');
                     }
 
+                    if($prod['stk-storage-type-flag'] == 'B')
+                    {
+                        $product->setCustomAttribute('bulky_item', 1);
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('bulky_item', 0);
+                    }
+
                 }
                 else
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
+                    $product->setCustomAttribute('bulky_item', 0);
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
@@ -2195,8 +2286,8 @@ class Product extends AbstractHelper
                         }
                         else
                         {
-                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
                         }
 
                     }
@@ -2523,10 +2614,20 @@ class Product extends AbstractHelper
                         $product->setCustomAttribute('dangerous_goods', '0');
                     }
 
+                    if($prod['stk-storage-type-flag'] == 'B')
+                    {
+                        $product->setCustomAttribute('bulky_item', 1);
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('bulky_item', 0);
+                    }
+
                 }
                 else
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
+                    $product->setCustomAttribute('bulky_item', 0);
                 }
 
                 $product->setCustomAttribute('marketplacer_seller', 20329);
@@ -2806,10 +2907,20 @@ class Product extends AbstractHelper
                         $product->setCustomAttribute('dangerous_goods', '0');
                     }
 
+                    if($prod['stk-storage-type-flag'] == 'B')
+                    {
+                        $product->setCustomAttribute('bulky_item', 1);
+                    }
+                    else
+                    {
+                        $product->setCustomAttribute('bulky_item', 0);
+                    }
+
                 }
                 else
                 {
                     $product->setCustomAttribute('dangerous_goods', '0');
+                    $product->setCustomAttribute('bulky_item', 0);
                 }
 
                 $today = date('Y-m-d');

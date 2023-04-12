@@ -1,0 +1,371 @@
+diff --git a/vendor/magento/module-rule/Model/Condition/Product/AbstractProduct.php b/vendor/magento/module-rule/Model/Condition/Product/AbstractProduct.php
+index 1004eeaee635..10b32d393083 100644
+--- a/vendor/magento/module-rule/Model/Condition/Product/AbstractProduct.php
++++ b/vendor/magento/module-rule/Model/Condition/Product/AbstractProduct.php
+@@ -15,6 +15,7 @@
+  * phpcs:disable Magento2.Classes.AbstractApi
+  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
++ * phpcs:disable Magento2.Classes.AbstractApi
+  * @api
+  * @since 100.0.2
+  */
+@@ -553,7 +554,7 @@ public function validate(\Magento\Framework\Model\AbstractModel $model)
+ 
+             if ($attr && $attr->getFrontendInput() == 'multiselect') {
+                 $value = $model->getData($attrCode);
+-                $value = strlen($value) ? explode(',', $value) : [];
++                $value = ($value && strlen($value)) ? explode(',', $value) : [];
+                 return $this->validateAttribute($value);
+             }
+ 
+@@ -569,7 +570,7 @@ public function validate(\Magento\Framework\Model\AbstractModel $model)
+                 if ($attr && $attr->getBackendType() == 'datetime') {
+                     $value = strtotime($value);
+                 } elseif ($attr && $attr->getFrontendInput() == 'multiselect') {
+-                    $value = strlen($value) ? explode(',', $value) : [];
++                    $value = ($value && strlen($value)) ? explode(',', $value) : [];
+                 }
+ 
+                 $model->setData($attrCode, $value);
+diff --git a/vendor/magento/module-sales/Block/Adminhtml/Order/Create/Items/Grid.php b/vendor/magento/module-sales/Block/Adminhtml/Order/Create/Items/Grid.php
+index b0510ffbe4d9..285d56a84847 100644
+--- a/vendor/magento/module-sales/Block/Adminhtml/Order/Create/Items/Grid.php
++++ b/vendor/magento/module-sales/Block/Adminhtml/Order/Create/Items/Grid.php
+@@ -30,36 +30,26 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
+     protected $_moveToCustomerStorage = true;
+ 
+     /**
+-     * Tax data
+-     *
+      * @var \Magento\Tax\Helper\Data
+      */
+     protected $_taxData;
+ 
+     /**
+-     * Wishlist factory
+-     *
+      * @var \Magento\Wishlist\Model\WishlistFactory
+      */
+     protected $_wishlistFactory;
+ 
+     /**
+-     * Gift message save
+-     *
+      * @var \Magento\GiftMessage\Model\Save
+      */
+     protected $_giftMessageSave;
+ 
+     /**
+-     * Tax config
+-     *
+      * @var \Magento\Tax\Model\Config
+      */
+     protected $_taxConfig;
+ 
+     /**
+-     * Message helper
+-     *
+      * @var \Magento\GiftMessage\Helper\Message
+      */
+     protected $_messageHelper;
+@@ -440,7 +430,7 @@ public function getCustomOptions(Item $item)
+         $optionStr = '';
+         $this->_moveToCustomerStorage = true;
+         if ($optionIds = $item->getOptionByCode('option_ids')) {
+-            foreach (explode(',', $optionIds->getValue()) as $optionId) {
++            foreach (explode(',', $optionIds->getValue() ?? '') as $optionId) {
+                 $option = $item->getProduct()->getOptionById($optionId);
+                 if ($option) {
+                     $optionStr .= $option->getTitle() . ':';
+diff --git a/vendor/magento/module-sales/Controller/Adminhtml/Order/Create.php b/vendor/magento/module-sales/Controller/Adminhtml/Order/Create.php
+index 6dbaa188b89e..12d2355cf3a1 100644
+--- a/vendor/magento/module-sales/Controller/Adminhtml/Order/Create.php
++++ b/vendor/magento/module-sales/Controller/Adminhtml/Order/Create.php
+@@ -401,7 +401,7 @@ protected function _isAllowed()
+      */
+     protected function _getAclResource()
+     {
+-        $action = strtolower($this->getRequest()->getActionName());
++        $action = strtolower($this->getRequest()->getActionName() ?? '');
+         if (in_array($action, ['index', 'save', 'cancel']) && $this->_getSession()->getReordered()) {
+             $action = 'reorder';
+         }
+diff --git a/vendor/magento/module-sales/Controller/Download/DownloadCustomOption.php b/vendor/magento/module-sales/Controller/Download/DownloadCustomOption.php
+index 069b2783076d..a2aaed18cb56 100644
+--- a/vendor/magento/module-sales/Controller/Download/DownloadCustomOption.php
++++ b/vendor/magento/module-sales/Controller/Download/DownloadCustomOption.php
+@@ -14,11 +14,6 @@
+ use Magento\Catalog\Model\Product\Type\AbstractType;
+ use Magento\Framework\Controller\Result\ForwardFactory;
+ 
+-/**
+- * Class DownloadCustomOption
+- *
+- * @package Magento\Sales\Controller\Download
+- */
+ class DownloadCustomOption extends \Magento\Framework\App\Action\Action implements HttpGetActionInterface
+ {
+     /**
+@@ -87,7 +82,7 @@ public function execute()
+         }
+ 
+         $optionId = null;
+-        if (strpos($option->getCode(), AbstractType::OPTION_PREFIX) === 0) {
++        if ($option->getCode() && strpos($option->getCode(), AbstractType::OPTION_PREFIX) === 0) {
+             $optionId = str_replace(AbstractType::OPTION_PREFIX, '', $option->getCode());
+             if ((int)$optionId != $optionId) {
+                 $optionId = null;
+diff --git a/vendor/magento/module-sales/Model/AdminOrder/Create.php b/vendor/magento/module-sales/Model/AdminOrder/Create.php
+index c43d5c384c52..fc3dfb46a5e5 100644
+--- a/vendor/magento/module-sales/Model/AdminOrder/Create.php
++++ b/vendor/magento/module-sales/Model/AdminOrder/Create.php
+@@ -822,7 +822,7 @@ public function moveQuoteItem($item, $moveTo, $qty)
+         $item = $this->_getQuoteItem($item);
+         if ($item) {
+             $removeItem = false;
+-            $moveTo = explode('_', $moveTo);
++            $moveTo = explode('_', $moveTo ?: '');
+             switch ($moveTo[0]) {
+                 case 'order':
+                     $info = $item->getBuyRequest();
+@@ -1308,7 +1308,7 @@ protected function _prepareOptionsForRequest($item)
+         $newInfoOptions = [];
+         $optionIds = $item->getOptionByCode('option_ids');
+         if ($optionIds) {
+-            foreach (explode(',', $optionIds->getValue()) as $optionId) {
++            foreach (explode(',', $optionIds->getValue() ?? '') as $optionId) {
+                 $option = $item->getProduct()->getOptionById($optionId);
+                 $optionValue = $item->getOptionByCode('option_' . $optionId)->getValue();
+ 
+diff --git a/vendor/magento/module-sales/Model/Order/Address.php b/vendor/magento/module-sales/Model/Order/Address.php
+index 0fd4555238ed..f38345f59b8d 100644
+--- a/vendor/magento/module-sales/Model/Order/Address.php
++++ b/vendor/magento/module-sales/Model/Order/Address.php
+@@ -24,9 +24,9 @@ class Address extends AbstractModel implements OrderAddressInterface, AddressMod
+     /**
+      * Possible customer address types
+      */
+-    const TYPE_BILLING = 'billing';
++    public const TYPE_BILLING = 'billing';
+ 
+-    const TYPE_SHIPPING = 'shipping';
++    public const TYPE_SHIPPING = 'shipping';
+ 
+     /**
+      * @var \Magento\Sales\Model\Order
+@@ -240,7 +240,7 @@ public function getStreet()
+         if (is_array($this->getData(OrderAddressInterface::STREET))) {
+             return $this->getData(OrderAddressInterface::STREET);
+         }
+-        return explode(PHP_EOL, $this->getData(OrderAddressInterface::STREET));
++        return explode(PHP_EOL, $this->getData(OrderAddressInterface::STREET) ?? '');
+     }
+ 
+     /**
+@@ -601,7 +601,7 @@ public function setEmail($email)
+      */
+     public function setTelephone($telephone)
+     {
+-        return $this->setData(OrderAddressInterface::TELEPHONE, trim($telephone));
++        return $this->setData(OrderAddressInterface::TELEPHONE, trim($telephone ?: ''));
+     }
+ 
+     /**
+diff --git a/vendor/magento/module-sales/Model/Order/Pdf/AbstractPdf.php b/vendor/magento/module-sales/Model/Order/Pdf/AbstractPdf.php
+index 3cd6927a5058..9b68fc2b6775 100644
+--- a/vendor/magento/module-sales/Model/Order/Pdf/AbstractPdf.php
++++ b/vendor/magento/module-sales/Model/Order/Pdf/AbstractPdf.php
+@@ -340,7 +340,7 @@ protected function insertAddress(&$page, $store = null)
+                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
+                 foreach ($this->string->split($value, 45, true, true) as $_value) {
+                     $page->drawText(
+-                        trim(strip_tags($_value)),
++                        trim(strip_tags($_value ?: '')),
+                         $this->getAlignRight($_value, 130, 440, $font, 10),
+                         $top,
+                         'UTF-8'
+@@ -361,7 +361,9 @@ protected function insertAddress(&$page, $store = null)
+     protected function _formatAddress($address)
+     {
+         $return = [];
+-        foreach (explode('|', $address) as $str) {
++        $values = $address !== null ? explode('|', $address) : [];
++
++        foreach ($values as $str) {
+             foreach ($this->string->split($str, 45, true, true) as $part) {
+                 if (empty($part)) {
+                     continue;
+@@ -463,10 +465,10 @@ protected function insertOrder(&$page, $obj, $putOrderId = true)
+ 
+         /* Payment */
+         $paymentInfo = $this->_paymentData->getInfoBlock($order->getPayment())->setIsSecureMode(true)->toPdf();
+-        $paymentInfo = htmlspecialchars_decode($paymentInfo, ENT_QUOTES);
++        $paymentInfo = $paymentInfo !== null ? htmlspecialchars_decode($paymentInfo, ENT_QUOTES) : '';
+         $payment = explode('{{pdf_row_separator}}', $paymentInfo);
+         foreach ($payment as $key => $value) {
+-            if (strip_tags(trim($value)) == '') {
++            if ($value && strip_tags(trim($value)) == '') {
+                 unset($payment[$key]);
+             }
+         }
+@@ -510,7 +512,7 @@ protected function insertOrder(&$page, $obj, $putOrderId = true)
+                     $text[] = $this->rtlTextHandler->reverseRtlText($_value);
+                 }
+                 foreach ($text as $part) {
+-                    $page->drawText(strip_tags(ltrim($part)), 35, $this->y, 'UTF-8');
++                    $page->drawText(strip_tags(ltrim($part ?: '')), 35, $this->y, 'UTF-8');
+                     $this->y -= 15;
+                 }
+             }
+@@ -528,7 +530,7 @@ protected function insertOrder(&$page, $obj, $putOrderId = true)
+                         $text[] = $this->rtlTextHandler->reverseRtlText($_value);
+                     }
+                     foreach ($text as $part) {
+-                        $page->drawText(strip_tags(ltrim($part)), 285, $this->y, 'UTF-8');
++                        $page->drawText(strip_tags(ltrim($part ?: '')), 285, $this->y, 'UTF-8');
+                         $this->y -= 15;
+                     }
+                 }
+@@ -562,11 +564,11 @@ protected function insertOrder(&$page, $obj, $putOrderId = true)
+         }
+ 
+         foreach ($payment as $value) {
+-            if (trim($value) != '') {
++            if ($value && trim($value) != '') {
+                 //Printing "Payment Method" lines
+                 $value = preg_replace('/<br[^>]*>/i', "\n", $value);
+                 foreach ($this->string->split($value, 45, true, true) as $_value) {
+-                    $page->drawText(strip_tags(trim($_value)), $paymentLeft, $yPayments, 'UTF-8');
++                    $page->drawText(strip_tags(trim($_value ?: '')), $paymentLeft, $yPayments, 'UTF-8');
+                     $yPayments -= 15;
+                 }
+             }
+@@ -587,7 +589,7 @@ protected function insertOrder(&$page, $obj, $putOrderId = true)
+ 
+             if (isset($shippingMethod) && \is_string($shippingMethod)) {
+                 foreach ($this->string->split($shippingMethod, 45, true, true) as $_value) {
+-                    $page->drawText(strip_tags(trim($_value)), 285, $this->y, 'UTF-8');
++                    $page->drawText(strip_tags(trim($_value ?: '')), 285, $this->y, 'UTF-8');
+                     $this->y -= 15;
+                 }
+             }
+@@ -623,8 +625,9 @@ protected function insertOrder(&$page, $obj, $putOrderId = true)
+                 $this->_setFontRegular($page, 8);
+                 foreach ($tracks as $track) {
+                     $maxTitleLen = 45;
+-                    $endOfTitle = strlen($track->getTitle()) > $maxTitleLen ? '...' : '';
+-                    $truncatedTitle = substr($track->getTitle(), 0, $maxTitleLen) . $endOfTitle;
++                    $trackTitle = $track->getTitle() ?? '';
++                    $endOfTitle = strlen($trackTitle) > $maxTitleLen ? '...' : '';
++                    $truncatedTitle = substr($trackTitle, 0, $maxTitleLen) . $endOfTitle;
+                     $page->drawText($truncatedTitle, 292, $yShipments, 'UTF-8');
+                     $page->drawText($track->getNumber(), 410, $yShipments, 'UTF-8');
+                     $yShipments -= $topMargin - 5;
+diff --git a/vendor/magento/module-sales/Model/Service/OrderService.php b/vendor/magento/module-sales/Model/Service/OrderService.php
+index 2e062caca9a2..fcdf297c2214 100644
+--- a/vendor/magento/module-sales/Model/Service/OrderService.php
++++ b/vendor/magento/module-sales/Model/Service/OrderService.php
+@@ -10,8 +10,6 @@
+ use Psr\Log\LoggerInterface;
+ 
+ /**
+- * Class OrderService
+- *
+  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+  */
+ class OrderService implements OrderManagementInterface
+@@ -141,8 +139,8 @@ public function addComment($id, \Magento\Sales\Api\Data\OrderStatusHistoryInterf
+         $order = $this->orderRepository->get($id);
+         $order->addStatusHistory($statusHistory);
+         $this->orderRepository->save($order);
+-        $notify = isset($statusHistory['is_customer_notified']) ? $statusHistory['is_customer_notified'] : false;
+-        $comment = trim(strip_tags($statusHistory->getComment()));
++        $notify = $statusHistory['is_customer_notified'] ?? false;
++        $comment = $statusHistory->getComment() !== null ? trim(strip_tags($statusHistory->getComment())) : '';
+         $this->orderCommentSender->send($order, $notify, $comment);
+         return true;
+     }
+diff --git a/vendor/magento/module-sales/Setup/SalesSetup.php b/vendor/magento/module-sales/Setup/SalesSetup.php
+index 4be2b38b074e..5864ce7ab057 100644
+--- a/vendor/magento/module-sales/Setup/SalesSetup.php
++++ b/vendor/magento/module-sales/Setup/SalesSetup.php
+@@ -10,7 +10,6 @@
+ use Magento\Eav\Setup\EavSetup;
+ use Magento\Framework\App\CacheInterface;
+ use Magento\Framework\App\Config\ScopeConfigInterface;
+-use Magento\Framework\App\ResourceConnection;
+ use Magento\Framework\Encryption\EncryptorInterface;
+ use Magento\Framework\Setup\ModuleDataSetupInterface;
+ 
+@@ -25,22 +24,22 @@ class SalesSetup extends EavSetup
+     /**
+      * This should be set explicitly
+      */
+-    const ORDER_ENTITY_TYPE_ID = 5;
++    public const ORDER_ENTITY_TYPE_ID = 5;
+ 
+     /**
+      * This should be set explicitly
+      */
+-    const INVOICE_PRODUCT_ENTITY_TYPE_ID = 6;
++    public const INVOICE_PRODUCT_ENTITY_TYPE_ID = 6;
+ 
+     /**
+      * This should be set explicitly
+      */
+-    const CREDITMEMO_PRODUCT_ENTITY_TYPE_ID = 7;
++    public const CREDITMEMO_PRODUCT_ENTITY_TYPE_ID = 7;
+ 
+     /**
+      * This should be set explicitly
+      */
+-    const SHIPMENT_PRODUCT_ENTITY_TYPE_ID = 8;
++    public const SHIPMENT_PRODUCT_ENTITY_TYPE_ID = 8;
+ 
+     /**
+      * @var ScopeConfigInterface
+@@ -206,7 +205,7 @@ protected function _addGridAttribute($table, $attribute, $attr, $entityTypeId)
+     protected function _getAttributeColumnDefinition($code, $data)
+     {
+         // Convert attribute type to column info
+-        $data['type'] = isset($data['type']) ? $data['type'] : 'varchar';
++        $data['type'] = $data['type'] ?? 'varchar';
+         $type = null;
+         $length = null;
+         switch ($data['type']) {
+@@ -238,12 +237,14 @@ protected function _getAttributeColumnDefinition($code, $data)
+             $data['length'] = $length;
+         }
+ 
+-        $data['nullable'] = isset($data['required']) ? !$data['required'] : true;
+-        $data['comment'] = isset($data['comment']) ? $data['comment'] : ucwords(str_replace('_', ' ', $code));
++        $data['nullable'] = !isset($data['required']) || !$data['required'];
++        $data['comment'] = $data['comment'] ?? $code !== null ? ucwords(str_replace('_', ' ', $code)) : '';
+         return $data;
+     }
+ 
+     /**
++     * Method to get default entities.
++     *
+      * @return array
+      */
+     public function getDefaultEntities()
+@@ -296,6 +297,8 @@ public function getConfigModel()
+     }
+ 
+     /**
++     * Method to get encryptor.
++     *
+      * @return EncryptorInterface
+      */
+     public function getEncryptor()
+@@ -304,6 +307,8 @@ public function getEncryptor()
+     }
+ 
+     /**
++     * Method to get connection.
++     *
+      * @return \Magento\Framework\DB\Adapter\AdapterInterface
+      */
+     public function getConnection()

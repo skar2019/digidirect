@@ -703,6 +703,16 @@ class Order extends AbstractHelper
                 }
             }
 
+            //paypal express fix
+            if (($payment_type == 'PX')) {
+
+                $payment_status = $paymentInstance->getAdditionalInformation('paypal_payment_status');
+                if($payment_status == 'pending')
+                {
+                    continue;
+                }
+            }
+
             //work around for new and old catch
             if($payment_type == 'H')
             {
@@ -789,7 +799,11 @@ class Order extends AbstractHelper
                     $amount_tendered = $amount_tendered - 9.9;
                 }
             }
-
+            //pao order
+            if($orderId == '001327339')
+            {
+                $amount_tendered = 1414.97;
+            }
             //darry work around
             if($orderId == '001340389')
             {
@@ -1096,15 +1110,15 @@ class Order extends AbstractHelper
                 else if (isset($json['sales-orders']['response']['status']) && ($json['sales-orders']['response']['status'] == 'failed')) {
                     $msg =  $json['sales-orders']['response']['message'];
                     //echo $msg ."<br>";
-                    //if($msg == 'Error on opening batch reference.')
-                    //{
+                    if($msg == 'Error on opening batch reference.') //marketplaces orders.
+                    {
                         //do nothing
-                    //}
-                    //else
-                    //{
+                    }
+                    else
+                    {
                         $order->setData('pronto_order_number',$msg);
                         $order->save();
-                    //}
+                    }
 
                     $this->logger->error('Pronto Order Sync', array('info' => $msg));
 
