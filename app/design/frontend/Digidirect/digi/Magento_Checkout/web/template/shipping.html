@@ -129,11 +129,6 @@
                         <!-- /ko -->
                     </ul>
                     <span>* During peak promotional periods, please allow additional time for your order dispatch.</span>
-                    <!-- ko if: ((method.carrier_code == 'standard' && method.price_excl_tax == 20) || (method.carrier_code == 'express' && method.price_excl_tax == 35)) -->
-                        <div data-role="shipping-form" data-bind="fadeVisible: isShippingAddressVisible">
-                            <span>** The shipping fee includes a $20.00 Bulky Goods surcharge due to the size and/or weight of product(s) ordered.</span>
-                        </div>
-                    <!-- /ko -->
                 </div>
                 
                 <!-- ko foreach: getRegion('before-shipping-method-form') -->
