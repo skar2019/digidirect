@@ -170,8 +170,8 @@ class Product extends AbstractHelper
                         }
                         else
                         {
-                            $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-                            $endis = 'enabled';
+                            //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            //$endis = 'enabled';
                         }
                         //$product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
 
