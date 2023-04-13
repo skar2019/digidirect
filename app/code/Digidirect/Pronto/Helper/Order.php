@@ -224,9 +224,6 @@ class Order extends AbstractHelper
                 continue;
             }
 
-            if ($order->getState() == 'pending') {
-                continue;
-            }
 
             $prontoOrderNumber = $order->getData('pronto_order_number');
             if($prontoOrderNumber != "")
@@ -673,6 +670,10 @@ class Order extends AbstractHelper
             $data['sales-order']['header']['delivery-address']['mobile'] = $shipmobile;
 
             $payment_reference = $paymentInstance->getLastTransId();
+
+            if (($order->getState() == 'pending') && ($method == 'latipay')) {
+                continue;
+            }
 
             if (empty($payment_reference) && ($method == 'latipay')) {
                 //$payment_reference = $paymentInstance->getAdditionalInformation('klarna_order_id');
@@ -1165,7 +1166,7 @@ class Order extends AbstractHelper
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
             ->addFieldToFilter('pronto_order_number', array('null' => true))
-            ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval','pending')))
+            ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval')))
             ->addFieldToFilter('entity_id', array('gteq' => 1499838)) //615813
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))
