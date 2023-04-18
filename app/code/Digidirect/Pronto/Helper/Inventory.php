@@ -205,6 +205,9 @@ class Inventory extends AbstractHelper
                             {
                                 $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                             }
+                            else {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            }
 
                         }
                         else if($prodRes['stk-user-only-alpha4-1'] == 'N')
@@ -392,6 +395,10 @@ class Inventory extends AbstractHelper
                                 $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
                                 echo "disable NDA "."<br/>";
                             }
+                            else {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                                echo "do nothing "."<br/>";
+                            }
 
 
                         }
@@ -510,6 +517,10 @@ class Inventory extends AbstractHelper
                             if($isNda)
                             {
                                 $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            }
+                            else {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                                echo "do nothing "."<br/>";
                             }
 
                         }
