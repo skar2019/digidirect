@@ -24,6 +24,7 @@ $isBrandSamsung = str_contains($currentUrl, 'brands/samsung');
 $isBrandPanasonic = str_contains($currentUrl, 'brands/panasonic');
 $isBrandSmallRig = str_contains($currentUrl, 'brands/smallrig');
 $isBrandLenovo = str_contains($currentUrl, 'brands/lenovo');
+$isBrandApple = str_contains($currentUrl, 'brands/apple');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -126,6 +127,11 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-lenovo-featured-banner')
+            ->toHtml();
+    } elseif ($isBrandApple == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-apple-featured-banner')
             ->toHtml();
     }
 
