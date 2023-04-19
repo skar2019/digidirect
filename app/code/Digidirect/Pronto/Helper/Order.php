@@ -577,7 +577,7 @@ class Order extends AbstractHelper
                         }
                     }
 
-                    if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay")
+                    if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay" || $method == "banktransfer")
                     {
                         $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                         $data['sales-order']['header']['set-on-status'] = "H";
