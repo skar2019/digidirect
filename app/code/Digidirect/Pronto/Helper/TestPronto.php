@@ -1006,6 +1006,9 @@ class TestPronto extends AbstractHelper
             {
                 $latref = $paymentInstance->getMerchantReference();
                 var_dump($latref);
+                $lattrans = $paymentInstance->geTransactionAdditionalInfo();
+                var_dump($lattrans);
+
             }
 
             if (empty($payment_reference) && ($method == 'latipay')) {
