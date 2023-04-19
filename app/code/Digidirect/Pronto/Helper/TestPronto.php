@@ -892,7 +892,7 @@ class TestPronto extends AbstractHelper
                     }
                 }
 
-                if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay")
+                if($method == "braintree_googlepay" || $method == "braintree_applepay" || $method == "latipay" || $method == "banktransfer")
                 {
                     $data['sales-order']['header']['on-hold-reason-code'] = "WP";
                     $data['sales-order']['header']['set-on-status'] = "H";
@@ -922,6 +922,10 @@ class TestPronto extends AbstractHelper
             if(is_array($strt))
             {
                 $street = implode(",", $strt);
+            }
+            else
+            {
+                $street = $strt;
             }
             $city = $address->getCity();
             $region = $address->getRegion();
@@ -996,6 +1000,14 @@ class TestPronto extends AbstractHelper
             {
                 $latdata = $paymentInstance->getAdditionalInformation();
                 var_dump($latdata);
+
+            }
+            if($method == 'latipay')
+            {
+                $latref = $paymentInstance->getMerchantReference();
+                var_dump($latref);
+                $lattrans = $paymentInstance->geTransactionAdditionalInfo();
+                var_dump($lattrans);
 
             }
 
