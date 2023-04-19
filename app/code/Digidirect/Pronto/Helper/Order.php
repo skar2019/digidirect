@@ -604,6 +604,10 @@ class Order extends AbstractHelper
             {
                 $street = implode(",", $strt);
             }
+            else
+            {
+                $street = $strt;
+            }
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();

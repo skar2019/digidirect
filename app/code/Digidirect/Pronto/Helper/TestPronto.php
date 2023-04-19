@@ -923,6 +923,10 @@ class TestPronto extends AbstractHelper
             {
                 $street = implode(",", $strt);
             }
+            else
+            {
+                $street = $strt;
+            }
             $city = $address->getCity();
             $region = $address->getRegion();
             $postcode = $address->getPostcode();
@@ -997,6 +1001,11 @@ class TestPronto extends AbstractHelper
                 $latdata = $paymentInstance->getAdditionalInformation();
                 var_dump($latdata);
 
+            }
+            if($method == 'latipay')
+            {
+                $latref = $paymentInstance->getMerchantReference();
+                var_dump($latref);
             }
 
             if (empty($payment_reference) && ($method == 'latipay')) {
