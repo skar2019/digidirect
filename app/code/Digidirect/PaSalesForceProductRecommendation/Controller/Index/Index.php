@@ -1,53 +1,40 @@
-<?php
-
-declare(strict_types=1);
-
+<?php 
 namespace Digidirect\PaSalesForceProductRecommendation\Controller\Index;
+use Digidirect\PaSalesForceProductRecommendation\Model\DataExampleFactory;
+use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\App\Action\Context;
+class Index extends \Magento\Framework\App\Action\Action{
+    protected $_dataExample;
+    protected $resultRedirect;
 
-use Magento\Framework\App\ActionInterface;
-use Magento\Framework\Controller\Result\RawFactory;
+    protected $_customerSession;
 
-class Index implements ActionInterface {
+    protected $_customerRepository;
 
-    /**
-     * @var  RawFactory
-    */
-
-    protected $resultFactory;
-
-    /**
-     * Index constructor
-     * 
-     * @param RawFactory $resultFactory
-    */
-
-
-    public function __construct(RawFactory $resultFactory) {
-        $this->resultFactory = $resultFactory;
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Digidirect\PaSalesForceProductRecommendation\Model\DataExampleFactory  $dataExample,
+        \Magento\Framework\Controller\ResultFactory $result,
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+        \Magento\Customer\Model\Session $customerSession)
+    {
+            parent::__construct($context);
+            $this->_dataExample = $dataExample;
+            $this->resultRedirect = $result;
+            $this->_customerSession = $customerSession;
+            $this->_customerRepository = $customerRepository;
     }
 
-    public function execute() {
-        // die('Test module');
-        return $this->resultFactory->create()->setContents('
+	public function execute()
+    {
 
-          <p id="retrievepa_id2"></p>
-          <input type="text" id="retrievepa_id">
+        $pa_id = "dito dapat";
+        $customerID =  $this->_customerSession->getCustomer()->getId(); //Print current customer ID
 
-          <script type="text/javascript">
+        $customer = $this->_customerRepository->getById($customerID);
+        $customer->setCustomAttribute('pa_id',$pa_id);
+        $this->_customerRepository->save($customer);
 
-            const loadconfigdata = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
-
-            const myObj = JSON.parse(loadconfigdata);
-
-            document.getElementById("retrievepa_id").value = myObj.c;
-
-            var magento_pa_id = document.getElementById("retrievepa_id").value;
-
-            localStorage.setItem("Magento_PA_Id", magento_pa_id); 
-
-          </script>
-        
-
-        ');
-    }
+	}
 }
+ ?>

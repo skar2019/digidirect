@@ -45,6 +45,7 @@ class CustomerLoginSuccess implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        
+       
+        echo "test2";
     }
 }
