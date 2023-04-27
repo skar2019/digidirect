@@ -25,6 +25,7 @@ $isBrandPanasonic = str_contains($currentUrl, 'brands/panasonic');
 $isBrandSmallRig = str_contains($currentUrl, 'brands/smallrig');
 $isBrandLenovo = str_contains($currentUrl, 'brands/lenovo');
 $isBrandApple = str_contains($currentUrl, 'brands/apple');
+$isBrandDJI = str_contains($currentUrl, 'brands/dji');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -133,8 +134,12 @@ if ($request->getFullActionName() == 'catalog_category_view') {
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-apple-featured-banner')
             ->toHtml();
+    } elseif ($isBrandDJI == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-dji-featured-banner')
+            ->toHtml();
     }
-
 }
 ?>
 
