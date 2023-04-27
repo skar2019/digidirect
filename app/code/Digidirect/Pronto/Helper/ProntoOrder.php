@@ -202,6 +202,10 @@ class ProntoOrder extends AbstractHelper
         $this->curl->post($urldata, $xmldata);
 
         $resultdata = $this->curl->getBody();
+        if(is_null($resultdata))
+        {
+            exit;
+        }
 
         $xmlresult = simplexml_load_string($resultdata);
         $x = 0;
@@ -483,6 +487,255 @@ class ProntoOrder extends AbstractHelper
             ->addFieldToFilter('pronto_order_number', array('eq' => $pronto));
 
         return $collection;
+
+    }
+
+    public function debugGetProntoOrders($status)
+    {
+
+        $data = array();
+        $dataxml = array();
+        //shipping details
+        $dataxml['sales']='';
+//            $data['sales-order']['detail']['line'][$x]['description'] = $shippingDesc;
+//            $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $shippingprice;
+//            $data['sales-order']['detail']['line'][$x]['ordered'] = 1;
+//            $data['sales-order']['detail']['line'][$x]['shipped'] = 1;
+//            $data['sales-order']['detail']['line'][$x]['sol-disc-rate'] = 0;
+//            $data['sales-order']['detail']['line'][$x]['sol-chg-type'] = "C1";
+//            $data['sales-order']['detail']['line'][$x]['sol-line-total-inc-tax'] = $shippingprice;
+
+        //create xml of order data here
+        //$this->logger->info('Pronto Order Sync Data - ',$data['sales-order']);
+        $xml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($dataxml, 'sales');
+
+        //TEST
+        $url = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/login'; //TEST
+
+        $this->curl->addHeader("Content-Type", "application/xml");
+        $this->curl->addHeader("Accept", "application/xml");
+
+        $this->curl->addHeader("X-Pronto-Username", "clint.mercado");
+        $this->curl->addHeader("X-Pronto-Password", "849Cd5080faff5ce");
+        $this->curl->post($url, $xml);
+
+        $result = $this->curl->getBody();
+        $xml=simplexml_load_string($result);
+        $token = $xml->token;
+        echo $token ."\n";
+        $this->curl->addHeader("Content-Type", "application/xml");
+        $this->curl->addHeader("Accept", "application/xml");
+
+        $this->curl->addHeader("X-Pronto-Token", $token);
+        //Filters TerritoryCode not working
+//        $data['Filters']['TerritoryCode']['Like']='SYDN%';
+//        $data['Filters']['TerritoryCode']['Like']='MELB%';
+//        $data['Filters']['TerritoryCode']['Like']='BRIS%';
+//        $data['Filters']['TerritoryCode']['Like']='MIRA%';
+        $data['Filters']['StatusCode']['Like']=$status;
+
+        //$data['Filters']['TerritoryCode']['Like']='BOND%';
+        //$data['Filters']['TerritoryCode']['Like']='PARR%';
+        $data['Filters']['TerritoryCode']['NotLike']='WEBS%';
+
+        $data['RequestFields']['SalesOrders']['SalesOrder']['SOOrderNo']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['CustomerCode']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['CustomerEmail']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['Address1']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['Address2']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['Address3']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['Address4']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['Address5']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['AddressPostcode']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['CustomerName']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['InvoiceNo']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['OrderedAmountIncTax']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['Contact']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['Date']='';
+        $data['RequestFields']['SalesOrders']['SalesOrder']['TerritoryCode']='';
+
+        $xmldata = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'SalesOrderGetSalesOrdersRequest');
+
+        //https://digi-pronto.abtonline.com.au:443/pronto/rest/ua1.salesorder/api/SalesOrderGetSalesOrders
+        $urldata = 'https://digi-pronto.abtonline.com.au:443/pronto/rest/dig.salesorder/api/SalesOrderGetSalesOrders';
+        //$urldata = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=get_order';
+        $this->curl->post($urldata, $xmldata);
+
+        $resultdata = $this->curl->getBody();
+        var_dump($resultdata);
+
+        if(is_null($resultdata))
+        {
+            exit;
+        }
+
+        $xmlresult = simplexml_load_string($resultdata);
+        $x = 0;
+
+        if(is_null($xmlresult))
+        {
+            exit;
+        }
+
+        foreach($xmlresult->SalesOrders->SalesOrder as $orderdata)
+        {
+            $TerritoryCode = $orderdata->TerritoryCode;
+            if($TerritoryCode == "MRKT" || $TerritoryCode == "WEBS")
+            {
+                continue;
+            }
+
+            $x++;
+
+            $email = (string)$orderdata->CustomerEmail;
+            if(empty($email))
+            {
+                continue;
+            }
+
+            if (str_contains($email, 'westfield.com')) {
+                continue;
+            }
+            if (str_contains($email, 'catch.com.au')) {
+                continue;
+            }
+            if (str_contains($email, 'marketplace.amazon.com.au')) {
+                continue;
+            }
+            if (str_contains($email, 'mydeal.com.au')) {
+                continue;
+            }
+            if (str_contains($email, 'members.ebay.com')) {
+                continue;
+            }
+
+
+            $name = explode(" ",$orderdata->CustomerName);
+            $firstname = $name[0];
+            $lastname = $name[1];
+
+            if(isset($name[2]))
+            {
+                $lastname = $name[2];
+            }
+
+            $soorderno = $orderdata->SOOrderNo;
+            echo $soorderno . "\n";
+            $street = (string)$orderdata->Address2;
+            if(empty($street))
+            {
+                $street = "N/A";
+            }
+            $city = (string)$orderdata->Address3;
+            if(empty($city))
+            {
+                $city = "N/A";
+            }
+            $region = (string)$orderdata->Address4;
+            if(empty($region))
+            {
+                $region = "Victoria";
+            }
+            $postcode = (string)$orderdata->AddressPostcode;
+            if(empty($postcode))
+            {
+                $postcode = "N/A";
+            }
+            echo $region ."\n";
+            switch ($region) {
+                case "QLD":
+                    $region = 'Queensland';
+                    break;
+                case "VIC":
+                    $region = 'Victoria';
+                    break;
+                case "NSW":
+                    $region = 'New South Wales';
+                    break;
+                case "WA":
+                    $region = 'Western Australia';
+                    break;
+                default:
+                    $region = "South Australia";
+                    break;
+            }
+
+            $regiondetails = $this->getRegionCode($region);
+            //var_dump($regiondetails);
+            $regionId = $regiondetails['region_id'];
+
+            $orderInfo = [
+                'currency_id'  => 'AUD',
+                'email'        => (string)$orderdata->CustomerEmail, //customer email id
+                'address' =>[
+                    'firstname' => $firstname,
+                    'lastname' => $lastname,
+                    'prefix' => '',
+                    'suffix' => '',
+                    'street' => $street,
+                    'city' => $city,
+                    'country_id' => 'AU',
+                    'region' => $region,
+                    'region_id' => $regionId,
+                    'postcode' => $postcode,
+                    'telephone' => '123456789',
+                    'save_in_address_book' => 1
+                ],
+                'pronto_account_id' => (string)$orderdata->SOOrderNo,
+                'createdate'=> (string)$orderdata->Date
+
+            ];
+
+            //loop thru item
+            $this->curl->addHeader("Content-Type", "application/xml");
+            $this->curl->addHeader("Accept", "application/xml");
+            $this->curl->addHeader("X-Pronto-Token", $token);
+
+            $orderlinedata = array();
+            $orderlinedata['Parameters']['SOOrderNo']= $soorderno;
+
+            $orderlinedata['RequestFields']['SalesOrderLines']['SalesOrderLine']['ItemCode']='';
+            $orderlinedata['RequestFields']['SalesOrderLines']['SalesOrderLine']['OrderedQty']='';
+
+            $orderlinexml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($orderlinedata, 'SalesOrderGetSalesOrderLinesRequest');
+
+            $urlorderline = 'https://digi-pronto.abtonline.com.au:443/pronto/rest/dig.salesorder/api/SalesOrderGetSalesOrderLines';//'https://digi-pronto.abtonline.com.au:443/pronto/rest/ua1.salesorder/api/SalesOrderGetSalesOrderLines';
+            $this->curl->post($urlorderline, $orderlinexml);
+            $resultorderline = $this->curl->getBody();
+            $xmlline = simplexml_load_string($resultorderline);
+
+            $items = array();
+            $x = 0;
+            foreach($xmlline->SalesOrderLines->SalesOrderLine as $orderline)
+            {
+                if(!empty($orderline->ItemCode))
+                {
+                    $itemcode = (string)$orderline->ItemCode;
+                    $quantity = (int)$orderline->OrderedQty;
+                    $items['items'][$x] = array('sku'=>$itemcode,'qty'=>$quantity);
+                    echo $itemcode ."\n";
+                }
+                $x++;
+            }
+
+            array_push($orderInfo, $items);
+
+            $orders = $this->getOrderCollection($orderInfo['pronto_account_id']);
+            $order_exists = false;
+            foreach ($orders as $order)
+            {
+                $order_exists = true;
+                echo "order exist - ".$orderInfo['pronto_account_id'];
+            }
+
+            if(!$order_exists)
+            {
+                $orderresult = $this->createOrder($orderInfo);
+                //var_dump($orderresult);
+            }
+
+        }
+        exit;
 
     }
 }
