@@ -385,7 +385,7 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(7); //from backend, retail store id 7 on staging2 //6 on my local
+        $store = $this->storeManager->getStore(13); //from backend, retail store id 7 on staging2 //6 on my local
         $storeId = $store->getStoreId();
         echo "store id ".$storeId."\n <br/>";
         $websiteId = 1;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local
@@ -571,13 +571,7 @@ class ProntoOrder extends AbstractHelper
         $this->curl->post($urldata, $xmldata);
 
         $resultdata = $this->curl->getBody();
-        var_dump($resultdata);
 
-        if(is_null($resultdata))
-        {
-            exit;
-        }
-        exit;
         $xmlresult = simplexml_load_string($resultdata);
         $x = 0;
 
