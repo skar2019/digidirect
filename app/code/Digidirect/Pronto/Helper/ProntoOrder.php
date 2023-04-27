@@ -196,8 +196,9 @@ class ProntoOrder extends AbstractHelper
 
         $xmldata = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($data, 'SalesOrderGetSalesOrdersRequest');
 
-        $urldata = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/api/SalesOrderGetSalesOrders';
-
+        //https://digi-pronto.abtonline.com.au:443/pronto/rest/ua1.salesorder/api/SalesOrderGetSalesOrders
+        $urldata = 'https://digi-pronto.abtonline.com.au:443/pronto/rest/dig.salesorder/api/SalesOrderGetSalesOrders';
+        //$urldata = 'https://digi-pronto.abtonline.com.au:8084/rest/abtws/sales?call-type=get_order';
         $this->curl->post($urldata, $xmldata);
 
         $resultdata = $this->curl->getBody();
@@ -332,7 +333,7 @@ class ProntoOrder extends AbstractHelper
 
             $orderlinexml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($orderlinedata, 'SalesOrderGetSalesOrderLinesRequest');
 
-            $urlorderline = 'https://digi-pronto.abtonline.com.au:443/pronto/rest/ua1.salesorder/api/SalesOrderGetSalesOrderLines';
+            $urlorderline = 'https://digi-pronto.abtonline.com.au:443/pronto/rest/dig.salesorder/api/SalesOrderGetSalesOrderLines';//'https://digi-pronto.abtonline.com.au:443/pronto/rest/ua1.salesorder/api/SalesOrderGetSalesOrderLines';
             $this->curl->post($urlorderline, $orderlinexml);
             $resultorderline = $this->curl->getBody();
             $xmlline = simplexml_load_string($resultorderline);
