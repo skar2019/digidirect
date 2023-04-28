@@ -1006,8 +1006,13 @@ class TestPronto extends AbstractHelper
             {
                 $latref = $paymentInstance->getMerchantReference();
                 var_dump($latref);
-                $lattrans = $paymentInstance->geTransactionAdditionalInfo();
+                $lattrans = $paymentInstance->getTransactionAdditionalInfo();
                 var_dump($lattrans);
+                $status_history = $order->getStatusHistories();
+
+                foreach ($status_history as $status) {
+                    echo $status->getStatusLabel() . ": " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
+                }
 
             }
 

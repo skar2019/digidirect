@@ -1,0 +1,502 @@
+<?php
+namespace Digidirect\Pronto\Helper;
+
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Catalog\Model\ResourceModel\Product as ProductResource;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Api\Data\CategoryTreeInterface;
+use Magento\Catalog\Api\CategoryManagementInterface;
+use Magento\Catalog\Api\CategoryLinkManagementInterface;
+use Magento\Catalog\Api\CategoryLinkRepositoryInterface;
+
+
+class ProductEntHelper extends AbstractHelper
+{
+
+    protected $_productCollectionFactory;
+
+    protected $imageHelperFactory;
+
+    protected $_categoryHelper;
+    protected $categoryFactory;
+    protected $_catalogLayer;
+
+    public function __construct(
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Helper\ImageFactory $imageHelperFactory,
+        ProductResource $productResource,
+        CategoryFactory $categoryFactory,
+        CategoryLinkManagementInterface $categoryLinkManagement,
+        CategoryLinkRepositoryInterface $categoryLinkRepository,
+        CategoryManagementInterface $categoryManagement,
+        \Magento\Catalog\Helper\Category $categoryHelper
+    ) {
+
+        $this->directory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->imageHelperFactory = $imageHelperFactory;
+        $this->productResource = $productResource;
+        $this->categoryFactory = $categoryFactory;
+        $this->categoryLinkManagement = $categoryLinkManagement;
+        $this->categoryLinkRepository = $categoryLinkRepository;
+        $this->categoryManagement = $categoryManagement;
+        $this->_categoryHelper = $categoryHelper;
+    }
+
+    public function execute()
+    {
+        $filepath = 'export/catalogproductentity.csv';
+        $this->directory->create('export');
+        $stream = $this->directory->openFile($filepath, 'w+');
+        $stream->lock();
+        $header = ['Id','Sku','Name','AttributeSetId','Price','Status','Visibility','Type',
+            'Weight','Quantity','InStock','QuantityUsesDecimals','ProductImageURL','MinQuantity','UseConfigMinQuantity',
+            'MinSaleQuantity','UseConfigMinSaleQuantity','MaxSaleQuantity',
+            'UseConfigMaxSaleQuantity','Backorders','UseConfigBackorders','NotifyStockQuantity','UseConfigNotifyStockQty',
+            'EnableQtyIncrements','UseConfigEnableQtyIncrements','QuantityIncrements','UseConfigQuantityIncrements',
+            'ManageStock','UseConfigManageStock','ShowDefaultNotificationMessage','LowStockDate','StockStatusChangedAuto','created_at','updated_at'];
+
+        $stream->writeCsv($header);
+        $collection = $this->getProductCollection();
+        foreach ($collection as $product) {
+            $data = [];
+            $data[] = $product->getId();
+            $data[] = $product->getSku();
+            $data[] = $product->getName();
+            $data[] = $product->getAttributeSetId();
+            $data[] = $product->getPrice();
+            $data[] = $product->getStatus();
+            $data[] = $product->getVisibility();
+            $data[] = $product->getType();
+            $data[] = $product->getWeight();
+            $data[] = $product->getQuantity();
+            $data[] = $product->getInStock();
+            $data[] = $product->getQuantityUsesDecimals();
+            $data[] = $this->imageHelperFactory->create()->init($product, 'image')->getUrl();
+            $data[] = '1';//$product->getMinQuantity();
+            $data[] = $product->getUseConfigMinQuantity();
+            $data[] = $product->getMinSaleQuantity();
+            $data[] = $product->getUseConfigMinSaleQuantity();
+            $data[] = $product->getMaxSaleQuantity();
+            $data[] = $product->getUseConfigMaxSaleQuantity();
+            $data[] = $product->getBackorders();
+            $data[] = $product->getUseConfigBackorders();
+            $data[] = $product->getNotifyStockQuantity();
+            $data[] = $product->getUseConfigNotifyStockQty();
+            $data[] = $product->getEnableQtyIncrements();
+            $data[] = $product->getUseConfigEnableQtyIncrements();
+            $data[] = $product->getQuantityIncrements();
+            $data[] = $product->getUseConfigQuantityIncrements();
+            $data[] = $product->getManageStock();
+            $data[] = $product->getUseConfigManageStock();
+            $data[] = $product->getShowDefaultNotificationMessage();
+            $data[] = $product->getLowStockDate();
+            $data[] = $product->getStockStatusChangedAuto();
+            $data[] = $product->getCreatedAt();
+            $data[] = $product->getUpdatedAt();
+            $stream->writeCsv($data);
+        }
+    }
+
+    public function productData()
+    {
+
+        $this->attributeOptions = $this->getOptionHash('brand');
+
+        $parentID = 2; // default category
+        $getCategoryList = $this->getSubCategoryByParentID($parentID);
+
+        $filepath = 'export/wiserdata_2_7.csv';
+        $this->directory->create('export');
+        $stream = $this->directory->openFile($filepath, 'w+');
+        $stream->lock();
+        $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
+            'Category 3','Category 4','Price'];
+
+        $stream->writeCsv($header);
+        $collection = $this->getProductCollection();
+        $id = "";
+        foreach ($collection as $product) {
+            $data = [];
+            $description = "";
+
+            if(!empty($product->getDescription()))
+            {
+                $description = strip_tags($product->getDescription());
+            }
+
+            if(isset($this->attributeOptions[$product->getBrand()]))
+            {
+                $brandname = $this->attributeOptions[$product->getBrand()];
+
+            }
+
+            $category1 = "";
+            $category2 = "";
+            $category3 = "";
+            $category4 = "";
+            echo $product->getId() ."<br/>";
+            $productCategoryIds = $product->getCategoryIds();
+            if((count($productCategoryIds)))
+            {
+                foreach ($getCategoryList as $id => $category)
+                {
+
+                    if($category['id'] == $productCategoryIds[0])
+                    {
+                        $category1 =$category['name'];
+                    }
+
+                    if(isset($productCategoryIds[1]))
+                    {
+                        if($category['id'] == $productCategoryIds[1])
+                        {
+                            $category2 =$category['name'];
+                        }
+                    }
+
+                    if(isset($productCategoryIds[2]))
+                    {
+                        if($category['id'] == $productCategoryIds[2])
+                        {
+                            $category3 =$category['name'];
+                        }
+                    }
+
+                    if(isset($productCategoryIds[3]))
+                    {
+                        if($category['id'] == $productCategoryIds[3])
+                        {
+                            $category4 =$category['name'];
+                        }
+                    }
+
+                }
+            }
+
+            //echo $product->getBarcode1()."b1 <br/>";
+            $gtin = "";
+            $barcode1 = $product->getCustomAttribute('barcode1');
+            if(is_null($barcode1))
+            {
+                $barcode2 = $product->getCustomAttribute('barcode2');
+                if(is_null($barcode1))
+                {
+
+                }
+            }
+            else
+            {
+                $bc = $barcode1->getValue();
+                if(is_numeric($bc))
+                {
+                    $gtin = $bc;
+                }
+                else
+                {
+                    $barcode2 = $product->getCustomAttribute('barcode2');
+                    if(is_null($barcode2))
+                    {
+
+                    }
+                    else
+                    {
+                        $barcode2 = $product->getCustomAttribute('barcode2');
+                        $bc2 = $barcode2->getValue();
+                        if(is_numeric($bc2))
+                        {
+                            $gtin = $bc2;
+                        }
+                    }
+
+                }
+            }
+
+            $data[] = $brandname;
+            $data[] = $description;
+            $data[] = $gtin;
+            $data[] = $product->getSku();
+            $data[] = $product->getApn();
+            $data[] = $product->getName();
+            $data[] = $category1;
+            $data[] = $category2;
+            $data[] = $category3;
+            $data[] = $category4;
+            $data[] = $product->getPrice();
+
+            $stream->writeCsv($data);
+        }
+
+
+    }
+
+    public function categorySalesForce()
+    {
+        $filepath = 'export/catalog_category_entity.csv';
+        $this->directory->create('export');
+        $stream = $this->directory->openFile($filepath, 'w+');
+        $stream->lock();
+        $header = ['Id','Name','IsActive','Position','Level','ParentId','IncludeInNavigationMenu','AvailableProductListinSortBy',
+            'created_at','updated_at'];
+
+        $stream->writeCsv($header);
+
+        $getSubCategory = $this->categoryManagement->getTree(2);
+        foreach ($getSubCategory->getChildrenData() as $subcategory) {
+            echo $subcategory->getId() ." sub1 <br/>";
+            $data = [];
+            $data[] = $subcategory->getId();
+            $data[] = $subcategory->getName();
+            $data[] = $subcategory->getIsActive();
+            $data[] = $subcategory->getPosition();
+            $data[] = $subcategory->getLevel();
+            $data[] = $subcategory->getParentId();
+            $data[] = $subcategory->getIncludeInMenu();
+            $data[] = $subcategory->getDefaultProductListingSortBy();
+            $data[] = $subcategory->getCreatedAt();
+            $data[] = $subcategory->getUpdateAt();
+            $stream->writeCsv($data);
+
+            //echo count($subcategory->getChildrenData());
+            if (count($subcategory->getChildrenData())) {
+                $getSubCategoryLevelDown = $this->getCategoryData($subcategory->getId());
+                foreach ($getSubCategoryLevelDown->getChildrenData() as $sub1category) {
+                    echo $sub1category->getId() ." sub2 <br/>";
+                    $data = [];
+                    $data[] = $sub1category->getId();
+                    $data[] = $sub1category->getName();
+                    $data[] = $sub1category->getIsActive();
+                    $data[] = $sub1category->getPosition();
+                    $data[] = $sub1category->getLevel();
+                    $data[] = $sub1category->getParentId();
+                    $data[] = $sub1category->getIncludeInMenu();
+                    $data[] = $sub1category->getDefaultProductListingSortBy();
+                    $data[] = $sub1category->getCreatedAt();
+                    $data[] = $sub1category->getUpdateAt();
+                    $stream->writeCsv($data);
+
+                    if (count($sub1category->getChildrenData())) {
+                        $getSubCategoryLevelDownAgain = $this->getCategoryData($sub1category->getId());
+                        foreach ($getSubCategoryLevelDownAgain->getChildrenData() as $sub2category) {
+                            $data = [];
+                            $data[] = $sub2category->getId();
+                            $data[] = $sub2category->getName();
+                            $data[] = $sub2category->getIsActive();
+                            $data[] = $sub2category->getPosition();
+                            $data[] = $sub2category->getLevel();
+                            $data[] = $sub2category->getParentId();
+                            $data[] = $sub2category->getIncludeInMenu();
+                            $data[] = $sub2category->getDefaultProductListingSortBy();
+                            $data[] = $sub2category->getCreatedAt();
+                            $data[] = $sub2category->getUpdateAt();
+                            $stream->writeCsv($data);
+
+                            if (count($sub2category->getChildrenData())) {
+                                $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
+                                foreach ($getSubCategoryLevelDownAgain4->getChildrenData() as $sub3category) {
+                                    $data = [];
+                                    $data[] = $sub3category->getId();
+                                    $data[] = $sub3category->getName();
+                                    $data[] = $sub3category->getIsActive();
+                                    $data[] = $sub3category->getPosition();
+                                    $data[] = $sub3category->getLevel();
+                                    $data[] = $sub3category->getParentId();
+                                    $data[] = $sub3category->getIncludeInMenu();
+                                    $data[] = $sub3category->getDefaultProductListingSortBy();
+                                    $data[] = $sub3category->getCreatedAt();
+                                    $data[] = $sub3category->getUpdateAt();
+                                    $stream->writeCsv($data);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+//        $categorys = $this->getStoreCategories(false,false,true);
+//        foreach($categorys as $category)
+//        {
+//
+//            $categoryId = $category->getId();
+//            echo $categoryId ." parent <br/>";
+//            $data = [];
+//            $data[] = $category->getId();
+//            $data[] = $category->getName();
+//            $data[] = $category->getIsActive();
+//            $data[] = $category->getPosition();
+//            $data[] = $category->getLevel();
+//            $data[] = $category->getParentId();
+//            $data[] = $category->getIncludeInMenu();
+//            $data[] = $category->getDefaultProductListingSortBy();
+//            $data[] = $category->getCreatedAt();
+//            $data[] = $category->getUpdateAt();
+//            $stream->writeCsv($data);
+//
+//            $getSubCategory = $this->categoryManagement->getTree($categoryId);
+//            foreach ($getSubCategory->getChildrenData() as $subcategory) {
+//                echo $subcategory->getId() ." sub1 <br/>";
+//                $data = [];
+//                $data[] = $subcategory->getId();
+//                $data[] = $subcategory->getName();
+//                $data[] = $subcategory->getIsActive();
+//                $data[] = $subcategory->getPosition();
+//                $data[] = $subcategory->getLevel();
+//                $data[] = $subcategory->getIncludeInMenu();
+//                $data[] = $subcategory->getDefaultProductListingSortBy();
+//                $data[] = $subcategory->getCreatedAt();
+//                $data[] = $subcategory->getUpdateAt();
+//                $stream->writeCsv($data);
+//
+//                //echo count($subcategory->getChildrenData());
+//                if (count($subcategory->getChildrenData())) {
+//                    $getSubCategoryLevelDown = $this->getCategoryData($subcategory->getId());
+//                    foreach ($getSubCategoryLevelDown->getChildrenData() as $sub1category) {
+//                        echo $sub1category->getId() ." sub2 <br/>";
+//                        $data = [];
+//                        $data[] = $sub1category->getId();
+//                        $data[] = $sub1category->getName();
+//                        $data[] = $sub1category->getIsActive();
+//                        $data[] = $sub1category->getPosition();
+//                        $data[] = $sub1category->getLevel();
+//                        $data[] = $sub1category->getIncludeInMenu();
+//                        $data[] = $sub1category->getDefaultProductListingSortBy();
+//                        $data[] = $sub1category->getCreatedAt();
+//                        $data[] = $sub1category->getUpdateAt();
+//                        $stream->writeCsv($data);
+//
+//                        if (count($sub1category->getChildrenData())) {
+//                            $getSubCategoryLevelDownAgain = $this->getCategoryData($sub1category->getId());
+//                            foreach ($getSubCategoryLevelDownAgain->getChildrenData() as $sub2category) {
+//                                $data = [];
+//                                $data[] = $sub2category->getId();
+//                                $data[] = $sub2category->getName();
+//                                $data[] = $sub2category->getIsActive();
+//                                $data[] = $sub2category->getPosition();
+//                                $data[] = $sub2category->getLevel();
+//                                $data[] = $sub2category->getIncludeInMenu();
+//                                $data[] = $sub2category->getDefaultProductListingSortBy();
+//                                $data[] = $sub2category->getCreatedAt();
+//                                $data[] = $sub2category->getUpdateAt();
+//                                $stream->writeCsv($data);
+//
+//                                if (count($sub2category->getChildrenData())) {
+//                                    $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
+//                                    foreach ($getSubCategoryLevelDownAgain4->getChildrenData() as $sub3category) {
+//                                        $data = [];
+//                                        $data[] = $sub3category->getId();
+//                                        $data[] = $sub3category->getName();
+//                                        $data[] = $sub3category->getIsActive();
+//                                        $data[] = $sub3category->getPosition();
+//                                        $data[] = $sub3category->getLevel();
+//                                        $data[] = $sub3category->getIncludeInMenu();
+//                                        $data[] = $sub3category->getDefaultProductListingSortBy();
+//                                        $data[] = $sub3category->getCreatedAt();
+//                                        $data[] = $sub3category->getUpdateAt();
+//                                        $stream->writeCsv($data);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+
+    }
+
+    public function getProductCollection()
+    {
+        $collection = $this->_productCollectionFactory->create();
+        $collection->addAttributeToSelect('*')
+        ->addFieldToFilter('entity_id', array('gteq' => 84892));
+        $collection->setPageSize(5000); // fetching only 5000 products
+        return $collection;
+
+    }
+
+    protected function getOptionHash(string $attributeCode): array
+    {
+        $result = [];
+        $attribute = $this->productResource->getAttribute($attributeCode);
+        $options = $attribute->getSource()->getAllOptions(false);
+        foreach ($options as $option) {
+            if (!isset($option['value']) || !strlen($option['value'])) {
+                continue;
+            }
+            $result[strtolower($option['value'])] = $option['label'];
+        }
+
+        return $result;
+    }
+
+    public function getSubCategoryByParentID(int $categoryId): array
+    {
+        $categoryData = [];
+
+        $getSubCategory = $this->getCategoryData($categoryId);
+        foreach ($getSubCategory->getChildrenData() as $category) {
+            $categoryData[$category->getId()] = [
+                'name'=> $category->getName(),
+                'url'=> $category->getUrl(),
+                'id'=> $category->getId()
+            ];
+            if (count($category->getChildrenData())) {
+                $getSubCategoryLevelDown = $this->getCategoryData($category->getId());
+                foreach ($getSubCategoryLevelDown->getChildrenData() as $subcategory) {
+                    $categoryData[$subcategory->getId()]  = [
+                        'name'=> $subcategory->getName(),
+                        'url'=> $subcategory->getUrl(),
+                        'id'=> $subcategory->getId()
+                    ];
+                    if (count($subcategory->getChildrenData())) {
+                        $getSubCategoryLevelDownAgain = $this->getCategoryData($subcategory->getId());
+                        foreach ($getSubCategoryLevelDownAgain->getChildrenData() as $sub2category) {
+                            $categoryData[$sub2category->getId()]  = [
+                                'name'=> $sub2category->getName(),
+                                'url'=> $sub2category->getUrl(),
+                                'id'=> $sub2category->getId()
+                            ];
+                            if (count($sub2category->getChildrenData())) {
+                                $getSubCategoryLevelDownAgain4 = $this->getCategoryData($sub2category->getId());
+                                foreach ($getSubCategoryLevelDownAgain4->getChildrenData() as $sub3category) {
+                                    $categoryData[$sub3category->getId()]  = [
+                                        'name'=> $sub3category->getName(),
+                                        'url'=> $sub3category->getUrl(),
+                                        'id'=> $sub3category->getId()
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $categoryData;
+    }
+
+    public function getCategoryData(int $categoryId): ?CategoryTreeInterface
+    {
+        try {
+            $getSubCategory = $this->categoryManagement->getTree($categoryId);
+        } catch (NoSuchEntityException $e) {
+            $this->logger->error("Category not found", [$e]);
+            $getSubCategory = null;
+        }
+
+        return $getSubCategory;
+    }
+
+    public function getStoreCategories($sorted = false, $asCollection = false, $toLoad = true)
+    {
+        return $this->_categoryHelper->getStoreCategories($sorted , $asCollection, $toLoad);
+    }
+
+
+
+
+}
