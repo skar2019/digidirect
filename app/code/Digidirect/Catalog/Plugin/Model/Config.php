@@ -45,17 +45,4 @@ class Config
 
         return $options;
     }
-
-    /**
-     * This method is optional. Use it to set Most Viewed as the default
-     * sorting option in the category view page
-     *
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @return string
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    public function afterGetProductListDefaultSortBy(\Magento\Catalog\Model\Config $catalogConfig)
-    {
-        return 'most_viewed';
-    }
 }
