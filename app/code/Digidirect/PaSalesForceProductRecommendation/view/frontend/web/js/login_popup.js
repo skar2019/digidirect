@@ -66,6 +66,25 @@ define([
             return this.renderer(data);
         },
         showPopup: function () {
+
+            alert("magento_pa_id: " + document.getElementById("retrievepa_id").value);
+    
+            var param = '{pa_id=' + document.getElementById("retrievepa_id").value + '}';
+            var YOUR_URL_HERE = 'getpaidsalesforce'
+        
+              $.ajax({
+                url: YOUR_URL_HERE,
+                type: "POST",
+                data: {pa_id: param},
+                dataType: "json",
+                success: function() {
+                  alert("Thank you for subscribing!");
+                },
+                error: function() {
+                  alert("There was an error. Try again please!");
+                }
+              });
+
             return $.mage.cookies.get('can_show_login_popup') === "1" && $.mage.cookies.get('displayed_login_popup') === "0";
         }
     });
