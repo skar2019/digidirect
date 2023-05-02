@@ -64,6 +64,9 @@ define([
         },
         render: function (data) {
             return this.renderer(data);
+        },
+        showPopup: function () {
+            return $.mage.cookies.get('can_show_login_popup') === "1" && $.mage.cookies.get('displayed_login_popup') === "0";
         }
     });
 
