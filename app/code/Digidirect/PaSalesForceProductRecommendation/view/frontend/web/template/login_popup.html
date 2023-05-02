@@ -16,9 +16,9 @@
     alert("magento_pa_id: " + document.getElementById("retrievepa_id").value);
     
     var param = '{pa_id=' + document.getElementById("retrievepa_id").value + '}';
-    var YOUR_URL_HERE = 'getpaidsalesforce'
+    var YOUR_URL_HERE = 'getpaidsalesforce';
 
-    $.ajax({
+    jQuery.ajax({
         url: YOUR_URL_HERE,
         type: "POST",
         data: {pa_id: param},
