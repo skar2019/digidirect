@@ -6,13 +6,7 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Action\Context;
 
 class Index extends \Magento\Framework\App\Action\Action {
-    
-    protected $resultRedirect;
-
-    protected $_customerSession;
-
-    protected $_customerRepository;
-    
+    protected $request;
     public function __construct(Context $context,array $data = []) {
         parent::__construct($context,$data);
     }
