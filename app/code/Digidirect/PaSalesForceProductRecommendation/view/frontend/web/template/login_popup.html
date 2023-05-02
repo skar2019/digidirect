@@ -13,7 +13,7 @@
 
     localStorage.setItem("Magento_PA_Id", magento_pa_id); 
     
-    alert("magento_pa_id: " + document.getElementById("retrievepa_id").value);
+    alert("magento_pa_id: " + JSON.stringify(document.getElementById("retrievepa_id").value));
     
     var param = '{pa_id=' + document.getElementById("retrievepa_id").value + '}';
     var YOUR_URL_HERE = 'getpaidsalesforce';
