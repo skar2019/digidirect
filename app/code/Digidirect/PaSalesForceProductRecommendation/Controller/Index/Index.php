@@ -3,17 +3,21 @@
 namespace Digidirect\PaSalesForceProductRecommendation\Controller\Index;
 
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 
-class Index extends Action  {
+class Index extends \Magento\Framework\App\Action\Action {
     
-    protected $request;
+    protected $resultRedirect;
+
+    protected $_customerSession;
+
+    protected $_customerRepository;
+    
     public function __construct(Context $context,array $data = []) {
         parent::__construct($context,$data);
     }
-    
-    public function __execute() {
+
+    public function execute(){
         if ($this->getRequest()->getPost('pa_id')):
             $query = $this->getRequest()->getPost('pa_id');
             $data = array($query);
@@ -22,5 +26,4 @@ class Index extends Action  {
             return $resultJson;
         endif;
     }
-    
 }
