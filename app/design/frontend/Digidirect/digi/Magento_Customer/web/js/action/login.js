@@ -21,6 +21,7 @@ define([
          * @param {Object} messageContainer
          */
         action = function (loginData, redirectUrl, isGlobal, messageContainer) {
+            console.log("Override Login!");
             messageContainer = messageContainer || globalMessageList;
 
             return storage.post(
@@ -28,7 +29,6 @@ define([
                 JSON.stringify(loginData),
                 isGlobal
             ).done(function (response) {
-                console.log("Override Login!");
                 if (response.errors) {
                     messageContainer.addErrorMessage(response);
                     callbacks.forEach(function (callback) {
