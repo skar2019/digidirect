@@ -2,47 +2,24 @@
 
 namespace Digidirect\Customer\Controller\Account;
 
-use Magento\Framework\App\Action\Action;
+use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\View\Result\PageFactory;
 
-class GetPaIdSalesForce extends Action {
+class GetPaIdSalesForce extends \Magento\Framework\App\Action\Action {
     
-    /**
-     * @var PageFactory
-     */
-    protected $_resultPageFactory;
- 
-    /**
-     * @var JsonFactory
-     */
-    protected $_resultJsonFactory;
- 
- 
-    /**
-     * View constructor.
-     * @param Context $context
-     * @param PageFactory $resultPageFactory
-     * @param JsonFactory $resultJsonFactory
-     */
-    public function __construct(Context $context, PageFactory $resultPageFactory, JsonFactory $resultJsonFactory)
-    {
- 
-        $this->_resultPageFactory = $resultPageFactory;
-        $this->_resultJsonFactory = $resultJsonFactory;
- 
+    protected $request;
+    public function __construct(Context $context) {
         parent::__construct($context);
     }
 
-    /**
-     * @return \Magento\Framework\Controller\Result\Json
-     */
-    public function execute()
-    {
-        $paId = $this->getRequest()->getParam('pa_id');
-        
-        return $paId;
+    public function execute(){
+        if ($this->getRequest()->getPost('pa_id')):
+            $query = $this->getRequest()->getPost('pa_id');
+            $data = array($query);
+            $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
+            $resultJson->setData($data);
+            return $resultJson;
+        endif;
     }
     
 }
