@@ -13,7 +13,6 @@ class GetPaIdSalesForce extends \Magento\Framework\App\Action\Action {
     }
 
     public function execute(){
-        echo $this->getRequest()->getPost('pa_id');
         if ($this->getRequest()->getPost('pa_id')):
             $query = $this->getRequest()->getPost('pa_id');
             $data = array($query);
