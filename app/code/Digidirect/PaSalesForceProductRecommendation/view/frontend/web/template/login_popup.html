@@ -12,7 +12,7 @@
 
     localStorage.setItem("Magento_PA_Id", magento_pa_id); 
     
-    console.log("magento_pa_id: " + magento_pa_id);
+    alert("magento_pa_id: " + magento_pa_id);
     
     var param = '{pa_id=' + magento_pa_id + '}';
     var YOUR_URL_HERE = 'getpaidsalesforce';
@@ -23,10 +23,10 @@
         data: {pa_id: param},
         dataType: "json",
         success: function() {
-            console.log("Thank you for subscribing!");
+            alert("Thank you for subscribing!");
         },
         error: function() {
-            console.log("There was an error. Try again please!");
+            alert("There was an error. Try again please!");
         }
     });
     
