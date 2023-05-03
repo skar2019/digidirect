@@ -23,6 +23,6 @@ class Data extends AbstractHelper
      */
     public function getShowPopupOnEachLoginConfig()
     {
-        return $this->scopeConfig->getValue(self::XML_CONFIG_PATH,ScopeInterface::SCOPE_STORE);
+        //return $this->scopeConfig->getValue(self::XML_CONFIG_PATH,ScopeInterface::SCOPE_STORE);
     }
 }
