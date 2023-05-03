@@ -28,6 +28,7 @@ define([
                 JSON.stringify(loginData),
                 isGlobal
             ).done(function (response) {
+                console.log("Override Login!");
                 if (response.errors) {
                     messageContainer.addErrorMessage(response);
                     callbacks.forEach(function (callback) {
