@@ -254,7 +254,12 @@ class ProntoOrder extends AbstractHelper
 
             $name = explode(" ",$orderdata->CustomerName);
             $firstname = $name[0];
-            $lastname = $name[1];
+            $lastname = "";
+            if(isset($name[1]))
+            {
+                $lastname = $name[1];
+            }
+
 
             if(isset($name[2]))
             {
@@ -385,10 +390,10 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(13); //from backend, retail store id 7 on staging2 //6 on my local
+        $store = $this->storeManager->getStore(10); //from backend, retail store id 7 on staging2 //6 on my local //10 on prod Retail Stores Store
         $storeId = $store->getStoreId();
         echo "store id ".$storeId."\n <br/>";
-        $websiteId = 1;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local
+        $websiteId = 7;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
         echo "website id ".$websiteId."\n <br/>";
         $customer = $this->customerFactory->create();
         $customer->setWebsiteId($websiteId);

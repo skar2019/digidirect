@@ -675,7 +675,7 @@ class Order extends AbstractHelper
 
             $payment_reference = $paymentInstance->getLastTransId();
 
-            if (($order->getState() == 'pending') && ($method == 'latipay')) {
+            if (($order->getStatus() == 'pending') && ($method == 'latipay')) {
                 continue;
             }
 
