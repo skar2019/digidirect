@@ -7,9 +7,9 @@ require(['jquery'],function($){
     var magento_pa_id = myObj.c;
 
     localStorage.setItem("Magento_PA_Id", magento_pa_id); 
-    alert("magento_pa_id: " + magento_pa_id);
+    console.log("magento_pa_id: " + magento_pa_id);
 
-    var param = '{pa_id=' + magento_pa_id + '}';
+    var param = magento_pa_id;
     var YOUR_URL_HERE = 'getpaidsalesforce';
 
     $.ajax({
@@ -18,10 +18,10 @@ require(['jquery'],function($){
         data: {pa_id: param},
         dataType: "json",
         success: function() {
-            alert("Thank you for subscribing!");
+            console.log("Thank you for subscribing!");
         },
         error: function() {
-            alert("There was an error. Try again please!");
+            console.log("There was an error. Try again please!");
         }
     });
 
