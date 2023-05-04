@@ -579,8 +579,7 @@ class ProntoOrder extends AbstractHelper
 
         $xmlresult = simplexml_load_string($resultdata);
         $x = 0;
-        var_dump($xmlresult);
-        exit;
+
         if(is_null($xmlresult))
         {
             exit;
