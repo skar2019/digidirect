@@ -588,7 +588,7 @@ return [
         'Digidirect_ExtendedShippingRates' => 1,
         'Digidirect_ExtendedShippingRatesLocalization' => 1,
         'Digidirect_Faq' => 1,
-        'Digidirect_Feed' => 1,
+        'Digidirect_Feed' => 0,
         'Digidirect_FilterShipping' => 1,
         'Digidirect_FreeGift' => 1,
         'Digidirect_AddressVerification' => 1,
