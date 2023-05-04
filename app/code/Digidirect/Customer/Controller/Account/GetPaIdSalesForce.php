@@ -7,6 +7,11 @@ use Magento\Framework\Controller\ResultFactory;
 class GetPaIdSalesForce extends \Magento\Framework\App\Action\Action {
     
     protected $request;
+    
+    protected $customerRepository;
+    
+    protected $customerSession;
+    
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
@@ -14,8 +19,8 @@ class GetPaIdSalesForce extends \Magento\Framework\App\Action\Action {
     ) 
     {
         parent::__construct($context);
-        $this->_customerSession = $customerSession;
-        $this->_customerRepository = $customerRepository;
+        $this->customerSession = $customerSession;
+        $this->customerRepository = $customerRepository;
     }
 
     public function execute(){
@@ -24,11 +29,12 @@ class GetPaIdSalesForce extends \Magento\Framework\App\Action\Action {
             $data = array($pa_id);
             $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
             $resultJson->setData($data);
-            //return $resultJson;
-            $customerID = $this->_customerSession->getCustomer()->getId();
-            $customer = $this->_customerRepository->getById($customerID);
+            $customerID = $this->customerSession->getCustomer()->getId();
+            $customer = $this->customerRepository->getById($customerID);
             $customer->setCustomAttribute('pa_customer_id', $pa_id);
-            $this->_customerRepository->save($customer);
+            $this->customerRepository->save($customer);
+            
+            return $resultJson;
         endif;
     }
     
