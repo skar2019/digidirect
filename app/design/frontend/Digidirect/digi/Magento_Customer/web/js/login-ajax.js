@@ -2,7 +2,7 @@ require(['jquery'],function($){
 
     console.log("Login AJAX Test!");
 
-    const loadconfigdata = localStorage.getItem("configData-60007039-e927-ec11-aaf7-061f6a8be99c");
+    const loadconfigdata = localStorage.getItem("configData-dbd6c84f-2332-ec11-aae9-02dca44cceec");
     const myObj = JSON.parse(loadconfigdata);
     var magento_pa_id = myObj.c;
 
