@@ -344,7 +344,7 @@ class Callback extends \Magento\Framework\App\Action\Action
 
                     $isAuthorization = $verifyResponse->transactionType === 'authorization';
                     //$isStatusPending = $order->getStatus() === 'pending_latitude_approval';
-                    $isStatusPending = $order->getStatus() === 'pending_latitude_approval' || $order->getStatus() === 'preorder';
+                    $isStatusPending = $order->getStatus() === 'pending_latitude_approval' || $order->getStatus() === 'pending_preorder';
 
                     //only process success scenario when status is pending approval ("Place Order" click)
                     if ($verifyResponse->transactionType === 'sale' && $isStatusPending) {
