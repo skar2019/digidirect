@@ -31,7 +31,6 @@ $isBrandHyperX = str_contains($currentUrl, 'brands/hyperx');
 if ($request->getFullActionName() == 'catalog_category_view') {
 
     $categoryName = "";
-
     $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
     $categoryObject = $catalogHelperData->getCategory();
     $categoryId = $categoryObject->getId();
