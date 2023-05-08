@@ -1004,14 +1004,33 @@ class TestPronto extends AbstractHelper
             }
             if($method == 'latipay')
             {
-                $latref = $paymentInstance->getMerchantReference();
-                var_dump($latref);
-                $lattrans = $paymentInstance->getTransactionAdditionalInfo();
-                var_dump($lattrans);
+                $tosync = false;
                 $status_history = $order->getStatusHistories();
-
                 foreach ($status_history as $status) {
-                    echo $status->getStatusLabel() . ": " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
+                    //echo $status->getStatusLabel() . "- " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
+                    $comment = $status->getComment();
+                    if(!empty($comment))
+                    {
+                        $myjson = str_replace("Latipay Response :", "",$comment);
+                        //echo $myjson ."\n";
+                        $myarray = json_decode($myjson, true);
+                        //var_dump($myarray);
+                        $latistatus = $myarray['status'];
+                        if($latistatus == 'paid')
+                        {
+                            $tosync = true;
+                        }
+                        else {
+                            $tosync = false;
+                        }
+
+                    }
+
+                }
+
+                if(!$tosync)
+                {
+                    continue;
                 }
 
             }

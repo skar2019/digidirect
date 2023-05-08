@@ -686,6 +686,40 @@ class Order extends AbstractHelper
                 //}
 
             }
+
+            if($method == 'latipay')
+            {
+                $tosync = false;
+                $status_history = $order->getStatusHistories();
+                foreach ($status_history as $status) {
+                    //echo $status->getStatusLabel() . "- " . $status->getComment() . " (on " . $status->getCreatedAt() . ")\n";
+                    $comment = $status->getComment();
+                    if(!empty($comment))
+                    {
+                        $myjson = str_replace("Latipay Response :", "",$comment);
+                        //echo $myjson ."\n";
+                        $myarray = json_decode($myjson, true);
+                        //var_dump($myarray);
+                        $latistatus = $myarray['status'];
+                        if($latistatus == 'paid')
+                        {
+                            $tosync = true;
+                        }
+                        else {
+                            $tosync = false;
+                        }
+
+                    }
+
+                }
+
+                if(!$tosync)
+                {
+                    continue;
+                }
+
+            }
+
             //ebay
             if (($method == 'm2epropayment')) {
                 if($paymentInstance->getAdditionalInformation('component_mode') == 'ebay')
