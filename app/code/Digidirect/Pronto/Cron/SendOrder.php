@@ -12,7 +12,7 @@ class SendOrder
     protected $logger;
 
     /**
-     * @var Inventory
+     * @var Order
      */
     protected $helper;
 
