@@ -649,7 +649,7 @@ return [
         'Lof_Paymentfee' => 1,
         'Magento5_Latipay' => 1,
         'Mageplaza_Core' => 1,
-        'Mageplaza_Shopbybrand' => 1,
+        'Mageplaza_Shopbybrand' => 0,
         'Magezon_Core' => 1,
         'Magezon_Builder' => 1,
         'Magezon_Newsletter' => 1,
