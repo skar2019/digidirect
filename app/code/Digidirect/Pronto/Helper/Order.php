@@ -854,6 +854,12 @@ class Order extends AbstractHelper
                 $amount_tendered = 67.15;
             }
 
+            //angela order
+            if($orderId == '001311984-1')
+            {
+                $amount_tendered = 34.22;
+            }
+
             $amount_tendered = round($amount_tendered, 2);
             if((!$is_am_fba))
             {
