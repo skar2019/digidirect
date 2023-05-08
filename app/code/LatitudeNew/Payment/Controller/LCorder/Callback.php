@@ -343,7 +343,8 @@ class Callback extends \Magento\Framework\App\Action\Action
                     $this->helper->log('****** LC SUCCESS URL ******', 'latitude');
 
                     $isAuthorization = $verifyResponse->transactionType === 'authorization';
-                    $isStatusPending = $order->getStatus() === 'pending_latitude_approval';
+                    //$isStatusPending = $order->getStatus() === 'pending_latitude_approval';
+                    $isStatusPending = $order->getStatus() === 'pending_latitude_approval' || $order->getStatus() === 'preorder';
 
                     //only process success scenario when status is pending approval ("Place Order" click)
                     if ($verifyResponse->transactionType === 'sale' && $isStatusPending) {
