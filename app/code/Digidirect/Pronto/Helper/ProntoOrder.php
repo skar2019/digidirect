@@ -260,10 +260,18 @@ class ProntoOrder extends AbstractHelper
                 $lastname = $name[1];
             }
 
-
             if(isset($name[2]))
             {
                 $lastname = $name[2];
+            }
+
+            if(isset($name[3]))
+            {
+                $lastname = $name[3];
+            }
+            if(isset($name[4]))
+            {
+                $lastname = $name[4];
             }
 
             $soorderno = $orderdata->SOOrderNo;
@@ -377,6 +385,7 @@ class ProntoOrder extends AbstractHelper
 
             if(!$order_exists)
             {
+                echo "create order";
                 $orderresult = $this->createOrder($orderInfo);
                 //var_dump($orderresult);
             }
@@ -390,16 +399,21 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(10); //from backend, retail store id 7 on staging2 //6 on my local //10 on prod Retail Stores Store
+        $store = $this->storeManager->getStore(7); //from backend, retail store id 7 on staging2 //6 on my local //10 on prod Retail Stores Store
         $storeId = $store->getStoreId();
         echo "store id ".$storeId."\n <br/>";
-        $websiteId = 7;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
+        $websiteId = $this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
         echo "website id ".$websiteId."\n <br/>";
         $customer = $this->customerFactory->create();
         $customer->setWebsiteId($websiteId);
         //$customer->setWebsiteId(1); // use 1 for digidirect store work around so it will not create new customer on different store
         echo "customer email ".$orderInfo['email']." <br/>";
+        if(empty($orderInfo['email']))
+        {
+            $orderInfo['email'] = "sales@digidirect.com.au";
+        }
         $customer->loadByEmail($orderInfo['email']);// load customet by email address
+
         if(!$customer->getId()){
             echo "create customer \n <br/>";
             //For guest customer create new cusotmer
@@ -424,11 +438,19 @@ class ProntoOrder extends AbstractHelper
         echo "assign Customer <br />";
         //add items in quote
         foreach($orderInfo[0]['items'] as $item){
-            echo "to add product <br />";
-            $product = $this->productRepository->get($item['sku']);
-            /* for simple product */
-            $quote->addProduct($product,intval($item['qty']));
-            echo "add product <br />";
+            echo "to add product ". $item['sku']." <br />";
+            if($item['sku'] == 'ONLFREIGHT')
+            {
+
+            }
+            else
+            {
+                $product = $this->productRepository->get($item['sku']);
+                /* for simple product */
+                $quote->addProduct($product,intval($item['qty']));
+                echo "add product <br />";
+            }
+
         }
 
         //Set Billing and shipping Address to quote
@@ -529,7 +551,6 @@ class ProntoOrder extends AbstractHelper
         $this->curl->post($url, $xml);
 
         $result = $this->curl->getBody();
-        var_dump($result);
         $xml=simplexml_load_string($result);
         $token = $xml->token;
         if(empty($token))
@@ -579,7 +600,7 @@ class ProntoOrder extends AbstractHelper
 
         $xmlresult = simplexml_load_string($resultdata);
         $x = 0;
-
+        var_dump($xmlresult);
         if(is_null($xmlresult))
         {
             exit;
@@ -620,11 +641,25 @@ class ProntoOrder extends AbstractHelper
 
             $name = explode(" ",$orderdata->CustomerName);
             $firstname = $name[0];
-            $lastname = $name[1];
+            $lastname = "";
+
+            if(isset($name[1]))
+            {
+                $lastname = $name[1];
+            }
 
             if(isset($name[2]))
             {
                 $lastname = $name[2];
+            }
+
+            if(isset($name[3]))
+            {
+                $lastname = $name[3];
+            }
+            if(isset($name[4]))
+            {
+                $lastname = $name[4];
             }
 
             $soorderno = $orderdata->SOOrderNo;
