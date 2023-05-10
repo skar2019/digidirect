@@ -494,6 +494,10 @@ class ProntoOrder extends AbstractHelper
             {
 
             }
+            else if($item['sku'] == 'Charges')
+            {
+
+            }
             else
             {
                 if ($this->product->getIdBySku($item['sku']))
