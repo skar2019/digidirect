@@ -404,10 +404,10 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(13); //from backend, retail store id 7 on staging2 //7 on my local //13 for digiDirect AU Retail Store //10 on prod Retail Stores Store
+        $store = $this->storeManager->getStore(16); //from backend, retail store id 7 on staging2 //7 on my local //13 for digiDirect AU Retail Store //10 on prod Retail Stores Store
         $storeId = $store->getStoreId();
         echo "store id ".$storeId."\n <br/>";
-        $websiteId = $this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
+        $websiteId = 7;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
         echo "website id ".$websiteId."\n <br/>";
         $customer = $this->customerFactory->create();
         $customer->setWebsiteId($websiteId);
