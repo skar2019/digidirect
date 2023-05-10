@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2daf7bac2a6f56b9868d135bd96e4fe",
+    "content-hash": "be4d4eb7412aa53720e3c2577bd429c8",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -5256,41 +5256,6 @@
                 }
             ],
             "time": "2022-12-12T11:44:10+00:00"
-        },
-        {
-            "name": "latitudefinancial/payment",
-            "version": "3.0.9",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Latitude-Financial/magento2-latitude.git",
-                "reference": "fc0958aa6d465fd8e300dd76c47d5268d7a22075"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Latitude-Financial/magento2-latitude/zipball/fc0958aa6d465fd8e300dd76c47d5268d7a22075",
-                "reference": "fc0958aa6d465fd8e300dd76c47d5268d7a22075",
-                "shasum": ""
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "LatitudeNew\\Payment\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "OSL-3.0",
-                "AFL-3.0"
-            ],
-            "description": "Latitude Payment Plugin offering 3-in-1 integration with Interest Free, LatitudePay, and Genoapay",
-            "support": {
-                "issues": "https://github.com/Latitude-Financial/magento2-latitude/issues",
-                "source": "https://github.com/Latitude-Financial/magento2-latitude/tree/3.0.9"
-            },
-            "time": "2023-02-23T02:32:33+00:00"
         },
         {
             "name": "league/flysystem",
