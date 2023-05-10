@@ -18,6 +18,6 @@ class Subscribe
     
     public function beforeGetFormActionUrl(\Magento\Newsletter\Block\Subscribe $newsletter)
     {
-        echo 'Test Newsletter Plugin!';
+        //echo 'Test Newsletter Plugin!';
     }
 }
