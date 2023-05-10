@@ -20,7 +20,7 @@ class Subscribe
     {
         $customerID = $this->customerSession->getCustomer()->getId();
         $customer = $this->customerRepository->getById($customerID);
-        $customer->setCustomAttribute('marketing_consent', 'Yes');
+        $customer->setCustomAttribute('pa_id', 'Testing!');
         $this->customerRepository->save($customer);
     }
 }
