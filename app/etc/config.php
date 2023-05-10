@@ -653,6 +653,7 @@ return [
         'Klevu_Troubleshoot' => 1,
         'LatitudeNew_Payment' => 1,
         'Lof_Paymentfee' => 1,
+        'Magecomp_Extrafee' => 1,
         'Magento5_Latipay' => 1,
         'Magezon_Core' => 1,
         'Magezon_Builder' => 1,
@@ -678,6 +679,8 @@ return [
         'Swissup_Swiper' => 1,
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
+        'WeltPixel_Backend' => 1,
+        'WeltPixel_GA4' => 1,
         'Zip_ZipPayment' => 1
     ]
 ];
