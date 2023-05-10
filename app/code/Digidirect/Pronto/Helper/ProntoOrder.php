@@ -281,44 +281,90 @@ class ProntoOrder extends AbstractHelper
 
             $soorderno = $orderdata->SOOrderNo;
             echo $soorderno . "\n";
-            $street = (string)$orderdata->Address2;
-            if(empty($street))
-            {
-                $street = "N/A";
-            }
-            $city = (string)$orderdata->Address3;
-            if(empty($city))
-            {
-                $city = "N/A";
-            }
-            $region = (string)$orderdata->Address4;
-            if(empty($region))
-            {
-                $region = "Victoria";
-            }
-            $postcode = (string)$orderdata->AddressPostcode;
-            if(empty($postcode))
-            {
-                $postcode = "N/A";
-            }
-            echo $region ."\n";
-            switch ($region) {
-                case "QLD":
-                    $region = 'Queensland';
-                    break;
-                case "VIC":
-                    $region = 'Victoria';
-                    break;
-                case "NSW":
+
+            switch ($TerritoryCode) {
+                case "BOND":
                     $region = 'New South Wales';
+                    $street = 'Level 1 Shop 1044/500 Oxford Street';
+                    $city = 'Bondi Junction';
+                    $postcode = '2022';
                     break;
-                case "WA":
+                case "CANN":
                     $region = 'Western Australia';
+                    $street = '12 Cecil Ave';
+                    $city = 'Cannington';
+                    $postcode = '6107';
+                    break;
+                case "PARR":
+                    $region = 'New South Wales';
+                    $street = 'Shop 2101-2103 Level 2 (159 Church Street) ';
+                    $city = 'Parramatta';
+                    $postcode = '2150';
+                    break;
+                case "MIRA":
+                    $region = 'New South Wales';
+                    $street = 'Shop 1098/600 Kingsway ';
+                    $city = 'Miranda ';
+                    $postcode = '2228';
+                    break;
+                case "BRIS":
+                    $region = 'Queensland';
+                    $street = '166 Adelaide Street ';
+                    $city = 'Brisbane';
+                    $postcode = '4000';
+                    break;
+                case "MELB":
+                    $region = 'Victoria';
+                    $street = '217 Elizabeth Street ';
+                    $city = 'Melbourne';
+                    $postcode = '3000';
                     break;
                 default:
-                    $region = "South Australia";
+                    $region = 'New South Wales';
+                    $street = 'Shop 3/75 King Street';
+                    $city = 'Sydney';
+                    $postcode = '2000';
                     break;
             }
+
+//            $street = (string)$orderdata->Address2;
+//            if(empty($street))
+//            {
+//                $street = "N/A";
+//            }
+//            $city = (string)$orderdata->Address3;
+//            if(empty($city))
+//            {
+//                $city = "N/A";
+//            }
+//            $region = (string)$orderdata->Address4;
+//            if(empty($region))
+//            {
+//                $region = "Victoria";
+//            }
+//            $postcode = (string)$orderdata->AddressPostcode;
+//            if(empty($postcode))
+//            {
+//                $postcode = "N/A";
+//            }
+//            echo $region ."\n";
+//            switch ($region) {
+//                case "QLD":
+//                    $region = 'Queensland';
+//                    break;
+//                case "VIC":
+//                    $region = 'Victoria';
+//                    break;
+//                case "NSW":
+//                    $region = 'New South Wales';
+//                    break;
+//                case "WA":
+//                    $region = 'Western Australia';
+//                    break;
+//                default:
+//                    $region = "South Australia";
+//                    break;
+//            }
 
             $regiondetails = $this->getRegionCode($region);
             //var_dump($regiondetails);
@@ -624,35 +670,35 @@ class ProntoOrder extends AbstractHelper
 
         foreach($xmlresult->SalesOrders->SalesOrder as $orderdata)
         {
-//            $TerritoryCode = $orderdata->TerritoryCode;
-//            if($TerritoryCode == "MRKT" || $TerritoryCode == "WEBS")
-//            {
-//                continue;
-//            }
-//
-//            $x++;
-//
-//            $email = (string)$orderdata->CustomerEmail;
-//            if(empty($email))
-//            {
-//                continue;
-//            }
-//
-//            if (str_contains($email, 'westfield.com')) {
-//                continue;
-//            }
-//            if (str_contains($email, 'catch.com.au')) {
-//                continue;
-//            }
-//            if (str_contains($email, 'marketplace.amazon.com.au')) {
-//                continue;
-//            }
-//            if (str_contains($email, 'mydeal.com.au')) {
-//                continue;
-//            }
-//            if (str_contains($email, 'members.ebay.com')) {
-//                continue;
-//            }
+            $TerritoryCode = $orderdata->TerritoryCode;
+            if($TerritoryCode == "MRKT" || $TerritoryCode == "WEBS")
+            {
+                continue;
+            }
+
+            $x++;
+
+            $email = (string)$orderdata->CustomerEmail;
+            if(empty($email))
+            {
+                continue;
+            }
+
+            if (str_contains($email, 'westfield.com')) {
+                continue;
+            }
+            if (str_contains($email, 'catch.com.au')) {
+                continue;
+            }
+            if (str_contains($email, 'marketplace.amazon.com.au')) {
+                continue;
+            }
+            if (str_contains($email, 'mydeal.com.au')) {
+                continue;
+            }
+            if (str_contains($email, 'members.ebay.com')) {
+                continue;
+            }
 
 
             $name = explode(" ",$orderdata->CustomerName);
@@ -680,44 +726,90 @@ class ProntoOrder extends AbstractHelper
 
             $soorderno = $orderdata->SOOrderNo;
             echo $soorderno . "\n";
-            $street = (string)$orderdata->Address2;
-            if(empty($street))
-            {
-                $street = "N/A";
-            }
-            $city = (string)$orderdata->Address3;
-            if(empty($city))
-            {
-                $city = "N/A";
-            }
-            $region = (string)$orderdata->Address4;
-            if(empty($region))
-            {
-                $region = "Victoria";
-            }
-            $postcode = (string)$orderdata->AddressPostcode;
-            if(empty($postcode))
-            {
-                $postcode = "N/A";
-            }
-            echo $region ."\n";
-            switch ($region) {
-                case "QLD":
-                    $region = 'Queensland';
-                    break;
-                case "VIC":
-                    $region = 'Victoria';
-                    break;
-                case "NSW":
+
+            switch ($TerritoryCode) {
+                case "BOND":
                     $region = 'New South Wales';
+                    $street = 'Level 1 Shop 1044/500 Oxford Street';
+                    $city = 'Bondi Junction';
+                    $postcode = '2022';
                     break;
-                case "WA":
+                case "CANN":
                     $region = 'Western Australia';
+                    $street = '12 Cecil Ave';
+                    $city = 'Cannington';
+                    $postcode = '6107';
+                    break;
+                case "PARR":
+                    $region = 'New South Wales';
+                    $street = 'Shop 2101-2103 Level 2 (159 Church Street) ';
+                    $city = 'Parramatta';
+                    $postcode = '2150';
+                    break;
+                case "MIRA":
+                    $region = 'New South Wales';
+                    $street = 'Shop 1098/600 Kingsway ';
+                    $city = 'Miranda ';
+                    $postcode = '2228';
+                    break;
+                case "BRIS":
+                    $region = 'Queensland';
+                    $street = '166 Adelaide Street ';
+                    $city = 'Brisbane';
+                    $postcode = '4000';
+                    break;
+                case "MELB":
+                    $region = 'Victoria';
+                    $street = '217 Elizabeth Street ';
+                    $city = 'Melbourne';
+                    $postcode = '3000';
                     break;
                 default:
-                    $region = "South Australia";
+                    $region = 'New South Wales';
+                    $street = 'Shop 3/75 King Street';
+                    $city = 'Sydney';
+                    $postcode = '2000';
                     break;
             }
+
+//            $street = (string)$orderdata->Address2;
+//            if(empty($street))
+//            {
+//                $street = "N/A";
+//            }
+//            $city = (string)$orderdata->Address3;
+//            if(empty($city))
+//            {
+//                $city = "N/A";
+//            }
+//            $region = (string)$orderdata->Address4;
+//            if(empty($region))
+//            {
+//                $region = "Victoria";
+//            }
+//            $postcode = (string)$orderdata->AddressPostcode;
+//            if(empty($postcode))
+//            {
+//                $postcode = "N/A";
+//            }
+//            echo $region ."\n";
+//            switch ($region) {
+//                case "QLD":
+//                    $region = 'Queensland';
+//                    break;
+//                case "VIC":
+//                    $region = 'Victoria';
+//                    break;
+//                case "NSW":
+//                    $region = 'New South Wales';
+//                    break;
+//                case "WA":
+//                    $region = 'Western Australia';
+//                    break;
+//                default:
+//                    $region = "South Australia";
+//                    break;
+//            }
 
             $regiondetails = $this->getRegionCode($region);
             //var_dump($regiondetails);
