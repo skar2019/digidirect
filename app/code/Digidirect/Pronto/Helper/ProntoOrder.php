@@ -18,6 +18,7 @@ use Magento\Directory\Model\Country;
 use Magento\Directory\Model\CountryFactory;
 use Magento\Directory\Model\ResourceModel\Region\Collection;
 use Magento\Directory\Model\ResourceModel\Region\CollectionFactory;
+use Magento\Catalog\Model\Product;
 
 class ProntoOrder extends AbstractHelper
 {
@@ -83,6 +84,8 @@ class ProntoOrder extends AbstractHelper
 
     protected $shippingRate;
 
+    protected $product;
+
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -104,7 +107,8 @@ class ProntoOrder extends AbstractHelper
         \Magento\Quote\Model\QuoteManagement $quoteManagement,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         CollectionFactory $collectionFactory,
-        \Magento\Quote\Model\Quote\Address\Rate $shippingRate)
+        \Magento\Quote\Model\Quote\Address\Rate $shippingRate,
+        Product $product)
     {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -127,6 +131,7 @@ class ProntoOrder extends AbstractHelper
         $this->productRepository = $productRepository;
         $this->collectionFactory = $collectionFactory;
         $this->shippingRate = $shippingRate;
+        $this->product = $product;
 
     }
 
@@ -232,7 +237,7 @@ class ProntoOrder extends AbstractHelper
             $email = (string)$orderdata->CustomerEmail;
             if(empty($email))
             {
-                continue;
+                $email = "retailstores@digidirect.com.au";
             }
 
             if (str_contains($email, 'westfield.com')) {
@@ -321,7 +326,7 @@ class ProntoOrder extends AbstractHelper
 
             $orderInfo = [
                 'currency_id'  => 'AUD',
-                'email'        => (string)$orderdata->CustomerEmail, //customer email id
+                'email'        => $email, //customer email id
                 'address' =>[
                     'firstname' => $firstname,
                     'lastname' => $lastname,
@@ -399,7 +404,7 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(13); //from backend, retail store id 7 on staging2 //6 on my local //13 for digiDirect AU Retail Store //10 on prod Retail Stores Store
+        $store = $this->storeManager->getStore(13); //from backend, retail store id 7 on staging2 //7 on my local //13 for digiDirect AU Retail Store //10 on prod Retail Stores Store
         $storeId = $store->getStoreId();
         echo "store id ".$storeId."\n <br/>";
         $websiteId = $this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
@@ -410,7 +415,7 @@ class ProntoOrder extends AbstractHelper
         echo "customer email ".$orderInfo['email']." <br/>";
         if(empty($orderInfo['email']))
         {
-            $orderInfo['email'] = "sales@digidirect.com.au";
+            $orderInfo['email'] = "retailstores@digidirect.com.au";
         }
         $customer->loadByEmail($orderInfo['email']);// load customet by email address
 
@@ -445,9 +450,20 @@ class ProntoOrder extends AbstractHelper
             }
             else
             {
-                $product = $this->productRepository->get($item['sku']);
-                /* for simple product */
-                $quote->addProduct($product,intval($item['qty']));
+                if ($this->product->getIdBySku($item['sku']))
+                {
+                    echo "exist ".$item['sku']."<br/>";
+                    $productPronto = $this->productRepository->get($item['sku']);
+                    $quote->addProduct($productPronto,intval($item['qty']));
+                }
+                else
+                {
+                    echo "not exisit ".$item['sku']."<br/>";
+                    $item['sku'] = '000001';
+                    $productPronto = $this->productRepository->get($item['sku']);
+                    $quote->addProduct($productPronto,intval($item['qty']));
+                }
+
                 echo "add product <br />";
             }
 
@@ -608,35 +624,35 @@ class ProntoOrder extends AbstractHelper
 
         foreach($xmlresult->SalesOrders->SalesOrder as $orderdata)
         {
-            $TerritoryCode = $orderdata->TerritoryCode;
-            if($TerritoryCode == "MRKT" || $TerritoryCode == "WEBS")
-            {
-                continue;
-            }
-
-            $x++;
-
-            $email = (string)$orderdata->CustomerEmail;
-            if(empty($email))
-            {
-                continue;
-            }
-
-            if (str_contains($email, 'westfield.com')) {
-                continue;
-            }
-            if (str_contains($email, 'catch.com.au')) {
-                continue;
-            }
-            if (str_contains($email, 'marketplace.amazon.com.au')) {
-                continue;
-            }
-            if (str_contains($email, 'mydeal.com.au')) {
-                continue;
-            }
-            if (str_contains($email, 'members.ebay.com')) {
-                continue;
-            }
+//            $TerritoryCode = $orderdata->TerritoryCode;
+//            if($TerritoryCode == "MRKT" || $TerritoryCode == "WEBS")
+//            {
+//                continue;
+//            }
+//
+//            $x++;
+//
+//            $email = (string)$orderdata->CustomerEmail;
+//            if(empty($email))
+//            {
+//                continue;
+//            }
+//
+//            if (str_contains($email, 'westfield.com')) {
+//                continue;
+//            }
+//            if (str_contains($email, 'catch.com.au')) {
+//                continue;
+//            }
+//            if (str_contains($email, 'marketplace.amazon.com.au')) {
+//                continue;
+//            }
+//            if (str_contains($email, 'mydeal.com.au')) {
+//                continue;
+//            }
+//            if (str_contains($email, 'members.ebay.com')) {
+//                continue;
+//            }
 
 
             $name = explode(" ",$orderdata->CustomerName);
