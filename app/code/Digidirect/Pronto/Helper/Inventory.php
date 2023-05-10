@@ -148,10 +148,10 @@ class Inventory extends AbstractHelper
                         }
                     }
 
-                    if($prodRes['stk-condition-code'] == 'T' && $totalwrhs == 0)
-                    {
-                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
-                    }
+//                    if($prodRes['stk-condition-code'] == 'T' && $totalwrhs == 0)
+//                    {
+//                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+//                    }
                     $prod->setCustomAttribute('stock_condition', $prodRes['stk-condition-code']);
                     $this->productRepository->save($prod);
                 }
