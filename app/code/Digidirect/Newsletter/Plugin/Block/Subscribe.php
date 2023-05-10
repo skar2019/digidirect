@@ -19,9 +19,8 @@ class Subscribe
     public function beforeGetFormActionUrl(\Magento\Newsletter\Block\Subscribe $newsletter)
     {
         $customerID = $this->customerSession->getCustomer()->getId();
-        echo $customerID;
-        //$customer = $this->customerRepository->getById($customerID);
-        //$customer->setCustomAttribute('marketing_consent', 1);
-        //$this->customerRepository->save($customer);
+        $customer = $this->customerRepository->getById($customerID);
+        $customer->setCustomAttribute('marketing_consent', 'Yes');
+        $this->customerRepository->save($customer);
     }
 }
