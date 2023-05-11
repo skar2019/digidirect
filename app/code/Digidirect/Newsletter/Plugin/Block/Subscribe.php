@@ -16,11 +16,11 @@ class Subscribe
         $this->customerRepository = $customerRepository;
     }
     
-    public function beforeGetFormActionUrl(\Magento\Newsletter\Block\Subscribe $newsletter)
+    public function afterGetFormActionUrl(\Magento\Newsletter\Block\Subscribe $newsletter)
     {
         $customerID = $this->customerSession->getCustomer()->getId();
         $customer = $this->customerRepository->getById($customerID);
-        //$customer->setCustomAttribute('marketing_consent', 1);
-        //$this->customerRepository->save($customer);
+        $customer->setCustomAttribute('marketing_consent', 1);
+        $this->customerRepository->save($customer);
     }
 }
