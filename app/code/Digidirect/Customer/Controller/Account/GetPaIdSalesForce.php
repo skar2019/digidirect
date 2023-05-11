@@ -32,9 +32,7 @@ class GetPaIdSalesForce extends \Magento\Framework\App\Action\Action {
             $customerID = $this->customerSession->getCustomer()->getId();
             $customer = $this->customerRepository->getById($customerID);
             $customer->setCustomAttribute('pa_id', $pa_id);
-            $customer->setCustomAttribute('marketing_consent', 1);
             $this->customerRepository->save($customer);
-            
             return $resultJson;
         endif;
     }
