@@ -34,6 +34,7 @@ class GetPaIdSalesForce extends \Magento\Framework\App\Action\Action {
             $customer->setCustomAttribute('pa_id', $pa_id);
             $this->customerRepository->save($customer);
             return $resultJson;
+            
         endif;
     }
     
