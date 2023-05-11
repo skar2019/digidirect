@@ -11,6 +11,10 @@ class Subscriber extends \Magento\Newsletter\Model\Subscriber
 
     public function subscribeCustomerById($customerId)
     {
+        $customer = $this->loadByCustomerId($customerId);
+        $customer->setCustomAttribute('marketing_consent', 1);
+        $this->customerRepository->save($customer);
+        
         return $this->_updateCustomerSubscription($customerId, true);
     }
 
