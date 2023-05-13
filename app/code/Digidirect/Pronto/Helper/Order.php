@@ -1066,10 +1066,14 @@ class Order extends AbstractHelper
 
             $shippingprice = (double) $order->getShippingAmount();
             $shippingDesc = $order->getShippingDescription();
-            if (strpos($shippingDesc, '|') !== false) {
-                $marketplacesShipping = explode('|', $shippingDesc);
-                $shippingDesc = $marketplacesShipping[1];
+            if(!empty($shippingDesc))
+            {
+                if (strpos($shippingDesc, '|') !== false) {
+                    $marketplacesShipping = explode('|', $shippingDesc);
+                    $shippingDesc = $marketplacesShipping[1];
+                }
             }
+
             if($shippingDesc == "Express - (1 to 3 Days)")
             {
                 $shippingDesc = "Australia Post – express";
@@ -1212,6 +1216,7 @@ class Order extends AbstractHelper
             ->addFieldToFilter('pronto_order_number', array('null' => true))
             ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval')))
             ->addFieldToFilter('entity_id', array('gteq' => 1499838)) //615813
+            ->addFieldToFilter('store_id', array('neq' => 16)) //615813
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))
 
