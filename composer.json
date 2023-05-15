@@ -26,6 +26,7 @@
         "magento/composer-root-update-plugin": "~2.0",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
+        "plumrocket/module-prnewsletterpopup": "^4.5",
         "swissup/attributepages": "^1.5",
         "vlucas/valitron": "^1.4",
         "zendesk/zendesk_api_client_php": "^2.2"

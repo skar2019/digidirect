@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be4d4eb7412aa53720e3c2577bd429c8",
+    "content-hash": "e2dbe3978fe380e7de22806b2230cbdb",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -147,16 +147,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.269.9",
+            "version": "3.269.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "18aec5f307bd95588ff5d1fa970eac5b0075a977"
+                "reference": "8b571e9caf4f6f984d95149f4be73275ff86bb55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/18aec5f307bd95588ff5d1fa970eac5b0075a977",
-                "reference": "18aec5f307bd95588ff5d1fa970eac5b0075a977",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8b571e9caf4f6f984d95149f4be73275ff86bb55",
+                "reference": "8b571e9caf4f6f984d95149f4be73275ff86bb55",
                 "shasum": ""
             },
             "require": {
@@ -236,9 +236,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.269.9"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.269.10"
             },
-            "time": "2023-05-09T18:20:58+00:00"
+            "time": "2023-05-10T18:20:01+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -23709,6 +23709,72 @@
                 }
             ],
             "time": "2023-03-05T17:13:09+00:00"
+        },
+        {
+            "name": "plumrocket/module-extended-admin-ui",
+            "version": "1.1.5",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/plumrocket/module-extended-admin-ui/plumrocket-module-extended-admin-ui-1.1.5.0.zip",
+                "shasum": "5da8f4cad647e4345d0dfc3df1450114d4e9dd0b"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Plumrocket\\ExtendedAdminUi\\": ""
+                }
+            },
+            "description": "Extended Admin UI Extension for Magento 2"
+        },
+        {
+            "name": "plumrocket/module-plumbase",
+            "version": "2.10.3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/plumrocket/module-plumbase/plumrocket-module-plumbase-2.10.3.0.zip",
+                "shasum": "664c599301331477148baa0290aa2b5678cc725c"
+            },
+            "require": {
+                "magento/framework": ">=101.0.0",
+                "php": ">=7.1"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Plumrocket\\Base\\": ""
+                }
+            },
+            "description": "Base module for other Plumrocket modules. Provides utility classes and manages licenses"
+        },
+        {
+            "name": "plumrocket/module-prnewsletterpopup",
+            "version": "4.5.7",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/plumrocket/module-prnewsletterpopup/plumrocket-module-prnewsletterpopup-4.5.7.0.zip",
+                "shasum": "055031a12f55e59159f17d4b0c2ac04bd9c8756e"
+            },
+            "require": {
+                "php": ">=7.1",
+                "plumrocket/module-extended-admin-ui": ">=1.0",
+                "plumrocket/module-plumbase": ">=2.10.1"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Plumrocket\\Newsletterpopup\\": ""
+                }
+            },
+            "description": "Plumrocket Newsletter Popup Extension for Magento 2"
         },
         {
             "name": "psr/container",
