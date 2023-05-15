@@ -70,9 +70,14 @@
                         <argument translate="true" name="title" xsi:type="string">Specs</argument>
                     </arguments>
                 </block>
-                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox" as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.review">
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.whatinthebox" as="whatinthebox" template="Magento_Catalog::product/view/in-box.phtml" group="detailed_info" after="product.info.spec">
                     <arguments>
                         <argument translate="true" name="title" xsi:type="string">What’s In The Box</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.faq" as="faq" template="Magento_Catalog::product/view/faq.phtml" group="detailed_info" after="product.info.whatinthebox">
+                    <arguments>
+                        <argument translate="true" name="title" xsi:type="string">FAQs</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Catalog\Block\Product\View\Description" name="product.info.short_description" as="productoverview" template="Magento_Catalog::product/view/product-overview.phtml" group="detailed_info" before="product.info.description">

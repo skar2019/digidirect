@@ -1,0 +1,8 @@
+<?php if ($product = $block->getProduct()->getData('faq')): ?>
+    <div class="new-block">
+        <div class="title"><?php echo $block->escapeHtml(__('FAQs')); ?></div>
+        <div class="list">
+            <?php echo $product; ?>
+        </div>
+    </div>
+<?php endif; ?>
