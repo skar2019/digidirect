@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <meta name="robots" content="NOINDEX" />
+    </head>
     <body>
         <referenceBlock name="breadcrumbs" remove="false"/>
         <referenceContainer name="div.sidebar.additional" remove="true" />
@@ -14,6 +17,6 @@
             </block>
         </referenceBlock>
 
-        <move element="breadcrumbs" destination="content" before="-"/>      
+        <move element="breadcrumbs" destination="content" before="-"/>
     </body>
 </page>
