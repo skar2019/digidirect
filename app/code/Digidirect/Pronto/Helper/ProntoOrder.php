@@ -185,7 +185,7 @@ class ProntoOrder extends AbstractHelper
 
         //$data['Filters']['TerritoryCode']['Like']='BOND%';
         //$data['Filters']['TerritoryCode']['Like']='PARR%';
-        $data['Filters']['TerritoryCode']['NotLike']='WEBS%';
+        //$data['Filters']['TerritoryCode']['NotLike']='WEBS%';
 
         $data['RequestFields']['SalesOrders']['SalesOrder']['SOOrderNo']='';
         $data['RequestFields']['SalesOrders']['SalesOrder']['CustomerCode']='';
@@ -419,7 +419,7 @@ class ProntoOrder extends AbstractHelper
                     $itemcode = (string)$orderline->ItemCode;
                     $quantity = (int)$orderline->OrderedQty;
                     $items['items'][$x] = array('sku'=>$itemcode,'qty'=>$quantity);
-                    echo $itemcode ."\n";
+                    //echo $itemcode ."\n";
                 }
                 $x++;
             }
@@ -431,12 +431,12 @@ class ProntoOrder extends AbstractHelper
             foreach ($orders as $order)
             {
                 $order_exists = true;
-                echo "order exist - ".$orderInfo['pronto_account_id'];
+                //echo "order exist - ".$orderInfo['pronto_account_id'];
             }
 
             if(!$order_exists)
             {
-                echo "create order";
+                //echo "create order";
                 $orderresult = $this->createOrder($orderInfo);
                 //var_dump($orderresult);
             }
@@ -504,7 +504,14 @@ class ProntoOrder extends AbstractHelper
                 {
                     echo "exist ".$item['sku']."<br/>";
                     $productPronto = $this->productRepository->get($item['sku']);
-                    $quote->addProduct($productPronto,intval($item['qty']));
+                    try {
+                        $quote->addProduct($productPronto,intval($item['qty']));
+                    } catch (\Exception $e) {
+                        $item['sku'] = '000001';
+                        $productPronto = $this->productRepository->get($item['sku']);
+                        $quote->addProduct($productPronto,intval($item['qty']));
+                    }
+
                 }
                 else
                 {
