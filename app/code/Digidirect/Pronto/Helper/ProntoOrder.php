@@ -491,6 +491,7 @@ class ProntoOrder extends AbstractHelper
         $quote->assignCustomer($customer); //Assign quote to customer
         //echo "assign Customer <br />";
         //add items in quote
+        $orderedsku = "";
         foreach($orderInfo[0]['items'] as $item){
             echo "to add product ". $item['sku']." <br />";
             if($item['sku'] == 'ONLFREIGHT')
@@ -503,6 +504,7 @@ class ProntoOrder extends AbstractHelper
             }
             else
             {
+                $orderedsku .=  $item['sku'].",";
                 if ($this->product->getIdBySku($item['sku']))
                 {
                     echo "exist ".$item['sku']."<br/>";
@@ -512,12 +514,13 @@ class ProntoOrder extends AbstractHelper
                     $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
                     if(!$isInStock)
                     {
-                        $isInStock = 0;
+                        echo "not in stock ".$item['sku']."<br/>";
                         $item['sku'] = '000001';
                         $productPronto = $this->productRepository->get($item['sku']);
                         $quote->addProduct($productPronto,intval($item['qty']));
                     }
                     else {
+                        echo "add product ".$item['sku']."<br/>";
                         $quote->addProduct($productPronto,intval($item['qty']));
                     }
 
@@ -569,7 +572,8 @@ class ProntoOrder extends AbstractHelper
 
         $order->setCreatedAt($orderInfo['createdate']);
         $order->setData('pronto_order_number',$orderInfo['pronto_account_id']);
-
+        //$orderedsku
+        $order->addCommentToStatusHistory('Ordered SKU '. $orderedsku);
         $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE)
             ->setStatus($order->getConfig()->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_COMPLETE))
             ->save();
