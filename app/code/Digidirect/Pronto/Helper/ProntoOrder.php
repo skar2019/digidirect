@@ -259,7 +259,7 @@ class ProntoOrder extends AbstractHelper
 
             $name = explode(" ",$orderdata->CustomerName);
             $firstname = $name[0];
-            $lastname = "";
+            $lastname = "Retail";
             if(isset($name[1]))
             {
                 $lastname = $name[1];
