@@ -453,10 +453,10 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(16); //from backend, retail store id 7 on staging2 //7 on my local //16 for digiDirect AU Retail Store //10 on prod Retail Stores Store
+        $store = $this->storeManager->getStore(16); //from backend, retail store id 7 on staging2 //8 on my local //16 for prod
         $storeId = $store->getStoreId();
         //echo "store id ".$storeId."\n <br/>";
-        $websiteId = 7;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
+        $websiteId = 7;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //7 on my local //7 on prod Retail Stores
         //echo "website id ".$websiteId."\n <br/>";
         $customer = $this->customerFactory->create();
         $customer->setWebsiteId($websiteId);
@@ -529,7 +529,7 @@ class ProntoOrder extends AbstractHelper
                 else
                 {
                     echo "not exisit ".$item['sku']."<br/>";
-                    $item['sku'] = '000001';
+                    $item['sku'] = '000002';
                     $productPronto = $this->productRepository->get($item['sku']);
                     $quote->addProduct($productPronto,intval($item['qty']));
                 }
