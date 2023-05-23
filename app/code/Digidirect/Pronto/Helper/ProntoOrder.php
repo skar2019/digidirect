@@ -30,6 +30,7 @@ class ProntoOrder extends AbstractHelper
 
     protected $_orderCollectionFactory;
 
+    protected $stockRegistry;
     /**
      * @var array
      */
@@ -108,7 +109,8 @@ class ProntoOrder extends AbstractHelper
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         CollectionFactory $collectionFactory,
         \Magento\Quote\Model\Quote\Address\Rate $shippingRate,
-        Product $product)
+        Product $product,
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry)
     {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -132,6 +134,7 @@ class ProntoOrder extends AbstractHelper
         $this->collectionFactory = $collectionFactory;
         $this->shippingRate = $shippingRate;
         $this->product = $product;
+        $this->stockRegistry = $stockRegistry;
 
     }
 
@@ -450,15 +453,15 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(16); //from backend, retail store id 7 on staging2 //7 on my local //13 for digiDirect AU Retail Store //10 on prod Retail Stores Store
+        $store = $this->storeManager->getStore(7); //from backend, retail store id 7 on staging2 //7 on my local //16 for digiDirect AU Retail Store //10 on prod Retail Stores Store
         $storeId = $store->getStoreId();
-        echo "store id ".$storeId."\n <br/>";
-        $websiteId = 7;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
-        echo "website id ".$websiteId."\n <br/>";
+        //echo "store id ".$storeId."\n <br/>";
+        $websiteId = 1;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //6 on my local //7 on prod Retail Stores
+        //echo "website id ".$websiteId."\n <br/>";
         $customer = $this->customerFactory->create();
         $customer->setWebsiteId($websiteId);
         //$customer->setWebsiteId(1); // use 1 for digidirect store work around so it will not create new customer on different store
-        echo "customer email ".$orderInfo['email']." <br/>";
+        //echo "customer email ".$orderInfo['email']." <br/>";
         if(empty($orderInfo['email']))
         {
             $orderInfo['email'] = "retailstores@digidirect.com.au";
@@ -466,7 +469,7 @@ class ProntoOrder extends AbstractHelper
         $customer->loadByEmail($orderInfo['email']);// load customet by email address
 
         if(!$customer->getId()){
-            echo "create customer \n <br/>";
+            //echo "create customer \n <br/>";
             //For guest customer create new cusotmer
             $customer->setWebsiteId($websiteId)
                 ->setStore($store)
@@ -479,14 +482,14 @@ class ProntoOrder extends AbstractHelper
             $customer->save();
         }
 
-        echo "to quote <br />";
+        //echo "to quote <br />";
         $quote=$this->quote->create(); //Create object of quote
         $quote->setStore($store); //set store for our quote
         /* for registered customer */
         $customer = $this->customerRepository->getById($customer->getId());
         $quote->setCurrency();
         $quote->assignCustomer($customer); //Assign quote to customer
-        echo "assign Customer <br />";
+        //echo "assign Customer <br />";
         //add items in quote
         foreach($orderInfo[0]['items'] as $item){
             echo "to add product ". $item['sku']." <br />";
@@ -504,13 +507,20 @@ class ProntoOrder extends AbstractHelper
                 {
                     echo "exist ".$item['sku']."<br/>";
                     $productPronto = $this->productRepository->get($item['sku']);
-                    try {
-                        $quote->addProduct($productPronto,intval($item['qty']));
-                    } catch (\Exception $e) {
+
+                    $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
+                    $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
+                    if(!$isInStock)
+                    {
+                        $isInStock = 0;
                         $item['sku'] = '000001';
                         $productPronto = $this->productRepository->get($item['sku']);
                         $quote->addProduct($productPronto,intval($item['qty']));
                     }
+                    else {
+                        $quote->addProduct($productPronto,intval($item['qty']));
+                    }
+
 
                 }
                 else
