@@ -510,19 +510,19 @@ class ProntoOrder extends AbstractHelper
                     echo "exist ".$item['sku']."<br/>";
                     $productPronto = $this->productRepository->get($item['sku']);
 
-                    $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
-                    $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
-                    if(!$isInStock)
-                    {
-                        echo "not in stock ".$item['sku']."<br/>";
-                        $item['sku'] = '000001';
-                        $productPronto = $this->productRepository->get($item['sku']);
+//                    $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
+//                    $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
+//                    if(!$isInStock)
+//                    {
+//                        echo "not in stock ".$item['sku']."<br/>";
+//                        $item['sku'] = '000001';
+//                        $productPronto = $this->productRepository->get($item['sku']);
+//                        $quote->addProduct($productPronto,intval($item['qty']));
+//                    }
+//                    else {
+//                        echo "add product ".$item['sku']."<br/>";
                         $quote->addProduct($productPronto,intval($item['qty']));
-                    }
-                    else {
-                        echo "add product ".$item['sku']."<br/>";
-                        $quote->addProduct($productPronto,intval($item['qty']));
-                    }
+                    //}
 
 
                 }
