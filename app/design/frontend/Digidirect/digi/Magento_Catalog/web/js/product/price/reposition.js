@@ -83,12 +83,6 @@ define([
     //Changed to 1439 for tablet *Rondel
     let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
 
-//    if (isMobile) {
-//        $('.page-title-wrapper').insertBefore($('.product-basic'));
-//    }else {
-//        $('.page-title-wrapper').insertBefore($('.product-info-price'));
-//    }
-
     $(window).on('resize', function(){
         var win = $(this); //this = window
         if (win.width() >= 1440) {
