@@ -1,0 +1,3 @@
+<?php if ($canonicalUrl = $block->getCanonicalUrl()): ?>
+    <link rel="canonical" href="<?= /* @escapeNotVerified */ $canonicalUrl ?>"/>
+<?php endif; ?>
