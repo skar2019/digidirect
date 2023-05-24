@@ -405,6 +405,7 @@ class ProntoOrder extends AbstractHelper
 
             $orderlinedata['RequestFields']['SalesOrderLines']['SalesOrderLine']['ItemCode']='';
             $orderlinedata['RequestFields']['SalesOrderLines']['SalesOrderLine']['OrderedQty']='';
+            $orderlinedata['RequestFields']['SalesOrderLines']['SalesOrderLine']['SOOrderNo']='';
 
             $orderlinexml = \Digidirect\AI\Model\Lib\Adapter\Import\Xml::assocToXml($orderlinedata, 'SalesOrderGetSalesOrderLinesRequest');
 
@@ -419,8 +420,10 @@ class ProntoOrder extends AbstractHelper
             {
                 if(!empty($orderline->ItemCode))
                 {
+
                     $itemcode = (string)$orderline->ItemCode;
                     $quantity = (int)$orderline->OrderedQty;
+                    echo "item code ".$itemcode." - SOOrderNumber ". (string)$orderdata->SOOrderNo." <br/>";
                     $items['items'][$x] = array('sku'=>$itemcode,'qty'=>$quantity);
                     //echo $itemcode ."\n";
                 }
@@ -510,25 +513,38 @@ class ProntoOrder extends AbstractHelper
                     echo "exist ".$item['sku']."<br/>";
                     $productPronto = $this->productRepository->get($item['sku']);
 
-//                    $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
-//                    $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
-//                    if(!$isInStock)
-//                    {
-//                        echo "not in stock ".$item['sku']."<br/>";
-//                        $item['sku'] = '000001';
-//                        $productPronto = $this->productRepository->get($item['sku']);
-//                        $quote->addProduct($productPronto,intval($item['qty']));
-//                    }
-//                    else {
+                    //var_dump($productPronto);
+                    //check if enabled
+                    $isenabled = $productPronto->getStatus();
+                    echo "is enabled ".$isenabled."<br/>";
+                    if($isenabled == '1')
+                    {
+                        $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
+                        $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
+                        if(!$isInStock)
+                        {
+                            echo "not in stock ".$item['sku']."<br/>";
+                            $item['sku'] = '000001';
+                            $productPronto = $this->productRepository->get($item['sku']);
+                            $quote->addProduct($productPronto,intval($item['qty']));
+                        }
+                        else {
 //                        echo "add product ".$item['sku']."<br/>";
+                            $quote->addProduct($productPronto,intval($item['qty']));
+                        }
+                    }
+                    else
+                    {
+                        echo "not exist ".$item['sku']."<br/>";
+                        $item['sku'] = '000002';
+                        $productPronto = $this->productRepository->get($item['sku']);
                         $quote->addProduct($productPronto,intval($item['qty']));
-                    //}
-
+                    }
 
                 }
                 else
                 {
-                    echo "not exisit ".$item['sku']."<br/>";
+                    echo "not exist ".$item['sku']."<br/>";
                     $item['sku'] = '000002';
                     $productPronto = $this->productRepository->get($item['sku']);
                     $quote->addProduct($productPronto,intval($item['qty']));
