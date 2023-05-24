@@ -27,7 +27,7 @@ class CronCustomOption extends \Magento\Framework\Model\AbstractModel
 
     public function saveCustomOption(){
 
-        $catIds = array(2564,2567,2570,2573);
+        $catIds = array(2564,2567,2570,2573,812,308);
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*');
         $collection->addFieldToFilter( 'price' , array('gt' => 100));
