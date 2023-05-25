@@ -238,10 +238,6 @@ class ProntoOrder extends AbstractHelper
             $x++;
 
             $email = (string)$orderdata->CustomerEmail;
-            if(empty($email))
-            {
-                $email = "retailstores@digidirect.com.au";
-            }
 
             if (str_contains($email, 'westfield.com')) {
                 continue;
@@ -257,6 +253,16 @@ class ProntoOrder extends AbstractHelper
             }
             if (str_contains($email, 'members.ebay.com')) {
                 continue;
+            }
+
+            if(empty($email))
+            {
+                $email = "retailstores@digidirect.com.au";
+            }
+
+            if($email == "Email")
+            {
+                $email = "retailstores@digidirect.com.au";
             }
 
 
