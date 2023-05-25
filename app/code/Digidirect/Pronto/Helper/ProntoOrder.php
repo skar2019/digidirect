@@ -508,17 +508,26 @@ class ProntoOrder extends AbstractHelper
             else
             {
                 $orderedsku .=  $item['sku'].",";
-                if ($this->product->getIdBySku($item['sku']))
-                {
-                    echo "exist ".$item['sku']."<br/>";
-                    $productPronto = $this->productRepository->get($item['sku']);
+                try {
+                    $product = $this->product->getIdBySku($item['sku']);
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    $product = false;
+                }
 
-                    //var_dump($productPronto);
-                    //check if enabled
-                    $isenabled = $productPronto->getStatus();
-                    echo "is enabled ".$isenabled."<br/>";
-                    if($isenabled == '1')
-                    {
+                if ($product !== false) {
+                    //do something if product exist
+
+                    try {
+                        $productPronto = $this->productRepository->get($item['sku']);
+                    } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                        $productPronto = false;
+                    }
+                    if ($productPronto !== false) {
+                        //check if enabled
+                        $isenabled = $productPronto->getStatus();
+                        echo "is enabled ".$isenabled."<br/>";
+                        if($isenabled == '1')
+                        {
 //                        $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
 //                        $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
 //                        if(!$isInStock)
@@ -531,11 +540,19 @@ class ProntoOrder extends AbstractHelper
 //                        else {
 //                        echo "add product ".$item['sku']."<br/>";
                             $quote->addProduct($productPronto,intval($item['qty']));
-                        //}
+                            //}
+                        }
+                        else
+                        {
+                            echo "disabled ".$item['sku']."<br/>";
+                            $item['sku'] = '000002';
+                            $productPronto = $this->productRepository->get($item['sku']);
+                            $quote->addProduct($productPronto,intval($item['qty']));
+                        }
                     }
                     else
                     {
-                        echo "disabled ".$item['sku']."<br/>";
+                        echo "not exist ".$item['sku']."<br/>";
                         $item['sku'] = '000002';
                         $productPronto = $this->productRepository->get($item['sku']);
                         $quote->addProduct($productPronto,intval($item['qty']));
@@ -549,6 +566,18 @@ class ProntoOrder extends AbstractHelper
                     $productPronto = $this->productRepository->get($item['sku']);
                     $quote->addProduct($productPronto,intval($item['qty']));
                 }
+
+                //old checking
+//                if ($this->product->getIdBySku($item['sku']))
+//                {
+//                    echo "exist ".$item['sku']."<br/>";
+//
+//
+//                }
+//                else
+//                {
+//                    echo "not exist ".$item['sku']."<br/>";
+//                }
 
                 echo "add product <br />";
             }
