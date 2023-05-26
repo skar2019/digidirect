@@ -100,7 +100,7 @@ class Coupon
 
         $couponGenerateCode= $rule->getCouponCodeGenerator()->generateCode();
 
-        $couponCode = $couponGenerateCode . $rule->getCouponCodeGenerator()->getDelimiter() . sprintf(
+        $couponCode = 'PMC-'.$couponGenerateCode . $rule->getCouponCodeGenerator()->getDelimiter() . sprintf(
             '%04u', rand(0, 9999));
 
         $priceDiff = $item['final_price'] - $item['match_price'];
