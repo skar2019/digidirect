@@ -541,7 +541,7 @@ class ProntoOrder extends AbstractHelper
                                 echo "not in stock ".$item['sku']."<br/>";
                                 $item['sku'] = '000002';
                                 $productPronto = $this->productRepository->get($item['sku']);
-                                $quote->addProduct($productPronto,intval($item['qty']));
+                                $quote->addProduct($productPronto,1);
                             }
                             else {
     //                        echo "add product ".$item['sku']."<br/>";
@@ -553,7 +553,7 @@ class ProntoOrder extends AbstractHelper
                             echo "disabled ".$item['sku']."<br/>";
                             $item['sku'] = '000002';
                             $productPronto = $this->productRepository->get($item['sku']);
-                            $quote->addProduct($productPronto,intval($item['qty']));
+                            $quote->addProduct($productPronto,1);
                         }
                     }
                     else
@@ -561,7 +561,7 @@ class ProntoOrder extends AbstractHelper
                         echo "not exist ".$item['sku']."<br/>";
                         $item['sku'] = '000002';
                         $productPronto = $this->productRepository->get($item['sku']);
-                        $quote->addProduct($productPronto,intval($item['qty']));
+                        $quote->addProduct($productPronto,1);
                     }
 
                 }
@@ -570,7 +570,7 @@ class ProntoOrder extends AbstractHelper
                     echo "not exist ".$item['sku']."<br/>";
                     $item['sku'] = '000002';
                     $productPronto = $this->productRepository->get($item['sku']);
-                    $quote->addProduct($productPronto,intval($item['qty']));
+                    $quote->addProduct($productPronto,1);
                 }
 
                 //old checking
