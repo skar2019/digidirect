@@ -449,8 +449,12 @@ class ProntoOrder extends AbstractHelper
             if(!$order_exists)
             {
                 //echo "create order";
-                $orderresult = $this->createOrder($orderInfo);
-                //var_dump($orderresult);
+                try {
+                    $orderresult = $this->createOrder($orderInfo);
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    continue;
+                }
+
             }
 
         }
@@ -501,60 +505,71 @@ class ProntoOrder extends AbstractHelper
         //echo "assign Customer <br />";
         //add items in quote
         $orderedsku = "";
-        foreach($orderInfo[0]['items'] as $item){
-            echo "to add product ". $item['sku']." <br />";
-            if($item['sku'] == 'ONLFREIGHT')
-            {
+        if(isset($orderInfo[0]['items']))
+        {
+            foreach($orderInfo[0]['items'] as $item){
+                echo "to add product ". $item['sku']." <br />";
+                if($item['sku'] == 'ONLFREIGHT')
+                {
 
-            }
-            else if($item['sku'] == 'Charges')
-            {
-
-            }
-            else
-            {
-                $orderedsku .=  $item['sku'].",";
-                try {
-                    $product = $this->product->getIdBySku($item['sku']);
-                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-                    $product = false;
                 }
+                else if($item['sku'] == 'Charges')
+                {
 
-                if ($product !== false) {
-                    //do something if product exist
-
+                }
+                else
+                {
+                    $orderedsku .=  $item['sku'].",";
                     try {
-                        $productPronto = $this->productRepository->get($item['sku']);
+                        $product = $this->product->getIdBySku($item['sku']);
                     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-                        $productPronto = false;
+                        $product = false;
                     }
-                    if ($productPronto !== false) {
-                        //check if enabled
-                        $isenabled = $productPronto->getStatus();
-                        echo "is enabled ".$isenabled."<br/>";
-                        if($isenabled == '1')
-                        {
-                            $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
-                            $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
-                            if(!$isInStock)
+
+                    if ($product !== false) {
+                        //do something if product exist
+
+                        try {
+                            $productPronto = $this->productRepository->get($item['sku']);
+                        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                            $productPronto = false;
+                        }
+                        if ($productPronto !== false) {
+                            //check if enabled
+                            $isenabled = $productPronto->getStatus();
+                            echo "is enabled ".$isenabled."<br/>";
+                            if($isenabled == '1')
                             {
-                                echo "not in stock ".$item['sku']."<br/>";
+                                $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
+                                $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
+                                if(!$isInStock)
+                                {
+                                    echo "not in stock ".$item['sku']."<br/>";
+                                    $item['sku'] = '000002';
+                                    $productPronto = $this->productRepository->get($item['sku']);
+                                    $quote->addProduct($productPronto,1);
+                                }
+                                else {
+                                    //                        echo "add product ".$item['sku']."<br/>";
+                                    $quote->addProduct($productPronto, intval($item['qty']));
+                                }
+                            }
+                            else
+                            {
+                                echo "disabled ".$item['sku']."<br/>";
                                 $item['sku'] = '000002';
                                 $productPronto = $this->productRepository->get($item['sku']);
                                 $quote->addProduct($productPronto,1);
                             }
-                            else {
-    //                        echo "add product ".$item['sku']."<br/>";
-                                $quote->addProduct($productPronto, intval($item['qty']));
-                            }
                         }
                         else
                         {
-                            echo "disabled ".$item['sku']."<br/>";
+                            echo "not exist ".$item['sku']."<br/>";
                             $item['sku'] = '000002';
                             $productPronto = $this->productRepository->get($item['sku']);
                             $quote->addProduct($productPronto,1);
                         }
+
                     }
                     else
                     {
@@ -564,16 +579,7 @@ class ProntoOrder extends AbstractHelper
                         $quote->addProduct($productPronto,1);
                     }
 
-                }
-                else
-                {
-                    echo "not exist ".$item['sku']."<br/>";
-                    $item['sku'] = '000002';
-                    $productPronto = $this->productRepository->get($item['sku']);
-                    $quote->addProduct($productPronto,1);
-                }
-
-                //old checking
+                    //old checking
 //                if ($this->product->getIdBySku($item['sku']))
 //                {
 //                    echo "exist ".$item['sku']."<br/>";
@@ -585,10 +591,12 @@ class ProntoOrder extends AbstractHelper
 //                    echo "not exist ".$item['sku']."<br/>";
 //                }
 
-                echo "add product <br />";
-            }
+                    echo "add product <br />";
+                }
 
+            }
         }
+
 
         //Set Billing and shipping Address to quote
         $quote->getBillingAddress()->addData($orderInfo['address']);
