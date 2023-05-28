@@ -238,10 +238,6 @@ class ProntoOrder extends AbstractHelper
             $x++;
 
             $email = (string)$orderdata->CustomerEmail;
-            if(empty($email))
-            {
-                $email = "retailstores@digidirect.com.au";
-            }
 
             if (str_contains($email, 'westfield.com')) {
                 continue;
@@ -257,6 +253,16 @@ class ProntoOrder extends AbstractHelper
             }
             if (str_contains($email, 'members.ebay.com')) {
                 continue;
+            }
+
+            if(empty($email))
+            {
+                $email = "retailstores@digidirect.com.au";
+            }
+
+            if($email == "Email")
+            {
+                $email = "retailstores@digidirect.com.au";
             }
 
 
@@ -443,8 +449,12 @@ class ProntoOrder extends AbstractHelper
             if(!$order_exists)
             {
                 //echo "create order";
-                $orderresult = $this->createOrder($orderInfo);
-                //var_dump($orderresult);
+                try {
+                    $orderresult = $this->createOrder($orderInfo);
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                    continue;
+                }
+
             }
 
         }
@@ -495,65 +505,98 @@ class ProntoOrder extends AbstractHelper
         //echo "assign Customer <br />";
         //add items in quote
         $orderedsku = "";
-        foreach($orderInfo[0]['items'] as $item){
-            echo "to add product ". $item['sku']." <br />";
-            if($item['sku'] == 'ONLFREIGHT')
-            {
-
-            }
-            else if($item['sku'] == 'Charges')
-            {
-
-            }
-            else
-            {
-                $orderedsku .=  $item['sku'].",";
-                if ($this->product->getIdBySku($item['sku']))
+        if(isset($orderInfo[0]['items']))
+        {
+            foreach($orderInfo[0]['items'] as $item){
+                echo "to add product ". $item['sku']." <br />";
+                if($item['sku'] == 'ONLFREIGHT')
                 {
-                    echo "exist ".$item['sku']."<br/>";
-                    $productPronto = $this->productRepository->get($item['sku']);
 
-                    //var_dump($productPronto);
-                    //check if enabled
-                    $isenabled = $productPronto->getStatus();
-                    echo "is enabled ".$isenabled."<br/>";
-                    if($isenabled == '1')
-                    {
-//                        $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
-//                        $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
-//                        if(!$isInStock)
-//                        {
-//                            echo "not in stock ".$item['sku']."<br/>";
-//                            $item['sku'] = '000001';
-//                            $productPronto = $this->productRepository->get($item['sku']);
-//                            $quote->addProduct($productPronto,intval($item['qty']));
-//                        }
-//                        else {
-//                        echo "add product ".$item['sku']."<br/>";
-                            $quote->addProduct($productPronto,intval($item['qty']));
-                        //}
-                    }
-                    else
-                    {
-                        echo "disabled ".$item['sku']."<br/>";
-                        $item['sku'] = '000002';
-                        $productPronto = $this->productRepository->get($item['sku']);
-                        $quote->addProduct($productPronto,intval($item['qty']));
-                    }
+                }
+                else if($item['sku'] == 'Charges')
+                {
 
                 }
                 else
                 {
-                    echo "not exist ".$item['sku']."<br/>";
-                    $item['sku'] = '000002';
-                    $productPronto = $this->productRepository->get($item['sku']);
-                    $quote->addProduct($productPronto,intval($item['qty']));
+                    $orderedsku .=  $item['sku'].",";
+                    try {
+                        $product = $this->product->getIdBySku($item['sku']);
+                    } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                        $product = false;
+                    }
+
+                    if ($product !== false) {
+                        //do something if product exist
+
+                        try {
+                            $productPronto = $this->productRepository->get($item['sku']);
+                        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                            $productPronto = false;
+                        }
+                        if ($productPronto !== false) {
+                            //check if enabled
+                            $isenabled = $productPronto->getStatus();
+                            echo "is enabled ".$isenabled."<br/>";
+                            if($isenabled == '1')
+                            {
+                                $stockItem = $this->stockRegistry->getStockItem($productPronto->getId());
+                                $isInStock = $stockItem ? $stockItem->getIsInStock() : false;
+                                if(!$isInStock)
+                                {
+                                    echo "not in stock ".$item['sku']."<br/>";
+                                    $item['sku'] = '000002';
+                                    $productPronto = $this->productRepository->get($item['sku']);
+                                    $quote->addProduct($productPronto,1);
+                                }
+                                else {
+                                    //                        echo "add product ".$item['sku']."<br/>";
+                                    $quote->addProduct($productPronto, intval($item['qty']));
+                                }
+                            }
+                            else
+                            {
+                                echo "disabled ".$item['sku']."<br/>";
+                                $item['sku'] = '000002';
+                                $productPronto = $this->productRepository->get($item['sku']);
+                                $quote->addProduct($productPronto,1);
+                            }
+                        }
+                        else
+                        {
+                            echo "not exist ".$item['sku']."<br/>";
+                            $item['sku'] = '000002';
+                            $productPronto = $this->productRepository->get($item['sku']);
+                            $quote->addProduct($productPronto,1);
+                        }
+
+                    }
+                    else
+                    {
+                        echo "not exist ".$item['sku']."<br/>";
+                        $item['sku'] = '000002';
+                        $productPronto = $this->productRepository->get($item['sku']);
+                        $quote->addProduct($productPronto,1);
+                    }
+
+                    //old checking
+//                if ($this->product->getIdBySku($item['sku']))
+//                {
+//                    echo "exist ".$item['sku']."<br/>";
+//
+//
+//                }
+//                else
+//                {
+//                    echo "not exist ".$item['sku']."<br/>";
+//                }
+
+                    echo "add product <br />";
                 }
 
-                echo "add product <br />";
             }
-
         }
+
 
         //Set Billing and shipping Address to quote
         $quote->getBillingAddress()->addData($orderInfo['address']);
