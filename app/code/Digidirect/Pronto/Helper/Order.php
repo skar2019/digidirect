@@ -933,6 +933,10 @@ class Order extends AbstractHelper
                 {
                     $discount = 0; //set this to zero since we subtract it to total
                     $discperc = 0;
+                    if(str_contains($coupon, 'PMC-'))
+                    {
+                        $data['sales-order']['header']['rep'] = "PMC";
+                    }
                 }
 
                 $digiProtectPrice = 0;
