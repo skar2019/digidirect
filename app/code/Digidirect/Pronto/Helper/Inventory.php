@@ -115,6 +115,57 @@ class Inventory extends AbstractHelper
 
                     }
 
+                    if($prodRes['stk-condition-code'] == 'O')
+                    {
+                        $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                    }
+                    else
+                    {
+                        //web flag
+                        //if blank, set to disable
+                        if($prodRes['stk-user-only-alpha4-1'] == '')
+                        {
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else if($prod['stk-user-only-alpha4-1'] == 'W')
+                        {
+                            $isNda = $prod->getIsNda();
+                            if($isNda)
+                            {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                            }
+                            else {
+                                $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                            }
+
+                        }
+                        else if($prodRes['stk-user-only-alpha4-1'] == 'N')
+                        {
+                            $prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+                        }
+                        else {
+                            //$prod->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+                        }
+
+                    }
+                    //check stk-user-only-alpha4-1 if pre order "P" or awaiting stock "A"
+                    if($prodRes['stk-user-only-alpha4-1'] == 'A')
+                    {
+                        $prod->setCustomAttribute('awaiting_product', '1');
+                        $forLogs .= "Awaiting 1 \n";
+                    }
+                    else {
+                        $prod->setCustomAttribute('awaiting_product', '0');
+                        $forLogs .= "Awaiting 0 \n";
+                    }
+
+                    if($prodRes['stk-user-only-alpha4-1'] == 'P')
+                    {
+                        $prod->setCustomAttribute('pre_order', '1');
+                        $prod->setCustomAttribute('preorder', '1');
+                        $forLogs .= "Pre Order 1 \n";
+                        //echo "pre_order 1  <br/>";
+                    }
 
 
                     $totalwrhs = 0;
