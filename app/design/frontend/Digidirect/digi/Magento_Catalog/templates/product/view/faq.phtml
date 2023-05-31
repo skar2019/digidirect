@@ -1,5 +1,5 @@
 <?php if ($product = $block->getProduct()->getData('faqs')): ?>
-    <?php if ($product = $block->getProduct()->getData('faqs') != 0): ?>
+    <?php if ($block->getProduct()->getData('faqs') != 0): ?>
         <div class="new-block">
             <div class="title"><?php echo $block->escapeHtml(__('FAQs')); ?></div>
             <div class="list">
