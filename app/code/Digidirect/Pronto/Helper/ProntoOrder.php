@@ -87,6 +87,7 @@ class ProntoOrder extends AbstractHelper
 
     protected $product;
 
+    protected $total;
     public function __construct(
         Curl $curl,
         JsonSerializer $jsonSerializer,
@@ -110,7 +111,8 @@ class ProntoOrder extends AbstractHelper
         CollectionFactory $collectionFactory,
         \Magento\Quote\Model\Quote\Address\Rate $shippingRate,
         Product $product,
-        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry)
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\Quote\Model\Quote\Address\Total $total)
     {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -135,6 +137,7 @@ class ProntoOrder extends AbstractHelper
         $this->shippingRate = $shippingRate;
         $this->product = $product;
         $this->stockRegistry = $stockRegistry;
+        $this->total = $total;
 
     }
 
@@ -397,7 +400,8 @@ class ProntoOrder extends AbstractHelper
                     'save_in_address_book' => 1
                 ],
                 'pronto_account_id' => (string)$orderdata->SOOrderNo,
-                'createdate'=> (string)$orderdata->Date
+                'createdate'=> (string)$orderdata->Date,
+                'ordertotal' => (string)$orderdata->OrderedAmountIncTax
 
             ];
 
@@ -450,6 +454,8 @@ class ProntoOrder extends AbstractHelper
             {
                 //echo "create order";
                 try {
+//                    var_dump($orderInfo);
+//                    exit;
                     $orderresult = $this->createOrder($orderInfo);
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     continue;
@@ -466,7 +472,7 @@ class ProntoOrder extends AbstractHelper
 
     public function createOrder($orderInfo)
     {
-        $store = $this->storeManager->getStore(16); //from backend, retail store id 7 on staging2 //8 on my local //16 for prod
+        $store = $this->storeManager->getStore(8); //from backend, retail store id 7 on staging2 //8 on my local //16 for prod
         $storeId = $store->getStoreId();
         //echo "store id ".$storeId."\n <br/>";
         $websiteId = 7;//$this->storeManager->getStore()->getWebsiteId(); //10 on staging2 //7 on my local //7 on prod Retail Stores
@@ -623,27 +629,36 @@ class ProntoOrder extends AbstractHelper
         // Collect Quote Totals & Save
         $quote->collectTotals()->save();
         // Create Order From Quote Object
+
+        //$this->total->setGrandTotal($orderInfo['ordertotal']);
+        //$this->total->setBaseGrandTotal($orderInfo['ordertotal']);
+
         $order = $this->quoteManagement->submit($quote);
 
         echo "quote submitted <br />";
+        $result = "";
         /* get order real id from order */
-        $orderId = $order->getIncrementId();
+        if($order) {
+            $orderId = $order->getIncrementId();
 
-        $order->setCreatedAt($orderInfo['createdate']);
-        $order->setData('pronto_order_number',$orderInfo['pronto_account_id']);
-        //$orderedsku
-        $order->addCommentToStatusHistory('Ordered SKU '. $orderedsku);
-        $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE)
-            ->setStatus($order->getConfig()->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_COMPLETE))
-            ->save();
+            $order->setCreatedAt($orderInfo['createdate']);
+            $order->setData('pronto_order_number',$orderInfo['pronto_account_id']);
+            //$orderedsku
+            $orderedsku .=  " - ".$orderInfo['ordertotal'];
+            $order->addCommentToStatusHistory('Ordered SKU '. $orderedsku);
+            $order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE)
+                ->setStatus($order->getConfig()->getStateDefaultStatus(\Magento\Sales\Model\Order::STATE_COMPLETE))
+                ->save();
 
-        if($orderId){
-            echo "order id ".$orderId."<br/>";
-            $result['success']= $orderId;
-        }else{
-            echo "error <br/>";
-            $result=['error'=>true,'msg'=>'Error occurs for Order placed'];
+            if($orderId){
+                echo "order id ".$orderId."<br/>";
+                $result['success']= $orderId;
+            }else{
+                echo "error <br/>";
+                $result=['error'=>true,'msg'=>'Error occurs for Order placed'];
+            }
         }
+
         return $result;
     }
 

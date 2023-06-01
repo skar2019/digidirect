@@ -17,17 +17,17 @@ class ProductEnquiry
         $this->helper = $helper;
     }
 
-
+    public function executeSync()
+    {
+        $this->helper->productSync();
+    }
     public function execute()
     {
         return;
         $this->helper->productSync();
     }
 
-    public function executeSync()
-    {
-        $this->helper->productSync();
-    }
+
 
     public function productSetSync()
     {

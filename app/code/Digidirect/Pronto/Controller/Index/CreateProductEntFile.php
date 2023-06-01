@@ -19,7 +19,7 @@ class CreateProductEntFile extends \Magento\Framework\App\Action\Action
 
     public function execute()
     {
-        $this->helper->categorySalesForce();
+        $this->helper->catalogcategoryproduct();
     }
 
 
