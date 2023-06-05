@@ -14,5 +14,8 @@
         <job name="pronto_retail_sync" instance="Digidirect\Pronto\Cron\RetailStoreProntoOrders" method="execute">
             <schedule>*/15 * * * *</schedule>
         </job>
+        <job name="pronto_productmedia" instance="Digidirect\Pronto\Cron\ProductMedia" method="execute">
+            <schedule>22 0 * * *</schedule>
+        </job>
     </group>
 </config>

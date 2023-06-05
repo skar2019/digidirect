@@ -132,18 +132,12 @@ class ProductEntHelper extends AbstractHelper
 
     public function getProductImage()
     {
-        $filepath = 'export/catalog_product_medias_1_6.csv';
+        $filepath = 'export/mg_productmediagallery.csv';
         $this->directory->create('export');
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
-//        $header = ['Id','Sku','Name','AttributeSetId','Price','Status','Visibility','Type',
-//            'Weight','Quantity','InStock','QuantityUsesDecimals','ProductImageURL','MinQuantity','UseConfigMinQuantity',
-//            'MinSaleQuantity','UseConfigMinSaleQuantity','MaxSaleQuantity',
-//            'UseConfigMaxSaleQuantity','Backorders','UseConfigBackorders','NotifyStockQuantity','UseConfigNotifyStockQty',
-//            'EnableQtyIncrements','UseConfigEnableQtyIncrements','QuantityIncrements','UseConfigQuantityIncrements',
-//            'ManageStock','UseConfigManageStock','ShowDefaultNotificationMessage','LowStockDate','StockStatusChangedAuto','created_at','updated_at'];
 
-        $header = ['Id','Sku','ProductImageURL'];
+        $header = ['ProductId','ProductURL','ProductImageURL'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -160,7 +154,7 @@ class ProductEntHelper extends AbstractHelper
             }
             $data = [];
             $data[] = $product->getId();
-            $data[] = $product->getSku();
+            $data[] = $product->getProductUrl();
             $data[] = $imageUrl;
 
             $stream->writeCsv($data);
@@ -458,10 +452,14 @@ class ProductEntHelper extends AbstractHelper
 
     public function getProductCollection()
     {
+//        $collection = $this->_productCollectionFactory->create();
+//        $collection->addAttributeToSelect('*')
+//        ->addFieldToFilter('entity_id', array('gteq' => 82243));
+//        $collection->setPageSize(5000); // fetching only 5000 products
+//        return $collection;
+
         $collection = $this->_productCollectionFactory->create();
-        $collection->addAttributeToSelect('*')
-        ->addFieldToFilter('entity_id', array('gteq' => 82255));
-        $collection->setPageSize(5000); // fetching only 5000 products
+        $collection->addAttributeToSelect('*');
         return $collection;
 
     }
