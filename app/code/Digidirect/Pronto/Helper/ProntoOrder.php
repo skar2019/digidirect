@@ -69,8 +69,6 @@ class ProntoOrder extends AbstractHelper
      */
     public $countryFactory;
 
-    protected $productDigiprot;
-
     protected $storeManager;
 
     protected $customerFactory;
@@ -111,8 +109,7 @@ class ProntoOrder extends AbstractHelper
         CollectionFactory $collectionFactory,
         \Magento\Quote\Model\Quote\Address\Rate $shippingRate,
         Product $product,
-        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        \Magento\Quote\Model\Quote\Address\Total $total)
+        \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry)
     {
         $this->curl = $curl;
         $this->jsonSerializer = $jsonSerializer;
@@ -137,13 +134,13 @@ class ProntoOrder extends AbstractHelper
         $this->shippingRate = $shippingRate;
         $this->product = $product;
         $this->stockRegistry = $stockRegistry;
-        $this->total = $total;
 
     }
 
     public function GetProntoOrders($status)
     {
 
+        $status = '80';
         $data = array();
         $dataxml = array();
         //shipping details
@@ -173,10 +170,10 @@ class ProntoOrder extends AbstractHelper
         $result = $this->curl->getBody();
         $xml=simplexml_load_string($result);
         $token = $xml->token;
-        if(empty($token))
-        {
-            exit;
-        }
+//        if(empty($token))
+//        {
+//            exit;
+//        }
         //echo $token ."\n";
         $this->curl->addHeader("Content-Type", "application/xml");
         $this->curl->addHeader("Accept", "application/xml");
@@ -217,18 +214,18 @@ class ProntoOrder extends AbstractHelper
         $this->curl->post($urldata, $xmldata);
 
         $resultdata = $this->curl->getBody();
-        if(is_null($resultdata))
-        {
-            exit;
-        }
+//        if(is_null($resultdata))
+//        {
+//            exit;
+//        }
 
         $xmlresult = simplexml_load_string($resultdata);
         $x = 0;
 
-        if(is_null($xmlresult))
-        {
-            exit;
-        }
+//        if(is_null($xmlresult))
+//        {
+//            exit;
+//        }
 
         foreach($xmlresult->SalesOrders->SalesOrder as $orderdata)
         {
