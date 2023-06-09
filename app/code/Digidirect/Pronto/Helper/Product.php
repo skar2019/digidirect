@@ -125,6 +125,12 @@ class Product extends AbstractHelper
                     $cost = $prod['stk-current-buy'];
                 }
 
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
+
                 $product->setCustomAttribute('cost', $cost);
 
                 $endis = "Enabled = 0";
@@ -358,14 +364,6 @@ class Product extends AbstractHelper
                     }
                 }
 
-                //disable first. this might be causing issue on sync
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('stock_group', $prod['stock-group']);
@@ -485,6 +483,12 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('cost', $cost);
+
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
 
                 //set brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
@@ -834,6 +838,14 @@ class Product extends AbstractHelper
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
 
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
+
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
                 $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
@@ -1046,14 +1058,7 @@ class Product extends AbstractHelper
                     }
                 }
 
-                //disable first. this might be causing issue on sync
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
 
                 if($prod['stk-condition-code'] == 'T')
                 {
@@ -1154,6 +1159,14 @@ class Product extends AbstractHelper
                 $product->setVisibility(4);
                 $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                 $product->setAttributeSetId(4);
+
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
+
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brands
                 if($prod['stk-brand-desc'] == 'digiSeconds')
@@ -1447,7 +1460,7 @@ class Product extends AbstractHelper
         $lastCode = 0;
         $forLogs = "";
         $this->attributeOptions = $this->getOptionHash('brand');
-
+        echo "start <br/>";
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
@@ -1511,6 +1524,14 @@ class Product extends AbstractHelper
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
 
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
+
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                echo $marketplacesprice. " marketplacesprice <br/>";
                 $endis = "nochange";
                 echo $prod['stk-user-only-alpha4-1']." <br>";
                 echo "Stock Condition " .$prod['stk-condition-code']." <br>";
@@ -1706,49 +1727,7 @@ class Product extends AbstractHelper
                     }
                 }
 
-                //set apn and gtin
-//                $barcode1 = "";
-//                $barcode2 = "";
-//                $barcode3 = "";
-//                $barcode4 = "";
-//                if(isset($prod['gtins']['gtin'])) {
-//                    //set barcode
-//                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
-//                        $barcode1 = $prod['gtins']['gtin']['id'];
-//
-//                    } else {
-//                        $x = 1;
-//                        foreach ($prod['gtins']['gtin'] as $gtin) {
-//                            switch ($x)
-//                            {
-//                                case 1:
-//                                    $barcode1 = $gtin['id'];
-//                                    break;
-//                                case 2:
-//                                    $barcode2 = $gtin['id'];
-//                                    break;
-//                                case 3:
-//                                    $barcode3 = $gtin['id'];
-//                                    break;
-//                                case 4:
-//                                    $barcode4 = $gtin['id'];
-//                                    break;
-//                                default:
-//
-//                            }
-//                            $x++;
-//                        }
-//                    }
-//                }
-//                //work around to set
-//                $product->setCustomAttribute('barcode1',$barcode1);
-//                $product->setCustomAttribute('barcode2',$barcode2);
-//                $product->setCustomAttribute('barcode3',$barcode3);
-//                $product->setCustomAttribute('barcode4',$barcode4);
-//                $forLogs .= "barcode1 ".$barcode1."\n";
-//                $forLogs .= "barcode2 ".$barcode2."\n";
-//                $forLogs .= "barcode3 ".$barcode3."\n";
-//                $forLogs .= "barcode4 ".$barcode4."\n";
+
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -1900,6 +1879,15 @@ class Product extends AbstractHelper
                 $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
+
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
+
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+
                 //set brand
                 //digiSeconds brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
@@ -2089,13 +2077,6 @@ class Product extends AbstractHelper
                     }
                 }
 
-//                $sourceItem = $this->sourceItemFactory->create();
-//                $sourceItem->setSourceCode('default');
-//                $sourceItem->setSku($prod['code']);
-//                $sourceItem->setStatus(1);
-//                $sourceItem->setQuantity(0);
-//                $forLogs .="default - 0 \n";
-//                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);
@@ -2246,6 +2227,17 @@ class Product extends AbstractHelper
 
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
+
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
+
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+
+                echo "is nda";
+                echo "<br />";
 
                 $isNda = $product->getIsNda();
                 if($isNda)
@@ -2458,49 +2450,6 @@ class Product extends AbstractHelper
                     }
                 }
 
-                //set apn and gtin
-//                $barcode1 = "";
-//                $barcode2 = "";
-//                $barcode3 = "";
-//                $barcode4 = "";
-//                if(isset($prod['gtins']['gtin'])) {
-//                    //set barcode
-//                    if (count($prod['gtins']['gtin']) == count($prod['gtins']['gtin'], COUNT_RECURSIVE)) {
-//                        $barcode1 = $prod['gtins']['gtin']['id'];
-//
-//                    } else {
-//                        $x = 1;
-//                        foreach ($prod['gtins']['gtin'] as $gtin) {
-//                            switch ($x)
-//                            {
-//                                case 1:
-//                                    $barcode1 = $gtin['id'];
-//                                    break;
-//                                case 2:
-//                                    $barcode2 = $gtin['id'];
-//                                    break;
-//                                case 3:
-//                                    $barcode3 = $gtin['id'];
-//                                    break;
-//                                case 4:
-//                                    $barcode4 = $gtin['id'];
-//                                    break;
-//                                default:
-//
-//                            }
-//                            $x++;
-//                        }
-//                    }
-//                }
-//                //work around to set
-//                $product->setCustomAttribute('barcode1',$barcode1);
-//                $product->setCustomAttribute('barcode2',$barcode2);
-//                $product->setCustomAttribute('barcode3',$barcode3);
-//                $product->setCustomAttribute('barcode4',$barcode4);
-//                $forLogs .= "barcode1 ".$barcode1."\n";
-//                $forLogs .= "barcode2 ".$barcode2."\n";
-//                $forLogs .= "barcode3 ".$barcode3."\n";
-//                $forLogs .= "barcode4 ".$barcode4."\n";
 
                 if(isset($prod['warehouse']['whse']))
                 {
@@ -2527,8 +2476,6 @@ class Product extends AbstractHelper
                             $forLogs .= $prod['warehouse']['whse']['code']." - ".$prod['warehouse']['whse']['qty_available']."\n";
                             $this->sourceItemsSaveInterface->execute([$sourceItem]);
                         }
-
-
                     }
                 }
 
@@ -2655,6 +2602,16 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
+
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                echo "marketplacesprice - ".$marketplacesprice;
+                echo "<br />";
                 //set brand
                 //digiSeconds brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
@@ -2851,6 +2808,14 @@ class Product extends AbstractHelper
 //                $sourceItem->setQuantity(0);
 //                $forLogs .="default - 0 \n";
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
+
+                $marketplacesprice = 0;
+                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                {
+                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                }
+
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 $product->setCustomAttribute('apn', $prod['stk-apn-number']);
                 $product->setCustomAttribute('qff_base', $prod['qff-base-points-per-dollar']);

@@ -167,6 +167,13 @@ class Inventory extends AbstractHelper
                         //echo "pre_order 1  <br/>";
                     }
 
+                    $marketplacesprice = 0;
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    }
+
+                    $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                     $totalwrhs = 0;
                     if(isset($prodRes['warehouse']['whse']))
@@ -236,6 +243,14 @@ class Inventory extends AbstractHelper
                         $forLogs .= "Price - ".$retail."\n";
 
                     }
+
+                    $marketplacesprice = 0;
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    }
+
+                    $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                     if($prodRes['stk-condition-code'] == 'O')
                     {
@@ -418,6 +433,14 @@ class Inventory extends AbstractHelper
 
                     }
 
+                    $marketplacesprice = 0;
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    }
+
+                    $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                    echo "marketplacesprice - ".$marketplacesprice."<br/>";
                     echo $prodRes['stk-user-only-alpha4-1']."<br/>";
                     if($prodRes['stk-condition-code'] == 'O')
                     {
@@ -546,6 +569,15 @@ class Inventory extends AbstractHelper
                         echo "Price - ".$retail."<br/>";
                         $this->productRepository->save($prod);
                     }
+
+                    $marketplacesprice = 0;
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    }
+
+                    $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                    echo "marketplacesprice - ".$marketplacesprice."<br/>";
 
                     echo $prodRes['stk-user-only-alpha4-1']."<br/>";
                     if($prodRes['stk-condition-code'] == 'O')
