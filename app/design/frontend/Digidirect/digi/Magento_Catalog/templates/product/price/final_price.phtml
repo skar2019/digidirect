@@ -22,7 +22,7 @@ $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
 $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
 $currentProduct = $productBlock->getCurrentProduct();
-$marketPlacePrice = $currentProduct->getData('marketplaces_price');
+$marketPlacePrice = number_format($currentProduct->getData('marketplaces_price'));
 ?>
 
 <?php if ($marketPlacePrice && $marketPlacePrice != 0): ?>
@@ -43,9 +43,9 @@ $marketPlacePrice = $currentProduct->getData('marketplaces_price');
     <div class="old-price-wrapper">
         <span class="old-price">  
             <span class="price-container price-final_price tax weee"> 
-                <span class="price-label">Original Price</span>  
-                <span data-price-amount="<?php echo number_format($marketPlacePrice);?>" data-price-type="oldPrice" class="price-wrapper ">
-                    <span class="price">$<?php echo number_format($marketPlacePrice);?></span>
+                <span class="price-label">Everyday Price</span>  
+                <span data-price-amount="<?php echo $marketPlacePrice;?>" data-price-type="oldPrice" class="price-wrapper ">
+                    <span class="price">$<?php echo $marketPlacePrice;?></span>
                 </span>  
             </span>
         </span>
