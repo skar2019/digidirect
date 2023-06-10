@@ -20,7 +20,9 @@ $priceModel = $block->getPriceType('regular_price');
 $finalPriceModel = $block->getPriceType('final_price');
 $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
-$marketPlacePrice = $block->getProduct()->getData('marketplaces_price');
+$productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
+$currentProduct = $productBlock->getCurrentProduct();
+$marketPlacePrice = $currentProduct->getData('marketplaces_price');
 ?>
 
 <?php if ($marketPlacePrice && $marketPlacePrice != 0): ?>
