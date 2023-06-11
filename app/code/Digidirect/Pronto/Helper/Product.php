@@ -129,6 +129,11 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 $product->setCustomAttribute('cost', $cost);
@@ -488,6 +493,10 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 //set brand
@@ -842,6 +851,10 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -1164,6 +1177,10 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -1528,6 +1545,10 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -1884,6 +1905,10 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -2232,6 +2257,11 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -2607,6 +2637,10 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -2813,6 +2847,11 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+
+                    $(empty($marketplacesprice))
+                    {
+                        $marketplacesprice = 0;
+                    }
                 }
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
