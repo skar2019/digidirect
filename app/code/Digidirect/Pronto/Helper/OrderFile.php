@@ -124,12 +124,119 @@ class OrderFile extends AbstractHelper
             ->addFieldToFilter('status',array('eq' => 'complete'))
             ->addFieldToFilter('entity_id', array('gteq' => 1505857
             ));
-        $collection->setPageSize(5000); // fetching only x records
+        $collection->setPageSize(7000); // fetching only x records
 
         return $collection;
     }
 
+    public function getOrderItems()
+    {
 
+        $filepath = 'export/sales_order_items_56.csv';
+        $this->directory->create('export');
+        $stream = $this->directory->openFile($filepath, 'w+');
+        $stream->lock();
+        $header = ['Id', 'SalesOrderId', 'Name', 'ProductSku', 'ProductId',
+            'ProductType','FreeShipping','QuantityUsesDecimals','Virtual','Weight','OriginalPrice',
+            'Price','PriceIncludingTax','AmountRefunded','NoDiscount','DiscountPercent',
+            'DiscountAmount', 'DiscountInvoiced', 'DiscountRefunded', 'DiscountTaxCompensationAmount', 'DiscountTaxCompensationInvoiced',
+            'DiscountTaxCompensationRefunded', 'DiscountTaxCompensationCanceled', 'AppliedRuleIds','TaxAmount','TaxPercent','TaxInvoiced',
+            'TaxCanceled','TaxRefunded','RowTotal','RowTotalIncludingTax','RowInvoiced',
+            'RowWeight','QuantityOrdered','QuantityInvoiced','QuantityShipped',
+            'QuantityCanceled','QuantityRefunded','BaseAmountRefunded','BaseCost','BaseOriginalPrice',
+            'BasePrice','BasePriceIncludingTax','BaseDiscountAmount','BaseDiscountInvoiced','BaseDiscountRefunded','BaseDiscountTaxCompensationAmount',
+            'BaseDiscountTaxCompensationInvoiced','BaseDiscountTaxCompensationRefunded','BaseTaxAmount','BaseTaxInvoiced',
+            'BaseTaxRefunded','BaseRowTotal','BaseRowTotalIncludingTax','BaseRowInvoiced',
+            'GiftMessage','created_at','updated_at'];
+        $stream->writeCsv($header);
+
+        //get order data
+        $orders = $this->getOrderCollection();
+        $counter = 0;
+        $orderid = 0;
+        foreach ($orders as $order)
+        {
+            if ($order->getState() == 'canceled') {
+                continue;
+            }
+
+            foreach ($order->getAllVisibleItems() as $item) {
+                //$sku = $item->getSku() .",";
+
+                $orderid = $item->getOrderId();
+                $data = [];
+                $data[] = $item->getItemId();
+                $data[] = $item->getOrderId();
+                $data[] = $item->getName();
+                $data[] = $item->getSku();
+                $data[] = $item->getProductId();
+                $data[] = $item->getProductType();
+                $data[] = '0';//FreeShipping
+                $data[] = '0';//QuantityUsesDecimals
+                $data[] = $item->getIsVirtual();
+                $data[] = $item->getWeight();
+                $data[] = $item->getOriginalPrice();
+                $data[] = $item->getPrice();
+                $data[] = $item->getPriceInclTax();
+                $data[] = $item->getAmountRefunded();
+                $data[] = $item->getNoDiscount();
+                $data[] = $item->getDiscountPercent();
+                $data[] = $item->getDiscountAmount();
+                $data[] = $item->getDiscountInvoiced();
+                $data[] = $item->getDiscountRefunded();
+                $data[] = $item->getDiscountTaxCompensationAmount();
+                $data[] = $item->getDiscountTaxCompensationInvoiced();
+                $data[] = $item->getDiscountTaxCompensationRefunded();
+                $data[] = $item->getDiscountTaxCompensationCanceled();
+                $data[] = $item->getAppliedRuleIds();
+                $data[] = $item->getTaxAmount();
+                $data[] = $item->getTaxPercent();
+                $data[] = $item->getTaxInvoiced();
+                $data[] = $item->getTaxCanceled();
+                $data[] = $item->getTaxRefunded();
+                $data[] = $item->getRowTotal();
+                $data[] = $item->getRowTotalInclTax();
+                $data[] = $item->getRowInvoiced();
+                $data[] = $item->getRowWeight();
+                $data[] = $item->getQtyOrdered();
+                $data[] = $item->getQtyInvoiced();
+                $data[] = $item->getQtyShipped();
+                $data[] = $item->getQtyCanceled();
+                $data[] = $item->getQtyRefunded();
+                $data[] = $item->getBaseAmountRefunded();
+                $data[] = $item->getBaseCost();
+                $data[] = $item->getBaseOriginalPrice();
+                $data[] = $item->getBasePrice();
+                $data[] = $item->getBasePriceInclTax();
+                $data[] = $item->getBaseDiscountAmount();
+                $data[] = $item->getBaseDiscountInvoiced();
+                $data[] = $item->getBaseDiscountRefunded();
+                $data[] = $item->getBaseDiscountTaxCompensationAmount();
+                $data[] = $item->getBaseDiscountTaxCompensationInvoiced();
+                $data[] = $item->getBaseDiscountTaxCompensationRefunded();
+                $data[] = $item->getBaseTaxAmount();
+                $data[] = $item->getBaseTaxInvoiced();
+                $data[] = $item->getBaseTaxRefunded();
+                $data[] = $item->getBaseRowTotal();
+                $data[] = $item->getBaseRowTotalInclTax();
+                $data[] = $item->getBaseRowInvoiced();
+                $data[] = "NA";//giftMessage->getMessage();
+                $data[] = $item->getCreatedAt();
+                $data[] = $item->getUpdatedAt();
+
+                $stream->writeCsv($data);
+            }
+
+
+
+//            if($counter == 1)
+//            {
+//                return true; //return after 2 orders
+//            }
+
+        }
+        echo $orderid;
+    }
 
     public function getOrderFile()
     {
@@ -312,7 +419,7 @@ class OrderFile extends AbstractHelper
             $data[] = "NA";//$giftMessage->getMessageRecipient();
             $data[] = "NA";//giftMessage->getMessage();
             $data[] = $order->getCreatedAt();
-            $data[] = $order->getUpdateAt();
+            $data[] = $order->getUpdatedAt();
             $data[] = $order->getDaysToLastShip();
             $data[] = $order->getQffNumber();
 
@@ -327,6 +434,8 @@ class OrderFile extends AbstractHelper
         }
 
     }
+
+
 
     public function getTestOrderCollection()
     {
