@@ -21,7 +21,7 @@ $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
 $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
 $currentProduct = $productBlock->getCurrentProduct();
-$marketPlacePrice = number_format($currentProduct->getData('marketplaces_price'));
+$marketPlacePrice = number_format((float)$currentProduct->getData('marketplaces_price'), 2, '.', '');
 ?>
 
 <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($marketPlacePrice > $finalPriceModel->getAmount())): ?>
