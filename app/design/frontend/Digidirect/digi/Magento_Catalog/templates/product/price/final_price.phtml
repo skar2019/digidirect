@@ -24,7 +24,7 @@ $currentProduct = $productBlock->getCurrentProduct();
 $marketPlacePrice = number_format((float)$currentProduct->getData('marketplaces_price'), 2, '.', '');
 ?>
 
-<?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($marketPlacePrice > $finalPriceModel->getAmount())): ?>
+<?php if (($marketPlacePrice && $marketPlacePrice != 0)): ?>
     <div class="current-price-wrapper">
         <svg class="svg-icon digidirectprice">
             <use xlink:href="#svgi-digidirectprice" />
