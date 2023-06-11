@@ -171,6 +171,10 @@ class Inventory extends AbstractHelper
                     if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                     {
                         $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
 
                     $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -248,6 +252,10 @@ class Inventory extends AbstractHelper
                     if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                     {
                         $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
 
                     $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -437,6 +445,10 @@ class Inventory extends AbstractHelper
                     if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                     {
                         $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
 
                     $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
@@ -574,11 +586,11 @@ class Inventory extends AbstractHelper
                     if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                     {
                         $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-
-                        $(empty($marketplacesprice))
+                        if(empty($marketplacesprice))
                         {
                             $marketplacesprice = 0;
                         }
+
                     }
 
                     $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);

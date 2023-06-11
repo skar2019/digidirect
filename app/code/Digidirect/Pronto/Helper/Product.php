@@ -130,7 +130,7 @@ class Product extends AbstractHelper
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
 
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
@@ -493,7 +493,7 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
@@ -851,7 +851,7 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
@@ -1177,7 +1177,7 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
@@ -1545,7 +1545,7 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
@@ -1905,7 +1905,7 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
@@ -2258,7 +2258,7 @@ class Product extends AbstractHelper
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
 
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
@@ -2637,7 +2637,7 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
@@ -2848,7 +2848,7 @@ class Product extends AbstractHelper
                 {
                     $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
 
-                    $(empty($marketplacesprice))
+                    if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
                     }
