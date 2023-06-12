@@ -20,12 +20,11 @@ $priceModel = $block->getPriceType('regular_price');
 $finalPriceModel = $block->getPriceType('final_price');
 $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
-$productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
-$currentProduct = $productBlock->getCurrentProduct();
-$marketPlacePrice = number_format($currentProduct->getData('marketplaces_price'));
+$product = $block->getProduct();
+$marketPlacePrice = number_format((float)$_product->getResource()->getAttribute('marketplaces_price')->getFrontend()->getValue($product), 2, '.', '');
 ?>
 
-<?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($marketPlacePrice > $finalPriceModel->getAmount())): ?>
+<?php if (($marketPlacePrice && $marketPlacePrice != 0)): ?>
     <div class="current-price-wrapper">
         <svg class="svg-icon digidirectprice">
             <use xlink:href="#svgi-digidirectprice" />
@@ -44,8 +43,8 @@ $marketPlacePrice = number_format($currentProduct->getData('marketplaces_price')
         <span class="old-price">  
             <span class="price-container price-final_price tax weee"> 
                 <span class="price-label">Everyday Price</span>  
-                <span data-price-amount="<?php echo $marketPlacePrice;?>" data-price-type="oldPrice" class="price-wrapper ">
-                    <span class="price">$<?php echo $marketPlacePrice;?></span>
+                <span data-price-amount="<?php echo $marketPlacePrice;?>">
+                    <span class="marketplaces-price">$<?php echo $marketPlacePrice;?></span>
                 </span>  
             </span>
         </span>
