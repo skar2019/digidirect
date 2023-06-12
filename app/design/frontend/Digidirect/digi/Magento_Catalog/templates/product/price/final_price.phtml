@@ -21,7 +21,7 @@ $finalPriceModel = $block->getPriceType('final_price');
 $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
 $product = $block->getProduct();
-$marketPlacePrice = number_format((float)$_product->getResource()->getAttribute('marketplaces_price')->getFrontend()->getValue($product), 2, '.', '');
+$marketPlacePrice = number_format((float)$product->getResource()->getAttribute('marketplaces_price')->getFrontend()->getValue($product), 2, '.', '');
 ?>
 
 <?php if (($marketPlacePrice && $marketPlacePrice != 0)): ?>
