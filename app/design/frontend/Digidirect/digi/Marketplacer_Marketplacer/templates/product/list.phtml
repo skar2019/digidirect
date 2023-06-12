@@ -246,7 +246,7 @@ if ($currentPage != "catalogsearch_result_index") {
                             </a>
                         </strong>
                     <?php endif;?>
-                    <div class="product details product-item-details">
+                    <div class="product details product-item-details marketplacer-product">
                         <div class="no-display">
                             <?php
                             // Must be called for Preorder plugin
@@ -259,6 +259,8 @@ if ($currentPage != "catalogsearch_result_index") {
                             ->setProduct($_product)
                             ->toHtml();
                         ?>
+                        
+                        
                         <?php if($blockMode === 'grid'):?>
                             <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
                                 <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
@@ -278,6 +280,8 @@ if ($currentPage != "catalogsearch_result_index") {
                             <?php endif; ?>
                             <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
                         <?php endif;?>
+                        
+                        
 
                         <div class="product-item-inner">
                             <?= $block->getProductDetailsHtml($_product); ?>
