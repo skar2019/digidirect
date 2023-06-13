@@ -76,6 +76,7 @@ if ($currentPage != "catalogsearch_result_index") {
                 $secondsSavings = "";
 
                 $finalProductPrice = $_product->getFinalPrice();
+                $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
                 $qff_bonus_points = 0;
 
                 $d2BrandNewProductSKU = $_product->getData('d2newsku');
@@ -260,29 +261,50 @@ if ($currentPage != "catalogsearch_result_index") {
                             ->toHtml();
                         ?>
                         
-                        
-                        <?php if($blockMode === 'grid'):?>
-                            <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
-                                <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
-                            <?php endif; ?>
-                            <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                        <?php if (($marketPlacePrice && $marketPlacePrice != 0)): ?>
+                            <div class="current-price-wrapper has-special-price">
+                                <svg class="svg-icon digidirectprice"><use xlink:href="#svgi-digidirectprice"></use></svg>
+                                <span class="special-price">  
+                                    <span class="price-container price-final_price tax weee"> 
+                                        <span class="price-label"></span>  
+                                        <span data-price-amount="<?php echo $finalProductPrice;?>">
+                                            <span class="price"><?php echo $finalProductPrice;?></span>  
+                                        </span>  
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="old-price-wrapper marketplaces-price">
+                                <span class="old-price">  
+                                    <span class="price-container price-final_price tax weee"> 
+                                        <span class="price-label">Everyday Price</span>  
+                                        <span data-price-amount="<?php echo $marketPlacePrice;?>">
+                                            <span class="marketplaces-price">$<?php echo $marketPlacePrice;?></span>
+                                        </span>  
+                                    </span>
+                                </span>
+                            </div>
+                        <?php else: ?>  
+                            <?php if($blockMode === 'grid'):?>
+                                <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
+                                    <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
+                                <?php endif; ?>
+                                <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                            <?php endif;?>
+                            <?php if($blockMode === 'list'):?>
+                                <strong class="product name product-item-name -list">
+                                    <a href="<?= $block->escapeUrl($productUrl) ?>"
+                                       title="<?php  echo $block->escapeHtml($productName); ?>"
+                                       class="product-item-link">
+                                        <?= $block->escapeHtml($productName); ?>
+                                    </a>
+                                </strong>
+                                <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
+                                    <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
+                                <?php endif; ?>
+                                <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
+                            <?php endif;?>
                         <?php endif;?>
-                        <?php if($blockMode === 'list'):?>
-                            <strong class="product name product-item-name -list">
-                                <a href="<?= $block->escapeUrl($productUrl) ?>"
-                                   title="<?php  echo $block->escapeHtml($productName); ?>"
-                                   class="product-item-link">
-                                    <?= $block->escapeHtml($productName); ?>
-                                </a>
-                            </strong>
-                            <?php if ($afterProductPriceBlock = $block->getChildBlock('after.product.price.container')): ?>
-                                <?= /* @escapeNotVerified */ $afterProductPriceBlock->setProduct($_product)->getChildHtml(); ?>
-                            <?php endif; ?>
-                            <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
-                        <?php endif;?>
                         
-                        
-
                         <div class="product-item-inner">
                             <?= $block->getProductDetailsHtml($_product); ?>
                             <div class="product actions product-item-actions">
