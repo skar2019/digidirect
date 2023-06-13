@@ -20,7 +20,8 @@ $priceModel = $block->getPriceType('regular_price');
 $finalPriceModel = $block->getPriceType('final_price');
 $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
-$_product = $block->getProduct();
+
+$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
 $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
 ?>
 
