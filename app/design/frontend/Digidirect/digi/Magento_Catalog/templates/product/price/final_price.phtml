@@ -20,8 +20,8 @@ $priceModel = $block->getPriceType('regular_price');
 $finalPriceModel = $block->getPriceType('final_price');
 $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
-/*$product = $finalPriceModel->getProduct();*/
-$marketPlacePrice = number_format((float)100, 2, '.', '');
+$product = $finalPriceModel->getProduct();
+$marketPlacePrice = number_format((float)$product->getCustomAttribute('attribute_id')->getValue(), 2, '.', '');
 ?>
 
 <?php if (($marketPlacePrice && $marketPlacePrice != 0)): ?>
