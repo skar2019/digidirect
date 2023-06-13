@@ -25,7 +25,7 @@ $schema = ($block->getZone() == 'item_view') ? true : false;
 $marketPlacePrice = number_format((float)$block->getMarketplacesPrice(), 2, '.', '');
 ?>
 
-<?php if (($marketPlacePrice && $marketPlacePrice != 0)): ?>
+<?php if ($marketPlacePrice): ?>
     <div class="current-price-wrapper">
         <svg class="svg-icon digidirectprice">
             <use xlink:href="#svgi-digidirectprice" />
