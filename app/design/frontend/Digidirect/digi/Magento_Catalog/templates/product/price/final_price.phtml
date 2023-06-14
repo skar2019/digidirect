@@ -22,10 +22,10 @@ $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
 $schema = ($block->getZone() == 'item_view') ? true : false;
 
 //$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
-$marketPlacePrice = number_format((float)$block->getMarketplacesPrice(), 2, '.', '');
+$marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
 ?>
 
-<?php if (($marketPlacePrice && $marketPlacePrice != 0)): ?>
+<?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
     <div class="current-price-wrapper">
         <svg class="svg-icon digidirectprice">
             <use xlink:href="#svgi-digidirectprice" />
