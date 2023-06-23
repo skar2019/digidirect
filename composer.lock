@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2dbe3978fe380e7de22806b2230cbdb",
+    "content-hash": "7b0bb84a460b6fe4dfe8675eaa4e5a82",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -24596,6 +24596,31 @@
                 "source": "https://github.com/Seldaek/phar-utils/tree/1.2.1"
             },
             "time": "2022-08-31T10:31:18+00:00"
+        },
+        {
+            "name": "sparsh/magento-2-abandoned-cart-email-extension",
+            "version": "1.3.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/sparsh/magento-2-abandoned-cart-email-extension/sparsh-magento-2-abandoned-cart-email-extension-1.3.0.0.zip",
+                "shasum": "95ffe6a3347356a077dde0808865ade803356c4a"
+            },
+            "require": {
+                "php": "~7.1.0|~7.2.0|~7.3.0|~7.4.0|^8.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Sparsh\\AbandonedCart\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0"
+            ],
+            "description": "Sparsh Abandoned Cart Email Extension for Magento 2"
         },
         {
             "name": "spomky-labs/aes-key-wrap",
