@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="sparsh_abandoned_cart" frontName="sparsh_abandoned_cart">
+            <module name="Sparsh_AbandonedCart" />
+        </route>
+    </router>
+</config>
