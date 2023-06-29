@@ -78,6 +78,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
 <?php endif; ?>
 
 <div class="product-add-form">
+    <?= $brand ?>
     <form data-product-sku="<?= $block->escapeHtml($_product->getSku()) ?>"
           action="<?= /* @NoEscape */ $block->getSubmitUrl($_product) ?>" method="post"
           id="product_addtocart_form"<?php if ($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
@@ -104,7 +105,7 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
 </div>
 
 <!-- clint commented out requested by Haig 26 06 23-->
-<?php if($brand != "Canon" || $brand != "Sony"):?>
+<?php if($brand != "Canon" && $brand != "Sony"):?>
     <div class="awaiting" id="awaiting-product">
         <div class="ribbon-wrapper">
             <div class="ribbon">
