@@ -342,8 +342,6 @@ class Order extends AbstractHelper
 //                }
 //            }
             //redeploy
-            $counter++;
-
             $directToWhse = false;
             if($isMarketPlace)
             {
@@ -1201,12 +1199,14 @@ class Order extends AbstractHelper
                     $this->incrementIdUpdater->update($invoice, $invoiceno);
 
                 }
+
+                $counter++;
             }
 
-//            if($counter >= 2)
-//            {
-//                return true; //return after 2 orders
-//            }
+            if($counter >= 3)
+            {
+                return true; //return after 2 orders
+            }
 
         }
         return true;
