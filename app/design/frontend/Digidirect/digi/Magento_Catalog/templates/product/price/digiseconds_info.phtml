@@ -14,7 +14,11 @@
     
     if ($d2BrandNewProductSKU) {
         $brandNewProduct = $productBlock->getProductBySku($d2BrandNewProductSKU);
-        $brandNewProductPrice = $brandNewProduct->getPrice();
+        if ($brandNewProduct) {
+            $brandNewProductPrice = $brandNewProduct->getPrice();
+        } else {
+            $brandNewProductPrice = false;
+        }
     }    
     
     $categoryIds = $currentProduct->getCategoryIds();
@@ -24,7 +28,7 @@
 <?php if (count(array_intersect($categoryIds, $digiSecondsIds)) > 0): ?>
     <?php if ($d2ItemCondition): ?>
         <div class="digiseconds-info-wrapper">
-            <?php if ($d2BrandNewProductSKU): ?>
+            <?php if ($brandNewProductPrice): ?>
                 <div class="brand-new-price-wrapper old-price-wrapper">
                     <span class="brand-new-label">
                         Brand New Price

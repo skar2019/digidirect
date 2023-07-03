@@ -94,6 +94,10 @@ if ($currentPage != "catalogsearch_result_index") {
                     $brandNewProductPrice = $brandNewProduct->getPrice();
                     $brandNewProductUrl = $brandNewProduct->getProductUrl();
                     $secondsSavings = round(100 - (($finalProductPrice/$brandNewProductPrice)*100));
+                } else {
+                    $brandNewProductPrice = false;
+                    $brandNewProductUrl = false;
+                    $secondsSavings = false;
                 }
 
                 ?>
