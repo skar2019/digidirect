@@ -19,7 +19,9 @@
         } else {
             $brandNewProductPrice = false;
         }
-    }    
+    } else {
+        $brandNewProductPrice = false;
+    }  
     
     $categoryIds = $currentProduct->getCategoryIds();
     $digiSecondsIds = array(2564,2567,2570,2573);
