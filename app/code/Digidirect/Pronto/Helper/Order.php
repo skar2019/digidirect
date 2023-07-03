@@ -342,8 +342,6 @@ class Order extends AbstractHelper
 //                }
 //            }
             //redeploy
-            $counter++;
-
             $directToWhse = false;
             if($isMarketPlace)
             {
@@ -1201,11 +1199,13 @@ class Order extends AbstractHelper
                     $this->incrementIdUpdater->update($invoice, $invoiceno);
 
                 }
+
+                $counter++;
             }
 
-            if($counter >= 2)
+            if($counter >= 3)
             {
-                return true; //return after 2 orders
+                return true; //return after 3 orders
             }
 
         }
@@ -1220,7 +1220,7 @@ class Order extends AbstractHelper
             ->addFieldToFilter('pronto_order_number', array('null' => true))
             ->addFieldToFilter('status',array('nin' => array('canceled','pending_latitude_approval')))
             ->addFieldToFilter('entity_id', array('gteq' => 1499838)) //615813
-            ->addFieldToFilter('store_id', array('neq' => 16)) //615813
+            ->addFieldToFilter('store_id', array('neq' => 16))
             ->setOrder('created_at', 'asc');
         //->addFieldToFilter('status',array('neq' =>'canceled'))
 
