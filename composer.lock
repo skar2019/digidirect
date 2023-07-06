@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2dbe3978fe380e7de22806b2230cbdb",
+    "content-hash": "7a4744305aaeb3b2f65452d8148a706e",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -1363,135 +1363,6 @@
                 "source": "https://github.com/DASPRiD/Enum/tree/1.0.4"
             },
             "time": "2023-03-01T18:44:03+00:00"
-        },
-        {
-            "name": "dotdigital/dotdigital-magento2-extension",
-            "version": "4.20.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dotmailer/dotmailer-magento2-extension.git",
-                "reference": "59ded33632a19183fd2cfc09694813faf304aaaa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension/zipball/59ded33632a19183fd2cfc09694813faf304aaaa",
-                "reference": "59ded33632a19183fd2cfc09694813faf304aaaa",
-                "shasum": ""
-            },
-            "require": {
-                "magento/framework": ">=101 <104",
-                "magento/module-authorization": "100.*",
-                "magento/module-backend": ">=100 <103",
-                "magento/module-bundle": ">=100 <102",
-                "magento/module-catalog": ">=101 <105",
-                "magento/module-catalog-inventory": "100.*",
-                "magento/module-catalog-rule": ">=100 <102",
-                "magento/module-checkout": "100.*",
-                "magento/module-config": ">=100 <103",
-                "magento/module-configurable-product": "100.*",
-                "magento/module-cron": "100.*",
-                "magento/module-customer": ">=100 <104",
-                "magento/module-directory": "100.*",
-                "magento/module-eav": ">=100 <104",
-                "magento/module-email": ">=100 <102",
-                "magento/module-grouped-product": "100.*",
-                "magento/module-newsletter": "100.*",
-                "magento/module-payment": "100.*",
-                "magento/module-product-alert": "100.*",
-                "magento/module-quote": ">=100 <103",
-                "magento/module-reports": ">=100 <102",
-                "magento/module-review": ">=100 <102",
-                "magento/module-sales": ">=100 <104",
-                "magento/module-sales-rule": ">=100 <102",
-                "magento/module-send-friend": "100.*",
-                "magento/module-shipping": "100.*",
-                "magento/module-store": ">=100 <102",
-                "magento/module-tax": "100.*",
-                "magento/module-theme": ">=100 <102",
-                "magento/module-ui": ">=100 <102",
-                "magento/module-url-rewrite": ">=100 <103",
-                "magento/module-user": ">=100 <102",
-                "magento/module-wishlist": ">=100 <102",
-                "php": "^7.2||^8.0"
-            },
-            "replace": {
-                "dotmailer/dotmailer-magento2-extension": "*"
-            },
-            "suggest": {
-                "dotdigital/dotdigital-magento2-extension-chat": "Adds Dotdigital Chat to your Magento store"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Dotdigitalgroup\\Email\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Dotdigital for Magento 2",
-            "support": {
-                "issues": "https://github.com/dotmailer/dotmailer-magento2-extension/issues",
-                "source": "https://github.com/dotmailer/dotmailer-magento2-extension/tree/v4.20.4"
-            },
-            "time": "2023-04-11T10:23:00+00:00"
-        },
-        {
-            "name": "dotdigital/dotdigital-magento2-extension-enterprise",
-            "version": "1.10.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise.git",
-                "reference": "5de0296b59dedc5f5ad691d1baf4209bb32e2f61"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dotmailer/dotmailer-magento2-extension-enterprise/zipball/5de0296b59dedc5f5ad691d1baf4209bb32e2f61",
-                "reference": "5de0296b59dedc5f5ad691d1baf4209bb32e2f61",
-                "shasum": ""
-            },
-            "require": {
-                "dotdigital/dotdigital-magento2-extension": "^4.19.0",
-                "magento/framework": ">=101 <104",
-                "magento/framework-foreign-key": ">=1.0.0",
-                "magento/module-backend": ">=100 <103",
-                "magento/module-catalog": ">=101 <105",
-                "magento/module-customer-segment": ">=100 <103",
-                "magento/module-grouped-product": "100.*",
-                "magento/module-integration": "100.*",
-                "magento/module-page-builder": ">=1.0.0",
-                "magento/module-reward": ">=100 <102",
-                "magento/module-store": ">=100 <102",
-                "magento/module-ui": ">=100 <102",
-                "magento/page-builder-commerce": ">=1.0.0",
-                "php": "^7.2||^8.0"
-            },
-            "replace": {
-                "dotmailer/dotmailer-magento2-extension-enterprise": "*"
-            },
-            "type": "magento2-module",
-            "autoload": {
-                "files": [
-                    "registration.php"
-                ],
-                "psr-4": {
-                    "Dotdigitalgroup\\Enterprise\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Dotdigital for Magento Commerce",
-            "support": {
-                "issues": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise/issues",
-                "source": "https://github.com/dotmailer/dotmailer-magento2-extension-enterprise/tree/v1.10.5"
-            },
-            "time": "2023-03-15T11:13:07+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
