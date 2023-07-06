@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a4744305aaeb3b2f65452d8148a706e",
+    "content-hash": "176a9279317844ae795a19f6698a35c5",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -22872,6 +22872,54 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.4"
             },
             "time": "2023-03-05T19:49:14+00:00"
+        },
+        {
+            "name": "outeredge/magento-structured-data-module",
+            "version": "4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/outeredge/magento-structured-data-module.git",
+                "reference": "cc7c64134f198d8c0c7d12ae67140b3f0d498b3a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/outeredge/magento-structured-data-module/zipball/cc7c64134f198d8c0c7d12ae67140b3f0d498b3a",
+                "reference": "cc7c64134f198d8c0c7d12ae67140b3f0d498b3a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.1"
+            },
+            "require-dev": {
+                "outeredge/dev-dependencies": "^3.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "OuterEdge\\StructuredData\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "outer/edge",
+                    "email": "support@outeredge.agency",
+                    "homepage": "https://outeredge.agency/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Magento Structured Data Module by outer/edge",
+            "support": {
+                "issues": "https://github.com/outeredge/magento-structured-data-module/issues",
+                "source": "https://github.com/outeredge/magento-structured-data-module/tree/4.0.2"
+            },
+            "time": "2023-07-05T14:38:02+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
