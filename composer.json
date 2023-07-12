@@ -20,12 +20,12 @@
     },
     "require": {
         "classyllama/module-zendesk": "1.1.11",
-        "dotdigital/dotdigital-magento2-extension-enterprise": "^1.8",
         "klarna/m2-klarna": "^1.0",
         "livechat/module-magento-livechat": "dev-master",
         "magento/composer-root-update-plugin": "~2.0",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
+        "outeredge/magento-structured-data-module": "^4.0",
         "plumrocket/module-prnewsletterpopup": "^4.5",
         "swissup/attributepages": "^1.5",
         "vlucas/valitron": "^1.4",
