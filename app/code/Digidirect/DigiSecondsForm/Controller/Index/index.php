@@ -56,7 +56,7 @@ class Index extends Action
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
-        $email->addBcc($bcc);
+        // $email->addBcc($bcc);
         $email->send();
         
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
