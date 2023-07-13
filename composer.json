@@ -29,6 +29,7 @@
         "klevu/module-search": "^2.3",
         "magento/magento-cloud-metapackage": ">=2.4.4 <2.4.5",
         "marketplacer/magento2-plugin-metapackage": "^2.0",
+        "outeredge/magento-structured-data-module": "^4.0",
         "swissup/attributepages": "^1.5",
         "vlucas/valitron": "^1.4"
     },
