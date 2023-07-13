@@ -34,9 +34,9 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
-        $to = "jireh@kayweb.com.au";
-        // $to = array("geoff.n@digidirect.com.au","paul@digidirect.com.au","dev4@digidirect.com.au");
-        // $bcc = "orders@kayweb.com.au";
+        $to = "orders@kayweb.com.au";
+//        $to = array("geoff.n@digidirect.com.au","paul@digidirect.com.au","dev4@digidirect.com.au");
+//        $bcc = "orders@kayweb.com.au";
         $nameTo = "Digidirect";
         $body = "
         <div>
@@ -56,7 +56,7 @@ class Index extends Action
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
-        // $email->addBcc($bcc);
+//        $email->addBcc($bcc);
         $email->send();
         
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
