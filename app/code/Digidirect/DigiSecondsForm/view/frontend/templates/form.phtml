@@ -3,21 +3,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 $currentPage = $this->getRequest()->getFullActionName();
 ?>
 
-<?php
-$categoryName = "";
-if ($currentPage != "catalogsearch_result_index") {
-    $catalogHelperData = $this->helper('Magento\Catalog\Helper\Data');
-    $categoryObject = $catalogHelperData->getCategory();
-    $categoryId = $categoryObject->getId();
-    $categoryName = $categoryObject->getName();
-}
-?>
 
-<?php if ($currentPage != "catalogsearch_result_index"): ?>
-    <?php if ($categoryName == "digiSeconds" ||
-        $categoryName == "REFURB" ||
-        $categoryName == "OPENBOX" ||
-        $categoryName == "PRELOVED") : ?>
         
             <!--digi-seconds modal-->
             <div class="digi-seconds-modal" style="margin-right: 0;margin-left: auto;padding-left: 50px;margin-bottom: 10px; display: none;">
@@ -77,8 +63,6 @@ if ($currentPage != "catalogsearch_result_index") {
 
             </div>
 
-    <?php endif; ?>
-<?php endif; ?>
 
 <script>
     
