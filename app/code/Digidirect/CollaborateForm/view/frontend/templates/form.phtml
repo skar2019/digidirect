@@ -13,7 +13,7 @@
                     <button type="button" id="collabform_nextpage">Register</button>
                 </div>
                         
-                <div class="formContentBgWhite" style="display: none;" >
+                <div class="formContentBgWhite" >
                     <div class="grid-column">
                         <input name="firstname" type="text" placeholder="First Name">
                         <input name="lastname" type="text" placeholder="Last Name">
@@ -142,10 +142,10 @@ require(['jquery'],function($){
         return false;
         });
         
-        $("#collabform_nextpage").click(function(){
-            $(".collabform_step1").css("display", "none");
-            $(".formContentBgWhite").css("display", "block !important");
-        });
+        // $("#collabform_nextpage").click(function(){
+        //     $(".collabform_step1").css("display", "none");
+        //     $(".formContentBgWhite").css("display", "block !important");
+        // });
 
     });
 
