@@ -6,14 +6,14 @@
 	      	<p>Fill out the information form and our representative will contact you for the next steps</p>
       	</div>
 
-            <div class="collabform_step1">
-                <input name="email" type="text" placeholder="Email Address">
-                <button type="button" id="collabform_nextpage">Register</button>
-            </div>
 
-            <form style="display: none;" id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("collaborateform/index/index")?>">
-                     
-                <div class="formContentBgWhite">
+            <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("collaborateform/index/index")?>">
+                <div class="collabform_step1">
+                    <input name="email" type="text" placeholder="Email Address">
+                    <button type="button" id="collabform_nextpage">Register</button>
+                </div>
+                        
+                <div class="formContentBgWhite" style="display: none;" >
                     <div class="grid-column">
                         <input name="firstname" type="text" placeholder="First Name">
                         <input name="lastname" type="text" placeholder="Last Name">
@@ -144,7 +144,7 @@ require(['jquery'],function($){
         
         $("#collabform_nextpage").click(function(){
             $(".collabform_step1").css("display", "none");
-            $("#digiSecondFormSell").css("display", "block");
+            $(".formContentBgWhite").css("display", "block !important");
         });
 
     });
