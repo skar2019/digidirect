@@ -10,10 +10,10 @@
             <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("collaborateform/index/index")?>">
                 <div class="collabform_step1">
                     <input name="email" type="text" placeholder="Email Address">
-                    <button type="button" id="collabform_nextpage">Register</button>
+                    <button type="button" id="collabform_nextpage_btn">Register</button>
                 </div>
                         
-                <div class="formContentBgWhite" >
+                <div class="formContentBgWhite collabform_step2" >
                     <div class="grid-column">
                         <input name="firstname" type="text" placeholder="First Name">
                         <input name="lastname" type="text" placeholder="Last Name">
@@ -152,8 +152,23 @@ require(['jquery'],function($){
 }); 
 </script>
 
+<script>
+$(document).ready(function() {
+  $("#collabform_nextpage_btn").click(function() {
+        $(".collabform_step1").css("display", "none !important");
+        $(".collabform_step2").css("display", "block !important");
+  });
+});
+</script>
+
+
 
 <style>
+
+    .collabform_step2 {
+        display: none;
+    }
+
     #digiSecondFormSell, #digiSecondFormTitle {
         margin: 15px;
     }
