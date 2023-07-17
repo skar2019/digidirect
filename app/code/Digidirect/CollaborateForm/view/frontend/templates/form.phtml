@@ -16,41 +16,41 @@
                 </div>
                         
                 <div class="formContentBgWhite collabform_step2 collabform_displaynone">
+
+                    <div>
+                        <input name="email" type="text" placeholder="Enter Email Address">
+                    </div>
+
                     <div class="grid-column">
                         <input name="firstname" type="text" placeholder="First Name">
                         <input name="lastname" type="text" placeholder="Last Name">
-                        <input name="phone" type="number" placeholder="Contact Number" maxlength="20">
-                        <input name="email" type="text" placeholder="Email Addres">
-                    </div>
-                    <div class="sell-text">
-                        <p>WHAT YOU LIKE TO SELL?</p>
                     </div>
 
-                    <div class="grid-column">
-                        <input name="brands" type="text" placeholder="Brand">
-                        <input name="productName" type="text" placeholder="Product Name / Model">
-                        <input name="purchaseYear" type="text" placeholder="Year of Purchase">
-                    </div>
-
-                    <br>
                     <div class="notes">
-                        <p>Note (Add all accessories you want to include)</p>
-                        <textarea  name="notes"></textarea>
+                        <textarea  name="notes" place="Tell us about your idea"></textarea>
                     </div>
+
                     <div class="grid-column">
                         <input name="askingPrice" type="number" placeholder="Asking Price">
                     </div>
+
+                    <div>
+                        <input name="socialmedia_link" type="text" placeholder="Link your social media account">
+                    </div>
+
                     <br>
                 </div>
                     
                 <?=$block->getChildHtml('form.additional.info') ?>
 
-                <div class="digiSecondFormBtn primary collabform_displaynone">
+                <div class="digiCollaborateForm primary collabform_displaynone">
                     <br>
                     <input type="hidden" name="hideit" id="hideit" value="" />
-                    <button type="submit" id="add" title="" class="action submit primary">
-                        <span><?= $block->escapeHtml(__('Submit')) ?></span>
-                    </button>
+                    <center>
+                        <button type="submit" id="add" title="" class="action submit primary">
+                            <span><?= $block->escapeHtml(__('Submit')) ?></span>
+                        </button>
+                    </center>
                 </div>
 
             </form>
@@ -284,6 +284,10 @@ require(['jquery'],function($){
         margin-top: 35px;
         margin-left: 15px;
         margin-bottom: 15px;
+    }
+
+    .digiCollaborateForm .action.primary {
+        background: #ff6600 !important;
     }
 
     .formContentBgGrey {
