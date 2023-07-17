@@ -2,7 +2,7 @@
 <div class="digi-seconds-modal" style="width: 1095px;margin-right: 0;margin-left: auto;">
     <div id="collaborateForm" style="display: none;">
 
-            <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("collaborateform/index/index")?>">
+            <form id="digiCollaborateForm" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("collaborateform/index/index")?>">
                 <div class="collabform_step1 collabform_displayblock">
                     <h2 style="color: #ff6600; font-weight: 500;">Collaboration Program </h2>
                     <p>We want to collaborate with you and help tell our story online. <br><br><br>
@@ -155,15 +155,9 @@ require(['jquery'],function($){
                 console.log(result);
             }
         });
-        $('#digiSecondFormSell')[0].reset(); 
+        $('#digiCollaborateForm')[0].reset(); 
         return false;
         });
-        
-        // $("#collabform_nextpage").click(function(){
-        //     $(".collabform_step1").css("display", "none");
-        //     $(".formContentBgWhite").css("display", "block !important");
-        // });
-
     });
 
 }); 
@@ -174,6 +168,7 @@ require(['jquery'],function($){
 <style>
     .collabform_step1 {
         text-align: center;
+        margin-bottom: 100px;
     }
 
     .collabform_step1_email {
@@ -204,7 +199,7 @@ require(['jquery'],function($){
         display: block;
     }
 
-    #digiSecondFormSell, #digiSecondFormTitle {
+    #digiCollaborateForm, #digiSecondFormTitle {
         margin: 15px;
     }
     
@@ -237,14 +232,14 @@ require(['jquery'],function($){
         font-weight: 400;
     }
 
-    #digiSecondFormSell .grid-column {
+    #digiCollaborateForm .grid-column {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px;
         margin: 0 15px;
     }
     
-    #digiSecondFormSell input {
+    #digiCollaborateForm input {
         height: 45px;
         border: 1px solid #e1e1e1;
         font-size: 15px;
@@ -252,24 +247,24 @@ require(['jquery'],function($){
         margin-right: 10px;
     }
 
-    #digiSecondFormSell input:focus, #digiSecondFormSell textarea:focus {
+    #digiCollaborateForm input:focus, #digiCollaborateForm textarea:focus {
         outline: none !important;
         box-shadow: none !important;
     }
 
-    #digiSecondFormSell input::placeholder {
+    #digiCollaborateForm input::placeholder {
         color: #727272;
     }
 
-    #digiSecondFormSell input:-ms-input-placeholder {
+    #digiCollaborateForm input:-ms-input-placeholder {
         color: #727272;
     }
 
-    #digiSecondFormSell input::-ms-input-placeholder {
+    #digiCollaborateForm input::-ms-input-placeholder {
         color: #727272;
     }
 
-    #digiSecondFormSell textarea {
+    #digiCollaborateForm textarea {
         height: 100px;
         width: 100% !important;
         font-size: 15px;
@@ -277,14 +272,14 @@ require(['jquery'],function($){
         border: 1px solid #cacaca;
     }
     
-    #digiSecondFormSell .sell-text {
+    #digiCollaborateForm .sell-text {
         margin-top: 35px;
         margin-left: 15px;
         font-weight: 600;
 
     }
 
-    #digiSecondFormSell .notes {
+    #digiCollaborateForm .notes {
         color: #727272;
         margin-top: 35px;
         margin-left: 15px;
@@ -317,11 +312,11 @@ require(['jquery'],function($){
     }
 
     @media only screen and (max-width: 780px) {
-        #digiSecondFormSell .grid-column {
+        #digiCollaborateForm .grid-column {
             display: block !important;
         }
 
-        #digiSecondFormSell, #digiSecondFormTitle {
+        #digiCollaborateForm, #digiSecondFormTitle {
             margin: 0px;
         }
         
