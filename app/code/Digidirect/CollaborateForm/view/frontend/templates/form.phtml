@@ -26,7 +26,7 @@
                         <input name="lastname" type="text" placeholder="Last Name">
                     </div>
 
-                    <div class="notes">
+                    <div class="notes nogrid">
                         <textarea  name="notes" place="Tell us about your idea"></textarea>
                     </div>
 
@@ -58,8 +58,8 @@ require(['jquery'],function($){
     $(document).ready(function(){
         $("#collabform_nextpage_btn").click(function() {
             $(".collabform_step1").addClass('collabform_displaynone').removeClass('collabform_displayblock');
-            $(".collabform_step2, .digiSecondFormBtn").addClass('collabform_displayblock').removeClass('collabform_displaynone');
-            alert("btn click");
+            $(".collabform_step2, .digiCollaborateForm").addClass('collabform_displayblock').removeClass('collabform_displaynone');
+            // alert("btn click");
         });
 
     });
