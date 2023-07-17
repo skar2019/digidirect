@@ -38,7 +38,7 @@ class Index extends Action
             <p>FullName: ".$firstname." ".$lastname."</p>
             <p>Email: ".$email."</p>
             <p>Notes: ".$notes."</p>
-            <p>Notes: ".$socialmedia_link."</p>
+            <p>Social Media Link: ".$socialmedia_link."</p>
         </div>";
 
         $email = new \Zend_Mail();
