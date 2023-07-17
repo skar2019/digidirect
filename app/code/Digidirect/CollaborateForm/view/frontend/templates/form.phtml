@@ -3,13 +3,14 @@
     <div id="collaborateForm" style="display: none;">
 
             <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("collaborateform/index/index")?>">
-                <div class="collabform_step1">
+                <div class="collabform_step1 collabform_displayblock">
                     <h2 style="color: #ff6600;">Collaboration Program </h2>
                     <p>We want to collaborate with you and help tell our story online. <br><br>
                     Please enter your email address below and attach your creative brief below and our team will review your application. This opportunity is only available to the Australian demographic. <br><br>
                     Please note due to the overwhelming amount of applications our team will only be in touch via email if there is a partnership opportunity. <br><br></p>
 
                     <input name="email" type="text" placeholder="Email Address">
+                    <br><br>
                     <button type="button" id="collabform_nextpage_btn">Register</button>
                 </div>
                         
@@ -43,7 +44,7 @@
                     
                 <?=$block->getChildHtml('form.additional.info') ?>
 
-                <div class="digiSecondFormBtn primary">
+                <div class="digiSecondFormBtn primary collabform_displaynone">
                     <input type="hidden" name="hideit" id="hideit" value="" />
                     <button type="submit" id="add" title="" class="action submit primary">
                         <span><?= $block->escapeHtml(__('Submit')) ?></span>
@@ -60,7 +61,8 @@
 require(['jquery'],function($){
     $(document).ready(function(){
         $("#collabform_nextpage_btn").click(function() {
-            $(".collabform_step2").addClass('collabform_displayblock').removeClass('collabform_displaynone');
+            $(".collabform_step1").addClass('collabform_displaynone').removeClass('collabform_displayblock');
+            $(".collabform_step2 .digiSecondFormBtn").addClass('collabform_displayblock').removeClass('collabform_displaynone');
             alert("btn click");
         });
 
