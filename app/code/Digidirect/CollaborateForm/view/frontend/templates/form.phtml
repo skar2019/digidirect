@@ -62,7 +62,7 @@ require(['jquery'],function($){
     $(document).ready(function(){
         $("#collabform_nextpage_btn").click(function() {
             $(".collabform_step1").addClass('collabform_displaynone').removeClass('collabform_displayblock');
-            $(".collabform_step2 .digiSecondFormBtn").addClass('collabform_displayblock').removeClass('collabform_displaynone');
+            $(".collabform_step2, .digiSecondFormBtn").addClass('collabform_displayblock').removeClass('collabform_displaynone');
             alert("btn click");
         });
 
