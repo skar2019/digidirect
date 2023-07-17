@@ -20,7 +20,6 @@ class WiserData
     public function execute()
     {
         $this->helper->productData();
-
     }
 
 

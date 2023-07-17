@@ -17,7 +17,7 @@
         <job name="pronto_productmedia" instance="Digidirect\Pronto\Cron\ProductMedia" method="execute">
             <schedule>22 0 * * *</schedule>
         </job>
-        <job name="pronto_wiserdata" instance="Digidirect\Pronto\Cron\WiserData" method="wiserdata">
+        <job name="pronto_wiserdata" instance="Digidirect\Pronto\Cron\WiserData" method="execute">
             <schedule>*/15 * * * *</schedule>
         </job>
         <job name="pronto_sftp" instance="Digidirect\Pronto\Cron\Sendfile" method="execute">
