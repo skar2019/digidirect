@@ -10,7 +10,7 @@
                     Please note due to the overwhelming amount of applications our team will only be in touch via email if there is a partnership opportunity. <br><br><br></p>
 
                     <div class="collabform_step1_email">
-                        <input name="email" type="text" placeholder="Email Address">
+                        <input id="collab_email" type="text" placeholder="Email Address">
                         <button type="button" id="collabform_nextpage_btn" class="collabform_step1_btn">Register</button>
                     </div>
                 </div>
@@ -18,7 +18,7 @@
                 <div class="formContentBgWhite collabform_step2 collabform_displaynone">
 
                     <div>
-                        <input name="email" type="text" placeholder="Enter Email Address">
+                        <input name="email" type="text" id="collab_email_copy" placeholder="Enter Email Address">
                     </div>
 
                     <div class="grid-column">
@@ -28,10 +28,6 @@
 
                     <div class="notes">
                         <textarea  name="notes" place="Tell us about your idea"></textarea>
-                    </div>
-
-                    <div class="grid-column">
-                        <input name="askingPrice" type="number" placeholder="Asking Price">
                     </div>
 
                     <div>
@@ -70,6 +66,12 @@ require(['jquery'],function($){
 
     });
 
+
+    $("#collab_email").keyup(function () {
+        var value = $(this).val();
+        $("#collab_email_copy").val(value);
+    }).keyup();
+  
 }); 
 
 </script>
