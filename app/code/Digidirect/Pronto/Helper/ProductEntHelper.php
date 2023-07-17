@@ -169,7 +169,7 @@ class ProductEntHelper extends AbstractHelper
         $parentID = 2; // default category
         $getCategoryList = $this->getSubCategoryByParentID($parentID);
 
-        $filepath = 'export/wiserdata_2_7.csv';
+        $filepath = 'export/wiserdata.csv';
         $this->directory->create('export');
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();

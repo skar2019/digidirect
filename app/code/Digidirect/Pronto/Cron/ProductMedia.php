@@ -22,4 +22,9 @@ class ProductMedia
         $this->helper->getProductImage();
 
     }
+
+    public function wiserdata()
+    {
+        $this->helper->productData();
+    }
 }
