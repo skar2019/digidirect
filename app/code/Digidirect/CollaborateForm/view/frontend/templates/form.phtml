@@ -13,7 +13,7 @@
                     <button type="button" id="collabform_nextpage_btn">Register</button>
                 </div>
                         
-                <div class="formContentBgWhite collabform_step2">
+                <div class="formContentBgWhite collabform_step2 collabform_displaynone">
                     <div class="grid-column">
                         <input name="firstname" type="text" placeholder="First Name">
                         <input name="lastname" type="text" placeholder="Last Name">
@@ -60,14 +60,14 @@
 require(['jquery'],function($){
     $(document).ready(function(){
         $("#collabform_nextpage_btn").click(function() {
-            $(".collabform_step1").css("display", "none !important");
-            $(".collabform_step2").css("display", "block !important");
+            $(".collabform_step2").addClass('collabform_displayblock').removeClass('collabform_displaynone');
             alert("btn click");
         });
 
     });
 
 }); 
+
 </script>
 
 <script>
@@ -171,9 +171,13 @@ require(['jquery'],function($){
     .collabform_step1 {
         text-align: center;
     }
-    
-    .collabform_step2 {
+
+    .collabform_displaynone {
         display: none;
+    }
+
+    .collabform_displayblock {
+        display: block;
     }
 
     #digiSecondFormSell, #digiSecondFormTitle {
