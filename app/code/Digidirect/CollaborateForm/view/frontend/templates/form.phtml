@@ -17,7 +17,7 @@
                         
                 <div class="formContentBgWhite collabform_step2 collabform_displaynone">
 
-                    <div>
+                    <div class="nogrid">
                         <input name="email" type="text" id="collab_email_copy" placeholder="Enter Email Address">
                     </div>
 
@@ -30,7 +30,7 @@
                         <textarea  name="notes" place="Tell us about your idea"></textarea>
                     </div>
 
-                    <div>
+                    <div class="nogrid">
                         <input name="socialmedia_link" type="text" placeholder="Link your social media account">
                     </div>
 
@@ -42,11 +42,9 @@
                 <div class="digiCollaborateForm primary collabform_displaynone">
                     <br>
                     <input type="hidden" name="hideit" id="hideit" value="" />
-                    <center>
                         <button type="submit" id="add" title="" class="action submit primary">
                             <span><?= $block->escapeHtml(__('Submit')) ?></span>
                         </button>
-                    </center>
                 </div>
 
             </form>
@@ -238,6 +236,10 @@ require(['jquery'],function($){
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px;
+        margin: 15px 15px;
+    }
+
+    #digiCollaborateForm .nogrid {
         margin: 0 15px;
     }
     
@@ -283,9 +285,9 @@ require(['jquery'],function($){
 
     #digiCollaborateForm .notes {
         color: #727272;
-        margin-top: 35px;
+        /* margin-top: 35px;
         margin-left: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 15px; */
     }
 
     .digiCollaborateForm .action.primary {
