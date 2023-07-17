@@ -9,11 +9,16 @@
 
             <form id="digiSecondFormSell" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("collaborateform/index/index")?>">
                 <div class="collabform_step1">
+                    <h2>Collaboration Program </h2>
+                    <p>We want to collaborate with you and help tell our story online. <br><br>
+                    Please enter your email address below and attach your creative brief below and our team will review your application. This opportunity is only available to the Australian demographic. <br><br>
+                    Please note due to the overwhelming amount of applications our team will only be in touch via email if there is a partnership opportunity. <br><br></p>
+
                     <input name="email" type="text" placeholder="Email Address">
                     <button type="button" id="collabform_nextpage_btn">Register</button>
                 </div>
                         
-                <div class="formContentBgWhite collabform_step2" >
+                <div class="formContentBgWhite collabform_step2" style="display: none;">
                     <div class="grid-column">
                         <input name="firstname" type="text" placeholder="First Name">
                         <input name="lastname" type="text" placeholder="Last Name">
@@ -60,9 +65,9 @@
 require(['jquery'],function($){
     $(document).ready(function(){
         $("#collabform_nextpage_btn").click(function() {
-            // $(".collabform_step1").css("display", "none !important");
-            // $(".collabform_step2").css("display", "block !important");
-            alert("btn click");
+            $(".collabform_step1").css("display", "none !important");
+            $(".collabform_step2").css("display", "block !important");
+            // alert("btn click");
         });
 
     });
