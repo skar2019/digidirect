@@ -109,15 +109,14 @@ require(['jquery'],function($){
                     // $(".modal-header button.action-close:before").css("color","#cacaca");
                     // $(".modal-inner-wrap").css("width","50% !important");
 
-                    // let collaborateformBg = "https://mcstaging2.digidirect.com.au/media/wysiwyg/info-page/collaborate-form_bg.png"
-
                     var handleMatchMedia = function(md) {
                         if (md.matches) {
                             // alert("matched");
-                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: "url (https://mcstaging2.digidirect.com.au/media/wysiwyg/info-page/collaborate-form_bg.png) !important"; width: 80% !important; top: 50px;');
+                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'width: 80% !important; top: 50px;');
+                            
                         } else {
                             // alert("not matched");
-                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: "url (https://mcstaging2.digidirect.com.au/media/wysiwyg/info-page/collaborate-form_bg.png) !important"; width: 50% !important;');
+                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'width: 50% !important;');
                         }
                     }
 
@@ -202,6 +201,13 @@ require(['jquery'],function($){
 
     .collabform_displayblock {
         display: block;
+    }
+
+    .modal-inner-wrap {
+        background-image: url(https://mcstaging2.digidirect.com.au/media/wysiwyg/info-page/collaborate-form_bg.png) !important;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
 
     #digiCollaborateForm, #digiSecondFormTitle {
