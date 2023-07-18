@@ -109,13 +109,15 @@ require(['jquery'],function($){
                     // $(".modal-header button.action-close:before").css("color","#cacaca");
                     // $(".modal-inner-wrap").css("width","50% !important");
 
+                    // let collaborateformBg = "https://mcstaging2.digidirect.com.au/media/wysiwyg/info-page/collaborate-form_bg.png"
+
                     var handleMatchMedia = function(md) {
                         if (md.matches) {
                             // alert("matched");
-                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: #f5f5f5 !important; width: 80% !important; top: 50px;');
+                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: "url (https://mcstaging2.digidirect.com.au/media/wysiwyg/info-page/collaborate-form_bg.png) !important"; width: 80% !important; top: 50px;');
                         } else {
                             // alert("not matched");
-                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: #f5f5f5 !important; width: 50% !important;');
+                            $('.modal-popup._show .modal-inner-wrap').attr('style', 'background: "url (https://mcstaging2.digidirect.com.au/media/wysiwyg/info-page/collaborate-form_bg.png) !important"; width: 50% !important;');
                         }
                     }
 
