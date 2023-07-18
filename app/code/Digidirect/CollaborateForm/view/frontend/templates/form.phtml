@@ -17,6 +17,12 @@
                         
                 <div class="formContentBgWhite collabform_step2 collabform_displaynone">
 
+                    <h2 style="color: #ff6600; font-weight: 500;">Collaboration Program </h2>
+                    <p> We kindly request you to complete the registration form below, which will help us gain a deeper <br> 
+                    understanding of you as a creator. We encourage you to provide a concise description of yourself <br>
+                    and include a comprehensive brief outlining the opportunity you can offer. <br>
+                    Your input will assist us in evaluating your potential.<br><br><br></p>
+
                     <div class="nogrid">
                         <input name="email" type="text" id="collab_email_copy" placeholder="Enter Email Address">
                     </div>
@@ -27,7 +33,7 @@
                     </div>
 
                     <div class="notes nogrid">
-                        <textarea  name="notes" place="Tell us about your idea"></textarea>
+                        <textarea  name="notes" placeholder="Tell us about your idea"></textarea>
                     </div>
 
                     <div class="nogrid"  style="margin-top: 10px !important;">
@@ -200,6 +206,11 @@ require(['jquery'],function($){
         margin: 0 200px;
     }
 
+    .collabform_step2 {
+        margin: 0 200px;
+    }
+    
+
     .collabform_displaynone {
         display: none;
     }
@@ -315,7 +326,7 @@ require(['jquery'],function($){
     }
 
     .formContentBgWhite {
-        background: white;
+        /* background: white; */
         padding: 25px 15px;
         /* margin: 25px; */
     }
@@ -329,7 +340,7 @@ require(['jquery'],function($){
         height: 150px;
         margin-top: 25px;
     }
-    
+
     .action.submit.primary:hover {
         background: #ff6600;
         opacity: 0.8;
