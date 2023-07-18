@@ -48,7 +48,6 @@
                 <?=$block->getChildHtml('form.additional.info') ?>
 
                 <div class="digiCollaborateForm primary collabform_displaynone">
-                    <br>
                     <center>
                         <input type="hidden" name="hideit" id="hideit" value="" />
                         <button type="submit" id="add" title="" class="action submit primary">
@@ -355,6 +354,10 @@ require(['jquery'],function($){
     @media only screen and (max-width: 780px) {
         #digiCollaborateForm .grid-column {
             display: block !important;
+        }
+
+        #digiCollaborateForm .grid-column input[name="firstname"] {
+            margin-bottom: 15px;
         }
 
         #digiCollaborateForm, #digiSecondFormTitle {
