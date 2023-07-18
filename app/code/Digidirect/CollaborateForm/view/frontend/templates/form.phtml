@@ -23,21 +23,23 @@
                     and include a comprehensive brief outlining the opportunity you can offer. <br>
                     Your input will assist us in evaluating your potential.<br><br><br></p>
 
-                    <div class="nogrid">
-                        <input name="email" type="text" id="collab_email_copy" placeholder="Enter Email Address">
-                    </div>
+                    <div class="collabform_summary">
+                        <div class="nogrid">
+                            <input name="email" type="text" id="collab_email_copy" placeholder="Enter Email Address">
+                        </div>
 
-                    <div class="grid-column">
-                        <input name="firstname" type="text" placeholder="First Name">
-                        <input name="lastname" type="text" placeholder="Last Name">
-                    </div>
+                        <div class="grid-column">
+                            <input name="firstname" type="text" placeholder="First Name">
+                            <input name="lastname" type="text" placeholder="Last Name">
+                        </div>
 
-                    <div class="notes nogrid">
-                        <textarea  name="notes" placeholder="Tell us about your idea"></textarea>
-                    </div>
+                        <div class="notes nogrid">
+                            <textarea  name="notes" placeholder="Tell us about your idea"></textarea>
+                        </div>
 
-                    <div class="nogrid"  style="margin-top: 10px !important;">
-                        <input name="socialmedia_link" type="text" placeholder="Link your social media account">
+                        <div class="nogrid"  style="margin-top: 10px !important;">
+                            <input name="socialmedia_link" type="text" placeholder="Link your social media account">
+                        </div>
                     </div>
 
                     <br>
@@ -206,8 +208,12 @@ require(['jquery'],function($){
         margin: 0 200px;
     }
 
-    .collabform_step2 {
+    .collabform_step2 .collabform_summary {
         margin: 0 200px;
+    }
+
+    .collabform_step2 {
+        text-align: center;
     }
     
 
@@ -356,6 +362,10 @@ require(['jquery'],function($){
         }
 
         .collabform_step1 p {
+            margin: 0 10px;
+        }
+
+        .collabform_step2 .collabform_summary {
             margin: 0 10px;
         }
 
