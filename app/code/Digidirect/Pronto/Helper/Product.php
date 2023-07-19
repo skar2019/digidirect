@@ -114,8 +114,16 @@ class Product extends AbstractHelper
                 $product = $this->productRepository->get($prod['code']);
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
 //                $product->setName($prodname);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
+                {
+                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                }
+                else
+                {
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                }
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
 
@@ -126,13 +134,23 @@ class Product extends AbstractHelper
                 }
 
                 $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
                 {
-                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-
+                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
                     if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
+                    }
+                }
+                else
+                {
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
                 }
 
@@ -477,8 +495,16 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
+                {
+                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                }
+                else
+                {
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                }
                 $product->setAttributeSetId(4);
 
                 $cost = $prod['stk-replacement-cost'];
@@ -490,12 +516,23 @@ class Product extends AbstractHelper
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
                 {
-                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
                     if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
+                    }
+                }
+                else
+                {
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
                 }
 
@@ -841,19 +878,38 @@ class Product extends AbstractHelper
                 $product = $this->productRepository->get($prod['code']);
 //                $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
 //                $product->setName($prodname);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
+                {
+                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                }
+                else
+                {
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                }
                 $product->setStockStatus($prod['stk-stock-status']);
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
                 {
-                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
                     if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
+                    }
+                }
+                else
+                {
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
                 }
 
@@ -1170,7 +1226,16 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
+                {
+                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                }
+                else
+                {
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                }
                 $product->setAttributeSetId(4);
 
                 $marketplacesprice = 0;
@@ -1534,20 +1599,39 @@ class Product extends AbstractHelper
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
+                {
+                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                }
+                else
+                {
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                }
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 $cost = $prod['stk-replacement-cost'];
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
                 {
-                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
                     if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
+                    }
+                }
+                else
+                {
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
                 }
 
@@ -1896,8 +1980,16 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
+                {
+                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                }
+                else
+                {
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                }
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
 
@@ -2246,8 +2338,16 @@ class Product extends AbstractHelper
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
+                {
+                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                }
+                else
+                {
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                }
                 $product->setStockStatus($prod['stk-stock-status']);
 
                 $cost = $prod['stk-replacement-cost'];
@@ -2627,19 +2727,42 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
-                $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
-                $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+
+                if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
+                {
+                    $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
+                }
+                else
+                {
+                    $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
+                }
+
+
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
 
                 $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+
+                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
                 {
-                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
                     if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
+                    }
+                }
+                else
+                {
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
                 }
 
@@ -2844,13 +2967,23 @@ class Product extends AbstractHelper
 //                $this->sourceItemsSaveInterface->execute([$sourceItem]);
 
                 $marketplacesprice = 0;
-                if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
                 {
-                    $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
-
+                    $marketplacesprice = $prod['pricing']['price-region'][0]['prc-break-price-4-inc'];
                     if(empty($marketplacesprice))
                     {
                         $marketplacesprice = 0;
+                    }
+                }
+                else
+                {
+                    if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
+                    {
+                        $marketplacesprice = $prod['pricing']['price-region']['prc-break-price-4-inc'];
+                        if(empty($marketplacesprice))
+                        {
+                            $marketplacesprice = 0;
+                        }
                     }
                 }
 
