@@ -459,7 +459,8 @@ class ProductEntHelper extends AbstractHelper
 //        return $collection;
 
         $collection = $this->_productCollectionFactory->create();
-        $collection->addAttributeToSelect('*');
+        $collection->addAttributeToSelect('*')
+        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         return $collection;
 
     }
