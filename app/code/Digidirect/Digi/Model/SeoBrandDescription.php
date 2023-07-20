@@ -239,7 +239,14 @@ class SeoBrandDescription
     {
         $url = preg_replace('/\?.*/i', '', $this->url->getCurrentUrl());
         $categorySuffix = $this->scopeConfig->getValue('catalog/seo/category_url_suffix');
-        $seoPart = trim(str_replace($categorySuffix, '', last(explode(Url::FILTERS_DELIMITER, $url))), '/');
+        if(!empty($categorySuffix))
+        {
+            $seoPart = trim(str_replace($categorySuffix, '', last(explode(Url::FILTERS_DELIMITER, $url))), '/');
+        }
+        else
+        {
+            $seoPart = "";
+        }
         $params = $this->urlParser->parseSeoPart($seoPart);
 
         if (!empty($params)) {
