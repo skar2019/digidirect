@@ -3,6 +3,14 @@
     <div id="collaborateForm" style="display: none;">
 
             <form id="digiCollaborateForm" class="form-horizontal" method="post" enctype="multipart/form-data" action="<?php echo $this->getUrl("collaborateform/index/index")?>">
+                
+                    <div class="field name">
+                    <label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
+                    <div class="control">
+                        <input name="name" id="name" class="input-text" type="text" />
+                    </div>
+                    </div>
+            
                 <div class="collabform_step1 collabform_displayblock">
                     <h2 style="color: #ff6600; font-weight: 500;">Collaboration Program </h2>
                     <p>We want to collaborate with you and help tell our story online. <br><br><br>

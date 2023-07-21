@@ -17,6 +17,6 @@ class CollaborateForm extends \Magento\Framework\Model\ResourceModel\Db\Abstract
     
     protected function _construct()
     {
-        $this->_init('digidirect_collaborate_form', 'id');
+        $this->_init('zeb_collaborate_form', 'id');
     }
 }
