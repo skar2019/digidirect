@@ -16,7 +16,7 @@ class InstallSchema implements InstallSchemaInterface
         $installer = $setup;
         $installer->startSetup();
         /**
-         * Create table 'vendor_contect'
+         * Create table 'digiDirect_collaborate_form'
          */
         $table = $installer->getConnection()->newTable(
             $installer->getTable('digiDirect_collaborate_form')
