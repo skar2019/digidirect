@@ -54,7 +54,7 @@ class Index extends Action
         $data = $objectManager->create('Digidirect\CollaborateForm\Model\CollaborateForm');
         $data->setData($post);
         $data->save();
-//        echo "success";
+       echo "success";
         /* echo "hello";
         exit; */
 

@@ -16,10 +16,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer = $setup;
         $installer->startSetup();
         /**
-         * Create table 'digidirect_collaborate_form'
+         * Create table 'digiDirect_collaborate_form'
          */
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('zeb_collaborate_form')
+            $installer->getTable('digidirect_collaborate_form')
         )->addColumn(
             'id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
@@ -27,17 +27,17 @@ class InstallSchema implements InstallSchemaInterface
             ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
             'Id'
         )->addColumn(
-            'name',
+            'firstname',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             50,
             ['nullable' => false],
-            'Name'
+            'FirstName'
         )->addColumn(
             'lastname',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             50,
             ['nullable' => false],
-            'LastName'
+            'FirstName'
         )->addColumn(
             'email',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -56,6 +56,11 @@ class InstallSchema implements InstallSchemaInterface
             500,
             ['nullable' => false],
             'Tell us about your idea'
+        )->addColumn(
+            'created_date',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            [],
+            'Creation Time'
         );
         
         $installer->getConnection()->createTable($table);
