@@ -27,17 +27,17 @@ class InstallSchema implements InstallSchemaInterface
             ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
             'Id'
         )->addColumn(
-            'firstname',
+            'name',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             50,
             ['nullable' => false],
-            'FirstName'
+            'Name'
         )->addColumn(
             'lastname',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             50,
             ['nullable' => false],
-            'FirstName'
+            'LastName'
         )->addColumn(
             'email',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
