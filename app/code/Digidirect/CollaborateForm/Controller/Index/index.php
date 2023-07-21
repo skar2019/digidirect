@@ -50,8 +50,6 @@ class Index extends Action
         // $email->addBcc($bcc);
         $email->send();
 
-        $this->messageManager->addSuccess(__('Form successfully submitted'));
-        
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
         $data = $objectManager->create('Digidirect\CollaborateForm\Model\CollaborateForm');
         $data->setData($post);
@@ -59,6 +57,8 @@ class Index extends Action
 //        echo "success";
         /* echo "hello";
         exit; */
+
+        $this->messageManager->addSuccess(__('Form successfully submitted'));
         
 
              

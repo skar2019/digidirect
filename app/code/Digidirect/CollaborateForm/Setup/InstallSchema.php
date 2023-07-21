@@ -2,7 +2,7 @@
 namespace Digidirect\CollaborateForm\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
-use Magento\Framework\Setup\ModuleContextInterface;
+use Magento\Framework\Setup\ModuleContextInterface;  
 use Magento\Framework\Setup\SchemaSetupInterface;
 
 /**
@@ -19,37 +19,43 @@ class InstallSchema implements InstallSchemaInterface
          * Create table 'vendor_contect'
          */
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('vendor_contect')
+            $installer->getTable('digiDirect_collaborate_form')
         )->addColumn(
-            'contect_id',
+            'id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
             ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
-            'Contect Id'
+            'Id'
         )->addColumn(
-            'name',
+            'firstname',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            255,
+            50,
             ['nullable' => false],
-            'Name'
+            'FirstName'
+        )->addColumn(
+            'lastname',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            50,
+            ['nullable' => false],
+            'FirstName'
         )->addColumn(
             'email',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            255,
+            50,
             ['nullable' => false],
-            'Email Id'
+            'Email'
         )->addColumn(
-            'telephone',
-            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-            null,
-            ['nullable'=> false],
-            'Phone Number'
-        )->addColumn(
-            'comment',
+            'socialmedia_link',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
             ['nullable' => false],
-            'What’s on your mind?'
+            'Social Media'
+        )->addColumn(
+            'notes',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            500,
+            ['nullable' => false],
+            'Tell us about your idea'
         );
         $installer->getConnection()->createTable($table);
     }

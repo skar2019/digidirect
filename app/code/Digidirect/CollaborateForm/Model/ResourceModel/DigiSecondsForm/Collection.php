@@ -1,12 +1,12 @@
 <?php
-namespace Digidirect\Cform\Model\ResourceModel\CollaborateForm;
+namespace Digidirect\CollaborateForm\Model\ResourceModel\CollaborateForm;
  
 use \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
  
 class Collection extends AbstractCollection
 {
  
-    protected $_idFieldName = \Digidirect\CollaborateForm\Model\Cform::CONTECT_ID;
+    protected $_idFieldName = \Digidirect\CollaborateForm\Model\CollaborateForm::CONTECT_ID;
      
     /**
      * Define resource model
