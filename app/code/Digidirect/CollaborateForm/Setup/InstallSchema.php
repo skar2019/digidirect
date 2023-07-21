@@ -56,7 +56,13 @@ class InstallSchema implements InstallSchemaInterface
             500,
             ['nullable' => false],
             'Tell us about your idea'
+        )->addColumn(
+            'created_date',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            [],
+            'Creation Time'
         );
+        
         $installer->getConnection()->createTable($table);
     }
 }
