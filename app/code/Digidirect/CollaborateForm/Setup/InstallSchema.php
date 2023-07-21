@@ -16,10 +16,10 @@ class InstallSchema implements InstallSchemaInterface
         $installer = $setup;
         $installer->startSetup();
         /**
-         * Create table 'digiDirect_collaborate_form'
+         * Create table 'digidirect_collaborate_form'
          */
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('digiDirect_collaborate_form')
+            $installer->getTable('digidirect_collaborate_form')
         )->addColumn(
             'id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
