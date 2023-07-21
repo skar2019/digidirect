@@ -346,7 +346,7 @@ class Artificial extends AbstractCarrier implements CarrierInterface
                 else{
                     $method->setMethodTitle(" (4 to 9 Days)");
                 }
-            }elseif ($methodCode == "nextdaydelivery") {
+            }elseif ($methodCode == "nextdayship") {
                 $method->setMethodTitle(" ");
             }elseif ($methodCode == "intlshippingnz") {
                 if($qty > 0){
