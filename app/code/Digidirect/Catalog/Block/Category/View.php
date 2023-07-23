@@ -3,7 +3,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-namespace Onsport\Catalog\Block\Category;
+namespace Digidirect\Catalog\Block\Category;
 
 use \Magento\Framework\UrlInterface;
 
