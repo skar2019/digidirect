@@ -84,19 +84,18 @@ class View extends \Magento\Framework\View\Element\Template implements \Magento\
             if ($keywords) {
                 $this->pageConfig->setKeywords($keywords);
             }
+            if ($this->_categoryHelper->canUseCanonicalTag()) {
+                $this->pageConfig->addRemotePageAsset(
+                    $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]),
+                    'canonical',
+                    ['attributes' => ['rel' => 'canonical']]
+                );
+            }
 
             $pageMainTitle = $this->getLayout()->getBlock('page.main.title');
             if ($pageMainTitle) {
                 $pageMainTitle->setPageTitle($this->getCurrentCategory()->getName());
             }
-        }
-        
-        if ($this->_categoryHelper->canUseCanonicalTag()) {
-            $this->pageConfig->addRemotePageAsset(
-                $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]),
-                'canonical',
-                ['attributes' => ['rel' => 'canonical']]
-            );
         }
 
         return $this;
