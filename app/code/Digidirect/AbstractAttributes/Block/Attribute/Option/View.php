@@ -197,7 +197,7 @@ class View extends \Magento\Framework\View\Element\Template
 
         $option = $this->getOption();
         $this->pageConfig->addRemotePageAsset(
-            $this->getCanonicalUrl($option),
+            'canonical-attribute',
             self::ASSET_CANONICAL,
             ['attributes' => ['rel' => self::ASSET_CANONICAL]]
         );
