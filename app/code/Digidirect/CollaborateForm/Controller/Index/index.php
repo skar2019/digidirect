@@ -3,18 +3,14 @@
 namespace Digidirect\CollaborateForm\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\Mail\Template\TransportBuilder;
 
 
 class Index extends Action
 {
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        TransportBuilder $transportBuilder
-        
+        \Magento\Framework\App\Action\Context $context,  
     ) {
         parent::__construct($context);
-        $this->transportBuilder = $transportBuilder;
     }   
     public function execute()
     {
