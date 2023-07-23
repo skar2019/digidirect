@@ -59,7 +59,11 @@ class InstallSchema implements InstallSchemaInterface
         )->addColumn(
             'created_date',
             \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
-            [],
+            null,
+            [
+                'nullable' => false, 
+                'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT
+            ],
             'Creation Time'
         );
         
