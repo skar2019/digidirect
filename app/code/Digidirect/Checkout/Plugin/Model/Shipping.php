@@ -33,11 +33,11 @@ class Shipping {
 
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
-            /*foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                if ($sourceItem->getSourceCode() == 'SWHS') {
+            foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                //if ($sourceItem->getSourceCode() == 'SWHS') {
                     $qty = $qty * $sourceItem->getQuantity();
-                }
-            }*/
+                //}
+            }
         }
         
         //if ($carrierCode == 'standard' && $qty == 0) {
