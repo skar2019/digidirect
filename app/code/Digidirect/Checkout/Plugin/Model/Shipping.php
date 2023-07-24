@@ -3,12 +3,21 @@
 namespace Digidirect\Checkout\Plugin\Model;
 
 use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
+use Magento\Checkout\Model\Session;
+use Digidirect\CollectAbstractEntity\Helper\Places;
+use Digidirect\Collect\Helper\Data;
 
 class Shipping {
     
     public function __construct(
+        Session $checkoutSession,
+        Places $placesHelper,
+        Data $collectHelper,
         GetSourceItemsBySku $getSourceItemsBySku
     ) {
+        $this->checkoutSession = $checkoutSession;
+        $this->placesHelper = $placesHelper;
+        $this->collectHelper = $collectHelper;
         $this->getSourceItemsBySku = $getSourceItemsBySku;
     }
        
