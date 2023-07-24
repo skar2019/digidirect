@@ -1,20 +1,16 @@
 <?php
 
-namespace Digidirect\DigiSecondsForm\Controller\Index;
+namespace Digidirect\CollaborateForm\Controller\Index;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\Mail\Template\TransportBuilder;
 
 
 class Index extends Action
 {
     public function __construct(
-        \Magento\Framework\App\Action\Context $context,
-        TransportBuilder $transportBuilder
-        
+        \Magento\Framework\App\Action\Context $context,  
     ) {
         parent::__construct($context);
-        $this->transportBuilder = $transportBuilder;
     }   
     public function execute()
     {
@@ -23,13 +19,9 @@ class Index extends Action
         // Get post values
         $firstname = $this->getRequest()->getParam('firstname');
         $lastname = $this->getRequest()->getParam('lastname');
-        $phone = $this->getRequest()->getParam('phone');
         $email = $this->getRequest()->getParam('email');
-        $brands = $this->getRequest()->getParam('brands');
-        $productName = $this->getRequest()->getParam('productName');
-        $purchaseYear = $this->getRequest()->getParam('purchaseYear');
         $notes = $this->getRequest()->getParam('notes');
-        $askingPrice = $this->getRequest()->getParam('askingPrice');
+        $socialmedia_link = $this->getRequest()->getParam('socialmedia_link');
 
         // Send Mail functionality starts from here 
         $from = $email;
@@ -40,33 +32,31 @@ class Index extends Action
         $body = "
         <div>
             <p>FullName: ".$firstname." ".$lastname."</p>
-            <p>Phone: ".$phone."</p>
             <p>Email: ".$email."</p>
-            <p>Brands: ".$brands."</p>
-            <p>Product Name: ".$productName."</p>
-            <p>Purchase Year: ".$purchaseYear."</p>
             <p>Notes: ".$notes."</p>
-            <p>Asking Price: ".$askingPrice."</p>
+            <p>Social Media Link: ".$socialmedia_link."</p>
         </div>";
 
         $email = new \Zend_Mail();
-        $email->setSubject("DigiSeconds Form"); 
+        $email->setSubject("Collaborate Program Form"); 
         $email->setBodyHtml($body);     // use it to send html data
         //$email->setBodyText($body);   // use it to send simple text data
         $email->setFrom($from, $nameFrom);
         $email->addTo($to, $nameTo);
         // $email->addBcc($bcc);
         $email->send();
-        
+
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();       
-        $data = $objectManager->create('Digidirect\DigiSecondsForm\Model\DigiSecondsForm');
+        $data = $objectManager->create('Digidirect\CollaborateForm\Model\CollaborateForm');
         $data->setData($post);
         $data->save();
-//        echo "success";
+       echo "success";
         /* echo "hello";
         exit; */
-        
+
         $this->messageManager->addSuccess(__('Form successfully submitted'));
+        
+
              
     }
 }
