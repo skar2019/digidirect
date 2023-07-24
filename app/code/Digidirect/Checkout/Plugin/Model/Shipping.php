@@ -2,15 +2,7 @@
 
 namespace Digidirect\Checkout\Plugin\Model;
 
-use Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku;
-
 class Shipping {
-    
-    public function __construct(
-        GetSourceItemsBySku $getSourceItemsBySku
-    ) {
-        $this->getSourceItemsBySku = $getSourceItemsBySku;
-    }
        
     public function aroundCollectCarrierRates(
         \Magento\Shipping\Model\Shipping $subject,
@@ -21,6 +13,7 @@ class Shipping {
         
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+        $inventory = $objectManager->get('\Magento\Inventory\Model\SourceItem\Command\GetSourceItemsBySku');
 
         $items = $cart->getQuote()->getAllItems();
         $qty = 1;
@@ -31,12 +24,12 @@ class Shipping {
             $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $product = $_objectManager->get('\Magento\Catalog\Model\Product')->load($prodId);
 
-            $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
+            $sourceItems = $inventory->execute($product->getSku());
 
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
-                //if ($sourceItem->getSourceCode() == 'SWHS') {
+                if ($sourceItem->getSourceCode() == 'SWHS') {
                     $qty = $qty * $sourceItem->getQuantity();
-                //}
+                }
             }
         }
         
