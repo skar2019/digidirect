@@ -34,6 +34,8 @@ class Shipping {
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
+                echo $this->console_log('Source: ' . $sourceItem->getSourceCode());
+                echo $this->console_log('Qty: ' . $sourceItem->getQuantity());
                 if ($sourceItem->getSourceCode() == 'SWHS') {
                     $qty = $qty * $sourceItem->getQuantity();
                 }
@@ -46,6 +48,15 @@ class Shipping {
             return true;
         }
         return $proceed($carrierCode, $request);
+    }
+    
+    function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
+            ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
    
 }
