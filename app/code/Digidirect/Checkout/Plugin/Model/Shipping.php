@@ -25,7 +25,7 @@ class Shipping {
         $items = $cart->getQuote()->getAllItems();
         $qty = 1;
         
-        /*foreach ($items as $item) {
+        foreach ($items as $item) {
 
             $prodId = $item->getProductId();
             $_objectManager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -33,12 +33,12 @@ class Shipping {
 
             $sourceItems = $this->getSourceItemsBySku->execute($product->getSku());
 
-            foreach ($sourceItems as $sourceItemId => $sourceItem) {
+            /*foreach ($sourceItems as $sourceItemId => $sourceItem) {
                 if ($sourceItem->getSourceCode() == 'SWHS') {
                     $qty = $qty * $sourceItem->getQuantity();
                 }
-            }
-        }*/
+            }*/
+        }
         
         //if ($carrierCode == 'standard' && $qty == 0) {
         if ($carrierCode == 'standard') {
