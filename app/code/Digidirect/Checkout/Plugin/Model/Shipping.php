@@ -40,7 +40,7 @@ class Shipping {
             }
         }
         
-        if ($carrierCode == 'standard' & $qty = 0) {
+        if ($carrierCode == 'standard' && $qty == 0) {
             return false;
         } else {
             return true;
