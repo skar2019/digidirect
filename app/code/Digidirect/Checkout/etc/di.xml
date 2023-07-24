@@ -4,7 +4,7 @@
     <type name="Magento\Checkout\CustomerData\AbstractItem">
         <plugin name="Digidirect_Checkout_DefaultItemPlugin" type="Digidirect\Checkout\Plugin\DefaultItemPlugin" sortOrder="10"  disabled="false" />
     </type>
-    <type name="Magento\Shipping\Model\Shipping">
-        <plugin disabled="false" name="digidirect_disable_shipping_method" sortOrder="10" type="Digidirect\Checkout\Plugin\Model\Shipping"/>
+    <type name="Magento\Quote\Api\ShipmentEstimationInterface">
+        <plugin name="hide_show_shipping_methods" type="Digidirect\Checkout\Plugin\Quote\Api\ShipmentEstimationPlugin"/>
     </type>
 </config>
