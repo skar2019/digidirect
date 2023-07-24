@@ -10,7 +10,7 @@ class Shipping {
         $carrierCode,
         $request
     ) {
-        if ($carrierCode == 'express') {
+        if ($carrierCode == 'standard') {
             return false;
         }
         return $proceed($carrierCode, $request);
