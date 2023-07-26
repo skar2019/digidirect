@@ -4,7 +4,7 @@ namespace Digidirect\Newsletter\Observer;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\Helper\AbstractHelper;
 
-class Newsletter extends AbstractHelper implements \Magento\Framework\Event\ObserverInterface
+class Newsletter implements \Magento\Framework\Event\ObserverInterface
 {
     protected $customerRepository;
     
@@ -25,7 +25,7 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
     
     public function execute(Observer $observer)
     {
-        /*$subscriber = $observer->getEvent()->getSubscriber();
+        $subscriber = $observer->getEvent()->getSubscriber();
         $email = $subscriber->getEmail();
         $subscriberStatus = $subscriber->getSubscriberStatus();
         // subscriberStatus = 1 subscribe
@@ -39,9 +39,9 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         } else {
             $customer->setCustomAttribute('marketing_consent', 0);
             $this->customerRepository->save($customer);
-        }*/
+        }
         
-        $url = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
+        /*$url = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
 
         $this->curl->addHeader("Content-Type", "application/x-www-form-urlencoded");
         $this->curl->setOption("grant_type", "password");
@@ -54,7 +54,7 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         $result = $this->curl->getBody();
 
         $json = $this->jsonSerializer->unserialize($result);
-        var_dump($json);
+        var_dump($json);*/
         
     }
 }
