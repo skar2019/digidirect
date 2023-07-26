@@ -54,7 +54,6 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         $result = $this->curl->getBody();
 
         $json = $this->jsonSerializer->unserialize($result);
-        var_dump($json);
         
         $webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
         $webSignParams = ["email"=>$email,"source"=>"Web"];
