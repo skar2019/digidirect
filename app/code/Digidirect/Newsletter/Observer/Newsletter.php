@@ -60,11 +60,11 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         $webSignUpParams = ["email"=>$email,"source"=>"Web"];
 
         $webSignUpCurl = $this->curl;
-        /*$webSignUpCurl->addHeader("Content-Type", "application/JSON");
-        $webSignUpCurl->addHeader("Authorization", "Bearer " . $getTokenJson['response']['access_token']);
+        $webSignUpCurl->addHeader("Content-Type", "application/JSON");
+        //$webSignUpCurl->addHeader("Authorization", "Bearer " . $getTokenJson['response']['access_token']);
         $webSignUpCurl->post($webSignUpUrl, $webSignUpParams);
         
-        $webSignUpResult = $webSignUpCurl->getBody();*/
+        $webSignUpResult = $webSignUpCurl->getBody();
         
     }
 }
