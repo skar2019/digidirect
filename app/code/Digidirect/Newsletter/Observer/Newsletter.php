@@ -41,7 +41,7 @@ class Newsletter implements \Magento\Framework\Event\ObserverInterface
             $this->customerRepository->save($customer);
         }
         
-        /*$url = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
+        $url = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
 
         $this->curl->addHeader("Content-Type", "application/x-www-form-urlencoded");
         $this->curl->setOption("grant_type", "password");
@@ -54,7 +54,7 @@ class Newsletter implements \Magento\Framework\Event\ObserverInterface
         $result = $this->curl->getBody();
 
         $json = $this->jsonSerializer->unserialize($result);
-        var_dump($json);*/
+        var_dump($json);
         
     }
 }
