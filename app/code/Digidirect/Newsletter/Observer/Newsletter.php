@@ -3,7 +3,6 @@ namespace Digidirect\Newsletter\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 
 class Newsletter extends AbstractHelper implements \Magento\Framework\Event\ObserverInterface
 {
@@ -13,11 +12,13 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
     
     protected $curl;
     
+    protected $jsonSerializer;
+    
     public function __construct(
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\HTTP\Client\Curl $curl,
-        JsonSerializer $jsonSerializer
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
     ) 
     {
         $this->customerSession = $customerSession;
@@ -44,15 +45,10 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
             $this->customerRepository->save($customer);
         }
         
-        $url = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
+        $url = 'https://digidirect2022.my.salesforce.com/services/oauth2/token?grant_type=password&username=sfdc.connect@digidirect.com.au&password=idv5EdQ3cNYG1zuF3pje!inXRgbsxaaQRzbjWCnllpWZ0z&client_id=3MVG9wt4IL4O5wvKHkw4LwXtVE2s.EYz9zxXLdFQ_F5LhhQQ9dRSWJEvkcyWje6OFpVm3qOLjsWVBjJVUy26z&client_secret=CEEF6DD5884CF7C8DA8089015A1438F089B9B729A2DA0CEC9F63E1003B63D9B9';
 
         $this->curl->addHeader("Content-Type", "application/x-www-form-urlencoded");
-        $this->curl->setOption("grant_type", "password");
-        $this->curl->setOption("username", "sfdc.connect@digidirect.com.au");
-        $this->curl->setOption("password", "idv5EdQ3cNYG1zuF3pje!inXRgbsxaaQRzbjWCnllpWZ0z");
-        $this->curl->setOption("client_id","3MVG9wt4IL4O5wvKHkw4LwXtVE2s.EYz9zxXLdFQ_F5LhhQQ9dRSWJEvkcyWje6OFpVm3qOLjsWVBjJVUy26z");
-        $this->curl->setOption("client_secret", "CEEF6DD5884CF7C8DA8089015A1438F089B9B729A2DA0CEC9F63E1003B63D9B9");
-        $this->curl->get($url);
+        $this->curl->post($url);
 
         $result = $this->curl->getBody();
 
