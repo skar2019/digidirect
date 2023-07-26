@@ -3,8 +3,9 @@ namespace Digidirect\Newsletter\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\Serialize\Serializer\Json as JsonSerializer;
 
-class Newsletter implements \Magento\Framework\Event\ObserverInterface
+class Newsletter extends AbstractHelper implements \Magento\Framework\Event\ObserverInterface
 {
     protected $customerRepository;
     
@@ -15,12 +16,14 @@ class Newsletter implements \Magento\Framework\Event\ObserverInterface
     public function __construct(
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\HTTP\Client\Curl $curl
+        \Magento\Framework\HTTP\Client\Curl $curl,
+        JsonSerializer $jsonSerializer
     ) 
     {
         $this->customerSession = $customerSession;
         $this->customerRepository = $customerRepository;
         $this->curl = $curl;
+        $this->jsonSerializer = $jsonSerializer;
     }
     
     public function execute(Observer $observer)
