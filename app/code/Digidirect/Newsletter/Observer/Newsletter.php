@@ -3,7 +3,6 @@ namespace Digidirect\Newsletter\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Framework\HTTP\Client\Curl;
 
 class Newsletter extends AbstractHelper implements \Magento\Framework\Event\ObserverInterface
 {
