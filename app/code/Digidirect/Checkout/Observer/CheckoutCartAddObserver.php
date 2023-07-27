@@ -39,7 +39,9 @@ class CheckoutCartAddObserver extends AbstractHelper implements \Magento\Framewo
 
         $getTokenJson = $this->jsonSerializer->unserialize($getTokenResult);
         echo $this->console_log('$getTokenJson: ' . json_encode($getTokenJson));
-        /*$webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
+        echo $this->console_log('access_token: ' . $getTokenJson['response']['access_token']);
+        
+        $webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
         $webSignUpParams = ["email"=>$email,"source"=>"Web"];
 
         $webSignUpCurl = $this->curl;
@@ -47,7 +49,8 @@ class CheckoutCartAddObserver extends AbstractHelper implements \Magento\Framewo
         $webSignUpCurl->addHeader("Authorization", "Bearer " . $getTokenJson['response']['access_token']);
         $webSignUpCurl->post($webSignUpUrl, $webSignUpParams);
         
-        $webSignUpResult = $webSignUpCurl->getBody();*/
+        $webSignUpResult = $webSignUpCurl->getBody();
+        echo $this->console_log('$getTokenJson: ' . json_encode($webSignUpResult));
     }
     
     function console_log($output, $with_script_tags = true) {
