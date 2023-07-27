@@ -52,7 +52,7 @@ class CheckoutCartAddObserver extends AbstractHelper implements \Magento\Framewo
         $webSignUpResult = $webSignUpCurl->getBody();
         
         $getSignUpResultJson = $this->jsonSerializer->unserialize($webSignUpResult);
-        echo $this->console_log('$getSignUpResultJson: ' . json_encode($getSignUpResultJson));
+        echo $this->console_log('$webSignUpResult: ' . $webSignUpResult);
     }
     
     function console_log($output, $with_script_tags = true) {
