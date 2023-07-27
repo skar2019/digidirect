@@ -40,7 +40,7 @@ class Shipping {
             }
         }
         
-        if ($carrierCode == 'nextdaydelivery' && $qty == 0) {
+        if ($carrierCode == 'nextdaydelivery' && $qty <= 0) {
             return false;
         }
         return $proceed($carrierCode, $request);
