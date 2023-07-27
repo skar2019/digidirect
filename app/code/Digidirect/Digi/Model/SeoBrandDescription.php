@@ -406,7 +406,7 @@ class SeoBrandDescription
                 }
             }
             $this->pageConfig->addRemotePageAsset(
-                $url,
+                $this->url->getCurrentUrl(),
                 self::ASSET_CANONICAL,
                 ['attributes' => ['rel' => self::ASSET_CANONICAL]]
             );
