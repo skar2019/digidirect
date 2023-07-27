@@ -46,7 +46,7 @@ class CheckoutCartAddObserver extends AbstractHelper implements \Magento\Framewo
 
         $webSignUpCurl = $this->curl;
         $webSignUpCurl->addHeader("Content-Type", "application/JSON");
-        $webSignUpCurl->addHeader("Authorization", "Bearer " . $getTokenJson['response']['access_token']);
+        $webSignUpCurl->addHeader("Authorization", "Bearer " . $getTokenJson['access_token']);
         $webSignUpCurl->post($webSignUpUrl, $webSignUpParams);
         
         $webSignUpResult = $webSignUpCurl->getBody();
