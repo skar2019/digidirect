@@ -42,7 +42,7 @@ class CheckoutCartAddObserver extends AbstractHelper implements \Magento\Framewo
         echo $this->console_log('access_token: ' . $getTokenJson['access_token']);
         
         $webSignUpUrl = 'https://digidirect2022.my.salesforce.com/services/apexrest/WebSignup';
-        $webSignUpParams = ["email"=>"rondel@kayweb.com.au","source"=>"Web"];
+        $webSignUpParams = json_encode(["email"=>"rondel@kayweb.com.au","source"=>"Web"]);
 
         $webSignUpCurl = $this->curl;
         $webSignUpCurl->addHeader("Content-Type", "application/JSON");
