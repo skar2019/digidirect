@@ -168,7 +168,7 @@ class Subscriber extends NewsletterSubscriber
         $getTokenResult = $getTokenCurl->getBody();
 
         $getTokenJson = $this->jsonSerializer->unserialize($getTokenResult);
-        echo $this->console_log('$getTokenJson: ' . json_encode($getTokenJson));
+        //echo $this->console_log('$getTokenJson: ' . json_encode($getTokenJson));
         
         return $status;
     }
