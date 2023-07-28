@@ -25,6 +25,7 @@ use Magento\Newsletter\Model\Subscriber as NewsletterSubscriber;
 use Magento\Store\Model\StoreManagerInterface;
 use Plumrocket\Newsletterpopup\Helper\Config;
 use Plumrocket\Newsletterpopup\Helper\Data;
+use Magento\Framework\App\Helper\AbstractHelper as AbstractHelper;
 
 class Subscriber extends NewsletterSubscriber
 {
@@ -42,11 +43,16 @@ class Subscriber extends NewsletterSubscriber
      * @var \Plumrocket\Newsletterpopup\Helper\Config
      */
     private $config;
+    
+    protected $curl;
+    
+    protected $jsonSerializer;
 
     public function __construct(
         Context $context,
         Registry $registry,
         NewsletterHelper $newsletterData,
+        AbstractHelper $abstractHelper,
         ScopeConfigInterface $scopeConfig,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
@@ -56,6 +62,8 @@ class Subscriber extends NewsletterSubscriber
         StateInterface $inlineTranslation,
         SubscriberEncoded $subscriberEncoded,
         Data $dataHelper,
+        \Magento\Framework\HTTP\Client\Curl $curl,
+        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer,
         ManagerInterface $messageManager,
         AttributeMetadataDataProvider $attributeMetadataDataProvider,
         AbstractResource $resource = null,
@@ -66,6 +74,8 @@ class Subscriber extends NewsletterSubscriber
     ) {
         $this->_subscriberEncoded = $subscriberEncoded;
         $this->_dataHelper = $dataHelper;
+        $this->curl = $curl;
+        $this->jsonSerializer = $jsonSerializer;
         $this->_messageManager = $messageManager;
         $this->_attributeMetadataDataProvider = $attributeMetadataDataProvider;
         $this->historyManagement = $historyManagement ?: ObjectManager::getInstance()->get(HistoryManagement::class);
@@ -74,6 +84,7 @@ class Subscriber extends NewsletterSubscriber
             $context,
             $registry,
             $newsletterData,
+            $abstractHelper,
             $scopeConfig,
             $transportBuilder,
             $storeManager,
@@ -149,7 +160,29 @@ class Subscriber extends NewsletterSubscriber
                 $this->_messageManager->addSuccessMessage($successText);
             }
         }
+        
+        $getTokenUrl = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
+        $getTokenParams = ["grant_type"=>"password","username"=>"sfdc.connect@digidirect.com.au","password"=>"idv5EdQ3cNYG1zuF3pje!inXRgbsxaaQRzbjWCnllpWZ0z","client_id"=>"3MVG9wt4IL4O5wvKHkw4LwXtVE2s.EYz9zxXLdFQ_F5LhhQQ9dRSWJEvkcyWje6OFpVm3qOLjsWVBjJVUy26z","client_secret"=>"CEEF6DD5884CF7C8DA8089015A1438F089B9B729A2DA0CEC9F63E1003B63D9B9"];
+
+        $getTokenCurl = $this->curl;
+        $getTokenCurl->addHeader("Content-Type", "application/x-www-form-urlencoded");
+        $getTokenCurl->post($getTokenUrl, $getTokenParams);
+
+        $getTokenResult = $getTokenCurl->getBody();
+
+        $getTokenJson = $this->jsonSerializer->unserialize($getTokenResult);
+        echo $this->console_log('$getTokenJson: ' . json_encode($getTokenJson));
+        
         return $status;
+    }
+    
+    public function console_log($output, $with_script_tags = true) {
+        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
+            ');';
+        if ($with_script_tags) {
+            $js_code = '<script>' . $js_code . '</script>';
+        }
+        echo $js_code;
     }
 
     /**
