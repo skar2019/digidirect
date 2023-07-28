@@ -182,6 +182,10 @@ class Subscribe extends Action
             $subscriber->customSubscribe($email, $this, $inputData);
         } catch (ValidatorException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
+        } catch (\Exception $e) {
+            // $this->messageManager->addError($e->getMessage());
+            $this->messageManager->addErrorMessage(__('Unknown Error'));
+            $this->logger->error(__METHOD__ . ' ' . $e->getMessage());
         }
 
         $data = [
