@@ -21,6 +21,7 @@ use Plumrocket\Newsletterpopup\Helper\Data;
 use Plumrocket\Newsletterpopup\Model\ReCaptcha\Validator;
 use Plumrocket\Newsletterpopup\Model\Subscriber;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\App\Helper\AbstractHelper;
 
 class Subscribe extends Action
 {
