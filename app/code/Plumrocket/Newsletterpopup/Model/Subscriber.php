@@ -25,7 +25,6 @@ use Magento\Newsletter\Model\Subscriber as NewsletterSubscriber;
 use Magento\Store\Model\StoreManagerInterface;
 use Plumrocket\Newsletterpopup\Helper\Config;
 use Plumrocket\Newsletterpopup\Helper\Data;
-use Magento\Framework\App\Helper\AbstractHelper as AbstractHelper;
 
 class Subscriber extends NewsletterSubscriber
 {
@@ -52,7 +51,6 @@ class Subscriber extends NewsletterSubscriber
         Context $context,
         Registry $registry,
         NewsletterHelper $newsletterData,
-        AbstractHelper $abstractHelper,
         ScopeConfigInterface $scopeConfig,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
@@ -84,7 +82,6 @@ class Subscriber extends NewsletterSubscriber
             $context,
             $registry,
             $newsletterData,
-            $abstractHelper,
             $scopeConfig,
             $transportBuilder,
             $storeManager,
@@ -176,14 +173,14 @@ class Subscriber extends NewsletterSubscriber
         return $status;
     }
     
-    public function console_log($output, $with_script_tags = true) {
+    /*public function console_log($output, $with_script_tags = true) {
         $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
             ');';
         if ($with_script_tags) {
             $js_code = '<script>' . $js_code . '</script>';
         }
         echo $js_code;
-    }
+    }*/
 
     /**
      * @deprecated since 4.6.0
