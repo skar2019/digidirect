@@ -21,7 +21,6 @@ use Plumrocket\Newsletterpopup\Helper\Data;
 use Plumrocket\Newsletterpopup\Model\ReCaptcha\Validator;
 use Plumrocket\Newsletterpopup\Model\Subscriber;
 use Psr\Log\LoggerInterface;
-use Magento\Framework\App\Helper\AbstractHelper;
 
 class Subscribe extends Action
 {
@@ -82,11 +81,6 @@ class Subscribe extends Action
      * @param \Plumrocket\Newsletterpopup\Helper\Config             $config
      * @param \Plumrocket\Base\Api\ConfigUtilsInterface             $configUtils
      */
-    
-    protected $curl;
-    
-    protected $jsonSerializer;
-    
     public function __construct(
         Context $context,
         Validator $reCaptchaValidator,
@@ -97,9 +91,7 @@ class Subscribe extends Action
         Registry $coreRegistry,
         EmailValidator $emailValidator,
         Config $config,
-        ConfigUtilsInterface $configUtils,
-        \Magento\Framework\HTTP\Client\Curl $curl,
-        \Magento\Framework\Serialize\Serializer\Json $jsonSerializer
+        ConfigUtilsInterface $configUtils
     ) {
         parent::__construct($context);
         $this->reCaptchaValidator = $reCaptchaValidator;
@@ -111,8 +103,6 @@ class Subscribe extends Action
         $this->emailValidator = $emailValidator;
         $this->config = $config;
         $this->configUtils = $configUtils;
-        $this->curl = $curl;
-        $this->jsonSerializer = $jsonSerializer;
     }
 
     /**
@@ -190,19 +180,6 @@ class Subscribe extends Action
             }
 
             $subscriber->customSubscribe($email, $this, $inputData);
-            
-            $getTokenUrl = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
-            $getTokenParams = ["grant_type"=>"password","username"=>"sfdc.connect@digidirect.com.au","password"=>"idv5EdQ3cNYG1zuF3pje!inXRgbsxaaQRzbjWCnllpWZ0z","client_id"=>"3MVG9wt4IL4O5wvKHkw4LwXtVE2s.EYz9zxXLdFQ_F5LhhQQ9dRSWJEvkcyWje6OFpVm3qOLjsWVBjJVUy26z","client_secret"=>"CEEF6DD5884CF7C8DA8089015A1438F089B9B729A2DA0CEC9F63E1003B63D9B9"];
-
-            $getTokenCurl = $this->curl;
-            $getTokenCurl->addHeader("Content-Type", "application/x-www-form-urlencoded");
-            $getTokenCurl->post($getTokenUrl, $getTokenParams);
-
-            $getTokenResult = $getTokenCurl->getBody();
-
-            $getTokenJson = $this->jsonSerializer->unserialize($getTokenResult);
-            echo $this->console_log('$getTokenJson: ' . json_encode($getTokenJson));
-
         } catch (ValidatorException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {
@@ -243,14 +220,5 @@ class Subscribe extends Action
             // ->clearRawHeader('Location')
             ->setHttpResponseCode(200)
             ->setBody($this->serializer->serialize($data));
-    }
-    
-    function console_log($output, $with_script_tags = true) {
-        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-            ');';
-        if ($with_script_tags) {
-            $js_code = '<script>' . $js_code . '</script>';
-        }
-        echo $js_code;
     }
 }
