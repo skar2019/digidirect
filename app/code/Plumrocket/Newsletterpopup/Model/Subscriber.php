@@ -161,14 +161,14 @@ class Subscriber extends NewsletterSubscriber
         $getTokenUrl = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
         $getTokenParams = ["grant_type"=>"password","username"=>"sfdc.connect@digidirect.com.au","password"=>"idv5EdQ3cNYG1zuF3pje!inXRgbsxaaQRzbjWCnllpWZ0z","client_id"=>"3MVG9wt4IL4O5wvKHkw4LwXtVE2s.EYz9zxXLdFQ_F5LhhQQ9dRSWJEvkcyWje6OFpVm3qOLjsWVBjJVUy26z","client_secret"=>"CEEF6DD5884CF7C8DA8089015A1438F089B9B729A2DA0CEC9F63E1003B63D9B9"];
 
-        $getTokenCurl = $this->curl;
+        /*$getTokenCurl = $this->curl;
         $getTokenCurl->addHeader("Content-Type", "application/x-www-form-urlencoded");
         $getTokenCurl->post($getTokenUrl, $getTokenParams);
 
         $getTokenResult = $getTokenCurl->getBody();
 
         $getTokenJson = $this->jsonSerializer->unserialize($getTokenResult);
-        //echo $this->console_log('$getTokenJson: ' . json_encode($getTokenJson));
+        echo $this->console_log('$getTokenJson: ' . json_encode($getTokenJson));*/
         
         return $status;
     }
