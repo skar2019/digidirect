@@ -35,14 +35,16 @@ class Newsletter extends AbstractHelper implements \Magento\Framework\Event\Obse
         // subscriberStatus = 1 subscribe
         // subscriberStatus = 3 unsubscribed
         $customerID = $subscriber->getCustomerId();
-        $customer = $this->customerRepository->getById($customerID);
         
-        if ( $subscriberStatus == '1') {
-            $customer->setCustomAttribute('marketing_consent', 1);
-            $this->customerRepository->save($customer);
-        } else {
-            $customer->setCustomAttribute('marketing_consent', 0);
-            $this->customerRepository->save($customer);
+        if ($customerID) {
+            $customer = $this->customerRepository->getById($customerID);
+            if ( $subscriberStatus == '1') {
+                $customer->setCustomAttribute('marketing_consent', 1);
+                $this->customerRepository->save($customer);
+            } else {
+                $customer->setCustomAttribute('marketing_consent', 0);
+                $this->customerRepository->save($customer);
+            }
         }
         
         $getTokenUrl = 'https://digidirect2022.my.salesforce.com/services/oauth2/token';
