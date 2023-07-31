@@ -186,6 +186,7 @@ class ProductEntHelper extends AbstractHelper
             if(!empty($product->getDescription()))
             {
                 $description = strip_tags($product->getDescription());
+                $description = preg_replace('/[\x00-\x1F\x7F]/u', '', $description);
             }
 
             if(isset($this->attributeOptions[$product->getBrand()]))
@@ -454,7 +455,7 @@ class ProductEntHelper extends AbstractHelper
     {
 //        $collection = $this->_productCollectionFactory->create();
 //        $collection->addAttributeToSelect('*')
-//        ->addFieldToFilter('entity_id', array('gteq' => 82243));
+//        ->addFieldToFilter('entity_id', array('gteq' => 0));
 //        $collection->setPageSize(5000); // fetching only 5000 products
 //        return $collection;
 
