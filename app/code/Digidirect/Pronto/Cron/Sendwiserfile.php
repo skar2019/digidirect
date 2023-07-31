@@ -7,7 +7,7 @@ class Sendwiserfile
 {
 
     public function __construct(
-        Sftpfilesender $helper)
+        Sftpwisersender $helper)
     {
         $this->helper = $helper;
     }
