@@ -30,7 +30,7 @@ class Index extends Action
         // Send Mail functionality starts from here 
         $from = $email;
         $nameFrom = $firstname." ".$lastname;
-        $to = array("jireh@kayweb.com.au","dev4@digidirect.com.au");
+        $to = array("jireh@kayweb.com.au","community@digidirect.com.au");
         // $bcc = "orders@kayweb.com.au";
         $nameTo = "Digidirect";
         $body = "
@@ -60,7 +60,7 @@ class Index extends Action
 
         $this->messageManager->addSuccess(__('Form successfully submitted'));
         
-
+             
              
     }
 }
