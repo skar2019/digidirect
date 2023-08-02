@@ -9,9 +9,6 @@
     <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
         <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
     </type>
-    <type name="Magento\Checkout\Model\Cart">
-        <plugin name="add_product_to_cart" type="Digidirect\Catalog\Plugin\RedirectToCheckout" sortOrder="10" disabled="false"/>
-    </type>
     <type name="Magento\Cms\Model\Wysiwyg\Images\Storage">
         <arguments>
             <argument name="extensions" xsi:type="array">
