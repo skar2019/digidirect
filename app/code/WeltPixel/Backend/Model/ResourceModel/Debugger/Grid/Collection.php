@@ -25,20 +25,17 @@ class Collection extends \Magento\Framework\Data\Collection implements SearchRes
      */
     protected $backendSession;
 
+    /**
+     * @var \Magento\Framework\DataObjectFactory
+     */
+    protected $_dataObjectFactory;
+
 
     /**
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \WeltPixel\Backend\Model\Scanner $scanner
      * @param \Magento\Framework\DataObjectFactory $dataObjectFactory
      * @param \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory
-     * @param \Psr\Log\LoggerInterface $logger
-     * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param string $mainTable
-     * @param string $eventPrefix
-     * @param string $eventObject
-     * @param string $resourceModel
-     * @param string $model
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -47,36 +44,18 @@ class Collection extends \Magento\Framework\Data\Collection implements SearchRes
         \WeltPixel\Backend\Model\Scanner $scanner,
         \Magento\Framework\DataObjectFactory $dataObjectFactory,
         \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
-        \Psr\Log\LoggerInterface $logger,
-        \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        $mainTable,
-        $eventPrefix,
-        $eventObject,
-        $resourceModel,
-        $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document'
+
     )
     {
         parent::__construct(
             $entityFactory,
-            $logger,
-            $fetchStrategy,
-            $eventManager,
-            null,
-            null
+
         );
 
-        $this->_eventPrefix = $eventPrefix;
-        $this->_eventObject = $eventObject;
         $this->_dataObjectFactory = $dataObjectFactory;
         $this->scanner = $scanner;
         $this->backendSession = $backendSession;
     }
-
-    /**
-     * @var \Magento\Framework\DataObjectFactory
-     */
-    protected $_dataObjectFactory;
 
     /**
      * @return AggregationInterface

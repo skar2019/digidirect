@@ -322,7 +322,7 @@ class License extends \Magento\Framework\Model\AbstractModel
     public function checkDomainValidity($domain, $licenseDomain)
     {
         $matches = [];
-        preg_match('/(.local|.localhost|.dev|.development|.test|.staging|.stage|magentosite.cloud|magento.cloud|nxcli.net|nxcli.io)$/', $domain, $matches);
+        preg_match('/(.local|.localhost|.localdev|.dev|.development|.test|.staging|.stage|magentosite.cloud|magento.cloud|nxcli.net|nxcli.io)$/', $domain, $matches);
         if (isset($matches[1])) {
             if (($matches[1] == 'magentosite.cloud') || ($matches[1] == 'magento.cloud') || ($matches[1] == 'nxcli.net') || ($matches[1] == 'nxcli.io')) {
                 return true;

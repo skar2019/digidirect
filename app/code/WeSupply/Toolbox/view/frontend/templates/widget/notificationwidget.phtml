@@ -105,6 +105,7 @@
                     $.ajax({
                         url: url,
                         type: "POST",
+                        global: false,
                         data: {order: orderId, phone: phone, prefix: phonePrefix, country: countryCode, unsubscribe:unsubscribe},
                         showLoader: true,
                         success: function (response) {

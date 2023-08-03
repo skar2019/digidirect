@@ -89,6 +89,18 @@ class Gtm extends \Magento\Framework\DataObject implements SectionSourceInterfac
         }
         $this->customerSession->setGA4AddToCompareData(null);
 
+        /** Add Signup Data */
+        if ($this->customerSession->getGA4SignupData()) {
+            $data[] = $this->customerSession->getGA4SignupData();
+        }
+        $this->customerSession->setGA4SignupData(null);
+
+        /** Add Login Data */
+        if ($this->customerSession->getGA4LoginData()) {
+            $data[] = $this->customerSession->getGA4LoginData();
+        }
+        $this->customerSession->setGA4LoginData(null);
+
         return [
             'datalayer' => $this->jsonHelper->jsonEncode($data)
         ];

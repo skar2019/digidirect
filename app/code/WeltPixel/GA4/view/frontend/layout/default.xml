@@ -13,7 +13,7 @@
             />
         </referenceContainer>
         <container name="ga4.before.body.end" as="ga4_before_body_end" label="Gtm Before Body End" after="before.body.end">
-            <block ifconfig="weltpixel_ga4/general/enable" class="WeltPixel\GA4\Block\Core" name="weltpixel_gtmga4_footer" after="-" template="WeltPixel_GA4::gtm_footer.phtml" ttl="0" />
+            <block ifconfig="weltpixel_ga4/general/enable" class="WeltPixel\GA4\Block\Core" name="weltpixel_gtmga4_footer" after="-" template="WeltPixel_GA4::gtm_footer.phtml" />
         </container>
         <!-- impressions -->
         <referenceBlock name="category.products.list" >

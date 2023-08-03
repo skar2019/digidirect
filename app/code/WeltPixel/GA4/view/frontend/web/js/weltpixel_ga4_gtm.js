@@ -27,9 +27,10 @@ define([
                         window.dataLayer.push({
                             'event': 'select_promotion',
                             'ecommerce': {
-                                'promoClick': {
-                                    'promotions': [promoObj]
-                                }
+                                'promotion_id': promoId,
+                                'promotion_name': promoName,
+                                'creative_name': promoCreative,
+                                'creative_slot': promoPositionSlot
                             }
                         });
 
@@ -45,24 +46,17 @@ define([
                             promoCreative = $(this).attr('data-track-promo-creative'),
                             promoPositionSlot = $(this).attr('data-track-promo-position');
 
-                        promotionViews.push({
-                            'promotion_id': promoId,
-                            'promotion_name': promoName,
-                            'creative_name': promoCreative,
-                            'creative_slot': promoPositionSlot
-                        });
-                    });
-                    if (promotionViews.length) {
                         window.dataLayer.push({ecommerce: null});
                         window.dataLayer.push({
                             'event': 'view_promotion',
                             'ecommerce': {
-                                'promoView': {
-                                    'promotions': promotionViews
-                                }
+                                'promotion_id': promoId,
+                                'promotion_name': promoName,
+                                'creative_name': promoCreative,
+                                'creative_slot': promoPositionSlot
                             }
                         });
-                    }
+                    });
                 });
             }
         }

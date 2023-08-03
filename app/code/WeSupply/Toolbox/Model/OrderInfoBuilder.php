@@ -38,6 +38,7 @@ use WeSupply\Toolbox\Api\OrderInfoBuilderInterface;
 use WeSupply\Toolbox\Helper\Data;
 use WeSupply\Toolbox\Helper\WeSupplyMappings;
 use WeSupply\Toolbox\Logger\Logger;
+use Magento\Customer\Api\GroupRepositoryInterface;
 use \Magento\GiftMessage\Api\OrderRepositoryInterface as OrderGiftRepository;
 use \Magento\GiftMessage\Api\OrderItemRepositoryInterface as OrderItemGiftRepository;
 
@@ -171,6 +172,16 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
     private $orderItemGiftRepository;
 
     /**
+     * @var GroupRepositoryInterface
+     */
+    private $groupRepository;
+
+    /**
+     * @var \Magento\Store\Model\App\Emulation
+     */
+    protected $appEmulation;
+
+    /**
      * Product image subdirectory
      * @var string
      */
@@ -244,6 +255,8 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
      * @param OrderStatusCollection       $orderStatusCollection
      * @param OrderGiftRepository         $orderGiftRepository
      * @param OrderItemGiftRepository     $orderItemGiftRepository
+     * @param GroupRepositoryInterface    $groupRepository
+     * @param \Magento\Store\Model\App\Emulation $appEmulation
      */
     public function __construct(
         ProductRepositoryInterface $productRepositoryInterface,
@@ -267,8 +280,9 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
         PurchasedItemCollection $downloadableItemLinks,
         OrderStatusCollection $orderStatusCollection,
         OrderGiftRepository $orderGiftRepository,
-        OrderItemGiftRepository $orderItemGiftRepository
-
+        OrderItemGiftRepository $orderItemGiftRepository,
+        GroupRepositoryInterface $groupRepository,
+        \Magento\Store\Model\App\Emulation $appEmulation
     ) {
         $this->productRepositoryInterface = $productRepositoryInterface;
         $this->imageHelper = $imageHelper;
@@ -291,6 +305,8 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
         $this->downloadableItemLinks = $downloadableItemLinks;
         $this->orderGiftRepository = $orderGiftRepository;
         $this->orderItemGiftRepository = $orderItemGiftRepository;
+        $this->groupRepository = $groupRepository;
+        $this->appEmulation = $appEmulation;
 
         $this->availableOrderStatuses = $orderStatusCollection->getItems();
         $this->weSupplyStatusIdMappedArray = $weSupplyMappings->mapOrderStateToWeSupplyStatusId();
@@ -1188,19 +1204,13 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
         if (isset($productOptions['simple_sku'])) { // first, look for associated simple product image
             $_product = $this->_getProductBySku($productOptions['simple_sku']);
             if (!is_null($_product)) {
-                $productImage = $_product->getImage();
-                if ($this->isValidProductImage($productImage) && $this->checkRealMediaDir($productImage)) {
-                    return $this->mediaUrl . self::PRODUCT_IMAGE_SUBDIRECTORY . trim($productImage, '/');
-                }
+                return  $this->imageHelper->init($_product, 'product_page_main_image')->getUrl();
             }
         }
 
         $_product = $this->_getProductById($item['product_id']);
         if (!is_null($_product)) {
-            $productImage = $_product->getImage();
-            if ($this->isValidProductImage($productImage) && $this->checkRealMediaDir($productImage)) {
-                return $this->mediaUrl . self::PRODUCT_IMAGE_SUBDIRECTORY . trim($productImage, '/');
-            }
+            return $this->imageHelper->init($_product, 'product_page_main_image')->getUrl();
         }
 
         /**
@@ -1208,7 +1218,6 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
          * if the above methods failed
          */
         $imageUrl = $this->imageHelper->getDefaultPlaceholderUrl('image');
-
         return $this->convertToUnversionedFrontendUrl($imageUrl, $item['store_id']) ?? '';
     }
 
@@ -1353,15 +1362,6 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
         return implode('/', $imageUrlArr);
     }
 
-    /**
-     * @param $productImage
-     *
-     * @return bool
-     */
-    private function isValidProductImage($productImage)
-    {
-        return (!empty($productImage) && strpos($productImage, 'no_selection') === false);
-    }
 
     /**
      * @param $existingOrderData
@@ -1396,7 +1396,9 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
             if (!isset($generalData[$key])) {
                 switch ($key) {
                     case 'ItemImageUri':
+                        $this->appEmulation->startEnvironmentEmulation($item['store_id'], \Magento\Framework\App\Area::AREA_FRONTEND, true);
                         $itemData = $this->_fetchProductImage($item);
+                        $this->appEmulation->stopEnvironmentEmulation();
                         break;
                     case 'ItemProductUri':
                         $itemData = $this->_fetchProductUrl($item);
@@ -1605,9 +1607,13 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
             $customer = $this->customer->getById($customerId);
             $finalOrderData['OrderCustomer']['CustomerCreateDate'] = $customer->getCreatedAt();
             $finalOrderData['OrderCustomer']['CustomerModifiedDate'] = $customer->getUpdatedAt();
+            $finalOrderData['CustomerGroup'] = $customer->getGroupId();
+            $finalOrderData['CustomerGroupDescription'] = $this->groupRepository->getById($customer->getGroupId())->getCode();
         } catch (NoSuchEntityException $e) {
             $finalOrderData['OrderCustomer']['CustomerCreateDate'] = $finalOrderData['OrderDate'];
             $finalOrderData['OrderCustomer']['CustomerModifiedDate'] = $finalOrderData['LastModifiedDate'];
+            $finalOrderData['CustomerGroup'] = '1';
+            $finalOrderData['CustomerGroupDescription'] = 'General';
         }
     }
 
@@ -1623,7 +1629,7 @@ class OrderInfoBuilder implements OrderInfoBuilderInterface
         $finalOrderData['OrderCustomer']['CustomerLastName'] = !empty($billingAddress['lastname']) ? $billingAddress['lastname'] : '';
         $finalOrderData['OrderCustomer']['CustomerName'] =
             $finalOrderData['OrderCustomer']['CustomerFirstName'] . ' ' . $finalOrderData['OrderCustomer']['CustomerLastName'];
-        $finalOrderData['OrderCustomer']['CustomerEmail'] = !empty($billingAddress['email']) ? $billingAddress['email'] : '';
+        $finalOrderData['OrderCustomer']['CustomerEmail'] = !empty($orderData['customer_email']) ? $orderData['customer_email'] : '';
         $finalOrderData['OrderCustomer']['CustomerAddress1'] = !empty($billingAddress['street']) ? $billingAddress['street'] : '';
         $finalOrderData['OrderCustomer']['CustomerAddress2'] = ''; // not saved separately in magento
         $finalOrderData['OrderCustomer']['CustomerStateProvince'] = !empty($billingAddress['region']) ? $billingAddress['region'] : '';

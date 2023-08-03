@@ -77,10 +77,10 @@ class Cart extends \WeltPixel\GA4\Block\Core
             }
 
             $productDetail = [];
-            $productDetail['currency'] = $this->getCurrencyCode();
-            $productDetail['item_name'] = html_entity_decode($item->getName());
+            $productDetail['item_name'] = html_entity_decode($item->getName() ?? '');
+            $productDetail['affiliation'] = $this->helper->getAffiliationName();
             $productDetail['item_id'] = $this->helper->getGtmProductId($productIdModel);
-            $productDetail['price'] = number_format($item->getPriceInclTax(), 2, '.', '');
+            $productDetail['price'] = floatval(number_format($item->getPriceInclTax() ?? 0, 2, '.', ''));
             if ($this->helper->isBrandEnabled()) {
                 $productDetail['item_brand'] = $this->helper->getGtmBrand($product);
             }

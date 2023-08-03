@@ -6,6 +6,7 @@
             <values>
                 <value id="weltpixel_ga4_gtm" type="host">https://www.googletagmanager.com</value>
                 <value id="weltpixel_ga4_gtmdebug" type="host">tagmanager.google.com</value>
+                <value id="weltpixel_ga4_analytics_google" type="host">analytics.google.com</value>
             </values>
         </policy>
         <policy id="style-src">
@@ -20,7 +21,8 @@
         </policy>
         <policy id="connect-src">
             <values>
-                <value id="weltpixel_ga4_analytics" type="host">https://www.google-analytics.com</value>
+                <value id="weltpixel_ga4_analytics" type="host">*.google-analytics.com</value>
+                <value id="weltpixel_ga4_analytics_google" type="host">analytics.google.com</value>
             </values>
         </policy>
     </policies>

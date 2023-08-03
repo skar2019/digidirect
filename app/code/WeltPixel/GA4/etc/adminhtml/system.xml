@@ -5,6 +5,14 @@
             <label>Google Analytics 4 Ecommerce</label>
             <tab>weltpixel</tab>
             <resource>WeltPixel_GA4::GA4Settings</resource>
+            <group id="module_information" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Important Note</label>
+                <attribute type="expanded">1</attribute>
+                <fieldset_css>weltpixel-ga4-header active</fieldset_css>
+                <field id="important_note" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>WeltPixel\GA4\Block\Adminhtml\System\Config\ImportantNote</frontend_model>
+                </field>
+            </group>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General Configuration</label>
                 <field id="enable" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -103,7 +111,19 @@
                     </depends>
                     <comment>Orders with value 0.00 can be excluded from purchase transactions if you set this option to Yes</comment>
                 </field>
-                <field id="success_page_paths" translate="label comment" type="textarea" sortOrder="68" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="checkout_page_paths" translate="label comment" type="textarea" sortOrder="69" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Checkout Page Paths</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                    <comment>
+                        <![CDATA[If you are using custom checkout, and the checkout page path is different from the default magento path: 'checkout/index/index', you can list it here to make sure the Transaction data is sent to GTM.
+                        <br/> If you have different checkout pages you can separate them with ",". <br/> Ex: checkout/onestepcheckout/index, checkout/mycustomcheckout/index
+                        <br/> Also * can be used as generic placeholder. <br/> Ex: checkout/customcheckout/*
+                        ]]>
+                    </comment>
+                </field>
+                <field id="success_page_paths" translate="label comment" type="textarea" sortOrder="69" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Success Page Paths</label>
                     <depends>
                         <field id="enable">1</field>
@@ -115,7 +135,7 @@
                         ]]>
                     </comment>
                 </field>
-                <field id="product_click_tracking" translate="label" type="select" sortOrder="69" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="product_click_tracking" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Measure Product Clicks</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment><![CDATA[This option allows ‘Product Click’ tracking on Category Page , Search results page and Related/Cross-sell/Up-sell product grids. <br/>
@@ -124,7 +144,7 @@ If Product Click Tracking is enabled this option rewrites Magento_Catalog::produ
                         <field id="enable">1</field>
                     </depends>
                 </field>
-                <field id="promotion_tracking" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                <field id="promotion_tracking" translate="label" type="select" sortOrder="71" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Promotion Tracking</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment><![CDATA[<b>Example of usage:</b> &#60;a href="#" data-track-promo-id="PROMOID" data-track-promo-name="PROMONAME" data-track-promo-creative="PROMOCREATIVE" data-track-promo-position="PROMOPOSITION" &#62;Content&#60;/a&#62;]]></comment>
@@ -159,6 +179,7 @@ If Product Click Tracking is enabled this option rewrites Magento_Catalog::produ
                 <field id="separator_user_dimensions" translate="button_label" type="text" sortOrder="109" showInDefault="1" showInWebsite="1" showInStore="1">
                     <frontend_model>WeltPixel\GA4\Block\Adminhtml\System\Config\SeparatorElement</frontend_model>
                     <button_label>User Scoped Custom Dimensions</button_label>
+                    <button_url>https://support.weltpixel.com/hc/en-us/articles/12457440427666-Google-Analytics-4-Using-Custom-Dimensions</button_url>
                     <depends>
                         <field id="enable">1</field>
                     </depends>

@@ -6,18 +6,23 @@ namespace WeltPixel\GA4\Block;
  */
 class Search extends \WeltPixel\GA4\Block\Category
 {
+
+    protected $_searchCollection = [];
+
     /**
      * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection|null
      */
     public function getProductCollection()
     {
+        if (!empty($this->_searchCollection)) {
+            return $this->_searchCollection;
+        }
         $searchResultListBlock = $this->_layout->getBlock('search_result_list');
 
         if (empty($searchResultListBlock)) {
             return [];
         }
 
-        $searchResultListBlock->toHtml();
         $collection = $searchResultListBlock->getLoadedProductCollection();
 
         $blockName = $searchResultListBlock->getToolbarBlockName();
@@ -50,6 +55,7 @@ class Search extends \WeltPixel\GA4\Block\Category
             $collection->setCurPage($this->getCurrentPage())->setPageSize($this->getLimit());
         }
 
+        $this->_searchCollection = $collection;
         return $collection;
     }
 }

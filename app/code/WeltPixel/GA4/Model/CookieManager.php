@@ -14,7 +14,7 @@ use \WeltPixel\GA4\Helper\Data as GtmHelper;
  */
 class CookieManager
 {
-    const COOKIE_CUSTOMER_ID = 'wp_ga4_customerId';
+    const COOKIE_CUSTOMER_ID = 'wp_ga4_user_id';
     const COOKIE_CUSTOMER_GROUP = 'wp_ga4_customerGroup';
 
     /**
