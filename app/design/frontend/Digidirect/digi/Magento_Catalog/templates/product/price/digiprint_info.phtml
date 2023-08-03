@@ -37,7 +37,10 @@
             <?= /* @escapeNotVerified */ $digiprintItemDescription ?>
         </span>
 
-       <?php echo '<style>.qantas-pts-wrapper, .box-tocart, .payment-gateways-container, .payment-gateways-container-bottom, .product-info-main-bottom {display:none !important;}</style>'; ?>
+       <?php echo '<style>
+       .qantas-pts-wrapper, .box-tocart, .payment-gateways-container, .payment-gateways-container-bottom, .product-info-main-bottom, .studio19-wrapper .awaiting, .widget-product, .zip-container
+       {display:none !important;}</style>'; 
+       ?>
     <?php endif; ?>
 <!-- <//?php endforeach ?> -->
 
@@ -46,6 +49,15 @@
     .create-now-btn {
         text-decoration: none;
     }
+
+    .create-now-btn:hover {
+        text-decoration: none;
+    }
+
+    /* .product-info-main:not(.create-now-btn) {
+        display: none;
+
+    } */
 
     .create-now-btn button {
         margin-top: 10px;
