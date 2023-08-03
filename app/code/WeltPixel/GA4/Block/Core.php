@@ -93,6 +93,23 @@ class Core extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * @param $impressions
+     * @return $this
+     */
+    public function setImpressionData($impressions) {
+        $currentImpression = $this->storage->getData('impressions');
+        if (!$currentImpression) {
+            $currentImpression = [];
+        }
+        $currentImpression[] = $impressions;
+        $this->storage->setData('impressions', $currentImpression);
+
+        return $this;
+    }
+
+
+
+    /**
      * @param $label
      * @param $value
      * @return $this
@@ -146,6 +163,20 @@ class Core extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * @param $dataLayerData
+     * @return $this
+     */
+    public function setCustomDataLayerData($dataLayerData) {
+        $customDataLayerData = $this->storage->getData('custom_datalayer_option');
+        if (!$customDataLayerData) {
+            $customDataLayerData = [];
+        }
+        $customDataLayerData[] = $dataLayerData;
+        $this->storage->setData('custom_datalayer_option', $customDataLayerData);
+        return $this;
+    }
+
+    /**
      * @param $label
      * @return mixed
      */
@@ -156,6 +187,7 @@ class Core extends \Magento\Framework\View\Element\Template
 
         $storageData =  $this->storage->getData();
         unset($storageData['additional_datalayer_option']);
+        unset($storageData['custom_datalayer_option']);
 
         return $storageData;
     }
@@ -173,6 +205,13 @@ class Core extends \Magento\Framework\View\Element\Template
             foreach ($additionalDataLayerData as $dataOptions) {
                 $dataOptions = $this->_splitImpressions($dataOptions);
                 $options = array_merge($options, $dataOptions);
+            }
+        }
+
+        $customDataLayerOptions = $this->storage->getData('custom_datalayer_option');
+        if ($customDataLayerOptions) {
+            foreach ($customDataLayerOptions as $customDataLayerOption) {
+                array_unshift($options, $customDataLayerOption);
             }
         }
 
@@ -196,34 +235,55 @@ class Core extends \Magento\Framework\View\Element\Template
         $result = [];
         $chunkLimit = $this->helper->getImpressionChunkSize();
 
-        if ($chunkLimit && isset($options['ecommerce']['items'])) {
-            $originalImpressions = $options['ecommerce']['items'];
-            $impressionsCount = count($originalImpressions);
-            if ($impressionsCount <= $chunkLimit) {
+        if (isset($options['impressions'])) {
+            $impressionsData = $options['impressions'];
+            unset($options['impressions']);
+            if ($chunkLimit) {
+                foreach ($impressionsData as $impressions) {
+                    $itemListId = $impressions['item_list_id'];
+                    $itemListName = $impressions['item_list_name'];
+                    $originalImpressions = $impressions['items'];
+                    $impressionsCount = count($originalImpressions);
+                    if ($impressionsCount <= $chunkLimit) {
+                        $result[] = $options;
+                        $result[] = [
+                            'ecommerce' => $impressions,
+                            'event' => 'view_item_list'
+                        ];
+                       continue;
+                    }
+
+                    $impressionChunks = array_chunk($originalImpressions, $chunkLimit);
+                    $result[] = $options;
+
+                    $chunkCount = count($impressionChunks);
+                    for ($i = 0; $i<$chunkCount; $i++ ) {
+                        $newImpressionChunk = [];
+                        $newImpressionChunk['ecommerce'] = [];
+                        $newImpressionChunk['ecommerce']['items'] = $impressionChunks[$i];
+                        $newImpressionChunk['ecommerce']['item_list_id'] = $itemListId;
+                        $newImpressionChunk['ecommerce']['item_list_name'] = $itemListName;
+
+                        $newImpressionChunk['event'] = 'view_item_list';
+
+                        $result[] = $newImpressionChunk;
+                    }
+                }
+                return $result;
+            } else {
                 $result[] = $options;
+                foreach ($impressionsData as $impressions) {
+                    $result[] = [
+                        'ecommerce' => $impressions,
+                        'event' => 'view_item_list'
+                    ];
+                }
                 return $result;
             }
-
-            $impressionChunks = array_chunk($originalImpressions, $chunkLimit);
-            $options['ecommerce']['items'] = $impressionChunks[0];
-            $result[] = $options;
-
-            $chunkCount = count($impressionChunks);
-            for ($i = 1; $i<$chunkCount; $i++ ) {
-                $newImpressionChunk = [];
-                $newImpressionChunk['ecommerce'] = [];
-                $newImpressionChunk['ecommerce']['items'] = $impressionChunks[$i];
-
-                $newImpressionChunk['event'] = 'view_item_list';
-
-                $result[] = $newImpressionChunk;
-            }
-
-            return $result;
-        } else {
-            $result[] = $options;
-            return $result;
         }
+
+        $result[] = $options;
+        return $result;
     }
 
     /**

@@ -56,11 +56,15 @@ class ShippingInformation
             return $result;
         }
 
-        /** @var \Magento\Quote\Model\Quote $quote */
-        $quote = $this->quoteRepository->getActive($cartId);
-        $shippingDescription = $quote->getShippingAddress()->getShippingDescription();
+        try {
+            /** @var \Magento\Quote\Model\Quote $quote */
+            $quote = $this->quoteRepository->getActive($cartId);
+            $shippingDescription = $quote->getShippingAddress()->getShippingDescription();
 
-        $this->_checkoutSession->setGA4CheckoutOptionsData($this->helper->addCheckoutStepPushData('1', $shippingDescription));
+            $this->_checkoutSession->setGA4CheckoutOptionsData($this->helper->addCheckoutStepPushData('1', $shippingDescription));
+        } catch (\Exception $ex) {
+            return $result;
+        }
 
         return $result;
     }

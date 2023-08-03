@@ -75,7 +75,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $storage;
 
     /**
-     * \Magento\Cookie\Helper\Cookie
+     * @var \Magento\Cookie\Helper\Cookie
      */
     protected $cookieHelper;
 
@@ -114,6 +114,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $priceCurrency;
 
+    /** @var \Magento\Framework\Session\SessionManagerInterface */
+    protected $session;
+
+    /**
+     * @var \Magento\Framework\Stdlib\CookieManagerInterface
+     */
+    protected $cookieManager;
+
     /**
      * @var \Magento\Framework\DataObject\Factory
      */
@@ -142,6 +150,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Framework\App\Cache\StateInterface $cacheState
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
+     * @param \Magento\Framework\Session\SessionManagerInterface $session
+     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\DataObject\Factory $objectFactory
      */
     public function __construct(
@@ -164,6 +174,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Framework\App\Cache\StateInterface $cacheState,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
+        \Magento\Framework\Session\SessionManagerInterface $session,
+        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\DataObject\Factory $objectFactory
     ) {
         parent::__construct($context);
@@ -187,6 +199,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->cache = $cache;
         $this->cacheState = $cacheState;
         $this->priceCurrency = $priceCurrency;
+        $this->session = $session;
+        $this->cookieManager = $cookieManager;
         $this->objectFactory = $objectFactory;
     }
 
@@ -244,6 +258,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @return boolean
      */
     public function isProductClickTrackingEnabled()
+    {
+        return $this->isDataLayerProductClickEnabled();
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isDataLayerProductClickEnabled()
     {
         if (!isset($this->_gtmOptions['general']['product_click_tracking'])) {
             return false;
@@ -395,6 +417,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @return string
      */
+    public function getCustomCheckoutPagePaths()
+    {
+        return trim($this->_gtmOptions['general']['checkout_page_paths'] ?? '');
+    }
+
+    /**
+     * @return string
+     */
     public function getDataLayerScript()
     {
         $script = '';
@@ -441,6 +471,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $actionName = $this->_request->getFullActionName();
 
+        $customCheckoutPagePaths = trim($this->getCustomCheckoutPagePaths());
+        $requestPath = str_replace("_", "/", $actionName);
+        $requestPathDynamic  = false;
+
+        if (strlen($customCheckoutPagePaths)) {
+            $customCheckoutPagePaths = explode(",", $customCheckoutPagePaths);
+            $customCheckoutPagePaths = array_map('trim', $customCheckoutPagePaths);
+            $requestPathDynamic  = str_replace("_", "/", $actionName);
+            $lastSlashPosition = strrpos($requestPathDynamic, "/");
+            $requestPathDynamic = substr_replace($requestPathDynamic, '*', $lastSlashPosition + 1);
+        }
+
         if ($this->isCustomDimensionPageNameEnabled()) {
             if ($this->pageConfig) {
                 $pageTitle = $this->pageConfig->getTitle()->get();
@@ -456,9 +498,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     break;
                 case 'checkout_index_index':
                 case 'firecheckout_index_index':
-                    $pageType = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CART;
+                    $pageType = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CHECKOUT;
                     break;
             }
+
+            if ($requestPathDynamic) {
+                if (in_array($requestPath, $customCheckoutPagePaths) || in_array($requestPathDynamic, $customCheckoutPagePaths)) {
+                    $pageType = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CHECKOUT;
+                }
+            }
+
             $this->storage->setData('pageType', $pageType);
         }
 
@@ -470,12 +519,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     break;
                 case 'checkout_index_index':
                 case 'firecheckout_index_index':
-                    $remarketingData['ecomm_pagetype'] = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CART;
+                    $remarketingData['ecomm_pagetype'] = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CHECKOUT;
                     break;
                 default:
                     $remarketingData['ecomm_pagetype'] = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_OTHER;
                     break;
             }
+
+            if ($requestPathDynamic) {
+                if (in_array($requestPath, $customCheckoutPagePaths) || in_array($requestPathDynamic, $customCheckoutPagePaths)) {
+                    $remarketingData['ecomm_pagetype'] = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CHECKOUT;
+                }
+            }
+
             $this->storage->setData('google_tag_params', $remarketingData);
         }
     }
@@ -598,19 +654,36 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             DIRECTORY_SEPARATOR . $this->_request->getControllerName() .
             DIRECTORY_SEPARATOR . $this->_request->getActionName();
 
-        if ($requestPath == 'checkout/index/index' || $requestPath == 'firecheckout/index/index') {
-            $checkoutBlock = $this->createBlock('Checkout', 'checkout.phtml');
+        $requestPathDynamic = $this->_request->getModuleName() .
+            DIRECTORY_SEPARATOR . $this->_request->getControllerName() .
+            DIRECTORY_SEPARATOR . '*';
 
-            if ($checkoutBlock) {
-                $quote = $this->checkoutSession->getQuote();
-                $checkoutBlock->setQuote($quote);
-                $checkoutBlock->toHtml();
-            }
+        $checkoutPagePaths = [
+            'checkout/index/index',
+            'firecheckout/index/index'
+        ];
 
-            if ($this->isCustomDimensionPageTypeEnabled()) {
-                $pageType = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CHECKOUT;
-                $this->storage->setData('pageType', $pageType);
-            }
+        $customCheckoutPagePaths = trim($this->getCustomCheckoutPagePaths());
+
+        if (strlen($customCheckoutPagePaths)) {
+            $checkoutPagePaths = array_merge($checkoutPagePaths, array_map('trim', explode(",", $customCheckoutPagePaths)));
+        }
+
+        if (!in_array($requestPath, $checkoutPagePaths) && !in_array($requestPathDynamic, $checkoutPagePaths)) {
+            return;
+        }
+
+        $checkoutBlock = $this->createBlock('Checkout', 'checkout.phtml');
+
+        if ($checkoutBlock) {
+            $quote = $this->checkoutSession->getQuote();
+            $checkoutBlock->setQuote($quote);
+            $checkoutBlock->toHtml();
+        }
+
+        if ($this->isCustomDimensionPageTypeEnabled()) {
+            $pageType = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_CHECKOUT;
+            $this->storage->setData('pageType', $pageType);
         }
     }
 
@@ -635,7 +708,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $customSuccessPagePaths = trim($this->getCustomSuccessPagePaths());
 
         if (strlen($customSuccessPagePaths)) {
-            $successPagePaths = array_merge($successPagePaths, explode(",", $customSuccessPagePaths));
+            $successPagePaths = array_merge($successPagePaths, array_map('trim', explode(",", $customSuccessPagePaths)));
         }
 
         if (!$lastOrderId) {
@@ -802,7 +875,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $result = [];
 
         $displayOption = $this->getParentOrChildIdUsage();
-        $productId = $this->getGtmProductId($product);;
+        $productId = $this->getGtmProductId($product);
+
+        if ($buyRequest instanceof \Magento\Framework\DataObject) {
+            $buyRequest = $buyRequest->getData();
+        }
 
         if ( ($displayOption == \WeltPixel\GA4\Model\Config\Source\ParentVsChild::CHILD) && ($product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE)) {
             $canditatesRequest = $this->objectFactory->create($buyRequest);
@@ -817,17 +894,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $result['event'] = 'add_to_cart';
         $result['ecommerce'] = [];
-        $result['ecommerce']['action'] = [];
-        $result['ecommerce']['action']['items'] = [];
+        $result['ecommerce']['items'] = [];
 
         $productData = [];
-        $productData['item_name'] = html_entity_decode($product->getName());
+        $productData['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productData['affiliation'] = $this->getAffiliationName();
         $productData['item_id'] = $productId;
         if ($this->checkoutSession->getGA4LastProductPrice()) {
-            $productData['price'] = number_format($this->convertPriceToCurrentCurrency($this->checkoutSession->getGA4LastProductPrice()), 2, '.', '');
+            $productData['price'] = floatval(number_format($this->convertPriceToCurrentCurrency($this->checkoutSession->getGA4LastProductPrice()), 2, '.', ''));
             $this->checkoutSession->setGA4LastProductPrice(null);
         } else {
-            $productData['price'] = number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '');
+            $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
         }
 
         if ($this->isBrandEnabled()) {
@@ -835,13 +912,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         $productCategoryIds = $product->getCategoryIds();
-        $categoryName = $this->getGtmCategoryFromCategoryIds($product->getCategoryIds());
-        $ga4Categories = $this->getGA4CategoriesFromCategoryIds($product->getCategoryIds());
+        $categoryName = $this->getGtmCategoryFromCategoryIds($productCategoryIds);
+        $ga4Categories = $this->getGA4CategoriesFromCategoryIds($productCategoryIds);
         $productData = array_merge($productData, $ga4Categories);
         $productData['item_list_name'] = $categoryName;
         $productData['item_list_id'] = count($productCategoryIds) ? $productCategoryIds[0] : '';
         $productData['quantity'] = (double)$qty;
-        $productData['currency'] = $this->getCurrencyCode();
 
         /**  Set the custom dimensions */
         $customDimensions = $this->dimensionModel->getProductDimensions($product, $this);
@@ -856,7 +932,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
-        $result['ecommerce']['action']['items'][] = $productData;
+        $result['ecommerce']['currency'] =  $this->getCurrencyCode();
+        $result['ecommerce']['value'] = $productData['price'] * abs($qty);
+        $result['ecommerce']['items'][] = $productData;
 
         return $result;
     }
@@ -871,7 +949,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (!is_array($currentAddToCartData)) {
             $currentAddToCartData = $addToCartPushData;
         } else {
-            $currentAddToCartData['ecommerce']['action']['items'][] = $addToCartPushData['ecommerce']['action']['items'][0];
+            $currentAddToCartData['ecommerce']['items'][] = $addToCartPushData['ecommerce']['items'][0];
         }
 
         return $currentAddToCartData;
@@ -1047,7 +1125,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $categoryPath = $this->storeCategories[$categoryId]['path'];
         }
 
-        return $this->_buildCategoryPath($categoryPath);
+        return str_replace('{#}', '/', $this->_buildCategoryPath($categoryPath));
     }
 
     /**
@@ -1071,7 +1149,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
-        return implode('/', $categoriesWithNames);
+        return implode('{#}', $categoriesWithNames);
     }
 
     /**
@@ -1098,25 +1176,24 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $result['event'] = 'remove_from_cart';
         $result['ecommerce'] = [];
-        $result['ecommerce']['action'] = [];
-        $result['ecommerce']['action']['items'] = [];
+        $result['ecommerce']['items'] = [];
 
         $productData = [];
-        $productData['item_name'] = html_entity_decode($product->getName());
+        $productData['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productData['affiliation'] = $this->getAffiliationName();
         $productData['item_id'] = $productId;
-        $productData['price'] = number_format($this->convertPriceToCurrentCurrency($quoteItem->getPrice()), 2, '.', '');
+        $productData['price'] = floatval(number_format($this->convertPriceToCurrentCurrency($quoteItem->getPrice()), 2, '.', ''));
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);
         }
 
         $productCategoryIds = $product->getCategoryIds();
-        $categoryName = $this->getGtmCategoryFromCategoryIds($product->getCategoryIds());
-        $ga4Categories = $this->getGA4CategoriesFromCategoryIds($product->getCategoryIds());
+        $categoryName = $this->getGtmCategoryFromCategoryIds($productCategoryIds);
+        $ga4Categories = $this->getGA4CategoriesFromCategoryIds($productCategoryIds);
         $productData = array_merge($productData, $ga4Categories);
         $productData['item_list_name'] = $categoryName;
         $productData['item_list_id'] = count($productCategoryIds) ? $productCategoryIds[0] : '';
         $productData['quantity'] = (double)$qty;
-        $productData['currency'] = $this->getCurrencyCode();
 
         if ($this->isVariantEnabled()) {
             $productFromQuote = $quoteItem->getProduct();
@@ -1126,7 +1203,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
-        $result['ecommerce']['action']['items'][] = $productData;
+        $result['ecommerce']['currency'] =  $this->getCurrencyCode();
+        $result['ecommerce']['value'] = $productData['price'] * abs($qty);
+        $result['ecommerce']['items'][] = $productData;
 
         return $result;
     }
@@ -1143,14 +1222,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $result['event'] = 'add_to_wishlist';
         $result['ecommerce'] = [];
-        $result['ecommerce']['action'] = [];
-        $result['ecommerce']['action']['items'] = [];
+        $result['ecommerce']['items'] = [];
 
         $productData = [];
-        $productData['currency'] = $this->getCurrencyCode();
-        $productData['item_name'] = html_entity_decode($product->getName());
+        $productData['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productData['affiliation'] = $this->getAffiliationName();
         $productData['item_id'] = $this->getGtmProductId($product);
-        $productData['price'] = number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '');
+        $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);
         }
@@ -1171,7 +1249,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
 
-        $result['ecommerce']['action']['items'][] = $productData;
+        $result['ecommerce']['currency'] =  $this->getCurrencyCode();
+        $result['ecommerce']['value'] = $productData['price'];
+        $result['ecommerce']['items'][] = $productData;
 
         return $result;
     }
@@ -1186,14 +1266,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $result['event'] = 'add_to_compare';
         $result['ecommerce'] = [];
-        $result['ecommerce']['action'] = [];
-        $result['ecommerce']['action']['items'] = [];
+        $result['ecommerce']['items'] = [];
 
         $productData = [];
-        $productData['currency'] = $this->getCurrencyCode();
-        $productData['item_name'] = html_entity_decode($product->getName());
+        $productData['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productData['affiliation'] = $this->getAffiliationName();
         $productData['item_id'] = $this->getGtmProductId($product);
-        $productData['price'] = number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '');
+        $productData['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
         if ($this->isBrandEnabled()) {
             $productData['item_brand'] = $this->getGtmBrand($product);
         }
@@ -1201,7 +1280,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $ga4Categories = $this->getGA4CategoriesFromCategoryIds($product->getCategoryIds());
         $productData = array_merge($productData, $ga4Categories);
 
-        $result['ecommerce']['action']['items'][] = $productData;
+        $result['ecommerce']['items'][] = $productData;
 
         return $result;
     }
@@ -1216,11 +1295,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $checkoutStepResult = [];
         $products = [];
         $checkoutBlock = $this->createBlock('Checkout', 'checkout.phtml');
+        $couponCode = '';
 
         if ($checkoutBlock) {
             $quote = $this->checkoutSession->getQuote();
             $checkoutBlock->setQuote($quote);
             $products = $checkoutBlock->getProducts();
+            $couponCode = $quote->getCouponCode();
         }
 
         switch ($step) {
@@ -1247,13 +1328,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         $checkoutStepResult['event'] = $eventName;
-        $checkoutStepResult['value'] = number_format($this->getCartTotal(), 2, '.', '');
-        $checkoutStepResult['currency'] = $this->getCurrencyCode();
         $checkoutStepResult['ecommerce'] = [];
-        $checkoutStepResult['ecommerce']['action'] = [];
-        $checkoutStepResult['ecommerce']['action']['items'] = [];
-        $checkoutStepResult['ecommerce']['action']['items'] = $products;
-        $checkoutStepResult['ecommerce']['action'][$optionName] = $checkoutOption;
+        $checkoutStepResult['ecommerce']['currency'] = $this->getCurrencyCode();
+        $checkoutStepResult['ecommerce']['value'] = floatval(number_format($this->getCartTotal(), 2, '.', ''));
+        $checkoutStepResult['ecommerce']['items'] = [];
+        $checkoutStepResult['ecommerce']['items'] = $products;
+        $checkoutStepResult['ecommerce'][$optionName] = $checkoutOption;
+
+        if ($couponCode) :
+            $checkoutStepResult['ecommerce']['coupon'] = $couponCode;
+        endif;
 
         $result = [];
         $result[] = $checkoutStepResult;
@@ -1466,7 +1550,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $categoryPath = $category->getData('path');
         $this->_populateStoreCategories();
 
-        return $this->_buildCategoryPath($categoryPath);
+        return str_replace('{#}', '/', $this->_buildCategoryPath($categoryPath));
     }
 
     /**
@@ -1480,7 +1564,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_populateStoreCategories();
 
         $categoryImploded = $this->_buildCategoryPath($categoryPath);
-        $categories = explode("/", $categoryImploded);
+        $categories = explode("{#}", $categoryImploded);
 
         $index = 1;
         $categNameSuffix = '';
@@ -1520,7 +1604,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $ga4Categories = [];
         $categoryImploded = $this->_buildCategoryPath($categoryPath);
-        $categories = explode("/", $categoryImploded);
+        $categories = explode("{#}", $categoryImploded);
 
         $index = 1;
         $categNameSuffix = '';
@@ -1604,5 +1688,21 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isDevMoveJsBottomEnabled()
     {
         return !$this->_request->isAjax() && $this->scopeConfig->isSetFlag(self::XML_PATH_DEV_MOVE_JS_TO_BOTTOM, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+    }
+
+    /**
+     * @return array
+     */
+    public function getGA4CheckoutPaymentData()
+    {
+        return $this->checkoutSession->getGA4CheckoutPaymentData() ?? [];
+    }
+
+    /**
+     * @return void
+     */
+    public function invalidateGA4CheckoutPaymentData()
+    {
+        $this->checkoutSession->setGA4CheckoutPaymentData(null);
     }
 }

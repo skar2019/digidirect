@@ -58,11 +58,15 @@ class GuestPaymentInformation
             }
         }
 
-        $additionalInformation = $order->getPayment()->getAdditionalInformation();
+        try {
+            $additionalInformation = $order->getPayment()->getAdditionalInformation();
 
-        if ($additionalInformation && isset($additionalInformation['method_title'])) {
-            $paymentMethodTitle = $additionalInformation['method_title'];
-            $this->_checkoutSession->setGA4CheckoutOptionsData($this->helper->addCheckoutStepPushData('2', $paymentMethodTitle));
+            if ($additionalInformation && isset($additionalInformation['method_title'])) {
+                $paymentMethodTitle = $additionalInformation['method_title'];
+                $this->_checkoutSession->setGA4CheckoutPaymentData($this->helper->addCheckoutStepPushData('2', $paymentMethodTitle));
+            }
+        } catch (\Exception $ex) {
+            return $result;
         }
 
         return $result;

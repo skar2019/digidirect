@@ -23,22 +23,30 @@ class Api extends \Magento\Framework\Model\AbstractModel
      * Variable names
      */
     const VARIABLE_MEASUREMENT_ID = 'WP - MEASUREMENT ID';
-    const VARIABLE_CUSTOMER_ID = 'WP - GA4 - customerId';
+    const VARIABLE_CUSTOMER_ID = 'WP - GA4 - user_id';
     const VARIABLE_CUSTOMER_GROUP = 'WP - GA4 - customerGroup';
     const VARIABLE_PAGE_TYPE = 'WP - GA4 - Page Type';
     const VARIABLE_ECOMMERCE_ITEMS = 'WP - GA4 - ecommerce.items';
-    const VARIABLE_ECOMMERCE_PURCHASE_ITEMS = 'WP - GA4 - ecommerce.purchase.items';
-    const VARIABLE_ECOMMERCE_ACTION_ITEMS = 'WP - GA4 - ecommerce.action.items';
+    const VARIABLE_ECOMMERCE_ITEM_LIST_ID = 'WP - GA4 - ecommerce.item_list_id';
+    const VARIABLE_ECOMMERCE_ITEM_LIST_NAME = 'WP - GA4 - ecommerce.item_list_name';
     const VARIABLE_TRANSACTION_ID = 'WP - GA4 - transaction_id';
     const VARIABLE_COUPON = 'WP - GA4 - coupon';
     const VARIABLE_TAX = 'WP - GA4 - tax';
     const VARIABLE_SHIPPING = 'WP - GA4 - shipping';
     const VARIABLE_CURRENCY = 'WP - GA4 - currency';
-    const VARIABLE_AFFILIATION = 'WP - GA4 - affiliation';
     const VARIABLE_ORDER_VALUE = 'WP - GA4 - Order Value';
     const VARIABLE_CUSTOMER_TOTAL_ORDER_COUNT = 'WP - GA4 - Customer - total_order_count';
     const VARIABLE_CUSTOMER_TOTAL_LIFETIME_VALUE = 'WP - GA4 - Customer - total_lifetime_value';
     const VARIABLE_PURCHASE_VALUE = 'WP - GA4 - Purchase Value';
+    const VARIABLE_PAYMENT_TYPE = 'WP - GA4 - Payment Type';
+    const VARIABLE_SHIPPING_TIER = 'WP - GA4 - Shipping Tier';
+    const VARIABLE_SEARCH_TERM = 'WP - GA4 - Search Term';
+    const VARIABLE_LOGIN = 'WP - GA4 - Login';
+    const VARIABLE_SIGNUP = 'WP - GA4 - Signup';
+    const VARIABLE_PROMOTION_CREATIVE_NAME = 'WP - GA4 - Promotion Creative Name';
+    const VARIABLE_PROMOTION_CREATIVE_SLOT = 'WP - GA4 - Promotion Creative Slot';
+    const VARIABLE_PROMOTION_ID = 'WP - GA4 - Promotion Id';
+    const VARIABLE_PROMOTION_NAME = 'WP - GA4 - Promotion Promotion Name';
 
     /**
      * Trigger names
@@ -47,6 +55,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
     const TRIGGER_GTM_DOM = 'WP - GA4 - gtm.dom';
     const TRIGGER_ADD_TO_CART = 'WP - GA4 - add_to_cart';
     const TRIGGER_REMOVE_FROM_CART = 'WP - GA4 - remove_from_cart';
+    const TRIGGER_VIEW_CART = 'WP - GA4 - view_cart';
     const TRIGGER_VIEW_ITEM = 'WP - GA4 - view_item';
     const TRIGGER_VIEW_ITEM_LIST = 'WP - GA4 - view_item_list';
     const TRIGGER_SELECT_PROMOTION = 'WP - GA4 - select_promotion';
@@ -56,6 +65,9 @@ class Api extends \Magento\Framework\Model\AbstractModel
     const TRIGGER_ADD_SHIPPING_INFO = 'WP - GA4 - add_shipping_info';
     const TRIGGER_ADD_PAYMENT_INFO = 'WP - GA4 - add_payment_info';
     const TRIGGER_ADD_TO_WISHLIST = 'WP - GA4 - add_to_wishlist';
+    const TRIGGER_SEARCH = 'WP - GA4 - search';
+    const TRIGGER_LOGIN = 'WP - GA4 - login';
+    const TRIGGER_SIGNUP = 'WP - GA4 - sign_up';
 
     const TRIGGER_ALL_PAGES_ID = '2147479553';
 
@@ -67,6 +79,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
     const TAG_PRODUCT_ITEM_LIST_CLICKS = 'WP - GA4 - product/item list clicks';
     const TAG_ITEM_ADD_TO_CART = 'WP - GA4 - add to cart';
     const TAG_ITEM_REMOVE_FROM_CART = 'WP - GA4 - remove from cart';
+    const TAG_VIEW_CART = 'WP - GA4 - view cart';
     const TAG_ITEM_VIEWS_IMPRESSIONS = 'WP - GA4 - item views/impressions';
     const TAG_VIEW_PROMOTION = 'WP - GA4 - View Promotion';
     const TAG_CLICK_PROMOTION = 'WP - GA4 - Click Promotion';
@@ -75,6 +88,9 @@ class Api extends \Magento\Framework\Model\AbstractModel
     const TAG_ADD_SHIPPING_INFO = 'WP - GA4 - Add Shipping Info';
     const TAG_ADD_PAYMENT_INFO = 'WP - GA4 - Add Payment Info';
     const TAG_ADD_TO_WISHLIST = 'WP - GA4 - Add To Wishlist';
+    const TAG_SEARCH = 'WP - GA4 - Search';
+    const TAG_LOGIN = 'WP - GA4 - Login';
+    const TAG_SIGNUP = 'WP - GA4 - Signup';
 
     /**
      * Return list of variables for api creation
@@ -137,8 +153,8 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     ]
                 ]
             ],
-            self::VARIABLE_ECOMMERCE_PURCHASE_ITEMS => [
-                'name' => self::VARIABLE_ECOMMERCE_PURCHASE_ITEMS,
+            self::VARIABLE_ECOMMERCE_ITEM_LIST_ID => [
+                'name' => self::VARIABLE_ECOMMERCE_ITEM_LIST_ID,
                 'type' => self::TYPE_VARIABLE_DATALAYER,
                 'parameter' => [
                     [
@@ -154,12 +170,12 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.items'
+                        'value' => 'ecommerce.item_list_id'
                     ]
                 ]
             ],
-            self::VARIABLE_ECOMMERCE_ACTION_ITEMS => [
-                'name' => self::VARIABLE_ECOMMERCE_ACTION_ITEMS,
+            self::VARIABLE_ECOMMERCE_ITEM_LIST_NAME => [
+                'name' => self::VARIABLE_ECOMMERCE_ITEM_LIST_NAME,
                 'type' => self::TYPE_VARIABLE_DATALAYER,
                 'parameter' => [
                     [
@@ -175,7 +191,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.action.items'
+                        'value' => 'ecommerce.item_list_name'
                     ]
                 ]
             ],
@@ -196,7 +212,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'customerId'
+                        'value' => 'user_id'
                     ]
                 ]
             ],
@@ -238,7 +254,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.transaction_id'
+                        'value' => 'ecommerce.transaction_id'
                     ]
                 ]
             ],
@@ -259,7 +275,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.coupon'
+                        'value' => 'ecommerce.coupon'
                     ]
                 ]
             ],
@@ -280,7 +296,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.tax'
+                        'value' => 'ecommerce.tax'
                     ]
                 ]
             ],
@@ -301,7 +317,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.shipping'
+                        'value' => 'ecommerce.shipping'
                     ]
                 ]
             ],
@@ -322,28 +338,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.currency'
-                    ]
-                ]
-            ],
-            self::VARIABLE_AFFILIATION => [
-                'name' => self::VARIABLE_AFFILIATION,
-                'type' => self::TYPE_VARIABLE_DATALAYER,
-                'parameter' => [
-                    [
-                        'type' => 'integer',
-                        'key' => 'dataLayerVersion',
-                        'value' => "2"
-                    ],
-                    [
-                        'type' => 'boolean',
-                        'key' => 'setDefaultValue',
-                        'value' => "false"
-                    ],
-                    [
-                        'type' => 'template',
-                        'key' => 'name',
-                        'value' => 'ecommerce.purchase.affiliation'
+                        'value' => 'ecommerce.currency'
                     ]
                 ]
             ],
@@ -385,7 +380,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.total_order_count'
+                        'value' => 'ecommerce.total_order_count'
                     ]
                 ]
             ],
@@ -406,7 +401,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.total_lifetime_value'
+                        'value' => 'ecommerce.total_lifetime_value'
                     ]
                 ]
             ],
@@ -427,7 +422,196 @@ class Api extends \Magento\Framework\Model\AbstractModel
                     [
                         'type' => 'template',
                         'key' => 'name',
-                        'value' => 'ecommerce.purchase.value'
+                        'value' => 'ecommerce.value'
+                    ]
+                ]
+            ],
+            self::VARIABLE_PAYMENT_TYPE => [
+                'name' => self::VARIABLE_PAYMENT_TYPE,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.payment_type'
+                    ]
+                ]
+            ],
+            self::VARIABLE_SHIPPING_TIER => [
+                'name' => self::VARIABLE_SHIPPING_TIER,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.shipping_tier'
+                    ]
+                ]
+            ],
+            self::VARIABLE_SEARCH_TERM => [
+                'name' => self::VARIABLE_SEARCH_TERM,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.search_term'
+                    ]
+                ]
+            ],
+            self::VARIABLE_LOGIN => [
+                'name' => self::VARIABLE_LOGIN,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.method'
+                    ]
+                ]
+            ],
+            self::VARIABLE_SIGNUP => [
+                'name' => self::VARIABLE_SIGNUP,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.method'
+                    ]
+                ]
+            ],
+            self::VARIABLE_PROMOTION_CREATIVE_NAME => [
+                'name' => self::VARIABLE_PROMOTION_CREATIVE_NAME,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.creative_name'
+                    ]
+                ]
+            ],
+            self::VARIABLE_PROMOTION_CREATIVE_SLOT => [
+                'name' => self::VARIABLE_PROMOTION_CREATIVE_SLOT,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.creative_slot'
+                    ]
+                ]
+            ],
+            self::VARIABLE_PROMOTION_ID => [
+                'name' => self::VARIABLE_PROMOTION_ID,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.promotion_id'
+                    ]
+                ]
+            ],
+            self::VARIABLE_PROMOTION_NAME => [
+                'name' => self::VARIABLE_PROMOTION_NAME,
+                'type' => self::TYPE_VARIABLE_DATALAYER,
+                'parameter' => [
+                    [
+                        'type' => 'integer',
+                        'key' => 'dataLayerVersion',
+                        'value' => "2"
+                    ],
+                    [
+                        'type' => 'boolean',
+                        'key' => 'setDefaultValue',
+                        'value' => "false"
+                    ],
+                    [
+                        'type' => 'template',
+                        'key' => 'name',
+                        'value' => 'ecommerce.promotion_name'
                     ]
                 ]
             ]
@@ -538,6 +722,27 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                 'type' => 'template',
                                 'key' => 'arg1',
                                 'value' => 'remove_from_cart'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            self::TRIGGER_VIEW_CART => [
+                'name' => self::TRIGGER_VIEW_CART,
+                'type' => self::TYPE_TRIGGER_CUSTOM_EVENT,
+                'customEventFilter' => [
+                    [
+                        'type' => 'equals',
+                        'parameter' => [
+                            [
+                                'type' => 'template',
+                                'key' => 'arg0',
+                                'value' => '{{_event}}'
+                            ],
+                            [
+                                'type' => 'template',
+                                'key' => 'arg1',
+                                'value' => 'view_cart'
                             ]
                         ]
                     ]
@@ -731,6 +936,69 @@ class Api extends \Magento\Framework\Model\AbstractModel
                         ]
                     ]
                 ]
+            ],
+            self::TRIGGER_SEARCH => [
+                'name' => self::TRIGGER_SEARCH ,
+                'type' => self::TYPE_TRIGGER_CUSTOM_EVENT,
+                'customEventFilter' => [
+                    [
+                        'type' => 'equals',
+                        'parameter' => [
+                            [
+                                'type' => 'template',
+                                'key' => 'arg0',
+                                'value' => '{{_event}}'
+                            ],
+                            [
+                                'type' => 'template',
+                                'key' => 'arg1',
+                                'value' => 'search'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            self::TRIGGER_LOGIN => [
+                'name' => self::TRIGGER_LOGIN ,
+                'type' => self::TYPE_TRIGGER_CUSTOM_EVENT,
+                'customEventFilter' => [
+                    [
+                        'type' => 'equals',
+                        'parameter' => [
+                            [
+                                'type' => 'template',
+                                'key' => 'arg0',
+                                'value' => '{{_event}}'
+                            ],
+                            [
+                                'type' => 'template',
+                                'key' => 'arg1',
+                                'value' => 'login'
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            self::TRIGGER_SIGNUP => [
+                'name' => self::TRIGGER_SIGNUP ,
+                'type' => self::TYPE_TRIGGER_CUSTOM_EVENT,
+                'customEventFilter' => [
+                    [
+                        'type' => 'equals',
+                        'parameter' => [
+                            [
+                                'type' => 'template',
+                                'key' => 'arg0',
+                                'value' => '{{_event}}'
+                            ],
+                            [
+                                'type' => 'template',
+                                'key' => 'arg1',
+                                'value' => 'sign_up'
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ];
         return $triggers;
@@ -800,7 +1068,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -832,6 +1100,36 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
                                         'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'item_list_id'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEM_LIST_ID . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'item_list_name'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEM_LIST_NAME . '}}'
                                     ]
                                 ]
                             ]
@@ -880,7 +1178,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -911,8 +1209,38 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
-                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ACTION_ITEMS . '}}'
+                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
                                     ]
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'MAP',
+                            'map' => [
+                                [
+                                    'type' => 'TEMPLATE',
+                                    'key' => 'name',
+                                    'value' => 'item_list_id'
+                                ],
+                                [
+                                    'type' => 'TEMPLATE',
+                                    'key' => 'value',
+                                    'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEM_LIST_ID . '}}'
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'MAP',
+                            'map' => [
+                                [
+                                    'type' => 'TEMPLATE',
+                                    'key' => 'name',
+                                    'value' => 'item_list_name'
+                                ],
+                                [
+                                    'type' => 'TEMPLATE',
+                                    'key' => 'value',
+                                    'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEM_LIST_NAME . '}}'
                                 ]
                             ]
                         ]
@@ -960,7 +1288,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -991,7 +1319,37 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
-                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ACTION_ITEMS . '}}'
+                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'value'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PURCHASE_VALUE . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'currency'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CURRENCY . '}}'
                                     ]
                                 ]
                             ]
@@ -1040,7 +1398,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -1071,7 +1429,147 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
-                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ACTION_ITEMS . '}}'
+                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'value'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PURCHASE_VALUE . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'currency'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CURRENCY . '}}'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'type' => 'TAG_REFERENCE',
+                        'key' => 'measurementId',
+                        'value' => self::TAG_MEASUREMENT_ID
+                    ],
+                ],
+                'monitoringMetadata' => [
+                    'type' => "MAP"
+                ]
+            ],
+            self::TAG_VIEW_CART => [
+                'name' => self::TAG_VIEW_CART,
+                'firingTriggerId' => [
+                    $triggers[self::TRIGGER_VIEW_CART]
+                ],
+                'tagFiringOption' => 'oncePerEvent',
+                'type' => self::TYPE_TAG_GAAWE,
+                'parameter' => [
+                    [
+                        'type' => 'LIST',
+                        'key' => 'userProperties',
+                        'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'customerGroup'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CUSTOMER_GROUP . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'user_id'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CUSTOMER_ID . '}}'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'type' => 'TEMPLATE',
+                        'key' => 'eventName',
+                        'value' => 'view_cart'
+                    ],
+                    [
+                        'type' => 'LIST',
+                        'key' => 'eventParameters',
+                        'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'items'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'value'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PURCHASE_VALUE . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'currency'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CURRENCY . '}}'
                                     ]
                                 ]
                             ]
@@ -1120,7 +1618,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -1154,6 +1652,36 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                         'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
                                     ]
                                 ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'value'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PURCHASE_VALUE . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'currency'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CURRENCY . '}}'
+                                    ]
+                                ]
                             ]
                         ]
                     ],
@@ -1184,6 +1712,66 @@ class Api extends \Magento\Framework\Model\AbstractModel
                         'type' => 'LIST',
                         'key' => 'eventParameters',
                         'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'creative_name'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PROMOTION_CREATIVE_NAME . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'creative_slot'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PROMOTION_CREATIVE_SLOT . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'promotion_id'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PROMOTION_ID . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'promotion_name'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PROMOTION_NAME . '}}'
+                                    ]
+                                ]
+                            ],
                             [
                                 'type' => 'MAP',
                                 'map' => [
@@ -1228,6 +1816,66 @@ class Api extends \Magento\Framework\Model\AbstractModel
                         'type' => 'LIST',
                         'key' => 'eventParameters',
                         'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'creative_name'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PROMOTION_CREATIVE_NAME . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'creative_slot'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PROMOTION_CREATIVE_SLOT . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'promotion_id'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PROMOTION_ID . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'promotion_name'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PROMOTION_NAME . '}}'
+                                    ]
+                                ]
+                            ],
                             [
                                 'type' => 'MAP',
                                 'map' => [
@@ -1288,7 +1936,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -1320,6 +1968,51 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
                                         'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'value'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PURCHASE_VALUE . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'currency'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CURRENCY . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'coupon'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_COUPON . '}}'
                                     ]
                                 ]
                             ]
@@ -1368,7 +2061,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -1429,7 +2122,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
-                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_PURCHASE_ITEMS . '}}'
+                                        'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
                                     ]
                                 ]
                             ],
@@ -1445,21 +2138,6 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
                                         'value' => '{{' . self::VARIABLE_TRANSACTION_ID . '}}'
-                                    ]
-                                ]
-                            ],
-                            [
-                                'type' => 'MAP',
-                                'map' => [
-                                    [
-                                        'type' => 'TEMPLATE',
-                                        'key' => 'name',
-                                        'value' => 'affiliation'
-                                    ],
-                                    [
-                                        'type' => 'TEMPLATE',
-                                        'key' => 'value',
-                                        'value' => '{{' . self::VARIABLE_AFFILIATION . '}}'
                                     ]
                                 ]
                             ],
@@ -1588,7 +2266,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -1620,6 +2298,66 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
                                         'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'value'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PURCHASE_VALUE . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'currency'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CURRENCY . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'coupon'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_COUPON . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'shipping_tier'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_SHIPPING_TIER . '}}'
                                     ]
                                 ]
                             ]
@@ -1673,7 +2411,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -1705,6 +2443,66 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
                                         'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'value'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PURCHASE_VALUE . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'currency'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CURRENCY . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'coupon'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_COUPON . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'payment_type'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_PAYMENT_TYPE . '}}'
                                     ]
                                 ]
                             ]
@@ -1758,7 +2556,7 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                     [
                                         'type' => 'TEMPLATE',
                                         'key' => 'name',
-                                        'value' => 'customerId'
+                                        'value' => 'user_id'
                                     ],
                                     [
                                         'type' => 'TEMPLATE',
@@ -1790,6 +2588,291 @@ class Api extends \Magento\Framework\Model\AbstractModel
                                         'type' => 'TEMPLATE',
                                         'key' => 'value',
                                         'value' => '{{' . self::VARIABLE_ECOMMERCE_ITEMS . '}}'
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'MAP',
+                            'map' => [
+                                [
+                                    'type' => 'TEMPLATE',
+                                    'key' => 'name',
+                                    'value' => 'value'
+                                ],
+                                [
+                                    'type' => 'TEMPLATE',
+                                    'key' => 'value',
+                                    'value' => '{{' . self::VARIABLE_PURCHASE_VALUE . '}}'
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'MAP',
+                            'map' => [
+                                [
+                                    'type' => 'TEMPLATE',
+                                    'key' => 'name',
+                                    'value' => 'currency'
+                                ],
+                                [
+                                    'type' => 'TEMPLATE',
+                                    'key' => 'value',
+                                    'value' => '{{' . self::VARIABLE_CURRENCY . '}}'
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'type' => 'TAG_REFERENCE',
+                        'key' => 'measurementId',
+                        'value' => self::TAG_MEASUREMENT_ID
+                    ],
+                ],
+                'monitoringMetadata' => [
+                    'type' => "MAP"
+                ]
+            ],
+            self::TAG_SEARCH => [
+                'name' => self::TAG_SEARCH,
+                'firingTriggerId' => [
+                    $triggers[self::TRIGGER_SEARCH]
+                ],
+                'tagFiringOption' => 'oncePerEvent',
+                'type' => self::TYPE_TAG_GAAWE,
+                'parameter' => [
+                    [
+                        'type' => 'BOOLEAN',
+                        'key' => 'sendEcommerceData',
+                        'value' => 'false'
+                    ],
+                    [
+                        'type' => 'LIST',
+                        'key' => 'userProperties',
+                        'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'customerGroup'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CUSTOMER_GROUP . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'user_id'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CUSTOMER_ID . '}}'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'type' => 'TEMPLATE',
+                        'key' => 'eventName',
+                        'value' => 'search'
+                    ],
+                    [
+                        'type' => 'LIST',
+                        'key' => 'eventParameters',
+                        'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'search_term'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_SEARCH_TERM . '}}'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'type' => 'TAG_REFERENCE',
+                        'key' => 'measurementId',
+                        'value' => self::TAG_MEASUREMENT_ID
+                    ],
+                ],
+                'monitoringMetadata' => [
+                    'type' => "MAP"
+                ]
+            ],
+            self::TAG_LOGIN => [
+                'name' => self::TAG_LOGIN,
+                'firingTriggerId' => [
+                    $triggers[self::TRIGGER_LOGIN]
+                ],
+                'tagFiringOption' => 'oncePerEvent',
+                'type' => self::TYPE_TAG_GAAWE,
+                'parameter' => [
+                    [
+                        'type' => 'BOOLEAN',
+                        'key' => 'sendEcommerceData',
+                        'value' => 'false'
+                    ],
+                    [
+                        'type' => 'LIST',
+                        'key' => 'userProperties',
+                        'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'customerGroup'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CUSTOMER_GROUP . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'user_id'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CUSTOMER_ID . '}}'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'type' => 'TEMPLATE',
+                        'key' => 'eventName',
+                        'value' => 'login'
+                    ],
+                    [
+                        'type' => 'LIST',
+                        'key' => 'eventParameters',
+                        'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'method'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_LOGIN . '}}'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'type' => 'TAG_REFERENCE',
+                        'key' => 'measurementId',
+                        'value' => self::TAG_MEASUREMENT_ID
+                    ],
+                ],
+                'monitoringMetadata' => [
+                    'type' => "MAP"
+                ]
+            ],
+            self::TAG_SIGNUP => [
+                'name' => self::TAG_SIGNUP,
+                'firingTriggerId' => [
+                    $triggers[self::TRIGGER_SIGNUP]
+                ],
+                'tagFiringOption' => 'oncePerEvent',
+                'type' => self::TYPE_TAG_GAAWE,
+                'parameter' => [
+                    [
+                        'type' => 'BOOLEAN',
+                        'key' => 'sendEcommerceData',
+                        'value' => 'false'
+                    ],
+                    [
+                        'type' => 'LIST',
+                        'key' => 'userProperties',
+                        'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'customerGroup'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CUSTOMER_GROUP . '}}'
+                                    ]
+                                ]
+                            ],
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'user_id'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_CUSTOMER_ID . '}}'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'type' => 'TEMPLATE',
+                        'key' => 'eventName',
+                        'value' => 'sign_up'
+                    ],
+                    [
+                        'type' => 'LIST',
+                        'key' => 'eventParameters',
+                        'list' => [
+                            [
+                                'type' => 'MAP',
+                                'map' => [
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'name',
+                                        'value' => 'method'
+                                    ],
+                                    [
+                                        'type' => 'TEMPLATE',
+                                        'key' => 'value',
+                                        'value' => '{{' . self::VARIABLE_SIGNUP. '}}'
                                     ]
                                 ]
                             ]

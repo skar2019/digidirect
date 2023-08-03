@@ -9,15 +9,21 @@
         <?php
 
         $productDetail = [];
-        $productDetail['item_name'] = html_entity_decode($product->getName());
+        $productPrice = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue() ?? 0, 2, '.', ''));
+        $productDetail = [];
+        $productDetail['item_name'] = html_entity_decode($product->getName() ?? '');
+        $productDetail['affiliation'] = $helper->getAffiliationName();
         $productDetail['item_id'] = $helper->getGtmProductId($product);
-        $productDetail['price'] = number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '');
+        $productDetail['price'] = $productPrice;
         if ($helper->isBrandEnabled()) :
             $productDetail['item_brand'] = $helper->getGtmBrand($product);
         endif;
-        $ga4Categories = $helper->getGA4CategoriesFromCategoryIds($product->getCategoryIds());
+        $productCategoryIds = $product->getCategoryIds();
+        $ga4Categories = $helper->getGA4CategoriesFromCategoryIds($productCategoryIds);
         $productDetail = array_merge($productDetail, $ga4Categories);
-        $productDetail['currency'] = $this->getCurrencyCode();
+        $categoryName = $helper->getGtmCategoryFromCategoryIds($product->getCategoryIds());
+        $productDetail['item_list_name'] = $categoryName;
+        $productDetail['item_list_id'] = count($productCategoryIds) ? $productCategoryIds[0] : '';
 
         /** Set the custom dimensions */
         $customDimensions = $this->getProductDimensions($product, $helper);
@@ -28,6 +34,8 @@
         $productDetails[] = $productDetail;
         ?>
         <?php
+        $this->setEcommerceData('currency', $this->getCurrencyCode());
+        $this->setEcommerceData('value', $productPrice);
         $this->setEcommerceData('items', $productDetails);
         $this->setDataLayerOption('event', 'view_item');
         ?>
@@ -37,15 +45,17 @@
         $relatedProductsCollection = $this->getRelatedProductCollection();
         $upsellProductsCollection = $this->getUpsellProductCollection();
 
-        $productImpressions = [];
+            $relatedProductImpressions = [];
+            $upsellProductImpressions = [];
 
         if (count($relatedProductsCollection)) :
             $i = 1;
             foreach ($relatedProductsCollection as $_product) :
                 $relatedProduct = [];
-                $relatedProduct['item_name'] = html_entity_decode($_product->getName());
+                $relatedProduct['item_name'] = html_entity_decode($_product->getName() ?? '');
+                $relatedProduct['affiliation'] = $helper->getAffiliationName();
                 $relatedProduct['item_id'] = $helper->getGtmProductId($_product);
-                $relatedProduct['price'] = number_format($_product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '');
+                $relatedProduct['price'] = floatval(number_format($_product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
                 if ($helper->isBrandEnabled()) :
                     $relatedProduct['item_brand'] = $helper->getGtmBrand($_product);
                 endif;
@@ -55,19 +65,25 @@
                 $relatedProduct['item_list_name'] = __('Related Products From') . ' ' . $product->getData('name');
                 $relatedProduct['item_list_id'] = 'related_products';
                 $relatedProduct['index'] = $i;
-                $relatedProduct['currency'] = $this->getCurrencyCode();
-                $productImpressions[] = $relatedProduct;
+                $relatedProductImpressions[] = $relatedProduct;
                 $i++;
             endforeach;
+
+            $this->setImpressionData([
+                'items' => $relatedProductImpressions,
+                'item_list_id' =>  'related_products',
+                'item_list_name' =>  __('Related Products From') . ' ' . $product->getData('name')
+            ]);
         endif;
 
         if (count($upsellProductsCollection)) :
             $i = 1;
             foreach ($upsellProductsCollection as $_product) :
                 $upsellProduct = [];
-                $upsellProduct['item_name'] = html_entity_decode($_product->getName());
+                $upsellProduct['item_name'] = html_entity_decode($_product->getName() ?? '');
+                $upsellProduct['affiliation'] = $helper->getAffiliationName();
                 $upsellProduct['item_id'] = $helper->getGtmProductId($_product);
-                $upsellProduct['price'] = number_format($_product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '');
+                $upsellProduct['price'] = floatval(number_format($_product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
                 if ($helper->isBrandEnabled()) :
                     $upsellProduct['item_brand'] = $helper->getGtmBrand($_product);
                 endif;
@@ -76,25 +92,23 @@
                 $upsellProduct['item_list_name'] = __('Upsell Products From') . ' ' . $product->getData('name');
                 $upsellProduct['item_list_id'] = 'upsell_products';
                 $upsellProduct['index'] = $i;
-                $upsellProduct['currency'] = $this->getCurrencyCode();
-                $productImpressions[] = $upsellProduct;
+                $upsellProductImpressions[] = $upsellProduct;
                 $i++;
             endforeach;
-        endif;
 
-        if (count($productImpressions)) :
-            $impressionData = [];
-            $impressionData['event'] = 'view_item_list';
-            $impressionData['ecommerce'] = [];
-            $impressionData['ecommerce']['items'] = $productImpressions;
-            $this->setAdditionalDataLayerData($impressionData);
-        endif;
+            $this->setImpressionData([
+                'items' => $upsellProductImpressions,
+                'item_list_id' =>  'upsell_products',
+                'item_list_name' =>  __('Upsell Products From') . ' ' . $product->getData('name')
+            ]);
+            endif;
+
 
         if ($helper->isAdWordsRemarketingEnabled()):
             $remarketingData = [];
             $remarketingData['ecomm_pagetype'] = \WeltPixel\GA4\Model\Api\Remarketing::ECOMM_PAGETYPE_PRODUCT;
             $remarketingData['ecomm_prodid'] = $helper->getGtmProductId($product);
-            $remarketingData['ecomm_totalvalue'] = number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '');
+            $remarketingData['ecomm_totalvalue'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', ''));
             $remarketingData['ecomm_category'] = $helper->getGtmCategoryFromCategoryIds($product->getCategoryIds());
             $this->setDataLayerOption('google_tag_params', $remarketingData);
         endif;

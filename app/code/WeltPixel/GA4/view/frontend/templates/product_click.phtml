@@ -13,13 +13,12 @@
         $listId = $this->getListId();
         $index = $this->getIndex();
         $productDetail = [];
-        $productDetail['item_name'] = html_entity_decode($product->getName());
+        $productDetail['item_name'] = html_entity_decode($product->getName() ?? '');
         $productDetail['item_id'] = $helper->getGtmProductId($product);
-        $productDetail['price'] = number_format($product->getPriceInfo()->getPrice('final_price')->getValue(), 2, '.', '');
+        $productDetail['price'] = floatval(number_format($product->getPriceInfo()->getPrice('final_price')->getValue() ?? 0, 2, '.', ''));
         $productDetail['index'] = $index;
         $ga4Categories = $helper->getGA4CategoriesFromCategoryIds($product->getCategoryIds());
         $productDetail = array_merge($productDetail, $ga4Categories);
-        $productDetail['currency'] = $this->getCurrencyCode();
         $productDetail['item_list_name'] = $list;
         $productDetail['item_list_id'] = $listId;
          if ($helper->isBrandEnabled()) :
@@ -34,9 +33,9 @@
         $data = [
             'event' => 'select_item',
             'ecommerce' => [
-                'action' => [
-                        'items' => [$productDetail]
-                ]
+                'item_list_id' => $listId,
+                'item_list_name' => $list,
+                'items' => [$productDetail]
              ]
         ];
 
