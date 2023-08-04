@@ -104,7 +104,7 @@
 }
 
 .newspopup-up-form.newspopup-theme .newspopup-left-col {
-    background-image: url("{{view url="Plumrocket_Newsletterpopup::images/templates/theme4_bg.jpg"}}");
+    background-image: url("{{view url="Plumrocket_Newsletterpopup::images/templates/popup-banner.png"}}");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
