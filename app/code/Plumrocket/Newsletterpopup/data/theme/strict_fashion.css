@@ -104,13 +104,12 @@
 }
 
 .newspopup-up-form.newspopup-theme .newspopup-left-col {
-    background-image: url("{{view url="Plumrocket_Newsletterpopup::images/templates/popup-banner.png"}}");
+    background-image: url("{{view url="Plumrocket_Newsletterpopup::images/templates/theme4_bg.jpg"}}");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
-    /*background-position: 25% 50%;*/
-    width: 40%;
-    height: 615px;
+    background-position: 25% 50%;
+    width: 55%;
 }
 
 .newspopup-up-form.newspopup-theme .newspopup-left-col img {
