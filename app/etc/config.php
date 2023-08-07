@@ -678,6 +678,8 @@ return [
         'Swissup_Swiper' => 1,
         'Temando_ShippingRemover' => 1,
         'WebPanda_SalesProductImage' => 1,
+        'WeltPixel_Backend' => 0,
+        'WeltPixel_GA4' => 0,
         'Zip_ZipPayment' => 1
     ]
 ];
