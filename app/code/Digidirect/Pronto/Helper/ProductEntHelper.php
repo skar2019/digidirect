@@ -276,12 +276,16 @@ class ProductEntHelper extends AbstractHelper
                 }
             }
 
+            $title = $product->getName();
+            $title = strip_tags($title);
+            $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
+
             $data[] = $brandname;
             $data[] = $description;
             $data[] = $gtin;
             $data[] = $product->getSku();
             $data[] = $product->getApn();
-            $data[] = $product->getName();
+            $data[] = $title;
             $data[] = $category1;
             $data[] = $category2;
             $data[] = $category3;
