@@ -1,4 +1,20 @@
-<?php ?>
+<?php 
+    $digiClubData = $block->getData();
+    $isDigiClub = $digiClubData['isDigiClub'];
+?>
 
-<div>digiClub Content!</div>
+<form class="form form-newsletter-manage block" action="https://mcstaging2.digidirect.com.au/newsletter/manage/save/" method="post" id="form-validate">
+    <fieldset class="fieldset">
+        <div class="block-title"><span>Subscription Option</span></div><br> 
+        <div class="field choice">
+            <input type="checkbox" name="is_subscribed" id="subscription" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox">
+            <label for="subscription" class="label"><span>Subscribe to digiClub</span></label>
+        </div> 
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" title="Save" class="action save -responsive"><span>Save</span></button>
+        </div>
+    </div>
+</form>
 
