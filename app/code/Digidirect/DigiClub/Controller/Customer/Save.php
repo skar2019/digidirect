@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Digidirect\DigiClub\Controller\Manage;
+namespace Digidirect\DigiClub\Controller\Customer;
 
 use Magento\Customer\Api\CustomerRepositoryInterface as CustomerRepository;
 use Magento\Customer\Api\Data\CustomerInterface;
