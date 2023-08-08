@@ -5,6 +5,7 @@
         <referenceBlock name="customer_account_navigation">
             <block class="Magento\Framework\View\Element\Html\Link\Current" name="digiclub-tab-link">
                 <arguments>
+                    <argument name="class" xsi:type="string">digiclub-block</argument>
                     <argument name="path" xsi:type="string">digiclub/customer/index</argument>
                     <argument name="label" xsi:type="string" translate="true">digiClub</argument>
                     <argument name="sortOrder" xsi:type="number">30</argument>
