@@ -13,7 +13,7 @@
     }
 ?>
 
-<form class="form form-digiclub-manage block" action="https://mcstaging2.digidirect.com.au/manage/save/" method="post">
+<form class="form form-digiclub-manage block" action="https://mcstaging2.digidirect.com.au/digiclub/customer/save" method="post">
     <fieldset class="fieldset">
         <div class="block-title"><span>Subscription Option</span></div><br> 
         <div class="field choice">
@@ -35,12 +35,12 @@
     function ($) {
         $('#digiclub').change(function() {
             console.log("digiClub!");
-            if (this.is(":checked")) {
-                this.addAttr("checked");
-                this.attr("value", 1);
+            if ($('#digiclub').is(":checked")) {
+                $('#digiclub').addAttr("checked");
+                $('#digiclub').attr("value", 1);
             } else {
-                this.removeAttr("checked");
-                this.attr("value", 0);
+                $('#digiclub').removeAttr("checked");
+                $('#digiclub').attr("value", 0);
             }
         });
     });
