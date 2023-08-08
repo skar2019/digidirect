@@ -8,6 +8,9 @@
                     <argument name="path" xsi:type="string">digiclub/customer/index</argument>
                     <argument name="label" xsi:type="string" translate="true">digiClub</argument>
                     <argument name="sortOrder" xsi:type="number">30</argument>
+                    <argument name="attributes" xsi:type="array">
+                        <item name="class" xsi:type="string">digiclub-icon</item>
+                    </argument>
                 </arguments>
             </block>
         </referenceBlock>

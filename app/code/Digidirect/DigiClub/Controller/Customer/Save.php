@@ -87,13 +87,13 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 }
                 
                 $this->customerRepository->save($customer);
-                $this->messageManager->addSuccess(__('We have updated your subscription.'));
+                $this->messageManager->addSuccess(__('We have updated your digiClub subscription.'));
                 
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
             }
         }
-        return $this->_redirect('customer/account/');
+        return $this->_redirect('digiclub/customer/index/');
     }
 
     /**

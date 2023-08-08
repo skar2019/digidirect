@@ -36,10 +36,8 @@
         $('#digiclub').change(function() {
             console.log("digiClub!");
             if ($('#digiclub').is(":checked")) {
-                $('#digiclub').prop('checked',true);
                 $('#digiclub').attr("value", 1);
             } else {
-                $('#digiclub').prop('checked',false);
                 $('#digiclub').attr("value", 0);
             }
         });
