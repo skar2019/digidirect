@@ -713,14 +713,22 @@ class Order extends AbstractHelper
                         //echo $myjson ."\n";
                         $myarray = json_decode($myjson, true);
                         //var_dump($myarray);
-                        $latistatus = $myarray['status'];
-                        if($latistatus == 'paid')
+                        if(isset($myarray['status']))
                         {
-                            $tosync = true;
+                            $latistatus = $myarray['status'];
+                            if($latistatus == 'paid')
+                            {
+                                $tosync = true;
+                            }
+                            else {
+                                $tosync = false;
+                            }
                         }
-                        else {
+                        else
+                        {
                             $tosync = false;
                         }
+
 
                     }
 
