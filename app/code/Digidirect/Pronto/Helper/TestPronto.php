@@ -909,6 +909,12 @@ class TestPronto extends AbstractHelper
                     }
                 }
 
+                if($payment_type == 'VI')
+                {
+                    $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                    $data['sales-order']['header']['set-on-status'] = "H";
+                }
+
             }
 
             $data['sales-order']['header']['so-part-shipment-allowed'] = "N";
