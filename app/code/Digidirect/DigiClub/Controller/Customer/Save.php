@@ -8,11 +8,12 @@ use Magento\Customer\Api\CustomerRepositoryInterface as CustomerRepository;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\Controller\ResultFactory;
 
 /**
  * Customers digiClub subscription save controller
  */
-class Save implements HttpPostActionInterface, HttpGetActionInterface
+class Save extends \Magento\Framework\App\Action\Action implements HttpPostActionInterface, HttpGetActionInterface
 {
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
@@ -52,6 +53,7 @@ class Save implements HttpPostActionInterface, HttpGetActionInterface
         $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
         $this->customerRepository = $customerRepository;
+        parent::__construct($context);
     }
 
     /**
