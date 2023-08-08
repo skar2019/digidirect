@@ -1,0 +1,105 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Digidirect\DigiClub\Controller\Manage;
+
+use Magento\Customer\Api\CustomerRepositoryInterface as CustomerRepository;
+use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\Action\HttpPostActionInterface;
+
+/**
+ * Customers digiClub subscription save controller
+ */
+class Save implements HttpPostActionInterface, HttpGetActionInterface
+{
+    /**
+     * @var \Magento\Framework\Data\Form\FormKey\Validator
+     */
+    protected $formKeyValidator;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var CustomerRepository
+     */
+    protected $customerRepository;
+
+    /**
+     * Initialize dependencies.
+     *
+     * @param \Magento\Framework\App\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param CustomerRepository $customerRepository
+     * @param SubscriptionManagerInterface $subscriptionManager
+     */
+    public function __construct(
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        CustomerRepository $customerRepository
+    ) {
+        $this->storeManager = $storeManager;
+        $this->formKeyValidator = $formKeyValidator;
+        $this->customerRepository = $customerRepository;
+        parent::__construct($context, $customerSession);
+    }
+
+    /**
+     * Save digiClub subscription preference action
+     *
+     * @return \Magento\Framework\App\ResponseInterface
+     */
+    public function execute()
+    {
+        if (!$this->formKeyValidator->validate($this->getRequest())) {
+            return $this->_redirect('customer/account/');
+        }
+
+        $customerId = $this->_customerSession->getCustomerId();
+        if ($customerId === null) {
+            $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
+        } else {
+            try {
+                $customer = $this->customerRepository->getById($customerId);
+                $storeId = (int)$this->storeManager->getStore()->getId();
+                $customer->setStoreId($storeId);
+                $customerGroupId = $customer->getGroupId();
+                
+                $isDigiClubParam = (boolean)$this->getRequest()->getParam('is_digiclub', false);
+                $this->setIgnoreValidationFlag($customer);
+                
+                if ($isDigiClubParam) {
+                    $customer->setGroupId(10);
+                } else {
+                    $customer->setGroupId(1);
+                }
+                
+                $this->customerRepository->save($customer);
+                $this->messageManager->addSuccess(__('We have updated your subscription.'));
+                
+            } catch (\Exception $e) {
+                $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
+            }
+        }
+        return $this->_redirect('customer/account/');
+    }
+
+    /**
+     * Set ignore_validation_flag to skip unnecessary address and customer validation
+     *
+     * @param CustomerInterface $customer
+     * @return void
+     */
+    private function setIgnoreValidationFlag(CustomerInterface $customer): void
+    {
+        $customer->setData('ignore_validation_flag', true);
+    }
+}
