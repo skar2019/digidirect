@@ -17,7 +17,7 @@
     <fieldset class="fieldset">
         <div class="block-title"><span>Subscription Option</span></div><br> 
         <div class="field choice">
-            <input type="checkbox" name="is_subscribed" id="subscription" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
+            <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
             <label for="subscription" class="label"><span>Subscribe to digiClub</span></label>
         </div> 
     </fieldset>
@@ -27,4 +27,20 @@
         </div>
     </div>
 </form>
+
+<script>
+    require([
+        'jquery'
+    ],
+    function ($) {
+  
+        $('#digiclub').change(function() {
+            if (this.checked) {
+                this.addAttr("checked");
+            } else {
+                this.removeAttr("checked");
+            }
+        });
+    });
+</script>
 
