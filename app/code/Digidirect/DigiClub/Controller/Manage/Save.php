@@ -28,6 +28,8 @@ class Save implements HttpPostActionInterface, HttpGetActionInterface
      * @var CustomerRepository
      */
     protected $customerRepository;
+    
+    protected $customerSession;
 
     /**
      * Initialize dependencies.
@@ -47,9 +49,9 @@ class Save implements HttpPostActionInterface, HttpGetActionInterface
         CustomerRepository $customerRepository
     ) {
         $this->storeManager = $storeManager;
+        $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
         $this->customerRepository = $customerRepository;
-        parent::__construct($context, $customerSession);
     }
 
     /**
@@ -63,7 +65,7 @@ class Save implements HttpPostActionInterface, HttpGetActionInterface
             return $this->_redirect('customer/account/');
         }
 
-        $customerId = $this->_customerSession->getCustomerId();
+        $customerId = $this->customerSession->getCustomerId();
         if ($customerId === null) {
             $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
         } else {
