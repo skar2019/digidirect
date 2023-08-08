@@ -35,10 +35,10 @@
     function ($) {
         $('#digiclub').change(function() {
             console.log("digiClub!");
-            if (this.checked) {
-                this.prop("checked", true);
+            if (this(":checked") {
+                this.removeAttr("checked");
             } else {
-                this.prop("checked", false);
+                this.addAttr("checked");
             }
         });
     });
