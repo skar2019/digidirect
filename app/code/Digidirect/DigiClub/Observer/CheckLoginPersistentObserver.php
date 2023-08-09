@@ -28,10 +28,11 @@ class CheckLoginPersistentObserver implements ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        $actionName = $observer->getEvent()->getRequest()->getFullActionName();
-        $controller = $observer->getControllerAction();
+        //$actionName = $observer->getEvent()->getRequest()->getFullActionName();
+        //$controller = $observer->getControllerAction();
+        $routeName = $observer->getEvent()->getRequest()->getRouteName();
 
-        if(!$this->_customerSession->isLoggedIn() && $controller == 'digiclub/customer/index') {
+        if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclub') {
             $this->redirect->redirect($controller->getResponse(), 'customer/account/login');
         }
     }
