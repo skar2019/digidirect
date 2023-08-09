@@ -3,4 +3,7 @@
     <event name="controller_action_predispatch">
         <observer name="check_login_persistent" instance="Digidirect\DigiClub\Observer\CheckLoginPersistentObserver" />
     </event>
+    <event name="customer_register_success">
+        <observer name="custom_redirect_register_success" instance="Digidirect\DigiClub\Observer\Register" disabled="false"/>
+    </event>
 </config>
