@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Digidirect\DigiClub\Controller\Customer;
 
 use Magento\Customer\Api\CustomerRepositoryInterface as CustomerRepository;
