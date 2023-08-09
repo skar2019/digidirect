@@ -39,7 +39,7 @@ class CheckLoginPersistentObserver implements ObserverInterface
         if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclub') {
             //$redirectUrl = $this->redirect->getRefererUrl();
             //$this->redirect->redirect($controller->getResponse(), 'customer/account/login');
-            $url = $this->redirect->getRefererUrl();
+            $url = 'digiclub/customer/index'; //$this->redirect->getRefererUrl();
             $login_url = $this->urlInterface
                 ->getUrl('customer/account/login',
                     array('referer' => base64_encode($url))
@@ -48,6 +48,8 @@ class CheckLoginPersistentObserver implements ObserverInterface
             //$resultRedirect->setUrl($login_url);
             //return $resultRedirect;
             $this->redirect->redirect($controller->getResponse(), $login_url);
+            //$redirectUrl = $this->urlInterface->getUrl('customer/account/login', array('referer'=>base64_encode($referenceUrl)));
+            //return $redirectUrl;
         }
         
         
