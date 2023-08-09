@@ -15,6 +15,9 @@ use Magento\Framework\Controller\ResultFactory;
  */
 class Save extends \Magento\Framework\App\Action\Action implements HttpPostActionInterface, HttpGetActionInterface
 {
+    const DIGICLUB_GROUP_ID = 10;
+    
+    const GENERAL_GROUP_ID = 1;
     /**
      * @var \Magento\Framework\Data\Form\FormKey\Validator
      */
@@ -81,9 +84,9 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $this->setIgnoreValidationFlag($customer);
                 
                 if ($isDigiClubParam) {
-                    $customer->setGroupId(10);
+                    $customer->setGroupId(self::DIGICLUB_GROUP_ID);
                 } else {
-                    $customer->setGroupId(1);
+                    $customer->setGroupId(self::GENERAL_GROUP_ID);
                 }
                 
                 $this->customerRepository->save($customer);

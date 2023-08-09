@@ -32,27 +32,17 @@ class CheckLoginPersistentObserver implements ObserverInterface
 
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
-        //$actionName = $observer->getEvent()->getRequest()->getFullActionName();
         $controller = $observer->getControllerAction();
         $routeName = $observer->getEvent()->getRequest()->getRouteName();
 
         if(!$this->_customerSession->isLoggedIn() && $routeName == 'digiclub') {
-            //$redirectUrl = $this->redirect->getRefererUrl();
-            //$this->redirect->redirect($controller->getResponse(), 'customer/account/login');
-            $url = $this->urlInterface->getUrl('digiclub/customer/index'); //$this->redirect->getRefererUrl();
+            $url = $this->urlInterface->getUrl('digiclub/customer/index');
             $login_url = $this->urlInterface
                 ->getUrl('customer/account/login',
                     array('referer' => base64_encode($url))
                 );
-            //$resultRedirect = $this->resultRedirectFactory->create();
-            //$resultRedirect->setUrl($login_url);
-            //return $resultRedirect;
             $this->redirect->redirect($controller->getResponse(), $login_url);
-            //$redirectUrl = $this->urlInterface->getUrl('customer/account/login', array('referer'=>base64_encode($referenceUrl)));
-            //return $redirectUrl;
         }
-        
-        
     }
 
 }
