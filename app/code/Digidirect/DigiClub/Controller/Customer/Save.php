@@ -66,9 +66,9 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
      */
     public function execute()
     {
-        if (!$this->formKeyValidator->validate($this->getRequest())) {
+        /*if (!$this->formKeyValidator->validate($this->getRequest())) {
             return $this->_redirect('customer/account/');
-        }
+        }*/
 
         $customerId = $this->customerSession->getCustomerId();
         if ($customerId === null) {
