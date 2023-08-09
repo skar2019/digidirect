@@ -199,7 +199,7 @@ class ProductEntHelper extends AbstractHelper
             $category2 = "";
             $category3 = "";
             $category4 = "";
-            echo $product->getId() ."<br/>";
+            //echo $product->getId() ."<br/>";
             $productCategoryIds = $product->getCategoryIds();
             if((count($productCategoryIds)))
             {
@@ -244,9 +244,17 @@ class ProductEntHelper extends AbstractHelper
             if(is_null($barcode1))
             {
                 $barcode2 = $product->getCustomAttribute('barcode2');
-                if(is_null($barcode1))
+                if(is_null($barcode2))
                 {
 
+                }
+                else
+                {
+                    $bc2 = $barcode2->getValue();
+                    if(is_numeric($bc2))
+                    {
+                        $gtin = $bc2;
+                    }
                 }
             }
             else
@@ -265,7 +273,6 @@ class ProductEntHelper extends AbstractHelper
                     }
                     else
                     {
-                        $barcode2 = $product->getCustomAttribute('barcode2');
                         $bc2 = $barcode2->getValue();
                         if(is_numeric($bc2))
                         {
@@ -281,7 +288,7 @@ class ProductEntHelper extends AbstractHelper
             $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
 
             $cost = $product->getCustomAttribute('cost');
-
+            $actualcost = $cost->getValue();
             $data[] = $brandname;
             $data[] = $description;
             $data[] = $gtin;
@@ -293,8 +300,10 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $category3;
             $data[] = $category4;
             $data[] = $product->getPrice();
-            $data[] = $cost;
+            $data[] = $actualcost;
 
+            var_dump($data);
+            exit;
             $stream->writeCsv($data);
         }
 
@@ -463,7 +472,7 @@ class ProductEntHelper extends AbstractHelper
 //        $collection = $this->_productCollectionFactory->create();
 //        $collection->addAttributeToSelect('*')
 //        ->addFieldToFilter('entity_id', array('gteq' => 0));
-//        $collection->setPageSize(5000); // fetching only 5000 products
+//        $collection->setPageSize(100); // fetching only 5000 products
 //        return $collection;
 
         $collection = $this->_productCollectionFactory->create();
