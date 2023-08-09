@@ -1,0 +1,46 @@
+<?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+
+    if ($customerSession->isLoggedIn()) {
+        $customerGroupId = $customerSession->getCustomer()->getGroupId();
+        $isDigiClub = 0;
+        $isChecked = "";
+        if ($customerGroupId == 10) {
+            $isDigiClub = 1;
+            $isChecked = "checked";
+        }
+    }
+?>
+
+<form class="form form-digiclub-manage block" action="https://mcstaging2.digidirect.com.au/digiclub/customer/save" method="post">
+    <fieldset class="fieldset">
+        <div class="block-title"><span>Subscription Option</span></div><br> 
+        <div class="field choice">
+            <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
+            <label for="digiclub" class="label"><span>Subscribe to digiClub</span></label>
+        </div> 
+    </fieldset>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="submit" title="Save" class="action save -responsive"><span>Save</span></button>
+        </div>
+    </div>
+</form>
+
+<script>
+    require([
+        'jquery'
+    ],
+    function ($) {
+        $('#digiclub').change(function() {
+            console.log("digiClub!");
+            if ($('#digiclub').is(":checked")) {
+                $('#digiclub').attr("value", 1);
+            } else {
+                $('#digiclub').attr("value", 0);
+            }
+        });
+    });
+</script>
+
