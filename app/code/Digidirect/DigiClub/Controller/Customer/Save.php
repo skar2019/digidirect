@@ -9,6 +9,9 @@ use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\App\PageCache\Version;
+use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\App\Cache\Frontend\Pool;
 
 /**
  * Customers digiClub subscription save controller
@@ -34,6 +37,10 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
     protected $customerRepository;
     
     protected $customerSession;
+    
+    protected $cacheTypeList;
+    
+    protected $cacheFrontendPool;
 
     /**
      * Initialize dependencies.
@@ -50,12 +57,16 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Data\Form\FormKey\Validator $formKeyValidator,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        CustomerRepository $customerRepository
+        CustomerRepository $customerRepository,
+        TypeListInterface $cacheTypeList, 
+        Pool $cacheFrontendPool
     ) {
         $this->storeManager = $storeManager;
         $this->customerSession = $customerSession;
         $this->formKeyValidator = $formKeyValidator;
         $this->customerRepository = $customerRepository;
+        $this->cacheTypeList = $cacheTypeList;
+        $this->cacheFrontendPool = $cacheFrontendPool;
         parent::__construct($context);
     }
 
@@ -96,7 +107,33 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
             }
         }
+        $this->flushCache();
         return $this->_redirect('digiclub/customer/index/');
+    }
+    
+    public function flushCache(Version $subject)
+    {
+      $_types = [
+                'config',
+                'layout',
+                'block_html',
+                'collections',
+                'reflection',
+                'db_ddl',
+                'eav',
+                'config_integration',
+                'config_integration_api',
+                'full_page',
+                'translate',
+                'config_webservice'
+                ];
+
+        foreach ($_types as $type) {
+            $this->cacheTypeList->cleanType($type);
+        }
+        foreach ($this->cacheFrontendPool as $cacheFrontend) {
+            $cacheFrontend->getBackend()->clean();
+        }
     }
 
     /**
