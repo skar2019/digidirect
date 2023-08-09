@@ -74,7 +74,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
         if ($customerId === null) {
             $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
         } else {
-            try {
+            /*try {
                 $customer = $this->customerRepository->getById($customerId);
                 $storeId = (int)$this->storeManager->getStore()->getId();
                 $customer->setStoreId($storeId);
@@ -94,7 +94,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 
             } catch (\Exception $e) {
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
-            }
+            }*/
         }
         return $this->_redirect('digiclub/customer/index/');
     }
