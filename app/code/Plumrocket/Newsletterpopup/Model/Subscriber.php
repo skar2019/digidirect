@@ -141,7 +141,7 @@ class Subscriber extends NewsletterSubscriber
         if ($status == self::STATUS_NOT_ACTIVE) {
             $this->_subscriberEncoded->holdSubscribe($email, $data);
             $this->_messageManager->addSuccessMessage(
-                __('Thank you for subscribing to our newsletter! Confirmation request has been sent.')
+                __('Thank you for signing up. You will receive a confirmation email within 24-48 hours.')
             );
         } else {
             $this->_subscriberEncoded->subscribe($email, $data);
