@@ -302,8 +302,6 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $product->getPrice();
             $data[] = $actualcost;
 
-            var_dump($data);
-            exit;
             $stream->writeCsv($data);
         }
 
