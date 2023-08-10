@@ -30,6 +30,9 @@ $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketpla
         <svg class="svg-icon digidirectprice">
             <use xlink:href="#svgi-digidirectprice" />
         </svg>
+        <svg class="svg-icon digidirectprice">
+            <use xlink:href="#svgi-digiclubprice" />
+        </svg>
         <span class="special-price">
             <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
                 'display_label'     => __(''),
@@ -57,6 +60,9 @@ $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketpla
             <svg class="svg-icon digidirectprice">
                 <use xlink:href="#svgi-digidirectprice" />
             </svg>
+            <svg class="svg-icon digidirectprice">
+                <use xlink:href="#svgi-digiclubprice" />
+            </svg>
             <span class="special-price">
                 <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
                     'display_label'     => __(''),
@@ -81,6 +87,9 @@ $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketpla
         <div class="current-price-wrapper no-special-price">
             <svg class="svg-icon digidirectprice">
                 <use xlink:href="#svgi-digidirectprice" />
+            </svg>
+            <svg class="svg-icon digidirectprice">
+                <use xlink:href="#svgi-digiclubprice" />
             </svg>
             <span class="special-price">
                  <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
