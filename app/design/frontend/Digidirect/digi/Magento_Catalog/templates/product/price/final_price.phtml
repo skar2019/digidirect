@@ -28,7 +28,7 @@
     $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
 
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+    $customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
     $customerGroupId = 0;
     if ($customerSession->isLoggedIn()) {
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
