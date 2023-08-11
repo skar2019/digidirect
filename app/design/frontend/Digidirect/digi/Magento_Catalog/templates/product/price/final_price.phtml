@@ -28,7 +28,7 @@ $groupId = $block->getSaleableItem()->getGroupId();
 
 <?php if ($block->hasSpecialPrice()): ?>
     <div class="current-price-wrapper has-special-price">
-        <?php if ($groupId = 10): ?>
+        <?php if ($groupId == 10): ?>
             <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">Club</span></div>
         <?php else: ?>
             <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
@@ -57,7 +57,7 @@ $groupId = $block->getSaleableItem()->getGroupId();
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
         <div class="current-price-wrapper">
-            <?php if ($groupId = 10): ?>
+            <?php if ($groupId == 10): ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">Club</span></div>
             <?php else: ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
@@ -84,7 +84,7 @@ $groupId = $block->getSaleableItem()->getGroupId();
         </div>
     <?php else: ?>  
         <div class="current-price-wrapper no-special-price">
-            <?php if ($groupId = 10): ?>
+            <?php if ($groupId == 10): ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">Club</span></div>
             <?php else: ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
