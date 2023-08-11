@@ -29,6 +29,7 @@
 
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
     $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+    $customerGroupId = 0;
     if ($customerSession->isLoggedIn()) {
         $customerGroupId = $customerSession->getCustomer()->getGroupId();
     }
