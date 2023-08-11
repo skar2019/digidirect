@@ -37,11 +37,11 @@
 
 <?php if ($block->hasSpecialPrice()): ?>
     <div class="current-price-wrapper has-special-price">
-        <?php if ($customerGroupId == 10): ?>
+        <?php if ($customerGroupId == 10) { ?>
             <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
-        <?php else: ?>
+        <?php } else { ?>
             <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
-        <?php endif; ?>
+        <?php } ?>
         <span class="special-price">
             <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
                 'display_label'     => __(''),
@@ -66,11 +66,11 @@
 <?php else: ?>
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
         <div class="current-price-wrapper">
-            <?php if ($groupId == 10): ?>
+            <?php if ($customerGroupId == 10) { ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
-            <?php else: ?>
+            <?php } else { ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
-            <?php endif; ?>
+            <?php } ?>
             <span class="special-price">
                 <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
                     'display_label'     => __(''),
@@ -93,11 +93,11 @@
         </div>
     <?php else: ?>  
         <div class="current-price-wrapper no-special-price">
-            <?php if ($groupId == 10): ?>
+            <?php if ($customerGroupId == 10) { ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
-            <?php else: ?>
+            <?php } else { ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
-            <?php endif; ?>
+            <?php } ?>
             <span class="special-price">
                  <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
                     'display_label'     => __(''),
