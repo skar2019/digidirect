@@ -31,7 +31,7 @@
     $customerSession = $objectManager->create('Magento\Customer\Model\Session');
     $customerGroupId = 0;
     if ($customerSession->isLoggedIn()) {
-        $customerGroupId = $customerSession->getCustomer()->getId();
+        $customerGroupId = $customerSession->getCustomer()->getGroupId();
     }
 ?>
 
