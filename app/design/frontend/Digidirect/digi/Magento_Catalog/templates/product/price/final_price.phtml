@@ -28,10 +28,10 @@
     $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
 
     $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-    $customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
+    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
     $customerGroupId = 0;
     if ($customerSession->isLoggedIn()) {
-        $customerGroupId = $customerSession->getCustomer()->getGroupId();
+        $customerGroupId = $customerSession->getCustomer()->getId();
     }
 ?>
 
