@@ -8,28 +8,36 @@
 
 ?>
 
+<?php 
+?>
+
 <?php
-/** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $block */
+    /** @var \Magento\Catalog\Pricing\Render\FinalPriceBox $block */
 
-/** ex: \Magento\Catalog\Pricing\Price\RegularPrice */
-/** @var \Magento\Framework\Pricing\Price\PriceInterface $priceModel */
-$priceModel = $block->getPriceType('regular_price');
+    /** ex: \Magento\Catalog\Pricing\Price\RegularPrice */
+    /** @var \Magento\Framework\Pricing\Price\PriceInterface $priceModel */
+    $priceModel = $block->getPriceType('regular_price');
 
-/** ex: \Magento\Catalog\Pricing\Price\FinalPrice */
-/** @var \Magento\Framework\Pricing\Price\PriceInterface $finalPriceModel */
-$finalPriceModel = $block->getPriceType('final_price');
-$idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
-$schema = ($block->getZone() == 'item_view') ? true : false;
+    /** ex: \Magento\Catalog\Pricing\Price\FinalPrice */
+    /** @var \Magento\Framework\Pricing\Price\PriceInterface $finalPriceModel */
+    $finalPriceModel = $block->getPriceType('final_price');
+    $idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
+    $schema = ($block->getZone() == 'item_view') ? true : false;
 
-//$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
-$marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
-$groupId = $block->getSaleableItem()->getGroupId();
+    //$_product = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Registry::class)->registry('product');
+    $marketPlacePrice = number_format((float)$block->getSaleableItem()->getMarketplacesPrice(), 2, '.', '');
+
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $customerSession = $objectManager->create('Magento\Customer\Model\Session');
+    if ($customerSession->isLoggedIn()) {
+        $customerGroupId = $customerSession->getCustomer()->getGroupId();
+    }
 ?>
 
 <?php if ($block->hasSpecialPrice()): ?>
     <div class="current-price-wrapper has-special-price">
-        <?php if ($groupId == 10): ?>
-            <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">Club</span></div>
+        <?php if ($customerGroupId == 10): ?>
+            <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
         <?php else: ?>
             <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
         <?php endif; ?>
@@ -58,7 +66,7 @@ $groupId = $block->getSaleableItem()->getGroupId();
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
         <div class="current-price-wrapper">
             <?php if ($groupId == 10): ?>
-                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">Club</span></div>
+                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
             <?php else: ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
             <?php endif; ?>
@@ -85,7 +93,7 @@ $groupId = $block->getSaleableItem()->getGroupId();
     <?php else: ?>  
         <div class="current-price-wrapper no-special-price">
             <?php if ($groupId == 10): ?>
-                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">Club</span></div>
+                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
             <?php else: ?>
                 <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
             <?php endif; ?>
