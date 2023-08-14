@@ -717,26 +717,26 @@ class TestPronto extends AbstractHelper
             $disregardshipping = false;
             $modifygrandtotal = false;
             $surcharge = $order->getPaymentFee();
-            if(!$isMarketPlace)
-            {
-                if($payment_type == 'BT' || $payment_type == 'PY')
-                {
-                    if($surcharge == '0.0000') //manually created orders
-                    {
-                        if($grandTotal <= 99)
-                        {
-                            $grandTotal = $grandTotal - 9.9;
-                            $disregardshipping = true;
-                        }
-                        $surcharge = $grandTotal * 0.0095;
-                        $grandTotal = $grandTotal + $surcharge;
-                        echo "new grandTotal - ".$grandTotal."<br/>";
-                        echo "surcharge - ".$surcharge."<br/>";
-
-                        $modifygrandtotal = true;
-                    }
-                }
-            }
+//            if(!$isMarketPlace)
+//            {
+//                if($payment_type == 'BT' || $payment_type == 'PY')
+//                {
+//                    if($surcharge == '0.0000') //manually created orders
+//                    {
+//                        if($grandTotal <= 99)
+//                        {
+//                            $grandTotal = $grandTotal - 9.9;
+//                            $disregardshipping = true;
+//                        }
+//                        $surcharge = $grandTotal * 0.0095;
+//                        $grandTotal = $grandTotal + $surcharge;
+//                        echo "new grandTotal - ".$grandTotal."<br/>";
+//                        echo "surcharge - ".$surcharge."<br/>";
+//
+//                        $modifygrandtotal = true;
+//                    }
+//                }
+//            }
 
 
             if($payment_type == 'BT')
