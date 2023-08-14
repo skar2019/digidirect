@@ -15,6 +15,7 @@
         
         <referenceContainer name="product.info.main">
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiseconds_info.phtml" name="pdp-digiseconds-info" after="product.info.price"/>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/price/digiprint_info.phtml" name="pdp-digiprint-info" after="product.info.price"/>
         </referenceContainer>
         
         <referenceContainer name="product.info.main">

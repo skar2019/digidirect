@@ -76,6 +76,7 @@ if ($currentPage != "catalogsearch_result_index") {
                 $secondsSavings = "";
 
                 $finalProductPrice = $_product->getFinalPrice();
+                $marketPlacePrice = number_format((float)$_product->getData('marketplaces_price'), 2, '.', '');
                 $qff_bonus_points = 0;
 
                 $d2BrandNewProductSKU = $_product->getData('d2newsku');
@@ -90,14 +91,14 @@ if ($currentPage != "catalogsearch_result_index") {
                 $categoryIds = $_product->getCategoryIds();
                 $digiSecondsIds = array(2564,2567,2570,2573);
 
+                // digiprint
+                $is_digiPrint = ($_product->getData('is_digiprint') ? $_product->getData('is_digiprint') : '');
+                $digiprintCustomLinkProductSKU = ($_product->getData('digiprint_customlink') ? $_product->getData('digiprint_customlink') : '');
+
                 if ($brandNewProduct) {
                     $brandNewProductPrice = $brandNewProduct->getPrice();
                     $brandNewProductUrl = $brandNewProduct->getProductUrl();
                     $secondsSavings = round(100 - (($finalProductPrice/$brandNewProductPrice)*100));
-                } else {
-                    $brandNewProductPrice = false;
-                    $brandNewProductUrl = false;
-                    $secondsSavings = false;
                 }
 
                 ?>
@@ -250,7 +251,7 @@ if ($currentPage != "catalogsearch_result_index") {
                             </a>
                         </strong>
                     <?php endif;?>
-                    <div class="product details product-item-details">
+                    <div class="product details product-item-details marketplacer-product">
                         <div class="no-display">
                             <?php
                             // Must be called for Preorder plugin
@@ -282,12 +283,24 @@ if ($currentPage != "catalogsearch_result_index") {
                             <?php endif; ?>
                             <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
                         <?php endif;?>
-
+                        
                         <div class="product-item-inner">
                             <?= $block->getProductDetailsHtml($_product); ?>
-                            <div class="product actions product-item-actions"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
-                                <div class="actions-primary"<?= /* @escapeNotVerified */ strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>
+                            <div class="product actions product-item-actions">
+                                <div class="actions-primary">
                                     <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+
+                                    <?php if ($is_digiPrint == 1): ?>
+
+                                        <a href="<?php echo $digiprintCustomLinkProductSKU;?>">
+                                            <button type="button"
+                                                title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
+                                                class="action btn-ordernow primary">
+                                                <span><?= /* @escapeNotVerified */ __('Order Now'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
+                                            </button>
+                                        </a>
+
+                                    <?php else: ?>
                                     <form data-role="tocart-form"
                                           data-product-sku="<?=  /* @NoEscape */ $_product->getSku(); ?>"
                                           data-mage-init='{"validation": {"ignore": ".super-attribute-select"}}'
@@ -309,6 +322,7 @@ if ($currentPage != "catalogsearch_result_index") {
                                             <span><?= /* @escapeNotVerified */ __('Add to Cart'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
                                         </button>
                                     </form>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <?php if ($showDescription):?>
@@ -500,6 +514,31 @@ if ($currentPage != "catalogsearch_result_index") {
 </script>
 
 <style>
+    .action.btn-ordernow.primary {
+        font-weight: 700;
+        text-transform: uppercase;
+        background: 0 0 !important;
+        border: 1px solid #ff3c00 !important;
+        border-radius: 5px !important;
+        padding: 8px 10px 8px 10px !important;
+        font-size: 13px;
+        margin-bottom: 5px;
+       
+    }
+
+    .action.btn-ordernow.primary:hover {
+        background: #ff3c00 !important;
+        color: #fff !important;
+    }
+
+    button.action.btn-ordernow.primary span, button.action.btn-ordernow.primary a {
+        color: #ff3c00 !important;
+    }
+    
+    button.action.btn-ordernow.primary span:hover, button.action.btn-ordernow.primary a:hover {
+        color: #fff !important;
+    }
+
     .product-category-listing .digiseconds-left-width {
         width: 33% !important;
         position: relative;
