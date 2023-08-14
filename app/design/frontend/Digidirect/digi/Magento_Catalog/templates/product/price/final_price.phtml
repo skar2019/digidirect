@@ -35,9 +35,9 @@
 <?php if ($block->hasSpecialPrice()): ?>
     <div class="current-price-wrapper has-special-price">
         <?php if ($customerGroupId == 10) { ?>
-            <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
+            <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club Member Price</span></div>
         <?php } else { ?>
-            <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
+            <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct Price</span></div>
         <?php } ?>
         <span class="special-price">
             <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
@@ -64,9 +64,9 @@
     <?php if (($marketPlacePrice && $marketPlacePrice != 0) && ($finalPriceModel->getAmount() < $marketPlacePrice)): ?>
         <div class="current-price-wrapper">
             <?php if ($customerGroupId == 10) { ?>
-                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
+                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club Member Price</span></div>
             <?php } else { ?>
-                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
+                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct Price</span></div>
             <?php } ?>
             <span class="special-price">
                 <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
@@ -91,9 +91,9 @@
     <?php else: ?>  
         <div class="current-price-wrapper no-special-price">
             <?php if ($customerGroupId == 10) { ?>
-                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club</span> <span style="font-weight: 400;">PRICE</span></div>
+                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Club Member Price</span></div>
             <?php } else { ?>
-                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct</span> <span style="font-weight: 400;">PRICE</span></div>
+                <div class="digidirectprice"><span>digi</span><span style="color: #000;">Direct Price</span></div>
             <?php } ?>
             <span class="special-price">
                  <?php /* @escapeNotVerified */ echo $block->renderAmount($finalPriceModel->getAmount(), [
