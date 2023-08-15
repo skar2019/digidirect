@@ -1,8 +1,8 @@
 <?php
-namespace Digidirect\CollectAbstractEntityMsi\Model;
+namespace Digidirect\CollectAbstractEntityMSI\Model;
 
 use Digidirect\AbstractEntity\Api\Data\AbstractEntityInterface;
-use Digidirect\CollectAbstractEntityMsi\Helper\Data;
+use Digidirect\CollectAbstractEntityMSI\Helper\Data;
 use Digidirect\CollectAbstractEntity\Api\Data\CollectPlaceInterface;
 use Digidirect\Collect\Api\CollectPlaceRepositoryInterface;
 use Magento\Inventory\Model\SourceItem\Command\GetListInterface;
@@ -11,7 +11,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 
 /**
  * Class MsiAvailability
- * @package Digidirect\CollectAbstractEntityMsi\Model
+ * @package Digidirect\CollectAbstractEntityMSI\Model
  */
 class MsiAvailability
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Digidirect\CollectAbstractEntityMsi\Model;
+namespace Digidirect\CollectAbstractEntityMSI\Model;
 
 use Magento\Catalog\Api\Data\ProductInterface;
-use Digidirect\CollectAbstractEntityMsi\Api\ProductTypeHandlerInterface;
-use Digidirect\CollectAbstractEntityMsi\Model\ProductTypeHandler\AbstractHandler;
+use Digidirect\CollectAbstractEntityMSI\Api\ProductTypeHandlerInterface;
+use Digidirect\CollectAbstractEntityMSI\Model\ProductTypeHandler\AbstractHandler;
 
 /**
  * Class ProductTypeHandlerPool
- * @package Digidirect\CollectAbstractEntityMsi\Model
+ * @package Digidirect\CollectAbstractEntityMSI\Model
  */
 class ProductTypeHandlerPool
 {

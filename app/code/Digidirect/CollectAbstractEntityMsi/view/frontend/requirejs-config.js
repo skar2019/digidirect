@@ -2,13 +2,13 @@
 var config = {
     map: {
         '*': {
-            'collectPlacesAvailability': 'Digidirect_CollectAbstractEntityMsi/js/availability',
+            'collectPlacesAvailability': 'Digidirect_CollectAbstractEntityMSI/js/availability',
         }
     },
     config: {
         mixins: {
             'Magento_Swatches/js/swatch-renderer': {
-                'Digidirect_CollectAbstractEntityMsi/js/extends/swatch-renderer': true
+                'Digidirect_CollectAbstractEntityMSI/js/extends/swatch-renderer': true
             }
         }
     }

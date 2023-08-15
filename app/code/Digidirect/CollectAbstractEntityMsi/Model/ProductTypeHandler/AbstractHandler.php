@@ -1,14 +1,14 @@
 <?php
 
-namespace Digidirect\CollectAbstractEntityMsi\Model\ProductTypeHandler;
+namespace Digidirect\CollectAbstractEntityMSI\Model\ProductTypeHandler;
 
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Model\Product\Type\AbstractType;
-use Digidirect\CollectAbstractEntityMsi\Api\Data\ProductTypeHandlerInterface;
+use Digidirect\CollectAbstractEntityMSI\Api\Data\ProductTypeHandlerInterface;
 
 /**
  * Class Configurable
- * @package Digidirect\CollectAbstractEntityMsi\Model\ProductTypeHandler
+ * @package Digidirect\CollectAbstractEntityMSI\Model\ProductTypeHandler
  */
 abstract class AbstractHandler implements ProductTypeHandlerInterface
 {

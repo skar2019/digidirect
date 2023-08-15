@@ -1,14 +1,14 @@
 <?php
 
-namespace Digidirect\CollectAbstractEntityMsi\Model\ProductTypeHandler;
+namespace Digidirect\CollectAbstractEntityMSI\Model\ProductTypeHandler;
 
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\GroupedProduct\Model\Product\Type\Grouped as GroupedType;
-use Digidirect\CollectAbstractEntityMsi\Helper\ProductType as ProductTypeHelper;
+use Digidirect\CollectAbstractEntityMSI\Helper\ProductType as ProductTypeHelper;
 
 /**
  * Class Grouped
- * @package Digidirect\CollectAbstractEntityMsi\Model\ProductTypeHandler
+ * @package Digidirect\CollectAbstractEntityMSI\Model\ProductTypeHandler
  */
 class Grouped extends AbstractHandler
 {

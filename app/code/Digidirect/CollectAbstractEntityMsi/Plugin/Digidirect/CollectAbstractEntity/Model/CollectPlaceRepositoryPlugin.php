@@ -1,14 +1,14 @@
 <?php
-namespace Digidirect\CollectAbstractEntityMsi\Plugin\Digidirect\CollectAbstractEntity\Model;
+namespace Digidirect\CollectAbstractEntityMSI\Plugin\Digidirect\CollectAbstractEntity\Model;
 
 use Digidirect\CollectAbstractEntity\Model\CollectPlaceRepository;
-use Digidirect\CollectAbstractEntityMsi\Helper\Data;
-use Digidirect\CollectAbstractEntityMsi\Model\MsiAvailability;
+use Digidirect\CollectAbstractEntityMSI\Helper\Data;
+use Digidirect\CollectAbstractEntityMSI\Model\MsiAvailability;
 use Digidirect\Collect\Helper\Data as CollectHelper;
 
 /**
  * Class CollectPlaceRepositoryPlugin
- * @package Digidirect\CollectAbstractEntityMsi\Plugin\Digidirect\CollectAbstractEntity\Model
+ * @package Digidirect\CollectAbstractEntityMSI\Plugin\Digidirect\CollectAbstractEntity\Model
  */
 class CollectPlaceRepositoryPlugin
 {

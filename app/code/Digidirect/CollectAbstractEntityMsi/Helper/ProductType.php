@@ -1,6 +1,6 @@
 <?php
 
-namespace Digidirect\CollectAbstractEntityMsi\Helper;
+namespace Digidirect\CollectAbstractEntityMSI\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Catalog\Api\Data\ProductInterface;
@@ -12,7 +12,7 @@ use Magento\Catalog\Model\Product\Type as SimpleType;
 
 /**
  * Class ProductType
- * @package Digidirect\CollectAbstractEntityMsi\Helper
+ * @package Digidirect\CollectAbstractEntityMSI\Helper
  */
 class ProductType extends AbstractHelper
 {
