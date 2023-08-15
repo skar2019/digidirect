@@ -140,7 +140,11 @@ class Product extends Template
         $this->_getGroupedProductChildrens($this->_getCurrentProduct());
     }
 
-    private function _getCurrentProduct() {
+    public function _getCurrentProduct() {
+        return $this->registry->registry('current_product');
+    }
+    
+    private function getCurrentProduct() {
         return $this->registry->registry('current_product');
     }
 
