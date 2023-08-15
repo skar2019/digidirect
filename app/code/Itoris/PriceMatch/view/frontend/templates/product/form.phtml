@@ -22,9 +22,12 @@
  * @copyright  Copyright (c) 2018 ITORIS INC. (http://www.itoris.com)
  * @license    http://www.itoris.com/magento-extensions-license.html  Commercial License
  */
+
+$is_digiPrint = ($block->_getCurrentProduct()->getData('is_digiprint') ? $block->_getCurrentProduct()->getData('is_digiprint') : '');
+
 ?>
 
-<?php if($block->checkRenderLink()): ?>
+<?php if($block->checkRenderLink() && !$is_digiPrint) : ?>
     <div class="itoris-pm-product-marker" style="display: none; clear: left; margin-bottom: 10px;">
         <a href="javascript://" style="word-wrap: break-word;" class="alink" id="itoris-pm-link" >
             <div class="pricematch-caption">
