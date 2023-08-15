@@ -361,7 +361,11 @@ class Processor implements ProcessorInterface
             $attributes = $this->getExistsAttributes($attributeSetName, $attributes);
 
             $searchTerm = $this->modifyQuery($searchTerm);
-            if (empty(\trim($searchTerm))) {
+            if(empty($searchTerm))
+            {
+                $searchTerm = null;
+            }
+            if (empty($searchTerm)){
                 $searchTerm = null;
             }
 

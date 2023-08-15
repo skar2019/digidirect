@@ -7,7 +7,7 @@ use \Magento\Directory\Helper\Data as DirectoryHelper;
 use \Magento\Framework\View\Element\Template\Context;
 use Digidirect\StoreLocator\Helper\Config as ConfigHelper;
 use Magento\Directory\Model\CountryFactory;
-use Digidirect\Googleapi\Helper\Config as GoogleApiHelper;
+use Digidirect\GoogleApi\Helper\Config as GoogleApiHelper;
 
 class SearchBox extends \Digidirect\StoreLocator\Block\AbstractBlock
 {

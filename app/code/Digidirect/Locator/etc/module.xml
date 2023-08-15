@@ -4,7 +4,7 @@
     <module name="Digidirect_Locator" setup_version="1.0.0">
         <sequence>
             <module name="Digidirect_Utilities"/>
-            <module name="Digidirect_Googleapi"/>
+            <module name="Digidirect_GoogleApi"/>
             <module name="Digidirect_Localization"/>
         </sequence>
     </module>

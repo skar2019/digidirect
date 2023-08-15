@@ -130,6 +130,10 @@ class RecursiveContextualRedirectRouter implements RouterInterface
     protected function preparePathsByRequest(RequestInterface $request)
     {
         /** @var Request $request */
+        if(empty($request->getPathInfo()))
+        {
+            return '';
+        }
         $path = trim($request->getPathInfo(), self::URL_DELIMITER);
         $path = $this->clarifyRequestPath($path);
         $this->setRequestSuffix($path);
@@ -177,6 +181,10 @@ class RecursiveContextualRedirectRouter implements RouterInterface
             return $this->suffix;
         }
         /** @var Request $request */
+        if(empty($request->getPathInfo()))
+        {
+            return '';
+        }
         $path = trim($request->getPathInfo(), self::URL_DELIMITER);
         $delimiterSuffixPosition = strpos($path, self::SUFFIX_DELIMITER);
 

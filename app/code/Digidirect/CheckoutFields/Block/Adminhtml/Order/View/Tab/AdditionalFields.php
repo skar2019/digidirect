@@ -169,7 +169,6 @@ class AdditionalFields extends BackendTemplate implements TabInterface
         {
             return $value;
         }
-        
         $value = unserialize($value);
         return is_array($value) ? implode(', ', $value) : $value;
     }

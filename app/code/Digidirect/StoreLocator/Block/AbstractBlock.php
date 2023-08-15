@@ -10,7 +10,7 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Digidirect\StoreLocator\Helper\Config as ConfigHelper;
 use Magento\Directory\Model\CountryFactory;
-use Digidirect\Googleapi\Helper\Config as GoogleApiHelper;
+use Digidirect\GoogleApi\Helper\Config as GoogleApiHelper;
 
 /**
  * @since 1.4.0 uses object manager for backward compatibility

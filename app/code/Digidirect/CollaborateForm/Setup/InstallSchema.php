@@ -2,7 +2,7 @@
 namespace Digidirect\CollaborateForm\Setup;
 
 use Magento\Framework\Setup\InstallSchemaInterface;
-use Magento\Framework\Setup\ModuleContextInterface;  
+use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
 /**
@@ -16,57 +16,41 @@ class InstallSchema implements InstallSchemaInterface
         $installer = $setup;
         $installer->startSetup();
         /**
-         * Create table 'digiDirect_collaborate_form'
+         * Create table 'vendor_contect'
          */
         $table = $installer->getConnection()->newTable(
-            $installer->getTable('digidirect_collaborate_form')
+            $installer->getTable('vendor_contect')
         )->addColumn(
-            'id',
+            'contect_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
             ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
-            'Id'
+            'Contect Id'
         )->addColumn(
-            'firstname',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            50,
-            ['nullable' => false],
-            'FirstName'
-        )->addColumn(
-            'lastname',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            50,
-            ['nullable' => false],
-            'FirstName'
-        )->addColumn(
-            'email',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            50,
-            ['nullable' => false],
-            'Email'
-        )->addColumn(
-            'socialmedia_link',
+            'name',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
             ['nullable' => false],
-            'Social Media'
+            'Name'
         )->addColumn(
-            'notes',
+            'email',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            500,
+            255,
             ['nullable' => false],
-            'Tell us about your idea'
+            'Email Id'
         )->addColumn(
-            'created_date',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            'telephone',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
-            [
-                'nullable' => false, 
-                'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT
-            ],
-            'Creation Time'
+            ['nullable'=> false],
+            'Phone Number'
+        )->addColumn(
+            'comment',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            255,
+            ['nullable' => false],
+            'What’s on your mind?'
         );
-        
         $installer->getConnection()->createTable($table);
     }
 }

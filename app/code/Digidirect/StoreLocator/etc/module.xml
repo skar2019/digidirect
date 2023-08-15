@@ -7,7 +7,7 @@
             <module name="Digidirect_Locator"/>
             <module name="Digidirect_Store"/>
             <module name="Digidirect_Utilities"/>
-            <module name="Digidirect_Googleapi"/>
+            <module name="Digidirect_GoogleApi"/>
             <module name="Digidirect_Localization"/>
         </sequence>
     </module>

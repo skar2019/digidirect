@@ -51,22 +51,29 @@ class SetOrderAttribute implements \Magento\Framework\Event\ObserverInterface {
 
         //Set unit number for Shipping Address
         $shippingAddressID = $order->getShippingAddress()->getId();
-        //$initialShippingAddressUnitNumber = $order->getShippingAddress()->getUnitNumber();
-        //$initialShippingAddressUnitNumber = str_replace("unit_number", "", $initialShippingAddressUnitNumber);
-        //$shippingAddressUnitNumber = str_replace("\n", "", $initialShippingAddressUnitNumber);
-
         $shipAddress = $this->repositoryAddress->get($shippingAddressID);
-        //$shipAddress->setUnitNumber($shippingAddressUnitNumber);
+        if(!empty($initialShippingAddressUnitNumber))
+        {
+            $initialShippingAddressUnitNumber = $order->getShippingAddress()->getUnitNumber();
+            $initialShippingAddressUnitNumber = str_replace("unit_number", "", $initialShippingAddressUnitNumber);
+            $shippingAddressUnitNumber = str_replace("\n", "", $initialShippingAddressUnitNumber);
+            $shipAddress->setUnitNumber($shippingAddressUnitNumber);
+        }
+        
+
         $this->repositoryAddress->save($shipAddress);
 
         //Set unit number for Billing Address
         $billingAddressID = $order->getBillingAddress()->getId();
-        //$initialBillingAddressUnitNumber = $order->getBillingAddress()->getUnitNumber();
-        //$initialBillingAddressUnitNumber = str_replace("unit_number", "", $initialBillingAddressUnitNumber);
-        //$billingAddressUnitNumber = str_replace("\n", "", $initialBillingAddressUnitNumber);
-
         $billingAddress = $this->repositoryAddress->get($billingAddressID);
-        //$billingAddress->setUnitNumber($billingAddressUnitNumber);
+        $initialBillingAddressUnitNumber = $order->getBillingAddress()->getUnitNumber();
+        if(!empty($initialBillingAddressUnitNumber))
+        {
+            $initialBillingAddressUnitNumber = str_replace("unit_number", "", $initialBillingAddressUnitNumber);
+            $billingAddressUnitNumber = str_replace("\n", "", $initialBillingAddressUnitNumber);
+            $billingAddress->setUnitNumber($billingAddressUnitNumber);
+        }
+
         $this->repositoryAddress->save($billingAddress);
 
         if ($isGuest) {

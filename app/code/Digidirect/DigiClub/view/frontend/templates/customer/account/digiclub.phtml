@@ -13,9 +13,16 @@
     }
 ?>
 
-<form class="form form-digiclub-manage block" action="https://mcstaging2.digidirect.com.au/digiclub/customer/save" method="post">
+<form class="form form-digiclub-manage block" action="/digiclub/customer/save" method="post">
     <fieldset class="fieldset">
         <div class="block-title"><span>Subscription Option</span></div><br> 
+        <div class="digiclub-description">
+            <div style="margin-bottom: 10px;">By checking subscribe below, you will join our exciting new community, digiClub. It will allow you to:</div>
+            <li>Early Access to our Sale Events</li>
+            <li>Exclusive Rewards</li>
+            <li>Special Discounts</li>
+            <li>More…</li>
+        </div>
         <div class="field choice">
             <input type="checkbox" name="is_digiclub" id="digiclub" value="<?= $isDigiClub ?>" title="Subscribe to digiClub" class="checkbox" <?= $isChecked ?>>
             <label for="digiclub" class="label"><span>Subscribe to digiClub</span></label>

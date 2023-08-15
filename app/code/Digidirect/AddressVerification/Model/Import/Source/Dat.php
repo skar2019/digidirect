@@ -89,6 +89,10 @@ class Dat extends AbstractSource
      */
     protected function extractPostCode($contentData)
     {
+        if(empty($contentData))
+        {
+            return $contentData;
+        }
         return substr(trim($contentData), 0, $this->getCountryPostcodeLength());
     }
 
@@ -98,6 +102,10 @@ class Dat extends AbstractSource
      */
     protected function extractSuburb($contentData)
     {
+        if(empty($contentData))
+        {
+            return $contentData;
+        }
         return substr(trim($contentData), $this->getSuburbStartLine());
     }
 

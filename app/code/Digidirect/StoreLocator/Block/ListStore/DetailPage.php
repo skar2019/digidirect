@@ -9,7 +9,7 @@ use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template\Context;
 use Digidirect\StoreLocator\Helper\Config as ConfigHelper;
 use Digidirect\AbstractEntity\Model\AbstractEntity\Media\Config as MediaConfig;
-use Digidirect\Googleapi\Helper\Config as GoogleApiHelper;
+use Digidirect\GoogleApi\Helper\Config as GoogleApiHelper;
 
 /**
  * Class DetailPage

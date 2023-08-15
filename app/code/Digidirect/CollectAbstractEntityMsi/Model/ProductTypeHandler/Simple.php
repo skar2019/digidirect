@@ -1,14 +1,14 @@
 <?php
 
-namespace Digidirect\CollectAbstractEntityMSI\Model\ProductTypeHandler;
+namespace Digidirect\CollectAbstractEntityMsi\Model\ProductTypeHandler;
 
 use Magento\Catalog\Api\Data\ProductInterface;
-use Digidirect\CollectAbstractEntityMSI\Helper\ProductType as ProductTypeHelper;
+use Digidirect\CollectAbstractEntityMsi\Helper\ProductType as ProductTypeHelper;
 use Magento\Catalog\Model\Product\Type as SimpleType;
 
 /**
  * Class Simple
- * @package Digidirect\CollectAbstractEntityMSI\Model\ProductTypeHandler
+ * @package Digidirect\CollectAbstractEntityMsi\Model\ProductTypeHandler
  */
 class Simple extends AbstractHandler
 {

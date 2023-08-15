@@ -161,7 +161,7 @@ class RulesApplier
         }
         $this->updateShippingMethodsAvailability($rate);
 
-        return $currentRate;
+        return $rate;
     }
 
     /**

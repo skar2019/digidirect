@@ -133,7 +133,7 @@ class Data extends AbstractHelper
                 $specialPriceTo,
                 $storeId
             );
-            $this->productInfoByProductId[$productId] = $calculatedPrice < $price;
+            $this->productInfoByProductId[$productId] = $price; //$calculatedPrice < $price;
         }
 
         return $this->productInfoByProductId[$productId];

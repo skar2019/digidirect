@@ -4,7 +4,7 @@ namespace Digidirect\Locator\Model;
 
 use \Magento\Framework\HTTP\Adapter\CurlFactory;
 use \Magento\Directory\Model\CountryFactory;
-use Digidirect\Googleapi\Helper\Config as Helper;
+use Digidirect\GoogleApi\Helper\Config as Helper;
 
 /**
  * Since 1.2.0 it implements interface

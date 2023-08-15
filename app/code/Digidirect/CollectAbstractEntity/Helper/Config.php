@@ -186,4 +186,4 @@ class Config extends AbstractHelper
     }
 }
 
-//Digidirect\CollectAbstractEntityMSI\Plugin\Digidirect\CollectAbstractEntity\Model\CollectPlaceRepositoryPlugin
+//Digidirect\CollectAbstractEntityMsi\Plugin\Digidirect\CollectAbstractEntity\Model\CollectPlaceRepositoryPlugin

@@ -96,7 +96,7 @@ class Save extends \Magento\Framework\App\Action\Action implements HttpPostActio
                 $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
             }
         }
-        return $this->_redirect('digiclub/customer/index/');
+        return $this->_redirect('customer/account/');
     }
 
     /**

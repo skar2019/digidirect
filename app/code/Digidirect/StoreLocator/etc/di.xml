@@ -28,7 +28,7 @@
     <type name="Digidirect\StoreLocator\Helper\ApiKey">
         <arguments>
             <argument name="apiKeyConfiguration" xsi:type="array">
-                <item name="google" xsi:type="const">Digidirect\Googleapi\Helper\Config::XML_PATH_GOOGLE_API_KEY</item>
+                <item name="google" xsi:type="string">Digidirect\GoogleApi\Helper\Config::XML_PATH_GOOGLE_API_KEY</item>
             </argument>
         </arguments>
     </type>

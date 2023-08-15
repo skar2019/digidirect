@@ -2,6 +2,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Digidirect_Googleapi',
+    'Digidirect_GoogleApi',
     __DIR__
 );

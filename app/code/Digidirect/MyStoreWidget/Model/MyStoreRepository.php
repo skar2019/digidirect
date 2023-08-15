@@ -244,6 +244,10 @@ class MyStoreRepository implements MyStoreRepositoryInterface
      */
     public function saveForTypeTextInput($customerId, $searchText)
     {
+        if(empty($searchText))
+        {
+            throw new LocalizedException(__('Your Store is not changed.'));
+        }
         if (!trim($searchText)) {
             throw new LocalizedException(__('Your Store is not changed.'));
         }

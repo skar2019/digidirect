@@ -23,7 +23,7 @@ class Shipping {
         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
 
         $items = $cart->getQuote()->getAllItems();
-        $qty = 0;
+        $qty = 1;
         
         foreach ($items as $item) {
 
@@ -35,13 +35,12 @@ class Shipping {
 
             foreach ($sourceItems as $sourceItemId => $sourceItem) {
                 if ($sourceItem->getSourceCode() == 'SWHS') {
-                    $qty .= $sourceItem->getQuantity();
+                    $qty = $qty * $sourceItem->getQuantity();
                 }
             }
         }
         
-        if ($carrierCode == 'standard' && $qty == 0) {
-        //if ($carrierCode == 'standard') {
+        if ($carrierCode == 'nextdaydelivery' && $qty <= 0) {
             return false;
         }
         return $proceed($carrierCode, $request);

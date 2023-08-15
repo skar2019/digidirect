@@ -146,10 +146,6 @@ class InvoiceEmail extends AbstractHelper
             {
                 echo "orders <br>";
             }
-
-            //Check store hours if source is SWHS
-            $shwhStoreHours = $this->getStoreSwhsStoreHOurs($order);
-            
             
             $customerFirstName = $order->getCustomerFirstname();
             $customerFullName = $order->getCustomerFirstname() . ' ' . $order->getCustomerLastname();
@@ -228,8 +224,7 @@ class InvoiceEmail extends AbstractHelper
                 'shippingAmount' => $shippingAmount,
                 'trackTitle' => $trackTitle, 
                 'trackNumber' => $trackNumber, 
-                'items' => $items,
-                'swhs_store_hours' => $shwhStoreHours
+                'items' => $items
             ];
 
             $transport = $this->transportBuilder->setTemplateIdentifier(
@@ -243,7 +238,7 @@ class InvoiceEmail extends AbstractHelper
                 )->setFrom(
                     'general'
                 )->addBcc(
-                    'rondel@kayweb.com.au' 
+                    'clint@kayweb.com.au' 
                 )->getTransport();
 
             try {
@@ -269,64 +264,15 @@ class InvoiceEmail extends AbstractHelper
         
         $collection = $this->_orderCollectionFactory->create()
             ->addAttributeToSelect('*')
-            ->addFieldToFilter('entity_id', array('gt' => 1172881))
+            ->addFieldToFilter('entity_id', array('gt' => 1419436))
             ->addFieldToFilter('store_id', array('eq' => 1))
-            ->addFieldToFilter('status', array('eq' => 'pending'))
+            ->addFieldToFilter('status', ['in' => ['complete','completed']])
             ->addFieldToFilter('invoice_email', array('eq' => 0))
             ->addFieldToFilter('shipping_description', array('neq' =>'Pick Up in Store - Click and Collect Shipping'))
             ->setOrder('created_at', 'asc');
 
         return $collection;
 
-    }
-    
-    public function getStoreSwhsStoreHOurs(OrderInterface $order) {
-        $storeHours = "";
-        if (!isset($this->warehouseCode[$order->getEntityId()])) {
-            $whse = '';
-            $storeHours = "<span>St. Peters Store Hours</span> 
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Monday</td>
-                            <td>9:30 AM - 6:00 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Tuesday</td>
-                            <td>9:30 AM - 6:00 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Wednesday</td>
-                            <td>9:30 AM - 6:00 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Thursday</td>
-                            <td>9:30 AM - 9:00 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Friday</td>
-                            <td>9:30 AM - 6:00 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Saturday</td>
-                            <td>10:00 AM - 5:00 PM</td>
-                        </tr>
-                        <tr>
-                            <td>Sunday</td>
-                            <td>10:00 AM - 5:00 PM</td>
-                        </tr>
-                    </tbody>
-                </table>";
-//            if ($order->getShippingMethod() == 'collect_collect') {
-//                if ($collectPlaceId = $this->getCollectPlaceId($order)) {
-//                    $whse = $this->abstractEntityRepository->getById($collectPlaceId)->getCode();
-//                    if ($whse == "SWHS") {
-//                        $storeHours = "<span>Open Everyday!</span>";
-//                    }
-//                }
-//            }
-        }
-        return $storeHours;
     }
 
     
