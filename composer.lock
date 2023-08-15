@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f6c1f5c3b326463e842218d831bf0f9",
+    "content-hash": "1ebbd2af0fbe37b489a3645ca8684702",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -5971,6 +5971,65 @@
             "description": "Provides tools to build and deploy Magento 2 Enterprise Edition"
         },
         {
+            "name": "magento/extension-b2b",
+            "version": "1.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/extension-b2b/magento-extension-b2b-1.3.3.0-patch3.zip",
+                "shasum": "70d7ee3d250841035851c7b9874ca26621560822"
+            },
+            "require": {
+                "magento/magento2-b2b-base": "1.3.3-p3",
+                "magento/module-b2b": "100.3.3-p3",
+                "magento/module-bundle-negotiable-quote": "100.3.3-p3",
+                "magento/module-bundle-requisition-list": "100.3.3-p3",
+                "magento/module-bundle-requisition-list-graph-ql": "1.3.2-p3",
+                "magento/module-bundle-shared-catalog": "100.3.3-p3",
+                "magento/module-checkout-address-search-negotiable-quote": "100.3.3-p3",
+                "magento/module-checkout-agreements-negotiable-quote": "100.3.3-p3",
+                "magento/module-checkout-agreements-purchase-order": "1.3.2-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-company-credit": "100.3.3-p3",
+                "magento/module-company-credit-graph-ql": "1.3.2-p3",
+                "magento/module-company-graph-ql": "1.3.2-p3",
+                "magento/module-company-payment": "100.3.3-p3",
+                "magento/module-company-shipping": "1.3.3-p3",
+                "magento/module-configurable-negotiable-quote": "100.3.3-p3",
+                "magento/module-configurable-requisition-list": "100.3.3-p3",
+                "magento/module-configurable-requisition-list-graph-ql": "1.3.2-p3",
+                "magento/module-configurable-shared-catalog": "100.3.3-p3",
+                "magento/module-downloadable-requisition-list-graph-ql": "1.3.2-p3",
+                "magento/module-gift-card-negotiable-quote": "100.3.3-p3",
+                "magento/module-gift-card-requisition-list": "100.3.3-p3",
+                "magento/module-gift-card-requisition-list-graph-ql": "1.3.2-p3",
+                "magento/module-gift-card-shared-catalog": "100.3.3-p3",
+                "magento/module-grouped-requisition-list": "100.3.3-p3",
+                "magento/module-grouped-shared-catalog": "100.3.3-p3",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-negotiable-quote-async-order": "1.3.0-p3",
+                "magento/module-negotiable-quote-graph-ql": "1.3.1-p3",
+                "magento/module-negotiable-quote-shared-catalog": "100.3.3-p3",
+                "magento/module-negotiable-quote-weee": "100.3.3-p3",
+                "magento/module-order-history-search": "100.3.3-p3",
+                "magento/module-paypal-negotiable-quote": "1.3.1-p3",
+                "magento/module-paypal-purchase-order": "1.3.2-p3",
+                "magento/module-purchase-order": "100.3.3-p3",
+                "magento/module-purchase-order-rule": "100.3.3-p3",
+                "magento/module-quick-order": "100.3.3-p3",
+                "magento/module-requisition-list": "100.3.3-p3",
+                "magento/module-requisition-list-graph-ql": "1.3.2-p3",
+                "magento/module-shared-catalog": "100.3.3-p3",
+                "magento/module-shared-catalog-graph-ql": "1.3.2-p3",
+                "magento/security-package-b2b": "1.0.1-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "metapackage",
+            "license": [
+                "proprietary"
+            ],
+            "description": "eCommerce Platform for Growth (Enterprise Edition B2B)"
+        },
+        {
             "name": "magento/framework",
             "version": "103.0.4-p3",
             "dist": {
@@ -6733,6 +6792,73 @@
                 "source": "https://github.com/magento/magento-composer-installer/tree/0.4.0"
             },
             "time": "2022-12-01T15:21:32+00:00"
+        },
+        {
+            "name": "magento/magento2-b2b-base",
+            "version": "1.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/magento2-b2b-base/magento-magento2-b2b-base-1.3.3.0-patch3.zip",
+                "shasum": "dd6eea784e6c5f9aafa6e342b9f4afa24950502e"
+            },
+            "require": {
+                "magento/magento-composer-installer": "*"
+            },
+            "type": "magento2-component",
+            "extra": {
+                "chmod": [
+                    {
+                        "mask": "0755",
+                        "path": "bin/magento"
+                    }
+                ],
+                "map": [
+                    [
+                        "LICENSE_EE.txt",
+                        "LICENSE_EE.txt"
+                    ],
+                    [
+                        "SECURITY.md",
+                        "SECURITY.md"
+                    ],
+                    [
+                        "dev/tests/api-functional/testsuite/Magento",
+                        "dev/tests/api-functional/testsuite/Magento"
+                    ],
+                    [
+                        "dev/tests/integration/etc",
+                        "dev/tests/integration/etc"
+                    ],
+                    [
+                        "dev/tests/integration/framework",
+                        "dev/tests/integration/framework"
+                    ],
+                    [
+                        "dev/tests/integration/testsuite/Magento",
+                        "dev/tests/integration/testsuite/Magento"
+                    ],
+                    [
+                        "dev/tests/js",
+                        "dev/tests/js"
+                    ],
+                    [
+                        "dev/tests/static/testsuite/Magento",
+                        "dev/tests/static/testsuite/Magento"
+                    ],
+                    [
+                        "pub/media/negotiable_quotes_attachment",
+                        "pub/media/negotiable_quotes_attachment"
+                    ],
+                    [
+                        "setup",
+                        "setup"
+                    ]
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Magento 2 Base (Enterprise Edition B2b)"
         },
         {
             "name": "magento/magento2-base",
@@ -8461,6 +8587,32 @@
             "description": "N/A"
         },
         {
+            "name": "magento/module-b2b",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-b2b/magento-module-b2b-100.3.3.0-patch3.zip",
+                "shasum": "5369e9837fa37acb31367522dc782ce5439cc8e5"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\B2b\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
             "name": "magento/module-backend",
             "version": "102.0.4-p3",
             "dist": {
@@ -8837,6 +8989,129 @@
                 ],
                 "psr-4": {
                     "Magento\\BundleImportExportStaging\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-bundle-negotiable-quote",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-bundle-negotiable-quote/magento-module-bundle-negotiable-quote-100.3.3.0-patch3.zip",
+                "shasum": "fc963f9ff3652323d636167884262e8dddf623d4"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-bundle": "101.0.4",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\BundleNegotiableQuote\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-bundle-requisition-list",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-bundle-requisition-list/magento-module-bundle-requisition-list-100.3.3.0-patch3.zip",
+                "shasum": "c802c2ef840410508129e16c3fcfe6431315020a"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-bundle": "101.0.4",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-catalog-inventory": "100.4.4",
+                "magento/module-requisition-list": "100.3.3-p3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\BundleRequisitionList\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-bundle-requisition-list-graph-ql",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-bundle-requisition-list-graph-ql/magento-module-bundle-requisition-list-graph-ql-1.3.2.0-patch3.zip",
+                "shasum": "00ec08b6bb8b87e501ccbca5aa239cb09b6fa0c7"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-bundle": "101.0.4",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-requisition-list": "100.3.3-p3",
+                "magento/module-requisition-list-graph-ql": "1.3.2-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\BundleRequisitionListGraphQl\\": ""
+                }
+            },
+            "license": [
+                "Proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-bundle-shared-catalog",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-bundle-shared-catalog/magento-module-bundle-shared-catalog-100.3.3.0-patch3.zip",
+                "shasum": "0c10947e5d443981b03e6cc46ea0b092812f25e7"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-bundle": "101.0.4",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-shared-catalog": "100.3.3-p3",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-ui": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\BundleSharedCatalog\\": ""
                 }
             },
             "license": [
@@ -10047,6 +10322,35 @@
             "description": "N/A"
         },
         {
+            "name": "magento/module-checkout-address-search-negotiable-quote",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-checkout-address-search-negotiable-quote/magento-module-checkout-address-search-negotiable-quote-100.3.3.0-patch3.zip",
+                "shasum": "2d991198c8dd929c602d4da94f84b321377f1d6b"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-checkout-address-search": "100.4.3",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CheckoutAddressSearchNegotiableQuote\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
             "name": "magento/module-checkout-agreements",
             "version": "100.4.3",
             "dist": {
@@ -10108,6 +10412,66 @@
                 "AFL-3.0"
             ],
             "description": "N/A"
+        },
+        {
+            "name": "magento/module-checkout-agreements-negotiable-quote",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-checkout-agreements-negotiable-quote/magento-module-checkout-agreements-negotiable-quote-100.3.3.0-patch3.zip",
+                "shasum": "94da1d4fbc65708301a91bd3735c0b6a71003aba"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-checkout-agreements": "100.4.3",
+                "magento/module-negotiable-quote": "100.3.3-p3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CheckoutAgreementsNegotiableQuote\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-checkout-agreements-purchase-order",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-checkout-agreements-purchase-order/magento-module-checkout-agreements-purchase-order-1.3.2.0-patch3.zip",
+                "shasum": "ac5995fde5fde9cf6362cbac7b7b27d7b1a77101"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-checkout-agreements": "100.4.3",
+                "magento/module-purchase-order": "100.3.3-p3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CheckoutAgreementsPurchaseOrder\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "B2B Purchase order and checkout agreements linking module"
         },
         {
             "name": "magento/module-checkout-staging",
@@ -10370,6 +10734,245 @@
             "description": "N/A"
         },
         {
+            "name": "magento/module-company",
+            "version": "101.1.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-company/magento-module-company-101.1.3.0-patch3.zip",
+                "shasum": "f5a628bf6a2145106e5839cc0d96ed7a34086179"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-captcha": "100.4.4",
+                "magento/module-cms": "104.0.4-p2",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-directory": "100.4.4",
+                "magento/module-eav": "102.1.4",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-sales": "103.0.4-p1",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-theme": "101.1.4",
+                "magento/module-ui": "101.2.4",
+                "magento/module-user": "101.2.4-p2",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-customer-custom-attributes": "100.4.4-p2",
+                "magento/module-multishipping": "100.4.4",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-rma": "101.2.4",
+                "magento/module-scalable-oms": "100.4.3",
+                "magento/module-webapi": "100.4.3",
+                "magento/module-wishlist": "101.2.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\Company\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-company-credit",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-company-credit/magento-module-company-credit-100.3.3.0-patch3.zip",
+                "shasum": "71409b0ca5454e1fc3da57568a5c0e973b619cf0"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-directory": "100.4.4",
+                "magento/module-eav": "102.1.4",
+                "magento/module-integration": "100.4.4",
+                "magento/module-logging": "101.2.4",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-payment": "100.4.4",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-sales": "103.0.4-p1",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-ui": "101.2.4",
+                "magento/module-user": "101.2.4-p2",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-company-payment": "100.3.3-p3",
+                "magento/module-config": "101.2.4",
+                "magento/module-customer-balance": "100.4.4",
+                "magento/module-multishipping": "100.4.4",
+                "magento/module-rma": "101.2.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CompanyCredit\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-company-credit-graph-ql",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-company-credit-graph-ql/magento-module-company-credit-graph-ql-1.3.2.0-patch3.zip",
+                "shasum": "64862a3aae0490a79ca0c37dc690d11f54be1717"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-company-credit": "100.3.3-p3",
+                "magento/module-company-graph-ql": "1.3.2-p3",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-user": "101.2.4-p2",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CompanyCreditGraphQl\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-company-graph-ql",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-company-graph-ql/magento-module-company-graph-ql-1.3.2.0-patch3.zip",
+                "shasum": "5720fa2d3b60876cf3eb27ac314ff014f2bb0cb0"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-customer-graph-ql": "100.4.4",
+                "magento/module-directory": "100.4.4",
+                "magento/module-graph-ql": "100.4.4",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-user": "101.2.4-p2",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CompanyGraphQl\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-company-payment",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-company-payment/magento-module-company-payment-100.3.3.0-patch3.zip",
+                "shasum": "680eb82f355755b019da167de7f95df8eda9a49d"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-config": "101.2.4",
+                "magento/module-payment": "100.4.4",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-ui": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-multishipping": "100.4.4",
+                "magento/module-sales": "103.0.4-p1"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CompanyPayment\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-company-shipping",
+            "version": "1.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-company-shipping/magento-module-company-shipping-1.3.3.0-patch3.zip",
+                "shasum": "3fdc49351b10fac14e4c189b0cd21df5209a86f3"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-config": "101.2.4",
+                "magento/module-shipping": "100.4.4",
+                "magento/module-ui": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-quote": "101.2.4-p2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\CompanyShipping\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
             "name": "magento/module-compare-list-graph-ql",
             "version": "100.4.1",
             "dist": {
@@ -10462,6 +11065,35 @@
             "license": [
                 "OSL-3.0",
                 "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-configurable-negotiable-quote",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-configurable-negotiable-quote/magento-module-configurable-negotiable-quote-100.3.3.0-patch3.zip",
+                "shasum": "e56210767b1ba8dfd56bc5a285ca9e5300503eec"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-configurable-product": "100.4.4-p2",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\ConfigurableNegotiableQuote\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
             ],
             "description": "N/A"
         },
@@ -10605,6 +11237,101 @@
                 ],
                 "psr-4": {
                     "Magento\\ConfigurableProductStaging\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-configurable-requisition-list",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-configurable-requisition-list/magento-module-configurable-requisition-list-100.3.3.0-patch3.zip",
+                "shasum": "ade1d5e9a7558415b1e637a51a9437ca0e66365c"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-configurable-product": "100.4.4-p2",
+                "magento/module-requisition-list": "100.3.3-p3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\ConfigurableRequisitionList\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-configurable-requisition-list-graph-ql",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-configurable-requisition-list-graph-ql/magento-module-configurable-requisition-list-graph-ql-1.3.2.0-patch3.zip",
+                "shasum": "279d2c661e90645b0fc753b2739da753d04dda0f"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-configurable-product": "100.4.4-p2",
+                "magento/module-requisition-list": "100.3.3-p3",
+                "magento/module-requisition-list-graph-ql": "1.3.2-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\ConfigurableRequisitionListGraphQl\\": ""
+                }
+            },
+            "license": [
+                "Proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-configurable-shared-catalog",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-configurable-shared-catalog/magento-module-configurable-shared-catalog-100.3.3.0-patch3.zip",
+                "shasum": "dabc44ca5ab2dfbcf57027593347aa922fe7bf05"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-shared-catalog": "100.3.3-p3",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-ui": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-configurable-product": "100.4.4-p2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\ConfigurableSharedCatalog\\": ""
                 }
             },
             "license": [
@@ -11474,6 +12201,37 @@
             "description": "N/A"
         },
         {
+            "name": "magento/module-downloadable-requisition-list-graph-ql",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-downloadable-requisition-list-graph-ql/magento-module-downloadable-requisition-list-graph-ql-1.3.2.0-patch3.zip",
+                "shasum": "3bb819d73f832a19cb4d83f2c33f185d9ef0845c"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-downloadable": "100.4.4",
+                "magento/module-downloadable-graph-ql": "100.4.4",
+                "magento/module-requisition-list": "100.3.3-p3",
+                "magento/module-requisition-list-graph-ql": "1.3.2-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\DownloadableRequisitionListGraphQl\\": ""
+                }
+            },
+            "license": [
+                "Proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
             "name": "magento/module-downloadable-staging",
             "version": "100.4.3",
             "dist": {
@@ -12087,6 +12845,130 @@
             "license": [
                 "OSL-3.0",
                 "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-gift-card-negotiable-quote",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-gift-card-negotiable-quote/magento-module-gift-card-negotiable-quote-100.3.3.0-patch3.zip",
+                "shasum": "0a7357c078fb87e53ccbdd48a11e14e2d4369153"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-gift-card": "101.3.4",
+                "magento/module-negotiable-quote": "100.3.3-p3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\GiftCardNegotiableQuote\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-gift-card-requisition-list",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-gift-card-requisition-list/magento-module-gift-card-requisition-list-100.3.3.0-patch3.zip",
+                "shasum": "7edeb19164b579ec2014502d402a3a822b32e6d7"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-requisition-list": "100.3.3-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-gift-card": "101.3.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\GiftCardRequisitionList\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-gift-card-requisition-list-graph-ql",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-gift-card-requisition-list-graph-ql/magento-module-gift-card-requisition-list-graph-ql-1.3.2.0-patch3.zip",
+                "shasum": "909ebfa00098e90ebf992305eefa96e41ad499d4"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-gift-card": "101.3.4",
+                "magento/module-graph-ql": "100.4.4",
+                "magento/module-requisition-list": "100.3.3-p3",
+                "magento/module-requisition-list-graph-ql": "1.3.2-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\GiftCardRequisitionListGraphQl\\": ""
+                }
+            },
+            "license": [
+                "Proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-gift-card-shared-catalog",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-gift-card-shared-catalog/magento-module-gift-card-shared-catalog-100.3.3.0-patch3.zip",
+                "shasum": "c45f78b972aca056fb2e3764b3365e80b188cd2b"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-ui": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-shared-catalog": "100.3.3-p3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\GiftCardSharedCatalog\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
             ],
             "description": "N/A"
         },
@@ -12802,6 +13684,67 @@
                 ],
                 "psr-4": {
                     "Magento\\GroupedProductStaging\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-grouped-requisition-list",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-grouped-requisition-list/magento-module-grouped-requisition-list-100.3.3.0-patch3.zip",
+                "shasum": "a082f85e7041e82897b1194527c977faf78a981b"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-grouped-product": "100.4.4",
+                "magento/module-requisition-list": "100.3.3-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\GroupedRequisitionList\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-grouped-shared-catalog",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-grouped-shared-catalog/magento-module-grouped-shared-catalog-100.3.3.0-patch3.zip",
+                "shasum": "dbba218ca7a4412e2f91c1254812a769de8460c6"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-shared-catalog": "100.3.3-p3",
+                "magento/module-ui": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-grouped-product": "100.4.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\GroupedSharedCatalog\\": ""
                 }
             },
             "license": [
@@ -16968,6 +17911,210 @@
             "description": "N/A"
         },
         {
+            "name": "magento/module-negotiable-quote",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-negotiable-quote/magento-module-negotiable-quote-100.3.3.0-patch3.zip",
+                "shasum": "cda49656570b658787716bc5f1c91367f894dd5d"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/framework-bulk": "101.0.1",
+                "magento/framework-message-queue": "100.4.4",
+                "magento/module-advanced-checkout": "100.4.4",
+                "magento/module-asynchronous-operations": "100.4.4",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-bundle": "101.0.4",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-catalog-inventory": "100.4.4",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-config": "101.2.4",
+                "magento/module-configurable-product": "100.4.4-p2",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-directory": "100.4.4",
+                "magento/module-downloadable": "100.4.4",
+                "magento/module-gift-card": "101.3.4",
+                "magento/module-gift-card-account": "101.2.4",
+                "magento/module-grouped-product": "100.4.4",
+                "magento/module-integration": "100.4.4",
+                "magento/module-msrp": "100.4.3",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-sales": "103.0.4-p1",
+                "magento/module-sales-rule": "101.2.4",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-tax": "100.4.4",
+                "magento/module-theme": "101.1.4",
+                "magento/module-ui": "101.2.4",
+                "magento/module-user": "101.2.4-p2",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-checkout-agreements": "100.4.3",
+                "magento/module-scalable-checkout": "100.4.3",
+                "magento/module-shared-catalog": "100.3.3-p3"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\NegotiableQuote\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-negotiable-quote-async-order",
+            "version": "1.3.0-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-negotiable-quote-async-order/magento-module-negotiable-quote-async-order-1.3.0.0-patch3.zip",
+                "shasum": "b68bf9e66d08660f30d979406c3e94e810bf2c2c"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-async-order": "100.4.0",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-quote": "101.2.4-p2",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-checkout-staging": "100.4.3",
+                "magento/module-payment": "100.4.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\NegotiableQuoteAsyncOrder\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-negotiable-quote-graph-ql",
+            "version": "1.3.1-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-negotiable-quote-graph-ql/magento-module-negotiable-quote-graph-ql-1.3.1.0-patch3.zip",
+                "shasum": "e3f3d054039897be10678d2f3f16ee9a8833d102"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-catalog-graph-ql": "100.4.4",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-graph-ql": "100.4.4",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-quote-graph-ql": "100.4.4",
+                "magento/module-sales": "103.0.4-p1",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-tax": "100.4.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-catalog-inventory-graph-ql": "100.4.1",
+                "magento/module-graph-ql": "100.4.4",
+                "magento/module-payment-graph-ql": "100.4.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\NegotiableQuoteGraphQl\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "Graphql support for the Negotiable Quote"
+        },
+        {
+            "name": "magento/module-negotiable-quote-shared-catalog",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-negotiable-quote-shared-catalog/magento-module-negotiable-quote-shared-catalog-100.3.3.0-patch3.zip",
+                "shasum": "2a04135d4a063a28a4f5b1b7280c4fd98bb968ca"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-shared-catalog": "100.3.3-p3",
+                "magento/module-store": "101.1.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-customer": "103.0.4-p2"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\NegotiableQuoteSharedCatalog\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-negotiable-quote-weee",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-negotiable-quote-weee/magento-module-negotiable-quote-weee-100.3.3.0-patch3.zip",
+                "shasum": "2b573d3afbc5191c7832d2e067a04b5b20a66b52"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-tax": "100.4.4",
+                "magento/module-weee": "100.4.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\NegotiableQuoteWeee\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
             "name": "magento/module-new-relic-reporting",
             "version": "100.4.2",
             "dist": {
@@ -17135,6 +18282,38 @@
                 ],
                 "psr-4": {
                     "Magento\\OfflineShipping\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-order-history-search",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-order-history-search/magento-module-order-history-search-100.3.3.0-patch3.zip",
+                "shasum": "013b0a4b30f4ed0f32de9ce840cbbb1fcb01c20d"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-sales": "103.0.4-p1",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-theme": "101.1.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\OrderHistorySearch\\": ""
                 }
             },
             "license": [
@@ -17483,6 +18662,40 @@
             "description": "GraphQl support for Paypal"
         },
         {
+            "name": "magento/module-paypal-negotiable-quote",
+            "version": "1.3.1-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-paypal-negotiable-quote/magento-module-paypal-negotiable-quote-1.3.1.0-patch3.zip",
+                "shasum": "c922ce2bbd19a1da62e50eb63bed2576f9b6c1a8"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-quote": "101.2.4-p2",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-payment": "100.4.4",
+                "magento/module-paypal": "101.0.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\PaypalNegotiableQuote\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
             "name": "magento/module-paypal-on-boarding",
             "version": "100.4.2",
             "dist": {
@@ -17509,6 +18722,38 @@
             },
             "license": [
                 "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-paypal-purchase-order",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-paypal-purchase-order/magento-module-paypal-purchase-order-1.3.2.0-patch3.zip",
+                "shasum": "547c1820fe21de478b1e169e6f3c83a7fe120026"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-purchase-order": "100.3.3-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-paypal": "101.0.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\PaypalPurchaseOrder\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
             ],
             "description": "N/A"
         },
@@ -17755,6 +19000,132 @@
                 ],
                 "psr-4": {
                     "Magento\\PromotionPermissions\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-purchase-order",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-purchase-order/magento-module-purchase-order-100.3.3.0-patch3.zip",
+                "shasum": "92e543fde80e46f1f4dcd96dd0f1ec408fb12d63"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/framework-message-queue": "100.4.4",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-directory": "100.4.4",
+                "magento/module-gift-card-account": "101.2.4",
+                "magento/module-msrp": "100.4.3",
+                "magento/module-negotiable-quote": "100.3.3-p3",
+                "magento/module-payment": "100.4.4",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-sales": "103.0.4-p1",
+                "magento/module-sales-sequence": "100.4.2",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-tax": "100.4.4",
+                "magento/module-theme": "101.1.4",
+                "magento/module-ui": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-company-credit": "100.3.3-p3",
+                "magento/module-sales-rule": "101.2.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\PurchaseOrder\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-purchase-order-rule",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-purchase-order-rule/magento-module-purchase-order-rule-100.3.3.0-patch3.zip",
+                "shasum": "b6c9b90a96610eb34ddd3bbfaf626b7ea38b1929"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/framework-message-queue": "100.4.4",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-directory": "100.4.4",
+                "magento/module-payment": "100.4.4",
+                "magento/module-purchase-order": "100.3.3-p3",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-rule": "100.4.3",
+                "magento/module-sales-rule": "101.2.4",
+                "magento/module-shipping": "100.4.4",
+                "magento/module-theme": "101.1.4",
+                "magento/module-ui": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\PurchaseOrderRule\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-quick-order",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-quick-order/magento-module-quick-order-100.3.3.0-patch3.zip",
+                "shasum": "95774371d4bb635af1bfbd4d73fb42e0d862bbcd"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-advanced-checkout": "100.4.4",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-catalog-inventory": "100.4.4",
+                "magento/module-catalog-permissions": "100.4.4",
+                "magento/module-catalog-search": "102.0.4",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-search": "101.1.4",
+                "magento/module-store": "101.1.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-config": "101.2.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\QuickOrder\\": ""
                 }
             },
             "license": [
@@ -18115,6 +19486,40 @@
                 "OSL-3.0"
             ],
             "description": "Google ReCaptcha integration for Magento2 coupons"
+        },
+        {
+            "name": "magento/module-re-captcha-company",
+            "version": "1.0.1",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-re-captcha-company/magento-module-re-captcha-company-1.0.1.0.zip",
+                "shasum": "80a0688b8f6fa63900f6ce162050e4c8d4c0dcf9"
+            },
+            "require": {
+                "magento/framework": "*",
+                "magento/module-re-captcha-ui": "*",
+                "magento/module-re-captcha-validation-api": "*",
+                "magento/module-re-captcha-webapi-api": "*",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-company": "*",
+                "magento/module-re-captcha-admin-ui": "*",
+                "magento/module-re-captcha-frontend-ui": "*"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\ReCaptchaCompany\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0"
+            ],
+            "description": "Google reCAPTCHA integration for Magento2"
         },
         {
             "name": "magento/module-re-captcha-contact",
@@ -18935,6 +20340,81 @@
                 ],
                 "psr-4": {
                     "Magento\\RequireJs\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-requisition-list",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-requisition-list/magento-module-requisition-list-100.3.3.0-patch3.zip",
+                "shasum": "99a9ab2345824c64a4837c8da6d595ed8ba181d0"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-catalog-inventory": "100.4.4",
+                "magento/module-checkout": "100.4.4-p3",
+                "magento/module-configurable-product": "100.4.4-p2",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-import-export": "101.0.4",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-sales": "103.0.4-p1",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-tax": "100.4.4",
+                "magento/module-theme": "101.1.4",
+                "magento/module-ui": "101.2.4",
+                "magento/module-wishlist": "101.2.4",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-bundle": "101.0.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\RequisitionList\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-requisition-list-graph-ql",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-requisition-list-graph-ql/magento-module-requisition-list-graph-ql-1.3.2.0-patch3.zip",
+                "shasum": "cbc8008e3fcec78cef1b7bd85114480770480456"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-quote-graph-ql": "100.4.4",
+                "magento/module-requisition-list": "100.3.3-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\RequisitionListGraphQl\\": ""
                 }
             },
             "license": [
@@ -20070,6 +21550,93 @@
                 "AFL-3.0"
             ],
             "description": "N/A"
+        },
+        {
+            "name": "magento/module-shared-catalog",
+            "version": "100.3.3-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-shared-catalog/magento-module-shared-catalog-100.3.3.0-patch3.zip",
+                "shasum": "4652b76b0f1100926cd29b655c1df0d7a524382d"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/framework-bulk": "101.0.1",
+                "magento/framework-message-queue": "100.4.4",
+                "magento/module-asynchronous-operations": "100.4.4",
+                "magento/module-authorization": "100.4.4",
+                "magento/module-b2b": "100.3.3-p3",
+                "magento/module-backend": "102.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-catalog-permissions": "100.4.4",
+                "magento/module-company": "101.1.3-p3",
+                "magento/module-config": "101.2.4",
+                "magento/module-customer": "103.0.4-p2",
+                "magento/module-directory": "100.4.4",
+                "magento/module-eav": "102.1.4",
+                "magento/module-logging": "101.2.4",
+                "magento/module-quote": "101.2.4-p2",
+                "magento/module-store": "101.1.4-p3",
+                "magento/module-tax": "100.4.4",
+                "magento/module-ui": "101.2.4",
+                "magento/module-user": "101.2.4-p2",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-advanced-checkout": "100.4.4",
+                "magento/module-customer-segment": "102.1.4",
+                "magento/module-downloadable": "100.4.4",
+                "magento/module-sales-rule": "101.2.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\SharedCatalog\\": ""
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "N/A"
+        },
+        {
+            "name": "magento/module-shared-catalog-graph-ql",
+            "version": "1.3.2-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/module-shared-catalog-graph-ql/magento-module-shared-catalog-graph-ql-1.3.2.0-patch3.zip",
+                "shasum": "04a55713a4a1554022a9e4a5f83412282eed8a55"
+            },
+            "require": {
+                "magento/framework": "103.0.4-p3",
+                "magento/module-catalog": "104.0.4-p2",
+                "magento/module-catalog-graph-ql": "100.4.4",
+                "magento/module-catalog-permissions-graph-ql": "100.4.3",
+                "magento/module-graph-ql": "100.4.4",
+                "magento/module-shared-catalog": "100.3.3-p3",
+                "magento/module-store": "101.1.4-p3",
+                "php": "~7.4.0||~8.1.0"
+            },
+            "suggest": {
+                "magento/module-catalog-graph-ql": "100.4.4"
+            },
+            "type": "magento2-module",
+            "autoload": {
+                "files": [
+                    "registration.php"
+                ],
+                "psr-4": {
+                    "Magento\\SharedCatalogGraphQl\\": ""
+                }
+            },
+            "license": [
+                "OSL-3.0",
+                "AFL-3.0"
+            ],
+            "description": "B2B Shared Catalog GraphQL Module"
         },
         {
             "name": "magento/module-shipping",
@@ -22458,6 +24025,20 @@
             },
             "type": "metapackage",
             "description": "Magento Security Package"
+        },
+        {
+            "name": "magento/security-package-b2b",
+            "version": "1.0.1-p3",
+            "dist": {
+                "type": "zip",
+                "url": "https://repo.magento.com/archives/magento/security-package-b2b/magento-security-package-b2b-1.0.1.0-patch3.zip",
+                "shasum": "618d74929d7995c28716496d04159eae7bc42258"
+            },
+            "require": {
+                "magento/module-re-captcha-company": "1.0.1"
+            },
+            "type": "metapackage",
+            "description": "Magento B2B Security Package"
         },
         {
             "name": "magento/theme-adminhtml-backend",
