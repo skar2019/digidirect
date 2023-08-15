@@ -83,9 +83,6 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
         </div>
         <div class="btn" id="add-cart-btn"></div>
     </div>
-
-    <?php echo $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Catalog::product/payment-gateways.phtml")->toHtml() ?>
-
 <?php endif; ?>
 <script type="text/x-magento-init">
     {
@@ -136,25 +133,6 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
         form.attachEvent("onsubmit", addToCartClick);
     }
 </script>
-
-
-<script type='text/javascript'>
-    var ccs_cc_args = ccs_cc_args || [];
-
-    // 1WS Product Page
-    ccs_cc_args.push(['mf', '<?php echo $block->getProduct()->getResource()->getAttribute('brand')->getFrontend()->getValue($block->getProduct()); ?>']);
-    ccs_cc_args.push(['pn', '<?php echo $block->getProduct()->getResource()->getAttribute('apn')->getFrontend()->getValue($block->getProduct()); ?>']);
-    ccs_cc_args.push(['lang', 'EN']);
-    ccs_cc_args.push(['market', 'AU']);
-
-    (function () {
-       var o = ccs_cc_args; o.push(['_SKey', 'caf81995']); o.push(['_ZoneId', 'f38beb7ad7']);
-       var sc = document.createElement('script'); sc.type = 'text/javascript'; sc.async = true;
-       sc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.cs.1worldsync.com/jsc/h1ws.js';
-       var n = document.getElementsByTagName('script')[0]; n.parentNode.insertBefore(sc, n);
-    })();
-    
-</script>
 <!-- FeedOps - Dynamic Remarketing - Version 1 END -->
 
 <!--<script>-->
@@ -167,3 +145,4 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
 <!--      }-->
 <!--    }).render('#paypal-button-container');-->
 <!--</script>-->
+<!-- redeploy -->

@@ -1,6 +1,5 @@
 <?php
     // Note: Change $d2ItemCondition to digiSeconds attribute when pushing to live site.
-    
     $productBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Digidirect\Catalog\Block\ProductInfoBlock');
     $currentProduct = $productBlock->getCurrentProduct();
     $d2ItemCondition = ($currentProduct->getItemCodition() ? $currentProduct->getItemCodition() : ''); 
@@ -60,9 +59,10 @@
 
 <style type="text/css">
     .digiseconds-overlay {
+        display: none;
         position: absolute;
         padding: 15px;
-        z-index: 97;
+        z-index: 1;
     }
     
     .digiseconds-rating {

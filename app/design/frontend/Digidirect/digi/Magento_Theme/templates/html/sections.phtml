@@ -6,7 +6,6 @@
 
 /**
  *  General template for displaying group of blocks divided into sections
- *  Redeploy
  */
 
 $group = $block->getGroupName();
@@ -44,6 +43,9 @@ $groupCss = $block->getGroupCss();
 <?php endif; ?>
 
 <style>
+    #nav-sections-id {
+        z-index: 3;
+    }
     .nav-mobile-menu {
         left: 0;
         z-index: 99;
@@ -55,10 +57,6 @@ $groupCss = $block->getGroupCss();
     require(['jquery'],function($){
         $("#header-toggle-nav").click(function() {
             $("#nav-sections-id").addClass("nav-mobile-menu");
-        });
-        
-        $(".mobile-menu-main-exit").click(function(){
-            $("#nav-sections-id").removeClass("nav-mobile-menu");
         });
     });
 </script>

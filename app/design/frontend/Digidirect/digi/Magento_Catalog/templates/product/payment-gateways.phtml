@@ -1,63 +1,33 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+$listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+$addToCartUrl =  $listBlock->getAddToCartUrl($product);
+?>
+
 <div class="payment-gateways">
     <div class="row-first">
-        <div class="actions">
+        <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
+            <?php echo $block->getBlockHtml('formkey')?>
             <button type="submit"
                 class="action tocart btn_cart tocart-pdp-btn"
                 id="product-addtocart-button"
                 data-action="add-to-cart-action"
                 >
                 <div class="credit-cards">
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>visa.png"/>
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>mastercard.png"/>
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>amex.png"/>
+                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>visa.png"/>
+                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>mastercard.png"/>
+                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/")?>amex.png"/>
                 </div>
             </button>
-        </div>
+        </form>
         <div id="paypal-custom">
         </div>
         <div id="zip-custom">
             <span class="zip-caption">
                 <span class="zip-interest">0% Interest for 6 Months</span>
-                <span class="zip-apply-now">APPLY NOW!</span>
+                <span id="zip-apply-now" class="zip-apply-now">APPLY NOW!</span>
             </span>
-        </div>
-    </div>
-</div>
-
-<div class="payment-gateways-bottom">
-    <div class="row-bottom">
-        <div class="actions">
-            <button type="submit"
-                class="action tocart btn_cart tocart-pdp-btn"
-                id="product-addtocart-button"
-                data-action="add-to-cart-action"
-                >
-                <div id="union-alipay-wechat">
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>union-alipay-wechat.png"/>
-                </div>
-            </button>
-        </div>
-        <div class="actions">
-            <button type="submit"
-                class="action tocart btn_cart tocart-pdp-btn"
-                id="product-addtocart-button"
-                data-action="add-to-cart-action"
-                >
-                <div id="latitude-pay-custom">
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>latitudepay.png"/>
-                </div>
-            </button>
-        </div>
-        <div class="actions">
-            <button type="submit"
-                class="action tocart btn_cart tocart-pdp-btn"
-                id="product-addtocart-button"
-                data-action="add-to-cart-action"
-                >
-                <div id="klarna-custom">
-                    <img src="<?php echo $block->getUrl("media/wysiwyg/payment-gateways/icons/")?>klarna.png"/>
-                </div>
-            </button>
         </div>
     </div>
 </div>
@@ -68,9 +38,5 @@
         ],
         function ($) {
             $('#paypal-custom').append($('#paypal-smart-button'));
-           
-            $('#zip-custom').on('click', function(){
-                $('#zip-info-link').trigger("click");
-            });
     });
 </script>

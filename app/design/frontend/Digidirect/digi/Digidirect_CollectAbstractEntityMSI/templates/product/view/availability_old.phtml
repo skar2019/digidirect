@@ -1,5 +1,5 @@
 <?php
-/** @var \Digidirect\CollectAbstractEntityMSI\Block\Product\View\Availability $block */
+/** @var \Digidirect\CollectAbstractEntityMsi\Block\Product\View\Availability $block */
 $availability = $block->getAvailability();
 $product = $block->getProduct();
 $cmsSddBlock = $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('cms_pdp_sdd_info')->toHtml();
@@ -68,7 +68,7 @@ $availabilityCheckArray = json_encode($availability);
 <script type="text/x-magento-init">
     {
         "*": {
-            "Digidirect_CollectAbstractEntityMSI/js/availability-tab": {},
+            "Digidirect_CollectAbstractEntityMsi/js/availability-tab": {},
             "Magento_Ui/js/core/app": {
             "components": {
                 "sdd-ship-checker": {

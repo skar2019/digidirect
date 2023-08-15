@@ -1,7 +1,7 @@
 <span id="header-toggle-nav" data-action="toggle-nav" class="action nav-toggle"><svg xmlns="http://www.w3.org/2000/svg" class="svg-icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svgi-menu"></use></svg></span>
 <div class="logo-wrapper">
     <a class="c-logo" href="/">
-        <img src="<?php echo $block->getUrl("media/wysiwyg/")?>logo.svg"/>
+        <img src="<?php echo $block->getUrl("media/wysiwyg/")?>Birthday-Logo.png"/>
     </a>
 </div>
 
@@ -58,45 +58,47 @@
     require(['jquery', 'owl_carousel'],
         function ($) {
             
-            $(".top-red-banner-wrapper").slideDown("slow");
+            //            $(".top-red-banner-wrapper").slideDown("slow");
+            //            
+            //            $(window).scroll(function() {stickyHeader()}); // OR  $(window).scroll(function() {
+            //            var header = document.getElementById("main-header-wrapper");
+            //            var trigger = document.getElementById("header-toggle-nav");
+            //            var sticky = header.offsetTop;
+            //
+            //            function stickyHeader() {
+            //                
+            //                if (window.pageYOffset > sticky) {
+            //                    header.classList.add("sticky");
+            //                    trigger.classList.add("ninjamenus-top-triggered-sticky");
+            //                } else {
+            //                    header.classList.remove("sticky");
+            //                    trigger.classList.remove("ninjamenus-top-triggered-sticky");
+            //                }
+            //            }
+            //            $(".top-red-banner-block").click(function() {
+            //                $(".top-red-banner-wrapper").slideUp("slow");
+            //            });
             
-            $(window).scroll(function() {stickyHeader()}); // OR  $(window).scroll(function() {
-            var header = document.getElementById("main-header-wrapper");
-            var trigger = document.getElementById("header-toggle-nav");
-            var sticky = header.offsetTop;
-
-            function stickyHeader() {
-                
-                if (window.pageYOffset > sticky) {
-                    header.classList.add("sticky");
-                    trigger.classList.add("ninjamenus-top-triggered-sticky");
-                } else {
-                    header.classList.remove("sticky");
-                    trigger.classList.remove("ninjamenus-top-triggered-sticky");
-                }
-            }
-            $(".top-red-banner-block").click(function() {
-                $(".top-red-banner-wrapper").slideUp("slow");
-            });
-            
-            $(window).load(function() {
-                //$(".top-red-banner-wrapper").slideDown("slow");
-                $("#top-red-banner-block-id:before").css("visibility", "visible !important");
-            });
+            //            $(window).load(function() {
+            //                $("#top-red-banner-block-id:before").css("visibility", "visible !important");
+            //            });
             
             <?php
             $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
             $customerSession = $objectManager->get('Magento\Customer\Block\Account\AuthorizationLink');
 
             if ($customerSession->isLoggedIn() == true) { ?>    
-                $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/logout" title="Logout">Logout <i class="fas fa-sign-out-alt"></i></a></span>')
+                $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/Birthday-Logo.png" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/logout" title="Logout">Sign Out <i class="fas fa-sign-out-alt"></i></a></span>')
             <?php } else { ?>
-                $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/logo.svg" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
+                $('#mobile-menu-only-header').prepend('<i class="fas fa-times mobile-menu-main-exit"></i><img id="digi-white-logo" src="https://www.digidirect.com.au/media/wysiwyg/Birthday-Logo.png" /><span id="menu-mobile-span-signin"><a class="mobile-menu-signin" href="/customer/account/login" title="Login">Sign In <i class="far fa-user"></i></a></span>')
             <?php } ?>
                 
+            $('.ninjamenus-drilldown-back').prepend('<i class="fas fa-times mobile-menu-main-exit" style="color: #cacaca; left: 92%"></i>');
                 
-            $('.ninjamenus-drilldown-back').prepend('<i class="fas fa-times mobile-menu-main-exit" style="color: #cacaca; left: 92%"></i>')
-            
+            $(".mobile-menu-main-exit").click(function(){
+                $("#nav-sections-id").removeClass("nav-mobile-menu");
+            });
+          
         }
     );
     
