@@ -304,7 +304,6 @@ div.agreement-hld #agreement-error {
     transform: translateX(-50%);
     position: fixed;
     top: 0;
-    border-radius: 12px;
     overflow: hidden;
 }
 
