@@ -297,7 +297,7 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $description;
             $data[] = $gtin;
             $data[] = $product->getSku();
-            $data[] = $apn = $product->getApn();
+            $data[] = $product->getApn();
             $data[] = $title;
             $data[] = $category1;
             $data[] = $category2;
