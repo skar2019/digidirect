@@ -286,14 +286,18 @@ class ProductEntHelper extends AbstractHelper
             $title = $product->getName();
             $title = strip_tags($title);
             $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
-
+            $actualcost = 0;
             $cost = $product->getCustomAttribute('cost');
-            $actualcost = $cost->getValue();
+            if(isset($cost))
+            {
+                $actualcost = $cost->getValue();
+            }
+
             $data[] = $brandname;
             $data[] = $description;
             $data[] = $gtin;
             $data[] = $product->getSku();
-            $data[] = $product->getApn();
+            $data[] = $apn = $product->getApn();
             $data[] = $title;
             $data[] = $category1;
             $data[] = $category2;
