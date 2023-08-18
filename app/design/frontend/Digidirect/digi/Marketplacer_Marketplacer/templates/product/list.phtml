@@ -285,7 +285,7 @@ if ($currentPage != "catalogsearch_result_index") {
                             <?= /* @escapeNotVerified */ $block->getProductPrice($_product) ?>
                         <?php endif;?>
                         
-                        <div class="product-item-inner">
+                        <div class="product-item-inner digiprint-right">
                             <?= $block->getProductDetailsHtml($_product); ?>
                             <div class="product actions product-item-actions">
                                 <div class="actions-primary">
@@ -293,11 +293,11 @@ if ($currentPage != "catalogsearch_result_index") {
 
                                     <?php if ($is_digiPrint == 1): ?>
 
-                                        <a href="<?php echo $digiprintCustomLinkProductSKU;?>">
+                                        <a class="ordernow-link" href="<?php echo $digiprintCustomLinkProductSKU;?>">
                                             <button type="button"
                                                 title="<?= /* @escapeNotVerified */ __('Order Now'); ?>"
                                                 class="action btn-ordernow primary">
-                                                <span><?= /* @escapeNotVerified */ __('Order Now'); ?></span><i class="fas fa-cart-plus" style="float: right; color: #ff3c00;"></i>
+                                                Order Now <i class="fas fa-cart-plus" style="float: right;"></i>
                                             </button>
                                         </a>
 
@@ -524,19 +524,11 @@ if ($currentPage != "catalogsearch_result_index") {
         padding: 8px 10px 8px 10px !important;
         font-size: 13px;
         margin-bottom: 5px;
-       
+        color: #ff3c00 !important;
     }
 
     .action.btn-ordernow.primary:hover {
         background: #ff3c00 !important;
-        color: #fff !important;
-    }
-
-    button.action.btn-ordernow.primary span, button.action.btn-ordernow.primary a {
-        color: #ff3c00 !important;
-    }
-    
-    button.action.btn-ordernow.primary span:hover, button.action.btn-ordernow.primary a:hover {
         color: #fff !important;
     }
 
