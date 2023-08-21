@@ -78,13 +78,19 @@ define([
     if($('#leftmenu').contents().length == 0) {
 
     }
+    
+    var win = $(this); //this = window
+    if (win.width() >= 1440) {
+        $('.page-title-wrapper').insertBefore($('.product-info-price'));
+    } else {
+        $('.page-title-wrapper').insertBefore($('.media-area'));
+    }
 
     //for mobile = 760
     //Changed to 1439 for tablet *Rondel
     let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
 
     $(window).on('resize', function(){
-        var win = $(this); //this = window
         if (win.width() >= 1440) {
             $('.page-title-wrapper').insertBefore($('.product-info-price'));
         } else {
