@@ -86,9 +86,9 @@ define([
     $(window).on('resize', function(){
         var win = $(this); //this = window
         if (win.width() >= 1440) {
-            //$('.page-title-wrapper').insertBefore($('.product-info-price'));
+            $('.page-title-wrapper').insertBefore($('.product-info-price'));
         } else {
-            //$('.page-title-wrapper').insertBefore($('.product-basic'));
+            $('.page-title-wrapper').insertBefore($('.media-area'));
         }
 
         //if (win.width() <= 768) {
