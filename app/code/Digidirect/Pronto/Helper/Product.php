@@ -154,6 +154,8 @@ class Product extends AbstractHelper
                     }
                 }
 
+                $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+
                 $product->setCustomAttribute('cost', $cost);
 
                 $endis = "Enabled = 0";
@@ -535,6 +537,8 @@ class Product extends AbstractHelper
                         }
                     }
                 }
+
+                $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')

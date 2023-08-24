@@ -175,9 +175,10 @@ class Inventory extends AbstractHelper
                         {
                             $marketplacesprice = 0;
                         }
+                        $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
 
-                    $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+
 
                     $totalwrhs = 0;
                     if(isset($prodRes['warehouse']['whse']))
@@ -256,9 +257,9 @@ class Inventory extends AbstractHelper
                         {
                             $marketplacesprice = 0;
                         }
+                        $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
 
-                    $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                     if($prodRes['stk-condition-code'] == 'O')
                     {
@@ -449,9 +450,10 @@ class Inventory extends AbstractHelper
                         {
                             $marketplacesprice = 0;
                         }
+                        $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
 
-                    $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+
                     echo "marketplacesprice - ".$marketplacesprice."<br/>";
                     echo $prodRes['stk-user-only-alpha4-1']."<br/>";
                     if($prodRes['stk-condition-code'] == 'O')
@@ -590,10 +592,10 @@ class Inventory extends AbstractHelper
                         {
                             $marketplacesprice = 0;
                         }
-
+                        $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
                     }
 
-                    $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+
                     echo "marketplacesprice - ".$marketplacesprice."<br/>";
 
                     echo $prodRes['stk-user-only-alpha4-1']."<br/>";
