@@ -174,7 +174,7 @@ class ProductEntHelper extends AbstractHelper
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
-            'Category 3','Category 4','Price','Cost','Special Price'];
+            'Category 3','Category 4','Price','Cost','Final Price'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -286,6 +286,7 @@ class ProductEntHelper extends AbstractHelper
             $title = $product->getName();
             $title = strip_tags($title);
             $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
+            $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
             $actualcost = 0;
             $cost = $product->getCustomAttribute('cost');
             if(isset($cost))
@@ -308,7 +309,7 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $category2;
             $data[] = $category3;
             $data[] = $category4;
-            $data[] = $product->getPrice();
+            $data[] = $regular_price;
             $data[] = $actualcost;
             $data[] = $final_price;
 
