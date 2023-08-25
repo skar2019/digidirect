@@ -293,10 +293,10 @@ class ProductEntHelper extends AbstractHelper
                 $actualcost = $cost->getValue();
             }
 
-            $special_price = 0;
-            $SpecialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
-            if($SpecialPrice){
-                $special_price = $SpecialPrice;
+            $final_price = 0;
+            $FinalPrice = $product->getPriceInfo()->getPrice('final_price')->getValue();
+            if($FinalPrice > 0){
+                $final_price = $FinalPrice;
             }
             $data[] = $brandname;
             $data[] = $description;
@@ -310,7 +310,7 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $category4;
             $data[] = $product->getPrice();
             $data[] = $actualcost;
-            $data[] = $special_price;
+            $data[] = $final_price;
 
             $stream->writeCsv($data);
         }
