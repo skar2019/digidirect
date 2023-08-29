@@ -294,11 +294,8 @@ class ProductEntHelper extends AbstractHelper
                 $actualcost = $cost->getValue();
             }
 
-            $final_price = 0;
-            $FinalPrice = $product->getPriceInfo()->getPrice('final_price')->getValue();
-            if($FinalPrice > 0){
-                $final_price = $FinalPrice;
-            }
+            $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
+
             $data[] = $brandname;
             $data[] = $description;
             $data[] = $gtin;
@@ -486,6 +483,7 @@ class ProductEntHelper extends AbstractHelper
 
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')
+        ->addStoreFilter(1)
         ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         return $collection;
 
