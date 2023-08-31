@@ -162,11 +162,13 @@ class InvoiceEmail extends AbstractHelper
             {
                 $billingStreet = implode(",", $billingStreet);
             }
+
+            $billingUnit = $billingAddress->getUnit();
             $billingCity = $billingAddress->getCity();
             $billingRegion = $billingAddress->getRegion();
             $billingPostal = $billingAddress->getPostcode();
             $billingCountry = $billingAddress->getCountryId();
-            $billingAddressConcat = $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
+            $billingAddressConcat =  $billingUnit ."<br>". $billingStreet ."<br>". $billingCity ."<br>". $billingRegion ."<br>". $billingPostal ." ". $billingCountry;
             
             $shippingAddress = $order->getShippingAddress();
             $shippingStreet = $shippingAddress->getStreet();

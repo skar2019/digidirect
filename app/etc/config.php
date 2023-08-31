@@ -611,7 +611,7 @@ return [
         'Digidirect_Pronto' => 1,
         'Digidirect_Qantas' => 1,
         'Digidirect_QuickView' => 1,
-        'Digidirect_ReadytoPickup' => 1,
+        'Digidirect_ReadytoPickup' => 0,
         'Digidirect_RecommendedProducts' => 1,
         'Digidirect_RelatedProduct' => 1,
         'Digidirect_SEO' => 1,
