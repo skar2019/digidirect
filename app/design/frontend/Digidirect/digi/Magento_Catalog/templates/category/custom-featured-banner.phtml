@@ -28,6 +28,7 @@ $isBrandApple = str_contains($currentUrl, 'brands/apple');
 $isBrandDJI = str_contains($currentUrl, 'brands/dji');
 $isBrandHyperX = str_contains($currentUrl, 'brands/hyperx');
 $isZhiyun = str_contains($currentUrl, 'brands/zhiyun');
+$isSigma = str_contains($currentUrl, 'brands/sigma');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -149,6 +150,11 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-zhiyun-featured-banner')
+            ->toHtml();
+    } elseif ($isSigma == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-sigma-featured-banner')
             ->toHtml();
     }
 }
