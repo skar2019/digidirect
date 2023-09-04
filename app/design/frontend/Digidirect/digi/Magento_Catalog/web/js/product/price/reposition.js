@@ -91,12 +91,6 @@ define([
     let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
 
     $(window).on('resize', function(){
-        if (win.width() >= 1440) {
-            $('.page-title-wrapper').insertBefore($('.product-info-price'));
-        } else {
-            $('.page-title-wrapper').insertBefore($('.media-area'));
-        }
-
         //if (win.width() <= 768) {
         //$('.testfreaks-badge').insertAfter($('.page-title'));
         //$('.product-info-price>.product.attribute.sku').insertBefore($('.testfreaks-badge'));
