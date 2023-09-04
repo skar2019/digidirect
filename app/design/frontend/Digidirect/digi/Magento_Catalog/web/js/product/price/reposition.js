@@ -80,7 +80,7 @@ define([
     }
     
     var win = $(this); //this = window
-    if (win.width() >= 1440) {
+    if (win.width() >= 768) {
         $('.page-title-wrapper').insertBefore($('.product-info-price'));
     } else {
         $('.page-title-wrapper').insertBefore($('.media-area'));
