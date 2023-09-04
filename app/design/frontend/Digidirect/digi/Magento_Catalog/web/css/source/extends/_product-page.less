@@ -2399,10 +2399,10 @@
         right: 0;
         border-top: 2px solid;
         border-color: inherit;
-        -webkit-transform: rotate(-45deg);
-        -moz-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        -o-transform: rotate(-45deg);
+        -webkit-transform: rotate(-30deg);
+        -moz-transform: rotate(-30deg);
+        -ms-transform: rotate(-30deg);
+        -o-transform: rotate(-30deg);
         transform: rotate(-30deg);
         width: 40%;
     }
@@ -2415,12 +2415,26 @@
         right: 0;
         border-top: 2px solid;
         border-color: inherit;
-        -webkit-transform: rotate(-45deg);
-        -moz-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-        -o-transform: rotate(-45deg);
+        -webkit-transform: rotate(30deg);
+        -moz-transform: rotate(30deg);
+        -ms-transform: rotate(30deg);
+        -o-transform: rotate(30deg);
         transform: rotate(30deg);
         width: 40%;
+    }
+    
+    .product-info-main .price-box.price-final_price:has(.no-special-price) {
+        display: block !important;
+    }
+
+    .product-info-main .price-box.price-final_price:has(.no-special-price) .digidirectprice {
+        float: left;
+        font-size: 15px;
+    }
+
+    .product-info-main .price-box.price-final_price:has(.no-special-price) .special-price {
+        float: right;
+        margin: 0 0 5px 0 !important;
     }
 }
 
