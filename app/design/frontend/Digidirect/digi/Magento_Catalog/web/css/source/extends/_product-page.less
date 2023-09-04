@@ -213,7 +213,7 @@
         }
 
         .price-box .old-price span.price {
-            font-size: 17px;
+            font-size: 21px;
         }
 
         span.old-price-label {
@@ -252,7 +252,7 @@
                 text-decoration: none;
 
                 .price {
-                    text-decoration: line-through;
+                    //text-decoration: line-through;
                 }
             }
 
@@ -296,11 +296,13 @@
             text-decoration: none;
         }
         .old-price-wrapper .old-price .price-label{
-            color: #101010;
+            color: #6c6c6c;
+            display: block;
+            text-align: center;
         }
 
         .old-price-wrapper .old-price .price {
-            text-decoration: line-through;
+            //text-decoration: line-through;
         }
     }
 
@@ -391,14 +393,16 @@
         .price-box span.old-price {
             display: inline-block;
             //margin-top: 21px;
-            margin-top: 8px;
+            //margin-top: 8px;
             width: 100%;
         }
 
          .special-price {
-            display: inline-block;
-            margin: 10px 0;
-            float: right;
+            display: block;
+            margin: 0;
+            //float: right;
+            text-align: center;
+            margin-top: 11px;
         }
 
         .after-cashback span.price-label-pr {
@@ -430,6 +434,9 @@
             left: 0;
             padding-top: 15px !important;
             margin-top: 0 !important;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            padding-bottom: 15px;
         }
 
         .product-info-stock-sku{
@@ -1324,7 +1331,7 @@
     //Redeploy
     .zip-container span:first-of-type:before {
         visibility: visible;
-        content: "0% Interest for 18 Months";
+        content: "0% Interest for 6 Months";
     }
 
     .zip-container:last-child:after {
@@ -1599,12 +1606,13 @@
         //width: 80%;
         width: 100%;
         margin-bottom: 0px;
-        padding-top: 5px;
-        border-top: 1px solid #cacaca;
+        //padding-top: 5px;
+        //border-top: 1px solid #cacaca;
         //margin-top: 10px;
         //margin-left: 100px;
-        margin-top: 5px;
+        //margin-top: 5px;
         margin-left: 0;
+        border-right: 1px solid #6c6c6c;
     }
     .product-info-price .svg-icon.digidirectprice {
         width: 130px !important;
@@ -1809,6 +1817,10 @@
     
     .product-info-price .price-box .old-price span.price {
         color: #6c6c6c;
+        text-align: center;
+        display: block;
+        margin-top: 12px;
+        text-decoration: none;
     }
     
     .product-info-main-bottom .price-description {
@@ -2353,18 +2365,76 @@
     }
     
     .product-info-price .digidirectprice {
-        display: inline-block !important;
-        float: left;
+        display: block !important;
+        //float: left;
         padding-left: 0 !important;
-        padding-top: 6px;
+        //padding-top: 6px;
         clear: both;
         color: #ff3c00;
         font-weight: 600;
-        font-size: 17px;
+        font-size: 12px;
+        text-align: center;
+        line-height: 14px;
     }
     
     .product-items .digidirectprice {
         display: none;
+    }
+    
+    //New PDP Design
+    .product-reviews-summary {
+        display: table !important;
+        margin-top: 20px !important;
+}
+
+    .product-info-main .price-box .old-price .weee {
+        display: block;
+    }
+
+    .product-info-main .product-info-price .price-box .old-price:before {
+        position: absolute;
+        content: "";
+        left: 30%;
+        top: 50%;
+        right: 0;
+        border-top: 2px solid;
+        border-color: inherit;
+        -webkit-transform: rotate(-30deg);
+        -moz-transform: rotate(-30deg);
+        -ms-transform: rotate(-30deg);
+        -o-transform: rotate(-30deg);
+        transform: rotate(-30deg);
+        width: 40%;
+    }
+
+    .product-info-main .product-info-price .price-box .old-price:after {
+        position: absolute;
+        content: "";
+        left: 30%;
+        top: 50%;
+        right: 0;
+        border-top: 2px solid;
+        border-color: inherit;
+        -webkit-transform: rotate(30deg);
+        -moz-transform: rotate(30deg);
+        -ms-transform: rotate(30deg);
+        -o-transform: rotate(30deg);
+        transform: rotate(30deg);
+        width: 40%;
+    }
+    
+    .product-info-main .price-box.price-final_price:has(.no-special-price) {
+        display: block !important;
+    }
+
+    .product-info-main .price-box.price-final_price:has(.no-special-price) .digidirectprice {
+        float: left;
+        font-size: 15px;
+    }
+
+    .product-info-main .price-box.price-final_price:has(.no-special-price) .special-price {
+        float: right;
+        margin: 0 0 5px 0 !important;
     }
 }
 
@@ -2767,7 +2837,7 @@
 
     .zip-container span:first-of-type:before {
         visibility: visible !important;
-        content: "0% Interest for 18 Months" !important;
+        content: "0% Interest for 6 Months" !important;
         color: #000 !important;
         font-size: 12px !important;
         white-space: nowrap !important;
@@ -2901,7 +2971,11 @@
         .product-info-price .price-box .old-price span.price{
             //color: #101010 !important;
             font-weight: 400;
-            float: right;
+            //float: right;
+            text-align: center;
+            display: block;
+            margin-top: 12px;
+            text-decoration: none;
         }
     }
 
@@ -3143,7 +3217,7 @@
                 .digiprotect-info-logo{
                     height: unset;
                     width: 100%;
-                    max-width: 85px;
+                    max-width: 100px;
                     display: inline-block;
                 }
 
@@ -3172,7 +3246,7 @@
     }
 
     .product-section .section-center .breadcrumbs {
-        //display: none !important;
+        display: none !important;
 
     }
 
@@ -3498,7 +3572,7 @@
     }
     .product-info-price .price-box .old-price span.price {
         font-size: 15px;
-        float: right;
+        //float: right;
         font-weight: 500;
     }
     .block-extendedrule.-cashback {
@@ -3522,7 +3596,7 @@
     }
     
     .product-info-main .price-box span.old-price {
-        margin-top: 15px;
+        //margin-top: 15px;
     }
     
     .product-info-main .old-price-wrapper {
@@ -3530,7 +3604,7 @@
     }
     
     .product-info-price .old-price-wrapper .old-price .price-label {
-        position: absolute;
+        //position: absolute;
     }
     
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
@@ -3571,7 +3645,7 @@
 
     .awaiting {
         padding-left: 20px !important;
-        margin-top: 14px !important;
+        margin-top: 0 !important;
         padding-right: 20px !important;
         margin-bottom: 10px !important;
     }
