@@ -744,7 +744,8 @@
         }
 
         .special-price .price-container.price-final_price .price-wrapper .price {
-            color: #FF3C00;
+            //color: #FF3C00;
+            color: #000;
             font-size: 21px;
             font-weight: 700;
         }
@@ -1330,7 +1331,7 @@
     //Redeploy
     .zip-container span:first-of-type:before {
         visibility: visible;
-        content: "0% Interest for 6 Months";
+        content: "0% Interest for 18 Months";
     }
 
     .zip-container:last-child:after {
@@ -1611,6 +1612,7 @@
         //margin-left: 100px;
         //margin-top: 5px;
         margin-left: 0;
+        border-right: 1px solid #6c6c6c;
     }
     .product-info-price .svg-icon.digidirectprice {
         width: 130px !important;
@@ -2037,12 +2039,7 @@
     
     .itoris-pm-product-marker {
         margin-bottom: 15px;
-        //border: 1px solid #004F67;
-        //border-radius: 5px !important;
-        //padding: 7px 20px;
-        //text-align: center;
-        //background: #004f67;
-        //display: none;
+        display: none !important;
     }
     
     .itoris-pm-product-marker a {
@@ -2364,7 +2361,7 @@
     }
     
     .product-info-price .digidirectprice {
-        display: inline-block !important;
+        display: block !important;
         //float: left;
         padding-left: 0 !important;
         //padding-top: 6px;
@@ -2383,13 +2380,13 @@
     //New PDP Design
     .product-reviews-summary {
         display: table !important;
-    }
-    
+}
+
     .product-info-main .price-box .old-price .weee {
         display: block;
     }
 
-    .product-info-main .product-info-price .price-box .old-price span.price:before {
+    .product-info-main .product-info-price .price-box .old-price:before {
         position: absolute;
         content: "";
         left: 75px;
@@ -2405,7 +2402,7 @@
         width: 40%;
     }
 
-    .product-info-main .product-info-price .price-box .old-price span.price:after {
+    .product-info-main .product-info-price .price-box .old-price:after {
         position: absolute;
         content: "";
         left: 70px;
