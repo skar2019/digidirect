@@ -27,8 +27,9 @@ $isBrandLenovo = str_contains($currentUrl, 'brands/lenovo');
 $isBrandApple = str_contains($currentUrl, 'brands/apple');
 $isBrandDJI = str_contains($currentUrl, 'brands/dji');
 $isBrandHyperX = str_contains($currentUrl, 'brands/hyperx');
-$isZhiyun = str_contains($currentUrl, 'brands/zhiyun');
-$isSigma = str_contains($currentUrl, 'brands/sigma');
+$isBrandZhiyun = str_contains($currentUrl, 'brands/zhiyun');
+$isBrandSigma = str_contains($currentUrl, 'brands/sigma');
+$isBrandAudioEngine = str_contains($currentUrl, 'brands/audioengine');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -146,15 +147,20 @@ if ($request->getFullActionName() == 'catalog_category_view') {
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-hyperx-featured-banner')
             ->toHtml();
-    } elseif ($isZhiyun == true) {
+    } elseif ($isBrandZhiyun == true) {
         echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-zhiyun-featured-banner')
             ->toHtml();
-    } elseif ($isSigma == true) {
+    } elseif ($isBrandSigma == true) {
         echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-sigma-featured-banner')
+            ->toHtml();
+    } elseif ($isBrandAudioEngine == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-audioengine-featured-banner')
             ->toHtml();
     }
 }
