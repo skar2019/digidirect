@@ -3,9 +3,6 @@ $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 $product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
 $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
 $addToCartUrl =  $listBlock->getAddToCartUrl($product);
-
-$finalPriceModel = $block->getPriceType('final_price');
-$points = $finalPriceModel->getAmount();
 ?>
 
 <div class="payment-gateways-bottom">
@@ -48,19 +45,6 @@ $points = $finalPriceModel->getAmount();
         </form>
     </div>
 </div>
-
-<?php if($points > 0):?>
-    <div class="qantas-pts-wrapper" id="main-product-qantas">
-        <img src="https://www.digidirect.com.au/static/version1644407894/frontend/Digidirect/digi/en_AU/images/qff-logo-new.svg"
-             style="
-                width: 80px;
-                display: inline-block;
-                margin: 1.5px 0 0 2px;
-                padding-left: 10px;
-        ">
-        <span class="qantas-text">Earn <span style="color: #e40301;"><?= $points ?> Qantas Points until 30 September 2023</span></span>
-    </div>
-<?php endif; ?>
 
 <script>
     require([
