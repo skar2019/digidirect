@@ -4,7 +4,14 @@ $product = $objectManager->get('Magento\Framework\Registry')->registry('current_
 $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
 $addToCartUrl =  $listBlock->getAddToCartUrl($product);
 
-$points = $product->getPriceInfo()->getPrice('regular_price')->getValue();;
+$specialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
+
+if($specialPrice) {
+    $points = $specialPrice;
+} else {
+    $points = $product->getPriceInfo()->getPrice('regular_price')->getValue();
+}
+
 ?>
 
 <div class="payment-gateways-bottom">
