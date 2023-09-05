@@ -506,24 +506,26 @@ class Order extends AbstractHelper
                         {
                             if($instockInv == 1)
                             {
-                                if($grandTotal < 200)
-                                {
-                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                    $data['sales-order']['header']['set-on-status'] = "P";
-                                }
-                                else //$grandTotal >= 200
-                                {
-                                    if($is_acce) //greater than 200 and is accessories
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
-                                        $data['sales-order']['header']['set-on-status'] = "P";
-                                    }
-                                    else
-                                    {
-                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
-                                        $data['sales-order']['header']['set-on-status'] = "H";
-                                    }
-                                }
+                                $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+                                $data['sales-order']['header']['set-on-status'] = "H";
+//                                if($grandTotal < 200)
+//                                {
+//                                    $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                    $data['sales-order']['header']['set-on-status'] = "P";
+//                                }
+//                                else //$grandTotal >= 200
+//                                {
+//                                    if($is_acce) //greater than 200 and is accessories
+//                                    {
+//                                        $data['sales-order']['header']['on-hold-reason-code'] = "";
+//                                        $data['sales-order']['header']['set-on-status'] = "P";
+//                                    }
+//                                    else
+//                                    {
+//                                        $data['sales-order']['header']['on-hold-reason-code'] = "WP";
+//                                        $data['sales-order']['header']['set-on-status'] = "H";
+//                                    }
+//                                }
                             }
                             else
                             {
