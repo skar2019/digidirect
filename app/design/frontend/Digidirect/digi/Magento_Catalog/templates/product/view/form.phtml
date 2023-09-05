@@ -86,6 +86,9 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         <?php endif;?>
 
         <?= $block->getChildHtml('form_bottom') ?>
+        <div class="product-addto-links" data-role="add-to-links">
+            <?= $block->getChildHtml('addto') ?>
+        </div>
     </form>
 </div>
 
