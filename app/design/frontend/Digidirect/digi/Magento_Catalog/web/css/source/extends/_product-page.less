@@ -1373,9 +1373,8 @@
         background-repeat: no-repeat;
         background-image: url("@{baseDir}images/digiRent_black.png");
         background-size: contain;
-        height: 20px;
-        width: 120px;
-        margin: 2px 0 0 2px;
+        height: auto;
+        width: 135px;
     }
 
     a.s19-apply-btn {
@@ -1400,7 +1399,7 @@
     a.s19-apply-btn:after {
         content: "APPLY NOW!";
         visibility: visible;
-        font-size: 11px !important;
+        font-size: 12px !important;
         font-weight: 600;
         //margin-right: -130px;
         //margin-left: 22px;
@@ -1810,7 +1809,6 @@
     
     .s19-rental-details {
         text-align: center !important;
-        margin-top: -8px;
     }
     
     .paypal-button-fundingicons {
@@ -2482,6 +2480,30 @@
     a.s19-purchase-btn {
         display: none;
     }
+    
+    .s19-header {
+        padding-top: 10px;
+        border-right: 1px solid #cacaca;
+        justify-content: center;
+    }
+    
+    .s19-actions {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    a.s19-apply-btn {
+        display: block !important;
+        color: #ff3c00 !important;
+    }
+
+    a.s19-learn-btn {
+        color: #000;
+        text-transform: uppercase;
+        font-weight: 600 !important;
+        font-size: 12px;
+        margin-right: 0 !important;
+    }
 }
 
 //Redeploy
@@ -2888,12 +2910,6 @@
         font-size: 12px !important;
         white-space: nowrap !important;
         //margin-left: 55px !important;
-    }
-
-    .s19-header:before {
-        //height: 25px !important;
-        //width: 113px !important;
-        margin-top: 1px !important;
     }
 
     .studio19-wrapper {
@@ -3509,7 +3525,7 @@
     .s19-rental-details {
         //margin-left: -34px !important;
         margin-right: 0 !important;
-        margin-top: -7px !important;
+        margin-bottom: 0 !important;
         text-align: center !important;
     }
     
@@ -3964,7 +3980,6 @@
     .s19-rental-details {
         //margin-left: -110px !important;
         margin-right: 0 !important;
-        margin-top: -7px !important;
         text-align: center !important;
     }
 }
