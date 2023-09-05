@@ -4,8 +4,8 @@ $product = $objectManager->get('Magento\Framework\Registry')->registry('current_
 $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
 $addToCartUrl =  $listBlock->getAddToCartUrl($product);
 
-$_product = $block->getProduct();
-$points = $_product->getFinalPrice();
+$finalPriceModel = $block->getPriceType('final_price');
+$points = $finalPriceModel->getAmount();
 ?>
 
 <div class="payment-gateways-bottom">
