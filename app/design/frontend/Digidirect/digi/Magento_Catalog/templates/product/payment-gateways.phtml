@@ -5,6 +5,28 @@ $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
 $addToCartUrl =  $listBlock->getAddToCartUrl($product);
 ?>
 
+<div class="studio19-wrapper" style="display:none !important;">
+    <div class="s19-component">
+        <div class="s19-header">
+            <div class="s19-rentfor">Or Rent For</div>
+        </div>
+        <div class="s19-rental-details">
+            <span class="s19-price-per-period">
+                <span class="s19-price-amount"></span>
+                <span class="s19-per-period"></span>
+            </span>
+            <span class="s19-min-period"></span>
+        </div>
+        <div class="">
+            <a class="s19-apply-btn" href="">Apply Now</a>
+        </div>
+        <div class="s19-actions">
+            <a class="s19-learn-btn" href="https://www.studio19.com.au/p/whyrent/" target="_blank">Learn More</a>
+            <a class="s19-purchase-btn" href="#">+ Apply to Purchase Pricing</a>
+        </div>
+    </div>
+</div>
+
 <div class="payment-gateways">
     <div class="row-first">
         <form action="<?php echo $addToCartUrl; ?>" method="post" id="product_addtocart_form" novalidate="novalidate">
