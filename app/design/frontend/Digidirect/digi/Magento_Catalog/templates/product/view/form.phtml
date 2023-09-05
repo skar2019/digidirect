@@ -86,8 +86,12 @@ if ($_product->offsetExists("qff_bonus_points") && $_product->offsetExists("qff_
         <?php endif;?>
 
         <?= $block->getChildHtml('form_bottom') ?>
-        <div class="product-addto-links" data-role="add-to-links">
-            <?= $block->getChildHtml('addto') ?>
+        <div class="product-addto-wishlist" data-role="add-to-wishlist">
+            <?= $block->getLayout()
+                ->createBlock('Magento\Wishlist\Block\Catalog\Product\ProductList\Item\AddTo\Wishlist')
+                ->setProduct($_product)
+                ->setTemplate("Magento_Wishlist::catalog/product/list/addto/wishlist.phtml")
+                ->toHtml(); ?>
         </div>
     </form>
 </div>
