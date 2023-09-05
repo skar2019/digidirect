@@ -4,13 +4,9 @@ $product = $objectManager->get('Magento\Framework\Registry')->registry('current_
 $listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
 $addToCartUrl =  $listBlock->getAddToCartUrl($product);
 
-$specialPrice = $product->getPriceInfo()->getPrice('special_price')->getValue();
+$finalPrice = $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
 
-if($specialPrice) {
-    $points = $specialPrice;
-} else {
-    $points = $product->getPriceInfo()->getPrice('regular_price')->getValue();
-}
+$points = $finalPrice;
 
 ?>
 
