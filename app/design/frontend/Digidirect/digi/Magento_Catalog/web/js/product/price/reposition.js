@@ -79,6 +79,8 @@ define([
 
     }
     
+    $('.s19-price-per-period').insertBefore($('.s19-component'));
+    
     var win = $(this); //this = window
     if (win.width() >= 768) {
         $('.page-title-wrapper').insertBefore($('.product-info-price'));
