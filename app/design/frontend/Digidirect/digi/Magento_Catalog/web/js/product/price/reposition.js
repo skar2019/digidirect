@@ -7,12 +7,7 @@ define([
     //Redeploy
     
     if($('.s19-component').length != 0) {
-        var windowsize = $(window).width();
-        if (windowsize > 768) {
-            $('.studio19-wrapper').attr("style", "display:block !important;");
-        } else {
-            $('.studio19-wrapper').attr("style", "display:flex !important;");
-        }
+        $('.studio19-wrapper').attr("style", "display:block !important;");
     }
     
     $('.secure-pay-container').ready(function() {
