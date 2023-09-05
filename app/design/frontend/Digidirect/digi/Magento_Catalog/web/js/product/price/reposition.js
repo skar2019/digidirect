@@ -80,6 +80,8 @@ define([
     }
     
     $('.s19-price-per-period').insertBefore($('.s19-component'));
+    $('.s19-apply-btn').insertBefore($('.s19-learn-btn'));
+    $('.s19-actions').insertAfter($('.s19-min-period'));
     
     var win = $(this); //this = window
     if (win.width() >= 768) {
