@@ -182,9 +182,6 @@
         <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper" />
         <move element="payment.gateways" destination="product.info.main" after="itoris.product.info.pm" />
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
-        <move element="product.info.form.options" destination="product.info.main" before="itoris.product.info.pm"/>      
-
-
         
     </body>
 </page>
