@@ -182,7 +182,10 @@
         <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper" />
         <move element="payment.gateways" destination="product.info.main" after="itoris.product.info.pm" />
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
-        <move element="product.info.form.options" destination="product.info.main" after="product.info.addtocart"/>
+        <referenceBlock name="product.info.form.options">
+            <move element="product.info.options" destination="product.info.options.wrapper.bottom"  />
+        </referenceBlock>                 
+        <move element="product.info" destination="product.info.main" before="product.info.addtocart"/>      
 
 
         
