@@ -977,6 +977,7 @@
     .product-info-main-bottom {
         width: 80%;
         padding-left: 60px;
+        display: none !important;
     }
 
     .catalog-product-view .products-widget {
@@ -1372,9 +1373,8 @@
         background-repeat: no-repeat;
         background-image: url("@{baseDir}images/digiRent_black.png");
         background-size: contain;
-        height: 20px;
-        width: 120px;
-        margin: 2px 0 0 2px;
+        height: auto;
+        width: 135px;
     }
 
     a.s19-apply-btn {
@@ -1399,7 +1399,7 @@
     a.s19-apply-btn:after {
         content: "APPLY NOW!";
         visibility: visible;
-        font-size: 11px !important;
+        font-size: 12px !important;
         font-weight: 600;
         //margin-right: -130px;
         //margin-left: 22px;
@@ -1411,7 +1411,7 @@
     }
 
     .s19-actions {
-        display: none !important;
+        //display: none !important;
     }
 
     .s19-price-per-period {
@@ -1419,17 +1419,24 @@
         font-weight: 700;
         //width: 150px;
         width: unset;
+        display: block;
+        text-align: center;
+        background: #000;
+        padding: 8px;
+        color: #fff !important;
+        font-weight: 600;
     }
+    
     .s19-price-amount {
-        font-size: 11px !important;
-        color: #e40301 !important;
-        font-weight: 700;
+        //font-size: 11px !important;
+        //color: #e40301 !important;
+        //font-weight: 700;
     }
 
     .s19-per-period {
-        font-size: 11px !important;
-        color: #e40301 !important;
-        font-weight: 700;
+        //font-size: 11px !important;
+        //color: #e40301 !important;
+        //font-weight: 700;
     }
 
     .s19-min-period {
@@ -1540,7 +1547,10 @@
                 font-weight: 500;
                 //margin-right: -180px;
                 vertical-align: super;
-                padding-left: 80px;
+                //padding-left: 80px;
+                text-align: center;
+                padding-right: 15px;
+                padding-top: 10px;
             }
         }
     }
@@ -1789,7 +1799,7 @@
     
     .s19-component {
         display: grid !important;
-        grid-template-columns: 20% 60% 20%;
+        grid-template-columns: repeat(2, 1fr);
     }
     
     .s19-s19logo {
@@ -1802,7 +1812,6 @@
     
     .s19-rental-details {
         text-align: center !important;
-        margin-top: -8px;
     }
     
     .paypal-button-fundingicons {
@@ -2200,7 +2209,6 @@
     
     .product-options-wrapper {
         margin-top: 15px;
-        display: none;
     }
     
     #ic-pdp-btn {
@@ -2455,7 +2463,7 @@
     .product-addto-wishlist a.action.towishlist {
         margin-top: 0 !important;
         padding: 11px 20px;
-        background: none;
+        background: #fff;
         border: 1px solid #cacaca !important;
     }
 
@@ -2465,6 +2473,47 @@
     
     .product-info-main .box-tocart .actions {
         margin-right: 8px !important;
+    }
+    
+    .s19-component div:not([class^="s19"]) {
+        display: none;
+    }
+    
+    a.s19-purchase-btn {
+        display: none;
+    }
+    
+    .s19-header {
+        padding-top: 10px;
+        border-right: 1px solid #cacaca;
+        justify-content: center;
+    }
+    
+    .s19-actions {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    a.s19-apply-btn {
+        display: block !important;
+        color: #ff3c00 !important;
+    }
+
+    a.s19-learn-btn {
+        color: #000;
+        text-transform: uppercase;
+        font-weight: 600 !important;
+        font-size: 12px;
+        margin-right: 0 !important;
+    }
+    
+    #main-product-qantas {
+        display: flex;
+        padding: 5px 0;
+    }
+    
+    span.s19-price-amount:before {
+        content: 'Rent me for ';
     }
 }
 
@@ -2532,7 +2581,7 @@
                         font-weight: 500;
                         //margin-right: -180px;
                         vertical-align: super;
-                        padding-left: 80px;
+                        //padding-left: 80px;
                     }
                 }
             }
@@ -2874,17 +2923,11 @@
         //margin-left: 55px !important;
     }
 
-    .s19-header:before {
-        //height: 25px !important;
-        //width: 113px !important;
-        margin-top: 1px !important;
-    }
-
     .studio19-wrapper {
         margin-top: 15px !important;
         //width: 418.75px !important;
         width: unset;
-        height: 43px !important;
+        height: auto !important;
         overflow: hidden !important;
         display: none !important;
         margin-bottom: 0 !important;
@@ -3336,7 +3379,7 @@
         border-radius: 5px;
         margin-bottom: 20px;
         //display: flex;
-        height: 40px;
+        height: auto;
         width: 90%;
         margin-left: 15px;
         margin-top: 5px;
@@ -3422,8 +3465,10 @@
     }
 
     .product-info-main .qantas-pts-wrapper {
-        padding-left: 14px;
+        //padding-left: 14px;
         width: unset !important;
+        padding: 10px 0 !important;
+        display: flex !important;
     }
 
     .product-info-main .product-addto-links {
@@ -3449,26 +3494,12 @@
         display: none;
     }
 
-    //.s19-rental-details {
-    //    margin-left: -15px;
-    //}
-    //
-    //a.s19-apply-btn:after {
-    //    margin-left: 0 !important;
-    //    position: relative !important;
-    //    float: right !important;
-    //}
-
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container:last-child:after {
         margin-left: 0 !important;
     }
 
     .catalog-product-view .braintree-paypal-logo.oneclick-container {
         margin-bottom: 0 !important;
-    }
-
-    span.s19-price-per-period > span {
-        font-size: 10px !important;
     }
 
     span.s19-min-period {
@@ -3493,7 +3524,7 @@
     .s19-rental-details {
         //margin-left: -34px !important;
         margin-right: 0 !important;
-        margin-top: -7px !important;
+        margin-bottom: 0 !important;
         text-align: center !important;
     }
     
@@ -3768,7 +3799,7 @@
     }
     
     .studio19-wrapper > div {
-        width: 100% !important;
+        width: auto !important;
     }
     
     .pricematch-caption {
@@ -3932,7 +3963,7 @@
                     font-weight: 500;
                     //margin-right: -180px;
                     vertical-align: super;
-                    padding-left: 80px;
+                    //padding-left: 80px;
                 }
             }
         }
@@ -3948,7 +3979,6 @@
     .s19-rental-details {
         //margin-left: -110px !important;
         margin-right: 0 !important;
-        margin-top: -7px !important;
         text-align: center !important;
     }
 }

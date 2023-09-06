@@ -178,10 +178,9 @@
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
         <move element="product.info.price.zipmoney.productwidget" destination="product.info.main" before="product.info.main.bottom" />
         <move element="product.info.options.wrapper" destination="product.info.main" after="product.info" />
-        <move element="studio19.wrapper" destination="product.info.main" after="payment.gateways" /> 
-        <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper" />
-        <move element="payment.gateways" destination="product.info.main" after="itoris.product.info.pm" />
+        <move element="payment.gateways" destination="product.info.main" after="studio19.wrapper" />
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
-        
+        <move element="product.info.form.options" destination="product.info.main" before="itoris.product.info.pm"/>      
+
     </body>
 </page>
