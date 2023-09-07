@@ -66,6 +66,13 @@ $_attributeValue = $block->getProduct()->getResource()->getAttribute('preorder')
 
                 <?= $block->getChildHtml('', true) ?>
             </div>
+            <div class="product-addto-wishlist" data-role="add-to-wishlist">
+                <?= $block->getLayout()
+                    ->createBlock('Magento\Wishlist\Block\Catalog\Product\ProductList\Item\AddTo\Wishlist')
+                    ->setProduct($_product)
+                    ->setTemplate("Magento_Wishlist::catalog/product/list/addto/wishlist.phtml")
+                    ->toHtml(); ?>
+            </div>
         </div>
     </div>
 
