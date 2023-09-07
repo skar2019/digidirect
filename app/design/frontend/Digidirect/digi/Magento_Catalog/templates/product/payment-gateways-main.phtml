@@ -1,0 +1,8 @@
+<div class="payment-gateways-container-main">
+    <div class="payment-options-toggle">PAYMENT OPTIONS</div>
+    <div class="payment-options">
+        <?= $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Catalog::product/payment-gateways.phtml")->toHtml() ?>
+        <?= $this->getLayout()->createBlock("Magento\Framework\View\Element\Template")->setTemplate("Magento_Catalog::product/payment-gateways-bottom.phtml")->toHtml() ?>
+    </div>
+</div>
+
