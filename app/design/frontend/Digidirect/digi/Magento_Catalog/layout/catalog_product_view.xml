@@ -23,6 +23,7 @@
             <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" before="studio19.wrapper">
                 <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways-main.phtml" />
             </container>
+            <block class="Magento\Framework\View\Element\Template" name="qantas.block" template="Magento_Catalog::product/qantas.phtml" after="payment.gateways" />
         </referenceContainer>
         
         <referenceBlock name="product.info.main">
