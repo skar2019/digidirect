@@ -31,6 +31,7 @@ $isBrandZhiyun = str_contains($currentUrl, 'brands/zhiyun');
 $isBrandSigma = str_contains($currentUrl, 'brands/sigma');
 $isBrandAudioEngine = str_contains($currentUrl, 'brands/audioengine');
 $isBrandPhilips = str_contains($currentUrl, 'brands/philips');
+$isBrandGoPro = str_contains($currentUrl, 'brands/gopro');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -167,6 +168,11 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-philips-featured-banner')
+            ->toHtml();
+    } elseif ($isBrandGoPro == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-gopro-featured-banner')
             ->toHtml();
     }
 }
