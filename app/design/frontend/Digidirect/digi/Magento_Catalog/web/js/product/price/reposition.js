@@ -66,5 +66,21 @@ define([
         $('.zip-widget__wrapper').trigger("click");
         console.log("ZIP Custom Clicked!");
     });
-
+    
+    $('#payment-options-toggle').on('click', function(){
+        if($(this).hasClass("close")) {
+            $(this).removeClass("close");
+            $(this).addClass("open");
+            $('#payment-options').removeClass("close");
+            $('#payment-options').addClass("open");
+            console.log("Remove Close");
+        } else if($(this).hasClass("open")) {
+            $(this).removeClass("open");
+            $(this).addClass("close");
+            $('#payment-options').removeClass("open");
+            $('#payment-options').addClass("close");
+            console.log("Remove Open");
+        }
+    });
+    
 });
