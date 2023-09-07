@@ -67,16 +67,20 @@ define([
         console.log("ZIP Custom Clicked!");
     });
     
-    $('.payment-options-toggle.open').on('click', function(){
-        $('#payment-options-toggle').removeClass("open").addClass("close");
-        $('#payment-options').removeClass("open").addClass("close");
-        console.log("Remove Open");
-    });
-    
-    $('.payment-options-toggle.close').on('click', function(){
-        $('#payment-options-toggle').removeClass("close").addClass("open");
-        $('#payment-options').removeClass("close").addClass("open");
-        console.log("Remove Close");
+    $('#payment-options-toggle').on('click', function(){
+        if($(this).hasClass("close")) {
+            $(this).removeClass("close");
+            $(this).addClass("open");
+            $('#payment-options').removeClass("close");
+            $('#payment-options').addClass("open");
+            console.log("Remove Close");
+        } else if($(this).hasClass("open")) {
+            $(this).removeClass("open");
+            $(this).addClass("close");
+            $('#payment-options').removeClass("open");
+            $('#payment-options').addClass("close");
+            console.log("Remove Open");
+        }
     });
     
 });
