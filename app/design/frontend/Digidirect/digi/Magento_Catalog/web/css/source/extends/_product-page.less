@@ -2517,16 +2517,12 @@
         content: 'Rent me for ';
     }
     
-    .payment-gateways-container {
-        border: 1px solid #cacaca;
-        border-radius: 5px;
-        padding: 10px;
-        background: #fff;
+    #payment-options {
+        display: block;
     }
-
+    
     .payment-options-toggle {
-        text-align: center;
-        font-size: 12px;
+        display: none;
     }
 
     .payment-options-toggle.close:after {
@@ -2543,13 +2539,6 @@
         float: right;
     }
     
-    .payment-options.close {
-        display: none;
-    }
-    
-    .payment-options.open {
-        display: block;
-    }
 }
 
 //Redeploy
@@ -3950,6 +3939,31 @@
         width: unset;
         margin: 0;
         background-position: center;
+    }
+    
+    .payment-gateways-container {
+        border: 1px solid #cacaca;
+        border-radius: 5px;
+        padding: 12px;
+        background: #fff;
+    }
+    
+    #payment-options {
+        display: block !important;
+    }
+    
+    .payment-options.close {
+        display: none !important;
+    }
+    
+    .payment-options.open {
+        display: block !important;
+    }
+
+    .payment-options-toggle {
+        display: block;
+        text-align: center;
+        font-size: 14px;
     }
     
 } //end mobile
