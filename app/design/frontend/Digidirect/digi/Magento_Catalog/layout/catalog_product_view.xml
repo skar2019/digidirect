@@ -97,6 +97,9 @@
                 </container>
             </container>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.view.media.overview"/>
+            <container name="sticky.addtocart.container" htmlTag="div" htmlClass="sticky-addtocart-container" after="-">
+                <block class="Magento\Framework\View\Element\Template" name="sticky.addtocart" template="Magento_Catalog::product/sticky-addtocart.phtml" />
+            </container>
         </referenceContainer>
         
         <referenceContainer name="product.info.media">
