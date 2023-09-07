@@ -7,12 +7,7 @@ define([
     //Redeploy
     
     if($('.s19-component').length != 0) {
-        var windowsize = $(window).width();
-        if (windowsize > 768) {
-            $('.studio19-wrapper').attr("style", "display:block !important;");
-        } else {
-            $('.studio19-wrapper').attr("style", "display:flex !important;");
-        }
+        $('.studio19-wrapper').attr("style", "display:block !important;");
     }
     
     $('.secure-pay-container').ready(function() {
@@ -34,6 +29,33 @@ define([
         }
         $('#product-addtocart-button').removeAttr("title");
     });
+    
+    $('.s19-price-per-period').insertBefore($('.s19-component'));
+    $('.s19-apply-btn').insertBefore($('.s19-learn-btn'));
+    $('.s19-actions').insertAfter($('.s19-min-period'));
+    
+    var win = $(this); //this = window
+    if (win.width() >= 768) {
+        $('.page-title-wrapper').insertBefore($('.product-info-price'));
+    } else {
+        $('.page-title-wrapper').insertBefore($('.media-area'));
+    }
+
+    //for mobile = 760
+    //Changed to 1439 for tablet *Rondel
+    let isMobile = window.matchMedia("only screen and (max-width: 1439px)").matches;
+
+    $(window).on('resize', function(){
+        if (win.width() >= 768) {
+            $('.page-title-wrapper').insertBefore($('.product-info-price'));
+        } else {
+            $('.page-title-wrapper').insertBefore($('.media-area'));
+        }
+    });
+    
+    if($('#product-options-wrapper .control').length) {
+        $('#product-options-wrapper').attr("style", "display:block !important;");
+    }
 
     $('#itoris-pm-link-custom').on('click', function(){
         $('#itoris-pm-link').trigger("click");
@@ -44,5 +66,17 @@ define([
         $('.zip-widget__wrapper').trigger("click");
         console.log("ZIP Custom Clicked!");
     });
-
+    
+    $('.payment-options-toggle.open').on('click', function(){
+        $('#payment-options-toggle').removeClass("open").addClass("close");
+        $('#payment-options').removeClass("open").addClass("close");
+        console.log("Remove Open");
+    });
+    
+    $('.payment-options-toggle.close').on('click', function(){
+        $('#payment-options-toggle').removeClass("close").addClass("open");
+        $('#payment-options').removeClass("close").addClass("open");
+        console.log("Remove Close");
+    });
+    
 });

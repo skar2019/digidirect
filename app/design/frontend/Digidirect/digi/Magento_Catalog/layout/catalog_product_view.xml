@@ -23,7 +23,7 @@
             <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" before="studio19.wrapper">
                 <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways-main.phtml" />
             </container>
-            <block class="Magento\Framework\View\Element\Template" name="qantas.block" template="Magento_Catalog::product/qantas.phtml" after="payment.gateways" />
+            <block class="Magento\Framework\View\Element\Template" name="qantas.block" template="Magento_Catalog::product/qantas.phtml"/>
         </referenceContainer>
         
         <referenceBlock name="product.info.main">
@@ -153,7 +153,6 @@
             </block>
         </container>
         
-        
         <block class="Magento\Cms\Block\Block" name="frequently.bought.with">
             <arguments>
                 <argument name="block_id" xsi:type="string">frequently-bought-with</argument>
@@ -176,6 +175,7 @@
         <move element="payment.gateways" destination="product.info.main" after="studio19.wrapper" />
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
         <move element="product.info.options.wrapper" destination="product.info.options.wrapper.bottom" after="product.info.addtocart.additional"/>
+        <move element="qantas.block" destination="product.info.main" after="payment.gateways"/>
 
     </body>
 </page>

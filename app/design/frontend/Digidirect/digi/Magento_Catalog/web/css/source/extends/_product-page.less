@@ -977,7 +977,6 @@
     .product-info-main-bottom {
         width: 80%;
         padding-left: 60px;
-        display: none !important;
     }
 
     .catalog-product-view .products-widget {
@@ -1592,7 +1591,7 @@
     /*clint changes*/
     .most-bottom-product-info {
         margin-top: 15px;
-        display: grid;
+        display: none;
         grid-template-columns: 1fr 1fr;
         column-gap: 10px !important;
     }
@@ -2208,7 +2207,7 @@
     }
     
     .product-options-wrapper {
-        margin-top: 15px;
+        margin-top: 39px;
     }
     
     #ic-pdp-btn {
@@ -2469,6 +2468,7 @@
 
     .product-addto-wishlist i.fas.fa-heart {
         color: #ff6602 !important;
+        font-size: 26px !important;
     }
     
     .product-info-main .box-tocart .actions {
@@ -2514,6 +2514,40 @@
     
     span.s19-price-amount:before {
         content: 'Rent me for ';
+    }
+    
+    .payment-gateways-container {
+        border: 1px solid #cacaca;
+        border-radius: 5px;
+        padding: 10px;
+        background: #fff;
+    }
+
+    .payment-options-toggle {
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .payment-options-toggle.close:after {
+        content: '\f0d7';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        float: right;
+    }
+
+    .payment-options-toggle.open:after {
+        content: '\f0d8';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        float: right;
+    }
+    
+    .payment-options.close {
+        display: none;
+    }
+    
+    .payment-options.open {
+        display: block;
     }
 }
 
@@ -2946,7 +2980,7 @@
         //display: grid;
         //grid-template-columns: repeat(2, 1fr);
         //grid-column-gap: 10px;
-        display: grid;
+        display: none;
         grid-template-columns: 1fr 1fr;
         column-gap: 10px !important;
     }
