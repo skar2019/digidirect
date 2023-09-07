@@ -154,7 +154,7 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 $product->setCustomAttribute('cost', $cost);
 
@@ -538,7 +538,7 @@ class Product extends AbstractHelper
                     }
                 }
 
-                $prod->setCustomAttribute('marketplaces_price', $marketplacesprice);
+                $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
 
                 //set brand
                 if($prod['stk-brand-desc'] == 'digiSeconds')
