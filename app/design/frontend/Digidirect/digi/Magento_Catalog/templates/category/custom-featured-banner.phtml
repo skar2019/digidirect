@@ -30,6 +30,7 @@ $isBrandHyperX = str_contains($currentUrl, 'brands/hyperx');
 $isBrandZhiyun = str_contains($currentUrl, 'brands/zhiyun');
 $isBrandSigma = str_contains($currentUrl, 'brands/sigma');
 $isBrandAudioEngine = str_contains($currentUrl, 'brands/audioengine');
+$isBrandPhilips = str_contains($currentUrl, 'brands/philips');
 
 if ($request->getFullActionName() == 'catalog_category_view') {
 
@@ -161,6 +162,11 @@ if ($request->getFullActionName() == 'catalog_category_view') {
         echo $this->getLayout()
             ->createBlock('Magento\Cms\Block\Block')
             ->setBlockId('brands-audioengine-featured-banner')
+            ->toHtml();
+    } elseif ($isBrandPhilips == true) {
+        echo $this->getLayout()
+            ->createBlock('Magento\Cms\Block\Block')
+            ->setBlockId('brands-philips-featured-banner')
             ->toHtml();
     }
 }
