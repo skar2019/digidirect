@@ -19,7 +19,7 @@
         </referenceContainer>
         
         <referenceContainer name="product.info.main">
-            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml" after="product.info.options.wrapper"/> 
+            <block class="Itoris\PriceMatch\Block\Product" name="itoris.product.info.pm" template="Itoris_PriceMatch::product/form.phtml"/> 
             <container name="payment.gateways" htmlTag="div"  htmlClass="payment-gateways-container" before="studio19.wrapper">
                 <block class="Magento\Framework\View\Element\Template" name="payment.gateways.block" template="Magento_Catalog::product/payment-gateways.phtml" />
             </container>
@@ -177,13 +177,9 @@
         <move element="product.store.availability" destination="product.info.main" after="product.info.price" />
         <move element="qantas.points" destination="product.info.main" after="page.main.title" />
         <move element="product.info.price.zipmoney.productwidget" destination="product.info.main" before="product.info.main.bottom" />
-        <move element="product.info.options.wrapper" destination="product.info.main" after="product.info" />
-        <move element="studio19.wrapper" destination="product.info.main" after="payment.gateways" /> 
-        <move element="itoris.product.info.pm" destination="product.info.main" after="product.info.options.wrapper" />
-        <move element="payment.gateways" destination="product.info.main" after="itoris.product.info.pm" />
+        <move element="payment.gateways" destination="product.info.main" after="studio19.wrapper" />
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
+        <move element="product.info.options.wrapper" destination="product.info.options.wrapper.bottom" after="product.info.addtocart.additional"/>
 
-
-        
     </body>
 </page>
