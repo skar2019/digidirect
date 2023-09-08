@@ -109,11 +109,7 @@
             </block>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/overlay-container.phtml" name="overlay-container" before="product.info.media.image"/>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.info.media.image"/>
-            <referenceBlock name="product.info.description">
-                <arguments>
-                    <argument name="title" translate="true" xsi:type="string">Description</argument>
-                </arguments>
-            </referenceBlock>
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/view/description.phtml" name="product-description" after="-"/>    
         </referenceContainer>
 
         <referenceContainer name="product.info.extrahint">
