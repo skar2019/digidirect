@@ -2563,6 +2563,33 @@
         color: #fff !important;
     }
     
+    .short-desc {
+        text-align: left !important;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        height: auto !important;
+    }
+
+    .short-desc * {
+        font-size: 13px !important;
+    }
+
+    .short-desc-title {
+        color: #000;
+        font-size: 20px !important;
+        padding-bottom: 10px;
+        font-weight: 500;
+    }
+
+    .short-desc-read-more {
+        text-align: left;
+        margin: 10px 0;
+        font-weight: 500;
+        color: #ff6602;
+    }   
+    
 }
 
 //Redeploy
@@ -3990,6 +4017,10 @@
     
     .payment-gateways-bottom {
         margin-top: 10px !important;
+    }
+    
+    .short-desc-container {
+        display: none;
     }
     
 } //end mobile

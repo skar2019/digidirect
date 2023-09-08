@@ -1,6 +1,10 @@
 <?php
     $getDescription = $block->getProduct()->getDescription();
 ?>
-<div class="short-desc">
-    <?= html_entity_decode($getDescription) ?>
+<div class="short-desc-container">
+    <div class="short-desc-title">Product Description</div>
+    <div class="short-desc">
+        <?= html_entity_decode($getDescription) ?>
+    </div>
+    <a href="#description"><div class="short-desc-read-more">Read More</div></a>
 </div>
