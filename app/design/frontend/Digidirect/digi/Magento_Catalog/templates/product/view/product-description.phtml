@@ -1,6 +1,6 @@
 <?php
-$getDescription = $block->getProduct()->getDescription();
+    $getDescription = $block->getProduct()->getDescription();
 ?>
 <div class="short-desc">
-    <?= $getDescription ?>
+    <?= html_entity_decode($getDescription) ?>
 </div>
