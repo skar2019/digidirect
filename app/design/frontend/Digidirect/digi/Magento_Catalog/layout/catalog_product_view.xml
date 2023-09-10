@@ -108,7 +108,8 @@
                    template="Magento_Catalog::product/view/gallery/js-fotorama.phtml">
             </block>
             <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/overlay-container.phtml" name="overlay-container" before="product.info.media.image"/>
-            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.info.media.image"/>       
+            <block class="Magento\Framework\View\Element\Template" template="Magento_Catalog::product/preloader.phtml" name="pdp-preloader" before="product.info.media.image"/>
+            <block class="Magento\Catalog\Block\Product\View\Description" template="Magento_Catalog::product/view/product-description.phtml" name="product-description" after="-"/>    
         </referenceContainer>
 
         <referenceContainer name="product.info.extrahint">

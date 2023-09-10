@@ -1686,8 +1686,7 @@
     }
     
     .fotorama__nav.fotorama__nav--thumbs {
-        width: 650px !important;
-        height: 64px !important;
+        width: 100% !important;
     }
     
     .fotorama__thumb-border {
@@ -1695,11 +1694,11 @@
     }
     
     .fotorama__nav--thumbs .fotorama__nav__frame {
-        padding: 0 0 !important;
+        padding: 0 !important;
         border: 1px solid #cacaca;
-        margin-right: 10px;
         height: 60px !important;
-        width: 97.7px !important;
+        margin-left: 0;
+        margin-bottom: 10px;
     }
     
     .product-section.column.main {
@@ -1707,7 +1706,7 @@
     }
     
     .fotorama__nav-wrap--horizontal {
-        height: 200px;
+        height: 75px;
     }
     
     .fotorama__thumb.fotorama_vertical_ratio.fotorama__loaded.fotorama__loaded--img {
@@ -2561,6 +2560,42 @@
 
     .sticky-addtocart .btn_cart {
         color: #fff !important;
+    }
+    
+    .short-desc {
+        text-align: left !important;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        height: auto !important;
+    }
+
+    .short-desc * {
+        font-size: 13px !important;
+    }
+
+    .short-desc-title {
+        color: #000;
+        font-size: 20px !important;
+        padding-bottom: 10px;
+        font-weight: 500;
+        text-align: left;
+    }
+
+    .short-desc-read-more {
+        text-align: left;
+        margin: 10px 0;
+        font-weight: 500;
+        color: #ff6602;
+    }   
+    
+    .fotorama__arr {
+        display: block !important;
+    }
+    
+    #product-options-wrapper .fieldset {
+        margin-bottom: 0 !important;
     }
     
 }
@@ -3754,7 +3789,7 @@
 
     .awaiting {
         padding-left: 20px !important;
-        margin-top: 0 !important;
+        margin-top: 10px !important;
         padding-right: 20px !important;
         margin-bottom: 10px !important;
     }
@@ -3991,6 +4026,18 @@
     .payment-gateways-bottom {
         margin-top: 10px !important;
     }
+    
+    .short-desc-container {
+        display: none;
+    }
+    
+    .overlay-container-pdp {
+        left: 15px !important;
+    }
+    
+    .fotorama__arr {
+        height: 100% !important;
+}
     
 } //end mobile
 
