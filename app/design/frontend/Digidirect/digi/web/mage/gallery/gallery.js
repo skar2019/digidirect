@@ -328,7 +328,7 @@ define([
                     .one('f:load', function () {
                         // Remove placeholder when main gallery image loads.
                         $element.find('.gallery-placeholder__image').remove();
-                        $element.find('.custom-preloader').remove();
+                        $element.find('.pdp-custom-preloader').remove();
                         $element
                             .removeClass('_block-content-loading')
                             .css('min-height', '');
