@@ -16,17 +16,18 @@ class WiserPrice implements ObserverInterface
         $price = $product->getData('price');
         $wiserPrice = $product->getData('wiser_price');
 
-        if ($wiserPrice != 0 || !empty($wiserPrice)) {
+        if ($wiserPrice != 0 && !empty($wiserPrice)) {
             if ($wiserPrice < $price) {
                 $finalPrice = $wiserPrice;
             } else {
                 $finalPrice = $price;
             }
+            
+            $item->setCustomPrice($finalPrice);
+            $item->setOriginalCustomPrice($finalPrice);
+            $product->setIsSuperMode(true);
         }
         
-        $item->setCustomPrice($finalPrice);
-        $item->setOriginalCustomPrice($finalPrice);
-        $product->setIsSuperMode(true);
     }
 
 }
