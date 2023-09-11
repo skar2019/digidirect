@@ -23,7 +23,7 @@ class FinalPrice
     {
         $product = $this->registry->registry('current_product');
         if ($product) {
-            $price = $product->getData('price');
+            $price = $product->getData('final_price');
             $wiserPrice = $product->getData('wiser_price');
             
             if ($wiserPrice != 0 && !empty($wiserPrice)) {

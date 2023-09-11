@@ -13,7 +13,7 @@ class WiserPrice implements ObserverInterface
         
         $product = $item->getProduct();
         
-        $price = $product->getData('price');
+        $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
 
         if ($wiserPrice != 0 && !empty($wiserPrice)) {

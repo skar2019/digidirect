@@ -5,6 +5,7 @@
         <sequence>
             <module name="Magento_SalesRule"/>
             <module name="Digidirect_Utilities"/>
+            <module name="Digidirect_Catalog"/>
         </sequence>
     </module>
 </config>
