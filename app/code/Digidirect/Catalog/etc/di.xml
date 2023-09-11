@@ -10,7 +10,7 @@
         <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
     </type>
     <type name="Magento\Catalog\Model\Product">
-        <plugin name="wiser_price" type=" Digidirect\Catalog\Plugin\Model\Product" />
+        <plugin name="wiser_price" type="Digidirect\Catalog\Plugin\Model\Product" />
     </type>
     
 </config>
