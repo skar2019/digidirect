@@ -22,12 +22,13 @@ class WiserPrice implements ObserverInterface
             } else {
                 $finalPrice = $price;
             }
-            
-            $item->setCustomPrice($finalPrice);
-            $item->setOriginalCustomPrice($finalPrice);
-            $product->setIsSuperMode(true);
+        } else {
+            $finalPrice = $price;
         }
         
+        $item->setCustomPrice($finalPrice);
+        $item->setOriginalCustomPrice($finalPrice);
+        $product->setIsSuperMode(true);
     }
 
 }
