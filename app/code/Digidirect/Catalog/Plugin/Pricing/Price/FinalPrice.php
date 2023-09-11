@@ -13,12 +13,10 @@ class FinalPrice
 
     public function __construct(
         CatalogHelper $catalogHelper,
-        Registry $registry,
-        array $data = []
+        Registry $registry
     ) {
         $this->catalogHelper = $catalogHelper;
         $this->registry = $registry;
-        parent::__construct($context, $data);
     }
     
     public function afterGetValue(\Magento\Catalog\Pricing\Price\FinalPrice $subject, $result)
