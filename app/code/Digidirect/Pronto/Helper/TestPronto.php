@@ -1285,7 +1285,8 @@ class TestPronto extends AbstractHelper
                 if(strpos($sku, 'mp-') !== false)
                 {
                     $productSku = $sku;
-                    //should coordinate with Michael markeplacer SKU to sync.
+                    $data['sales-order']['header']['set-on-status'] = "B";
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
                 }
                 else if(strpos($sku, '-') !== false)
                 {
@@ -1315,10 +1316,12 @@ class TestPronto extends AbstractHelper
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
                     echo "digiprotect price ".$digiProtectPrice."<br/>";
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 }
                 else
                 {
                     $productSku = $sku;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
 
