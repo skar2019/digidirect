@@ -23,8 +23,8 @@ class FinalPrice
     {
         $product = $this->registry->registry('current_product');
         if ($product) {
-            $price = $this->catalogHelper->getPrice($product);
-            $wiserPrice = $this->catalogHelper->getWiserPrice($product);
+            $price = $product->getData('price');
+            $wiserPrice = $product->getData('wiser_price');
             
             if ($wiserPrice != 0 || !empty($wiserPrice)) {
                 if ($wiserPrice < $price) {
