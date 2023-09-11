@@ -180,6 +180,7 @@
         <move element="payment.gateways" destination="product.info.main" after="studio19.wrapper" />
         <move element="qantas.points.price" destination="product.info.main" before="product.info.price" />
         <move element="product.info.options.wrapper" destination="product.info.options.wrapper.bottom" after="product.info.addtocart.additional"/>
-
+        <move element="product.info.marketplacer" destination="product.info.main" after="page.main.title" />
+        
     </body>
 </page>

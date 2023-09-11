@@ -36,7 +36,7 @@ define([
     
     var win = $(this); //this = window
     if (win.width() >= 768) {
-        $('.page-title-wrapper').insertBefore($('.product-info-price'));
+        $('.page-title-wrapper').insertBefore($('.mrkt-product-info-seller'));
     } else {
         $('.page-title-wrapper').insertBefore($('.media-area'));
     }
@@ -47,7 +47,7 @@ define([
 
     $(window).on('resize', function(){
         if (win.width() >= 768) {
-            $('.page-title-wrapper').insertBefore($('.product-info-price'));
+            $('.page-title-wrapper').insertBefore($('.mrkt-product-info-seller'));
         } else {
             $('.page-title-wrapper').insertBefore($('.media-area'));
         }
