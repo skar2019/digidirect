@@ -1,6 +1,6 @@
 <?php
  
-namespace Digidirect\Catalog\Plugin;
+namespace Digidirect\Catalog\Plugin\Model;
  
 class Product
 {
