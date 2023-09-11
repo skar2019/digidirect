@@ -27,16 +27,8 @@ $sellerUrl = $sellerDataHelper->getSellerUrl($seller);
 
 <div class="mrkt-product-info-seller">
     <strong class="name">
-        <?php if ($sellerUrl): ?>
-            <a class="name" href="<?= $escaper->escapeUrl($sellerUrl) ?>"
-               title="<?= $escaper->escapeHtmlAttr($sellerName) ?>">
-                <?= $escaper->escapeHtml($sellerName) ?>
-            </a>
-        <?php else: ?>
-            <?= $escaper->escapeHtml($sellerName) ?>
-        <?php endif ?>
+        Fulfilled By <?= $escaper->escapeHtml($sellerName) ?>
     </strong>
-
     <?php if ($sellerLogo): ?>
         <span class="image">
             <img src="<?= $escaper->escapeUrl($sellerLogo) ?>" alt="<?= $escaper->escapeHtmlAttr($sellerName) ?>"/>
