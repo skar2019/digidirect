@@ -174,7 +174,7 @@ class ProductEntHelper extends AbstractHelper
         $stream = $this->directory->openFile($filepath, 'w+');
         $stream->lock();
         $header = ['Brand Name','Description','UPC','SKU','Model Number','Title','Category 1','Category 2',
-            'Category 3','Category 4','Price','Cost','Final Price'];
+            'Category 3','Category 4','Price','Cost','Final Price','Stock Condition'];
 
         $stream->writeCsv($header);
         $collection = $this->getProductCollection();
@@ -296,6 +296,25 @@ class ProductEntHelper extends AbstractHelper
 
             $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
 
+            $stockcondition = $product->getCustomAttribute('stock_condition');
+            if(empty($stockcondition))
+            {
+                $stockcondition = "Other";
+            }
+            elseif($stockcondition == "179")
+            {
+                $stockcondition = "0";
+            }
+            elseif($stockcondition == "181")
+            {
+                $stockcondition = "T";
+            }
+            else
+            {
+                $stockcondition = "Other";
+            }
+
+
             $data[] = $brandname;
             $data[] = $description;
             $data[] = $gtin;
@@ -309,6 +328,7 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $regular_price;
             $data[] = $actualcost;
             $data[] = $final_price;
+            $data[] = $stockcondition;
 
             $stream->writeCsv($data);
         }
