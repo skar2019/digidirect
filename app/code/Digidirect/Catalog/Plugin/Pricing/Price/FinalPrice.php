@@ -2,22 +2,14 @@
 
 namespace Digidirect\Catalog\Plugin\Pricing\Price;
 
-use Magento\Catalog\Helper\Data as CatalogHelper;
-use Magento\Framework\Registry;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 
 class FinalPrice
 {
     protected $registry;
     
     protected $catalogHelper;
-
-    public function __construct(
-        CatalogHelper $catalogHelper,
-        Registry $registry
-    ) {
-        $this->catalogHelper = $catalogHelper;
-        $this->registry = $registry;
-    }
     
     public function afterGetValue(\Magento\Catalog\Pricing\Price\FinalPrice $subject, $result)
     {
