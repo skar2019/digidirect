@@ -3,6 +3,7 @@
 namespace Digidirect\Catalog\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Event\Observer as EventObserver;
 
 class FinalPriceObserver implements ObserverInterface
 {
