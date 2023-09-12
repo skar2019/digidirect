@@ -36,7 +36,7 @@ define([
     
     var win = $(this); //this = window
     if (win.width() >= 768) {
-        $('.page-title-wrapper').insertBefore($('.product-info-price'));
+        $('.page-title-wrapper').insertBefore($('.mrkt-product-info-seller'));
     } else {
         $('.page-title-wrapper').insertBefore($('.media-area'));
     }
@@ -47,7 +47,7 @@ define([
 
     $(window).on('resize', function(){
         if (win.width() >= 768) {
-            $('.page-title-wrapper').insertBefore($('.product-info-price'));
+            $('.page-title-wrapper').insertBefore($('.mrkt-product-info-seller'));
         } else {
             $('.page-title-wrapper').insertBefore($('.media-area'));
         }
@@ -66,5 +66,21 @@ define([
         $('.zip-widget__wrapper').trigger("click");
         console.log("ZIP Custom Clicked!");
     });
-
+    
+    $('#payment-options-toggle').on('click', function(){
+        if($(this).hasClass("close")) {
+            $(this).removeClass("close");
+            $(this).addClass("open");
+            $('#payment-options').removeClass("close");
+            $('#payment-options').addClass("open");
+            console.log("Remove Close");
+        } else if($(this).hasClass("open")) {
+            $(this).removeClass("open");
+            $(this).addClass("close");
+            $('#payment-options').removeClass("open");
+            $('#payment-options').addClass("close");
+            console.log("Remove Open");
+        }
+    });
+    
 });

@@ -9,5 +9,4 @@
     <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
         <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
     </type>
-    
 </config>

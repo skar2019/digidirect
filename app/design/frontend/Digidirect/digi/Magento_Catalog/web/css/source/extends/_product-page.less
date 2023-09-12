@@ -1536,6 +1536,7 @@
             height: 33px;
             margin-top: 15px;
             text-align: unset;
+            background: #fff;
         }
 
         .qantas-text {
@@ -1631,18 +1632,19 @@
     
     .catalog-product-view .section-center .product-basic > .media-area > .media {
         padding: 0 !important;
-        height: 550px;
+        //height: 550px;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
-        margin: 20px;
+        margin-top: 0;
+        padding: 20px;
         max-width: unset;
-        //display: none;
+        border: 1px solid #cacaca;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage {
         margin: auto;
-        height: 550px;
+        //height: 550px;
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder > .fotorama > .fotorama__wrap > .fotorama__stage .fotorama__stage__frame > img {
@@ -1685,8 +1687,7 @@
     }
     
     .fotorama__nav.fotorama__nav--thumbs {
-        width: 650px !important;
-        height: 64px !important;
+        width: 100% !important;
     }
     
     .fotorama__thumb-border {
@@ -1694,19 +1695,19 @@
     }
     
     .fotorama__nav--thumbs .fotorama__nav__frame {
-        padding: 0 0 !important;
+        padding: 0 !important;
         border: 1px solid #cacaca;
-        margin-right: 10px;
         height: 60px !important;
-        width: 97.7px !important;
+        margin-left: 0;
+        margin-bottom: 10px;
     }
     
     .product-section.column.main {
-        margin-bottom: 80px !important;
+        //margin-bottom: 80px !important;
     }
     
     .fotorama__nav-wrap--horizontal {
-        height: 200px;
+        height: 75px;
     }
     
     .fotorama__thumb.fotorama_vertical_ratio.fotorama__loaded.fotorama__loaded--img {
@@ -2392,7 +2393,8 @@
     .product-reviews-summary {
         display: table !important;
         margin-top: 20px !important;
-}
+        visibility: collapse;
+    }
 
     .product-info-main .price-box .old-price .weee {
         display: block;
@@ -2515,6 +2517,109 @@
     span.s19-price-amount:before {
         content: 'Rent me for ';
     }
+    
+    #payment-options {
+        display: block;
+    }
+    
+    .payment-options-toggle {
+        display: none;
+    }
+
+    .payment-options-toggle.close:after {
+        content: '\f0d7';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        float: right;
+    }
+
+    .payment-options-toggle.open:after {
+        content: '\f0d8';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        float: right;
+    }
+    
+    .product-info-main-bottom .price-description .mgz-element-inner {
+        padding: 0 !important;
+    }
+    
+    .sticky-addtocart-container {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 99;
+        background: #000;
+        padding: 10px;
+    }
+
+    .sticky-addtocart {
+        float: right;
+        margin-right: 19px;
+    }
+
+    .sticky-addtocart .btn_cart {
+        color: #fff !important;
+    }
+    
+    .short-desc {
+        text-align: left !important;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        height: auto !important;
+    }
+
+    .short-desc * {
+        font-size: 13px !important;
+    }
+
+    .short-desc-title {
+        color: #000;
+        font-size: 20px !important;
+        padding-bottom: 10px;
+        font-weight: 500;
+        text-align: left;
+    }
+
+    .short-desc-read-more {
+        text-align: left;
+        margin: 10px 0;
+        font-weight: 500;
+        color: #ff6602;
+    }   
+    
+    .fotorama__arr {
+        display: block !important;
+    }
+    
+    #product-options-wrapper .fieldset {
+        margin-bottom: 0 !important;
+    }
+    
+    .fotorama__nav-wrap--vertical .fotorama__nav__shaft {
+        max-height: 565px !important;
+        overflow: scroll;
+    }
+    
+    .mrkt-product-info-seller {
+        margin-bottom: 10px;
+    }
+    
+    .fotorama__nav__frame.fotorama__nav__frame--thumb.fotorama__active {
+        border: 1px solid #ff6602;
+    }
+    
+    .short-desc-container {
+        margin-top: 20px;
+    }
+
+    .short-desc-container a:hover {
+        text-decoration: none !important;
+    }
+    
 }
 
 //Redeploy
@@ -2987,7 +3092,7 @@
     }
 
     .media-area {
-        width: 60%;
+        width: 55%;
         flex-grow: 1;
         padding: 40px 50px 0;
     }
@@ -3144,7 +3249,7 @@
             flex-grow: 1;
             width: 60%;
             padding: 10px 60px;
-            border: 1px solid #cacaca;
+            //border: 1px solid #cacaca;
         }
     }
 
@@ -3693,7 +3798,7 @@
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media {
-        height: 370px !important;
+        //height: 350px !important;
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media>.gallery-placeholder>.fotorama>.fotorama__wrap>.fotorama__stage {
@@ -3706,7 +3811,7 @@
 
     .awaiting {
         padding-left: 20px !important;
-        margin-top: 0 !important;
+        margin-top: 10px !important;
         padding-right: 20px !important;
         margin-bottom: 10px !important;
     }
@@ -3747,7 +3852,10 @@
     }
     
     .catalog-product-view .section-center .product-basic > .media-area > .media > .gallery-placeholder {
-        margin: 1px 0 !important;
+        //margin: 1px 0 !important;
+        height: 350px;
+        border: none !important;
+        padding: 0 !important;
     }
     
     .fotorama__active .fotorama__dot {
@@ -3776,6 +3884,7 @@
     
     .product-info-main .price-box.price-final_price {
         padding-top: 0;
+        padding-bottom: 0 !important;
     }
     
     .product-section .page-title-wrapper>.page-title {
@@ -3795,7 +3904,7 @@
     }
     
     #product-options-wrapper {
-        margin-top: 10px !important;
+        margin-top: -10px !important;
     }
     
     .studio19-wrapper > div {
@@ -3855,8 +3964,8 @@
     }
     
     .itoris-pm-product-marker {
-        margin-top: 0 !important;
-        margin-bottom: 10px !important;
+        margin-top: 10px !important;
+        margin-bottom: 0 !important;
     }
     
     #pa-priceCheckButtonContainer {
@@ -3917,6 +4026,50 @@
         background-position: center;
     }
     
+    .payment-gateways-container {
+        border: 1px solid #cacaca;
+        border-radius: 5px;
+        padding: 12px;
+        background: #fff;
+        margin-top: 10px;
+    }
+    
+    .payment-options.close {
+        display: none !important;
+    }
+    
+    .payment-options.open {
+        display: block !important;
+    }
+
+    .payment-options-toggle {
+        display: block !important;
+        text-align: center;
+        font-size: 14px;
+    }
+    
+    .payment-gateways-bottom {
+        margin-top: 10px !important;
+    }
+    
+    .short-desc-container {
+        display: none;
+    }
+    
+    .overlay-container-pdp {
+        left: 15px !important;
+    }
+    
+    .fotorama__arr {
+        height: 100% !important;
+    }
+    
+    .mrkt-product-info-seller {
+        margin-bottom: 0 !important;
+        margin-top: 10px;
+    }
+    
+    
 } //end mobile
 
 //
@@ -3933,7 +4086,7 @@
         //width: 40%;
         //padding: 30px 56px 0 0;
         width: 40% !important;
-        padding: 0 50px 0 100px !important;
+        padding: 0 25px 0 100px !important;
         max-width: 547px !important;
         
         float: unset;
