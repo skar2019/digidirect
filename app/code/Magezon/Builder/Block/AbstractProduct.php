@@ -135,7 +135,7 @@ class AbstractProduct extends \Magezon\Builder\Block\Element
         }
         $arguments['price_id'] = isset($arguments['price_id'])
             ? $arguments['price_id']
-            : 'old-price-' . $product->getId() . '-' . $priceType;
+            : 'magezon-old-price-' . $product->getId() . '-' . $priceType;
         $arguments['include_container'] = isset($arguments['include_container'])
             ? $arguments['include_container']
             : true;
