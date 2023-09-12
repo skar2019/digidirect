@@ -21,10 +21,11 @@ class FinalPrice
     
     public function afterGetValue(\Magento\Catalog\Pricing\Price\FinalPrice $subject, $result)
     {
-        /*$product = $this->registry->registry('current_product');
-        if ($product) {
-            $price = $product->getData('final_price');
-            $wiserPrice = $product->getData('wiser_price');
+        $product = $this->registry->registry('current_product');
+        $price = $product->getData('final_price');
+        $wiserPrice = $product->getData('wiser_price');
+        
+        /*if ($product) {
             
             if ($wiserPrice != 0 && !empty($wiserPrice)) {
                 if ($wiserPrice < $price) {
@@ -32,7 +33,9 @@ class FinalPrice
                 }
             }
         }*/
+        
+        $result = $wiserPrice;
             
-        return $result + 100;
+        return $result;
     }
 }
