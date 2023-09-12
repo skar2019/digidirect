@@ -1,7 +1,8 @@
 <?php
-namespace Jesadiya\MarketingPrice\Observer;
 
-class ProcessFinalPriceObserver
+namespace Digidirect\Catalog\Observer;
+
+class FinalPriceObserver
 {
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
