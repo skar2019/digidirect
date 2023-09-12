@@ -22,7 +22,7 @@ class FinalPriceObserver implements ObserverInterface
             $finalPrice = $price;
         }
         
-        $product->setFinalPrice($finalPrice);
+        $product->setFinalPrice(100);
 
         return $this;
     }
