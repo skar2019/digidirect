@@ -19,7 +19,7 @@ class FinalPrice
         $this->registry = $registry;
     }
     
-    public function afterGetValue(\Magento\Catalog\Pricing\Price\FinalPrice $subject, $result)
+    public function beforeGetValue(\Magento\Catalog\Pricing\Price\FinalPrice $subject, $result)
     {
         $product = $this->registry->registry('current_product');
         if ($product) {
