@@ -39,5 +39,5 @@ class Product implements ObserverInterface
                 $_product->setTierPrice([]);
             }
         }
-        }
+    }
 }

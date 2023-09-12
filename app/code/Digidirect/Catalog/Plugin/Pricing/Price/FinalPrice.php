@@ -2,25 +2,26 @@
 
 namespace Digidirect\Catalog\Plugin\Pricing\Price;
 
-use Magento\Catalog\Model\Product;
-use Magento\Framework\Pricing\Price\AbstractPrice;
-
 class FinalPrice
 {
-    protected $registry;
-    
-    protected $catalogHelper;
-    
     public function afterGetValue(\Magento\Catalog\Pricing\Price\FinalPrice $subject, $result)
     {
-        $price = $this->product->getData('final_price');
-        $wiserPrice = $this->product->getData('wiser_price');
-
-        if ($wiserPrice != 0 && !empty($wiserPrice)) {
-            if ($wiserPrice < $price) {
-                $result = $wiserPrice;
+        $product = $subject->getProduct();
+        $price = $product->getData('final_price');
+        $wiserPrice = $product->getData('wiser_price');
+        
+        if ($product) {
+            if ($wiserPrice != 0 && !empty($wiserPrice)) {
+                if ($wiserPrice < $price) {
+                    $result = $wiserPrice;
+                } else {
+                    $result = $price;
+                }
             }
+        } else {
+            $result = $price;
         }
+            
         return $result;
     }
 }
