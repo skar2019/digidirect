@@ -971,7 +971,9 @@ class Order extends AbstractHelper
                 if(strpos($sku, 'mp-') !== false)
                 {
                     $productSku = $sku;
-                    //should coordinate with Michael markeplacer SKU to sync.
+                    $data['sales-order']['header']['set-on-status'] = "B";
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SS';
+
                 }
                 else if(strpos($sku, '-') !== false)
                 {
@@ -1001,16 +1003,16 @@ class Order extends AbstractHelper
                         $digiProtectdiscount = 0;
                     }
                     $digiProtectTotal = ($digiProtectPrice * $digiProtectQty) - $digiProtectdiscount;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
                 else
                 {
                     $productSku = $sku;
+                    $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
 
                 }
 
-
-                $data['sales-order']['detail']['line'][$x]['line-type'] = 'SN';
                 $data['sales-order']['detail']['line'][$x]['stock-code'] = $productSku;
                 $data['sales-order']['detail']['line'][$x]['description'] = $item->getName();
                 $data['sales-order']['detail']['line'][$x]['unit-price-inc-tax'] = $price;
