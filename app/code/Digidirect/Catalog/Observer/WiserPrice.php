@@ -8,27 +8,31 @@ use Magento\Framework\App\RequestInterface;
 class WiserPrice implements ObserverInterface
 {
     public function execute(\Magento\Framework\Event\Observer $observer) {
-        $item = $observer->getEvent()->getData('quote_item');            
-        $item = ( $item->getParentItem() ? $item->getParentItem() : $item );
         
-        $product = $item->getProduct();
+        //get the item just added to cart
+        $item = $observer->getEvent()->getData('quote_item');
+        $product = $observer->getEvent()->getData('product');
+        //(optional) get the parent item, if exists
+        $item = ($item->getParentItem() ? $item->getParentItem() : $item);
         
-        $price = $product->getData('price');
+        $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
-
-        if ($wiserPrice != 0 && !empty($wiserPrice)) {
-            if ($wiserPrice < $price) {
-                $finalPrice = $wiserPrice;
+        
+        if (!$product->getData('added_by_rule_id')) {
+            if ($wiserPrice > 1 && !empty($wiserPrice)) {
+                if ($wiserPrice < $price) {
+                    $finalPrice = $wiserPrice;
+                } else {
+                    $finalPrice = $price;
+                }
             } else {
                 $finalPrice = $price;
             }
-        } else {
-            $finalPrice = $price;
-        }
-        
-        $item->setCustomPrice($finalPrice);
-        $item->setOriginalCustomPrice($finalPrice);
-        $product->setIsSuperMode(true);
-    }
 
+            $item->setCustomPrice($finalPrice);
+            $item->setOriginalCustomPrice($finalPrice);
+            $item->getProduct()->setIsSuperMode(true);
+        }
+
+    }
 }
