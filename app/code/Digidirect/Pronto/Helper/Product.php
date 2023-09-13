@@ -107,7 +107,7 @@ class Product extends AbstractHelper
             }
 
             $lastCode = $prod['code'];
-
+            $price = 0;
             try {
 
                 $forLogs .= "SKU ".$prod['code']."\n";
@@ -117,21 +117,38 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
                 $product->setStockStatus($prod['stk-stock-status']);
                 $forLogs .= "Stock Condition ".$prod['stk-condition-code']."\n";
 
-                $cost = $prod['stk-replacement-cost'];
-                if($cost == '0')
+                $cost = 0;
+                if(isset($prod['stk-replacement-cost']))
                 {
-                    $cost = $prod['stk-current-buy'];
+                    $cost = $prod['stk-replacement-cost'];
+                    if($cost == '0' || $cost == '')
+                    {
+                        $cost = $prod['stk-current-buy'];
+                        if($cost == '0' || $cost == '')
+                        {
+                            $cost = $price;//$prod['']; //change to actual average price
+
+                            if($cost == '0' || $cost == '')
+                            {
+                                $cost = $price; //use the rrp
+                            }
+                        }
+                    }
                 }
+
+                $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-break-price-4-inc']))
@@ -155,8 +172,6 @@ class Product extends AbstractHelper
                 }
 
                 $product->setCustomAttribute('marketplaces_price', $marketplacesprice);
-
-                $product->setCustomAttribute('cost', $cost);
 
                 $endis = "Enabled = 0";
                 if($prod['stk-condition-code'] == 'O')
@@ -497,22 +512,38 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
+                $price = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
                 $product->setAttributeSetId(4);
 
-                $cost = $prod['stk-replacement-cost'];
-                if($cost == '0')
+                $cost = 0;
+                if(isset($prod['stk-replacement-cost']))
                 {
-                    $cost = $prod['stk-current-buy'];
+                    $cost = $prod['stk-replacement-cost'];
+                    if($cost == '0' || $cost == '')
+                    {
+                        $cost = $prod['stk-current-buy'];
+                        if($cost == '0' || $cost == '')
+                        {
+                            $cost = $price;//$prod['']; //change to actual average price
+
+                            if($cost == '0' || $cost == '')
+                            {
+                                $cost = $price; //use the rrp
+                            }
+                        }
+                    }
                 }
 
                 $product->setCustomAttribute('cost', $cost);
@@ -875,7 +906,7 @@ class Product extends AbstractHelper
             }
 
             $lastCode = $prod['code'];
-
+            $price = 0;
             try {
 
                 $forLogs .= "SKU ".$prod['code']."\n";
@@ -885,15 +916,35 @@ class Product extends AbstractHelper
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
                 $product->setStockStatus($prod['stk-stock-status']);
-                $cost = $prod['stk-replacement-cost'];
+                $cost = 0;
+                if(isset($prod['stk-replacement-cost']))
+                {
+                    $cost = $prod['stk-replacement-cost'];
+                    if($cost == '0' || $cost == '')
+                    {
+                        $cost = $prod['stk-current-buy'];
+                        if($cost == '0' || $cost == '')
+                        {
+                            $cost = $price;//$prod['']; //change to actual average price
+
+                            if($cost == '0' || $cost == '')
+                            {
+                                $cost = $price; //use the rrp
+                            }
+                        }
+                    }
+                }
+
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
@@ -1230,17 +1281,41 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
+                $price = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
                 $product->setAttributeSetId(4);
+
+                $cost = 0;
+                if(isset($prod['stk-replacement-cost']))
+                {
+                    $cost = $prod['stk-replacement-cost'];
+                    if($cost == '0' || $cost == '')
+                    {
+                        $cost = $prod['stk-current-buy'];
+                        if($cost == '0' || $cost == '')
+                        {
+                            $cost = $price;//$prod['']; //change to actual average price
+
+                            if($cost == '0' || $cost == '')
+                            {
+                                $cost = $price; //use the rrp
+                            }
+                        }
+                    }
+                }
+
+                $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
@@ -1603,19 +1678,40 @@ class Product extends AbstractHelper
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
+                $price = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
                 $product->setStockStatus($prod['stk-stock-status']);
 
-                $cost = $prod['stk-replacement-cost'];
+                $cost = 0;
+                if(isset($prod['stk-replacement-cost']))
+                {
+                    $cost = $prod['stk-replacement-cost'];
+                    if($cost == '0' || $cost == '')
+                    {
+                        $cost = $prod['stk-current-buy'];
+                        if($cost == '0' || $cost == '')
+                        {
+                            $cost = $price;//$prod['']; //change to actual average price
+
+                            if($cost == '0' || $cost == '')
+                            {
+                                $cost = $price; //use the rrp
+                            }
+                        }
+                    }
+                }
+
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
@@ -1984,18 +2080,42 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
+                $price = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
+
+                $cost = 0;
+                if(isset($prod['stk-replacement-cost']))
+                {
+                    $cost = $prod['stk-replacement-cost'];
+                    if($cost == '0' || $cost == '')
+                    {
+                        $cost = $prod['stk-current-buy'];
+                        if($cost == '0' || $cost == '')
+                        {
+                            $cost = $price;//$prod['']; //change to actual average price
+
+                            if($cost == '0' || $cost == '')
+                            {
+                                $cost = $price; //use the rrp
+                            }
+                        }
+                    }
+                }
+
+                $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
                 if(isset($prod['pricing']['price-region']['prc-break-price-4-inc']))
@@ -2342,19 +2462,40 @@ class Product extends AbstractHelper
                 $prodname = $prod['desc1']. " ".$prod['desc2']. " ".$prod['desc3'];
                 $product->setMetaTitle($prodname);
 //                $product->setName($prodname);
+                $price = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
                 $product->setStockStatus($prod['stk-stock-status']);
 
-                $cost = $prod['stk-replacement-cost'];
+                $cost = 0;
+                if(isset($prod['stk-replacement-cost']))
+                {
+                    $cost = $prod['stk-replacement-cost'];
+                    if($cost == '0' || $cost == '')
+                    {
+                        $cost = $prod['stk-current-buy'];
+                        if($cost == '0' || $cost == '')
+                        {
+                            $cost = $price;//$prod['']; //change to actual average price
+
+                            if($cost == '0' || $cost == '')
+                            {
+                                $cost = $price; //use the rrp
+                            }
+                        }
+                    }
+                }
+
                 $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
@@ -2731,15 +2872,17 @@ class Product extends AbstractHelper
                 $product->setName($prodname);
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
                 $product->setVisibility(4);
-
+                $price = 0;
                 if(isset($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']))
                 {
                     $product->setPrice($prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region'][0]['prc-recommend-retail-inc-tax']."\n";
                 }
                 else
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
+                    $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
 
@@ -2747,6 +2890,27 @@ class Product extends AbstractHelper
                 $product->setAttributeSetId(4);
                 $product->setMetaTitle($prodname);
                 $product->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
+
+                $cost = 0;
+                if(isset($prod['stk-replacement-cost']))
+                {
+                    $cost = $prod['stk-replacement-cost'];
+                    if($cost == '0' || $cost == '')
+                    {
+                        $cost = $prod['stk-current-buy'];
+                        if($cost == '0' || $cost == '')
+                        {
+                            $cost = $price;//$prod['']; //change to actual average price
+
+                            if($cost == '0' || $cost == '')
+                            {
+                                $cost = $price; //use the rrp
+                            }
+                        }
+                    }
+                }
+
+                $product->setCustomAttribute('cost', $cost);
 
                 $marketplacesprice = 0;
 
