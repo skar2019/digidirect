@@ -8,9 +8,7 @@ class FinalPrice
     {
         $product = $subject->getProduct();
         $price = $product->getData('final_price');
-        $wiserPrice = $product->getData('wiser_price');
-        echo $this->console_log("final_price: " . $price);
-        echo $this->console_log("wiser_price: " . $wiserPrice);
+        $wiserPrice = $product->getAttributeText('wiser_price');
         
         if ($product) {
             if ($wiserPrice != 0 && !empty($wiserPrice)) {
