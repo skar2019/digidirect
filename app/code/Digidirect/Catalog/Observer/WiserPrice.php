@@ -17,9 +17,6 @@ class WiserPrice implements ObserverInterface
         
         $price = $product->getData('final_price');
         $wiserPrice = $product->getData('wiser_price');
-        
-        echo $this->console_log('final_price: '.$price);
-        echo $this->console_log('wiser_price: '.$wiserPrice);
 
         if ($wiserPrice != 0 && !empty($wiserPrice)) {
             if ($wiserPrice < $price) {
@@ -36,14 +33,4 @@ class WiserPrice implements ObserverInterface
         $item->getProduct()->setIsSuperMode(true);
 
     }
-    
-    function console_log($output, $with_script_tags = true) {
-        $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) .
-            ');';
-        if ($with_script_tags) {
-            $js_code = '<script>' . $js_code . '</script>';
-        }
-        echo $js_code;
-    }
-
 }
