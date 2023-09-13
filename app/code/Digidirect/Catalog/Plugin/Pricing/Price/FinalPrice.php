@@ -11,7 +11,7 @@ class FinalPrice
         $wiserPrice = $product->getData('wiser_price');
         
         if ($product) {
-            if ($wiserPrice != 0 && !empty($wiserPrice)) {
+            if ($wiserPrice > 1 && !empty($wiserPrice)) {
                 if ($wiserPrice < $price) {
                     $result = $wiserPrice;
                 } else {

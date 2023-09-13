@@ -19,7 +19,7 @@ class WiserPrice implements ObserverInterface
         $wiserPrice = $product->getData('wiser_price');
         
         if (!$product->getData('added_by_rule_id')) {
-            if ($wiserPrice != 0 && !empty($wiserPrice)) {
+            if ($wiserPrice > 1 && !empty($wiserPrice)) {
                 if ($wiserPrice < $price) {
                     $finalPrice = $wiserPrice;
                 } else {
