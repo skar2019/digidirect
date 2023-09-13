@@ -9,4 +9,7 @@
     <type name="Magento\Catalog\Block\Product\ProductList\Toolbar">
         <plugin name="sortby_extend_default_sort_filters" type="Digidirect\Catalog\Plugin\Block\Toolbar" />
     </type>
+    <type name="Magento\Catalog\Pricing\Price\FinalPrice">
+        <plugin name="wiser_finalprice" type="Digidirect\Catalog\Plugin\Pricing\Price\FinalPrice" />
+    </type>
 </config>
