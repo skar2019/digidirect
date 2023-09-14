@@ -138,7 +138,7 @@ class Product extends AbstractHelper
                         $cost = $prod['stk-current-buy'];
                         if($cost == '0' || $cost == '')
                         {
-                            $cost = $price;//$prod['']; //change to actual average price
+                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
                             if($cost == '0' || $cost == '')
                             {
@@ -536,7 +536,7 @@ class Product extends AbstractHelper
                         $cost = $prod['stk-current-buy'];
                         if($cost == '0' || $cost == '')
                         {
-                            $cost = $price;//$prod['']; //change to actual average price
+                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
                             if($cost == '0' || $cost == '')
                             {
@@ -935,7 +935,7 @@ class Product extends AbstractHelper
                         $cost = $prod['stk-current-buy'];
                         if($cost == '0' || $cost == '')
                         {
-                            $cost = $price;//$prod['']; //change to actual average price
+                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
                             if($cost == '0' || $cost == '')
                             {
@@ -1305,7 +1305,7 @@ class Product extends AbstractHelper
                         $cost = $prod['stk-current-buy'];
                         if($cost == '0' || $cost == '')
                         {
-                            $cost = $price;//$prod['']; //change to actual average price
+                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
                             if($cost == '0' || $cost == '')
                             {
@@ -1702,7 +1702,7 @@ class Product extends AbstractHelper
                         $cost = $prod['stk-current-buy'];
                         if($cost == '0' || $cost == '')
                         {
-                            $cost = $price;//$prod['']; //change to actual average price
+                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
                             if($cost == '0' || $cost == '')
                             {
@@ -2105,7 +2105,7 @@ class Product extends AbstractHelper
                         $cost = $prod['stk-current-buy'];
                         if($cost == '0' || $cost == '')
                         {
-                            $cost = $price;//$prod['']; //change to actual average price
+                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
                             if($cost == '0' || $cost == '')
                             {
@@ -2486,7 +2486,7 @@ class Product extends AbstractHelper
                         $cost = $prod['stk-current-buy'];
                         if($cost == '0' || $cost == '')
                         {
-                            $cost = $price;//$prod['']; //change to actual average price
+                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
                             if($cost == '0' || $cost == '')
                             {
@@ -2900,7 +2900,7 @@ class Product extends AbstractHelper
                         $cost = $prod['stk-current-buy'];
                         if($cost == '0' || $cost == '')
                         {
-                            $cost = $price;//$prod['']; //change to actual average price
+                            $cost = $prod['whse-avg-cost-swhs']; //change to actual average price
 
                             if($cost == '0' || $cost == '')
                             {
