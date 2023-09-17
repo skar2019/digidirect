@@ -213,7 +213,7 @@
         }
 
         .price-box .old-price span.price {
-            font-size: 17px;
+            font-size: 21px;
         }
 
         span.old-price-label {
@@ -222,11 +222,11 @@
 
         .price-box.price-final_price.cashback-active {
             & {
-                margin-top: -15px;
-                display: block !important;
-                float: right;
-                width: 100%;
-                text-decoration: none;
+                //margin-top: -15px;
+                //display: block !important;
+                //float: right;
+                //width: 100%;
+                //text-decoration: none;
             }
 
             .old-price-label {
@@ -234,10 +234,10 @@
             }
 
             span.old-price {
-                float: none;
-                margin-top: 10px;
-                width: 100%;
-                text-align: left;
+                //float: none;
+                //margin-top: 10px;
+                //width: 100%;
+                //text-align: left;
             }
 
             //clint changes
@@ -252,13 +252,13 @@
                 text-decoration: none;
 
                 .price {
-                    text-decoration: line-through;
+                    //text-decoration: line-through;
                 }
             }
 
             .price-label {
-                font-size: 12px;
-                color: #101010;
+                //font-size: 12px;
+                //color: #101010;
             }
 
         }
@@ -296,11 +296,13 @@
             text-decoration: none;
         }
         .old-price-wrapper .old-price .price-label{
-            color: #101010;
+            color: #6c6c6c;
+            display: block;
+            text-align: center;
         }
 
         .old-price-wrapper .old-price .price {
-            text-decoration: line-through;
+            //text-decoration: line-through;
         }
     }
 
@@ -391,14 +393,16 @@
         .price-box span.old-price {
             display: inline-block;
             //margin-top: 21px;
-            margin-top: 8px;
+            //margin-top: 8px;
             width: 100%;
         }
 
          .special-price {
-            display: inline-block;
-            margin: 10px 0;
-            float: right;
+            display: block;
+            margin: 0;
+            //float: right;
+            text-align: center;
+            margin-top: 11px;
         }
 
         .after-cashback span.price-label-pr {
@@ -430,6 +434,9 @@
             left: 0;
             padding-top: 15px !important;
             margin-top: 0 !important;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            padding-bottom: 15px;
         }
 
         .product-info-stock-sku{
@@ -737,7 +744,8 @@
         }
 
         .special-price .price-container.price-final_price .price-wrapper .price {
-            color: #FF3C00;
+            //color: #FF3C00;
+            color: #000;
             font-size: 21px;
             font-weight: 700;
         }
@@ -855,7 +863,7 @@
 
         #product_addtocart_form {
             .field.qty {
-                padding-right: 15px;
+                padding-right: 8px;
             }
         }
 
@@ -1364,9 +1372,8 @@
         background-repeat: no-repeat;
         background-image: url("@{baseDir}images/digiRent_black.png");
         background-size: contain;
-        height: 20px;
-        width: 120px;
-        margin: 2px 0 0 2px;
+        height: auto;
+        width: 135px;
     }
 
     a.s19-apply-btn {
@@ -1391,7 +1398,7 @@
     a.s19-apply-btn:after {
         content: "APPLY NOW!";
         visibility: visible;
-        font-size: 11px !important;
+        font-size: 12px !important;
         font-weight: 600;
         //margin-right: -130px;
         //margin-left: 22px;
@@ -1403,7 +1410,7 @@
     }
 
     .s19-actions {
-        display: none !important;
+        //display: none !important;
     }
 
     .s19-price-per-period {
@@ -1411,17 +1418,24 @@
         font-weight: 700;
         //width: 150px;
         width: unset;
+        display: block;
+        text-align: center;
+        background: #000;
+        padding: 8px;
+        color: #fff !important;
+        font-weight: 600;
     }
+    
     .s19-price-amount {
-        font-size: 11px !important;
-        color: #e40301 !important;
-        font-weight: 700;
+        //font-size: 11px !important;
+        //color: #e40301 !important;
+        //font-weight: 700;
     }
 
     .s19-per-period {
-        font-size: 11px !important;
-        color: #e40301 !important;
-        font-weight: 700;
+        //font-size: 11px !important;
+        //color: #e40301 !important;
+        //font-weight: 700;
     }
 
     .s19-min-period {
@@ -1522,6 +1536,7 @@
             height: 33px;
             margin-top: 15px;
             text-align: unset;
+            background: #fff;
         }
 
         .qantas-text {
@@ -1532,7 +1547,10 @@
                 font-weight: 500;
                 //margin-right: -180px;
                 vertical-align: super;
-                padding-left: 80px;
+                //padding-left: 80px;
+                text-align: center;
+                padding-right: 15px;
+                padding-top: 10px;
             }
         }
     }
@@ -1574,7 +1592,7 @@
     /*clint changes*/
     .most-bottom-product-info {
         margin-top: 15px;
-        display: grid;
+        display: none;
         grid-template-columns: 1fr 1fr;
         column-gap: 10px !important;
     }
@@ -1598,12 +1616,13 @@
         //width: 80%;
         width: 100%;
         margin-bottom: 0px;
-        padding-top: 5px;
-        border-top: 1px solid #cacaca;
+        //padding-top: 5px;
+        //border-top: 1px solid #cacaca;
         //margin-top: 10px;
         //margin-left: 100px;
-        margin-top: 5px;
+        //margin-top: 5px;
         margin-left: 0;
+        border-right: 1px solid #6c6c6c;
     }
     .product-info-price .svg-icon.digidirectprice {
         width: 130px !important;
@@ -1667,8 +1686,7 @@
     }
     
     .fotorama__nav.fotorama__nav--thumbs {
-        width: 650px !important;
-        height: 64px !important;
+        width: 100% !important;
     }
     
     .fotorama__thumb-border {
@@ -1676,11 +1694,11 @@
     }
     
     .fotorama__nav--thumbs .fotorama__nav__frame {
-        padding: 0 0 !important;
+        padding: 0 !important;
         border: 1px solid #cacaca;
-        margin-right: 10px;
         height: 60px !important;
-        width: 97.7px !important;
+        margin-left: 0;
+        margin-bottom: 10px;
     }
     
     .product-section.column.main {
@@ -1688,7 +1706,7 @@
     }
     
     .fotorama__nav-wrap--horizontal {
-        height: 200px;
+        height: 75px;
     }
     
     .fotorama__thumb.fotorama_vertical_ratio.fotorama__loaded.fotorama__loaded--img {
@@ -1780,7 +1798,7 @@
     
     .s19-component {
         display: grid !important;
-        grid-template-columns: 20% 60% 20%;
+        grid-template-columns: repeat(2, 1fr);
     }
     
     .s19-s19logo {
@@ -1793,7 +1811,6 @@
     
     .s19-rental-details {
         text-align: center !important;
-        margin-top: -8px;
     }
     
     .paypal-button-fundingicons {
@@ -1808,6 +1825,10 @@
     
     .product-info-price .price-box .old-price span.price {
         color: #6c6c6c;
+        text-align: center;
+        display: block;
+        margin-top: 12px;
+        text-decoration: none;
     }
     
     .product-info-main-bottom .price-description {
@@ -2030,12 +2051,7 @@
     
     .itoris-pm-product-marker {
         margin-bottom: 15px;
-        //border: 1px solid #004F67;
-        //border-radius: 5px !important;
-        //padding: 7px 20px;
-        //text-align: center;
-        //background: #004f67;
-        //display: none;
+        //display: none !important;
     }
     
     .itoris-pm-product-marker a {
@@ -2191,8 +2207,7 @@
     }
     
     .product-options-wrapper {
-        margin-top: 15px;
-        display: none;
+        margin-top: 39px;
     }
     
     #ic-pdp-btn {
@@ -2357,19 +2372,236 @@
     }
     
     .product-info-price .digidirectprice {
-        display: inline-block !important;
-        float: left;
+        display: block !important;
+        //float: left;
         padding-left: 0 !important;
-        padding-top: 6px;
+        //padding-top: 6px;
         clear: both;
         color: #ff3c00;
         font-weight: 600;
-        font-size: 17px;
+        font-size: 12px;
+        text-align: center;
+        line-height: 14px;
     }
     
     .product-items .digidirectprice {
         display: none;
     }
+    
+    //New PDP Design
+    .product-reviews-summary {
+        display: table !important;
+        margin-top: 20px !important;
+        visibility: collapse;
+    }
+
+    .product-info-main .price-box .old-price .weee {
+        display: block;
+    }
+
+    .product-info-main .product-info-price .price-box .old-price:before {
+        position: absolute;
+        content: "";
+        left: 30%;
+        top: 50%;
+        right: 0;
+        border-top: 2px solid;
+        border-color: inherit;
+        -webkit-transform: rotate(-30deg);
+        -moz-transform: rotate(-30deg);
+        -ms-transform: rotate(-30deg);
+        -o-transform: rotate(-30deg);
+        transform: rotate(-30deg);
+        width: 40%;
+    }
+
+    .product-info-main .product-info-price .price-box .old-price:after {
+        position: absolute;
+        content: "";
+        left: 30%;
+        top: 50%;
+        right: 0;
+        border-top: 2px solid;
+        border-color: inherit;
+        -webkit-transform: rotate(30deg);
+        -moz-transform: rotate(30deg);
+        -ms-transform: rotate(30deg);
+        -o-transform: rotate(30deg);
+        transform: rotate(30deg);
+        width: 40%;
+    }
+    
+    .product-info-main .price-box.price-final_price:has(.no-special-price) {
+        display: block !important;
+    }
+
+    .product-info-main .price-box.price-final_price:has(.no-special-price) .digidirectprice {
+        float: left;
+        font-size: 15px;
+    }
+
+    .product-info-main .price-box.price-final_price:has(.no-special-price) .special-price {
+        float: right;
+        margin: 0 0 5px 0 !important;
+    }
+    
+    .product-info-main .product-info-price .price-box .old-price .marketplaces-price {
+        //float: right;
+        //color: #6c6c6c;
+        //font-size: 17px;
+        //text-decoration: line-through;
+        //font-weight: 700 !important;
+        text-align: center;
+        display: block;
+        margin-top: 12px;
+        text-decoration: none;
+        font-size: 21px;
+        color: #6c6c6c;
+        font-weight: 700;
+    }
+    
+    .product-addto-wishlist a.action.towishlist {
+        margin-top: 0 !important;
+        padding: 11px 20px;
+        background: #fff;
+        border: 1px solid #cacaca !important;
+    }
+
+    .product-addto-wishlist i.fas.fa-heart {
+        color: #ff6602 !important;
+        font-size: 26px !important;
+    }
+    
+    .product-info-main .box-tocart .actions {
+        margin-right: 8px !important;
+    }
+    
+    .s19-component div:not([class^="s19"]) {
+        display: none;
+    }
+    
+    a.s19-purchase-btn {
+        display: none;
+    }
+    
+    .s19-header {
+        padding-top: 10px;
+        border-right: 1px solid #cacaca;
+        justify-content: center;
+    }
+    
+    .s19-actions {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    a.s19-apply-btn {
+        display: block !important;
+        color: #ff3c00 !important;
+    }
+
+    a.s19-learn-btn {
+        color: #000;
+        text-transform: uppercase;
+        font-weight: 600 !important;
+        font-size: 12px;
+        margin-right: 0 !important;
+    }
+    
+    #main-product-qantas {
+        display: flex;
+        padding: 5px 0;
+    }
+    
+    span.s19-price-amount:before {
+        content: 'Rent me for ';
+    }
+    
+    #payment-options {
+        display: block;
+    }
+    
+    .payment-options-toggle {
+        display: none;
+    }
+
+    .payment-options-toggle.close:after {
+        content: '\f0d7';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        float: right;
+    }
+
+    .payment-options-toggle.open:after {
+        content: '\f0d8';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 600;
+        float: right;
+    }
+    
+    .product-info-main-bottom .price-description .mgz-element-inner {
+        padding: 0 !important;
+    }
+    
+    .sticky-addtocart-container {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 99;
+        background: #000;
+        padding: 10px;
+    }
+
+    .sticky-addtocart {
+        float: right;
+        margin-right: 19px;
+    }
+
+    .sticky-addtocart .btn_cart {
+        color: #fff !important;
+    }
+    
+    .short-desc {
+        text-align: left !important;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+        height: auto !important;
+    }
+
+    .short-desc * {
+        font-size: 13px !important;
+    }
+
+    .short-desc-title {
+        color: #000;
+        font-size: 20px !important;
+        padding-bottom: 10px;
+        font-weight: 500;
+        text-align: left;
+    }
+
+    .short-desc-read-more {
+        text-align: left;
+        margin: 10px 0;
+        font-weight: 500;
+        color: #ff6602;
+    }   
+    
+    .fotorama__arr {
+        display: block !important;
+    }
+    
+    #product-options-wrapper .fieldset {
+        margin-bottom: 0 !important;
+    }
+    
+    .mrkt-product-info-seller {
+        margin-bottom: 10px;
+    }
+    
 }
 
 //Redeploy
@@ -2416,7 +2648,7 @@
             }
         }
 
-        .product-add-form {
+        .product-aqantas-pts-wrapperdd-form {
             .qantas-pts-wrapper {
                 &{
                     display: block;
@@ -2425,7 +2657,7 @@
                     border: 1px solid #cacaca;
                     border-radius: 5px;
                     height: 33px;
-                    margin-top: 5px;
+                    margin-top: 14px;
                 }
 
                 .qantas-text {
@@ -2436,7 +2668,7 @@
                         font-weight: 500;
                         //margin-right: -180px;
                         vertical-align: super;
-                        padding-left: 80px;
+                        //padding-left: 80px;
                     }
                 }
             }
@@ -2778,17 +3010,11 @@
         //margin-left: 55px !important;
     }
 
-    .s19-header:before {
-        //height: 25px !important;
-        //width: 113px !important;
-        margin-top: 1px !important;
-    }
-
     .studio19-wrapper {
         margin-top: 15px !important;
         //width: 418.75px !important;
         width: unset;
-        height: 43px !important;
+        height: auto !important;
         overflow: hidden !important;
         display: none !important;
         margin-bottom: 0 !important;
@@ -2807,7 +3033,7 @@
         //display: grid;
         //grid-template-columns: repeat(2, 1fr);
         //grid-column-gap: 10px;
-        display: grid;
+        display: none;
         grid-template-columns: 1fr 1fr;
         column-gap: 10px !important;
     }
@@ -2905,7 +3131,11 @@
         .product-info-price .price-box .old-price span.price{
             //color: #101010 !important;
             font-weight: 400;
-            float: right;
+            //float: right;
+            text-align: center;
+            display: block;
+            margin-top: 12px;
+            text-decoration: none;
         }
     }
 
@@ -3236,7 +3466,7 @@
         border-radius: 5px;
         margin-bottom: 20px;
         //display: flex;
-        height: 40px;
+        height: auto;
         width: 90%;
         margin-left: 15px;
         margin-top: 5px;
@@ -3322,8 +3552,10 @@
     }
 
     .product-info-main .qantas-pts-wrapper {
-        padding-left: 14px;
+        //padding-left: 14px;
         width: unset !important;
+        padding: 10px 0 !important;
+        display: flex !important;
     }
 
     .product-info-main .product-addto-links {
@@ -3349,26 +3581,12 @@
         display: none;
     }
 
-    //.s19-rental-details {
-    //    margin-left: -15px;
-    //}
-    //
-    //a.s19-apply-btn:after {
-    //    margin-left: 0 !important;
-    //    position: relative !important;
-    //    float: right !important;
-    //}
-
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container:last-child:after {
         margin-left: 0 !important;
     }
 
     .catalog-product-view .braintree-paypal-logo.oneclick-container {
         margin-bottom: 0 !important;
-    }
-
-    span.s19-price-per-period > span {
-        font-size: 10px !important;
     }
 
     span.s19-min-period {
@@ -3393,7 +3611,7 @@
     .s19-rental-details {
         //margin-left: -34px !important;
         margin-right: 0 !important;
-        margin-top: -7px !important;
+        margin-bottom: 0 !important;
         text-align: center !important;
     }
     
@@ -3502,7 +3720,7 @@
     }
     .product-info-price .price-box .old-price span.price {
         font-size: 15px;
-        float: right;
+        //float: right;
         font-weight: 500;
     }
     .block-extendedrule.-cashback {
@@ -3526,7 +3744,7 @@
     }
     
     .product-info-main .price-box span.old-price {
-        margin-top: 15px;
+        //margin-top: 15px;
     }
     
     .product-info-main .old-price-wrapper {
@@ -3534,7 +3752,7 @@
     }
     
     .product-info-price .old-price-wrapper .old-price .price-label {
-        position: absolute;
+        //position: absolute;
     }
     
     .widget-product.zip-widget__wrapper.zip-widget__wrapper--display-popup.zip-widget__wrapper--type-productwidget .zip-container span {
@@ -3562,7 +3780,7 @@
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media {
-        height: 370px !important;
+        height: 350px !important;
     }
     
     .catalog-product-view .section-center .product-basic>.media-area>.media>.gallery-placeholder>.fotorama>.fotorama__wrap>.fotorama__stage {
@@ -3575,7 +3793,7 @@
 
     .awaiting {
         padding-left: 20px !important;
-        margin-top: 0 !important;
+        margin-top: 10px !important;
         padding-right: 20px !important;
         margin-bottom: 10px !important;
     }
@@ -3645,6 +3863,7 @@
     
     .product-info-main .price-box.price-final_price {
         padding-top: 0;
+        padding-bottom: 0 !important;
     }
     
     .product-section .page-title-wrapper>.page-title {
@@ -3664,11 +3883,11 @@
     }
     
     #product-options-wrapper {
-        margin-top: 10px !important;
+        margin-top: -10px !important;
     }
     
     .studio19-wrapper > div {
-        width: 100% !important;
+        width: auto !important;
     }
     
     .pricematch-caption {
@@ -3724,8 +3943,8 @@
     }
     
     .itoris-pm-product-marker {
-        margin-top: 0 !important;
-        margin-bottom: 10px !important;
+        margin-top: 10px !important;
+        margin-bottom: 0 !important;
     }
     
     #pa-priceCheckButtonContainer {
@@ -3786,6 +4005,49 @@
         background-position: center;
     }
     
+    .payment-gateways-container {
+        border: 1px solid #cacaca;
+        border-radius: 5px;
+        padding: 12px;
+        background: #fff;
+        margin-top: 10px;
+    }
+    
+    .payment-options.close {
+        display: none !important;
+    }
+    
+    .payment-options.open {
+        display: block !important;
+    }
+
+    .payment-options-toggle {
+        display: block !important;
+        text-align: center;
+        font-size: 14px;
+    }
+    
+    .payment-gateways-bottom {
+        margin-top: 10px !important;
+    }
+    
+    .short-desc-container {
+        display: none;
+    }
+    
+    .overlay-container-pdp {
+        left: 15px !important;
+    }
+    
+    .fotorama__arr {
+        height: 100% !important;
+    }
+    
+    .mrkt-product-info-seller {
+        margin-bottom: 0 !important;
+    }
+    
+    
 } //end mobile
 
 //
@@ -3821,7 +4083,7 @@
                 border: 1px solid #cacaca;
                 border-radius: 5px;
                 height: 33px;
-                margin-top: 5px;
+                margin-top: 14px;
             }
 
             .qantas-text {
@@ -3832,7 +4094,7 @@
                     font-weight: 500;
                     //margin-right: -180px;
                     vertical-align: super;
-                    padding-left: 80px;
+                    //padding-left: 80px;
                 }
             }
         }
@@ -3848,7 +4110,6 @@
     .s19-rental-details {
         //margin-left: -110px !important;
         margin-right: 0 !important;
-        margin-top: -7px !important;
         text-align: center !important;
     }
 }
