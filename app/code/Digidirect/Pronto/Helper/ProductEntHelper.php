@@ -301,11 +301,11 @@ class ProductEntHelper extends AbstractHelper
             {
                 $stockcondition = "Other";
             }
-            elseif($stockcondition == "179")
+            elseif($stockcondition == 179)
             {
                 $stockcondition = "0";
             }
-            elseif($stockcondition == "181")
+            elseif($stockcondition == 181)
             {
                 $stockcondition = "T";
             }
