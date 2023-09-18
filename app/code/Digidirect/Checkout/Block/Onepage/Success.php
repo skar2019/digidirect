@@ -2,8 +2,7 @@
 
 namespace Digidirect\Checkout\Block\Onepage;
 
-use
-    Magento\Customer\Model\Context;
+use Magento\Customer\Model\Context;
 use Magento\Sales\Model\Order;
 
 
