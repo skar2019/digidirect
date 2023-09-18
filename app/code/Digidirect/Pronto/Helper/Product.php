@@ -142,7 +142,9 @@ class Product extends AbstractHelper
 
                             if($cost == '0' || $cost == '')
                             {
-                                $cost = $price; //use the rrp
+                                $price = floatval($price);
+                                $tax = floatval($prod['prc-tax-rate']);
+                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                             }
                         }
                     }
@@ -540,7 +542,9 @@ class Product extends AbstractHelper
 
                             if($cost == '0' || $cost == '')
                             {
-                                $cost = $price; //use the rrp
+                                $price = floatval($price);
+                                $tax = floatval($prod['prc-tax-rate']);
+                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                             }
                         }
                     }
@@ -939,7 +943,9 @@ class Product extends AbstractHelper
 
                             if($cost == '0' || $cost == '')
                             {
-                                $cost = $price; //use the rrp
+                                $price = floatval($price);
+                                $tax = floatval($prod['prc-tax-rate']);
+                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                             }
                         }
                     }
@@ -1309,7 +1315,9 @@ class Product extends AbstractHelper
 
                             if($cost == '0' || $cost == '')
                             {
-                                $cost = $price; //use the rrp
+                                $price = floatval($price);
+                                $tax = floatval($prod['prc-tax-rate']);
+                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                             }
                         }
                     }
@@ -1706,7 +1714,9 @@ class Product extends AbstractHelper
 
                             if($cost == '0' || $cost == '')
                             {
-                                $cost = $price; //use the rrp
+                                $price = floatval($price);
+                                $tax = floatval($prod['prc-tax-rate']);
+                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                             }
                         }
                     }
@@ -2109,7 +2119,9 @@ class Product extends AbstractHelper
 
                             if($cost == '0' || $cost == '')
                             {
-                                $cost = $price; //use the rrp
+                                $price = floatval($price);
+                                $tax = floatval($prod['prc-tax-rate']);
+                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                             }
                         }
                     }
@@ -2490,7 +2502,9 @@ class Product extends AbstractHelper
 
                             if($cost == '0' || $cost == '')
                             {
-                                $cost = $price; //use the rrp
+                                $price = floatval($price);
+                                $tax = floatval($prod['prc-tax-rate']);
+                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                             }
                         }
                     }
@@ -2904,7 +2918,9 @@ class Product extends AbstractHelper
 
                             if($cost == '0' || $cost == '')
                             {
-                                $cost = $price; //use the rrp
+                                $price = floatval($price);
+                                $tax = floatval($prod['prc-tax-rate']);
+                                $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                             }
                         }
                     }
