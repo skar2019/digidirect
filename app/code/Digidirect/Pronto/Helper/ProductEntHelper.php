@@ -240,7 +240,7 @@ class ProductEntHelper extends AbstractHelper
 
             //echo $product->getBarcode1()."b1 <br/>";
             $gtin = "";
-            $barcode1 = $product->getCustomAttribute('barcode1');
+            $barcode1 = $product->getCustomAttribute('barcode1')->getValue();
             if(is_null($barcode1))
             {
                 $barcode2 = $product->getCustomAttribute('barcode2');
@@ -266,7 +266,7 @@ class ProductEntHelper extends AbstractHelper
                 }
                 else
                 {
-                    $barcode2 = $product->getCustomAttribute('barcode2');
+                    $barcode2 = $product->getCustomAttribute('barcode2')->getValue();
                     if(is_null($barcode2))
                     {
 
@@ -288,7 +288,7 @@ class ProductEntHelper extends AbstractHelper
             $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
             $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
             $actualcost = 0;
-            $cost = $product->getCustomAttribute('cost');
+            $cost = $product->getCustomAttribute('cost')->getValue();
             if(isset($cost))
             {
                 $actualcost = $cost->getValue();
@@ -296,7 +296,7 @@ class ProductEntHelper extends AbstractHelper
 
             $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
 
-            $stockcondition = $product->getCustomAttribute('stock_condition');
+            $stockcondition = $product->getCustomAttribute('stock_condition')->getValue();
             if(empty($stockcondition))
             {
                 $stockcondition = "Other";
