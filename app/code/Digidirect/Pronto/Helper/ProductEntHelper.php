@@ -259,7 +259,7 @@ class ProductEntHelper extends AbstractHelper
             }
             else
             {
-                $bc = $barcode1->getValue();
+                $bc = $barcode1;
                 if(is_numeric($bc))
                 {
                     $gtin = $bc;
@@ -273,7 +273,7 @@ class ProductEntHelper extends AbstractHelper
                     }
                     else
                     {
-                        $bc2 = $barcode2->getValue();
+                        $bc2 = $barcode2;
                         if(is_numeric($bc2))
                         {
                             $gtin = $bc2;
@@ -291,29 +291,33 @@ class ProductEntHelper extends AbstractHelper
             $cost = $product->getCustomAttribute('cost')->getValue();
             if(isset($cost))
             {
-                $actualcost = $cost->getValue();
+                $actualcost = $cost;
             }
 
             $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
 
-            $stockcondition = $product->getCustomAttribute('stock_condition')->getValue();
+            $stockC = "Other";
+            $stockcondition = $product->getCustomAttribute('stock_condition');
+            echo $product->getSku();
+
             if(empty($stockcondition))
             {
                 $stockcondition = "Other";
+                echo " - stock condition null";
             }
-            elseif($stockcondition == 179)
-            {
-                $stockcondition = "0";
-            }
-            elseif($stockcondition == 181)
-            {
-                $stockcondition = "T";
-            }
-            else
-            {
-                $stockcondition = "Other";
-            }
+            else {
+                $stockC = $stockcondition->getValue();
 
+                if ($stockC == 179) {
+                    $stockC = "0";
+                } elseif ($stockC == 181) {
+                    $stockC = "T";
+                } else {
+                    $stockC = "Other";
+                }
+            }
+            echo " - stock condition ".$stockC;
+            echo "<br/>";
 
             $data[] = $brandname;
             $data[] = $description;
@@ -328,7 +332,7 @@ class ProductEntHelper extends AbstractHelper
             $data[] = $regular_price;
             $data[] = $actualcost;
             $data[] = $final_price;
-            $data[] = $stockcondition;
+            $data[] = $stockC;
 
             $stream->writeCsv($data);
         }
@@ -498,6 +502,7 @@ class ProductEntHelper extends AbstractHelper
 //        $collection = $this->_productCollectionFactory->create();
 //        $collection->addAttributeToSelect('*')
 //        ->addFieldToFilter('entity_id', array('gteq' => 0));
+//        $collection->setStoreId(1);
 //        $collection->setPageSize(100); // fetching only 5000 products
 //        return $collection;
 
