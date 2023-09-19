@@ -3,15 +3,21 @@
 namespace Onsport\Shipping\Plugin\Model;
 
 use Magento\Checkout\Model\Cart;
+use Magento\Quote\Model\Quote\Address\RateRequest;
+use Magento\Quote\Model\Quote\Address\RateRequestFactory;
 
 class Shipping {
     
     protected $cart;
     
+    protected $rateRequestFactory;
+    
     public function __construct(
-        Cart $cart
+        Cart $cart,
+        RateRequestFactory $rateRequestFactory = null
     ){
         $this->cart = $cart;
+        $this->rateRequestFactory = $rateRequestFactory ?: ObjectManager::getInstance()->get(RateRequestFactory::class);
     }
        
     public function aroundCollectCarrierRates (
