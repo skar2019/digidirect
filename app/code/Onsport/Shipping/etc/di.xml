@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\Shipping\Model\Shipping">
-        <plugin name="onsport_disable_shipping_method" sortOrder="10" type="Onsport\Shipping\Plugin\Model\Shipping" disabled="true"/>
+        <plugin name="onsport_disable_shipping_method" sortOrder="10" type="Onsport\Shipping\Plugin\Model\Shipping" disabled="false"/>
     </type>
     <type name="Magento\Quote\Api\ShipmentEstimationInterface">
         <plugin name="onsport_hide_show_shipping_methods" type="Onsport\Shipping\Plugin\Quote\Api\ShipmentEstimationPlugin" disabled="true"/>

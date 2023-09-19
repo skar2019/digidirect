@@ -20,8 +20,8 @@ class Shipping {
         $carrierCode,
         $request
     ) {
-        $request = $this->rateRequestFactory->create();
-        $subTotal = $request->setPackageValue($address->getBaseSubtotal());
+        $rateRequest = $this->rateRequestFactory->create();
+        $subTotal = $rateRequest->setPackageValue($address->getBaseSubtotal());
         
         if ($carrierCode == 'flatrate' && $subTotal >= 99) {
             return false;
