@@ -3,22 +3,15 @@
 namespace Onsport\Shipping\Plugin\Model;
 
 use Magento\Checkout\Model\Cart;
-use Magento\Framework\App\ObjectManager;
-use Magento\Quote\Model\Quote\Address\RateRequest;
-use Magento\Quote\Model\Quote\Address\RateRequestFactory;
 
 class Shipping {
     
     protected $cart;
     
-    protected $rateRequestFactory;
-    
     public function __construct(
-        Cart $cart,
-        RateRequestFactory $rateRequestFactory = null
+        Cart $cart
     ){
         $this->cart = $cart;
-        $this->rateRequestFactory = $rateRequestFactory ?: ObjectManager::getInstance()->get(RateRequestFactory::class);
     }
        
     public function aroundCollectCarrierRates (
@@ -27,8 +20,8 @@ class Shipping {
         $carrierCode,
         $request
     ) {
-        $rateRequest = $this->rateRequestFactory->create();
-        $subTotal = $rateRequest->setPackageValue($address->getBaseSubtotal());
+        $request = $this->rateRequestFactory->create();
+        $subTotal = $request->setPackageValue($address->getBaseSubtotal());
         
         if ($carrierCode == 'flatrate' && $subTotal >= 99) {
             return false;
