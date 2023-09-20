@@ -248,14 +248,7 @@ class ProductEntHelper extends AbstractHelper
                 {
 
                 }
-                else
-                {
-                    $bc2 = $barcode2->getValue();
-                    if(is_numeric($bc2))
-                    {
-                        $gtin = $bc2;
-                    }
-                }
+
             }
             else
             {
@@ -273,11 +266,7 @@ class ProductEntHelper extends AbstractHelper
                     }
                     else
                     {
-                        $bc2 = $barcode2->getValue();
-                        if(is_numeric($bc2))
-                        {
-                            $gtin = $bc2;
-                        }
+
                     }
 
                 }
