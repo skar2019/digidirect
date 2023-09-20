@@ -496,19 +496,19 @@ class ProductEntHelper extends AbstractHelper
     public function getProductCollection()
     {
 
-//        $collection = $this->_productCollectionFactory->create();
-//        $collection->addAttributeToSelect('*')
-//        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-//        $collection->setStoreId(1);
-//        return $collection;
-
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')
-        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-        ->addFieldToFilter('entity_id', array('gteq' => 0));
+        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $collection->setStoreId(1);
-        $collection->setPageSize(5000); // fetching only 5000 products
         return $collection;
+
+//        $collection = $this->_productCollectionFactory->create();
+//        $collection->addAttributeToSelect('*')
+//        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
+//        ->addFieldToFilter('entity_id', array('gteq' => 0));
+//        $collection->setStoreId(1);
+//        $collection->setPageSize(5000); // fetching only 5000 products
+//        return $collection;
 
     }
 
