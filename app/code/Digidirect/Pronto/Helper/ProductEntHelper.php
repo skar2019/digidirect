@@ -240,7 +240,7 @@ class ProductEntHelper extends AbstractHelper
 
             //echo $product->getBarcode1()."b1 <br/>";
             $gtin = "";
-            $barcode1 = $product->getCustomAttribute('barcode1')->getValue();
+            $barcode1 = $product->getCustomAttribute('barcode1');
             if(is_null($barcode1))
             {
                 $barcode2 = $product->getCustomAttribute('barcode2');
@@ -259,21 +259,21 @@ class ProductEntHelper extends AbstractHelper
             }
             else
             {
-                $bc = $barcode1;
+                $bc = $barcode1->getValue();
                 if(is_numeric($bc))
                 {
                     $gtin = $bc;
                 }
                 else
                 {
-                    $barcode2 = $product->getCustomAttribute('barcode2')->getValue();
+                    $barcode2 = $product->getCustomAttribute('barcode2');//$product->getCustomAttribute('barcode2')->getValue();
                     if(is_null($barcode2))
                     {
 
                     }
                     else
                     {
-                        $bc2 = $barcode2;
+                        $bc2 = $barcode2->getValue();
                         if(is_numeric($bc2))
                         {
                             $gtin = $bc2;
@@ -289,7 +289,7 @@ class ProductEntHelper extends AbstractHelper
             $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
             $actualcost = 0;
             $cost = $product->getCustomAttribute('cost')->getValue();
-            if(isset($cost))
+            if(empty($cost))
             {
                 $actualcost = $cost;
             }
@@ -496,18 +496,19 @@ class ProductEntHelper extends AbstractHelper
     public function getProductCollection()
     {
 
+//        $collection = $this->_productCollectionFactory->create();
+//        $collection->addAttributeToSelect('*')
+//        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//        $collection->setStoreId(1);
+//        return $collection;
+
         $collection = $this->_productCollectionFactory->create();
         $collection->addAttributeToSelect('*')
-        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
+        ->addFieldToFilter('entity_id', array('gteq' => 0));
         $collection->setStoreId(1);
+        $collection->setPageSize(5000); // fetching only 5000 products
         return $collection;
-
-        //        $collection = $this->_productCollectionFactory->create();
-//        $collection->addAttributeToSelect('*')
-//        ->addFieldToFilter('entity_id', array('gteq' => 0));
-//        $collection->setStoreId(1);
-//        $collection->setPageSize(100); // fetching only 5000 products
-//        return $collection;
 
     }
 
