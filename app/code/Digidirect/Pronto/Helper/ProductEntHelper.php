@@ -277,7 +277,7 @@ class ProductEntHelper extends AbstractHelper
             $title = preg_replace('/[\x00-\x1F\x7F]/u', '', $title);
             $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
             $actualcost = 0;
-            $cost = $product->getCustomAttribute('cost')->getValue();
+            $cost = $product->getCustomAttribute('cost');
             if(is_null($cost))
             {
 
