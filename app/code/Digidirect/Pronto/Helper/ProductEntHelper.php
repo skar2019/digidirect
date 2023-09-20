@@ -278,9 +278,13 @@ class ProductEntHelper extends AbstractHelper
             $regular_price = $product->getPriceInfo()->getPrice('regular_price')->getValue();
             $actualcost = 0;
             $cost = $product->getCustomAttribute('cost')->getValue();
-            if(empty($cost))
+            if(is_null($cost))
             {
-                $actualcost = $cost;
+
+            }
+            else
+            {
+                $actualcost = $cost->getValue();
             }
 
             $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
