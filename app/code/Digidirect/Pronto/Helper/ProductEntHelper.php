@@ -299,7 +299,7 @@ class ProductEntHelper extends AbstractHelper
             $stockC = "Other";
             $stockcondition = $product->getCustomAttribute('stock_condition');
 
-            if(empty($stockcondition))
+            if(is_null($stockcondition))
             {
                 $stockC = "Other";
             }
