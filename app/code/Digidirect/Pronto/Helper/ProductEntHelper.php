@@ -280,7 +280,7 @@ class ProductEntHelper extends AbstractHelper
             $cost = $product->getCustomAttribute('cost');
             if(is_null($cost))
             {
-
+                $actualcost = $regular_price / (1.1 / 100);
             }
             else
             {
