@@ -280,11 +280,15 @@ class ProductEntHelper extends AbstractHelper
             $cost = $product->getCustomAttribute('cost');
             if(is_null($cost))
             {
-                $actualcost = $regular_price / (1.1 / 100);
+                $actualcost = $regular_price / 1.1;
             }
             else
             {
                 $actualcost = $cost->getValue();
+                if($actualcost == 0)
+                {
+                    $actualcost = $regular_price / 1.1;
+                }
             }
 
             $final_price = $product->getPriceInfo()->getPrice('final_price')->getValue();
@@ -489,18 +493,18 @@ class ProductEntHelper extends AbstractHelper
     public function getProductCollection()
     {
 
-        $collection = $this->_productCollectionFactory->create();
-        $collection->addAttributeToSelect('*')
-        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
-        $collection->setStoreId(1);
-        return $collection;
-
 //        $collection = $this->_productCollectionFactory->create();
 //        $collection->addAttributeToSelect('*')
-//            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+//        ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
 //        $collection->setStoreId(1);
-//        $collection->setPageSize(5000); // fetching only 5000 products
 //        return $collection;
+
+        $collection = $this->_productCollectionFactory->create();
+        $collection->addAttributeToSelect('*')
+            ->addFieldToFilter('status',\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+        $collection->setStoreId(1);
+        $collection->setPageSize(5000); // fetching only 5000 products
+        return $collection;
 
     }
 
