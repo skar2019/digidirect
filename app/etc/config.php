@@ -671,6 +671,7 @@ return [
         'Studio19_Variants' => 1,
         'Swissup_Attributepages' => 1,
         'Swissup_Core' => 1,
+        'Swissup_Marketplace' => 1,
         'Swissup_Swiper' => 1,
         'Temando_ShippingRemover' => 1,
         'WeSupply_Toolbox' => 1,
