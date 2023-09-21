@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a165844548f397050f8ecf178c3cc21",
+    "content-hash": "276bfa5232b6bee41e5864af0a5da4f9",
     "packages": [
         {
             "name": "2tvenom/cborencode",
@@ -24748,11 +24748,11 @@
         },
         {
             "name": "swissup/module-core",
-            "version": "1.12.17",
+            "version": "1.12.18",
             "dist": {
                 "type": "zip",
-                "url": "https://repo.magento.com/archives/swissup/module-core/swissup-module-core-1.12.17.0.zip",
-                "shasum": "609d64fc8c1fde0a639f50f018b2411a22404a7e"
+                "url": "https://repo.magento.com/archives/swissup/module-core/swissup-module-core-1.12.18.0.zip",
+                "shasum": "07ce9e0525b843dc349c65c88bfcef8c3e8c8b45"
             },
             "type": "magento2-module",
             "autoload": {
@@ -28126,5 +28126,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
