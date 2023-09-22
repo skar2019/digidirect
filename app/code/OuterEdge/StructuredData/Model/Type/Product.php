@@ -315,7 +315,7 @@ class Product
                 "price" => $this->escapeQuote((string)$this->pricingHelper->currency($product->getFinalPrice(), false, false)),
                 "priceCurrency" => $this->escapeQuote($this->getStore()->getCurrentCurrency()->getCode()),
                 "availability" => "http://schema.org/$availability",
-                "availability_date" =>"http://schema.org/$availabilityDate",
+                "availability_date" =>$availabilityDate,
                 "itemCondition" => "http://schema.org/NewCondition",
                 "priceSpecification" => [
                     "@type" => "UnitPriceSpecification",
