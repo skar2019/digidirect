@@ -2570,7 +2570,7 @@ class Product extends AbstractHelper
                 {
                     $product->setPrice($prod['pricing']['price-region']['prc-recommend-retail-inc-tax']);
                     $price = $prod['pricing']['price-region']['prc-recommend-retail-inc-tax'];
-                    $tax = $prod['pricing']['price-region'][0]['prc-tax-rate'];
+                    $tax = $prod['pricing']['price-region']['prc-tax-rate'];
                     $forLogs .= "Price ".$prod['pricing']['price-region']['prc-recommend-retail-inc-tax']."\n";
                 }
 
