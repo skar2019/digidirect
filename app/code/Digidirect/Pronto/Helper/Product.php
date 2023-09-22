@@ -151,7 +151,7 @@ class Product extends AbstractHelper
                                     {
                                         $pricetocost = floatval($price);
                                         $tax = floatval($prod['prc-tax-rate']);
-                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
@@ -562,7 +562,7 @@ class Product extends AbstractHelper
                                     {
                                         $pricetocost = floatval($price);
                                         $tax = floatval($prod['prc-tax-rate']);
-                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
@@ -974,7 +974,7 @@ class Product extends AbstractHelper
                                     {
                                         $pricetocost = floatval($price);
                                         $tax = floatval($prod['prc-tax-rate']);
-                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
@@ -1357,7 +1357,7 @@ class Product extends AbstractHelper
                                     {
                                         $pricetocost = floatval($price);
                                         $tax = floatval($prod['prc-tax-rate']);
-                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
@@ -1767,7 +1767,7 @@ class Product extends AbstractHelper
                                     {
                                         $pricetocost = floatval($price);
                                         $tax = floatval($prod['prc-tax-rate']);
-                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
@@ -2183,7 +2183,7 @@ class Product extends AbstractHelper
                                     {
                                         $pricetocost = floatval($price);
                                         $tax = floatval($prod['prc-tax-rate']);
-                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
@@ -2577,7 +2577,7 @@ class Product extends AbstractHelper
                                     {
                                         $pricetocost = floatval($price);
                                         $tax = floatval($prod['prc-tax-rate']);
-                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
@@ -3004,7 +3004,7 @@ class Product extends AbstractHelper
                                     {
                                         $pricetocost = floatval($price);
                                         $tax = floatval($prod['prc-tax-rate']);
-                                        $cost = $price / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
+                                        $cost = $pricetocost / ((1 + $tax) / 100); //prc-recommend-retail-inc-tax / ( 1 + prc-tax-rate / 100 )
                                     }
                                 }
 
